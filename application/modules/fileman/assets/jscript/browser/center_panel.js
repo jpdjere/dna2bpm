@@ -209,121 +209,45 @@ var modelPanel= Ext.create('Ext.Panel', {
 }
 });
         
-var CenterPanel=Ext.create('Ext.grid.Panel', {
-    store: Restaurants,
-    width: 660,
-    height: 490,
-    title: 'Restaurants',
-    multiSelect: true,
-        
-    viewConfig: {
-        stripeRows: true,
-        chunker: Ext.view.TableChunker
-    },
-        
-    plugins: [Ext.create('Ext.ux.grid.plugin.DragSelector')],
-        
-    features: [Ext.create('Ext.ux.grid.feature.Tileview', {
-        viewMode: 'tileIcons',
-        getAdditionalData: function(data, index, record, orig)
-        {
-            getRandomInt = function(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            };
-	            
-            var files = ['4d8f3b2d98a60f8e0a00004b','4d8f3b2d98a60f8e0a000041','4d8f3b2d98a60f8e0a000054','4d8f3b2e98a60f8e0a000071','4d8f3b2e98a60f8e0a000077','4d8f3b2f98a60f8e0a00008a','4d8f3b2f98a60f8e0a000080','4d8f3b3098a60f8e0a0000a4','4d8f3b3098a60f8e0a0000ac'];
-	            
-            generateThumbnail = function()
-            {
-                return files[getRandomInt(0, files.length - 1)] + '.jpg';
-            };
-   
-            if(this.viewMode)
-            {
-                return {
-                    thumbnails: generateThumbnail(),
-                    rating: 'Rating: ' + getRandomInt(1, 9)
-                };
-            }
-            return {};
+var CenterPanel=Ext.create('Ext.Panel', {
+    id: 'images-view',
+    title: 'Simple DataView (0 items selected)',
+    autoScroll : true,
+    items: Ext.create('Ext.view.View', {
+        store: Ext.data.StoreManager.lookup('ViewStore'),
+        tpl: [
+        '<tpl for=".">',
+        '<div class="thumb-wrap" id="{id}">',
+        '<div class="thumb"><img src="{imgurl}" title="{text}"></div>',
+        '<span class="x-editable">{text}</span></div>',
+        '</tpl>',
+        '<div class="x-clear"></div>'
+        ],
+        multiSelect: true,
+        trackOver: true,
+        overItemCls: 'x-item-over',
+        itemSelector: 'div.thumb-wrap',
+        emptyText: 'No images to display',
+        plugins: [
+        Ext.create('Ext.ux.DataView.DragSelector', {}),
+        Ext.create('Ext.ux.DataView.LabelEditor', {
+            dataIndex: 'name'
+        })
+        ],
+        prepareData: function(data) {
+            Ext.apply(data, {
+                shortName: Ext.util.Format.ellipsis(data.name, 15),
+                sizeString: Ext.util.Format.fileSize(data.size),
+                dateString: Ext.util.Format.date(data.lastmod, "m/d/Y g:i a")
+            });
+            return data;
         },
-        viewTpls:
-        {
-            mediumIcons: [
-            '<td class="{cls} ux-explorerview-medium-icon-row">',
-            '<table class="x-grid-row-table">',
-            '<tbody>',
-            '<tr>',
-            '<td class="x-grid-col x-grid-cell ux-explorerview-icon" style="background: url(&quot;thumbnails/medium_{thumbnails}&quot;) no-repeat scroll 50% 100% transparent;">',
-            '</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="x-grid-col x-grid-cell">',
-            '<div class="x-grid-cell-inner" unselectable="on">{name}</div>',
-            '</td>',
-            '</tr>',
-            '</tbody>',
-            '</table>',
-            '</td>'].join(''),
-				  
-            tileIcons: [
-            '<td class="{cls} ux-explorerview-detailed-icon-row">',
-            '<table class="x-grid-row-table">',
-            '<tbody>',
-            '<tr>',
-            '<td class="x-grid-col x-grid-cell ux-explorerview-icon" style="background: url(&quot;thumbnails/tile_{thumbnails}&quot;) no-repeat scroll 50% 50% transparent;">',
-            '</td>',
-								
-            '<td class="x-grid-col x-grid-cell">',
-            '<div class="x-grid-cell-inner" unselectable="on">{name}<br><span>{rating}<br>{cuisine}</span></div>',
-            '</td>',
-            '</tr>',
-            '</tbody>',
-            '</table>',
-            '</td>'].join('')
-		
-        }
-    }),
-    {
-        ftype: 'grouping',
-        groupHeaderTpl: 'Cuisine: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})',
-        disabled: false
-    }],
-    columns: [{
-        text: 'Name',
-        id: 'name',
-        flex: 1,
-        dataIndex: 'name'
-    }, {
-        text: 'Cuisine',
-        id: 'cuisine',
-        flex: 1,
-        dataIndex: 'cuisine'
-    }],
-    tbar: ['->', {
-        xtype: 'switchbuttonsegment',
-        activeItem: 1,
-        scope: this,
-        items: [{
-            tooltip: 'Details',
-            viewMode: 'default',
-            iconCls: 'icon-list'
-        }, {
-            tooltip: 'Tiles',
-            viewMode: 'tileIcons',
-            iconCls:'icon-th-list'
-        }, {
-            tooltip: 'Icons',
-            viewMode: 'mediumIcons',
-            iconCls: 'icon-th'
-        }],
         listeners: {
-            change: function(btn, item)
-            {
-                CenterPanel.features[0].setView(btn.viewMode);		
-            },
-            scope: this
+            selectionchange: function(dv, nodes ){
+                var l = nodes.length,
+                s = l !== 1 ? 's' : '';
+                this.up('panel').setTitle('Simple DataView (' + l + ' item' + s + ' selected)');
+            }
         }
-    }
-    ]
+    })
 });

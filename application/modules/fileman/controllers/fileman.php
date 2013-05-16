@@ -59,6 +59,7 @@ class Fileman extends MX_Controller {
             $this->base_url . "jscript/ext/src/ux/css/CheckHeader.css" => 'checkHeader',
             $this->module_url . "assets/css/load_mask.css" => 'loadingmask',
             $this->module_url . "assets/css/fileman.css" => 'fileman',
+            $this->module_url . "assets/css/data-view.css" => 'DataView',
             $this->module_url . "assets/css/extra-icons.css" => 'Extra Icons',
         );
 
@@ -76,37 +77,6 @@ class Fileman extends MX_Controller {
         );
 
         $this->ui->makeui('ext.ui.php', $cpData);
-    }
-
-    function get_tree2() {
-        //$this->load->helper('ext');
-        $debug = false;
-        //---get models
-        $order = 'data.properties.name';
-        $models = $this->bpm->get_models();
-        foreach ($models as $bpm) {
-            $folder = (property_exists($bpm, 'folder')) ? $bpm->folder . '/' : '';
-            $m_arr[$folder . $bpm->idwf] = $bpm->data['properties']['name'] . ' [' . $bpm->idwf . ']';
-        }
-        $tree = $this->explodeTree($m_arr, $delimiter = '/');
-
-        $full_tree = $this->convert_to_ext($tree, 0);
-
-//        $full_tree = array((object) array(
-//            "id" => 'root',
-//            "text" => "Object Repository",
-//            "cls" => "folder",
-//            "expanded" => true,
-//            "checked" => false,
-//            "children"=>$rtnArr
-//            ));
-
-        if (!$debug) {
-            header('Content-type: application/json');
-            echo json_encode($full_tree);
-        } else {
-            var_dump($full_tree);
-        }
     }
 
     function convert_to_ext($array) {
@@ -181,11 +151,30 @@ class Fileman extends MX_Controller {
         return $returnArr;
     }
 
+    function folder($action) {
+        $debug = false;
+        $node = isset($_POST['node'])?$_POST['node']:'root';
+        $pathArr[] = $this->base_dir;
+        $path = ($node <> 'root') ? $node : $this->base_dir;
+        $full_tree = array();
+        switch ($action) {
+            case 'read':
+                $full_tree['rows'] = $this->convert_to_ext($this->dirToArray($path));
+                break;
+        }
+        if (!$debug) {
+            header('Content-type: application/json');
+            echo json_encode($full_tree);
+        } else {
+            var_dump($full_tree);
+        }
+    }
+
     function get_tree() {
+        $debug = false;
         $node = $_POST['node'];
         $pathArr[] = $this->base_dir;
         $path = ($node <> 'root') ? $node : $this->base_dir;
-        $debug = false;
         $full_tree = $this->convert_to_ext($this->dirToArray($path));
         if (!$debug) {
             header('Content-type: application/json');

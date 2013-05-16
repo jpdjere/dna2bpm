@@ -247,7 +247,7 @@ function move_folder(folder,path){
 }
 //---TREE
 var tree=Ext.create('Ext.tree.Panel', {
-    id:'ModelTree',
+    id:'fileTree',
     store: Ext.data.StoreManager.lookup('TreeStore'),
     //deferRowRender:true,
     animate: false,
