@@ -15,18 +15,20 @@ class Fileman extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->library('parser');
         $this->load->model('user');
+        $this->user->authorize();
+        $this->load->library('parser');
         $this->load->library('ui');
         $this->load->model('filemodel');
-        $this->user->authorize();
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'fileman/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (float) $this->session->userdata('iduser');
-        $this->base_dir='/var/www/test';
+        $this->base_dir = '/var/www/test';
+        //---config
+        $this->load->config('config');
     }
 
     /*
@@ -112,10 +114,11 @@ class Fileman extends MX_Controller {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 asort($value);
+                $pathArr = explode('/', $key);
                 $rtn_arr[] = array_filter(
                         array(
                             'id' => $key,
-                            'text' => $key,
+                            'text' => end($pathArr),
                             'leaf' => false,
                             'cls' => 'folder',
                             'checked' => ($this->config->item('browser_tree_checkable_folders')) ? false : null,
@@ -178,10 +181,13 @@ class Fileman extends MX_Controller {
         return $returnArr;
     }
 
-    function get_tree($path=null) {
+    function get_tree() {
+        $node = $_POST['node'];
+        $pathArr[] = $this->base_dir;
+        $path = ($node <> 'root') ? $node : $this->base_dir;
         $debug = false;
-        $full_tree=$this->convert_to_ext($this->dirToArray($this->base_dir));
-         if (!$debug) {
+        $full_tree = $this->convert_to_ext($this->dirToArray($path));
+        if (!$debug) {
             header('Content-type: application/json');
             echo json_encode($full_tree);
         } else {
@@ -197,7 +203,12 @@ class Fileman extends MX_Controller {
         foreach ($cdir as $key => $value) {
             if (!in_array($value, array(".", ".."))) {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                    $result[$value] =$this->dirToArray($dir . DIRECTORY_SEPARATOR . $value);
+                    //----check 4 ajax config
+                    if ($this->config->item('browser_tree_ajax')) {
+                        $result[$dir . DIRECTORY_SEPARATOR . $value] = array();
+                    } else {
+                        $result[$dir . DIRECTORY_SEPARATOR . $value] = $this->dirToArray($dir . DIRECTORY_SEPARATOR . $value);
+                    }
                     //$result+=$this->dirToArray($dir . DIRECTORY_SEPARATOR . $value);
                 } else {
                     $result[$dir . DIRECTORY_SEPARATOR . $value] = $value;
