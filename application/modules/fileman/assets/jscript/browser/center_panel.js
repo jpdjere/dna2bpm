@@ -307,20 +307,20 @@ var CenterPanel=Ext.create('Ext.grid.Panel', {
         items: [{
             tooltip: 'Details',
             viewMode: 'default',
-            iconCls: 'icon-default'
+            iconCls: 'icon-list'
         }, {
             tooltip: 'Tiles',
             viewMode: 'tileIcons',
-            iconCls: 'icon-tile'
+            iconCls:'icon-th-list'
         }, {
             tooltip: 'Icons',
             viewMode: 'mediumIcons',
-            iconCls: 'icon-medium'
+            iconCls: 'icon-th'
         }],
         listeners: {
             change: function(btn, item)
             {
-                grid.features[0].setView(btn.viewMode);		
+                CenterPanel.features[0].setView(btn.viewMode);		
             },
             scope: this
         }
