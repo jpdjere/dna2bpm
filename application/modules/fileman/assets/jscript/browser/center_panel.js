@@ -2,7 +2,7 @@
  * Center panel
  * 
  */
-
+Ext.Loader.setPath('Ext.ux',globals.module_url+ 'assets/jscript/ux');
 var ModelEdit = Ext.create('Ext.Action', {
     text:'Edit',
     iconCls:' icon-edit',
@@ -184,7 +184,7 @@ var ModelKPI = Ext.create('Ext.Action', {
 });
 
 
-var toolBar=Ext.create('Ext.toolbar.Toolbar', {
+var ToolBar=Ext.create('Ext.toolbar.Toolbar', {
     disabled: false,
     items: [
     ModelManager,
@@ -209,13 +209,121 @@ var modelPanel= Ext.create('Ext.Panel', {
 }
 });
         
-center_panel=Ext.create('Ext.panel.Panel', {
-    title: '<i class="icon icon-bpm"></i> Model Explorer',    
-    tbar:toolBar,
-    border:2,
-    layout: "fit",
-    autoScroll:true,
-    items: [modelPanel]
-    
-    
-});
+var Center_panel=Ext.create('Ext.grid.Panel', {
+        store: Restaurants,
+        width: 660,
+		height: 490,
+        title: 'Restaurants',
+        multiSelect: true,
+        
+        viewConfig: {
+            stripeRows: true,
+            chunker: Ext.view.TableChunker
+        },
+        
+        plugins: [Ext.create('Ext.ux.grid.plugin.DragSelector')],
+        
+        features: [Ext.create('Ext.ux.grid.feature.Tileview', {
+            viewMode: 'tileIcons',
+			getAdditionalData: function(data, index, record, orig)
+			{
+				getRandomInt = function(min, max) {
+	                return Math.floor(Math.random() * (max - min + 1)) + min;
+	            };
+	            
+	            var files = ['4d8f3b2d98a60f8e0a00004b','4d8f3b2d98a60f8e0a000041','4d8f3b2d98a60f8e0a000054','4d8f3b2e98a60f8e0a000071','4d8f3b2e98a60f8e0a000077','4d8f3b2f98a60f8e0a00008a','4d8f3b2f98a60f8e0a000080','4d8f3b3098a60f8e0a0000a4','4d8f3b3098a60f8e0a0000ac'];
+	            
+	            generateThumbnail = function()
+	            {
+	                return files[getRandomInt(0, files.length - 1)] + '.jpg';
+	            };
+   
+				if(this.viewMode)
+				{
+					return {
+						thumbnails: generateThumbnail(),
+						rating: 'Rating: ' + getRandomInt(1, 9)
+					};
+				}
+				return {};
+			},
+			viewTpls:
+			{
+					mediumIcons: [
+						'<td class="{cls} ux-explorerview-medium-icon-row">',
+						'<table class="x-grid-row-table">',
+							'<tbody>',
+								'<tr>',
+									'<td class="x-grid-col x-grid-cell ux-explorerview-icon" style="background: url(&quot;thumbnails/medium_{thumbnails}&quot;) no-repeat scroll 50% 100% transparent;">',
+									'</td>',
+								'</tr>',
+								'<tr>',
+									'<td class="x-grid-col x-grid-cell">',
+										'<div class="x-grid-cell-inner" unselectable="on">{name}</div>',
+									'</td>',
+								'</tr>',
+							'</tbody>',
+						'</table>',
+						'</td>'].join(''),
+				  
+		  			tileIcons: [
+						'<td class="{cls} ux-explorerview-detailed-icon-row">',
+						'<table class="x-grid-row-table">',
+							'<tbody>',
+								'<tr>',
+									'<td class="x-grid-col x-grid-cell ux-explorerview-icon" style="background: url(&quot;thumbnails/tile_{thumbnails}&quot;) no-repeat scroll 50% 50% transparent;">',
+									'</td>',
+								
+									'<td class="x-grid-col x-grid-cell">',
+										'<div class="x-grid-cell-inner" unselectable="on">{name}<br><span>{rating}<br>{cuisine}</span></div>',
+									'</td>',
+								'</tr>',
+							'</tbody>',
+						'</table>',
+						'</td>'].join('')
+		
+    		}
+        }),
+		{
+            ftype: 'grouping',
+            groupHeaderTpl: 'Cuisine: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})',
+            disabled: false
+        }],
+        columns: [{
+            text: 'Name',
+            id: 'name',
+            flex: 1,
+            dataIndex: 'name'
+        }, {
+            text: 'Cuisine',
+            id: 'cuisine',
+            flex: 1,
+            dataIndex: 'cuisine'
+        }],
+        tbar: ['->', {
+            xtype: 'switchbuttonsegment',
+            activeItem: 1,
+            scope: this,
+            items: [{
+                tooltip: 'Details',
+                viewMode: 'default',
+                iconCls: 'icon-default'
+            }, {
+                tooltip: 'Tiles',
+                viewMode: 'tileIcons',
+                iconCls: 'icon-tile'
+            }, {
+                tooltip: 'Icons',
+                viewMode: 'mediumIcons',
+                iconCls: 'icon-medium'
+            }],
+            listeners: {
+                change: function(btn, item)
+                {
+					grid.features[0].setView(btn.viewMode);		
+                },
+                scope: this
+            }
+        }
+        ]
+    });

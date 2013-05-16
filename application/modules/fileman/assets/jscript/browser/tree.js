@@ -1,28 +1,30 @@
 //---ACTIONS 4 Context
 var FolderAdd = Ext.create('Ext.Action', {
-    iconCls: 'icon-add-folder',
+    iconCls: ' icon-plus-sign',
     text: 'Add Folder',
     handler: function(widget, event) {
         var n = tree.getSelectionModel().getSelection()[0];
-        if (!n.isLeaf()) {
-            Ext.MessageBox.prompt('Model', 'Please Folder name:', function(btn,text){
-                if(btn=='ok' && text){
+        if(n){
+            if (!n.isLeaf()) {
+                Ext.MessageBox.prompt('Model', 'Please Folder name:', function(btn,text){
+                    if(btn=='ok' && text){
                     
-                    node={
-                        id: text,
-                        text    : text +' <span class="text-new">[new]</span>',
-                        leaf    : false,
-                        checked : n.data.checked
-                    };
-                    n.appendChild(node);
-                    n.set('leaf',false);
-                    n.set('iconCls','folder');
+                        node={
+                            id: text,
+                            text    : text +' <span class="text-new">[new]</span>',
+                            leaf    : false,
+                            checked : n.data.checked
+                        };
+                        n.appendChild(node);
+                        n.set('leaf',false);
+                        n.set('iconCls','folder');
+                    }
                 }
+                );
+            } else {
+                //---show message
+                Ext.MessageBox.alert('Error!', "'Can't add a Folder here");
             }
-            );
-        } else {
-            //---show message
-            Ext.MessageBox.alert('Error!', "'Can't add a Folder here");
         }
     }
 });
@@ -134,20 +136,20 @@ var ModelRemove = Ext.create('Ext.Action', {
     }
 });
 //---Refresh Tree
-var reloadTree = Ext.create('Ext.Action', {
+var ReloadTree = Ext.create('Ext.Action', {
     text:'Reload',
     iconCls:'icon-refresh',
     handler:function(){
         Ext.data.StoreManager.lookup('TreeStore').load();
-        //tree.load_checked(dataview.selModel.getLastSelected().data.idgroup);
+    //tree.load_checked(dataview.selModel.getLastSelected().data.idgroup);
     }
 });
 
 //---4 context menu
-var contextMenu = Ext.create('Ext.menu.Menu', {
+var ContextMenu = Ext.create('Ext.menu.Menu', {
     title:'Path Menu',
     items: [
-    FolderAdd,ModelAdd,ModelRemove
+    FolderAdd
     ]
 });
     
@@ -180,12 +182,11 @@ var TreeClick=function(widget,event){
         //url='http://localhost/dna2.gitorious/bpm/repository/load/model/ksemilla-listados/json';
         options={
             
-        'url': globals.module_url+'browser/get_model/'+n.data.id
+            'url': globals.module_url+'browser/get_model/'+n.data.id
         }
         //center_panel.body.load(options);
         //---prevent not loading
         var first=false;
-        load_model(n.data.id);
 
     }
 }
@@ -328,9 +329,8 @@ var tree=Ext.create('Ext.tree.Panel', {
         }
         ,
         //saveTree,
-        reloadTree,
-        ModelAdd,
-        ModelRemove
+        ReloadTree,
+        FolderAdd,
         ]
     }]
 });
