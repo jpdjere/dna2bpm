@@ -24,7 +24,7 @@ Ext.onReady(function(){
         layout: 'fit',
         margins: '0 0 0 0',
         autoScroll:true,
-        items: []
+        items: [CenterPanel]
     });
     //---Create Application
     Ext.application({
