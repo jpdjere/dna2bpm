@@ -159,7 +159,9 @@ class Fileman extends MX_Controller {
         $full_tree = array();
         switch ($action) {
             case 'read':
-                $full_tree['rows'] = $this->convert_to_ext($this->dirToArray($path));
+                $tree=$this->dirToArray($path);
+                asort($tree);
+                $full_tree['rows'] = $this->convert_to_ext($tree);
                 break;
         }
         if (!$debug) {
