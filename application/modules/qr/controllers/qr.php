@@ -38,6 +38,14 @@ class Qr extends MX_Controller {
      */
 
     function Index() {
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'QR Code Demo Page';
+        $this->ui->compose('demoindex', 'bootstrap.ui.php', $cpData);
+    }
+
+    function Gen_demo() {
+
         $this->gen('www.dna2.org');
     }
 
@@ -45,8 +53,8 @@ class Qr extends MX_Controller {
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['title'] = 'QR Code';
-        $cpData['reader_title'] =$cpData['title'];
-        $cpData['reader_subtitle'] ='Read QR Codes from any HTML5 enabled device';
+        $cpData['reader_title'] = $cpData['title'];
+        $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
         $cpData['css'] = array(
             $this->module_url . "assets/css/qr.css" => 'custom css',
         );
@@ -55,13 +63,13 @@ class Qr extends MX_Controller {
             $this->module_url . "assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
             $this->module_url . "assets/jscript/qr.js" => 'Main functions',
         );
-        $this->ui->compose('readqr','bootstrap.ui.php',$cpData);
+        $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
     }
 
     function Gen($data, $size = '9', $level = 'H') {
         $config['cachedir'] = 'application/modules/qr/cache/';
-        $config['errorlog'] = 'application/modules/qr/log/';        
-        $this->load->library('ciqrcode',$config);
+        $config['errorlog'] = 'application/modules/qr/log/';
+        $this->load->library('ciqrcode', $config);
         $params['data'] = $data;
         $params['level'] = $level;
         $params['size'] = $size;
