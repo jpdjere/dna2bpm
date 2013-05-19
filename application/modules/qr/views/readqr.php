@@ -18,7 +18,6 @@
         <br>
 
         <h6 >Read Error (Debug only)</h6>
-        <span >Will constantly show a message, can be ignored</span>
         <span id="read_error" ></span>
 
         <br>
