@@ -49,6 +49,23 @@ class Qr extends MX_Controller {
         $this->gen('www.dna2.org');
     }
 
+    function Gen_vcard() {
+
+        $this->gen(
+                'BEGIN:VCARD
+VERSION:3.0
+N:Borda;Juan Ignacio
+FN:Juan Ignacio Borda
+ORG:DNA² Evolutive Computing.
+TITLE:Developer & Code Artist
+TEL;TYPE=WORK,VOICE:+542215430660
+PHOTO;VALUE=URL;TYPE=PNG:http://www.gravatar.com/avatar/8759d36146d2df25a31c959a8b1ad326.png
+EMAIL;TYPE=PREF,INTERNET:juanb@webexperts.com.ar
+URL:http://www.dna2.org
+REV:20130426T103000Z
+END:VCARD', 6);
+    }
+
     function Get_demo() {
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
@@ -68,7 +85,13 @@ class Qr extends MX_Controller {
 
     function Gen($data, $size = '9', $level = 'H') {
         $config['cachedir'] = 'application/modules/qr/cache/';
+        if (!is_writable($config['cachedir'])) {
+            show_error($config['cachedir'] . ' is not writable');
+        }
         $config['errorlog'] = 'application/modules/qr/log/';
+        if (!is_writable($config['errorlog'])) {
+            show_error($config['errorlog'] . ' is not writable');
+        }
         $this->load->library('ciqrcode', $config);
         $params['data'] = $data;
         $params['level'] = $level;

@@ -22,6 +22,11 @@
                     Demo gen
                 </a>
             </li>
+            <li>
+                <a href="qr/gen_vcard">
+                    Demo Vcard
+                </a>
+            </li>
         </ul>
         <br/>
         <br/>
