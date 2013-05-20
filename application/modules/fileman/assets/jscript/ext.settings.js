@@ -2,6 +2,7 @@
 Ext.Loader.setConfig({
     disableCaching : false
 });
+Ext.Loader.setPath('Ext.org', globals.module_url+'assets/jscript');
 Ext.Ajax.setConfig({
     disableCaching : false
 });

@@ -264,11 +264,15 @@ var tree=Ext.create('Ext.tree.Panel', {
      */
     
     viewConfig: {
-        plugins: {
-            ptype: 'treeviewdragdrop'
-        },
-        listeners:{
+        plugins: [{
+            ddGroup: 'organizerDD',
+            ptype  : 'treeviewdragdrop',
+            displayField: 'name'
+        }]
+    
+    ,listeners:{
             beforedrop:function ( node, data, overModel, dropPosition, dropHandler, eOpts ){
+               console.log(overModel.isLeaf());
                 if(overModel.isLeaf()){
                     return false
                 }

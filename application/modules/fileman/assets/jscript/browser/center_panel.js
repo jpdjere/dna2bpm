@@ -22,49 +22,49 @@ var ModelImport= Ext.create('Ext.Action', {
             width: 500,
             layout: 'fit',
             items:[
-            Ext.create('Ext.form.Panel', {
-                width: 400,
-                bodyPadding: 10,
+                Ext.create('Ext.form.Panel', {
+                    width: 400,
+                    bodyPadding: 10,
                 
-                items: [{
-                    xtype: 'fileuploadfield',
-                    name: 'file',
-                    fieldLabel: 'file',
-                    labelWidth: 50,
-                    msgTarget: 'side',
-                    allowBlank: false,
-                    anchor: '100%'
-                }],
+                    items: [{
+                            xtype: 'fileuploadfield',
+                            name: 'file',
+                            fieldLabel: 'file',
+                            labelWidth: 50,
+                            msgTarget: 'side',
+                            allowBlank: false,
+                            anchor: '100%'
+                        }],
 
-                buttons: [{
-                    text: 'Upload',
-                    handler: function() {
-                        var form = this.up('form').getForm();
-                        if(form.isValid()){
-                            form.submit({
-                                url: globals.module_url+'repository/import/model',
-                                waitMsg: 'Uploading your file...',
-                                success: function(fp, o) {
-                                    Ext.Msg.alert('Status',o.result.msg);
+                    buttons: [{
+                            text: 'Upload',
+                            handler: function() {
+                                var form = this.up('form').getForm();
+                                if(form.isValid()){
+                                    form.submit({
+                                        url: globals.module_url+'repository/import/model',
+                                        waitMsg: 'Uploading your file...',
+                                        success: function(fp, o) {
+                                            Ext.Msg.alert('Status',o.result.msg);
+                                        }
+                                        ,
+                                        failure: function(form, action) {
+                                            switch (action.failureType) {
+                                                case Ext.form.action.Action.CLIENT_INVALID:
+                                                    Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+                                                    break;
+                                                case Ext.form.action.Action.CONNECT_FAILURE:
+                                                    Ext.Msg.alert('Failure', 'Ajax communication failed');
+                                                    break;
+                                                case Ext.form.action.Action.SERVER_INVALID:
+                                                    Ext.Msg.alert('Failure', action.result.msg);
+                                            }
+                                        }
+                                    });//----end form submit
                                 }
-                                ,
-                                failure: function(form, action) {
-                                    switch (action.failureType) {
-                                        case Ext.form.action.Action.CLIENT_INVALID:
-                                            Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
-                                            break;
-                                        case Ext.form.action.Action.CONNECT_FAILURE:
-                                            Ext.Msg.alert('Failure', 'Ajax communication failed');
-                                            break;
-                                        case Ext.form.action.Action.SERVER_INVALID:
-                                            Ext.Msg.alert('Failure', action.result.msg);
-                                    }
-                                }
-                            });//----end form submit
-                        }
-                    }
-                }]
-            })//----formpanel
+                            }
+                        }]
+                })//----formpanel
             ]//end items
         }).show();//--end create
     }//---end handler
@@ -187,17 +187,17 @@ var ModelKPI = Ext.create('Ext.Action', {
 var ToolBar=Ext.create('Ext.toolbar.Toolbar', {
     disabled: false,
     items: [
-    ModelManager,
-    ModelEdit,
-    ModelRun,
-    ModelKPI,
-    ModelView,
-    ModelDump,
-    ModelRunManual,
-    ModelImport,
-    ModelExport,
-    ModelCloudImport,
-    ModelCloudExport
+        ModelManager,
+        ModelEdit,
+        ModelRun,
+        ModelKPI,
+        ModelView,
+        ModelDump,
+        ModelRunManual,
+        ModelImport,
+        ModelExport,
+        ModelCloudImport,
+        ModelCloudExport
     ]
 });
 
@@ -205,26 +205,26 @@ var modelPanel= Ext.create('Ext.Panel', {
     id:'modelPanel',
     autoScroll:true,
     listeners:{
-//  render: load_model
-}
+        //  render: load_model
+    }
 });
         
 var CenterPanel=Ext.create('Ext.Panel', {
     id: 'images-cont',
     title: 'Simple DataView (0 items selected)',
     autoScroll : true,
-    items: Ext.create('Ext.view.View', {
+    items: Ext.create('Ext.org.ImageView',{
         id:'images-view',
         store: Ext.data.StoreManager.lookup('ViewStore'),
         tpl: [
-        '<tpl for=".">',
-        '<div class="thumb-wrap" id="{id}">',
-        '<div class="thumb"><img src="{module_url}assets/images/256x256/mimetypes/{imgurl}" title="{text}">',
-        '<span class="x-editable">{text}<br/>{info}</span>',
-        '</div>',
-        '</div>',
-        '</tpl>',
-        '<div class="x-clear"></div>'
+            '<tpl for=".">',
+            '<div class="thumb-wrap" id="{id}">',
+            '<div class="thumb"><img src="{module_url}assets/images/256x256/mimetypes/{imgurl}" title="{text}">',
+            '<span class="x-editable">{text}<br/>{info}</span>',
+            '</div>',
+            '</div>',
+            '</tpl>',
+            '<div class="x-clear"></div>'
         ],
         multiSelect: true,
         trackOver: true,
@@ -232,10 +232,10 @@ var CenterPanel=Ext.create('Ext.Panel', {
         itemSelector: 'div.thumb-wrap',
         emptyText: 'No images to display',
         plugins: [
-        Ext.create('Ext.ux.DataView.DragSelector', {}),
-        Ext.create('Ext.ux.DataView.LabelEditor', {
-            dataIndex: 'name'
-        })
+            Ext.create('Ext.ux.DataView.DragSelector', {}),
+            Ext.create('Ext.ux.DataView.LabelEditor', {
+                dataIndex: 'name'
+            })
         ],
         prepareData: function(data) {
             Ext.apply(data, {
@@ -253,4 +253,6 @@ var CenterPanel=Ext.create('Ext.Panel', {
             }
         }
     })
+                   
+
 });

@@ -65,6 +65,7 @@ class Fileman extends MX_Controller {
 
         $cpData['js'] = array(
             $this->module_url . "assets/jscript/ext.settings.js" => 'Settings',
+            $this->module_url . "assets/jscript/ImageView.js" => 'Image View component',
             $this->module_url . "assets/jscript/browser/data.js" => 'Data Objects',
             $this->module_url . "assets/jscript/browser/tree.js" => 'Module Tree',
             $this->module_url . "assets/jscript/browser/center_panel.js" => 'Center Panel',
@@ -100,14 +101,14 @@ class Fileman extends MX_Controller {
                 );
                 //$id++;
             } else {
-                $info = str_replace('/','-',finfo_file($finfo, $key));
-                
+                $info = str_replace('/', '-', finfo_file($finfo, $key));
+
                 $rtn_arr[] = array_filter(
                         array(
                             'id' => $key,
                             'text' => $value,
                             'leaf' => true,
-                            'info'=>$info,
+                            'info' => $info,
                             'cls' => 'file',
                             'checked' => ($this->config->item('browser_tree_checkable_models')) ? false : null,
                             'imgurl' => '' . $info . '.png',
