@@ -27,6 +27,18 @@
                     Demo Vcard
                 </a>
             </li>
+            <li>
+                <form class="form-horizontal" action="{module_url}read_demo" method="POST" >
+        <legend>Test redir</legend>
+            <div class="controls">
+                <input type="text" id="redir" name="redir" value="" >
+            </div>
+            <div class="controls">
+                <button type="submit" class="btn">Submit</button>
+            </div>
+         </form>   
+                
+            </li>
         </ul>
         <br/>
         <br/>

@@ -25,7 +25,7 @@
         <span id="vid_error" ></span>
 
         <br>
-        <br>
+        <br>         
         <br>
 
         </div>

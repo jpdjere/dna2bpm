@@ -4,6 +4,8 @@ $(document).ready(function(){
             $('#read').html(data).addClass('alert alert-success');
             color=$('body').css('background-color');
             $('body').animate({backgroundColor: '#FFF'},200).animate({backgroundColor: color},100)
+            url=globals.redir;
+            $.ajax({type:'post'})
         },
         function(error){
             $('#read_error').html(error);

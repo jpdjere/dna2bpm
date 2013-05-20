@@ -53,17 +53,17 @@ class Qr extends MX_Controller {
 
         $this->gen(
                 'BEGIN:VCARD
-VERSION:3.0
-N:Borda;Juan Ignacio
-FN:Juan Ignacio Borda
-ORG:DNA² Evolutive Computing.
-TITLE:Developer & Code Artist
-TEL;TYPE=WORK,VOICE:+542215430660
-PHOTO;VALUE=URL;TYPE=PNG:http://www.gravatar.com/avatar/8759d36146d2df25a31c959a8b1ad326.png
-EMAIL;TYPE=PREF,INTERNET:juanb@webexperts.com.ar
-URL:http://www.dna2.org
-REV:20130426T103000Z
-END:VCARD', 6);
+                VERSION:3.0
+                N:Borda;Juan Ignacio
+                FN:Juan Ignacio Borda
+                ORG:DNA² Evolutive Computing.
+                TITLE:Developer & Code Artist
+                TEL;TYPE=WORK,VOICE:+542215430660
+                PHOTO;VALUE=URL;TYPE=PNG:http://www.gravatar.com/avatar/8759d36146d2df25a31c959a8b1ad326.png
+                EMAIL;TYPE=PREF,INTERNET:juanb@webexperts.com.ar
+                URL:http://www.dna2.org
+                REV:20130426T103000Z
+                END:VCARD', 6);
     }
 
     function Get_demo() {
@@ -80,7 +80,43 @@ END:VCARD', 6);
             $this->module_url . "assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
             $this->module_url . "assets/jscript/qr.js" => 'Main functions',
         );
+        
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
         $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
+    }
+    
+    function Read_demo() {
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'QR Code';
+        $cpData['reader_title'] = $cpData['title'];
+        $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
+        $cpData['css'] = array(
+            $this->module_url . "assets/css/qr.css" => 'custom css',
+        );
+        $cpData['js'] = array(
+            $this->module_url . "assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
+            $this->module_url . "assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
+            $this->module_url . "assets/jscript/qr.js" => 'Main functions',
+        );
+        
+        if(!$this->input->post('redir'))
+            show_error ('error redir');
+        
+            $redir= $this->input->post('redir');
+        
+        
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'redir'=> $redir,
+        );
+        
+        
+        $this->ui->compose('redirtest', 'bootstrap.ui.php', $cpData);
     }
 
     function Gen($data, $size = '9', $level = 'H') {
