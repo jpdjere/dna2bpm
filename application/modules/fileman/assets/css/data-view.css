@@ -27,12 +27,12 @@
    float: right;
 }
 #images-view .x-item-over {
-    background: url("over.gif") repeat-x scroll left top #EFEFEF;
+    background: url("../images/over.gif") repeat-x scroll left top #EFEFEF;
     border: 1px solid #DDDDDD;
     padding: 4px;
 }
 #images-view .x-item-selected {
-    background: url("selected.gif") no-repeat scroll right bottom #EFF5FB;
+    background: url("../images/selected.gif") no-repeat scroll right bottom #EFF5FB;
     border: 1px solid #99BBE8;
     padding: 4px;
 }
