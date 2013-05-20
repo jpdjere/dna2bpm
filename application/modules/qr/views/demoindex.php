@@ -29,7 +29,7 @@
             </li>
             <li>
                 <form class="form-horizontal" action="{module_url}read_demo" method="POST" >
-        <legend>Test redir</legend>
+        <legend>Demo redir</legend>
             <div class="controls">
                 <input type="text" id="redir" name="redir" value="" >
             </div>
