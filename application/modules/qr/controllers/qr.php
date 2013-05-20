@@ -116,7 +116,7 @@ class Qr extends MX_Controller {
         );
         
         
-        $this->ui->compose('redirtest', 'bootstrap.ui.php', $cpData);
+        $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
     }
 
     function Gen($data, $size = '9', $level = 'H') {
