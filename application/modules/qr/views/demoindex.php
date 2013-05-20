@@ -31,7 +31,7 @@
                 <form class="form-horizontal" action="{module_url}read_demo" method="POST" >
         <legend>Demo redir</legend>
             <div class="controls">
-                <input type="text" id="redir" name="redir" value="" >
+                <input type="text" id="redir" name="redir" value="user/profile/edit" >
             </div>
             <div class="controls">
                 <button type="submit" class="btn">Submit</button>
