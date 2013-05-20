@@ -5,7 +5,8 @@ $(document).ready(function(){
             color=$('body').css('background-color');
             $('body').animate({backgroundColor: '#FFF'},200).animate({backgroundColor: color},100)
             url=globals.redir;
-            $.ajax({type:'post'})
+            window.location(url);
+            //$.ajax({type:'post'})
         },
         function(error){
             $('#read_error').html(error);
