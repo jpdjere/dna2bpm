@@ -18,6 +18,8 @@ Ext.define('file', {
     'user',
     'tags',
     'imgurl',
+    'cls',
+    'info',
     {
         name: 'locked', 
         type: 'bool'
@@ -91,8 +93,8 @@ Ext.create('Ext.data.Store', {
         }  
     },
     sorters: [{
-        property: 'leaf',
-        direction: 'ASC'
+        property: 'cls',
+        direction: 'DESC'
     }, {
         property: 'text',
         direction: 'ASC'

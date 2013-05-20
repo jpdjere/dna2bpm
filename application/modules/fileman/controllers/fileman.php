@@ -81,6 +81,7 @@ class Fileman extends MX_Controller {
 
     function convert_to_ext($array) {
         $rtn_arr = array();
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 asort($value);
@@ -91,6 +92,7 @@ class Fileman extends MX_Controller {
                             'text' => end($pathArr),
                             'leaf' => false,
                             'cls' => 'folder',
+                            'imgurl' => 'folder_open.png',
                             'checked' => ($this->config->item('browser_tree_checkable_folders')) ? false : null,
                             'expanded' => ($this->config->item('browser_tree_expanded')) ? true : false,
                             'children' => array_filter($this->convert_to_ext($value))
@@ -98,19 +100,24 @@ class Fileman extends MX_Controller {
                 );
                 //$id++;
             } else {
+                $info = str_replace('/','-',finfo_file($finfo, $key));
+                
                 $rtn_arr[] = array_filter(
                         array(
                             'id' => $key,
                             'text' => $value,
                             'leaf' => true,
+                            'info'=>$info,
+                            'cls' => 'file',
                             'checked' => ($this->config->item('browser_tree_checkable_models')) ? false : null,
-                            //data' => $value,
+                            'imgurl' => '' . $info . '.png',
                             'iconCls' => ($this->config->item('tree_icon_model')) ? $this->config->item('tree_icon_model') : null
                         )
                 );
             }
         }
-        return array_filter($rtn_arr);
+        //return array_filter($rtn_arr);
+        return $rtn_arr;
     }
 
     function explodeTree($array, $delimiter = '_', $baseval = false) {
@@ -153,13 +160,13 @@ class Fileman extends MX_Controller {
 
     function folder($action) {
         $debug = false;
-        $node = isset($_POST['node'])?$_POST['node']:'root';
+        $node = isset($_POST['node']) ? $_POST['node'] : 'root';
         $pathArr[] = $this->base_dir;
         $path = ($node <> 'root') ? $node : $this->base_dir;
         $full_tree = array();
         switch ($action) {
             case 'read':
-                $tree=$this->dirToArray($path);
+                $tree = $this->dirToArray($path);
                 asort($tree);
                 $full_tree['rows'] = $this->convert_to_ext($tree);
                 break;

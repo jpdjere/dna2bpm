@@ -140,8 +140,11 @@ var ReloadTree = Ext.create('Ext.Action', {
     text:'Reload',
     iconCls:'icon-refresh',
     handler:function(){
-        Ext.data.StoreManager.lookup('TreeStore').load();
-    //tree.load_checked(dataview.selModel.getLastSelected().data.idgroup);
+        Ext.data.StoreManager.lookup('TreeStore').load(function(){
+            Ext.data.StoreManager.lookup('ViewStore').load();
+        });
+        
+    
     }
 });
 

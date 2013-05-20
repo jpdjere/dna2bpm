@@ -210,16 +210,19 @@ var modelPanel= Ext.create('Ext.Panel', {
 });
         
 var CenterPanel=Ext.create('Ext.Panel', {
-    id: 'images-view',
+    id: 'images-cont',
     title: 'Simple DataView (0 items selected)',
     autoScroll : true,
     items: Ext.create('Ext.view.View', {
+        id:'images-view',
         store: Ext.data.StoreManager.lookup('ViewStore'),
         tpl: [
         '<tpl for=".">',
         '<div class="thumb-wrap" id="{id}">',
-        '<div class="thumb"><img src="{imgurl}" title="{text}"></div>',
-        '<span class="x-editable">{text}</span></div>',
+        '<div class="thumb"><img src="{module_url}assets/images/256x256/mimetypes/{imgurl}" title="{text}">',
+        '<span class="x-editable">{text}<br/>{info}</span>',
+        '</div>',
+        '</div>',
         '</tpl>',
         '<div class="x-clear"></div>'
         ],
