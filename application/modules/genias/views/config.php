@@ -1,7 +1,7 @@
 <!-- / Breadcrumbs -->
 <ul class="breadcrumb navbar-static-top">
   <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-  <li><a href="#">Mapa</a> <span class="divider">/</span></li>
+  <li><a href="#">Configuración</a> <span class="divider">/</span></li>
 </ul>
 <!-- / Contenido -->
 <div class="container">  
@@ -16,21 +16,26 @@ Proyectos
 </div>
 <!-- Collaps -->
 <div id="collapse1" class="accordion-body collapse in">
-    <form name="form_projects" method="post">
+<form name="form_projects" method="post">
 <div class="accordion-inner">
 {projects}
     <div class="form-inline">
-    <input type="text" class="input-xlarge" placeholder="Nombre" value="{name}" name="nombre">
+    <input type="text" class="input-xlarge" placeholder="Nombre" value="{name}" name="name">
     <input type="text" class="input-small" placeholder="ID" value="{id}" name="id">
-    <button type="submit" class="btn btn-secondary btn-remove"><i class="icon-remove"></i></button>
     </div>
 {/projects}
 <div class="form-inline">
-<button class="btn btn-primary" id="new_project"><i class="icon-plus"></i> New Project</button>
-<button class="btn btn-primary" id="save_project"><i class="icon-ok"></i> Guardar</button>
+
+<a href="#" class="btn btn-primary" id="save_project"><i class="icon-ok"></i> Guardar</a>
 </div>
+<div class="alert hide">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  
 </div>
-    </form>
+
+</div>
+</form>
+
 </div>
 </div>
 
@@ -45,5 +50,3 @@ Proyectos
 <button type="submit" class="btn btn-secondary btn-remove"><i class="icon-remove"></i></button>
 </div>   
 </div>
-    
-    

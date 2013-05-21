@@ -45,8 +45,9 @@ class Genias_model extends CI_Model {
         function config_set($data){
         $container='container.genias_config';
         $options = array('upsert' => true, 'safe' => true);
-        $query=array('name'=>'projects2');
-        return $this->mongo->db->$container->update($query, $data, $options);
+        $query=array('name'=>'projects');
+        $rs= $this->mongo->db->$container->update($query, $data, $options);
+        return $rs['err'];
     }
     
 

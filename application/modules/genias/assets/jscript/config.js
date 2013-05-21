@@ -22,11 +22,15 @@ $('.btn-remove').live('click',function(){
 });
 
 $("#save_project").click(function(){
-    //var data=$('[name="form_projects"]').serializeArray();
-    $.POST(globals.module_url+'config_set_projects',{},function(resp){
-       alert(1);
-    });
+    var data=$('[name="form_projects"]').serializeArray();
+
+   $.post(globals.module_url+'config_set_projects',{'data':data},function(resp){  
+     $(".alert").append(resp).fadeIn('slow');
+   });
+     
 });
+
+
 
 
 

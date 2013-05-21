@@ -11,8 +11,9 @@ $( document ).ready(function() {
 $( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('#form_goals a').click(function(){
     var data=$('#form_goals').serializeArray();
+
     $.post(globals.module_url+'goals_new',{'data':data},function(resp){
-       location.reload();
+      location.reload();
     });
 });
 
