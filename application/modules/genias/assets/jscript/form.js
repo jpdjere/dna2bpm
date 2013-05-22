@@ -91,7 +91,7 @@ Ext.define('Writer.Form', {
                     valueField: 'value',
                     placeHolder: 'Select '
                 }, {
-                    fieldLabel: 'Empresa..',
+                    fieldLabel: 'C.U.I.T.',
                     name: '7411',
                     allowBlank: false,
                     vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
