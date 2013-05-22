@@ -42,13 +42,15 @@ class Genias extends MX_Controller {
         
         // Goals
         $customData['goals']=(array)$this->genias_model->goals_get($this->idu);
-       
-        
+             
         // Projects
         $projects=$this->genias_model->config_get('projects');
         $customData['projects']=$projects['items'];
-        
+
         foreach($this->genias_model->goals_get($this->idu) as $goal){
+            foreach($customData['projects'] as $current){
+                if($current['id']==$goal['proyecto']) $goal['proyecto_name']=$current['name'];
+            }
             $goal['cumplidas']=6;
             $metas_cumplidas=($goal['cumplidas']==$goal['cantidad'])?(true):(false);
             $goal['class']=($metas_cumplidas)?('well'):('alert alert-info');
@@ -95,23 +97,23 @@ class Genias extends MX_Controller {
     // -- METAS --
     
     function goals_new() {
+        
         $this->user->authorize();
         $customData = $this->lang->language;
         $data=$this->input->post('data');
+        
         $mydata=array(
             'idu'=>$this->idu     
         );  
-
         foreach($data as $k=>$v){
-            $mydata[$v['name']]=$v['value'];
+            $mydata[$v['name']]=(int)$v['value'];
         }
-      
-        
+            
         $date = date_create_from_format('d-m-Y', $mydata['desde']);
         $mydata['desde']=date_format($date, 'Y-m-d');
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
         $mydata['hasta']=date_format($date, 'Y-m-d');
-        
+
         $this->genias_model->goals_new($mydata);
     }
 
@@ -222,18 +224,27 @@ class Genias extends MX_Controller {
     function config() {
         $this->user->authorize();
         $customData = $this->lang->language;
+        $projects=$this->genias_model->config_get('projects');
+        $customData['js'] = array($this->module_url . "assets/jscript/config.js" => 'Config JS');
+        $customData['projects']=$projects['items'];
+
         $this->render('config', $customData);
     }
     
-    function config_set() {
+    function config_set_projects() {
         $this->user->authorize();
-        $customData = $this->lang->language;
-        $mydata=array('name'=>'projects2','items'=>array(
-            array('id'=>1,'name'=>'Informes'),
-            array('id'=>2,'name'=>'Escenario Pyme'),
-            array('id'=>3,'name'=>'Escenario Polílico'),
-            array('id'=>4,'name'=>'Comunicación y Difusion')));
-        $this->genias_model->config_set($mydata);
+        $myProjects=$this->input->post('data');
+
+        // Preparo array para la base
+        $items=array();
+        for($i=0;$i<count($myProjects);$i+=2){
+            $items[]=array('id'=>(int)$myProjects[$i+1]['value'],'name'=>$myProjects[$i]['value']);
+        }            
+        $mydata=array('name'=>'projects','items'=>$items);
+
+        $error= $this->genias_model->config_set($mydata);
+        echo (is_null($error))?("Registro guardado"):("No se ha podido guardar el registro");
+
     }
     
 // Profile    
@@ -242,13 +253,16 @@ $code=md5( strtolower( trim( $email ) ) );
 if($str = @file_get_contents( "http://www.gravatar.com/$code.php" )){
 $profile = unserialize( $str );
     // Chequeo en Gravatar.com
-    if ( is_array( $profile ) && isset( $profile['entry'] ) )
+    if ( is_array( $profile ) && isset( $profile['entry'] ) ){
         return($profile['entry'][0]['thumbnailUrl']);
-    }else{
+    }
+}else{
         // Devuelvo el default
-        return base_url() . 'genias/assets/images/avatar-hombre.jpg';
+       return base_url() . 'genias/assets/images/avatar-hombre.jpg';
+
     }
 }
+
 
 
 }// close

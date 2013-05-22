@@ -25,7 +25,7 @@ Crear nueva meta
             <label>Proyecto</label>
                 <select name="proyecto" class="input-block-level">
                 {projects}
-                <option>{name}</option>
+                <option value="{id}">{name}</option>
                 {/projects}
                 </select>
         <div class="">
@@ -67,8 +67,10 @@ Crear nueva meta
  {goals}
  <div  class="row-fluid" >
      <div class="span12 {class}">
-    <div style="float:right"><h2>{cumplidas}/{cantidad}</h2></div>      
-    <h3 style="display: inline-block;margin-right:6px">{proyecto}</h3>
+    <div style="float:right"> 
+        
+        <h2><a class="text-right btn  btn-primary detalle"  href="#{proyecto}" ><i class="icon-plus" ></i> </a> {cumplidas}/{cantidad}</h2></div>      
+    <h3 style="display: inline-block;margin-right:6px">{proyecto_name}</h3>
     <span title="Inicio" ><i class="icon-calendar" ></i> {desde}</span>
     <span title="Fin" style="padding-left:15px"><i class="icon-calendar"></i> {hasta}</span> 
     <a class="text-right btn btn-mini detalle"  href="#" ><i class="icon-chevron-down" ></i> Observaciones</a> 
