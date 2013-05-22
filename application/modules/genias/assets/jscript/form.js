@@ -94,7 +94,9 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Empresa',
                     name: '7411',
                     allowBlank: false,
-                    vtype: 'CUIT' // applies custom 'IPAddress' validation rules to this field
+                    vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
+                    placeHolder: 'CUIT'
+                    
                 }, {
                     xtype: 'hidden',
                     fieldLabel: 'Origen',

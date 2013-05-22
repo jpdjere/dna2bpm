@@ -9,7 +9,7 @@ Ext.define('Writer.Person', {
             type: 'int',
             useNull: true
         }
-        , '7586' // 	GenIA 
+                , '7586' // 	GenIA 
                 , '7406' // 	Usuario 
                 , '7404' // 	Provincia 
                 , '7405' // 	Partido 
