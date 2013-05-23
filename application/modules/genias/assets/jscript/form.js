@@ -66,16 +66,16 @@ Ext.define('Writer.Form', {
                     valueField: 'value',
                     emptyText:'Seleccione la Provincia',
                     listeners: {
-                        change: function(me, newValue, oldValue, eOpts) {
-                            if (newValue != null) {
+                        change: function(me, newValue, oldValue, eOpts) {                           
+                            if (newValue != null) {                                
                                 PartidoStore.clearFilter();
                                 PartidoStore.filters.removeAtKey('idrel');
 
                                 var myfilter = new Ext.util.Filter({
-                                    filterFn: function(rec, anymatch) {
+                                    filterFn: function(rec, anymatch) {                                         
                                         return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
                                     }
-                                });
+                                });                                 
                                 PartidoStore.filter(myfilter);
                             }
                         }
@@ -96,7 +96,7 @@ Ext.define('Writer.Form', {
                     name: '7411',
                     allowBlank: false,
                     vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
-                    emptyText:'Ingrese un Nro de CUIT v&aacute;lido',
+                    emptyText:'Ingrese un Nro de CUIT valido',
                     
                 }, {
                     xtype: 'hidden',
