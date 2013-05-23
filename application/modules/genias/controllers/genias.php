@@ -94,21 +94,20 @@ class Genias extends MX_Controller {
         $cpData+=$customData;
         $this->ui->compose($file, 'layout.php', $cpData);
     }
-    // -- METAS --
+    //* ------ METAS ------ */
     
     function goals_new() {
         
         $this->user->authorize();
         $customData = $this->lang->language;
         $data=$this->input->post('data');
-        
         $mydata=array(
             'idu'=>$this->idu     
         );  
         foreach($data as $k=>$v){
-            $mydata[$v['name']]=(int)$v['value'];
+            $mydata[$v['name']]=$v['value'];
         }
-            
+                  
         $date = date_create_from_format('d-m-Y', $mydata['desde']);
         $mydata['desde']=date_format($date, 'Y-m-d');
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
@@ -125,7 +124,9 @@ class Genias extends MX_Controller {
         $this->render('programs', $customData);
     }
 
-
+    /* ------ TAREAS ------ */
+    
+    // Render page
     function tasks() {
         $this->user->authorize();
         $customData = $this->lang->language;
@@ -134,20 +135,40 @@ class Genias extends MX_Controller {
         $customData['projects']=$projects['items'];
         $this->render('tasks', $customData);
     }
+    
+    function add_task(){
+        $this->user->authorize();
+        $customData = $this->lang->language;
+        $mydata=$this->input->post('data');
 
+
+        foreach ($mydata as $k=>$v){
+            echo "$k $v<br>";
+        }
+        //$this->genias_model->add_task($mydata);
+    }
+    
+    
+    
+    /* ------ MAP ------ */
+    // Render page
     function map() {
         $this->user->authorize();
         $customData = $this->lang->language;
         $this->render('map', $customData);
     }
 
-
+    /* ------ SCHEDULER ------ */
+    // Render page
     function scheduler() {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');      
         
+        $projects=$this->genias_model->config_get('projects');
+        $customData['projects']=$projects['items'];
+        //print_r($customData['projects']);
 	$year = date('Y');
 	$month = date('m');
         
@@ -155,6 +176,7 @@ class Genias extends MX_Controller {
 
     }
     
+    // Draw items 
     function scheduler_get_json() {
 
 	echo json_encode(array(
@@ -176,11 +198,16 @@ class Genias extends MX_Controller {
 	));
     }
 
+    /* ------ CONTACTS ------ */
+    // Render page
+    
     function contacts() {
         $this->user->authorize();
         $customData = $this->lang->language;
         $this->render('contacts', $customData);
     }
+    
+        /* ------ ??? ------ */
     
     function Form() {        
        
@@ -218,7 +245,8 @@ class Genias extends MX_Controller {
         echo '{"user":"'.$this->idu.'"}';
     }
     
-    // Configurador
+    /* ------ CONFIG ------ */
+    // Render page
     
     function config() {
         $this->user->authorize();
@@ -230,6 +258,7 @@ class Genias extends MX_Controller {
         $this->render('config', $customData);
     }
     
+    // Change projects id from here
     function config_set_projects() {
         $this->user->authorize();
         $myProjects=$this->input->post('data');
@@ -246,21 +275,21 @@ class Genias extends MX_Controller {
 
     }
     
-// Profile    
-function get_gravatar($email) {
-$code=md5( strtolower( trim( $email ) ) );
-if($str = @file_get_contents( "http://www.gravatar.com/$code.php" )){
-$profile = unserialize( $str );
-    // Chequeo en Gravatar.com
-    if ( is_array( $profile ) && isset( $profile['entry'] ) ){
-        return($profile['entry'][0]['thumbnailUrl']);
-    }
-}else{
-        // Devuelvo el default
-       return base_url() . 'genias/assets/images/avatar-hombre.jpg';
+    // Profile    
+    function get_gravatar($email) {
+    $code=md5( strtolower( trim( $email ) ) );
+    if($str = @file_get_contents( "http://www.gravatar.com/$code.php" )){
+    $profile = unserialize( $str );
+        // Chequeo en Gravatar.com
+        if ( is_array( $profile ) && isset( $profile['entry'] ) ){
+            return($profile['entry'][0]['thumbnailUrl']);
+        }
+    }else{
+            // Devuelvo el default
+           return base_url() . 'genias/assets/images/avatar-hombre.jpg';
 
+        }
     }
-}
 
 
 

@@ -14,8 +14,12 @@ class Genias_model extends CI_Model {
         parent::__construct();
     }
     
-    function tasks(){
-        return "ggg";
+    /* ---- TASKS---- */
+    
+    function add_task($task){
+        $options = array('upsert' => true, 'safe' => true);
+        $container='container.genias_tasks';
+        return $this->mongo->db->$container->save($task, $options);
     }
     
     function goals_new($goal){
