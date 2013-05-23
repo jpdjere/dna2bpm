@@ -13,7 +13,7 @@ $('#calendar').fullCalendar({
 
         // your event source
         {
-            url: globals.module_url+"/scheduler_get_json",
+            url: globals.module_url+"/get_tasks",
             type: 'POST',
             data: {
                 custom_param1: 'something',

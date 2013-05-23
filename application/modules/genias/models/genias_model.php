@@ -28,6 +28,18 @@ class Genias_model extends CI_Model {
              
     }
     
+    function get_tasks($idu){
+        $query = array('idu' =>(double) $idu);
+        $container='container.genias';
+        $result = $this->mongo->db->$container->find($query)->sort(array('id'=>-1));  
+
+        //var_dump($result, json_encode($result), $result->count());
+        return $result;
+
+    }
+    
+     /* ---- GOALS---- */
+    
     function add_goal($goal){
         $options = array('upsert' => true, 'safe' => true);
         $container='container.genias_goals';
