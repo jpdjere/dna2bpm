@@ -7,13 +7,7 @@ $(document).ready(function(){
             $('body').animate({backgroundColor: '#FFF'},200).animate({backgroundColor: color},100);
             
             url=globals.redir;
-            
             $.post(url,{'redir': escaneo},function(res){});
-            
-            
-            //$.ajax({type:'post'})
-         
-            
             
         },
         function(error){
