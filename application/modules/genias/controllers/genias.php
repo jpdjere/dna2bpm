@@ -18,7 +18,7 @@ class Genias extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('user/rbac');
         $this->load->model('genias/genias_model');
-
+        $this->load->helper('genias/tools');
 
         //---base variables
         $this->base_url = base_url();
@@ -36,18 +36,14 @@ class Genias extends MX_Controller {
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
-
-
-        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS');
-        
-        // Goals
-        $customData['goals']=(array)$this->genias_model->goals_get($this->idu);
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS');    
+        $customData['goals']=(array)$this->genias_model->get_goals($this->idu); 
              
         // Projects
-        $projects=$this->genias_model->config_get('projects');
+        $projects=$this->genias_model->get_config_item('projects');
         $customData['projects']=$projects['items'];
 
-        foreach($this->genias_model->goals_get($this->idu) as $goal){
+        foreach($this->genias_model->get_goals($this->idu) as $goal){
             foreach($customData['projects'] as $current){
                 if($current['id']==$goal['proyecto']) $goal['proyecto_name']=$current['name'];
             }
@@ -89,14 +85,15 @@ class Genias extends MX_Controller {
         $cpData['username']=$user->lastname.", ".$user->name;
         $cpData['username']=$user->email;
         // Profile 
-        $cpData['profile_img']=$this->get_gravatar($user->email);
+        $cpData['profile_img']=get_gravatar($user->email);
 
         $cpData+=$customData;
         $this->ui->compose($file, 'layout.php', $cpData);
     }
+    
     //* ------ METAS ------ */
     
-    function goals_new() {
+    function add_goal() {
         
         $this->user->authorize();
         $customData = $this->lang->language;
@@ -113,7 +110,7 @@ class Genias extends MX_Controller {
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
         $mydata['hasta']=date_format($date, 'Y-m-d');
 
-        $this->genias_model->goals_new($mydata);
+        $this->genias_model->add_goal($mydata);
     }
 
     
@@ -131,7 +128,7 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['css'] = array($this->module_url . "assets/css/tasks.css" => 'Genias CSS');    
-        $projects=$this->genias_model->config_get('projects');
+        $projects=$this->genias_model->get_config_item('projects');
         $customData['projects']=$projects['items'];
         $this->render('tasks', $customData);
     }
@@ -139,14 +136,18 @@ class Genias extends MX_Controller {
     function add_task(){
         $this->user->authorize();
         $customData = $this->lang->language;
-        $mydata=$this->input->post('data');
-
-
-        foreach ($mydata as $k=>$v){
-            echo "$k $v<br>";
-        }
-        //$this->genias_model->add_task($mydata);
+        $serialized=$this->input->post('data');
+        $mydata=compact_serialized($serialized);
+        
+        // create new ID 
+        // $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
+         
+         
+        $this->genias_model->add_task($mydata);
     }
+    
+    
+
     
     
     
@@ -166,7 +167,7 @@ class Genias extends MX_Controller {
         $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');      
         
-        $projects=$this->genias_model->config_get('projects');
+        $projects=$this->genias_model->get_config_item('projects');
         $customData['projects']=$projects['items'];
         //print_r($customData['projects']);
 	$year = date('Y');
@@ -252,7 +253,7 @@ class Genias extends MX_Controller {
     function config() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        $projects=$this->genias_model->config_get('projects');
+        $projects=$this->genias_model->get_config_item('projects');
         $customData['js'] = array($this->module_url . "assets/jscript/config.js" => 'Config JS');
         $customData['projects']=$projects['items'];
 
@@ -276,21 +277,7 @@ class Genias extends MX_Controller {
 
     }
     
-    // Profile    
-    function get_gravatar($email) {
-    $code=md5( strtolower( trim( $email ) ) );
-    if($str = @file_get_contents( "http://www.gravatar.com/$code.php" )){
-    $profile = unserialize( $str );
-        // Chequeo en Gravatar.com
-        if ( is_array( $profile ) && isset( $profile['entry'] ) ){
-            return($profile['entry'][0]['thumbnailUrl']);
-        }
-    }else{
-            // Devuelvo el default
-           return base_url() . 'genias/assets/images/avatar-hombre.jpg';
 
-        }
-    }
 
 
 

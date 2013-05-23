@@ -22,13 +22,13 @@ class Genias_model extends CI_Model {
         return $this->mongo->db->$container->save($task, $options);
     }
     
-    function goals_new($goal){
+    function add_goal($goal){
         $options = array('upsert' => true, 'safe' => true);
         $container='container.genias';
         return $this->mongo->db->$container->save($goal, $options);
     }
     
-    function goals_get($idu){
+    function get_goals($idu){
         $query = array('idu' =>(double) $idu);
         $container='container.genias';
         $result = $this->mongo->db->$container->find($query)->sort(array('desde'=>-1));        
@@ -39,7 +39,7 @@ class Genias_model extends CI_Model {
     
     // -- Config -- //
     
-    function config_get($name){
+    function get_config_item($name){
         $container='container.genias_config';
         $query=array('name'=>$name);
         $result = $this->mongo->db->$container->findOne($query); 
