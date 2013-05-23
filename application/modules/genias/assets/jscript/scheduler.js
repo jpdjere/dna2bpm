@@ -44,6 +44,15 @@ $('#calendar').fullCalendar({
     }
 
 });
+
+
+$('#bt_submit').click(function(){
+    var form =$('#detalle form').serializeArray();
+    $.post(globals.module_url+'add_task',{'data':form},function(resp){
+        alert(resp);
+      //location.reload();
+    });
+});
 		
 });
 

@@ -51,13 +51,14 @@ Crear nueva meta
             <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
     </div> 
     <div class="span6">
-        <a  href="#" class="btn btn-primary input-block-level">Agregar</a>
+        <a  href="#" class="btn btn-primary input-block-level" >Agregar</a>
             
     </div> 
             
 </div> 
 
 </form>  
+
 </div>
 </div>
 </div>
