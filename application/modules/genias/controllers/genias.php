@@ -55,11 +55,7 @@ class Genias extends MX_Controller {
             if(($goal['hasta']<$days_back)&&(!$metas_cumplidas))$goal['class']='alert alert-error';
             $customData['goals'][]=$goal;
         }
-
-
-        $this->render('dashboard', $customData);
-        
-        
+        $this->render('dashboard', $customData);   
     }
 
     function render($file, $customData) {
@@ -69,12 +65,9 @@ class Genias extends MX_Controller {
         $cpData = $this->lang->language;
         $segments = $this->uri->segment_array();
         $cpData['nolayout'] = (in_array('nolayout', $segments)) ? '1' : '0';
-        //var_dump($level);
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-
-
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
@@ -138,11 +131,9 @@ class Genias extends MX_Controller {
         $customData = $this->lang->language;
         $serialized=$this->input->post('data');
         $mydata=compact_serialized($serialized);
-        
-        // create new ID 
-        // $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
-         
-         
+        $mydata['idu']=$this->idu;
+        $mydata['id']=$this->app->genid('container.genias'); // create new ID 
+       
         $this->genias_model->add_task($mydata);
     }
     

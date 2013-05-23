@@ -18,19 +18,25 @@ class Genias_model extends CI_Model {
     
     function add_task($task){
         $options = array('upsert' => true, 'safe' => true);
-        $container='container.genias_tasks';
-        return $this->mongo->db->$container->save($task, $options);
+        $container='container.genias';
+
+        $options = array('upsert' => true, 'safe' => true);
+        $query=array('id'=>$task['id']);
+
+        $rs= $this->mongo->db->$container->update($query, $task, $options);
+        return $rs['err'];
+             
     }
     
     function add_goal($goal){
         $options = array('upsert' => true, 'safe' => true);
-        $container='container.genias';
+        $container='container.genias_goals';
         return $this->mongo->db->$container->save($goal, $options);
     }
     
     function get_goals($idu){
         $query = array('idu' =>(double) $idu);
-        $container='container.genias';
+        $container='container.genias_goals';
         $result = $this->mongo->db->$container->find($query)->sort(array('desde'=>-1));        
         //var_dump($result, json_encode($result), $result->count());
 
