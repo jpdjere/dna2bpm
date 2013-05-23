@@ -228,7 +228,7 @@ class Genias extends MX_Controller {
         
         $cpData['js'] = array(           
             $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
-            $this->module_url . 'assets/jscript/app.js' => 'Objetos Custom D!',
+            $this->module_url . 'assets/jscript/form.js' => 'Objetos Custom D!',
             $this->module_url . 'assets/jscript/ext.viewport.js' => '',              
         );
 
@@ -238,6 +238,7 @@ class Genias extends MX_Controller {
         );
         $this->ui->makeui('ext.ui.php', $cpData);
     }   
+        
      
 
     function App() {

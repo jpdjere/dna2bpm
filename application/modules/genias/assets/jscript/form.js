@@ -45,7 +45,6 @@ Ext.define('Writer.Form', {
                     //allowBlank: false,
                     xtype: 'hidden',
                     readOnly: true
-
                 },
                 {
                     xtype: 'combobox',
@@ -54,7 +53,8 @@ Ext.define('Writer.Form', {
                     store: GeniaStore,
                     queryMode: 'local',
                     displayField: 'text',
-                    valueField: 'value'
+                    valueField: 'value',
+                    emptyText:'Seleccione la GenIA'
                 },
                 {
                     xtype: 'combobox',
@@ -64,6 +64,7 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
+                    emptyText:'Seleccione la Provincia',
                     listeners: {
                         change: function(me, newValue, oldValue, eOpts) {
                             if (newValue != null) {
@@ -89,12 +90,14 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    placeHolder: 'Select '
-                }, {
+                    emptyText:'Seleccione el Partido'
+                },{
                     fieldLabel: 'Empresa',
                     name: '7411',
                     allowBlank: false,
-                    vtype: 'CUIT' // applies custom 'IPAddress' validation rules to this field
+                    vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
+                    emptyText:'Ingrese un Nro de CUIT v&aacute;lido',
+                    
                 }, {
                     xtype: 'hidden',
                     fieldLabel: 'Origen',
@@ -107,12 +110,12 @@ Ext.define('Writer.Form', {
                     name: '7407',
                     xtype: 'datefield',
                     submitFormat: 'Y-m-d',
-                    tooltip: 'Fecha de la Visita'
+                    emptyText:'Seleccione'
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
                     fieldLabel: 'Comentarios',
-                    placeHolder: 'Textarea value'
+                    emptyText: 'Comentarios...'
                 }
 
             ],

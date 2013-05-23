@@ -5,7 +5,6 @@ Ext.application({
     },
     launch: function() {
         var remove_loaders = function() {
-
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();
         }
@@ -38,7 +37,7 @@ Ext.application({
                     itemId: 'grid',
                     xtype: 'writergrid',
                     title: title,
-                    flex: 2,
+                    flex: 1,
                     store: store,
                     listeners: {
                         selectionchange: function(selModel, selected) {
