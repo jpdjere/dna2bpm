@@ -16,7 +16,7 @@
         <h6 >Result</h6>
         <span id="read" ></span>
         <br>
-        <form action="{redir}" id="formqr" name="formqr" > <input type="text" id="readHidden" name="readHidden"/> </form>
+        <form action="{base_url}{global_js redir}" id="formqr" name="formqr" method="POST"> <input type="text" id="readHidden" name="readHidden"/> </form>
         <h6 >Read Error (Debug only)</h6>
         <span id="read_error" ></span>
 

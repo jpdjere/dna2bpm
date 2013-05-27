@@ -122,7 +122,7 @@ class Qr extends MX_Controller {
     function Read_demo_form() {
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'QR Code';
+        $cpData['title'] = 'QR Code Form redir';
         $cpData['reader_title'] = $cpData['title'];
         $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
         $cpData['css'] = array(
@@ -145,8 +145,6 @@ class Qr extends MX_Controller {
             'module_url' => $this->module_url,
             'redir'=> $redir,
         );
-        
-        
         $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
     }
 
