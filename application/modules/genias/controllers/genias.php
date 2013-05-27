@@ -55,11 +55,7 @@ class Genias extends MX_Controller {
             if(($goal['hasta']<$days_back)&&(!$metas_cumplidas))$goal['class']='alert alert-error';
             $customData['goals'][]=$goal;
         }
-
-
-        $this->render('dashboard', $customData);
-        
-        
+        $this->render('dashboard', $customData);   
     }
 
     function render($file, $customData) {
@@ -69,12 +65,9 @@ class Genias extends MX_Controller {
         $cpData = $this->lang->language;
         $segments = $this->uri->segment_array();
         $cpData['nolayout'] = (in_array('nolayout', $segments)) ? '1' : '0';
-        //var_dump($level);
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-
-
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
@@ -136,16 +129,43 @@ class Genias extends MX_Controller {
     function add_task(){
         $this->user->authorize();
         $customData = $this->lang->language;
+        define(DURACION,60);
+
         $serialized=$this->input->post('data');
         $mydata=compact_serialized($serialized);
-        
-        // create new ID 
-        // $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
-         
-         
+        list($d,$m,$y)=explode("-",$mydata['dia']);    
+        $mydata['dia']=  iso_encode($mydata['dia']);
+        $mydata['start']=  mktime($mydata['hora'],$mydata['minutos'],'00',$m,$d,$y);
+        $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+DURACION,'00',$m,$d,$y);
+        $mydata['idu']=$this->idu;
+        $mydata['id']=$this->app->genid('container.genias'); // create new ID       
         $this->genias_model->add_task($mydata);
     }
     
+    function get_tasks(){
+        $proyecto = $this->uri->segment(3)?$this->uri->segment(3):1;
+        
+        $tasks=$this->genias_model->get_tasks($this->idu,$proyecto); 
+        $mytasks=array();
+        foreach($tasks as $task){
+          //  $dia=iso_encode($task['dia']);
+		$item=array(
+			'id' => $task['id'],
+			'title' => $task['title'],
+			'start' => $task['start'],
+			'end' => $task['end'],
+                        'allDay'=>false,
+                        'detail'=>$task['detail'],
+                        'dia'=>$task['dia']
+		);
+                $mytasks[]=$item;
+        }
+        
+        echo json_encode($mytasks);
+        
+
+   
+}
     
 
     
@@ -177,27 +197,7 @@ class Genias extends MX_Controller {
 
     }
     
-    // Draw items 
-    function scheduler_get_json() {
 
-	echo json_encode(array(
-	
-		array(
-			'id' => 111,
-			'title' => "Event1",
-			'start' => "2013-04-10",
-			'end' => "2013-04-11"
-		),
-		
-		array(
-			'id' => 222,
-			'title' => "Event2",
-			'start' => "2013-04-20",
-			'end' => "2013-04-21"
-		)
-	
-	));
-    }
 
     /* ------ CONTACTS ------ */
     // Render page
