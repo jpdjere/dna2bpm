@@ -1,6 +1,7 @@
 <?php
 /**
  * @class genia
+ *
  */
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
