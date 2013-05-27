@@ -20,14 +20,17 @@
             <li>
                 
                 <a href="qr/gen_demo">
-                       Demo gen
+                       Demo gen 
                 </a>
             </li>
             <li>
                 <form class="form-horizontal" action="{module_url}gen_url" method="POST" name="formgen" id="formgen">
                     <legend>Demo gen url</legend>
+                    
                     <div class="controls">
-                    <input type="text" id="url" name="url" value="{base_url}user/profile/edit" >
+                        Base64 encode: <a href="{module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy"> {module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy </a>
+                        </br>
+                        <input type="text" id="url" name="url" value="{base_url}user/profile/edit" >
                     <button type="submit" class="btn">Submit</button>
                     </div>
                 </form>
