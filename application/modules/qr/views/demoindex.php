@@ -20,12 +20,21 @@
             <li>
                 
                 <a href="qr/gen_demo">
-                       Demo gen
+                       Demo gen 
                 </a>
             </li>
             <li>
-                <form class="form-horizontal" action="{module_url}gen_url" method="POST" name="formgen" id="formgen">
-                    <legend>Demo gen url</legend>
+                <form class="form-horizontal" action="{module_url}gen_url_post" method="POST" name="formgen" id="formgen">
+                    <legend>Demo gen url Post</legend>
+                    <div class="controls">
+                    <input type="text" id="url" name="url" value="{base_url}user/profile/edit" >
+                    <button type="submit" class="btn">Submit</button>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <form class="form-horizontal" action="{module_url}gen_url_get" method="POST" name="formgen2" id="formgen2">
+                    <legend>Demo gen url Get</legend>
                     <div class="controls">
                     <input type="text" id="url" name="url" value="{base_url}user/profile/edit" >
                     <button type="submit" class="btn">Submit</button>

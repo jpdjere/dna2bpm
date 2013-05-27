@@ -50,12 +50,18 @@ class Qr extends MX_Controller {
         
     }
     
-    function Gen_url($url=null) {
+    function Gen_url_post($url=null) {
         if($url) $url_gen=  base64_decode ($url);
         if($this->input->post('url')) $url_gen=  $this->input->post('url');
         $this->gen($url_gen);
-        //echo base64_encode($url_gen);
         
+    }
+    
+    function Gen_url_get($url=null) {
+        if($url) $url_gen=  base64_decode ($url);
+        if($this->input->post('url')) $url_gen=  $this->input->post('url');
+        echo "<img src='".$this->module_url."gen_url_post/".base64_encode($url_gen)."' width='100' height='100'/>";
+        echo "</br>url base 64: ".base64_encode($url_gen);
     }
 
     function Gen_vcard() {
