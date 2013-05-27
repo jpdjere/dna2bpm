@@ -18,20 +18,22 @@
 
             </li>
             <li>
-                
+
                 <a href="qr/gen_demo">
-                       Demo gen 
+                    Demo gen 
                 </a>
             </li>
             <li>
                 <form class="form-horizontal" action="{module_url}gen_url" method="POST" name="formgen" id="formgen">
                     <legend>Demo gen url</legend>
-                    
+
                     <div class="controls">
-                        Base64 encode: <a href="{module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy"> {module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy </a>
-                        </br>
+                        Get with encoded url abse64_encode("{module_url}"):<br/>
+                        <a href="{module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy"> {module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy </a>
+                        <br/>
+                        <br/>
                         <input type="text" id="url" name="url" value="{base_url}user/profile/edit" >
-                    <button type="submit" class="btn">Submit</button>
+                        <button type="submit" class="btn">Submit</button>
                     </div>
                 </form>
             </li>
@@ -42,23 +44,23 @@
             </li>
             <li>
                 <form class="form-horizontal" action="{module_url}Read_demo_form" method="POST" name="form1" id="form1">
-        <legend>Demo redir Form</legend>
-            <div class="controls">
-                <input type="text" id="redir" name="redir" value="{base_url}user/profile/edit" >
-                <button type="submit" class="btn">Submit</button>
-            </div>
-         </form>   
-                
+                    <legend>Demo redir Form</legend>
+                    <div class="controls">
+                        <input type="text" id="redir" name="redir" value="{base_url}user/profile/edit" >
+                        <button type="submit" class="btn">Submit</button>
+                    </div>
+                </form>   
+
             </li>
             <li>
                 <form class="form-horizontal" action="{module_url}read_demo" method="POST" name="formAjax" id="formAjax">
-        <legend>Demo redir Ajax</legend>
-            <div class="controls">
-                <input type="text" id="redir" name="redir" value="{module_url}dummy" >
-                <button type="submit" class="btn">Submit</button>
-            </div>
-         </form>   
-                
+                    <legend>Demo redir Ajax</legend>
+                    <div class="controls">
+                        <input type="text" id="redir" name="redir" value="{module_url}dummy" >
+                        <button type="submit" class="btn">Submit</button>
+                    </div>
+                </form>   
+
             </li>
         </ul>
         <br/>
