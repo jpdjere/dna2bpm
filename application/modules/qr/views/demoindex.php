@@ -28,24 +28,20 @@
                 </a>
             </li>
             <li>
-                <form class="form-horizontal" action="{module_url}Read_demo_form" method="POST" >
+                <form class="form-horizontal" action="{module_url}Read_demo_form" method="POST" name="form1" id="form1">
         <legend>Demo redir Form</legend>
             <div class="controls">
                 <input type="text" id="redir" name="redir" value="user/profile/edit" >
-            </div>
-            <div class="controls">
                 <button type="submit" class="btn">Submit</button>
             </div>
          </form>   
                 
             </li>
             <li>
-                <form class="form-horizontal" action="{module_url}read_demo" method="POST" >
+                <form class="form-horizontal" action="{module_url}read_demo" method="POST" name="formAjax" id="formAjax">
         <legend>Demo redir Ajax</legend>
             <div class="controls">
                 <input type="text" id="redir" name="redir" value="user/profile/edit" >
-            </div>
-            <div class="controls">
                 <button type="submit" class="btn">Submit</button>
             </div>
          </form>   
