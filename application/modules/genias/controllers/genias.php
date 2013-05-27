@@ -239,6 +239,34 @@ class Genias extends MX_Controller {
         );
         $this->ui->makeui('ext.ui.php', $cpData);
     }   
+    
+    function Tablet() {
+        //echo $this->idu;   
+        
+        //---Libraries
+        $this->load->library('parser');
+        $this->load->library('ui');
+
+        $cpData = $this->lang->language;
+        $segments = $this->uri->segment_array();
+        $cpData['theme'] = $this->config->item('theme');
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Formulario Control Stock Tablets | Genias.';        
+        
+        
+        $cpData['js'] = array(           
+            $this->module_url . 'assets/jscript/ext.data.tablet.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/form.tablet.js' => 'Objetos Custom D!',
+            $this->module_url . 'assets/jscript/ext.viewport.js' => '',              
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
+        $this->ui->makeui('ext.ui.php', $cpData);
+    }   
         
      
 
@@ -276,11 +304,6 @@ class Genias extends MX_Controller {
         echo (is_null($error))?("Registro guardado"):("No se ha podido guardar el registro");
 
     }
-    
-
-
-
-
 }// close
 
 
