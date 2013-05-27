@@ -47,6 +47,15 @@ class Qr extends MX_Controller {
     function Gen_demo() {
 
         $this->gen('www.dna2.org');
+        
+    }
+    
+    function Gen_url($url=null) {
+        if($url) $url_gen=  base64_decode ($url);
+        if($this->input->post('url')) $url_gen=  $this->input->post('url');
+        $this->gen($url_gen);
+        //echo base64_encode($url_gen);
+        
     }
 
     function Gen_vcard() {
@@ -118,6 +127,13 @@ class Qr extends MX_Controller {
         
         $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
     }
+    function dummy(){
+        
+         echo '<i class="icon-ok"></i>'.$this->input->post('data');
+        
+        
+    }
+    
     
     function Read_demo_form() {
         $cpData['base_url'] = $this->base_url;
@@ -138,7 +154,7 @@ class Qr extends MX_Controller {
             show_error ('error redir');
         
             $redir= $this->input->post('redir');
-        
+        $cpData['redir'] =$redir;
         
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,

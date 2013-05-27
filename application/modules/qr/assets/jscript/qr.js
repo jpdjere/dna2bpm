@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#reader').html5_qrcode(
         function(data){
-            $('#read').html(data).addClass('alert alert-success');
+            $('#read').html(data).addClass('alert alert-success');          
             color=$('body').css('background-color');
             $('body').animate({backgroundColor: '#FFF'},200).animate({backgroundColor: color},100);
             
@@ -10,7 +10,7 @@ $(document).ready(function(){
                 'data': data
             }
             ,function(res){
-                
+                $('#result').html(res).addClass('alert alert-success');
             });
             
         },
