@@ -19,8 +19,6 @@ class Genias_model extends CI_Model {
     function add_task($task){
         $options = array('upsert' => true, 'safe' => true);
         $container='container.genias';
-
-        $options = array('upsert' => true, 'safe' => true);
         $query=array('id'=>$task['id']);
 
         $rs= $this->mongo->db->$container->update($query, $task, $options);
@@ -28,8 +26,8 @@ class Genias_model extends CI_Model {
              
     }
     
-    function get_tasks($idu){
-        $query = array('idu' =>(double) $idu);
+    function get_tasks($idu,$proyecto){
+        $query = array('idu' =>(double) $idu,'proyecto'=>$proyecto);
         $container='container.genias';
         $result = $this->mongo->db->$container->find($query)->sort(array('id'=>-1));  
 

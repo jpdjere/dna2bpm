@@ -25,4 +25,15 @@
         }
     }
     
+    
+    function iso_encode($d){
+        $date=date_create_from_format('d-m-Y', $d);
+        return date_format($date, 'Y-m-d');
+    }
+    
+    function iso_decode($d){
+    $date=date_create_from_format('Y-m-d', $d);
+    return date_format($date, 'd-m-Y');
+    }
+    
 ?>

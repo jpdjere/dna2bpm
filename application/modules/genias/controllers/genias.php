@@ -129,43 +129,43 @@ class Genias extends MX_Controller {
     function add_task(){
         $this->user->authorize();
         $customData = $this->lang->language;
+        define(DURACION,60);
+
         $serialized=$this->input->post('data');
         $mydata=compact_serialized($serialized);
+        list($d,$m,$y)=explode("-",$mydata['dia']);    
+        $mydata['dia']=  iso_encode($mydata['dia']);
+        $mydata['start']=  mktime($mydata['hora'],$mydata['minutos'],'00',$m,$d,$y);
+        $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+DURACION,'00',$m,$d,$y);
         $mydata['idu']=$this->idu;
-        $mydata['id']=$this->app->genid('container.genias'); // create new ID 
-       
+        $mydata['id']=$this->app->genid('container.genias'); // create new ID       
         $this->genias_model->add_task($mydata);
     }
     
     function get_tasks(){
+        $proyecto = $this->uri->segment(3)?$this->uri->segment(3):1;
         
-        $tasks=$this->genias_model->get_tasks($this->idu); 
+        $tasks=$this->genias_model->get_tasks($this->idu,$proyecto); 
         $mytasks=array();
-        foreach($tasks['_id'] as $task){
-            $current=$task;
-            $mytasks[]=$current;
+        foreach($tasks as $task){
+          //  $dia=iso_encode($task['dia']);
+		$item=array(
+			'id' => $task['id'],
+			'title' => $task['title'],
+			'start' => $task['start'],
+			'end' => $task['end'],
+                        'allDay'=>false,
+                        'detail'=>$task['detail'],
+                        'dia'=>$task['dia']
+		);
+                $mytasks[]=$item;
         }
-        var_dump($mytasks);
+        
         echo json_encode($mytasks);
-       // var_dump((array)$tasks);
-//        	echo json_encode(array(
-//	
-//		array(
-//			'id' => 111,
-//			'title' => "Event1",
-//			'start' => "2013-05-10",
-//			'end' => "2013-05-11"
-//		),
-//		
-//		array(
-//			'id' => 222,
-//			'title' => "Event2",
-//			'start' => "2013-05-20",
-//			'end' => "2013-05-21"
-//		)
-//	
-//	));
-    }
+        
+
+   
+}
     
 
     
