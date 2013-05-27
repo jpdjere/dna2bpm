@@ -2,7 +2,7 @@
 <div id="header_wrap" class="text-center">
     <header class="inner">
 
-        <h1 id="project_title"><img src="{module_url}gen_url/*{module_url_encoded}*/6/L" swidth="120" sheight="120"/> {title}</h1>
+        <h1 id="project_title"><img src="{module_url}gen_url/{module_url_encoded}/6/L" swidth="120" sheight="120"/> {title}</h1>
     </header>
 </div>
 

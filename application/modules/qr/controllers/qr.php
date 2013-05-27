@@ -40,7 +40,7 @@ class Qr extends MX_Controller {
 
     function Gen_url($url = null, $size = '9', $level = 'H') {
         if ($url) {
-            $url_gen = base64_decode($url);
+            $url_gen = base64_decode(urldecode($url));
         }
 
         if ($this->input->post('url')) {
@@ -61,7 +61,8 @@ class Qr extends MX_Controller {
     function Index() {
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['module_url_encoded'] = base64_encode($this->module_url);
+        $cpData['module_url_encoded'] =$this->encode($this->module_url);
+        var_dump($this->module_url,$this->encode($this->module_url));
         $cpData['title'] = 'QR Code Demo Page';
         $this->ui->compose('demoindex', 'bootstrap.ui.php', $cpData);
     }
@@ -72,7 +73,8 @@ class Qr extends MX_Controller {
     }
     function encode($str){
         
-        return base64_encode($str);
+        return urlencode(base64_encode($str));
+        
     }
     
     function Gen_vcard() {
