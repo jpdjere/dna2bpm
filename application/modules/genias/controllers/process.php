@@ -88,30 +88,26 @@ class Process extends MX_Controller {
     /* TABLETS GENIAS */
 
     public function InsertTablet() {
-      
+        
+        
         $container = $this->containerTablets;
         $input = json_decode(file_get_contents('php://input'));
 
         $newArr = array();
-        foreach ($input as $key => $value) {
-            
+        foreach ($input as $key => $value) {            
             var_dump($key, $value);
 
             $newArr['7406'] = strval($this->idu);
-            if ($key == 7407) {
-                list($yearVal, $monthVal, $dayVal) = explode("-", $value);
-                $dataArr = array("Y" => $yearVal, 'm' => $monthVal, 'd' => str_replace("T00:00:00", "", $dayVal));
-                $newArr[$key] = $dataArr; //date_parse($value);
-            } else if ($key == 'id') {
+            if ($key == 'id') {
                 /* GENERO ID */
                 $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
             } else {
                 $newArr[$key] = $value;
             }
                 
-            /* BUSCO CUIT */
-            if ($key == 7411) {
-                $queryCuit = array('7411' => $value);
+            /* BUSCO LA MAC ADDRESS COMO REFERENCIA */
+            if ($key == 'mac') {
+                $queryCuit = array('mac' => $value);
                 $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
 
                 if ($resultCuit['id'] != null) {

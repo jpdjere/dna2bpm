@@ -98,11 +98,8 @@ Ext.define('Writer.Form', {
                     emptyText: 'Comentarios...'
                 },{
                     fieldLabel: 'Empresa',
-                    name: '7411',
-                    allowBlank: false,
-                    vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
-                    emptyText:'Ingrese un Nro de CUIT valido',
-                    
+                    name: '7411',                    
+                    xtype: 'hidden',
                 }
 
             ],
@@ -201,13 +198,13 @@ Ext.define('Writer.Grid', {
                     hideable: false,
                     menuDisabled: true,
                     dataIndex: 'id'
-                }, */
+                }, 
                 {
                     header: 'Empresa',                    
                     sortable: true,
                     dataIndex: '7411'
                    
-                }, {
+                },*/ {
                     header: 'Fecha',                       
                     sortable: true,
                     dataIndex: '7407'

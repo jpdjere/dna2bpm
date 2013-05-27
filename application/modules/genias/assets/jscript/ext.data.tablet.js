@@ -22,11 +22,11 @@ Ext.define('Writer.Person', {
     ],
     /*VALIDACIONES*/
 
-    validations: [{
+    validations: [/*{
             type: 'length',
             field: '7411',
             min: 1
-        }]
+        }*/]
 });
 
 
