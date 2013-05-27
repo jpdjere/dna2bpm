@@ -118,6 +118,37 @@ class Qr extends MX_Controller {
         
         $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
     }
+    
+    function Read_demo_form() {
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'QR Code';
+        $cpData['reader_title'] = $cpData['title'];
+        $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
+        $cpData['css'] = array(
+            $this->module_url . "assets/css/qr.css" => 'custom css',
+        );
+        $cpData['js'] = array(
+            $this->module_url . "assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
+            $this->module_url . "assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
+            $this->module_url . "assets/jscript/qr.form.js" => 'Main functions',
+        );
+        
+        if(!$this->input->post('redir'))
+            show_error ('error redir');
+        
+            $redir= $this->input->post('redir');
+        
+        
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'redir'=> $redir,
+        );
+        
+        
+        $this->ui->compose('readqr', 'bootstrap.ui.php', $cpData);
+    }
 
     function Gen($data, $size = '9', $level = 'H') {
         $config['cachedir'] = 'application/modules/qr/cache/';
