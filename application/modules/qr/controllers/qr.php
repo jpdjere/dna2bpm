@@ -65,7 +65,16 @@ class Qr extends MX_Controller {
         $cpData['title'] = 'QR Code Demo Page';
         $this->ui->compose('demoindex', 'bootstrap.ui.php', $cpData);
     }
-
+    
+    function test_encode(){
+        echo $this->encode($this->input->post('url'));
+        
+    }
+    function encode($str){
+        
+        return base64_encode($str);
+    }
+    
     function Gen_vcard() {
 
         $this->gen(
