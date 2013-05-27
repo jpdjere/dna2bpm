@@ -38,6 +38,16 @@
                 </form>
             </li>
             <li>
+                <form class="form-horizontal" action="{module_url}test_encode" method="POST" name="formgen" id="formgen">
+                    <legend>Encode url</legend>
+
+                    <div class="controls">
+                        <input type="text" id="url" name="url" value="{module_url}" >
+                        <button type="submit" class="btn">Submit</button>
+                    </div>
+                </form>
+            </li>
+            <li>
                 <a href="qr/gen_vcard">
                     Demo Vcard
                 </a>
