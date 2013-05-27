@@ -28,7 +28,7 @@
                     <legend>Demo gen url</legend>
 
                     <div class="controls">
-                        Get with encoded url abse64_encode("{module_url}"):<br/>
+                        Get with encoded url base64_encode("{module_url}"):<br/>
                         <a href="{module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy"> {module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy </a>
                         <br/>
                         <br/>
