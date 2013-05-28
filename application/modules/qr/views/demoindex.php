@@ -2,7 +2,7 @@
 <div id="header_wrap" class="text-center">
     <header class="inner">
 
-        <h1 id="project_title"><img src="{module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy" width="100" height="100"/> {title}</h1>
+        <h1 id="project_title"><img  class="img-polaroid" src="{module_url}gen_url/{module_url_encoded}/6/L" width="160" height="160"/> {title}</h1>
     </header>
 </div>
 
@@ -28,11 +28,21 @@
                     <legend>Demo gen url</legend>
 
                     <div class="controls">
-                        Get with encoded url abse64_encode("{module_url}"):<br/>
+                        Get with encoded url base64_encode("{module_url}"):<br/>
                         <a href="{module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy"> {module_url}gen_url/aHR0cDovL2xvY2FsaG9zdC9kbmEyYnBtL3Fy </a>
                         <br/>
                         <br/>
                         <input type="text" id="url" name="url" value="{base_url}user/profile/edit" >
+                        <button type="submit" class="btn">Submit</button>
+                    </div>
+                </form>
+            </li>
+            <li>
+                <form class="form-horizontal" action="{module_url}test_encode" method="POST" name="formgen" id="formgen">
+                    <legend>Encode url</legend>
+
+                    <div class="controls">
+                        <input type="text" id="url" name="url" value="{module_url}" >
                         <button type="submit" class="btn">Submit</button>
                     </div>
                 </form>
