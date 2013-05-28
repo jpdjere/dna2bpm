@@ -129,26 +129,39 @@ class Genias extends MX_Controller {
     function add_task(){
         $this->user->authorize();
         $customData = $this->lang->language;
-        define(DURACION,60);
+        $duracion=60;
 
-        $serialized=$this->input->post('data');
+        $serialized=$this->input->post('data');          
         $mydata=compact_serialized($serialized);
-        list($d,$m,$y)=explode("-",$mydata['dia']);    
+        list($d,$m,$y)=explode("-",$mydata['dia']);
         $mydata['dia']=  iso_encode($mydata['dia']);
         $mydata['start']=  mktime($mydata['hora'],$mydata['minutos'],'00',$m,$d,$y);
-        $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+DURACION,'00',$m,$d,$y);
+        $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+$duracion,'00',$m,$d,$y);
         $mydata['idu']=$this->idu;
-        $mydata['id']=$this->app->genid('container.genias'); // create new ID       
+        
+        if(is_numeric($mydata['eventid'])){
+           $mydata['id']=$mydata['eventid'];
+        }else{
+           $mydata['id']=$this->app->genid('container.genias'); // create new ID    
+        }
+            
+
+
+       
         $this->genias_model->add_task($mydata);
+        echo $mydata['id'];
     }
     
     function get_tasks(){
         $proyecto = $this->uri->segment(3)?$this->uri->segment(3):1;
         
         $tasks=$this->genias_model->get_tasks($this->idu,$proyecto); 
+        if(!$tasks->count())return;
+
         $mytasks=array();
         foreach($tasks as $task){
-          //  $dia=iso_encode($task['dia']);
+            $dia=iso_decode($task['dia']);
+
 		$item=array(
 			'id' => $task['id'],
 			'title' => $task['title'],
@@ -156,7 +169,10 @@ class Genias extends MX_Controller {
 			'end' => $task['end'],
                         'allDay'=>false,
                         'detail'=>$task['detail'],
-                        'dia'=>$task['dia']
+                        'dia'=>$dia,
+                     'hora'=>$task['hora'],
+                     'minutos'=>$task['minutos'],
+                    'proyecto'=>$task['proyecto']
 		);
                 $mytasks[]=$item;
         }
