@@ -17,10 +17,18 @@ class Genias_model extends CI_Model {
     
     /* ---- TASKS---- */
     
+    function remove_task($id){;
+        $container='container.genias';
+        $query=array('id'=>(integer)$id);
+        $rs= $this->mongo->db->$container->remove($query);
+        return $rs['err'];
+             
+    }
+    
     function add_task($task){
         $options = array('upsert' => true, 'safe' => true);
         $container='container.genias';
-        $query=array('id'=>$task['id']);
+        $query=array('id'=>(integer)$task['id']);
 
         $rs= $this->mongo->db->$container->update($query, $task, $options);
         return $rs['err'];

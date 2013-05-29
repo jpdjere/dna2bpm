@@ -51,14 +51,15 @@ $('#calendar').fullCalendar({
     ],
     eventClick: function(calEvent, jsEvent, view) {
 
-        $('#detalle input[name="eventid"]').val(calEvent.id);
+        $('#detalle input[name="id"]').val(calEvent.id);
         $('#detalle input[name="title"]').val(calEvent.title);      
         $('#detalle input[name="dia"]').val(calEvent.dia);
         $('#detalle select[name="hora"]').val(calEvent.hora);
         $('#detalle select[name="minutos"]').val(calEvent.minutos);
         $('#detalle select[name="proyecto"]').val(calEvent.proyecto);
         $('#detalle textarea[name="detail"]').val(calEvent.detail);
-        $('#bt_submit').text('Actualizar');
+        $('#bt_form').removeClass('disabled');
+        $('#bt_delete').removeClass('disabled');
     },
     header: {
             left: 'prev,next today',
@@ -69,22 +70,53 @@ $('#calendar').fullCalendar({
 });
 
 $( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
-$('#bt_new_task').click(function(){
-        $('#detalle input[name="eventid"]').val('');
-        $('#detalle input[name="title"]').val('');       
-        $('#detalle input[name="dia"]').val('');
-        $('#detalle select[name="hora"]').val('12');
-        $('#detalle select[name="minutos"]').val('00');
-        $('#detalle select[name="proyecto"]').val('');
-        $('#detalle textarea[name="detail"]').val('');
+
+// Validator / SUBMIT
+
+$("form").validate({
+rules: {
+title: "required",
+dia: "required",
+proyecto: "required"
+},
+messages: {
+title: "Debe colocar un tiulo",
+dia: "Debe elegir una fecha",
+proyecto: "Debe elegir un proyecto"
+},
+submitHandler: function(form) {
+    var form =$('#detalle form').serializeArray();
+    $.post(globals.module_url+'add_task',{'data':form},function(resp){ 
+    });
+
+    location.reload(); 
+}
+}
+);
+
+$('#bt_clear').click(function(){
+        $('#detalle input[name="id"]').val('');
+        $('#bt_form').addClass('disabled');
+        $('#bt_delete').addClass('disabled');
+        $('form')[0].reset();
 });
 
-$('#bt_update_task').click(function(){
-    var form =$('#detalle form').serializeArray();
-    $.post(globals.module_url+'add_task',{'data':form},function(resp){      
+$('#bt_delete').click(function(){
+    if($(this).hasClass('disabled'))return;
+    var id=$('#detalle input[name="id"]').val();
+    
+    $.post(globals.module_url+'remove_task',{'id':id},function(resp){ 
     });
-    location.reload();
+    location.reload(); 
 });
+
+
+$('#bt_form').click(function(){
+    var id=$('#detalle input[name="id"]').val();
+    location.href=globals.module_url+'form/'+id;
+});
+
+
 		
 });
 

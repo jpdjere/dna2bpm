@@ -45,13 +45,26 @@ Ext.define('Writer.Form', {
                     //allowBlank: false,
                     xtype: 'hidden',
                     readOnly: true
-                },
+                },                
                 {
+                    fieldLabel: '7406',
+                    name: '7406',
+                    xtype: 'hidden'
+                }/*,{
                     fieldLabel: 'Usuario Tablet',
                     name: 'usuario_tablet',
-                    allowBlank: false,                    
-                    emptyText:'User tablet',
-                    
+                    allowBlank: false,
+                    emptyText: 'User tablet',
+                }*/,
+                {
+                    xtype: 'combobox',
+                    name: 'usuario_tablet',
+                    fieldLabel: 'Usuario Tablet',
+                    store: userStore,
+                    queryMode: 'local',
+                    displayField: 'nick',
+                    valueField: 'idu',
+                    emptyText: 'Seleccione el usuario'
                 },
                 {
                     xtype: 'combobox',
@@ -61,7 +74,7 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText:'Seleccione la GenIA'
+                    emptyText: 'Seleccione la GenIA'
                 },
                 {
                     xtype: 'combobox',
@@ -71,34 +84,26 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText:'Seleccione la Provincia',                   
+                    emptyText: 'Seleccione la Provincia',
                 },
                 {
                     fieldLabel: 'FCC',
                     name: 'fcc',
-                    allowBlank: false,                    
-                    emptyText:'FCC ID',
-                    
-                },{
+                    allowBlank: false,
+                    emptyText: 'FCC ID',
+                }, {
                     fieldLabel: 'Mac Address',
                     name: 'mac',
-                    allowBlank: false,                    
-                    emptyText:'About Tablet -> Status -> Wi-Fi Mac',
-                    
-                },{
-                    fieldLabel: 'QR Code',
-                    name: 'qr',
-                    allowBlank: false,                    
-                    emptyText:'Qr Code Tablet',
-                    
+                    allowBlank: false,
+                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac',
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
                     fieldLabel: 'Comentarios',
                     emptyText: 'Comentarios...'
-                },{
+                }, {
                     fieldLabel: 'Empresa',
-                    name: '7411',                    
+                    name: '7411',
                     xtype: 'hidden',
                 }
 
@@ -190,26 +195,31 @@ Ext.define('Writer.Grid', {
                     items: []
                 }],
             columns: [/*{
-                    text: 'ID',
-                    width: 140,
+             text: 'ID',
+             width: 140,
+             sortable: true,
+             //resizable: false,
+             draggable: false,
+             hideable: false,
+             menuDisabled: true,
+             dataIndex: 'id'
+             }, 
+             {
+             header: 'Empresa',                    
+             sortable: true,
+             dataIndex: '7411'
+             
+             },*/ {
+                    header: 'Genia',
                     sortable: true,
-                    //resizable: false,
-                    draggable: false,
-                    hideable: false,
-                    menuDisabled: true,
-                    dataIndex: 'id'
-                }, 
+                    dataIndex: '7586'
+                },
                 {
-                    header: 'Empresa',                    
+                    header: 'Usuario Tablet',
                     sortable: true,
-                    dataIndex: '7411'
-                   
-                },*/ {
-                    header: 'Fecha',                       
-                    sortable: true,
-                    dataIndex: '7407'
-                }, {
-                    header: 'Comentarios',   
+                    dataIndex: 'usuario_tablet'
+                },{
+                    header: 'Comentarios',
                     flex: 1,
                     sortable: true,
                     dataIndex: '7408'
@@ -222,12 +232,12 @@ Ext.define('Writer.Grid', {
                     items: [{
                             text: 'Sincronizar informaci&oacute;n',
                             scope: this,
-                            handler: function() {                                
+                            handler: function() {
                                 if (navigator.onLine) {
                                     Ext.getBody().mask('Sincronizando...');
                                     Ext.Ajax.request({
                                         url: 'process/ViewTablet',
-                                        callback: function(options, success, response) {                                           
+                                        callback: function(options, success, response) {
                                             Ext.getBody().unmask();
                                             var didReset = true,
                                                     o;
@@ -273,18 +283,15 @@ Ext.define('Writer.Grid', {
         }
     },
     onAddClick: function() {
-        var rec = new Writer.Person({         
-            
+        var rec = new Writer.Person({
             C7586: '',          // 	GenIA 
             usuario_tablet: '', // 	Usuario 
             C7404: '',          // 	Provincia 
             fcc: '',            // 	FCC ID 
             mac: '',            // 	MAC address
-            qr: '',             // 	QR CODE 
             C7408: '',          // 	Comentarios 
-            C7411: '', // 	Empresa visitada 
-            
-
+            C7411: '',          // 	Empresa visitada 
+            C7406: '',
         }), edit = this.editing;
         edit.cancelEdit();
         this.store.insert(0, rec);

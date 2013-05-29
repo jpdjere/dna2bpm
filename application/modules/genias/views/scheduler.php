@@ -7,15 +7,15 @@
 <div  class="container" >
 <div  class="row" >
 <div id="detalle" class="span4" >
-    <form >
-    <input name="eventid" value="" type="hidden"/>
+    <form method="post">
+    <input name="id" value="{id}" type="hidden"/>
     <select name="proyecto" class="input-block-level">
     <option selected="selected" value="">---- Seleccione un proyecto ----</option>
     {projects}
     <option value="{id}">{name}</option>
     {/projects}
     </select>
-    <input type="text" name="title" placeholder="Title" class="input-block-level"/>
+    <input type="text" name="title" placeholder="Title" class="input-block-level" />
     <!-- Fechas -->
     <div class="input-prepend">
     <span class="add-on"><i class="icon-calendar"></i></span>
@@ -66,8 +66,11 @@
 
     <label>Detail</label>
     <textarea type="text" name="detail" placeholder="Detail" class="input-block-level" ></textarea>
-    <a  href="#" class="btn btn-primary " id="bt_new_task">Nueva tarea</a>
-    <a  href="#" class="btn btn-primary " id="bt_update_task">Guardar</a>
+    <a class="btn btn-block  btn-primary disabled"  id="bt_form" href="#"><i class="icon-tasks"></i> Cargar formulario</a>
+    <a class="btn btn-block btn-primary disabled"  id="bt_delete" href="#"><i class="icon-trash"></i> Eliminar tarea</a>
+    <button class="btn btn-block btn-primary " type="button" id="bt_clear"><i class="icon-plus-sign"></i>  Nueva tarea</button>
+    <button class="btn btn-block btn-primary " type="submit" id="bt_save"><i class="icon-save"></i>  Guardar</button>
+
     </form>
 </div>
 <div id="calendar" class="span8" ></div>
