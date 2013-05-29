@@ -279,7 +279,8 @@ class Genias extends MX_Controller {
 
     function App() {
         /* REMOTE */
-        echo '{"user":"' . $this->idu . '"}';
+        echo '{"user":"' . $this->idu . '"}';        
+        echo  $this->user->admin->showall($this->idu);
         }
 
         /* ------ CONFIG ------ */

@@ -94,10 +94,8 @@ class Process extends MX_Controller {
         $input = json_decode(file_get_contents('php://input'));
 
         $newArr = array();
-        foreach ($input as $key => $value) {            
-            var_dump($key, $value);
-
-            $newArr['7406'] = strval($this->idu);
+        foreach ($input as $key => $value) {
+            $newArr['7406'] = strval($this->idu);         
             if ($key == 'id') {
                 /* GENERO ID */
                 $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
@@ -107,8 +105,8 @@ class Process extends MX_Controller {
                 
             /* BUSCO LA MAC ADDRESS COMO REFERENCIA */
             if ($key == 'mac') {
-                $queryCuit = array('mac' => $value);
-                $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
+                $queryMac = array('mac' => $value);
+                $resultCuit = $this->mongo->db->$container->findOne($queryMac);
 
                 if ($resultCuit['id'] != null) {
                     $id = $resultCuit['id'];
@@ -134,10 +132,10 @@ class Process extends MX_Controller {
      */
 
     public function ViewTablet() {
-
-        $container = $this->containerTablets;
-        $query = array('7406' => strval($this->idu));
-        $resultData = $this->mongo->db->$container->find($query);
+       
+        $container = $this->containerTablets;         
+        $query = "";//array('7406' => strval($this->idu));
+        $resultData = $this->mongo->db->$container->find();
 
         foreach ($resultData as $returnData) {
             $fileArrMongo[] = $returnData;
