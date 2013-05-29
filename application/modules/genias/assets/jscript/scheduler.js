@@ -52,11 +52,13 @@ $('#calendar').fullCalendar({
     eventClick: function(calEvent, jsEvent, view) {
 
         $('#detalle input[name="eventid"]').val(calEvent.id);
-        $('#detalle input[name="title"]').val(calEvent.title);
-        $('#detalle input[name="start"]').val(calEvent.start);
+        $('#detalle input[name="title"]').val(calEvent.title);      
         $('#detalle input[name="dia"]').val(calEvent.dia);
-        $('#detalle textarea[name="detail"]').text(calEvent.detail);
-
+        $('#detalle select[name="hora"]').val(calEvent.hora);
+        $('#detalle select[name="minutos"]').val(calEvent.minutos);
+        $('#detalle select[name="proyecto"]').val(calEvent.proyecto);
+        $('#detalle textarea[name="detail"]').val(calEvent.detail);
+        $('#bt_submit').text('Actualizar');
     },
     header: {
             left: 'prev,next today',
@@ -67,11 +69,21 @@ $('#calendar').fullCalendar({
 });
 
 $( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
-$('#bt_submit').click(function(){
+$('#bt_new_task').click(function(){
+        $('#detalle input[name="eventid"]').val('');
+        $('#detalle input[name="title"]').val('');       
+        $('#detalle input[name="dia"]').val('');
+        $('#detalle select[name="hora"]').val('12');
+        $('#detalle select[name="minutos"]').val('00');
+        $('#detalle select[name="proyecto"]').val('');
+        $('#detalle textarea[name="detail"]').val('');
+});
+
+$('#bt_update_task').click(function(){
     var form =$('#detalle form').serializeArray();
-    $.post(globals.module_url+'add_task',{'data':form},function(resp){
-      location.reload();
+    $.post(globals.module_url+'add_task',{'data':form},function(resp){      
     });
+    location.reload();
 });
 		
 });

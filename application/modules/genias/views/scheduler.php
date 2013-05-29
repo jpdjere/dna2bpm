@@ -66,7 +66,8 @@
 
     <label>Detail</label>
     <textarea type="text" name="detail" placeholder="Detail" class="input-block-level" ></textarea>
-    <a  href="#" class="btn btn-primary input-block-level" id="bt_submit">Agregar</a>
+    <a  href="#" class="btn btn-primary " id="bt_new_task">Nueva tarea</a>
+    <a  href="#" class="btn btn-primary " id="bt_update_task">Guardar</a>
     </form>
 </div>
 <div id="calendar" class="span8" ></div>

@@ -106,6 +106,8 @@ class Genias extends MX_Controller {
         $this->genias_model->add_goal($mydata);
     }
 
+    
+
     function programs() {
         $this->user->authorize();
         $customData = $this->lang->language;
@@ -127,36 +129,52 @@ class Genias extends MX_Controller {
     function add_task() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        define(DURACION, 60);
+        $duracion=60;
 
-        $serialized = $this->input->post('data');
-        $mydata = compact_serialized($serialized);
-        list($d, $m, $y) = explode("-", $mydata['dia']);
-        $mydata['dia'] = iso_encode($mydata['dia']);
-        $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
-        $mydata['end'] = mktime($mydata['hora'], $mydata['minutos'] + DURACION, '00', $m, $d, $y);
-        $mydata['idu'] = $this->idu;
-        $mydata['id'] = $this->app->genid('container.genias'); // create new ID       
+        $serialized=$this->input->post('data');          
+        $mydata=compact_serialized($serialized);
+        list($d,$m,$y)=explode("-",$mydata['dia']);
+        $mydata['dia']=  iso_encode($mydata['dia']);
+        $mydata['start']=  mktime($mydata['hora'],$mydata['minutos'],'00',$m,$d,$y);
+        $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+$duracion,'00',$m,$d,$y);
+        $mydata['idu']=$this->idu;
+        
+        if(is_numeric($mydata['eventid'])){
+           $mydata['id']=$mydata['eventid'];
+        }else{
+           $mydata['id']=$this->app->genid('container.genias'); // create new ID    
+        }
+            
+
+
+       
         $this->genias_model->add_task($mydata);
+        echo $mydata['id'];
     }
+    
+    function get_tasks(){
+        $proyecto = $this->uri->segment(3)?$this->uri->segment(3):1;
+        
+        $tasks=$this->genias_model->get_tasks($this->idu,$proyecto); 
+        if(!$tasks->count())return;
 
-    function get_tasks() {
-        $proyecto = $this->uri->segment(3) ? $this->uri->segment(3) : 1;
+        $mytasks=array();
+        foreach($tasks as $task){
+            $dia=iso_decode($task['dia']);
 
-        $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
-        $mytasks = array();
-        foreach ($tasks as $task) {
-            //  $dia=iso_encode($task['dia']);
-            $item = array(
-                'id' => $task['id'],
-                'title' => $task['title'],
-                'start' => $task['start'],
-                'end' => $task['end'],
-                'allDay' => false,
-                'detail' => $task['detail'],
-                'dia' => $task['dia']
-            );
-            $mytasks[] = $item;
+		$item=array(
+			'id' => $task['id'],
+			'title' => $task['title'],
+			'start' => $task['start'],
+			'end' => $task['end'],
+                        'allDay'=>false,
+                        'detail'=>$task['detail'],
+                        'dia'=>$dia,
+                     'hora'=>$task['hora'],
+                     'minutos'=>$task['minutos'],
+                    'proyecto'=>$task['proyecto']
+		);
+                $mytasks[]=$item;
         }
 
         echo json_encode($mytasks);
