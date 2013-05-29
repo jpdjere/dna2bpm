@@ -10,23 +10,22 @@ Ext.define('Writer.Person', {
             useNull: true
         }
 
-
-        , 'usuario_tablet'    //      Usuario 
-                , '7586'    //      GenIA 
-                , '7404'    //      Provincia 
-                , 'fcc'     //      FCC ID
-                , 'mac'     //      MAC address
-                , 'qr'      //      QR CODE
-                , '7408'   //      comentarios
-                , '7411' // 	Empresa visitada 
+        , 'usuario_tablet'      //      Usuario 
+                , '7586'                //      GenIA 
+                , '7404'                //      Provincia 
+                , 'fcc'                 //      FCC ID
+                , 'mac'                 //      MAC address
+                , '7408'                //      comentarios
+                , '7411'                //      Empresa visitada
+                , '7406'                //      idu
     ],
     /*VALIDACIONES*/
 
     validations: [/*{
-            type: 'length',
-            field: '7411',
-            min: 1
-        }*/]
+     type: 'length',
+     field: '7411',
+     min: 1
+     }*/]
 });
 
 
@@ -76,6 +75,33 @@ Ext.define('OpcionModelPtdo', {
     extend: "Ext.data.Model",
     fields: ['idrel', 'value', 'text']
 
+});
+
+Ext.define('OpcionUser', {
+    extend: "Ext.data.Model",
+    fields: ['idu', 'nick']
+});
+
+
+/*
+ * @Name Users
+ * @type Store 
+ * 
+ */
+var userStore = Ext.create('Ext.data.Store', {
+    id: 'userStore',
+    autoLoad: true,
+    model: 'OpcionUser',
+    proxy: {
+        type: 'ajax',
+        url: globals.base_url + 'genias/users/get_user/read', // url that will load data with respect to start and limit params        
+        noCache: false,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
 });
 
 
@@ -135,7 +161,7 @@ if (navigator.onLine) {
             api: {
                 read: 'process/ViewTablet', //'genias/app/geniasdev/view',
                 create: 'process/InsertTablet',
-                update: 'process/Insert2',
+                update: 'process/InsertTablet',
                 destroy: '', //'genias/app/geniasdev/destroy'
             },
             reader: {
