@@ -215,8 +215,9 @@ Ext.define('Writer.Grid', {
                         return Ext.String.format('<img src="qr/'+value+'" width="40%" height="40%">');
                     },
                     listeners: {
-                        click: function() {                            
+                        click: function(value) {                            
                             //IMG
+                            Ext.Msg.alert('QR CODE', '<img src="qr/'+value+'">');
                         }
                     }, 
                 }, {
