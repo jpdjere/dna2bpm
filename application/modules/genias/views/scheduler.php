@@ -19,7 +19,7 @@
     <!-- Fechas -->
     <div class="input-prepend">
     <span class="add-on"><i class="icon-calendar"></i></span>
-    <input class="span2 datepicker"  type="text" placeholder="Username" name="dia">
+    <input class="span2 datepicker"  type="text" placeholder="Fecha" name="dia">
     </div>
 
     <select class="span1" name="hora">
@@ -64,8 +64,11 @@
     <option>55</option>
     </select>
 
-    <label>Detail</label>
     <textarea type="text" name="detail" placeholder="Detail" class="input-block-level" ></textarea>
+    <label class="checkbox">
+    <input type="checkbox" value="1" name="finalizada" >
+    Tarea finalizada
+    </label>
     <a class="btn btn-block  btn-primary disabled"  id="bt_form" href="#"><i class="icon-tasks"></i> Cargar formulario</a>
     <a class="btn btn-block btn-primary disabled"  id="bt_delete" href="#"><i class="icon-trash"></i> Eliminar tarea</a>
     <button class="btn btn-block btn-primary " type="button" id="bt_clear"><i class="icon-plus-sign"></i>  Nueva tarea</button>
