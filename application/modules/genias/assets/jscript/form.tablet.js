@@ -106,9 +106,7 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Empresa',
                     name: '7411',
                     xtype: 'hidden',
-                }
-
-            ],
+                }],
             dockedItems: [{
                     xtype: 'toolbar',
                     dock: 'bottom',
@@ -214,8 +212,14 @@ Ext.define('Writer.Grid', {
                     header: 'QR',
                     renderer: function() {
                         return Ext.String.format('<img src="http://chart.apis.google.com/chart?chf=bg,s,FFFFFF&chs=50x50&cht=qr&chld=|1&chl=http%3A%2F%2Flocalhost%2Fdna2bpm%2Fgenias%2Ftablet">');
+                    },
+                    listeners: {
+                        click: function() {
+                            //action of the image here
+                            console.log('Click');
+                        }
                     }
-                },{
+                }, {
                     header: 'Genia',
                     sortable: true,
                     dataIndex: '7586'
