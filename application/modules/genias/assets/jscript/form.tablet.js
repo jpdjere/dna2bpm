@@ -95,7 +95,8 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Mac Address',
                     name: 'mac',
                     allowBlank: false,
-                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac',
+                    vtype: 'MAC',
+                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac Ej: 5c-FF-35-7C-96-FB',
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
