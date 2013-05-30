@@ -45,17 +45,17 @@ Ext.define('Writer.Form', {
                     //allowBlank: false,
                     xtype: 'hidden',
                     readOnly: true
-                },                
+                },
                 {
                     fieldLabel: '7406',
                     name: '7406',
                     xtype: 'hidden'
                 }/*,{
-                    fieldLabel: 'Usuario Tablet',
-                    name: 'usuario_tablet',
-                    allowBlank: false,
-                    emptyText: 'User tablet',
-                }*/,
+                 fieldLabel: 'Usuario Tablet',
+                 name: 'usuario_tablet',
+                 allowBlank: false,
+                 emptyText: 'User tablet',
+                 }*/,
                 {
                     xtype: 'combobox',
                     name: 'usuario_tablet',
@@ -211,15 +211,20 @@ Ext.define('Writer.Grid', {
              dataIndex: '7411'
              
              },*/ {
+                    header: 'QR',
+                    renderer: function() {
+                        return Ext.String.format('<img src="http://chart.apis.google.com/chart?chf=bg,s,FFFFFF&chs=50x50&cht=qr&chld=|1&chl=http%3A%2F%2Flocalhost%2Fdna2bpm%2Fgenias%2Ftablet">');
+                    }
+                },{
                     header: 'Genia',
                     sortable: true,
                     dataIndex: '7586'
                 },
                 {
-                    header: 'Usuario Tablet',
+                    header: 'MAC',
                     sortable: true,
-                    dataIndex: 'usuario_tablet'
-                },{
+                    dataIndex: 'mac'
+                }, {
                     header: 'Comentarios',
                     flex: 1,
                     sortable: true,
@@ -285,13 +290,13 @@ Ext.define('Writer.Grid', {
     },
     onAddClick: function() {
         var rec = new Writer.Person({
-            C7586: '',          // 	GenIA 
+            C7586: '', // 	GenIA 
             usuario_tablet: '', // 	Usuario 
-            C7404: '',          // 	Provincia 
-            fcc: '',            // 	FCC ID 
-            mac: '',            // 	MAC address
-            C7408: '',          // 	Comentarios 
-            C7411: '',          // 	Empresa visitada 
+            C7404: '', // 	Provincia 
+            fcc: '', // 	FCC ID 
+            mac: '', // 	MAC address
+            C7408: '', // 	Comentarios 
+            C7411: '', // 	Empresa visitada 
             C7406: '',
         }), edit = this.editing;
         edit.cancelEdit();

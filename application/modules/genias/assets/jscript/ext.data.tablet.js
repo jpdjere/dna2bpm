@@ -46,8 +46,6 @@ Ext.form.VTypes["MAC"] = function(v) {
 }
 
 
-
-
 //----Define the data model 4 forms
 Ext.define('OpcionModel', {
     extend: "Ext.data.Model",
