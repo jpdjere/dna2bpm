@@ -210,15 +210,16 @@ Ext.define('Writer.Grid', {
              
              },*/ {
                     header: 'QR',
-                    renderer: function() {
+                    dataIndex: 'mac',
+                    renderer: function(value, meta, record) { 
+                        console.log(value);
                         return Ext.String.format('<img src="qr/1">');
                     },
                     listeners: {
-                        click: function() {
-                            //action of the image here
-                            console.log('Click');
+                        click: function() {                            
+                            //IMG
                         }
-                    }
+                    }, 
                 }, {
                     header: 'Genia',
                     sortable: true,
