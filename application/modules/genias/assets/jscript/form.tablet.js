@@ -211,9 +211,8 @@ Ext.define('Writer.Grid', {
              },*/ {
                     header: 'QR',
                     dataIndex: 'mac',
-                    renderer: function(value, meta, record) { 
-                        console.log(value);
-                        return Ext.String.format('<img src="qr/1">');
+                    renderer: function(value) {                         
+                        return Ext.String.format('<img src="qr/'+value+'">');
                     },
                     listeners: {
                         click: function() {                            
