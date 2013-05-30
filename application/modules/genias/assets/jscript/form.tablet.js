@@ -210,14 +210,16 @@ Ext.define('Writer.Grid', {
              
              },*/ {
                     header: 'QR',
-                    dataIndex: 'mac',
+                    dataIndex: 'mac',                  
+                    
                     renderer: function(value) {                         
                         return Ext.String.format('<img src="qr/'+value+'" width="40%" height="40%">');
                     },
                     listeners: {
-                        click: function(value) {                            
+                        click: function(value) { 
+                           
                             //IMG
-                            Ext.Msg.alert('QR CODE', '<img src="qr/'+value+'">');
+                           Ext.Msg.alert('QR CODE '+ value , '<img src="qr/'+value+'">');
                         }
                     }, 
                 }, {
