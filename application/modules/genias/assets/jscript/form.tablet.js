@@ -212,7 +212,7 @@ Ext.define('Writer.Grid', {
                     header: 'QR',
                     dataIndex: 'mac',
                     renderer: function(value) {                         
-                        return Ext.String.format('<img src="qr/'+value+'">');
+                        return Ext.String.format('<img src="qr/'+value+'" width="40%" height="40%">');
                     },
                     listeners: {
                         click: function() {                            
