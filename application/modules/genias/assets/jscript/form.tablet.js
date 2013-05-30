@@ -211,7 +211,7 @@ Ext.define('Writer.Grid', {
              },*/ {
                     header: 'QR',
                     renderer: function() {
-                        return Ext.String.format('<img src="http://chart.apis.google.com/chart?chf=bg,s,FFFFFF&chs=50x50&cht=qr&chld=|1&chl=http%3A%2F%2Flocalhost%2Fdna2bpm%2Fgenias%2Ftablet">');
+                        return Ext.String.format('<img src="qr/1">');
                     },
                     listeners: {
                         click: function() {
