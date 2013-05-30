@@ -40,7 +40,7 @@ Ext.define('Writer.Person', {
  **/
 
 Ext.form.VTypes["MACVal"] = /^(((\d|([a-f]|[A-F])){2}:){5}(\d|([a-f]|[A-F])){2})$|^(((\d|([a-f]|[A-F])){2}-){5}(\d|([a-f]|[A-F])){2})$|^([0-9a-f]{4}\.[0-9a-f]{4}\.[0-9a-f]{4})$/;
-Ext.form.VTypes["MACText"] = "Ingrese una MAC address V&aacute;lida Ej: 5c-FF-35-7C-96-FB"
+Ext.form.VTypes["MACText"] = "Ingrese una MAC address\n V&aacute;lida Ej: 5c-FF-35-7C-96-FB"
 Ext.form.VTypes["MAC"] = function(v) {
     return Ext.form.VTypes["MACVal"].test(v);
 }
