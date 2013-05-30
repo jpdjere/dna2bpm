@@ -167,60 +167,6 @@ PartidoStore.removeAll();
 PartidoStore.add(partidosJson);
 PartidoStore.sync();
 
-/*var GeniaStore = Ext.create('Ext.data.Store', {
- id: 'GeniaStore',
- autoLoad: true,
- model: 'OpcionModel',
- proxy: {
- type: 'ajax',
- //url: globals.base_url + '/form/get_option/711', // url that will load data with respect to start and limit params
- url: 'assets/json/genias.json',
- noCache: false,
- reader: {
- type: 'json',
- root: 'rows',
- totalProperty: 'totalCount'
- }
- }
- });*/
-
-/*
- var PartidoStore = Ext.create('Ext.data.Store', {
- id: 'PartidoStore',
- autoLoad: false,
- model: 'OpcionModel',
- proxy: {
- type: 'ajax',
- //url: globals.base_url + '/form/get_option/', // url that will load data with respect to start and limit params
- url: 'assets/json/partido.json',
- noCache: false,
- reader: {
- type: 'json',
- root: 'rows',
- totalProperty: 'totalCount'
- }
- }
- });*/
-
-/*
- var ProvinciaStore = Ext.create('Ext.data.Store', {
- id: 'ProvinciaStore',
- autoLoad: true,
- model: 'OpcionModel',
- proxy: {
- type: 'ajax',
- //url: globals.base_url + '/form/get_option/39', // url that will load data with respect to start and limit params
- url: 'assets/json/provincia.json',
- noCache: false,
- useLocalStorage: true,
- reader: {
- type: 'json',
- root: 'rows',
- totalProperty: 'totalCount'
- }
- }
- });*/
-
 /*ON LINE APP */
 if (navigator.onLine) {
     var store = Ext.create('Ext.data.Store', {

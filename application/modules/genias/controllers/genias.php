@@ -106,8 +106,6 @@ class Genias extends MX_Controller {
         $this->genias_model->add_goal($mydata);
     }
 
-    
-
     function programs() {
         $this->user->authorize();
         $customData = $this->lang->language;
@@ -130,56 +128,55 @@ class Genias extends MX_Controller {
     function add_task() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        $duracion=60;
+        $duracion = 60;
 
-        $serialized=$this->input->post('data');          
-        $mydata=compact_serialized($serialized);
-        list($d,$m,$y)=explode("-",$mydata['dia']);
-        $mydata['dia']=  iso_encode($mydata['dia']);
-        $mydata['start']=  mktime($mydata['hora'],$mydata['minutos'],'00',$m,$d,$y);
-        $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+$duracion,'00',$m,$d,$y);
-        $mydata['idu']=$this->idu;
-        $mydata['finalizada']=(isset($mydata['finalizada']))?(1):(0);
-        if(!is_numeric($mydata['id'])){
-           $mydata['id']=$this->app->genid('container.genias'); // create new ID    
-        }else{
-            $mydata['id']=(integer)$mydata['id'];
+        $serialized = $this->input->post('data');
+        $mydata = compact_serialized($serialized);
+        list($d, $m, $y) = explode("-", $mydata['dia']);
+        $mydata['dia'] = iso_encode($mydata['dia']);
+        $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
+        $mydata['end'] = mktime($mydata['hora'], $mydata['minutos'] + $duracion, '00', $m, $d, $y);
+        $mydata['idu'] = $this->idu;
+
+        if (!is_numeric($mydata['id'])) {
+            $mydata['id'] = $this->app->genid('container.genias'); // create new ID    
+        } else {
+            $mydata['id'] = (integer) $mydata['id'];
         }
-                  
+
         $this->genias_model->add_task($mydata);
         echo $mydata['id'];
-
     }
+
     function remove_task() {
-        $id=$this->input->post('id'); 
+        $id = $this->input->post('id');
         $this->genias_model->remove_task($id);
     }
-    
-    
-    function get_tasks(){
-        $proyecto = $this->uri->segment(3)?$this->uri->segment(3):1;
-        
-        $tasks=$this->genias_model->get_tasks($this->idu,$proyecto); 
-        if(!$tasks->count())return;
 
-        $mytasks=array();
-        foreach($tasks as $task){
-            $dia=iso_decode($task['dia']);
+    function get_tasks() {
+        $proyecto = $this->uri->segment(3) ? $this->uri->segment(3) : 1;
 
-		$item=array(
-			'id' => $task['id'],
-			'title' => $task['title'],
-			'start' => $task['start'],
-			'end' => $task['end'],
-                        'allDay'=>false,
-                        'detail'=>$task['detail'],
-                        'dia'=>$dia,
-                     'hora'=>$task['hora'],
-                     'minutos'=>$task['minutos'],
-                    'proyecto'=>$task['proyecto'],
-                    'finalizada'=>$task['finalizada']
-		);
-                $mytasks[]=$item;
+        $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
+        if (!$tasks->count())
+            return;
+
+        $mytasks = array();
+        foreach ($tasks as $task) {
+            $dia = iso_decode($task['dia']);
+
+            $item = array(
+                'id' => $task['id'],
+                'title' => $task['title'],
+                'start' => $task['start'],
+                'end' => $task['end'],
+                'allDay' => false,
+                'detail' => $task['detail'],
+                'dia' => $dia,
+                'hora' => $task['hora'],
+                'minutos' => $task['minutos'],
+                'proyecto' => $task['proyecto']
+            );
+            $mytasks[] = $item;
         }
 
         echo json_encode($mytasks);
@@ -200,7 +197,7 @@ class Genias extends MX_Controller {
     function scheduler() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS',$this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
+        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
@@ -280,17 +277,19 @@ class Genias extends MX_Controller {
 
     function App() {
         /* REMOTE */
-        echo '{"user":"' . $this->idu . '"}';        
-        echo  $this->user->admin->showall($this->idu);
-        }
+        echo '{"user":"' . $this->idu . '"}';
+        echo $this->user->admin->showall($this->idu);
+    }
 
-        /* ------ CONFIG ------ */
-        // Render page
+    /* ------ CONFIG ------ */
 
-        function qr(){
-        $this->load->module('qr');
-        echo $this->qr->gen('hola');
+    // Render page
+
+    function qr($parameter= null) {
         
+        $imgParameter = ($parameter==NULL)? '5c-FF-35-7C-96-FB':$parameter;
+        $this->load->module('qr');
+        echo $this->qr->gen($imgParameter);
     }
 
     function config() {

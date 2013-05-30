@@ -45,17 +45,17 @@ Ext.define('Writer.Form', {
                     //allowBlank: false,
                     xtype: 'hidden',
                     readOnly: true
-                },                
+                },
                 {
                     fieldLabel: '7406',
                     name: '7406',
                     xtype: 'hidden'
                 }/*,{
-                    fieldLabel: 'Usuario Tablet',
-                    name: 'usuario_tablet',
-                    allowBlank: false,
-                    emptyText: 'User tablet',
-                }*/,
+                 fieldLabel: 'Usuario Tablet',
+                 name: 'usuario_tablet',
+                 allowBlank: false,
+                 emptyText: 'User tablet',
+                 }*/,
                 {
                     xtype: 'combobox',
                     name: 'usuario_tablet',
@@ -95,7 +95,8 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Mac Address',
                     name: 'mac',
                     allowBlank: false,
-                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac',
+                    vtype: 'MAC',
+                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac Ej: 5c-FF-35-7C-96-FB',
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
@@ -105,9 +106,7 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Empresa',
                     name: '7411',
                     xtype: 'hidden',
-                }
-
-            ],
+                }],
             dockedItems: [{
                     xtype: 'toolbar',
                     dock: 'bottom',
@@ -210,15 +209,26 @@ Ext.define('Writer.Grid', {
              dataIndex: '7411'
              
              },*/ {
+                    header: 'QR',
+                    renderer: function() {
+                        return Ext.String.format('<img src="qr/1">');
+                    },
+                    listeners: {
+                        click: function() {
+                            //action of the image here
+                            console.log('Click');
+                        }
+                    }
+                }, {
                     header: 'Genia',
                     sortable: true,
                     dataIndex: '7586'
                 },
                 {
-                    header: 'Usuario Tablet',
+                    header: 'MAC',
                     sortable: true,
-                    dataIndex: 'usuario_tablet'
-                },{
+                    dataIndex: 'mac'
+                }, {
                     header: 'Comentarios',
                     flex: 1,
                     sortable: true,
@@ -284,13 +294,13 @@ Ext.define('Writer.Grid', {
     },
     onAddClick: function() {
         var rec = new Writer.Person({
-            C7586: '',          // 	GenIA 
+            C7586: '', // 	GenIA 
             usuario_tablet: '', // 	Usuario 
-            C7404: '',          // 	Provincia 
-            fcc: '',            // 	FCC ID 
-            mac: '',            // 	MAC address
-            C7408: '',          // 	Comentarios 
-            C7411: '',          // 	Empresa visitada 
+            C7404: '', // 	Provincia 
+            fcc: '', // 	FCC ID 
+            mac: '', // 	MAC address
+            C7408: '', // 	Comentarios 
+            C7411: '', // 	Empresa visitada 
             C7406: '',
         }), edit = this.editing;
         edit.cancelEdit();
