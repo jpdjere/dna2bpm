@@ -4,4 +4,4 @@
 /tmp/
 /update-git.log
 /application/modules/qr/cache/
-/application/modules/qr/log/
+/application/modules/qr/log/php_errors.log

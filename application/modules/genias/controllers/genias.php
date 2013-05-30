@@ -121,6 +121,7 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['css'] = array($this->module_url . "assets/css/tasks.css" => 'Genias CSS');
+
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         $this->render('tasks', $customData);
@@ -139,18 +140,21 @@ class Genias extends MX_Controller {
         $mydata['end']=  mktime($mydata['hora'],$mydata['minutos']+$duracion,'00',$m,$d,$y);
         $mydata['idu']=$this->idu;
         
-        if(is_numeric($mydata['eventid'])){
-           $mydata['id']=$mydata['eventid'];
-        }else{
+        if(!is_numeric($mydata['id'])){
            $mydata['id']=$this->app->genid('container.genias'); // create new ID    
+        }else{
+            $mydata['id']=(integer)$mydata['id'];
         }
-            
-
-
-       
+                  
         $this->genias_model->add_task($mydata);
         echo $mydata['id'];
+
     }
+    function remove_task() {
+        $id=$this->input->post('id'); 
+        $this->genias_model->remove_task($id);
+    }
+    
     
     function get_tasks(){
         $proyecto = $this->uri->segment(3)?$this->uri->segment(3):1;
@@ -195,9 +199,8 @@ class Genias extends MX_Controller {
     function scheduler() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS');
+        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS',$this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');
-
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         //print_r($customData['projects']);
