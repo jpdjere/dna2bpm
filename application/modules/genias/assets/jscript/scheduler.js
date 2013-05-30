@@ -45,6 +45,15 @@ $('#calendar').fullCalendar({
             color: '#823697',   // a non-ajax option
             textColor: 'white' // a non-ajax option
         },
+        {
+            url: globals.module_url+"/get_tasks/666",
+            type: 'POST',
+            error: function() {
+                alert('there was an error while fetching events!');
+            },
+            color: '#cccccc',   // a non-ajax option
+            textColor: 'white' // a non-ajax option
+        }
 
         // any other sources...
 
@@ -58,6 +67,11 @@ $('#calendar').fullCalendar({
         $('#detalle select[name="minutos"]').val(calEvent.minutos);
         $('#detalle select[name="proyecto"]').val(calEvent.proyecto);
         $('#detalle textarea[name="detail"]').val(calEvent.detail);
+        if(calEvent.finalizada==1){
+          $('#detalle input[name="finalizada"]').attr("checked","checked");  
+        }else{
+          $('#detalle input[name="finalizada"]').removeAttr("checked");  
+        }       
         $('#bt_form').removeClass('disabled');
         $('#bt_delete').removeClass('disabled');
     },

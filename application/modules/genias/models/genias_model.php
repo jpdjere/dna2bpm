@@ -18,7 +18,7 @@ class Genias_model extends CI_Model {
     /* ---- TASKS---- */
     
     function remove_task($id){;
-        $container='container.genias';
+        $container='container.genias_tasks';
         $query=array('id'=>(integer)$id);
         $rs= $this->mongo->db->$container->remove($query);
         return $rs['err'];
@@ -27,17 +27,22 @@ class Genias_model extends CI_Model {
     
     function add_task($task){
         $options = array('upsert' => true, 'safe' => true);
-        $container='container.genias';
+        $container='container.genias_tasks';
         $query=array('id'=>(integer)$task['id']);
-
         $rs= $this->mongo->db->$container->update($query, $task, $options);
         return $rs['err'];
              
     }
     
     function get_tasks($idu,$proyecto){
-        $query = array('idu' =>(double) $idu,'proyecto'=>$proyecto);
-        $container='container.genias';
+        if($proyecto==666){
+            // Finalizadas
+            $query = array('idu' =>(double) $idu,'finalizada'=>1);
+        }else{
+            $query = array('idu' =>(double) $idu,'proyecto'=>$proyecto,'finalizada'=>0);
+        }
+        
+        $container='container.genias_tasks';
         $result = $this->mongo->db->$container->find($query)->sort(array('id'=>-1));  
 
         //var_dump($result, json_encode($result), $result->count());
