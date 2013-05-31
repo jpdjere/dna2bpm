@@ -193,22 +193,7 @@ Ext.define('Writer.Grid', {
                     xtype: 'toolbar',
                     items: []
                 }],
-            columns: [/*{
-             text: 'ID',
-             width: 140,
-             sortable: true,
-             //resizable: false,
-             draggable: false,
-             hideable: false,
-             menuDisabled: true,
-             dataIndex: 'id'
-             }, 
-             {
-             header: 'Empresa',                    
-             sortable: true,
-             dataIndex: '7411'
-             
-             },*/ {
+            columns: [{
                     header: 'QR',
                     dataIndex: 'mac',
                     renderer: function(value) {
@@ -235,48 +220,6 @@ Ext.define('Writer.Grid', {
                     sortable: true,
                     dataIndex: '7408'
                 }]
-                    , dockedItems: [{
-                    xtype: 'toolbar',
-                    dock: 'bottom',
-                    ui: 'footer',
-                    align: 'right',
-                    items: [{
-                            text: 'Sincronizar informaci&oacute;n',
-                            scope: this,
-                            handler: function() {
-                                if (navigator.onLine) {
-                                    Ext.getBody().mask('Sincronizando...');
-                                    Ext.Ajax.request({
-                                        url: 'process/ViewTablet',
-                                        callback: function(options, success, response) {
-                                            Ext.getBody().unmask();
-                                            var didReset = true,
-                                                    o;
-                                            if (success) {
-                                                try {
-                                                    o = Ext.decode(response.responseText);
-                                                    didReset = o.success === true;
-                                                } catch (e) {
-                                                    didReset = false;
-                                                }
-                                            }
-                                            else {
-                                                didReset = false;
-                                            }
-
-                                            if (didReset) {
-                                                store.load();
-                                            }
-                                        }
-                                    });
-
-                                } else {
-                                    Ext.MessageBox.alert('Error', 'Es necesario estar ONLINE para Sincronizar');
-                                }
-                            }
-                        }]
-                }]
-
         });
         this.callParent();
         this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
