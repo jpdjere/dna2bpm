@@ -226,14 +226,14 @@ Ext.define('Writer.Grid', {
                     dataIndex: 'usuario_tablet',
                     store: userStore,
                     queryMode: 'local',
-                    valueField: 'value',
-                    renderer: function(value, metaData, record) {
+                    valueField: 'idu',
+                    /*renderer: function(value, metaData, record) {
                         if (value) {
                             var Categories = Ext.getStore('userStore');
                             var record = Categories.findRecord('idu', value), name = record.get('nick');
                             return name;
                         }
-                    }
+                    }*/
                 },
                 {
                     header: 'MAC',
