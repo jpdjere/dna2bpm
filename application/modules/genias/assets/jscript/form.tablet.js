@@ -197,7 +197,7 @@ Ext.define('Writer.Grid', {
                     header: 'QR',
                     dataIndex: 'mac',
                     renderer: function(value) {
-                        return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%">');
+                        return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%"> ');
                     },
                     listeners: {
                         click: function(value, metaData, record, row, col, store, gridView) {
@@ -208,7 +208,19 @@ Ext.define('Writer.Grid', {
                 }, {
                     header: 'Genia',
                     sortable: true,
-                    dataIndex: '7586'
+                    dataIndex: '7586',
+                    store: GeniaStore,
+                    queryMode: 'local',
+                    valueField: 'value',
+                    renderer: function(value, metaData, record) {
+                        if (value) {
+                            var Categories = Ext.getStore('GeniaStore');
+
+                            var record = Categories.findRecord('value', value),
+                                    name = record.get('text');
+                            return name;
+                        }
+                    }
                 },
                 {
                     header: 'MAC',
