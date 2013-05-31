@@ -205,6 +205,22 @@ Ext.define('Writer.Grid', {
                             Ext.Msg.alert('QR CODE ' + store.get('mac'), '<img src="qr/' + store.get('mac') + '">');
                         }
                     },
+                },
+                {
+                    header: 'Usuario',
+                    sortable: true,
+                    dataIndex: 'usuario_tablet',
+                    store: userStore,
+                    queryMode: 'local',
+                    valueField: 'value',
+                    renderer: function(value, metaData, record) {
+                        if (value) {
+                            //var Categories = Ext.getStore('userStore');
+                            //var record = Categories.findRecord('idu', value);
+                            //name = record.get('nick');
+                            return "xx" + value;
+                        }
+                    }
                 }, {
                     header: 'Genia',
                     sortable: true,
@@ -216,21 +232,6 @@ Ext.define('Writer.Grid', {
                         if (value) {
                             var Categories = Ext.getStore('GeniaStore');
                             var record = Categories.findRecord('value', value), name = record.get('text');
-                            return name;
-                        }
-                    }
-                },
-                {
-                    header: 'Usuario',
-                    sortable: true,
-                    dataIndex: 'usuario_tablet',
-                    store: userStore,
-                    queryMode: 'local',
-                    valueField: 'value',
-                    renderer: function(value, metaData, record) {
-                        if (value) {
-                            var Categories = Ext.getStore('userStore');
-                            var record = Categories.findRecord('idu', value), name = record.get('nick');
                             return name;
                         }
                     }
