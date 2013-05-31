@@ -212,14 +212,21 @@ Ext.define('Writer.Grid', {
                     header: 'QR',
                     dataIndex: 'mac',                  
                     
-                    renderer: function(value) {                         
+                    renderer: function(value) {       
+                        var testValue = value;
                         return Ext.String.format('<img src="qr/'+value+'" width="40%" height="40%">');
                     },
-                    listeners: {
-                        click: function(value) { 
-                           
+                    listeners: {                
+                    
+                        click: function(value, metaData, record, row, col, store, gridView) {      
+                             /*var fieldName = iView.getGridColumns()[iColIdx].dataIndex;
+                             var cellvalue = iRecord.get(fieldName);*/
+                             
+                             //var rec = iView.getStore().getAt(iRowIdx);
+                             
                             //IMG
-                           Ext.Msg.alert('QR CODE '+ value , '<img src="qr/'+value+'">');
+                            console.log(store.get('mac'));
+                           //Ext.Msg.alert('QR CODE '+  testValue , '<img src="qr/'+store.get('mac')+'">');
                         }
                     }, 
                 }, {
