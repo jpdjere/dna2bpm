@@ -224,9 +224,8 @@ Ext.define('Writer.Grid', {
                              
                              //var rec = iView.getStore().getAt(iRowIdx);
                              
-                            //IMG
-                            console.log(store.get('mac'));
-                           //Ext.Msg.alert('QR CODE '+  testValue , '<img src="qr/'+store.get('mac')+'">');
+                           //IMG
+                           Ext.Msg.alert('QR CODE ' +store.get('mac') , '<img src="qr/'+store.get('mac')+'">');
                         }
                     }, 
                 }, {
