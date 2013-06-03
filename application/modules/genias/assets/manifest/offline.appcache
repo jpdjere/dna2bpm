@@ -10,6 +10,8 @@ CACHE MANIFEST # Comments are OK here
 /dna2bpm/genias/assets/jscript/app.js
 /dna2bpm/genias/assets/jscript/ext.viewport.js
 
+/dna2bpm/genias/assets/jscript/fullcalendar/*
+/dna2bpm/genias/assets/jscript/fullcalendar/*
 
 NETWORK: # Comments are OK here too.
 
