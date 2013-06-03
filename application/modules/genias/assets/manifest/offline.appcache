@@ -16,13 +16,16 @@ CACHE MANIFEST # Comments are OK here
 /dna2bpm/genias/assets/jscript/form.tablet.js
 /dna2bpm/genias/assets/jscript/ext.viewport.tablet.js
 
+#JSON
+/dna2bpm/genias/assets/json/*
+
 #CALENDAR
 /dna2bpm/genias/assets/jscript/fullcalendar/*
 /dna2bpm/genias/assets/jscript/fullcalendar/*
 
 NETWORK: # Comments are OK here too.
 
- CACHE:
+CACHE:
 
 
 FALLBACK:
