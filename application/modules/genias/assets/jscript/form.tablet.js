@@ -212,15 +212,15 @@ Ext.define('Writer.Grid', {
                     dataIndex: 'usuario_tablet',
                     store: userStore,
                     queryMode: 'local',
-                    valueField: 'value',
-                   /*renderer: function(value, metaData, record) {
-                        if (value) {
-                            //var Categories = Ext.getStore('userStore');
-                            //var record = Categories.findRecord('idu', value);
-                            //name = record.get('nick');
-                            return "xx" + value;
+                    displayField: 'nick',
+                    valueField: 'idu',
+                   renderer: function(value, metaData, record) {
+                        if (value) {                            
+                            var xcat = Ext.getStore('userStore');                            
+                            var record = xcat.findRecord('idu', value), name = record.get('nick');
+                            return name;
                         }
-                    }*/
+                    }
                 }, {
                     header: 'Genia',
                     sortable: true,
