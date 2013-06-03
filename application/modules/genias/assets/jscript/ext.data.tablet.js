@@ -83,9 +83,16 @@ var userStore = Ext.create('Ext.data.Store', {
             root: 'rows',
             totalProperty: 'totalCount'
         }
-    }
-});
 
+    },
+    listeners: {
+        load: function() {
+            store.load();
+        }
+    }
+
+
+});
 
 
 /*
@@ -136,7 +143,7 @@ var ProvinciaStore = Ext.create('Ext.data.Store', {
 if (navigator.onLine) {
     var store = Ext.create('Ext.data.Store', {
         model: 'Writer.Person',
-        autoLoad: true,
+        autoLoad: false,
         autoSync: true,
         proxy: {
             type: 'ajax',
