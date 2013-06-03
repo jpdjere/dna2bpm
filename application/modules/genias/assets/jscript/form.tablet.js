@@ -193,36 +193,48 @@ Ext.define('Writer.Grid', {
                     xtype: 'toolbar',
                     items: []
                 }],
-            columns: [/*{
-             text: 'ID',
-             width: 140,
-             sortable: true,
-             //resizable: false,
-             draggable: false,
-             hideable: false,
-             menuDisabled: true,
-             dataIndex: 'id'
-             }, 
-             {
-             header: 'Empresa',                    
-             sortable: true,
-             dataIndex: '7411'
-             
-             },*/ {
+            columns: [{
                     header: 'QR',
-                    renderer: function() {
-                        return Ext.String.format('<img src="qr/1">');
+                    dataIndex: 'mac',
+                    renderer: function(value) {
+                        return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%"> ');
                     },
                     listeners: {
-                        click: function() {
-                            //action of the image here
-                            console.log('Click');
+                        click: function(value, metaData, record, row, col, store, gridView) {
+                            //IMG
+                            Ext.Msg.alert('QR CODE ' + store.get('mac'), '<img src="qr/' + store.get('mac') + '">');
                         }
-                    }
+                    },
+                },
+                {
+                    header: 'Usuario',
+                    sortable: true,
+                    dataIndex: 'usuario_tablet',
+                    store: userStore,
+                    queryMode: 'local',
+                    valueField: 'value',
+                   /*renderer: function(value, metaData, record) {
+                        if (value) {
+                            //var Categories = Ext.getStore('userStore');
+                            //var record = Categories.findRecord('idu', value);
+                            //name = record.get('nick');
+                            return "xx" + value;
+                        }
+                    }*/
                 }, {
                     header: 'Genia',
                     sortable: true,
-                    dataIndex: '7586'
+                    dataIndex: '7586',
+                    store: GeniaStore,
+                    queryMode: 'local',
+                    valueField: 'value',
+                    renderer: function(value, metaData, record) {
+                        if (value) {
+                            var Categories = Ext.getStore('GeniaStore');
+                            var record = Categories.findRecord('value', value), name = record.get('text');
+                            return name;
+                        }
+                    }
                 },
                 {
                     header: 'MAC',
@@ -234,48 +246,6 @@ Ext.define('Writer.Grid', {
                     sortable: true,
                     dataIndex: '7408'
                 }]
-                    , dockedItems: [{
-                    xtype: 'toolbar',
-                    dock: 'bottom',
-                    ui: 'footer',
-                    align: 'right',
-                    items: [{
-                            text: 'Sincronizar informaci&oacute;n',
-                            scope: this,
-                            handler: function() {
-                                if (navigator.onLine) {
-                                    Ext.getBody().mask('Sincronizando...');
-                                    Ext.Ajax.request({
-                                        url: 'process/ViewTablet',
-                                        callback: function(options, success, response) {
-                                            Ext.getBody().unmask();
-                                            var didReset = true,
-                                                    o;
-                                            if (success) {
-                                                try {
-                                                    o = Ext.decode(response.responseText);
-                                                    didReset = o.success === true;
-                                                } catch (e) {
-                                                    didReset = false;
-                                                }
-                                            }
-                                            else {
-                                                didReset = false;
-                                            }
-
-                                            if (didReset) {
-                                                store.load();
-                                            }
-                                        }
-                                    });
-
-                                } else {
-                                    Ext.MessageBox.alert('Error', 'Es necesario estar ONLINE para Sincronizar');
-                                }
-                            }
-                        }]
-                }]
-
         });
         this.callParent();
         this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
