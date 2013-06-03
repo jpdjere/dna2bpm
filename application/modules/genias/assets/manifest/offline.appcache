@@ -6,10 +6,17 @@ CACHE MANIFEST # Comments are OK here
 #JS FILES 2013-05-03 12:35
 #/dna2bpm/jscript/ext/ext-all-dev.js
 
+#FORM
 /dna2bpm/genias/assets/jscript/ext.data.js
-/dna2bpm/genias/assets/jscript/app.js
+/dna2bpm/genias/assets/jscript/form.js
 /dna2bpm/genias/assets/jscript/ext.viewport.js
 
+#TABLET
+/dna2bpm/genias/assets/jscript/ext.data.tablet.js
+/dna2bpm/genias/assets/jscript/form.tablet.js
+/dna2bpm/genias/assets/jscript/ext.viewport.tablet.js
+
+#CALENDAR
 /dna2bpm/genias/assets/jscript/fullcalendar/*
 /dna2bpm/genias/assets/jscript/fullcalendar/*
 
