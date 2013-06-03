@@ -6,7 +6,7 @@
 
 $( document ).ready(function() {
 
-
+//$.post(globals.module_url+"/get_tasks/1",'',function(data){alert(data)})
 $('#calendar').fullCalendar({
 
     eventSources: [
@@ -67,6 +67,7 @@ $('#calendar').fullCalendar({
         $('#detalle select[name="minutos"]').val(calEvent.minutos);
         $('#detalle select[name="proyecto"]').val(calEvent.proyecto);
         $('#detalle textarea[name="detail"]').val(calEvent.detail);
+
         if(calEvent.finalizada==1){
           $('#detalle input[name="finalizada"]').attr("checked","checked");  
         }else{

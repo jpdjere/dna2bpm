@@ -137,7 +137,7 @@ class Genias extends MX_Controller {
         $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
         $mydata['end'] = mktime($mydata['hora'], $mydata['minutos'] + $duracion, '00', $m, $d, $y);
         $mydata['idu'] = $this->idu;
-
+        $mydata['finalizada']=(isset( $mydata['finalizada']))?(1):(0);
         if (!is_numeric($mydata['id'])) {
             $mydata['id'] = $this->app->genid('container.genias'); // create new ID    
         } else {
@@ -146,6 +146,7 @@ class Genias extends MX_Controller {
 
         $this->genias_model->add_task($mydata);
         echo $mydata['id'];
+
     }
 
     function remove_task() {
@@ -163,7 +164,6 @@ class Genias extends MX_Controller {
         $mytasks = array();
         foreach ($tasks as $task) {
             $dia = iso_decode($task['dia']);
-
             $item = array(
                 'id' => $task['id'],
                 'title' => $task['title'],
@@ -174,8 +174,10 @@ class Genias extends MX_Controller {
                 'dia' => $dia,
                 'hora' => $task['hora'],
                 'minutos' => $task['minutos'],
-                'proyecto' => $task['proyecto']
+                'proyecto' => $task['proyecto'],
+                'finalizada'=>$task['finalizada']
             );
+
             $mytasks[] = $item;
         }
 
