@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="{module_url}assets/jscript/fullcalendar/fullcalendar.css" />
         
         <link rel="stylesheet" href="{module_url}assets/css/genias.css" />
+
+
 	<!--/ Custom CSS -->
         {css}
 
@@ -62,7 +64,7 @@
         <script src="{base_url}jscript/bootstrap/js/bootstrap.min.js"></script>
         <script src="{module_url}assets/jscript/fullcalendar/fullcalendar.min.js"></script>
 
-        
+        <script src="{module_url}assets/jscript/modernizr.custom.22198.js"></script>
         <!-- Custom JS -->
         <script type="text/javascript">
             //-----declare global vars

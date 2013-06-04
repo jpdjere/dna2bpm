@@ -145,7 +145,7 @@ class Genias extends MX_Controller {
         }
 
         $this->genias_model->add_task($mydata);
-        echo $mydata['id'];
+        echo json_encode($mydata);
 
     }
 

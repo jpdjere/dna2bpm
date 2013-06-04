@@ -6,7 +6,7 @@
 
 $( document ).ready(function() {
 
-//$.post(globals.module_url+"/get_tasks/1",'',function(data){alert(data)})
+
 $('#calendar').fullCalendar({
 
     eventSources: [
@@ -72,7 +72,7 @@ $('#calendar').fullCalendar({
           $('#detalle input[name="finalizada"]').attr("checked","checked");  
         }else{
           $('#detalle input[name="finalizada"]').removeAttr("checked");  
-        }       
+        }    
         $('#bt_form').removeClass('disabled');
         $('#bt_delete').removeClass('disabled');
     },
@@ -102,17 +102,22 @@ proyecto: "Debe elegir un proyecto"
 submitHandler: function(form) {
     var form =$('#detalle form').serializeArray();
     $.post(globals.module_url+'add_task',{'data':form},function(resp){ 
+    var myjson=JSON.parse(resp);
+    var idu=myjson['idu'];
+    var event_id=myjson['id'];
+    localStorage['tasks.'+idu+'.'+event_id]=resp;
+    //alert(localStorage['tasks.'+idu+'.'+event_id]);
     });
 
-    location.reload(); 
+    //location.reload(); 
 }
 }
 );
 
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
-        $('#bt_form').addClass('disabled');
-        $('#bt_delete').addClass('disabled');
+        $('#bt_form').addClass('disabled').attr('disabled','disabled');
+        $('#bt_delete').addClass('disabled').attr('disabled','disabled');
         $('form')[0].reset();
 });
 
