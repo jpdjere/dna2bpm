@@ -261,7 +261,7 @@ class Genias extends MX_Controller {
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Test ofline store';
+        $cpData['title'] = 'Test ofline json store<br/> <h3>mirá la consola</h3>';
 
 
         $cpData['js'] = array(
