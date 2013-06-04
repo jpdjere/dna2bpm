@@ -217,7 +217,6 @@ Ext.define('Writer.Grid', {
                    renderer: function(value, metaData, record) {
                         if (value) {                            
                             xcat = Ext.getStore('userStore');
-                            console.log(xcat);
                             var name = xcat.findRecord('idu', parseInt(value)).get('nick');
                             return name;
                         }

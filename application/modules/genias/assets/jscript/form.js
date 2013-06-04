@@ -67,10 +67,9 @@ Ext.define('Writer.Form', {
                     emptyText:'Seleccione la Provincia',
                     listeners: {
                         change: function(me, newValue, oldValue, eOpts) {                           
-                            if (newValue != null) {                                
+                            if (newValue != null) {                                                                
                                 PartidoStore.clearFilter();
-                                PartidoStore.filters.removeAtKey('idrel');
-
+                                PartidoStore.filters.removeAtKey('idrel');                                
                                 var myfilter = new Ext.util.Filter({
                                     filterFn: function(rec, anymatch) {                                         
                                         return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
