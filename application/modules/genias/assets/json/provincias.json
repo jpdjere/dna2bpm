@@ -1,0 +1,26 @@
+{data:[
+    {"value": "CABA", "text": "C.A.B.A."}
+    , {"value": "LAP", "text": "La Pampa"}
+    , {"value": "TDF", "text": "Tierra Del Fuego"}
+    , {"value": "SAL", "text": "Salta"}
+    , {"value": "CAT", "text": "Catamarca"}
+    , {"value": "CTE", "text": "Corrientes"}
+    , {"value": "MIS", "text": "Misiones"}
+    , {"value": "ERI", "text": "Entre Rios"}
+    , {"value": "JUJ", "text": "Jujuy"}
+    , {"value": "CHA", "text": "Chaco"}
+    , {"value": "FOR", "text": "Formosa"}
+    , {"value": "TUC", "text": "Tucum\u00e1n"}
+    , {"value": "SJU", "text": "San Juan"}
+    , {"value": "LRJ", "text": "La Rioja"}
+    , {"value": "SDE", "text": "Santiago Del Estero"}
+    , {"value": "BUE", "text": "Buenos Aires"}
+    , {"value": "SFE", "text": "Santa F\u00e9"}
+    , {"value": "MZA", "text": "Mendoza"}
+    , {"value": "CBA", "text": "C\u00f3rdoba"}
+    , {"value": "SLU", "text": "San Luis"}
+    , {"value": "NEU", "text": "Neuquen"}
+    , {"value": "RN0", "text": "Rio Negro"}
+    , {"value": "CHA", "text": "Chubut"}
+    , {"value": "SCR", "text": "Santa Cruz"}]
+}
