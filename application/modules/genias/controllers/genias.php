@@ -152,6 +152,7 @@ class Genias extends MX_Controller {
     function remove_task() {
         $id = $this->input->post('id');
         $this->genias_model->remove_task($id);
+        echo "tasks.{$this->idu}.$id";
     }
 
     function get_tasks() {

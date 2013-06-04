@@ -106,7 +106,7 @@ submitHandler: function(form) {
     var idu=myjson['idu'];
     var event_id=myjson['id'];
     localStorage['tasks.'+idu+'.'+event_id]=resp;
-    //alert(localStorage['tasks.'+idu+'.'+event_id]);
+
     });
 
     //location.reload(); 
@@ -126,8 +126,11 @@ $('#bt_delete').click(function(){
     var id=$('#detalle input[name="id"]').val();
     
     $.post(globals.module_url+'remove_task',{'id':id},function(resp){ 
+        // Vuelo el localStorage
+         alert(resp);
+        //localStorage.removeItem('tasks.'+idu+'.'+id);
     });
-    location.reload(); 
+   // location.reload(); 
 });
 
 
@@ -136,7 +139,18 @@ $('#bt_form').click(function(){
     location.href=globals.module_url+'form/'+id;
 });
 
+// Localstorage
+
+for (i = 0; i < window.localStorage.length; i++) {
+
+                key = window.localStorage.key(i);
+
+                if (/tasks.+/.test(key)) {
+                    console.log(localStorage[key]);
+                    //localStorage.removeItem(key);
+                }
+}
+// Storage
 
 		
 });
-
