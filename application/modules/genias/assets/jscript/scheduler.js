@@ -6,11 +6,31 @@
 
 $( document ).ready(function() {
 
+// Localstorage
+//
+//var tasks=[];
+//for (i = 0; i < window.localStorage.length; i++) {
+//
+//                key = window.localStorage.key(i);
+//
+//                if (/tasks.+/.test(key)) {
+//                    //tasks[key]=localStorage[key];
+//                    //localStorage.removeItem(key);
+//                }
+//}
+// Storage
+
+//var it = Iterator(tasks);
+//for (var task in it)
+//  console.log(task); 
 
 $('#calendar').fullCalendar({
 
     eventSources: [
+        
 
+
+            
         // your event source
         {
             url: globals.module_url+"/get_tasks/1",
@@ -106,7 +126,7 @@ submitHandler: function(form) {
     var idu=myjson['idu'];
     var event_id=myjson['id'];
     localStorage['tasks.'+idu+'.'+event_id]=resp;
-
+    //localStorage['tasks']=resp;
     });
 
     //location.reload(); 
@@ -139,18 +159,7 @@ $('#bt_form').click(function(){
     location.href=globals.module_url+'form/'+id;
 });
 
-// Localstorage
 
-for (i = 0; i < window.localStorage.length; i++) {
-
-                key = window.localStorage.key(i);
-
-                if (/tasks.+/.test(key)) {
-                    console.log(localStorage[key]);
-                    //localStorage.removeItem(key);
-                }
-}
-// Storage
 
 		
 });
