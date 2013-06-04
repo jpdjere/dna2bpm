@@ -3,7 +3,15 @@
  * and open the template in the editor.
  */
 
-$('input[id=lefile]').change(function(){
-    $('#photoCover').val($(this).val());
-    
+$(document).ready(function() {
+$(".calendar").datepicker();
+   
+    var changeYear = $( ".calendar" ).datepicker( "option", "changeYear" );
+    var changeMonth = $( ".calendar" ).datepicker( "option", "changeMonth" );
+
+    $( ".calendar" ).datepicker( "option", "changeMonth", true );
+    $( ".calendar" ).datepicker( "option", "changeYear", true );
+    $( ".calendar" ).datepicker( "option", "yearRange", "1920:2013" );
+
 });
+
