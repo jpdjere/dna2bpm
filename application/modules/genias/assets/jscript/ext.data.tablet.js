@@ -83,9 +83,16 @@ var userStore = Ext.create('Ext.data.Store', {
             root: 'rows',
             totalProperty: 'totalCount'
         }
-    }
-});
 
+    },
+    listeners: {
+        load: function() {
+            store.load();
+        }
+    }
+
+
+});
 
 
 /*
@@ -119,7 +126,11 @@ var ProvinciaStore = Ext.create('Ext.data.Store', {
     model: 'OpcionModel',
     proxy: {
         type: 'ajax',
-        url: globals.base_url + '/form/get_option/39', // url that will load data with respect to start and limit params        
+        //url: globals.base_url + '/form/get_option/39', // url that will load data with respect to start and limit params 
+        url: globals.module_url+'assets/json/provincias.json',
+        actionMethods:{
+            read:'GET'
+        },
         noCache: false,
         useLocalStorage: true,
         reader: {
@@ -132,11 +143,13 @@ var ProvinciaStore = Ext.create('Ext.data.Store', {
 
 
 
+
+
 /*ON LINE APP */
 if (navigator.onLine) {
     var store = Ext.create('Ext.data.Store', {
         model: 'Writer.Person',
-        autoLoad: true,
+        autoLoad: false,
         autoSync: true,
         proxy: {
             type: 'ajax',

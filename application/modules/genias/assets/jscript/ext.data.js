@@ -9,7 +9,7 @@ Ext.define('Writer.Person', {
             type: 'int',
             useNull: true
         }
-                , '7586' // 	GenIA 
+        , '7586' // 	GenIA 
                 , '7406' // 	Usuario 
                 , '7404' // 	Provincia 
                 , '7405' // 	Partido 
@@ -105,45 +105,31 @@ GeniaStore.sync();
  * @type Store
  * 
  */
-var provinciaJson = [{"value": "CABA", "text": "C.A.B.A."}
-    , {"value": "LAP", "text": "La Pampa"}
-    , {"value": "TDF", "text": "Tierra Del Fuego"}
-    , {"value": "SAL", "text": "Salta"}
-    , {"value": "CAT", "text": "Catamarca"}
-    , {"value": "CTE", "text": "Corrientes"}
-    , {"value": "MIS", "text": "Misiones"}
-    , {"value": "ERI", "text": "Entre Rios"}
-    , {"value": "JUJ", "text": "Jujuy"}
-    , {"value": "CHA", "text": "Chaco"}
-    , {"value": "FOR", "text": "Formosa"}
-    , {"value": "TUC", "text": "Tucum\u00e1n"}
-    , {"value": "SJU", "text": "San Juan"}
-    , {"value": "LRJ", "text": "La Rioja"}
-    , {"value": "SDE", "text": "Santiago Del Estero"}
-    , {"value": "BUE", "text": "Buenos Aires"}
-    , {"value": "SFE", "text": "Santa F\u00e9"}
-    , {"value": "MZA", "text": "Mendoza"}
-    , {"value": "CBA", "text": "C\u00f3rdoba"}
-    , {"value": "SLU", "text": "San Luis"}
-    , {"value": "NEU", "text": "Neuquen"}
-    , {"value": "RN0", "text": "Rio Negro"}
-    , {"value": "CHA", "text": "Chubut"}
-    , {"value": "SCR", "text": "Santa Cruz"}];
-
-Ext.define('provinciaProxy', {
-    extend: 'Ext.data.Store',
+/*
+ * @Name Provincias
+ * @type Store
+ * 
+ */
+var ProvinciaStore = Ext.create('Ext.data.Store', {
+    id: 'ProvinciaStore',
+    autoLoad: true,
     model: 'OpcionModel',
     proxy: {
-        type: 'localstorage',
-        storeId: 'ProvinciaStore',
-        id: 'ProvinciaStore'
+        type: 'ajax',
+        //url: globals.base_url + '/form/get_option/39', // url that will load data with respect to start and limit params 
+        url: globals.module_url + 'assets/json/provincias.json',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
     }
-
 });
-
-var ProvinciaStore = Ext.create('provinciaProxy');
-ProvinciaStore.add(provinciaJson);
-ProvinciaStore.sync();
 
 /*
  * @Name Partidos
@@ -161,11 +147,33 @@ Ext.define('partidosProxy', {
     }
 
 });
+/*
+ var PartidoStore = Ext.create('partidosProxy');
+ PartidoStore.removeAll();
+ PartidoStore.add(partidosJson);
+ PartidoStore.sync();*/
 
-var PartidoStore = Ext.create('partidosProxy');
-PartidoStore.removeAll();
-PartidoStore.add(partidosJson);
-PartidoStore.sync();
+
+var PartidoStore = Ext.create('Ext.data.Store', {
+    id: 'PartidoStore',
+    autoLoad: true,
+    model: 'OpcionModel',
+    proxy: {
+        type: 'ajax',        
+        url: globals.module_url + 'assets/json/partidos.json',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+});
+
 
 /*ON LINE APP */
 if (navigator.onLine) {

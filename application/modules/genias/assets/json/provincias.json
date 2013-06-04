@@ -1,0 +1,103 @@
+{
+
+    "totalcount": 24,
+    "rows": [
+        {
+            "value": "CABA",
+            "text": "C.A.B.A."
+        },
+        {
+            "value": "LP",
+            "text": "La Pampa"
+        },
+        {
+            "value": "TDF",
+            "text": "Tierra Del Fuego"
+        },
+        {
+            "value": "SAL",
+            "text": "Salta"
+        },
+        {
+            "value": "CAT",
+            "text": "Catamarca"
+        },
+        {
+            "value": "CTES",
+            "text": "Corrientes"
+        },
+        {
+            "value": "MIS",
+            "text": "Misiones"
+        },
+        {
+            "value": "ER",
+            "text": "Entre Rios"
+        },
+        {
+            "value": "JUJ",
+            "text": "Jujuy"
+        },
+        {
+            "value": "CHA",
+            "text": "Chaco"
+        },
+        {
+            "value": "FOR",
+            "text": "Formosa"
+        },
+        {
+            "value": "TUC",
+            "text": "Tucumán"
+        },
+        {
+            "value": "SJ",
+            "text": "San Juan"
+        },
+        {
+            "value": "LR",
+            "text": "La Rioja"
+        },
+        {
+            "value": "SDE",
+            "text": "Santiago Del Estero"
+        },
+        {
+            "value": "BA",
+            "text": "Buenos Aires"
+        },
+        {
+            "value": "SF",
+            "text": "Santa Fé"
+        },
+        {
+            "value": "MZA",
+            "text": "Mendoza"
+        },
+        {
+            "value": "CBA",
+            "text": "Córdoba"
+        },
+        {
+            "value": "SL",
+            "text": "San Luis"
+        },
+        {
+            "value": "NEU",
+            "text": "Neuquen"
+        },
+        {
+            "value": "RN",
+            "text": "Rio Negro"
+        },
+        {
+            "value": "CH",
+            "text": "Chubut"
+        },
+        {
+            "value": "SC",
+            "text": "Santa Cruz"
+        }
+    ]
+
+}
