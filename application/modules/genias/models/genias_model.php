@@ -21,8 +21,7 @@ class Genias_model extends CI_Model {
         $container='container.genias_tasks';
         $query=array('id'=>(integer)$id);
         $rs= $this->mongo->db->$container->remove($query);
-        return $rs['err'];
-             
+        return $rs['err'];          
     }
     
     function add_task($task){

@@ -6,7 +6,7 @@
 
 $( document ).ready(function() {
 
-//$.post(globals.module_url+"/get_tasks/1",'',function(data){alert(data)})
+
 $('#calendar').fullCalendar({
 
     eventSources: [
@@ -72,7 +72,7 @@ $('#calendar').fullCalendar({
           $('#detalle input[name="finalizada"]').attr("checked","checked");  
         }else{
           $('#detalle input[name="finalizada"]').removeAttr("checked");  
-        }       
+        }    
         $('#bt_form').removeClass('disabled');
         $('#bt_delete').removeClass('disabled');
     },
@@ -102,17 +102,22 @@ proyecto: "Debe elegir un proyecto"
 submitHandler: function(form) {
     var form =$('#detalle form').serializeArray();
     $.post(globals.module_url+'add_task',{'data':form},function(resp){ 
+    var myjson=JSON.parse(resp);
+    var idu=myjson['idu'];
+    var event_id=myjson['id'];
+    localStorage['tasks.'+idu+'.'+event_id]=resp;
+
     });
 
-    location.reload(); 
+    //location.reload(); 
 }
 }
 );
 
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
-        $('#bt_form').addClass('disabled');
-        $('#bt_delete').addClass('disabled');
+        $('#bt_form').addClass('disabled').attr('disabled','disabled');
+        $('#bt_delete').addClass('disabled').attr('disabled','disabled');
         $('form')[0].reset();
 });
 
@@ -121,8 +126,11 @@ $('#bt_delete').click(function(){
     var id=$('#detalle input[name="id"]').val();
     
     $.post(globals.module_url+'remove_task',{'id':id},function(resp){ 
+        // Vuelo el localStorage
+         alert(resp);
+        //localStorage.removeItem('tasks.'+idu+'.'+id);
     });
-    location.reload(); 
+   // location.reload(); 
 });
 
 
@@ -131,7 +139,18 @@ $('#bt_form').click(function(){
     location.href=globals.module_url+'form/'+id;
 });
 
+// Localstorage
+
+for (i = 0; i < window.localStorage.length; i++) {
+
+                key = window.localStorage.key(i);
+
+                if (/tasks.+/.test(key)) {
+                    console.log(localStorage[key]);
+                    //localStorage.removeItem(key);
+                }
+}
+// Storage
 
 		
 });
-
