@@ -6,22 +6,6 @@ Ext.require([
 
 var title = (navigator.onLine) ? "Formulario Genias ON Line Version" : "Formulario Genias OFF Line Version";
 
-/*  				 	
- C7586 	GenIA 
- C7406 	Usuario 
- C7404 	Provincia 
- C7405 	Partido 
- C7411 	Empresa visitada 
- C7407 	Fecha de la Visita 
- C7408 	Comentarios 
- C7409 	Origen 
- C7410 	Fecha de Carga  
- */
-
-
-
-
-
 Ext.define('Writer.Form', {
     extend: 'Ext.form.Panel',
     alias: 'widget.writerform',
