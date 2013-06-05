@@ -118,7 +118,7 @@ class Engine extends MX_Controller {
         if(!$silent){
             header("Location:" . $this->base_url . $redir);
         } else {
-        $this->Run('model', $idwf, $case);
+        //$this->Run('model', $idwf, $case);
         }
 
     }
