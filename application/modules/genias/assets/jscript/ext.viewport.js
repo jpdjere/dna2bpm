@@ -4,6 +4,7 @@ Ext.application({
 
     },
     launch: function() {
+
         var remove_loaders = function() {
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();

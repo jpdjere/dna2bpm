@@ -16,6 +16,7 @@ var title = (navigator.onLine) ? "Formulario Genias ON Line Version" : "Formular
  C7408 	Comentarios 
  C7409 	Origen 
  C7410 	Fecha de Carga  
+ task
  */
 
 
@@ -54,7 +55,7 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText:'Seleccione la GenIA'
+                    emptyText: 'Seleccione la GenIA'
                 },
                 {
                     xtype: 'combobox',
@@ -64,17 +65,17 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText:'Seleccione la Provincia',
+                    emptyText: 'Seleccione la Provincia',
                     listeners: {
-                        change: function(me, newValue, oldValue, eOpts) {                           
-                            if (newValue != null) {                                                                
+                        change: function(me, newValue, oldValue, eOpts) {
+                            if (newValue != null) {
                                 PartidoStore.clearFilter();
-                                PartidoStore.filters.removeAtKey('idrel');                                
+                                PartidoStore.filters.removeAtKey('idrel');
                                 var myfilter = new Ext.util.Filter({
-                                    filterFn: function(rec, anymatch) {                                         
+                                    filterFn: function(rec, anymatch) {
                                         return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
                                     }
-                                });                                 
+                                });
                                 PartidoStore.filter(myfilter);
                             }
                         }
@@ -89,14 +90,13 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText:'Seleccione el Partido'
-                },{
+                    emptyText: 'Seleccione el Partido'
+                }, {
                     fieldLabel: 'Empresa',
                     name: '7411',
                     allowBlank: false,
                     vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
-                    emptyText:'Ingrese un Nro de CUIT valido',
-                    
+                    emptyText: 'Ingrese un Nro de CUIT valido',
                 }, {
                     xtype: 'hidden',
                     fieldLabel: 'Origen',
@@ -109,14 +109,17 @@ Ext.define('Writer.Form', {
                     name: '7407',
                     xtype: 'datefield',
                     submitFormat: 'Y-m-d',
-                    emptyText:'Seleccione'
+                    emptyText: 'Seleccione'
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
                     fieldLabel: 'Comentarios',
                     emptyText: 'Comentarios...'
+                }, {
+                    name: 'task',
+                    fieldLabel: 'Task',
+                    value: this.getTask()//
                 }
-
             ],
             dockedItems: [{
                     xtype: 'toolbar',
@@ -143,6 +146,12 @@ Ext.define('Writer.Form', {
                 }]
         });
         this.callParent();
+
+    },
+    getTask: function() {
+        var getParams = document.URL.split("/");
+        var params = (getParams[getParams.length - 1]);
+        return params;
 
     },
     setActiveRecord: function(record) {
@@ -205,26 +214,26 @@ Ext.define('Writer.Grid', {
                     items: []
                 }],
             columns: [/*{
-                    text: 'ID',
-                    width: 140,
-                    sortable: true,
-                    //resizable: false,
-                    draggable: false,
-                    hideable: false,
-                    menuDisabled: true,
-                    dataIndex: 'id'
-                }, */
+             text: 'ID',
+             width: 140,
+             sortable: true,
+             //resizable: false,
+             draggable: false,
+             hideable: false,
+             menuDisabled: true,
+             dataIndex: 'id'
+             }, */
                 {
-                    header: 'Empresa',                    
+                    header: 'Empresa',
                     sortable: true,
                     dataIndex: '7411'
-                   
+
                 }, {
-                    header: 'Fecha',                       
+                    header: 'Fecha',
                     sortable: true,
                     dataIndex: '7407'
                 }, {
-                    header: 'Comentarios',   
+                    header: 'Comentarios',
                     flex: 1,
                     sortable: true,
                     dataIndex: '7408'
@@ -237,12 +246,12 @@ Ext.define('Writer.Grid', {
                     items: [{
                             text: 'Sincronizar informaci&oacute;n',
                             scope: this,
-                            handler: function() {                                
+                            handler: function() {
                                 if (navigator.onLine) {
                                     Ext.getBody().mask('Sincronizando...');
                                     Ext.Ajax.request({
-                                        url: 'process/View',
-                                        callback: function(options, success, response) {                                           
+                                        url: globals.module_url + 'process/View',
+                                        callback: function(options, success, response) {
                                             Ext.getBody().unmask();
                                             var didReset = true,
                                                     o;
@@ -272,6 +281,30 @@ Ext.define('Writer.Grid', {
                 }]
 
         });
+
+
+        /**/
+        store.load({
+            scope: this,
+            callback: function(records, operation, success) {
+
+                if (success) {
+                    
+                    var getParams = document.URL.split("/");
+                    var paramTask = (getParams[getParams.length - 1]);
+                    
+                    var sm = this.getSelectionModel();
+                    Ext.each(records, function(record) {
+                        
+                        if (record.data.task==paramTask) {
+                            var row = record.index;
+                            sm.select(row, true);
+                        }
+                    });
+                } 
+            }});
+        /**/
+
         this.callParent();
         this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
     },
@@ -297,6 +330,7 @@ Ext.define('Writer.Grid', {
             C7407: '', // 	Fecha de la Visita 
             C7408: '', // 	Comentarios 
             C7409: '', // 	Origen 
+            task: '',
             //C7410: '', // 	Fecha de Carga */
 
         }), edit = this.editing;
@@ -307,4 +341,6 @@ Ext.define('Writer.Grid', {
             column: 1
         });
     }
+
 });
+
