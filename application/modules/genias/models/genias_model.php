@@ -54,7 +54,8 @@ class Genias_model extends CI_Model {
     function add_goal($goal){
         $options = array('upsert' => true, 'safe' => true);
         $container='container.genias_goals';
-        return $this->mongo->db->$container->save($goal, $options);
+        $query=array('id'=>(integer)$goal['id']);
+        return $this->mongo->db->$container->update($query,$goal, $options);
     }
     
     function get_goals($idu){
