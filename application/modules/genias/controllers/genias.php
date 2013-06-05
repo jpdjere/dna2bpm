@@ -16,6 +16,8 @@ class Genias extends MX_Controller {
         $this->load->library('ui');
         $this->load->model('app');
         $this->load->model('user/user');
+        $this->load->model('bpm/bpm');
+        $this->load->module('bpm/engine');
         $this->load->model('user/rbac');
         $this->load->model('genias/genias_model');
         $this->load->helper('genias/tools');
@@ -102,8 +104,21 @@ class Genias extends MX_Controller {
         $mydata['desde'] = date_format($date, 'Y-m-d');
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
         $mydata['hasta'] = date_format($date, 'Y-m-d');
-
-        $this->genias_model->add_goal($mydata);
+        
+        //----genero un caso---------------------------------
+        $idwf='genia_metas';
+        $case = $this->bpm->gen_case($idwf);
+        $mydata['case']=$case;
+        $id_goal=$this->genias_model->add_goal($mydata);
+        //----------------------------------------------------
+        ob_start();
+        $null=$this->engine->Startcase('model', $idwf, $case,true);
+        ob_end_clean();
+        $thisCase=$this->bpm->get_case($case);
+        $thisCase['data']+=$mydata;
+        $this->bpm->save_case($case);
+        
+        //---la meta debería estar disponible cuando este caso esté en estado: finished
     }
 
     function programs() {
