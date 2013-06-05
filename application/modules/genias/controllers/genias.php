@@ -73,6 +73,7 @@ class Genias extends MX_Controller {
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
+            'idu'=>  $this->idu
         );
         $user = $this->user->get_user($this->idu);
         $cpData['user'] = (array) $user;
@@ -143,21 +144,25 @@ class Genias extends MX_Controller {
     function add_task() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        $duracion = 60;
-
+        
+        define('DURACION',60);
+              
         $serialized = $this->input->post('data');
         $mydata = compact_serialized($serialized);
         list($d, $m, $y) = explode("-", $mydata['dia']);
         $mydata['dia'] = iso_encode($mydata['dia']);
         $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
-        $mydata['end'] = mktime($mydata['hora'], $mydata['minutos'] + $duracion, '00', $m, $d, $y);
+        $mydata['end'] = mktime($mydata['hora'], $mydata['minutos'] + DURACION, '00', $m, $d, $y);
         $mydata['idu'] = $this->idu;
         $mydata['finalizada']=(isset( $mydata['finalizada']))?(1):(0);
+        
         if (!is_numeric($mydata['id'])) {
             $mydata['id'] = $this->app->genid('container.genias'); // create new ID    
         } else {
             $mydata['id'] = (integer) $mydata['id'];
         }
+        
+        
 
         $this->genias_model->add_task($mydata);
         echo json_encode($mydata);

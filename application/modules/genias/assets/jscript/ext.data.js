@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-Ext.define('Writer.Person', {
+Ext.define('formModel', {
     extend: 'Ext.data.Model',
     fields: [{
             name: 'id',
@@ -17,7 +17,8 @@ Ext.define('Writer.Person', {
                 , '7407' // 	Fecha de la Visita 
                 , '7408' // 	Comentarios 
                 , '7409' // 	Origen 
-                // , '7410' // 	Fecha de Carga */
+                , 'task' //     Task   
+        // , '7410' // 	Fecha de Carga */
     ],
     /*VALIDACIONES*/
 
@@ -76,6 +77,7 @@ Ext.define('OpcionModelPtdo', {
     fields: ['idrel', 'value', 'text']
 
 });
+
 
 
 
@@ -159,7 +161,7 @@ var PartidoStore = Ext.create('Ext.data.Store', {
 /*ON LINE APP */
 if (navigator.onLine) {
     var store = Ext.create('Ext.data.Store', {
-        model: 'Writer.Person',
+        model: 'formModel',
         autoLoad: true,
         autoSync: true,
         proxy: {
@@ -203,7 +205,7 @@ if (navigator.onLine) {
 } else {
     /*OFFLINE APP*/
     var store = Ext.create('Ext.data.Store', {
-        model: 'Writer.Person',
+        model: 'formModel',
         autoLoad: true,
         autoSync: true,
         proxy: {
@@ -215,7 +217,7 @@ if (navigator.onLine) {
                 if (operation.action == 'destroy') {
                     main.child('#form').setActiveRecord(null);
                 }
-                store.load();
+                store.load();                
                 store.sync();
                 //Ext.example.msg(operation.action, operation.resultSet.message);
             }
@@ -226,7 +228,7 @@ if (navigator.onLine) {
 
 
 var storeOffline = Ext.create('Ext.data.Store', {
-    model: 'Writer.Person',
+    model: 'formModel',
     autoLoad: true,
     autoSync: true,
     proxy: {

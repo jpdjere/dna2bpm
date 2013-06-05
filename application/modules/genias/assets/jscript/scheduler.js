@@ -4,83 +4,79 @@
  */
 
 
+tasks= new Array();
+tasks[1]=new Array();
+tasks[2]=new Array();
+tasks[3]=new Array();
+tasks[4]=new Array();
+tasks[666]=new Array();
+
 $( document ).ready(function() {
+
+localstorage_get_tasks();
+//mongo_get_tasks(1);
+
 
 // Localstorage
 //
+//
 //tasks= new Array();
+//tasks[1]=new Array();
+//tasks[2]=new Array();
+//tasks[3]=new Array();
+//tasks[4]=new Array();
+//tasks[666]=new Array();
+//
+//
 //for (i = 0; i < window.localStorage.length; i++) {
+//    key = window.localStorage.key(i);
 //
-//                key = window.localStorage.key(i);
-//
-//                if (/tasks.+/.test(key)) {
-//                    tasks.push(localStorage[key]);
-//                    //localStorage.removeItem(key);
-//                    
-//                }
+//    if (/tasks.+/.test(key)) {
+//        var myjson=JSON.parse(localStorage[key]);
+//        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
+//        tasks[target].push(myjson);
+//    }
 //}
+
+
  //Storage
 //console.log(tasks.toString());
 //localStorage.clear();
 //var events = JSON.parse(tasks[0]);
 
-//var it = Iterator(tasks);
-//for (var task in it)
-//console.log(tasks); 
-//tasks= new Array();
-//tasks2=JSON.parse(tasks);
+
 
 
 $('#calendar').fullCalendar({
 
-    
-    eventSources: [          
-        // your event source
+    eventSources:[
+       {
+            events: tasks[1],
+            color: '#C6372C',     // an option!
+            textColor: 'white' // an option!
+       } ,
         {
-            url: globals.module_url+"/get_tasks/1",
-            type: 'POST',
-            error: function() {
-                alert('there was an error while fetching events!');
-            },
-            color: '#C6372C',   // a non-ajax option
-            textColor: 'white' // a non-ajax option
-        },{
-            url: globals.module_url+"/get_tasks/2",
-            type: 'POST',
-            error: function() {
-                alert('there was an error while fetching events!');
-            },
-            color: '#5D9736',   // a non-ajax option
-            textColor: 'white' // a non-ajax option
-        },{
-            url: globals.module_url+"/get_tasks/3",
-            type: 'POST',
-            error: function() {
-                alert('there was an error while fetching events!');
-            },
-            color: '#365C97',   // a non-ajax option
-            textColor: 'white' // a non-ajax option
-        },{
-            url: globals.module_url+"/get_tasks/4",
-            type: 'POST',
-            error: function() {
-                alert('there was an error while fetching events!');
-            },
-            color: '#823697',   // a non-ajax option
-            textColor: 'white' // a non-ajax option
-        },
-        {
-            url: globals.module_url+"/get_tasks/666",
-            type: 'POST',
-            error: function() {
-                alert('there was an error while fetching events!');
-            },
-            color: '#cccccc',   // a non-ajax option
-            textColor: 'white' // a non-ajax option
-        }
-
-        // any other sources...
-
+            events: tasks[2],
+            color: '#5D9736',     // an option!
+            textColor: 'white' // an option!
+       } ,
+       {
+            events: tasks[3],
+            color: '#365C97',     // an option!
+            textColor: 'white' // an option!
+       } ,
+       {
+            events: tasks[4],
+            color: '#823697',     // an option!
+            textColor: 'white' // an option!
+       } 
+       ,
+       {
+            events: tasks[666],
+            color: '#CCCCCC',     // an option!
+            textColor: 'white' // an option!
+       } 
+       
     ],
     eventClick: function(calEvent, jsEvent, view) {
 
@@ -125,13 +121,15 @@ proyecto: "Debe elegir un proyecto"
 },
 submitHandler: function(form) {
     var form =$('#detalle form').serializeArray();
-    $.post(globals.module_url+'add_task',{'data':form},function(resp){     
+    $.post(globals.module_url+'add_task',{'data':form},function(resp){ 
+
     // Replico en el localStorage
     var myjson=JSON.parse(resp);
     var idu=myjson['idu'];
     var event_id=myjson['id'];
     localStorage['tasks.'+idu+'.'+event_id]=resp;  
     $('#calendar').fullCalendar( 'refetchEvents' );
+    
     });
 
     //location.reload(); 
@@ -141,9 +139,10 @@ submitHandler: function(form) {
 
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
+        $('form')[0].reset();
         $('#bt_form').addClass('disabled');
         $('#bt_delete').addClass('disabled');
-        $('form')[0].reset();
+ 
 });
 
 $('#bt_delete').click(function(){
@@ -167,3 +166,37 @@ $('#bt_form').click(function(){
 
 		
 });
+
+function localstorage_get_tasks(){
+
+for (i = 0; i < window.localStorage.length; i++) {
+    key = window.localStorage.key(i);
+
+    if (/tasks.+/.test(key)) {
+        var myjson=JSON.parse(localStorage[key]);
+        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
+        tasks[target].push(myjson);
+    }
+}
+
+}
+
+function mongo_get_tasks(p){
+
+$.post(globals.module_url+"get_tasks/1",'',function(data){
+    var myjson=JSON.parse(data);
+//    for each (var task in myjson) {
+//        console.log(task.proyecto);
+//    }
+
+//$.each( myjson, function( key, value ) {
+//    $.each( value, function( k, v ) {
+//    alert( k + ": " + v );
+//    });
+//});
+
+    //var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
+    tasks[1].push(myjson);
+});
+
+}
