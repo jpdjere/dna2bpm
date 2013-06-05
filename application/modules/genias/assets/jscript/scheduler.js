@@ -8,29 +8,33 @@ $( document ).ready(function() {
 
 // Localstorage
 //
-//var tasks=[];
+//tasks= new Array();
 //for (i = 0; i < window.localStorage.length; i++) {
 //
 //                key = window.localStorage.key(i);
 //
 //                if (/tasks.+/.test(key)) {
-//                    //tasks[key]=localStorage[key];
+//                    tasks.push(localStorage[key]);
 //                    //localStorage.removeItem(key);
+//                    
 //                }
 //}
-// Storage
+ //Storage
+//console.log(tasks.toString());
+//localStorage.clear();
+//var events = JSON.parse(tasks[0]);
 
 //var it = Iterator(tasks);
 //for (var task in it)
-//  console.log(task); 
+//console.log(tasks); 
+//tasks= new Array();
+//tasks2=JSON.parse(tasks);
+
 
 $('#calendar').fullCalendar({
 
-    eventSources: [
-        
-
-
-            
+    
+    eventSources: [          
         // your event source
         {
             url: globals.module_url+"/get_tasks/1",
@@ -121,12 +125,13 @@ proyecto: "Debe elegir un proyecto"
 },
 submitHandler: function(form) {
     var form =$('#detalle form').serializeArray();
-    $.post(globals.module_url+'add_task',{'data':form},function(resp){ 
+    $.post(globals.module_url+'add_task',{'data':form},function(resp){     
+    // Replico en el localStorage
     var myjson=JSON.parse(resp);
     var idu=myjson['idu'];
     var event_id=myjson['id'];
-    localStorage['tasks.'+idu+'.'+event_id]=resp;
-    //localStorage['tasks']=resp;
+    localStorage['tasks.'+idu+'.'+event_id]=resp;  
+    $('#calendar').fullCalendar( 'refetchEvents' );
     });
 
     //location.reload(); 
@@ -136,26 +141,25 @@ submitHandler: function(form) {
 
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
-        $('#bt_form').addClass('disabled').attr('disabled','disabled');
-        $('#bt_delete').addClass('disabled').attr('disabled','disabled');
+        $('#bt_form').addClass('disabled');
+        $('#bt_delete').addClass('disabled');
         $('form')[0].reset();
 });
 
 $('#bt_delete').click(function(){
     if($(this).hasClass('disabled'))return;
     var id=$('#detalle input[name="id"]').val();
-    
+    $('form')[0].reset();
     $.post(globals.module_url+'remove_task',{'id':id},function(resp){ 
-        // Vuelo el localStorage
-         alert(resp);
-        //localStorage.removeItem('tasks.'+idu+'.'+id);
+        localStorage.removeItem(resp);
     });
-   // location.reload(); 
+   $('#calendar').fullCalendar( 'refetchEvents' );
 });
 
 
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
+    if($(this).hasClass('disabled'))return;
     location.href=globals.module_url+'form/'+id;
 });
 
