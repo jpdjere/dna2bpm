@@ -123,7 +123,7 @@ class Genias extends MX_Controller {
         
         
         
-        var_dump($case,$thisCase,$user);
+        //var_dump($case,$thisCase,$user);
         $this->bpm->save_case($thisCase);
         $this->engine->Run('model', $idwf, $case);
         //---la meta deberia estar disponible cuando este caso este en estado: finished
