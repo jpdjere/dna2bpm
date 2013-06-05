@@ -9,8 +9,7 @@ Ext.define('Writer.Person', {
             type: 'int',
             useNull: true
         }
-
-        , 'usuario_tablet'      //      Usuario 
+                , 'usuario_tablet'      //      Usuario 
                 , '7586'                //      GenIA 
                 , '7404'                //      Provincia 
                 , 'fcc'                 //      FCC ID
@@ -156,9 +155,9 @@ if (navigator.onLine) {
         proxy: {
             type: 'ajax',
             api: {
-                read: 'process/ViewTablet', //'genias/app/geniasdev/view',
-                create: 'process/InsertTablet',
-                update: 'process/InsertTablet',
+                read: globals.module_url + 'process/ViewTablet', //'genias/app/geniasdev/view',
+                create: globals.module_url +'process/InsertTablet',
+                update: globals.module_url + 'process/InsertTablet',
                 destroy: '', //'genias/app/geniasdev/destroy'
             },
             reader: {

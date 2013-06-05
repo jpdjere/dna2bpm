@@ -223,7 +223,7 @@ class Genias extends MX_Controller {
 
     /* ------ ??? ------ */
 
-    function Form() {
+    function Form($parm=null) {
 
         //echo $this->idu;   
         //---Libraries
