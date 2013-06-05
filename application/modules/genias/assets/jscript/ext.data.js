@@ -165,9 +165,9 @@ if (navigator.onLine) {
         proxy: {
             type: 'ajax',
             api: {
-                read: 'process/View', //'genias/app/geniasdev/view',
-                create: 'process/Insert',
-                update: 'process/Insert',
+                read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
+                create: globals.module_url + 'process/Insert',
+                update: globals.module_url + 'process/Insert',
                 destroy: '', //'genias/app/geniasdev/destroy'
             },
             reader: {
@@ -239,7 +239,7 @@ var storeOffline = Ext.create('Ext.data.Store', {
                 //console.log("check" + JSON.stringify(record.data, null, 4)); 
                 //store.add(record.data);
                 Ext.Ajax.request({
-                    url: 'process/Insert',
+                    url: globals.module_url + 'process/Insert',
                     method: 'POST',
                     root: 'data',
                     type: 'json',
