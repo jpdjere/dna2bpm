@@ -106,20 +106,27 @@ class Genias extends MX_Controller {
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
         $mydata['hasta'] = date_format($date, 'Y-m-d');
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
+        //@todo  COMPLETAR
+        $mydata['genia']='nombre de la GENIA'; //<<<<<--------------------
+        $mydata['proyecto_nombre']='nombre del proyecto'; //<<<<<--------------------
         //----genero un caso---------------------------------
         $idwf='genia_metas';
         $case = $this->bpm->gen_case($idwf);
         $mydata['case']=$case;
         $id_goal=$this->genias_model->add_goal($mydata);
         //----------------------------------------------------
-        ob_start();
-        $null=$this->engine->Startcase('model', $idwf, $case,true);
-        ob_end_clean();
+        $this->engine->Startcase('model', $idwf, $case,true);
         $thisCase=$this->bpm->get_case($case);
-        $thisCase['data']+=$mydata;
-        $this->bpm->save_case($case);
+        $user=$this->user->get_user($this->idu);
+        $thisCase['data']=$mydata;
+        $thisCase['data']['owner']=(array)$user;
         
-        //---la meta debería estar disponible cuando este caso esté en estado: finished
+        
+        
+        var_dump($case,$thisCase,$user);
+        $this->bpm->save_case($thisCase);
+        $this->engine->Run('model', $idwf, $case);
+        //---la meta deberia estar disponible cuando este caso este en estado: finished
     }
 
     function programs() {
