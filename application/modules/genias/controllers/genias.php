@@ -105,7 +105,7 @@ class Genias extends MX_Controller {
         $mydata['desde'] = date_format($date, 'Y-m-d');
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
         $mydata['hasta'] = date_format($date, 'Y-m-d');
-        
+        $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
         //----genero un caso---------------------------------
         $idwf='genia_metas';
         $case = $this->bpm->gen_case($idwf);
