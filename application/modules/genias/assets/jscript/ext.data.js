@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-Ext.define('Writer.Person', {
+Ext.define('formModel', {
     extend: 'Ext.data.Model',
     fields: [{
             name: 'id',
@@ -161,7 +161,7 @@ var PartidoStore = Ext.create('Ext.data.Store', {
 /*ON LINE APP */
 if (navigator.onLine) {
     var store = Ext.create('Ext.data.Store', {
-        model: 'Writer.Person',
+        model: 'formModel',
         autoLoad: true,
         autoSync: true,
         proxy: {
@@ -205,7 +205,7 @@ if (navigator.onLine) {
 } else {
     /*OFFLINE APP*/
     var store = Ext.create('Ext.data.Store', {
-        model: 'Writer.Person',
+        model: 'formModel',
         autoLoad: true,
         autoSync: true,
         proxy: {
@@ -228,7 +228,7 @@ if (navigator.onLine) {
 
 
 var storeOffline = Ext.create('Ext.data.Store', {
-    model: 'Writer.Person',
+    model: 'formModel',
     autoLoad: true,
     autoSync: true,
     proxy: {

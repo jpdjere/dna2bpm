@@ -287,18 +287,14 @@ Ext.define('Writer.Grid', {
         store.load({
             scope: this,
             callback: function(records, operation, success) {
-
-                if (success) {
-                    
+                if (success) {                    
                     var getParams = document.URL.split("/");
-                    var paramTask = (getParams[getParams.length - 1]);
-                    
-                    var sm = this.getSelectionModel();
-                    Ext.each(records, function(record) {
-                        
+                    var paramTask = (getParams[getParams.length - 1]);                    
+                    var selectTaskRow = this.getSelectionModel();
+                    Ext.each(records, function(record) {                        
                         if (record.data.task==paramTask) {
                             var row = record.index;
-                            sm.select(row, true);
+                            selectTaskRow.select(row, true);
                         }
                     });
                 } 
@@ -321,7 +317,7 @@ Ext.define('Writer.Grid', {
         }
     },
     onAddClick: function() {
-        var rec = new Writer.Person({
+        var rec = new formModel({
             C7586: '', // 	GenIA 
             //C7406: '', // 	Usuario 
             C7404: '', // 	Provincia 
