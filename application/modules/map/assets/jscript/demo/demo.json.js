@@ -3,13 +3,12 @@
  * and open the template in the editor.
 lat: -34.924711
 long: -57.946014
- */
-
+*/
 
 $(document).ready(function(){
     var yourStartLatLng = new google.maps.LatLng(-34.924711, 57.946014);
     var options={
-        'center':'-34.924711,-57.946014'
+        'center':'-35.924711,-57.946014'
         ,
         'zoom':7
         ,
@@ -28,7 +27,8 @@ $(document).ready(function(){
                     });
                 });
             });
+            
         }
     }
-    $('#map_canvas').gmap(options); 
+    $('#map_canvas').gmap(options);
 });

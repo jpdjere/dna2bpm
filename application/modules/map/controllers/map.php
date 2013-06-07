@@ -22,9 +22,32 @@ class map extends MX_Controller {
 
     function Index() {
         $this->load->helper('url');
-        $this->json($this->module_url . 'assets/json/demo.json');
+        echo anchor('map/demo1','Demo 1').'<hr/>';
+        echo anchor('map/demo_json','Demo Json').'<hr/>';
+        echo anchor('map/pickup','PcickUp');
     }
 
+function pickup() {
+        $this->load->library('ui');
+        //---prepare globals 4 js
+        $renderData['title'] = "Pick Up on Click";
+        $renderData['base_url'] = $this->base_url;
+        $renderData['module_url'] = $this->module_url;
+        $renderData['css'] = array(
+            $this->module_url . 'assets/css/map.css' => 'MAP CSS'
+        );
+        $renderData['js'] = array(
+            $this->module_url . 'assets/jscript/demo/pickup.js' => 'DEMO1 JS'
+        );
+        $renderData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
+        $this->ui->compose('demo1', 'map/bootstrap-map.ui.php', $renderData);
+    }
+function demo_json(){
+    $this->json($this->module_url . 'assets/json/demo.json');
+}
     function demo1() {
         $this->load->library('ui');
         //---prepare globals 4 js
