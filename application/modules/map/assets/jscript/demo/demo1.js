@@ -7,7 +7,14 @@ long: -57.946014
 
 
 $(document).ready(function(){
-    $('#map_canvas').gmap().bind('init', function(ev, map) {
+    var yourStartLatLng = new google.maps.LatLng(-34.924711, 57.946014);
+    var options={
+        'center':'-34.924711,-57.946014',
+        'zoom':7
+    }
+    $('#map_canvas').gmap(options)
+/*
+    .bind('init', function(ev, map) {
         $('#map_canvas').gmap('addMarker', {
             'position': '-34.924711,-57.946014', 
             'bounds': true
@@ -16,6 +23,6 @@ $(document).ready(function(){
                 'content': 'Hello World!'
             }, this);
         });
-    });
+    });*/
     
 });
