@@ -29,4 +29,7 @@ $(document).ready(function(){
         marker[0].setPosition(new google.maps.LatLng(e.latLng.jb,e.latLng.kb));
 
     });
+    $('#whereami').on('click',function(){
+        marker[0].setPosition(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+    });
 });

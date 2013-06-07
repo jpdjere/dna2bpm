@@ -43,7 +43,7 @@ function pickup() {
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
-        $this->ui->compose('demo1', 'map/bootstrap-map.ui.php', $renderData);
+        $this->ui->compose('pickup', 'map/bootstrap-map.ui.php', $renderData);
     }
 function demo_json(){
     $this->json($this->module_url . 'assets/json/demo.json');
