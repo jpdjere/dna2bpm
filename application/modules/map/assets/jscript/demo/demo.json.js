@@ -21,7 +21,7 @@ $(document).ready(function(){
                     self.addMarker({
                         'position': new google.maps.LatLng(marker.latitude, marker.longitude), 
                         'bounds':true
-                    } ).click(function() {
+                    }).click(function() {
                         self.openInfoWindow({
                             'content': marker.content
                         }, this);
