@@ -21,23 +21,46 @@ class map extends MX_Controller {
     }
 
     function Index() {
-        $this->demo1();
+        $this->load->helper('url');
+        $this->json($this->module_url . 'assets/json/demo.json');
     }
 
     function demo1() {
         $this->load->library('ui');
         //---prepare globals 4 js
+        $renderData['title'] = "Demo 1 Harcoded all";
         $renderData['base_url'] = $this->base_url;
         $renderData['module_url'] = $this->module_url;
         $renderData['css'] = array(
-                $this->module_url . 'assets/css/map.css' => 'MAP CSS'
+            $this->module_url . 'assets/css/map.css' => 'MAP CSS'
         );
         $renderData['js'] = array(
-                $this->module_url . 'assets/jscript/demo/demo1.js' => 'DEMO1 JS'
-            );
+            $this->module_url . 'assets/jscript/demo/demo1.js' => 'DEMO1 JS'
+        );
         $renderData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
+        );
+        $this->ui->compose('demo1', 'map/bootstrap-map.ui.php', $renderData);
+    }
+
+    private function json($url = null) {
+        $this->load->library('ui');
+        //---prepare globals 4 js
+        
+        $renderData['title'] = "Demo JSON url:$url";
+        $renderData['base_url'] = $this->base_url;
+        $renderData['module_url'] = $this->module_url;
+        $renderData['css'] = array(
+            $this->module_url . 'assets/css/map.css' => 'MAP CSS'
+        );
+        $renderData['js'] = array(
+            $this->module_url . 'assets/jscript/demo/demo.json.js' => 'DEMO JSON'
+        );
+        $renderData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'json_url' => $url,
         );
         $this->ui->compose('demo1', 'map/bootstrap-map.ui.php', $renderData);
     }
