@@ -9,10 +9,9 @@ Ext.application({
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();
         }
-        var title = (navigator.onLine) ? "Informaci&oacute;n del Servidor" : "Informaci&oacute;n Local";
+        var title = (navigator.onLine) ? "Informaci&oacute;n del Servidor" : "Informaci&oacute;n Local";            
 
         center = Ext.create('Ext.panel.Panel', {
-            
             region: 'center',
             layout: {
                 type: 'hbox',
@@ -55,6 +54,7 @@ Ext.application({
             items: [center],
             listeners: {
                 render: function() {
+                    
                 },
                 afterRender: function() {
                     remove_loaders();

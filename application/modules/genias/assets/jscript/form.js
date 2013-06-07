@@ -4,7 +4,7 @@ Ext.require([
     'Ext.window.MessageBox'
 ]);
 
-var title = (navigator.onLine) ? "Formulario Genias ON Line Version" : "Formulario Genias OFF Line Version";
+var title = (navigator.onLine) ? "Escenario Pyme MODO ON-LINE" : "Escenario Pyme MODO OFF-LINE";
 
 /*  				 	
  C7586 	GenIA 
@@ -119,7 +119,17 @@ Ext.define('Writer.Form', {
                     name: 'task',
                     fieldLabel: 'Task',
                     value: this.getTask()//
+                }, {
+                    name: 'long',
+                    fieldLabel: 'Longitud',
+                    value: this.getLongitude()
+
+                }, {
+                    name: 'lat',
+                    fieldLabel: 'Latitud',
                 }
+
+
             ],
             dockedItems: [{
                     xtype: 'toolbar',
@@ -147,6 +157,17 @@ Ext.define('Writer.Form', {
         });
         this.callParent();
 
+    },
+    getLongitude: function() {
+        if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var logitud = position.coords.longitude;
+                console.log(logitud);
+                return logitud;
+            }, function(error) {
+                return '0';
+            });
+        }
     },
     getTask: function() {
         var getParams = document.URL.split("/");
@@ -188,6 +209,40 @@ Ext.define('Writer.Form', {
         this.getForm().reset();
     }
 });
+
+
+/*Ext.application({
+ name: 'Sencha',
+ requires: ['Ext.device.Geolocation'],
+ launch: function() {
+ var panel = Ext.create("Ext.Panel", {
+ fullscreen: true,
+ items: [
+ {
+ html: 'Finding Location...'
+ }   
+ ]
+ });
+ 
+ Ext.device.Geolocation.getCurrentPosition({
+ success: onPositionSuccess, 
+ failure: function() { console.log('failed') },
+ scope: this // added scope for the callback
+ });
+ 
+ 
+ },
+ coordinates: null, // to prevent undefined the property get defined with null
+ 
+ onPositionSuccess: function(position) {
+ this.coordinates = position.coords;
+ 
+ var location = "Longitude " + coordinates.longitude + " Latitude " + coordinates.latitude;
+ panel.setHtml(location);
+ }
+ });*/
+
+
 
 /*
  * 
@@ -287,17 +342,17 @@ Ext.define('Writer.Grid', {
         store.load({
             scope: this,
             callback: function(records, operation, success) {
-                if (success) {                    
+                if (success) {
                     var getParams = document.URL.split("/");
-                    var paramTask = (getParams[getParams.length - 1]);                    
+                    var paramTask = (getParams[getParams.length - 1]);
                     var selectTaskRow = this.getSelectionModel();
-                    Ext.each(records, function(record) {                        
-                        if (record.data.task==paramTask) {
+                    Ext.each(records, function(record) {
+                        if (record.data.task == paramTask) {
                             var row = record.index;
                             selectTaskRow.select(row, true);
                         }
                     });
-                } 
+                }
             }});
         /**/
 
