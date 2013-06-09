@@ -3,7 +3,7 @@
  * and open the template in the editor.
 lat: -34.924711
 long: -57.946014
-*/
+ */
 
 var marker;
 $(document).ready(function(){
@@ -24,12 +24,24 @@ $(document).ready(function(){
         }
     }
     $('#map_canvas').gmap(options);
+  
     $( $('#map_canvas').gmap('get', 'map')).click(function(e){
         //alert('lat'+e.latLng.jb+'  long:'+e.latLng.kb);
         marker[0].setPosition(new google.maps.LatLng(e.latLng.jb,e.latLng.kb));
-
     });
     $('#whereami').on('click',function(){
-        marker[0].setPosition(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+        if ("geolocation" in navigator) {
+            /* geolocation is available */
+            navigator.geolocation.getCurrentPosition(function(position) {
+                clientPos=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                marker[0].setPosition(clientPos);
+                $($('#map_canvas').gmap('get', 'map'))[0].setZoom(15);
+                $($('#map_canvas').gmap('get', 'map'))[0].setCenter(clientPos);
+                
+            });
+        } else {
+        /* geolocation IS NOT available */
+        }
+        
     });
 });

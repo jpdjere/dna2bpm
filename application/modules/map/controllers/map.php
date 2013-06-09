@@ -22,12 +22,12 @@ class map extends MX_Controller {
 
     function Index() {
         $this->load->helper('url');
-        echo anchor('map/demo1','Demo 1').'<hr/>';
-        echo anchor('map/demo_json','Demo Json').'<hr/>';
-        echo anchor('map/pickup','PcickUp');
+        echo anchor('map/demo1', 'Demo 1') . '<hr/>';
+        echo anchor('map/demo_json', 'Demo Json') . '<hr/>';
+        echo anchor('map/pickup', 'PcickUp');
     }
 
-function pickup() {
+    function pickup() {
         $this->load->library('ui');
         //---prepare globals 4 js
         $renderData['title'] = "Pick Up on Click";
@@ -37,17 +37,19 @@ function pickup() {
             $this->module_url . 'assets/css/map.css' => 'MAP CSS'
         );
         $renderData['js'] = array(
-            $this->module_url . 'assets/jscript/demo/pickup.js' => 'DEMO1 JS'
+            $this->module_url . 'assets/jscript/demo/pickup.js' => 'Pick-Up JS'
         );
         $renderData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
-        $this->ui->compose('pickup', 'map/bootstrap-map.ui.php', $renderData);
+        $this->ui->compose('pickup', 'map/bootstrap.ui.map.php', $renderData);
     }
-function demo_json(){
-    $this->json($this->module_url . 'assets/json/demo.json');
-}
+
+    function demo_json() {
+        $this->json($this->module_url . 'assets/json/demo.json');
+    }
+
     function demo1() {
         $this->load->library('ui');
         //---prepare globals 4 js
@@ -58,19 +60,21 @@ function demo_json(){
             $this->module_url . 'assets/css/map.css' => 'MAP CSS'
         );
         $renderData['js'] = array(
+            'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
+            $this->module_url . 'assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
             $this->module_url . 'assets/jscript/demo/demo1.js' => 'DEMO1 JS'
         );
         $renderData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
-        $this->ui->compose('demo1', 'map/bootstrap-map.ui.php', $renderData);
+        $this->ui->compose('demo1', 'map/bootstrap.ui.php', $renderData);
     }
 
     private function json($url = null) {
         $this->load->library('ui');
         //---prepare globals 4 js
-        
+
         $renderData['title'] = "Demo JSON url:$url";
         $renderData['base_url'] = $this->base_url;
         $renderData['module_url'] = $this->module_url;
@@ -78,6 +82,9 @@ function demo_json(){
             $this->module_url . 'assets/css/map.css' => 'MAP CSS'
         );
         $renderData['js'] = array(
+            'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
+            //$this->module_url . 'assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
+            $this->module_url . 'assets/jscript/jquery.ui.map.v3/jquery.ui.map.js' => 'Jquery.ui.map V3',
             $this->module_url . 'assets/jscript/demo/demo.json.js' => 'DEMO JSON'
         );
         $renderData['global_js'] = array(
@@ -85,7 +92,7 @@ function demo_json(){
             'module_url' => $this->module_url,
             'json_url' => $url,
         );
-        $this->ui->compose('demo1', 'map/bootstrap-map.ui.php', $renderData);
+        $this->ui->compose('demo1', 'map/bootstrap.ui.php', $renderData);
     }
 
 }
