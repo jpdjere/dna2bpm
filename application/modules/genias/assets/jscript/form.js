@@ -57,7 +57,7 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText: 'Seleccione la GenIA',editable: false
+                    emptyText: 'Seleccione la GenIA', editable: false
                 },
                 {
                     xtype: 'combobox',
@@ -68,7 +68,7 @@ Ext.define('Writer.Form', {
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione la Provincia',
-                    editable: false, 
+                    editable: false,
                     listeners: {
                         change: function(me, newValue, oldValue, eOpts) {
                             if (newValue != null) {
@@ -95,7 +95,7 @@ Ext.define('Writer.Form', {
                     valueField: 'value',
                     emptyText: 'Seleccione el Partido',
                     editable: false
-                    
+
                 }, {
                     fieldLabel: 'Empresa',
                     name: '7411',
@@ -121,44 +121,44 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Comentarios',
                     emptyText: 'Comentarios...'
                 }, {
-                    xtype: 'textareafield',
                     name: '7818',
                     fieldLabel: 'Task',
-                    value: this.getTask(),readOnly: true
-                },{                    
+                    value: this.getTask(), readOnly: true
+                }, {
                     xtype: 'button',
-                    text : 'Actualiza tu Geolocacion',
+                    fieldLabel: '',
+                    text: 'Actualiza tu Geolocacion',
                     listeners: {
                         render: function() {
                             this.getEl().on('mousedown', function(e, t, eOpts) {
                                 if (navigator && navigator.geolocation) {
                                     var nav = navigator.geolocation.getCurrentPosition(function(position) {
                                         var logitud = position.coords.longitude;
-                                        Ext.getCmp('7819').setValue(logitud); 
-                                        
-                                        var latitud = position.coords.latitude;                                        
-                                        Ext.getCmp('7820').setValue(latitud);
+                                        Ext.getCmp('long').setValue(logitud);
+
+                                        var latitud = position.coords.latitude;
+                                        Ext.getCmp('lat').setValue(latitud);
 
                                         return logitud;
                                     }, function(error) {
                                         return '0';
                                     });
                                 }
-                            }); 
+                            });
                         }
                     }
 
                 }
                 , {
-                    xtype: 'textareafield',
-                    name: '7819',                    
-                    id: 'lang',
-                    fieldLabel: 'Longitud',readOnly: true
+                    name: '7819',
+                    id: 'long',
+                    fieldLabel: 'Longitud', 
+                    readOnly: true
                 }, {
-                    xtype: 'textareafield',
                     name: '7820',
                     id: 'lat',
-                    fieldLabel: 'Latitud' ,readOnly: true                   
+                    fieldLabel: 'Latitud', 
+                    readOnly: true
                 }
             ],
             dockedItems: [{
@@ -187,7 +187,7 @@ Ext.define('Writer.Form', {
         });
         this.callParent();
 
-    },    
+    },
     getTask: function() {
         var getParams = document.URL.split("/");
         var params = (getParams[getParams.length - 1]);
