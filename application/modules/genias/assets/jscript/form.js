@@ -16,7 +16,9 @@ var title = (navigator.onLine) ? "Escenario Pyme MODO ON-LINE" : "Escenario Pyme
  C7408 	Comentarios 
  C7409 	Origen 
  C7410 	Fecha de Carga  
- task
+ C7818  Task
+ C7819  Longitud
+ C7820  Latitud
  */
 
 
@@ -55,7 +57,7 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText: 'Seleccione la GenIA'
+                    emptyText: 'Seleccione la GenIA', editable: false
                 },
                 {
                     xtype: 'combobox',
@@ -66,6 +68,7 @@ Ext.define('Writer.Form', {
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione la Provincia',
+                    editable: false,
                     listeners: {
                         change: function(me, newValue, oldValue, eOpts) {
                             if (newValue != null) {
@@ -90,7 +93,9 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText: 'Seleccione el Partido'
+                    emptyText: 'Seleccione el Partido',
+                    editable: false
+
                 }, {
                     fieldLabel: 'Empresa',
                     name: '7411',
@@ -116,20 +121,45 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Comentarios',
                     emptyText: 'Comentarios...'
                 }, {
-                    name: 'task',
+                    name: '7818',
                     fieldLabel: 'Task',
-                    value: this.getTask()//
+                    value: this.getTask(), readOnly: true
                 }, {
-                    name: 'long',
-                    fieldLabel: 'Longitud',
-                    value: this.getLongitude()
+                    xtype: 'button',
+                    fieldLabel: '',
+                    text: 'Actualiza tu Geolocacion',
+                    listeners: {
+                        render: function() {
+                            this.getEl().on('mousedown', function(e, t, eOpts) {
+                                if (navigator && navigator.geolocation) {
+                                    var nav = navigator.geolocation.getCurrentPosition(function(position) {
+                                        var logitud = position.coords.longitude;
+                                        Ext.getCmp('long').setValue(logitud);
 
-                }, {
-                    name: 'lat',
-                    fieldLabel: 'Latitud',
+                                        var latitud = position.coords.latitude;
+                                        Ext.getCmp('lat').setValue(latitud);
+
+                                        return logitud;
+                                    }, function(error) {
+                                        return '0';
+                                    });
+                                }
+                            });
+                        }
+                    }
+
                 }
-
-
+                , {
+                    name: '7819',
+                    id: 'long',
+                    fieldLabel: 'Longitud', 
+                    readOnly: true
+                }, {
+                    name: '7820',
+                    id: 'lat',
+                    fieldLabel: 'Latitud', 
+                    readOnly: true
+                }
             ],
             dockedItems: [{
                     xtype: 'toolbar',
@@ -157,17 +187,6 @@ Ext.define('Writer.Form', {
         });
         this.callParent();
 
-    },
-    getLongitude: function() {
-        if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var logitud = position.coords.longitude;
-                console.log(logitud);
-                return logitud;
-            }, function(error) {
-                return '0';
-            });
-        }
     },
     getTask: function() {
         var getParams = document.URL.split("/");
@@ -209,40 +228,6 @@ Ext.define('Writer.Form', {
         this.getForm().reset();
     }
 });
-
-
-/*Ext.application({
- name: 'Sencha',
- requires: ['Ext.device.Geolocation'],
- launch: function() {
- var panel = Ext.create("Ext.Panel", {
- fullscreen: true,
- items: [
- {
- html: 'Finding Location...'
- }   
- ]
- });
- 
- Ext.device.Geolocation.getCurrentPosition({
- success: onPositionSuccess, 
- failure: function() { console.log('failed') },
- scope: this // added scope for the callback
- });
- 
- 
- },
- coordinates: null, // to prevent undefined the property get defined with null
- 
- onPositionSuccess: function(position) {
- this.coordinates = position.coords;
- 
- var location = "Longitude " + coordinates.longitude + " Latitude " + coordinates.latitude;
- panel.setHtml(location);
- }
- });*/
-
-
 
 /*
  * 
@@ -373,16 +358,16 @@ Ext.define('Writer.Grid', {
     },
     onAddClick: function() {
         var rec = new formModel({
-            C7586: '', // 	GenIA 
-            //C7406: '', // 	Usuario 
+            C7586: '', // 	GenIA  
             C7404: '', // 	Provincia 
             C7405: '', // 	Partido 
             C7411: '', // 	Empresa visitada 
             C7407: '', // 	Fecha de la Visita 
             C7408: '', // 	Comentarios 
             C7409: '', // 	Origen 
-            task: '',
-            //C7410: '', // 	Fecha de Carga */
+            C7818: '', // 	Task 
+            C7819: '', // 	Longitud
+            C7820: '', // 	Latitud
 
         }), edit = this.editing;
         edit.cancelEdit();
