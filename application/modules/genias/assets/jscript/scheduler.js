@@ -4,39 +4,25 @@
  */
 
 
-tasks= new Array();
+var tasks= new Array();
 tasks[1]=new Array();
 tasks[2]=new Array();
 tasks[3]=new Array();
 tasks[4]=new Array();
 tasks[666]=new Array();
 
+
+
 $( document ).ready(function() {
 
-localstorage_get_tasks();
-//mongo_get_tasks(1);
+
+mongo_get_tasks(1);
+mongo_get_tasks(2);
+mongo_get_tasks(3);
+mongo_get_tasks(4);
+//localstorage_get_tasks();
 
 
-// Localstorage
-//
-//
-//tasks= new Array();
-//tasks[1]=new Array();
-//tasks[2]=new Array();
-//tasks[3]=new Array();
-//tasks[4]=new Array();
-//tasks[666]=new Array();
-//
-//
-//for (i = 0; i < window.localStorage.length; i++) {
-//    key = window.localStorage.key(i);
-//
-//    if (/tasks.+/.test(key)) {
-//        var myjson=JSON.parse(localStorage[key]);
-//        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
-//        tasks[target].push(myjson);
-//    }
-//}
 
 
  //Storage
@@ -106,7 +92,9 @@ $('#calendar').fullCalendar({
 
 $( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 
-// Validator / SUBMIT
+/*
+ *  SAVE / UPDATE
+ */
 
 $("form").validate({
 rules: {
@@ -122,17 +110,13 @@ proyecto: "Debe elegir un proyecto"
 submitHandler: function(form) {
     var form =$('#detalle form').serializeArray();
     $.post(globals.module_url+'add_task',{'data':form},function(resp){ 
-
     // Replico en el localStorage
     var myjson=JSON.parse(resp);
     var idu=myjson['idu'];
     var event_id=myjson['id'];
-    localStorage['tasks.'+idu+'.'+event_id]=resp;  
-    $('#calendar').fullCalendar( 'refetchEvents' );
-    
+    localStorage['tasks.'+idu+'.'+event_id]=resp;
     });
-
-    //location.reload(); 
+    $('#calendar').fullCalendar( 'refetchEvents' ); 
 }
 }
 );
@@ -167,8 +151,8 @@ $('#bt_form').click(function(){
 		
 });
 
+// Traigo las tareas del localstorages
 function localstorage_get_tasks(){
-
 for (i = 0; i < window.localStorage.length; i++) {
     key = window.localStorage.key(i);
 
@@ -178,25 +162,42 @@ for (i = 0; i < window.localStorage.length; i++) {
         tasks[target].push(myjson);
     }
 }
+console.log(tasks[1]);
+}
+
+// Traigo las tareas de mongo
+function mongo_get_tasks(s){
+   
+url=globals.module_url+"get_tasks/"+s;
+$.ajax(
+   {
+      /* this option */
+      async: false,
+      cache: false,
+      type: "POST",
+      dataType: "text",
+      url: url,
+      success:function(resp){
+          console.log(resp);
+          if(resp){
+            var myjson=JSON.parse(resp);             
+            $.each( myjson, function( k, v ) {
+                console.log(v.finalizada);
+                if(v.finalizada==1){
+
+                    tasks[666].push(v);
+                }else{
+                    tasks[s].push(v);
+                }
+                
+            });
+          }
+
+      }
+   });
+
 
 }
 
-function mongo_get_tasks(p){
 
-$.post(globals.module_url+"get_tasks/1",'',function(data){
-    var myjson=JSON.parse(data);
-//    for each (var task in myjson) {
-//        console.log(task.proyecto);
-//    }
 
-//$.each( myjson, function( key, value ) {
-//    $.each( value, function( k, v ) {
-//    alert( k + ": " + v );
-//    });
-//});
-
-    //var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
-    tasks[1].push(myjson);
-});
-
-}
