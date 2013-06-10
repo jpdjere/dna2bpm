@@ -73,7 +73,7 @@ class Genias extends MX_Controller {
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            'idu'=>  $this->idu
+            'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
         $cpData['user'] = (array) $user;
@@ -83,7 +83,7 @@ class Genias extends MX_Controller {
         // Profile 
         $cpData['profile_img'] = get_gravatar($user->email);
 
-        $cpData+=$customData;
+        $cpData=  array_replace_recursive($customData,$cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
 
@@ -107,22 +107,22 @@ class Genias extends MX_Controller {
         $mydata['hasta'] = date_format($date, 'Y-m-d');
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
         //@todo  COMPLETAR
-        $mydata['genia']='nombre de la GENIA'; //<<<<<--------------------
-        $mydata['proyecto_nombre']='nombre del proyecto'; //<<<<<--------------------
+        $mydata['genia'] = 'nombre de la GENIA'; //<<<<<--------------------
+        $mydata['proyecto_nombre'] = 'nombre del proyecto'; //<<<<<--------------------
         //----genero un caso---------------------------------
-        $idwf='genia_metas';
+        $idwf = 'genia_metas';
         $case = $this->bpm->gen_case($idwf);
-        $mydata['case']=$case;
-        $id_goal=$this->genias_model->add_goal($mydata);
+        $mydata['case'] = $case;
+        $id_goal = $this->genias_model->add_goal($mydata);
         //----------------------------------------------------
-        $this->engine->Startcase('model', $idwf, $case,true);
-        $thisCase=$this->bpm->get_case($case);
-        $user=$this->user->get_user($this->idu);
-        $thisCase['data']=$mydata;
-        $thisCase['data']['owner']=(array)$user;
-        
-        
-        
+        $this->engine->Startcase('model', $idwf, $case, true);
+        $thisCase = $this->bpm->get_case($case);
+        $user = $this->user->get_user($this->idu);
+        $thisCase['data'] = $mydata;
+        $thisCase['data']['owner'] = (array) $user;
+
+
+
         //var_dump($case,$thisCase,$user);
         $this->bpm->save_case($thisCase);
         $this->engine->Run('model', $idwf, $case);
@@ -151,9 +151,9 @@ class Genias extends MX_Controller {
     function add_task() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        
-        define('DURACION',60);
-              
+
+        define('DURACION', 60);
+
         $serialized = $this->input->post('data');
         $mydata = compact_serialized($serialized);
         list($d, $m, $y) = explode("-", $mydata['dia']);
@@ -161,19 +161,18 @@ class Genias extends MX_Controller {
         $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
         $mydata['end'] = mktime($mydata['hora'], $mydata['minutos'] + DURACION, '00', $m, $d, $y);
         $mydata['idu'] = $this->idu;
-        $mydata['finalizada']=(isset( $mydata['finalizada']))?(1):(0);
-        
+        $mydata['finalizada'] = (isset($mydata['finalizada'])) ? (1) : (0);
+
         if (!is_numeric($mydata['id'])) {
             $mydata['id'] = $this->app->genid('container.genias'); // create new ID    
         } else {
             $mydata['id'] = (integer) $mydata['id'];
         }
-        
-        
+
+
 
         $this->genias_model->add_task($mydata);
         echo json_encode($mydata);
-
     }
 
     function remove_task() {
@@ -203,7 +202,7 @@ class Genias extends MX_Controller {
                 'hora' => $task['hora'],
                 'minutos' => $task['minutos'],
                 'proyecto' => $task['proyecto'],
-                'finalizada'=>$task['finalizada']
+                'finalizada' => $task['finalizada']
             );
 
             $mytasks[] = $item;
@@ -218,6 +217,20 @@ class Genias extends MX_Controller {
     function map() {
         $this->user->authorize();
         $customData = $this->lang->language;
+        $customData['css'] = array(
+            $this->base_url . "map/assets/css/map.css" => 'Map CSS'
+        );
+        $customData['js'] = array(
+            'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
+            $this->base_url . 'map/assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
+            $this->module_url . 'assets/jscript/map/map.json.js' => 'Load Json Map',
+        );
+        $url=$this->module_url . 'assets/json/empresasGenia.json';
+        $customData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'json_url' => $url,
+        );
         $this->render('map', $customData);
     }
 
@@ -250,7 +263,7 @@ class Genias extends MX_Controller {
 
     /* ------ ??? ------ */
 
-    function Form($parm=null) {
+    function Form($parm = null) {
 
         //echo $this->idu;   
         //---Libraries
@@ -341,9 +354,9 @@ class Genias extends MX_Controller {
 
     // Render page
 
-    function qr($parameter= null) {
-        
-        $imgParameter = ($parameter==NULL)? '5c-FF-35-7C-96-FB':$parameter;
+    function qr($parameter = null) {
+
+        $imgParameter = ($parameter == NULL) ? '5c-FF-35-7C-96-FB' : $parameter;
         $this->load->module('qr');
         echo $this->qr->gen($imgParameter);
     }
