@@ -29,18 +29,12 @@ class Genias_model extends CI_Model {
         $container='container.genias_tasks';
         $query=array('id'=>(integer)$task['id']);
         $rs= $this->mongo->db->$container->update($query, $task, $options);
-        return $rs['err'];
-             
+        return $rs['err'];            
     }
     
     function get_tasks($idu,$proyecto){
-        if($proyecto==666){
-            // Finalizadas
-            $query = array('idu' =>(double) $idu,'finalizada'=>1);
-        }else{
-            $query = array('idu' =>(double) $idu,'proyecto'=>$proyecto,'finalizada'=>0);
-        }
-        
+
+        $query = array('idu' =>(double) $idu,'proyecto'=>$proyecto); 
         $container='container.genias_tasks';
         $result = $this->mongo->db->$container->find($query)->sort(array('id'=>-1));  
 
