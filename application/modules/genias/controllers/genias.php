@@ -48,13 +48,17 @@ class Genias extends MX_Controller {
                 if ($current['id'] == $goal['proyecto'])
                     $goal['proyecto_name'] = $current['name'];
             }
+            // get status case
+            $case=$this->genias_model->get_goal_status($goal['case']);
+            $goal['status']=(isset($case['status']) && $case['status']=='open')?('status_open'):('status_close');
+
             $goal['cumplidas'] = 6;
             $metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
             $goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');
 
             $days_back = date('Y-m-d', strtotime("-5 day"));
             if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
-                $goal['class'] = 'alert alert-error';
+            $goal['class'] = 'alert alert-error';
             $customData['goals'][] = $goal;
         }
         $this->render('dashboard', $customData);
@@ -107,8 +111,15 @@ class Genias extends MX_Controller {
         $mydata['hasta'] = date_format($date, 'Y-m-d');
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
         //@todo  COMPLETAR
+        
+        // Busco nombre del proyecto
+        $proyectos=$this->genias_model->get_config_item('projects');
+        foreach ($proyectos['items'] as $v){
+            if($mydata['proyecto']==$v['id'])$mydata['proyecto_nombre']=$v['name'];
+        }
+
         $mydata['genia'] = 'nombre de la GENIA'; //<<<<<--------------------
-        $mydata['proyecto_nombre'] = 'nombre del proyecto'; //<<<<<--------------------
+
         //----genero un caso---------------------------------
         $idwf = 'genia_metas';
         $case = $this->bpm->gen_case($idwf);
