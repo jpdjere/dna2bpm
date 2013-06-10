@@ -17,8 +17,10 @@ Ext.define('formModel', {
                 , '7407' // 	Fecha de la Visita 
                 , '7408' // 	Comentarios 
                 , '7409' // 	Origen 
-                , 'task' //     Task   
-        // , '7410' // 	Fecha de Carga */
+                , '7818' // 	Task
+                , '7819' // 	Longitud
+                , '7820' // 	Latitud
+        
     ],
     /*VALIDACIONES*/
 
