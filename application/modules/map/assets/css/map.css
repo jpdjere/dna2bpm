@@ -1,0 +1,15 @@
+/* 
+    Document   : map
+    Created on : Jun 6, 2013, 11:23:10 PM
+    Author     : Juan Ignacio Borda <juanignacioborda@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#container {
+    height: 400px;
+}
+.map {
+    height: 400px;
+    width: 100%;
+}
