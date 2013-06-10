@@ -119,17 +119,43 @@ Ext.define('Writer.Form', {
                     name: 'task',
                     fieldLabel: 'Task',
                     value: this.getTask()//
-                }, {
-                    name: 'long',
-                    fieldLabel: 'Longitud',
-                    value: this.getLongitude()
+                },{                    
+                    xtype: 'button',
+                    text : 'Geolocacion',
+                    listeners: {
+                        render: function() {
+                            this.getEl().on('mousedown', function(e, t, eOpts) {
 
+
+                                if (navigator && navigator.geolocation) {
+                                    var nav = navigator.geolocation.getCurrentPosition(function(position) {
+                                        var logitud = position.coords.longitude;
+                                        Ext.getCmp('lang').setValue(logitud); 
+                                        
+                                        var latitud = position.coords.latitude;                                        
+                                        Ext.getCmp('lat').setValue(latitud);
+
+                                        return logitud;
+                                    }, function(error) {
+                                        return '0';
+                                    });
+                                }
+
+
+                            }); // Does not work!
+                        }
+                    }
+
+                }
+                , {
+                    name: 'long',
+                    id: 'lang',
+                    fieldLabel: 'Longitud'
                 }, {
                     name: 'lat',
-                    fieldLabel: 'Latitud',
+                    id: 'lat',
+                    fieldLabel: 'Latitud'                     
                 }
-
-
             ],
             dockedItems: [{
                     xtype: 'toolbar',
@@ -152,6 +178,11 @@ Ext.define('Writer.Form', {
                             text: 'Nuevo Formulario',
                             scope: this,
                             handler: this.onReset
+                        }, {
+                            iconCls: 'Update Map',
+                            text: 'Update Map',
+                            scope: this,
+                            handler: this.getLongitude
                         }]
                 }]
         });
@@ -162,7 +193,9 @@ Ext.define('Writer.Form', {
         if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var logitud = position.coords.longitude;
-                console.log(logitud);
+
+                Ext.getCmp('lang').setValue('pepe');
+
                 return logitud;
             }, function(error) {
                 return '0';

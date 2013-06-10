@@ -275,7 +275,7 @@ class Genias extends MX_Controller {
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Formulario Genias.';
+        $cpData['title'] = 'Escenario Pyme.';
 
 
         $cpData['js'] = array(
