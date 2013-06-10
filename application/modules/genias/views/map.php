@@ -9,34 +9,36 @@
     <div class="row-fluid">
         <div class="span2">
             <!--Sidebar content-->
-    <h4>
-                   Menu Mapa
-    </h4>
- 
+            <h4>
+                Menu Mapa
+            </h4>
+
             <ul class="nav nav-list general-sidenav">
-            <!-- Mapa de Genias -->
+                <!-- Mapa de Genias -->
                 <li>
-                    <a href="#" id="mapGenias">
+                    <label class="checkbox">
+                        <input type="checkbox" value="genia">
                         Empresas Genias
-                    <i class="icon-chevron-right"></i>
-                    </a>
+                    </label>
                 </li>
-            <!-- Mapa de Empresas Dna² -->
+                <!-- Mapa de Empresas Dna² -->
                 <li>
-                    <a href="#" id="mapDNA2">
+                    <label class="checkbox">
+                        <input type="checkbox" value="dna2">
                         Empresas DNA&sup2;
-                    <i class="icon-chevron-right"></i>
-                    </a>
+                    </label>
+
                 </li>
-            <!-- Mapa de Empresas Dna² -->
+                <!-- Mapa de Empresas Dna² -->
                 <li>
+                    
                     <a href="#" id="mapClear">
                         Limpiar Mapa
-                    <i class="icon-chevron-right"></i>
+                        <i class="icon-chevron-right"></i>
                     </a>
                 </li>
             </ul>
-            
+
         </div>
         <div class="span10">
             <!--Body content-->
