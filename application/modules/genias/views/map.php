@@ -31,10 +31,9 @@
                 </li>
                 <!-- Mapa de Empresas Dna² -->
                 <li>
-                    
+
                     <a href="#" id="mapClear">
                         Limpiar Mapa
-                        <i class="icon-chevron-right"></i>
                     </a>
                 </li>
             </ul>
