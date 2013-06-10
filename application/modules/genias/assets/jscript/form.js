@@ -16,7 +16,9 @@ var title = (navigator.onLine) ? "Escenario Pyme MODO ON-LINE" : "Escenario Pyme
  C7408 	Comentarios 
  C7409 	Origen 
  C7410 	Fecha de Carga  
- task
+ C7818  Task
+ C7819  Longitud
+ C7820  Latitud
  */
 
 
@@ -119,7 +121,8 @@ Ext.define('Writer.Form', {
                     fieldLabel: 'Comentarios',
                     emptyText: 'Comentarios...'
                 }, {
-                    name: 'task',
+                    xtype: 'textareafield',
+                    name: '7818',
                     fieldLabel: 'Task',
                     value: this.getTask(),readOnly: true
                 },{                    
@@ -131,10 +134,10 @@ Ext.define('Writer.Form', {
                                 if (navigator && navigator.geolocation) {
                                     var nav = navigator.geolocation.getCurrentPosition(function(position) {
                                         var logitud = position.coords.longitude;
-                                        Ext.getCmp('lang').setValue(logitud); 
+                                        Ext.getCmp('7819').setValue(logitud); 
                                         
                                         var latitud = position.coords.latitude;                                        
-                                        Ext.getCmp('lat').setValue(latitud);
+                                        Ext.getCmp('7820').setValue(latitud);
 
                                         return logitud;
                                     }, function(error) {
@@ -147,11 +150,13 @@ Ext.define('Writer.Form', {
 
                 }
                 , {
-                    name: 'long',
+                    xtype: 'textareafield',
+                    name: '7819',                    
                     id: 'lang',
                     fieldLabel: 'Longitud',readOnly: true
                 }, {
-                    name: 'lat',
+                    xtype: 'textareafield',
+                    name: '7820',
                     id: 'lat',
                     fieldLabel: 'Latitud' ,readOnly: true                   
                 }
@@ -182,20 +187,7 @@ Ext.define('Writer.Form', {
         });
         this.callParent();
 
-    },
-    getLongitude: function() {
-        if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var logitud = position.coords.longitude;
-
-                Ext.getCmp('lang').setValue('pepe');
-
-                return logitud;
-            }, function(error) {
-                return '0';
-            });
-        }
-    },
+    },    
     getTask: function() {
         var getParams = document.URL.split("/");
         var params = (getParams[getParams.length - 1]);
@@ -236,40 +228,6 @@ Ext.define('Writer.Form', {
         this.getForm().reset();
     }
 });
-
-
-/*Ext.application({
- name: 'Sencha',
- requires: ['Ext.device.Geolocation'],
- launch: function() {
- var panel = Ext.create("Ext.Panel", {
- fullscreen: true,
- items: [
- {
- html: 'Finding Location...'
- }   
- ]
- });
- 
- Ext.device.Geolocation.getCurrentPosition({
- success: onPositionSuccess, 
- failure: function() { console.log('failed') },
- scope: this // added scope for the callback
- });
- 
- 
- },
- coordinates: null, // to prevent undefined the property get defined with null
- 
- onPositionSuccess: function(position) {
- this.coordinates = position.coords;
- 
- var location = "Longitude " + coordinates.longitude + " Latitude " + coordinates.latitude;
- panel.setHtml(location);
- }
- });*/
-
-
 
 /*
  * 
@@ -400,16 +358,16 @@ Ext.define('Writer.Grid', {
     },
     onAddClick: function() {
         var rec = new formModel({
-            C7586: '', // 	GenIA 
-            //C7406: '', // 	Usuario 
+            C7586: '', // 	GenIA  
             C7404: '', // 	Provincia 
             C7405: '', // 	Partido 
             C7411: '', // 	Empresa visitada 
             C7407: '', // 	Fecha de la Visita 
             C7408: '', // 	Comentarios 
             C7409: '', // 	Origen 
-            task: '',
-            //C7410: '', // 	Fecha de Carga */
+            C7818: '', // 	Task 
+            C7819: '', // 	Longitud
+            C7820: '', // 	Latitud
 
         }), edit = this.editing;
         edit.cancelEdit();
