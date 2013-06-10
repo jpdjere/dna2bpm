@@ -3,18 +3,24 @@
         "latitude":-35.087851, 
         "longitude":-60.463257, 
         "title":"Bragado", 
+        "tags":["genia"],
+        "icon":"factory_marker.png",
         "content":"Capital de la ind metalmec&aacute;nica"
     },
     {
         "latitude":-36.248113, 
         "longitude":-61.067505, 
         "title":"Bolivar", 
+        "tags":["genia"],
+        "icon":"factory_marker.png",
         "content":"San Carlos de Bol&iacute;var es una ciudad argentina"
     },
     {
         "latitude":-34.924711, 
         "longitude":-57.946014, 
         "title":"La Plata", 
+        "tags":["genia"],
+        "icon":"factory_marker.png",
         "content":"La Plata es la capital de la provincia de Buenos Aires (Argentina)"
     } 
     ]
