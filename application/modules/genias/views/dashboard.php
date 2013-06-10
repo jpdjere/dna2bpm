@@ -66,8 +66,9 @@ Crear nueva meta
     
 
  {goals}
+
  <div  class="row-fluid" >
-     <div class="span12 {class}">
+     <div class="span12 {class} {status}">
     <div style="float:right"> 
         
         <h2><a class="text-right btn  btn-primary detalle"  href="#{proyecto}" ><i class="icon-plus" ></i> </a> {cumplidas}/{cantidad}</h2></div>      

@@ -8,6 +8,8 @@ $( document ).ready(function() {
 
 
 
+
+
 $( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('#form_goals a').click(function(){
     var data=$('#form_goals').serializeArray();

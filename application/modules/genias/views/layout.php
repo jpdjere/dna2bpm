@@ -47,7 +47,7 @@
             <div class="pull-right profile">
                 <img src="{profile_img}"  class="pull-left" title="{username}"/>
                 <ul class="unstyled pull-left" >
-                    <li><a href="{module_url}config" title="Perfil"><i class="icon-wrench"></i></a></li>
+                    <li><a href="#" title="Perfil"><i class="icon-wrench"></i></a></li>
                     <li><a href="#" title="Salir"><i class="icon-off"></i></a></li>
                 </ul>
             </div>
