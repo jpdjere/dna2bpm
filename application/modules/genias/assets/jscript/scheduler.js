@@ -215,7 +215,7 @@ $.ajax(
       dataType: "text",
       url: url,
       success:function(resp){
-          //console.log(resp);
+          console.log(resp);
           if(resp){
             var myjson=JSON.parse(resp);             
             $.each( myjson, function( k, v ) {
