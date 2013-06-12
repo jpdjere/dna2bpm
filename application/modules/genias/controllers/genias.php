@@ -215,12 +215,8 @@ class Genias extends MX_Controller {
     }
 
     function get_tasks($proyecto) {
-        if(!isset($proyecto)){
-        $proyecto = $this->uri->segment(3) ? $this->uri->segment(3) : 1;
-        }
-
+        
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
-
         if (!$tasks->count())
             return array();
 
@@ -244,12 +240,15 @@ class Genias extends MX_Controller {
             $mytasks[] = $item;
         }
         
-
-        if(!isset($proyecto)){
-            echo json_encode($mytasks);
-        }else{
-            return $mytasks;
-        }
+         return $mytasks;
+    }
+    
+    function print_tasks(){
+       if($this->uri->segment(3)){
+            $proyecto = $this->uri->segment(3);
+            $tasks=$this->get_tasks($proyecto);
+            echo json_encode($tasks);     
+       }
     }
 
     /* ------ MAP ------ */

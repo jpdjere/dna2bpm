@@ -1,10 +1,12 @@
 <!-- / Breadcrumbs -->
-<ul class="breadcrumb navbar-static-top">
+<div class="row">
+<ul class="breadcrumb navbar-static-top span12">
   <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
 </ul>
+</div>
 <!-- / Contenido -->
 <div class="container">  
-
+<div class="row">
     
  <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
 <div class="accordion" id="goals">
@@ -84,8 +86,5 @@ Crear nueva meta
  </div>
  {/goals}
  
-<footer>
-  <p>&copy; Genias 2013</p>
-</footer>
-
+</div> 
 </div> 
