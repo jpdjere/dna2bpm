@@ -65,10 +65,7 @@
     </select>
 
     <textarea type="text" name="detail" placeholder="Detail" class="input-block-level" ></textarea>
-    <label class="checkbox">
-    <input type="checkbox" value="1" name="finalizada" >
-    Tarea finalizada
-    </label>
+
     <a class="btn btn-block  btn-primary disabled" id="bt_form" href="#"><i class="icon-tasks"></i> Cargar formulario</a>
     <a class="btn btn-block btn-primary disabled"  id="bt_delete" href="#"><i class="icon-trash"></i> Eliminar tarea</a>
     <button class="btn btn-block btn-primary " type="button" id="bt_clear"><i class="icon-plus-sign"></i>  Nueva tarea</button>
