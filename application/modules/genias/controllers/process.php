@@ -109,7 +109,7 @@ class Process extends MX_Controller {
                 $queryMac = array('mac' => $value);
                 $resultCuit = $this->mongo->db->$container->findOne($queryMac);
 
-                if ($resultCuit['id'] != null && $key != null) {
+                if ($resultCuit['id'] != null && $value != null) {
                     $id = $resultCuit['id'];
                 }
             }
