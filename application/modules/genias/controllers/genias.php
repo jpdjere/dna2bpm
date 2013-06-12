@@ -177,7 +177,7 @@ class Genias extends MX_Controller {
             $mytasks[$item['id']]=array('id'=>$item['id'],'name'=>$item['name'],'items'=>$this->get_tasks($item['id']));
         }
         $customData['tasks']=$mytasks;
-        var_dump($mytasks);
+        //var_dump($mytasks);
         //$customData['tasks']= print_r($this->get_tasks("1"));
         
         $this->render('tasks', $customData);
