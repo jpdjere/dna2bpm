@@ -104,7 +104,7 @@ Ext.define('Writer.Form', {
                             handler: this.onCreate
                         }, {
                             iconCls: 'icon-reset',
-                            text: 'Nuevo Formulario',
+                            text: 'Nuevo Usuario',
                             scope: this,
                             handler: this.onReset
                         }]
