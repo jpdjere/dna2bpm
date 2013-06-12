@@ -94,8 +94,7 @@ class Process extends MX_Controller {
         $input = json_decode(file_get_contents('php://input'));
 
         $newArr = array();
-        foreach ($input as $key => $value) {
-            $newArr['7406'] = strval($this->idu);         
+        foreach ($input as $key => $value) {                    
             if ($key == 'id') {
                 /* GENERO ID */
                 $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
@@ -109,15 +108,18 @@ class Process extends MX_Controller {
                 $queryMac = array('mac' => $value);
                 $resultCuit = $this->mongo->db->$container->findOne($queryMac);
 
-                if ($resultCuit['id'] != null && $value != null) {
+                
+                if ($resultCuit['id'] != null) {
+                    if($value!=null){
                     $id = $resultCuit['id'];
+                    } 
                 }
             }
         }
+        
+        $newArr['7406'] = strval($this->idu); 
 
-
-
-
+        
         /* Lo paso como Objeto */
         $array = (array) $newArr;
         $result = $this->app->put_array($id, $container, $array);
