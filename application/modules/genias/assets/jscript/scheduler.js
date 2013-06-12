@@ -205,7 +205,7 @@ for (i = 0; i < window.localStorage.length; i++) {
 // Traigo las tareas de mongo
 function mongo_get_tasks(s){
    
-url=globals.module_url+"get_tasks/"+s;
+url=globals.module_url+"print_tasks/"+s;
 $.ajax(
    {
       /* this option */
