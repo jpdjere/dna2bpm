@@ -39,7 +39,7 @@ class ui {
                 if (isset($data['js'])) {
                         foreach ($data['js']as $jsfile => $desc) {
                                 $strjs.="<!-- JS:$desc -->\n";
-                                $strjs.="<script type='text/javascript'>try{document.getElementById('loading-msg').innerHTML +=\"<span class='ok'>OK.</span><br/>Loading $desc...\";}catch(e){}</script>\n";
+                                //$strjs.="<script type='text/javascript'>try{document.getElementById('loading-msg').innerHTML +=\"<span class='ok'>OK.</span><br/>Loading $desc...\";}catch(e){}</script>\n";
                                 $strjs.="<script type='text/javascript' src='$jsfile'></script>\n\n";
                         }
                 }
