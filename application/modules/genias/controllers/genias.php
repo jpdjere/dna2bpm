@@ -344,8 +344,9 @@ class Genias extends MX_Controller {
         );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
-
-    function Tablet() {
+        
+    
+    function Geniausers() {
         //echo $this->idu;   
         //---Libraries
         $this->load->library('parser');
@@ -356,13 +357,13 @@ class Genias extends MX_Controller {
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Formulario Control Stock Tablets | Genias.';
+        $cpData['title'] = 'Formulario Usuarios | Genias.';
 
 
         $cpData['js'] = array(
-            $this->module_url . 'assets/jscript/ext.data.tablet.js' => 'Base Data',
-            $this->module_url . 'assets/jscript/form.tablet.js' => 'Objetos Custom D!',
-            $this->module_url . 'assets/jscript/ext.viewport.js' => '',
+            $this->module_url . 'assets/jscript/ext.data.users.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/form.users.js' => 'Objetos Custom D!',
+            $this->module_url . 'assets/jscript/ext.viewport.users.js' => '',
         );
 
         $cpData['global_js'] = array(
@@ -370,7 +371,8 @@ class Genias extends MX_Controller {
             'module_url' => $this->module_url,
         );
         $this->ui->makeui('ext.ui.php', $cpData);
-    }
+    }  
+    
 
     function App() {
         /* REMOTE */
