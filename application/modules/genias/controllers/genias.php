@@ -29,6 +29,8 @@ class Genias extends MX_Controller {
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (float) $this->session->userdata('iduser');
+        
+        ini_set('xdebug.var_display_max_depth', 100 );
     }
 
     function Index() {
@@ -49,7 +51,7 @@ class Genias extends MX_Controller {
                     $goal['proyecto_name'] = $current['name'];
             }
             // get status case
-            $case=$this->genias_model->get_goal_status($goal['case']);
+            $case=$this->genias_model->get_case($goal['case']);
            
             
             if(isset($case['status']) && $case['status']=='open'){
@@ -64,7 +66,7 @@ class Genias extends MX_Controller {
             
             
 //
-            //$goal['cumplidas'] = 6;
+            $goal['cumplidas'] = 0;
             //$metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
             //$goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');       
 //            $days_back = date('Y-m-d', strtotime("-5 day"));
@@ -169,7 +171,14 @@ class Genias extends MX_Controller {
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
 
-        $customData['tasks']=  $this->get_tasks("1");
+        $mytasks=array();
+        foreach($projects['items'] as $k=>$item){
+            $items=$this->get_tasks($item['id']);
+            $mytasks[$item['id']]=array('id'=>$item['id'],'name'=>$item['name'],'items'=>$this->get_tasks($item['id']));
+        }
+        $customData['tasks']=$mytasks;
+        var_dump($mytasks);
+        //$customData['tasks']= print_r($this->get_tasks("1"));
         
         $this->render('tasks', $customData);
     }
@@ -195,8 +204,6 @@ class Genias extends MX_Controller {
             $mydata['id'] = (integer) $mydata['id'];
         }
 
-
-
         $this->genias_model->add_task($mydata);
         echo json_encode($mydata);
     }
@@ -211,10 +218,11 @@ class Genias extends MX_Controller {
         if(!isset($proyecto)){
         $proyecto = $this->uri->segment(3) ? $this->uri->segment(3) : 1;
         }
-        
+
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
+
         if (!$tasks->count())
-            return;
+            return array();
 
         $mytasks = array();
         foreach ($tasks as $task) {
@@ -232,11 +240,16 @@ class Genias extends MX_Controller {
                 'proyecto' => $task['proyecto'],
                 'finalizada' => $task['finalizada']
             );
-
+            
             $mytasks[] = $item;
         }
+        
 
-        echo json_encode($mytasks);
+        if(!isset($proyecto)){
+            echo json_encode($mytasks);
+        }else{
+            return $mytasks;
+        }
     }
 
     /* ------ MAP ------ */

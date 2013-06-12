@@ -61,14 +61,14 @@ class Genias_model extends CI_Model {
         return $result;
     }
     
-    function get_goal_status($case){
+    function get_case($case){
         $query = array('id' =>$case);
         $container='case';
         $result = $this->mongo->db->$container->findOne($query); 
         return $result;
     }
     
-    
+
     // -- Config -- //
     
     function get_config_item($name){
