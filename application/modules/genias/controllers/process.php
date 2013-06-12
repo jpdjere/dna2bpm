@@ -24,12 +24,23 @@ class Process extends MX_Controller {
     public function Insert() {       
          
         $container = $this->containerEmpresas;
+        $containerTablet = $this->containerTablets;
         $input = json_decode(file_get_contents('php://input'));
+        
+        /*
+         * BUSCA LA GENIA X USUARIO
+         */
+        $queryGenia = array('usuario_tablet' => $this->idu);
+        $resultGenia = $this->mongo->db->$containerTablet->findOne($queryGenia);
+       
 
         $newArr = array();
         foreach ($input as $key => $value) {
-
+            
             $newArr['7406'] = strval($this->idu);
+           
+            
+            
             if ($key == 7407) {
                 list($yearVal, $monthVal, $dayVal) = explode("-", $value);
                 $dataArr = array("Y" => $yearVal, 'm' => $monthVal, 'd' => str_replace("T00:00:00", "", $dayVal));
@@ -51,6 +62,10 @@ class Process extends MX_Controller {
                 }
             }
         }
+        
+        
+         $newArr['7586'] = $resultGenia['7586']; //GENIA ID;
+        
         /* Lo paso como Objeto */
         $array = (array) $newArr;
         $result = $this->app->put_array($id, $container, $array);

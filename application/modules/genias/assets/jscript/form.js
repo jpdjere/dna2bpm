@@ -48,17 +48,18 @@ Ext.define('Writer.Form', {
                     //allowBlank: false,
                     xtype: 'hidden',
                     readOnly: true
-                },
+                }/*,
                 {
-                    xtype: 'combobox',
+                    xtype: 'hidden',
                     name: '7586',
                     fieldLabel: 'GenIA',
                     store: GeniaStore,
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText: 'Seleccione la GenIA', editable: false
-                },
+                    emptyText: 'Seleccione la GenIA', 
+                    editable: false
+                }*/,
                 {
                     xtype: 'combobox',
                     name: '7404',
@@ -272,7 +273,11 @@ Ext.define('Writer.Grid', {
                     header: 'Fecha',
                     sortable: true,
                     dataIndex: '7407'
-                }, {
+                }/*, {
+                    header: 'Genia',
+                    sortable: true,
+                    dataIndex: '7586'
+                }*/, {
                     header: 'Comentarios',
                     flex: 1,
                     sortable: true,
