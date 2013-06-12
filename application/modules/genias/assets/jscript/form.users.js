@@ -4,7 +4,7 @@ Ext.require([
     'Ext.window.MessageBox'
 ]);
 
-var title = (navigator.onLine) ? "Formulario Genias ON Line Version" : "Formulario Genias OFF Line Version";
+var title = "Formulario Usuarios Genias";
 
 Ext.define('Writer.Form', {
     extend: 'Ext.form.Panel',
@@ -34,12 +34,7 @@ Ext.define('Writer.Form', {
                     fieldLabel: '7406',
                     name: '7406',
                     xtype: 'hidden'
-                }/*,{
-                 fieldLabel: 'Usuario Tablet',
-                 name: 'usuario_tablet',
-                 allowBlank: false,
-                 emptyText: 'User tablet',
-                 }*/,
+                },
                 {
                     xtype: 'combobox',
                     name: 'usuario_tablet',
@@ -48,7 +43,8 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'nick',
                     valueField: 'idu',
-                    emptyText: 'Seleccione el usuario'
+                    emptyText: 'Seleccione el usuario',
+                    allowBlank: false
                 },
                 {
                     xtype: 'combobox',
@@ -58,7 +54,8 @@ Ext.define('Writer.Form', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
-                    emptyText: 'Seleccione la GenIA'
+                    emptyText: 'Seleccione la GenIA',
+                    allowBlank: false
                 },
                 {
                     xtype: 'combobox',
@@ -72,15 +69,13 @@ Ext.define('Writer.Form', {
                 },
                 {
                     fieldLabel: 'FCC',
-                    name: 'fcc',
-                    allowBlank: false,
-                    emptyText: 'FCC ID',
+                    name: 'fcc',                    
+                    emptyText: 'FCC ID'
                 }, {
                     fieldLabel: 'Mac Address',
-                    name: 'mac',
-                    allowBlank: false,
+                    name: 'mac',                    
                     vtype: 'MAC',
-                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac Ej: 5c-FF-35-7C-96-FB',
+                    emptyText: 'About Tablet -> Status -> Wi-Fi Mac Ej: 5c-FF-35-7C-96-FB'
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
