@@ -102,13 +102,14 @@ class Process extends MX_Controller {
             } else {
                 $newArr[$key] = $value;
             }
-                
+            
+            
             /* BUSCO LA MAC ADDRESS COMO REFERENCIA */
             if ($key == 'mac') {
                 $queryMac = array('mac' => $value);
                 $resultCuit = $this->mongo->db->$container->findOne($queryMac);
 
-                if ($resultCuit['id'] != null) {
+                if ($resultCuit['id'] != null && $value != null) {
                     $id = $resultCuit['id'];
                 }
             }

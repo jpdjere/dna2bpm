@@ -8,7 +8,7 @@ Ext.application({
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();
         }
-        var title = (navigator.onLine) ? "Informaci&oacute;n del Servidor" : "Informaci&oacute;n Local";
+        var title = "Formulario de Usuarios Genia";
 
         center = Ext.create('Ext.panel.Panel', {
             
