@@ -50,15 +50,27 @@ class Genias extends MX_Controller {
             }
             // get status case
             $case=$this->genias_model->get_goal_status($goal['case']);
-            $goal['status']=(isset($case['status']) && $case['status']=='open')?('status_open'):('status_close');
-
-            $goal['cumplidas'] = 6;
-            $metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
-            $goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');
-
-            $days_back = date('Y-m-d', strtotime("-5 day"));
-            if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
-            $goal['class'] = 'alert alert-error';
+           
+            
+            if(isset($case['status']) && $case['status']=='open'){
+                $goal['status']='Open';
+                $goal['status_icon_class']='icon-thumbs-up';
+                $goal['status_class']='status_open';
+            }else{
+                $goal['status']='Closed';
+                $goal['status_icon_class']='icon-thumbs-down';
+                $goal['status_class']='status_closed';
+            }
+            
+            
+//
+            //$goal['cumplidas'] = 6;
+            //$metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
+            //$goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');       
+//            $days_back = date('Y-m-d', strtotime("-5 day"));
+//            if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
+//            $goal['class'] = 'alert alert-error';
+            $goal['class']='well';
             $customData['goals'][] = $goal;
         }
         $this->render('dashboard', $customData);

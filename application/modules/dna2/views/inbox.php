@@ -1,6 +1,6 @@
 <!-- BTN GROUP -->
 <div id="content-header">
-    <h1>{inbox_title}</h1>
+    <h1>{inbox_title} test</h1>
 </div>
 <div id="breadcrumb">
     <a href="#" title="Go to Home" class="tip-bottom">
