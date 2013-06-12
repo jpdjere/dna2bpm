@@ -172,19 +172,7 @@ Ext.define('Writer.Grid', {
                     xtype: 'toolbar',
                     items: []
                 }],
-            columns: [{
-                    header: 'QR',
-                    dataIndex: 'mac',
-                    renderer: function(value) {
-                        return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%"> ');
-                    },
-                    listeners: {
-                        click: function(value, metaData, record, row, col, store, gridView) {
-                            //IMG
-                            Ext.Msg.alert('QR CODE ' + store.get('mac'), '<img src="qr/' + store.get('mac') + '">');
-                        }
-                    },
-                },
+            columns: [
                 {
                     header: 'Usuario',
                     sortable: true,
@@ -224,6 +212,18 @@ Ext.define('Writer.Grid', {
                     flex: 1,
                     sortable: true,
                     dataIndex: '7408'
+                },{
+                    header: 'QR',
+                    dataIndex: 'mac',
+                    renderer: function(value) {
+                        return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%"> ');
+                    },
+                    listeners: {
+                        click: function(value, metaData, record, row, col, store, gridView) {
+                            //IMG
+                            Ext.Msg.alert('QR CODE ' + store.get('mac'), '<img src="qr/' + store.get('mac') + '">');
+                        }
+                    },
                 }]
         });
         this.callParent();
