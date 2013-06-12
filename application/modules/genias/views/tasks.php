@@ -5,6 +5,7 @@
 </ul>
 
 <div class="container">  
+            {tasks}
 <!-- xxxxxxxxxx Contenido xxxxxxxxxx-->   
 <div class="accordion" id="proyectos">
 <!-- Item1 -->
@@ -15,8 +16,10 @@
 {name}
 </a>
 </div>
+
 <div id="collapse{id}" class="accordion-body collapse">
     <ul class="accordion-inner unstyled task_list">
+
         <li><input type="checkbox" value=""><a href="#">Tarea1</a><i class="icon-calendar"></i>2 de Octubre 2013<i class="icon-time"></i>08:00</li>
         <li><input type="checkbox" value=""><a href="#">Tarea1</a><i class="icon-calendar"></i>2 de Octubre 2013<i class="icon-time"></i>08:00</li>
     </ul>

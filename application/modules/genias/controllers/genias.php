@@ -50,15 +50,27 @@ class Genias extends MX_Controller {
             }
             // get status case
             $case=$this->genias_model->get_goal_status($goal['case']);
-            $goal['status']=(isset($case['status']) && $case['status']=='open')?('status_open'):('status_close');
-
-            $goal['cumplidas'] = 6;
-            $metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
-            $goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');
-
-            $days_back = date('Y-m-d', strtotime("-5 day"));
-            if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
-            $goal['class'] = 'alert alert-error';
+           
+            
+            if(isset($case['status']) && $case['status']=='open'){
+                $goal['status']='open';
+                $goal['status_icon_class']='icon-thumbs-up';
+                $goal['status_class']='status_open';
+            }else{
+                $goal['status']='closed';
+                $goal['status_icon_class']='icon-thumbs-down';
+                $goal['status_class']='status_closed';
+            }
+            
+            
+//
+            //$goal['cumplidas'] = 6;
+            //$metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
+            //$goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');       
+//            $days_back = date('Y-m-d', strtotime("-5 day"));
+//            if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
+//            $goal['class'] = 'alert alert-error';
+            $goal['class']='well';
             $customData['goals'][] = $goal;
         }
         $this->render('dashboard', $customData);
@@ -156,6 +168,9 @@ class Genias extends MX_Controller {
 
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
+
+        $customData['tasks']=  $this->get_tasks("1");
+        
         $this->render('tasks', $customData);
     }
 
@@ -192,9 +207,11 @@ class Genias extends MX_Controller {
         echo "tasks.{$this->idu}.$id";
     }
 
-    function get_tasks() {
+    function get_tasks($proyecto) {
+        if(!isset($proyecto)){
         $proyecto = $this->uri->segment(3) ? $this->uri->segment(3) : 1;
-
+        }
+        
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
         if (!$tasks->count())
             return;
