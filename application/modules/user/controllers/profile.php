@@ -52,18 +52,19 @@ class Profile extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'user/';
         
-        $customData['js'] = array($this->module_url . "assets/jscript/bootstrap-fileupload.js" => 'profile JS');
-        $customData['css'] = array($this->module_url . "assets/css/fix_bootstrap_checkbox.css" => 'profile CSS', $this->module_url . "assets/css/bootstrap-fileupload.css" => 'profile CSS');
-       
+        $customData['js'] = array($this->base_url . "jscript/jquery/ui/jquery-ui-1.10.2.custom/jquery-ui-1.10.2.custom.min.js" => 'profile JS',$this->module_url . "assets/jscript/bootstrap-fileupload.js" => 'profile JS',$this->module_url . "assets/jscript/profile.js" => 'profile JS');
+        $customData['css'] = array($this->base_url . "jscript/jquery/ui/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.css" => 'profile CSS',$this->module_url . "assets/css/fix_bootstrap_checkbox.css" => 'profile CSS', $this->module_url . "assets/css/bootstrap-fileupload.css" => 'profile CSS');
+      
         
         //tomamos los datos del usuario
         $idu = (float) $this->session->userdata('iduser');
-        //echo $idu;
-        //echo "user from db:<br/>";
-        //var_dump($this->user->get_user((float) $idu));
-        //echo '<hr/>';
+        
+        
         $customData+=(array)$this->user->get_user((float) $idu);
-  
+        
+        $genero=isset($customData['gender'])? ($customData['gender']):("male") ;
+        if($genero=="female") $customData['checkedF']= 'checked';
+        else  $customData['checkedM']= 'checked';
         
         $this->ui->compose('profileEdit', 'bootstrap.ui.php', $customData);
     }
@@ -161,22 +162,19 @@ class Profile extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'user/';
         
-        $customData['js'] = array($this->module_url . "assets/jscript/profile.js" => 'profile JS');
         $customData['css'] = array($this->module_url . "assets/css/fix_bootstrap_checkbox.css" => 'profile CSS');
         
         
         $idu = (float) $this->session->userdata('iduser');
-        //echo $idu;
-        //echo "user from db:<br/>";
-        //var_dump($this->user->get_user((float) $idu));
-        //echo '<hr/>';
-        
+       //var_dump($this->user->get_user((float) $idu));
+
        $customData+=(array)$this->user->get_user((float) $idu);
+       $genero=isset($customData['gender'])? ($customData['gender']):("nada") ;
+        if($genero=="female") $customData['checkedG']= 'femenino';
+        if($genero=="male") $customData['checkedG']= 'masculino';
        
        $this->ui->compose('profile', 'bootstrap.ui.php', $customData);
-
-       
-        
+      
     }
     
      /*
