@@ -53,11 +53,11 @@ class Genias extends MX_Controller {
            
             
             if(isset($case['status']) && $case['status']=='open'){
-                $goal['status']='Open';
+                $goal['status']='open';
                 $goal['status_icon_class']='icon-thumbs-up';
                 $goal['status_class']='status_open';
             }else{
-                $goal['status']='Closed';
+                $goal['status']='closed';
                 $goal['status_icon_class']='icon-thumbs-down';
                 $goal['status_class']='status_closed';
             }
@@ -168,6 +168,9 @@ class Genias extends MX_Controller {
 
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
+
+        $customData['tasks']=  $this->get_tasks("1");
+        
         $this->render('tasks', $customData);
     }
 
@@ -204,9 +207,11 @@ class Genias extends MX_Controller {
         echo "tasks.{$this->idu}.$id";
     }
 
-    function get_tasks() {
+    function get_tasks($proyecto) {
+        if(!isset($proyecto)){
         $proyecto = $this->uri->segment(3) ? $this->uri->segment(3) : 1;
-
+        }
+        
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
         if (!$tasks->count())
             return;
