@@ -183,10 +183,10 @@ Ext.define('Writer.Grid', {
                     valueField: 'idu',
                     renderer: function(value, metaData, record) {
                         if (value) {
-                            var ds = Ext.getStore('userStore'),idx = ds.findExact('idu', value); 
-                            index = ds.findExact('idu', value);
+                            var dataStore = Ext.getStore('userStore');
+                            index = dataStore.findExact('idu', value);
                             if (index != -1) {
-                                rs = ds.getAt(index).data;
+                                rs = dataStore.getAt(index).data;
                                 return rs.nick;
                             }
                             return value;
@@ -201,9 +201,10 @@ Ext.define('Writer.Grid', {
                     valueField: 'value',
                     renderer: function(value, metaData, record) {
                         if (value) {
-                            var Categories = Ext.getStore('GeniaStore');
-                            var record = Categories.findRecord('value', value), name = record.get('text');
-                            return name;
+                            var dataStore = Ext.getStore('GeniaStore');
+                            var record = dataStore.findRecord('value', value);
+                            return  record.get('text');                            
+                           
                         }
                     }
                 },
@@ -220,7 +221,9 @@ Ext.define('Writer.Grid', {
                     header: 'QR',
                     dataIndex: 'mac',
                     renderer: function(value) {
+                        if (value) {
                         return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%"> ');
+                        }
                     },
                     listeners: {
                         click: function(value, metaData, record, row, col, store, gridView) {
