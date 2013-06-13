@@ -38,7 +38,7 @@ class Engine extends MX_Controller {
         $this->digInto = array('Pool', 'Subprocess', 'CollapsedSubprocess', 'Lane');
         //---Debug options
         $this->debug['triggers'] = null;
-        $this->debug['Run'] = true;
+        $this->debug['Run'] = null;
         $this->debug['Startcase'] = null;
         $this->debug['get_inbound_shapes'] = null;
         $this->debug['load_data'] = null;
