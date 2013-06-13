@@ -51,17 +51,18 @@ class Genias extends MX_Controller {
                     $goal['proyecto_name'] = $current['name'];
             }
             // get status case
-            $case = $this->genias_model->get_case($goal['case']);
-
-
-            if (isset($case['status']) && $case['status'] == 'open') {
-                $goal['status'] = 'open';
-                $goal['status_icon_class'] = 'icon-thumbs-up';
-                $goal['status_class'] = 'status_open';
-            } else {
-                $goal['status'] = 'closed';
-                $goal['status_icon_class'] = 'icon-thumbs-down';
-                $goal['status_class'] = 'status_closed';
+            if(isset($goal['case']))        
+                $case=$this->genias_model->get_case($goal['case']);
+            
+            
+            if(isset($case['status']) && $case['status']=='open'){
+                $goal['status']='open';
+                $goal['status_icon_class']='icon-thumbs-up';
+                $goal['status_class']='status_open';
+            }else{
+                $goal['status']='closed';
+                $goal['status_icon_class']='icon-thumbs-down';
+                $goal['status_class']='status_closed';
             }
 
 
@@ -244,9 +245,10 @@ class Genias extends MX_Controller {
 
         return $mytasks;
     }
-
-    function print_tasks() {
-        if ($this->uri->segment(3)) {
+    
+    // Calls get_tasks and print the result
+    function print_tasks(){
+       if($this->uri->segment(3)){
             $proyecto = $this->uri->segment(3);
             $tasks = $this->get_tasks($proyecto);
             echo json_encode($tasks);

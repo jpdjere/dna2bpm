@@ -69,11 +69,11 @@ Ext.define('Writer.Form', {
                 },
                 {
                     fieldLabel: 'FCC',
-                    name: 'fcc',                    
+                    name: 'fcc',
                     emptyText: 'FCC ID'
                 }, {
                     fieldLabel: 'Mac Address',
-                    name: 'mac',                    
+                    name: 'mac',
                     vtype: 'MAC',
                     emptyText: 'About Tablet -> Status -> Wi-Fi Mac Ej: 5c-FF-35-7C-96-FB'
                 }, {
@@ -181,11 +181,15 @@ Ext.define('Writer.Grid', {
                     queryMode: 'local',
                     displayField: 'nick',
                     valueField: 'idu',
-                   renderer: function(value, metaData, record) {
-                        if (value) {                            
-                            xcat = Ext.getStore('userStore');
-                            var name = xcat.findRecord('idu', parseInt(value)).get('nick');
-                            return name;
+                    renderer: function(value, metaData, record) {
+                        if (value) {
+                            var ds = Ext.getStore('userStore'),idx = ds.findExact('idu', value); 
+                            index = ds.findExact('idu', value);
+                            if (index != -1) {
+                                rs = ds.getAt(index).data;
+                                return rs.nick;
+                            }
+                            return value;
                         }
                     }
                 }, {
@@ -212,7 +216,7 @@ Ext.define('Writer.Grid', {
                     flex: 1,
                     sortable: true,
                     dataIndex: '7408'
-                },{
+                }, {
                     header: 'QR',
                     dataIndex: 'mac',
                     renderer: function(value) {
