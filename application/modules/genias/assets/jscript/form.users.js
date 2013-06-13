@@ -184,7 +184,7 @@ Ext.define('Writer.Grid', {
                     renderer: function(value, metaData, record) {
                         if (value) {
                             var Categories = Ext.getStore('userStore');
-                            var record = Categories.findRecord('idu', value), name = record.get('nick');
+                            var record = Categories.findExact('idu', value), name = record.get('nick');
                             return name;
                         }
                     }
