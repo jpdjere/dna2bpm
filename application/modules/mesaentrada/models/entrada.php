@@ -20,9 +20,12 @@ class entrada extends CI_Model {
         $data['date'] = date('Y-m-d H:i:s');
         $rs = $this->get($type, $code);
         $last = array_pop($rs);
+        //var_dump($last['idu'] == $this->idu, $last['idu'], $this->idu);
         if ($last) {
-            if ($last['idu']==$this->idu){
+            if ((float)$last['idu'] == $this->idu) {
                 return;
+            } else {
+                $this->db->insert('entrada', $data);
             }
         } else {
             $this->db->insert('entrada', $data);

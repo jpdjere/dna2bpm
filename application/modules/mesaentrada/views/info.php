@@ -26,8 +26,8 @@
         <tr>
             <td>1</td>
             <td>{date}</td>
-            <td>{user_data}{name}{/user_data}</td>
-            <td>{dias}</td>
+            <td>{user_data}{name} {lastname}{/user_data}</td>
+            <td>{days}</td>
         </tr>
        {/result}
         

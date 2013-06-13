@@ -96,6 +96,9 @@ class Mesaentrada extends MX_Controller {
             if ($code)
                 $cpData['code'] = $code;
             $cpData['title'] = '';
+            $result = $this->prepare($this->entrada->get($type, $code));
+            unset($result['_id']);
+            $cpData['result'] = $result;
             $this->parser->parse('info', $cpData);
         } else {
             $parts = explode('/', $this->uri->uri_string());
@@ -104,37 +107,40 @@ class Mesaentrada extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
+            $result = $this->prepare($this->entrada->get($type, $code));
+            unset($result['_id']);
+            $cpData['result'] = $result;
             $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
         }
     }
 
-    function prepare($arr){
-        $rtnArr=array();
-        $cant=count($arr);
-        for($i=0;$i<$cant;$i++){
-           $val=$arr[$i];
-           ///-----calculate days
-           if(isset($arr[$i+1])){
-             $date1=new DateTime($arr[$i+1]['date']);
-             $date2=new DateTime($arr[$i]['date']);
-             
-           } else {
-             $date1=new DateTime();
-             $date2=new DateTime($arr[$i]['date']);
-           }
-           $val['days']= $datetime1->diff($datetime2);
-           $val['user_data']=$this->user->get_user_array($val['user']);
-            $rtnArr[]=$val;
+    function prepare($arr) {
+        $rtnArr = array();
+        $cant = count($arr);
+        for ($i = 0; $i < $cant; $i++) {
+            $val = $arr[$i];
+            ///-----calculate days
+            if (isset($arr[$i + 1])) {
+                $date1 = new DateTime($arr[$i + 1]['date']);
+                $date2 = new DateTime($arr[$i]['date']);
+            } else {
+                $date1 = new DateTime();
+                $date2 = new DateTime($arr[$i]['date']);
+            }
+            $interval = $date2->diff($date1);
+            $val['days'] = $interval->format('%a');
+            $val['user_data'] = $this->user->get_user_array($val['user']);
+            $rtnArr[] = $val;
         }
         return $rtnArr;
     }
-    
+
     /*
      * Esta funcion realiza el checkin para el usuario actual o user
      */
 
     function claim() {
-       if ($this->input->post('data')) {
+        if ($this->input->post('data')) {
             $parts = explode('/', str_replace($this->module_url, '', $this->input->post('data')));
             $type = $parts[1];
             $code = implode('/', array_slice($parts, 2));
@@ -142,11 +148,11 @@ class Mesaentrada extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
-            $this->entrada->claim($type,$code,$this->idu);
-            $result=$this->prepare($this->entrada->get($type,$code));
+            $this->entrada->claim($type, $code, $this->idu);
+            $result = $this->prepare($this->entrada->get($type, $code));
             unset($result['_id']);
-            $cpData['result']=$result;
-            
+            $cpData['result'] = $result;
+
             $cpData['title'] = '';
             $this->parser->parse('info', $cpData);
         }
