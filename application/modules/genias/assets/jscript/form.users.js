@@ -185,7 +185,10 @@ Ext.define('Writer.Grid', {
                         if (value) {
                             var Categories = Ext.getStore('userStore');
                             var record = Categories.findExact('idu', value), name = record.get('nick');
-                            return name;
+                            
+                            var testVal = Ext.StoreMgr.lookup("userStore").findExact('idu',value);
+                            
+                            return testVal.get('nick');
                         }
                     }
                 }, {
