@@ -221,7 +221,9 @@ Ext.define('Writer.Grid', {
                     header: 'QR',
                     dataIndex: 'mac',
                     renderer: function(value) {
+                        if (value) {
                         return Ext.String.format('<img src="qr/' + value + '" width="40%" height="40%"> ');
+                        }
                     },
                     listeners: {
                         click: function(value, metaData, record, row, col, store, gridView) {
