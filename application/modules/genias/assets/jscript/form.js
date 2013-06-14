@@ -183,6 +183,11 @@ Ext.define('Writer.Form', {
                             text: 'Nuevo Formulario',
                             scope: this,
                             handler: this.onReset
+                        }, {
+                            iconCls: 'icon-reset',
+                            text: 'Volver a la Agenda',
+                            scope: this,
+                            handler: this.agenda
                         }]
                 }]
         });
@@ -227,6 +232,10 @@ Ext.define('Writer.Form', {
     onReset: function() {
         this.setActiveRecord(null);
         this.getForm().reset();
+    },
+    agenda: function() {
+        window.location= globals.module_url + "scheduler";
+        
     }
 });
 
