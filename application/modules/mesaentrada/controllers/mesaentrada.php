@@ -168,6 +168,32 @@ class Mesaentrada extends MX_Controller {
             $this->base_url . "mesaentrada/assets/css/mesaentrada.css" => 'custom css',
         );
         $cpData['js'] = array(
+            //$this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
+            $this->module_url . "assets/jscript/html5-qrcode.js" => 'HTML5 qrcode',
+            $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
+            $this->base_url . "mesaentrada/assets/jscript/checkin.js" => 'Main functions',
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'redir' => $this->module_url . 'claim',
+            'idu' => $this->idu
+        );
+        $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
+    }
+
+
+    function Assign() {
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Assign';
+        $cpData['reader_title'] = $cpData['title'];
+        $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
+        $cpData['css'] = array(
+            $this->base_url . "mesaentrada/assets/css/mesaentrada.css" => 'custom css',
+        );
+        $cpData['js'] = array(
             $this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
             $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
             $this->base_url . "mesaentrada/assets/jscript/checkin.js" => 'Main functions',
