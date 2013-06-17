@@ -27,7 +27,7 @@ class Process extends MX_Controller {
         $container = $this->containerEmpresas;
         $containerTablet = $this->containerTablets;
         $containerTask = $this->containerTask;
-        
+
         $input = json_decode(file_get_contents('php://input'));
 
         /*
@@ -38,55 +38,53 @@ class Process extends MX_Controller {
 
 
         $newArr = array();
-        foreach ($input as $key => $value) {
 
-            $newArr['7406'] = strval($this->idu);
+        $newArr['7406'] = (double) $this->idu;
+
+        //foreach ($input as $key => $value) {
 
 
 
-            if ($key == 7407) {
-                list($yearVal, $monthVal, $dayVal) = explode("-", $value);
-                $dataArr = array("Y" => $yearVal, 'm' => $monthVal, 'd' => str_replace("T00:00:00", "", $dayVal));
-                $newArr[$key] = $dataArr; //date_parse($value);
-            } else if ($key == 'id') {
-                /* GENERO ID */
-                $id = ($value == null || strlen($value) < 6) ? $this->app->genid($container) : $value;
-            } else {
-                $newArr[$key] = $value;
-            }
 
-            /* BUSCO CUIT */
-            if ($key == 7411) {
-                
-                 
-                $newValue = str_replace('-','', $value);
-                $newArr['7411'] = $newValue;
-                
-                $queryCuit = array('7411' => $newValue);
-                $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
 
-                if ($resultCuit['id'] != null) {
-                    $id = $resultCuit['id'];
-                }
-            }
-            /* BUSCO TASK */          
-            if ($key == 7818) {
-                $task = intval($value);
-            }
+        list($yearVal, $monthVal, $dayVal) = explode("-", $input['7407']);
+        $dataArr = array("Y" => $yearVal, 'm' => $monthVal, 'd' => str_replace("T00:00:00", "", $dayVal));
+        $newArr[$key] = $dataArr; //date_parse($value);
+
+        /* GENERO ID */
+        if ($input['id']) {
+            $id = ($input == null || strlen($input) < 6) ? $this->app->genid($container) : $input['id'];
+        } else {
+            $newArr[$key] = $input[7407];
         }
+
+        /* BUSCO CUIT */
+
+        $newArr['7411'] = str_replace('-', '', $input['7411']);
+
+        $queryCuit = array('7411' => $newValue);
+        //----esto va al model
+        $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
+
+        if ($resultCuit['id'] != null) {
+            $id = $resultCuit['id'];
+        }
+
+        /* BUSCO TASK */
+        $task = (isset($input['7818'])) ? (double) $input['7818'] : null;
+        //}
 
 
         $newArr['7586'] = $resultGenia['7586']; //GENIA ID;
 
         /* Lo paso como Objeto */
         $array = (array) $newArr;
-        $result = $this->app->put_array($id, $container, $array);         
+        $result = $this->app->put_array($id, $container, $array);
         if ($result) {
-            /* TASKS  */             
-            if ($task) {                
-                
+            /* TASKS  */
+            if ($task) {
                 $queryTask = array('finalizada' => 1);
-                $result = $this->app->put_array($task, $containerTask, $queryTask);                
+                $result = $this->app->put_array($task, $containerTask, $queryTask);
             }
 
             $out = array('status' => 'ok');
