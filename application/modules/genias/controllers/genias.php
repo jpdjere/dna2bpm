@@ -223,6 +223,11 @@ class Genias extends MX_Controller {
     }
 
     function get_tasks($proyecto) {
+        
+        // Mapeo proyecto id - > orden de display en fullcalendar
+        $projects = $this->genias_model->get_config_item('projects');
+        $items = $projects['items'];
+        $proyecto=$items[$proyecto]['id'];
 
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
         if (!$tasks->count())
@@ -253,7 +258,7 @@ class Genias extends MX_Controller {
     
     // Calls get_tasks and print the result
     function print_tasks(){
-       if($this->uri->segment(3)){
+       if(is_numeric($this->uri->segment(3))){
             $proyecto = $this->uri->segment(3);
             $tasks = $this->get_tasks($proyecto);
             echo json_encode($tasks);

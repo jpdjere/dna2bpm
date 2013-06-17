@@ -5,10 +5,10 @@
 
 
 var tasks= new Array();
+tasks[0]=new Array();
 tasks[1]=new Array();
 tasks[2]=new Array();
 tasks[3]=new Array();
-tasks[4]=new Array();
 tasks[666]=new Array();
 
 
@@ -16,10 +16,10 @@ tasks[666]=new Array();
 $( document ).ready(function() {
 
 if(navigator.onLine){
+mongo_get_tasks(0);
 mongo_get_tasks(1);
 mongo_get_tasks(2);
 mongo_get_tasks(3);
-mongo_get_tasks(4);
 }else{
 localstorage_get_tasks();
 buttons_offline();
@@ -38,22 +38,22 @@ $('#calendar').fullCalendar({
 
     eventSources:[
        {
-            events: tasks[1],            
+            events: tasks[0],            
             color: '#C6372C',     // an option!
             textColor: 'white' // an option!
        } ,
         {
-            events: tasks[2],
+            events: tasks[1],
             color: '#5D9736',     // an option!
             textColor: 'white' // an option!
        } ,
        {
-            events: tasks[3],
+            events: tasks[2],
             color: '#365C97',     // an option!
             textColor: 'white' // an option!
        } ,
        {
-            events: tasks[4],
+            events: tasks[3],
             color: '#823697',     // an option!
             textColor: 'white' // an option!
        } 
