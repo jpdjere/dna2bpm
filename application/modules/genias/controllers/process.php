@@ -59,6 +59,9 @@ class Process extends MX_Controller {
         }
 
         /* BUSCO CUIT */
+        /*
+         * 7411 es de tener el id de la empresa relacionada
+         */
 
         $newArr['7411'] = str_replace('-', '', $input['7411']);
 
