@@ -115,7 +115,7 @@ Ext.define('Writer.Form', {
                     name: '7407',
                     xtype: 'datefield',
                     submitFormat: 'Y-m-d',
-                    emptyText: 'Seleccione'
+                    emptyText: 'Seleccione',editable: false
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
@@ -198,7 +198,6 @@ Ext.define('Writer.Form', {
         var getParams = document.URL.split("/");
         var params = (getParams[getParams.length - 1]);
         return params;
-
     },
     setActiveRecord: function(record) {
         this.activeRecord = record;
