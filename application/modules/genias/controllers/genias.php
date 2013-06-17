@@ -57,11 +57,11 @@ class Genias extends MX_Controller {
             
             if(isset($case['status']) && $case['status']=='open'){
                 $goal['status']='open';
-                $goal['status_icon_class']='icon-thumbs-up';
+                $goal['status_icon_class']='icon-thumbs-down';
                 $goal['status_class']='status_open';
             }else{
                 $goal['status']='closed';
-                $goal['status_icon_class']='icon-thumbs-down';
+                $goal['status_icon_class']='icon-thumbs-up';
                 $goal['status_class']='status_closed';
             }
 
