@@ -49,17 +49,17 @@ Ext.define('Writer.Form', {
                     xtype: 'hidden',
                     readOnly: true
                 }/*,
-                {
-                    xtype: 'hidden',
-                    name: '7586',
-                    fieldLabel: 'GenIA',
-                    store: GeniaStore,
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Seleccione la GenIA', 
-                    editable: false
-                }*/,
+                 {
+                 xtype: 'hidden',
+                 name: '7586',
+                 fieldLabel: 'GenIA',
+                 store: GeniaStore,
+                 queryMode: 'local',
+                 displayField: 'text',
+                 valueField: 'value',
+                 emptyText: 'Seleccione la GenIA', 
+                 editable: false
+                 }*/,
                 {
                     xtype: 'combobox',
                     name: '7404',
@@ -115,16 +115,18 @@ Ext.define('Writer.Form', {
                     name: '7407',
                     xtype: 'datefield',
                     submitFormat: 'Y-m-d',
-                    emptyText: 'Seleccione',editable: false
+                    emptyText: 'Seleccione', editable: false
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
                     fieldLabel: 'Comentarios',
                     emptyText: 'Comentarios...'
                 }, {
+                    xtype: 'hidden',
                     name: '7818',
                     fieldLabel: 'Task',
                     value: this.getTask(), readOnly: true
+
                 }, {
                     xtype: 'button',
                     fieldLabel: '',
@@ -134,13 +136,18 @@ Ext.define('Writer.Form', {
                             this.getEl().on('mousedown', function(e, t, eOpts) {
                                 if (navigator && navigator.geolocation) {
                                     var nav = navigator.geolocation.getCurrentPosition(function(position) {
+
                                         var logitud = position.coords.longitude;
                                         Ext.getCmp('long').setValue(logitud);
+
+
 
                                         var latitud = position.coords.latitude;
                                         Ext.getCmp('lat').setValue(latitud);
 
-                                        return logitud;
+                                        Ext.getCmp('longLayDisplay').setValue("Longitud: " + logitud + ' Latitud: ' + latitud);
+
+                                        //return logitud;
                                     }, function(error) {
                                         return '0';
                                     });
@@ -151,16 +158,18 @@ Ext.define('Writer.Form', {
 
                 }
                 , {
+                    xtype: 'hidden',
                     name: '7819',
                     id: 'long',
-                    fieldLabel: 'Longitud', 
+                    fieldLabel: 'Longitud',
                     readOnly: true
                 }, {
+                    xtype: 'hidden',
                     name: '7820',
                     id: 'lat',
-                    fieldLabel: 'Latitud', 
+                    fieldLabel: 'Latitud',
                     readOnly: true
-                }
+                }, {xtype: 'displayfield', id: 'longLayDisplay', style: {fontSize: '11px', color: 'blue', padding: '4px'}},
             ],
             dockedItems: [{
                     xtype: 'toolbar',
@@ -233,8 +242,8 @@ Ext.define('Writer.Form', {
         this.getForm().reset();
     },
     agenda: function() {
-        window.location= globals.module_url + "scheduler";
-        
+        window.location = globals.module_url + "scheduler";
+
     }
 });
 
@@ -282,10 +291,10 @@ Ext.define('Writer.Grid', {
                     sortable: true,
                     dataIndex: '7407'
                 }/*, {
-                    header: 'Genia',
-                    sortable: true,
-                    dataIndex: '7586'
-                }*/, {
+                 header: 'Genia',
+                 sortable: true,
+                 dataIndex: '7586'
+                 }*/, {
                     header: 'Comentarios',
                     flex: 1,
                     sortable: true,
@@ -358,7 +367,14 @@ Ext.define('Writer.Grid', {
         this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
     },
     onSelectChange: function(selModel, selections) {
-// this.down('#delete').setDisabled(selections.length === 0);
+        // this.down('#delete').setDisabled(selections.length === 0);        
+        var logitudData = this.getView().getSelectionModel().getSelection()[0].data[7819];
+        var latitudData = this.getView().getSelectionModel().getSelection()[0].data[7819];
+        var displayLongLat = (logitudData != '') ? "Longitud: " + logitudData + ' Latitud: ' + latitudData : 'NO hay informacion disponible';
+
+        Ext.getCmp('longLayDisplay').setValue(displayLongLat);
+
+
     },
     onSync: function() {
         this.store.sync();
