@@ -146,7 +146,7 @@ class Genias extends MX_Controller {
         //----------------------------------------------------
         $this->engine->Startcase('model', $idwf, $case, true);
         $thisCase = $this->bpm->get_case($case);
-        $user = $this->user->get_user($this->idu);
+        $user = $this->user->get_user_safe($this->idu);
         $thisCase['data'] = $mydata;
         $thisCase['data']['owner'] = (array) $user;
 
