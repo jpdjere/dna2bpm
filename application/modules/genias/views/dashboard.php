@@ -70,10 +70,10 @@ Crear nueva meta
  {goals}
 
  <div  class="row-fluid" >
-     <div class="span12 {class} {status}">
-    <div style="float:right"> 
-        
-    <h2>{cumplidas}/{cantidad}</h2></div>      
+    <div class="span12 {status_class}">
+    <div style="float:right">       
+    <h2>{cumplidas}/{cantidad}</h2>
+    </div>      
     <h3 style="display: inline-block;margin-right:6px">{proyecto_name}</h3>
     <span title="Inicio" ><i class="icon-calendar" ></i> {desde}</span>
     <span title="Fin" style="padding-left:15px"><i class="icon-calendar"></i> {hasta}</span> 

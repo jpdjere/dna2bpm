@@ -4,8 +4,7 @@
   <li><a href="#">Agenda</a> <span class="divider">/</span></li>
 </ul>
 <!-- / Contenido -->
-<div  class="container" >
-<div  class="row" >
+<div  class="row-fluid" >
 <div id="detalle" class="span4" >
     <form method="post">
     <input name="id" value="{id}" type="hidden"/>
@@ -17,12 +16,13 @@
     </select>
     <input type="text" name="title" placeholder="Title" class="input-block-level" />
     <!-- Fechas -->
+
     <div class="input-prepend">
     <span class="add-on"><i class="icon-calendar"></i></span>
     <input class="span2 datepicker"  type="text" placeholder="Fecha" name="dia">
-    </div>
 
-    <select class="span1" name="hora">
+
+    <select  name="hora" class="input-mir">
     <option>01</option>
     <option>02</option>
     <option>03</option>
@@ -48,8 +48,7 @@
     <option>23</option>
     <option>24</option>
     </select>
-:    
-    <select class="span1" name="minutos">
+    <select  name="minutos"  class="input-mir">
     <option selected="selected" >00</option>
     <option>05</option>
     <option>10</option>
@@ -64,6 +63,8 @@
     <option>55</option>
     </select>
 
+    </div>
+    
     <textarea type="text" name="detail" placeholder="Detail" class="input-block-level" ></textarea>
 
     <a class="btn btn-block  btn-primary disabled" id="bt_form" href="#"><i class="icon-tasks"></i> Cargar formulario</a>
@@ -73,8 +74,10 @@
 
     </form>
 </div>
+<!-- ^CALENDARIO -->
 <div id="calendar" class="span8" ></div>
-</div>
+<!-- $calendario -->
+
 
 </div>
 <div id='loading' style='display:none'>loading...</div>

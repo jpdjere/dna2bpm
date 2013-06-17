@@ -215,13 +215,9 @@ $.ajax(
       dataType: "text",
       url: url,
       success:function(resp){
-          //xxxxxxxxx
-          //xxxxxxxxxxxxxx
-          console.log(resp);
           if(resp){
             var myjson=JSON.parse(resp);             
             $.each( myjson, function( k, v ) {
-                console.log(v.finalizada);
                 if(v.finalizada==1){
                     tasks[666].push(v);
                 }else{
