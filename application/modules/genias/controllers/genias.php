@@ -58,11 +58,15 @@ class Genias extends MX_Controller {
             if(isset($case['status']) && $case['status']=='open'){
                 $goal['status']='open';
                 $goal['status_icon_class']='icon-thumbs-down';
-                $goal['status_class']='status_open';
-            }else{
+                $goal['status_class']='well status_open';
+            }
+            elseif(isset($case['status']) && $case['status']=='close'){
                 $goal['status']='closed';
                 $goal['status_icon_class']='icon-thumbs-up';
-                $goal['status_class']='status_closed';
+                $goal['status_class']='well status_closed';
+            }else{
+                $goal['status']='undefined';
+                $goal['status_class']='well status_null';
             }
 
 
@@ -73,7 +77,7 @@ class Genias extends MX_Controller {
 //            $days_back = date('Y-m-d', strtotime("-5 day"));
 //            if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
 //            $goal['class'] = 'alert alert-error';
-            $goal['class'] = 'well';
+
             $customData['goals'][] = $goal;
         }
         $this->render('dashboard', $customData);
