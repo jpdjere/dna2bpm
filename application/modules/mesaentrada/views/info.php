@@ -22,14 +22,31 @@
         </tr>
     </thead>
     <tbody>
-       {result}
+        {result}
         <tr>
             <td>1</td>
             <td>{date}</td>
             <td>{user_data}{name} {lastname}{/user_data}</td>
             <td>{days}</td>
         </tr>
-       {/result}
-        
+        {/result}
+
     </tbody>
 </table>
+<div class="login img-polaroid">
+    <h3>
+        Assignar a:
+    </h3>
+    <form action="{module_url}claim" class="form-inline">
+        <div class="input-prepend">
+            <span class="add-on"><i class="icon-group"></i> Grupo</span>
+            <select name="type" class="span2" id="type" >
+                <option val="PDE">
+                    {name}
+                </option>
+            </select>
+        </div>
+
+    </form>
+
+</div>
