@@ -52,21 +52,22 @@ class Genias extends MX_Controller {
             }
             // get status case
             if(isset($goal['case']))        
-                $case=$this->genias_model->get_case($goal['case']);
-            
-            
+                $case=$this->genias_model->get_case($goal['case']);           
             if(isset($case['status']) && $case['status']=='open'){
-                $goal['status']='open';
-                $goal['status_icon_class']='icon-thumbs-down';
+                $goal['status']='Pendiente aprobación';
+                $goal['status_icon_class']='icon-time';
                 $goal['status_class']='well status_open';
+                $goal['label_class']='label-important';
             }
             elseif(isset($case['status']) && $case['status']=='close'){
-                $goal['status']='closed';
+                $goal['status']='Aprobado';
                 $goal['status_icon_class']='icon-thumbs-up';
                 $goal['status_class']='well status_closed';
+                $goal['label_class']='label-success';
             }else{
                 $goal['status']='undefined';
                 $goal['status_class']='well status_null';
+                $goal['label_class']='';
             }
 
 

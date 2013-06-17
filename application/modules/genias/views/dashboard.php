@@ -77,7 +77,7 @@ Crear nueva meta
     <h3 style="display: inline-block;margin-right:6px">{proyecto_name}</h3>
     <span title="Inicio" ><i class="icon-calendar" ></i> {desde}</span>
     <span title="Fin" style="padding-left:15px"><i class="icon-calendar"></i> {hasta}</span> 
-    <span>&nbsp;<i class="icon-double-angle-right"></i>&nbsp;<span class="label label-info"><i class="{status_icon_class}"></i>&nbsp;{status}</span> </span>
+    <span>&nbsp;<i class="icon-double-angle-right"></i>&nbsp;<span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span> </span>
          <div class="observaciones" >
          <div class="line"></div>
              {observaciones}
