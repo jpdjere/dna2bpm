@@ -59,7 +59,7 @@ class Genias extends MX_Controller {
                 $goal['status_class']='well status_open';
                 $goal['label_class']='label-important';
             }
-            elseif(isset($case['status']) && $case['status']=='close'){
+            elseif(isset($case['status']) && $case['status']=='closed'){
                 $goal['status']='Aprobado';
                 $goal['status_icon_class']='icon-thumbs-up';
                 $goal['status_class']='well status_closed';
