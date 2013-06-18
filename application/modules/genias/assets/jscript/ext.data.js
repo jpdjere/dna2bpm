@@ -5,30 +5,47 @@
 Ext.define('formModel', {
     extend: 'Ext.data.Model',
     fields: [{
-            name: 'id',
-            type: 'int',
-            useNull: true
-        }
-        , '7586' // 	GenIA 
-                , '7406' // 	Usuario 
-                , '7404' // 	Provincia 
-                , '7405' // 	Partido 
-                , '7411' // 	Empresa visitada 
-                , '7407' // 	Fecha de la Visita 
-                , '7408' // 	Comentarios 
-                , '7409' // 	Origen 
-                , '7818' // 	Task
-                , '7819' // 	Longitud
-                , '7820' // 	Latitud
+        name: 'id',
+        type: 'int',
+        useNull: true
+    }
+    , '7586' // 	GenIA 
+    , '7406' // 	Usuario 
+    , '7404' // 	Provincia 
+    , '7405' // 	Partido 
+    , '7411' // 	Empresa visitada 
+    , '7407' // 	Fecha de la Visita 
+    , '7408' // 	Comentarios 
+    , '7409' // 	Origen 
+    , '7818' // 	Task
+    , '7819' // 	Longitud
+    , '7820' // 	Latitud
         
     ],
     /*VALIDACIONES*/
 
     validations: [{
-            type: 'length',
-            field: '7411',
-            min: 1
-        }]
+        type: 'length',
+        field: '7411',
+        min: 1
+    }]
+});
+
+Ext.define('EmpresaModel', {
+    extend: 'Ext.data.Model',
+    fields: [{
+        name: 'id',
+        type: 'int',
+        useNull: true
+    }
+    ,'1693'  // Nombre de la empresa
+    ,'1695'  // CUIT
+    , '7819' // 	Longitud
+    , '7820' // 	Latitud
+    , '4651' // 	Partido
+    , '4653' //         Direccion
+    , '1699' // 	Localidad
+    ]
 });
 
 
@@ -200,7 +217,7 @@ if (navigator.onLine) {
                 if (operation.action == 'destroy') {
                     main.child('#form').setActiveRecord(null);
                 }
-                //Ext.example.msg(operation.action, operation.resultSet.message);
+            //Ext.example.msg(operation.action, operation.resultSet.message);
             }
         }
     });
@@ -221,11 +238,11 @@ if (navigator.onLine) {
                 }
                 store.load();                
                 store.sync();
-                //Ext.example.msg(operation.action, operation.resultSet.message);
+            //Ext.example.msg(operation.action, operation.resultSet.message);
             }
         }
     });
-    /*end OFFLINE APP*/
+/*end OFFLINE APP*/
 }
 
 
@@ -251,7 +268,7 @@ var storeOffline = Ext.create('Ext.data.Store', {
                     callback: function(options, success, response) {
 
                         var didPost = true,
-                                o;
+                        o;
 
                         if (success) {
                             try {
@@ -268,8 +285,8 @@ var storeOffline = Ext.create('Ext.data.Store', {
             });
             // Sync the online store
             store.sync();
-            // Remove data from offline store
-            //storeOffline.removeAll();
+        // Remove data from offline store
+        //storeOffline.removeAll();
         },
         write: function(proxy, operation) {
             if (operation.action == 'destroy') {
