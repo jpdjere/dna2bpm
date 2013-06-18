@@ -84,13 +84,15 @@ class Genias_model extends CI_Model {
         return $rs['err'];
     }
 
-    function get_empresas($prov) {
+    function get_empresas($query) {
         $rtn=array();
-        $query = array(
-            '4651' => $prov,
-            'status' => 'activa',
+        $query['status'] = 'activa';
+        $fields=array('id',
+            '1693',//nombre
+            '1695',//cuit
+            '7751',//Longitud
+            '7752',//Latitud
             );
-        $fields=array('id','1693','1695');
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query,$fields);
         foreach($result as $empresa){

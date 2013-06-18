@@ -51,23 +51,22 @@ class Genias extends MX_Controller {
                     $goal['proyecto_name'] = $current['name'];
             }
             // get status case
-            if(isset($goal['case']))        
-                $case=$this->genias_model->get_case($goal['case']);           
-            if(isset($case['status']) && $case['status']=='open'){
-                $goal['status']='Pendiente aprobación';
-                $goal['status_icon_class']='icon-time';
-                $goal['status_class']='well status_open';
-                $goal['label_class']='label-important';
-            }
-            elseif(isset($case['status']) && $case['status']=='closed'){
-                $goal['status']='Aprobado';
-                $goal['status_icon_class']='icon-thumbs-up';
-                $goal['status_class']='well status_closed';
-                $goal['label_class']='label-success';
-            }else{
-                $goal['status']='undefined';
-                $goal['status_class']='well status_null';
-                $goal['label_class']='';
+            if (isset($goal['case']))
+                $case = $this->genias_model->get_case($goal['case']);
+            if (isset($case['status']) && $case['status'] == 'open') {
+                $goal['status'] = 'Pendiente aprobación';
+                $goal['status_icon_class'] = 'icon-time';
+                $goal['status_class'] = 'well status_open';
+                $goal['label_class'] = 'label-important';
+            } elseif (isset($case['status']) && $case['status'] == 'closed') {
+                $goal['status'] = 'Aprobado';
+                $goal['status_icon_class'] = 'icon-thumbs-up';
+                $goal['status_class'] = 'well status_closed';
+                $goal['label_class'] = 'label-success';
+            } else {
+                $goal['status'] = 'undefined';
+                $goal['status_class'] = 'well status_null';
+                $goal['label_class'] = '';
             }
 
 
@@ -223,11 +222,11 @@ class Genias extends MX_Controller {
     }
 
     function get_tasks($proyecto) {
-        
+
         // Mapeo proyecto id - > orden de display en fullcalendar
         $projects = $this->genias_model->get_config_item('projects');
         $items = $projects['items'];
-        $proyecto=$items[$proyecto]['id'];
+        $proyecto = $items[$proyecto]['id'];
 
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
         if (!$tasks->count())
@@ -255,10 +254,10 @@ class Genias extends MX_Controller {
 
         return $mytasks;
     }
-    
+
     // Calls get_tasks and print the result
-    function print_tasks(){
-       if(is_numeric($this->uri->segment(3))){
+    function print_tasks() {
+        if (is_numeric($this->uri->segment(3))) {
             $proyecto = $this->uri->segment(3);
             $tasks = $this->get_tasks($proyecto);
             echo json_encode($tasks);
@@ -440,34 +439,56 @@ class Genias extends MX_Controller {
         $error = $this->genias_model->config_set($mydata);
         echo (is_null($error)) ? ("Registro guardado") : ("No se ha podido guardar el registro");
     }
-    
-    function empresas_test($idgenia=null){
+
+    function empresas_test($idgenia = null) {
         $this->load->model('app');
-        $debug=false;
-        $prov='JUJ';
-        $provincias=$this->app->get_ops(39);
-        
-        foreach($provincias as $key=>$valor){
-        $empresas=$this->genias_model->get_empresas($key);
-        $rtnArr=array();
-        $rtnArr['totalCount'] = count($empresas);
-        $rtnArr['rows'] = $empresas;
-        echo "prov:".$valor.":".count($empresas).":" . number_format(strlen(json_encode($rtnArr))/1024,2)." Kb<br/>";
-        
+        $debug = false;
+        $prov = 'JUJ';
+        $provincias = $this->app->get_ops(39);
+        $this->load->library('table');
+
+        $this->table->set_heading(array('Provincia', 'Cantidad', 'Size', 'gziped'));
+
+        foreach ($provincias as $key => $valor) {
+            $query = array('4651' => $key);
+            $empresas = $this->genias_model->get_empresas($query);
+            $rtnArr = array();
+            $rtnArr['totalCount'] = count($empresas);
+            $rtnArr['rows'] = $empresas;
+            $this->table->add_row(
+                    array(
+                        "prov::$key::$valor",
+                        count($empresas),
+                        number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb",
+                        number_format(strlen(gzcompress(json_encode($rtnArr))) / 1024, 2) . " Kb"
+                    )
+            );
+            //echo "prov::$key::$valor::" . count($empresas) . ":: <strong>" . number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb</strong><br/>";
         }
+        echo $this->table->generate();
         $this->output->enable_profiler(TRUE);
     }
-    function empresas($idgenia=null){
+
+    function empresas($idgenia = null) {
         $this->load->model('app');
-        $debug=false;
-        $prov='JUJ';
-        $empresas=$this->genias_model->get_empresas($prov);
-        $rtnArr=array();
+        $debug = false;
+        $compress=false;
+        /*
+         * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
+         */
+        $query = array('4651' => 'JUJ');
+        $empresas = $this->genias_model->get_empresas($query);
+        $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
-        $rtnArr['rows'] = $empresas;        
+        $rtnArr['rows'] = $empresas;
         if (!$debug) {
             header('Content-type: application/json;charset=UTF-8');
+            if($compress){
+                header('Content-Encoding: gzip');
+            echo gzcompress(json_encode($rtnArr));
+            } else {
             echo json_encode($rtnArr);
+            }
         } else {
             var_dump(json_encode($rtnArr));
         }
