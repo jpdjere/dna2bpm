@@ -440,6 +440,38 @@ class Genias extends MX_Controller {
         $error = $this->genias_model->config_set($mydata);
         echo (is_null($error)) ? ("Registro guardado") : ("No se ha podido guardar el registro");
     }
+    
+    function empresas_test($idgenia=null){
+        $this->load->model('app');
+        $debug=false;
+        $prov='JUJ';
+        $provincias=$this->app->get_ops(39);
+        
+        foreach($provincias as $key=>$valor){
+        $empresas=$this->genias_model->get_empresas($key);
+        $rtnArr=array();
+        $rtnArr['totalCount'] = count($empresas);
+        $rtnArr['rows'] = $empresas;
+        echo "prov:".$valor.":".count($empresas).":" . number_format(strlen(json_encode($rtnArr))/1024,2)." Kb<br/>";
+        
+        }
+        exit;
+    }
+    function empresas($idgenia=null){
+        $this->load->model('app');
+        $debug=false;
+        $prov='JUJ';
+        $empresas=$this->genias_model->get_empresas($prov);
+        $rtnArr=array();
+        $rtnArr['totalCount'] = count($empresas);
+        $rtnArr['rows'] = $empresas;        
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            echo json_encode($rtnArr);
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
 
 }
 
