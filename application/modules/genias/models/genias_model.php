@@ -88,6 +88,7 @@ class Genias_model extends CI_Model {
         $rtn=array();
         $query['status'] = 'activa';
         $fields=array('id',
+            'status',
             '1693',//nombre
             '1695',//cuit
             '7751',//Longitud
@@ -96,6 +97,7 @@ class Genias_model extends CI_Model {
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query,$fields);
         foreach($result as $empresa){
+            unset($empresa['_id']);
             $rtn[]=$empresa;
         }
         return $rtn;

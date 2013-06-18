@@ -119,7 +119,7 @@ class Genias extends MX_Controller {
         $data = $this->input->post('data');
         $mydata = array(
             'idu' => $this->idu
-        );
+            );
         foreach ($data as $k => $v) {
             $mydata[$v['name']] = $v['value'];
         }
@@ -247,7 +247,7 @@ class Genias extends MX_Controller {
                 'minutos' => $task['minutos'],
                 'proyecto' => $task['proyecto'],
                 'finalizada' => $task['finalizada']
-            );
+                );
 
             $mytasks[] = $item;
         }
@@ -272,18 +272,18 @@ class Genias extends MX_Controller {
         $customData = $this->lang->language;
         $customData['css'] = array(
             $this->base_url . "map/assets/css/map.css" => 'Map CSS'
-        );
+            );
         $customData['js'] = array(
             'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
             $this->base_url . 'map/assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
             $this->module_url . 'assets/jscript/map/map.json.js' => 'Load Json Map',
-        );
+            );
         $url = $this->module_url . 'assets/json/empresasGenia.json';
         $customData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
             'json_url' => $url,
-        );
+            );
         $this->render('map', $customData);
     }
 
@@ -335,12 +335,40 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/form.js' => 'Objetos Custom D!',
             $this->module_url . 'assets/jscript/ext.viewport.js' => '',
-        );
+            );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-        );
+            );
+        $this->ui->makeui('ext.ui.php', $cpData);
+    }
+
+    function Form_empresas($parm = null) {
+
+        //echo $this->idu;   
+        //---Libraries
+        $this->load->library('parser');
+        $this->load->library('ui');
+
+        $cpData = $this->lang->language;
+        $segments = $this->uri->segment_array();
+        $cpData['theme'] = $this->config->item('theme');
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Escenario Pyme.';
+
+
+        $cpData['js'] = array(
+            $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/empresas.js' => 'Objetos Empresas',
+            $this->module_url . 'assets/jscript/ext.viewport.js' => 'ViewPort',
+            );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -361,12 +389,12 @@ class Genias extends MX_Controller {
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/store-test/ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/store-test/start.js' => 'Start Test',
-        );
+            );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-        );
+            );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -388,12 +416,12 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/ext.data.users.js' => 'Base Data',
             $this->module_url . 'assets/jscript/form.users.js' => 'Objetos Custom D!',
             $this->module_url . 'assets/jscript/ext.viewport.users.js' => '',
-        );
+            );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-        );
+            );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -456,13 +484,13 @@ class Genias extends MX_Controller {
             $rtnArr['totalCount'] = count($empresas);
             $rtnArr['rows'] = $empresas;
             $this->table->add_row(
-                    array(
-                        "prov::$key::$valor",
-                        count($empresas),
-                        number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb",
-                        number_format(strlen(gzcompress(json_encode($rtnArr))) / 1024, 2) . " Kb"
+                array(
+                    "prov::$key::$valor",
+                    count($empresas),
+                    number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb",
+                    number_format(strlen(gzcompress(json_encode($rtnArr))) / 1024, 2) . " Kb"
                     )
-            );
+                );
             //echo "prov::$key::$valor::" . count($empresas) . ":: <strong>" . number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb</strong><br/>";
         }
         echo $this->table->generate();
@@ -472,7 +500,7 @@ class Genias extends MX_Controller {
     function empresas($idgenia = null) {
         $this->load->model('app');
         $debug = false;
-        $compress=false;
+        $compress = false;
         /*
          * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
          */
@@ -483,11 +511,12 @@ class Genias extends MX_Controller {
         $rtnArr['rows'] = $empresas;
         if (!$debug) {
             header('Content-type: application/json;charset=UTF-8');
-            if($compress){
+            if ($compress) {
                 header('Content-Encoding: gzip');
-            echo gzcompress(json_encode($rtnArr));
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
             } else {
-            echo json_encode($rtnArr);
+                echo json_encode($rtnArr);
             }
         } else {
             var_dump(json_encode($rtnArr));

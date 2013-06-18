@@ -18,6 +18,7 @@ CACHE MANIFEST # Comments are OK here
 /dna2bpm/genias/assets/json/empresasGenia.json
 /dna2bpm/genias/assets/json/partidos.json
 /dna2bpm/genias/assets/json/provincias.json
+/dna2bpm/genias/empresas
 
 #CALENDAR
 /dna2bpm/genias/assets/jscript/fullcalendar/*

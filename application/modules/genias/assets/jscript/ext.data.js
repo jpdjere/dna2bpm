@@ -101,6 +101,31 @@ Ext.define('OpcionModelPtdo', {
 
 
 /*
+ * @Name Empresas
+  * @type Store 
+ * 
+ */
+var EmpresaStore = Ext.create('Ext.data.Store', {
+    id: 'EmpresaStore',
+    autoLoad: true,
+    model: 'EmpresaModel',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'empresas',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+});
+
+/*
  * @Name Genias
  * @type Store 
  * 
