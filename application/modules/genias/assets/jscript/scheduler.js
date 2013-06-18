@@ -20,20 +20,21 @@ mongo_get_tasks(0);
 mongo_get_tasks(1);
 mongo_get_tasks(2);
 mongo_get_tasks(3);
+
+//localStorage.clear();
+
+localStorage['tasks0']=JSON.stringify(tasks[0]);
+localStorage['tasks1']=JSON.stringify(tasks[1]);
+localStorage['tasks2']=JSON.stringify(tasks[2]);
+localStorage['tasks3']=JSON.stringify(tasks[3]);
+localStorage['tasks666']=JSON.stringify(tasks[666]);
+
 }else{
 localstorage_get_tasks();
 buttons_offline();
 }
 
-
- //Storage
-//console.log(tasks.toString());
-//localStorage.clear();
-//var events = JSON.parse(tasks[0]);
-
-
-
-
+// Despliego el calendario
 $('#calendar').fullCalendar({
 
     eventSources:[
@@ -127,10 +128,10 @@ submitHandler: function(form) {
       data:{'data':form},
       success:function(resp){
         // Replico en el localStorage
-        var myjson=JSON.parse(resp);
-        var idu=myjson['idu'];
-        var event_id=myjson['id'];
-        localStorage['tasks.'+idu+'.'+event_id]=resp;
+//        var myjson=JSON.parse(resp);
+//        var idu=myjson['idu'];
+//        var event_id=myjson['id'];
+//        localStorage['tasks.'+idu+'.'+event_id]=resp;
       }
    });
 
@@ -139,6 +140,10 @@ submitHandler: function(form) {
 }
 );
 
+/*
+ *  CLEAR FORM
+ */
+
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
         $('form')[0].reset();
@@ -146,6 +151,10 @@ $('#bt_clear').click(function(){
         $('#bt_delete').addClass('disabled');
  
 });
+
+/*
+ *  DELETE
+ */
 
 $('#bt_delete').click(function(){
     if($(this).hasClass('disabled'))return;
@@ -162,7 +171,7 @@ $('#bt_delete').click(function(){
       url: globals.module_url+'remove_task',
       data:{'id':id},
       success:function(resp){
-          localStorage.removeItem(resp);     
+          //localStorage.removeItem(resp);     
       }
    });
    location.reload();
@@ -170,7 +179,10 @@ $('#bt_delete').click(function(){
 
 });
 
-
+/*
+ *  LOAD FORM
+ */
+ 
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
     if($(this).hasClass('disabled'))return;
@@ -189,18 +201,28 @@ $('#bt_form').click(function(){
 
 
 // Traigo las tareas del localstorages
-function localstorage_get_tasks(){
-for (i = 0; i < window.localStorage.length; i++) {
-    key = window.localStorage.key(i);
+//function localstorage_get_tasks(){
+//for (i = 0; i < window.localStorage.length; i++) {
+//    key = window.localStorage.key(i);
+//
+//    if (/tasks.+/.test(key)) {
+//        var myjson=JSON.parse(localStorage[key]);
+//        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
+//        tasks[target].push(myjson);
+//    }
+//}
+//;
+//}
 
-    if (/tasks.+/.test(key)) {
-        var myjson=JSON.parse(localStorage[key]);
-        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
-        tasks[target].push(myjson);
-    }
+function localstorage_get_tasks(){
+
+tasks[0]=JSON.parse(localStorage['tasks0']);
+tasks[1]=JSON.parse(localStorage['tasks1']);
+tasks[2]=JSON.parse(localStorage['tasks2']);
+tasks[3]=JSON.parse(localStorage['tasks3']);
+tasks[666]=JSON.parse(localStorage['tasks666']);
 }
-;
-}
+
 
 // Traigo las tareas de mongo
 function mongo_get_tasks(s){
