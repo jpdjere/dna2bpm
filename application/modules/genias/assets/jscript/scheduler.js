@@ -14,6 +14,11 @@ tasks[666]=new Array();
 
 
 $( document ).ready(function() {
+    
+    
+$('.disabled').live('click',function(e){
+    e.preventDefault();
+});
 
 if(navigator.onLine){
 mongo_get_tasks(0);
