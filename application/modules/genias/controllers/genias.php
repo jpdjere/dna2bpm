@@ -472,7 +472,7 @@ class Genias extends MX_Controller {
     function empresas($idgenia = null) {
         $this->load->model('app');
         $debug = false;
-        $compress=false;
+        $compress = true;
         /*
          * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
          */
@@ -483,11 +483,12 @@ class Genias extends MX_Controller {
         $rtnArr['rows'] = $empresas;
         if (!$debug) {
             header('Content-type: application/json;charset=UTF-8');
-            if($compress){
+            if ($compress) {
                 header('Content-Encoding: gzip');
-            echo gzcompress(json_encode($rtnArr));
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
             } else {
-            echo json_encode($rtnArr);
+                echo json_encode($rtnArr);
             }
         } else {
             var_dump(json_encode($rtnArr));
