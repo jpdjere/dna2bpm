@@ -38,12 +38,12 @@ Ext.define('EmpresaModel', {
         type: 'int',
         useNull: true
     }
-    ,'1693'  // Nombre de la empresa
-    ,'1695'  // CUIT
+    ,'1693'  //     Nombre de la empresa
+    ,'1695'  //     CUIT
     , '7819' // 	Longitud
     , '7820' // 	Latitud
     , '4651' // 	Partido
-    , '4653' //         Direccion
+    , '4653' //     Direccion
     , '1699' // 	Localidad
     ]
 });

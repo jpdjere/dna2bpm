@@ -362,7 +362,7 @@ class Genias extends MX_Controller {
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresas.js' => 'Objetos Empresas',
-            $this->module_url . 'assets/jscript/ext.viewport.js' => 'ViewPort',
+            $this->module_url . 'assets/jscript/ext.viewport.empresas.js' => 'ViewPort',
             );
 
         $cpData['global_js'] = array(
