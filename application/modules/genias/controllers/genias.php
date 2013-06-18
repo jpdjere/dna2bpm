@@ -455,7 +455,7 @@ class Genias extends MX_Controller {
         echo "prov:".$valor.":".count($empresas).":" . number_format(strlen(json_encode($rtnArr))/1024,2)." Kb<br/>";
         
         }
-        exit;
+        $this->output->enable_profiler(TRUE);
     }
     function empresas($idgenia=null){
         $this->load->model('app');
