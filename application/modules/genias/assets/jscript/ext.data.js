@@ -43,7 +43,10 @@ Ext.define('EmpresaModel', {
     , '7819' // 	Longitud
     , '7820' // 	Latitud
     , '4651' // 	Provincia
-    , '4653' //     Direccion
+    , '4653' //     Calle Ruta
+    , '4654' //     Nro /km
+    , '4655' //     Piso
+    , '4656' //     Dto Oficina
     , '1699' // 	Partido
     ,'status' //      Syncro data (date?) / dirty
     ]

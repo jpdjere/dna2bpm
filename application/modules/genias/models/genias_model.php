@@ -94,8 +94,11 @@ class Genias_model extends CI_Model {
             , '7819' // 	Longitud
             , '7820' // 	Latitud
             , '4651' // 	Provincia
-            , '4653' //     Direccion
-            , '1699' // 	Localidad
+            , '4653' //     Calle Ruta
+            , '4654' //     Nro /km
+            , '4655' //     Piso
+            , '4656' //     Dto Oficina
+            , '1699' // 	Partido
         );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
