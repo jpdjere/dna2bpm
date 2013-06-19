@@ -43,12 +43,9 @@
               <li style="padding-top:10px">Programas</li>
             </ul>
           </div>
-          <div class="nav-collapse collapse">
-            <div class="pull-right profile">
-                <img src="{profile_img}"  class="pull-left" title="{username}"/>
-                <ul class="unstyled pull-left" >
-                    <li><a href="{base_url}user/logout" title="Salir"><i class="icon-off"></i></a></li>
-                </ul>
+          <div class="nav-collapse collapse pull-right" >
+            <div class="profile">
+                <img src="{profile_img}"  title="{username}"/>
             </div>
           </div>
         </div>
