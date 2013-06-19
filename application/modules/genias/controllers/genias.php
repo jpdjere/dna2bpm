@@ -177,14 +177,16 @@ class Genias extends MX_Controller {
 
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
+        
 
-        $mytasks = array();
+
+       $customData['tasks'] = array();
         foreach ($projects['items'] as $k => $item) {
-            $items = $this->get_tasks($item['id']);
-            $mytasks[$item['id']] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($item['id']));
+            $items = $this->get_tasks($k);
+            $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
         }
-        $customData['tasks'] = $mytasks;
-        //var_dump($mytasks);
+;
+        //var_dump($projects['items']);
         //$customData['tasks']= print_r($this->get_tasks("1"));
 
         $this->render('tasks', $customData);
@@ -226,8 +228,9 @@ class Genias extends MX_Controller {
         // Mapeo proyecto id - > orden de display en fullcalendar
         $projects = $this->genias_model->get_config_item('projects');
         $items = $projects['items'];
-        $proyecto = $items[$proyecto]['id'];
 
+        $proyecto = $items[$proyecto]['id'];
+   
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
         if (!$tasks->count())
             return array();
