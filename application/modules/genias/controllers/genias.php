@@ -360,8 +360,11 @@ class Genias extends MX_Controller {
 
 
         $cpData['js'] = array(
+            $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
+            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
             $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
-            $this->module_url . 'assets/jscript/empresas.js' => 'Objetos Empresas',
+            $this->module_url . 'assets/jscript/empresas.grid.js' => 'Grid Empresas',
+            $this->module_url . 'assets/jscript/empresas.form.js' => 'Form Empresas',
             $this->module_url . 'assets/jscript/ext.viewport.empresas.js' => 'ViewPort',
             );
 
@@ -503,6 +506,7 @@ class Genias extends MX_Controller {
         $compress = false;
         /*
          * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
+         * Basado en el idgenia
          */
         $query = array('4651' => 'JUJ');
         $empresas = $this->genias_model->get_empresas($query);
