@@ -127,6 +127,11 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
             totalProperty: 'totalCount'
         }
     }
+    ,
+    sorters: [{
+         property: '1693',
+         direction: 'ASC'
+     }]
 });
 
 /*
