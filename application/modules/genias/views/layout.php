@@ -47,7 +47,6 @@
             <div class="pull-right profile">
                 <img src="{profile_img}"  class="pull-left" title="{username}"/>
                 <ul class="unstyled pull-left" >
-                    <li><a href="#" title="Perfil"><i class="icon-wrench"></i></a></li>
                     <li><a href="{base_url}user/logout" title="Salir"><i class="icon-off"></i></a></li>
                 </ul>
             </div>
