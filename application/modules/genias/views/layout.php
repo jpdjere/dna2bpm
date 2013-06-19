@@ -38,9 +38,9 @@
               <li><a href="{module_url}">Inicio</a></li>
               <li><a href="{module_url}tasks">Tareas</a></li>
               <li><a href="{module_url}map">Mapa</a></li>      
-              <li><a href="{module_url}contacts">Contactos</a></li>
+              <li style="padding-top:10px">Contactos</li>
               <li><a href="{module_url}scheduler">Agenda</a></li>
-              <li><a href="{module_url}programs">Programas</a></li>
+              <li style="padding-top:10px">Programas</li>
             </ul>
           </div>
           <div class="nav-collapse collapse">
