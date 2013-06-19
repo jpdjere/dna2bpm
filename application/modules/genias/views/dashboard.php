@@ -4,7 +4,7 @@
 <ul class="breadcrumb navbar-static-top pull-left"  >
   <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
 </ul>
-<button class="btn pull-right"  type="button" ><i class="icon-off"></i> Salir</button>
+<a class="btn pull-right"  type="button" href="{base_url}/user/logout"><i class="icon-off"></i> Salir</a>>
 </div>
 </div>
 <!-- / Contenido -->

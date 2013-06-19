@@ -5,9 +5,10 @@
   <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
   <li><a href="#">Tareas</a> <span class="divider">/</span></li>
 </ul>
-<button class="btn pull-right"  type="button" ><i class="icon-off"></i> Salir</button>
+<a class="btn pull-right"  type="button" href="{base_url}/user/logout"><i class="icon-off"></i> Salir</a>
 </div>
 </div>
+<!-- -->
 <div class="container">  
 <div class="row">
 <!-- xxxxxxxxxx Contenido xxxxxxxxxx-->   
