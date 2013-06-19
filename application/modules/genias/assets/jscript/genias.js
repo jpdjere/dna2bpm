@@ -9,7 +9,7 @@ $( document ).ready(function() {
 
 $( ".datepicker" ).datepicker();
 
-
+alert(1);
 
 
 });

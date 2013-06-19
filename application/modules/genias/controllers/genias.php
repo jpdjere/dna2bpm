@@ -104,8 +104,8 @@ class Genias extends MX_Controller {
         $cpData['username'] = $user->lastname . ", " . $user->name;
         $cpData['username'] = $user->email;
         // Profile 
-        $cpData['profile_img'] = get_gravatar($user->email);
-
+        //$cpData['profile_img'] = get_gravatar($user->email);
+        $cpData['gravatar'] = get_gravatar($user->email);
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
@@ -529,9 +529,18 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
+    
+//    // GET Gravatar JSON
+//    function test_gravatar(){
+//    $email="gabriel@trialvd.com.ar";
+//    $code=md5( strtolower( trim( $email ) ) );
+//    echo "http://www.gravatar.com/$code.json";
+//}
 
-}
 
-// close
+}// close
+
+
+
 
 

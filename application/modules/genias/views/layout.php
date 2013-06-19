@@ -45,7 +45,7 @@
           </div>
           <div class="nav-collapse collapse pull-right" >
             <div class="profile">
-                <img src="{profile_img}"  title="{username}"/>
+                <img src="{gravatar}"  title="{username}"/>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
             var globals={inline_js};
         </script>
         {js}
-
+        
 
     </body>
 </html>
