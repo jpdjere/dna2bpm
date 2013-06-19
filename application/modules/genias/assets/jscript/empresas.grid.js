@@ -47,14 +47,15 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
            
     },
     {
-        flex:1,
+        flex:3,
         text: "Nombre / Raz&oacute;n Social",
         dataIndex: '1693',
         sortable: true
            
     }
     ,
-    {
+   /*
+   {
         flex:1,
         text: "Status",
         dataIndex: 'status',
@@ -80,7 +81,7 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
             value='<span class="label '+stClass+'">'+value+'</span>'
             return value;
         }
-    }
+    }*/
     //,checkLock
     ],
     stripeRows       : true,
@@ -103,7 +104,8 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
         fieldLabel: 'Search',
         labelWidth: 50,
         xtype: 'searchfield',
-        store: EmpresaStore
+        store: EmpresaStore,
+        width:300
     },
     {
         xtype: 'button', 
