@@ -31,6 +31,7 @@ Ext.application({
                         }
                     }
                 }
+                /*
                 ,
                 {
                     itemId: 'grid',
@@ -43,7 +44,9 @@ Ext.application({
                             center.child('#form').setActiveRecord(selected[0] || null);
                         }
                     }
-                }]
+                }
+                 */
+                ]
         });
 
 

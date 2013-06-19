@@ -443,7 +443,7 @@ class Genias extends MX_Controller {
 
     function qr($parameter = null) {
 
-        $imgParameter = ($parameter == NULL) ? '5c-FF-35-7C-96-FB' : $this->base_url.'/qr/info/tablet/'.$parameter;
+        $imgParameter = ($parameter == NULL) ? '5c-FF-35-7C-96-FB' : $this->base_url.'qr/info/tablet/'.$parameter;
         $this->load->module('qr');
         echo $this->qr->gen($imgParameter);
     }

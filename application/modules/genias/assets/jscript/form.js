@@ -97,12 +97,33 @@ Ext.define('Writer.Form', {
                 emptyText: 'Seleccione el Partido',
                 editable: false
 
-            }, {
+            }, 
+            {
+                xtype: 'combobox',
+                name:'7411',
                 fieldLabel: 'Empresa',
+                displayField: '1693',
+                store: EmpresaStore,
+                queryMode: 'local',
+                listeners:{
+                    'select': function( combo, records, eOpts ){
+                        cuit=EmpresaStore.data.getAt(EmpresaStore.find('1693',combo.getValue())).data['1695'];
+                        Ext.getCmp('cuit').setValue(EmpresaStore.data.getAt(EmpresaStore.find('1693',combo.getValue())).data['1695']);
+                    }
+                },
+                listConfig: {
+                    getInnerTpl: function() {
+                        return '<div>{1693} ({1695})</div>';
+                    }
+                }
+            },
+            {
+                id:'cuit',
+                fieldLabel: 'CUIT',
                 name: '7411',
                 allowBlank: false,
                 vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
-                emptyText: 'Ingrese un Nro de CUIT valido',
+                emptyText: 'Ingrese un Nro de CUIT valido'
             }, {
                 xtype: 'hidden',
                 fieldLabel: 'Origen',
@@ -133,7 +154,7 @@ Ext.define('Writer.Form', {
             {
                 xtype: 'button',
                 fieldLabel: '',
-                text: 'Actualizar Posición',
+                text: 'Actualizar PosiciÃ³n',
                 listeners: {
                     render: function() {
                         this.getEl().on('mousedown', function(e, t, eOpts) {
@@ -181,81 +202,81 @@ Ext.define('Writer.Form', {
                     padding: '4px'
                 }
             },
-        ],
-        dockedItems: [{
-            xtype: 'toolbar',
-            dock: 'bottom',
-            ui: 'footer',
-            items: [{
-                iconCls: 'icon-save',
-                itemId: 'save',
-                text: 'Actualizar',
-                disabled: true,
-                scope: this,
-                handler: this.onSave
-            }, {
-                iconCls: 'icon-user-add',
-                text: 'Agregar',
-                scope: this,
-                handler: this.onCreate
-            }, {
-                iconCls: 'icon-reset',
-                text: 'Nuevo Formulario',
-                scope: this,
-                handler: this.onReset
-            }, {
-                iconCls: 'icon-reset',
-                text: 'Volver a la Agenda',
-                scope: this,
-                handler: this.agenda
+            ],
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                items: [{
+                    iconCls: 'icon-save',
+                    itemId: 'save',
+                    text: 'Actualizar',
+                    disabled: true,
+                    scope: this,
+                    handler: this.onSave
+                }, {
+                    iconCls: 'icon-user-add',
+                    text: 'Agregar',
+                    scope: this,
+                    handler: this.onCreate
+                }, {
+                    iconCls: 'icon-reset',
+                    text: 'Nuevo Formulario',
+                    scope: this,
+                    handler: this.onReset
+                }, {
+                    iconCls: 'icon-reset',
+                    text: 'Volver a la Agenda',
+                    scope: this,
+                    handler: this.agenda
+                }]
             }]
-        }]
         });
-    this.callParent();
+        this.callParent();
 
-},
-getTask: function() {
-    var getParams = document.URL.split("/");
-    var params = (getParams[getParams.length - 1]);
-    return params;
-},
-setActiveRecord: function(record) {
-    this.activeRecord = record;
-    if (record) {
-        this.down('#save').enable();
-        this.getForm().loadRecord(record);
-    } else {
-        this.down('#save').disable();
+    },
+    getTask: function() {
+        var getParams = document.URL.split("/");
+        var params = (getParams[getParams.length - 1]);
+        return params;
+    },
+    setActiveRecord: function(record) {
+        this.activeRecord = record;
+        if (record) {
+            this.down('#save').enable();
+            this.getForm().loadRecord(record);
+        } else {
+            this.down('#save').disable();
+            this.getForm().reset();
+        }
+    },
+    onSave: function() {
+        var active = this.activeRecord,
+        form = this.getForm();
+        if (!active) {
+            return;
+        }
+        if (form.isValid()) {
+            form.updateRecord(active);
+            this.onReset();
+        }
+    },
+    onCreate: function() {
+        var form = this.getForm();
+        if (form.isValid()) {
+            this.fireEvent('create', this, form.getValues());
+            form.reset();
+        }
+
+    },
+    onReset: function() {
+        this.setActiveRecord(null);
         this.getForm().reset();
-    }
-},
-onSave: function() {
-    var active = this.activeRecord,
-    form = this.getForm();
-    if (!active) {
-        return;
-    }
-    if (form.isValid()) {
-        form.updateRecord(active);
-        this.onReset();
-    }
-},
-onCreate: function() {
-    var form = this.getForm();
-    if (form.isValid()) {
-        this.fireEvent('create', this, form.getValues());
-        form.reset();
-    }
+    },
+    agenda: function() {
+        window.location = globals.module_url + "scheduler";
 
-},
-onReset: function() {
-    this.setActiveRecord(null);
-    this.getForm().reset();
-},
-agenda: function() {
-    window.location = globals.module_url + "scheduler";
-
-}
+    }
 });
 
 /*
@@ -374,51 +395,51 @@ Ext.define('Writer.Grid', {
                 }
             }
         });
-    /**/
+        /**/
 
-    this.callParent();
-    this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-},
-onSelectChange: function(selModel, selections) {
-    // this.down('#delete').setDisabled(selections.length === 0);        
-    var logitudData = this.getView().getSelectionModel().getSelection()[0].data[7819];
-    var latitudData = this.getView().getSelectionModel().getSelection()[0].data[7819];
-    var displayLongLat = (logitudData != '') ? "Longitud: " + logitudData + ' Latitud: ' + latitudData : 'NO hay informacion disponible';
+        this.callParent();
+        this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+    },
+    onSelectChange: function(selModel, selections) {
+        // this.down('#delete').setDisabled(selections.length === 0);        
+        var logitudData = this.getView().getSelectionModel().getSelection()[0].data[7819];
+        var latitudData = this.getView().getSelectionModel().getSelection()[0].data[7819];
+        var displayLongLat = (logitudData != '') ? "Longitud: " + logitudData + ' Latitud: ' + latitudData : 'NO hay informacion disponible';
 
-    Ext.getCmp('longLayDisplay').setValue(displayLongLat);
+        Ext.getCmp('longLayDisplay').setValue(displayLongLat);
 
 
-},
-onSync: function() {
-    this.store.sync();
-},
-onDeleteClick: function() {
-    var selection = this.getView().getSelectionModel().getSelection()[0];
-    if (selection) {
-        this.store.remove(selection);
+    },
+    onSync: function() {
+        this.store.sync();
+    },
+    onDeleteClick: function() {
+        var selection = this.getView().getSelectionModel().getSelection()[0];
+        if (selection) {
+            this.store.remove(selection);
+        }
+    },
+    onAddClick: function() {
+        var rec = new formModel({
+            C7586: '', // 	GenIA  
+            C7404: '', // 	Provincia 
+            C7405: '', // 	Partido 
+            C7411: '', // 	Empresa visitada 
+            C7407: '', // 	Fecha de la Visita 
+            C7408: '', // 	Comentarios 
+            C7409: '', // 	Origen 
+            C7818: '', // 	Task 
+            C7819: '', // 	Longitud
+            C7820: '', // 	Latitud
+
+        }), edit = this.editing;
+        edit.cancelEdit();
+        this.store.insert(0, rec);
+        edit.startEditByPosition({
+            row: 0,
+            column: 1
+        });
     }
-},
-onAddClick: function() {
-    var rec = new formModel({
-        C7586: '', // 	GenIA  
-        C7404: '', // 	Provincia 
-        C7405: '', // 	Partido 
-        C7411: '', // 	Empresa visitada 
-        C7407: '', // 	Fecha de la Visita 
-        C7408: '', // 	Comentarios 
-        C7409: '', // 	Origen 
-        C7818: '', // 	Task 
-        C7819: '', // 	Longitud
-        C7820: '', // 	Latitud
-
-    }), edit = this.editing;
-    edit.cancelEdit();
-    this.store.insert(0, rec);
-    edit.startEditByPosition({
-        row: 0,
-        column: 1
-    });
-}
 
 });
 

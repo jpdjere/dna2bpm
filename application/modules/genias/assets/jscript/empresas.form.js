@@ -93,7 +93,7 @@ var EmpresaForm=Ext.create('Ext.form.Panel', {
             color: 'blue', 
             padding: '4px'
         }
-    }
+    },
     /*
     {
         fieldLabel: 'Provincia',
@@ -104,13 +104,18 @@ var EmpresaForm=Ext.create('Ext.form.Panel', {
         fieldLabel: 'Partido',
         name: '1699'
     },*/
-    
+    {
+        id:'notas',
+        xtype: 'textarea',
+        fieldLabel:'Notas / Observaciones',
+        name:'notas'
+    }
     ],
 
     buttons: [{
         xtype: 'button',
         fieldLabel: '',
-        text: 'Actualiza tu Geolocacion',
+        text: '<i class="icon icon-map-marker"></i> Actualizar Geolocación',
         listeners: {
             render: function() {
                 this.getEl().on('mousedown', function(e, t, eOpts) {
@@ -119,8 +124,6 @@ var EmpresaForm=Ext.create('Ext.form.Panel', {
 
                             var logitud = position.coords.longitude;
                             Ext.getCmp('long').setValue(logitud);
-
-
 
                             var latitud = position.coords.latitude;
                             Ext.getCmp('lat').setValue(latitud);
@@ -136,6 +139,9 @@ var EmpresaForm=Ext.create('Ext.form.Panel', {
             }
         }
 
+    },{
+        xtype:'button',
+        text: '<i class="icon icon-save"></i> Guardar'
     }]
 });
 var EmpresaFormPanel=Ext.create('Ext.Panel', {
