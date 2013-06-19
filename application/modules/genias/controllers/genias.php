@@ -224,7 +224,7 @@ class Genias extends MX_Controller {
     }
 
     function get_tasks($proyecto) {
-
+        
         // Mapeo proyecto id - > orden de display en fullcalendar
         $projects = $this->genias_model->get_config_item('projects');
         $items = $projects['items'];

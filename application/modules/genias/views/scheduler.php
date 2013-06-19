@@ -16,7 +16,6 @@
          <!-- Fechas -->
         <div class="controls">
             <select name="proyecto" class="span12">
-            <option selected="selected" value="" class="span12">---- Seleccione un proyecto ----</option>
             {projects}
             <option value="{id}">{name}</option>
             {/projects}

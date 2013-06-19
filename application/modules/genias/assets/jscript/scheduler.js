@@ -6,9 +6,6 @@
 
 var tasks= new Array();
 tasks[0]=new Array();
-tasks[1]=new Array();
-tasks[2]=new Array();
-tasks[3]=new Array();
 tasks[666]=new Array();
 
 
@@ -22,16 +19,10 @@ $('.disabled').live('click',function(e){
 
 if(navigator.onLine){
 mongo_get_tasks(0);
-mongo_get_tasks(1);
-mongo_get_tasks(2);
-mongo_get_tasks(3);
 
 //localStorage.clear();
 
 localStorage['tasks0']=JSON.stringify(tasks[0]);
-localStorage['tasks1']=JSON.stringify(tasks[1]);
-localStorage['tasks2']=JSON.stringify(tasks[2]);
-localStorage['tasks3']=JSON.stringify(tasks[3]);
 localStorage['tasks666']=JSON.stringify(tasks[666]);
 
 }else{
@@ -47,23 +38,7 @@ $('#calendar').fullCalendar({
             events: tasks[0],            
             color: '#C6372C',     // an option!
             textColor: 'white' // an option!
-       } ,
-        {
-            events: tasks[1],
-            color: '#5D9736',     // an option!
-            textColor: 'white' // an option!
-       } ,
-       {
-            events: tasks[2],
-            color: '#365C97',     // an option!
-            textColor: 'white' // an option!
-       } ,
-       {
-            events: tasks[3],
-            color: '#823697',     // an option!
-            textColor: 'white' // an option!
-       } 
-       ,
+       },
        {
             events: tasks[666],
             color: '#CCCCCC',     // an option!
@@ -132,11 +107,6 @@ submitHandler: function(form) {
       url: globals.module_url+'add_task',
       data:{'data':form},
       success:function(resp){
-        // Replico en el localStorage
-//        var myjson=JSON.parse(resp);
-//        var idu=myjson['idu'];
-//        var event_id=myjson['id'];
-//        localStorage['tasks.'+idu+'.'+event_id]=resp;
       }
    });
 
@@ -222,9 +192,6 @@ $('#bt_form').click(function(){
 function localstorage_get_tasks(){
 
 tasks[0]=JSON.parse(localStorage['tasks0']);
-tasks[1]=JSON.parse(localStorage['tasks1']);
-tasks[2]=JSON.parse(localStorage['tasks2']);
-tasks[3]=JSON.parse(localStorage['tasks3']);
 tasks[666]=JSON.parse(localStorage['tasks666']);
 }
 
