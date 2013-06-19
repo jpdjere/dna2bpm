@@ -208,7 +208,7 @@ class Genias extends MX_Controller {
         $mydata['finalizada'] = (isset($mydata['finalizada'])) ? (1) : (0);
 
         if (!is_numeric($mydata['id'])) {
-            $mydata['id'] = $this->app->genid('container.genias'); // create new ID    
+            $mydata['id'] = $this->app->genid('container.genias_tasks'); // create new ID    
         } else {
             $mydata['id'] = (integer) $mydata['id'];
         }
