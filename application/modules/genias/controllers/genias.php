@@ -443,7 +443,7 @@ class Genias extends MX_Controller {
 
     function qr($parameter = null) {
 
-        $imgParameter = ($parameter == NULL) ? '5c-FF-35-7C-96-FB' : $parameter;
+        $imgParameter = ($parameter == NULL) ? '5c-FF-35-7C-96-FB' : $this->base_url.'/qr/info/tablet/'.$parameter;
         $this->load->module('qr');
         echo $this->qr->gen($imgParameter);
     }
@@ -502,7 +502,7 @@ class Genias extends MX_Controller {
         echo $this->table->generate();
         $this->output->enable_profiler(TRUE);
     }
-
+    
     function empresas($idgenia = null) {
         $this->load->model('app');
         $debug = false;
