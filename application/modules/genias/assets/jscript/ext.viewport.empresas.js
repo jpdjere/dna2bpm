@@ -9,10 +9,11 @@ Ext.application({
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();
         }
-        var title = (navigator.onLine) ? "Informaci&oacute;n del Servidor" : "Informaci&oacute;n Local";            
-
+        var onlineMode = (navigator.onLine) ? true : false;            
+        var mode=(onlineMode) ? '<i class="icon icon-circle"></i> On-Line':'<i class="icon icon-ban-circle"></i> Off-Line';
         var center = Ext.create('Ext.Panel', 
         {
+            title:'Empresas: '+mode,
             region:'center',
             margins:'0 0 0 0',
             layout:'border',
@@ -20,8 +21,8 @@ Ext.application({
             {
                 region:'center',
                 layout:'fit',
-                html:'<h1>GRID EMPRESAS</h1>'
-            //items:[mygrid]
+                //html:'<h1>GRID EMPRESAS</h1>'
+            items:[EmpresasGrid]
             }
             ]
         }
@@ -31,8 +32,8 @@ Ext.application({
         {
             region:'east',
             margins:'0 0 0 0',
-            width: 500,
-            minWidth: 300,
+            width: 600,
+            minWidth: 400,
             maxWidth: 700,
             margins: '0 0 0 0',
             layout:'border',
@@ -45,8 +46,8 @@ Ext.application({
             {
                 region:'center',
                 layout:'fit',
-                html:'<h1>FORM EMPRESA</h1>'
-            //items:[formEmpresa]
+            //    html:'<h1>FORM EMPRESA</h1>'
+            items:[EmpresaForm]
             }
             ,
             {
@@ -54,12 +55,12 @@ Ext.application({
                 region:'south',
                 layout:'fit',
                 collapsible: true,
-                collapsed:false,
+                collapsed:true,
                 animCollapse: false,
                 resizable:true
                 ,
                 split: true,
-                height:500,
+                height:300,
                 html:'<h1>HISTORIAL VISITAS</h1>'
             //items:[gridVisitas]
             }

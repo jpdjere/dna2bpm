@@ -42,9 +42,13 @@ Ext.define('EmpresaModel', {
     ,'1695'  //     CUIT
     , '7819' // 	Longitud
     , '7820' // 	Latitud
-    , '4651' // 	Partido
-    , '4653' //     Direccion
-    , '1699' // 	Localidad
+    , '4651' // 	Provincia
+    , '4653' //     Calle Ruta
+    , '4654' //     Nro /km
+    , '4655' //     Piso
+    , '4656' //     Dto Oficina
+    , '1699' // 	Partido
+    ,'status' //      Syncro data (date?) / dirty
     ]
 });
 
@@ -206,7 +210,7 @@ var PartidoStore = Ext.create('Ext.data.Store', {
 if (navigator.onLine) {
     var store = Ext.create('Ext.data.Store', {
         model: 'formModel',
-        autoLoad: true,
+        autoLoad: false,
         autoSync: true,
         proxy: {
             type: 'ajax',
@@ -214,7 +218,7 @@ if (navigator.onLine) {
                 read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
                 create: globals.module_url + 'process/Insert',
                 update: globals.module_url + 'process/Insert',
-                destroy: '', //'genias/app/geniasdev/destroy'
+                destroy: '' //'genias/app/geniasdev/destroy'
             },
             reader: {
                 type: 'json',

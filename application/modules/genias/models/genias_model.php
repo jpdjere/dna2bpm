@@ -17,7 +17,7 @@ class Genias_model extends CI_Model {
     /* ---- TASKS---- */
 
     function remove_task($id) {
-;
+        ;
         $container = 'container.genias_tasks';
         $query = array('id' => (integer) $id);
         $rs = $this->mongo->db->$container->remove($query);
@@ -85,20 +85,26 @@ class Genias_model extends CI_Model {
     }
 
     function get_empresas($query) {
-        $rtn=array();
+        $rtn = array();
         $query['status'] = 'activa';
-        $fields=array('id',
-            'status',
-            '1693',//nombre
-            '1695',//cuit
-            '7751',//Longitud
-            '7752',//Latitud
-            );
+        $fields = array('id',
+            'status'
+            , '1693'  //     Nombre de la empresa
+            , '1695'  //     CUIT
+            , '7819' // 	Longitud
+            , '7820' // 	Latitud
+            , '4651' // 	Provincia
+            , '4653' //     Calle Ruta
+            , '4654' //     Nro /km
+            , '4655' //     Piso
+            , '4656' //     Dto Oficina
+            , '1699' // 	Partido
+        );
         $container = 'container.empresas';
-        $result = $this->mongo->db->$container->find($query,$fields);
-        foreach($result as $empresa){
+        $result = $this->mongo->db->$container->find($query, $fields);
+        foreach ($result as $empresa) {
             unset($empresa['_id']);
-            $rtn[]=$empresa;
+            $rtn[] = $empresa;
         }
         return $rtn;
     }
