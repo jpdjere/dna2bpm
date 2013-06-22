@@ -11,18 +11,18 @@ if (!defined('BASEPATH'))
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  * @date    Jun 12, 2013
  */
-class Mesaentrada extends MX_Controller {
+class Inventory extends MX_Controller {
 
     function __construct() {
         parent::__construct();
         $this->load->model('user');
-        $this->load->model('entrada');
+        $this->load->model('inventory_model');
         $this->user->authorize();
         $this->load->library('parser');
         $this->load->library('ui');
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . 'mesaentrada/';
+        $this->module_url = base_url() . 'inventory/';
         //----LOAD LANGUAGE
         $this->idu = (float) $this->session->userdata('iduser');
         //---config
@@ -47,7 +47,7 @@ class Mesaentrada extends MX_Controller {
     }
 
     /*
-     * Esta funcion da información sobre el movimiento del Expediente / Código
+     * Esta funcion da informaciï¿½n sobre el movimiento del Expediente / Cï¿½digo
      */
 
     function Query() {
@@ -96,7 +96,7 @@ class Mesaentrada extends MX_Controller {
             if ($code)
                 $cpData['code'] = $code;
             $cpData['title'] = '';
-            $result = $this->prepare($this->entrada->get($type, $code));
+            $result = $this->prepare($this->inventory->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
             $this->parser->parse('info', $cpData);
@@ -107,7 +107,7 @@ class Mesaentrada extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
-            $result = $this->prepare($this->entrada->get($type, $code));
+            $result = $this->prepare($this->inventory->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
             $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
@@ -139,6 +139,34 @@ class Mesaentrada extends MX_Controller {
      * Esta funcion realiza el checkin para el usuario actual o user
      */
 
+    function Assign_to() {
+        if ($this->input->post('data')) {
+            $groups = $this->config->item('groups_allowed');
+            $users = $this->user->getbygroup($groups);
+            //var_dump($users);exit;
+            foreach ($users as $thisUser)
+                $cpData['users'][] = array(
+                    'idu' => $thisUser->idu,
+                    'name' => (property_exists($thisUser, 'name')) ? $thisUser->name : '???',
+                    'lastname' => (property_exists($thisUser, 'lastname')) ? $thisUser->lastname : '???',
+                );
+            $parts = explode('/', str_replace($this->module_url, '', $this->input->post('data')));
+            $type = $parts[1];
+            $code = implode('/', array_slice($parts, 2));
+            if ($type)
+                $cpData['type'] = $type;
+            if ($code)
+                $cpData['code'] = $code;
+            $this->inventory->claim($type, $code, $this->idu);
+            $result = $this->prepare($this->inventory->get($type, $code));
+            unset($result['_id']);
+            $cpData['result'] = $result;
+
+            $cpData['title'] = '';
+            $this->parser->parse('assign', $cpData);
+        }
+    }
+
     function claim() {
         if ($this->input->post('data')) {
             $parts = explode('/', str_replace($this->module_url, '', $this->input->post('data')));
@@ -148,8 +176,8 @@ class Mesaentrada extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
-            $this->entrada->claim($type, $code, $this->idu);
-            $result = $this->prepare($this->entrada->get($type, $code));
+            $this->inventory->claim($type, $code, $this->idu);
+            $result = $this->prepare($this->inventory->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
 
@@ -183,8 +211,8 @@ class Mesaentrada extends MX_Controller {
         $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
     }
 
-
     function Assign() {
+
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['title'] = 'Assign';
@@ -202,7 +230,7 @@ class Mesaentrada extends MX_Controller {
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            'redir' => $this->module_url . 'claim',
+            'redir' => $this->module_url . 'assign_to',
             'idu' => $this->idu
         );
         $this->ui->compose('query', 'bootstrap.ui.php', $cpData);

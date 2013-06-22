@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class entrada extends CI_Model {
+class inventory_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
