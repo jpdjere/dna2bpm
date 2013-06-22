@@ -4,7 +4,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /**
- * mesaentrada
+ * inventory
  * 
  * Description of the class
  * 
@@ -41,7 +41,7 @@ class Inventory extends MX_Controller {
         $cpData['module_url_encoded'] = $this->qr->encode($this->module_url);
         $cpData['title'] = 'Mesa de Entradas Digital';
         $cpData['css'] = array(
-            $this->module_url . 'assets/css/mesaentrada.css' => "Mesa Entrada css",
+            $this->module_url . 'assets/css/inventory.css' => "Mesa Entrada css",
         );
         $this->ui->compose('index', 'bootstrap.ui.php', $cpData);
     }
@@ -57,12 +57,12 @@ class Inventory extends MX_Controller {
         $cpData['reader_title'] = $cpData['title'];
         $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
         $cpData['css'] = array(
-            $this->base_url . "mesaentrada/assets/css/mesaentrada.css" => 'custom css',
+            $this->base_url . "inventory/assets/css/inventory.css" => 'custom css',
         );
         $cpData['js'] = array(
             $this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
             $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
-            $this->base_url . "mesaentrada/assets/jscript/qr.js" => 'Main functions',
+            $this->base_url . "inventory/assets/jscript/qr.js" => 'Main functions',
         );
 
         $cpData['global_js'] = array(
@@ -96,7 +96,7 @@ class Inventory extends MX_Controller {
             if ($code)
                 $cpData['code'] = $code;
             $cpData['title'] = '';
-            $result = $this->prepare($this->inventory->get($type, $code));
+            $result = $this->prepare($this->inventory_model->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
             $this->parser->parse('info', $cpData);
@@ -107,7 +107,7 @@ class Inventory extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
-            $result = $this->prepare($this->inventory->get($type, $code));
+            $result = $this->prepare($this->inventory_model->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
             $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
@@ -129,7 +129,7 @@ class Inventory extends MX_Controller {
             }
             $interval = $date2->diff($date1);
             $val['days'] = $interval->format('%a');
-            $val['user_data'] = $this->user->get_user_array($val['user']);
+            $val['user_data'] = $this->user->get_user_array((double)$val['user']);
             $rtnArr[] = $val;
         }
         return $rtnArr;
@@ -140,9 +140,15 @@ class Inventory extends MX_Controller {
      */
 
     function Assign_to() {
+        $this->load->model('user/group');
         if ($this->input->post('data')) {
             $groups = $this->config->item('groups_allowed');
-            $users = $this->user->getbygroup($groups);
+            foreach ($groups as $idgroup) {
+                $group = $this->group->get($idgroup);
+                $cpData['groups'][] = (array) $group;
+            }
+            //----select 1st group and load
+            $users = $this->user->getbygroup($groups[0]);
             //var_dump($users);exit;
             foreach ($users as $thisUser)
                 $cpData['users'][] = array(
@@ -157,12 +163,13 @@ class Inventory extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
-            $this->inventory->claim($type, $code, $this->idu);
-            $result = $this->prepare($this->inventory->get($type, $code));
+            
+            $result = $this->prepare($this->inventory_model->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
 
             $cpData['title'] = '';
+            $cpData['data'] = $this->input->post('data');
             $this->parser->parse('assign', $cpData);
         }
     }
@@ -176,8 +183,9 @@ class Inventory extends MX_Controller {
                 $cpData['type'] = $type;
             if ($code)
                 $cpData['code'] = $code;
-            $this->inventory->claim($type, $code, $this->idu);
-            $result = $this->prepare($this->inventory->get($type, $code));
+            $iduser = ($this->input->post('idu')) ? $this->input->post('idu') : $this->idu;
+            $this->inventory_model->claim($type, $code, $iduser);
+            $result = $this->prepare($this->inventory_model->get($type, $code));
             unset($result['_id']);
             $cpData['result'] = $result;
 
@@ -193,13 +201,13 @@ class Inventory extends MX_Controller {
         $cpData['reader_title'] = $cpData['title'];
         $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
         $cpData['css'] = array(
-            $this->base_url . "mesaentrada/assets/css/mesaentrada.css" => 'custom css',
+            $this->base_url . "inventory/assets/css/inventory.css" => 'custom css',
         );
         $cpData['js'] = array(
             //$this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
             $this->module_url . "assets/jscript/html5-qrcode.js" => 'HTML5 qrcode',
             $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
-            $this->base_url . "mesaentrada/assets/jscript/checkin.js" => 'Main functions',
+            $this->base_url . "inventory/assets/jscript/reader_post.js" => 'Main functions',
         );
 
         $cpData['global_js'] = array(
@@ -211,6 +219,28 @@ class Inventory extends MX_Controller {
         $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
     }
 
+    function get_users($idgroup) {
+        $debug = false;
+        $result = array();
+        if ($idgroup) {
+            //----select 1st group and load
+            $users = $this->user->getbygroup($idgroup);
+            //var_dump($users);exit;
+            foreach ($users as $thisUser)
+                $result[] = array(
+                    'idu' => $thisUser->idu,
+                    'name' => (property_exists($thisUser, 'name')) ? $thisUser->name : '???',
+                    'lastname' => (property_exists($thisUser, 'lastname')) ? $thisUser->lastname : '???',
+                );
+        }
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            echo json_encode($result);
+        } else {
+            var_dump($result);
+        }
+    }
+
     function Assign() {
 
         $cpData['base_url'] = $this->base_url;
@@ -219,12 +249,13 @@ class Inventory extends MX_Controller {
         $cpData['reader_title'] = $cpData['title'];
         $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
         $cpData['css'] = array(
-            $this->base_url . "mesaentrada/assets/css/mesaentrada.css" => 'custom css',
+            $this->base_url . "inventory/assets/css/inventory.css" => 'custom css',
         );
         $cpData['js'] = array(
             $this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
             $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
-            $this->base_url . "mesaentrada/assets/jscript/checkin.js" => 'Main functions',
+            $this->base_url . "inventory/assets/jscript/reader_post.js" => 'Reader functions',
+            $this->base_url . "inventory/assets/jscript/assign.js" => 'Assign functions',
         );
 
         $cpData['global_js'] = array(
