@@ -45,7 +45,6 @@ class Genias extends MX_Controller {
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         $genia=$this->get_genia();
-        var_dump($genia);
         $customData['genia']=$genia['nombre'];
         
         // usuario o coordinador? 
@@ -554,6 +553,7 @@ class Genias extends MX_Controller {
  
     function get_genia($attr=null){
        // nombre, rol, id
+        echo $this->idu;
        $genia=$this->genias_model->get_genia($this->idu);
        if(isset($attr)){      
            return (!empty($genia[$attr]))?($genia[$attr]):('');
