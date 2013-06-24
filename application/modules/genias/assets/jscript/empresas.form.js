@@ -1,6 +1,8 @@
 
 var EmpresaForm=Ext.create('Ext.form.Panel', {
     id:'formEmpresa',
+    //----para que resetee el dirty
+    trackResetOnLoad: true,
     layout: {
         type: 'vbox',
         align: 'stretch'  // Child items are stretched to full width
@@ -112,6 +114,16 @@ var EmpresaForm=Ext.create('Ext.form.Panel', {
         name:'notas'
     }
     ],
+    
+    listeners:{
+        dirtychange: function(form) {
+            if(form.isDirty()){
+                Ext.getCmp('btn_save').enable();
+            } else{
+                btn=Ext.getCmp('btn_save').disable();
+            }
+        }
+    },
 
     buttons: [{
         xtype: 'button',
@@ -141,6 +153,8 @@ var EmpresaForm=Ext.create('Ext.form.Panel', {
         }
 
     },{
+        id:'btn_save',
+        disabled:true,
         xtype:'button',
         text: '<i class="icon icon-save"></i> Guardar'
     }]
