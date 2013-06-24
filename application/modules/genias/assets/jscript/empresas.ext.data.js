@@ -5,33 +5,13 @@
 
 
 
-Ext.define('formModel', {
+Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
-    fields: [{
-            name: 'id',
-            type: 'int',
-            useNull: true
-        }
-        , '7586' // 	GenIA 
-                , '7406' // 	Usuario 
-                , '7404' // 	Provincia 
-                , '7405' // 	Partido 
-                , '7411' // 	Empresa visitada 
-                , '7407' // 	Fecha de la Visita 
-                , '7408' // 	Comentarios 
-                , '7409' // 	Origen 
-                , '7818' // 	Task
-                , '7819' // 	Longitud
-                , '7820' // 	Latitud
-
-    ],
-    /*VALIDACIONES*/
-
-    validations: [{
-            type: 'length',
-            field: '7411',
-            min: 1
-        }]
+    fields: [    'fecha' // 	Fecha de la Visita 
+                , 'cuit'
+                , 'nota' // 	Comentarios 
+                
+    ]
 });
 
 Ext.define('EmpresaModel', {
@@ -41,7 +21,7 @@ Ext.define('EmpresaModel', {
             type: 'int',
             useNull: true
         }
-        , '1693'  //     Nombre de la empresa
+                , '1693'  //     Nombre de la empresa
                 , '1695'  //     CUIT
                 , '7819' // 	Longitud
                 , '7820' // 	Latitud
@@ -214,123 +194,44 @@ var PartidoStore = Ext.create('Ext.data.Store', {
 });
 
 
-/*ON LINE APP */
-if (navigator.onLine) {
-    var store = Ext.create('Ext.data.Store', {
-        model: 'formModel',
-        autoLoad: false,
-        autoSync: true,
-        proxy: {
-            type: 'ajax',
-            api: {
-                read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
-                create: globals.module_url + 'process/Insert',
-                update: globals.module_url + 'process/Insert',
-                destroy: '' //'genias/app/geniasdev/destroy'
-            },
-            reader: {
-                type: 'json',
-                successProperty: 'success',
-                root: 'data',
-                messageProperty: 'message'
-            },
-            writer: {
-                type: 'json',
-                writeAllFields: true
-            },
-            listeners: {
-                exception: function(proxy, response, operation) {
-                    Ext.MessageBox.show({
-                        title: 'ERROR',
-                        msg: operation.getError(),
-                        icon: Ext.MessageBox.ERROR,
-                        buttons: Ext.Msg.OK
-                    });
-                }
-            }
-        },
-        listeners: {
-            write: function(proxy, operation) {
-                if (operation.action == 'destroy') {
-                    main.child('#form').setActiveRecord(null);
-                }
-                //Ext.example.msg(operation.action, operation.resultSet.message);
-            }
-        }
-    });
-} else {
-    /*OFFLINE APP*/
-    var store = Ext.create('Ext.data.Store', {
-        model: 'formModel',
+var storeEmpresaOffline = Ext.create('Ext.data.Store', {
+        model: 'EmpresaModel',
         autoLoad: true,
         autoSync: true,
         proxy: {
             type: 'localstorage',
-            id: 'genias'
+            id: 'empresas'
         },
         listeners: {
             write: function(proxy, operation) {
                 if (operation.action == 'destroy') {
                     main.child('#form').setActiveRecord(null);
                 }
-                store.load();
-                store.sync();
+               // storeEmpresaOffline.load();
+               // storeEmpresaOffline.sync();
                 //Ext.example.msg(operation.action, operation.resultSet.message);
             }
         }
     });
-    /*end OFFLINE APP*/
-}
-
-
-var storeOffline = Ext.create('Ext.data.Store', {
-    model: 'formModel',
-    autoLoad: true,
-    autoSync: true,
-    proxy: {
-        type: 'localstorage',
-        id: 'genias'
-    },
-    listeners: {
-        load: function() {
-            this.each(function(record) {
-                //console.log("check" + JSON.stringify(record.data, null, 4)); 
-                //store.add(record.data);
-                Ext.Ajax.request({
-                    url: globals.module_url + 'process/Insert',
-                    method: 'POST',
-                    root: 'data',
-                    type: 'json',
-                    params: JSON.stringify(record.data, null, 4),
-                    callback: function(options, success, response) {
-
-                        var didPost = true,
-                                o;
-
-                        if (success) {
-                            try {
-                                o = Ext.decode(response.responseText);
-                                didPost = o.success === true;
-                            } catch (e) {
-                                didPost = false;
-                            }
-                        } else {
-                            didPost = false;
-                        }
-                    }
-                });
-            });
-            // Sync the online store
-            store.sync();
-            // Remove data from offline store
-            //
-//storeOffline.removeAll();
+    
+    
+    var storeVisitaOffline = Ext.create('Ext.data.Store', {
+        model: 'visitaModel',
+        autoLoad: true,
+        autoSync: true,
+        proxy: {
+            type: 'localstorage',
+            id: 'visitas'
         },
-        write: function(proxy, operation) {
-            if (operation.action == 'destroy') {
-                store.child('#form').setActiveRecord(null);
+        listeners: {
+            write: function(proxy, operation) {
+                if (operation.action == 'destroy') {
+                    main.child('#form').setActiveRecord(null);
+                }
+               // storeEmpresaOffline.load();
+               // storeEmpresaOffline.sync();
+                //Ext.example.msg(operation.action, operation.resultSet.message);
             }
-            Ext.example.msg(operation.action, operation.resultSet.message);
         }
-    }
-});
+    });
+    
