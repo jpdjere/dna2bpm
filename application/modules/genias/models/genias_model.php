@@ -52,7 +52,13 @@ class Genias_model extends CI_Model {
     }
 
     function get_goals($idu) {
-        $query = array('idu' => (double) $idu);
+        
+        $genia = $this->get_genia($idu); 
+        if($genia['rol']=='coordinador'){
+            $query = array('idu' => array('$in'=>$genia['users']));
+        }else{
+            $query = array('idu' => (double) $idu);
+        }
         $container = 'container.genias_goals';
         $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
         //var_dump($result, json_encode($result), $result->count());
@@ -127,7 +133,7 @@ class Genias_model extends CI_Model {
         $query=array('coordinadores'=>((int)$idu));
         $result = $this->mongo->db->$container->findone($query); 
         if($result){
-           $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'coordinador');
+           $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'coordinador','users'=>$result['users']);
            return $genia;
         }
         

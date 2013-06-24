@@ -44,8 +44,17 @@ class Genias extends MX_Controller {
         // Projects
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
-        $customData['genia']=$this->get_genia('nombre');
-        foreach ($this->genias_model->get_goals($this->idu) as $goal) {
+        $genia=$this->get_genia();
+        $customData['genia']=$genia['nombre'];
+        
+        // usuario o coordinador? 
+        $idus=array($this->idu);
+        if(!empty($genia['rol'])&& $genia['rol']=='coordinador' ){
+            $idus+=$genia['users'];
+        }
+
+        foreach($idus as $idu){
+        foreach ($this->genias_model->get_goals($idu) as $goal) {
             foreach ($customData['projects'] as $current) {
                 if ($current['id'] == $goal['proyecto'])
                     $goal['proyecto_name'] = $current['name'];
@@ -68,7 +77,10 @@ class Genias extends MX_Controller {
                 $goal['status_class'] = 'well status_null';
                 $goal['label_class'] = '';
             }
-
+            
+            $owner = $this->user->get_user((double)$idu);
+            $goal['owner']= "{$owner->lastname}, {$owner->name}";
+            
 
 //
             $goal['cumplidas'] = 0;
@@ -79,8 +91,10 @@ class Genias extends MX_Controller {
 //            $goal['class'] = 'alert alert-error';
 
             $customData['goals'][] = $goal;
-        }
+        }//each
+        } //each
         $this->render('dashboard', $customData);
+
     }
 
     function render($file, $customData) {
@@ -537,8 +551,9 @@ class Genias extends MX_Controller {
     
     // ======= DATOS GENIAS ======= //
  
-    function get_genia($attr){
+    function get_genia($attr=null){
        // nombre, rol, id
+        echo $this->idu;
        $genia=$this->genias_model->get_genia($this->idu);
        if(isset($attr)){      
            return (!empty($genia[$attr]))?($genia[$attr]):('');
