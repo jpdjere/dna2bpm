@@ -42,16 +42,16 @@
               <li><a href="{module_url}scheduler">Agenda</a></li>
               <li style="padding-top:10px">Programas</li>
             </ul>
-          </div>
-          <div class="nav-collapse collapse pull-right" >
-            <div class="profile">
-                <img src="{gravatar}"  title="{username}"/>
-            </div>
-          </div>
+            <ul class="nav pull-right inline">            
+                <li><a   href="{base_url}/user/logout"><i class="icon-off"></i> Salir</a></li>
+                <li><img src="{gravatar}"  title="{username}"  style="height:40px;   "/>
+            </ul>
         </div>
       </div>
     </div>
+
 <!-- CONTAINER -->
+
 {content}
 <!-- CONTAINER -->
 

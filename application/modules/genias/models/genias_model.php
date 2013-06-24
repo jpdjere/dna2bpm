@@ -14,7 +14,7 @@ class Genias_model extends CI_Model {
         parent::__construct();
     }
 
-    /* ---- TASKS---- */
+    // ======= TAREAS ======= //
 
     function remove_task($id) {
         ;
@@ -42,7 +42,7 @@ class Genias_model extends CI_Model {
         return $result;
     }
 
-    /* ---- GOALS---- */
+    // ======= METAS ======= //
 
     function add_goal($goal) {
         $options = array('upsert' => true, 'safe' => true);
@@ -67,7 +67,7 @@ class Genias_model extends CI_Model {
         return $result;
     }
 
-    // -- Config -- //
+    // ======= CONFIG ======= //
 
     function get_config_item($name) {
         $container = 'container.genias_config';
@@ -107,6 +107,20 @@ class Genias_model extends CI_Model {
             $rtn[] = $empresa;
         }
         return $rtn;
+    }
+    
+    
+    
+    // ======= USER CONTROL ======= //
+    
+    function get_genia($idu){
+        $container = 'container.genias';
+        $idu= -108639299;
+        $query=array('users'=>$idu);
+        $result = $this->mongo->db->$container->findone($query);
+        $rol=(in_array($idu,$result['coordinadores']))?('coordinador'):('user');
+        $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>$rol);
+        return $genia;
     }
 
 }
