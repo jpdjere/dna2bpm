@@ -9,7 +9,9 @@ class inventory_model extends CI_Model {
         parent::__construct();
         $this->idu = (float) $this->session->userdata('iduser');
         $this->load->library('cimongo/cimongo');
+        $this->load->config('config');
         $this->db = $this->cimongo;
+        $this->container=($this->config->item('container'))? $this->config->item('container'):'inventory';
     }
 
     function claim($type, $code, $user) {
@@ -25,10 +27,10 @@ class inventory_model extends CI_Model {
             if ((float)$last['user'] == $data['user']) {
                 return;
             } else {
-                $this->db->insert('entrada', $data);
+                $this->db->insert($this->container, $data);
             }
         } else {
-            $this->db->insert('entrada', $data);
+            $this->db->insert($this->container, $data);
         }
     }
 
@@ -37,9 +39,8 @@ class inventory_model extends CI_Model {
         $result = $this->db
                 ->where($query)
                 ->order_by(array('_id' => true))
-                ->get('entrada')
-                ->result_array();
-        return $result;
+                ->get($this->container);
+        return $result->result_array();
     }
 
 }

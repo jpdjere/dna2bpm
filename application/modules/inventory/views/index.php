@@ -8,70 +8,76 @@
         </h1>
     </header>
 </div>
-
-<!-- MAIN CONTENT -->
-<div id="main_content_wrap" class="text-center">
-    <section id="main_content">
-        <ul class="nav nav-pills nav-stacked">
-            <li>
-
-                <h3>
-
-                    <i class="icon-info-sign"></i>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <!--Sidebar content-->
+            <ul class="nav nav-pills nav-stacked">
+                <li>
                     <a href="{module_url}query" id="info">
+                        <i class="icon-info-sign"></i>
                         Informaci&oacute;n Expediente
                     </a>
-                </h3>
+                </li>
+                <li>
 
-            </li>
-            <li>
-                <h3>
-
-                    <i class="icon-signin"></i>
                     <a href="{module_url}checkin">
+                        <i class="icon-signin"></i>
                         Check-In
                     </a>
-                </h3>
-            </li>
-            <li>
-                <h3>
-
-                    <i class="icon-signin"></i> <i class="icon-user"></i>
+                </li>
+                <li>
                     <a href="{module_url}assign" id="assign">
+                        <i class="icon-signin"></i> <i class="icon-user"></i>
                         Asignar a Usuario
                     </a>
-                </h3>
-            </li>
-            <li>
-                <h3>
-                    <i class="icon-qrcode"></i> 
-                    Generar C&oacute;digo
-                </h3>
+                </li>
+                <li>
 
-                <form class="form-inline" action="{module_url}gencode" method="POST">
-                    <div class="input-prepend">
-                        <span class="add-on">Tipo</span>
-                        <select name="type" class="span2" id="type" >
-                            <option val="PDE">
-                                PDE
-                            </option>
-                            <option val="PP">
-                                PP
-                            </option>
-                        </select>
+                    <div class="form-inline img-polaroid">
+                        <div class="input-prepend">
+                            <span class="add-on">Tipo</span>
+                            <select name="type" id="type" >
+                                <option val="PDE">
+                                    PDE
+                                </option>
+                                <option val="PP">
+                                    PP
+                                </option>
+                            </select>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="input-prepend">
+                            <span class="add-on">Nro</span>
+                            <input id="code" type="text" name="code" placeholder="2234/2012">
+                        </div>
+                        <br/>
+                        <br/>
+                        <button type="button" class="btn" id="btn_seach">
+                            <i class="icon-search"></i> 
+                            Buscar</button>
+                        <br/>
+                        <br/>
+                        <button type="buton" class="btn" id="btn_gencode">
+                            <i class="icon-qrcode"></i> 
+                            Generar C&oacute;digo
+                        </button>
                     </div>
-                    <div class="input-prepend">
-                        <span class="add-on">Nro</span>
-                        <input class="span2" id="code" type="text" name="code" placeholder="2234/2012">
-                    </div>
-                    <button type="submit" class="btn">Generar</button>
-                </form>
 
-            </li>
-        </ul>
-        <br/>
-        <br/>
-    </section>
+                </li>
+            </ul>
+        </div>
+        <div class="span9">
+            <!--Body content-->
+            <!-- MAIN CONTENT -->
+            <div id="main_content_wrap" class="text-center">
+                <section id="main_content">
+                    <div id="result"></div>
+                </section>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- FOOTER  -->
 <div id="footer_wrap" class="outer">
