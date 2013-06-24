@@ -215,8 +215,14 @@ class User extends CI_Model {
     }
 
     function getbygroup($idgroup) {
-        $grouparr = (array) json_decode((string) $idgroup);
+        $grouparr = (is_array($idgroup)) ? $idgroup : (array) json_decode((string) $idgroup);
         $this->db->where_in('group', $grouparr);
+        $this->db->order_by(
+                array(
+                    'name' => 'asc',
+                    'lastname' => 'asc'
+                )
+        );
         $result = $this->db->get('users')->result();
         return $result;
     }
