@@ -122,7 +122,7 @@ class Genias_model extends CI_Model {
     function get_genia($idu){
         $container = 'container.genias';
         // Es usuario?
-        $query=array('users'=>((int)$idu));
+        $query=array('users'=>((double)$idu));
         $result = $this->mongo->db->$container->findone($query); 
         var_dump($result);
         if($result){
