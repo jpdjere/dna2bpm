@@ -336,6 +336,7 @@ class Genias extends MX_Controller {
 
 
         $cpData['js'] = array(
+            $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/form.js' => 'Objetos Custom D!',
             $this->module_url . 'assets/jscript/ext.viewport.js' => '',
