@@ -44,7 +44,7 @@ class Genias extends MX_Controller {
         // Projects
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
-
+        $customData['genia']=$this->get_genia('nombre');
         foreach ($this->genias_model->get_goals($this->idu) as $goal) {
             foreach ($customData['projects'] as $current) {
                 if ($current['id'] == $goal['proyecto'])
@@ -106,6 +106,8 @@ class Genias extends MX_Controller {
         // Profile 
         //$cpData['profile_img'] = get_gravatar($user->email);
         $cpData['gravatar'] = get_gravatar($user->email);
+        $cpData['genia'] = $this->get_genia('nombre');
+         
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
@@ -137,7 +139,7 @@ class Genias extends MX_Controller {
                 $mydata['proyecto_nombre'] = $v['name'];
         }
 
-        $mydata['genia'] = 'nombre de la GENIA'; //<<<<<--------------------
+        $mydata['genia'] = $this->get_genia('nombre');
         //----genero un caso---------------------------------
         $idwf = 'genia_metas';
         $case = $this->bpm->gen_case($idwf);
@@ -164,6 +166,7 @@ class Genias extends MX_Controller {
     function programs() {
         $this->user->authorize();
         $customData = $this->lang->language;
+        $customData['genia'] = $this->get_genia('nombre');
         $this->render('programs', $customData);
     }
 
@@ -174,11 +177,9 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['css'] = array($this->module_url . "assets/css/tasks.css" => 'Genias CSS');
-
+        $customData['genia'] = $this->get_genia('nombre');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
-        
-
 
        $customData['tasks'] = array();
         foreach ($projects['items'] as $k => $item) {
@@ -530,12 +531,17 @@ class Genias extends MX_Controller {
         }
     }
     
-//    // GET Gravatar JSON
-//    function test_gravatar(){
-//    $email="gabriel@trialvd.com.ar";
-//    $code=md5( strtolower( trim( $email ) ) );
-//    echo "http://www.gravatar.com/$code.json";
-//}
+    // ======= DATOS GENIAS ======= //
+ 
+    function get_genia($attr){
+       // nombre, rol, id
+       $genia=$this->genias_model->get_genia($this->idu);
+       if(isset($attr)){      
+           return (!empty($genia[$attr]))?($genia[$attr]):('');
+       }else{
+       return $genia;
+       }
+    }
 
 
 }// close
