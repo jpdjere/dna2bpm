@@ -1,5 +1,6 @@
 
 var EmpresaForm=Ext.create('Ext.form.Panel', {
+    id:'formEmpresa',
     layout: {
         type: 'vbox',
         align: 'stretch'  // Child items are stretched to full width
