@@ -554,7 +554,6 @@ class Genias extends MX_Controller {
     function get_genia($attr=null){
        // nombre, rol, id
        $genia=$this->genias_model->get_genia($this->idu);
-       var_dump($genia);
        if(isset($attr)){      
            return (!empty($genia[$attr]))?($genia[$attr]):('');
        }else{
