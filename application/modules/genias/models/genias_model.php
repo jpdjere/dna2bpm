@@ -115,11 +115,23 @@ class Genias_model extends CI_Model {
     
     function get_genia($idu){
         $container = 'container.genias';
-        $query=array('users'=>$idu);
-        $result = $this->mongo->db->$container->findone($query);
-        $rol=(in_array($idu,(array)$result['coordinadores']))?('coordinador'):('user');
-        $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>$rol);
-        return $genia;
+        // Es usuario?
+        $query=array('users'=>((int)$idu));
+        $result = $this->mongo->db->$container->findone($query); 
+        if($result){
+           $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'user');
+           return $genia;
+        }
+        // Es coordinador?
+        
+        $query=array('coordinadores'=>((int)$idu));
+        $result = $this->mongo->db->$container->findone($query); 
+        if($result){
+           $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'coordinador');
+           return $genia;
+        }
+        
+        return false;
     }
 
 }
