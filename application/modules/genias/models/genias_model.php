@@ -117,7 +117,7 @@ class Genias_model extends CI_Model {
         $container = 'container.genias';
         $query=array('users'=>$idu);
         $result = $this->mongo->db->$container->findone($query);
-        $rol=(in_array($idu,$result['coordinadores']))?('coordinador'):('user');
+        $rol=(in_array($idu,(array)$result['coordinadores']))?('coordinador'):('user');
         $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>$rol);
         return $genia;
     }
