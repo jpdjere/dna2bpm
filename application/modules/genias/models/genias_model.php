@@ -133,7 +133,7 @@ class Genias_model extends CI_Model {
         }
         // Es coordinador?
         
-        $query=array('coordinadores'=>((int)$idu));
+        $query=array('coordinadores'=>($idu));
         $result = $this->mongo->db->$container->findone($query); 
         if($result){
            $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'coordinador','users'=>$result['users']);
