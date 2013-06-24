@@ -90,7 +90,7 @@ class Inventory extends MX_Controller {
             $cpData['module_url'] = $this->module_url;
             $cpData['code'] = $code;
             $cpData['type'] = $code;
-            $cpData['src'] = $this->base_url . "qr/gen_url/$encoded_url/9/H";
+            $cpData['src'] = $this->base_url . "qr/gen_url/$encoded_url/6/L";
             $this->parser->parse('code', $cpData);
         }
     }
