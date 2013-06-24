@@ -107,6 +107,7 @@ class Genias extends MX_Controller {
         //$cpData['profile_img'] = get_gravatar($user->email);
         $cpData['gravatar'] = get_gravatar($user->email);
         $cpData['genia'] = $this->get_genia('nombre');
+        $cpData['rol'] = $this->get_genia('rol');
          
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
@@ -539,7 +540,7 @@ class Genias extends MX_Controller {
        if(isset($attr)){      
            return (!empty($genia[$attr]))?($genia[$attr]):('');
        }else{
-       return $genia;
+         return $genia;
        }
     }
 

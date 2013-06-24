@@ -89,3 +89,10 @@ body {
     background-image: url("../img/glyphicons-halflings-white.png");
     opacity: 1;
 }
+
+/* ==== BARRA DE NAVEGACION ====*/
+
+.barra_coordinador{
+    background: #2F4E89 !important;
+    border-bottom:1px #ccc solid !important;
+}
