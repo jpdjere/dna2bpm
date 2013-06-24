@@ -1,3 +1,6 @@
+<span class="btn btn-large btn-success">
+    {type}::{code}
+</span>
 <table class="table table-striped">
     <thead>
         <tr>

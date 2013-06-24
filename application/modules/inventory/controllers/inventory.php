@@ -153,10 +153,10 @@ class Inventory extends MX_Controller {
                 if ($code)
                     $cpData['code'] = $code;
                 $result = $this->prepare($this->inventory_model->get($type, $code));
-               if ($result) {
+                if ($result) {
                     unset($result['_id']);
                     $cpData['result'] = $result;
-                $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
+                    $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
                 } else {
                     $cpData['msg'] = "No se encontraron resultados para: $type::$code";
                     $this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
@@ -232,9 +232,9 @@ class Inventory extends MX_Controller {
         $cpData['show_header'] = ($pure) ? false : true;
 
         if ($this->input->post('data')) {
-            $parts = explode('/', str_replace($this->module_url, '', $this->input->post('data')));
-            $type = $parts[1];
-            $code = implode('/', array_slice($parts, 2));
+            $parts = explode('/', str_replace($this->base_url, '', $this->input->post('data')));
+            $type = $parts[2];
+            $code = implode('/', array_slice($parts, 3));
             if ($type)
                 $cpData['type'] = $type;
             if ($code)
