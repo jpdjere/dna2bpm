@@ -43,8 +43,8 @@ class Process extends MX_Controller {
 
         //foreach ($input as $key => $value) {
 
-
-
+        var_dump($newArr);
+            
 
 
         list($yearVal, $monthVal, $dayVal) = explode("-", $input['7407']);
