@@ -17,7 +17,6 @@ class Genias_model extends CI_Model {
     // ======= TAREAS ======= //
 
     function remove_task($id) {
-        ;
         $container = 'container.genias_tasks';
         $query = array('id' => (integer) $id);
         $rs = $this->mongo->db->$container->remove($query);
