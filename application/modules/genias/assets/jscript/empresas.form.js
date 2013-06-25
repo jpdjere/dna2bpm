@@ -185,6 +185,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     var records = new Array();
                     storeEmpresaOffline.each(function(rec) {
                        store.add(rec);
+                       console.log(rec);
                     });
                     
                     //storeEmpresaOffline.remove();
