@@ -48,12 +48,13 @@ class Genias extends MX_Controller {
         $customData['genia']=$genia['nombre'];
         
         // usuario o coordinador? 
-        $idus=array($this->idu);
+        $idus=array((int)$this->idu);
         if(!empty($genia['rol'])&& $genia['rol']=='coordinador' ){
-            $idus+=$genia['users'];
+            $idus=array_merge($genia['users'],$idus);
         }
 
-        foreach($idus as $idu){
+        // Muestro metas de un idu, o de varios si es coordinador
+        foreach($idus as $idu){ 
         foreach ($this->genias_model->get_goals($idu) as $goal) {
             foreach ($customData['projects'] as $current) {
                 if ($current['id'] == $goal['proyecto'])
@@ -79,7 +80,7 @@ class Genias extends MX_Controller {
             }
             
             $owner = $this->user->get_user((double)$idu);
-            $goal['owner']= "{$owner->lastname}, {$owner->name}";
+            $goal['owner']= "{$owner->lastname}, {$owner->name} ";
             
 
 //
