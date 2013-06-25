@@ -188,8 +188,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                        records.push(rec)
                     });
                     console.log(records)
+                    store.add(records); 
                     //storeEmpresaOffline.remove();
-                   // store.sync();
+                    store.sync();
                 }
             }
         }]
