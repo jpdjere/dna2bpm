@@ -7,10 +7,10 @@
 
 Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
-    fields: [    'fecha' // 	Fecha de la Visita 
+    fields: ['fecha' // 	Fecha de la Visita 
                 , 'cuit'
                 , 'nota' // 	Comentarios 
-                
+
     ]
 });
 
@@ -21,7 +21,7 @@ Ext.define('EmpresaModel', {
             type: 'int',
             useNull: true
         }
-                , '1693'  //     Nombre de la empresa
+        , '1693'  //     Nombre de la empresa
                 , '1695'  //     CUIT
                 , '7819' // 	Longitud
                 , '7820' // 	Latitud
@@ -195,91 +195,92 @@ var PartidoStore = Ext.create('Ext.data.Store', {
 
 
 var storeEmpresaOffline = Ext.create('Ext.data.Store', {
-        model: 'EmpresaModel',
-        autoLoad: true,
-        autoSync: true,
-        proxy: {
-            type: 'localstorage',
-            id: 'empresas'
-        },
-        listeners: {
-            write: function(proxy, operation) {
-                if (operation.action == 'destroy') {
-                    main.child('#form').setActiveRecord(null);
-                }
-               // storeEmpresaOffline.load();
-               // storeEmpresaOffline.sync();
-                //Ext.example.msg(operation.action, operation.resultSet.message);
-            }
-        }
-    });
-    
-    
-    var storeVisitaOffline = Ext.create('Ext.data.Store', {
-        model: 'visitaModel',
-        autoLoad: true,
-        autoSync: true,
-        proxy: {
-            type: 'localstorage',
-            id: 'visitas'
-        },
-        listeners: {
-            write: function(proxy, operation) {
-                if (operation.action == 'destroy') {
-                    main.child('#form').setActiveRecord(null);
-                }
-               // storeEmpresaOffline.load();
-               // storeEmpresaOffline.sync();
-                //Ext.example.msg(operation.action, operation.resultSet.message);
-            }
-        }
-    });
-    
-    var storeTest = Ext.create('Ext.data.Store', {
-        model: 'EmpresaModel',
-        autoLoad: true,
-        autoSync: true,
-        proxy: {
-            type: 'localstorage',
-            id: 'test'
-        },
-        listeners: {
-            write: function(proxy, operation) {
-                if (operation.action == 'destroy') {
-                    main.child('#form').setActiveRecord(null);
-                }
-               // storeEmpresaOffline.load();
-               // storeEmpresaOffline.sync();
-                //Ext.example.msg(operation.action, operation.resultSet.message);
-            }
-        }
-    });
-    
-    var store = new Ext.data.Store({        
     model: 'EmpresaModel',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'empresas'
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+            // storeEmpresaOffline.load();
+            // storeEmpresaOffline.sync();
+            //Ext.example.msg(operation.action, operation.resultSet.message);
+        }
+    }
+});
+
+
+var storeVisitaOffline = Ext.create('Ext.data.Store', {
+    model: 'visitaModel',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'visitas'
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+            // storeEmpresaOffline.load();
+            // storeEmpresaOffline.sync();
+            //Ext.example.msg(operation.action, operation.resultSet.message);
+        }
+    }
+});
+
+var storeTest = Ext.create('Ext.data.Store', {
+    model: 'EmpresaModel',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'test'
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+            // storeEmpresaOffline.load();
+            // storeEmpresaOffline.sync();
+            //Ext.example.msg(operation.action, operation.resultSet.message);
+        }
+    }
+});
+
+var store = new Ext.data.Store({
+    model: 'EmpresaModel',
+    autoLoad: true,
+    autoSync: true,
     id: store,
     proxy: {
         type: 'ajax',
-        url : globals.module_url + 'process/Insert',
+        url: globals.module_url + 'process/Insert',
         reader: {
             type: 'json',
             root: 'data'
         },
-            writer: {
-                type: 'json',
-                writeAllFields: true
-            },
-            listeners: {
-                
-                exception: function(proxy, response, operation) {
-                    Ext.MessageBox.show({
-                        title: 'ERROR',
-                        msg: operation.getError(),
-                        icon: Ext.MessageBox.ERROR,
-                        buttons: Ext.Msg.OK
-                    });
-                }
+        writer: {
+            type: 'json',
+            writeAllFields: true
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
             }
+        }
     }
 });
-    
+
