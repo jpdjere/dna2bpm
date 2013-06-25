@@ -80,7 +80,7 @@ class Genias extends MX_Controller {
             }
             
             $owner = $this->user->get_user((double)$idu);
-            $goal['owner']= "{$owner->lastname}, {$owner->name} $idu";
+            $goal['owner']= "{$owner->lastname}, {$owner->name} ";
             
 
 //
