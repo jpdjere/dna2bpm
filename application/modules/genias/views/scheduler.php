@@ -1,15 +1,13 @@
 <!-- / Breadcrumbs -->
-<div class="row-fluid" >
-    <div class="span12 ">
-        <ul class="breadcrumb pull-left"  >
-          <li>{genia}<span class="divider">/</span></li>
-  <li><a href="#">Agenda</a> <span class="divider">/</span></li>
-        </ul>
-    </div>
+<div class="row-fluid container" >
+    <ul class="breadcrumb"  >
+      <li>{genia}<span class="divider">/</span></li>
+       <li><a href="#">Agenda</a> <span class="divider">/</span></li>
+    </ul>
 </div>
 
 <!-- / Contenido -->
-<div  class="row-fluid" >
+<div  class="row-fluid container" >
 <div id="detalle" class="span4" >
     <form method="post">
         <input name="id" value="{id}" type="hidden"/>

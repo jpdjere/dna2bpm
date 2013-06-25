@@ -1,13 +1,10 @@
 <!-- / Breadcrumbs -->
-<div class="row-fluid" >
-    <div class="span12 ">
-        <ul class="breadcrumb pull-left"  >
-          <li>{genia}<span class="divider">/</span></li>
-  <li><a href="#">Tareas</a> <span class="divider">/</span></li>
-        </ul>
-    </div>
+<div class="row-fluid container" >
+    <ul class="breadcrumb"  >
+        <li>{genia}<span class="divider">/</span></li>
+        <li><a href="#">Tareas</a> <span class="divider">/</span></li>
+    </ul>
 </div>
-
 
 <!-- -->
 <div class="container">  

@@ -96,3 +96,7 @@ body {
     background: #2F4E89 !important;
     border-bottom:1px #ccc solid !important;
 }
+
+.container{
+    padding: 0px 30px !important;
+}
