@@ -1,8 +1,13 @@
 <!-- / Breadcrumbs -->
-<ul class="breadcrumb navbar-static-top">
-    <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-    <li><a href="#">Mapa</a> <span class="divider">/</span></li>
-</ul>
+<div class="row-fluid" >
+    <div class="span12 ">
+        <ul class="breadcrumb pull-left"  >
+          <li>{genia}<span class="divider">/</span></li>
+          <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
+            <li><a href="#">Mapa</a> <span class="divider">/</span></li>
+        </ul>
+    </div>
+</div>
 <!-- / Contenido -->
 
 <div class="container-fluid">
@@ -21,7 +26,7 @@
                         Empresas Genias
                     </label>
                 </li>
-                <!-- Mapa de Empresas Dna² -->
+                <!-- Mapa de Empresas Dnaï¿½ -->
                 <li>
                     <label class="checkbox">
                         <input type="checkbox" value="dna2">
@@ -29,7 +34,7 @@
                     </label>
 
                 </li>
-                <!-- Mapa de Empresas Dna² -->
+                <!-- Mapa de Empresas Dnaï¿½ -->
                 <li>
 
                     <a href="#" id="mapClear">

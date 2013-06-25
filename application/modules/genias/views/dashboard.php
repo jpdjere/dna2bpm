@@ -1,9 +1,14 @@
 <!-- / Breadcrumbs -->
-<div class="row">
-<ul class="breadcrumb navbar-static-top span12">
-  <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-</ul>
+<!-- Barra 2-->
+<div class="row-fluid" >
+    <div class="span12 ">
+        <ul class="breadcrumb pull-left"  >
+          <li>{genia}<span class="divider">/</span></li>
+          <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
+        </ul>
+    </div>
 </div>
+
 <!-- / Contenido -->
 <div class="container">  
 <div class="row">
@@ -77,7 +82,7 @@ Crear nueva meta
     <h3 style="display: inline-block;margin-right:6px">{proyecto_name}</h3>
     <span title="Inicio" ><i class="icon-calendar" ></i> {desde}</span>
     <span title="Fin" style="padding-left:15px"><i class="icon-calendar"></i> {hasta}</span> 
-    <span>&nbsp;<i class="icon-double-angle-right"></i>&nbsp;<span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span> </span>
+    <span>&nbsp;<i class="icon-double-angle-right"></i>&nbsp;<span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span> {owner}</span>
          <div class="observaciones" >
          <div class="line"></div>
              {observaciones}

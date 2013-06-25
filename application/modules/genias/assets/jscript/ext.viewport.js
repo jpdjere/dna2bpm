@@ -1,10 +1,10 @@
 Ext.application({
     name: 'FormGenias',
     init: function() {
-
+        
     },
     launch: function() {
-
+        
         var remove_loaders = function() {
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();
@@ -31,6 +31,7 @@ Ext.application({
                         }
                     }
                 }
+                /*
                 ,
                 {
                     itemId: 'grid',
@@ -43,7 +44,9 @@ Ext.application({
                             center.child('#form').setActiveRecord(selected[0] || null);
                         }
                     }
-                }]
+                }
+                 */
+                ]
         });
 
 
@@ -54,6 +57,8 @@ Ext.application({
             items: [center],
             listeners: {
                 render: function() {
+                    /* Verifico OnlineOffline Status*/
+loaded();
                     
                 },
                 afterRender: function() {

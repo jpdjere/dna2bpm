@@ -97,12 +97,33 @@ Ext.define('Writer.Form', {
                     emptyText: 'Seleccione el Partido',
                     editable: false
 
-                }, {
+                },
+                {
+                    xtype: 'combobox',
+                    name: '7411',
                     fieldLabel: 'Empresa',
+                    displayField: '1693',
+                    store: EmpresaStore,
+                    queryMode: 'local',
+                    listeners: {
+                        'select': function(combo, records, eOpts) {
+                            cuit = EmpresaStore.data.getAt(EmpresaStore.find('1693', combo.getValue())).data['1695'];
+                            Ext.getCmp('cuit').setValue(EmpresaStore.data.getAt(EmpresaStore.find('1693', combo.getValue())).data['1695']);
+                        }
+                    },
+                    listConfig: {
+                        getInnerTpl: function() {
+                            return '<div>{1693} ({1695})</div>';
+                        }
+                    }
+                },
+                {
+                    id: 'cuit',
+                    fieldLabel: 'CUIT',
                     name: '7411',
                     allowBlank: false,
                     vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
-                    emptyText: 'Ingrese un Nro de CUIT valido',
+                    emptyText: 'Ingrese un Nro de CUIT valido'
                 }, {
                     xtype: 'hidden',
                     fieldLabel: 'Origen',
@@ -115,7 +136,8 @@ Ext.define('Writer.Form', {
                     name: '7407',
                     xtype: 'datefield',
                     submitFormat: 'Y-m-d',
-                    emptyText: 'Seleccione', editable: false
+                    emptyText: 'Seleccione',
+                    editable: false
                 }, {
                     xtype: 'textareafield',
                     name: '7408',
@@ -125,38 +147,41 @@ Ext.define('Writer.Form', {
                     xtype: 'hidden',
                     name: '7818',
                     fieldLabel: 'Task',
-                    value: this.getTask(), readOnly: true
-
-                }, {
-                    xtype: 'button',
-                    fieldLabel: '',
-                    text: 'Actualiza tu Geolocacion',
-                    listeners: {
-                        render: function() {
-                            this.getEl().on('mousedown', function(e, t, eOpts) {
-                                if (navigator && navigator.geolocation) {
-                                    var nav = navigator.geolocation.getCurrentPosition(function(position) {
-
-                                        var logitud = position.coords.longitude;
-                                        Ext.getCmp('long').setValue(logitud);
-
-
-
-                                        var latitud = position.coords.latitude;
-                                        Ext.getCmp('lat').setValue(latitud);
-
-                                        Ext.getCmp('longLayDisplay').setValue("Longitud: " + logitud + ' Latitud: ' + latitud);
-
-                                        //return logitud;
-                                    }, function(error) {
-                                        return '0';
-                                    });
-                                }
-                            });
-                        }
-                    }
+                    value: this.getTask(),
+                    readOnly: true
 
                 }
+//            , 
+//            {
+//                xtype: 'button',
+//                fieldLabel: '',
+//                text: 'Actualizar Posición',
+//                listeners: {
+//                    render: function() {
+//                        this.getEl().on('mousedown', function(e, t, eOpts) {
+//                            if (navigator && navigator.geolocation) {
+//                                var nav = navigator.geolocation.getCurrentPosition(function(position) {
+//
+//                                    var logitud = position.coords.longitude;
+//                                    Ext.getCmp('long').setValue(logitud);
+//
+//
+//
+//                                    var latitud = position.coords.latitude;
+//                                    Ext.getCmp('lat').setValue(latitud);
+//
+//                                    Ext.getCmp('longLayDisplay').setValue("Longitud: " + logitud + ' Latitud: ' + latitud);
+//
+//                                //return logitud;
+//                                }, function(error) {
+//                                    return '0';
+//                                });
+//                            }
+//                        });
+//                    }
+//                }
+//
+//            }
                 , {
                     xtype: 'hidden',
                     name: '7819',
@@ -169,7 +194,15 @@ Ext.define('Writer.Form', {
                     id: 'lat',
                     fieldLabel: 'Latitud',
                     readOnly: true
-                }, {xtype: 'displayfield', id: 'longLayDisplay', style: {fontSize: '11px', color: 'blue', padding: '4px'}},
+                }, {
+                    xtype: 'displayfield',
+                    id: 'longLayDisplay',
+                    style: {
+                        fontSize: '11px',
+                        color: 'blue',
+                        padding: '4px'
+                    }
+                },
             ],
             dockedItems: [{
                     xtype: 'toolbar',
@@ -300,7 +333,8 @@ Ext.define('Writer.Grid', {
                     sortable: true,
                     dataIndex: '7408'
                 }]
-                    , dockedItems: [{
+                    ,
+            dockedItems: [{
                     xtype: 'toolbar',
                     dock: 'bottom',
                     ui: 'footer',
@@ -360,7 +394,8 @@ Ext.define('Writer.Grid', {
                         }
                     });
                 }
-            }});
+            }
+        });
         /**/
 
         this.callParent();

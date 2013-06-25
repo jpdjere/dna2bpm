@@ -1,8 +1,14 @@
 <!-- / Breadcrumbs -->
-<ul class="breadcrumb">
-  <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-  <li><a href="#">Programs</a> <span class="divider">/</span></li>
-</ul>
+<div class="row-fluid" >
+    <div class="span12 ">
+        <ul class="breadcrumb pull-left"  >
+          <li>{genia}<span class="divider">/</span></li>
+          <li><a href="#">Programas</a> <span class="divider">/</span></li>
+        </ul>
+    </div>
+</div>
+
+
 <!-- / Contenido -->
 <div class="container">  
     

@@ -1,10 +1,14 @@
 <!-- / Breadcrumbs -->
-<div class="row">
-<ul class="breadcrumb navbar-static-top span12 ">
-  <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-  <li><a href="#">Contactos</a> <span class="divider">/</span></li>
-</ul>
+<div class="row-fluid" >
+    <div class="span12 ">
+        <ul class="breadcrumb pull-left"  >
+          <li>{genia}<span class="divider">/</span></li>
+          <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
+          <li><a href="#">Contacto</a> <span class="divider">/</span></li>
+        </ul>
+    </div>
 </div>
+
 <!-- / Contenido -->
 <div class="container">  
 

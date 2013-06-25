@@ -37,14 +37,7 @@ body {
 .profile img{
     width:50px;
     height:50px;
-    border:2px solid #e1e4e2 ;
-    margin-right:7px;
-}
-
-.profile ul li a{
-    display:inline-block;
-    margin-bottom: 8px;
-    font-size:18px;
+    border:2px solid #e1e4e2;
 }
 
 
@@ -95,4 +88,11 @@ body {
 .general-sidenav .active .icon-chevron-right, .general-sidenav .active a:hover .icon-chevron-right {
     background-image: url("../img/glyphicons-halflings-white.png");
     opacity: 1;
+}
+
+/* ==== BARRA DE NAVEGACION ====*/
+
+.barra_coordinador{
+    background: #2F4E89 !important;
+    border-bottom:1px #ccc solid !important;
 }

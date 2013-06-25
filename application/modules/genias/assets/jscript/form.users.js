@@ -68,9 +68,9 @@ Ext.define('Writer.Form', {
                     emptyText: 'Seleccione la Provincia',
                 },
                 {
-                    fieldLabel: 'FCC',
+                    fieldLabel: 'SERIAL No.',
                     name: 'fcc',
-                    emptyText: 'FCC ID'
+                    emptyText: 'SERIAL NUMBER'
                 }, {
                     fieldLabel: 'Mac Address',
                     name: 'mac',

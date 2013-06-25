@@ -6,34 +6,31 @@
 
 var tasks= new Array();
 tasks[0]=new Array();
-tasks[1]=new Array();
-tasks[2]=new Array();
-tasks[3]=new Array();
 tasks[666]=new Array();
 
 
 
 $( document ).ready(function() {
+    
+    
+$('.disabled').live('click',function(e){
+    e.preventDefault();
+});
 
 if(navigator.onLine){
 mongo_get_tasks(0);
-mongo_get_tasks(1);
-mongo_get_tasks(2);
-mongo_get_tasks(3);
+
+//localStorage.clear();
+
+localStorage['tasks0']=JSON.stringify(tasks[0]);
+localStorage['tasks666']=JSON.stringify(tasks[666]);
+
 }else{
 localstorage_get_tasks();
 buttons_offline();
 }
 
-
- //Storage
-//console.log(tasks.toString());
-//localStorage.clear();
-//var events = JSON.parse(tasks[0]);
-
-
-
-
+// Despliego el calendario
 $('#calendar').fullCalendar({
 
     eventSources:[
@@ -41,23 +38,7 @@ $('#calendar').fullCalendar({
             events: tasks[0],            
             color: '#C6372C',     // an option!
             textColor: 'white' // an option!
-       } ,
-        {
-            events: tasks[1],
-            color: '#5D9736',     // an option!
-            textColor: 'white' // an option!
-       } ,
-       {
-            events: tasks[2],
-            color: '#365C97',     // an option!
-            textColor: 'white' // an option!
-       } ,
-       {
-            events: tasks[3],
-            color: '#823697',     // an option!
-            textColor: 'white' // an option!
-       } 
-       ,
+       },
        {
             events: tasks[666],
             color: '#CCCCCC',     // an option!
@@ -126,11 +107,6 @@ submitHandler: function(form) {
       url: globals.module_url+'add_task',
       data:{'data':form},
       success:function(resp){
-        // Replico en el localStorage
-        var myjson=JSON.parse(resp);
-        var idu=myjson['idu'];
-        var event_id=myjson['id'];
-        localStorage['tasks.'+idu+'.'+event_id]=resp;
       }
    });
 
@@ -139,6 +115,10 @@ submitHandler: function(form) {
 }
 );
 
+/*
+ *  CLEAR FORM
+ */
+
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
         $('form')[0].reset();
@@ -146,6 +126,10 @@ $('#bt_clear').click(function(){
         $('#bt_delete').addClass('disabled');
  
 });
+
+/*
+ *  DELETE
+ */
 
 $('#bt_delete').click(function(){
     if($(this).hasClass('disabled'))return;
@@ -162,7 +146,7 @@ $('#bt_delete').click(function(){
       url: globals.module_url+'remove_task',
       data:{'id':id},
       success:function(resp){
-          localStorage.removeItem(resp);     
+          //localStorage.removeItem(resp);     
       }
    });
    location.reload();
@@ -170,7 +154,10 @@ $('#bt_delete').click(function(){
 
 });
 
-
+/*
+ *  LOAD FORM
+ */
+ 
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
     if($(this).hasClass('disabled'))return;
@@ -189,18 +176,25 @@ $('#bt_form').click(function(){
 
 
 // Traigo las tareas del localstorages
-function localstorage_get_tasks(){
-for (i = 0; i < window.localStorage.length; i++) {
-    key = window.localStorage.key(i);
+//function localstorage_get_tasks(){
+//for (i = 0; i < window.localStorage.length; i++) {
+//    key = window.localStorage.key(i);
+//
+//    if (/tasks.+/.test(key)) {
+//        var myjson=JSON.parse(localStorage[key]);
+//        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
+//        tasks[target].push(myjson);
+//    }
+//}
+//;
+//}
 
-    if (/tasks.+/.test(key)) {
-        var myjson=JSON.parse(localStorage[key]);
-        var target=(myjson['finalizada']==1)?(666):(myjson['proyecto']);
-        tasks[target].push(myjson);
-    }
+function localstorage_get_tasks(){
+
+tasks[0]=JSON.parse(localStorage['tasks0']);
+tasks[666]=JSON.parse(localStorage['tasks666']);
 }
-;
-}
+
 
 // Traigo las tareas de mongo
 function mongo_get_tasks(s){

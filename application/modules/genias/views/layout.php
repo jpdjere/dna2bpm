@@ -23,8 +23,8 @@
     </head>
     <body>
 <!--/ NAVIGATION -->
-<div class="navbar navbar-inverse navbar-static-top">
-      <div class="navbar-inner">
+<div class="navbar navbar-inverse navbar-static-top ">
+      <div class="navbar-inner barra_{rol}">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
@@ -38,24 +38,20 @@
               <li><a href="{module_url}">Inicio</a></li>
               <li><a href="{module_url}tasks">Tareas</a></li>
               <li><a href="{module_url}map">Mapa</a></li>      
-              <li><a href="{module_url}contacts">Contactos</a></li>
+              <li style="padding-top:10px">Contactos</li>
               <li><a href="{module_url}scheduler">Agenda</a></li>
-              <li><a href="{module_url}programs">Programas</a></li>
+              <li style="padding-top:10px">Programas</li>
             </ul>
-          </div>
-          <div class="nav-collapse collapse">
-            <div class="pull-right profile">
-                <img src="{profile_img}"  class="pull-left" title="{username}"/>
-                <ul class="unstyled pull-left" >
-                    <li><a href="#" title="Perfil"><i class="icon-wrench"></i></a></li>
-                    <li><a href="{base_url}user/logout" title="Salir"><i class="icon-off"></i></a></li>
-                </ul>
-            </div>
-          </div>
+            <ul class="nav pull-right inline">            
+                <li><a   href="{base_url}/user/logout"><i class="icon-off"></i> Salir</a></li>
+                <li><img src="{gravatar}"  title="{username}"  style="height:40px;   "/>
+            </ul>
         </div>
       </div>
     </div>
+
 <!-- CONTAINER -->
+
 {content}
 <!-- CONTAINER -->
 
@@ -71,7 +67,7 @@
             var globals={inline_js};
         </script>
         {js}
-
+        
 
     </body>
 </html>

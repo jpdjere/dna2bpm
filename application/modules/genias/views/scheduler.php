@@ -1,8 +1,13 @@
 <!-- / Breadcrumbs -->
-<ul class="breadcrumb navbar-static-top">
-  <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
+<div class="row-fluid" >
+    <div class="span12 ">
+        <ul class="breadcrumb pull-left"  >
+          <li>{genia}<span class="divider">/</span></li>
   <li><a href="#">Agenda</a> <span class="divider">/</span></li>
-</ul>
+        </ul>
+    </div>
+</div>
+
 <!-- / Contenido -->
 <div  class="row-fluid" >
 <div id="detalle" class="span4" >
@@ -11,7 +16,6 @@
          <!-- Fechas -->
         <div class="controls">
             <select name="proyecto" class="span12">
-            <option selected="selected" value="" class="span12">---- Seleccione un proyecto ----</option>
             {projects}
             <option value="{id}">{name}</option>
             {/projects}
