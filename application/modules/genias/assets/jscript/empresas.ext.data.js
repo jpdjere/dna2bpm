@@ -203,13 +203,44 @@ var storeEmpresaOffline = Ext.create('Ext.data.Store', {
         id: 'empresas'
     },
     listeners: {
+        load: function() {
+            this.each(function(record) {
+                //console.log("check" + JSON.stringify(record.data, null, 4)); 
+                //store.add(record.data);
+                Ext.Ajax.request({
+                    url: globals.module_url + 'process/Insert',
+                    method: 'POST',
+                    root: 'data',
+                    type: 'json',
+                    params: JSON.stringify(record.data, null, 4),
+                    callback: function(options, success, response) {
+
+                        var didPost = true,
+                        o;
+
+                        if (success) {
+                            try {
+                                o = Ext.decode(response.responseText);
+                                didPost = o.success === true;
+                            } catch (e) {
+                                didPost = false;
+                            }
+                        } else {
+                            didPost = false;
+                        }
+                    }
+                });
+            });
+            // Sync the online store
+            store.sync();
+        // Remove data from offline store
+        //storeOffline.removeAll();
+        },
         write: function(proxy, operation) {
             if (operation.action == 'destroy') {
-                main.child('#form').setActiveRecord(null);
+                store.child('#form').setActiveRecord(null);
             }
-            // storeEmpresaOffline.load();
-            // storeEmpresaOffline.sync();
-            //Ext.example.msg(operation.action, operation.resultSet.message);
+            Ext.example.msg(operation.action, operation.resultSet.message);
         }
     }
 });
@@ -257,12 +288,13 @@ var storeTest = Ext.create('Ext.data.Store', {
 
 var store = new Ext.data.Store({
     model: 'EmpresaModel',
-    autoLoad: true,
-    autoSync: true,
+    autoLoad: false,
+    autoSync: false,
     id: store,
     proxy: {
         type: 'ajax',
         url: globals.module_url + 'process/Insert',
+        method: 'POST',
         reader: {
             type: 'json',
             root: 'data'
