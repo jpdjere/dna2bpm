@@ -1,4 +1,3 @@
-
 var EmpresaForm = Ext.create('Ext.form.Panel', {
     id: 'formEmpresa',
     //----para que resetee el dirty
@@ -106,7 +105,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
          fieldLabel: 'Partido',
          name: '1699'
          },*/
-         {
+        {
             id: 'notas',
             xtype: 'textarea',
             fieldLabel: 'Notas / Observaciones',
@@ -128,7 +127,6 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             text: '<i class="icon icon-map-marker"></i> Actualizar Geolocación',
             listeners: {
                 click: function() {
-
                     if (navigator && navigator.geolocation) {
                         var nav = navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -156,30 +154,40 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             text: '<i class="icon icon-save"></i> Guardar',
             listeners: {
                 click: function() {
-                    form = Ext.getCmp("formEmpresa");
-                    record = form.getRecord();
+                    var form = Ext.getCmp("formEmpresa");
+                    var record = form.getRecord();
                     form.getForm().updateRecord(record);
                     storeEmpresaOffline.add(form.getRecord());
                     storeEmpresaOffline.sync();
 
                     data = form.getValues();
-                    
-                    var d=  new Date();
-                    var n=  d.toISOString(); 
-                    
+
+                    var d = new Date();
+                    var n = d.toISOString();
+
                     visitaRecord = Ext.create('visitaModel', {
                         fecha: n,
                         cuit: data['1695'],
                         nota: data['7408']
                     });
-                    
-                    
                     storeVisitaOffline.add(visitaRecord);
                     storeVisitaOffline.sync();
+                }
+            }
+        }, {
+            id: 'btn_sync',
+            disabled: false,
+            xtype: 'button',
+            text: 'Sync',
+            listeners: {
+                click: function() {
+                    var records = new Array()
+                    var test = storeEmpresaOffline.each(function(rec) {
+                       store.add(rec);
+                    });
                     
-                    
-
-
+                    //storeEmpresaOffline.remove();
+                    store.sync();
                 }
             }
         }]
