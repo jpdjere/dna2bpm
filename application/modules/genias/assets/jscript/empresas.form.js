@@ -181,8 +181,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             text: 'Sync',
             listeners: {
                 click: function() {
-                    var records = new Array()
-                    var test = storeEmpresaOffline.each(function(rec) {
+                    store.load();
+                    var records = new Array();
+                    storeEmpresaOffline.each(function(rec) {
                        store.add(rec);
                     });
                     
