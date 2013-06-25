@@ -257,6 +257,7 @@ var storeEmpresaOffline = Ext.create('Ext.data.Store', {
     
     var store = new Ext.data.Store({        
     model: 'EmpresaModel',
+    id: store,
     proxy: {
         type: 'ajax',
         url : globals.module_url + 'process/Insert',
