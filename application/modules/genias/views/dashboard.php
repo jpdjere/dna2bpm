@@ -87,6 +87,7 @@ Crear nueva meta
                 <li><i class="icon-calendar" ></i> Período: {desde}</li>
                 <li><i class="icon-eye-open" ></i> Estado: <span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span></li>
                 <li><i class="icon-user" ></i> Autor: {owner}</li>
+                <li><i class="icon-flag" ></i> Genia: {genia}</li>
                 </ul>
             </div>
             <div class="span8"> 
