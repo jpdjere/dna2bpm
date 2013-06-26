@@ -32,7 +32,7 @@ Ext.application({
         {
             region:'east',
             margins:'0 0 0 0',
-            width: 700,
+            width: 600,
             minWidth: 400,
             maxWidth: 700,
             margins: '0 0 0 0',
