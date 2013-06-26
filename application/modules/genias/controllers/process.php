@@ -23,7 +23,8 @@ class Process extends MX_Controller {
     /* GENIAS */
 
     public function Insert() {
-
+        
+        
         $container = $this->containerEmpresas;
         $containerTablet = $this->containerTablets;
         $containerTask = $this->containerTask;
@@ -40,11 +41,6 @@ class Process extends MX_Controller {
         $newArr = array();
 
         $newArr['7406'] = (double) $this->idu;
-
-        //foreach ($input as $key => $value) {
-
-        var_dump($newArr);
-            
 
 
         list($yearVal, $monthVal, $dayVal) = explode("-", $input['7407']);
@@ -74,8 +70,7 @@ class Process extends MX_Controller {
         }
 
         /* BUSCO TASK */
-        $task = (isset($input['7818'])) ? (double) $input['7818'] : null;
-        //}
+        $task = (isset($input['7818'])) ? (double) $input['7818'] : null;        
 
 
         $newArr['7586'] = $resultGenia['7586']; //GENIA ID;

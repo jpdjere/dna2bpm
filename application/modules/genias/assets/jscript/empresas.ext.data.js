@@ -21,7 +21,7 @@ Ext.define('EmpresaModel', {
             type: 'int',
             useNull: true
         }
-        , '1693'  //     Nombre de la empresa
+                , '1693'  //     Nombre de la empresa
                 , '1695'  //     CUIT
                 , '7819' // 	Longitud
                 , '7820' // 	Latitud
@@ -225,70 +225,80 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
     }
 });
 
-var storeTest = Ext.create('Ext.data.Store', {
+
+var onLineProxy = Ext.create('Ext.data.proxy.Proxy', {
+    type: 'ajax',
+    id: 'store',
+    api: {
+        read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
+        create: globals.module_url + 'process/Insert',
+        update: globals.module_url + 'process/Insert',
+        destroy: '' //'genias/app/geniasdev/destroy'
+    },
+    reader: {
+        type: 'json',
+        successProperty: 'success',
+        root: 'data',
+        messageProperty: 'message'
+    },
+    writer: {
+        type: 'json',
+        allowSingle: false,
+        writeAllFields: true
+    },
+    listeners: {
+        exception: function(proxy, response, operation) {
+            Ext.MessageBox.show({
+                title: 'ERROR',
+                msg: operation.getError(),
+                icon: Ext.MessageBox.ERROR,
+                buttons: Ext.Msg.OK
+            });
+        }
+    }
+});
+
+var store = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
-    autoLoad: true,
+    autoLoad: false,
     autoSync: true,
     proxy: {
-        type: 'localstorage',
-        id: 'test'
+        type: 'ajax',
+        id: 'store',
+        api: {
+            read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
+            create: globals.module_url + 'process/Insert',
+            update: globals.module_url + 'process/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle:false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
     },
     listeners: {
         write: function(proxy, operation) {
             if (operation.action == 'destroy') {
                 main.child('#form').setActiveRecord(null);
             }
-            // storeEmpresaOffline.load();
-            // storeEmpresaOffline.sync();
-            //Ext.example.msg(operation.action, operation.resultSet.message);
         }
-    }
-});
-
-var store = new Ext.data.Store({
-    model: 'EmpresaModel',
-    autoLoad: false,
-    autoSync: false,
-   
-    proxy: {
-        type: 'localstorage',
-        id: 'store'     ,
-    listeners: {
-        load: function() {
-            this.each(function(record) {                
-                Ext.Ajax.request({
-                    url: globals.module_url + 'process/Insert',
-                    method: 'POST',
-                    root: 'data',
-                    type: 'json',
-                    params: JSON.stringify(record.data, null, 4),
-                    callback: function(options, success, response) {
-
-                        var didPost = true,
-                        o;
-
-                        if (success) {
-                            try {
-                                o = Ext.decode(response.responseText);
-                                didPost = o.success === true;
-                            } catch (e) {
-                                didPost = false;
-                            }
-                        } else {
-                            didPost = false;
-                        }
-                    }
-                });
-            });
-            // Sync the online store
-            store.sync();
-        // Remove data from offline store
-        //storeOffline.removeAll();
-        },
-        write: function(proxy, operation) {
-                    
-        }
-    }
     }
 });
 
