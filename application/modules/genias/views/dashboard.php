@@ -73,7 +73,8 @@ Crear nueva meta
  
 </div> 
  <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
-{goals}
+
+{metas}
  <div  class="row-fluid " >
        <div class="span12 {status_class}">  
         <div  class="row-fluid" >
@@ -99,8 +100,9 @@ Crear nueva meta
         </div> 
      </div>
  </div>
-{/goals}
- 
+{/metas}
+
+
  
 </div> 
 

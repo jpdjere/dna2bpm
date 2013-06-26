@@ -51,15 +51,31 @@ class Genias_model extends CI_Model {
     }
 
     function get_goals($idu) {
-        
-        $genia = $this->get_genia($idu); 
-        if($genia['rol']=='coordinador'){
-            $query = array('idu' => array('$in'=>$genia['users']));
-        }else{
-            $query = array('idu' => (double) $idu);
-        }
         $container = 'container.genias_goals';
-        $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
+        $genias = $this->get_genia($idu); 
+        $idus=array($idu);
+        // Por cada Genia
+
+        foreach($genias['genias'] as $genia){
+            if($genias['rol']=='coordinador'){
+                //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
+                $idus=array_merge($genia['users'],$idus);
+
+               
+
+            }
+
+        }
+        $query = array('idu' => array('$in'=>$idus));          
+         
+            
+
+            //var_dump($result, json_encode($result), $result->count());
+        
+
+$result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
+        
+        
         //var_dump($result, json_encode($result), $result->count());
 
         return $result;
@@ -123,20 +139,36 @@ class Genias_model extends CI_Model {
 
         // Es coordinador?    
         $query=array('coordinadores'=>((double)$idu));
-        $result = $this->mongo->db->$container->findone($query); 
-        if($result){
-           $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'coordinador','users'=>$result['users']);
-           return $genia;
+        $result = $this->mongo->db->$container->find($query); 
+
+        $genias=array();
+        $rol='';
+        while ($r = $result->getNext()) {
+            $rol='coordinador';
+            $my_genias[]=$r;
+
         }
         
+        if($rol=='coordinador'){
+            $genias['rol']=$rol;
+            $genias['genias']=$my_genias;
+            return $genias; 
+        }
+  
         // Es usuario?
         $query=array('users'=>(double)$idu);
-        $result = $this->mongo->db->$container->findone($query); 
-        if($result){
-           $genia=array('nombre'=>$result['nombre'],'id'=>$result['_id'],'rol'=>'user');
-           return $genia;
+        $result = $this->mongo->db->$container->find($query);
+        
+        while ($r = $result->getNext()) {
+            $rol='user';
+            $my_genias[]=$r;
         }
-
+        
+        if($rol=='user'){
+            $genias['rol']=$rol;
+            $genias['genias']=$my_genias;
+            return $genias; 
+        }   
         
         return false;
     }
