@@ -1,3 +1,24 @@
+var btnSync=Ext.create('Ext.Action',
+    {
+        id:'btnSync',
+        text: 'Sync',
+        iconCls:'icon icon-cloud-upload',
+        tooltip:'Sincronizar cambios',
+        handler:function(){
+            var records = new Array();
+            //---me guardo el proxy offline
+            offlineProxy=storeEmpresaOffline.proxy;
+            //---le pongo el proxy AJAX                   
+            //---Marcamos Dirty cada uno de los registros
+            storeEmpresaOffline.each(function(rec) {
+                rec.setDirty();
+                store.add(rec)
+            });
+            store.sync();
+        }
+    }    
+    );
+        
 function gridClick (view,record,item,index,e,options ){
     thisEmpresa=record.data['1695'];
     EmpresaForm.loadRecord(record);
@@ -114,7 +135,7 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
             mygrid.store.read();
         }
     }               
-   
+   ,btnSync
     ]    
 
 });

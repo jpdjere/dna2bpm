@@ -8,8 +8,8 @@
 Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
     fields: ['fecha' // 	Fecha de la Visita 
-                , 'cuit'
-                , 'nota' // 	Comentarios 
+    , 'cuit'
+    , 'nota' // 	Comentarios 
 
     ]
 });
@@ -17,21 +17,22 @@ Ext.define('visitaModel', {
 Ext.define('EmpresaModel', {
     extend: 'Ext.data.Model',
     fields: [{
-            name: 'id',
-            type: 'int',
-            useNull: true
-        }
-                , '1693'  //     Nombre de la empresa
-                , '1695'  //     CUIT
-                , '7819' // 	Longitud
-                , '7820' // 	Latitud
-                , '4651' // 	Provincia
-                , '4653' //     Calle Ruta
-                , '4654' //     Nro /km
-                , '4655' //     Piso
-                , '4656' //     Dto Oficina
-                , '1699' // 	Partido
-                , 'status' //      Syncro data (date?) / dirty
+        name: 'id',
+        type: 'int',
+        useNull: true
+    }
+    , '1693'  //     Nombre de la empresa
+    , '1695'  //     CUIT
+    , '7819' // 	Longitud
+    , '7820' // 	Latitud
+    , '4651' // 	Provincia
+    , '4653' //     Calle Ruta
+    , '4654' //     Nro /km
+    , '4655' //     Piso
+    , '4656' //     Dto Oficina
+    , '1699' // 	Partido
+    , 'status' //      Syncro data (date?) / dirty
+    ,'notas'   // solo para el form de notas
     ]
 });
 
@@ -112,9 +113,24 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
     }
     ,
     sorters: [{
-            property: '1693',
-            direction: 'ASC'
-        }]
+        property: '1693',
+        direction: 'ASC'
+    }]
+    ,
+    listeners:{
+        load:function(){
+            storeEmpresaOffline.load(function(){
+                //actualizo los modificados
+                storeEmpresaOffline.each(function(rec) {
+                    item=EmpresaStore.find('1695',rec.get('1695'));
+                    //console.log(item,rec.data);
+                    if(item>=0)
+                        EmpresaStore.getAt(item).set(rec.data);
+                });
+            });
+            
+        }
+    }
 });
 
 /*
@@ -196,7 +212,7 @@ var PartidoStore = Ext.create('Ext.data.Store', {
 
 var storeEmpresaOffline = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
-    autoLoad: true,
+    autoLoad: false,
     autoSync: true,
     proxy: {
         type: 'localstorage',
@@ -218,9 +234,9 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
             if (operation.action == 'destroy') {
                 main.child('#form').setActiveRecord(null);
             }
-            // storeEmpresaOffline.load();
-            // storeEmpresaOffline.sync();
-            //Ext.example.msg(operation.action, operation.resultSet.message);
+        // storeEmpresaOffline.load();
+        // storeEmpresaOffline.sync();
+        //Ext.example.msg(operation.action, operation.resultSet.message);
         }
     }
 });
