@@ -2,7 +2,7 @@
 <div class="row-fluid container" >
     <ul class="breadcrumb"  >
         <ul class="breadcrumb pull-left"  >
-          <li>{genia}<span class="divider">/</span></li>
+          <li><span class="divider">/</span></li>
           <li><a href="#">Programas</a> <span class="divider">/</span></li>
     </ul>
 </div>
