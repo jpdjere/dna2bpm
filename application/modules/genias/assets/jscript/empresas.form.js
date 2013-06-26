@@ -159,7 +159,6 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     ,
     {
         id: 'notas',
-        xtype: 'textarea',
         fieldLabel: 'Notas / Observaciones',
         name: '7408'
     }
