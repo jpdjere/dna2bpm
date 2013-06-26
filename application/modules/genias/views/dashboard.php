@@ -1,14 +1,14 @@
 <!-- / Breadcrumbs -->
 <div class="row-fluid container" >
     <ul class="breadcrumb"  >
-          <li>{genia}<span class="divider">/</span></li>
+          <li><span class="divider">/</span></li>
           <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
     </ul>
 </div>
 
 <!-- / Contenido -->
 <div class="container" >  
-<div class="row">
+<div class="row-fluid">
     
  <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
 <div class="accordion" id="goals">
@@ -74,23 +74,32 @@ Crear nueva meta
 </div> 
  <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
 {goals}
- <div  class="row-fluid {status_class}" >
-    <div class="span12 ">  
-    <div class="pull-right">       
-    <h2>{cumplidas}/{cantidad}</h2>
-    </div> 
-        
-    <h3 style="display: inline-block;margin-right:6px">{proyecto_name}</h3>
-    <span title="Inicio" ><i class="icon-calendar" ></i> {desde}</span>
-    <span title="Fin" style="padding-left:15px"><i class="icon-calendar"></i> {hasta}</span> 
-    <span>&nbsp;<i class="icon-double-angle-right"></i>&nbsp;<span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span> {owner}</span>
-         <div class="observaciones" >
-         <div class="line"></div>
-             {observaciones}
-         </div>
+ <div  class="row-fluid " >
+       <div class="span12 {status_class}">  
+        <div  class="row-fluid" >
+            <div class="span12 ">  
+                <h3>{proyecto_name}<span class="pull-right">{cumplidas}/{cantidad}</span></h3>
+            </div>
+        </div>
+        <div  class="row-fluid" >
+            <div class="span4"> 
+                <ul class="unstyled">
+                <li><i class="icon-calendar" ></i> Período: {desde}</li>
+                <li><i class="icon-eye-open" ></i> Estado: <span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span></li>
+                <li><i class="icon-user" ></i> Autor: {owner}</li>
+                </ul>
+            </div>
+            <div class="span8"> 
+                <div class="observaciones" >
+
+                {observaciones}
+                </div>
+            </div>
+        </div> 
      </div>
  </div>
 {/goals}
  
  
 </div> 
+

@@ -1,7 +1,7 @@
 <!-- / Breadcrumbs -->
 <div class="row-fluid container" >
     <ul class="breadcrumb"  >
-      <li>{genia}<span class="divider">/</span></li>
+      <li><span class="divider">/</span></li>
        <li><a href="#">Agenda</a> <span class="divider">/</span></li>
     </ul>
 </div>
