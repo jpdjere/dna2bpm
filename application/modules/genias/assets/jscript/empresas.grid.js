@@ -20,20 +20,12 @@ var btnSync=Ext.create('Ext.Action',
     );
         
 function gridClick (view,record,item,index,e,options ){
-    thisEmpresa=record.data['1695'];
+    cuit=record.data['1695'];
     EmpresaForm.loadRecord(record);
     //url=globals.module_url+'case_manager/tokens/status/'+globals.idwf+'/'+thisCase;    
-    console.log(thisEmpresa);
+    //console.log(cuit);
+    VisitasStore.cuitFilter(cuit);
     return;
-    tokenStore=Ext.getStore('tokenStore')
-    tokenStore.proxy.url=url;
-    tokenStore.load({
-        scope: this,
-        callback:tokens_paint_all    
-    });
-    load_model(globals.idwf);
-    Ext.getCmp('ModelPanelTbar').enable();
-    gridIndex=0;
 }
 
 var EmpresasGrid=Ext.create('Ext.grid.Panel',
@@ -75,35 +67,6 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
            
     }
     ,
-   /*
-   {
-        flex:1,
-        text: "Status",
-        dataIndex: 'status',
-        sortable: true,
-        renderer: function(value){
-            switch(value){
-                case 'dirty':
-                    stClass='label-warning';
-                    break;
-                case 'ok':
-                    stClass='label-success';
-                    break;
-                case 'locked':
-                    stClass='';
-                    
-                    break;
-                default:
-                    stClass='label-success';
-                    break;
-                
-            }
-                
-            value='<span class="label '+stClass+'">'+value+'</span>'
-            return value;
-        }
-    }*/
-    //,checkLock
     ],
     stripeRows       : true,
     ////////////////////////////////////////////////////////////////////////////
@@ -135,7 +98,24 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
             mygrid.store.read();
         }
     }               
-   ,btnSync
+    ,btnSync
     ]    
 
+});
+
+var notaTpl = new Ext.XTemplate(
+    '<tpl for=".">',
+    '<div class="img-polaroid">',
+    '<span class="fecha label label-success">{fecha}</span>',
+    '<h5>{nota}</h5>',
+    '</div>',
+    '</tpl>'
+    );
+var VisitasGrid=Ext.create('Ext.view.View',
+{
+    id:'VisitasGrid',
+    store:VisitasStore,    
+    tpl:notaTpl,
+    itemSelector: 'span.fecha'
+    
 });

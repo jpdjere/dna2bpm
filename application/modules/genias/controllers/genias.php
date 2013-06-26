@@ -605,6 +605,55 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
+    function Visitas($idgenia = null) {
+        $this->load->model('app');
+        $debug = false;
+        $compress = false;
+        /*
+         * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
+         * Basado en el idgenia
+         */
+        $query = array('4651' => 'JUJ');
+        //$visitas = $this->genias_model->get_visitas($query);
+        $visitas=array(
+            array(
+                'fecha'=>'2013-02-16',
+                'cuit'=>'20-33255688-7',
+                'nota'=>'Primera visita'
+                ),
+            array(
+                'fecha'=>'2013-03-22',
+                'cuit'=>'20-33255688-7',
+                'nota'=>'Segunda Visita: no había nadie'
+                ),
+            array(
+                'fecha'=>'2013-05-10',
+                'cuit'=>'20-33255688-7',
+                'nota'=>'Hoy vinimos citados por el gerente pero no apareció, ni café nos convidaron'
+                ),
+            
+            array(
+                'fecha'=>'2013-05-10',
+                'cuit'=>'20-13414423-9',
+                'nota'=>'Esta Visita es de Otra empresa'
+                ),
+        );
+        $rtnArr = array();
+        $rtnArr['totalCount'] = count($visitas);
+        $rtnArr['rows'] = $visitas;
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            if ($compress) {
+                header('Content-Encoding: gzip');
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
+            } else {
+                echo json_encode($rtnArr);
+            }
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
     
     // ======= DATOS GENIAS ======= //
  

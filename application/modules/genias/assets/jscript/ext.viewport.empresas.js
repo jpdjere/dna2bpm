@@ -22,7 +22,7 @@ Ext.application({
                 region:'center',
                 layout:'fit',
                 //html:'<h1>GRID EMPRESAS</h1>'
-            items:[EmpresasGrid]
+                items:[EmpresasGrid]
             }
             ]
         }
@@ -46,8 +46,8 @@ Ext.application({
             {
                 region:'center',
                 layout:'fit',
-            //    html:'<h1>FORM EMPRESA</h1>'
-            items:[EmpresaForm]
+                //    html:'<h1>FORM EMPRESA</h1>'
+                items:[EmpresaForm]
             }
             ,
             {
@@ -55,14 +55,13 @@ Ext.application({
                 region:'south',
                 layout:'fit',
                 collapsible: true,
-                collapsed:true,
+                collapsed:false,
                 animCollapse: false,
-                resizable:true
-                ,
+                autoScroll:true,
                 split: true,
                 height:300,
-                html:'<h1>HISTORIAL VISITAS</h1>'
-            //items:[gridVisitas]
+                //html:'<h1>HISTORIAL VISITAS</h1>'
+                items:[VisitasGrid]
             }
             ]
         }
