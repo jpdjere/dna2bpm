@@ -46,7 +46,7 @@ class Genias extends MX_Controller {
         $customData['projects'] = $projects['items'];
         $genia=$this->get_genia();
         $customData['genia']=$genia['nombre'];
-        
+
         // usuario o coordinador? 
         $idus=array((int)$this->idu);
         if(!empty($genia['rol'])&& $genia['rol']=='coordinador' ){
