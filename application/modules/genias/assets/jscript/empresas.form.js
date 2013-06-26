@@ -1,6 +1,5 @@
 var btnNew=Ext.create('Ext.Action',{
     id: 'btn_new',
-    disabled: true,
     xtype: 'button',
     text: '<i class="icon icon-plus"></i> Agregar Empresa',
     handler: function(){
