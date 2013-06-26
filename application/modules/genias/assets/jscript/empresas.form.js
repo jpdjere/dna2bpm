@@ -156,8 +156,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 click: function() {
                     var form = Ext.getCmp("formEmpresa");
                     var record = form.getRecord();
-                    form.getForm().updateRecord(record);
-                    storeEmpresaOffline.add(form.getRecord());
+                    rec=form.getForm().updateRecord(record);
+                    storeEmpresaOffline.add(rec);
                     storeEmpresaOffline.sync();
 
                     data = form.getValues();
@@ -180,16 +180,19 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             xtype: 'button',
             text: 'Sync',
             listeners: {
-                click: function() {
-                    
+                click: function() {                    
                     var records = new Array();
-                    var test = storeEmpresaOffline.each(function(rec) {
-                       records.push(rec)
+                    //---me guardo el proxy offline
+                    offlineProxy=storeEmpresaOffline.proxy;
+                    //---le pongo el proxy AJAX                   
+                    //---Marcamos Dirty cada uno de los registros
+                    storeEmpresaOffline.each(function(rec) {
+                       rec.setDirty();
+                       store.add(rec)
                     });
-                   
-                    store.add(records); 
-                    //storeEmpresaOffline.remove();
                     store.sync();
+                    //---restauro el proxy offline
+                    //storeEmpresaOffline.proxy=offlineProxy;
                 }
             }
         }]
