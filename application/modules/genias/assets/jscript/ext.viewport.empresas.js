@@ -32,7 +32,7 @@ Ext.application({
         {
             region:'east',
             margins:'0 0 0 0',
-            width: 500,
+            width: 700,
             minWidth: 400,
             maxWidth: 700,
             margins: '0 0 0 0',
@@ -57,7 +57,6 @@ Ext.application({
                 collapsible: true,
                 collapsed:false,
                 animCollapse: false,
-                resizable:true,
                 autoScroll:true,
                 split: true,
                 height:300,
