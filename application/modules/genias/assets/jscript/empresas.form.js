@@ -1,6 +1,58 @@
+var btnNew=Ext.create('Ext.Action',{
+    id: 'btn_new',
+    disabled: true,
+    xtype: 'button',
+    text: '<i class="icon icon-plus"></i> Agregar Empresa',
+    handler: function(){
+        Ext.getCmp("formEmpresa").loadRecord(Ext.create('EmpresaModel',{}));
+    }
+    
+});
+var btnSave=Ext.create('Ext.Action',{
+    id: 'btn_save',
+    disabled: true,
+    xtype: 'button',
+    text: '<i class="icon icon-save"></i> Guardar',
+    handler: function() {
+        var form = Ext.getCmp("formEmpresa");
+        var record = form.getRecord();
+        if(record){ 
+            //----es uno del grid
+            form.getForm().updateRecord(record);
 
+        } 
+        //---busco por cuit
+        if(EmpresaStore.find('1695',record.get('1695'))==-1){
+            //---si no estaba lo agrego al online
+            EmpresaStore.add(record);
+        }
+        storeEmpresaOffline.add(record);
+        storeEmpresaOffline.sync();
+        data = form.getValues();
+
+        var d = new Date();
+        var n = d.toISOString();
+        if (data['7408']){
+            visitaRecord = Ext.create('visitaModel', {
+                fecha: n,
+                cuit: data['1695'],
+                nota: data['7408']
+            });
+            //--agrego al que se usa para visualizar
+            VisitasStore.add(visitaRecord);
+            //--agrego al que se usa para syncro y persistencia
+            storeVisitaOffline.add(visitaRecord);
+            storeVisitaOffline.sync();
+            VisitasGrid.refresh();
+        }
+    }
+        
+});
+    
 var EmpresaForm = Ext.create('Ext.form.Panel', {
+    
     id: 'formEmpresa',
+    autoScroll:true,
     //----para que resetee el dirty
     trackResetOnLoad: true,
     layout: {
@@ -122,7 +174,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             }
         }
     },
-    buttons: [{
+    buttons: [
+    btnNew,
+    {
         xtype: 'button',
         fieldLabel: '',
         text: '<i class="icon icon-map-marker"></i> Actualizar Geolocación',
@@ -148,34 +202,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             }
         }
 
-    }, {
-        id: 'btn_save',
-        disabled: true,
-        xtype: 'button',
-        text: '<i class="icon icon-save"></i> Guardar',
-        listeners: {
-            click: function() {
-                var form = Ext.getCmp("formEmpresa");
-                var record = form.getRecord();
-                form.getForm().updateRecord(record);
-                storeEmpresaOffline.add(record);
-                storeEmpresaOffline.sync();
-
-                data = form.getValues();
-
-                var d = new Date();
-                var n = d.toISOString();
-
-                visitaRecord = Ext.create('visitaModel', {
-                    fecha: n,
-                    cuit: data['1695'],
-                    nota: data['7408']
-                });
-                storeVisitaOffline.add(visitaRecord);
-                storeVisitaOffline.sync();
-            }
-        }
-    }]
+    }, btnSave]
 });
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',

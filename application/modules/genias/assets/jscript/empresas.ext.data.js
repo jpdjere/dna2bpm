@@ -7,7 +7,8 @@
 
 Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
-    fields: ['fecha' // 	Fecha de la Visita 
+    fields: [
+    'fecha' // 	Fecha de la Visita 
     , 'cuit'
     , 'nota' // 	Comentarios 
 
@@ -124,8 +125,61 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
                 storeEmpresaOffline.each(function(rec) {
                     item=EmpresaStore.find('1695',rec.get('1695'));
                     //console.log(item,rec.data);
-                    if(item>=0)
+                    if(item>=0){
+                        //----Actualizo los datos con lo modificado
                         EmpresaStore.getAt(item).set(rec.data);
+                        
+                    } else {
+                        //-----agrego al store
+                        EmpresaStore.add(rec);
+                    }
+                });
+            });
+            
+        }
+    }
+});
+/*
+ * @Name VisitasStore
+ * @type Store 
+ * 
+ */
+var VisitasStore = Ext.create('Ext.data.Store', {
+    id: 'VisitasStore',
+    autoLoad: true,
+    model: 'visitaModel',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'visitas',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+    ,
+    sorters: [{
+        property: 'fecha',
+        direction: 'DESC'
+    }]
+    ,
+    cuitFilter: function (cuit) {
+        Ext.data.Store.prototype.clearFilter.call(this);
+        Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
+    },
+    listeners:{
+        load:function(){
+            
+            storeVisitaOffline.load(function(){
+                //actualizo los modificados
+                storeVisitaOffline.each(function(rec) {
+                    VisitasStore.add(rec);
+                    VisitasStore.cuitFilter('-1');
                 });
             });
             
@@ -228,8 +282,8 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
     proxy: {
         type: 'localstorage',
         id: 'visitas'
-    },
-    listeners: {
+    }
+/*,listeners: {
         write: function(proxy, operation) {
             if (operation.action == 'destroy') {
                 main.child('#form').setActiveRecord(null);
@@ -239,6 +293,7 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
         //Ext.example.msg(operation.action, operation.resultSet.message);
         }
     }
+        */
 });
 
 
