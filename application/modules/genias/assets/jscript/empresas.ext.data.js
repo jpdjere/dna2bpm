@@ -201,47 +201,6 @@ var storeEmpresaOffline = Ext.create('Ext.data.Store', {
     proxy: {
         type: 'localstorage',
         id: 'empresas'
-    },
-    listeners: {
-        load: function() {
-            this.each(function(record) {
-                //console.log("check" + JSON.stringify(record.data, null, 4)); 
-                //store.add(record.data);
-                Ext.Ajax.request({
-                    url: globals.module_url + 'process/Insert',
-                    method: 'POST',
-                    root: 'data',
-                    type: 'json',
-                    params: JSON.stringify(record.data, null, 4),
-                    callback: function(options, success, response) {
-
-                        var didPost = true,
-                        o;
-
-                        if (success) {
-                            try {
-                                o = Ext.decode(response.responseText);
-                                didPost = o.success === true;
-                            } catch (e) {
-                                didPost = false;
-                            }
-                        } else {
-                            didPost = false;
-                        }
-                    }
-                });
-            });
-            // Sync the online store
-            store.sync();
-        // Remove data from offline store
-        //storeOffline.removeAll();
-        },
-        write: function(proxy, operation) {
-            if (operation.action == 'destroy') {
-                store.child('#form').setActiveRecord(null);
-            }
-            Ext.example.msg(operation.action, operation.resultSet.message);
-        }
     }
 });
 
@@ -290,29 +249,46 @@ var store = new Ext.data.Store({
     model: 'EmpresaModel',
     autoLoad: false,
     autoSync: false,
-    id: store,
+   
     proxy: {
-        type: 'ajax',
-        url: globals.module_url + 'process/Insert',
-        method: 'POST',
-        reader: {
-            type: 'json',
-            root: 'data'
-        },
-        writer: {
-            type: 'json',
-            writeAllFields: true
-        },
-        listeners: {
-            exception: function(proxy, response, operation) {
-                Ext.MessageBox.show({
-                    title: 'ERROR',
-                    msg: operation.getError(),
-                    icon: Ext.MessageBox.ERROR,
-                    buttons: Ext.Msg.OK
+        type: 'localstorage',
+        id: 'store'     ,
+    listeners: {
+        load: function() {
+            this.each(function(record) {                
+                Ext.Ajax.request({
+                    url: globals.module_url + 'process/Insert',
+                    method: 'POST',
+                    root: 'data',
+                    type: 'json',
+                    params: JSON.stringify(record.data, null, 4),
+                    callback: function(options, success, response) {
+
+                        var didPost = true,
+                        o;
+
+                        if (success) {
+                            try {
+                                o = Ext.decode(response.responseText);
+                                didPost = o.success === true;
+                            } catch (e) {
+                                didPost = false;
+                            }
+                        } else {
+                            didPost = false;
+                        }
+                    }
                 });
-            }
+            });
+            // Sync the online store
+            store.sync();
+        // Remove data from offline store
+        //storeOffline.removeAll();
+        },
+        write: function(proxy, operation) {
+                    
         }
+    }
     }
 });
 
