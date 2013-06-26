@@ -28,8 +28,11 @@ function gridClick (view,record,item,index,e,options ){
     return;
 }
 
-var EmpresasGrid=Ext.create('Ext.grid.Panel',
-{
+var EmpresasGrid=Ext.create('Ext.ux.LiveFilterGridPanel',{
+    //title:'All Similar Frames Available',
+    stripeRows : true,
+    id:'otherGrid',
+    indexes:['1693','1695'],
     columnLines: true,
     id:'centerGrid',
     store:EmpresaStore,    
@@ -84,13 +87,6 @@ var EmpresasGrid=Ext.create('Ext.grid.Panel',
     //////////////////////   DOCKERS    ////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     tbar: [
-    {
-        fieldLabel: 'Search',
-        labelWidth: 50,
-        xtype: 'searchfield',
-        store: EmpresaStore,
-        width:300
-    },
     {
         xtype: 'button', 
         text: '<i class="icon-repeat"></i>',

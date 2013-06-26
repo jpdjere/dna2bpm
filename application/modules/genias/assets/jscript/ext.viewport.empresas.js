@@ -57,6 +57,7 @@ Ext.application({
                 collapsible: true,
                 collapsed:false,
                 animCollapse: false,
+                resizable:true,
                 autoScroll:true,
                 split: true,
                 height:300,

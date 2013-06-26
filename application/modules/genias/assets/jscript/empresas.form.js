@@ -1,5 +1,6 @@
 var btnNew=Ext.create('Ext.Action',{
     id: 'btn_new',
+    disabled: true,
     xtype: 'button',
     text: '<i class="icon icon-plus"></i> Agregar Empresa',
     handler: function(){
@@ -62,103 +63,104 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
     {
-        xtype:'fieldset',
-        collapsible:true,
-        collapsed:true,
-        title: 'Datos Básicos',
-        defaultType: 'textfield',
-        items:[
-        {
-            fieldLabel: 'Nombre',
-            name: '1693'
-        },
-        {
-            fieldLabel: 'CUIT',
-            name: '1695'
-        },
-        {
-            id: 'ProvinciaCombo',
-            xtype: 'combobox',
-            name: '4651',
-            fieldLabel: 'Provincia',
-            store: ProvinciaStore,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            emptyText: 'Seleccione la Provincia',
-            listeners: {
-                change: function(me, newValue, oldValue, eOpts) {
-                    if (newValue != null) {
-                        PartidoStore.clearFilter();
-                        PartidoStore.filters.removeAtKey('idrel');
-                        var myfilter = new Ext.util.Filter({
-                            filterFn: function(rec, anymatch) {
-                                return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
-                            }
-                        });
-                        PartidoStore.filter(myfilter);
-                    }
+        fieldLabel: 'Nombre',
+        name: '1693'
+    },
+    {
+        fieldLabel: 'CUIT',
+        name: '1695'
+    },
+    {
+        id: 'ProvinciaCombo',
+        xtype: 'combobox',
+        name: '4651',
+        fieldLabel: 'Provincia',
+        store: ProvinciaStore,
+        queryMode: 'local',
+        displayField: 'text',
+        valueField: 'value',
+        emptyText: 'Seleccione la Provincia',
+        listeners: {
+            change: function(me, newValue, oldValue, eOpts) {
+                if (newValue != null) {
+                    PartidoStore.clearFilter();
+                    PartidoStore.filters.removeAtKey('idrel');
+                    var myfilter = new Ext.util.Filter({
+                        filterFn: function(rec, anymatch) {
+                            return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
+                        }
+                    });
+                    PartidoStore.filter(myfilter);
                 }
             }
         }
-        ,
-        {
-            id: 'PartidoCombo',
-            xtype: 'combobox',
-            name: '1699',
-            fieldLabel: 'Partido',
-            store: PartidoStore,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            emptyText: 'Seleccione el Partido'
-        //,editable: false
-
-        },
-        {
-            fieldLabel: 'Calle / Ruta',
-            name: '4653'
-        },
-        {
-            fieldLabel: 'Nro. / Km.',
-            name: '4654'
-        },
-        {
-            fieldLabel: 'Piso',
-            name: '4655'
-        },
-        {
-            fieldLabel: 'Dto / Oficina',
-            name: '4656'
-        },
-        {
-            xtype: 'hidden',
-            name: '7819',
-            id: 'long',
-            fieldLabel: 'Longitud',
-            readOnly: true
-        },
-        {
-            xtype: 'hidden',
-            name: '7820',
-            id: 'lat',
-            fieldLabel: 'Latitud',
-            readOnly: true
-        },
-        {
-            xtype: 'displayfield',
-            id: 'longLayDisplay',
-            style: {
-                fontSize: '11px',
-                color: 'blue',
-                padding: '4px'
-            }
-        }
-        ]
-        }
+    }
     ,
     {
+        id: 'PartidoCombo',
+        xtype: 'combobox',
+        name: '1699',
+        fieldLabel: 'Partido',
+        store: PartidoStore,
+        queryMode: 'local',
+        displayField: 'text',
+        valueField: 'value',
+        emptyText: 'Seleccione el Partido'
+    //,editable: false
+
+    },
+    {
+        fieldLabel: 'Calle / Ruta',
+        name: '4653'
+    },
+    {
+        fieldLabel: 'Nro. / Km.',
+        name: '4654'
+    },
+    {
+        fieldLabel: 'Piso',
+        name: '4655'
+    },
+    {
+        fieldLabel: 'Dto / Oficina',
+        name: '4656'
+    },
+    {
+        xtype: 'hidden',
+        name: '7819',
+        id: 'long',
+        fieldLabel: 'Longitud',
+        readOnly: true
+    },
+    {
+        xtype: 'hidden',
+        name: '7820',
+        id: 'lat',
+        fieldLabel: 'Latitud',
+        readOnly: true
+    },
+    {
+        xtype: 'displayfield',
+        id: 'longLayDisplay',
+        style: {
+            fontSize: '11px',
+            color: 'blue',
+            padding: '4px'
+        }
+    },
+    /*
+         {
+         fieldLabel: 'Provincia',
+         name: '4651',
+         editable: false
+         },
+         {
+         fieldLabel: 'Partido',
+         name: '1699'
+         },*/
+    {
         id: 'notas',
+        xtype: 'textarea',
         fieldLabel: 'Notas / Observaciones',
         name: '7408'
     }
