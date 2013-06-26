@@ -467,7 +467,7 @@ class Engine extends MX_Controller {
                     $conn = $value['connector'] . '_connector';
                     if ($debug)
                         echo "Calling Connector: $conn<br/>";
-                    $this->data->$key = $this->$conn->get_data($value);
+                    $this->data->$key = $this->$conn->get_data($value) or die(var_dump($conn,$valur));
                 } else { //add regular data
                     $this->data->$key = $value;
                 }
