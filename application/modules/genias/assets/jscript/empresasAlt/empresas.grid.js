@@ -21,7 +21,9 @@ var btnSync=Ext.create('Ext.Action',
         
 function gridClick (view,record,item,index,e,options ){
     cuit=record.data['1695'];
+    EmpresaForm.setLoading('Cargando...');
     EmpresaForm.loadRecord(record);
+    EmpresaForm.setLoading(false);
     //url=globals.module_url+'case_manager/tokens/status/'+globals.idwf+'/'+thisCase;    
     //console.log(cuit);
     VisitasStore.cuitFilter(cuit);

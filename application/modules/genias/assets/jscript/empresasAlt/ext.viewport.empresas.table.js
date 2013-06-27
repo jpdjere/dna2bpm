@@ -3,11 +3,12 @@ Ext.onReady(function() {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').remove();
     }
-    Ext.create('Ext.Viewport',{
+    Ext.create('Ext.panel.Panel',{
         id:'main-panel',
-        baseCls:'x-plain',
         renderTo: Ext.getBody(),
-        layout:'fit',
+        autoScroll:true,
+        
+        height:1280,
         items:[
         {
             layout: {
@@ -22,31 +23,26 @@ Ext.onReady(function() {
             },
             items:[{
                 title:'Item 1',
-                height:760,
+                height:1280,
                 width:580,
                 autoScroll:true,
                 items:[EmpresasGrid]
             },{
-                title:'Item 2',
-                height:760,
+                height:1280,
                 items:[
-                    {                        
-                    layout: {
-                        // layout-specific configs go here
-                        type: 'accordion',
-                        titleCollapse: true,
-                        animate: false,
-                        activeOnTop: false
-                    },
-                    items: [{
-                        title: 'Panel 1',
-                        items:[EmpresaForm]
-                    },{
-                        title: 'Panel 2',
-                        items:[VisitasGrid]
-                    }]
-                }
-                ]
+                {
+                    height:500,
+                    autoScroll:true,
+                    title: 'Datos',
+                    items:[EmpresaForm]
+                },{
+                    //                    height:396,
+                    autoScroll:true,
+                    title: 'Visitas',
+                    height:400,
+                    items:[VisitasGrid]
+                }]
+                
 
             }],
             listeners: {

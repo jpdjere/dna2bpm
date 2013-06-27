@@ -2,7 +2,7 @@ var btnNew=Ext.create('Ext.Action',{
     id: 'btn_new',
     disabled: true,
     xtype: 'button',
-    text: '<i class="icon icon-plus"></i> Agregar Empresa',
+    text: '<i class="icon icon-plus"></i> Agregar',
     handler: function(){
         Ext.getCmp("formEmpresa").loadRecord(Ext.create('EmpresaModel',{}));
     }
@@ -173,12 +173,12 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             }
         }
     },
-    buttons: [
+    tbar: [
     btnNew,
     {
         xtype: 'button',
         fieldLabel: '',
-        text: '<i class="icon icon-map-marker"></i> Actualizar Geolocación',
+        text: '<i class="icon icon-map-marker"></i> Actualizar',
         listeners: {
             click: function() {
                 if (navigator && navigator.geolocation) {
