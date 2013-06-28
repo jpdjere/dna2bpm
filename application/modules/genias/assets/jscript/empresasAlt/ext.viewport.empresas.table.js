@@ -7,8 +7,8 @@ Ext.onReady(function() {
         id:'main-panel',
         renderTo: Ext.getBody(),
         autoScroll:true,
+        layout:'fit',
         
-        height:1280,
         items:[
         {
             layout: {
@@ -22,13 +22,12 @@ Ext.onReady(function() {
                 height:400
             },
             items:[{
-                title:'Item 1',
-                height:1280,
-                width:580,
-                autoScroll:true,
-                items:[EmpresasGrid]
-            },{
-                height:1280,
+                title:'Datos Empresa',
+                //autoScroll:true,
+                //items:[EmpresasGrid]
+            },
+            {
+                title:'Visitas',
                 items:[
                 {
                     height:500,

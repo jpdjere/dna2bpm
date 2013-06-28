@@ -1,6 +1,5 @@
 var btnNew=Ext.create('Ext.Action',{
     id: 'btn_new',
-    disabled: true,
     xtype: 'button',
     text: '<i class="icon icon-plus"></i> Agregar',
     handler: function(){
@@ -50,7 +49,10 @@ var btnSave=Ext.create('Ext.Action',{
 });
     
 var EmpresaForm = Ext.create('Ext.form.Panel', {
-        id: 'formEmpresa',
+    id: 'formEmpresa',
+    onCuitBlur:function(){
+        console.log(this);
+    },
     autoScroll:true,
     //----para que resetee el dirty
     trackResetOnLoad: true,
@@ -60,14 +62,33 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     },
     margin: '5 5 5 5',
     defaultType: 'textfield',
+    fieldDefaults:{
+        cls:'input'
+    },
     items: [
+    {
+        fieldLabel: 'CUIT',
+        minLength:13,
+        maxLength:13,
+        name: '1695',
+        regex:/[0-9]{2}-[0-9]{8}-[0-9]{1}/,
+        regexText:"CUIT Inválido",
+        listeners: {
+            blur:function(me) {
+                val=me.value
+                if(me.value.length==13){
+                    index=EmpresaStore.find('1695',val);
+                    if(index>=0){
+                        record=EmpresaStore.getAt(index);
+                        EmpresaForm.loadRecord(record);
+                    }
+                }
+            }
+        }
+    },
     {
         fieldLabel: 'Nombre',
         name: '1693'
-    },
-    {
-        fieldLabel: 'CUIT',
-        name: '1695'
     },
     {
         id: 'ProvinciaCombo',
@@ -80,6 +101,10 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         valueField: 'value',
         emptyText: 'Seleccione la Provincia',
         listeners: {
+            render:function(){
+                btnNew.execute();
+            }
+            ,
             change: function(me, newValue, oldValue, eOpts) {
                 if (newValue != null) {
                     PartidoStore.clearFilter();

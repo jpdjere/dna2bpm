@@ -10,8 +10,6 @@
         no funcionan los buttons
         <link rel="stylesheet" type="text/css" href="{module_url}assets/css/fix_bootstrap_checkbox.css" />-->
         <link rel="stylesheet" type="text/css" href="{base_url}css/load_mask.css" />
-        <link rel="stylesheet" type="text/css" href="{base_url}jscript/ext/src/ux/statusbar/css/statusbar.css" />
-        <link rel="stylesheet" type="text/css" href="{base_url}jscript/ext/src/ux/css/CheckHeader.css" />
         {css}
         <script type="text/javascript">
         </script>
