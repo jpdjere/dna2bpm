@@ -1,9 +1,56 @@
+
+var btnSync=Ext.create('Ext.Action',
+{
+    id:'btnSync',
+    text: 'Hay '+storeEmpresaOffline.getCount()+'para actualizar',
+    iconCls:'icon icon-cloud-upload',
+    tooltip:'Sincronizar cambios',
+    handler:function(){
+        var records = new Array();
+        //---me guardo el proxy offline
+        offlineProxy=storeEmpresaOffline.proxy;
+        //---le pongo el proxy AJAX                   
+        //---Marcamos Dirty cada uno de los registros
+        storeEmpresaOffline.each(function(rec) {
+            rec.setDirty();
+            store.add(rec)
+        });
+        store.sync();
+    }
+}    
+);
+var btnMap=Ext.create('Ext.Action',{
+    fieldLabel: '',
+    text: '<i class="icon icon-map-marker"></i> Posicionar',
+    listeners: {
+        click: function() {
+            if (navigator && navigator.geolocation) {
+                var nav = navigator.geolocation.getCurrentPosition(function(position) {
+
+                    var logitud = position.coords.longitude;
+                    Ext.getCmp('long').setValue(logitud);
+
+                    var latitud = position.coords.latitude;
+                    Ext.getCmp('lat').setValue(latitud);
+
+                    Ext.getCmp('longLayDisplay').setValue("Longitud: " + logitud + ' Latitud: ' + latitud);
+
+                //return logitud;
+                }, function(error) {
+                    return '0';
+                });
+            }
+
+        }
+    }
+
+});
 var btnNew=Ext.create('Ext.Action',{
     id: 'btn_new',
     xtype: 'button',
     text: '<i class="icon icon-plus"></i> Agregar',
     handler: function(){
-        Ext.getCmp("formEmpresa").loadRecord(Ext.create('EmpresaModel',{}));
+        EmpresaForm.loadRecord(Ext.create('EmpresaModel',{}));
     }
     
 });
@@ -13,7 +60,7 @@ var btnSave=Ext.create('Ext.Action',{
     xtype: 'button',
     text: '<i class="icon icon-save"></i> Guardar',
     handler: function() {
-        var form = Ext.getCmp("formEmpresa");
+        var form = EmpresaForm;
         var record = form.getRecord();
         if(record){ 
             //----es uno del grid
@@ -49,7 +96,7 @@ var btnSave=Ext.create('Ext.Action',{
 });
     
 var EmpresaForm = Ext.create('Ext.form.Panel', {
-    id: 'formEmpresa',
+    id: 'EmpresaForm',
     onCuitBlur:function(){
         console.log(this);
     },
@@ -63,27 +110,36 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     margin: '5 5 5 5',
     defaultType: 'textfield',
     fieldDefaults:{
-        cls:'input'
+        cls:'input',
+        style:{
+            'font-size':'13px'
+        }
     },
     items: [
     {
+        id:'CUIT',
         fieldLabel: 'CUIT',
         minLength:13,
         maxLength:13,
         name: '1695',
         regex:/[0-9]{2}-[0-9]{8}-[0-9]{1}/,
-        regexText:"CUIT Inválido",
+        regexText:"CUIT Inv&aacute;lido",
         listeners: {
             blur:function(me) {
                 val=me.value
-                if(me.value.length==13){
+                if(me.isValid() && me.value.length==13){
+                    EmpresaForm.setLoading('Buscando...');
                     actualRecord=EmpresaForm.getRecord();
                     index=EmpresaStore.find('1695',val);
                     if(index>=0){
                         record=EmpresaStore.getAt(index);
-                        if(record!=actualRecord)
+                        if(record!=actualRecord){
                             EmpresaForm.loadRecord(record);
+                        } else {
+                            EmpresaForm.setLoading(false);
+                        }
                     }
+                    
                 }
             }
         }
@@ -193,6 +249,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     ],
     listeners: {
         dirtychange: function(form) {
+            EmpresaForm.setLoading(false);
             if (form.isDirty()) {
                 Ext.getCmp('btn_save').enable();
             } else {
@@ -202,33 +259,13 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     },
     tbar: [
     btnNew,
-    {
-        xtype: 'button',
-        fieldLabel: '',
-        text: '<i class="icon icon-map-marker"></i> Actualizar',
-        listeners: {
-            click: function() {
-                if (navigator && navigator.geolocation) {
-                    var nav = navigator.geolocation.getCurrentPosition(function(position) {
-
-                        var logitud = position.coords.longitude;
-                        Ext.getCmp('long').setValue(logitud);
-
-                        var latitud = position.coords.latitude;
-                        Ext.getCmp('lat').setValue(latitud);
-
-                        Ext.getCmp('longLayDisplay').setValue("Longitud: " + logitud + ' Latitud: ' + latitud);
-
-                    //return logitud;
-                    }, function(error) {
-                        return '0';
-                    });
-                }
-
-            }
-        }
-
-    }, btnSave]
+    btnMap,
+    '->',
+    btnSave
+    ],
+    bbar:[
+    btnSync
+    ]
 });
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',

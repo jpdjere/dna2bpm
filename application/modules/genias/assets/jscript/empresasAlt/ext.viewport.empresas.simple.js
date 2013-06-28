@@ -5,6 +5,7 @@ Ext.onReady(function() {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').remove();
     }
+    
     //Ext.create('Ext.panel.Panel',{
     Ext.create('Ext.Viewport', {
         id:'main-panel',

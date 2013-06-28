@@ -1,29 +1,6 @@
-var btnSync=Ext.create('Ext.Action',
-    {
-        id:'btnSync',
-        text: 'Sync',
-        iconCls:'icon icon-cloud-upload',
-        tooltip:'Sincronizar cambios',
-        handler:function(){
-            var records = new Array();
-            //---me guardo el proxy offline
-            offlineProxy=storeEmpresaOffline.proxy;
-            //---le pongo el proxy AJAX                   
-            //---Marcamos Dirty cada uno de los registros
-            storeEmpresaOffline.each(function(rec) {
-                rec.setDirty();
-                store.add(rec)
-            });
-            store.sync();
-        }
-    }    
-    );
-        
 function gridClick (view,record,item,index,e,options ){
     cuit=record.data['1695'];
-    EmpresaForm.setLoading('Cargando...');
-    EmpresaForm.loadRecord(record);
-    EmpresaForm.setLoading(false);
+    EmpresaForm.loadRecord(record);    
     //url=globals.module_url+'case_manager/tokens/status/'+globals.idwf+'/'+thisCase;    
     //console.log(cuit);
     VisitasStore.cuitFilter(cuit);
@@ -98,21 +75,4 @@ var EmpresasGrid=Ext.create('Ext.ux.LiveFilterGridPanel',{
     ,btnSync
     ]    
 
-});
-
-var notaTpl = new Ext.XTemplate(
-    '<tpl for=".">',
-    '<div class="img-polaroid">',
-    '<span class="fecha label label-success">{fecha}</span>',
-    '<h5>{nota}</h5>',
-    '</div>',
-    '</tpl>'
-    );
-var VisitasGrid=Ext.create('Ext.view.View',
-{
-    id:'VisitasGrid',
-    store:VisitasStore,    
-    tpl:notaTpl,
-    itemSelector: 'span.fecha'
-    
 });
