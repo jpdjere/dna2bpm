@@ -2,7 +2,7 @@
 var btnSync=Ext.create('Ext.Action',
 {
     id:'btnSync',
-    text: 'Hay '+storeEmpresaOffline.getCount()+'para actualizar',
+    text: 'Hay ('+storeEmpresaOffline.getCount()+') para actualizar',
     iconCls:'icon icon-cloud-upload',
     tooltip:'Sincronizar cambios',
     handler:function(){
