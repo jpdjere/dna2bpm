@@ -138,6 +138,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                         } else {
                             EmpresaForm.setLoading(false);
                         }
+                    } else {
+                        EmpresaForm.setLoading(false);
                     }
                     
                 }
