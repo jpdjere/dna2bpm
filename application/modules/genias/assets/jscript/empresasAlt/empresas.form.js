@@ -7,12 +7,14 @@ var btnSync=Ext.create('Ext.Action',
     tooltip:'Sincronizar cambios',
     handler:function(){
         var records = new Array();
+        console.log("handler");
         //---me guardo el proxy offline
         offlineProxy=storeEmpresaOffline.proxy;
         //---le pongo el proxy AJAX                   
         //---Marcamos Dirty cada uno de los registros
         storeEmpresaOffline.each(function(rec) {
             rec.setDirty();
+            
             store.add(rec)
         });
         store.sync();
