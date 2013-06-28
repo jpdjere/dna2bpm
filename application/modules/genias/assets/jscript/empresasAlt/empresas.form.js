@@ -77,10 +77,12 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             blur:function(me) {
                 val=me.value
                 if(me.value.length==13){
+                    actualRecord=EmpresaForm.getRecord();
                     index=EmpresaStore.find('1695',val);
                     if(index>=0){
                         record=EmpresaStore.getAt(index);
-                        EmpresaForm.loadRecord(record);
+                        if(record!=actualRecord)
+                            EmpresaForm.loadRecord(record);
                     }
                 }
             }
