@@ -174,7 +174,8 @@ var VisitasStore = Ext.create('Ext.data.Store', {
     },
     listeners:{
         load:function(){
-            
+        
+            VisitasStore.cuitFilter('-1');
             storeVisitaOffline.load(function(){
                 //actualizo los modificados
                 storeVisitaOffline.each(function(rec) {

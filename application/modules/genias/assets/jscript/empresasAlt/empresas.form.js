@@ -128,9 +128,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             record = EmpresaStore.getAt(index);
                             if (record != actualRecord) {
                                 EmpresaForm.loadRecord(record);
-                            } else {
-                                EmpresaForm.setLoading(false);
-                            }
+                            } 
+                            EmpresaForm.setLoading(false);
+                            
                         } else {
                             EmpresaForm.setLoading(false);
                         }
