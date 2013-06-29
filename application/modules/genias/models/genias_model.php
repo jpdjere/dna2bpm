@@ -33,7 +33,7 @@ class Genias_model extends CI_Model {
 
     function get_tasks($idu, $proyecto) {
 
-        $query = array('idu' => (double) $idu, 'proyecto' => $proyecto);
+        $query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
         $container = 'container.genias_tasks';
         $result = $this->mongo->db->$container->find($query)->sort(array('id' => -1));
 
@@ -58,7 +58,7 @@ class Genias_model extends CI_Model {
 
         foreach($genias['genias'] as $genia){
             if($genias['rol']=='coordinador'){
-                //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
+                //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (int) $idu);
                 $idus=array_merge($genia['users'],$idus);
 
                
@@ -108,6 +108,7 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
     function get_empresas($query) {
         $rtn = array();
         $query['status'] = 'activa';
+        var_dump($query);exit;
         $fields = array('id',
             'status'
             , '1693'  //     Nombre de la empresa
@@ -138,7 +139,7 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
         $container = 'container.genias';
 
         // Es coordinador?    
-        $query=array('coordinadores'=>((double)$idu));
+        $query=array('coordinadores'=>((int)$idu));
         $result = $this->mongo->db->$container->find($query); 
 
         $genias=array();
@@ -156,9 +157,9 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
         }
   
         // Es usuario?
-        $query=array('users'=>(double)$idu);
+        $query=array('users'=>(int)$idu);
         $result = $this->mongo->db->$container->find($query);
-        
+        var_dump('Cant',$result->count());
         while ($r = $result->getNext()) {
             $rol='user';
             $my_genias[]=$r;
