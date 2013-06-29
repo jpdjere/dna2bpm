@@ -650,7 +650,7 @@ class Genias extends MX_Controller {
         $this->output->enable_profiler(TRUE);
     }
 
-    function empresas($idgenia = null) {
+    function Empresas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
         

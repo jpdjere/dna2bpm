@@ -123,6 +123,7 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
         );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
+        $result->limit(2000);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
