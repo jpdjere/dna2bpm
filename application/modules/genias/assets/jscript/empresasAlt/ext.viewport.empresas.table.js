@@ -10,6 +10,7 @@ Ext.onReady(function() {
         items:[
         {
             title:"Listado de Empresas",   
+            layout:"fit",
             items:[EmpresasGrid]
         }
         ],

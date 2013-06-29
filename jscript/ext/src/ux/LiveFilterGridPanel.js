@@ -80,6 +80,7 @@ Ext.define('Ext.ux.LiveFilterGridPanel', {
             name: 'searchField',
             hideLabel: true,
             width: 200,
+            /*
             listeners: {
                      change: {
                          fn: me.onTextFieldChange,
@@ -87,18 +88,19 @@ Ext.define('Ext.ux.LiveFilterGridPanel', {
                          buffer: 100
                      }
                  }
+            */
         }
         ,{
             xtype: 'button', 
             text: 'Filter',
             handler: me.onTextFieldChange,
-            icon:globals.base_url+'jscript/ext/src/ux/filter/filter.gif',
+            iconCls:'icon-filter',
             scope: me
         }
         ,{
             xtype: 'button', 
             text: 'Clear Filter',
-            icon:globals.base_url+'jscript/ext/src/ux/filter/filter_delete.gif',
+            iconCls:'icon-ban-circle icon-stack-base icon-filter',
             handler: function(){
                 me.store.clearFilter();
             },
