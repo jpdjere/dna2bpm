@@ -135,7 +135,7 @@ class Genias_model extends CI_Model {
             'desde'=>array('$lt'=>date('Y-m-d')),
             'hasta'=>array('$gt'=>date('Y-m-d')),
             );
-        echo json_encode($query);
+        //echo json_encode($query);
         $metas=$this->mongo->db->$container_metas->find($query);
         foreach($metas as $meta){
             $case=$this->get_case($meta['case']);
