@@ -448,9 +448,42 @@ class Genias extends MX_Controller {
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
             //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
             $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
+        $this->ui->makeui('ext.ui.php', $cpData);
+    }
+
+    function Listado_empresas($parm = null) {
+
+        //echo $this->idu;   
+        //---Libraries
+        $this->load->library('parser');
+        $this->load->library('ui');
+
+        $cpData = $this->lang->language;
+        $segments = $this->uri->segment_array();
+        $cpData['theme'] = $this->config->item('theme');
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Escenario Pyme.';
+
+
+        $cpData['js'] = array(
+            $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
+            $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
+            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.grid.js' => 'Grid Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.table.js' => 'ViewPort',
         );
 
         $cpData['global_js'] = array(
