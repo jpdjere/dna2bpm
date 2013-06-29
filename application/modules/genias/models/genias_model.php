@@ -33,7 +33,7 @@ class Genias_model extends CI_Model {
 
     function get_tasks($idu, $proyecto) {
 
-        $query = array('idu' => (double) $idu, 'proyecto' => $proyecto);
+        $query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
         $container = 'container.genias_tasks';
         $result = $this->mongo->db->$container->find($query)->sort(array('id' => -1));
 
@@ -117,6 +117,7 @@ class Genias_model extends CI_Model {
         );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
+        $result->limit(2000);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
@@ -132,7 +133,7 @@ class Genias_model extends CI_Model {
         $container = 'container.genias';
 
         // Es coordinador?    
-        $query=array('coordinadores'=>((double)$idu));
+        $query=array('coordinadores'=>((int)$idu));
         $result = $this->mongo->db->$container->find($query); 
 
         $genias=array();
@@ -150,9 +151,8 @@ class Genias_model extends CI_Model {
         }
   
         // Es usuario?
-        $query=array('users'=>(double)$idu);
+        $query=array('users'=>(int)$idu);
         $result = $this->mongo->db->$container->find($query);
-        
         while ($r = $result->getNext()) {
             $rol='user';
             $my_genias[]=$r;

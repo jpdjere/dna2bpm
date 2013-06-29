@@ -11,8 +11,11 @@
         <link rel="stylesheet" type="text/css" href="{module_url}assets/css/fix_bootstrap_checkbox.css" />-->
         <link rel="stylesheet" type="text/css" href="{base_url}css/load_mask.css" />
         {css}
-        <script type="text/javascript">
-        </script>
+        <style>
+        select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+            height:24px;
+        }
+        </style>
     </head>
     <body>
         <div id="content"></div>

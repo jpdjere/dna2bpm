@@ -407,9 +407,13 @@ class Genias extends MX_Controller {
 
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
-            $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
-            $this->module_url . 'assets/jscript/form.js' => 'Objetos Custom D!',
-            $this->module_url . 'assets/jscript/ext.viewport.js' => 'ViewPort'
+            $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
+            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
+            $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
         );
 
         $cpData['global_js'] = array(
@@ -419,20 +423,41 @@ class Genias extends MX_Controller {
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
-    function screen_test() {
+    
+    
+    function Form_empresas_alt($parm = null) {
+
+        //echo $this->idu;   
+        //---Libraries
+        $this->load->library('parser');
+        $this->load->library('ui');
+
+        $cpData = $this->lang->language;
+        $segments = $this->uri->segment_array();
+        $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Escenario Pyme.';
+
+
         $cpData['js'] = array(
-            $this->module_url . 'assets/jscript/tools/screen.js' => 'ScreenTool',
+            $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
+            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
+            $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
         );
+
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
-        $this->ui->makeui('bootstrap.ui.php', $cpData);
+        $this->ui->makeui('ext.ui.php', $cpData);
     }
 
-    function Form_empresas_alt($parm = null) {
+    function Listado_empresas($parm = null) {
 
         //echo $this->idu;   
         //---Libraries
@@ -452,9 +477,9 @@ class Genias extends MX_Controller {
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
             //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
-            $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
-            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
-            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
+            $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.grid.js' => 'Grid Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.table.js' => 'ViewPort',
         );
 
         $cpData['global_js'] = array(
@@ -621,7 +646,28 @@ class Genias extends MX_Controller {
         $this->output->enable_profiler(TRUE);
     }
 
-    function empresas($idgenia = null) {
+    function Empresas($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
+        
+            foreach ($genias['genias'] as $thisGenia) {
+            if (isset($thisGenia['query_empresas'])) {
+                foreach ($thisGenia['query_empresas'] as $key => $value) {
+                    if (isset($query[$key])) {
+                        if (is_array($query[$key])) {
+                            array_push($query[$key]['$in'], $value);
+                        } else {
+                            $original = $query[$key];
+                            $query[$key] = array();
+                            $query[$key]['$in'] = array($original, $value);
+                        }
+                    } else {
+                        $query[$key] = $value;
+                    }
+                }
+            }
+        }
+        
         $this->load->model('app');
         $debug = false;
         $compress = false;
@@ -629,7 +675,6 @@ class Genias extends MX_Controller {
          * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
          * Basado en el idgenia
          */
-        $query = array('4651' => 'JUJ');
         $empresas = $this->genias_model->get_empresas($query);
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);

@@ -49,7 +49,7 @@ Ext.onReady(function() {
         }],
         listeners: {
             render: function() {
-
+                 
             },
             afterRender: function() {
                 remove_loaders();
