@@ -122,7 +122,7 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
             , '1699' // 	Partido
         );
         $container = 'container.empresas';
-        $result = $this->mongo->db->$container->find($query, $fields)->limit(1000);
+        $result = $this->mongo->db->$container->find($query, $fields);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
@@ -158,7 +158,6 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
         // Es usuario?
         $query=array('users'=>(int)$idu);
         $result = $this->mongo->db->$container->find($query);
-        var_dump('Cant',$result->count());
         while ($r = $result->getNext()) {
             $rol='user';
             $my_genias[]=$r;
