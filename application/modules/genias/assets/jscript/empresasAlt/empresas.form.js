@@ -259,6 +259,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     listeners: {
         
         dirtychange: function(form) {
+            Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar..');
             EmpresaForm.setLoading(false);             
             if (form.isDirty()) {
                 Ext.getCmp('btn_save').enable();
@@ -278,7 +279,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     ]
 });
 
-Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar..');
+
 
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
