@@ -32,6 +32,12 @@ Crear nueva meta
                 <option value="{id}">{name}</option>
                 {/projects}
                 </select>
+                <label>Genia</label>
+                <select name="genia" class="input-block-level">
+                {genias}
+                <option value="{nombre}">{nombre}</option>
+                {/genias}
+                </select>
         <div class="">
             <label>Cantidad</label>
             <input type="text" name="cantidad" placeholder="Cantidad"  class="input-block-level"/>
@@ -46,15 +52,13 @@ Crear nueva meta
             <label>Hasta</label>
             <input type="text" name="hasta" placeholder="Hasta"  class="input-block-level datepicker"/>
         </div>
+        <label>Observaciones</label>
+        <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
 
         </div>
     </div>
 <div  class="row-fluid">
-    <div class="span6">
-            <label>Observaciones</label>
-            <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
-    </div> 
-    <div class="span6">
+    <div class="span12">
         <a  href="#" class="btn btn-primary input-block-level" >Agregar</a>
             
     </div> 
