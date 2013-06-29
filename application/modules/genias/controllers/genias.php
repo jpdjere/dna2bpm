@@ -653,7 +653,8 @@ class Genias extends MX_Controller {
     function empresas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
-        foreach ($genias['genias'] as $thisGenia) {
+        if(!empty($genias['genias'])){
+            foreach ($genias['genias'] as $thisGenia) {
             if (isset($thisGenia['query_empresas'])) {
                 foreach ($thisGenia['query_empresas'] as $key => $value) {
                     if (isset($query[$key])) {
@@ -669,6 +670,7 @@ class Genias extends MX_Controller {
                     }
                 }
             }
+        }
         }
         $this->load->model('app');
         $debug = false;
