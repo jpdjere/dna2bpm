@@ -21,57 +21,38 @@ class Process extends MX_Controller {
     }
 
     /* GENIAS */
-
     public function Insert() {
         $container = $this->containerEmpresas;
         $input = json_decode(file_get_contents('php://input'));
 
-        $newArr = array();
+        foreach ($input as $thisform) {         
+          
+            /* GENERO ID */
+            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;
+           
+            /* CHECKEO CUIT */
+            $queryCuit = array('1695' => $thisform->{1695});
+            $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
 
-
-        foreach ($input as $key => $value) {
-
-
-
-            if ($key == 'id') {
-                /* GENERO ID */
-                $id = ($value == null /* || strlen($value) < 6 */) ? $this->app->genid($container) : $value;
-            } else {
-                $newArr[$key] = $value;
-            }
-            $newArr[$key] = $value;
-
-            /* BUSCO EL CUIT COMO REFERENCIA */
-            if ($key == '1695') {
-                $queryCuit = array('1695' => $value);
-                $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
-
-
-                if ($resultCuit['id'] != null) {
-                    if ($value != null) {
-                        $id = $resultCuit['id'];
-                    }
+            if ($resultCuit['id'] != null) {
+                if ($thisform->{1695} != null) {
+                    $id = $resultCuit['id'];
                 }
             }
+
+            /* Lo paso como Objeto */
+           $thisform = (array) $thisform;
+           $thisform['idu'] = strval($this->idu);
+          
+            $result = $this->app->put_array($id, $container, $thisform);
+
+
+            if ($result) {
+                $out = array('status' => 'ok');
+            } else {
+                $out = array('status' => 'error');
+            }
         }
-
-
-
-        $newArr['idu'] = strval($this->idu);
-
-
-        /* Lo paso como Objeto */
-        $array = (array) $newArr;
-        $result = $this->app->put_array($id, $container, $array);
-
-
-        if ($result) {
-            $out = array('status' => 'ok');
-        } else {
-            $out = array('status' => 'error');
-        }
-
-        var_dump($out, $result);
     }
 
     /*
