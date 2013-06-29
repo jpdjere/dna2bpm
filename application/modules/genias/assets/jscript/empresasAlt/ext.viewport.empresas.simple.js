@@ -5,6 +5,12 @@ Ext.onReady(function() {
     storeEmpresaOffline.load();
     Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar..');
     
+    /* Para tareas relacionadas via Agenda*/
+    var getParams = document.URL.split("/");
+    var params = (getParams[getParams.lenght - 1]);
+    Ext.getCmp('task').setValue(params);
+    
+    
     var remove_loaders = function() {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').remove();
