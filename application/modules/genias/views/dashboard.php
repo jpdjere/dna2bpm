@@ -3,7 +3,9 @@
     <ul class="breadcrumb"  >
           <li><span class="divider">/</span></li>
           <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
+          <li class="pull-right perfil"><a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}</li>
     </ul>
+
 </div>
 
 <!-- / Contenido -->

@@ -32,16 +32,10 @@ body {
 /* Profile */
 
 
-.perfil li{
-    padding:0px !important;
-}
-
-.perfil ul li{
-background-color: #B7B7B7;
-padding:0px 3px !important ;
+.perfil{
 font-size: 12px;
-text-shadow: 1px 1px 0px #ffffff;
-filter: dropshadow(color=#ffffff, offx=1, offy=1); 
+text-shadow: 1px 1px 0px #cccccc;
+filter: dropshadow(color=#cccccc, offx=1, offy=1); 
 }
 
 .form-inline{

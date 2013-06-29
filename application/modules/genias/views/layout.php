@@ -42,15 +42,9 @@
               <li><a href="{module_url}scheduler">Agenda</a></li>
               <li style="padding-top:10px">Programas</li>
             </ul>
-            <ul class="nav pull-right inline perfil">            
+            <ul class="nav pull-right inline">            
                 <li><a   href="{base_url}/user/logout"><i class="icon-off"></i> Salir</a></li>
                 <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
-                <li>
-                    <ul class="unstyled ">
-                        <li>Gabriel Fojo</li>
-                        <li><i class="icon-double-angle-down"></i> Coordinador</li>  
-                    </ul>
-                </li>
             </ul>
         </div>
       </div>

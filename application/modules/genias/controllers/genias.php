@@ -171,13 +171,14 @@ class Genias extends MX_Controller {
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = $user->lastname . ", " . $user->name;
-        $cpData['username'] = $user->email;
+        $cpData['usermail'] = $user->email;
         // Profile 
         //$cpData['profile_img'] = get_gravatar($user->email);
         $cpData['gravatar'] = get_gravatar($user->email);
         $cpData['genia'] = $this->get_genia('nombre');
         $cpData['rol'] = $this->get_genia('rol');
-
+        $cpData['rol_icono']=($cpData['rol']=='coordinador')?('icon-group'):('icon-user');
+        
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
