@@ -277,7 +277,10 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     btnSync
     ]
 });
+
+Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar..');
+
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
-    items: [EmpresaForm]
+    items: [EmpresaForm], 
 });
