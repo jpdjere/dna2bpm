@@ -1,25 +1,30 @@
 
-var btnSync=Ext.create('Ext.Action',
-{
-    id:'btnSync',
-    text: 'Hay '+storeEmpresaOffline.getCount()+'para actualizar',
-    iconCls:'icon icon-cloud-upload',
-    tooltip:'Sincronizar cambios',
-    handler:function(){
-        var records = new Array();
-        //---me guardo el proxy offline
-        offlineProxy=storeEmpresaOffline.proxy;
-        //---le pongo el proxy AJAX                   
-        //---Marcamos Dirty cada uno de los registros
-        storeEmpresaOffline.each(function(rec) {
-            rec.setDirty();
-            store.add(rec)
-        });
-        store.sync();
-    }
-}    
+var btnSync = Ext.create('Ext.Action',
+        {
+            id: 'btnSync',
+            text: 'Hay (' + storeEmpresaOffline.getCount() + ') para actualizar',
+            iconCls: 'icon icon-cloud-upload',
+            tooltip: 'Sincronizar cambios',
+            handler: function() {
+
+                var records = new Array();
+                //---me guardo el proxy offline
+                offlineProxy = storeEmpresaOffline.proxy;
+                //---le pongo el proxy AJAX                   
+                //---Marcamos Dirty cada uno de los registros
+                storeEmpresaOffline.each(function(rec) {
+                    rec.setDirty();
+                    store.add(rec)
+                });
+                store.sync();
+                Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
+            }
+        }
 );
-var btnMap=Ext.create('Ext.Action',{
+
+
+
+var btnMap = Ext.create('Ext.Action', {
     fieldLabel: '',
     text: '<i class="icon icon-map-marker"></i> Posicionar',
     listeners: {
@@ -35,7 +40,7 @@ var btnMap=Ext.create('Ext.Action',{
 
                     Ext.getCmp('longLayDisplay').setValue("Longitud: " + logitud + ' Latitud: ' + latitud);
 
-                //return logitud;
+                    //return logitud;
                 }, function(error) {
                     return '0';
                 });
@@ -45,16 +50,18 @@ var btnMap=Ext.create('Ext.Action',{
     }
 
 });
-var btnNew=Ext.create('Ext.Action',{
+var btnNew = Ext.create('Ext.Action', {
     id: 'btn_new',
     xtype: 'button',
     text: '<i class="icon icon-plus"></i> Agregar',
-    handler: function(){
-        EmpresaForm.loadRecord(Ext.create('EmpresaModel',{}));
+    handler: function() {
+        EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
     }
-    
+
 });
-var btnSave=Ext.create('Ext.Action',{
+
+
+var btnSave = Ext.create('Ext.Action', {
     id: 'btn_save',
     disabled: true,
     xtype: 'button',
@@ -62,13 +69,13 @@ var btnSave=Ext.create('Ext.Action',{
     handler: function() {
         var form = EmpresaForm;
         var record = form.getRecord();
-        if(record){ 
+        if (record) {
             //----es uno del grid
             form.getForm().updateRecord(record);
 
-        } 
+        }
         //---busco por cuit
-        if(EmpresaStore.find('1695',record.get('1695'))==-1){
+        if (EmpresaStore.find('1695', record.get('1695')) == -1) {
             //---si no estaba lo agrego al online
             EmpresaStore.add(record);
         }
@@ -78,7 +85,7 @@ var btnSave=Ext.create('Ext.Action',{
 
         var d = new Date();
         var n = d.toISOString();
-        if (data['7408']){
+        if (data['7408']) {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
                 cuit: data['1695'],
@@ -92,15 +99,15 @@ var btnSave=Ext.create('Ext.Action',{
             VisitasGrid.refresh();
         }
     }
-        
+
 });
-    
+
 var EmpresaForm = Ext.create('Ext.form.Panel', {
     id: 'EmpresaForm',
-    onCuitBlur:function(){
+    onCuitBlur: function() {
         console.log(this);
     },
-    autoScroll:true,
+    autoScroll: true,
     //----para que resetee el dirty
     trackResetOnLoad: true,
     layout: {
@@ -109,130 +116,133 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     },
     margin: '5 5 5 5',
     defaultType: 'textfield',
-    fieldDefaults:{
-        cls:'input',
-        style:{
-            'font-size':'13px'
+    fieldDefaults: {
+        cls: 'input',
+        style: {
+            'font-size': '13px'
         }
     },
     items: [
-    {
-        id:'CUIT',
-        fieldLabel: 'CUIT',
-        minLength:13,
-        maxLength:13,
-        name: '1695',
-        regex:/[0-9]{2}-[0-9]{8}-[0-9]{1}/,
-        regexText:"CUIT Inv&aacute;lido",
-        listeners: {
-            blur:function(me) {
-                val=me.value
-                if(me.isValid() && me.value.length==13){
-                    EmpresaForm.setLoading('Buscando...');
-                    actualRecord=EmpresaForm.getRecord();
-                    index=EmpresaStore.find('1695',val);
-                    if(index>=0){
-                        record=EmpresaStore.getAt(index);
-                        if(record!=actualRecord){
-                            EmpresaForm.loadRecord(record);
+        {
+            id: 'CUIT',
+            fieldLabel: 'CUIT',
+            minLength: 13,
+            maxLength: 13,
+            name: '1695',
+            regex: /[0-9]{2}-[0-9]{8}-[0-9]{1}/,
+            regexText: "CUIT Inv&aacute;lido",
+            allowBlank: false,
+           // vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
+            emptyText: 'Ingrese un Nro de CUIT valido',
+            listeners: {
+                blur: function(me) {
+                    val = me.value
+                    if (me.isValid() && me.value.length == 13) {
+                        EmpresaForm.setLoading('Buscando...');
+                        actualRecord = EmpresaForm.getRecord();
+                        index = EmpresaStore.find('1695', val);
+                        if (index >= 0) {
+                            record = EmpresaStore.getAt(index);
+                            if (record != actualRecord) {
+                                EmpresaForm.loadRecord(record);
+                            } else {
+                                EmpresaForm.setLoading(false);
+                            }
                         } else {
                             EmpresaForm.setLoading(false);
                         }
-                    } else {
-                        EmpresaForm.setLoading(false);
-                    }
-                    
-                }
-            }
-        }
-    },
-    {
-        fieldLabel: 'Nombre',
-        name: '1693'
-    },
-    {
-        id: 'ProvinciaCombo',
-        xtype: 'combobox',
-        name: '4651',
-        fieldLabel: 'Provincia',
-        store: ProvinciaStore,
-        queryMode: 'local',
-        displayField: 'text',
-        valueField: 'value',
-        emptyText: 'Seleccione la Provincia',
-        listeners: {
-            render:function(){
-                btnNew.execute();
-            }
-            ,
-            change: function(me, newValue, oldValue, eOpts) {
-                if (newValue != null) {
-                    PartidoStore.clearFilter();
-                    PartidoStore.filters.removeAtKey('idrel');
-                    var myfilter = new Ext.util.Filter({
-                        filterFn: function(rec, anymatch) {
-                            return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
-                        }
-                    });
-                    PartidoStore.filter(myfilter);
-                }
-            }
-        }
-    }
-    ,
-    {
-        id: 'PartidoCombo',
-        xtype: 'combobox',
-        name: '1699',
-        fieldLabel: 'Partido',
-        store: PartidoStore,
-        queryMode: 'local',
-        displayField: 'text',
-        valueField: 'value',
-        emptyText: 'Seleccione el Partido'
-    //,editable: false
 
-    },
-    {
-        fieldLabel: 'Calle / Ruta',
-        name: '4653'
-    },
-    {
-        fieldLabel: 'Nro. / Km.',
-        name: '4654'
-    },
-    {
-        fieldLabel: 'Piso',
-        name: '4655'
-    },
-    {
-        fieldLabel: 'Dto / Oficina',
-        name: '4656'
-    },
-    {
-        xtype: 'hidden',
-        name: '7819',
-        id: 'long',
-        fieldLabel: 'Longitud',
-        readOnly: true
-    },
-    {
-        xtype: 'hidden',
-        name: '7820',
-        id: 'lat',
-        fieldLabel: 'Latitud',
-        readOnly: true
-    },
-    {
-        xtype: 'displayfield',
-        id: 'longLayDisplay',
-        style: {
-            fontSize: '11px',
-            color: 'blue',
-            padding: '4px'
+                    }
+                }
+            }
+        },
+        {
+            fieldLabel: 'Nombre',
+            name: '1693'
+        },
+        {
+            id: 'ProvinciaCombo',
+            xtype: 'combobox',
+            name: '4651',
+            fieldLabel: 'Provincia',
+            store: ProvinciaStore,
+            queryMode: 'local',
+            displayField: 'text',
+            valueField: 'value',
+            emptyText: 'Seleccione la Provincia',
+            listeners: {
+                render: function() {
+                    btnNew.execute();
+                }
+                ,
+                change: function(me, newValue, oldValue, eOpts) {
+                    if (newValue != null) {
+                        PartidoStore.clearFilter();
+                        PartidoStore.filters.removeAtKey('idrel');
+                        var myfilter = new Ext.util.Filter({
+                            filterFn: function(rec, anymatch) {
+                                return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
+                            }
+                        });
+                        PartidoStore.filter(myfilter);
+                    }
+                }
+            }
         }
-    },
-    /*
+        ,
+        {
+            id: 'PartidoCombo',
+            xtype: 'combobox',
+            name: '1699',
+            fieldLabel: 'Partido',
+            store: PartidoStore,
+            queryMode: 'local',
+            displayField: 'text',
+            valueField: 'value',
+            emptyText: 'Seleccione el Partido'
+                    //,editable: false
+
+        },
+        {
+            fieldLabel: 'Calle / Ruta',
+            name: '4653'
+        },
+        {
+            fieldLabel: 'Nro. / Km.',
+            name: '4654'
+        },
+        {
+            fieldLabel: 'Piso',
+            name: '4655'
+        },
+        {
+            fieldLabel: 'Dto / Oficina',
+            name: '4656'
+        },
+        {
+            xtype: 'hidden',
+            name: '7819',
+            id: 'long',
+            fieldLabel: 'Longitud',
+            readOnly: true
+        },
+        {
+            xtype: 'hidden',
+            name: '7820',
+            id: 'lat',
+            fieldLabel: 'Latitud',
+            readOnly: true
+        },
+        {
+            xtype: 'displayfield',
+            id: 'longLayDisplay',
+            style: {
+                fontSize: '11px',
+                color: 'blue',
+                padding: '4px'
+            }
+        },
+        /*
          {
          fieldLabel: 'Provincia',
          name: '4651',
@@ -242,15 +252,17 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
          fieldLabel: 'Partido',
          name: '1699'
          },*/
-    {
-        id: 'notas',
-        xtype: 'textarea',
-        fieldLabel: 'Notas / Observaciones',
-        name: '7408'
-    }
+        {
+            id: 'notas',
+            xtype: 'textarea',
+            fieldLabel: 'Notas / Observaciones',
+            name: '7408',
+            allowBlank: false
+        }
     ],
     listeners: {
         dirtychange: function(form) {
+            Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar..');
             EmpresaForm.setLoading(false);
             if (form.isDirty()) {
                 Ext.getCmp('btn_save').enable();
@@ -260,16 +272,21 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }
     },
     tbar: [
-    btnNew,
-    btnMap,
-    '->',
-    btnSave
+        btnNew,
+        btnMap,
+        '->',
+        //btnSave
+        btnSync
     ],
-    bbar:[
-    btnSync
+    bbar: [
+        //btnSync
+        btnSave
     ]
 });
+
+
+
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
-    items: [EmpresaForm]
+    items: [EmpresaForm],
 });

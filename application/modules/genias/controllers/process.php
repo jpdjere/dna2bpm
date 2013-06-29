@@ -39,6 +39,9 @@ class Process extends MX_Controller {
 
 
         $newArr = array();
+        
+        var_dump($input);
+        exit();
 
         $newArr['7406'] = (double) $this->idu;
 

@@ -81,7 +81,9 @@ class Genias extends MX_Controller {
         }
 
         $customData['metas'] = $mygoals;
-
+        // Listado de genias de donde soy user
+        $mygenias=$this->get_genia();
+        $customData['genias']=$mygenias['genias'];
 
         // Loop de Genias
 //        foreach($genias['genias'] as $genia){
@@ -143,7 +145,6 @@ class Genias extends MX_Controller {
 //        } //each genias
 
 
-
         $this->render('dashboard', $customData);
     }
 
@@ -196,6 +197,7 @@ class Genias extends MX_Controller {
         $date = date_create_from_format('d-m-Y', $mydata['hasta']);
         $mydata['hasta'] = date_format($date, 'Y-m-d');
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
+        $mydata['cumplidas']=array();
         //@todo  COMPLETAR
         // Busco nombre del proyecto
         $proyectos = $this->genias_model->get_config_item('projects');
@@ -204,7 +206,6 @@ class Genias extends MX_Controller {
                 $mydata['proyecto_nombre'] = $v['name'];
         }
 
-        $mydata['genia'] = $this->get_genia('nombre');
         //----genero un caso---------------------------------
         $idwf = 'genia_metas';
         $case = $this->bpm->gen_case($idwf);
