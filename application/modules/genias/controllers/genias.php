@@ -618,6 +618,25 @@ class Genias extends MX_Controller {
     }
 
     function empresas($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
+        foreach ($genias['genias'] as $thisGenia) {
+            if (isset($thisGenia['query_empresas'])) {
+                foreach ($thisGenia['query_empresas'] as $key => $value) {
+                    if (isset($query[$key])) {
+                        if (is_array($query[$key])) {
+                            array_push($query[$key]['$in'], $value);
+                        } else {
+                            $original = $query[$key];
+                            $query[$key] = array();
+                            $query[$key]['$in'] = array($original, $value);
+                        }
+                    } else {
+                        $query[$key] = $value;
+                    }
+                }
+            }
+        }
         $this->load->model('app');
         $debug = false;
         $compress = false;
@@ -625,7 +644,6 @@ class Genias extends MX_Controller {
          * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
          * Basado en el idgenia
          */
-        $query = array('4651' => 'JUJ');
         $empresas = $this->genias_model->get_empresas($query);
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
