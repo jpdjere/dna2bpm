@@ -24,11 +24,15 @@ $( document ).ready(function() {
 //        }
 //    });
 
-$('.datepicker').datepicker({
-    viewMode:'years',
-    minViewMode:'months',
-    format:'mm/yyyy'
-})
+//$('.datepicker').datepicker({
+//    viewMode:'years',
+//    minViewMode:'months',
+//    format:'mm/yyyy'
+//}).on('changeDate', function(ev){
+//        alert(1);
+//})
+ $('#dp3').datepicker();
+
 
 $('#form_goals a').click(function(){
     var data=$('#form_goals').serializeArray();

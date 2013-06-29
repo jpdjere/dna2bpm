@@ -199,7 +199,7 @@ class Genias extends MX_Controller {
         }
 
         
-        $date = date_create_from_format('d/m/Y', '01/'.$mydata['desde']);
+        $date = date_create_from_format('d-m-Y', '01-'.$mydata['desde']);
         $month=$date->format('m');
         $year=$date->format('Y');
         $daycount = cal_days_in_month(CAL_GREGORIAN, $month, $year); // 31

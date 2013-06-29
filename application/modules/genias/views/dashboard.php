@@ -37,14 +37,23 @@
                 </select>
         <div class="">
             <label>Cantidad</label>
-            <input type="text" name="cantidad" placeholder="Cantidad"  class="input-block-level"/>
+            <input type="number" name="cantidad" placeholder="Cantidad"   class="input-block-level"/>
         </div>
         </div>
         <div class="span6">
         <div class="">
             <label>Período</label>
-            <input type="text" name="desde" placeholder="Período"  class="input-block-level datepicker"/>
+            
+<!--<div class="input-append">
+<input type="text" name="desde" placeholder="Período"   class="input-block-level "/>
+</div>
+            -->
+        <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date">
+            <input type="text" name="desde" readonly="" value=""  class="input-block-level">
+            <span class="add-on"><i class="icon-calendar"></i></span>
         </div>
+        </div>
+
         <label>Observaciones</label>
         <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
 
