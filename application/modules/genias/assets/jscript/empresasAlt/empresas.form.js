@@ -6,7 +6,7 @@ var btnSync=Ext.create('Ext.Action',
     iconCls:'icon icon-cloud-upload',
     tooltip:'Sincronizar cambios',
     handler:function(){
-        Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar'); 
+        
         var records = new Array();        
         //---me guardo el proxy offline
         offlineProxy=storeEmpresaOffline.proxy;
@@ -17,10 +17,7 @@ var btnSync=Ext.create('Ext.Action',
             store.add(rec)
         });
         store.sync();
-    }, listeners: {
-        load: function(){            
-            Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar');            
-        }
+        Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar');         
     }
 }    
 );
@@ -262,6 +259,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     listeners: {
         dirtychange: function(form) {
             EmpresaForm.setLoading(false);
+            Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar..'); 
             if (form.isDirty()) {
                 Ext.getCmp('btn_save').enable();
             } else {
