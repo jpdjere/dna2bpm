@@ -6,28 +6,16 @@ var btnAdd = Ext.create('Ext.Action',
     iconCls: 'icon icon-plus',
     tooltip: 'Agregar',
     handler: function() {
-
-        var records = new Array();
-                //---me guardo el proxy offline
-                offlineProxy = storeEmpresaOffline.proxy;
-                //---le pongo el proxy AJAX                   
-                //---Marcamos Dirty cada uno de los registros
-                storeEmpresaOffline.each(function(rec) {
-                    rec.setDirty();
-                    store.add(rec)
-                });
-                store.sync();
-                Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
-            }
-        }
-        );
+        window.location=globals.module_url+'form_empresas_alt';
+    }
+});
 
 function gridClick (view,record,item,index,e,options ){
     cuit=record.data['1695'];
     EmpresaForm.loadRecord(record);    
     //url=globals.module_url+'case_manager/tokens/status/'+globals.idwf+'/'+thisCase;    
     //console.log(cuit);
-    VisitasStore.cuitFilter(cuit);
+    //VisitasStore.cuitFilter(cuit);
     return;
 }
 
@@ -115,14 +103,3 @@ function gridClick (view,record,item,index,e,options ){
     ]    
 
 });
-Ext.apply(EmpresasGrid,{tbar: [
-    {
-        xtype: 'button', 
-        text: '<i class="icon-repeat"></i>',
-        handler:function(){    
-            mygrid.store.read();
-        }
-    },
-    btnAdd,'->',               
-    ,btnSync
-    ] });

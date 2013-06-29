@@ -100,7 +100,7 @@ Ext.define('Ext.ux.LiveFilterGridPanel', {
         ,{
             xtype: 'button', 
             text: 'Clear Filter',
-            iconCls:'icon-ban-circle icon-stack-base icon-filter',
+            iconCls:'icon-remove',
             handler: function(){
                 me.store.clearFilter();
             },

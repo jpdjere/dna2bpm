@@ -11,6 +11,17 @@ Ext.onReady(function() {
         {
             title:"Listado de Empresas",   
             layout:"fit",
+            tbar:[
+            {
+                xtype: 'button', 
+                text: '<i class="icon-repeat"></i>',
+                handler:function(){    
+                    mygrid.store.read();
+                }
+            },
+            btnAdd,'->',               
+            ,btnSync
+            ], 
             items:[EmpresasGrid]
         }
         ],
