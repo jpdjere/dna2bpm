@@ -28,5 +28,7 @@ $(".detalle").click(function(){
 var userdata={idu:1,genia:1};
 localStorage['userdata']="";
 
+
+
 });
 

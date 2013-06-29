@@ -15,7 +15,7 @@
 <!-- Item1 -->
 <div class="accordion-group">
 <div class="accordion-heading">
-<a class="accordion-toggle btn" data-toggle="collapse" data-parent="#proyectos" href="#collapse1">
+<a class="accordion-toggle btn " data-toggle="collapse" data-parent="#proyectos" href="#collapse1">
 Crear nueva meta
 </a>
 </div>
@@ -83,7 +83,7 @@ Crear nueva meta
        <div class="span12 {status_class}">  
         <div  class="row-fluid" >
             <div class="span12 ">  
-                <h3>{proyecto_name}<span class="pull-right">{cumplidas}/{cantidad}</span></h3>
+                <h3>{proyecto_nombre}<span class="pull-right">{cumplidas}/{cantidad}</span></h3>
             </div>
         </div>
         <div  class="row-fluid" >

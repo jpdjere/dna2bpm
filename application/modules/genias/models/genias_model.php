@@ -56,27 +56,21 @@ class Genias_model extends CI_Model {
         $idus=array($idu);
         // Por cada Genia
 
-        foreach($genias['genias'] as $genia){
-            if($genias['rol']=='coordinador'){
-                //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
-                $idus=array_merge($genia['users'],$idus);
-
-               
+        if($genias!==false){ // 
+            foreach($genias['genias'] as $genia){
+                if($genias['rol']=='coordinador'){
+                    //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
+                    $idus=array_merge($genia['users'],$idus);
+                }
 
             }
-
         }
         $query = array('idu' => array('$in'=>$idus));          
-         
-            
-
-            //var_dump($result, json_encode($result), $result->count());
-        
-
-$result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
-        
-        
-        //var_dump($result, json_encode($result), $result->count());
+        $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
+        $result=array();
+        while($mygoals=$goals->getnext()){
+            $result[]=$mygoals;
+        }
 
         return $result;
     }

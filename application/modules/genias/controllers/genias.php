@@ -45,16 +45,17 @@ class Genias extends MX_Controller {
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         $genias = $this->get_genia();
+
         $rol = $genias['rol'];
         $mygoals = array();
         $goals = $this->genias_model->get_goals((int) $this->idu);
+
         foreach ($goals as $goal) {
-            ;
             // === Nombre del proyecto === @todo - Traerlo del model
-            foreach ($customData['projects'] as $current) {
-                if ($current['id'] == $goal['proyecto'])
-                    $goal['proyecto_name'] = $current['name'];
-            }
+//            foreach ($customData['projects'] as $current) {
+//                if ($current['id'] == $goals['proyecto'])
+//                    $goals['proyecto_name'] = $current['name'];
+//            }
             // === get status case ===
             if (isset($goal['case']))
                 $case = $this->genias_model->get_case($goal['case']);
@@ -77,6 +78,7 @@ class Genias extends MX_Controller {
             $owner = $this->user->get_user($goal['idu']);
             $goal['owner'] = "{$owner->lastname}, {$owner->name} ";
             $goal['cumplidas'] = 0;
+
             $mygoals[] = $goal;
         }
 
@@ -85,6 +87,8 @@ class Genias extends MX_Controller {
         $mygenias=$this->get_genia();
         $customData['genias']=$mygenias['genias'];
 
+
+//
         // Loop de Genias
 //        foreach($genias['genias'] as $genia){
 //        $goals=array();// reseteo goals
@@ -696,14 +700,16 @@ class Genias extends MX_Controller {
     // ======= DATOS GENIAS ======= //
 
     function get_genia($attr = null) {
-        // nombre, rol, id
+
         $genia = $this->genias_model->get_genia($this->idu);
-        if (isset($attr)) {
-            return (!empty($genia[$attr])) ? ($genia[$attr]) : ('');
-        } else {
-            return $genia;
+        if($attr=='rol'){
+           return $genia['rol'];
+        }else{
+        return $genia;
         }
     }
+    
+
 
 }
 
