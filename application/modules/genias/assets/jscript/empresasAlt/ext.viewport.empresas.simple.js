@@ -7,7 +7,7 @@ Ext.onReady(function() {
     
     /* Para tareas relacionadas via Agenda*/
     var getParams = document.URL.split("/");
-    var params = (getParams[getParams.lenght - 1]);
+    var params = (getParams[getParams.length - 1]);
     Ext.getCmp('task').setValue(params);
     
     
