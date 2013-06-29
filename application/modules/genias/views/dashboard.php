@@ -82,7 +82,7 @@
        <div class="span12 {status_class}">  
         <div  class="row-fluid" >
             <div class="span12 ">  
-                <h3>{proyecto_nombre}<span class="pull-right">{cumplidas}/{cantidad}</span></h3>
+                <h3>{proyecto_nombre}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
             </div>
         </div>
         <div  class="row-fluid" >

@@ -78,7 +78,7 @@ class Genias extends MX_Controller {
             // --- 
             $owner = $this->user->get_user($goal['idu']);
             $goal['owner'] = "{$owner->lastname}, {$owner->name} ";
-            $goal['cumplidas'] = 0;
+            $goal['cumplidas_count'] = count($goal['cumplidas']);
 
             $mygoals[] = $goal;
         }
@@ -88,66 +88,6 @@ class Genias extends MX_Controller {
         $mygenias=$this->get_genia();
         $customData['genias']=$mygenias['genias'];
 
-
-//
-        // Loop de Genias
-//        foreach($genias['genias'] as $genia){
-//        $goals=array();// reseteo goals
-//        $genid=(string)$genia['_id'];
-        // usuario o coordinador?      
-//        if($rol=='coordinador' ){
-//            $idus=$genia['users'];
-//            if(!in_array((int)$this->idu,$idus))
-//                    $idus[]=(int)$this->idu;
-//        }else{
-//            $idus=array((int)$this->idu);
-//        }
-//        // Muestro metas de un idu, o de varios si es coordinador
-//        foreach($idus as $idu){
-//        foreach ($this->genias_model->get_goals($idu) as $goal) {
-//            foreach ($customData['projects'] as $current) {
-//                if ($current['id'] == $goal['proyecto'])
-//                    $goal['proyecto_name'] = $current['name'];
-//            }
-//            // get status case
-//            if (isset($goal['case']))
-//                $case = $this->genias_model->get_case($goal['case']);
-//            if (isset($case['status']) && $case['status'] == 'open') {
-//                $goal['status'] = 'Pendiente aprobación';
-//                $goal['status_icon_class'] = 'icon-time';
-//                $goal['status_class'] = 'well status_open';
-//                $goal['label_class'] = 'label-important';
-//            } elseif (isset($case['status']) && $case['status'] == 'closed') {
-//                $goal['status'] = 'Aprobado';
-//                $goal['status_icon_class'] = 'icon-thumbs-up';
-//                $goal['status_class'] = 'well status_closed';
-//                $goal['label_class'] = 'label-success';
-//            } else {
-//                $goal['status'] = 'undefined';
-//                $goal['status_class'] = 'well status_null';
-//                $goal['label_class'] = '';
-//            }
-//            
-//            $owner = $this->user->get_user((double)$idu);
-//            $goal['owner']= "{$owner->lastname}, {$owner->name} ";
-//            $goal['genia']=$genia['nombre'];
-////
-//            $goal['cumplidas'] = 0;
-//            //$metas_cumplidas = ($goal['cumplidas'] == $goal['cantidad']) ? (true) : (false);
-//            //$goal['class'] = ($metas_cumplidas) ? ('well') : ('alert alert-info');       
-////            $days_back = date('Y-m-d', strtotime("-5 day"));
-////            if (($goal['hasta'] < $days_back) && (!$metas_cumplidas))
-////            $goal['class'] = 'alert alert-error';
-//
-//            $goals[] = $goal;
-//
-//echo "--------------<br>";
-//        }// each 
-//echo "==============<br>";     
-//        }//each
-//        echo "---------------";
-//        $mygenias[$genid]=array('nombre'=>$genia['nombre'],'metas'=>$goals);
-//        } //each genias
 
 
         $this->render('dashboard', $customData);
