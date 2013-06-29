@@ -48,7 +48,7 @@ Crear nueva meta
         <div class="span6">
         <div class="">
             <label>Desde</label>
-            <input type="text" name="desde" placeholder="Desde"  class="input-block-level datepicker"/>
+            <input type="date" name="desde" placeholder="Desde"  class="input-block-level datepicker"/>
         </div>
         <div class="">
             <label>Hasta</label>
