@@ -32,12 +32,7 @@ class Genias extends MX_Controller {
 
         ini_set('xdebug.var_display_max_depth', 100);
     }
-    function test(){
-
-        $this->genias_model->goal_update('2',rand());
-        
-    }
-
+  
     function Index() {
         $customData = array();
         $customData['base_url'] = base_url();
