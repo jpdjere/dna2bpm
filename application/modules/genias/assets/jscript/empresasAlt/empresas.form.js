@@ -132,7 +132,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             regex: /[0-9]{2}-[0-9]{8}-[0-9]{1}/,
             regexText: "CUIT Inv&aacute;lido",
             allowBlank: false,
-            vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
+           // vtype: 'CUIT', // applies custom 'IPAddress' validation rules to this field
             emptyText: 'Ingrese un Nro de CUIT valido',
             listeners: {
                 blur: function(me) {
