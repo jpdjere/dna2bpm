@@ -114,7 +114,7 @@ class Genias_model extends CI_Model {
             , '4655' //     Piso
             , '4656' //     Dto Oficina
             , '1699' // 	Partido
-        );
+            );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2000);
@@ -125,8 +125,32 @@ class Genias_model extends CI_Model {
         return $rtn;
     }
     
-    
-    
+    //======== Actualiza Meta Activa =========//
+
+    function goal_update($proyecto='2',$id_visita=null){
+        $container_metas = 'container.genias_goals';
+        //----busco meta activa
+        $query=array(
+            'proyecto'=>$proyecto,
+            'desde'=>array('$lt'=>date('Y-m-d')),
+            'hasta'=>array('$gt'=>date('Y-m-d')),
+            );
+        echo json_encode($query);
+        $metas=$this->mongo->db->$container_metas->find($query);
+        foreach($metas as $meta){
+            $case=$this->get_case($meta['case']);
+            if($case['status']=='closed'){
+                break;
+            }
+        }
+        //$meta
+        //----Agrego visita a la meta
+        $meta['cumplidas'][]=$id_visita;
+        $meta['cumplidas']=array_filter(array_unique($meta['cumplidas']));
+        $this->mongo->db->$container_metas->save($meta);
+    }
+
+
     // ======= USER CONTROL ======= //
     
     function get_genia($idu){
@@ -149,7 +173,7 @@ class Genias_model extends CI_Model {
             $genias['genias']=$my_genias;
             return $genias; 
         }
-  
+
         // Es usuario?
         $query=array('users'=>(int)$idu);
         $result = $this->mongo->db->$container->find($query);
