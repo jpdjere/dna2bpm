@@ -102,10 +102,10 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }
     },
     items: [{
-    fieldLabel: 'ID',
-    name: 'id',
-    readOnly:true   
-    },
+            fieldLabel: 'ID',
+            name: 'id',
+            readOnly: true
+        },
         {
             id: 'CUIT',
             fieldLabel: 'CUIT',
