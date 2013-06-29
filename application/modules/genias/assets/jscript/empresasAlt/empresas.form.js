@@ -257,9 +257,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     }
     ],
     listeners: {
-        load: function(){
-            Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar..');
-        },
+        
         dirtychange: function(form) {
             EmpresaForm.setLoading(false);             
             if (form.isDirty()) {
