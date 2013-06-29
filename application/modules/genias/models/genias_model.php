@@ -122,7 +122,7 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
             , '1699' // 	Partido
         );
         $container = 'container.empresas';
-        $result = $this->mongo->db->$container->find($query, $fields)->limit(2000);
+        $result = $this->mongo->db->$container->find($query, $fields);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
