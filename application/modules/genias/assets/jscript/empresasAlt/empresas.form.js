@@ -20,6 +20,10 @@ var btnSync=Ext.create('Ext.Action',
     }
 }    
 );
+
+var helpBtn = Ext.getCmp('btnSync');
+helpBtn.setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar');
+
 var btnMap=Ext.create('Ext.Action',{
     fieldLabel: '',
     text: '<i class="icon icon-map-marker"></i> Posicionar',
@@ -55,6 +59,8 @@ var btnNew=Ext.create('Ext.Action',{
     }
     
 });
+
+
 var btnSave=Ext.create('Ext.Action',{
     id: 'btn_save',
     disabled: true,
