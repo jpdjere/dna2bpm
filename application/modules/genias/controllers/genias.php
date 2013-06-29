@@ -403,9 +403,13 @@ class Genias extends MX_Controller {
 
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
-            $this->module_url . 'assets/jscript/ext.data.js' => 'Base Data',
-            $this->module_url . 'assets/jscript/form.js' => 'Objetos Custom D!',
-            $this->module_url . 'assets/jscript/ext.viewport.js' => 'ViewPort'
+            $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
+            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
+            $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
         );
 
         $cpData['global_js'] = array(
@@ -415,19 +419,8 @@ class Genias extends MX_Controller {
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
-    function screen_test() {
-        $cpData['base_url'] = $this->base_url;
-        $cpData['module_url'] = $this->module_url;
-        $cpData['js'] = array(
-            $this->module_url . 'assets/jscript/tools/screen.js' => 'ScreenTool',
-        );
-        $cpData['global_js'] = array(
-            'base_url' => $this->base_url,
-            'module_url' => $this->module_url,
-        );
-        $this->ui->makeui('bootstrap.ui.php', $cpData);
-    }
-
+    
+    
     function Form_empresas_alt($parm = null) {
 
         //echo $this->idu;   
