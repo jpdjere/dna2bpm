@@ -108,7 +108,6 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
     function get_empresas($query) {
         $rtn = array();
         $query['status'] = 'activa';
-        var_dump($query);exit;
         $fields = array('id',
             'status'
             , '1693'  //     Nombre de la empresa
@@ -123,7 +122,7 @@ $result = $this->mongo->db->$container->find($query)->sort(array('desde' => -1))
             , '1699' // 	Partido
         );
         $container = 'container.empresas';
-        $result = $this->mongo->db->$container->find($query, $fields);
+        $result = $this->mongo->db->$container->find($query, $fields)->limit(1000);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
