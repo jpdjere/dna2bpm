@@ -6,8 +6,8 @@ var btnSync=Ext.create('Ext.Action',
     iconCls:'icon icon-cloud-upload',
     tooltip:'Sincronizar cambios',
     handler:function(){
-        var records = new Array();
-        
+        Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar'); 
+        var records = new Array();        
         //---me guardo el proxy offline
         offlineProxy=storeEmpresaOffline.proxy;
         //---le pongo el proxy AJAX                   
