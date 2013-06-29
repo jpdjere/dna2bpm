@@ -49,7 +49,7 @@ Ext.onReady(function() {
         }],
         listeners: {
             render: function() {
-                 Ext.getCmp('btnSync').setText('Hay ('+storeEmpresaOffline.getCount()+') para actualizar..');
+                 
             },
             afterRender: function() {
                 remove_loaders();
