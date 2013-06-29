@@ -43,7 +43,7 @@
         <div class="span6">
         <div class="">
             <label>Período</label>
-            <input type="text" name="periodo" placeholder="Período"  class="input-block-level datepicker"/>
+            <input type="text" name="desde" placeholder="Período"  class="input-block-level datepicker"/>
         </div>
         <label>Observaciones</label>
         <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
