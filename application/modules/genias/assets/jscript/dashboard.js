@@ -10,12 +10,32 @@ $( document ).ready(function() {
 
 
 
-$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
+//$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
+
+//$('.datepicker').datepicker( {
+//        changeMonth: true,
+//        changeYear: true,
+//        showButtonPanel: true,
+//        dateFormat: 'MM yy',
+//        onClose: function(dateText, inst) { 
+//            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+//            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+//            $(this).datepicker('setDate', new Date(year, month, 1));
+//        }
+//    });
+
+$('.datepicker').datepicker({
+    viewMode:'years',
+    minViewMode:'months',
+    format:'mm/yyyy'
+})
+
 $('#form_goals a').click(function(){
     var data=$('#form_goals').serializeArray();
 
     $.post(globals.module_url+'add_goal',{'data':data},function(resp){
       location.reload();
+
     });
 });
 

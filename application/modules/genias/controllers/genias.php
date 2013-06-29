@@ -38,7 +38,9 @@ class Genias extends MX_Controller {
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
+        
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS');
+       // $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         $customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
 
         // Projects
@@ -197,10 +199,16 @@ class Genias extends MX_Controller {
             $mydata[$v['name']] = $v['value'];
         }
 
-        $date = date_create_from_format('d-m-Y', $mydata['desde']);
-        $mydata['desde'] = date_format($date, 'Y-m-d');
-        $date = date_create_from_format('d-m-Y', $mydata['hasta']);
-        $mydata['hasta'] = date_format($date, 'Y-m-d');
+        
+        $date = date_create_from_format('d/m/Y', '01/'.$mydata['periodo']);
+        $month=$date->format('m');
+        $year=$date->format('Y');
+        $daycount = cal_days_in_month(CAL_GREGORIAN, $month, $year); // 31
+        
+        $mydata['desde'] = "$year-$month-01"; 
+        $mydata['hasta'] = "$year-$month-$daycount"; 
+        
+
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
         $mydata['cumplidas']=array();
         //@todo  COMPLETAR

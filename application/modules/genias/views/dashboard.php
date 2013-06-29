@@ -1,5 +1,5 @@
 <!-- / Breadcrumbs -->
-<div class="row-fluid container" >
+<div class="row-fluid " >
     <ul class="breadcrumb"  >
           <li><span class="divider">/</span></li>
           <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
@@ -9,22 +9,17 @@
 </div>
 
 <!-- / Contenido -->
-<div class="container" >  
+<div class="container" > 
+    
+    
 <div class="row-fluid">
     
  <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
-<div class="accordion" id="goals">
-<!-- Item1 -->
-<div class="accordion-group">
-<div class="accordion-heading">
-<a class="accordion-toggle btn " data-toggle="collapse" data-parent="#proyectos" href="#collapse1">
-Crear nueva meta
-</a>
-</div>
-    
+
+ 
 
     
-<div id="collapse1" class="accordion-body collapse">
+
 <form id="form_goals">
     <div  class="row-fluid">
         <div class="span6">
@@ -47,12 +42,8 @@ Crear nueva meta
         </div>
         <div class="span6">
         <div class="">
-            <label>Desde</label>
-            <input type="text" name="desde" placeholder="Desde"  class="input-block-level datepicker"/>
-        </div>
-        <div class="">
-            <label>Hasta</label>
-            <input type="text" name="hasta" placeholder="Hasta"  class="input-block-level datepicker"/>
+            <label>Período</label>
+            <input type="text" name="periodo" placeholder="Período"  class="input-block-level datepicker"/>
         </div>
         <label>Observaciones</label>
         <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
@@ -69,17 +60,14 @@ Crear nueva meta
 
 </form>  
 
-</div>
-</div>
-</div>
+
 
     
 
  
  
 </div> 
- <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
-
+<!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
 {metas}
  <div  class="row-fluid " >
        <div class="span12 {status_class}">  
@@ -107,7 +95,7 @@ Crear nueva meta
      </div>
  </div>
 {/metas}
-
+<!-- ============= metas  ============= -->
 
  
 </div> 
