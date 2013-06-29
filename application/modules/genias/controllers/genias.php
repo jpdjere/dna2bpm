@@ -229,8 +229,11 @@ class Genias extends MX_Controller {
 
         $this->engine->Run('model', $idwf, $case);
         //reviento lo que sea que me devuelva el run
-        $this->output->set_output('ok');
+        $this->output->set_output(1);
         //---la meta deberia estar disponible cuando este caso este en estado: finished
+        
+        // Todo 
+        //echo $id_goal;
     }
 
     function programs() {

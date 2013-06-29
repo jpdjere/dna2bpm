@@ -15,8 +15,7 @@ $('#form_goals a').click(function(){
     var data=$('#form_goals').serializeArray();
 
     $.post(globals.module_url+'add_goal',{'data':data},function(resp){
-      //location.reload();
-      alert(resp);
+      location.reload();
     });
 });
 
