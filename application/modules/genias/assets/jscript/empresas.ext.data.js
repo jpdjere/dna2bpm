@@ -68,7 +68,7 @@ Ext.apply(Ext.form.field.VTypes, {
         return digito == parseInt(cuit[10]);
     },
     CUITText: 'Ingrese un Nro de C.U.I.T. V&aacute;lido',
-    CUITMask: /[\d\.]/i
+    //CUITMask: /[\d\.]/i
 });
 
 
