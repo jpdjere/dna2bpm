@@ -15,7 +15,7 @@ foreach($tasks as $project){
 </a>
 </div>
 
-<div id="collapse<?php echo $project['id']?>" class="accordion-body collapse">
+<div id="collapse<?php echo $project['id']?>" class="accordion-body collapse in">
     <ul class="accordion-inner unstyled task_list ">
         <?php foreach($project['items'] as $task){?>
             <?php if($task['finalizada']==0){?>
