@@ -10,6 +10,7 @@ class Visitas_remote extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('user');
         $this->load->model('app');
+        $this->load->model('genias_model');
         $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
@@ -35,7 +36,9 @@ class Visitas_remote extends MX_Controller {
             $result = $this->app->put_array($id, $container, $thisform);
 
 
-            if ($result) {
+            if ($result) {               
+                /* Update Goal */
+                $this->genias_model->goal_update('2',$id);
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');

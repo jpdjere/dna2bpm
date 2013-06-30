@@ -9,8 +9,7 @@ class Empresas_remote extends MX_Controller {
         parent::__construct();
         $this->load->library('parser');
         $this->load->model('user');
-        $this->load->model('app');
-        $this->load->model('genias_model');  
+        $this->load->model('app');          
         $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
@@ -60,9 +59,6 @@ class Empresas_remote extends MX_Controller {
                 $idTask = ($getTask == null || (int) ($getTask) < 6) ? $this->app->genid($containerTask) : $getTask;
                 $queryTask = array('finalizada' => 1);
                 $result = $this->app->put_array($idTask, $containerTask, $queryTask);
-                
-                /* Update Goal */
-                $this->genias_model->goal_update('2',$idTask);
                 
                 $out = array('status' => 'ok');
             } else {
