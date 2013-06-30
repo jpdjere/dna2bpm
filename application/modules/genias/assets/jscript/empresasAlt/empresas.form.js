@@ -54,7 +54,6 @@ var btnSave = Ext.create('Ext.Action', {
         if (record) {
             //----es uno del grid
             form.getForm().updateRecord(record);
-
         }
         //---busco por cuit
         if (EmpresaStore.find('1695', record.get('1695')) == -1) {
@@ -73,7 +72,7 @@ var btnSave = Ext.create('Ext.Action', {
                 cuit: data['1695'],
                 nota: data['7408']
             });
-            //--agrego al que se usa para visualizar
+            //--agrego al que se usa para visualizar           
             VisitasStore.add(visitaRecord);
             //--agrego al que se usa para syncro y persistencia
             storeVisitaOffline.add(visitaRecord);
@@ -109,7 +108,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     items: [{
             fieldLabel: 'ID',
             name: 'id',
-            readOnly: true
+            readOnly: true,
+            xtype: 'hidden',
         },
         {
             id: 'CUIT',
@@ -140,10 +140,22 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             var getParams = document.URL.split("/");
                             var params = (getParams[getParams.length - 1]);
                             Ext.getCmp('task').setValue(params);
+                            
+                            /*Actualizo Visitas segun el CUIT*/                           
+                            
+                            
 
 
                         } else {
                             EmpresaForm.setLoading(false);
+                           
+                        }
+                        
+                        var cuitValue = Ext.getCmp('CUIT').getValue();
+                        if(cuitValue!=""){
+                            VisitasStore.cuitFilter(cuitValue);
+                        } else {
+                            VisitasStore.cuitFilter('-1');
                         }
 
                     }
@@ -250,7 +262,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             id: 'task',
             fieldLabel: 'TASK',
             name: 'task',
-            readOnly: true
+            //xtype: 'hidden',
         }, {
             id: 'notas',
             xtype: 'textarea',

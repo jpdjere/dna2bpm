@@ -34,6 +34,7 @@ Ext.define('EmpresaModel', {
     , '1699' // 	Partido
     , 'status' //      Syncro data (date?) / dirty
     ,'notas'   // solo para el form de notas
+    , 'task'    //Taras asociadas desde la agenda
     ]
 });
 
@@ -144,6 +145,26 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
  * @type Store 
  * 
  */
+var VisitasStore_ = Ext.create('Ext.data.Store', {
+    id: 'VisitasStore',
+    autoLoad: true,
+    model: 'visitaModel',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'visitas',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+});
+
 var VisitasStore = Ext.create('Ext.data.Store', {
     id: 'VisitasStore',
     autoLoad: true,
@@ -173,8 +194,7 @@ var VisitasStore = Ext.create('Ext.data.Store', {
         Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
     },
     listeners:{
-        load:function(){
-        
+        load:function(){ 
             VisitasStore.cuitFilter('-1');
             storeVisitaOffline.load(function(){
                 //actualizo los modificados

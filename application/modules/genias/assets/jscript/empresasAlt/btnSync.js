@@ -17,18 +17,28 @@ var btnSync = Ext.create('Ext.Action',
                     storeEmpresa.add(rec)
                 });
                 storeEmpresa.sync();
-                
+
                 /*Datos Visitas*/
                 storeVisitaOffline.each(function(rec) {
                     rec.setDirty();
                     storeVisita.add(rec)
                 });
                 storeVisita.sync();
+
+                var checkStoreEmpresas = storeEmpresaOffline.data.items.length;
+                var checkStoreVisitas = storeVisitaOffline.data.items.length;
+
+                if (checkStoreEmpresas != 0) {
+                    Ext.Msg.alert('Encenario Pyme', '<h5>Actualizado con Exito</h5>');
+                } else {                    
+                    Ext.getCmp('btnSync').setText('No Hay informacion para actualizar');
+                }
                 
-                
-                Ext.Msg.alert('Encenario Pyme', '<h3>Actualizado con Exito</h3>');
                 EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
+                /*Borro la informacion local*/
                 storeEmpresaOffline.removeAll();
+                storeVisitaOffline.removeAll();
+                /*Actualizo el contador*/
                 Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
             }
         }

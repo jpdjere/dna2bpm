@@ -115,7 +115,7 @@ class Genias_model extends CI_Model {
             , '4654' //     Nro /km
             , '4655' //     Piso
             , '4656' //     Dto Oficina
-            , '1699' // 	Partido
+            , '1699' // 	Partido            
             );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
@@ -141,6 +141,7 @@ class Genias_model extends CI_Model {
         $result->limit(2000);
         foreach ($result as $visita) {
             unset($visita['_id']);
+            unset($visita['id']);
             $rtn[] = $visita;
         }
         return $rtn;
