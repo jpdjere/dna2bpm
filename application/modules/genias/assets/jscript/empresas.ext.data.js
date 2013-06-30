@@ -342,8 +342,8 @@ var storeVisita = Ext.create('Ext.data.Store', {
         id: 'store',
         api: {
             read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
-            create: globals.module_url + 'process/Insert',
-            update: globals.module_url + 'process/Insert',
+            create: globals.module_url + 'process/Insert2',
+            update: globals.module_url + 'process/Insert2',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
