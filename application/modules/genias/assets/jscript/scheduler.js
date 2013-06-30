@@ -46,6 +46,11 @@ $('#calendar').fullCalendar({
        } 
        
     ],
+    monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+ 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+dayNamesShort:['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+dayNames:['Domingo', 'Lunes', 'Marzo', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+buttonText:{month:'mes',week:'semana',day:'dia',today:'hoy'},
     eventClick: function(calEvent, jsEvent, view) {
 
         $('#detalle input[name="id"]').val(calEvent.id);
