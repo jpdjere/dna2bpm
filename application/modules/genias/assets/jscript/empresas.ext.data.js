@@ -297,9 +297,9 @@ var storeEmpresa = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
-            create: globals.module_url + 'process/Insert',
-            update: globals.module_url + 'process/Insert',
+            read: globals.module_url + 'empresas_remote/View', //'genias/app/geniasdev/view',
+            create: globals.module_url + 'empresas_remote/Insert',
+            update: globals.module_url + 'empresas_remote/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
@@ -341,9 +341,9 @@ var storeVisita = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
-            create: globals.module_url + 'process/Insert2',
-            update: globals.module_url + 'process/Insert2',
+            read: globals.module_url + 'vistas_remote/View', //'genias/app/geniasdev/view',
+            create: globals.module_url + 'visitas_remote/Insert',
+            update: globals.module_url + 'visitas_remote/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
