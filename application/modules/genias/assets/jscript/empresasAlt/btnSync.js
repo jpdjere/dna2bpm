@@ -16,10 +16,12 @@ var btnSync = Ext.create('Ext.Action',
                     store.add(rec)
                 });
                 store.sync();
-                Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
                 
-                Ext.Msg.alert('Encenario Pyme', 'Actualizado con Exito');
+                
+                Ext.Msg.alert('Encenario Pyme', '<h3>Actualizado con Exito</h3>');
                 EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
+                storeEmpresaOffline.removeAll();
+                Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
             }
         }
 );
