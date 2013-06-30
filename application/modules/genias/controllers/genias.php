@@ -88,9 +88,7 @@ class Genias extends MX_Controller {
         }
 
         $customData['metas'] = $mygoals;
-        // Listado de genias de donde soy user
-        $mygenias=$this->get_genia();
-        $customData['genias']=$mygenias['genias'];
+
 
 
 
@@ -123,6 +121,11 @@ class Genias extends MX_Controller {
         $cpData['genia'] = $this->get_genia('nombre');
         $cpData['rol'] = $this->get_genia('rol');
         $cpData['rol_icono']=($cpData['rol']=='coordinador')?('icon-group'):('icon-user');
+        
+        // Listado de genias de donde soy user
+        $mygenias=$this->get_genia();
+        $cpData['genias']=$mygenias['genias'];
+        
         
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
