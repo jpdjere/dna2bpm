@@ -67,29 +67,32 @@
  
 </div> 
 <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
-{metas}
+<?php
+foreach($metas as $meta){
+?>
  <div  class="row-fluid " >
-       <div class="span12 {status_class}">  
+       <div class="span12 <?php echo $meta['status_class'];?>">  
         <div  class="row-fluid" >
             <div class="span12 ">  
-                <h3>{proyecto_nombre}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
+                <h3><?php echo $meta['proyecto_nombre'];?><span class="pull-right"><?php echo $meta['cumplidas_count'];?>/<?php echo $meta['cantidad'];?></span></h3>
             </div>
         </div>
         <div  class="row-fluid" >
             <div class="span4"> 
                 <ul class="unstyled">
-                <li><i class="icon-calendar" ></i> Período: {desde}</li>
-                <li><i class="icon-eye-open" ></i> Estado: <span class="label {label_class}"><i class="{status_icon_class}"></i>&nbsp;{status}</span></li>
-                <li><i class="icon-user" ></i> Autor: {owner}</li>
-                <li><i class="icon-flag" ></i> Genia: {genia}</li>
+                <li><i class="icon-calendar" ></i> Período: <?php echo $meta['desde'];?></li>
+                <li><i class="icon-eye-open" ></i> Estado: <span class="label <?php echo $meta['label_class'];?>"><i class="<?php echo $meta['status_icon_class'];?>"></i>&nbsp;<?php echo $meta['status'];?></span></li>
+                <li><i class="icon-user" ></i> Autor: <?php echo $meta['owner'];?></li>
+                <li><i class="icon-flag" ></i> Genia: <?php echo $meta['genia'];?></li>
                 </ul>
             </div>
             <div class="span8"> 
                 <div class="observaciones" >
-                {observaciones}
+                <?php echo $meta['observaciones'];?>
                 </div>
+                
                <?php 
-               if($rol=='coordinador'){
+               if($rol=='coordinador'&& $meta['status_class']=='well status_open'){
                     echo '<a class="btn btn-primary pull-right" href="{url_case}" targe="_blank" {case_button_state} type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
                }
                ?>
@@ -98,7 +101,9 @@
         </div> 
      </div>
  </div>
-{/metas}
+<?php
+}//each
+?>
 <!-- ============= metas  ============= -->
 
  
