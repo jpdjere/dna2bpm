@@ -35,6 +35,9 @@ var btnNew = Ext.create('Ext.Action', {
     text: '<i class="icon icon-plus"></i> Agregar',
     handler: function() {
         EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
+        /*Reseteo si hubiera una tarea asociada anterio*/
+        Ext.getCmp('task').setValue("");
+
     }
 
 });
@@ -130,9 +133,15 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             record = EmpresaStore.getAt(index);
                             if (record != actualRecord) {
                                 EmpresaForm.loadRecord(record);
-                            } 
+                            }
                             EmpresaForm.setLoading(false);
-                            
+
+                            /* Para tareas relacionadas via Agenda*/
+                            var getParams = document.URL.split("/");
+                            var params = (getParams[getParams.length - 1]);
+                            Ext.getCmp('task').setValue(params);
+
+
                         } else {
                             EmpresaForm.setLoading(false);
                         }
