@@ -14,15 +14,49 @@ $( document ).ready(function() {
 
  $('#dp3').datepicker();
 
+//== VALIDATE == //
+$("#form_goals").validate({
+rules: {
+cantidad: "required",
+desde: "required"
+},
+messages: {
+cantidad: "Debe colocar cantidad",
+desde: "Debe elegir una fecha"
+},
+submitHandler: function(form) {
+    var data =$('#form_goals').serializeArray();
+    if(!navigator.onLine)return;
+        
+    $.ajax(
+   {
+      /* this option */
+      async: false,
+      cache: false,
+      type: "POST",
+      dataType: "text",
+      url: globals.module_url+'add_goal',
+      data:{'data':data},
+      success:function(resp){
 
-$('#form_goals a').click(function(){
-    var data=$('#form_goals').serializeArray();
+      }
+   });
 
-    $.post(globals.module_url+'add_goal',{'data':data},function(resp){
-      location.reload();
+    location.reload();
+}
+}
+);
 
-    });
-});
+
+
+//$('#form_goals a').click(function(){
+//    var data=$('#form_goals').serializeArray();
+//
+//    $.post(globals.module_url+'add_goal',{'data':data},function(resp){
+//      location.reload();
+//
+//    });
+//});
 
 $(".detalle").click(function(){
    $(this).next('.observaciones').slideToggle();

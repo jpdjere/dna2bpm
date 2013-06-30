@@ -38,7 +38,7 @@ class Genias extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
         
-        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS');
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
        // $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         $customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
 

@@ -34,7 +34,7 @@
 
     
 
-<form id="form_goals">
+<form id="form_goals" method="post">
     <div  class="row-fluid">
         <div class="span6">
             <label>Proyecto</label>
@@ -75,8 +75,8 @@
     </div>
 <div  class="row-fluid">
     <div class="span12">
-        <a  href="#" class="btn btn-primary input-block-level" >Agregar</a>
-            
+
+        <button class="btn btn-block btn-primary " type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
     </div> 
             
 </div> 
