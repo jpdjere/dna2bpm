@@ -32,9 +32,8 @@ var btnSync = Ext.create('Ext.Action',
                     Ext.Msg.alert('Encenario Pyme', '<h5>Actualizado con Exito</h5>');
                 } else {                    
                     Ext.getCmp('btnSync').setText('No Hay informacion para actualizar');
-                }
+                }                
                 
-                EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
                 /*Borro la informacion local*/
                 storeEmpresaOffline.removeAll();
                 storeVisitaOffline.removeAll();
