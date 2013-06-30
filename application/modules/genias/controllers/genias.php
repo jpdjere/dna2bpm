@@ -73,7 +73,6 @@ class Genias extends MX_Controller {
                 $goal['status_icon_class'] = 'icon-thumbs-up';
                 $goal['status_class'] = 'well status_closed';
                 $goal['label_class'] = 'label-success';
-                //$goal['case_button_state'] = 'disabled';
             } else {
                 $goal['status'] = 'undefined';
                 $goal['status_class'] = 'well status_null';
