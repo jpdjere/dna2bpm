@@ -286,7 +286,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         btnNew,
         btnMap,
         '->',
-        //btnSave
+        //btnSave        
         btnSync
     ],
     bbar: [
