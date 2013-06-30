@@ -58,18 +58,22 @@ class Genias extends MX_Controller {
 //                    $goals['proyecto_name'] = $current['name'];
 //            }
             // === get status case ===
-            if (isset($goal['case']))
+            if (isset($goal['case'])){
                 $case = $this->genias_model->get_case($goal['case']);
+                $goal['url_case']="{$this->base_url}bpm/engine/run/model/genia_metas/{$goal['case']}";
+            }
+            
             if (isset($case['status']) && $case['status'] == 'open') {
                 $goal['status'] = 'Pendiente aprobación';
                 $goal['status_icon_class'] = 'icon-time';
                 $goal['status_class'] = 'well status_open';
-                $goal['label_class'] = 'label-important';
+                $goal['label_class'] = 'label-important'; 
             } elseif (isset($case['status']) && $case['status'] == 'closed') {
                 $goal['status'] = 'Aprobado';
                 $goal['status_icon_class'] = 'icon-thumbs-up';
                 $goal['status_class'] = 'well status_closed';
                 $goal['label_class'] = 'label-success';
+                //$goal['case_button_state'] = 'disabled';
             } else {
                 $goal['status'] = 'undefined';
                 $goal['status_class'] = 'well status_null';

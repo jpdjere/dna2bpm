@@ -51,7 +51,10 @@ $(".detalle").click(function(){
 var userdata={idu:1,genia:1};
 localStorage['userdata']="";
 
-
+// Desabilito los anchos que etan desabled 
+$('a[disabled]').one('click', function(e){
+e.preventDefault();
+});
 
 });
 

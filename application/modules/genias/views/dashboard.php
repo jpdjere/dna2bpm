@@ -3,9 +3,24 @@
     <ul class="breadcrumb"  >
           <li><span class="divider">/</span></li>
           <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-          <li class="pull-right perfil"><a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}</li>
+          <li class="pull-right perfil">
+              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+                                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    Action
+                    <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+                    </div>
+          </li>
+    
     </ul>
-
 </div>
 
 <!-- / Contenido -->
@@ -96,9 +111,14 @@
             </div>
             <div class="span8"> 
                 <div class="observaciones" >
-
                 {observaciones}
                 </div>
+               <?php 
+               if($rol=='coordinador'){
+                    echo '<a class="btn btn-primary pull-right" href="{url_case}" targe="_blank" {case_button_state} type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
+               }
+               ?>
+                
             </div>
         </div> 
      </div>
