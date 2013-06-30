@@ -284,53 +284,12 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
         type: 'localstorage',
         id: 'visitas'
     }
-/*,listeners: {
-        write: function(proxy, operation) {
-            if (operation.action == 'destroy') {
-                main.child('#form').setActiveRecord(null);
-            }
-        // storeEmpresaOffline.load();
-        // storeEmpresaOffline.sync();
-        //Ext.example.msg(operation.action, operation.resultSet.message);
-        }
-    }
-        */
 });
 
 
-var onLineProxy = Ext.create('Ext.data.proxy.Proxy', {
-    type: 'ajax',
-    id: 'store',
-    api: {
-        read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
-        create: globals.module_url + 'process/Insert',
-        update: globals.module_url + 'process/Insert',
-        destroy: '' //'genias/app/geniasdev/destroy'
-    },
-    reader: {
-        type: 'json',
-        successProperty: 'success',
-        root: 'data',
-        messageProperty: 'message'
-    },
-    writer: {
-        type: 'json',
-        allowSingle: false,
-        writeAllFields: true
-    },
-    listeners: {
-        exception: function(proxy, response, operation) {
-            Ext.MessageBox.show({
-                title: 'ERROR',
-                msg: operation.getError(),
-                icon: Ext.MessageBox.ERROR,
-                buttons: Ext.Msg.OK
-            });
-        }
-    }
-});
 
-var store = Ext.create('Ext.data.Store', {
+
+var storeEmpresa = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
     autoLoad: false,
     autoSync: true,
@@ -374,3 +333,46 @@ var store = Ext.create('Ext.data.Store', {
     }
 });
 
+var storeVisita = Ext.create('Ext.data.Store', {
+    model: 'EmpresaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            read: globals.module_url + 'process/View', //'genias/app/geniasdev/view',
+            create: globals.module_url + 'process/Insert',
+            update: globals.module_url + 'process/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle:false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
+    }
+});
