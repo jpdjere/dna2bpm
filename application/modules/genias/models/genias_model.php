@@ -12,6 +12,7 @@ class Genias_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
+        $this->idu = (int) $this->session->userdata('iduser');
 
     }
 
