@@ -11,11 +11,19 @@ var btnSync = Ext.create('Ext.Action',
                 offlineProxy = storeEmpresaOffline.proxy;
                 //---le pongo el proxy AJAX                   
                 //---Marcamos Dirty cada uno de los registros
+                /*Datos Empresas*/
                 storeEmpresaOffline.each(function(rec) {
                     rec.setDirty();
-                    store.add(rec)
+                    storeEmpresa.add(rec)
                 });
-                store.sync();
+                storeEmpresa.sync();
+                
+                /*Datos Visitas*/
+                storeVisitaOffline.each(function(rec) {
+                    rec.setDirty();
+                    storeVisita.add(rec)
+                });
+                storeVisita.sync();
                 
                 
                 Ext.Msg.alert('Encenario Pyme', '<h3>Actualizado con Exito</h3>');
