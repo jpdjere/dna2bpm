@@ -12,7 +12,7 @@ class Genias_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
-         
+
     }
 
     // ======= TAREAS ======= //
@@ -35,7 +35,7 @@ class Genias_model extends CI_Model {
     function get_tasks($idu, $proyecto) {
 
         //$query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
-        
+
         $container = 'container.genias_tasks';
         $genias = $this->get_genia($idu); 
         $idus=array($idu);
@@ -169,6 +169,7 @@ class Genias_model extends CI_Model {
         //----busco meta activa
         $query=array(
             'proyecto'=>$proyecto,
+            'idu'=>$this->idu,
             'hasta'=>array('$lte'=>date('Y-m-d')),
             'desde'=>array('$gte'=>date('Y-m-01')),
             );
@@ -180,11 +181,14 @@ class Genias_model extends CI_Model {
                 break;
             }
         }
-        //var_dump($meta);
+        var_dump($meta);exit;
+        if($meta){
+
         //----Agrego visita a la meta
-        $meta['cumplidas'][]=$id_visita;
-        $meta['cumplidas']=array_filter(array_unique($meta['cumplidas']));
-        $this->mongo->db->$container_metas->save($meta);
+            $meta['cumplidas'][]=$id_visita;
+            $meta['cumplidas']=array_filter(array_unique($meta['cumplidas']));
+            $this->mongo->db->$container_metas->save($meta);
+        }
     }
 
 
