@@ -17,6 +17,9 @@ var btnSync = Ext.create('Ext.Action',
                 });
                 store.sync();
                 Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
+                
+                Ext.Msg.alert('Encenario Pyme', 'Actualizado con Exito');
+                EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
             }
         }
 );
