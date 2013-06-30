@@ -76,8 +76,8 @@ $('#calendar').fullCalendar({
 
 });
 
-$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
-
+//$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
+$('#dp3').datepicker();
 /*
  *  SAVE / UPDATE
  */

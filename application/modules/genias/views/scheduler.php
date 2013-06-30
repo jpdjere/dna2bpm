@@ -49,11 +49,15 @@
         <div class="row-fluid">
             
             <div class="span6">
-            <div class="input-prepend input-append">
+        <div  data-date-format="dd-mm-yyyy" data-date="" id="dp3" class="input-append date">
+            <input type="text" name="dia" readonly="" value=""  class="span10">
+            <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+<!--            <div class="input-prepend input-append">
              <span class="add-on "><i class="icon-calendar"></i></span>
                 <input  type="text"  name="dia" class="datepicker input-small" placeholder="Fecha">
                 <span class="add-on "><i class="icon-time"></i></span>
-            </div>
+            </div>-->
             </div>
             <div class="span3">
             <select  name="hora" class="input-block-level">
