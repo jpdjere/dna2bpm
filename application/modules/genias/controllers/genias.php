@@ -32,7 +32,7 @@ class Genias extends MX_Controller {
 
         ini_set('xdebug.var_display_max_depth', 100);
     }
-  
+
     function Index() {
         $customData = array();
         $customData['base_url'] = base_url();
@@ -117,7 +117,8 @@ class Genias extends MX_Controller {
         $cpData['usermail'] = $user->email;
         // Profile 
         //$cpData['profile_img'] = get_gravatar($user->email);
-        $cpData['gravatar'] = get_gravatar($user->email);
+        
+        $cpData['gravatar'] = (isset($user->avatar))?$this->base_url.$user->avatar:get_gravatar($user->email);
         $cpData['genia'] = $this->get_genia('nombre');
         $cpData['rol'] = $this->get_genia('rol');
         $cpData['rol_icono']=($cpData['rol']=='coordinador')?('icon-group'):('icon-user');
@@ -657,12 +658,12 @@ class Genias extends MX_Controller {
     function Visitas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
-       
+
         $this->load->model('app');      
         
         $debug = false;
         $compress = false;
-       
+
         $visitas = $this->genias_model->get_visitas($query,$this->idu);
         $rtnArr = array();
         $rtnArr['totalCount'] = count($visitas);
@@ -736,8 +737,8 @@ class Genias extends MX_Controller {
 
         $genia = $this->genias_model->get_genia($this->idu);
         if($attr=='rol'){
-         return $genia['rol'];
-     }else{
+           return $genia['rol'];
+       }else{
         return $genia;
     }
 }
