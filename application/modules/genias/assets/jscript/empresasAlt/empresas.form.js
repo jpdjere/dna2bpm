@@ -76,6 +76,8 @@ var btnSave = Ext.create('Ext.Action', {
             storeVisitaOffline.add(visitaRecord);
             storeVisitaOffline.sync();
             VisitasGrid.refresh();
+            /*Actualizo listado de pendientes*/
+            Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
         }
     }
 
