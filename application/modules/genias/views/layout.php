@@ -42,6 +42,7 @@
               <li style="padding-top:10px">Contactos</li>
               <li><a href="{module_url}scheduler">Agenda</a></li>
               <li><a href="{module_url}listado_empresas">Empresas</a></li>  
+              <li><a href="{module_url}form_empresas_alt"><i class='icon-plus'></i> Visita</a></li>  
               <li style="padding-top:10px">Programas</li>
             </ul>
             <ul class="nav pull-right inline">            
