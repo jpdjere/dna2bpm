@@ -54,7 +54,6 @@ var btnSave = Ext.create('Ext.Action', {
         if (record) {
             //----es uno del grid
             form.getForm().updateRecord(record);
-
         }
         //---busco por cuit
         if (EmpresaStore.find('1695', record.get('1695')) == -1) {
@@ -73,7 +72,7 @@ var btnSave = Ext.create('Ext.Action', {
                 cuit: data['1695'],
                 nota: data['7408']
             });
-            //--agrego al que se usa para visualizar
+            //--agrego al que se usa para visualizar           
             VisitasStore.add(visitaRecord);
             //--agrego al que se usa para syncro y persistencia
             storeVisitaOffline.add(visitaRecord);

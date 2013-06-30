@@ -162,31 +162,50 @@ var VisitasStore = Ext.create('Ext.data.Store', {
             totalProperty: 'totalCount'
         }
     }
-    ,
-    sorters: [{
-        property: 'fecha',
-        direction: 'DESC'
-    }]
-    ,
-    cuitFilter: function (cuit) {
-        Ext.data.Store.prototype.clearFilter.call(this);
-        Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
-    },
-    listeners:{
-        load:function(){
-        
-            VisitasStore.cuitFilter('-1');
-            storeVisitaOffline.load(function(){
-                //actualizo los modificados
-                storeVisitaOffline.each(function(rec) {
-                    VisitasStore.add(rec);
-                    VisitasStore.cuitFilter('-1');
-                });
-            });
-            
-        }
-    }
 });
+
+//var VisitasStore_ = Ext.create('Ext.data.Store', {
+//    id: 'VisitasStore',
+//    autoLoad: true,
+//    model: 'visitaModel',
+//    proxy: {
+//        type: 'ajax',
+//        url: globals.module_url + 'visitas',
+//        actionMethods: {
+//            read: 'GET'
+//        },
+//        noCache: false,
+//        useLocalStorage: true,
+//        reader: {
+//            type: 'json',
+//            root: 'rows',
+//            totalProperty: 'totalCount'
+//        }
+//    }
+//    ,
+//    sorters: [{
+//        property: 'fecha',
+//        direction: 'DESC'
+//    }]
+//    /*,
+//    cuitFilter: function (cuit) {
+//        Ext.data.Store.prototype.clearFilter.call(this);
+//        Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
+//    }*/,
+//    listeners:{
+//        load:function(){ 
+//            VisitasStore.cuitFilter('-1');
+//            storeVisitaOffline.load(function(){
+//                //actualizo los modificados
+//                storeVisitaOffline.each(function(rec) {
+//                    VisitasStore.add(rec);
+//                    VisitasStore.cuitFilter('-1');
+//                });
+//            });
+//            
+//        }
+//    }
+//});
 
 /*
  * @Name Genias
