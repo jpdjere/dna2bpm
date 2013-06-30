@@ -1,30 +1,3 @@
-<!-- / Breadcrumbs -->
-<div class="row-fluid " >
-    <ul class="breadcrumb"  >
-            <li><!-- Listado de Genias -->
-                <div class="btn-group btn-small">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    Mis Genias
-                    <span class="caret"></span>
-                    </a>
-                <ul class="dropdown-menu" style="right:30px">
-                {genias}
-                  <li><a >{nombre}</a></li>
-                  {/genias}
-                </ul>
-                </div>
-            </li>
-          <li><span class="divider">/</span></li>
-          <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-           <li><span class="divider">/</span></li>
-          <li><a href="#">Agenda</a> <span class="divider">/</span></li>
-          <li class="pull-right perfil">
-              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
-          </li>
-    </ul>
-</div>
-
-
 <!-- / Contenido -->
 <div  class="row-fluid container" >
 <div id="detalle" class="span4" >

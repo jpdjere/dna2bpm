@@ -13,9 +13,16 @@ tasks[666]=new Array();
 $( document ).ready(function() {
     
     
-$('.disabled').live('click',function(e){
+$('.disabled','a[disabled]').live('click',function(e){
     e.preventDefault();
 });
+
+// Desabilito los anchos que etan desabled 
+$('a[disabled]').one('click', function(e){
+e.preventDefault();
+});
+
+// ==== OFFLINE ==== //
 
 if(navigator.onLine){
 mongo_get_tasks(0);
@@ -29,6 +36,9 @@ localStorage['tasks666']=JSON.stringify(tasks[666]);
 localstorage_get_tasks();
 buttons_offline();
 }
+
+
+
 
 // Despliego el calendario
 $('#calendar').fullCalendar({
@@ -169,10 +179,6 @@ $('#bt_form').click(function(){
     location.href=globals.module_url+'form/'+id;
 });
 
-// xxxxxxxxxxxxxxxx
-
-
-// xxxxxxxxxxxxxxxx
 
 
 		

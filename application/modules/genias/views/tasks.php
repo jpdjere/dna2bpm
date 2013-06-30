@@ -1,41 +1,34 @@
-<!-- / Breadcrumbs -->
-<div class="row-fluid container" >
-    <ul class="breadcrumb"  >
-          
-          <li><a href="{module_url}">Dashboard</a> <span class="divider">/</span></li>
-          <li><span class="divider">/</span></li>
-          <li><a href="#">Tareas</a> <span class="divider">/</span></li>
-          <!-- / Perfil -->
-          <li class="pull-right perfil"><a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}</li>
-    </ul>
-
-</div>
-
-
-
-<!-- -->
 <div class="container">  
 <div class="row">
 <!-- xxxxxxxxxx Contenido xxxxxxxxxx-->   
 <div class="accordion" id="proyectos">
 <!-- Item1 -->
-{tasks}
+
+<?php
+//var_dump($tasks);
+foreach($tasks as $project){
+?>
 <div class="accordion-group">
 <div class="accordion-heading">
-<a class="accordion-toggle btn" data-toggle="collapse" data-parent="#proyectos" href="#collapse{id}">
-{name}
+<a class="accordion-toggle btn" data-toggle="collapse" data-parent="#proyectos" href="#collapse<?php echo $project['id']?>">
+<?php echo $project['name']?>
 </a>
 </div>
 
-<div id="collapse{id}" class="accordion-body collapse">
+<div id="collapse<?php echo $project['id']?>" class="accordion-body collapse">
     <ul class="accordion-inner unstyled task_list ">
-        {items}
-        <li><a href="#">{title}</a><i class="icon-calendar"></i>{dia}<i class="icon-time"></i>{hora}:{minutos}</li>
-        {/items}
+        <?php foreach($project['items'] as $task){?>
+            <?php if($task['finalizada']==0){?>
+            <li ><i class="icon-calendar" style="color:#0088CC"></i> <?php echo $task['dia']?> <i class="icon-time" style="color:#0088CC"></i> <?php echo $task['hora']?>:<?php echo $task['minutos']?> <a href="{module_url}form/<?php echo $task['id']?>"><?php echo $task['title']?></a> <?php echo $task['detail']?></li>
+            <?php }?>
+        <?php }?>
     </ul>
 </div>
 </div>
-{/tasks}
+<?php
+}
+?>
+<di
 <!-- --------- Detalle ----------->
 </div></div>
 <!-- --------- Contenido ----------->
