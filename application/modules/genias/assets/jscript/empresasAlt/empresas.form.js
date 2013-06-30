@@ -108,7 +108,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
     items: [{
             fieldLabel: 'ID',
             name: 'id',
-            readOnly: true
+            readOnly: true,
+            xtype: 'hidden',
         },
         {
             id: 'CUIT',
@@ -139,10 +140,22 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             var getParams = document.URL.split("/");
                             var params = (getParams[getParams.length - 1]);
                             Ext.getCmp('task').setValue(params);
+                            
+                            /*Actualizo Visitas segun el CUIT*/                           
+                            
+                            
 
 
                         } else {
                             EmpresaForm.setLoading(false);
+                           
+                        }
+                        
+                        var cuitValue = Ext.getCmp('CUIT').getValue();
+                        if(cuitValue!=""){
+                            VisitasStore.cuitFilter(cuitValue);
+                        } else {
+                            VisitasStore.cuitFilter('-1');
                         }
 
                     }
@@ -249,7 +262,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             id: 'task',
             fieldLabel: 'TASK',
             name: 'task',
-            readOnly: true
+            xtype: 'hidden',
         }, {
             id: 'notas',
             xtype: 'textarea',

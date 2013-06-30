@@ -33,6 +33,7 @@ var btnSync = Ext.create('Ext.Action',
                 } else {                    
                     Ext.getCmp('btnSync').setText('No Hay informacion para actualizar');
                 }
+                
                 EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
                 /*Borro la informacion local*/
                 storeEmpresaOffline.removeAll();
