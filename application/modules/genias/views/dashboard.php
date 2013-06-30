@@ -93,7 +93,7 @@ foreach($metas as $meta){
                 
                <?php 
                if($rol=='coordinador'&& $meta['status_class']=='well status_open'){
-                    echo '<a class="btn btn-primary pull-right" href="{url_case}" targe="_blank" {case_button_state} type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
+                    echo '<a class="btn btn-primary pull-right" href="'.$meta['url_case'].'" targe="_blank"  type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
                }
                ?>
                 
