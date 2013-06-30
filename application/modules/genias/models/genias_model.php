@@ -12,6 +12,7 @@ class Genias_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
+         
     }
 
     // ======= TAREAS ======= //
@@ -99,6 +100,7 @@ class Genias_model extends CI_Model {
         return $rs['err'];
     }
 
+    /*RETURN EMPRESAS*/
     function get_empresas($query) {
         $rtn = array();
         $query['status'] = 'activa';
@@ -121,6 +123,25 @@ class Genias_model extends CI_Model {
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
+        }
+        return $rtn;
+    }
+    
+    /*RETURN VISITAS*/
+    function get_visitas($query, $idu) {
+        $rtn = array();        
+        $query['idu'] = (int)$idu;
+        $fields = array('id',
+            'cuit'
+            , 'fecha'  //     Fecha
+            , 'nota'  //     Nota            
+            );
+        $container = 'container.genias_visitas';
+        $result = $this->mongo->db->$container->find($query, $fields);
+        $result->limit(2000);
+        foreach ($result as $visita) {
+            unset($visita['_id']);
+            $rtn[] = $visita;
         }
         return $rtn;
     }
