@@ -650,8 +650,36 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
-
+    
+    
     function Visitas($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
+       
+        $this->load->model('app');      
+        
+        $debug = false;
+        $compress = false;
+       
+        $visitas = $this->genias_model->get_visitas($query,$this->idu);
+        $rtnArr = array();
+        $rtnArr['totalCount'] = count($visitas);
+        $rtnArr['rows'] = $visitas;
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            if ($compress) {
+                header('Content-Encoding: gzip');
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
+            } else {
+                echo json_encode($rtnArr);
+            }
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
+
+    function Visitas_ORI($idgenia = null) {
         $this->load->model('app');
         $debug = false;
         $compress = false;

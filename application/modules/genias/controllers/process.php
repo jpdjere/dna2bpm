@@ -10,7 +10,7 @@ class Process extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('user');
         $this->load->model('app');
-        $this->user->authorize();
+        $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (float) $this->session->userdata('iduser');
@@ -20,70 +20,7 @@ class Process extends MX_Controller {
         $this->containerTask = 'container.genias_tasks';
     }
 
-    /* GENIAS */
-    public function Insert() {
-        $container = $this->containerEmpresas;
-        $input = json_decode(file_get_contents('php://input'));
-
-        foreach ($input as $thisform) {         
-          
-            /* GENERO ID */
-            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;
-           
-            /* CHECKEO CUIT */
-            $queryCuit = array('1695' => $thisform->{1695});
-            $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
-
-            if ($resultCuit['id'] != null) {
-                if ($thisform->{1695} != null) {
-                    $id = $resultCuit['id'];
-                }
-            }
-
-            /* Lo paso como Objeto */
-           $thisform = (array) $thisform;
-           $thisform['idu'] = strval($this->idu);
-          
-            $result = $this->app->put_array($id, $container, $thisform);
-
-
-            if ($result) {
-                $out = array('status' => 'ok');
-            } else {
-                $out = array('status' => 'error');
-            }
-        }
-    }
-    
-    
-    public function Insert2() {
-        $input = json_decode(file_get_contents('php://input'));
-        var_dump($input);
-    }
-    /*
-     * VIEW
-     */
-
-    public function View() {
-
-        $container = $this->containerEmpresas;
-        $query = array('7406' => strval($this->idu));
-        $resultData = $this->mongo->db->$container->find($query);
-
-        foreach ($resultData as $returnData) {
-            $fileArrMongo[] = $returnData;
-        }
-        //return $fileArrMongo;             
-
-        if (!empty($fileArrMongo)) {
-            echo json_encode(array(
-                'success' => true,
-                'message' => "Loaded data",
-                'data' => $fileArrMongo
-            ));
-        }
-    }
-
+  
     /* TABLETS GENIAS */
 
     public function InsertTablet() {
@@ -116,7 +53,7 @@ class Process extends MX_Controller {
             }
         }
 
-        $newArr['7406'] = strval($this->idu);
+        $newArr['7406'] = (int)($this->idu);
 
 
         /* Lo paso como Objeto */
