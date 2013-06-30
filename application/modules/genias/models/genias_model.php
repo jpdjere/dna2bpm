@@ -34,8 +34,23 @@ class Genias_model extends CI_Model {
 
     function get_tasks($idu, $proyecto) {
 
-        $query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
+        //$query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
+        
         $container = 'container.genias_tasks';
+        $genias = $this->get_genia($idu); 
+        $idus=array($idu);
+        if($genias!==false){ // 
+            foreach($genias['genias'] as $genia){
+                if($genias['rol']=='coordinador'){
+                    //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
+                    $idus=array_merge($genia['users'],$idus);
+                }
+
+            }
+        }
+        $query = array('idu' => array('$in'=>$idus), 'proyecto' => $proyecto); 
+        
+        
         $result = $this->mongo->db->$container->find($query)->sort(array('id' => -1));
 
         //var_dump($result, json_encode($result), $result->count());

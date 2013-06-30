@@ -19,7 +19,7 @@ foreach($tasks as $project){
     <ul class="accordion-inner unstyled task_list ">
         <?php foreach($project['items'] as $task){?>
             <?php if($task['finalizada']==0){?>
-            <li ><i class="icon-calendar" style="color:#0088CC"></i> <?php echo $task['dia']?> <i class="icon-time" style="color:#0088CC"></i> <?php echo $task['hora']?>:<?php echo $task['minutos']?> <a href="{module_url}form/<?php echo $task['id']?>"><?php echo $task['title']?></a> <?php echo $task['detail']?></li>
+            <li ><i class="icon-calendar" style="color:#0088CC"></i> <?php echo $task['dia']?> <i class="icon-time" style="color:#0088CC"></i> <?php echo $task['hora']?>:<?php echo $task['minutos']?> <i class="icon-user" style="color:#0088CC"></i> <?php echo $task['autor']?> <a href="{module_url}form/<?php echo $task['id']?>"><?php echo $task['title']?></a> <?php echo $task['detail']?></li>
             <?php }?>
         <?php }?>
     </ul>

@@ -256,7 +256,7 @@ class Genias extends MX_Controller {
         // Mapeo proyecto id - > orden de display en fullcalendar
         $projects = $this->genias_model->get_config_item('projects');
         $items = $projects['items'];
-
+        
         $proyecto = $items[$proyecto]['id'];
 
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
@@ -266,6 +266,8 @@ class Genias extends MX_Controller {
         $mytasks = array();
         foreach ($tasks as $task) {
             $dia = iso_decode($task['dia']);
+            $user = $this->user->get_user($task['idu']);
+
             $item = array(
                 'id' => $task['id'],
                 'title' => $task['title'],
@@ -277,7 +279,8 @@ class Genias extends MX_Controller {
                 'hora' => $task['hora'],
                 'minutos' => $task['minutos'],
                 'proyecto' => $task['proyecto'],
-                'finalizada' => $task['finalizada']
+                'finalizada' => $task['finalizada'],
+                'autor'=>$user->lastname . ", " . $user->name
                 );
 
             $mytasks[] = $item;
