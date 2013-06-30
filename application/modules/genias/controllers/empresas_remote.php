@@ -10,6 +10,7 @@ class Empresas_remote extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('user');
         $this->load->model('app');
+        $this->load->model('genias_model');  
         $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
@@ -21,15 +22,18 @@ class Empresas_remote extends MX_Controller {
     }
 
     /* GENIAS */
+
     public function Insert() {
         $container = $this->containerEmpresas;
+        $containerTask = $this->containerTask;
+
         $input = json_decode(file_get_contents('php://input'));
 
-        foreach ($input as $thisform) {         
-          
+        foreach ($input as $thisform) {
+
             /* GENERO ID */
             $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;
-           
+
             /* CHECKEO CUIT */
             $queryCuit = array('1695' => $thisform->{1695});
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
@@ -40,21 +44,33 @@ class Empresas_remote extends MX_Controller {
                 }
             }
 
+            /* IDENTIFICO TAREA */
+            $getTask = (int) $thisform->task;
             /* Lo paso como Objeto */
-           $thisform = (array) $thisform;
-           $thisform['idu'] = (int)($this->idu);
-          
-            $result = $this->app->put_array($id, $container, $thisform);
+            $thisform = (array) $thisform;
+            $thisform['idu'] = (int) ($this->idu);
+
+            /* Insert/Update dato de la empresa */
+            $result = $this->app->put_array($id, $container, $thisform);          
+
 
 
             if ($result) {
+                /* Update Task */
+                $idTask = ($getTask == null || (int) ($getTask) < 6) ? $this->app->genid($containerTask) : $getTask;
+                $queryTask = array('finalizada' => 1);
+                $result = $this->app->put_array($idTask, $containerTask, $queryTask);
+                
+                /* Update Goal */
+                $this->genias_model->goal_update('2',$idTask);
+                
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
             }
         }
     }
-  
+
     /*
      * VIEW
      */
@@ -62,7 +78,7 @@ class Empresas_remote extends MX_Controller {
     public function View() {
 
         $container = $this->containerEmpresas;
-        $query = array('7406' => (int)($this->idu));
+        $query = array('7406' => (int) ($this->idu));
         $resultData = $this->mongo->db->$container->find($query);
 
         foreach ($resultData as $returnData) {
@@ -78,4 +94,5 @@ class Empresas_remote extends MX_Controller {
             ));
         }
     }
+
 }

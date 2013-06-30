@@ -34,6 +34,7 @@ Ext.define('EmpresaModel', {
     , '1699' // 	Partido
     , 'status' //      Syncro data (date?) / dirty
     ,'notas'   // solo para el form de notas
+    , 'task'    //Taras asociadas desde la agenda
     ]
 });
 
