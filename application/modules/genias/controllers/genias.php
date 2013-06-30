@@ -37,7 +37,7 @@ class Genias extends MX_Controller {
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
-        
+        $customData['titulo']="";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
        // $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         $customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
@@ -126,7 +126,6 @@ class Genias extends MX_Controller {
         $mygenias=$this->get_genia();
         $cpData['genias']=$mygenias['genias'];
         
-        
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
@@ -208,13 +207,13 @@ class Genias extends MX_Controller {
         $customData['genia'] = $this->get_genia('nombre');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
-
+        $customData['titulo']="Tareas";
         $customData['tasks'] = array();
         foreach ($projects['items'] as $k => $item) {
             $items = $this->get_tasks($k);
             $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
         }
-        ;
+       // var_dump($customData);
         //var_dump($projects['items']);
         //$customData['tasks']= print_r($this->get_tasks("1"));
 
@@ -316,6 +315,7 @@ class Genias extends MX_Controller {
             'module_url' => $this->module_url,
             'json_url' => $url,
             );
+        $customData['titulo']="Mapa";
         $this->render('map', $customData);
     }
 
@@ -325,6 +325,7 @@ class Genias extends MX_Controller {
     function scheduler() {
         $this->user->authorize();
         $customData = $this->lang->language;
+        $customData['titulo']="Agenda";
         $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');
         $projects = $this->genias_model->get_config_item('projects');
@@ -342,6 +343,7 @@ class Genias extends MX_Controller {
 
     function contacts() {
         $this->user->authorize();
+        $customData['titulo']="Contactos";
         $customData = $this->lang->language;
         $this->render('contacts', $customData);
     }
@@ -389,14 +391,14 @@ class Genias extends MX_Controller {
         //---Libraries
         $this->load->library('parser');
         $this->load->library('ui');
-
+        
         $cpData = $this->lang->language;
         $segments = $this->uri->segment_array();
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['title'] = 'Escenario Pyme.';
-
+        $cpData['titulo']="Escenario Pyme";
 
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
