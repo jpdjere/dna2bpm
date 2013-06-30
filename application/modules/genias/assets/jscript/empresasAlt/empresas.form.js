@@ -262,7 +262,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             id: 'task',
             fieldLabel: 'TASK',
             name: 'task',
-            xtype: 'hidden',
+            //xtype: 'hidden',
         }, {
             id: 'notas',
             xtype: 'textarea',
