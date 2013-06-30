@@ -169,10 +169,10 @@ class Genias_model extends CI_Model {
         //----busco meta activa
         $query=array(
             'proyecto'=>$proyecto,
-            'desde'=>array('$lt'=>date('Y-m-d')),
-            'hasta'=>array('$gt'=>date('Y-m-d')),
+            'hasta'=>array('$lte'=>date('Y-m-d')),
+            'desde'=>array('$gte'=>date('Y-m-01')),
             );
-        //echo json_encode($query);
+        //echo json_encode($query);exit;
         $metas=$this->mongo->db->$container_metas->find($query);
         foreach($metas as $meta){
             $case=$this->get_case($meta['case']);
@@ -180,7 +180,7 @@ class Genias_model extends CI_Model {
                 break;
             }
         }
-        //$meta
+        //var_dump($meta);
         //----Agrego visita a la meta
         $meta['cumplidas'][]=$id_visita;
         $meta['cumplidas']=array_filter(array_unique($meta['cumplidas']));
