@@ -54,7 +54,12 @@ class Process extends MX_Controller {
             }
         }
     }
-
+    
+    
+    public function Insert2() {
+        $input = json_decode(file_get_contents('php://input'));
+        var_dump($input);
+    }
     /*
      * VIEW
      */
