@@ -182,8 +182,8 @@ class Genias_model extends CI_Model {
                 break;
             }
         }
-        //var_dump($meta);exit;
-        if($meta){
+        var_dump($query,$meta);exit;
+        if(isset($meta)){
 
         //----Agrego visita a la meta
             $meta['cumplidas'][]=$id_visita;
