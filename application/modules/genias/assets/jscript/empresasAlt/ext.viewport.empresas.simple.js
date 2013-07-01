@@ -20,7 +20,7 @@ Ext.onReady(function() {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').remove();
     }
-    
+    title='<div class="row"><div class="span8">'+mode+'</div><div><p class="text-right"><a class=.navbar-inverse style="color:#FFFF;" href="'+globals.module_url+'">Volver <i class="icon-chevron-sign-right"></i></a></p></div></div>';
     //Ext.create('Ext.panel.Panel',{
     Ext.create('Ext.Viewport', {
         id:'main-panel',
@@ -28,7 +28,7 @@ Ext.onReady(function() {
         layout:'fit',
         items:[
         {
-            title:mode,
+            title:title,
             layout:'column',
             autoScroll:true,
             defaults: {
