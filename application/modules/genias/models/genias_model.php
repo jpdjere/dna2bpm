@@ -182,7 +182,7 @@ class Genias_model extends CI_Model {
                 break;
             }
         }
-        var_dump($query,$meta);exit;
+        //var_dump($query,$meta);exit;
         if(isset($meta)){
 
         //----Agrego visita a la meta
