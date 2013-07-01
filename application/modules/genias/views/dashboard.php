@@ -7,9 +7,12 @@
  <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
 
  
-
+<button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
+<i class="icon-plus"></i> Nueva meta
+</button>
     
-
+ <div id="meta_div" class="collapse out no-transition">
+     
 <form id="form_goals" method="post">
     <div  class="row-fluid">
         <div class="span6">
@@ -59,9 +62,10 @@
 
 </form>  
 
+</div>
 
-
-    
+    <br/>
+    <br/>
 
  
  
