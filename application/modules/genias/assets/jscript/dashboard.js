@@ -12,7 +12,7 @@ $( document ).ready(function() {
 
 //$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('.aprobar').click(function(){
-   window.open($(this).attr('url'));
+   window.location=$(this).attr('url');
 });
  $('#dp3').datepicker();
 
