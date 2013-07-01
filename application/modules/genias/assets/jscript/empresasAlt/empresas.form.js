@@ -17,7 +17,7 @@ var SearchEmpresa=function(me) {
             var params = Ext.urlDecode(location.search.substring(1));
             
             if(EmpresaForm.params['task']!=null)
-                Ext.getCmp('task').setValue(params);
+                Ext.getCmp('task').setValue(EmpresaForm.params['task']);
                             
         } else {
             EmpresaForm.setLoading(false);
@@ -32,7 +32,7 @@ var SearchEmpresa=function(me) {
         }
         //carga tarea si existe
         if(EmpresaForm.params['task']!=null)
-                Ext.getCmp('task').setValue(params);
+               Ext.getCmp('task').setValue(EmpresaForm.params['task']);
 
     }
 };
