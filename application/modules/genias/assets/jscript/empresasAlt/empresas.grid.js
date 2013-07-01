@@ -12,10 +12,7 @@ var btnAdd = Ext.create('Ext.Action',
 
 function gridClick (view,record,item,index,e,options ){
     cuit=record.data['1695'];
-    EmpresaForm.loadRecord(record);    
-    //url=globals.module_url+'case_manager/tokens/status/'+globals.idwf+'/'+thisCase;    
-    //console.log(cuit);
-    //VisitasStore.cuitFilter(cuit);
+    window.location=globals.module_url+'form_empresas_alt?cuit='+cuit;
     return;
 }
 
