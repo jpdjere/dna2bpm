@@ -37,9 +37,9 @@ class Genias extends MX_Controller {
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
-        $customData['titulo']="";
+        $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
-       // $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        // $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         $customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
 
         // Projects
@@ -49,8 +49,9 @@ class Genias extends MX_Controller {
 
         $rol = $genias['rol'];
         $mygoals = array();
+        $customData['goal_cantidad']=0;
+        $customData['goal_cumplidas']=0;
         $goals = $this->genias_model->get_goals((int) $this->idu);
-
         foreach ($goals as $goal) {
             // === Nombre del proyecto === @todo - Traerlo del model
 //            foreach ($customData['projects'] as $current) {
@@ -58,21 +59,27 @@ class Genias extends MX_Controller {
 //                    $goals['proyecto_name'] = $current['name'];
 //            }
             // === get status case ===
-            if (isset($goal['case'])){
+            if (isset($goal['case'])) {
                 $case = $this->genias_model->get_case($goal['case']);
-                $goal['url_case']="{$this->base_url}bpm/engine/run/model/genia_metas/{$goal['case']}";
+                $goal['url_case'] = "{$this->base_url}bpm/engine/run/model/genia_metas/{$goal['case']}";
             }
-            
+
             if (isset($case['status']) && $case['status'] == 'open') {
                 $goal['status'] = 'Pendiente aprobación';
                 $goal['status_icon_class'] = 'icon-time';
                 $goal['status_class'] = 'well status_open';
-                $goal['label_class'] = 'label-important'; 
+                $goal['label_class'] = 'label-important';
             } elseif (isset($case['status']) && $case['status'] == 'closed') {
                 $goal['status'] = 'Aprobado';
                 $goal['status_icon_class'] = 'icon-thumbs-up';
                 $goal['status_class'] = 'well status_closed';
                 $goal['label_class'] = 'label-success';
+                //----computo calculos para metas activas de este mes
+                //if ($goal['desde'] >= date('Y-m-01') and $goal['hasta'] <= date('Y-m-t')) {
+                if (true) {
+                    $customData['goal_cantidad']+=$goal['cantidad'];
+                    $customData['goal_cumplidas']+=count($goal['cumplidas']);
+                }
             } else {
                 $goal['status'] = 'undefined';
                 $goal['status_class'] = 'well status_null';
@@ -85,7 +92,11 @@ class Genias extends MX_Controller {
 
             $mygoals[] = $goal;
         }
-
+        $ratio=$customData['goal_cantidad']-$customData['goal_cumplidas'];
+        if($ratio>=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-success';
+        if($ratio>=($customData['goal_cantidad']*.3) and $ratio<=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-block';
+        if($ratio<=($customData['goal_cantidad']*.3)) $customData['resumen_class']='alert-error';
+        //var_dump($customData);
         $customData['metas'] = $mygoals;
 
 
@@ -108,7 +119,7 @@ class Genias extends MX_Controller {
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
             'idu' => $this->idu
-            );
+        );
         $user = $this->user->get_user($this->idu);
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
@@ -116,16 +127,16 @@ class Genias extends MX_Controller {
         $cpData['usermail'] = $user->email;
         // Profile 
         //$cpData['profile_img'] = get_gravatar($user->email);
-        
-        $cpData['gravatar'] = (isset($user->avatar))?$this->base_url.$user->avatar:get_gravatar($user->email);
+
+        $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
         $cpData['genia'] = $this->get_genia('nombre');
         $cpData['rol'] = $this->get_genia('rol');
-        $cpData['rol_icono']=($cpData['rol']=='coordinador')?('icon-group'):('icon-user');
-        
+        $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
+
         // Listado de genias de donde soy user
-        $mygenias=$this->get_genia();
-        $cpData['genias']=$mygenias['genias'];
-        
+        $mygenias = $this->get_genia();
+        $cpData['genias'] = $mygenias['genias'];
+
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
@@ -139,23 +150,23 @@ class Genias extends MX_Controller {
         $data = $this->input->post('data');
         $mydata = array(
             'idu' => $this->idu
-            );
+        );
         foreach ($data as $k => $v) {
             $mydata[$v['name']] = $v['value'];
         }
 
-        
-        $date = date_create_from_format('d-m-Y', '01-'.$mydata['desde']);
-        $month=$date->format('m');
-        $year=$date->format('Y');
+
+        $date = date_create_from_format('d-m-Y', '01-' . $mydata['desde']);
+        $month = $date->format('m');
+        $year = $date->format('Y');
         $daycount = cal_days_in_month(CAL_GREGORIAN, $month, $year); // 31
-        
-        $mydata['desde'] = "$year-$month-01"; 
-        $mydata['hasta'] = "$year-$month-$daycount"; 
-        
+
+        $mydata['desde'] = "$year-$month-01";
+        $mydata['hasta'] = "$year-$month-$daycount";
+
 
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
-        $mydata['cumplidas']=array();
+        $mydata['cumplidas'] = array();
         //@todo  COMPLETAR
         // Busco nombre del proyecto
         $proyectos = $this->genias_model->get_config_item('projects');
@@ -185,7 +196,6 @@ class Genias extends MX_Controller {
         //reviento lo que sea que me devuelva el run
         $this->output->set_output(1);
         //---la meta deberia estar disponible cuando este caso este en estado: finished
-        
         // Todo 
         //echo $id_goal;
     }
@@ -207,13 +217,13 @@ class Genias extends MX_Controller {
         $customData['genia'] = $this->get_genia('nombre');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
-        $customData['titulo']="Tareas";
+        $customData['titulo'] = "Tareas";
         $customData['tasks'] = array();
         foreach ($projects['items'] as $k => $item) {
             $items = $this->get_tasks($k);
             $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
         }
-       // var_dump($customData);
+        // var_dump($customData);
         //var_dump($projects['items']);
         //$customData['tasks']= print_r($this->get_tasks("1"));
 
@@ -256,7 +266,7 @@ class Genias extends MX_Controller {
         // Mapeo proyecto id - > orden de display en fullcalendar
         $projects = $this->genias_model->get_config_item('projects');
         $items = $projects['items'];
-        
+
         $proyecto = $items[$proyecto]['id'];
 
         $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
@@ -280,8 +290,8 @@ class Genias extends MX_Controller {
                 'minutos' => $task['minutos'],
                 'proyecto' => $task['proyecto'],
                 'finalizada' => $task['finalizada'],
-                'autor'=>$user->lastname . ", " . $user->name
-                );
+                'autor' => $user->lastname . ", " . $user->name
+            );
 
             $mytasks[] = $item;
         }
@@ -306,19 +316,19 @@ class Genias extends MX_Controller {
         $customData = $this->lang->language;
         $customData['css'] = array(
             $this->base_url . "map/assets/css/map.css" => 'Map CSS'
-            );
+        );
         $customData['js'] = array(
             'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
             $this->base_url . 'map/assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
             $this->module_url . 'assets/jscript/map/map.json.js' => 'Load Json Map',
-            );
+        );
         $url = $this->module_url . 'assets/json/empresasGenia.json';
         $customData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
             'json_url' => $url,
-            );
-        $customData['titulo']="Mapa";
+        );
+        $customData['titulo'] = "Mapa";
         $this->render('map', $customData);
     }
 
@@ -328,7 +338,7 @@ class Genias extends MX_Controller {
     function scheduler() {
         $this->user->authorize();
         $customData = $this->lang->language;
-        $customData['titulo']="Agenda";
+        $customData['titulo'] = "Agenda";
         $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');
         $projects = $this->genias_model->get_config_item('projects');
@@ -346,7 +356,7 @@ class Genias extends MX_Controller {
 
     function contacts() {
         $this->user->authorize();
-        $customData['titulo']="Contactos";
+        $customData['titulo'] = "Contactos";
         $customData = $this->lang->language;
         $this->render('contacts', $customData);
     }
@@ -377,31 +387,29 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
-            );
+        );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            );
+        );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
-    
-    
     function Form_empresas_alt($parm = null) {
 
         //echo $this->idu;   
         //---Libraries
         $this->load->library('parser');
         $this->load->library('ui');
-        
+
         $cpData = $this->lang->language;
         $segments = $this->uri->segment_array();
         $cpData['theme'] = $this->config->item('theme');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['title'] = 'Escenario Pyme.';
-        $cpData['titulo']="Escenario Pyme";
+        $cpData['titulo'] = "Escenario Pyme";
 
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
@@ -411,12 +419,12 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
-            );
+        );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            );
+        );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -443,12 +451,12 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
             $this->module_url . 'assets/jscript/empresasAlt/empresas.grid.js' => 'Grid Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.table.js' => 'ViewPort',
-            );
+        );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            );
+        );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -475,12 +483,12 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/empresas.grid.js' => 'Grid Empresas',
             $this->module_url . 'assets/jscript/empresas.form.js' => 'Form Empresas',
             $this->module_url . 'assets/jscript/ext.viewport.empresas.js' => 'ViewPort',
-            );
+        );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            );
+        );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -501,12 +509,12 @@ class Genias extends MX_Controller {
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/store-test/ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/store-test/start.js' => 'Start Test',
-            );
+        );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            );
+        );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -528,12 +536,12 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/ext.data.users.js' => 'Base Data',
             $this->module_url . 'assets/jscript/form.users.js' => 'Objetos Custom D!',
             $this->module_url . 'assets/jscript/ext.viewport.users.js' => '',
-            );
+        );
 
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            );
+        );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
 
@@ -596,13 +604,13 @@ class Genias extends MX_Controller {
             $rtnArr['totalCount'] = count($empresas);
             $rtnArr['rows'] = $empresas;
             $this->table->add_row(
-                array(
-                    "prov::$key::$valor",
-                    count($empresas),
-                    number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb",
-                    number_format(strlen(gzcompress(json_encode($rtnArr))) / 1024, 2) . " Kb"
+                    array(
+                        "prov::$key::$valor",
+                        count($empresas),
+                        number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb",
+                        number_format(strlen(gzcompress(json_encode($rtnArr))) / 1024, 2) . " Kb"
                     )
-                );
+            );
             //echo "prov::$key::$valor::" . count($empresas) . ":: <strong>" . number_format(strlen(json_encode($rtnArr)) / 1024, 2) . " Kb</strong><br/>";
         }
         echo $this->table->generate();
@@ -612,7 +620,7 @@ class Genias extends MX_Controller {
     function Empresas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
-        
+
         foreach ($genias['genias'] as $thisGenia) {
             if (isset($thisGenia['query_empresas'])) {
                 foreach ($thisGenia['query_empresas'] as $key => $value) {
@@ -630,7 +638,7 @@ class Genias extends MX_Controller {
                 }
             }
         }
-        
+
         $this->load->model('app');
         $debug = false;
         $compress = false;
@@ -655,18 +663,17 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
-    
-    
+
     function Visitas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
 
-        $this->load->model('app');      
-        
+        $this->load->model('app');
+
         $debug = false;
         $compress = false;
 
-        $visitas = $this->genias_model->get_visitas($query,$this->idu);
+        $visitas = $this->genias_model->get_visitas($query, $this->idu);
         $rtnArr = array();
         $rtnArr['totalCount'] = count($visitas);
         $rtnArr['rows'] = $visitas;
@@ -699,23 +706,23 @@ class Genias extends MX_Controller {
                 'fecha' => '2013-02-16',
                 'cuit' => '20-33255688-7',
                 'nota' => 'Primera visita'
-                ),
+            ),
             array(
                 'fecha' => '2013-03-22',
                 'cuit' => '20-33255688-7',
                 'nota' => 'Segunda Visita: no había nadie'
-                ),
+            ),
             array(
                 'fecha' => '2013-05-10',
                 'cuit' => '20-33255688-7',
                 'nota' => 'Hoy vinimos citados por el gerente pero no apareció, ni café nos convidaron'
-                ),
+            ),
             array(
                 'fecha' => '2013-05-10',
                 'cuit' => '20-13414423-9',
                 'nota' => 'Esta Visita es de Otra empresa'
-                ),
-            );
+            ),
+        );
         $rtnArr = array();
         $rtnArr['totalCount'] = count($visitas);
         $rtnArr['rows'] = $visitas;
@@ -738,20 +745,13 @@ class Genias extends MX_Controller {
     function get_genia($attr = null) {
 
         $genia = $this->genias_model->get_genia($this->idu);
-        if($attr=='rol'){
-           return $genia['rol'];
-       }else{
-        return $genia;
+        if ($attr == 'rol') {
+            return $genia['rol'];
+        } else {
+            return $genia;
+        }
     }
-}
-
-
 
 }
 
 // close
-
-
-
-
-
