@@ -106,11 +106,7 @@ if(!($i%2==0))
             </div>
         </div> 
         <div  class="row-fluid" >
-            <div class="span12 ">
-            <textarea>
-            <?php echo $meta['observaciones'];?>
-            </textarea>
-            </div>
+            <textarea rows="3" class="span12 "><?php echo $meta['observaciones'];?></textarea>
         </div>
      </div>
  
