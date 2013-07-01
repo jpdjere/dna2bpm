@@ -176,7 +176,7 @@ $('#bt_delete').click(function(){
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
     if($(this).hasClass('disabled'))return;
-    location.href=globals.module_url+'form?task='+id;
+    location.href=globals.module_url+'form_empresas_alt?task='+id;
 });
 
 
