@@ -34,7 +34,7 @@ Ext.onReady(function() {
                     <ul class="nav pull-left inline"><li> \
                         <a href="#"">'+mode+'</a>\
                         </li></ul>\
-                        <ul class="nav pull-right inline"><li><a href="/dna2bpm/user/logout">Volver <i class="icon-chevron-sign-right icon2x"></i></a>\
+                        <ul class="nav pull-right inline"><li><a href="'+globals.module_url+'">Volver <i class="icon-chevron-sign-right icon2x"></i></a>\
                         </li></ul>\
                 </div>\
             </div>',
