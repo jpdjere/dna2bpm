@@ -104,3 +104,10 @@ filter: dropshadow(color=#fff, offx=1, offy=1);
     padding: 0px 30px !important;
 }
 
+.no-transition {
+  -webkit-transition: height 0.001s;
+  -moz-transition: height 0.001s;
+  -ms-transition: height 0.001s;
+  -o-transition: height 0.001s;
+  transition: height 0.001s;
+}

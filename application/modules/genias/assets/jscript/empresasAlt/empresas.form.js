@@ -17,7 +17,7 @@ var SearchEmpresa=function(me) {
             var params = Ext.urlDecode(location.search.substring(1));
             
             if(EmpresaForm.params['task']!=null)
-                Ext.getCmp('task').setValue(params);
+                Ext.getCmp('task').setValue(EmpresaForm.params['task']);
                             
         } else {
             EmpresaForm.setLoading(false);
@@ -30,6 +30,9 @@ var SearchEmpresa=function(me) {
         } else {
             VisitasStore.cuitFilter('-1');
         }
+        //carga tarea si existe
+        if(EmpresaForm.params['task']!=null)
+               Ext.getCmp('task').setValue(EmpresaForm.params['task']);
 
     }
 };
@@ -66,6 +69,7 @@ var btnNew = Ext.create('Ext.Action', {
     handler: function() {
         EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
         /*Reseteo si hubiera una tarea asociada anterio*/
+        EmpresaForm.params['task']=null;
         Ext.getCmp('task').setValue("");
 
     }
@@ -265,6 +269,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         afterRender:function (form){
             params = Ext.urlDecode(location.search.substring(1));
             this.params=params;
+            console.log('Params:',params);
             if(params['cuit']!=null){
                 field=EmpresaForm.getForm().findField("1695");
                 field.setValue(EmpresaForm.params['cuit']);
@@ -285,9 +290,12 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 
             } else {
                 EmpresaStore.load();
-                btnNew.execute();
+                //---creo un record vacio
+                EmpresaForm.loadRecord(Ext.create('EmpresaModel', {}));
             }
-
+                //carga la tarea si existe
+                if(EmpresaForm.params['task']!=null)
+                Ext.getCmp('task').setValue(EmpresaForm.params['task']);
         },
         dirtychange: function(form) {
             Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar..');
