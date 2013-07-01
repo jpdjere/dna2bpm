@@ -18,6 +18,12 @@
          a {
             color:#FFFF;
         }
+        .x-panel-header-default {
+         background-color: #1B1B1B;
+         background-image: linear-gradient(to bottom, #222222, #111111);
+         background-repeat: repeat-x;
+         border-color: #252525;
+     }
      </style>
  </head>
  <body>
