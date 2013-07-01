@@ -171,7 +171,7 @@ class Genias_model extends CI_Model {
         $query=array(
             'proyecto'=>$proyecto,
             'idu'=>$this->idu,
-            'hasta'=>array('$lte'=>date('Y-m-d')),
+            'hasta'=>array('$lte'=>date('Y-m-t')),
             'desde'=>array('$gte'=>date('Y-m-01')),
             );
         //echo json_encode($query);exit;
