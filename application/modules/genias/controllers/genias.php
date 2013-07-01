@@ -73,7 +73,7 @@ class Genias extends MX_Controller {
                 $goal['status'] = 'Aprobado';
                 $goal['status_icon_class'] = 'icon-thumbs-up';
                 $goal['status_class'] = 'well status_closed';
-                $goal['label_class'] = 'btn-success';
+                $goal['label_class'] = '';
                 //----computo calculos para metas activas de este mes
                 //if ($goal['desde'] >= date('Y-m-01') and $goal['hasta'] <= date('Y-m-t')) {
                 if (true) {
