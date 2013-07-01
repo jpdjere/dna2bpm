@@ -63,55 +63,70 @@
 
             </form>  
 
- 
- 
-</div> 
-<!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
-  
-<?php
-$i=0;
-foreach($metas as $meta){
-$i++;
-if(!($i%2==0))
-    echo '<div class="row-fluid " >';
-?>
 
-       <div class="span6 <?php echo $meta['status_class'];?>">  
-        <div  class="row-fluid" >
-            <div class="span12 ">  
-                <h3><?php echo $meta['proyecto_nombre'];?><span class="pull-right"><?php echo $meta['cumplidas_count'];?>/<?php echo $meta['cantidad'];?></span></h3>
-            </div>
-        </div>
-        <div  class="row-fluid" >
-            <div class="span8"> 
-                <ul class="unstyled">
-                <li><i class="icon-calendar" ></i> Período: <?php echo $meta['desde'];?></li>
-                <li><i class="icon-eye-open" ></i> Estado: <span class="label <?php echo $meta['label_class'];?>"><i class="<?php echo $meta['status_icon_class'];?>"></i>&nbsp;<?php echo $meta['status'];?></span></li>
-                <li><i class="icon-user" ></i> Autor: <?php echo $meta['owner'];?></li>
-                <li><i class="icon-flag" ></i> Genia: <?php echo $meta['genia'];?></li>
-                </ul>
 
-            </div>
-            <div class="span4">         
-               <?php 
-               if($rol=='coordinador'&& $meta['status_class']=='well status_open'){
-                    echo '<a class="btn btn-primary pull-right" href="'.$meta['url_case'].'" targe="_blank"  type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
-               }
-               ?>             
-            </div>
         </div> 
-        <div  class="row-fluid" >
-            <textarea rows="3" class="span12 "><?php echo $meta['observaciones'];?></textarea>
-        </div>
-     </div>
- 
-<?php
-if(($i%2==0))
-    echo '</div>';
-}//each
-?>
-<!-- ============= metas  ============= -->
+    </div> 
+    <br/>
+    <br/>
+    <!-- Resumen --> 
+    {if {rol}=='coordinador'}
+    <div class="alert {resumen_class}">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
+    </div>
+    {/if}
+    <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
+    <div class="row">
 
- 
-</div> 
+        {metas}
+
+        <!-- <div class="span6 {status_class}">  -->
+        <div class="span6">  
+            <div class="well">
+                <!-- Nombre Proyecto -->
+                <div>  
+                    <h3>{proyecto_nombre}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
+                </div>
+
+                <div> 
+                    <ul class="unstyled">
+                        <li>
+                            <i class="icon-calendar" ></i> Período: {desde}
+                        </li>
+                        <li>
+                            <i class="icon-eye-open" ></i> Estado: 
+                            <button class="btn btn-mini {label_class}">
+                                <i class="{status_icon_class}"></i>&nbsp;{status}   
+                                <!-- Btn Aprobar -->
+                            </button>
+                                {if {rol}=='coordinador'}
+                                {if {status_class} == 'well status_open'}
+
+                             <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
+                                    <i class="icon-thumbs-up-alt"></i> Aprobar
+                            </button>
+                                {/if}
+                                {/if}
+                        </li>
+                        <li>
+                            <i class="icon-user" ></i> Autor: {owner}
+                        </li>
+                        <li>
+                            <i class="icon-flag" ></i> Genia: {genia}
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <textarea rows="3" class="span5">{observaciones}</textarea>
+                </div>
+
+            </div>
+        </div>
+        {/metas}
+    </div>
+    <!-- ============= metas  ============= -->
+
+
 
