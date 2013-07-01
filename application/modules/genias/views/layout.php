@@ -38,12 +38,11 @@
             <ul class="nav">
               <li><a href="{module_url}">Inicio</a></li>
               <li><a href="{module_url}tasks">Tareas</a></li>
-              <li><a href="{module_url}map">Mapa</a></li>      
-              <li style="padding-top:10px">Contactos</li>
               <li><a href="{module_url}scheduler">Agenda</a></li>
-              <li><a href="{module_url}listado_empresas">Empresas</a></li>  
               <li><a href="{module_url}form_empresas_alt"><i class='icon-plus'></i> Visita</a></li>  
-              <li style="padding-top:10px">Programas</li>
+              <li><a href="{module_url}listado_empresas">Empresas</a></li>  
+              <li><a href="{module_url}map">Mapa</a></li>      
+              
             </ul>
             <ul class="nav pull-right inline">            
                 <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
