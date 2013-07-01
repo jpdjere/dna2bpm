@@ -20,7 +20,6 @@ Ext.onReady(function() {
         Ext.get('loading').remove();
         Ext.fly('loading-mask').remove();
     }
-    title='<div class="row"><div class="span8">'+mode+'</div><div><p class="text-right"><a class=.navbar-inverse style="color:#FFFF;" href="'+globals.module_url+'">Volver <i class="icon-chevron-sign-right"></i></a></p></div></div>';
     //Ext.create('Ext.panel.Panel',{
     Ext.create('Ext.Viewport', {
         id:'main-panel',
@@ -28,7 +27,17 @@ Ext.onReady(function() {
         layout:'fit',
         items:[
         {
-            title:title,
+            /*title:title,*/
+            title:'\
+            <div class="navbar navbar-inverse navbar-static-top "> \
+                <div class="navbar-inner barra_user">\
+                    <ul class="nav pull-left inline"><li> \
+                        <a href="#"">'+mode+'</a>\
+                        </li></ul>\
+                        <ul class="nav pull-right inline"><li><a href="/dna2bpm/user/logout">Volver <i class="icon-chevron-sign-right icon2x"></i></a>\
+                        </li></ul>\
+                </div>\
+            </div>',
             layout:'column',
             autoScroll:true,
             defaults: {
