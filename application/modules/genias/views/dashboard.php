@@ -63,59 +63,55 @@
 
             </form>  
 
-        </div>
+ 
+ 
+</div> 
+<!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
+  
+<?php
+$i=0;
+foreach($metas as $meta){
+$i++;
+if(!($i%2==0))
+    echo '<div class="row-fluid " >';
+?>
 
-        <br/>
-        <br/>
-
-        <!-- Resumen --> 
-        {if {rol}=='coordinador'}
-        <div class="alert {resumen_class}">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
-        </div>
-        {/if}
-    </div> 
-    <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
-    <?php
-    foreach ($metas as $meta) {
-        ?>
-        <div  class="row-fluid " >
-            <div class="span12 <?php echo $meta['status_class']; ?>">  
-                <div  class="row-fluid" >
-                    <div class="span12 ">  
-                        <h3><?php echo $meta['proyecto_nombre']; ?><span class="pull-right"><?php echo $meta['cumplidas_count']; ?>/<?php echo $meta['cantidad']; ?></span></h3>
-                    </div>
-                </div>
-                <div  class="row-fluid" >
-                    <div class="span4"> 
-                        <ul class="unstyled">
-                            <li><i class="icon-calendar" ></i> Período: <?php echo $meta['desde']; ?></li>
-                            <li><i class="icon-eye-open" ></i> Estado: <span class="label <?php echo $meta['label_class']; ?>"><i class="<?php echo $meta['status_icon_class']; ?>"></i>&nbsp;<?php echo $meta['status']; ?></span></li>
-                            <li><i class="icon-user" ></i> Autor: <?php echo $meta['owner']; ?></li>
-                            <li><i class="icon-flag" ></i> Genia: <?php echo $meta['genia']; ?></li>
-                        </ul>
-                    </div>
-                    <div class="span8"> 
-                        <div class="observaciones" >
-                            <?php echo $meta['observaciones']; ?>
-                        </div>
-
-                        <?php
-                        if ($rol == 'coordinador' && $meta['status_class'] == 'well status_open') {
-                            echo '<a class="btn btn-primary pull-right" href="' . $meta['url_case'] . '" targe="_blank"  type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
-                        }
-                        ?>
-
-                    </div>
-                </div> 
+       <div class="span6 <?php echo $meta['status_class'];?>">  
+        <div  class="row-fluid" >
+            <div class="span12 ">  
+                <h3><?php echo $meta['proyecto_nombre'];?><span class="pull-right"><?php echo $meta['cumplidas_count'];?>/<?php echo $meta['cantidad'];?></span></h3>
             </div>
         </div>
-        <?php
-    }//each
-    ?>
-    <!-- ============= metas  ============= -->
+        <div  class="row-fluid" >
+            <div class="span8"> 
+                <ul class="unstyled">
+                <li><i class="icon-calendar" ></i> Período: <?php echo $meta['desde'];?></li>
+                <li><i class="icon-eye-open" ></i> Estado: <span class="label <?php echo $meta['label_class'];?>"><i class="<?php echo $meta['status_icon_class'];?>"></i>&nbsp;<?php echo $meta['status'];?></span></li>
+                <li><i class="icon-user" ></i> Autor: <?php echo $meta['owner'];?></li>
+                <li><i class="icon-flag" ></i> Genia: <?php echo $meta['genia'];?></li>
+                </ul>
 
+            </div>
+            <div class="span4">         
+               <?php 
+               if($rol=='coordinador'&& $meta['status_class']=='well status_open'){
+                    echo '<a class="btn btn-primary pull-right" href="'.$meta['url_case'].'" targe="_blank"  type="button" style="margin-top:12px;t"><i class="icon-thumbs-up-alt"></i> Aprobar</a>';
+               }
+               ?>             
+            </div>
+        </div> 
+        <div  class="row-fluid" >
+            <textarea rows="3" class="span12 "><?php echo $meta['observaciones'];?></textarea>
+        </div>
+     </div>
+ 
+<?php
+if(($i%2==0))
+    echo '</div>';
+}//each
+?>
+<!-- ============= metas  ============= -->
 
+ 
 </div> 
 
