@@ -30,10 +30,10 @@ var btnSync = Ext.create('Ext.Action',
 
                 if (checkStoreEmpresas != 0) {
                     Ext.Msg.alert('Encenario Pyme', '<h5>Actualizado con Exito</h5>');
-                } else {                    
+                } else {
                     Ext.getCmp('btnSync').setText('No Hay informacion para actualizar');
-                }                
-                
+                }
+
                 /*Borro la informacion local*/
                 storeEmpresaOffline.removeAll();
                 storeVisitaOffline.removeAll();
