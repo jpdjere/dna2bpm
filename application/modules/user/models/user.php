@@ -119,7 +119,7 @@ class User extends CI_Model {
                 $canaccess = true;
             } else {
                 //----$reqlevel override $path
-                $path = (isset($reqlevel)) ? $reqlevel : $path;
+                $path=(isset($reqlevel)) ? $reqlevel:$path;
                 //---give access if have path exists
                 if ($this->user->has('root/' . $path, $thisUser))
                     $canaccess = true;
@@ -299,7 +299,6 @@ class User extends CI_Model {
     }
 
     function get_users($offset = 0, $limit = 50, $order = null, $query_txt = null, $idgroup = null) {
-        $this->db->debug=true;
         $this->db->get('users');
         //var_dump($start,$limit,$idgroup, $order, $idgroup);
         if ($idgroup) {
