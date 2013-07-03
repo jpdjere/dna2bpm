@@ -13,7 +13,8 @@ class Genias_model extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->idu = (int) $this->session->userdata('iduser');
-
+        /* Set locale to Spansih */
+        setlocale(LC_ALL, 'es_ES');
     }
 
     // ======= TAREAS ======= //
@@ -86,6 +87,10 @@ class Genias_model extends CI_Model {
         $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
         $result=array();
         while($mygoals=$goals->getnext()){
+            // Locale -> Periodo
+            $desde=  date_parse_from_format('Y-m-d', $mygoals['desde']);
+            $mygoals['desde']= strftime("%B , %Y", mktime(0, 0, 0, $desde['month'], 1, $desde['year']));
+
             $result[]=$mygoals;
         }
 
@@ -207,6 +212,7 @@ class Genias_model extends CI_Model {
         while ($r = $result->getNext()) {
             $rol='coordinador';
             $my_genias[]=$r;
+            //var_dump($r['_id']);
 
         }
         

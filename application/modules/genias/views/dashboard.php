@@ -1,19 +1,29 @@
-<!-- / Contenido -->
+<!-- Submenu / Breadcrumbs -->
+<div class="row-fluid " >
+    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
+    <button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
+        <i class="icon-plus"></i> Nueva meta
+    </button>
+          <li class="pull-right perfil">
+              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+          </li>
+    </ul>
+    <ul class="breadcrumb breadcrumb-genias" style="padding-top:0px">
+        <li ></li>
+        
+        {genias}  
+        <li class="pull-right "><span class="divider">/</span</li>
+        <li class="pull-right">{nombre}</li>
+        {/genias}
+
+    </ul> 
+</div>
+<!-- ==== Contenido ==== -->
 <div class="container" > 
-
-
+    
     <div class="row-fluid">
-
         <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
-
-
-        <button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
-            <i class="icon-plus"></i> Nueva meta
-        </button>
-        <br/>
-        <br/>
         <div id="meta_div" class="collapse out no-transition">
-
             <form id="form_goals" method="post" class="well">
                 <div  class="row-fluid">
                     <div class="span6">
@@ -67,15 +77,39 @@
 
         </div> 
     </div> 
-    <br/>
-    <br/>
-    <!-- Resumen --> 
+    
+    <!-- ==== RESUMEN COORDINADOR==== -->
+
     {if {rol}=='coordinador'}
-    <div class="alert {resumen_class}">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
-    </div>
+        <ul class="nav nav-tabs" id="dashboard_tab1">
+        <li class="active"><a href="#tab_resumen" data-toggle="tab">Resumen</a></li>
+        {genias} 
+        <li class=""><a href="#tab_{_id}" data-toggle="tab">{nombre}</a></li>
+        {/genias}
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_resumen">
+                <div class="alert {resumen_class}" id="{_id}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
+                </div> 
+            </div>
+        {genias} 
+            <div class="tab-pane" id="tab_{_id}">
+                <div class="alert" id="{_id}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
+                </div>
+            </div> 
+        {/genias} 
+        </div>
     {/if}
+        
+
+    
+
+
     <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
     <div class="row">
 
@@ -119,7 +153,7 @@
                 </div>
 
                 <div>
-                    <textarea rows="3" class="span5">{observaciones}</textarea>
+                    <textarea rows="3" class="input-block-level">{observaciones}</textarea>
                 </div>
 
             </div>
@@ -127,6 +161,6 @@
         {/metas}
     </div>
     <!-- ============= metas  ============= -->
-
+</div>
 
 
