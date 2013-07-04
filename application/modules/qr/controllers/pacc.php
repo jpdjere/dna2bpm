@@ -16,6 +16,15 @@ class Pacc extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->database('dna2');
+        $this->load->model('user');
+        $this->user->authorize();
+        $this->load->library('parser');
+        $this->load->library('ui');
+        //---base variables
+        $this->base_url = base_url();
+        $this->module_url = base_url() . 'qr/';
+        //----LOAD LANGUAGE
+        $this->idu = (float) $this->session->userdata('iduser');
     }
 
     function Index() {
