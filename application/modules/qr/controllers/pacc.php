@@ -41,7 +41,7 @@ LIMIT 10";
                 WHERE 
                 t1.idpreg=1693 
                 AND t2.idpreg=1695 
-                AND id=".$row('Empresa');
+                AND id=".$row['Empresa'];
             $query_empresa=$this->db->query($SQL);
             $empresa=$query_empresa->result();
             $row['nombre_empresa']=$empresa['nombre'];
