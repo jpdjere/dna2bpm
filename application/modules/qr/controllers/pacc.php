@@ -19,7 +19,7 @@ class Pacc extends MX_Controller {
     }
 
     function Index() {
-        $cpData=array();
+        $cpData = array();
         $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
 FROM td_pacc_1 AS tp1
 INNER JOIN td_pacc_1 AS tp2 ON tp1.id = tp2.id
@@ -37,6 +37,7 @@ LIMIT 10";
         foreach ($query->result() as $row) {
             var_dump($row);
         }
+//$this->ui->compose('demoindex', 'bootstrap.ui.php', $cpData);
     }
 
 }
