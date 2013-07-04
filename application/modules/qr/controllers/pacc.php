@@ -37,7 +37,7 @@ LIMIT 10";
         foreach ($query->result() as $row) {
             $qr=$row;
             $SQL="SELECT t1.valor as nombre,t2.valor as cuit FROM td_empresas AS t1 
-                INNER JOIN td_empresas AS tp2 ON tp1.id = tp2.id
+                INNER JOIN td_empresas AS t2 ON t1.id = t2.id
                 WHERE 
                 t1.idpreg=1693 
                 AND t2.idpreg=1695 
