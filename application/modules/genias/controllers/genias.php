@@ -39,7 +39,7 @@ class Genias extends MX_Controller {
         $customData['module_url'] = base_url() . 'genias/';
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
-        // $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         $customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
 
         // Projects
@@ -53,6 +53,7 @@ class Genias extends MX_Controller {
         $customData['goal_cumplidas']=0;
         $goals = $this->genias_model->get_goals((int) $this->idu);
         foreach ($goals as $goal) {
+           // var_dump($goal);
             // === Nombre del proyecto === @todo - Traerlo del model
 //            foreach ($customData['projects'] as $current) {
 //                if ($current['id'] == $goals['proyecto'])
@@ -91,6 +92,7 @@ class Genias extends MX_Controller {
             $goal['cumplidas_count'] = count($goal['cumplidas']);
 
             $mygoals[] = $goal;
+            //var_dump($goal);
         }
         $ratio=$customData['goal_cantidad']-$customData['goal_cumplidas'];
         if($ratio>=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-success';
@@ -136,7 +138,6 @@ class Genias extends MX_Controller {
         // Listado de genias de donde soy user
         $mygenias = $this->get_genia();
         $cpData['genias'] = $mygenias['genias'];
-
         $cpData = array_replace_recursive($customData, $cpData);
         $this->ui->compose($file, 'layout.php', $cpData);
     }
@@ -214,6 +215,7 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['css'] = array($this->module_url . "assets/css/tasks.css" => 'Genias CSS');
+         $customData['js'] = array($this->module_url . "assets/jscript/tasks.js" => 'Tasks JS');
         $customData['genia'] = $this->get_genia('nombre');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];

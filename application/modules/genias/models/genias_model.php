@@ -13,6 +13,7 @@ class Genias_model extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->idu = (int) $this->session->userdata('iduser');
+        /* Set locale to Spansih */
 
     }
 
@@ -61,14 +62,21 @@ class Genias_model extends CI_Model {
     // ======= METAS ======= //
 
     function add_goal($goal) {
+        $container = 'container.genias';
+        $id= new MongoId($goal['genia']);
+        $query=array('_id'=>$id);
+        $mygenia = $this->mongo->db->$container->findOne($query); 
+        $goal['genia_nombre']=$mygenia['nombre'];
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.genias_goals';
-        $query = array('id' => (integer) $goal['id']);
+        $query = array('id' => (integer) $goal['id']);       
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
 
     function get_goals($idu) {
         $container = 'container.genias_goals';
+        $this->lang->load('calendar', $this->config->item('languaje'));
+
         $genias = $this->get_genia($idu); 
         $idus=array($idu);
         // Por cada Genia
@@ -86,7 +94,12 @@ class Genias_model extends CI_Model {
         $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
         $result=array();
         while($mygoals=$goals->getnext()){
-            $result[]=$mygoals;
+        // Mes 
+        $date = date_create_from_format('Y-m-d', $mygoals['desde']);
+        $mes='cal_'.strtolower(date_format($date, 'F'));
+        $mygoals['desde']=$this->lang->line($mes);
+
+        $result[]=$mygoals;
         }
 
         return $result;
@@ -207,6 +220,7 @@ class Genias_model extends CI_Model {
         while ($r = $result->getNext()) {
             $rol='coordinador';
             $my_genias[]=$r;
+            //var_dump($r['_id']);
 
         }
         

@@ -52,7 +52,7 @@
       </div>
     </div>
 </div>
-<!-- / Breadcrumbs -->
+<!-- / Breadcrumbs 
 <div class="row-fluid " >
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
           <li><span class="divider">/</span></li>
@@ -73,6 +73,7 @@
 
     </ul> 
 </div>
+-->
 <!-- CONTAINER -->
 {content}
 <!-- CONTAINER -->

@@ -40,7 +40,6 @@ submitHandler: function(form) {
       url: globals.module_url+'add_goal',
       data:{'data':data},
       success:function(resp){
-
       }
    });
 
@@ -72,6 +71,19 @@ localStorage['userdata']="";
 $('a[disabled]').one('click', function(e){
 e.preventDefault();
 });
+
+// ==== TABS ==== //
+//$('.nav-tabs li a').click(function(e){
+//    var id=$(this).attr('href');
+//    $('.tab').hide();
+//    $(id).show('fast');
+//    
+//    e.preventDefault();
+//});
+
+ $('#dashboard_tab1 a:first').tab('show');
+
+
 
 });
 
