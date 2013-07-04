@@ -58,7 +58,7 @@ LIMIT 10";
             $qr->nombre_empresa=$empresa->nombre;
             $qr->cuit_empresa=$empresa->cuit;
             }
-            $cpData['qr'][]=$qr;
+            $cpData['qr'][]=(array)$qr;
             
         }
      $this->ui->compose('avery6', 'bootstrap.ui.php', $cpData);
