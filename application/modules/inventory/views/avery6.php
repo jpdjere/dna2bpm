@@ -1,15 +1,21 @@
 <div  class="row-fluid">
     {qr}
     <div class="span6">
-        <h3>
+        <div class="span3">
+
             <div class="img-polaroid">
                 <img src="{src}"/><br>
             </div>
-            {PDE}
-        </h3>
-        {nombre_empresa}
-        <br/>
-        {cuit_empresa}
+        </div>
+        <div class="span3">
+
+            <h3>
+                {PDE}
+            </h3>
+            {nombre_empresa}
+            <br/>
+            {cuit_empresa}
+        </div>
     </div>
     {/qr}
 </div>
