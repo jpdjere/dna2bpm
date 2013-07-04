@@ -41,15 +41,18 @@ LIMIT 10";
                 WHERE 
                 t1.idpreg=1693 
                 AND t2.idpreg=1695 
-                AND id=".$row->Empresa;
+                AND t1.id=".$row->Empresa;
             $query_empresa=$this->db->query($SQL);
             $empresa=$query_empresa->result();
-            $row['nombre_empresa']=$empresa->nombre;
-            $row['cuit_empresa']=$empresa->cuit;
-            var_dump($qr);
+            $empresa=$empresa[0];
+            if($empresa){
+            $qr->nombre_empresa=$empresa->nombre;
+            $qr->cuit_empresa=$empresa->cuit;
+            }
+            $cpData['qr'][]=$qr;
             
         }
-//$this->ui->compose('demoindex', 'bootstrap.ui.php', $cpData);
+     $this->ui->compose('avery6', 'bootstrap.ui.php', $cpData);
     }
 
 }
