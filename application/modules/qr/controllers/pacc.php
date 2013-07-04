@@ -36,7 +36,7 @@ LIMIT 10";
         $query = $this->db->query($SQL);
         foreach ($query->result() as $row) {
             $qr=$row;
-            $SQL="SELECT t1.valor as nombre,t2.valro as cuit FROM td_empresas AS t1 
+            $SQL="SELECT t1.valor as nombre,t2.valor as cuit FROM td_empresas AS t1 
                 INNER JOIN td_empresas AS tp2 ON tp1.id = tp2.id
                 WHERE 
                 t1.idpreg=1693 
