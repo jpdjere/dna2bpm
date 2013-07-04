@@ -62,15 +62,21 @@ class Genias_model extends CI_Model {
     // ======= METAS ======= //
 
     function add_goal($goal) {
+        $container = 'container.genias';
+        $id= new MongoId($goal['genia']);
+        $query=array('_id'=>$id);
+        $mygenia = $this->mongo->db->$container->findOne($query); 
+        $goal['genia_nombre']=$mygenia['nombre'];
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.genias_goals';
-        $query = array('id' => (integer) $goal['id']);
+        $query = array('id' => (integer) $goal['id']);       
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
 
     function get_goals($idu) {
         $container = 'container.genias_goals';
-        $this->lang->load('calendar', $this->config->item('language'));
+        $this->lang->load('calendar', $this->config->item('languaje'));
+
         $genias = $this->get_genia($idu); 
         $idus=array($idu);
         // Por cada Genia

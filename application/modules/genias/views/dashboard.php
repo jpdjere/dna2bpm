@@ -36,7 +36,7 @@
                         <label>Genia</label>
                         <select name="genia" class="input-block-level">
                             {genias}
-                            <option value="{nombre}">{nombre}</option>
+                            <option value="{_id}">{nombre}</option>
                             {/genias}
                         </select>
                         <div class="">
@@ -147,7 +147,7 @@
                             <i class="icon-user" ></i> Autor: {owner}
                         </li>
                         <li>
-                            <i class="icon-flag" ></i> Genia: {genia}
+                            <i class="icon-flag" ></i> Genia: {genia_nombre}
                         </li>
                     </ul>
                 </div>

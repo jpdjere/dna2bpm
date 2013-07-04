@@ -53,6 +53,7 @@ class Genias extends MX_Controller {
         $customData['goal_cumplidas']=0;
         $goals = $this->genias_model->get_goals((int) $this->idu);
         foreach ($goals as $goal) {
+           // var_dump($goal);
             // === Nombre del proyecto === @todo - Traerlo del model
 //            foreach ($customData['projects'] as $current) {
 //                if ($current['id'] == $goals['proyecto'])
