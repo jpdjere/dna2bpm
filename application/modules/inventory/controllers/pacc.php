@@ -60,7 +60,7 @@ LIMIT 10";
             $qr->nombre_empresa=$empresa->nombre;
             $qr->cuit_empresa=$empresa->cuit;
             }
-            $data = $this->module_url . "info/$type/$code";
+            $data = $this->module_url . "info/PDE/".$qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $cpData['qr'][]=(array)$qr;
             
