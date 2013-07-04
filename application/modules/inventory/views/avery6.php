@@ -1,10 +1,9 @@
-<div  class="row-fluid">
+<div  class="row">
     {qr}
     <div class="span6">
         <div class="span6">
-
             <div class="img-polaroid">
-                <img src="{src}"/><br>
+                <img src="{src}"/>
             </div>
         </div>
         <div class="span6">
