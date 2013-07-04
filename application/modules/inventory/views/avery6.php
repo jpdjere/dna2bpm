@@ -5,6 +5,7 @@
             {PDE}
         </h3>
         {nombre_empresa}
+        <br/>
         {cuit_empresa}
     </div>
     {/qr}

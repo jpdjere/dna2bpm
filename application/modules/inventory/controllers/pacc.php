@@ -22,9 +22,11 @@ class Pacc extends MX_Controller {
         $this->load->library('ui');
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . 'qr/';
+        $this->module_url = base_url() . 'inventory/';
         //----LOAD LANGUAGE
         $this->idu = (float) $this->session->userdata('iduser');
+        //---QR
+        $this->load->module('qr');
     }
 
     function Index() {
@@ -58,6 +60,8 @@ LIMIT 10";
             $qr->nombre_empresa=$empresa->nombre;
             $qr->cuit_empresa=$empresa->cuit;
             }
+            $data = $this->module_url . "info/$type/$code";
+            $encoded_url = $this->qr->encode($data);
             $cpData['qr'][]=(array)$qr;
             
         }
