@@ -35,7 +35,19 @@ AND idsent.estado = 'activa'
 LIMIT 10";
         $query = $this->db->query($SQL);
         foreach ($query->result() as $row) {
-            var_dump($row);
+            $qr=$row;
+            $SQL="SELECT t1.valor as nombre,t2.valro as cuit FROM td_empresas AS t1 
+                INNER JOIN td_empresas AS tp2 ON tp1.id = tp2.id
+                WHERE 
+                t1.idpreg=1693 
+                AND t2.idpreg=1695 
+                AND id=".$row('Empresa');
+            $query_empresa=$this->db->query($SQL);
+            $empresa=$query_empresa->result();
+            $row['nombre_empresa']=$empresa['nombre'];
+            $row['cuit_empresa']=$empresa['cuit'];
+            var_dump($qr);
+            
         }
 //$this->ui->compose('demoindex', 'bootstrap.ui.php', $cpData);
     }
