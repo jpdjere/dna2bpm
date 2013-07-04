@@ -1,13 +1,13 @@
 <div  class="row-fluid">
     {qr}
     <div class="span6">
-        <div class="span3">
+        <div class="span6">
 
             <div class="img-polaroid">
                 <img src="{src}"/><br>
             </div>
         </div>
-        <div class="span3">
+        <div class="span6">
 
             <h3>
                 {PDE}
