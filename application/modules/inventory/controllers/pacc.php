@@ -62,7 +62,7 @@ LIMIT 10";
             }
             $data = $this->module_url . "info/PDE/".$qr->PDE;
             $encoded_url = $this->qr->encode($data);
-            $qr->src=$encoded_url;
+            $qr->src= $this->base_url . "qr/gen_url/$encoded_url/6/L";
             
             $cpData['qr'][]=(array)$qr;
             
