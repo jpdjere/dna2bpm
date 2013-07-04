@@ -3,9 +3,7 @@
     <div class="span6">
         <div class="row">
             <div class="span6">
-                <div class="img-polaroid">
-                    <img src="{src}"/>
-                </div>
+                <div class="img-polaroid"><img src="{src}"/></div>
             </div>
             <div class="span6">
 
