@@ -14,7 +14,7 @@ class Genias_model extends CI_Model {
         parent::__construct();
         $this->idu = (int) $this->session->userdata('iduser');
         /* Set locale to Spansih */
-        setlocale(LC_ALL, 'es_ES');
+
     }
 
     // ======= TAREAS ======= //
@@ -70,6 +70,7 @@ class Genias_model extends CI_Model {
 
     function get_goals($idu) {
         $container = 'container.genias_goals';
+        $this->lang->load('calendar', $this->config->item('language'));
         $genias = $this->get_genia($idu); 
         $idus=array($idu);
         // Por cada Genia
@@ -87,11 +88,12 @@ class Genias_model extends CI_Model {
         $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
         $result=array();
         while($mygoals=$goals->getnext()){
-            // Locale -> Periodo
-            $desde=  date_parse_from_format('Y-m-d', $mygoals['desde']);
-            $mygoals['desde']= strftime("%B , %Y", mktime(0, 0, 0, $desde['month'], 1, $desde['year']));
+        // Mes 
+        $date = date_create_from_format('Y-m-d', $mygoals['desde']);
+        $mes='cal_'.strtolower(date_format($date, 'F'));
+        $mygoals['desde']=$this->lang->line($mes);
 
-            $result[]=$mygoals;
+        $result[]=$mygoals;
         }
 
         return $result;

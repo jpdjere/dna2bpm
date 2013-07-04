@@ -91,6 +91,7 @@ class Genias extends MX_Controller {
             $goal['cumplidas_count'] = count($goal['cumplidas']);
 
             $mygoals[] = $goal;
+            //var_dump($goal);
         }
         $ratio=$customData['goal_cantidad']-$customData['goal_cumplidas'];
         if($ratio>=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-success';
