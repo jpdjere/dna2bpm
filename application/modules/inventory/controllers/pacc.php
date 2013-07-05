@@ -43,7 +43,7 @@ AND tp2.idpreg = 6390
 AND tp3.idpreg = 5673
 AND tp4.idpreg = 6223
 AND idsent.estado = 'activa' 
-LIMIT 10";
+LIMIT 20";
         $query = $this->db->query($SQL);
         foreach ($query->result() as $row) {
             $qr = $row;
@@ -63,12 +63,16 @@ LIMIT 10";
             $data = $this->module_url . "info/PDE/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
-
+            $qr->PDE='PDE-'.$qr->PDE;
             $cpData['qr'][] = (array) $qr;
         }
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $this->ui->compose('avery6', 'bootstrap.ui.php', $cpData);
+        $cpData['title'] = 'Avery⁶';
+        $cpData['css'] = array(
+            $this->base_url . "inventory/assets/css/avery6.css" => 'custom css',
+        );
+        $this->ui->compose('label2col', 'bootstrap.ui.php', $cpData);
     }
 
 }

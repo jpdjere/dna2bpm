@@ -1,0 +1,27 @@
+/* 
+    Document   : avery6
+    Created on : Jul 4, 2013, 9:44:26 PM
+    Author     : Juan Ignacio Borda <juanignacioborda@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+@page {
+    size: A4;
+    margin-top:0.5in;
+    margin-bottom: 0.5in;
+    margin-left: 0.17in;
+    margin-right:0.17in;
+    marks: crop cross;
+}
+h2{
+    font-size: .8cm;
+}
+.card {
+    /*border: 1px solid darkgrey;*/
+    
+    margin-left: .2cm;
+    margin-right: .2cm;
+    margin-top: .5cm;
+    margin-bottom: .5cm;
+}
