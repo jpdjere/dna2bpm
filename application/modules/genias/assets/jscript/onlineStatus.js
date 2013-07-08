@@ -3,7 +3,7 @@
  * 
  */
 function updateOnlineStatus(msg) {
-    //var status = Ext.getElementById("status");
+    var status = Ext.getElementById("status");
     var condition = navigator.onLine ? "On-Line" : "Off-Line";
     var icon = navigator.onLine ? "icon-circle" : "icon-off";
     
