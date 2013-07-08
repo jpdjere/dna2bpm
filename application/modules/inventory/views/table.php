@@ -12,16 +12,16 @@
         {qr}
         <tr >
             <td>
-<!--                <img src="{src}"/>-->
-                {src}
+<img src="{src}"/>
             </td>
             <td>
                 {PDE}
-            </td>
-            <td>
+            <br/>
+            <br/>
+                
                 {nombre_empresa}
-            </td>
-            <td>
+            <br/>
+            <br/>
                 {cuit_empresa}
             </td>
         </tr>
