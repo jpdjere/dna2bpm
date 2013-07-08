@@ -1,12 +1,12 @@
 <table >
-    <thead>
+<!--    <thead>
         <tr>
             <th>QR</th>
             <th>PDE</th>
             <th>Nombre Empresa</th>
             <th>CUIT</th>
         </tr>
-    </thead>
+    </thead>-->
     <tbody>
 
         {qr}
