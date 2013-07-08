@@ -68,8 +68,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
                             <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
+                            <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
                         </ul>
                     </div>
                 </div>
