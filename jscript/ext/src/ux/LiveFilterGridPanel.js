@@ -79,7 +79,7 @@ Ext.define('Ext.ux.LiveFilterGridPanel', {
             xtype: 'textfield',
             name: 'searchField',
             hideLabel: true,
-            width: 200,
+            width: 200
             /*
             listeners: {
                      change: {
