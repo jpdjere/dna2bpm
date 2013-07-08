@@ -11,12 +11,12 @@ var VisitasGrid = Ext.create('Ext.view.View',
         {
             id: 'VisitasGrid',
             store: VisitasStore,
-            tpl: notaTpl,             
+            tpl: notaTpl,
             itemSelector: 'span.fecha',
             listeners:
                     {
                         itemclick: function(me, record, item, index, e, eOpts) {
                             //alert('click')
-                        },                        
+                        },
                     }
         });
