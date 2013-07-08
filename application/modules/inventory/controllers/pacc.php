@@ -30,6 +30,10 @@ class Pacc extends MX_Controller {
     }
 
     function Index() {
+        $this->PDE();
+    }
+
+    function PDE() {
         $cpData = array();
         $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
 FROM td_pacc_1 AS tp1
@@ -64,7 +68,7 @@ LIMIT 20";
             $data = $this->module_url . "info/PDE/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
-            $qr->PDE='PDE-'.$qr->PDE;
+            $qr->PDE = 'PDE-' . $qr->PDE;
             $cpData['qr'][] = (array) $qr;
         }
         $cpData['base_url'] = $this->base_url;
