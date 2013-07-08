@@ -12,7 +12,8 @@
         {qr}
         <tr >
             <td>
-                <img src="{src}"/>
+<!--                <img src="{src}"/>-->
+                {src}
             </td>
             <td>
                 {PDE}
