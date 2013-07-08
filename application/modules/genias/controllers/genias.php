@@ -110,11 +110,48 @@ class Genias extends MX_Controller {
         $this->render('dashboard', $customData);
     }
 
-    function render($file, $customData) {
+    function Inbox() {
+        $this->load->model('msg');
 
+        $customData['lang'] = (array) $this->user->get_user($this->idu);
+        $customData['user'] = (array) $this->user->get_user($this->idu);
+        $customData['inbox_icon'] = 'icon-envelope';
+        $customData['inbox_title'] = $this->lang->line('Inbox');
+        $customData['js'] = array($this->base_url . "dna2/assets/jscript/inbox.js" => 'Inbox JS');
+        $customData['css'] = array($this->base_url . "dna2/assets/css/dashboard.css" => 'Dashboard CSS');
+        //debug
+
+
+        $mymgs = $this->msg->get_msgs($this->idu);
+
+        foreach ($mymgs as $msg) {
+            $msg['msgid'] = $msg['_id'];
+            $msg['date'] = substr($msg['checkdate'], 0, 10);
+            $msg['icon_star'] = (isset($msg['star']) && $msg['star'] == true) ? ('icon-star') : ('icon-star-empty');
+            $msg['read'] = (isset($msg['read']) && $msg['read'] == true) ? ('muted') : ('');
+            if (isset($msg['from'])) {
+                $userdata = $this->user->get_user($msg['from']);
+                if (!is_null($userdata))
+                    $msg['sender'] = $userdata->nick;
+                else
+                    $msg['sender'] = "No sender";
+            }else {
+                $msg['sender'] = "System";
+            }
+
+
+
+            $customData['mymsgs'][] = $msg;
+        }
+
+        $this->render('dna2/inbox', $customData);
+    }
+
+    function render($file, $customData) {
         $this->load->model('user/user');
-        $this->user->authorize();
-        $cpData = $this->lang->language;
+        $this->load->model('msg');
+        $this->load->language('inbox');
+        $cpData['lang'] = $this->lang->language;
         $segments = $this->uri->segment_array();
         $cpData['nolayout'] = (in_array('nolayout', $segments)) ? '1' : '0';
         $cpData['theme'] = $this->config->item('theme');
@@ -142,6 +179,11 @@ class Genias extends MX_Controller {
         $mygenias = $this->get_genia();
         $cpData['genias'] = $mygenias['genias'];
         $cpData = array_replace_recursive($customData, $cpData);
+
+        /* Inbox Count MSgs */
+        $mymgs = $this->msg->get_msgs($this->idu);
+        $cpData['inbox_count'] = $mymgs->count();
+
         $this->ui->compose($file, 'layout.php', $cpData);
     }
 

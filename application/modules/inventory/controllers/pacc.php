@@ -30,6 +30,10 @@ class Pacc extends MX_Controller {
     }
 
     function Index() {
+        $this->PDE();
+    }
+
+    function PDE() {
         $cpData = array();
         $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
 FROM td_pacc_1 AS tp1
@@ -43,6 +47,7 @@ AND tp2.idpreg = 6390
 AND tp3.idpreg = 5673
 AND tp4.idpreg = 6223
 AND idsent.estado = 'activa' 
+ORDER BY PDE 
 LIMIT 20";
         $query = $this->db->query($SQL);
         foreach ($query->result() as $row) {
@@ -63,16 +68,18 @@ LIMIT 20";
             $data = $this->module_url . "info/PDE/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
-            $qr->PDE='PDE-'.$qr->PDE;
+            $qr->PDE = 'PDE-' . $qr->PDE;
             $cpData['qr'][] = (array) $qr;
         }
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Avery⁶';
+        $cpData['title'] = 'Avery4';
         $cpData['css'] = array(
             $this->base_url . "inventory/assets/css/avery6.css" => 'custom css',
         );
-        $this->ui->compose('label2col', 'bootstrap.ui.php', $cpData);
+        $this->ui->compose('table', 'bootstrap.ui.php', $cpData);
+
+        
     }
 
 }
