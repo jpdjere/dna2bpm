@@ -667,8 +667,11 @@ class Genias extends MX_Controller {
         $empresas = $this->genias_model->get_empresas($query);
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
-            if (isset($thisEmpresa[1699]))
-                $thisEmpresa['partido_txt'] =(isset($partidos[$thisEmpresa[1699][0]]))? $partidos[$thisEmpresa[1699][0]]:$thisEmpresa[1699][0];
+            if (isset($thisEmpresa[1699])) {
+                $thisEmpresa['partido_txt'] = (isset($partidos[$thisEmpresa[1699][0]])) ? $partidos[$thisEmpresa[1699][0]] : $thisEmpresa[1699][0];
+            } else {
+                $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
+            }
         }
         //var_dump($empresas);
         $rtnArr = array();
