@@ -1,6 +1,6 @@
 Ext.onReady(function() {
     var onlineMode = (navigator.onLine) ? true : false;
-    //var mode = (onlineMode) ? '<div id="status"><i class="icon icon-circle"></i> On-Line' : '<i class="icon icon-off"></i> Off-Line...</div>';
+    var mode = (onlineMode) ? '<div id="status"><i class="icon icon-circle"></i> On-Line' : '<i class="icon icon-off"></i> Off-Line...</div>';
 
     if (onlineMode) {
         storeEmpresaOffline.load();
