@@ -49,11 +49,11 @@ class Genias extends MX_Controller {
 
         $rol = $genias['rol'];
         $mygoals = array();
-        $customData['goal_cantidad']=0;
-        $customData['goal_cumplidas']=0;
+        $customData['goal_cantidad'] = 0;
+        $customData['goal_cumplidas'] = 0;
         $goals = $this->genias_model->get_goals((int) $this->idu);
         foreach ($goals as $goal) {
-           // var_dump($goal);
+            // var_dump($goal);
             // === Nombre del proyecto === @todo - Traerlo del model
 //            foreach ($customData['projects'] as $current) {
 //                if ($current['id'] == $goals['proyecto'])
@@ -94,10 +94,13 @@ class Genias extends MX_Controller {
             $mygoals[] = $goal;
             //var_dump($goal);
         }
-        $ratio=$customData['goal_cantidad']-$customData['goal_cumplidas'];
-        if($ratio>=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-success';
-        if($ratio>=($customData['goal_cantidad']*.3) and $ratio<=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-block';
-        if($ratio<=($customData['goal_cantidad']*.3)) $customData['resumen_class']='alert-error';
+        $ratio = $customData['goal_cantidad'] - $customData['goal_cumplidas'];
+        if ($ratio >= ($customData['goal_cantidad'] * .7))
+            $customData['resumen_class'] = 'alert-success';
+        if ($ratio >= ($customData['goal_cantidad'] * .3) and $ratio <= ($customData['goal_cantidad'] * .7))
+            $customData['resumen_class'] = 'alert-block';
+        if ($ratio <= ($customData['goal_cantidad'] * .3))
+            $customData['resumen_class'] = 'alert-error';
         //var_dump($customData);
         $customData['metas'] = $mygoals;
 
@@ -215,7 +218,7 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['css'] = array($this->module_url . "assets/css/tasks.css" => 'Genias CSS');
-         $customData['js'] = array($this->module_url . "assets/jscript/tasks.js" => 'Tasks JS');
+        $customData['js'] = array($this->module_url . "assets/jscript/tasks.js" => 'Tasks JS');
         $customData['genia'] = $this->get_genia('nombre');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
@@ -622,10 +625,14 @@ class Genias extends MX_Controller {
     function Empresas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
-
+        $provincias = array();
         foreach ($genias['genias'] as $thisGenia) {
             if (isset($thisGenia['query_empresas'])) {
                 foreach ($thisGenia['query_empresas'] as $key => $value) {
+                    //---me gurado provincias para filtrar partidos
+                    if ($key == 4651) {
+                        $provincias[] = $value;
+                    }
                     if (isset($query[$key])) {
                         if (is_array($query[$key])) {
                             array_push($query[$key]['$in'], $value);
@@ -648,7 +655,25 @@ class Genias extends MX_Controller {
          * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
          * Basado en el idgenia
          */
+        //---cacheo los partidos
+        $partidos = array();
+        if (isset($query['4651'])) {
+            foreach ($provincias as $prov) {
+                $par = $this->app->get_ops(58, $prov);
+                $partidos+=$par;
+            }
+        }
+
         $empresas = $this->genias_model->get_empresas($query);
+        for ($i = 0; $i < count($empresas); $i++) {
+            $thisEmpresa = &$empresas[$i];
+            if (isset($thisEmpresa[1699])) {
+                $thisEmpresa['partido_txt'] = (isset($partidos[$thisEmpresa[1699][0]])) ? $partidos[$thisEmpresa[1699][0]] : $thisEmpresa[1699][0];
+            } else {
+                $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
+            }
+        }
+        //var_dump($empresas);
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
         $rtnArr['rows'] = $empresas;

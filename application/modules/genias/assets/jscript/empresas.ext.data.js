@@ -32,6 +32,7 @@ Ext.define('EmpresaModel', {
     , '4655' //     Piso
     , '4656' //     Dto Oficina
     , '1699' // 	Partido
+    , 'partido_txt' // 	Partido en texto ->viene del server
     , 'status' //      Syncro data (date?) / dirty
     ,'notas'   // solo para el form de notas
     , 'task'    //Taras asociadas desde la agenda
