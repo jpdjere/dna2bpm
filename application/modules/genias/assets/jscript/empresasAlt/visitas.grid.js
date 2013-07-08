@@ -1,7 +1,7 @@
 var notaTpl = new Ext.XTemplate(
         '<tpl for=".">',
         '<div class="img-polaroid">',
-        '<span class="fecha label label-success">{fecha}</span>',
+        '<span class="fecha label label-success">{[fm.date(fecha,"D jS, F Y \\\\a\\\\t h:i A")]}{fecha}</span>',
         '<h5>{nota}</h5>',
         '</div>',
         '</tpl>'
@@ -16,7 +16,7 @@ var VisitasGrid = Ext.create('Ext.view.View',
             listeners:
                     {
                         itemclick: function(me, record, item, index, e, eOpts) {
-                            alert('click')
+                            //alert('click')
                         },                        
                     }
         });
