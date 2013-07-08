@@ -2,7 +2,9 @@ CACHE MANIFEST # Comments are OK here
 #Generated: 2013-03-22T09:12
 #Spaces before comments shouldn't matter
 
-#/dna2bpm/genias/
+#INDEX
+/dna2bpm/genias/
+
 #JS FILES 2013-05-011 13:00
 #/dna2bpm/jscript/ext/ext-all-dev.js
 
