@@ -73,11 +73,13 @@ LIMIT 20";
         }
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Avery⁶';
+        $cpData['title'] = 'Avery4';
         $cpData['css'] = array(
             $this->base_url . "inventory/assets/css/avery6.css" => 'custom css',
         );
-        $this->ui->compose('label2col', 'bootstrap.ui.php', $cpData);
+        $this->ui->compose('table', 'bootstrap.ui.php', $cpData);
+
+        
     }
 
 }
