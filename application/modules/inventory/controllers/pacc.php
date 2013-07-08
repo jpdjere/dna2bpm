@@ -47,7 +47,7 @@ AND tp2.idpreg = 6390
 AND tp3.idpreg = 5673
 AND tp4.idpreg = 6223
 AND idsent.estado = 'activa' 
-ORDER BY PDE ";
+ORDER BY PDE";
         $query = $this->db->query($SQL);
         foreach ($query->result() as $row) {
             $qr = $row;
