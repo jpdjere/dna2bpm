@@ -91,7 +91,7 @@ class Recover extends MX_Controller {
             $content.="<p>Hemos recibido un pedido de reseteo de contraseña a su nombre.</p>";
             $content.="<p>Su nombre de usuario es: <strong>{$dbobj['nick']}</strong></p>";
             $content.="<p>Si ha sido efectuado por Ud. simplemente haga click en el link al pie y ud podrá elegir su nueva contraseña.</p>";
-            $content.="<a href='{$this->base_url} /login.php?token=$token&uid={$dbobj['idu']}'>Quiero resetear mi clave</a>";
+            $content.="<a href='{$this->base_url}user/recover/login.php?token=$token&uid={$dbobj['idu']}'>Quiero resetear mi clave</a>";
 
             $this->email->clear();
             $config['mailtype'] = "html";
@@ -121,6 +121,10 @@ class Recover extends MX_Controller {
     
     
     function ChangePassword(){
+        
+        $clean['email']  = $this->input->post('mail');
+        echo "entro:".$clean['email'];
+        
         
 //        if($_REQUEST["cmd"]=='changePassToken'){
 //$clean = array();
