@@ -36,6 +36,7 @@ Ext.define('EmpresaModel', {
     , 'status' //      Syncro data (date?) / dirty
     ,'notas'   // solo para el form de notas
     , 'task'    //Taras asociadas desde la agenda
+    , 'tipovisita' //tipo de visita
     ]
 });
 
