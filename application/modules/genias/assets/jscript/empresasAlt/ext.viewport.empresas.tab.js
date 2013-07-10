@@ -17,10 +17,10 @@ Ext.onReady(function() {
     var tabs = new Ext.TabPanel({
         activeTab: 0,
         items: [{
-                title: 'Datos Empresa',
-                items: [EmpresaForm]
+                title: 'Datos Visita',
+                items: [VisitaForm]
             }, {
-                title: 'Visitas',
+                title: 'Visitas | Historico',
                 items: [VisitasGrid]
             }],
         defaults: {
@@ -73,8 +73,8 @@ Ext.onReady(function() {
                         bodyStyle: 'padding:5px 0 5px 5px',
                         items: [{
                                 title: 'Datos Empresa',
-                                //items: [EmpresaForm],
-                                items: tabs
+                                items: [EmpresaForm],
+                                
 
                             }]
                     }, {
@@ -83,7 +83,8 @@ Ext.onReady(function() {
                         bodyStyle: 'padding:5px 0 5px 5px',
                         items: [{
                                 title: 'Visitas',
-                                items: [VisitasGrid]
+                                //items: [VisitasGrid]
+                                items: tabs
                             }]
                     }]
             }]
