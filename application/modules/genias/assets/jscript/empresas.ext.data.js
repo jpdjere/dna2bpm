@@ -88,6 +88,13 @@ Ext.define('OpcionModelPtdo', {
 
 });
 
+Ext.define('OpcionModelTipoVisita', {
+    extend: "Ext.data.Model",
+    fields: ['value', 'text']
+
+});
+
+
 
 
 
@@ -285,6 +292,31 @@ var PartidoStore = Ext.create('Ext.data.Store', {
     }
 });
 
+
+/*
+ * @Name Partidos
+ * @type Store 
+ * 
+ */
+var TipoVisitaStore = Ext.create('Ext.data.Store', {
+    id: 'TipoVisitaStore',
+    autoLoad: true,
+    model: 'OpcionModelTipoVisita',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'assets/json/tiposvisita.json',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+});
 
 var storeEmpresaOffline = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
