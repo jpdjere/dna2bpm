@@ -12,6 +12,7 @@ class Recover extends MX_Controller {
         $this->module_url = base_url() . 'user/';
         //----load parser
         $this->load->library('parser');
+        $this->load->library('email');
         $this->load->config('config');
         
         
@@ -96,25 +97,47 @@ class Recover extends MX_Controller {
                 $email=$clean['email'];
                 $nombre="Usuario";
 
-//                $mail = new PHPMailer();
-//                //$mail->SMTPDebug=2;
-//                $mail->CharSet = "UTF-8";
-//                $mail->IsSMTP();
-//                $mail->Host=$server;
-//                $mail->From=$from;
-//                $mail->FromName=$fromName;
-//                $mail->WordWrap=75;
-//                $mail->Subject="Reseteo de contraseña sistema DNA2";
-//                $mail->IsHTML(true);
-//                $mail->AddAddress($email,$nombre);
-//                $mail->Body=$content;
 
-//                if($mail->Send()){
-//                exit("1, Email enviado correctamente $email");
-//                }else{
-//                exit("0, Se ha producido un error");
-//                }
 
+    $this->email->clear();
+    $config['mailtype'] = "html";
+    $this->email->initialize($config);
+    $this->email->set_newline("\r\n");
+    $this->email->from('email@example.com', 'Website');
+    $list = array('astrid.benavides@gmail.com', 'lara8dos@gmail.com');
+    $this->email->to($list);
+    $data = array();
+    $htmlMessage = $this->parser->parse('messages/email', $data, true);
+    $this->email->subject('This is an email test');
+    $this->email->message($htmlMessage);
+
+
+
+    if ($this->email->send()) {
+        echo 'Your email was sent, thanks chamil.';
+    } else {
+        show_error($this->email->print_debugger());
+    }
+
+                /*$mail = new PHPMailer();
+                //$mail->SMTPDebug=2;
+                $mail->CharSet = "UTF-8";
+                $mail->IsSMTP();
+                $mail->Host=$server;
+                $mail->From=$from;
+                $mail->FromName=$fromName;
+                $mail->WordWrap=75;
+                $mail->Subject="Reseteo de contraseña sistema DNA2";
+                $mail->IsHTML(true);
+                $mail->AddAddress($email,$nombre);
+                $mail->Body=$content;
+
+                if($mail->Send()){
+                exit("1, Email enviado correctamente $email");
+                }else{
+                exit("0, Se ha producido un error");
+                }
+*/
         }else{
         exit("0, No se ha podido enviar el email. No existe el email o el DNI.");
         }
