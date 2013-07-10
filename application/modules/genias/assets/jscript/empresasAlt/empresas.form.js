@@ -417,7 +417,6 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
 });
 
 
-
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [EmpresaForm]
@@ -427,3 +426,5 @@ var VisitaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [VisitaForm]
 });
+
+
