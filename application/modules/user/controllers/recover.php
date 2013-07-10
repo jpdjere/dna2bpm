@@ -13,6 +13,7 @@ class Recover extends MX_Controller {
         //----load parser
         $this->load->library('parser');
         $this->load->library('email');
+       
         $this->load->config('config');
         
         
