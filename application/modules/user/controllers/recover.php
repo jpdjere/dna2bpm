@@ -13,6 +13,7 @@ class Recover extends MX_Controller {
         //----load parser
         $this->load->library('parser');
         $this->load->library('email');
+       
         $this->load->config('config');
         
         
@@ -84,60 +85,32 @@ class Recover extends MX_Controller {
         
         if(isset($dbobj['idu'])){ 
 
-                $token=md5($dbobj['email'].$dbobj['idu']);
+            $token=md5($dbobj['email'].$dbobj['idu']);
 
-                $server="relay1.mecon.ar";
-                $from="dna2@industria.gob.ar";
-                $fromname="Soporte";
-                $content="<h2>Estimado usuario, </h2>";
-                $content.="<p>Hemos recibido un pedido de reseteo de contraseña a su nombre.</p>";
-                $content.="<p>Su nombre de usuario es: <strong>{$dbobj['nick']}</strong></p>";
-                $content.="<p>Si ha sido efectuado por Ud. simplemente haga click en el link al pie y ud podrá elegir su nueva contraseña.</p>";
-                $content.="<a href='{$this->base_url} /login.php?token=$token&uid={$dbobj['idu']}'>Quiero resetear mi clave</a>";
-                $email=$clean['email'];
-                $nombre="Usuario";
+            $content="<h2>Estimado usuario, </h2>";
+            $content.="<p>Hemos recibido un pedido de reseteo de contraseña a su nombre.</p>";
+            $content.="<p>Su nombre de usuario es: <strong>{$dbobj['nick']}</strong></p>";
+            $content.="<p>Si ha sido efectuado por Ud. simplemente haga click en el link al pie y ud podrá elegir su nueva contraseña.</p>";
+            $content.="<a href='{$this->base_url}user/recover/login.php?token=$token&uid={$dbobj['idu']}'>Quiero resetear mi clave</a>";
 
-
-
-    $this->email->clear();
-    $config['mailtype'] = "html";
-    $this->email->initialize($config);
-    $this->email->set_newline("\r\n");
-    $this->email->from('email@example.com', 'Website');
-    $list = array('astrid.benavides@gmail.com', 'lara8dos@gmail.com');
-    $this->email->to($list);
-    $data = array();
-    $htmlMessage = 'This is a test.';
-    $this->email->subject('This is an email test');
-    $this->email->message($htmlMessage);
+            $this->email->clear();
+            $config['mailtype'] = "html";
+            $this->email->initialize($config);
+            $this->email->set_newline("\r\n");
+            $this->email->from('dna2@industria.gob.ar', 'Soporte');
+            $list = array($clean['email']); //$list = array('xxx@gmail.com', 'xxx@gmail.com');
+            $this->email->to($list);
+            $data = array();
+            $this->email->subject('Reseteo de contraseña sistema DNA2');
+            $this->email->message($content);
 
 
 
-    if ($this->email->send()) {
-        echo 'Your email was sent, thanks chamil.';
-    } else {
-        show_error($this->email->print_debugger());
-    }
-
-                /*$mail = new PHPMailer();
-                //$mail->SMTPDebug=2;
-                $mail->CharSet = "UTF-8";
-                $mail->IsSMTP();
-                $mail->Host=$server;
-                $mail->From=$from;
-                $mail->FromName=$fromName;
-                $mail->WordWrap=75;
-                $mail->Subject="Reseteo de contraseña sistema DNA2";
-                $mail->IsHTML(true);
-                $mail->AddAddress($email,$nombre);
-                $mail->Body=$content;
-
-                if($mail->Send()){
-                exit("1, Email enviado correctamente $email");
-                }else{
-                exit("0, Se ha producido un error");
-                }
-*/
+            if ($this->email->send())
+                echo 'Your email was sent, thanks chamil.';
+            else show_error($this->email->print_debugger());
+            
+                
         }else{
         exit("0, No se ha podido enviar el email. No existe el email o el DNI.");
         }
@@ -148,6 +121,10 @@ class Recover extends MX_Controller {
     
     
     function ChangePassword(){
+        
+        $clean['email']  = $this->input->post('mail');
+        echo "entro:".$clean['email'];
+        
         
 //        if($_REQUEST["cmd"]=='changePassToken'){
 //$clean = array();
