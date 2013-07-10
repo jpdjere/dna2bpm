@@ -107,7 +107,7 @@ class Recover extends MX_Controller {
     $list = array('astrid.benavides@gmail.com', 'lara8dos@gmail.com');
     $this->email->to($list);
     $data = array();
-    $htmlMessage = $this->parser->parse('messages/email', $data, true);
+    $htmlMessage = 'This is a test.';
     $this->email->subject('This is an email test');
     $this->email->message($htmlMessage);
 
