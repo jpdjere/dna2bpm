@@ -360,7 +360,8 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione el Tipo de Visita',
-                    editable: false
+                    editable: false,
+                    readOnly: true
 
                 }
     ],
