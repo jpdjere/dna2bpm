@@ -8,9 +8,11 @@
 Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
     fields: [
-    'fecha' // 	Fecha de la Visita 
-    , 'cuit'
-    , 'nota' // 	Comentarios 
+        'fecha' // 	Fecha de la Visita 
+                , 'cuit'
+                , 'nota' // 	Comentarios 
+                , 'tipovisita' //tipo de visita
+                , 'otros' // para tipo de visita otros
 
     ]
 });
@@ -18,25 +20,25 @@ Ext.define('visitaModel', {
 Ext.define('EmpresaModel', {
     extend: 'Ext.data.Model',
     fields: [{
-        name: 'id',
-        type: 'int',
-        useNull: true
-    }
-    , '1693'  //     Nombre de la empresa
-    , '1695'  //     CUIT
-    , '7819' // 	Longitud
-    , '7820' // 	Latitud
-    , '4651' // 	Provincia
-    , '4653' //     Calle Ruta
-    , '4654' //     Nro /km
-    , '4655' //     Piso
-    , '4656' //     Dto Oficina
-    , '1699' // 	Partido
-    , 'partido_txt' // 	Partido en texto ->viene del server
-    , 'status' //      Syncro data (date?) / dirty
-    ,'notas'   // solo para el form de notas
-    , 'task'    //Taras asociadas desde la agenda
-    , 'tipovisita' //tipo de visita
+            name: 'id',
+            type: 'int',
+            useNull: true
+        }
+        , '1693'  //     Nombre de la empresa
+                , '1695'  //     CUIT
+                , '7819' // 	Longitud
+                , '7820' // 	Latitud
+                , '4651' // 	Provincia
+                , '4653' //     Calle Ruta
+                , '4654' //     Nro /km
+                , '4655' //     Piso
+                , '4656' //     Dto Oficina
+                , '1699' // 	Partido
+                , 'partido_txt' // 	Partido en texto ->viene del server
+                , 'status' //      Syncro data (date?) / dirty
+                , 'notas'   // solo para el form de notas
+                , 'task'    //Taras asociadas desde la agenda
+
     ]
 });
 
@@ -124,28 +126,28 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
     }
     ,
     sorters: [{
-        property: '1693',
-        direction: 'ASC'
-    }]
-    ,
-    listeners:{
-        load:function(){
-            storeEmpresaOffline.load(function(){
+            property: '1693',
+            direction: 'ASC'
+        }]
+            ,
+    listeners: {
+        load: function() {
+            storeEmpresaOffline.load(function() {
                 //actualizo los modificados
                 storeEmpresaOffline.each(function(rec) {
-                    item=EmpresaStore.find('1695',rec.get('1695'));
+                    item = EmpresaStore.find('1695', rec.get('1695'));
                     //console.log(item,rec.data);
-                    if(item>=0){
+                    if (item >= 0) {
                         //----Actualizo los datos con lo modificado
                         EmpresaStore.getAt(item).set(rec.data);
-                        
+
                     } else {
                         //-----agrego al store
                         EmpresaStore.add(rec);
                     }
                 });
             });
-            
+
         }
     }
 });
@@ -194,25 +196,25 @@ var VisitasStore = Ext.create('Ext.data.Store', {
     }
     ,
     sorters: [{
-        property: 'fecha',
-        direction: 'DESC'
-    }]
-    ,
-    cuitFilter: function (cuit) {
+            property: 'fecha',
+            direction: 'DESC'
+        }]
+            ,
+    cuitFilter: function(cuit) {
         Ext.data.Store.prototype.clearFilter.call(this);
         Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
     },
-    listeners:{
-        load:function(){ 
+    listeners: {
+        load: function() {
             VisitasStore.cuitFilter('-1');
-            storeVisitaOffline.load(function(){
+            storeVisitaOffline.load(function() {
                 //actualizo los modificados
                 storeVisitaOffline.each(function(rec) {
                     VisitasStore.add(rec);
                     VisitasStore.cuitFilter('-1');
                 });
             });
-            
+
         }
     }
 });
@@ -365,7 +367,7 @@ var storeEmpresa = Ext.create('Ext.data.Store', {
         writer: {
             type: 'json',
             writeAllFields: true,
-            allowSingle:false
+            allowSingle: false
         },
         listeners: {
             exception: function(proxy, response, operation) {
@@ -409,7 +411,7 @@ var storeVisita = Ext.create('Ext.data.Store', {
         writer: {
             type: 'json',
             writeAllFields: true,
-            allowSingle:false
+            allowSingle: false
         },
         listeners: {
             exception: function(proxy, response, operation) {
