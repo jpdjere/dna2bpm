@@ -367,13 +367,11 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
                 change: function(me, newValue, oldValue, eOpts) {
 
                     if (newValue != null) {
-                        if (newValue == 5) {
+                        if (newValue != 5) {
                             Ext.getCmp('otros').hide();
-                            console.log("hide");
 
                         } else {
                             Ext.getCmp('otros').show();
-                            console.log("show");
                         }
 
                     }
