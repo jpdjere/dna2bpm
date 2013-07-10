@@ -105,7 +105,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
     xtype: 'button',
     text: '<i class="icon icon-save"></i> Guardar datos Visita',
     handler: function() {
-        
+
         var formEmpresa = EmpresaForm;
         var recordEmpresa = formEmpresa.getRecord();
 
@@ -127,7 +127,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
                 nota: data['7408']
             });
             //--agrego al que se usa para visualizar    
-            
+
             VisitasStore.add(visitaRecord);
             //---busco por cuit            
             //--agrego al que se usa para syncro y persistencia
@@ -327,6 +327,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         btnSave
     ]
 });
+
+
 var VisitaForm = Ext.create('Ext.form.Panel', {
     id: 'VisitaForm',
     autoScroll: true,
@@ -351,17 +353,40 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             name: '7408',
             allowBlank: false
         },
-                {
-                    xtype: 'combobox',
-                    name: 'tipovisita',
-                    fieldLabel: 'Tipo de Visita',
-                    store: TipoVisitaStore,
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Seleccione el Tipo de Visita',
-                    editable: false
+        {
+            xtype: 'combobox',
+            name: 'tipovisita',
+            fieldLabel: 'Tipo de Visita',
+            store: TipoVisitaStore,
+            queryMode: 'local',
+            displayField: 'text',
+            valueField: 'value',
+            emptyText: 'Seleccione el Tipo de Visita',
+            editable: false,
+            listeners: {
+                change: function(me, newValue, oldValue, eOpts) {
+
+                    if (newValue != null) {
+                        if (newValue == 5) {
+                            Ext.getCmp('otros').hide();
+                            console.log("hide");
+
+                        } else {
+                            Ext.getCmp('otros').show();
+                            console.log("show");
+                        }
+
+                    }
                 }
+            }
+
+        }, {
+            id: 'otros',
+            xtype: 'textarea',
+            fieldLabel: 'Especifique',
+            name: 'otros',
+            hidden: true
+        }
     ],
     listeners: {
         dirtychange: function(form) {
