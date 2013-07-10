@@ -2,11 +2,8 @@
     {qr}
     <div class="span6 card">
         <div class="row">
-            <div class="span3">
-                <div class="qr-container"><img src="{src}" class="qr img-polaroid"/></div>
-            </div>
-            <div class="span3 text-container">
-
+            <div class="span6 qr-container text-center"><img src="{src}" class="qr img-polaroid"/></div>
+            <div class=" card_text">
                 <h3>
                     {PDE}
                 </h3>

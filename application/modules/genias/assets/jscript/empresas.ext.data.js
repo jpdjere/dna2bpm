@@ -36,6 +36,7 @@ Ext.define('EmpresaModel', {
     , 'status' //      Syncro data (date?) / dirty
     ,'notas'   // solo para el form de notas
     , 'task'    //Taras asociadas desde la agenda
+    , 'tipovisita' //tipo de visita
     ]
 });
 
@@ -87,6 +88,13 @@ Ext.define('OpcionModelPtdo', {
     fields: ['idrel', 'value', 'text']
 
 });
+
+Ext.define('OpcionModelTipoVisita', {
+    extend: "Ext.data.Model",
+    fields: ['value', 'text']
+
+});
+
 
 
 
@@ -285,6 +293,31 @@ var PartidoStore = Ext.create('Ext.data.Store', {
     }
 });
 
+
+/*
+ * @Name Partidos
+ * @type Store 
+ * 
+ */
+var TipoVisitaStore = Ext.create('Ext.data.Store', {
+    id: 'TipoVisitaStore',
+    autoLoad: true,
+    model: 'OpcionModelTipoVisita',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'assets/json/tiposvisita.json',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+});
 
 var storeEmpresaOffline = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',

@@ -1,0 +1,15 @@
+
+{"totalcount": 5,
+    "rows": [{
+            "value": "1", "text": "Via Email"
+        }
+        , {
+            "value": "2", "text": "Llamado Telefonico"
+        }, {
+            "value": "3", "text": "Oficina Genia"
+        }, {
+            "value": "4", "text": "Visita"
+        }, {
+            "value": "5", "text": "Otro"
+        }
+    ]}
