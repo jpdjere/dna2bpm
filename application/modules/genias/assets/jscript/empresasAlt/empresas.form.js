@@ -1,3 +1,8 @@
+var countSync = function() {
+    var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
+    Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
+}
+
 var SearchEmpresa = function(me) {
     val = me.value
     if (me.isValid() && me.value.length == 13 && !EmpresaStore.isLoading()) {
@@ -94,7 +99,9 @@ var btnSave = Ext.create('Ext.Action', {
         }
         storeEmpresaOffline.add(record);
         storeEmpresaOffline.sync();
-        Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
+
+        /*Sync Button*/
+        countSync();
     }
 
 });
@@ -124,7 +131,9 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
                 cuit: dataEmpresa['1695'],
-                nota: data['7408']
+                nota: data['7408'],
+                tipo: data['tipovisita'],
+                otros: data['otros']
             });
             //--agrego al que se usa para visualizar    
 
@@ -132,11 +141,12 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             //---busco por cuit            
             //--agrego al que se usa para syncro y persistencia
             storeVisitaOffline.add(visitaRecord);
-            console.log(storeVisitaOffline);
             storeVisitaOffline.sync();
             VisitasGrid.refresh();
             /*Actualizo listado de pendientes*/
-            Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
+
+            /*Sync Button*/
+            countSync();
         }
     }
 
@@ -305,7 +315,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 Ext.getCmp('task').setValue(EmpresaForm.params['task']);
         },
         dirtychange: function(form) {
-            Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar..');
+            /*Sync Button*/
+            countSync();
+
             if (!EmpresaStore.isLoading())
                 EmpresaForm.setLoading(false);
             if (form.isDirty()) {
@@ -365,7 +377,6 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             editable: false,
             listeners: {
                 change: function(me, newValue, oldValue, eOpts) {
-
                     if (newValue != null) {
                         if (newValue != 5) {
                             Ext.getCmp('otros').hide();
@@ -388,7 +399,9 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
     ],
     listeners: {
         dirtychange: function(form) {
-            Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar..');
+            /*Sync Button*/
+            countSync();
+
             if (!EmpresaStore.isLoading())
                 EmpresaForm.setLoading(false);
             if (form.isDirty()) {
