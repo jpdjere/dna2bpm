@@ -71,9 +71,7 @@ var btnNew = Ext.create('Ext.Action', {
         /*Reseteo si hubiera una tarea asociada anterio*/
         EmpresaForm.params['task'] = null;
         Ext.getCmp('task').setValue("");
-
     }
-
 });
 
 
@@ -81,7 +79,7 @@ var btnSave = Ext.create('Ext.Action', {
     id: 'btn_save',
     disabled: true,
     xtype: 'button',
-    text: '<i class="icon icon-save"></i> Guardar',
+    text: '<i class="icon icon-save"></i> Guardar datos Empresa',
     handler: function() {
         var form = EmpresaForm;
         var record = form.getRecord();
@@ -96,20 +94,45 @@ var btnSave = Ext.create('Ext.Action', {
         }
         storeEmpresaOffline.add(record);
         storeEmpresaOffline.sync();
-        data = form.getValues();
+        Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
+    }
 
+});
+
+var btnSaveVisita = Ext.create('Ext.Action', {
+    id: 'btn_save_visita',
+    disabled: true,
+    xtype: 'button',
+    text: '<i class="icon icon-save"></i> Guardar datos Visita',
+    handler: function() {
+        
+        var formEmpresa = EmpresaForm;
+        var recordEmpresa = formEmpresa.getRecord();
+
+        var form = VisitaForm;
+
+        var record = form.getRecord();
+        if (record) {
+            //----es uno del grid
+            form.getForm().updateRecord(record);
+        }
+        data = form.getValues();
+        dataEmpresa = formEmpresa.getValues();
         var d = new Date();
         var n = d.toISOString();
         if (data['7408']) {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
-                cuit: data['1695'],
+                cuit: dataEmpresa['1695'],
                 nota: data['7408']
             });
-            //--agrego al que se usa para visualizar           
+            //--agrego al que se usa para visualizar    
+            
             VisitasStore.add(visitaRecord);
+            //---busco por cuit            
             //--agrego al que se usa para syncro y persistencia
             storeVisitaOffline.add(visitaRecord);
+            console.log(storeVisitaOffline);
             storeVisitaOffline.sync();
             VisitasGrid.refresh();
             /*Actualizo listado de pendientes*/
@@ -122,7 +145,7 @@ var btnSave = Ext.create('Ext.Action', {
 var EmpresaForm = Ext.create('Ext.form.Panel', {
     id: 'EmpresaForm',
     onCuitBlur: function() {
-        console.log(this);
+        // console.log(this);
     },
     autoScroll: true,
     //----para que resetee el dirty
@@ -241,7 +264,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 color: 'blue',
                 padding: '4px'
             }
-        },       
+        },
         {
             id: 'task',
             fieldLabel: 'TASK',
@@ -253,18 +276,18 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         afterRender: function(form) {
             params = Ext.urlDecode(location.search.substring(1));
             this.params = params;
-            console.log('Params:', params);
+            //console.log('Params:', params);
             if (params['cuit'] != null) {
                 field = EmpresaForm.getForm().findField("1695");
                 field.setValue(EmpresaForm.params['cuit']);
-                //----me fijo si todavia est√° cargando
+                //----me fijo si todavia est· cargando
 
                 if (EmpresaStore.isLoading()) {
                     EmpresaForm.setLoading('cargando...');
                     EmpresaStore.on('load', function()
                     {
                         EmpresaForm.setLoading(false);
-                        console.log('ahora?');
+                        //console.log('ahora?');
                         SearchEmpresa(field);
                     });
                 } else {
@@ -313,7 +336,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
         type: 'vbox',
         align: 'stretch'  // Child items are stretched to full width
     },
-    margin: '5 5 5 5',
+    margin: '5 5 5 25',
     defaultType: 'textfield',
     fieldDefaults: {
         cls: 'input',
@@ -327,8 +350,35 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             fieldLabel: 'Notas / Observaciones',
             name: '7408',
             allowBlank: false
+        },
+                {
+                    xtype: 'combobox',
+                    name: '7405',
+                    fieldLabel: 'Tipo de Visita',
+                    store: TipoVisitaStore,
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Seleccione el Tipo de Visita',
+                    editable: false
+
+                }
+    ],
+    listeners: {
+        dirtychange: function(form) {
+            Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar..');
+            if (!EmpresaStore.isLoading())
+                EmpresaForm.setLoading(false);
+            if (form.isDirty()) {
+                Ext.getCmp('btn_save_visita').enable();
+            } else {
+                btn = Ext.getCmp('btn_save_visita').disable();
+            }
         }
-    ]     
+    }
+    , bbar: [
+        btnSaveVisita
+    ]
 });
 
 
