@@ -4,7 +4,10 @@ Ext.onReady(function() {
 
     if (onlineMode) {
         storeEmpresaOffline.load();
-        Ext.getCmp('btnSync').setText('Hay (' + storeEmpresaOffline.getCount() + ') para actualizar');
+
+      var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
+      Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
+
     } else {
         /*Si no esta Online no puede sincronizar*/
         Ext.getCmp('btnSync').hide();
@@ -74,8 +77,6 @@ Ext.onReady(function() {
                         items: [{
                                 title: 'Datos Empresa',
                                 items: [EmpresaForm],
-                                
-
                             }]
                     }, {
                         columnWidth: 2 / 3,
