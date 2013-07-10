@@ -353,7 +353,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
         },
                 {
                     xtype: 'combobox',
-                    name: '7405',
+                    name: 'tipovisita',
                     fieldLabel: 'Tipo de Visita',
                     store: TipoVisitaStore,
                     queryMode: 'local',
