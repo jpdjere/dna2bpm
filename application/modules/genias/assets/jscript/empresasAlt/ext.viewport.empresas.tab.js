@@ -1,7 +1,7 @@
 Ext.onReady(function() {
     var onlineMode = (navigator.onLine) ? true : false;
     var mode = (onlineMode) ? '<div id="status"><i class="icon icon-circle"></i> On-Line' : '<i class="icon icon-off"></i> Off-Line...</div>';
-
+   
     if (onlineMode) {
         storeEmpresaOffline.load();
 
@@ -20,11 +20,38 @@ Ext.onReady(function() {
     var tabs = new Ext.TabPanel({
         activeTab: 0,
         items: [{
-                title: 'Datos Visita',
-                items: [VisitaForm]
+                title: 'Empresa',
+                items: [EmpresaForm]
             }, {
-                title: 'Visitas | Historico',
-                items: [VisitasGrid]
+                title: 'Seguimiento',
+                items: [
+            {
+                layout: 'column',
+                autoScroll: true,
+                defaults: {
+                    layout: 'anchor',
+                    defaults: {
+                        anchor: '100%'
+                    }
+                },
+                items: [{
+                        columnWidth: 1 / 2,
+                        baseCls: 'x-plain',
+                         bodyStyle: 'padding:0 0 5px 5px',
+                        items: [{
+                                title: 'Datos Empresa',
+                                items: [VisitaForm]
+                            }]
+                    }, {
+                        columnWidth: 1 / 2,
+                        baseCls: 'x-plain', 
+                        bodyStyle: 'padding:0 0 5px 5px',
+                        items: [{
+                                title: 'Visitas',
+                                items: [VisitasGrid]
+                            }]
+                    }]
+            }]
             }],
         defaults: {
             autoScroll: false,
@@ -62,7 +89,7 @@ Ext.onReady(function() {
                         </li></ul>\
                 </div>\
             </div>',
-                layout: 'column',
+                layout: 'fit',
                 autoScroll: true,
                 defaults: {
                     layout: 'anchor',
@@ -71,22 +98,9 @@ Ext.onReady(function() {
                     }
                 },
                 items: [{
-                        columnWidth: 1 / 3,
+                        layout: 'fit',
                         baseCls: 'x-plain',
-                        bodyStyle: 'padding:5px 0 5px 5px',
-                        items: [{
-                                title: 'Datos Empresa',
-                                items: [EmpresaForm],
-                            }]
-                    }, {
-                        columnWidth: 2 / 3,
-                        baseCls: 'x-plain',
-                        bodyStyle: 'padding:5px 0 5px 5px',
-                        items: [{
-                                title: 'Visitas',
-                                //items: [VisitasGrid]
-                                items: tabs
-                            }]
+                        items: [tabs]
                     }]
             }]
                 ,
