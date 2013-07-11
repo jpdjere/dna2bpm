@@ -13,13 +13,9 @@ class Recover extends MX_Controller {
         //----load parser
         $this->load->library('parser');
         $this->load->library('email');
-       
-        $this->load->config('config');
-        
-        
+        $this->load->config('config');   
     }
 
-    
 
     function Index() {
         $msg = $this->session->userdata('msg');
@@ -76,22 +72,21 @@ class Recover extends MX_Controller {
 //        $email_pattern = '/^[^@\s<&>]+@([-a-z0-9]+\.)+[a-z]{2,}$/i';
 //        if (!preg_match($email_pattern, $_POST['email']))
 //        {
-//        exit("0, Ingrese un email válido");
+//        exit("0, Ingrese un email vï¿½lido");
 //        }
         // Chequeo datos atraves del email
         $dbobj=(array)$this->user->getbymailaddress($clean['email']);
        
         // Envio
-        
         if(isset($dbobj['idu'])){ 
 
             $token=md5($dbobj['email'].$dbobj['idu']);
 
             $content="<h2>Estimado usuario, </h2>";
-            $content.="<p>Hemos recibido un pedido de reseteo de contraseña a su nombre.</p>";
+            $content.="<p>Hemos recibido un pedido de reseteo de contraseï¿½a a su nombre.</p>";
             $content.="<p>Su nombre de usuario es: <strong>{$dbobj['nick']}</strong></p>";
-            $content.="<p>Si ha sido efectuado por Ud. simplemente haga click en el link al pie y ud podrá elegir su nueva contraseña.</p>";
-            $content.="<a href='{$this->base_url}user/recover/login.php?token=$token&uid={$dbobj['idu']}'>Quiero resetear mi clave</a>";
+            $content.="<p>Si ha sido efectuado por Ud. simplemente haga click en el link al pie y ud podrï¿½ elegir su nueva contraseï¿½a.</p>";
+            $content.="<a href='{$this->base_url}user/recover/new_pass/token=$token&uid={$dbobj['idu']}'>Quiero resetear mi clave</a>";
 
             $this->email->clear();
             $config['mailtype'] = "html";
@@ -101,7 +96,7 @@ class Recover extends MX_Controller {
             $list = array($clean['email']); //$list = array('xxx@gmail.com', 'xxx@gmail.com');
             $this->email->to($list);
             $data = array();
-            $this->email->subject('Reseteo de contraseña sistema DNA2');
+            $this->email->subject('Reseteo de contraseï¿½a sistema DNA2');
             $this->email->message($content);
 
 
@@ -125,14 +120,14 @@ class Recover extends MX_Controller {
         $clean['email']  = $this->input->post('mail');
         echo "entro:".$clean['email'];
         
-        
+//        
 //        if($_REQUEST["cmd"]=='changePassToken'){
 //$clean = array();
 //$clean['passw'] = htmlspecialchars (utf8_decode($_POST["passw"]));
 //$clean['uid'] = htmlspecialchars ($_POST["uid"]);
 //
 //if(strlen($clean['passw'])<5){
-//exit("0, Su contraseña debe tener al menos 5 carácteres.");
+//exit("0, Su contraseï¿½a debe tener al menos 5 carï¿½cteres.");
 //}
 //
 //
@@ -148,18 +143,19 @@ class Recover extends MX_Controller {
 //		$redir="/appfront/index.php";
 //		exit("1,$basedir$redir");
 //		}else{
-//		exit("0, Ha habido algún error $SQL");
+//		exit("0, Ha habido algï¿½n error $SQL");
 //		}
 //		
 //	}else{
-//	exit("0, Ha habido algún error");
+//	exit("0, Ha habido algï¿½n error");
 //	}
 //}
-
-        
-    }
+//
+//        
+   }
     
 
 }
+
 
 ?>
