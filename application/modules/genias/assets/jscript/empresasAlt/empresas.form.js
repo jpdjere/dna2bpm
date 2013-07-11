@@ -390,11 +390,13 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             }
 
         }, {
+             fieldLabel: 'Otros',
             id: 'otros',
             xtype: 'textarea',
-            fieldLabel: 'Especifique',
+            emptyText: 'Especifique...',
             name: 'otros',
             hidden: true
+    
         }
     ],
     listeners: {

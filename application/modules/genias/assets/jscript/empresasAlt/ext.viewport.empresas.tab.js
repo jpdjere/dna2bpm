@@ -21,7 +21,7 @@ Ext.onReady(function() {
                 title: 'Empresa',
                 items: [EmpresaForm]
             }, {
-                title: 'Seguimiento',
+                title: 'Seguimiento ',
                 items: [
                     {
                         layout: 'column',
@@ -31,7 +31,7 @@ Ext.onReady(function() {
                                 baseCls: 'x-plain',
                                // bodyStyle: 'padding:0 0 5px 5px',
                                 items: [{
-                                        title: 'Datos Empresa',
+                                        title: 'Datos Visitas',
                                         items: [VisitaForm]
                                     }]
                             }, {
@@ -39,7 +39,7 @@ Ext.onReady(function() {
                                 baseCls: 'x-plain',
                                 bodyStyle: 'padding:0 0 0px 5px',
                                 items: [{
-                                        title: 'Visitas',
+                                        title: 'Histórico Visitas',
                                         items: [VisitasGrid]
                                     }]
                             }]
