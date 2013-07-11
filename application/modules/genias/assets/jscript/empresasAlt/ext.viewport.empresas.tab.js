@@ -1,12 +1,12 @@
 Ext.onReady(function() {
     var onlineMode = (navigator.onLine) ? true : false;
     var mode = (onlineMode) ? '<div id="status"><i class="icon icon-circle"></i> On-Line' : '<i class="icon icon-off"></i> Off-Line...</div>';
-   
+
     if (onlineMode) {
         storeEmpresaOffline.load();
 
-      var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
-      Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
+        var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
+        Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 
     } else {
         /*Si no esta Online no puede sincronizar*/
@@ -15,8 +15,6 @@ Ext.onReady(function() {
 
 
     Ext.require('Ext.tab.*');
-
-
     var tabs = new Ext.TabPanel({
         activeTab: 0,
         items: [{
@@ -25,33 +23,27 @@ Ext.onReady(function() {
             }, {
                 title: 'Seguimiento',
                 items: [
-            {
-                layout: 'column',
-                autoScroll: true,
-                defaults: {
-                    layout: 'anchor',
-                    defaults: {
-                        anchor: '100%'
-                    }
-                },
-                items: [{
-                        columnWidth: 1 / 2,
-                        baseCls: 'x-plain',
-                         bodyStyle: 'padding:0 0 5px 5px',
+                    {
+                        layout: 'column',
+                        autoScroll: true,
                         items: [{
-                                title: 'Datos Empresa',
-                                items: [VisitaForm]
-                            }]
-                    }, {
-                        columnWidth: 1 / 2,
-                        baseCls: 'x-plain', 
-                        bodyStyle: 'padding:0 0 5px 5px',
-                        items: [{
-                                title: 'Visitas',
-                                items: [VisitasGrid]
+                                columnWidth: 1 / 2,
+                                baseCls: 'x-plain',
+                               // bodyStyle: 'padding:0 0 5px 5px',
+                                items: [{
+                                        title: 'Datos Empresa',
+                                        items: [VisitaForm]
+                                    }]
+                            }, {
+                                columnWidth: 1 / 2,
+                                baseCls: 'x-plain',
+                                bodyStyle: 'padding:0 0 0px 5px',
+                                items: [{
+                                        title: 'Visitas',
+                                        items: [VisitasGrid]
+                                    }]
                             }]
                     }]
-            }]
             }],
         defaults: {
             autoScroll: false,
