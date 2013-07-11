@@ -290,7 +290,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             if (params['cuit'] != null) {
                 field = EmpresaForm.getForm().findField("1695");
                 field.setValue(EmpresaForm.params['cuit']);
-                //----me fijo si todavia está cargando
+                //----me fijo si todavia estï¿½ cargando
 
                 if (EmpresaStore.isLoading()) {
                     EmpresaForm.setLoading('cargando...');
@@ -348,7 +348,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
     trackResetOnLoad: true,
     layout: {
         type: 'vbox',
-        //align: 'stretch'  // Child items are stretched to full width
+        align: 'stretch'  // Child items are stretched to full width
     },
     margin: '5 5 5 5',
     defaultType: 'textfield',
