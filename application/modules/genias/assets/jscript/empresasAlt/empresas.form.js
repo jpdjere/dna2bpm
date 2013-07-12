@@ -202,18 +202,18 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [{
-                    fieldLabel: 'Nombre',
+            items: [{                    
+                    emptyText: 'Nombre',
                     name: '1693'
                 }, {
-                    fieldLabel: 'Tipo de empresa',
+                    emptyText: 'Tipo de empresa',
                     name: '1694'
                 },
                 {
                     id: 'ProvinciaCombo',
                     xtype: 'combobox',
                     name: '4651',
-                    fieldLabel: 'Provincia',
+                    //fieldLabel: 'Provincia',
                     store: ProvinciaStore,
                     queryMode: 'local',
                     displayField: 'text',
@@ -239,7 +239,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     id: 'PartidoCombo',
                     xtype: 'combobox',
                     name: '1699',
-                    fieldLabel: 'Partido',
+                    //fieldLabel: 'Partido',
                     store: PartidoStore,
                     queryMode: 'local',
                     displayField: 'text',
@@ -248,51 +248,51 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             //,editable: false
 
                 }, {
-                    fieldLabel: 'C&oacute;digo Postal',
+                    emptyText: 'Codigo Postal',
                     name: '1698'
                 },
                 {
-                    fieldLabel: 'Calle / Ruta',
+                    emptyText: 'Calle / Ruta',
                     name: '4653'
                 },
                 {
-                    fieldLabel: 'Nro. / Km.',
+                    emptyText: 'Nro. / Km.',
                     name: '4654'
                 },
                 {
-                    fieldLabel: 'Piso',
+                    emptyText: 'Piso',
                     name: '4655'
                 },
                 {
-                    fieldLabel: 'Dto / Oficina',
+                    emptyText: 'Dto / Oficina',
                     name: '4656'
                 }, {
-                    fieldLabel: 'Tel&eacute;fonos',
+                    emptyText: 'Tel&eacute;fonos',
                     name: '1701'
                 }, {
-                    fieldLabel: 'E-mail',
+                    emptyText: 'E-mail',
                     name: '1703',
                     vtype: 'email',
                     tooltip: 'Enter your email address'
                 }, {
-                    fieldLabel: 'P&aacute;gina Web',
+                    emptyText: 'P&aacute;gina Web',
                     name: '1704'
                 }, {
-                    fieldLabel: 'Cantidad de Empleados actual',
+                    emptyText: 'Cantidad de Empleados actual',
                     name: '1711'
                 },
                 {
                     xtype: 'hidden',
                     name: '7819',
                     id: 'long',
-                    fieldLabel: 'Longitud',
+                    emptyText: 'Longitud',
                     readOnly: true
                 },
                 {
                     xtype: 'hidden',
                     name: '7820',
                     id: 'lat',
-                    fieldLabel: 'Latitud',
+                    emptyText: 'Latitud',
                     readOnly: true
                 },
                 {
@@ -306,7 +306,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 },
                 {
                     id: 'task',
-                    fieldLabel: 'TASK',
+                    emptyText: 'TASK',
                     name: 'task',
                     xtype: 'hidden'
                 }]
@@ -322,13 +322,13 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 anchor: '100%'
             },
             items: [{
-                    fieldLabel: 'Apellido y Nombre',
+                    emptyText: 'Apellido y Nombre',
                     name: '7876',
                 }, {
-                    fieldLabel: 'E-mail',
+                    emptyText: 'E-mail',
                     name: '7877'
                 }, {
-                    fieldLabel: 'Rubro de la Empresa',
+                    emptyText: 'Rubro de la Empresa',
                     name: '7878'
                 }]
         }, {
@@ -342,13 +342,13 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 anchor: '100%'
             },
             items: [{
-                    fieldLabel: 'Superficie Cubierta',
+                    emptyText: 'Superficie Cubierta',
                     name: '7879',
                 }, {
-                    fieldLabel: 'Posesi&oacute;n',
+                    emptyText: 'Posesi&oacute;n',
                     name: '7880'
                 }, {
-                    fieldLabel: 'Productos o servicios que Ofrece',
+                    emptyText: 'Productos o servicios que Ofrece',
                     name: '1715',
                     xtype: 'textarea'
                 }]
@@ -363,28 +363,28 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 anchor: '100%'
             },
             items: [{
-                    fieldLabel: 'Tiene componentes importados',
+                    emptyText: 'Tiene componentes importados',
                     name: '7881',
                 }, {
-                    fieldLabel: 'Pueden ser reemplazados?',
+                    emptyText: 'Pueden ser reemplazados?',
                     name: '7882'
                 }, {
-                    fieldLabel: 'Tiene capacidad para exportar?',
+                    emptyText: 'Tiene capacidad para exportar?',
                     name: '7883'
                 }, {
-                    fieldLabel: 'Mercado destino',
+                    emptyText: 'Mercado destino',
                     name: '1716'
 
                 }, {
-                    fieldLabel: 'Proveedores',
+                    emptyText: 'Proveedores',
                     name: '7884'
 
                 }, {
-                    fieldLabel: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
+                    emptyText: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
                     name: '7663'
 
                 }, {
-                    fieldLabel: 'Registro &Uacute;nico de Organizaciones de Responsabilidad Social',
+                    emptyText: 'Registro &Uacute;nico de Organizaciones de Responsabilidad Social',
                     name: '7665'
 
                 }]
