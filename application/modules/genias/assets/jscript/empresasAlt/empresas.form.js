@@ -442,10 +442,39 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Proveedores',
                     name: '7884'
 
-                }, {
+                }]
+        }, {
+            xtype: 'fieldset',
+            title: 'RESPONSABILIDAD SOCIAL',
+            collapsible: true,
+            collapsed: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [
+                /*{
                     emptyText: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
                     name: '7663'
 
+                }*/ {
+                    xtype: 'combobox',
+                    name: '7663',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "4", "text": "No, pero hay interés en hacerlo"},
+                            {"value": "3", "text": "Si, en ambos períodos"},
+                            {"value": "2", "text": "Si, en años anteriores"},
+                            {"value": "1", "text": "Si, en la actualidad"},
+                            {"value": "5", "text": "No"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
+                    editable: false
                 }, {
                     emptyText: 'Registro Unico de Organizaciones de Responsabilidad Social',
                     name: '7665'
