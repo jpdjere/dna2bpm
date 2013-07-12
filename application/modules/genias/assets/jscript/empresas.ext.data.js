@@ -361,6 +361,9 @@ var TipoVisitaStore = Ext.create('Ext.data.Store', {
     }
 });
 
+
+
+
 var storeEmpresaOffline = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
     autoLoad: false,
@@ -393,7 +396,7 @@ var storeEmpresa = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            read: globals.module_url + 'empresas_remote/View', //'genias/app/geniasdev/view',
+            read: globals.module_url + 'empresas_remote/View',
             create: globals.module_url + 'empresas_remote/Insert',
             update: globals.module_url + 'empresas_remote/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
