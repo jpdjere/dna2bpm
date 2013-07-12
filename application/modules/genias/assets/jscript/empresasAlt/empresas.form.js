@@ -180,7 +180,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         },
         {
             id: 'CUIT',
-            fieldLabel: 'CUIT',
+           // fieldLabel: 'CUIT',
             minLength: 13,
             maxLength: 13,
             name: '1695',
@@ -284,15 +284,13 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 {
                     xtype: 'hidden',
                     name: '7819',
-                    id: 'long',
-                    emptyText: 'Longitud',
+                    id: 'long',                    
                     readOnly: true
                 },
                 {
                     xtype: 'hidden',
                     name: '7820',
                     id: 'lat',
-                    emptyText: 'Latitud',
                     readOnly: true
                 },
                 {
@@ -305,8 +303,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     }
                 },
                 {
-                    id: 'task',
-                    emptyText: 'TASK',
+                    id: 'task',                    
                     name: 'task',
                     xtype: 'hidden'
                 }]
