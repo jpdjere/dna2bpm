@@ -280,14 +280,16 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     emptyText: 'E-mail',
                     name: '1703',
-                    vtype: 'email',
-                    tooltip: 'Enter your email address'
+                    vtype: 'email'
                 }, {
                     emptyText: 'Pagina Web',
                     name: '1704'
                 }, {
                     emptyText: 'Cantidad de Empleados actual',
                     name: '1711'
+                }, {
+                    emptyText: 'Rubro de la Empresa',
+                    name: '7878'
                 },
                 {
                     xtype: 'hidden',
@@ -331,10 +333,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7876',
                 }, {
                     emptyText: 'E-mail',
-                    name: '7877'
-                }, {
-                    emptyText: 'Rubro de la Empresa',
-                    name: '7878'
+                    name: '7877',
+                    vtype: 'email'
                 }]
         }, {
             xtype: 'fieldset',
@@ -355,8 +355,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7880',
                     store: new Ext.data.Store({
                         fields: ['text', 'value'],
-                        data: [{"value": "20", "text": "Alquilado"},
-                            {"value": "10", "text": "Propio"}
+                        data: [{"value": "20", "text": "Seleccione el Tipo de Posesion: Alquilado"},
+                            {"value": "10", "text": "Seleccione el Tipo de Posesion: Propio"}
                         ]
                     }),
                     queryMode: 'local',
@@ -385,8 +385,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7881',
                     store: new Ext.data.Store({
                         fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Tiene componentes importados"},
-                            {"value": "2", "text": "No Tiene componentes importados"}
+                        data: [{"value": "1", "text": "Tiene componentes importados: SI"},
+                            {"value": "2", "text": "Tiene componentes importados: NO"}
                         ]
                     }),
                     queryMode: 'local',
@@ -399,8 +399,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7882',
                     store: new Ext.data.Store({
                         fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Pueden ser reemplazados"},
-                            {"value": "2", "text": "No Pueden ser reemplazados"}
+                        data: [{"value": "1", "text": "Pueden ser reemplazados: SI"},
+                            {"value": "2", "text": "Pueden ser reemplazados: NO"}
                         ]
                     }),
                     queryMode: 'local',
@@ -413,8 +413,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7883',
                     store: new Ext.data.Store({
                         fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Tiene capacidad para exporta"},
-                            {"value": "2", "text": "No Tiene capacidad para exporta"}
+                        data: [{"value": "1", "text": "Tiene capacidad para exporta: SI"},
+                            {"value": "2", "text": "Tiene capacidad para exporta: NO"}
                         ]
                     }),
                     queryMode: 'local',
@@ -454,18 +454,14 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 anchor: '100%'
             },
             items: [
-                /*{
-                    emptyText: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
-                    name: '7663'
-
-                }*/ {
+                {
                     xtype: 'combobox',
                     name: '7663',
                     store: new Ext.data.Store({
                         fields: ['text', 'value'],
-                        data: [{"value": "4", "text": "No, pero hay interés en hacerlo"},
-                            {"value": "3", "text": "Si, en ambos períodos"},
-                            {"value": "2", "text": "Si, en años anteriores"},
+                        data: [{"value": "4", "text": "No, pero hay interes en hacerlo"},
+                            {"value": "3", "text": "Si, en ambos periodos"},
+                            {"value": "2", "text": "Si, en a&ntilde;os anteriores"},
                             {"value": "1", "text": "Si, en la actualidad"},
                             {"value": "5", "text": "No"}
                         ]
@@ -474,11 +470,51 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
+                    editable: false,
+                    listeners: {
+                        change: function(me, newValue, oldValue, eOpts) {
+                            if (newValue != null) {
+                                if (newValue == 5) {
+                                    Ext.getCmp('7664').hide();
+
+                                } else {
+                                    Ext.getCmp('7664').show();
+                                }
+
+                            }
+                        }
+                    }
+                }, {
+                    hidden: true,
+                    xtype: 'combobox',
+                    name: '7664',
+                    id: '7664',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "1", "text": "Existe articulaci&oacute;n de las acciones con organismos gubernamentales: SI"},
+                            {"value": "2", "text": "Existe articulaci&oacute;n de las acciones con organismos gubernamentales: NO"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
                     editable: false
                 }, {
+                    xtype: 'combobox',
+                    name: '7665',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "nc", "text": "Registro Unico de Organizaciones de Responsabilidad Social: No Sabe / No Contesta"},
+                            {"value": "si", "text": "Registro Unico de Organizaciones de Responsabilidad Social: SI"},
+                            {"value": "no", "text": "Registro Unico de Organizaciones de Responsabilidad Social: NO"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
                     emptyText: 'Registro Unico de Organizaciones de Responsabilidad Social',
-                    name: '7665'
-
+                    editable: false
                 }]
         }
     ],
