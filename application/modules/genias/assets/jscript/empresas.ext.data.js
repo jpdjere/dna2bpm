@@ -38,7 +38,29 @@ Ext.define('EmpresaModel', {
                 , 'status' //      Syncro data (date?) / dirty
                 , 'notas'   // solo para el form de notas
                 , 'task'    //Taras asociadas desde la agenda
-
+                
+                , '1694'    // Tipo de empresa
+                , '1698'    //cod postal
+                , '1701'    //telefonos
+                , '1703'    //email
+                , '1704'    //web
+                , '1711'    //Cantidad de Empleados actual  
+                /*contacto*/
+                , '7876'    // Apellido y Nombre del Contacto
+                , '7877'    // E-mail del Contacto
+                , '7878'    // Rubro de la Empresa                
+                /*PLANTA*/
+                , '7879'    // Superficie Cubierta
+                , '7880'    // Posesión (idopcion = 729)
+                , '1715'    // Productos o servicios que Ofrece
+               /* PRODUCCION*/
+                , '7881'    // Tiene componentes importados (idopcion = 15)
+                , '7882'    // Pueden ser reemplazados? (idopcion = 15)
+                , '7883'    // Tiene capacidad para exportar? (idopcion = 15)
+                , '1716'    // Mercado destino (idopcion = 88)
+                , '7884'    // Proveedores
+                , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
+                , '7665'    // Registro Único de Organizaciones de Responsabilidad Social (idopcion = 715)
     ]
 });
 
