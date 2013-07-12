@@ -47,7 +47,7 @@ Ext.onReady(function() {
             }],
         defaults: {
             autoScroll: false,
-            layout: 'form', // tried with and without
+            //layout: 'form', // tried with and without
             deferredRender: false   // likewise
         }
     }
@@ -67,7 +67,7 @@ Ext.onReady(function() {
     Ext.create('Ext.Viewport', {
         id: 'main-panel',
         autoScroll: true,
-        layout: 'fit',
+        layout: 'fit',        
         items: [
             {
                 /*title:title,*/
@@ -81,11 +81,10 @@ Ext.onReady(function() {
                         </li></ul>\
                 </div>\
             </div>',
-                layout: 'fit',
-                autoScroll: true,
-                defaults: {
+                layout: 'fit',                
+                defaults: {                    
                     layout: 'anchor',
-                    defaults: {
+                    defaults: {                        
                         anchor: '100%'
                     }
                 },
