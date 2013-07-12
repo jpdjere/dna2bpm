@@ -192,94 +192,202 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             listeners: {
                 blur: SearchEmpresa
             }
-        },
-        {
-            fieldLabel: 'Nombre',
-            name: '1693'
-        },
-        {
-            id: 'ProvinciaCombo',
-            xtype: 'combobox',
-            name: '4651',
-            fieldLabel: 'Provincia',
-            store: ProvinciaStore,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            emptyText: 'Seleccione la Provincia',
-            listeners: {
-                change: function(me, newValue, oldValue, eOpts) {
-                    if (newValue != null) {
-                        PartidoStore.clearFilter();
-                        PartidoStore.filters.removeAtKey('idrel');
-                        var myfilter = new Ext.util.Filter({
-                            filterFn: function(rec, anymatch) {
-                                return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
+        }, {
+            xtype: 'fieldset',
+            title: 'DATOS EMPRESA',
+            collapsible: true,
+            collapsed: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [{
+                    fieldLabel: 'Nombre',
+                    name: '1693'
+                }, {
+                    fieldLabel: 'Tipo de empresa',
+                    name: '1694'
+                },
+                {
+                    id: 'ProvinciaCombo',
+                    xtype: 'combobox',
+                    name: '4651',
+                    fieldLabel: 'Provincia',
+                    store: ProvinciaStore,
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Seleccione la Provincia',
+                    listeners: {
+                        change: function(me, newValue, oldValue, eOpts) {
+                            if (newValue != null) {
+                                PartidoStore.clearFilter();
+                                PartidoStore.filters.removeAtKey('idrel');
+                                var myfilter = new Ext.util.Filter({
+                                    filterFn: function(rec, anymatch) {
+                                        return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
+                                    }
+                                });
+                                PartidoStore.filter(myfilter);
                             }
-                        });
-                        PartidoStore.filter(myfilter);
+                        }
                     }
                 }
-            }
-        }
-        ,
-        {
-            id: 'PartidoCombo',
-            xtype: 'combobox',
-            name: '1699',
-            fieldLabel: 'Partido',
-            store: PartidoStore,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            emptyText: 'Seleccione el Partido'
-                    //,editable: false
+                ,
+                {
+                    id: 'PartidoCombo',
+                    xtype: 'combobox',
+                    name: '1699',
+                    fieldLabel: 'Partido',
+                    store: PartidoStore,
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Seleccione el Partido'
+                            //,editable: false
 
+                }, {
+                    fieldLabel: 'C&oacute;digo Postal',
+                    name: '1698'
+                },
+                {
+                    fieldLabel: 'Calle / Ruta',
+                    name: '4653'
+                },
+                {
+                    fieldLabel: 'Nro. / Km.',
+                    name: '4654'
+                },
+                {
+                    fieldLabel: 'Piso',
+                    name: '4655'
+                },
+                {
+                    fieldLabel: 'Dto / Oficina',
+                    name: '4656'
+                }, {
+                    fieldLabel: 'Tel&eacute;fonos',
+                    name: '1701'
+                }, {
+                    fieldLabel: 'E-mail',
+                    name: '1703',
+                    vtype: 'email',
+                    tooltip: 'Enter your email address'
+                }, {
+                    fieldLabel: 'P&aacute;gina Web',
+                    name: '1704'
+                }, {
+                    fieldLabel: 'Cantidad de Empleados actual',
+                    name: '1711'
+                },
+                {
+                    xtype: 'hidden',
+                    name: '7819',
+                    id: 'long',
+                    fieldLabel: 'Longitud',
+                    readOnly: true
+                },
+                {
+                    xtype: 'hidden',
+                    name: '7820',
+                    id: 'lat',
+                    fieldLabel: 'Latitud',
+                    readOnly: true
+                },
+                {
+                    xtype: 'displayfield',
+                    id: 'longLayDisplay',
+                    style: {
+                        fontSize: '11px',
+                        color: 'blue',
+                        padding: '4px'
+                    }
+                },
+                {
+                    id: 'task',
+                    fieldLabel: 'TASK',
+                    name: 'task',
+                    xtype: 'hidden'
+                }]
         },
         {
-            fieldLabel: 'Calle / Ruta',
-            name: '4653'
-        },
-        {
-            fieldLabel: 'Nro. / Km.',
-            name: '4654'
-        },
-        {
-            fieldLabel: 'Piso',
-            name: '4655'
-        },
-        {
-            fieldLabel: 'Dto / Oficina',
-            name: '4656'
-        },
-        {
-            xtype: 'hidden',
-            name: '7819',
-            id: 'long',
-            fieldLabel: 'Longitud',
-            readOnly: true
-        },
-        {
-            xtype: 'hidden',
-            name: '7820',
-            id: 'lat',
-            fieldLabel: 'Latitud',
-            readOnly: true
-        },
-        {
-            xtype: 'displayfield',
-            id: 'longLayDisplay',
-            style: {
-                fontSize: '11px',
-                color: 'blue',
-                padding: '4px'
-            }
-        },
-        {
-            id: 'task',
-            fieldLabel: 'TASK',
-            name: 'task',
-            xtype: 'hidden'
+            xtype: 'fieldset',
+            title: 'CONTACTO',
+            collapsible: true,
+            collapsed: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [{
+                    fieldLabel: 'Apellido y Nombre',
+                    name: '7876',
+                }, {
+                    fieldLabel: 'E-mail',
+                    name: '7877'
+                }, {
+                    fieldLabel: 'Rubro de la Empresa',
+                    name: '7878'
+                }]
+        }, {
+            xtype: 'fieldset',
+            title: 'PLANTA',
+            collapsible: true,
+            collapsed: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [{
+                    fieldLabel: 'Superficie Cubierta',
+                    name: '7879',
+                }, {
+                    fieldLabel: 'Posesi&oacute;n',
+                    name: '7880'
+                }, {
+                    fieldLabel: 'Productos o servicios que Ofrece',
+                    name: '1715',
+                    xtype: 'textarea'
+                }]
+        }, {
+            xtype: 'fieldset',
+            title: 'PRODUCCION',
+            collapsible: true,
+            collapsed: true,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [{
+                    fieldLabel: 'Tiene componentes importados',
+                    name: '7881',
+                }, {
+                    fieldLabel: 'Pueden ser reemplazados?',
+                    name: '7882'
+                }, {
+                    fieldLabel: 'Tiene capacidad para exportar?',
+                    name: '7883'
+                }, {
+                    fieldLabel: 'Mercado destino',
+                    name: '1716'
+
+                }, {
+                    fieldLabel: 'Proveedores',
+                    name: '7884'
+
+                }, {
+                    fieldLabel: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
+                    name: '7663'
+
+                }, {
+                    fieldLabel: 'Registro &Uacute;nico de Organizaciones de Responsabilidad Social',
+                    name: '7665'
+
+                }]
         }
     ],
     listeners: {
@@ -290,7 +398,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             if (params['cuit'] != null) {
                 field = EmpresaForm.getForm().findField("1695");
                 field.setValue(EmpresaForm.params['cuit']);
-                //----me fijo si todavia est� cargando
+                //----me fijo si todavia est? cargando
 
                 if (EmpresaStore.isLoading()) {
                     EmpresaForm.setLoading('cargando...');
@@ -390,13 +498,13 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             }
 
         }, {
-             fieldLabel: 'Otros',
+            fieldLabel: 'Otros',
             id: 'otros',
             xtype: 'textarea',
             emptyText: 'Especifique...',
             name: 'otros',
             hidden: true
-    
+
         }
     ],
     listeners: {
@@ -428,5 +536,4 @@ var VisitaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [VisitaForm]
 });
-
 
