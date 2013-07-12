@@ -46,7 +46,7 @@ Ext.onReady(function() {
                     }]
             }],
         defaults: {
-            autoScroll: false,
+            //autoScroll: false,
             //layout: 'form', // tried with and without
             deferredRender: false   // likewise
         }
@@ -82,14 +82,16 @@ Ext.onReady(function() {
                 </div>\
             </div>',
                 layout: 'fit',                
+                autoScroll: true,
                 defaults: {                    
                     layout: 'anchor',
+                    autoScroll: true,
                     defaults: {                        
                         anchor: '100%'
                     }
                 },
                 items: [{
-                        layout: 'fit',
+                        //layout: 'fit',
                         baseCls: 'x-plain',
                         items: [tabs]
                     }]
