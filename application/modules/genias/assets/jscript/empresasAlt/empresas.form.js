@@ -275,7 +275,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Dto / Oficina',
                     name: '4656'
                 }, {
-                    emptyText: 'Tel&eacute;fonos',
+                    emptyText: 'Telefonos',
                     name: '1701'
                 }, {
                     emptyText: 'E-mail',
@@ -283,7 +283,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     vtype: 'email',
                     tooltip: 'Enter your email address'
                 }, {
-                    emptyText: 'P&aacute;gina Web',
+                    emptyText: 'Pagina Web',
                     name: '1704'
                 }, {
                     emptyText: 'Cantidad de Empleados actual',
@@ -350,7 +350,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Superficie Cubierta',
                     name: '7879',
                 }, {
-                    emptyText: 'Posesi&oacute;n',
+                    emptyText: 'Posesion',
                     name: '7880'
                 }, {
                     emptyText: 'Productos o servicios que Ofrece',
@@ -389,7 +389,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7663'
 
                 }, {
-                    emptyText: 'Registro &Uacute;nico de Organizaciones de Responsabilidad Social',
+                    emptyText: 'Registro Unico de Organizaciones de Responsabilidad Social',
                     name: '7665'
 
                 }]
