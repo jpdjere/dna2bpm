@@ -180,7 +180,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         },
         {
             id: 'CUIT',
-           // fieldLabel: 'CUIT',
+            // fieldLabel: 'CUIT',
             minLength: 13,
             maxLength: 13,
             name: '1695',
@@ -202,12 +202,20 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [{                    
+            items: [{
                     emptyText: 'Nombre',
                     name: '1693'
-                }, {
-                    emptyText: 'Tipo de empresa',
-                    name: '1694'
+                },
+                {
+                    xtype: 'combobox',
+                    name: '1694',
+                    //fieldLabel: 'Tipo de Visita',
+                    store: TipoEmpresaStore,
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Seleccione el Tipo de Empresa',
+                    editable: false
                 },
                 {
                     id: 'ProvinciaCombo',
@@ -284,7 +292,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 {
                     xtype: 'hidden',
                     name: '7819',
-                    id: 'long',                    
+                    id: 'long',
                     readOnly: true
                 },
                 {
@@ -303,7 +311,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     }
                 },
                 {
-                    id: 'task',                    
+                    id: 'task',
                     name: 'task',
                     xtype: 'hidden'
                 }]
