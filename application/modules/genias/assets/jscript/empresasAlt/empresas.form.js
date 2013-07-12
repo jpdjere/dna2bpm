@@ -349,9 +349,21 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [{
                     emptyText: 'Superficie Cubierta',
                     name: '7879',
-                }, {
-                    emptyText: 'Posesion',
-                    name: '7880'
+                },
+                {
+                    xtype: 'combobox',
+                    name: '7880',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "20", "text": "Alquilado"},
+                            {"value": "10", "text": "Propio"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Seleccione el Tipo de Posesion',
+                    editable: false
                 }, {
                     emptyText: 'Productos o servicios que Ofrece',
                     name: '1715',
@@ -367,19 +379,65 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [{
-                    emptyText: 'Tiene componentes importados',
+            items: [
+                {
+                    xtype: 'combobox',
                     name: '7881',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "1", "text": "Tiene componentes importados"},
+                            {"value": "2", "text": "No Tiene componentes importados"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Tiene componentes importados?',
+                    editable: false
                 }, {
+                    xtype: 'combobox',
+                    name: '7882',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "1", "text": "Pueden ser reemplazados"},
+                            {"value": "2", "text": "No Pueden ser reemplazados"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
                     emptyText: 'Pueden ser reemplazados?',
-                    name: '7882'
+                    editable: false
                 }, {
-                    emptyText: 'Tiene capacidad para exportar?',
-                    name: '7883'
+                    xtype: 'combobox',
+                    name: '7883',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "1", "text": "Tiene capacidad para exporta"},
+                            {"value": "2", "text": "No Tiene capacidad para exporta"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
+                    emptyText: 'Tiene capacidad para exporta?',
+                    editable: false
                 }, {
+                    xtype: 'combobox',
+                    name: '1716',
+                    store: new Ext.data.Store({
+                        fields: ['text', 'value'],
+                        data: [{"value": "3", "text": "Mercado destino: A otras provincias"},
+                            {"value": "1", "text": "Mercado destino: Dentro de la provincia"},
+                            {"value": "4", "text": "Mercado destino: Mercosur"},
+                            {"value": "5", "text": "Mercado destino: Internacional"}
+                        ]
+                    }),
+                    queryMode: 'local',
+                    displayField: 'text',
+                    valueField: 'value',
                     emptyText: 'Mercado destino',
-                    name: '1716'
-
+                    editable: false
                 }, {
                     emptyText: 'Proveedores',
                     name: '7884'
