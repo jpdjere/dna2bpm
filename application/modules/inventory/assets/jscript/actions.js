@@ -31,3 +31,20 @@ $(document).on('click','#btn_gencode',function(){
         }
     });
 });
+
+$(document).on('click','#btn_claim',function(){
+    type = $("#type option:selected").val();
+    code =$("#code").val();
+    $('#result').load();
+    $.ajax({
+        'url': globals.module_url+'claim',
+        'type': 'POST',
+        'data':{
+            'type':type,
+            'code':code
+        },
+        'success': function(result){
+            $('#result').html(result);     
+        }
+    });
+});
