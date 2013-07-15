@@ -393,6 +393,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene capacidad para exportar?',
                     labelWidth: 500,
+                    
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7883', inputValue: 1},
@@ -403,6 +404,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Mercado destino',
                     labelWidth: 500,
+                    columns: 1,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'A otras provincias', name: '1716', inputValue: 3},
@@ -430,6 +432,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'radiogroup',
                     fieldLabel: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
                     labelWidth: 500,
+                    columns: 1,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'No, pero hay interes en hacerlo', name: '7663', inputValue: 4},
