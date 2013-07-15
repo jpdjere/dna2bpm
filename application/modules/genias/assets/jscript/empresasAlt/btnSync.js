@@ -25,7 +25,14 @@ var btnSync = Ext.create('Ext.Action',
                 });
                 storeVisita.sync();
                 
-                var getCount = storeVisitaOffline.getCount()+storeEmpresaOffline.getCount();
+                 /*Datos Encuestas*/
+                storeEncuestasOffline.each(function(rec) {
+                    rec.setDirty();
+                    storeEncuesta.add(rec)
+                });
+                storeEncuesta.sync();
+                
+                var getCount = storeEncuestasOffline.getCount()+storeVisitaOffline.getCount()+storeEmpresaOffline.getCount();
                 
                
 
@@ -38,9 +45,10 @@ var btnSync = Ext.create('Ext.Action',
                 /*Borro la informacion local*/
                 storeEmpresaOffline.removeAll();
                 storeVisitaOffline.removeAll();
+                storeEncuestasOffline.removeAll();
                 
                 /*Actualizo el contador*/  
-                getCount = storeVisitaOffline.getCount()+storeEmpresaOffline.getCount();
+                getCount = storeEncuestasOffline.getCount()+storeVisitaOffline.getCount()+storeEmpresaOffline.getCount();
                 Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
             }
         }
