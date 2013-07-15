@@ -14,7 +14,6 @@ class Genias_model extends CI_Model {
         parent::__construct();
         $this->idu = (int) $this->session->userdata('iduser');
         /* Set locale to Spansih */
-
     }
 
     // ======= TAREAS ======= //
@@ -39,20 +38,19 @@ class Genias_model extends CI_Model {
         //$query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
 
         $container = 'container.genias_tasks';
-        $genias = $this->get_genia($idu); 
-        $idus=array($idu);
-        if($genias!==false){ // 
-            foreach($genias['genias'] as $genia){
-                if($genias['rol']=='coordinador'){
+        $genias = $this->get_genia($idu);
+        $idus = array($idu);
+        if ($genias !== false) { // 
+            foreach ($genias['genias'] as $genia) {
+                if ($genias['rol'] == 'coordinador') {
                     //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
-                    $idus=array_merge($genia['users'],$idus);
+                    $idus = array_merge($genia['users'], $idus);
                 }
-
             }
         }
-        $query = array('idu' => array('$in'=>$idus), 'proyecto' => $proyecto); 
-        
-        
+        $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto);
+
+
         $result = $this->mongo->db->$container->find($query)->sort(array('id' => -1));
 
         //var_dump($result, json_encode($result), $result->count());
@@ -63,13 +61,13 @@ class Genias_model extends CI_Model {
 
     function add_goal($goal) {
         $container = 'container.genias';
-        $id= new MongoId($goal['genia']);
-        $query=array('_id'=>$id);
-        $mygenia = $this->mongo->db->$container->findOne($query); 
-        $goal['genia_nombre']=$mygenia['nombre'];
+        $id = new MongoId($goal['genia']);
+        $query = array('_id' => $id);
+        $mygenia = $this->mongo->db->$container->findOne($query);
+        $goal['genia_nombre'] = $mygenia['nombre'];
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.genias_goals';
-        $query = array('id' => (integer) $goal['id']);       
+        $query = array('id' => (integer) $goal['id']);
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
 
@@ -77,29 +75,28 @@ class Genias_model extends CI_Model {
         $container = 'container.genias_goals';
         $this->lang->load('calendar', $this->config->item('languaje'));
 
-        $genias = $this->get_genia($idu); 
-        $idus=array($idu);
+        $genias = $this->get_genia($idu);
+        $idus = array($idu);
         // Por cada Genia
 
-        if($genias!==false){ // 
-            foreach($genias['genias'] as $genia){
-                if($genias['rol']=='coordinador'){
+        if ($genias !== false) { // 
+            foreach ($genias['genias'] as $genia) {
+                if ($genias['rol'] == 'coordinador') {
                     //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
-                    $idus=array_merge($genia['users'],$idus);
+                    $idus = array_merge($genia['users'], $idus);
                 }
-
             }
         }
-        $query = array('idu' => array('$in'=>$idus));          
+        $query = array('idu' => array('$in' => $idus));
         $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
-        $result=array();
-        while($mygoals=$goals->getnext()){
-        // Mes 
-        $date = date_create_from_format('Y-m-d', $mygoals['desde']);
-        $mes='cal_'.strtolower(date_format($date, 'F'));
-        $mygoals['desde']=$this->lang->line($mes);
+        $result = array();
+        while ($mygoals = $goals->getnext()) {
+            // Mes 
+            $date = date_create_from_format('Y-m-d', $mygoals['desde']);
+            $mes = 'cal_' . strtolower(date_format($date, 'F'));
+            $mygoals['desde'] = $this->lang->line($mes);
 
-        $result[]=$mygoals;
+            $result[] = $mygoals;
         }
 
         return $result;
@@ -129,7 +126,8 @@ class Genias_model extends CI_Model {
         return $rs['err'];
     }
 
-    /*RETURN EMPRESAS*/
+    /* RETURN EMPRESAS */
+
     function get_empresas($query) {
         $rtn = array();
         $query['status'] = 'activa';
@@ -145,7 +143,7 @@ class Genias_model extends CI_Model {
             , '4655' //     Piso
             , '4656' //     Dto Oficina
             , '1699' // 	Partido            
-            );
+        );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2000);
@@ -155,16 +153,17 @@ class Genias_model extends CI_Model {
         }
         return $rtn;
     }
-    
-    /*RETURN VISITAS*/
+
+    /* RETURN VISITAS */
+
     function get_visitas($query, $idu) {
-        $rtn = array();        
-        $query['idu'] = (int)$idu;
+        $rtn = array();
+        $query['idu'] = (int) $idu;
         $fields = array('id',
             'cuit'
             , 'fecha'  //     Fecha
             , 'nota'  //     Nota            
-            );
+        );
         $container = 'container.genias_visitas';
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2000);
@@ -175,75 +174,98 @@ class Genias_model extends CI_Model {
         }
         return $rtn;
     }
-    
+
+    /* RETURN ENCUESTAS */
+
+    function get_encuestas($query, $idu) {
+        $rtn = array();
+        $query['idu'] = (int) $idu;
+        $fields = array('id',
+            'cuit'
+            , 'fecha'           //     Fecha
+            , '7663'            // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
+            , '7664'            //      Tienen relaci&oacute;n con organismos gubernamentales
+            , '7883'            //      Registro Unico de Organizaciones de Responsabilidad Social
+            , '7886'            //      Modos de Financiamiento
+            , '7887'            //      Con Programas Sepyme/Ministerio de Industria         
+        );
+        $container = 'container.genias_encuestas';
+        $result = $this->mongo->db->$container->find($query, $fields);
+        $result->limit(2000);
+        foreach ($result as $result) {
+            unset($result['_id']);
+            unset($result['id']);
+            $rtn[] = $result;
+        }
+        return $rtn;
+    }
+
     //======== Actualiza Meta Activa =========//
 
-    function goal_update($proyecto='2',$id_visita=null){
+    function goal_update($proyecto = '2', $id_visita = null) {
         $container_metas = 'container.genias_goals';
         //----busco meta activa
-        $query=array(
-            'proyecto'=>$proyecto,
-            'idu'=>$this->idu,
-            'hasta'=>array('$lte'=>date('Y-m-t')),
-            'desde'=>array('$gte'=>date('Y-m-01')),
-            );
+        $query = array(
+            'proyecto' => $proyecto,
+            'idu' => $this->idu,
+            'hasta' => array('$lte' => date('Y-m-t')),
+            'desde' => array('$gte' => date('Y-m-01')),
+        );
         //echo json_encode($query);exit;
-        $metas=$this->mongo->db->$container_metas->find($query);
-        foreach($metas as $meta){
-            $case=$this->get_case($meta['case']);
-            if($case['status']=='closed'){
+        $metas = $this->mongo->db->$container_metas->find($query);
+        foreach ($metas as $meta) {
+            $case = $this->get_case($meta['case']);
+            if ($case['status'] == 'closed') {
                 break;
             }
         }
         //var_dump($query,$meta);exit;
-        if(isset($meta)){
+        if (isset($meta)) {
 
-        //----Agrego visita a la meta
-            $meta['cumplidas'][]=$id_visita;
-            $meta['cumplidas']=array_filter(array_unique($meta['cumplidas']));
+            //----Agrego visita a la meta
+            $meta['cumplidas'][] = $id_visita;
+            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
             $this->mongo->db->$container_metas->save($meta);
         }
     }
 
-
     // ======= USER CONTROL ======= //
-    
-    function get_genia($idu){
+
+    function get_genia($idu) {
         $container = 'container.genias';
 
         // Es coordinador?    
-        $query=array('coordinadores'=>((int)$idu));
-        $result = $this->mongo->db->$container->find($query); 
+        $query = array('coordinadores' => ((int) $idu));
+        $result = $this->mongo->db->$container->find($query);
 
-        $genias=array();
-        $rol='';
+        $genias = array();
+        $rol = '';
         while ($r = $result->getNext()) {
-            $rol='coordinador';
-            $my_genias[]=$r;
+            $rol = 'coordinador';
+            $my_genias[] = $r;
             //var_dump($r['_id']);
-
         }
-        
-        if($rol=='coordinador'){
-            $genias['rol']=$rol;
-            $genias['genias']=$my_genias;
-            return $genias; 
+
+        if ($rol == 'coordinador') {
+            $genias['rol'] = $rol;
+            $genias['genias'] = $my_genias;
+            return $genias;
         }
 
         // Es usuario?
-        $query=array('users'=>(int)$idu);
+        $query = array('users' => (int) $idu);
         $result = $this->mongo->db->$container->find($query);
         while ($r = $result->getNext()) {
-            $rol='user';
-            $my_genias[]=$r;
+            $rol = 'user';
+            $my_genias[] = $r;
         }
-        
-        if($rol=='user'){
-            $genias['rol']=$rol;
-            $genias['genias']=$my_genias;
-            return $genias; 
-        }   
-        
+
+        if ($rol == 'user') {
+            $genias['rol'] = $rol;
+            $genias['genias'] = $my_genias;
+            return $genias;
+        }
+
         return false;
     }
 
