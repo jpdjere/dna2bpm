@@ -36,7 +36,7 @@ $(document).on('click', '#btn_claim', function() {
     type = $("#type option:selected").val();
     code = $("#code").val();
     bootbox.dialog("Desea Reclamar la Carpeta: " + type + ' ' + code + ' ?', [{
-            "label": "Si",
+            "label": '<i class="icon-ok-sign"></i> Si',
             "class": "btn-success",
             "callback": function() {
 
@@ -57,7 +57,7 @@ $(document).on('click', '#btn_claim', function() {
             }
         },
         {
-            "label": "No",
+            "label": '<i class="icon-remove-sign"></i> No',
             "class": "btn-danger",
         }
     ]
