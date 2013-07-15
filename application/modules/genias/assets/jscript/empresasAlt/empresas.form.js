@@ -195,8 +195,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }, {
             xtype: 'fieldset',
             title: 'DATOS EMPRESA',
-            collapsible: true,
-            collapsed: true,
+            collapsible: false,            
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
