@@ -226,28 +226,34 @@ class Inventory extends MX_Controller {
     }
 
     function claim() {
-//----get url as array
+        //----get url as array
         $segments = $this->uri->segment_array();
         $pure = in_array('pure', $segments);
         $cpData['show_header'] = ($pure) ? false : true;
 
+        //--come from data
         if ($this->input->post('data')) {
             $parts = explode('/', str_replace($this->base_url, '', $this->input->post('data')));
             $type = $parts[2];
             $code = implode('/', array_slice($parts, 3));
-            if ($type)
-                $cpData['type'] = $type;
-            if ($code)
-                $cpData['code'] = $code;
-            $iduser = ($this->input->post('idu')) ? $this->input->post('idu') : $this->idu;
-            $this->inventory_model->claim($type, $code, $iduser);
-            $result = $this->prepare($this->inventory_model->get($type, $code));
-            unset($result['_id']);
-            $cpData['result'] = $result;
-
-            $cpData['title'] = '';
-            $this->parser->parse('info', $cpData);
         }
+        //--come from btn
+        if ($this->input->post('type') and $this->input->post('code')) {
+            $type = $this->input->post('type');
+            $code = $this->input->post('code');
+        }
+
+        if ($type)
+            $cpData['type'] = $type;
+        if ($code)
+            $cpData['code'] = $code;
+        $iduser = ($this->input->post('idu')) ? $this->input->post('idu') : $this->idu;
+        $this->inventory_model->claim($type, $code, $iduser);
+        $result = $this->prepare($this->inventory_model->get($type, $code));
+        unset($result['_id']);
+        $cpData['result'] = $result;
+        $cpData['title'] = '';
+        $this->parser->parse('info', $cpData);
     }
 
     function Checkin() {
