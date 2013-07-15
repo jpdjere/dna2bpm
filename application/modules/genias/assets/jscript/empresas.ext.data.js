@@ -316,10 +316,10 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
  * 
  */
 
-Ext.define('encuestasModel', {
+Ext.define('encuestaModel', {
     extend: 'Ext.data.Model',
     fields: [
-        'fecha' // 	Fecha de la Visita 
+                'fecha' // 	Fecha de la Visita 
                 , 'cuit'
                 , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
                 , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
@@ -333,7 +333,7 @@ Ext.define('encuestasModel', {
 var EncuestasStore = Ext.create('Ext.data.Store', {
     id: 'EncuestasStore',
     autoLoad: true,
-    model: 'visitaModel',
+    model: 'encuestaModel',
     proxy: {
         type: 'ajax',
         url: globals.module_url + 'encuestas',
@@ -374,7 +374,7 @@ var EncuestasStore = Ext.create('Ext.data.Store', {
 });
 
 var storeEncuesta = Ext.create('Ext.data.Store', {
-    model: 'EncuestaModel',
+    model: 'encuestaModel',
     autoLoad: false,
     autoSync: true,
     proxy: {
@@ -418,7 +418,7 @@ var storeEncuesta = Ext.create('Ext.data.Store', {
 });
 
 var storeEncuestasOffline = Ext.create('Ext.data.Store', {
-    model: 'EncuestasModel',
+    model: 'encuestaModel',
     autoLoad: true,
     autoSync: true,
     proxy: {
