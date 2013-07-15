@@ -11,66 +11,73 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-            <fieldset><legend>Con Cámara</legend>
+            <fieldset><legend>
+                    <i class="icon-facetime-video"></i> Con Cámara
+                </legend>
 
                 <!--Sidebar content-->
-                <ul class="nav nav-pills nav-stacked">
+                <ul class="nav nav-pills nav-stacked" id="sidenav">
                     <li>
                         <a href="{module_url}query" id="info">
                             <i class="icon-info-sign"></i>
                             Informaci&oacute;n Expediente
+                            <i class="icon-chevron-right"></i>
                         </a>
                     </li>
                     <li>
 
                         <a href="{module_url}checkin">
-                            <i class="icon-facetime-video"></i>
+                            <i class="icon-signin"></i>
                             Check-In
+                            <i class="icon-chevron-right"></i>
                         </a>
                     </li>
                     <li>
                         <a href="{module_url}assign" id="assign">
-                            <i class="icon-signin"></i> <i class="icon-user"></i>
+                            <i class="icon-user"></i>
                             Asignar a Usuario
+                            <i class="icon-chevron-right"></i>
                         </a>
                     </li>
                 </ul>
             </fieldset>
-        <fieldset><legend>Manual</legend>
-            <div class="form-inline">
-                <div class="input-prepend">
-                    <span class="add-on">Tipo</span>
-                    <select name="type" id="type" >
-                        <option val="PDE">
-                            PDE
-                        </option>
-                        <option val="PP">
-                            PP
-                        </option>
-                    </select>
-                </div>
-                <br/>
-                <br/>
-                <div class="input-prepend input-append">
-                    <span class="add-on">Nro</span>
-                    <input id="code" type="text" name="code" placeholder="2234/2012">
-                    <button type="button" class="btn" id="btn_seach">
-                        <i class="icon-search"></i> 
+            <fieldset><legend>
+                    <i class="icon-user"></i> Manual
+                </legend>
+                <div class="form-inline">
+                    <div class="input-prepend">
+                        <span class="add-on">Tipo</span>
+                        <select name="type" id="type" >
+                            <option val="PDE">
+                                PDE
+                            </option>
+                            <option val="PP">
+                                PP
+                            </option>
+                        </select>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="input-prepend input-append">
+                        <span class="add-on">Nro</span>
+                        <input id="code" type="text" name="code" placeholder="2234/2012">
+                        <button type="button" class="btn" id="btn_seach">
+                            <i class="icon-search"></i> 
+                        </button>
+                    </div>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn" id="btn_claim">
+                        <i class="icon-signin"></i> 
+                        Check-In
+                    </button>
+                    <br/>
+                    <br/>
+                    <button type="buton" class="btn" id="btn_gencode">
+                        <i class="icon-qrcode"></i> 
+                        Generar C&oacute;digo
                     </button>
                 </div>
-                <br/>
-                <br/>
-                <button type="button" class="btn" id="btn_claim">
-                    <i class="icon-signin"></i> 
-                    Check-In
-                </button>
-                <br/>
-                <br/>
-                <button type="buton" class="btn" id="btn_gencode">
-                    <i class="icon-qrcode"></i> 
-                    Generar C&oacute;digo
-                </button>
-            </div>
             </fieldset>
 
         </div>
