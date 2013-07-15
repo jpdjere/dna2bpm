@@ -3,6 +3,7 @@ var countSync = function() {
     Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 }
 
+
 var SearchEmpresa = function(me) {
     val = me.value
     if (me.isValid() && me.value.length == 13 && !EmpresaStore.isLoading()) {
@@ -369,66 +370,43 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [
+            items: [{
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Tiene componentes importados?',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'SI', name: '7881', inputValue: 1},
+                        {boxLabel: 'NO', name: '7881', inputValue: 2},
+                    ]
+                }, {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Pueden ser reemplazados?',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'SI', name: '7882', inputValue: 1},
+                        {boxLabel: 'NO', name: '7882', inputValue: 2},
+                    ]
+                }, {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Tiene capacidad para exportar?',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'SI', name: '7883', inputValue: 1},
+                        {boxLabel: 'NO', name: '7883', inputValue: 2},
+                    ]
+                },
                 {
-                    xtype: 'combobox',
-                    name: '7881',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Tiene componentes importados: SI"},
-                            {"value": "2", "text": "Tiene componentes importados: NO"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Tiene componentes importados?',
-                    editable: false
-                }, {
-                    xtype: 'combobox',
-                    name: '7882',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Pueden ser reemplazados: SI"},
-                            {"value": "2", "text": "Pueden ser reemplazados: NO"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Pueden ser reemplazados?',
-                    editable: false
-                }, {
-                    xtype: 'combobox',
-                    name: '7883',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Tiene capacidad para exporta: SI"},
-                            {"value": "2", "text": "Tiene capacidad para exporta: NO"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Tiene capacidad para exporta?',
-                    editable: false
-                }, {
-                    xtype: 'combobox',
-                    name: '1716',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "3", "text": "Mercado destino: A otras provincias"},
-                            {"value": "1", "text": "Mercado destino: Dentro de la provincia"},
-                            {"value": "4", "text": "Mercado destino: Mercosur"},
-                            {"value": "5", "text": "Mercado destino: Internacional"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Mercado destino',
-                    editable: false
-                }, {
+                    xtype: 'checkboxgroup',
+                    fieldLabel: 'Mercado destino',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'A otras provincias', name: '1716', inputValue: 3},
+                        {boxLabel: 'Dentro de la provincia', name: '1716', inputValue: 1},
+                        {boxLabel: 'Mercosur', name: '1716', inputValue: 4},
+                        {boxLabel: 'Internacional', name: '1716', inputValue: 5},
+                    ]
+                }
+                , {
                     emptyText: 'Proveedores',
                     name: '7884'
 
@@ -444,26 +422,20 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             },
             items: [
                 {
-                    xtype: 'combobox',
-                    name: '7663',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "4", "text": "No, pero hay interes en hacerlo"},
-                            {"value": "3", "text": "Si, en ambos periodos"},
-                            {"value": "2", "text": "Si, en a&ntilde;os anteriores"},
-                            {"value": "1", "text": "Si, en la actualidad"},
-                            {"value": "5", "text": "No"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
-                    editable: false,
-                    listeners: {
-                        change: function(me, newValue, oldValue, eOpts) {
-                            if (newValue != null) {
-                                if (newValue == 5) {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'No, pero hay interes en hacerlo', name: '7663', inputValue: 4},
+                        {boxLabel: 'Si, en ambos periodos', name: '7663', inputValue: 3},
+                        {boxLabel: 'Si, en a&ntilde;os anteriores', name: '7663', inputValue: 2},
+                        {boxLabel: 'Si, en la actualidad', name: '7663', inputValue: 1},
+                        {boxLabel: 'No', name: '7663', inputValue: 5}
+                    ], listeners: {
+                        change: function(field, newValue, oldValue) {
+                            var response = JSON.stringify(newValue);                                                       
+                            if (response != null) {
+                                if (response == '{"7663":5}') {
                                     Ext.getCmp('7664').hide();
 
                                 } else {
@@ -473,23 +445,18 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             }
                         }
                     }
-                }, {
+                },
+                 {
                     hidden: true,
-                    xtype: 'combobox',
-                    name: '7664',
                     id: '7664',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "1", "text": "Existe articulaci&oacute;n de las acciones con organismos gubernamentales: SI"},
-                            {"value": "2", "text": "Existe articulaci&oacute;n de las acciones con organismos gubernamentales: NO"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
-                    editable: false
-                }, {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'SI', name: '7664', inputValue: 1},
+                        {boxLabel: 'NO', name: '7664', inputValue: 2},
+                    ]
+                }, /*{
                     xtype: 'combobox',
                     name: '7665',
                     store: new Ext.data.Store({
@@ -504,6 +471,15 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     valueField: 'value',
                     emptyText: 'Registro Unico de Organizaciones de Responsabilidad Social',
                     editable: false
+                }*/ {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'},
+                        {boxLabel: 'SI', name: '7883', inputValue: 'si'},
+                        {boxLabel: 'NO', name: '7883', inputValue: 'no'},
+                    ]
                 }]
         }
     ],
