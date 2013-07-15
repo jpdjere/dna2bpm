@@ -321,8 +321,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         {
             xtype: 'fieldset',
             title: 'CONTACTO',
-            collapsible: true,
-            collapsed: true,
+            collapsible: false,            
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
@@ -339,8 +338,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }, {
             xtype: 'fieldset',
             title: 'PLANTA',
-            collapsible: true,
-            collapsed: true,
+            collapsible: false,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
@@ -372,8 +370,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }, {
             xtype: 'fieldset',
             title: 'PRODUCCION',
-            collapsible: true,
-            collapsed: true,
+            collapsible: false,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
@@ -446,8 +443,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }, {
             xtype: 'fieldset',
             title: 'RESPONSABILIDAD SOCIAL',
-            collapsible: true,
-            collapsed: true,
+            collapsible: false,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
