@@ -195,7 +195,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         }, {
             xtype: 'fieldset',
             title: 'DATOS EMPRESA',
-            collapsible: false,            
+            collapsible: false,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
@@ -320,7 +320,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         {
             xtype: 'fieldset',
             title: 'CONTACTO',
-            collapsible: false,            
+            collapsible: false,
             defaultType: 'textfield',
             layout: 'anchor',
             defaults: {
@@ -346,22 +346,16 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [{
                     emptyText: 'Superficie Cubierta',
                     name: '7879',
-                },
-                {
-                    xtype: 'combobox',
-                    name: '7880',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "20", "text": "Seleccione el Tipo de Posesion: Alquilado"},
-                            {"value": "10", "text": "Seleccione el Tipo de Posesion: Propio"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Seleccione el Tipo de Posesion',
-                    editable: false
                 }, {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Posesion',
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'Alquilado', name: '7880', inputValue: 20},
+                        {boxLabel: 'Propio', name: '7880', inputValue: 10},
+                    ]
+                }
+                , {
                     emptyText: 'Productos o servicios que Ofrece',
                     name: '1715',
                     xtype: 'textarea'
