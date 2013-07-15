@@ -17,7 +17,7 @@ class Inventory extends MX_Controller {
         parent::__construct();
         $this->load->model('user');
         $this->load->model('inventory_model');
-        $this->user->authorize();
+        $this->user->authorize('modules/genias/controllers/inventory');
         $this->load->library('parser');
         $this->load->library('ui');
 //---base variables
