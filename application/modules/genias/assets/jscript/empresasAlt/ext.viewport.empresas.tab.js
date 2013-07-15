@@ -44,6 +44,9 @@ Ext.onReady(function() {
                                     }]
                             }]
                     }]
+            },{
+                title: 'Encuesta',
+                items: [EncuestaForm]
             }],
         defaults: {
             //autoScroll: false,

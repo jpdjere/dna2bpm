@@ -153,6 +153,52 @@ var btnSaveVisita = Ext.create('Ext.Action', {
 
 });
 
+var btnSaveEncuesta = Ext.create('Ext.Action', {
+    id: 'btn_save_encuesta',
+    disabled: true,
+    xtype: 'button',
+    text: '<i class="icon icon-save"></i> Guardar Encuesta',
+    handler: function() {
+
+        var formEmpresa = EmpresaForm;
+        var recordEmpresa = formEmpresa.getRecord();
+
+        var form = VisitaForm;
+
+        var record = form.getRecord();
+        if (record) {
+            //----es uno del grid
+            form.getForm().updateRecord(record);
+        }
+        data = form.getValues();
+        dataEmpresa = formEmpresa.getValues();
+        var d = new Date();
+        var n = d.toISOString();
+        if (data['7408']) {
+            visitaRecord = Ext.create('visitaModel', {
+                fecha: n,
+                cuit: dataEmpresa['1695'],
+                nota: data['7408'],
+                tipo: data['tipovisita'],
+                otros: data['otros']
+            });
+            //--agrego al que se usa para visualizar    
+
+            VisitasStore.add(visitaRecord);
+            //---busco por cuit            
+            //--agrego al que se usa para syncro y persistencia
+            storeVisitaOffline.add(visitaRecord);
+            storeVisitaOffline.sync();
+            VisitasGrid.refresh();
+            /*Actualizo listado de pendientes*/
+
+            /*Sync Button*/
+            countSync();
+        }
+    }
+
+});
+
 var EmpresaForm = Ext.create('Ext.form.Panel', {
     id: 'EmpresaForm',
     onCuitBlur: function() {
@@ -426,65 +472,6 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '7884'
 
                 }]
-        }, {
-            xtype: 'fieldset',
-            title: 'RESPONSABILIDAD SOCIAL',
-            collapsible: false,
-            defaultType: 'textfield',
-            layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
-            items: [
-                {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
-                    labelWidth: 400,
-                    columns: 2,
-                    cls: 'x-check-group-alt',
-                    items: [
-                        {boxLabel: 'No, pero hay interes en hacerlo', name: '7663', inputValue: 4},
-                        {boxLabel: 'Si, en ambos periodos', name: '7663', inputValue: 3},
-                        {boxLabel: 'Si, en a&ntilde;os anteriores', name: '7663', inputValue: 2},
-                        {boxLabel: 'Si, en la actualidad', name: '7663', inputValue: 1},
-                        {boxLabel: 'No', name: '7663', inputValue: 5}
-                    ], listeners: {
-                        change: function(field, newValue, oldValue) {
-                            var response = JSON.stringify(newValue);
-                            if (response != null) {
-                                if (response == '{"7663":5}') {
-                                    Ext.getCmp('7664').hide();
-
-                                } else {
-                                    Ext.getCmp('7664').show();
-                                }
-
-                            }
-                        }
-                    }
-                },
-                {
-                    hidden: true,
-                    id: '7664',
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
-                    labelWidth: 400,
-                    cls: 'x-check-group-alt',
-                    items: [
-                        {boxLabel: 'SI', name: '7664', inputValue: 1},
-                        {boxLabel: 'NO', name: '7664', inputValue: 2},
-                    ]
-                }, {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
-                    labelWidth: 400,
-                    cls: 'x-check-group-alt',
-                    items: [
-                        {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'},
-                        {boxLabel: 'SI', name: '7883', inputValue: 'si'},
-                        {boxLabel: 'NO', name: '7883', inputValue: 'no'},
-                    ]
-                }]
         }
     ],
     listeners: {
@@ -629,6 +616,144 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
 });
 
 
+var EncuestaForm = Ext.create('Ext.form.Panel', {
+    id: 'EncuestaForm',
+    autoScroll: true,
+    //----para que resetee el dirty
+    trackResetOnLoad: true,
+    layout: {
+        type: 'vbox',
+        align: 'stretch'  // Child items are stretched to full width
+    },
+    margin: '5 5 5 5',
+    defaultType: 'textfield',
+    fieldDefaults: {
+        cls: 'input',
+        style: {
+            'font-size': '13px'
+        }
+    },
+    items: [ {
+            xtype: 'fieldset',
+            title: 'RESPONSABILIDAD SOCIAL',
+            collapsible: false,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [
+                {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
+                    labelWidth: 400,
+                    columns: 2,
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'No, pero hay interes en hacerlo', name: '7663', inputValue: 4},
+                        {boxLabel: 'Si, en ambos periodos', name: '7663', inputValue: 3},
+                        {boxLabel: 'Si, en a&ntilde;os anteriores', name: '7663', inputValue: 2},
+                        {boxLabel: 'Si, en la actualidad', name: '7663', inputValue: 1},
+                        {boxLabel: 'No', name: '7663', inputValue: 5}
+                    ], listeners: {
+                        change: function(field, newValue, oldValue) {
+                            var response = JSON.stringify(newValue);
+                            if (response != null) {
+                                if (response == '{"7663":5}') {
+                                    Ext.getCmp('7664').hide();
+
+                                } else {
+                                    Ext.getCmp('7664').show();
+                                }
+
+                            }
+                        }
+                    }
+                },
+                {
+                    hidden: true,
+                    id: '7664',
+                    xtype: 'radiogroup',
+                    //fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
+                    fieldLabel: 'Tienen relaci&oacute;n con organismos gubernamentales',
+                    labelWidth: 400,
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'SI', name: '7664', inputValue: 1},
+                        {boxLabel: 'NO', name: '7664', inputValue: 2},
+                    ]
+                }, {
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
+                    labelWidth: 400,
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'},
+                        {boxLabel: 'SI', name: '7883', inputValue: 'si'},
+                        {boxLabel: 'NO', name: '7883', inputValue: 'no'},
+                    ]
+                }]
+        }, {
+            xtype: 'fieldset',
+            title: 'FINANCIAMIENTO',
+            collapsible: false,
+            defaultType: 'textfield',
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            items: [                
+                {
+                    xtype: 'checkboxgroup',
+                    fieldLabel: 'Modos de Financiamiento',
+                    labelWidth: 400,
+                    columns: 2,
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'Proovedores', name: '7886', inputValue: '01'},
+                        {boxLabel: 'Bancos', name: '7886', inputValue: '02'},
+                        {boxLabel: 'Programas Asistencia Provincial', name: '7886', inputValue: '03'},
+                        {boxLabel: 'Programas Asistencia Municipal', name: '7886', inputValue: '04'},
+                    ]
+                },{
+                    xtype: 'checkboxgroup',
+                    fieldLabel: 'Con Programas Sepyme/Ministerio de Industria',
+                    labelWidth: 400,
+                    columns: 2,
+                    cls: 'x-check-group-alt',
+                    items: [
+                        {boxLabel: 'Fonapyme', name: '7887', inputValue: 10},
+                        {boxLabel: 'R&eacute;gimen de Bonificaci&oacute;n de Tasas', name: '7887', inputValue: 20},
+                        {boxLabel: 'Mi Galp&oacute;n', name: '7887', inputValue: 30},
+                        {boxLabel: 'Nexo Pyme', name: '7887', inputValue: 40},
+                        {boxLabel: 'SGR', name: '7887', inputValue: 50},
+                        {boxLabel: 'Parques Industriales', name: '7887', inputValue: 60}
+                    ]
+                } ]
+        }
+        
+        /**/
+        
+    ],
+    listeners: {
+        dirtychange: function(form) {
+            /*Sync Button*/
+            countSync();
+
+            if (!EmpresaStore.isLoading())
+                EmpresaForm.setLoading(false);
+            if (form.isDirty()) {
+                Ext.getCmp('btn_save_visita').enable();
+            } else {
+                btn = Ext.getCmp('btn_save_visita').disable();
+            }
+        }
+    }
+    , bbar: [
+        btnSaveEncuesta
+    ]
+});
+
 var EmpresaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [EmpresaForm]
@@ -637,5 +762,10 @@ var EmpresaFormPanel = Ext.create('Ext.Panel', {
 var VisitaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [VisitaForm]
+});
+
+var EncuestaFormPanel = Ext.create('Ext.Panel', {
+    layout: 'fit',
+    items: [EncuestaForm]
 });
 
