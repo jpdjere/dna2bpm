@@ -44,6 +44,7 @@ class Inventory extends MX_Controller {
             $this->module_url . 'assets/css/inventory.css' => "Mesa Entrada css",
         );
         $cpData['js'] = array(
+            $this->base_url . "inventory/assets/jscript/bootbox.min.js" => 'BootBox',
             $this->base_url . "inventory/assets/jscript/actions.js" => 'Main Search',
         );
         $cpData['global_js'] = array(
