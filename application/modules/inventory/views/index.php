@@ -22,7 +22,7 @@
                 <li>
 
                     <a href="{module_url}checkin">
-                        <i class="icon-signin"></i>
+                        <i class="icon-facetime-video"></i>
                         Check-In
                     </a>
                 </li>
@@ -48,15 +48,19 @@
                         </div>
                         <br/>
                         <br/>
-                        <div class="input-prepend">
+                        <div class="input-prepend input-append">
                             <span class="add-on">Nro</span>
                             <input id="code" type="text" name="code" placeholder="2234/2012">
+                        <button type="button" class="btn" id="btn_seach">
+                            <i class="icon-search"></i> 
+                        </button>
                         </div>
                         <br/>
                         <br/>
-                        <button type="button" class="btn" id="btn_seach">
-                            <i class="icon-search"></i> 
-                            Buscar</button>
+                        <button type="button" class="btn" id="btn_claim">
+                            <i class="icon-signin"></i> 
+                            Check-In
+                        </button>
                         <br/>
                         <br/>
                         <button type="buton" class="btn" id="btn_gencode">
