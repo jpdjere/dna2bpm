@@ -748,13 +748,12 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
         dirtychange: function(form) {
             /*Sync Button*/
             countSync();
-
             if (!EmpresaStore.isLoading())
                 EmpresaForm.setLoading(false);
             if (form.isDirty()) {
-                Ext.getCmp('btn_save_visita').enable();
+                Ext.getCmp('btn_save_encuesta').enable();
             } else {
-                btn = Ext.getCmp('btn_save_visita').disable();
+                btn = Ext.getCmp('btn_save_encuesta').disable();
             }
         }
     }
