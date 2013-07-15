@@ -205,7 +205,6 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         // console.log(this);
     },
     autoScroll: true,
-    
     //----para que resetee el dirty
     trackResetOnLoad: true,
     layout: {
@@ -259,7 +258,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     labelWidth: 400,
                     columns: 1,
                     cls: 'x-check-group-alt',
-                    items: [                                                 
+                    items: [
                         {boxLabel: 'Sucursal Empresa Extranjera', name: '1694', inputValue: 14},
                         {boxLabel: 'Colectiva', name: '1694', inputValue: 4},
                         {boxLabel: 'U.T.E', name: '1694', inputValue: 15},
@@ -268,7 +267,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'Sociedad De Hecho (S.H)', name: '1694', inputValue: 7},
                         {boxLabel: 'Sociedad Anonima (S.A)', name: '1694', inputValue: 1},
                         {boxLabel: 'Cooperativa', name: '1694', inputValue: 12},
-                        {boxLabel: 'Sociedad en Comandita', name: '1694', inputValue: 24}                        
+                        {boxLabel: 'Sociedad en Comandita', name: '1694', inputValue: 24}
                     ]
                 },
                 {
@@ -428,6 +427,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [{
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene componentes importados?',
+                    padding: '0 0 20 0',
                     labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
@@ -437,6 +437,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Pueden ser reemplazados?',
+                    padding: '0 0 20 0',
                     labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
@@ -446,8 +447,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene capacidad para exportar?',
+                    padding: '0 0 20 0',
                     labelWidth: 400,
-                    
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7883', inputValue: 1},
@@ -457,6 +458,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Mercado destino',
+                    padding: '0 0 20 0',
                     labelWidth: 400,
                     columns: 2,
                     cls: 'x-check-group-alt',
@@ -556,42 +558,41 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             emptyText: 'Notas / Observaciones',
             name: '7408',
             allowBlank: false
-        },{
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Tipo de Visita',
-                    labelWidth: 400,
-                    columns: 1,
-                    cls: 'x-check-group-alt',
-                    items: [              
-                        
-                       
-                        {boxLabel: 'V&iacute;a Email', name: 'tipovisita', inputValue: 1},
-                        {boxLabel: 'Llamado Telef&oacute;nico', name: 'tipovisita', inputValue: 2},
-                        {boxLabel: 'Oficina Genia', name: 'tipovisita', inputValue: 3},
-                        {boxLabel: 'Visita', name: 'tipovisita', inputValue: 4},
-                        {boxLabel: 'Otro', name: 'tipovisita', inputValue: 5}
-                                         
-                    ], listeners: {
-                        change: function(field, newValue, oldValue) {
-                            var response = JSON.stringify(newValue);
-                            if (response != null) {
-                                if (response != '{"tipovisita":5}') {
-                                    Ext.getCmp('otros').hide();
+        }, {
+            xtype: 'radiogroup',
+            fieldLabel: 'Tipo de Visita',
+            labelWidth: 200,
+            
+            columns: 2,
+            cls: 'x-check-group-alt',
+            items: [
+                {boxLabel: 'V&iacute;a Email', name: 'tipovisita', inputValue: 1},
+                {boxLabel: 'Llamado Telef&oacute;nico', name: 'tipovisita', inputValue: 2},
+                {boxLabel: 'Oficina Genia', name: 'tipovisita', inputValue: 3},
+                {boxLabel: 'Visita', name: 'tipovisita', inputValue: 4},
+                {boxLabel: 'Otro', name: 'tipovisita', inputValue: 5}
 
-                                } else {
-                                    Ext.getCmp('otros').show();
-                                }
+            ], listeners: {
+                change: function(field, newValue, oldValue) {
+                    var response = JSON.stringify(newValue);
+                    if (response != null) {
+                        if (response != '{"tipovisita":5}') {
+                            Ext.getCmp('otros').hide();
 
-                            }
+                        } else {
+                            Ext.getCmp('otros').show();
                         }
+
                     }
                 }
+            }
+        }
         , {
             emptyText: 'Otros',
             id: 'otros',
             xtype: 'textarea',
             emptyText: 'Especifique...',
-            name: 'otros',
+                    name: 'otros',
             hidden: true
 
         }
@@ -633,7 +634,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
             'font-size': '13px'
         }
     },
-    items: [ {
+    items: [{
             xtype: 'fieldset',
             title: 'RESPONSABILIDAD SOCIAL',
             collapsible: false,
@@ -647,6 +648,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'radiogroup',
                     fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
                     labelWidth: 400,
+                    padding: '0 0 20 0',
                     columns: 2,
                     cls: 'x-check-group-alt',
                     items: [
@@ -676,7 +678,8 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'radiogroup',
                     //fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
                     fieldLabel: 'Tienen relaci&oacute;n con organismos gubernamentales',
-                    labelWidth: 400,
+                    labelWidth: 400,                    
+                    padding: '0 0 20 0',
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7664', inputValue: 1},
@@ -686,11 +689,13 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'radiogroup',
                     fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
                     labelWidth: 400,
+                    padding: '0 0 20 0',
                     cls: 'x-check-group-alt',
-                    items: [
-                        {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'},
+                    columns: 2,
+                    items: [                        
                         {boxLabel: 'SI', name: '7883', inputValue: 'si'},
                         {boxLabel: 'NO', name: '7883', inputValue: 'no'},
+                        {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'}
                     ]
                 }]
         }, {
@@ -702,11 +707,12 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [                
+            items: [
                 {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Modos de Financiamiento',
                     labelWidth: 400,
+                    padding: '0 0 20 0',
                     columns: 2,
                     cls: 'x-check-group-alt',
                     items: [
@@ -715,7 +721,10 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'Programas Asistencia Provincial', name: '7886', inputValue: '03'},
                         {boxLabel: 'Programas Asistencia Municipal', name: '7886', inputValue: '04'},
                     ]
-                },{
+                }/*, {
+                    xtype: 'box',
+                    autoEl: {tag: 'hr', height: '1px'}
+                }*/, {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Con Programas Sepyme/Ministerio de Industria',
                     labelWidth: 400,
@@ -729,11 +738,11 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'SGR', name: '7887', inputValue: 50},
                         {boxLabel: 'Parques Industriales', name: '7887', inputValue: 60}
                     ]
-                } ]
+                }]
         }
-        
+
         /**/
-        
+
     ],
     listeners: {
         dirtychange: function(form) {
