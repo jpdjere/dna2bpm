@@ -381,9 +381,9 @@ var storeEncuesta = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            read: globals.module_url + 'encuesta_remote/View',
-            create: globals.module_url + 'encuesta_remote/Insert',
-            update: globals.module_url + 'encuesta_remote/Insert',
+            read: globals.module_url + 'encuestas_remote/View',
+            create: globals.module_url + 'encuestas_remote/Insert',
+            update: globals.module_url + 'encuestas_remote/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
