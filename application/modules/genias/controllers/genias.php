@@ -465,7 +465,7 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
             $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
-            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',           
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.tab.js' => 'ViewPort',
         );
 
