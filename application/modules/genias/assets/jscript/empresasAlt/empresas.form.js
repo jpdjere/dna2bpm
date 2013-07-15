@@ -208,15 +208,22 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     name: '1693'
                 },
                 {
-                    xtype: 'combobox',
-                    name: '1694',
-                    //fieldLabel: 'Tipo de Visita',
-                    store: TipoEmpresaStore,
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Seleccione el Tipo de Empresa',
-                    editable: false
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Tipo de Empresa',
+                    labelWidth: 400,
+                    columns: 1,
+                    cls: 'x-check-group-alt',
+                    items: [                                                 
+                        {boxLabel: 'Sucursal Empresa Extranjera', name: '1694', inputValue: 14},
+                        {boxLabel: 'Colectiva', name: '1694', inputValue: 4},
+                        {boxLabel: 'U.T.E', name: '1694', inputValue: 15},
+                        {boxLabel: 'Unipersonal', name: '1694', inputValue: 8},
+                        {boxLabel: 'Sociedad de Responsabilidad Limitada (S.R.L)', name: '1694', inputValue: 2},
+                        {boxLabel: 'Sociedad De Hecho (S.H)', name: '1694', inputValue: 7},
+                        {boxLabel: 'Sociedad Anonima (S.A)', name: '1694', inputValue: 1},
+                        {boxLabel: 'Cooperativa', name: '1694', inputValue: 12},
+                        {boxLabel: 'Sociedad en Comandita', name: '1694', inputValue: 24}                        
+                    ]
                 },
                 {
                     id: 'ProvinciaCombo',
@@ -351,6 +358,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Posesion',
+                    labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'Alquilado', name: '7880', inputValue: 20},
@@ -404,7 +412,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Mercado destino',
                     labelWidth: 400,
-                    columns: 1,
+                    columns: 2,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'A otras provincias', name: '1716', inputValue: 3},
@@ -430,9 +438,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [
                 {
                     xtype: 'radiogroup',
-                    fieldLabel: 'La empresa ha realizado/a acciones vinculadas a la Responsabilidad Social',
+                    fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
                     labelWidth: 400,
-                    columns: 1,
+                    columns: 2,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'No, pero hay interes en hacerlo', name: '7663', inputValue: 4},
@@ -558,36 +566,41 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
     items: [{
             id: 'notas',
             xtype: 'textarea',
-            fieldLabel: 'Notas / Observaciones',
+            emptyText: 'Notas / Observaciones',
             name: '7408',
             allowBlank: false
-        },
-        {
-            xtype: 'combobox',
-            name: 'tipovisita',
-            fieldLabel: 'Tipo de Visita',
-            store: TipoVisitaStore,
-            queryMode: 'local',
-            displayField: 'text',
-            valueField: 'value',
-            emptyText: 'Seleccione el Tipo de Visita',
-            editable: false,
-            listeners: {
-                change: function(me, newValue, oldValue, eOpts) {
-                    if (newValue != null) {
-                        if (newValue != 5) {
-                            Ext.getCmp('otros').hide();
+        },{
+                    xtype: 'radiogroup',
+                    fieldLabel: 'Tipo de Visita',
+                    labelWidth: 400,
+                    columns: 1,
+                    cls: 'x-check-group-alt',
+                    items: [              
+                        
+                       
+                        {boxLabel: 'V&iacute;a Email', name: 'tipovisita', inputValue: 1},
+                        {boxLabel: 'Llamado Telef&oacute;nico', name: 'tipovisita', inputValue: 2},
+                        {boxLabel: 'Oficina Genia', name: 'tipovisita', inputValue: 3},
+                        {boxLabel: 'Visita', name: 'tipovisita', inputValue: 4},
+                        {boxLabel: 'Otro', name: 'tipovisita', inputValue: 5}
+                                         
+                    ], listeners: {
+                        change: function(field, newValue, oldValue) {
+                            var response = JSON.stringify(newValue);
+                            if (response != null) {
+                                if (response != '{"tipovisita":5}') {
+                                    Ext.getCmp('otros').hide();
 
-                        } else {
-                            Ext.getCmp('otros').show();
+                                } else {
+                                    Ext.getCmp('otros').show();
+                                }
+
+                            }
                         }
-
                     }
                 }
-            }
-
-        }, {
-            fieldLabel: 'Otros',
+        , {
+            emptyText: 'Otros',
             id: 'otros',
             xtype: 'textarea',
             emptyText: 'Especifique...',
