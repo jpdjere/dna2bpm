@@ -374,7 +374,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [{
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene componentes importados?',
-                    labelWidth: 500,
+                    labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7881', inputValue: 1},
@@ -383,7 +383,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Pueden ser reemplazados?',
-                    labelWidth: 500,
+                    labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7882', inputValue: 1},
@@ -392,7 +392,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene capacidad para exportar?',
-                    labelWidth: 500,
+                    labelWidth: 400,
                     
                     cls: 'x-check-group-alt',
                     items: [
@@ -403,7 +403,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Mercado destino',
-                    labelWidth: 500,
+                    labelWidth: 400,
                     columns: 1,
                     cls: 'x-check-group-alt',
                     items: [
@@ -430,8 +430,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [
                 {
                     xtype: 'radiogroup',
-                    fieldLabel: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
-                    labelWidth: 500,
+                    fieldLabel: 'La empresa ha realizado/a acciones vinculadas a la Responsabilidad Social',
+                    labelWidth: 400,
                     columns: 1,
                     cls: 'x-check-group-alt',
                     items: [
@@ -460,7 +460,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     id: '7664',
                     xtype: 'radiogroup',
                     fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
-                    labelWidth: 500,
+                    labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7664', inputValue: 1},
@@ -469,7 +469,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
-                    labelWidth: 500,
+                    labelWidth: 400,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'},
