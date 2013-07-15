@@ -312,56 +312,6 @@ var PartidoStore = Ext.create('Ext.data.Store', {
     }
 });
 
-/*
- * @Name Tipo de Empresas
- * @type Store 
- * 
- */
-var TipoEmpresaStore = Ext.create('Ext.data.Store', {
-    id: 'TipoVisitaStore',
-    autoLoad: true,
-    model: 'OpcionModel',
-    proxy: {
-        type: 'ajax',
-        url: globals.module_url + 'assets/json/tiposempresa.json',
-        actionMethods: {
-            read: 'GET'
-        },
-        noCache: false,
-        useLocalStorage: true,
-        reader: {
-            type: 'json',
-            root: 'rows',
-            totalProperty: 'totalCount'
-        }
-    }
-});
-/*
- * @Name Tipo de Visita
- * @type Store 
- * 
- */
-var TipoVisitaStore = Ext.create('Ext.data.Store', {
-    id: 'TipoVisitaStore',
-    autoLoad: true,
-    model: 'OpcionModel',
-    proxy: {
-        type: 'ajax',
-        url: globals.module_url + 'assets/json/tiposvisita.json',
-        actionMethods: {
-            read: 'GET'
-        },
-        noCache: false,
-        useLocalStorage: true,
-        reader: {
-            type: 'json',
-            root: 'rows',
-            totalProperty: 'totalCount'
-        }
-    }
-});
-
-
 
 
 var storeEmpresaOffline = Ext.create('Ext.data.Store', {
