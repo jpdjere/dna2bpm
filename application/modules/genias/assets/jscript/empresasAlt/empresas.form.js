@@ -159,6 +159,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         // console.log(this);
     },
     autoScroll: true,
+    
     //----para que resetee el dirty
     trackResetOnLoad: true,
     layout: {
@@ -373,6 +374,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
             items: [{
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene componentes importados?',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7881', inputValue: 1},
@@ -381,6 +383,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Pueden ser reemplazados?',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7882', inputValue: 1},
@@ -389,6 +392,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene capacidad para exportar?',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7883', inputValue: 1},
@@ -398,6 +402,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Mercado destino',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'A otras provincias', name: '1716', inputValue: 3},
@@ -424,6 +429,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 {
                     xtype: 'radiogroup',
                     fieldLabel: 'La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'No, pero hay interes en hacerlo', name: '7663', inputValue: 4},
@@ -433,7 +439,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'No', name: '7663', inputValue: 5}
                     ], listeners: {
                         change: function(field, newValue, oldValue) {
-                            var response = JSON.stringify(newValue);                                                       
+                            var response = JSON.stringify(newValue);
                             if (response != null) {
                                 if (response == '{"7663":5}') {
                                     Ext.getCmp('7664').hide();
@@ -446,34 +452,21 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                         }
                     }
                 },
-                 {
+                {
                     hidden: true,
                     id: '7664',
                     xtype: 'radiogroup',
                     fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'SI', name: '7664', inputValue: 1},
                         {boxLabel: 'NO', name: '7664', inputValue: 2},
                     ]
-                }, /*{
-                    xtype: 'combobox',
-                    name: '7665',
-                    store: new Ext.data.Store({
-                        fields: ['text', 'value'],
-                        data: [{"value": "nc", "text": "Registro Unico de Organizaciones de Responsabilidad Social: No Sabe / No Contesta"},
-                            {"value": "si", "text": "Registro Unico de Organizaciones de Responsabilidad Social: SI"},
-                            {"value": "no", "text": "Registro Unico de Organizaciones de Responsabilidad Social: NO"}
-                        ]
-                    }),
-                    queryMode: 'local',
-                    displayField: 'text',
-                    valueField: 'value',
-                    emptyText: 'Registro Unico de Organizaciones de Responsabilidad Social',
-                    editable: false
-                }*/ {
+                }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
+                    labelWidth: 500,
                     cls: 'x-check-group-alt',
                     items: [
                         {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'},
