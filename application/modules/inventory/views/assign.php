@@ -52,7 +52,7 @@
             <br/>
             <br/>
             <span class="add-on"><i class="icon-user"></i> Usuario</span>
-            <select name="user" id="user_select" size="15">
+            <select name="user" id="user_select" size="10">
                 {users}
                 <option value="{idu}">
                     {name} {lastname}
