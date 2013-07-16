@@ -51,6 +51,8 @@ class assets extends MX_Controller {
                 case 'jpg' || 'jpeg' || 'png' || 'gif':
                     header('Content-type: image/'.$file_type);
                     break;
+                default:
+                    header("Content-Type: plain/text"); 
             }
  
             readfile($file);
