@@ -40,8 +40,8 @@ CACHE MANIFEST
 /dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
 
 #CALENDAR
-/dna2bpm/genias/assets/jscript/fullcalendar/*
-/dna2bpm/genias/assets/jscript/fullcalendar/*
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
 
 NETWORK: 
 # USE FROM NETWORK IF AVAILABLE
