@@ -77,7 +77,8 @@ NETWORK:
 /dna2bpm/genias/assets/json/partidos.json
 /dna2bpm/genias/assets/json/provincias.json
 /dna2bpm/genias/empresas
-
+/dna2bpm/genias/visitas
+/dna2bpm/genias/encuestas
 
 #Empresas JS
 /dna2bpm/jscript/ext/ext-all.js
