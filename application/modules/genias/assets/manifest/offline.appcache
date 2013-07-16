@@ -42,7 +42,9 @@ CACHE MANIFEST
 /dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
 /dna2bpm/jscript/fontawesome/css/font-awesome.min.css
 /dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/ext-theme-neptune-all-debug.css
 /dna2bpm/css/load_mask.css
+/dna2bpm/genias/assets/images/loader18.gif
 #CALENDAR
 #/dna2bpm/genias/assets/jscript/fullcalendar/*
 #/dna2bpm/genias/assets/jscript/fullcalendar/*
