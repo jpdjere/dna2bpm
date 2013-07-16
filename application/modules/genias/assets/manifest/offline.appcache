@@ -42,7 +42,37 @@ CACHE MANIFEST # Comments are OK here
 /dna2bpm/genias/assets/jscript/fullcalendar/*
 /dna2bpm/genias/assets/jscript/fullcalendar/*
 
-NETWORK: # Comments are OK here too.
+NETWORK: # USE FROM NETWORK IF AVAILABLE
+
+
+#JSON
+/dna2bpm/genias/assets/json/contact.json
+/dna2bpm/genias/assets/json/empresasDNA2.json
+/dna2bpm/genias/assets/json/genias.json
+/dna2bpm/genias/assets/json/empresasGenia.json
+/dna2bpm/genias/assets/json/partidos.json
+/dna2bpm/genias/assets/json/provincias.json
+/dna2bpm/genias/empresas
+
+
+#Empresas JS
+/dna2bpm/jscript/ext/ext-all.js
+/dna2bpm/jscript/ext/bootstrap.js
+/dna2bpm/genias/assets/jscript/onlineStatus.js
+/dna2bpm/genias/assets/jscript/ext.settings.js
+/dna2bpm/jscript/ext/src/ux/form/SearchField.js
+/dna2bpm/genias/assets/jscript/empresas.grid.js
+/dna2bpm/genias/assets/jscript/empresas.ext.data.js
+/dna2bpm/genias/assets/jscript/empresasAlt/btnSync.js
+/dna2bpm/genias/assets/jscript/ext.viewport.empresas.js
+/dna2bpm/genias/assets/jscript/empresasAlt/visitas.grid.js
+/dna2bpm/genias/assets/jscript/empresasAlt/empresas.form.js
+/dna2bpm/genias/assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
+/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
+
+#CALENDAR
+/dna2bpm/genias/assets/jscript/fullcalendar/*
+/dna2bpm/genias/assets/jscript/fullcalendar/*
 
 CACHE:
 
@@ -50,6 +80,3 @@ CACHE:
 FALLBACK:
 
 
-CACHE:
-
-*
