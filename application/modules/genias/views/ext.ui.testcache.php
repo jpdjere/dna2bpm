@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="{base_url}offline.appcache">
+<html manifest="{base_url}genias/assets/manifest/offline.appcache">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{title}</title>
@@ -40,6 +40,7 @@
             </div>
         </div>
     </div>
+
     <!-- Boot -->
     <script type="text/javascript">
             //-----declare global vars
