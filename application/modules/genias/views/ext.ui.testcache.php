@@ -40,7 +40,6 @@
             </div>
         </div>
     </div>
-
     <!-- Boot -->
     <script type="text/javascript">
             //-----declare global vars
