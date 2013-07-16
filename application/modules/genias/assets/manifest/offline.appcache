@@ -49,6 +49,12 @@ CACHE MANIFEST
 #/dna2bpm/genias/assets/jscript/fullcalendar/*
 #/dna2bpm/genias/assets/jscript/fullcalendar/*
 
+
+#IMAGENES
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/exclamation.png
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/trigger.png
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/radio.png
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/checkbox.png
 NETWORK: 
 # USE FROM NETWORK IF AVAILABLE
 
