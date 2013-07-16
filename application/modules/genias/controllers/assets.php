@@ -51,6 +51,9 @@ class assets extends MX_Controller {
                 case 'jpg' || 'jpeg' || 'png' || 'gif':
                     header('Content-type: image/'.$file_type);
                     break;
+                case 'appcache':
+                    header("Content-Type: text/cache-manifest"); 
+                    
                 default:
                     header("Content-Type: plain/text"); 
             }
