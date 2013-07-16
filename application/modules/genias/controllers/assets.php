@@ -53,6 +53,7 @@ class assets extends MX_Controller {
                     break;
                 case 'appcache':
                     header("Content-Type: text/cache-manifest"); 
+                    break;
                     
                 default:
                     header("Content-Type: plain/text"); 
