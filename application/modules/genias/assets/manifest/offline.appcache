@@ -1,17 +1,67 @@
-CACHE MANIFEST # Comments are OK here
-#Generated: 2013-03-22T09:12
+CACHE MANIFEST
+# Comments are OK here
+#Generated: 2013-07-16 01:31
 #Spaces before comments shouldn't matter
 
 #INDEX
 /dna2bpm/genias/
 
 #JS FILES 2013-05-011 13:00
-#/dna2bpm/jscript/ext/ext-all-dev.js
+/dna2bpm/jscript/ext/ext-all-dev.js
 
 #FORM
 /dna2bpm/genias/assets/jscript/ext.data.js
 /dna2bpm/genias/assets/jscript/form.js
 /dna2bpm/genias/assets/jscript/ext.viewport.js
+
+
+
+
+#Empresas JS
+/dna2bpm/jscript/ext/ext-all.js
+/dna2bpm/jscript/ext/bootstrap.js
+/dna2bpm/genias/assets/jscript/onlineStatus.js
+/dna2bpm/genias/assets/jscript/ext.settings.js
+/dna2bpm/jscript/ext/src/ux/form/SearchField.js
+/dna2bpm/genias/assets/jscript/empresas.grid.js
+/dna2bpm/genias/assets/jscript/empresas.ext.data.js
+/dna2bpm/genias/assets/jscript/empresasAlt/btnSync.js
+/dna2bpm/genias/assets/jscript/ext.viewport.empresas.js
+/dna2bpm/genias/assets/jscript/empresasAlt/visitas.grid.js
+/dna2bpm/genias/assets/jscript/empresasAlt/empresas.form.js
+/dna2bpm/genias/assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
+/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
+/dna2bpm/jscript/fontawesome/css/font-awesome.min.css
+/dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/ext-theme-neptune-all-debug.css
+/dna2bpm/css/load_mask.css
+/dna2bpm/genias/assets/images/loader18.gif
+#CALENDAR
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
+
+#JSON
+/dna2bpm/genias/visitas
+/dna2bpm/genias/empresas
+/dna2bpm/genias/encuestas
+/dna2bpm/genias/assets/json/contact.json
+/dna2bpm/genias/assets/json/empresasDNA2.json
+/dna2bpm/genias/assets/json/genias.json
+/dna2bpm/genias/assets/json/empresasGenia.json
+/dna2bpm/genias/assets/json/partidos.json
+/dna2bpm/genias/assets/json/provincias.json
+
+#IMAGENES
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/exclamation.png
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/trigger.png
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/radio.png
+/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/checkbox.png
+
+
+
+NETWORK: 
+# USE FROM NETWORK IF AVAILABLE
+
 
 #JSON
 /dna2bpm/genias/assets/json/contact.json
@@ -21,16 +71,26 @@ CACHE MANIFEST # Comments are OK here
 /dna2bpm/genias/assets/json/partidos.json
 /dna2bpm/genias/assets/json/provincias.json
 /dna2bpm/genias/empresas
-#Empresas
-/dna2bpm/jscript/ext/src/ux/form/SearchField.js
-/dna2bpm/genias/assets/jscript/ext.viewport.empresas.js
-/dna2bpm/genias/assets/jscript/empresas.grid.js
-/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
-#CALENDAR
-/dna2bpm/genias/assets/jscript/fullcalendar/*
-/dna2bpm/genias/assets/jscript/fullcalendar/*
 
-NETWORK: # Comments are OK here too.
+
+#Empresas JS
+/dna2bpm/jscript/ext/ext-all.js
+/dna2bpm/jscript/ext/bootstrap.js
+/dna2bpm/genias/assets/jscript/onlineStatus.js
+/dna2bpm/genias/assets/jscript/ext.settings.js
+/dna2bpm/jscript/ext/src/ux/form/SearchField.js
+/dna2bpm/genias/assets/jscript/empresas.grid.js
+/dna2bpm/genias/assets/jscript/empresas.ext.data.js
+/dna2bpm/genias/assets/jscript/empresasAlt/btnSync.js
+/dna2bpm/genias/assets/jscript/ext.viewport.empresas.js
+/dna2bpm/genias/assets/jscript/empresasAlt/visitas.grid.js
+/dna2bpm/genias/assets/jscript/empresasAlt/empresas.form.js
+/dna2bpm/genias/assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
+/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
+
+#CALENDAR
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
 
 CACHE:
 
@@ -38,8 +98,3 @@ CACHE:
 FALLBACK:
 
 
-CACHE:
-
-NETWORK:
-
-*

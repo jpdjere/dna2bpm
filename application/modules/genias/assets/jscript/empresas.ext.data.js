@@ -80,7 +80,7 @@ Ext.define('EmpresaModel', {
                 , '7878'    // Rubro de la Empresa                
                 /*PLANTA*/
                 , '7879'    // Superficie Cubierta
-                , '7880'    // Posesión (idopcion = 729)
+                , '7880'    // Posesiï¿½n (idopcion = 729)
                 , '1715'    // Productos o servicios que Ofrece
                 /* PRODUCCION*/
                 , '7881'    // Tiene componentes importados (idopcion = 15)
@@ -89,7 +89,7 @@ Ext.define('EmpresaModel', {
                 , '1716'    // Mercado destino (idopcion = 88)
                 , '7884'    // Proveedores
                 , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
-                , '7665'    // Registro Único de Organizaciones de Responsabilidad Social (idopcion = 715)
+                , '7665'    // Registro ï¿½nico de Organizaciones de Responsabilidad Social (idopcion = 715)
     ]
 });
 
