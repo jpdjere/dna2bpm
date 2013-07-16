@@ -10,9 +10,10 @@ CACHE MANIFEST
 /dna2bpm/jscript/ext/ext-all-dev.js
 
 #CSS
-dna2bpm/jscript/fontawesome/css/font-awesome.min.css
-dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
-dna2bpm/css/load_mask.css
+/dna2bpm/jscript/fontawesome/css/font-awesome.min.css
+/dna2bpm//jscript/fontawesome/css/font-awesome.min.css
+/dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
+/dna2bpm/css/load_mask.css
 
 
 #FORM
