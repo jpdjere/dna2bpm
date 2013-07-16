@@ -40,7 +40,9 @@ CACHE MANIFEST
 /dna2bpm/genias/assets/jscript/empresasAlt/empresas.form.js
 /dna2bpm/genias/assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
 /dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
-
+/dna2bpm/jscript/fontawesome/css/font-awesome.min.css
+/dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
+/dna2bpm/css/load_mask.css
 #CALENDAR
 #/dna2bpm/genias/assets/jscript/fullcalendar/*
 #/dna2bpm/genias/assets/jscript/fullcalendar/*
