@@ -9,6 +9,12 @@ CACHE MANIFEST
 #JS FILES 2013-05-011 13:00
 /dna2bpm/jscript/ext/ext-all-dev.js
 
+#CSS
+dna2bpm/jscript/fontawesome/css/font-awesome.min.css
+dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
+dna2bpm/css/load_mask.css
+
+
 #FORM
 /dna2bpm/genias/assets/jscript/ext.data.js
 /dna2bpm/genias/assets/jscript/form.js
