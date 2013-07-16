@@ -80,7 +80,7 @@ Ext.define('EmpresaModel', {
                 , '7878'    // Rubro de la Empresa                
                 /*PLANTA*/
                 , '7879'    // Superficie Cubierta
-                , '7880'    // Posesión (idopcion = 729)
+                , '7880'    // Posesiï¿½n (idopcion = 729)
                 , '1715'    // Productos o servicios que Ofrece
                 /* PRODUCCION*/
                 , '7881'    // Tiene componentes importados (idopcion = 15)
@@ -89,7 +89,7 @@ Ext.define('EmpresaModel', {
                 , '1716'    // Mercado destino (idopcion = 88)
                 , '7884'    // Proveedores
                 , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
-                , '7665'    // Registro Único de Organizaciones de Responsabilidad Social (idopcion = 715)
+                , '7665'    // Registro ï¿½nico de Organizaciones de Responsabilidad Social (idopcion = 715)
     ]
 });
 
@@ -101,7 +101,7 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         url: globals.module_url + 'empresas',
         actionMethods: {
-            read: 'GET'
+            read: 'POST'
         },
         noCache: false,
         useLocalStorage: true,
@@ -220,7 +220,7 @@ var VisitasStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         url: globals.module_url + 'visitas',
         actionMethods: {
-            read: 'GET'
+            read: 'POST'
         },
         noCache: false,
         useLocalStorage: true,
@@ -338,7 +338,7 @@ var EncuestasStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         url: globals.module_url + 'encuestas',
         actionMethods: {
-            read: 'GET'
+            read: 'POST'
         },
         noCache: false,
         useLocalStorage: true,
@@ -441,7 +441,7 @@ var GeniaStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         url: globals.module_url + 'assets/json/genias.json',
         actionMethods: {
-            read: 'GET'
+            read: 'POST'
         },
         noCache: false,
         useLocalStorage: true,
@@ -467,7 +467,7 @@ var ProvinciaStore = Ext.create('Ext.data.Store', {
         //url: globals.base_url + '/form/get_option/39', // url that will load data with respect to start and limit params 
         url: globals.module_url + 'assets/json/provincias.json',
         actionMethods: {
-            read: 'GET'
+            read: 'POST'
         },
         noCache: false,
         useLocalStorage: true,
@@ -501,7 +501,7 @@ var PartidoStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         url: globals.module_url + 'assets/json/partidos.json',
         actionMethods: {
-            read: 'GET'
+            read: 'POST'
         },
         noCache: false,
         useLocalStorage: true,
