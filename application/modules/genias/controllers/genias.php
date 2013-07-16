@@ -440,7 +440,7 @@ class Genias extends MX_Controller {
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
-        $this->ui->makeui('ext.ui.php', $cpData);
+        $this->ui->makeui('ext.ui.testcache.php', $cpData);
     }
 
     function Form_empresas_alt($parm = null) {
