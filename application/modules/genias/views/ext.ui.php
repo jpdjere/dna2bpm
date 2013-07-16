@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <!--manifest="{base_url}genias/assets/manifest/offline.appcache"-->>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{title}</title>
