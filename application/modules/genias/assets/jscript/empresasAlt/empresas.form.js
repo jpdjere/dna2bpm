@@ -497,6 +497,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                 } else {
                     //----si ya cargo simplemente filtro
                     SearchEmpresa(field);
+
                 }
 
             } else {
@@ -553,6 +554,25 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
         }
     },
     items: [{
+            xtype: 'checkboxgroup',
+            fieldLabel: 'Modos de Financiamiento',
+            labelWidth: 150,
+            padding: '0 0 20 0',
+            columns: 2,
+            cls: 'x-check-group-alt',
+            items: [
+                {boxLabel: 'PACC', name: '7898', inputValue: '05'},
+                {boxLabel: 'Cr&eacute;dito Fiscal para Capacitaci&oacute;n', name: '7898', inputValue: '10'},
+                {boxLabel: 'Expertos PYME', name: '7898', inputValue: '15'},
+                {boxLabel: 'Grupos PYME', name: '7898', inputValue: '20'},
+                {boxLabel: 'Fonapyme', name: '7898', inputValue: '25'},
+                {boxLabel: 'R&eacute;gimen de Bonificaci&oacute;n de Tasas', name: '7898', inputValue: '30'},
+                {boxLabel: 'Mi Galp&oacute;n', name: '7898', inputValue: '35'},
+                {boxLabel: 'Nexo Pyme', name: '7898', inputValue: '40'},
+                {boxLabel: 'SGR', name: '7898', inputValue: '45'},
+                {boxLabel: 'Parques Industriales', name: '7898', inputValue: '50'},
+            ]
+        }, {
             id: 'notas',
             xtype: 'textarea',
             emptyText: 'Notas / Observaciones',
@@ -561,8 +581,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
         }, {
             xtype: 'radiogroup',
             fieldLabel: 'Tipo de Visita',
-            labelWidth: 200,
-            
+            labelWidth: 150,
             columns: 2,
             cls: 'x-check-group-alt',
             items: [
@@ -678,7 +697,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                     xtype: 'radiogroup',
                     //fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
                     fieldLabel: 'Tienen relaci&oacute;n con organismos gubernamentales',
-                    labelWidth: 400,                    
+                    labelWidth: 400,
                     padding: '0 0 20 0',
                     cls: 'x-check-group-alt',
                     items: [
@@ -692,7 +711,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                     padding: '0 0 20 0',
                     cls: 'x-check-group-alt',
                     columns: 2,
-                    items: [                        
+                    items: [
                         {boxLabel: 'SI', name: '7883', inputValue: 'si'},
                         {boxLabel: 'NO', name: '7883', inputValue: 'no'},
                         {boxLabel: 'No Sabe/No contesta', name: '7883', inputValue: 'nc'}
@@ -722,9 +741,9 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'Programas Asistencia Municipal', name: '7886', inputValue: '04'},
                     ]
                 }/*, {
-                    xtype: 'box',
-                    autoEl: {tag: 'hr', height: '1px'}
-                }*/, {
+                 xtype: 'box',
+                 autoEl: {tag: 'hr', height: '1px'}
+                 }*/, {
                     xtype: 'checkboxgroup',
                     fieldLabel: 'Con Programas Sepyme/Ministerio de Industria',
                     labelWidth: 400,
