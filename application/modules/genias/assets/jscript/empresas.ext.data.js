@@ -204,7 +204,7 @@ Ext.define('visitaModel', {
     fields: [
         'fecha'         // 	Fecha de la Visita 
                 , 'cuit'
-                , 'nota'        // 	Comentarios 
+                , '7408'        // 	Notas / Observaciones 
                 , 'tipovisita'  //      tipo de visita
                 , 'otros'       //      para tipo de visita otros
                 , '7898'        //      Programas Informados
@@ -320,7 +320,7 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
 Ext.define('encuestaModel', {
     extend: 'Ext.data.Model',
     fields: [
-        'fecha' // 	Fecha de la Visita 
+                'fecha' // 	Fecha de la Visita 
                 , 'cuit'
                 , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
                 , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
