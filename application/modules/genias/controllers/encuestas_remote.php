@@ -44,6 +44,26 @@ class Encuestas_remote extends MX_Controller {
                 $out = array('status' => 'error');
             }
         }
-    } 
+    }
+    
+     public function View() {
+
+        $container = $this->containerEmpresas;
+        $query = array('7406' => (int)($this->idu));
+        $resultData = $this->mongo->db->$container->find($query);
+
+        foreach ($resultData as $returnData) {
+            $fileArrMongo[] = $returnData;
+        }
+        //return $fileArrMongo;             
+
+        if (!empty($fileArrMongo)) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => "Loaded data",
+                'data' => $fileArrMongo
+            ));
+        }
+    }
     
 }
