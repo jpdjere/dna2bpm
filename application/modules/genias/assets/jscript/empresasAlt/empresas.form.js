@@ -815,7 +815,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
             ]
         }
 
-        /**/
+       
 
     ],
     listeners: {
