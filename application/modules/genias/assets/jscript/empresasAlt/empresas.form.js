@@ -132,9 +132,10 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
                 cuit: dataEmpresa['1695'],
-                nota: data['7408'],
+                7408: data['7408'],
                 tipo: data['tipovisita'],
-                otros: data['otros']
+                otros: data['otros'], 
+                7898: data['7898']
             });
             //--agrego al que se usa para visualizar    
 
@@ -153,18 +154,16 @@ var btnSaveVisita = Ext.create('Ext.Action', {
 
 });
 
-var btnSaveEncuesta = Ext.create('Ext.Action', {
+var btnSaveEncuesta = Ext.create('Ext.Action', {    
     id: 'btn_save_encuesta',
     disabled: true,
     xtype: 'button',
     text: '<i class="icon icon-save"></i> Guardar Encuesta',
     handler: function() {
-
+       
         var formEmpresa = EmpresaForm;
         var recordEmpresa = formEmpresa.getRecord();
-
-        var form = VisitaForm;
-
+        var form = EncuestaForm;
         var record = form.getRecord();
         if (record) {
             //----es uno del grid
@@ -178,9 +177,15 @@ var btnSaveEncuesta = Ext.create('Ext.Action', {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
                 cuit: dataEmpresa['1695'],
-                nota: data['7408'],
-                tipo: data['tipovisita'],
-                otros: data['otros']
+                7663: data['7663'],
+                7664: data['7664'],
+                7883: data['7883'],                
+                7886: data['7886'],
+                7887: data['7887'],
+                7888: data['7888'],
+                7889: data['7889'],
+                7890: data['7890'],
+                7891: data['7891']
             });
             //--agrego al que se usa para visualizar    
 
@@ -511,7 +516,6 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
         dirtychange: function(form) {
             /*Sync Button*/
             countSync();
-
             if (!EmpresaStore.isLoading())
                 EmpresaForm.setLoading(false);
             if (form.isDirty()) {
@@ -610,7 +614,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             id: 'otros',
             xtype: 'textarea',
             emptyText: 'Especifique...',
-                    name: 'otros',
+            name: 'otros',
             hidden: true
 
         }
@@ -619,7 +623,6 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
         dirtychange: function(form) {
             /*Sync Button*/
             countSync();
-
             if (!EmpresaStore.isLoading())
                 EmpresaForm.setLoading(false);
             if (form.isDirty()) {
@@ -811,11 +814,8 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                 }
             ]
         }
-
-       
-
     ],
-    listeners: {
+    listeners: {        
         dirtychange: function(form) {
             /*Sync Button*/
             countSync();
