@@ -181,10 +181,13 @@ class Genias_model extends CI_Model {
     function get_visitas($query, $idu) {
         $rtn = array();
         $query['idu'] = (int) $idu;
-        $fields = array('id',
-            'cuit'
-            , 'fecha'  //     Fecha
-            , 'nota'  //     Nota            
+        $fields = array('id'
+                , 'fecha'           // 	Fecha de la Visita 
+                , 'cuit'            //      CUIT
+                , 'nota'            // 	Comentarios 
+                , 'tipovisita'      //      tipo de visita
+                , 'otros'           //      para tipo de visita otros
+                , '7898'            //      Programas Informados           
         );
         $container = 'container.genias_visitas';
         $result = $this->mongo->db->$container->find($query, $fields);
@@ -202,14 +205,19 @@ class Genias_model extends CI_Model {
     function get_encuestas($query, $idu) {
         $rtn = array();
         $query['idu'] = (int) $idu;
-        $fields = array('id',
-            'cuit'
-            , 'fecha'           //     Fecha
-            , '7663'            // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
-            , '7664'            //      Tienen relaci&oacute;n con organismos gubernamentales
-            , '7883'            //      Registro Unico de Organizaciones de Responsabilidad Social
-            , '7886'            //      Modos de Financiamiento
-            , '7887'            //      Con Programas Sepyme/Ministerio de Industria         
+        $fields = array('id'
+                , 'fecha'       // 	Fecha de la Visita 
+                , 'cuit'        //      CUIT
+                , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
+                , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
+                , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
+                , '7886'        //      Modos de Financiamiento
+                , '7887'        //      Con Programas Sepyme/Ministerio de Industria
+                , '7888'        //      Recibió Capacitación Empresarial / Gerencial / Mandos Medios
+                , '7889'        //      Realizó capacitaciones al personal
+                , '7890'        //      Recibió asesoramiento técnico
+                , '7891'        //      Capacitación y/o Asistencia con Programas Sepyme / Ministerio de Industria 
+       
         );
         $container = 'container.genias_encuestas';
         $result = $this->mongo->db->$container->find($query, $fields);
