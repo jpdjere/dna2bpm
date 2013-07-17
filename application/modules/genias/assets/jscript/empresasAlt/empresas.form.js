@@ -423,7 +423,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Productos o servicios que Ofrece',
                     name: '1715',
                     xtype: 'textarea'
-                },{
+                }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Tiene componentes importados?',
                     padding: '0 0 20 0',
@@ -769,7 +769,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
             items: [
                 {
                     xtype: 'radiogroup',
-                    fieldLabel: 'Recibi&oacute; Capacitación Empresarial/Gerencial/Mandos Medios',
+                    fieldLabel: 'Recibi&oacute; Capacitaci&oacute;n Empresarial/Gerencial/Mandos Medios',
                     padding: '0 0 20 0',
                     labelWidth: 400,
                     cls: 'x-check-group-alt',
@@ -777,7 +777,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'SI', name: '7888', inputValue: 1},
                         {boxLabel: 'NO', name: '7888', inputValue: 2},
                     ]
-                },{
+                }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Realiz&oacute; capacitaciones al personal',
                     padding: '0 0 20 0',
@@ -787,7 +787,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'SI', name: '7889', inputValue: 1},
                         {boxLabel: 'NO', name: '7889', inputValue: 2},
                     ]
-                },{
+                }, {
                     xtype: 'radiogroup',
                     fieldLabel: 'Recibi&oacute; asesoramiento t&eacute;cnico',
                     padding: '0 0 20 0',
@@ -797,21 +797,22 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'SI', name: '7890', inputValue: 1},
                         {boxLabel: 'NO', name: '7890', inputValue: 2},
                     ]
-                },{
+                }, {
                     xtype: 'radiogroup',
-                    fieldLabel: ' Capacitación y/o Asistencia con Programas Sepyme / Ministerio de Industria ',
+                    fieldLabel: ' Capacitaci&oacute;n/Asistencia Sepyme/Ministerio de Industria ',
                     padding: '0 0 20 0',
                     labelWidth: 400,
+                    columns: 1,
                     cls: 'x-check-group-alt',
                     items: [
-                        {boxLabel: 'Crédito Fiscal para Capacitación (empresario)', name: '7891', inputValue: '10'},
-                        {boxLabel: 'Crédito Fiscal para Capacitación (personal)', name: '7891', inputValue: '20'},
+                        {boxLabel: 'Cr&eacute;dito Fiscal para Capacitaci&oacute;n', name: '7891', inputValue: '10'},
+                        {boxLabel: 'Cr&eacute;dito Fiscal para Capacitaci&oacute;n', name: '7891', inputValue: '20'},
                         {boxLabel: 'PACC', name: '7891', inputValue: '30'},
                         {boxLabel: 'Expertos PYME', name: '7891', inputValue: '40'},
                         {boxLabel: 'Grupos PYME', name: '7891', inputValue: '50'},
                     ]
                 }
-               ]
+            ]
         }
 
         /**/
