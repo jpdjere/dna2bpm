@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # Comments are OK here
-#Generated: {fecha}
+#Generated: 2013-07-16 01:31
 #Spaces before comments shouldn't matter
 
 #INDEX
@@ -13,8 +13,6 @@ CACHE MANIFEST
 /dna2bpm/jscript/fontawesome/css/font-awesome.min.css
 /dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
 /dna2bpm/css/load_mask.css
-/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css
-dna2bpm/genias/assets/css/custom.bootstrap.css
 
 
 #FORM
@@ -65,11 +63,40 @@ dna2bpm/genias/assets/css/custom.bootstrap.css
 /dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/radio.png
 /dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/checkbox.png
 
-#TEST
-/dna2bpm/genias/empresas?page=1&start=0&limit=25&sort=%5B%7B%22property%22%3A%221693%22%2C%22direction%22%3A%22ASC%22%7D%5D
+
 
 NETWORK: 
 # USE FROM NETWORK IF AVAILABLE
+
+
+#JSON
+/dna2bpm/genias/assets/json/contact.json
+/dna2bpm/genias/assets/json/empresasDNA2.json
+/dna2bpm/genias/assets/json/genias.json
+/dna2bpm/genias/assets/json/empresasGenia.json
+/dna2bpm/genias/assets/json/partidos.json
+/dna2bpm/genias/assets/json/provincias.json
+/dna2bpm/genias/empresas
+
+
+#Empresas JS
+/dna2bpm/jscript/ext/ext-all.js
+/dna2bpm/jscript/ext/bootstrap.js
+/dna2bpm/genias/assets/jscript/onlineStatus.js
+/dna2bpm/genias/assets/jscript/ext.settings.js
+/dna2bpm/jscript/ext/src/ux/form/SearchField.js
+/dna2bpm/genias/assets/jscript/empresas.grid.js
+/dna2bpm/genias/assets/jscript/empresas.ext.data.js
+/dna2bpm/genias/assets/jscript/empresasAlt/btnSync.js
+/dna2bpm/genias/assets/jscript/ext.viewport.empresas.js
+/dna2bpm/genias/assets/jscript/empresasAlt/visitas.grid.js
+/dna2bpm/genias/assets/jscript/empresasAlt/empresas.form.js
+/dna2bpm/genias/assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
+/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
+
+#CALENDAR
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
+#/dna2bpm/genias/assets/jscript/fullcalendar/*
 
 CACHE:
 

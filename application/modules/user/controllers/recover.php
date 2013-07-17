@@ -71,7 +71,7 @@ class Recover extends MX_Controller {
 //        $email_pattern = '/^[^@\s<&>]+@([-a-z0-9]+\.)+[a-z]{2,}$/i';
 //        if (!preg_match($email_pattern, $_POST['email']))
 //        {
-//        exit("0, Ingrese un email v?lido");
+//        exit("0, Ingrese un email v�lido");
 //        }
         // Chequeo datos atraves del email
         $dbobj=(array)$this->user->getbymailaddress($clean['email']);

@@ -1,12 +1,12 @@
 Ext.onReady(function() {
     var onlineMode = (navigator.onLine) ? true : false;
-    var mode = (onlineMode) ? '<div id="status"><i class="icon icon-circle"></i> On-Line' : '<i class="icon icon-off"></i> Off-Line...</div>';
+    var mode = (onlineMode) ? '<span id="status"><i class="icon icon-circle"></i> On-Line' : '<i class="icon icon-off"></i> Off-Line...</span>';
 
     if (onlineMode) {
         storeEmpresaOffline.load();
 
-      var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
-      Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
+        var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
+        Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 
     } else {
         /*Si no esta Online no puede sincronizar*/
@@ -15,20 +15,42 @@ Ext.onReady(function() {
 
 
     Ext.require('Ext.tab.*');
-
-
     var tabs = new Ext.TabPanel({
         activeTab: 0,
         items: [{
-                title: 'Datos Visita',
-                items: [VisitaForm]
+                title: 'Empresa',
+                items: [EmpresaForm]
             }, {
-                title: 'Visitas | Historico',
-                items: [VisitasGrid]
+                title: 'Seguimiento ',
+                items: [
+                    {
+                        layout: 'column',
+                        autoScroll: true,
+                        items: [{
+                                columnWidth: 1 / 2,
+                                baseCls: 'x-plain',
+                               // bodyStyle: 'padding:0 0 5px 5px',
+                                items: [{
+                                        title: 'Datos Visitas',
+                                        items: [VisitaForm]
+                                    }]
+                            }, {
+                                columnWidth: 1 / 2,
+                                baseCls: 'x-plain',
+                                bodyStyle: 'padding:0 0 0px 5px',
+                                items: [{
+                                        title: 'Histórico Visitas',
+                                        items: [VisitasGrid]
+                                    }]
+                            }]
+                    }]
+            },{
+                title: 'Encuesta',
+                items: [EncuestaForm]
             }],
         defaults: {
-            autoScroll: false,
-            layout: 'form', // tried with and without
+            //autoScroll: false,
+            //layout: 'form', // tried with and without
             deferredRender: false   // likewise
         }
     }
@@ -48,7 +70,7 @@ Ext.onReady(function() {
     Ext.create('Ext.Viewport', {
         id: 'main-panel',
         autoScroll: true,
-        layout: 'fit',
+        layout: 'fit',        
         items: [
             {
                 /*title:title,*/
@@ -62,31 +84,19 @@ Ext.onReady(function() {
                         </li></ul>\
                 </div>\
             </div>',
-                layout: 'column',
+                layout: 'fit',                
                 autoScroll: true,
-                defaults: {
+                defaults: {                    
                     layout: 'anchor',
-                    defaults: {
+                    autoScroll: true,
+                    defaults: {                        
                         anchor: '100%'
                     }
                 },
                 items: [{
-                        columnWidth: 1 / 3,
+                        //layout: 'fit',
                         baseCls: 'x-plain',
-                        bodyStyle: 'padding:5px 0 5px 5px',
-                        items: [{
-                                title: 'Datos Empresa',
-                                items: [EmpresaForm],
-                            }]
-                    }, {
-                        columnWidth: 2 / 3,
-                        baseCls: 'x-plain',
-                        bodyStyle: 'padding:5px 0 5px 5px',
-                        items: [{
-                                title: 'Visitas',
-                                //items: [VisitasGrid]
-                                items: tabs
-                            }]
+                        items: [tabs]
                     }]
             }]
                 ,

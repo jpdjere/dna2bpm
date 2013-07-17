@@ -440,7 +440,7 @@ class Genias extends MX_Controller {
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
-        $this->ui->makeui('ext.ui.php', $cpData);
+        $this->ui->makeui('ext.ui.testcache.php', $cpData);
     }
 
     function Form_empresas_alt($parm = null) {
@@ -460,12 +460,13 @@ class Genias extends MX_Controller {
 
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
-            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
+            $this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
             $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
-            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
-            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.simple.js' => 'ViewPort',
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',           
+            $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.tab.js' => 'ViewPort',
         );
 
         $cpData['global_js'] = array(
@@ -759,42 +760,21 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
+    
+    
+    function Encuestas($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
 
-    function Visitas_ORI($idgenia = null) {
         $this->load->model('app');
+
         $debug = false;
         $compress = false;
-        /*
-         * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
-         * Basado en el idgenia
-         */
-        $query = array('4651' => 'JUJ');
-        //$visitas = $this->genias_model->get_visitas($query);
-        $visitas = array(
-            array(
-                'fecha' => '2013-02-16',
-                'cuit' => '20-33255688-7',
-                'nota' => 'Primera visita'
-            ),
-            array(
-                'fecha' => '2013-03-22',
-                'cuit' => '20-33255688-7',
-                'nota' => 'Segunda Visita: no había nadie'
-            ),
-            array(
-                'fecha' => '2013-05-10',
-                'cuit' => '20-33255688-7',
-                'nota' => 'Hoy vinimos citados por el gerente pero no apareció, ni café nos convidaron'
-            ),
-            array(
-                'fecha' => '2013-05-10',
-                'cuit' => '20-13414423-9',
-                'nota' => 'Esta Visita es de Otra empresa'
-            ),
-        );
+
+        $result = $this->genias_model->get_encuestas($query, $this->idu);
         $rtnArr = array();
-        $rtnArr['totalCount'] = count($visitas);
-        $rtnArr['rows'] = $visitas;
+        $rtnArr['totalCount'] = count($result);
+        $rtnArr['rows'] = $result;
         if (!$debug) {
             header('Content-type: application/json;charset=UTF-8');
             if ($compress) {
@@ -808,6 +788,7 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
+   
 
     // ======= DATOS GENIAS ======= //
 

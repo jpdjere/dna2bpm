@@ -1,45 +1,8 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+//----Define the data model 4 forms
+Ext.define('OpcionModel', {
+    extend: "Ext.data.Model",
+    fields: ['value', 'text']
 
-
-
-Ext.define('visitaModel', {
-    extend: 'Ext.data.Model',
-    fields: [
-        'fecha' // 	Fecha de la Visita 
-                , 'cuit'
-                , 'nota' // 	Comentarios 
-                , 'tipovisita' //tipo de visita
-                , 'otros' // para tipo de visita otros
-
-    ]
-});
-
-Ext.define('EmpresaModel', {
-    extend: 'Ext.data.Model',
-    fields: [{
-            name: 'id',
-            type: 'int',
-            useNull: true
-        }
-        , '1693'  //     Nombre de la empresa
-                , '1695'  //     CUIT
-                , '7819' // 	Longitud
-                , '7820' // 	Latitud
-                , '4651' // 	Provincia
-                , '4653' //     Calle Ruta
-                , '4654' //     Nro /km
-                , '4655' //     Piso
-                , '4656' //     Dto Oficina
-                , '1699' // 	Partido
-                , 'partido_txt' // 	Partido en texto ->viene del server
-                , 'status' //      Syncro data (date?) / dirty
-                , 'notas'   // solo para el form de notas
-                , 'task'    //Taras asociadas desde la agenda
-
-    ]
 });
 
 
@@ -77,35 +40,58 @@ Ext.apply(Ext.form.field.VTypes, {
 });
 
 
-
-//----Define the data model 4 forms
-Ext.define('OpcionModel', {
-    extend: "Ext.data.Model",
-    fields: ['value', 'text']
-
-});
-
-Ext.define('OpcionModelPtdo', {
-    extend: "Ext.data.Model",
-    fields: ['idrel', 'value', 'text']
-
-});
-
-Ext.define('OpcionModelTipoVisita', {
-    extend: "Ext.data.Model",
-    fields: ['value', 'text']
-
-});
-
-
-
-
-
 /*
  * @Name Empresas
  * @type Store 
  * 
  */
+
+Ext.define('EmpresaModel', {
+    extend: 'Ext.data.Model',
+    fields: [{
+            name: 'id',
+            type: 'int',
+            useNull: true
+        }
+        , '1693'  //     Nombre de la empresa
+                , '1695'  //     CUIT
+                , '7819' // 	Longitud
+                , '7820' // 	Latitud
+                , '4651' // 	Provincia
+                , '4653' //     Calle Ruta
+                , '4654' //     Nro /km
+                , '4655' //     Piso
+                , '4656' //     Dto Oficina
+                , '1699' // 	Partido
+                , 'partido_txt' // 	Partido en texto ->viene del server
+                , 'status' //      Syncro data (date?) / dirty
+                , 'notas'   // solo para el form de notas
+                , 'task'    //Taras asociadas desde la agenda
+                , '1694'    // Tipo de empresa
+                , '1698'    //cod postal
+                , '1701'    //telefonos
+                , '1703'    //email
+                , '1704'    //web
+                , '1711'    //Cantidad de Empleados actual  
+                /*contacto*/
+                , '7876'    // Apellido y Nombre del Contacto
+                , '7877'    // E-mail del Contacto
+                , '7878'    // Rubro de la Empresa                
+                /*PLANTA*/
+                , '7879'    // Superficie Cubierta
+                , '7880'    // Posesiï¿½n (idopcion = 729)
+                , '1715'    // Productos o servicios que Ofrece
+                /* PRODUCCION*/
+                , '7881'    // Tiene componentes importados (idopcion = 15)
+                , '7882'    // Pueden ser reemplazados? (idopcion = 15)
+                , '7883'    // Tiene capacidad para exportar? (idopcion = 15)
+                , '1716'    // Mercado destino (idopcion = 88)
+                , '7884'    // Proveedores
+                , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
+                , '7665'    // Registro ï¿½nico de Organizaciones de Responsabilidad Social (idopcion = 715)
+    ]
+});
+
 var EmpresaStore = Ext.create('Ext.data.Store', {
     id: 'EmpresaStore',
     autoLoad: true,
@@ -151,29 +137,79 @@ var EmpresaStore = Ext.create('Ext.data.Store', {
         }
     }
 });
+
+var storeEmpresaOffline = Ext.create('Ext.data.Store', {
+    model: 'EmpresaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'empresas'
+    }
+});
+
+var storeEmpresa = Ext.create('Ext.data.Store', {
+    model: 'EmpresaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            read: globals.module_url + 'empresas_remote/View',
+            create: globals.module_url + 'empresas_remote/Insert',
+            update: globals.module_url + 'empresas_remote/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
+    }
+});
+
+
+
 /*
  * @Name VisitasStore
  * @type Store 
  * 
  */
-var VisitasStore_ = Ext.create('Ext.data.Store', {
-    id: 'VisitasStore',
-    autoLoad: true,
-    model: 'visitaModel',
-    proxy: {
-        type: 'ajax',
-        url: globals.module_url + 'visitas',
-        actionMethods: {
-            read: 'GET'
-        },
-        noCache: false,
-        useLocalStorage: true,
-        reader: {
-            type: 'json',
-            root: 'rows',
-            totalProperty: 'totalCount'
-        }
-    }
+Ext.define('visitaModel', {
+    extend: 'Ext.data.Model',
+    fields: [
+        'fecha'         // 	Fecha de la Visita 
+                , 'cuit'
+                , 'nota'        // 	Comentarios 
+                , 'tipovisita'  //      tipo de visita
+                , 'otros'       //      para tipo de visita otros
+                , '7898'        //      Programas Informados
+
+    ]
 });
 
 var VisitasStore = Ext.create('Ext.data.Store', {
@@ -218,6 +254,184 @@ var VisitasStore = Ext.create('Ext.data.Store', {
         }
     }
 });
+
+var storeVisita = Ext.create('Ext.data.Store', {
+    model: 'EmpresaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            read: globals.module_url + 'visitas_remote/View',
+            create: globals.module_url + 'visitas_remote/Insert',
+            update: globals.module_url + 'visitas_remote/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
+    }
+});
+
+var storeVisitaOffline = Ext.create('Ext.data.Store', {
+    model: 'visitaModel',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'visitas'
+    }
+});
+
+
+
+/*
+ * @Name EncuestasStore
+ * @type Store 
+ * 
+ */
+
+Ext.define('encuestaModel', {
+    extend: 'Ext.data.Model',
+    fields: [
+        'fecha' // 	Fecha de la Visita 
+                , 'cuit'
+                , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
+                , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
+                , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
+                , '7886'        //      Modos de Financiamiento
+                , '7887'        //      Con Programas Sepyme/Ministerio de Industria
+                , '7888'        //      Recibió Capacitación Empresarial / Gerencial / Mandos Medios
+                , '7889'        //      Realizó capacitaciones al personal
+                , '7890'        //      Recibió asesoramiento técnico
+                , '7891'        //      Capacitación y/o Asistencia con Programas Sepyme / Ministerio de Industria 
+
+    ]
+});
+
+var EncuestasStore = Ext.create('Ext.data.Store', {
+    id: 'EncuestasStore',
+    autoLoad: true,
+    model: 'encuestaModel',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'encuestas',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+    ,
+    sorters: [{
+            property: 'fecha',
+            direction: 'DESC'
+        }]
+            ,
+    cuitFilter: function(cuit) {
+        Ext.data.Store.prototype.clearFilter.call(this);
+        Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
+    },
+    listeners: {
+        load: function() {
+            EncuestasStore.cuitFilter('-1');
+            storeEncuestasOffline.load(function() {
+                //actualizo los modificados
+                storeEncuestasOffline.each(function(rec) {
+                    EncuestasStore.add(rec);
+                    EncuestasStore.cuitFilter('-1');
+                });
+            });
+
+        }
+    }
+});
+
+var storeEncuesta = Ext.create('Ext.data.Store', {
+    model: 'encuestaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            read: globals.module_url + 'encuestas_remote/View',
+            create: globals.module_url + 'encuestas_remote/Insert',
+            update: globals.module_url + 'encuestas_remote/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
+    }
+});
+
+var storeEncuestasOffline = Ext.create('Ext.data.Store', {
+    model: 'encuestaModel',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'encuestas'
+    }
+});
+
 
 /*
  * @Name Genias
@@ -275,6 +489,15 @@ var ProvinciaStore = Ext.create('Ext.data.Store', {
  * @type Store 
  * 
  */
+
+Ext.define('OpcionModelPtdo', {
+    extend: "Ext.data.Model",
+    fields: ['idrel', 'value', 'text']
+
+});
+
+
+
 var PartidoStore = Ext.create('Ext.data.Store', {
     id: 'PartidoStore',
     autoLoad: true,
@@ -291,144 +514,6 @@ var PartidoStore = Ext.create('Ext.data.Store', {
             type: 'json',
             root: 'rows',
             totalProperty: 'totalCount'
-        }
-    }
-});
-
-
-/*
- * @Name Partidos
- * @type Store 
- * 
- */
-var TipoVisitaStore = Ext.create('Ext.data.Store', {
-    id: 'TipoVisitaStore',
-    autoLoad: true,
-    model: 'OpcionModelTipoVisita',
-    proxy: {
-        type: 'ajax',
-        url: globals.module_url + 'assets/json/tiposvisita.json',
-        actionMethods: {
-            read: 'GET'
-        },
-        noCache: false,
-        useLocalStorage: true,
-        reader: {
-            type: 'json',
-            root: 'rows',
-            totalProperty: 'totalCount'
-        }
-    }
-});
-
-var storeEmpresaOffline = Ext.create('Ext.data.Store', {
-    model: 'EmpresaModel',
-    autoLoad: false,
-    autoSync: true,
-    proxy: {
-        type: 'localstorage',
-        id: 'empresas'
-    }
-});
-
-
-var storeVisitaOffline = Ext.create('Ext.data.Store', {
-    model: 'visitaModel',
-    autoLoad: true,
-    autoSync: true,
-    proxy: {
-        type: 'localstorage',
-        id: 'visitas'
-    }
-});
-
-
-
-
-var storeEmpresa = Ext.create('Ext.data.Store', {
-    model: 'EmpresaModel',
-    autoLoad: false,
-    autoSync: true,
-    proxy: {
-        type: 'ajax',
-        id: 'store',
-        api: {
-            read: globals.module_url + 'empresas_remote/View', //'genias/app/geniasdev/view',
-            create: globals.module_url + 'empresas_remote/Insert',
-            update: globals.module_url + 'empresas_remote/Insert',
-            destroy: '' //'genias/app/geniasdev/destroy'
-        },
-        reader: {
-            type: 'json',
-            successProperty: 'success',
-            root: 'data',
-            messageProperty: 'message'
-        },
-        writer: {
-            type: 'json',
-            writeAllFields: true,
-            allowSingle: false
-        },
-        listeners: {
-            exception: function(proxy, response, operation) {
-                Ext.MessageBox.show({
-                    title: 'ERROR',
-                    msg: operation.getError(),
-                    icon: Ext.MessageBox.ERROR,
-                    buttons: Ext.Msg.OK
-                });
-            }
-        }
-    },
-    listeners: {
-        write: function(proxy, operation) {
-            if (operation.action == 'destroy') {
-                main.child('#form').setActiveRecord(null);
-            }
-        }
-    }
-});
-
-var storeVisita = Ext.create('Ext.data.Store', {
-    model: 'EmpresaModel',
-    autoLoad: false,
-    autoSync: true,
-    proxy: {
-        type: 'ajax',
-        id: 'store',
-        api: {
-            read: globals.module_url + 'vistas_remote/View', //'genias/app/geniasdev/view',
-            create: globals.module_url + 'visitas_remote/Insert',
-            update: globals.module_url + 'visitas_remote/Insert',
-            destroy: '' //'genias/app/geniasdev/destroy'
-        },
-        reader: {
-            type: 'json',
-            successProperty: 'success',
-            root: 'data',
-            messageProperty: 'message'
-        },
-        writer: {
-            type: 'json',
-            writeAllFields: true,
-            allowSingle: false
-        },
-        listeners: {
-            exception: function(proxy, response, operation) {
-                Ext.MessageBox.show({
-                    title: 'ERROR',
-                    msg: operation.getError(),
-                    icon: Ext.MessageBox.ERROR,
-                    buttons: Ext.Msg.OK
-                });
-            }
-        }
-    },
-    listeners: {
-        write: function(proxy, operation) {
-            if (operation.action == 'destroy') {
-                main.child('#form').setActiveRecord(null);
-            }
         }
     }
 });

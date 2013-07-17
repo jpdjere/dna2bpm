@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html manifest="{base_url}genias/manifest/offline.appcache">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{title}</title>
     <link rel="stylesheet" type="text/css" href="{base_url}genias/assets/css/custom.bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{base_url}jscript/fontawesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="{base_url}jscript/ext/resources/css/ext-all-neptune-debug.css" />
+    <!--<link rel="stylesheet" type="text/css" href="{base_url}jscript/ext/resources/css/ext-all-neptune-debug.css" />-->
+    <link rel="stylesheet" type="text/css" href="{base_url}jscript/ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css" />
         <!--
         no funcionan los buttons
         <link rel="stylesheet" type="text/css" href="{module_url}assets/css/fix_bootstrap_checkbox.css" />-->
@@ -23,7 +24,8 @@
          background-image: linear-gradient(to bottom, #222222, #111111);
          background-repeat: repeat-x;
          border-color: #252525;
-     }
+     }    
+     
      </style>
  </head>
  <body>

@@ -1,5 +1,5 @@
 $(document).on('change','#group_select',function(){
-    console.log($(this),$(this).val());
+    //console.log($(this),$(this).val());
     idgroup=$('#group_select option:selected').val();
     $.post(globals.module_url+"get_users/"+idgroup, 
         function(data) {

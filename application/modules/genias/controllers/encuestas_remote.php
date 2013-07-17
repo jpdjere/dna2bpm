@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Visitas_remote extends MX_Controller {
+class Encuestas_remote extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -15,7 +15,7 @@ class Visitas_remote extends MX_Controller {
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');        
-        $this->containerGenias = 'container.genias_visitas';
+        $this->containerGenias = 'container.genias_encuestas';
     }
 
     /* GENIAS */
@@ -45,14 +45,10 @@ class Visitas_remote extends MX_Controller {
             }
         }
     }
-  
-    /*
-     * VIEW
-     */
+    
+     public function View() {
 
-    public function View() {
-
-        $container = $this->containerGenias;
+        $container = $this->containerEmpresas;
         $query = array('7406' => (int)($this->idu));
         $resultData = $this->mongo->db->$container->find($query);
 
@@ -69,4 +65,5 @@ class Visitas_remote extends MX_Controller {
             ));
         }
     }
+    
 }
