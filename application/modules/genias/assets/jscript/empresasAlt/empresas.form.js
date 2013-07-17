@@ -554,7 +554,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
     },
     items: [{
             xtype: 'checkboxgroup',
-            fieldLabel: 'Modos de Financiamiento',
+            fieldLabel: 'Programas Informados',
             labelWidth: 150,
             padding: '0 0 20 0',
             columns: 2,
@@ -798,7 +798,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'NO', name: '7890', inputValue: 2},
                     ]
                 }, {
-                    xtype: 'radiogroup',
+                    xtype: 'checkboxgroup',
                     fieldLabel: ' Capacitaci&oacute;n/Asistencia Sepyme/Ministerio de Industria ',
                     padding: '0 0 20 0',
                     labelWidth: 400,
