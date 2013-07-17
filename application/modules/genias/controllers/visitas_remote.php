@@ -52,7 +52,7 @@ class Visitas_remote extends MX_Controller {
 
     public function View() {
 
-        $container = $this->containerEmpresas;
+        $container = $this->containerGenias;
         $query = array('7406' => (int)($this->idu));
         $resultData = $this->mongo->db->$container->find($query);
 
