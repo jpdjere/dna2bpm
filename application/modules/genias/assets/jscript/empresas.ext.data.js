@@ -203,11 +203,12 @@ var storeEmpresa = Ext.create('Ext.data.Store', {
 Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
     fields: [
-        'fecha' // 	Fecha de la Visita 
+        'fecha'         // 	Fecha de la Visita 
                 , 'cuit'
-                , 'nota' // 	Comentarios 
-                , 'tipovisita' //tipo de visita
-                , 'otros' // para tipo de visita otros
+                , 'nota'        // 	Comentarios 
+                , 'tipovisita'  //      tipo de visita
+                , 'otros'       //      para tipo de visita otros
+                , '7898'        //      Programas Informados
 
     ]
 });
@@ -254,6 +255,7 @@ var VisitasStore = Ext.create('Ext.data.Store', {
         }
     }
 });
+
 var storeVisita = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
     autoLoad: false,
@@ -262,7 +264,7 @@ var storeVisita = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            read: globals.module_url + 'vistas_remote/View',
+            read: globals.module_url + 'visitas_remote/View',
             create: globals.module_url + 'visitas_remote/Insert',
             update: globals.module_url + 'visitas_remote/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
@@ -319,13 +321,17 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
 Ext.define('encuestaModel', {
     extend: 'Ext.data.Model',
     fields: [
-                'fecha' // 	Fecha de la Visita 
+        'fecha' // 	Fecha de la Visita 
                 , 'cuit'
                 , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
                 , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
-                , '7883'       //      Registro Unico de Organizaciones de Responsabilidad Social
-                , '7886'       //      Modos de Financiamiento
-                , '7887'       //      Con Programas Sepyme/Ministerio de Industria
+                , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
+                , '7886'        //      Modos de Financiamiento
+                , '7887'        //      Con Programas Sepyme/Ministerio de Industria
+                , '7888'        //      Recibió Capacitación Empresarial / Gerencial / Mandos Medios
+                , '7889'        //      Realizó capacitaciones al personal
+                , '7890'        //      Recibió asesoramiento técnico
+                , '7891'        //      Capacitación y/o Asistencia con Programas Sepyme / Ministerio de Industria 
 
     ]
 });
