@@ -67,7 +67,6 @@ Ext.define('EmpresaModel', {
                 , 'status' //      Syncro data (date?) / dirty
                 , 'notas'   // solo para el form de notas
                 , 'task'    //Taras asociadas desde la agenda
-
                 , '1694'    // Tipo de empresa
                 , '1698'    //cod postal
                 , '1701'    //telefonos
