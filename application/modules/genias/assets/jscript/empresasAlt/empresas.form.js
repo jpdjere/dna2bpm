@@ -89,15 +89,12 @@ var btnSave = Ext.create('Ext.Action', {
     handler: function() {
         var form = EmpresaForm;
         var record = form.getRecord();
-
-       
-       
-
         if (record) {
             //----es uno del grid
             form.getForm().updateRecord(record);
         }
-         var values = form.getValues();
+        /*CHECKBOX*/ 
+        var values = form.getValues();
 
         record.set(values);
         record.set('1716', values["1716"]);
