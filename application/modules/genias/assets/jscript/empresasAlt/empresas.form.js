@@ -94,7 +94,7 @@ var btnSave = Ext.create('Ext.Action', {
 
         record.set(values);
         record.set('1716', values["1716"]);
-        //record.save();
+        record.save();
 
         if (record) {
             //----es uno del grid
