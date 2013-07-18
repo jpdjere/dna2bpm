@@ -175,8 +175,6 @@ var btnSaveEncuesta = Ext.create('Ext.Action', {
             form.getForm().updateRecord(record);
         }
 
-
-
         data = form.getValues();
         dataEmpresa = formEmpresa.getValues();
         var d = new Date();
@@ -195,7 +193,7 @@ var btnSaveEncuesta = Ext.create('Ext.Action', {
                 7890: data['7890'],
                 7891: data['7891']
             });
-            VisitasStore.add(encuestaRecord);
+            EncuestasStore.add(encuestaRecord);
             //---busco por cuit            
             //--agrego al que se usa para syncro y persistencia
             storeEncuestasOffline.add(encuestaRecord);
