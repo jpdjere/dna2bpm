@@ -95,7 +95,6 @@ var btnSave = Ext.create('Ext.Action', {
         }
         /*CHECKBOX*/ 
         var values = form.getValues();
-
         record.set(values);
         record.set('1716', values["1716"]);
         //---busco por cuit
