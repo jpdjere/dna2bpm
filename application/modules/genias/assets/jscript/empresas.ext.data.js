@@ -204,7 +204,7 @@ Ext.define('visitaModel', {
     fields: [
         'fecha'         // 	Fecha de la Visita 
                 , 'cuit'
-                , '7408'        // 	Notas / Observaciones 
+                , 'nota'        // 	Notas / Observaciones 
                 , 'tipovisita'  //      tipo de visita
                 , 'otros'       //      para tipo de visita otros
                 , '7898'        //      Programas Informados
