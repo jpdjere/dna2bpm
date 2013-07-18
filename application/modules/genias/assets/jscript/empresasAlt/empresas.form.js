@@ -128,7 +128,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
         dataEmpresa = formEmpresa.getValues();
         var d = new Date();
         var n = d.toISOString();
-        if (data['7408']) {
+        if (dataEmpresa['1695']) {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
                 cuit: dataEmpresa['1695'],
@@ -169,12 +169,15 @@ var btnSaveEncuesta = Ext.create('Ext.Action', {
             //----es uno del grid
             form.getForm().updateRecord(record);
         }
+        
+         
+        
         data = form.getValues();
         dataEmpresa = formEmpresa.getValues();
         var d = new Date();
         var n = d.toISOString();
-        if (data['7408']) {
-            visitaRecord = Ext.create('visitaModel', {
+        if (dataEmpresa['1695']) {
+            encuestaRecord = Ext.create('encuestaModel', {
                 fecha: n,
                 cuit: dataEmpresa['1695'],
                 7663: data['7663'],
@@ -186,17 +189,12 @@ var btnSaveEncuesta = Ext.create('Ext.Action', {
                 7889: data['7889'],
                 7890: data['7890'],
                 7891: data['7891']
-            });
-            //--agrego al que se usa para visualizar    
-
-            VisitasStore.add(visitaRecord);
+            });            
+            VisitasStore.add(encuestaRecord);
             //---busco por cuit            
             //--agrego al que se usa para syncro y persistencia
-            storeVisitaOffline.add(visitaRecord);
-            storeVisitaOffline.sync();
-            VisitasGrid.refresh();
-            /*Actualizo listado de pendientes*/
-
+            storeEncuestasOffline.add(encuestaRecord);
+            storeEncuestasOffline.sync();
             /*Sync Button*/
             countSync();
         }
@@ -816,7 +814,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
         }
     ],
     listeners: {        
-        dirtychange: function(form) {
+        dirtychange: function(form) {            
             /*Sync Button*/
             countSync();
             if (!EmpresaStore.isLoading())
