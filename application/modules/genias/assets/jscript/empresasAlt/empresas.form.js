@@ -90,16 +90,17 @@ var btnSave = Ext.create('Ext.Action', {
         var form = EmpresaForm;
         var record = form.getRecord();
 
-        var values = form.getValues();
-
-        //record.set(values);
-        //record.set('1716', values["1716"]);
+       
        
 
         if (record) {
             //----es uno del grid
             form.getForm().updateRecord(record);
         }
+         var values = form.getValues();
+
+        record.set(values);
+        record.set('1716', values["1716"]);
         //---busco por cuit
         if (EmpresaStore.find('1695', record.get('1695')) == -1) {
             //---si no estaba lo agrego al online
