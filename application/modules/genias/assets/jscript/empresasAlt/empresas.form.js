@@ -132,7 +132,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             visitaRecord = Ext.create('visitaModel', {
                 fecha: n,
                 cuit: dataEmpresa['1695'],
-                7408: data['7408'],
+                nota: data['nota'],
                 tipo: data['tipovisita'],
                 otros: data['otros'], 
                 7898: data['7898']
@@ -462,8 +462,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     fieldLabel: 'Mercado destino',
                     padding: '0 0 20 0',
                     labelWidth: 400,
-                    columns: 2,
-                    
+                    columns: 2,                    
                     items: [
                         {boxLabel: 'A otras provincias', name: '1716', inputValue: '3'},
                         {boxLabel: 'Dentro de la provincia', name: '1716', inputValue: '1'},
@@ -577,7 +576,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             id: 'notas',
             xtype: 'textarea',
             emptyText: 'Notas / Observaciones',
-            name: '7408',
+            name: 'nota',
             allowBlank: false
         }, {
             xtype: 'radiogroup',
