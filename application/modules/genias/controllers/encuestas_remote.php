@@ -28,7 +28,16 @@ class Encuestas_remote extends MX_Controller {
             /* GENERO ID */
             $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;           
            
+              /* CHECKEO CUIT */
+            $queryCuit = array('cuit' => $thisform->cuit);
+            $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
 
+            if ($resultCuit['id'] != null) {
+                if ($thisform->cuit != null) {
+                    $id = $resultCuit['id'];
+                }
+            }
+            
             /* Lo paso como Objeto */
            $thisform = (array) $thisform;
            $thisform['idu'] = (int)($this->idu);
