@@ -5,6 +5,12 @@ Ext.define('OpcionModel', {
 
 });
 
+Ext.define('chkModel', {
+    extend: "Ext.data.Model",
+    fields: [{name: '1716', type: 'string'}]
+
+});
+
 
 /**
  * Function que valida el algoritmo del Nro de CUIT
