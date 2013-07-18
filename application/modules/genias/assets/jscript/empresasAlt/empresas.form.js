@@ -92,9 +92,9 @@ var btnSave = Ext.create('Ext.Action', {
 
         var values = form.getValues();
 
-        record.set(values);
-        record.set('1716', values["1716"]);
-        record.save();
+        //record.set(values);
+        //record.set('1716', values["1716"]);
+       
 
         if (record) {
             //----es uno del grid
@@ -107,6 +107,7 @@ var btnSave = Ext.create('Ext.Action', {
         }
         storeEmpresaOffline.add(record);
         storeEmpresaOffline.sync();
+        
 
         /*Sync Button*/
         countSync();
