@@ -10,12 +10,24 @@ var SearchEmpresa = function(me) {
         EmpresaForm.setLoading('Buscando...');
         actualRecord = EmpresaForm.getRecord();
         index = EmpresaStore.find('1695', val);
+        
         if (index >= 0) {
             record = EmpresaStore.getAt(index);
             if (record != actualRecord) {
                 EmpresaForm.loadRecord(record);
             }
             EmpresaForm.setLoading(false);
+            
+            
+            /*ENCUESTA*/
+            EncuestaForm.setLoading('Buscando...')
+            actualRecordEncuesta = EncuestaForm.getRecord();
+            indexEncuesta = EncuestasStore.find('cuit', val);
+            recordEncuesta = EncuestasStore.getAt(indexEncuesta);            
+            if (recordEncuesta != actualRecordEncuesta) {
+                EncuestaForm.loadRecord(recordEncuesta);
+            }
+            EncuestaForm.setLoading(false);
 
             /* Para tareas relacionadas via Agenda*/
 
@@ -42,6 +54,7 @@ var SearchEmpresa = function(me) {
 
     }
 };
+
 var btnMap = Ext.create('Ext.Action', {
     fieldLabel: '',
     text: '<i class="icon icon-map-marker"></i> Posicionar',
@@ -658,7 +671,10 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [
+            items: [ {
+                    emptyText: '',
+                    name: 'id'
+                },
                 {
                     xtype: 'radiogroup',
                     fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
@@ -676,10 +692,10 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                             var response = JSON.stringify(newValue);
                             if (response != null) {
                                 if (response == '{"7663":5}') {
-                                    Ext.getCmp('7664').hide();
+                                    Ext.getCmp('field7664').hide();
 
                                 } else {
-                                    Ext.getCmp('7664').show();
+                                    Ext.getCmp('field7664').show();
                                 }
 
                             }
@@ -688,7 +704,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                 },
                 {
                     hidden: true,
-                    id: '7664',
+                    id: 'field7664',
                     xtype: 'radiogroup',
                     //fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
                     fieldLabel: 'Tienen relaci&oacute;n con organismos gubernamentales',
@@ -727,10 +743,10 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                     padding: '0 0 20 0',
                     columns: 2,
                     items: [
-                        {boxLabel: 'Proovedores', name: '7886[]', inputValue: '01'},
-                        {boxLabel: 'Bancos', name: '7886[]', inputValue: '02'},
-                        {boxLabel: 'Programas Asistencia Provincial', name: '7886[]', inputValue: '03'},
-                        {boxLabel: 'Programas Asistencia Municipal', name: '7886[]', inputValue: '04'},
+                        {boxLabel: 'Proovedores', name: '7886', inputValue: '01'},
+                        {boxLabel: 'Bancos', name: '7886', inputValue: '02'},
+                        {boxLabel: 'Programas Asistencia Provincial', name: '7886', inputValue: '03'},
+                        {boxLabel: 'Programas Asistencia Municipal', name: '7886', inputValue: '04'},
                     ]
                 }, {
                     xtype: 'checkboxgroup',
