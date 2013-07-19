@@ -14,51 +14,51 @@ class Encuestas_remote extends MX_Controller {
         $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
-        $this->idu = (int) $this->session->userdata('iduser');        
+        $this->idu = (int) $this->session->userdata('iduser');
         $this->containerGenias = 'container.genias_encuestas';
     }
 
     /* GENIAS */
-    public function Insert() {        
-        
+
+    public function Insert() {
+
         $container = $this->containerGenias;
         $input = json_decode(file_get_contents('php://input'));
-        foreach ($input as $thisform) {         
-          
+        foreach ($input as $thisform) {
+
             /* GENERO ID */
-            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;           
-           
-              /* CHECKEO CUIT */
+            $id = ($thisform->id == null || (int) ($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;
+
+            /* CHECKEO CUIT */
             $queryCuit = array('cuit' => $thisform->cuit);
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
+
+
 
             if ($resultCuit['id'] != null) {
                 if ($thisform->cuit != null) {
                     $id = $resultCuit['id'];
                 }
             }
-            
+
+
             /* Lo paso como Objeto */
-           $thisform = (array) $thisform;
-           $thisform['idu'] = (int)($this->idu);
-          
+            $thisform = (array) $thisform;
+            $thisform['idu'] = (int) ($this->idu);
+
             $result = $this->app->put_array($id, $container, $thisform);
-
-
-            if ($result) {               
-                /* Update Goal */
-                $this->genias_model->goal_update('2',$id);
+            if ($result) {
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
             }
         }
     }
-    
-     public function View() {
+
+    public function View() {
 
         $container = $this->containerEmpresas;
-        $query = array('7406' => (int)($this->idu));
+        $query = array('7406' => (int) ($this->idu));
         $resultData = $this->mongo->db->$container->find($query);
 
         foreach ($resultData as $returnData) {
@@ -74,5 +74,5 @@ class Encuestas_remote extends MX_Controller {
             ));
         }
     }
-    
+
 }
