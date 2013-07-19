@@ -5,13 +5,6 @@ Ext.define('OpcionModel', {
 
 });
 
-Ext.define('chkModel', {
-    extend: "Ext.data.Model",
-    fields: [{name: '1716', type: 'string'}]
-
-});
-
-
 /**
  * Function que valida el algoritmo del Nro de CUIT
  * 
@@ -325,7 +318,11 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
 
 Ext.define('encuestaModel', {
     extend: 'Ext.data.Model',
-    fields: [
+    fields: [{
+            name: 'id',
+            type: 'int',
+            useNull: true
+        },
                 'fecha' // 	Fecha de la Visita 
                 , 'cuit'
                 , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
@@ -341,6 +338,12 @@ Ext.define('encuestaModel', {
     ]
 });
 
+
+/*
+ * @Name EncuestasStore
+ * @type Store
+ * 
+ */
 var EncuestasStore = Ext.create('Ext.data.Store', {
     id: 'EncuestasStore',
     autoLoad: true,
@@ -359,30 +362,8 @@ var EncuestasStore = Ext.create('Ext.data.Store', {
             totalProperty: 'totalCount'
         }
     }
-    ,
-    sorters: [{
-            property: 'fecha',
-            direction: 'DESC'
-        }]
-            ,
-    cuitFilter: function(cuit) {
-        Ext.data.Store.prototype.clearFilter.call(this);
-        Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
-    },
-    listeners: {
-        load: function() {
-            EncuestasStore.cuitFilter('-1');
-            storeEncuestasOffline.load(function() {
-                //actualizo los modificados
-                storeEncuestasOffline.each(function(rec) {
-                    EncuestasStore.add(rec);
-                    EncuestasStore.cuitFilter('-1');
-                });
-            });
-
-        }
-    }
 });
+
 
 var storeEncuesta = Ext.create('Ext.data.Store', {
     model: 'encuestaModel',
