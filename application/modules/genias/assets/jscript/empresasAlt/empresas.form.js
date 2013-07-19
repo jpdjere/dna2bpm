@@ -1,5 +1,5 @@
 var countSync = function() {
-    var getCount = storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
+    var getCount = storeEncuestasOffline.getCount()+storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
     Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 }
 
@@ -160,6 +160,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
 });
 
 var btnSaveEncuesta = Ext.create('Ext.Action', {
+    
     id: 'btn_save_encuesta',
     disabled: true,
     xtype: 'button',
