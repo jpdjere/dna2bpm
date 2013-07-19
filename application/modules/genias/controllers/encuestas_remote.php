@@ -74,5 +74,4 @@ class Encuestas_remote extends MX_Controller {
             ));
         }
     }
-
 }
