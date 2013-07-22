@@ -32,7 +32,10 @@ class Empresas_remote extends MX_Controller {
 
             /* GENERO ID */
             $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;
-
+            
+            
+            $thisform->status = 'activa';
+            
             /* CHECKEO CUIT */
             $queryCuit = array('1695' => $thisform->{1695});
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
