@@ -130,7 +130,7 @@ class Genias_model extends CI_Model {
 
     function get_empresas($query) {
         $rtn = array();
-        $query['status'] = 'activa';
+        $query['status'] != 'borrada';
         $fields = array('id',
             'status'
             , '1693'  //     Nombre de la empresa
