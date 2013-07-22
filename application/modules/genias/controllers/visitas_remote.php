@@ -38,7 +38,7 @@ class Visitas_remote extends MX_Controller {
 
             if ($result) {               
                 /* Update Goal */
-                $this->genias_model->goal_update('2',$id);
+                //$this->genias_model->goal_update('2',$id);
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
