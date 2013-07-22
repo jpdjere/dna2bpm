@@ -59,11 +59,13 @@ function gridClick (view,record,item,index,e,options ){
         dataIndex: '1693',
         sortable: true
 
-    },{
-        flex:2,
-        text: "Direccion",
-        xtype:'templatecolumn',
-        tpl:'{4653} {4654}'
+    },
+    {
+        flex:1,
+        text: "Partido",
+        dataIndex:'partido_txt',
+        sortable:true
+        
     }
     ,
     ],

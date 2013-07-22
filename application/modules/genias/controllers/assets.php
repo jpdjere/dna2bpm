@@ -48,9 +48,16 @@ class assets extends MX_Controller {
                   header('Content-type: application/pdf');
                     break;
                 
+                case 'appcache':
+                    header("Content-Type: text/cache-manifest"); 
+                    break;
+                
                 case 'jpg' || 'jpeg' || 'png' || 'gif':
                     header('Content-type: image/'.$file_type);
                     break;
+                    
+                default:
+                    header("Content-Type: plain/text"); 
             }
  
             readfile($file);

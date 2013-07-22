@@ -1,0 +1,49 @@
+/* 
+    Document   : avery6
+    Created on : Jul 4, 2013, 9:44:26 PM
+    Author     : Juan Ignacio Borda <juanignacioborda@gmail.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+@page {
+    size: A4;
+    margin-top:0.5in;
+    margin-bottom: 0.5in;
+    margin-left: 0.17in;
+    margin-right:0.17in;
+}
+h2{
+    font-size: .8cm;
+}
+.card {
+    /*border: 1px solid darkgrey;*/
+    margin-left: 0cm;
+    margin-right: 0cm;
+    margin-top: 0cm;
+    margin-bottom: 0cm;
+    padding-top: .6cm;
+    border:1px red solid;
+    height: 12cm;
+}
+/*.qr {
+    width: 3.5cm;
+    height: 3.5cm;
+}*/
+.card_text {
+    border:1px darkred solid;
+    width:3cm;
+    display: inline-block;
+    -webkit-transform: rotate(90deg);   
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+     margin: 0.5cm 0 2cm 4.2cm;
+     /*
+     margin-left: .2cm;
+    margin-right: 0cm;
+    margin-top: 7cm;
+    margin-bottom: 7.2cm;
+    */
+}

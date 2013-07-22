@@ -215,6 +215,19 @@ class User extends CI_Model {
             return false;
         }
     }
+    //forgot passw: used to change password 
+    function getbymailaddress($mail) {
+       
+        $this->db->where(array('email' => $mail));
+        $result = $this->db->get('users')->result();
+        
+        //----return only 1st
+        if (count($result)) {
+            return $result[0];
+        } else {
+            return false;
+        }
+    }
 
     function getbygroup($idgroup) {
         $grouparr = (is_array($idgroup)) ? $idgroup : (array) json_decode((string) $idgroup);
@@ -251,6 +264,18 @@ class User extends CI_Model {
         if ($user)
             return $user[0];
     }
+    
+    
+    //forgot password: change password token
+    function get_token($token) {
+       
+        $query = array('token' => $token);
+        //var_dump(json_encode($query));
+        
+        $details = $this->db->get_where('users_token', $query)->result();
+        if ($details) return $details[0];
+    }
+    
 
     /*
      * Get user data without passwords or any other security info
@@ -333,6 +358,7 @@ class User extends CI_Model {
         $options = array('upsert' => true, 'safe' => true);
         return $this->mongo->db->users->save($object, $options);
     }
+    
 
     function remove($iduser) {
         /**
@@ -363,9 +389,24 @@ class User extends CI_Model {
      */
 
     function save($data) {
-        //var_dump($object);s
+        //var_dump($data);
         $options = array('safe' => true, 'upsert' => true);
         $result = $this->mongo->db->users->save($data, $options);
+        return $result;
+    }
+    
+    //forgot password: change password token
+    function save_token($object) {
+        //var_dump($object);
+        $options = array('safe' => true, 'upsert' => true);
+        return $this->mongo->db->users_token->save($object, $options);
+    }
+    
+    function delete_token($token) {
+
+        $this->db->where(array('token' => $token));
+        //---now delete original
+        $result = $this->db->delete('users_token');
         return $result;
     }
 

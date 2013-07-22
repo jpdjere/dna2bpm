@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="{base_url}genias/assets/manifest/offline.appcache">
+<html lang="en" manifest="{base_url}genias/manifest/offline.appcache">
     <head>
         <title>DNA&sup2; Admin</title>
         <meta charset="UTF-8" />
@@ -7,8 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="{base_url}jscript/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{base_url}jscript/bootstrap/css/bootstrap-responsive.min.css" />
-        
-        
+
+
         <link rel="stylesheet" href="{base_url}jscript/fontawesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="{module_url}assets/jscript/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" />	
         <link rel="stylesheet" href="{module_url}assets/css/extra-icons.css" />	
@@ -18,65 +18,88 @@
         <link rel="stylesheet" href="{module_url}assets/css/genias.css" />
 
 
-	<!--/ Custom CSS -->
+        <!--/ Custom CSS -->
         {css}
 
     </head>
     <body>
-<!--/ NAVIGATION -->
-<div class="navbar navbar-inverse navbar-static-top ">
-      <div class="navbar-inner barra_{rol}">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">GenIA</a>
-          
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="{module_url}">Inicio</a></li>
-              <li><a href="{module_url}tasks">Tareas</a></li>
-              <li><a href="{module_url}scheduler">Agenda</a></li>
-              <li><a href="{module_url}form_empresas_alt"><i class='icon-plus'></i> Visita</a></li>  
-              <li><a href="{module_url}listado_empresas">Empresas</a></li>  
-              <li><a href="{module_url}map">Mapa</a></li>      
-              
-            </ul>
-            <ul class="nav pull-right inline">            
-                <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
-                <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
-            </ul>
-        </div>
-      </div>
-    </div>
-</div>
-<!-- / Breadcrumbs 
-<div class="row-fluid " >
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-          <li><span class="divider">/</span></li>
-          <li><a href="{module_url}">Dashboard</a></li>
-           <li><span class="divider">/</span></li>
-          <li><a href="#">{titulo}</a></li>
-          <li class="pull-right perfil">
-              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
-          </li>
-    </ul>
-    <ul class="breadcrumb breadcrumb-genias" style="padding-top:0px">
-        <li ></li>
-        
-        {genias}  
-        <li class="pull-right "><span class="divider">/</span</li>
-        <li class="pull-right">{nombre}</li>
-        {/genias}
+        <!--/ NAVIGATION -->
+        <div class="navbar navbar-inverse navbar-static-top ">
+            <div class="navbar-inner barra_{rol}">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">GenIA</a>
 
-    </ul> 
-</div>
--->
-<!-- CONTAINER -->
-{content}
-<!-- CONTAINER -->
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="{module_url}">Inicio</a></li>
+                            <li><a href="{module_url}tasks">Tareas</a></li>
+                            <li><a href="{module_url}scheduler">Agenda</a></li>
+                            <li><a href="{module_url}form_empresas_alt"><i class='icon-plus'></i> Visita</a></li>  
+                            <li><a href="{module_url}listado_empresas">Empresas</a></li>  
+                            <li><a href="{module_url}map">Mapa</a></li>      
+
+                        </ul>
+                        <ul class="nav pull-right inline"> 
+
+
+                            <li class="dropdown" id="menu-messages">
+                                <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
+                                    <i class="icon icon-coment">
+                                    </i> <span class="text">{lang messages}</span> <span class="label label-important">{inbox_count}</span> <b class="caret">
+                                    </b>
+                                </a>
+                                <ul class="dropdown-menu">
+<!--                                    <li>
+                                        <a class="sAdd" title="" href="{module_url}inbox/new_msg">{lang new_message}</a>
+                                    </li>-->
+                                    <li>
+                                        <a class="sInbox" title="" href="{module_url}inbox/">{lang inbox}</a>
+                                    </li>
+                                    <li>
+                                        <a class="sOutbox" title="" href="#">{lang outbox}</a>
+                                    </li>
+                                    <li>
+                                        <a class="sTrash" title="" href="#">{lang trash}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
+                            <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / Breadcrumbs 
+        <div class="row-fluid " >
+            <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
+                  <li><span class="divider">/</span></li>
+                  <li><a href="{module_url}">Dashboard</a></li>
+                   <li><span class="divider">/</span></li>
+                  <li><a href="#">{titulo}</a></li>
+                  <li class="pull-right perfil">
+                      <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+                  </li>
+            </ul>
+            <ul class="breadcrumb breadcrumb-genias" style="padding-top:0px">
+                <li ></li>
+                
+                {genias}  
+                <li class="pull-right "><span class="divider">/</span</li>
+                <li class="pull-right">{nombre}</li>
+                {/genias}
+        
+            </ul> 
+        </div>
+        -->
+        <!-- CONTAINER -->
+        {content}
+        <!-- CONTAINER -->
 
         <script src="{module_url}assets/jscript/jquery.min.js"></script>
 <!--        <script src="{module_url}assets/jscript/jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js"></script>-->
@@ -91,7 +114,7 @@
             var globals={inline_js};
         </script>
         {js}
-        
+
 
     </body>
 </html>
