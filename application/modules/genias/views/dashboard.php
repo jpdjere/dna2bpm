@@ -92,20 +92,21 @@
             <div class="tab-pane active" id="tab_resumen">
                 <div class="alert {resumen_class}" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
+                <strong>Sus genias tienen {goal_cumplidas_total} de {goal_cantidad_total} objetivos cumplidos.</strong> 
                 </div> 
             </div>
         {genias} 
             <div class="tab-pane" id="tab_{_id}">
                 <div class="alert" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Sus genias tienen {goal_cumplidas} de {goal_cantidad} objetivos cumplidos.</strong> 
+                <strong>Sus genias tienen {goal_cumplidas {_id}}  de {goal_cantidad {_id}} objetivos cumplidos.</strong> 
                 </div>
             </div> 
         {/genias} 
         </div>
     {/if}
-        
+       
+    
 
     
 
@@ -155,7 +156,11 @@
                 <div>
                     <textarea rows="3" class="input-block-level">{observaciones}</textarea>
                 </div>
-
+                {if {rol}=='coordinador'}
+                    <button class="aprobar btn btn-mini btn-success" url="#" type="button">
+                            <i class="icon-thumbs-up-alt"></i> Guardar
+                    </button>
+                {/if}
             </div>
         </div>
         {/metas}

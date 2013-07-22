@@ -91,14 +91,7 @@ class Genias extends MX_Controller {
                 $goal['status_class'] = 'well status_null';
                 $goal['label_class'] = '';
             }
-                   if (true) {
-                    $customData['goal_cantidad_total']+=$goal['cantidad'];
-                    $customData['goal_cumplidas_total']+=count($goal['cumplidas']);       
-
-                    $customData['goal_cantidad'][$goal['genia']]=$goal['cantidad'];
-                    $customData['goal_cumplidas'][$goal['genia']]=count($goal['cumplidas']);
-                }         
-
+                   
                 
             // --- 
             $owner = $this->user->get_user($goal['idu']);
@@ -119,8 +112,7 @@ class Genias extends MX_Controller {
         $customData['metas'] = $mygoals;
 
 
-        
-
+        $customData['test']['x']= "hey";
         $this->render('dashboard', $customData);
     }
 
