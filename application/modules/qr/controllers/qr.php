@@ -21,7 +21,7 @@ class Qr extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('user');
-        $this->user->authorize();
+        $this->user->authorize('modules/qr');
         $this->load->library('parser');
         $this->load->library('ui');
         //---base variables

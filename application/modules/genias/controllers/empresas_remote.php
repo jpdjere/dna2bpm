@@ -31,8 +31,10 @@ class Empresas_remote extends MX_Controller {
         foreach ($input as $thisform) {
 
             /* GENERO ID */
-            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;
-
+            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;            
+            
+            $thisform->status = 'activa';
+            
             /* CHECKEO CUIT */
             $queryCuit = array('1695' => $thisform->{1695});
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
@@ -50,9 +52,7 @@ class Empresas_remote extends MX_Controller {
             $thisform['idu'] = (int) ($this->idu);
 
             /* Insert/Update dato de la empresa */
-            $result = $this->app->put_array($id, $container, $thisform);          
-
-
+            $result = $this->app->put_array($id, $container, $thisform);
 
             if ($result) {
                 /* Update Task */
