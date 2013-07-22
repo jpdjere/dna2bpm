@@ -49,8 +49,10 @@ class Genias extends MX_Controller {
 
         $rol = $genias['rol'];
         $mygoals = array();
-        $customData['goal_cantidad']=0;
-        $customData['goal_cumplidas']=0;
+        $customData['goal_cantidad_total']=0;
+        $customData['goal_cumplidas_total']=0;
+        $customData['goal_cantidad']=array();
+        $customData['goal_cumplidas']=array();
         $goals = $this->genias_model->get_goals((int) $this->idu);
         foreach ($goals as $goal) {
            // var_dump($goal);
@@ -78,31 +80,46 @@ class Genias extends MX_Controller {
                 //----computo calculos para metas activas de este mes
                 //if ($goal['desde'] >= date('Y-m-01') and $goal['hasta'] <= date('Y-m-t')) {
                 if (true) {
-                    $customData['goal_cantidad']+=$goal['cantidad'];
-                    $customData['goal_cumplidas']+=count($goal['cumplidas']);
+                    $customData['goal_cantidad_total']+=$goal['cantidad'];
+                    $customData['goal_cumplidas_total']+=count($goal['cumplidas']);       
+
+                    $customData['goal_cantidad'][$goal['genia']]=$goal['cantidad'];
+                    $customData['goal_cumplidas'][$goal['genia']]=count($goal['cumplidas']);
                 }
             } else {
                 $goal['status'] = 'undefined';
                 $goal['status_class'] = 'well status_null';
                 $goal['label_class'] = '';
             }
+                   if (true) {
+                    $customData['goal_cantidad_total']+=$goal['cantidad'];
+                    $customData['goal_cumplidas_total']+=count($goal['cumplidas']);       
+
+                    $customData['goal_cantidad'][$goal['genia']]=$goal['cantidad'];
+                    $customData['goal_cumplidas'][$goal['genia']]=count($goal['cumplidas']);
+                }         
+
+                
             // --- 
             $owner = $this->user->get_user($goal['idu']);
             $goal['owner'] = "{$owner->lastname}, {$owner->name} ";
             $goal['cumplidas_count'] = count($goal['cumplidas']);
+            
+            //Conteo de metas
+            
 
             $mygoals[] = $goal;
             //var_dump($goal);
         }
-        $ratio=$customData['goal_cantidad']-$customData['goal_cumplidas'];
-        if($ratio>=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-success';
-        if($ratio>=($customData['goal_cantidad']*.3) and $ratio<=($customData['goal_cantidad']*.7)) $customData['resumen_class']='alert-block';
-        if($ratio<=($customData['goal_cantidad']*.3)) $customData['resumen_class']='alert-error';
+        $ratio=$customData['goal_cantidad_total']-$customData['goal_cumplidas_total'];
+        if($ratio>=($customData['goal_cantidad_total']*.7)) $customData['resumen_class']='alert-success';
+        if($ratio>=($customData['goal_cantidad_total']*.3) and $ratio<=($customData['goal_cantidad_total']*.7)) $customData['resumen_class']='alert-block';
+        if($ratio<=($customData['goal_cantidad_total']*.3)) $customData['resumen_class']='alert-error';
         //var_dump($customData);
         $customData['metas'] = $mygoals;
 
 
-
+        
 
         $this->render('dashboard', $customData);
     }
