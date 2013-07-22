@@ -72,7 +72,7 @@ Ext.define('EmpresaModel', {
                 , '1703'    //email
                 , '1704'    //web
                 , '1711'    //Cantidad de Empleados actual  
-                /*contacto*/
+                /*CONTACTO*/
                 , '7876'    // Apellido y Nombre del Contacto
                 , '7877'    // E-mail del Contacto
                 , '7878'    // Rubro de la Empresa                
@@ -88,6 +88,8 @@ Ext.define('EmpresaModel', {
                 , '7884'    // Proveedores
                 , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
                 , '7665'    // Registro �nico de Organizaciones de Responsabilidad Social (idopcion = 715)
+                , 'origen'  //Origen de los datos Genia 2013
+                , 'origenGenia' //Origen de los datos Genia 2013 Genia
     ]
 });
 
