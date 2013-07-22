@@ -111,8 +111,6 @@ class Genias extends MX_Controller {
         //var_dump($customData);
         $customData['metas'] = $mygoals;
 
-
-        $customData['test']['x']= "hey";
         $this->render('dashboard', $customData);
     }
 
@@ -250,6 +248,10 @@ class Genias extends MX_Controller {
         //---la meta deberia estar disponible cuando este caso este en estado: finished
         // Todo 
         //echo $id_goal;
+    }
+    
+    function update_goal(){
+        $this->genias_model->update_goal();
     }
 
     function programs() {

@@ -70,6 +70,26 @@ class Genias_model extends CI_Model {
         $query = array('id' => (integer) $goal['id']);
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
+    
+    function update_goal() {
+        $container = 'container.genias_goals';
+        $data = $this->input->post('data'); 
+
+        $date = date_create_from_format('d-m-Y', '01-' . $data['desde']);
+        $month = $date->format('m');
+        $year = $date->format('Y');
+        $daycount = cal_days_in_month(CAL_GREGORIAN, $month, $year); // 31
+
+        $mydata['desde'] = "$year-$month-01";
+        $mydata['hasta'] = "$year-$month-$daycount";
+        $mydata['observaciones']=$data['observaciones'];
+
+        $id = new MongoId($data['metaid']);
+        $query = array('_id' => $id);
+        $options = array('safe' => true);
+
+        return $this->mongo->db->$container->update($query, array('$set'=>$mydata), $options);
+    }
 
     function get_goals($idu) {
         $container = 'container.genias_goals';
@@ -94,8 +114,9 @@ class Genias_model extends CI_Model {
             // Mes 
             $date = date_create_from_format('Y-m-d', $mygoals['desde']);
             $mes = 'cal_' . strtolower(date_format($date, 'F'));
-            $mygoals['desde'] = $this->lang->line($mes);
-
+            $year = date_format($date, 'Y');
+            $mygoals['desde'] = $this->lang->line($mes)." ,$year";
+            $mygoals['desde_raw']=date_format($date, 'm-Y');
             $result[] = $mygoals;
         }
 
@@ -213,10 +234,10 @@ class Genias_model extends CI_Model {
                 , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
                 , '7886'        //      Modos de Financiamiento
                 , '7887'        //      Con Programas Sepyme/Ministerio de Industria
-                , '7888'        //      Recibió Capacitación Empresarial / Gerencial / Mandos Medios
-                , '7889'        //      Realizó capacitaciones al personal
-                , '7890'        //      Recibió asesoramiento técnico
-                , '7891'        //      Capacitación y/o Asistencia con Programas Sepyme / Ministerio de Industria 
+                , '7888'        //      Recibiï¿½ Capacitaciï¿½n Empresarial / Gerencial / Mandos Medios
+                , '7889'        //      Realizï¿½ capacitaciones al personal
+                , '7890'        //      Recibiï¿½ asesoramiento tï¿½cnico
+                , '7891'        //      Capacitaciï¿½n y/o Asistencia con Programas Sepyme / Ministerio de Industria 
        
         );
         $container = 'container.genias_encuestas';
@@ -232,32 +253,32 @@ class Genias_model extends CI_Model {
 
     //======== Actualiza Meta Activa =========//
 
-    function goal_update($proyecto = '2', $id_visita = null) {
-        $container_metas = 'container.genias_goals';
-        //----busco meta activa
-        $query = array(
-            'proyecto' => $proyecto,
-            'idu' => $this->idu,
-            'hasta' => array('$lte' => date('Y-m-t')),
-            'desde' => array('$gte' => date('Y-m-01')),
-        );
-        //echo json_encode($query);exit;
-        $metas = $this->mongo->db->$container_metas->find($query);
-        foreach ($metas as $meta) {
-            $case = $this->get_case($meta['case']);
-            if ($case['status'] == 'closed') {
-                break;
-            }
-        }
-        //var_dump($query,$meta);exit;
-        if (isset($meta)) {
-
-            //----Agrego visita a la meta
-            $meta['cumplidas'][] = $id_visita;
-            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
-            $this->mongo->db->$container_metas->save($meta);
-        }
-    }
+//    function goal_update($proyecto = '2', $id_visita = null) {
+//        $container_metas = 'container.genias_goals';
+//        //----busco meta activa
+//        $query = array(
+//            'proyecto' => $proyecto,
+//            'idu' => $this->idu,
+//            'hasta' => array('$lte' => date('Y-m-t')),
+//            'desde' => array('$gte' => date('Y-m-01')),
+//        );
+//        //echo json_encode($query);exit;
+//        $metas = $this->mongo->db->$container_metas->find($query);
+//        foreach ($metas as $meta) {
+//            $case = $this->get_case($meta['case']);
+//            if ($case['status'] == 'closed') {
+//                break;
+//            }
+//        }
+//        //var_dump($query,$meta);exit;
+//        if (isset($meta)) {
+//
+//            //----Agrego visita a la meta
+//            $meta['cumplidas'][] = $id_visita;
+//            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
+//            $this->mongo->db->$container_metas->save($meta);
+//        }
+//    }
 
     // ======= USER CONTROL ======= //
 
