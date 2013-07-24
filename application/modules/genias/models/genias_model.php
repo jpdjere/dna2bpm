@@ -253,32 +253,32 @@ class Genias_model extends CI_Model {
 
     //======== Actualiza Meta Activa =========//
 
-//    function goal_update($proyecto = '2', $id_visita = null) {
-//        $container_metas = 'container.genias_goals';
-//        //----busco meta activa
-//        $query = array(
-//            'proyecto' => $proyecto,
-//            'idu' => $this->idu,
-//            'hasta' => array('$lte' => date('Y-m-t')),
-//            'desde' => array('$gte' => date('Y-m-01')),
-//        );
-//        //echo json_encode($query);exit;
-//        $metas = $this->mongo->db->$container_metas->find($query);
-//        foreach ($metas as $meta) {
-//            $case = $this->get_case($meta['case']);
-//            if ($case['status'] == 'closed') {
-//                break;
-//            }
-//        }
-//        //var_dump($query,$meta);exit;
-//        if (isset($meta)) {
-//
-//            //----Agrego visita a la meta
-//            $meta['cumplidas'][] = $id_visita;
-//            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
-//            $this->mongo->db->$container_metas->save($meta);
-//        }
-//    }
+    function goal_update($proyecto = '2', $id_visita = null) {
+        $container_metas = 'container.genias_goals';
+        //----busco meta activa
+        $query = array(
+            'proyecto' => $proyecto,
+            'idu' => $this->idu,
+            'hasta' => array('$lte' => date('Y-m-t')),
+            'desde' => array('$gte' => date('Y-m-01')),
+        );
+        //echo json_encode($query);exit;
+        $metas = $this->mongo->db->$container_metas->find($query);
+        foreach ($metas as $meta) {
+            $case = $this->get_case($meta['case']);
+            if ($case['status'] == 'closed') {
+                break;
+            }
+        }
+        //var_dump($query,$meta);exit;
+        if (isset($meta)) {
+
+            //----Agrego visita a la meta
+            $meta['cumplidas'][] = $id_visita;
+            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
+            $this->mongo->db->$container_metas->save($meta);
+        }
+    }
 
     // ======= USER CONTROL ======= //
 
