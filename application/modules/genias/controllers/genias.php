@@ -45,6 +45,7 @@ class Genias extends MX_Controller {
         // Projects
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
+
         $genias = $this->get_genia();
 
         $rol = $genias['rol'];
@@ -55,12 +56,14 @@ class Genias extends MX_Controller {
         $customData['goal_cumplidas']=array();
         $goals = $this->genias_model->get_goals((int) $this->idu);
         foreach ($goals as $goal) {
-            // var_dump($goal);
-            // === Nombre del proyecto === @todo - Traerlo del model
-//            foreach ($customData['projects'] as $current) {
-//                if ($current['id'] == $goals['proyecto'])
-//                    $goals['proyecto_name'] = $current['name'];
-//            }
+
+            // === Nombre del proyecto
+            foreach ($customData['projects'] as $current) {
+                if ($current['id'] == $goal['proyecto']){
+                    $goal['proyecto_name'] = $current['name'];
+                }
+            }
+
             // === get status case ===
             if (isset($goal['case'])) {
                 $case = $this->genias_model->get_case($goal['case']);
@@ -97,9 +100,9 @@ class Genias extends MX_Controller {
             $owner = $this->user->get_user($goal['idu']);
             $goal['owner'] = "{$owner->lastname}, {$owner->name} ";
             $goal['cumplidas_count'] = count($goal['cumplidas']);
-            
+
             //Conteo de metas
-            
+
 
             $mygoals[] = $goal;
             //var_dump($goal);
@@ -110,7 +113,6 @@ class Genias extends MX_Controller {
         if($ratio<=($customData['goal_cantidad_total']*.3)) $customData['resumen_class']='alert-error';
         //var_dump($customData);
         $customData['metas'] = $mygoals;
-
         $this->render('dashboard', $customData);
     }
 

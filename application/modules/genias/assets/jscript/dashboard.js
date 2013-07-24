@@ -14,8 +14,8 @@ $( document ).ready(function() {
 $('.aprobar').click(function(){
    window.location=$(this).attr('url');
 });
- $('#dp3').datepicker();
- 
+
+ $('#dp3').datepicker(); 
  $('.dp').datepicker();
   
   
@@ -52,14 +52,16 @@ submitHandler: function(form) {
 }
 );
 
-/*==== CAMBIO DE META====*/
+/*==== UPDATE META====*/
+
 $('button.guardar').click(function(){
     if(!navigator.onLine)return;
    var meta=$(this).parents('.meta');
    var desde=meta.find('[name="desde"]').val();
    var obs=meta.find('[name="observaciones"]').val();
    var metaid=meta.find('[name="metaid"]').val();
-   var data={'desde':desde,'observaciones':obs,'metaid':metaid};
+   var proyecto=meta.find('[name="metas_proyecto"]').val(); 
+   var data={'desde':desde,'observaciones':obs,'metaid':metaid,'proyecto':proyecto};
     $.ajax(
    {
       /* this option */
