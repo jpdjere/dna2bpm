@@ -675,10 +675,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [{
-                    emptyText: '',
-                    name: 'id'
-                },
+            items: [
                 {
                     xtype: 'radiogroup',
                     fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
