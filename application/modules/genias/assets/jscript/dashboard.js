@@ -15,6 +15,10 @@ $('.aprobar').click(function(){
    window.location=$(this).attr('url');
 });
  $('#dp3').datepicker();
+ 
+ $('.dp').datepicker();
+  
+  
 
 //== VALIDATE == //
 $("#form_goals").validate({
@@ -47,6 +51,31 @@ submitHandler: function(form) {
 }
 }
 );
+
+/*==== CAMBIO DE META====*/
+$('button.guardar').click(function(){
+    if(!navigator.onLine)return;
+   var meta=$(this).parents('.meta');
+   var desde=meta.find('[name="desde"]').val();
+   var obs=meta.find('[name="observaciones"]').val();
+   var metaid=meta.find('[name="metaid"]').val();
+   var data={'desde':desde,'observaciones':obs,'metaid':metaid};
+    $.ajax(
+   {
+      /* this option */
+      async: true,
+      cache: false,
+      type: "POST",
+      dataType: "text",
+      url: globals.module_url+'update_goal',
+      data:{'data':data},
+      success:function(resp){
+          alert(resp);
+      }
+   });
+   
+});
+
 
 
 

@@ -117,7 +117,8 @@
         {metas}
 
         <!-- <div class="span6 {status_class}">  -->
-        <div class="span6">  
+        <div class="span6 meta" > 
+            <input type="hidden" name="metaid" value="{_id}"/>
             <div class="well">
                 <!-- Nombre Proyecto -->
                 <div>  
@@ -127,7 +128,15 @@
                 <div> 
                     <ul class="unstyled">
                         <li>
-                            <i class="icon-calendar" ></i> Período: {desde}
+                            <i class="icon-calendar" ></i> Período:
+                            {if {rol}=='coordinador'}                                     
+                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp">
+                                <input type="text" name="desde" readonly="" value="{desde_raw}"  class="span1">
+                                <span class="add-on"><i class="icon-calendar"></i></span>
+                            </div>
+                            {else}
+                                {desde}  
+                            {/if}
                         </li>
                         <li>
                             <i class="icon-eye-open" ></i> Estado: 
@@ -154,10 +163,10 @@
                 </div>
 
                 <div>
-                    <textarea rows="3" class="input-block-level">{observaciones}</textarea>
+                    <textarea rows="3" class="input-block-level" name="observaciones">{observaciones}</textarea>
                 </div>
                 {if {rol}=='coordinador'}
-                    <button class="aprobar btn btn-mini btn-success" url="#" type="button">
+                    <button class="guardar btn btn-mini btn-success" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
                 {/if}
