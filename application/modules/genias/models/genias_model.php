@@ -80,15 +80,15 @@ class Genias_model extends CI_Model {
         $year = $date->format('Y');
         $daycount = cal_days_in_month(CAL_GREGORIAN, $month, $year); // 31
 
-        $mydata['desde'] = "$year-$month-01";
-        $mydata['hasta'] = "$year-$month-$daycount";
-        $mydata['observaciones']=$data['observaciones'];
+        $data['desde'] = "$year-$month-01";
+        $data['hasta'] = "$year-$month-$daycount";
+
 
         $id = new MongoId($data['metaid']);
         $query = array('_id' => $id);
         $options = array('safe' => true);
 
-        return $this->mongo->db->$container->update($query, array('$set'=>$mydata), $options);
+        return $this->mongo->db->$container->update($query, array('$set'=>$data), $options);
     }
 
     function get_goals($idu) {
@@ -264,15 +264,16 @@ class Genias_model extends CI_Model {
         );
         //echo json_encode($query);exit;
         $metas = $this->mongo->db->$container_metas->find($query);
-        foreach ($metas as $meta) {
+
+        foreach ($metas as $meta) {           
             $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
                 break;
             }
         }
-        //var_dump($query,$meta);exit;
-        if (isset($meta)) {
 
+        //var_dump($query,$meta);exit;
+        if (isset($meta) && isset($case) && $case['status'] == 'closed') {
             //----Agrego visita a la meta
             $meta['cumplidas'][] = $id_visita;
             $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));

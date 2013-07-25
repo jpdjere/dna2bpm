@@ -108,21 +108,34 @@
        
     
 
-    
+
 
 
     <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
     <div class="row">
 
         {metas}
-
+                           
         <!-- <div class="span6 {status_class}">  -->
         <div class="span6 meta" > 
             <input type="hidden" name="metaid" value="{_id}"/>
             <div class="well">
                 <!-- Nombre Proyecto -->
-                <div>  
-                    <h3>{proyecto_nombre}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
+                <div class="row-fluid"> 
+                    {if {rol}=='coordinador'}
+                    <div class="span6">  
+                    <select name="metas_proyecto">  
+                        {select_project}
+                    </select>
+                     </div>
+                    <div class="span6"> 
+                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} </span></h3>
+                    </div>
+                    {else}
+                    <div class="span12"> 
+                    <h3>{proyecto_name}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
+                    </div> 
+                    {/if}
                 </div>
 
                 <div> 
@@ -145,12 +158,11 @@
                                 <!-- Btn Aprobar -->
                             </button>
                                 {if {rol}=='coordinador'}
-                                {if {status_class} == 'well status_open'}
-
-                             <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
-                                    <i class="icon-thumbs-up-alt"></i> Aprobar
-                            </button>
-                                {/if}
+                                    {if {status_class} == 'well status_open'}
+                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
+                                               <i class="icon-thumbs-up-alt"></i> Aprobar
+                                       </button>
+                                    {/if}
                                 {/if}
                         </li>
                         <li>
@@ -163,15 +175,18 @@
                 </div>
 
                 <div>
-                    <textarea rows="3" class="input-block-level" name="observaciones">{observaciones}</textarea>
+                    <textarea rows="3" class="input-block-level" name="observaciones">{observaciones} </textarea>
                 </div>
                 {if {rol}=='coordinador'}
                     <button class="guardar btn btn-mini btn-success" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
                 {/if}
+                
+  
             </div>
         </div>
+        
         {/metas}
     </div>
     <!-- ============= metas  ============= -->
