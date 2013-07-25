@@ -12,6 +12,7 @@ var SearchEmpresa = function(me) {
         index = EmpresaStore.find('1695', val);
 
         if (index >= 0) {
+            
             record = EmpresaStore.getAt(index);
             if (record != actualRecord) {
                 EmpresaForm.loadRecord(record);
@@ -34,8 +35,9 @@ var SearchEmpresa = function(me) {
             //---tomo parametros con Ext
             var params = Ext.urlDecode(location.search.substring(1));
 
-            if (EmpresaForm.params['task'] != null)
+            if (EmpresaForm.params['task'] != null) {
                 Ext.getCmp('task').setValue(EmpresaForm.params['task']);
+            }
 
         } else {
             EmpresaForm.setLoading(false);
@@ -555,8 +557,6 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
 var VisitaForm = Ext.create('Ext.form.Panel', {
     id: 'VisitaForm',
     autoScroll: true,
-    //----para que resetee el dirty
-    trackResetOnLoad: true,
     layout: {
         type: 'vbox',
         align: 'stretch'  // Child items are stretched to full width
