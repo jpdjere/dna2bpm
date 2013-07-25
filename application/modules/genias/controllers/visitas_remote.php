@@ -20,7 +20,6 @@ class Visitas_remote extends MX_Controller {
 
     /* GENIAS */
     public function Insert() {        
-        
         $container = $this->containerGenias;
         $input = json_decode(file_get_contents('php://input'));
         foreach ($input as $thisform) {         

@@ -264,15 +264,16 @@ class Genias_model extends CI_Model {
         );
         //echo json_encode($query);exit;
         $metas = $this->mongo->db->$container_metas->find($query);
-        foreach ($metas as $meta) {
+
+        foreach ($metas as $meta) {           
             $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
                 break;
             }
         }
-        //var_dump($query,$meta);exit;
-        if (isset($meta)) {
 
+        //var_dump($query,$meta);exit;
+        if (isset($meta) && isset($case) && $case['status'] == 'closed') {
             //----Agrego visita a la meta
             $meta['cumplidas'][] = $id_visita;
             $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));

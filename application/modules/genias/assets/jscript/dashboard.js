@@ -72,7 +72,9 @@ $('button.guardar').click(function(){
       url: globals.module_url+'update_goal',
       data:{'data':data},
       success:function(resp){
-          alert(resp);
+          var html='<div class="alert alert-success" style="margin-top:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>Se han guardado sus cambios.</div>';
+          meta.find('.well').append().show('slow');
+            $(html).hide().appendTo($('.well',meta)).fadeIn('300');
       }
    });
    

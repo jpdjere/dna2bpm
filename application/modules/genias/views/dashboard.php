@@ -108,7 +108,7 @@
        
     
 
-    
+
 
 
     <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
@@ -122,26 +122,20 @@
             <div class="well">
                 <!-- Nombre Proyecto -->
                 <div class="row-fluid"> 
-                        {if {rol}=='coordinador'}                                     
-                            <div class="span6">  
-                            <select name="metas_proyecto">  
-                                {projects}                     
-                                    {if {id}=={proyecto}}
-                                        <option selected="selected" value="{id}" >{name}</option>
-                                    {else}
-                                        <option value="{id}">{name}</option>
-                                    {/if} 
-                                {/projects}
-                            </select>
-                             </div>
-                            <div class="span6"> 
-                                <h3><span class="pull-right">{cumplidas_count}/ {cantidad} </span></h3>
-                            </div>
-                            {else}
-                                <div class="span12"> 
-                                     <h3>{proyecto_name}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
-                                </div> 
-                        {/if}
+                    {if {rol}=='coordinador'}
+                    <div class="span6">  
+                    <select name="metas_proyecto">  
+                        {select_project}
+                    </select>
+                     </div>
+                    <div class="span6"> 
+                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} </span></h3>
+                    </div>
+                    {else}
+                    <div class="span12"> 
+                    <h3>{proyecto_name}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
+                    </div> 
+                    {/if}
                 </div>
 
                 <div> 
@@ -189,7 +183,7 @@
                     </button>
                 {/if}
                 
-                            
+  
             </div>
         </div>
         
