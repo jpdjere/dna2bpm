@@ -842,8 +842,7 @@ class Genias extends MX_Controller {
                 }
             }
         }
-        var_dump($provincias);
-        exit();
+
         $this->load->model('app');
         $debug = false;
         $compress = false;
@@ -859,7 +858,8 @@ class Genias extends MX_Controller {
                 $partidos+=$par;
             }
         }
-
+        var_dump($partidos);
+        exit();
         $empresas = $this->genias_model->get_empresas($query);
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
