@@ -101,8 +101,8 @@ class Genias extends MX_Controller {
                    
                 
             // --- 
-            $owner = $this->user->get_user($goal['idu']);
-            $goal['owner'] = "{$owner->lastname}, {$owner->name} ";
+            $owner = (array)$this->user->get_user($goal['idu']);
+            $goal['owner'] = (!empty($owner))?("{$owner['lastname']}, {$owner['name']}"):("Desconocido");
             $goal['cumplidas_count'] = count($goal['cumplidas']);
 
             //Conteo de metas
@@ -816,6 +816,77 @@ class Genias extends MX_Controller {
             return $genia;
         }
     }
+    
+     function Empresas2($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
+        $provincias = array();
+        foreach ($genias['genias'] as $thisGenia) {
+            if (isset($thisGenia['query_empresas'])) {
+                foreach ($thisGenia['query_empresas'] as $key => $value) {
+                    //---me gurado provincias para filtrar partidos
+                    if ($key == 4651) {
+                        $provincias[] = $value;
+                    }
+                    if (isset($query[$key])) {
+                        if (is_array($query[$key])) {
+                            array_push($query[$key]['$in'], $value);
+                        } else {
+                            $original = $query[$key];
+                            $query[$key] = array();
+                            $query[$key]['$in'] = array($original, $value);
+                        }
+                    } else {
+                        $query[$key] = $value;
+                    }
+                }
+            }
+        }
+        var_dump($genias['genias']);
+        exit();
+        $this->load->model('app');
+        $debug = false;
+        $compress = false;
+        /*
+         * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
+         * Basado en el idgenia
+         */
+        //---cacheo los partidos
+        $partidos = array();
+        if (isset($query['4651'])) {
+            foreach ($provincias as $prov) {
+                $par = $this->app->get_ops(58, $prov);
+                $partidos+=$par;
+            }
+        }
+
+        $empresas = $this->genias_model->get_empresas($query);
+        for ($i = 0; $i < count($empresas); $i++) {
+            $thisEmpresa = &$empresas[$i];
+            if (isset($thisEmpresa[1699])) {
+                $thisEmpresa['partido_txt'] = (isset($partidos[$thisEmpresa[1699][0]])) ? $partidos[$thisEmpresa[1699][0]] : $thisEmpresa[1699][0];
+            } else {
+                $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
+            }
+        }
+        //var_dump($empresas);
+        $rtnArr = array();
+        $rtnArr['totalCount'] = count($empresas);
+        $rtnArr['rows'] = $empresas;
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            if ($compress) {
+                header('Content-Encoding: gzip');
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
+            } else {
+                echo json_encode($rtnArr);
+            }
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
+    
 
 }
 
