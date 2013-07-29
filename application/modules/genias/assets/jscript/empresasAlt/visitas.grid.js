@@ -1,7 +1,7 @@
 var notaTpl = new Ext.XTemplate(
         '<tpl for=".">',
         '<div class="img-polaroid">',
-        '<span class="fecha label label-success">{fecha:date("d/m/Y H:i:s")}</span>',
+        '<span class="fecha label label-success">{fecha:date("d/m/Y")}</span>',
         '<h5>{nota}</h5>',
         '</div>',
         '</tpl>'
