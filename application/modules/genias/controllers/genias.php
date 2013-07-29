@@ -842,7 +842,7 @@ class Genias extends MX_Controller {
                 }
             }
         }
-        var_dump($genias['genias']);
+        var_dump($provincias);
         exit();
         $this->load->model('app');
         $debug = false;
