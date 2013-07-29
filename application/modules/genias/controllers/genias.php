@@ -838,7 +838,7 @@ class Genias extends MX_Controller {
                         }
                     } else {
                         if (is_array($value)) {
-                            array_push($query[$key]['$in'], $value);
+                            $query[$key]['$in']=$value;
                         }else{
                             $query[$key] = $value;
                         }
