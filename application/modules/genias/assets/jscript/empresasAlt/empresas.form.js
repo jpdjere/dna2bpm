@@ -12,7 +12,7 @@ var SearchEmpresa = function(me) {
         index = EmpresaStore.find('1695', val);
 
         if (index >= 0) {
-            
+
             record = EmpresaStore.getAt(index);
             if (record != actualRecord) {
                 EmpresaForm.loadRecord(record);
@@ -154,7 +154,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             var n = d.toISOString();
             if (dataEmpresa['1695']) {
                 visitaRecord = Ext.create('visitaModel', {
-                    fecha: n,
+                    fecha: data['fecha'], //n,
                     cuit: dataEmpresa['1695'],
                     nota: data['nota'],
                     tipo: data['tipovisita'],
@@ -570,6 +570,12 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
         }
     },
     items: [{
+            name: 'fecha',
+            xtype: 'datefield',
+            submitFormat: 'Y-m-d',
+            tooltip: 'Fecha de la Visita',
+            emptyText: 'Fecha de la Visita',
+        }, {
             xtype: 'checkboxgroup',
             fieldLabel: 'Programas Informados',
             labelWidth: 150,
@@ -621,13 +627,11 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             }
         }
         , {
-            emptyText: 'Otros',
             id: 'otros',
             xtype: 'textarea',
             emptyText: 'Especifique...',
-                    name: 'otros',
+            name: 'otros',
             hidden: true
-
         }
     ],
     listeners: {
