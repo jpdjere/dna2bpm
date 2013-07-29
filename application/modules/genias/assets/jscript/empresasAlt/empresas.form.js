@@ -150,11 +150,11 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             }
             data = form.getValues();
             dataEmpresa = formEmpresa.getValues();
-            var d = new Date();
-            var n = d.toISOString();
+            //var d = data['fecha']; //new Date();            
+            //var n = d.toISOString();            
             if (dataEmpresa['1695']) {
                 visitaRecord = Ext.create('visitaModel', {
-                    fecha: data['fecha'], //n,
+                    fecha: data['fecha'],//n,
                     cuit: dataEmpresa['1695'],
                     nota: data['nota'],
                     tipo: data['tipovisita'],
@@ -572,7 +572,7 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
     items: [{
             name: 'fecha',
             xtype: 'datefield',
-            submitFormat: 'Y-m-d',
+            //submitFormat: 'Y-m-d',
             tooltip: 'Fecha de la Visita',
             emptyText: 'Fecha de la Visita',
         }, {
