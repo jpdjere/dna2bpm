@@ -828,7 +828,7 @@ class Genias extends MX_Controller {
                     if ($key == 4651) {
                         $provincias[] = $value;
                     }
-                    if (isset($query[$key])) {
+                    if (!isset($query[$key])) {
                         if (is_array($query[$key])) {
                             array_push($query[$key]['$in'], $value);
                         } else {
