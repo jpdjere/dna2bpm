@@ -189,7 +189,7 @@ class Genias_model extends CI_Model {
         );
         $container = 'container.empresas';
         $result = $this->mongo->db->$container->find($query, $fields);
-        $result->limit(2000);
+        $result->limit(2500);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
