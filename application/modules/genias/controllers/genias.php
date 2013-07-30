@@ -890,7 +890,8 @@ class Genias extends MX_Controller {
                 $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
             }
         }
-
+var_dump($empresas);
+exit();
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
         $rtnArr['rows'] = $empresas;
