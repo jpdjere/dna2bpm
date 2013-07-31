@@ -98,6 +98,18 @@ class Inventory extends MX_Controller {
 
     function Info($type = null, $code = null) {
 //----get url as array
+        /*
+         Nro Proyecto: 6390
+          PDE:
+          ESTADO 6225
+          EVALUADOR TECNICO: 6404
+          EBALUADOR ADMINISTRATIVO: 6743
+
+          PP:
+          ESTADO:5689
+          EVALUADOR TECNICO: 6096
+          EBALUADOR ADMINISTRATIVO: 7106
+         */
         $segments = $this->uri->segment_array();
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
@@ -153,14 +165,16 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
+                //---tomo valores de 
                 $result = $this->prepare($this->inventory_model->get($type, $code));
                 if ($result) {
                     unset($result['_id']);
                     $cpData['result'] = $result;
                     $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
                 } else {
-                    $cpData['msg'] = "No se encontraron resultados para: $type::$code";
-                    $this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
+                    $cpData['content'] .= "No se encontraron resultados para: $type::$code";
+                    $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
+                    //$this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
                 }
                 break;
         }
@@ -231,8 +245,8 @@ class Inventory extends MX_Controller {
         $segments = $this->uri->segment_array();
         $pure = in_array('pure', $segments);
         $cpData['show_header'] = ($pure) ? false : true;
-        $type=null;
-        $code=null;
+        $type = null;
+        $code = null;
         //--come from data
         if ($this->input->post('data')) {
             $parts = explode('/', str_replace($this->base_url, '', $this->input->post('data')));
