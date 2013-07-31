@@ -1,5 +1,4 @@
 {
-
     "totalcount": 24,
     "rows": [
         {
@@ -63,7 +62,7 @@
             "text": "Santiago Del Estero"
         },
         {
-            "value": "BA",
+            "value": "BUE",
             "text": "Buenos Aires"
         },
         {
