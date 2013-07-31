@@ -12,6 +12,15 @@
         </h1>
     </header>
 </div>
+<div id="info">
+    ESTADO: {estado}
+    <br/>
+    EVALUADOR TECNICO: {6404}
+    <br/>
+    EVALUADOR ADMINISTRATIVO: {6743}
+    <br/>
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>
