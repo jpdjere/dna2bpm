@@ -12,13 +12,13 @@
     <h2>
         {type}::{code}
     </h2>
-    
-ESTADO: {pacc_data estado}
-<br/>
-EVALUADOR TECNICO: {pacc_data e_tecnico}
-<br/>
-EVALUADOR ADMINISTRATIVO: {pacc_data e_admin}
-<br/>
+
+    ESTADO: {pacc_data estado}
+    <br/>
+    EVALUADOR TECNICO: {pacc_data e_tecnico}
+    <br/>
+    EVALUADOR ADMINISTRATIVO: {pacc_data e_admin}
+    <br/>
 </div>
 
 <table class="table table-striped">
