@@ -99,7 +99,7 @@ class Inventory extends MX_Controller {
     function Info($type = null, $code = null) {
 //----get url as array
         /*
-         Nro Proyecto: 6390
+          Nro Proyecto: 6390
           PDE:
           ESTADO 6225
           EVALUADOR TECNICO: 6404
@@ -129,12 +129,14 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
-                $proyecto=$this->app->get_result('container.proyectos_pacc',array('6390'=>$code),array());
-                var_dump($proyecto);exit;
+                $proyecto = $this->app->get_result('container.proyectos_pacc', array('6390' => $code), array());
+                //var_dump($proyecto);exit;
                 $cpData['title'] = '';
                 $result = $this->prepare($this->inventory_model->get($type, $code));
                 if ($result) {
                     unset($result['_id']);
+                    $cpData['estado'] = $proyecto['6225'];
+                    $cpData['6404'] = $proyecto['6404'];
                     $cpData['result'] = $result;
                     $this->parser->parse('info_table', $cpData);
                 } else {
@@ -150,17 +152,16 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
-                $proyecto=$this->app->get_result('container.proyectos_pacc',array('6390'=>$code),array());
-                var_dump($proyecto);exit;
+                //var_dump($proyecto);
+//                exit;
                 $result = $this->prepare($this->inventory_model->get($type, $code));
-                if ($result) {
-                    unset($result['_id']);
-                    $cpData['result'] = $result;
-                    $this->parser->parse('info_table', $cpData);
-                } else {
-                    $cpData['msg'] = "No se encontraron resultados para: $type::$code";
-                    $this->parser->parse('error', $cpData);
-                }
+                //if ($result) {
+                unset($result['_id']);
+
+                $cpData['pacc_data']=$this->get_pacc_data($code);
+                        
+                $cpData['result'] = $result;
+                $this->parser->parse('info_table', $cpData);
                 break;
 
             default:
@@ -182,6 +183,35 @@ class Inventory extends MX_Controller {
                 }
                 break;
         }
+    }
+
+    function get_pacc_data($code) {
+        $proyectos = $this->app->get_result('container.proyectos_pacc', array('6390' => $code), array());
+        $proyecto = $proyectos->getNext();
+        if (isset($proyecto['6225'])) {
+            if (isset($proyecto['6225'][0])) {
+                //tomaopciones estado
+                $ops = $this->app->get_ops(648);
+                $cpData['estado'] = isset($ops[$proyecto['6225'][0]]) ? $ops[$proyecto['6225'][0]] : $proyecto['6225'][0] . ' -> ???';
+            }
+        }
+        //----evaluador admin
+        if (isset($proyecto['6473'])) {
+            if (isset($proyecto['6473'][0])) {
+                $this_user = $this->user->get_user($proyecto['6473'][0]);
+                $cpData['e_admin'] = $this_user->name . ' ' . $this_user->lastname;
+            }
+        } else {
+            $cpData['e_admin'] = '';
+        }
+        //----Evaluador técnico
+        if (isset($proyecto['6404'])) {
+            if (isset($proyecto['6404'][0])) {
+                $this_user = $this->user->get_user($proyecto['6404'][0]);
+                $cpData['e_tecnico'] = $this_user->name . ' ' . $this_user->lastname;
+            }
+        }
+        return $cpData;
     }
 
     function prepare($arr) {

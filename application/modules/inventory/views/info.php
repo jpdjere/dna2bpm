@@ -5,20 +5,20 @@
         <h1 id="project_title">
             <!--<img  class="img-polaroid" src="{base_url}qr/gen_url/{module_url_encoded}/6/L" width="160" height="160"/>-->  
             {title}
-            <span class="btn btn-large btn-success">
-                {type}::{code}
-            </span>
-
         </h1>
     </header>
 </div>
-<div id="info">
-    ESTADO: {estado}
-    <br/>
-    EVALUADOR TECNICO: {6404}
-    <br/>
-    EVALUADOR ADMINISTRATIVO: {6743}
-    <br/>
+<div id="info" class="text-left well">
+    <h2>
+        {type}::{code}
+    </h2>
+    
+ESTADO: {pacc_data estado}
+<br/>
+EVALUADOR TECNICO: {pacc_data e_tecnico}
+<br/>
+EVALUADOR ADMINISTRATIVO: {pacc_data e_admin}
+<br/>
 </div>
 
 <table class="table table-striped">
