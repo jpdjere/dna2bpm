@@ -307,8 +307,10 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Seleccione la Provincia',
                     listeners: {
                         change: function(me, newValue, oldValue, eOpts) {
-                            if (newValue != null) {
+                            //if (newValue != null) {
+                            if (me.value != null) {
                                 PartidoStore.clearFilter();
+                                /*
                                 PartidoStore.filters.removeAtKey('idrel');
                                 var myfilter = new Ext.util.Filter({
                                     filterFn: function(rec, anymatch) {
@@ -316,6 +318,8 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                                     }
                                 });
                                 PartidoStore.filter(myfilter);
+                                */
+                                PartidoStore.filter('idrel',me.value);
                             }
                         }
                     }
