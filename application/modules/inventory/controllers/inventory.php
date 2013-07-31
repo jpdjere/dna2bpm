@@ -110,6 +110,7 @@ class Inventory extends MX_Controller {
           EVALUADOR TECNICO: 6096
           EBALUADOR ADMINISTRATIVO: 7106
          */
+        $this->load->model('app');
         $segments = $this->uri->segment_array();
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
@@ -128,6 +129,8 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
+                $proyecto=$this->app->get_result('container.proyectos_pacc',array('6390'=>$code),array());
+                var_dump($proyecto);exit;
                 $cpData['title'] = '';
                 $result = $this->prepare($this->inventory_model->get($type, $code));
                 if ($result) {
@@ -147,6 +150,8 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
+                $proyecto=$this->app->get_result('container.proyectos_pacc',array('6390'=>$code),array());
+                var_dump($proyecto);exit;
                 $result = $this->prepare($this->inventory_model->get($type, $code));
                 if ($result) {
                     unset($result['_id']);
@@ -173,8 +178,7 @@ class Inventory extends MX_Controller {
                     $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
                 } else {
                     $cpData['content'] .= "No se encontraron resultados para: $type::$code";
-                    $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
-                    //$this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
+                    $this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
                 }
                 break;
         }
