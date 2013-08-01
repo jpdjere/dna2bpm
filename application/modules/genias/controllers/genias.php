@@ -56,12 +56,17 @@ class Genias extends MX_Controller {
         foreach($genias['genias'] as $mygenia){
            $customData['goal_cantidad'][(string)$mygenia['_id']]=0;
            $customData['goal_cumplidas'][(string)$mygenia['_id']]=0;
-        }
-        if($this->idu==-1108639299){//
+            if($this->idu==-1108639299){//
             var_dump($customData);
-            exit();
+            echo $mygenia['_id'];
+            echo "<br>";
+            }
         }
-        
+
+            if($this->idu==-1108639299){//
+
+            exit();
+            }    
         
         $goals = $this->genias_model->get_goals((int) $this->idu);
 
