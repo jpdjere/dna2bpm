@@ -918,8 +918,8 @@ class Genias extends MX_Controller {
                 $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
             }
         }
-        var_dump($query);
-        var_dump($empresas);
+        //var_dump($query);
+        echo count($empresas);
 
         exit();
         $rtnArr = array();
