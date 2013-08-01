@@ -1,6 +1,16 @@
-<span class="btn btn-large btn-success">
-    {type}::{code}
-</span>
+<div id="info" class="text-left well">
+    <h2>
+        {type}::{code}
+    </h2>
+
+    ESTADO: {pacc_data estado}
+    <br/>
+    EVALUADOR TECNICO: {pacc_data e_tecnico}
+    <br/>
+    EVALUADOR ADMINISTRATIVO: {pacc_data e_admin}
+    <br/>
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>

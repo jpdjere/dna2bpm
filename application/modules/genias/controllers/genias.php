@@ -65,12 +65,12 @@ class Genias extends MX_Controller {
         foreach ($goals as $goal) {
             
             // === Nombre del proyecto y select de proyectos para las metas
-            $goal['select_project']="";
-            foreach ($customData['projects'] as $current) {           
-                if ($current['id'] == $goal['proyecto']){
+            $goal['select_project'] = "";
+            foreach ($customData['projects'] as $current) {
+                if ($current['id'] == $goal['proyecto']) {
                     $goal['proyecto_name'] = $current['name'];
                     $goal['select_project'].="<option  selected='selected' value='{$current['id']}' >{$current['name']}</option>";
-                }else{
+                } else {
                     $goal['select_project'].="<option  value='{$current['id']}' >{$current['name']}</option>";
                 }
             }
@@ -95,7 +95,7 @@ class Genias extends MX_Controller {
                 //if ($goal['desde'] >= date('Y-m-01') and $goal['hasta'] <= date('Y-m-t')) {
                 if (true) {
                     $customData['goal_cantidad_total']+=$goal['cantidad'];
-                    $customData['goal_cumplidas_total']+=count($goal['cumplidas']);       
+                    $customData['goal_cumplidas_total']+=count($goal['cumplidas']);
 
                     $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
                     $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
@@ -109,8 +109,8 @@ class Genias extends MX_Controller {
  
                 
             // --- 
-            $owner = (array)$this->user->get_user($goal['idu']);
-            $goal['owner'] = (!empty($owner))?("{$owner['lastname']}, {$owner['name']}"):("Desconocido");
+            $owner = (array) $this->user->get_user($goal['idu']);
+            $goal['owner'] = (!empty($owner)) ? ("{$owner['lastname']}, {$owner['name']}") : ("Desconocido");
             $goal['cumplidas_count'] = count($goal['cumplidas']);
 
             //Conteo de metas
@@ -119,10 +119,13 @@ class Genias extends MX_Controller {
             $mygoals[] = $goal;
             //var_dump($goal);
         }
-        $ratio=$customData['goal_cantidad_total']-$customData['goal_cumplidas_total'];
-        if($ratio>=($customData['goal_cantidad_total']*.7)) $customData['resumen_class']='alert-success';
-        if($ratio>=($customData['goal_cantidad_total']*.3) and $ratio<=($customData['goal_cantidad_total']*.7)) $customData['resumen_class']='alert-block';
-        if($ratio<=($customData['goal_cantidad_total']*.3)) $customData['resumen_class']='alert-error';
+        $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
+        if ($ratio >= ($customData['goal_cantidad_total'] * .7))
+            $customData['resumen_class'] = 'alert-success';
+        if ($ratio >= ($customData['goal_cantidad_total'] * .3) and $ratio <= ($customData['goal_cantidad_total'] * .7))
+            $customData['resumen_class'] = 'alert-block';
+        if ($ratio <= ($customData['goal_cantidad_total'] * .3))
+            $customData['resumen_class'] = 'alert-error';
         //var_dump($customData);
         
         // Tabs Genias Counter
@@ -268,8 +271,8 @@ class Genias extends MX_Controller {
         // Todo 
         //echo $id_goal;
     }
-    
-    function update_goal(){
+
+    function update_goal() {
         $this->genias_model->update_goal();
     }
 
@@ -452,7 +455,7 @@ class Genias extends MX_Controller {
         $cpData['title'] = 'Escenario Pyme.';
 
 
-        $cpData['js'] = array(            
+        $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
             $this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
@@ -492,7 +495,7 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
             $this->module_url . 'assets/jscript/empresasAlt/visitas.grid.js' => 'Visitas Empresas',
-            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',           
+            $this->module_url . 'assets/jscript/empresasAlt/empresas.form.js' => 'Form Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.tab.js' => 'ViewPort',
         );
 
@@ -722,9 +725,9 @@ class Genias extends MX_Controller {
                             $query[$key] = array();
                             $query[$key]['$in'] = array($original, $value);
                         }
-                    }else{
+                    } else {
                         if (is_array($value)) {
-                            $query[$key]['$in']=$value;
+                            $query[$key]['$in'] = $value;
                         } else {
                             $query[$key] = $value;
                         }
@@ -802,8 +805,7 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
-    
-    
+
     function Encuestas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
@@ -830,9 +832,22 @@ class Genias extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
-   
 
     // ======= DATOS GENIAS ======= //
+
+    function make_partidos() {
+        $debug = false;
+        
+        $partidos = $this->app->get_option(58);
+        $rtnArr['totalCount'] = count($partidos['data']);
+        $rtnArr['rows'] = $partidos['data'];
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            echo json_encode($rtnArr);
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
 
     function get_genia($attr = null) {
 
@@ -843,7 +858,6 @@ class Genias extends MX_Controller {
             return $genia;
         }
     }
-    
 
 }
 
