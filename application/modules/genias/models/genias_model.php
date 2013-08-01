@@ -188,8 +188,9 @@ class Genias_model extends CI_Model {
             , '7665'    // Registro �nico de Organizaciones de Responsabilidad Social (idopcion = 715)
         );
         $container = 'container.empresas';
+        $sort=array('$natural'=>-1);
         $result = $this->mongo->db->$container->find($query, $fields);
-        //$result->limit(10000);
+        $result->limit(2500)->sort($sort);
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
