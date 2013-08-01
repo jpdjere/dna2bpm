@@ -130,7 +130,7 @@ BLOC;
     <div class="row">
 
         {metas}
-                           
+        <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
         <div class="span6 meta" data-genia="{genia}"> 
             <input type="hidden" name="metaid" value="{_id}"/>
