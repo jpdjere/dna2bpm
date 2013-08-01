@@ -919,9 +919,7 @@ class Genias extends MX_Controller {
             }
         }
         var_dump($query);
-//        foreach ($empresas as $empresa){
-//        echo $empresa['1695']."<br>";
-//        }
+        var_dump($empresas);
 
         exit();
         $rtnArr = array();
