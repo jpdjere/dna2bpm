@@ -47,16 +47,23 @@ class Genias extends MX_Controller {
         $customData['projects'] = $projects['items'];
 
         $genias = $this->get_genia();
-
         $rol = $genias['rol'];
         $mygoals = array();
         $customData['goal_cantidad_total']=0;
         $customData['goal_cumplidas_total']=0;
-        $customData['goal_cantidad']=array();
-        $customData['goal_cumplidas']=array();
-        $goals = $this->genias_model->get_goals((int) $this->idu);
-        foreach ($goals as $goal) {
 
+        // Inicializo contador de metas
+        foreach($genias['genias'] as $mygenia){
+           $customData['goal_cantidad'][(string)$mygenia['_id']]=0;
+           $customData['goal_cumplidas'][(string)$mygenia['_id']]=0;
+        }
+
+        
+        
+        $goals = $this->genias_model->get_goals((int) $this->idu);
+
+        foreach ($goals as $goal) {
+            
             // === Nombre del proyecto y select de proyectos para las metas
             $goal['select_project']="";
             foreach ($customData['projects'] as $current) {           
@@ -90,15 +97,16 @@ class Genias extends MX_Controller {
                     $customData['goal_cantidad_total']+=$goal['cantidad'];
                     $customData['goal_cumplidas_total']+=count($goal['cumplidas']);       
 
-                    $customData['goal_cantidad'][$goal['genia']]=$goal['cantidad'];
-                    $customData['goal_cumplidas'][$goal['genia']]=count($goal['cumplidas']);
+                    $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
+                    $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
+
                 }
             } else {
                 $goal['status'] = 'undefined';
                 $goal['status_class'] = 'well status_null';
                 $goal['label_class'] = '';
             }
-                   
+ 
                 
             // --- 
             $owner = (array)$this->user->get_user($goal['idu']);
@@ -116,6 +124,10 @@ class Genias extends MX_Controller {
         if($ratio>=($customData['goal_cantidad_total']*.3) and $ratio<=($customData['goal_cantidad_total']*.7)) $customData['resumen_class']='alert-block';
         if($ratio<=($customData['goal_cantidad_total']*.3)) $customData['resumen_class']='alert-error';
         //var_dump($customData);
+        
+        // Tabs Genias Counter
+
+        
 
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData);

@@ -114,8 +114,26 @@ e.preventDefault();
 //    e.preventDefault();
 //});
 
- $('#dashboard_tab1 a:first').tab('show');
+$('#dashboard_tab1 a:first').tab('show');
 
+$('.nav-tabs a').click(function(e){
+    var code=$(this).attr('href').split('-');
+    if($(this).attr('href')=="#tab_resumen"){
+        $('.meta').show();
+    }else{
+      $('[data-genia]').each(function(index){
+       var genia=$(this).attr('data-genia');
+       if(genia!=code[1]){
+           $(this).hide();
+       }else{
+           $(this).show();
+       } 
+        //  alert(genia+"/"+code[1]);
+        });
+    }
+
+
+});
 
 
 });

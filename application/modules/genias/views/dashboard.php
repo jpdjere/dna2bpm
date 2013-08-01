@@ -84,7 +84,7 @@
         <ul class="nav nav-tabs" id="dashboard_tab1">
         <li class="active"><a href="#tab_resumen" data-toggle="tab">Resumen</a></li>
         {genias} 
-        <li class=""><a href="#tab_{_id}" data-toggle="tab">{nombre}</a></li>
+        <li class=""><a href="#tab-{_id}" data-toggle="tab">{nombre}</a></li>
         {/genias}
         </ul>
 
@@ -95,14 +95,29 @@
                 <strong>Sus genias tienen {goal_cumplidas_total} de {goal_cantidad_total} objetivos cumplidos.</strong> 
                 </div> 
             </div>
-        {genias} 
-            <div class="tab-pane" id="tab_{_id}">
+<!--        {genias} 
+            <div class="tab-pane" id="tab-{_id}">
                 <div class="alert" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Sus genias tienen {goal_cumplidas {_id}}  de {goal_cantidad {_id}} objetivos cumplidos.</strong> 
+                <strong>Sus genias tienen {goal_cumplidas} {/goal_cumplidas}  de {goal_cantidad} objetivos cumplidos. {_id}</strong> 
+                
                 </div>
             </div> 
-        {/genias} 
+        {/genias} -->
+        <?php
+        foreach($genias as $genia){     
+echo <<<BLOC
+            <div class="tab-pane" id="tab-{$genia['_id']}">
+                <div class="alert" id="{$genia['_id']}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Sus genias tienen {$goal_cumplidas[(string)$genia['_id']]} de {$goal_cantidad[(string)$genia['_id']]} objetivos cumplidos.</strong> 
+                
+                </div>
+            </div> 
+BLOC;
+}
+        
+        ?>
         </div>
     {/if}
        
@@ -117,7 +132,7 @@
         {metas}
                            
         <!-- <div class="span6 {status_class}">  -->
-        <div class="span6 meta" > 
+        <div class="span6 meta" data-genia="{genia}"> 
             <input type="hidden" name="metaid" value="{_id}"/>
             <div class="well">
                 <!-- Nombre Proyecto -->
@@ -159,6 +174,9 @@
                             </button>
                                 {if {rol}=='coordinador'}
                                     {if {status_class} == 'well status_open'}
+<!--                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
+                                               <i class="icon-thumbs-up-alt"></i> Aprobar
+                                       </button>-->
                                         <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>
