@@ -918,9 +918,10 @@ class Genias extends MX_Controller {
                 $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
             }
         }
-        echo var_dump($provincias);
-        echo var_dump($partidos);
-        echo $this->idu;
+        foreach ($empresas as $empresa){
+        echo $empresa['1695']."<br>";
+        }
+
         exit();
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
