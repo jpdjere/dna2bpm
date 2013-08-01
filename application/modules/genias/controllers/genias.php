@@ -920,6 +920,7 @@ class Genias extends MX_Controller {
         }
         echo var_dump($provincias);
         echo var_dump($partidos);
+        echo $this->idu;
         exit();
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
