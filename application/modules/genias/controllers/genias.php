@@ -59,7 +59,7 @@ class Genias extends MX_Controller {
         }
 
             if($this->idu==-1108639299){//
-            var_dump($genias['goal_cumplidas']);
+            var_dump($customData['goal_cumplidas']);
            // exit();
             }    
         
