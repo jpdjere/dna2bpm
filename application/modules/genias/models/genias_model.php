@@ -322,5 +322,11 @@ class Genias_model extends CI_Model {
 
         return false;
     }
+    
+    function get_genias() {
+        $container = 'container.genias';
+        $result = $this->mongo->db->$container->find();
+        return $result;
+    }
 
 }
