@@ -96,6 +96,11 @@ class Genias_model extends CI_Model {
         $this->lang->load('calendar', $this->config->item('languaje'));
 
         $genias = $this->get_genia($idu);
+        if($this->idu==-1108639299){//
+            var_dump($genias);
+           // exit();
+            } 
+            
         $idus = array($idu);
         // Por cada Genia
 
