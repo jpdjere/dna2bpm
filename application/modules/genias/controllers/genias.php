@@ -962,8 +962,7 @@ class Genias extends MX_Controller {
                 }
             }
         }
-var_dump($query);
-exit();
+
         $this->load->model('app');
         $debug = false;
         $compress = false;
@@ -981,6 +980,9 @@ exit();
         }
 
         $empresas = $this->genias_model->get_empresas($query);
+        
+        echo count($empresas);
+        exit();
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
             if (isset($thisEmpresa[1699])) {
