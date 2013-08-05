@@ -35,7 +35,7 @@ $(document).ready(function(){
     }
     $('#map_canvas').gmap(options).bind('init',function(){
         LoadGenias();
-        LoadDNA2();
+       // LoadDNA2();
     });
     $('#mapGenias').on('click',ViewGenias);
     $('#mapDNA2').on('click',ViewDNA2);
