@@ -962,7 +962,8 @@ class Genias extends MX_Controller {
                 }
             }
         }
-
+var_dump($query);
+exit();
         $this->load->model('app');
         $debug = false;
         $compress = false;
