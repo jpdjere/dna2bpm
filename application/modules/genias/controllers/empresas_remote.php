@@ -9,7 +9,7 @@ class Empresas_remote extends MX_Controller {
         parent::__construct();
         $this->load->library('parser');
         $this->load->model('user');
-        $this->load->model('app');          
+        $this->load->model('app');
         $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
@@ -29,14 +29,14 @@ class Empresas_remote extends MX_Controller {
         $input = json_decode(file_get_contents('php://input'));
 
         foreach ($input as $thisform) {
-
+            $nuevo = ($thisform->id == null || strlen($thisform->id) < 6 );
             /* GENERO ID */
-            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;            
-            
+            $id = ($nuevo) ? $this->app->genid($container) : $thisform->id;
+
             $thisform->status = 'activa';
             $thisform->origen = 'genia2013';
             $thisform->origenGenia = (int) ($this->idu);
-            
+
             /* CHECKEO CUIT */
             $queryCuit = array('1695' => $thisform->{1695});
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
@@ -51,7 +51,9 @@ class Empresas_remote extends MX_Controller {
             $getTask = (int) $thisform->task;
             /* Lo paso como Objeto */
             $thisform = (array) $thisform;
-            $thisform['idu'] = (int) ($this->idu);
+            /* solo pongo idu si es nuevo */
+            if ($nuevo)
+                $thisform['idu'] = (int) ($this->idu);
 
             /* Insert/Update dato de la empresa */
             $result = $this->app->put_array($id, $container, $thisform);
@@ -61,7 +63,7 @@ class Empresas_remote extends MX_Controller {
                 $idTask = ($getTask == null || (int) ($getTask) < 6) ? $this->app->genid($containerTask) : $getTask;
                 $queryTask = array('finalizada' => 1);
                 $result = $this->app->put_array($idTask, $containerTask, $queryTask);
-                
+
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
