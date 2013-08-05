@@ -336,7 +336,7 @@ class Genias_model extends CI_Model {
     
     function get_empresas2($query) {
         $rtn = array();
-        $query['status'] = 'activa';
+        //$query['status'] = 'activa';
         $fields = array('id',
             'status'
             , '1693'  //     Nombre de la empresa
