@@ -49,25 +49,25 @@ class Genias extends MX_Controller {
         $genias = $this->get_genia();
         $rol = $genias['rol'];
         $mygoals = array();
-        $customData['goal_cantidad_total']=0;
-        $customData['goal_cumplidas_total']=0;
+        $customData['goal_cantidad_total'] = 0;
+        $customData['goal_cumplidas_total'] = 0;
 
         // Inicializo contador de metas
         $genias_list = $this->genias_model->get_genias();
-        foreach($genias_list as $mygenia){
-           $customData['goal_cantidad'][(string)$mygenia['_id']]=0;
-           $customData['goal_cumplidas'][(string)$mygenia['_id']]=0;
+        foreach ($genias_list as $mygenia) {
+            $customData['goal_cantidad'][(string) $mygenia['_id']] = 0;
+            $customData['goal_cumplidas'][(string) $mygenia['_id']] = 0;
         }
 
 //           if($this->idu==-1108639299){//
 //            var_dump($customData['goal_cumplidas']);
 //            exit();
 //           } 
-        
+
         $goals = $this->genias_model->get_goals((int) $this->idu);
 
         foreach ($goals as $goal) {
-            
+
             // === Nombre del proyecto y select de proyectos para las metas
             $goal['select_project'] = "";
             foreach ($customData['projects'] as $current) {
@@ -103,15 +103,14 @@ class Genias extends MX_Controller {
 
                     $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
                     $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
-                    
                 }
-            } else {    
+            } else {
                 $goal['status'] = 'undefined';
                 $goal['status_class'] = 'well status_null';
                 $goal['label_class'] = '';
             }
- 
-                
+
+
             // --- 
             $owner = (array) $this->user->get_user($goal['idu']);
             $goal['owner'] = (!empty($owner)) ? ("{$owner['lastname']}, {$owner['name']}") : ("Desconocido");
@@ -131,10 +130,9 @@ class Genias extends MX_Controller {
         if ($ratio <= ($customData['goal_cantidad_total'] * .3))
             $customData['resumen_class'] = 'alert-error';
         //var_dump($customData);
-        
         // Tabs Genias Counter
 
-        
+
 
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData);
@@ -404,6 +402,7 @@ class Genias extends MX_Controller {
             $this->module_url . 'assets/jscript/map/map.json.js' => 'Load Json Map',
         );
         $url = $this->module_url . 'assets/json/empresasGenia.json';
+        $url = $this->module_url . 'empresas_mapa';
         $customData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
@@ -699,6 +698,86 @@ class Genias extends MX_Controller {
         $this->output->enable_profiler(TRUE);
     }
 
+    function Empresas_mapa($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
+        $provincias = array();
+        foreach ($genias['genias'] as $thisGenia) {
+            if (isset($thisGenia['query_empresas'])) {
+                foreach ($thisGenia['query_empresas'] as $key => $value) {
+                    //---me gurado provincias para filtrar partidos
+                    if ($key == 4651) {
+                        $provincias[] = $value;
+                    }
+//                    if (isset($query[$key])) {
+//                        if (is_array($query[$key])) {
+//                            array_push($query[$key]['$in'], $value);
+//                        } else {
+//                            $original = $query[$key];
+//                            $query[$key] = array();
+//                            $query[$key]['$in'] = array($original, $value);
+//                        }
+//                    } else {
+//                        $query[$key] = $value;
+//                    }
+                    if (isset($query[$key])) {
+                        if (is_array($query[$key])) {
+                            array_push($query[$key]['$in'], $value);
+                        } else {
+                            $original = $query[$key];
+                            $query[$key] = array();
+                            $query[$key]['$in'] = array($original, $value);
+                        }
+                    } else {
+                        if (is_array($value)) {
+                            $query[$key]['$in'] = $value;
+                        } else {
+                            $query[$key] = $value;
+                        }
+                    }
+                }
+            }
+        }
+        $query = array(); //----dps lo sacamos
+        $query['$and'] = array(
+            array('7819'=>array('$exists' => true)),
+            array('7819'=>array('$ne' => '')),
+        );
+
+        //echo json_encode($query);exit;
+        $this->load->model('app');
+        $debug = false;
+        $compress = false;
+
+
+        $empresas = $this->genias_model->get_empresas($query);
+        $rtnArr = array();
+        foreach ($empresas as $empresa) {
+            $rtnArr['markers'][] = array(
+                "latitude" => $empresa['7820'],
+                "longitude" => $empresa['7819'],
+                "title" => $empresa['1693'],
+                "tags" => array("genia"),
+                "icon" => "factory_marker.png",
+                "content" =>$empresa['1693'].'<br/>'. $empresa['1715']
+            );
+        }
+        //var_dump($empresas);
+        //$rtnArr['totalCount'] = count($empresas);
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            if ($compress) {
+                header('Content-Encoding: gzip');
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
+            } else {
+                echo json_encode($rtnArr);
+            }
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
+
     function Empresas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
@@ -841,7 +920,7 @@ class Genias extends MX_Controller {
 
     function make_partidos() {
         $debug = false;
-        
+
         $partidos = $this->app->get_option(58);
         $rtnArr['totalCount'] = count($partidos['data']);
         $rtnArr['rows'] = $partidos['data'];
@@ -862,9 +941,6 @@ class Genias extends MX_Controller {
             return $genia;
         }
     }
-    
-   
-    
 
 }
 

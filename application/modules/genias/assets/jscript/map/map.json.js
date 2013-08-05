@@ -35,7 +35,7 @@ $(document).ready(function(){
     }
     $('#map_canvas').gmap(options).bind('init',function(){
         LoadGenias();
-        LoadDNA2();
+       // LoadDNA2();
     });
     $('#mapGenias').on('click',ViewGenias);
     $('#mapDNA2').on('click',ViewDNA2);
@@ -65,7 +65,7 @@ var ViewDNA2=function(){
 }
 var LoadGenias=function (){
     map=$( $('#map_canvas').gmap('get', 'map'));
-    url=globals.module_url+'assets/json/empresasGenia.json';
+    url=globals.json_url;
     LoadJSON(url);
   
 }
