@@ -375,7 +375,7 @@ class Genias_model extends CI_Model {
         $container = 'container.empresas';
         $sort=array('origenGenia'=>1);
         $result = $this->mongo->db->$container->find($query, $fields);
-        echo $result->count();
+        echo "--".$result->count();
         exit();
         $result->limit(2500)->sort($sort);
         foreach ($result as $empresa) {
