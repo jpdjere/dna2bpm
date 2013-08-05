@@ -302,7 +302,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     //fieldLabel: 'Provincia',
                     store: ProvinciaStore,
                     queryMode: 'local',
-                    forceSelection : true,
+                    editable:false,
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione la Provincia',
@@ -333,9 +333,9 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     //fieldLabel: 'Partido',
                     store: PartidoStore,
                     queryMode: 'local',
+                    editable:false,
                     displayField: 'text',
                     valueField: 'value',
-                    forceSelection : true,
                     emptyText: 'Seleccione el Partido'
                             //,editable: false
 
