@@ -759,7 +759,7 @@ class Genias extends MX_Controller {
                 "title" => $empresa['1693'],
                 "tags" => array("genia"),
                 "icon" => "factory_marker.png",
-                "content" => $empresa['1715']
+                "content" =>$empresa['1693'].'<br/>'. $empresa['1715']
             );
         }
         //var_dump($empresas);
