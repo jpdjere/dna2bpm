@@ -335,6 +335,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     queryMode: 'local',
                     displayField: 'text',
                     valueField: 'value',
+                    forceSelection : true,
                     emptyText: 'Seleccione el Partido'
                             //,editable: false
 
