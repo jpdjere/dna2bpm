@@ -96,19 +96,27 @@ class Genias_model extends CI_Model {
         $this->lang->load('calendar', $this->config->item('languaje'));
 
         $genias = $this->get_genia($idu);
-            
-        $idus = array($idu);
-        // Por cada Genia
 
+        $lista_genias=array();   
+        //$idus = array($idu);
+        
         if ($genias !== false) { // 
             foreach ($genias['genias'] as $genia) {
-                if ($genias['rol'] == 'coordinador') {
-                    //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
-                    $idus = array_merge($genia['users'], $idus);
-                }
+//                if ($genias['rol'] == 'coordinador') {
+//                    //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
+//                    //$idus = array_merge($genia['users'], $idus);
+//                }
+                $lista_genias[]=(string)$genia['_id'];
             }
         }
-        $query = array('idu' => array('$in' => $idus));
+        
+
+        if ($genias['rol'] == 'coordinador') {
+        // Coordinador
+        $query = array('genia' => array('$in' => $lista_genias));          
+        }else{
+        $query = array('idu' => $idu);
+        }
         $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
         $result = array();
         while ($mygoals = $goals->getnext()) {
@@ -122,6 +130,7 @@ class Genias_model extends CI_Model {
         }
 
         return $result;
+
     }
 
     function get_case($case) {
@@ -129,6 +138,7 @@ class Genias_model extends CI_Model {
         $container = 'case';
         $result = $this->mongo->db->$container->findOne($query);
         return $result;
+        
     }
 
     // ======= CONFIG ======= //
@@ -284,7 +294,9 @@ class Genias_model extends CI_Model {
     }
 
     // ======= USER CONTROL ======= //
-
+    
+    //==== Devuelve las genias del usuario====/
+    
     function get_genia($idu) {
         $container = 'container.genias';
 
@@ -323,6 +335,7 @@ class Genias_model extends CI_Model {
         return false;
     }
     
+    //==== Devuelve todas las genias====//
     function get_genias() {
         $container = 'container.genias';
         $result = $this->mongo->db->$container->find();
