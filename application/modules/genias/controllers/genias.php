@@ -174,7 +174,7 @@ class Genias extends MX_Controller {
             $customData['mymsgs'][] = $msg;
         }
 
-        $this->render('dna2/inbox', $customData);
+        $this->render('inbox', $customData);
     }
 
     function render($file, $customData) {

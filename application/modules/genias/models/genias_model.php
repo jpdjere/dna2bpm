@@ -96,21 +96,13 @@ class Genias_model extends CI_Model {
         $this->lang->load('calendar', $this->config->item('languaje'));
 
         $genias = $this->get_genia($idu);
-
         $lista_genias=array();   
-        //$idus = array($idu);
-        
+    
         if ($genias !== false) { // 
             foreach ($genias['genias'] as $genia) {
-//                if ($genias['rol'] == 'coordinador') {
-//                    //$query = array('idu' => array('$in'=>$genia['users']),'idu' => (double) $idu);
-//                    //$idus = array_merge($genia['users'], $idus);
-//                }
                 $lista_genias[]=(string)$genia['_id'];
             }
         }
-        
-
         if ($genias['rol'] == 'coordinador') {
         // Coordinador
         $query = array('genia' => array('$in' => $lista_genias));          
