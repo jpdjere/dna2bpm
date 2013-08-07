@@ -30,6 +30,15 @@ class Empresas_remote extends MX_Controller {
 
         foreach ($input as $thisform) {
             $nuevo = ($thisform->id == null || strlen($thisform->id) < 6 );
+            /* CHECKEO CUIT */
+            $queryCuit = array('1695' => $thisform->{1695});
+            $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
+            if ($resultCuit['id'] != null) {
+                if ($thisform->{1695} != null) {
+                    $id = $resultCuit['id'];
+                    $nuevo = false;
+                }
+            }
             /* GENERO ID */
             $id = ($nuevo) ? $this->app->genid($container) : $thisform->id;
             unset($thisform->id);
@@ -37,15 +46,6 @@ class Empresas_remote extends MX_Controller {
             $thisform->origen = 'genia2013';
             $thisform->origenGenia = (int) ($this->idu);
 
-            /* CHECKEO CUIT */
-            $queryCuit = array('1695' => $thisform->{1695});
-            $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
-
-            if ($resultCuit['id'] != null) {
-                if ($thisform->{1695} != null) {
-                    $id = $resultCuit['id'];
-                }
-            }
 
             /* IDENTIFICO TAREA */
             $getTask = (int) $thisform->task;
