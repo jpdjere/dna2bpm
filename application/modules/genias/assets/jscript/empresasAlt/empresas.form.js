@@ -40,6 +40,8 @@ var SearchEmpresa = function(me) {
             }
 
         } else {
+            record = Ext.create('EmpresaModel', {1695:val});
+            EmpresaForm.loadRecord(record);
             EmpresaForm.setLoading(false);
 
         }
@@ -154,7 +156,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             //var n = d.toISOString();            
             if (dataEmpresa['1695']) {
                 visitaRecord = Ext.create('visitaModel', {
-                    fecha: data['fecha'],//n,
+                    fecha: data['fecha'], //n,
                     cuit: dataEmpresa['1695'],
                     nota: data['nota'],
                     tipo: data['tipovisita'],
@@ -302,7 +304,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     //fieldLabel: 'Provincia',
                     store: ProvinciaStore,
                     queryMode: 'local',
-                    editable:false,
+                    editable: false,
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione la Provincia',
@@ -312,15 +314,15 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                             if (me.value != null) {
                                 PartidoStore.clearFilter();
                                 /*
-                                PartidoStore.filters.removeAtKey('idrel');
-                                var myfilter = new Ext.util.Filter({
-                                    filterFn: function(rec, anymatch) {
-                                        return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
-                                    }
-                                });
-                                PartidoStore.filter(myfilter);
-                                */
-                                PartidoStore.filter('idrel',me.value);
+                                 PartidoStore.filters.removeAtKey('idrel');
+                                 var myfilter = new Ext.util.Filter({
+                                 filterFn: function(rec, anymatch) {
+                                 return rec.get('idrel').indexOf(newValue.substr(0, 3)) > -1;
+                                 }
+                                 });
+                                 PartidoStore.filter(myfilter);
+                                 */
+                                PartidoStore.filter('idrel', me.value);
                             }
                         }
                     }
@@ -333,7 +335,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     //fieldLabel: 'Partido',
                     store: PartidoStore,
                     queryMode: 'local',
-                    editable:false,
+                    editable: false,
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione el Partido'
