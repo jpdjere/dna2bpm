@@ -32,7 +32,7 @@ class Empresas_remote extends MX_Controller {
             $nuevo = ($thisform->id == null || strlen($thisform->id) < 6 );
             /* GENERO ID */
             $id = ($nuevo) ? $this->app->genid($container) : $thisform->id;
-
+            unset($thisform->id);
             $thisform->status = 'activa';
             $thisform->origen = 'genia2013';
             $thisform->origenGenia = (int) ($this->idu);
