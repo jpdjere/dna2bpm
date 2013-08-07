@@ -740,8 +740,8 @@ class Genias extends MX_Controller {
         }
         $query = array(); //----dps lo sacamos
         $query['$and'] = array(
-            array('7819'=>array('$exists' => true)),
-            array('7819'=>array('$ne' => '')),
+            array('7819' => array('$exists' => true)),
+            array('7819' => array('$ne' => '')),
         );
 
         //echo json_encode($query);exit;
@@ -753,14 +753,16 @@ class Genias extends MX_Controller {
         $empresas = $this->genias_model->get_empresas($query);
         $rtnArr = array();
         foreach ($empresas as $empresa) {
-            $rtnArr['markers'][] = array(
-                "latitude" => $empresa['7820'],
-                "longitude" => $empresa['7819'],
-                "title" => $empresa['1693'],
-                "tags" => array("genia"),
-                "icon" => "factory_marker.png",
-                "content" =>$empresa['1693'].'<br/>'. $empresa['1715']
-            );
+            if (isset($empresa['1693'])) {
+                $rtnArr['markers'][] = array(
+                    "latitude" => $empresa['7820'],
+                    "longitude" => $empresa['7819'],
+                    "title" => $empresa['1693'],
+                    "tags" => array("genia"),
+                    "icon" => "factory_marker.png",
+                    "content" => $empresa['1693'] . '<br/>' . $empresa['1715']
+                );
+            }
         }
         //var_dump($empresas);
         //$rtnArr['totalCount'] = count($empresas);
@@ -931,9 +933,6 @@ class Genias extends MX_Controller {
             return $genia;
         }
     }
-    
-    
-    
 
 }
 
