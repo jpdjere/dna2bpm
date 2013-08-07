@@ -35,9 +35,9 @@ class Empresas_remote extends MX_Controller {
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
             if ($resultCuit['id'] != null) {
                 if ($thisform->{1695} != null) {
-                    $id = $resultCuit['id'];
-                    $nuevo = false;
-                }
+                    $thisform->id = $resultCuit['id'];
+                    $nuevo=false;
+                    }
             }
             /* GENERO ID */
             $id = ($nuevo) ? $this->app->genid($container) : $thisform->id;
