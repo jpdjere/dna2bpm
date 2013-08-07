@@ -189,6 +189,7 @@ class Genias_model extends CI_Model {
             , '7884'    // Proveedores
             , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
             , '7665'    // Registro �nico de Organizaciones de Responsabilidad Social (idopcion = 715)
+            , 'origenGenia'    // usuario que tocó la empresa
         );
         $container = 'container.empresas';
         $sort=array('origenGenia'=>1);
