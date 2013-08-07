@@ -12,7 +12,7 @@ var btnAdd = Ext.create('Ext.Action',
 
 function gridClick (view,record,item,index,e,options ){
     cuit=record.data['1695'];
-    window.location=globals.module_url+'form_empresas_alt?cuit='+cuit;
+    window.open(globals.module_url+'form_empresas_alt?cuit='+cuit,'_blank');
     return;
 }
 
