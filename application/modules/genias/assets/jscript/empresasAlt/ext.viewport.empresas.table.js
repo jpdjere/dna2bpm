@@ -16,7 +16,7 @@ Ext.onReady(function() {
                                 xtype: 'button',
                                 text: '<i class="icon-repeat"></i>',
                                 handler: function() {
-                                    mygrid.store.read();
+                                    EmpresaStore.load();
                                 }
                             },
                             btnAdd,

@@ -29,34 +29,40 @@ class Empresas_remote extends MX_Controller {
         $input = json_decode(file_get_contents('php://input'));
 
         foreach ($input as $thisform) {
-            $nuevo = ($thisform->id == null || strlen($thisform->id) < 6 );
+            
+            //$form=array_filter((array)$thisform);
+            $form= get_object_vars($thisform);
+//            var_dump('FORM',$form,'THIS-FORM',$thisform);
+            
+            $nuevo = ($form['id'] == null || strlen($form['id']) < 6 );
             /* CHECKEO CUIT */
-            $queryCuit = array('1695' => $thisform->{1695});
+            $queryCuit = array('1695' => $form['1695']);
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
             if ($resultCuit['id'] != null) {
-                if ($thisform->{1695} != null) {
-                    $thisform->id = $resultCuit['id'];
+                if ($form[1695] != null) {
+                    $form['id'] = $resultCuit['id'];
                     $nuevo=false;
                     }
             }
             /* GENERO ID */
-            $id = ($nuevo) ? $this->app->genid($container) : $thisform->id;
-            unset($thisform->id);
-            $thisform->status = 'activa';
-            $thisform->origen = 'genia2013';
-            $thisform->origenGenia = (int) ($this->idu);
+            $id = ($nuevo) ? $this->app->genid($container) : $form['id'];
+            unset($form['id']);
+            $form=array_filter($form);
+            $form['status'] = 'activa';
+            $form['origen'] = 'genia2013';
+            $form['origenGenia'] = (int) ($this->idu);
 
 
             /* IDENTIFICO TAREA */
-            $getTask = (int) $thisform->task;
+            $getTask =(isset($form['task'])) ? (int) $form['task']:null;
             /* Lo paso como Objeto */
-            $thisform = (array) $thisform;
+            $form = (array) $form;
             /* solo pongo idu si es nuevo */
             if ($nuevo)
-                $thisform['idu'] = (int) ($this->idu);
+                $form['idu'] = (int) ($this->idu);
 
             /* Insert/Update dato de la empresa */
-            $result = $this->app->put_array($id, $container, $thisform);
+            $result = $this->app->put_array($id, $container, $form);
 
             if ($result) {
                 /* Update Task */
