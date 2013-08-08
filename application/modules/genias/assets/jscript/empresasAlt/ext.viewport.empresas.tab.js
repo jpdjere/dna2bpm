@@ -22,35 +22,25 @@ Ext.onReady(function() {
                 items: [EmpresaForm]
             }, {
                 title: 'Seguimiento ',
-                items: [
-                    {
-                        layout: 'column',
+                layout: 'column',
+                //
+                items: [{
+                        title: 'Datos Visitas',
+                        columnWidth: 1/2,
+                        bodyStyle: 'padding:0 0 5px 5px',
+                        items: [VisitaForm]
+                    }, {
+                        title: 'Histórico Visitas',
+                        columnWidth: 1/2,
                         autoScroll: true,
-                        items: [{
-                                columnWidth: 1 / 2,
-                                baseCls: 'x-plain',
-                               // bodyStyle: 'padding:0 0 5px 5px',
-                                items: [{
-                                        title: 'Datos Visitas',
-                                        items: [VisitaForm]
-                                    }]
-                            }, {
-                                columnWidth: 1 / 2,
-                                baseCls: 'x-plain',
-                                bodyStyle: 'padding:0 0 0px 5px',
-                                items: [{
-                                        title: 'Histórico Visitas',
-                                        items: [VisitasGrid]
-                                    }]
-                            }]
-                    }]
-            },{
+                        bodyStyle: 'padding:0 0 0px 5px',
+                        items: [VisitasGrid]
+                    }]                       
+            }, {
                 title: 'Encuesta',
                 items: [EncuestaForm]
             }],
-        defaults: {
-            //autoScroll: false,
-            //layout: 'form', // tried with and without
+        defaults: {           
             deferredRender: false   // likewise
         }
     }
@@ -70,7 +60,7 @@ Ext.onReady(function() {
     Ext.create('Ext.Viewport', {
         id: 'main-panel',
         autoScroll: true,
-        layout: 'fit',        
+        layout: 'fit',
         items: [
             {
                 /*title:title,*/
@@ -84,12 +74,12 @@ Ext.onReady(function() {
                         </li></ul>\
                 </div>\
             </div>',
-                layout: 'fit',                
+                layout: 'fit',
                 autoScroll: true,
-                defaults: {                    
+                defaults: {
                     layout: 'anchor',
                     autoScroll: true,
-                    defaults: {                        
+                    defaults: {
                         anchor: '100%'
                     }
                 },
