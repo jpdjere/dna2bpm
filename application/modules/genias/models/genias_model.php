@@ -334,7 +334,25 @@ class Genias_model extends CI_Model {
         $result = $this->mongo->db->$container->find();
         return $result;
     }
-    
-    
+//    
+//    function touch($cuit=null,$target=false){
+//        if(!$cuit)exit();
+//
+//        $container = 'container.empresas';
+//        $update = array('$set'=>array('origenGenia'=>(int)$this->idu));
+//        $query = array('1695' => $cuit);   
+//        if(!empty($target)){
+//        // Devuelvo el array
+//        }else{
+//        //    
+//        }
+//        $this->mongo->db->$container->update($query,$update);
+//
+//    }
+//    
+    function touch(){
+        $update = array('origenGenia'=>(int)$this->idu); 
+        return $update;
+    }
 
 }

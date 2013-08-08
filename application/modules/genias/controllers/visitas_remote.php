@@ -31,7 +31,7 @@ class Visitas_remote extends MX_Controller {
             /* Lo paso como Objeto */
            $thisform = (array) $thisform;
            $thisform['idu'] = (int)($this->idu);
-          
+           $thisform['origenGenia'] = 666;
             $result = $this->app->put_array($id, $container, $thisform);
 
 

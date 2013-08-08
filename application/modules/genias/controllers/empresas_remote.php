@@ -49,9 +49,9 @@ class Empresas_remote extends MX_Controller {
             unset($form['id']);
             $form=array_filter($form);
             $form['status'] = 'activa';
-            $form['origen'] = 'genia2013';
-            $form['origenGenia'] = (int) ($this->idu);
-
+            $form['origen'] = 'genia2013';          
+            //$form['origenGenia'] = (int) ($this->idu);
+            $form['origenGenia'] = $this->genia_model->touch();
 
             /* IDENTIFICO TAREA */
             $getTask =(isset($form['task'])) ? (int) $form['task']:null;
