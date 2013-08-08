@@ -192,7 +192,7 @@ class Genias_model extends CI_Model {
             , 'origenGenia'    // usuario que tocó la empresa
         );
         $container = 'container.empresas';
-        $sort=array('origenGenia'=>1);
+        $sort=array('origenGenia'=>-1);
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2500)->sort($sort);
         foreach ($result as $empresa) {
