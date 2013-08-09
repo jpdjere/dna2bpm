@@ -25,7 +25,7 @@ Ext.onReady(function() {
                 layout: 'column',
                 //
                 items: [{
-                        title: 'Datos Visitas.',
+                        title: 'Datos Visitas',
                         columnWidth: 1/2,
                         bodyStyle: 'padding:0 0 5px 5px',
                         items: [VisitaForm]
