@@ -130,7 +130,7 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
-                $proyecto = $this->app->get_result('container.proyectos_pacc', array('6390' => $code), array());
+                $proyecto = $this->app->get_result_array('container.proyectos_pacc', array('6390' => $code), array());
                 //var_dump($proyecto);exit;
                 $cpData['title'] = '';
                 $result = $this->prepare($this->inventory_model->get($type, $code));
