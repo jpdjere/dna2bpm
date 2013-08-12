@@ -935,6 +935,10 @@ class Genias extends MX_Controller {
         }
     }
     
+    function touch(){
+        $update = array('origenGenia'=>(int)$this->idu); 
+        return $update;
+    }
 
 
 }

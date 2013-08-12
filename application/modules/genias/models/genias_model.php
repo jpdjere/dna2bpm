@@ -350,9 +350,6 @@ class Genias_model extends CI_Model {
 //
 //    }
 //    
-    function touch(){
-        $update = array('origenGenia'=>(int)$this->idu); 
-        return $update;
-    }
+
 
 }
