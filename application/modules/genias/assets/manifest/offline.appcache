@@ -2,7 +2,7 @@ CACHE MANIFEST
 # Comments are OK here
 #Generated: {fecha}
 #Spaces before comments shouldn't matter
-
+CACHE:
 #INDEX
 /dna2bpm/genias/
 
@@ -70,8 +70,6 @@ CACHE MANIFEST
 
 NETWORK: 
 # USE FROM NETWORK IF AVAILABLE
-
-CACHE:
 
 
 FALLBACK:
