@@ -171,6 +171,7 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
+                //var_dump($type,$code);
                 //---tomo valores de 
                 $result = $this->prepare($this->inventory_model->get($type, $code));
                 if ($result) {
@@ -178,7 +179,7 @@ class Inventory extends MX_Controller {
                     $cpData['result'] = $result;
                     $this->ui->compose('info', 'bootstrap.ui.php', $cpData, false, false);
                 } else {
-                    $cpData['content'] .= "No se encontraron resultados para: $type::$code";
+                    $cpData['msg'] = " No se encontraron resultados para: $type::$code";
                     $this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
                 }
                 break;
