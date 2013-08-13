@@ -533,6 +533,8 @@ class Genias extends MX_Controller {
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
+            $this->base_url . "jscript/ext/src/ux/statusbar/StatusBar.js" =>'Status Bar',
+            $this->base_url . "jscript/ext/src/ux/LiveFilterGridPanel.js" =>'Live Filter Panel',
             //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
