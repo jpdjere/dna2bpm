@@ -1,77 +1,89 @@
 CACHE MANIFEST
 # Comments are OK here
-#Generated: {fecha}
-#Spaces before comments shouldn't matter
-CACHE:
-#INDEX
-/dna2bpm/genias/
+# Generated: {fecha}
+# Version 1
+# Spaces before comments shouldn't matter
 
-#JS FILES 2013-05-011 13:00
-/dna2bpm/jscript/ext/ext-all-dev.js
+CACHE:
+#BOOTSRAP
+{module_url}assets/css/extra-icons.css
+{module_url}assets/css/custom.bootstrap.css
+{base_url}jscript/bootstrap/js/bootstrap.min.js
+{base_url}jscript/bootstrap/css/bootstrap.min.css
+{base_url}jscript/fontawesome/css/font-awesome.min.css
+{module_url}assets/jscript/fullcalendar/fullcalendar.css
+{module_url}assets/jscript/datepicker/css/datepicker.css
+{base_url}jscript/bootstrap/css/bootstrap-responsive.min.css
+{module_url}assets/jscript/datepicker/js/bootstrap-datepicker.js
+{base_url}jscript/fontawesome/font/fontawesome-webfont.woff?v=3.2.1
 
 #CSS
-/dna2bpm/jscript/fontawesome/css/font-awesome.min.css
-/dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
-/dna2bpm/css/load_mask.css
-/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all-debug.css
-/dna2bpm/genias/assets/css/custom.bootstrap.css
+{module_url}assets/css/dashboard.css
+{module_url}assets/css/genias.css
+{module_url}assets/css/extra-icons.css
+{module_url}assets/jscript/fullcalendar/fullcalendar.css
+{module_url}assets/jscript/datepicker/css/datepicker.css
 
+#EXT
+{base_url}css/load_mask.css
+{module_url}form_empresas_alt
+{base_url}jscript/ext/ext-all.js
+{base_url}jscript/ext/bootstrap.js
+{base_url}jscript/ext/ext-all-dev.js
+{module_url}assets/jscript/onlineStatus.js
+{module_url}assets/jscript/ext.settings.js
+{module_url}assets/jscript/empresas.ext.data.js
+{base_url}jscript/ext/src/ux/form/SearchField.js
+{module_url}assets/jscript/empresasAlt/btnSync.js
+{base_url}jscript/ext/src/ux/statusbar/StatusBar.js
+{base_url}jscript/ext/src/ux/LiveFilterGridPanel.js
+{module_url}assets/jscript/ext.viewport.empresas.js
+{module_url}assets/jscript/empresasAlt/visitas.grid.js
+{base_url}jscript/fontawesome/css/font-awesome.min.css
+{module_url}assets/jscript/empresasAlt/empresas.grid.js
+{module_url}assets/jscript/empresasAlt/empresas.form.js
+{base_url}jscript/ext/resources/css/ext-all-neptune-debug.css
+{module_url}assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
+{module_url}assets/jscript/empresasAlt/ext.viewport.empresas.table.js
+{base_url}jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
+{base_url}jscript/ext/resources/ext-theme-neptune/ext-theme-neptune-all-debug.css
 
-#FORM
-/dna2bpm/genias/assets/jscript/ext.data.js
-/dna2bpm/genias/assets/jscript/form.js
-/dna2bpm/genias/assets/jscript/ext.viewport.js
+#JQuery
+{module_url}assets/jscript/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css
+{module_url}assets/jscript/jquery.min.js
+{module_url}assets/jscript/fullcalendar/fullcalendar.min.js
+{module_url}assets/jscript/jquery-validate/jquery.validate.min.js
+#JS
 
-
-
-
-#Empresas JS
-/dna2bpm/jscript/ext/ext-all.js
-/dna2bpm/jscript/ext/bootstrap.js
-/dna2bpm/genias/assets/jscript/onlineStatus.js
-/dna2bpm/genias/assets/jscript/ext.settings.js
-/dna2bpm/jscript/ext/src/ux/form/SearchField.js
-/dna2bpm/genias/assets/jscript/empresas.grid.js
-/dna2bpm/genias/assets/jscript/empresas.ext.data.js
-/dna2bpm/genias/assets/jscript/empresasAlt/btnSync.js
-/dna2bpm/genias/assets/jscript/ext.viewport.empresas.js
-/dna2bpm/genias/assets/jscript/empresasAlt/visitas.grid.js
-/dna2bpm/genias/assets/jscript/empresasAlt/empresas.form.js
-/dna2bpm/genias/assets/jscript/empresasAlt/ext.viewport.empresas.tab.js
-/dna2bpm/jscript/ext/packages/ext-theme-neptune/build/ext-theme-neptune.js
-/dna2bpm/jscript/fontawesome/css/font-awesome.min.css
-/dna2bpm/jscript/ext/resources/css/ext-all-neptune-debug.css
-/dna2bpm/jscript/ext/resources/ext-theme-neptune/ext-theme-neptune-all-debug.css
-/dna2bpm/css/load_mask.css
-/dna2bpm/genias/assets/images/loader18.gif
-#CALENDAR
-#/dna2bpm/genias/assets/jscript/fullcalendar/*
-#/dna2bpm/genias/assets/jscript/fullcalendar/*
-
+{module_url}assets/jscript/onlineStatus.js
+{module_url}assets/jscript/modernizr.custom.22198.js
+{module_url}assets/jscript/dashboard.js
 #JSON
-/dna2bpm/genias/visitas
-/dna2bpm/genias/empresas
-/dna2bpm/genias/encuestas
-/dna2bpm/genias/assets/json/contact.json
-/dna2bpm/genias/assets/json/empresasDNA2.json
-/dna2bpm/genias/assets/json/genias.json
-/dna2bpm/genias/assets/json/empresasGenia.json
-/dna2bpm/genias/assets/json/partidos.json
-/dna2bpm/genias/assets/json/provincias.json
+{module_url}empresas?page=1&start=0&limit=25&sort=%5B%7B%22property%22%3A%221693%22%2C%22direction%22%3A%22ASC%22%7D%5D
+{module_url}visitas?page=1&start=0&limit=25&sort=%5B%7B%22property%22%3A%22fecha%22%2C%22direction%22%3A%22DESC%22%7D%5D
+{module_url}encuestas?page=1&start=0&limit=25
+{module_url}assets/json/genias.json?page=1&start=0&limit=25
+{module_url}assets/json/provincias.json?page=1&start=0&limit=25
+{module_url}assets/json/provincias.json?page=1&start=0&limit=25&filter=%5B%7B%22property%22%3A%22text%22%7D%5D
+{module_url}assets/json/partidos.json?page=1&start=0&limit=25&filter=%5B%7B%22property%22%3A%22text%22%7D%5D
+{module_url}assets/json/partidos.json?page=1&start=0&limit=25
+{module_url}visitas
+{module_url}empresas
+{module_url}encuestas
+{module_url}assets/json/contact.json
+{module_url}assets/json/empresasDNA2.json
+{module_url}assets/json/genias.json
+{module_url}assets/json/empresasGenia.json
+{module_url}assets/json/partidos.json
+{module_url}assets/json/provincias.json
+#IMG
+{module_url}assets/images/loader18.gif
+{base_url}jscript/ext/resources/ext-theme-neptune/images/form/exclamation.png
+{base_url}jscript/ext/resources/ext-theme-neptune/images/loadmask/loading.gif
+{base_url}jscript/ext/resources/ext-theme-neptune/images/grid/sort_asc.png
 
-#IMAGENES
-/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/exclamation.png
-/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/trigger.png
-/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/radio.png
-/dna2bpm/jscript/ext/resources/ext-theme-neptune/images/form/checkbox.png
+NETWORK:
+*
 
-#TEST
-/dna2bpm/genias/empresas?page=1&start=0&limit=25&sort=%5B%7B%22property%22%3A%221693%22%2C%22direction%22%3A%22ASC%22%7D%5D
-
-NETWORK: 
-# USE FROM NETWORK IF AVAILABLE
-
-
-FALLBACK:
-
-
+SETTINGS:
+prefer-online

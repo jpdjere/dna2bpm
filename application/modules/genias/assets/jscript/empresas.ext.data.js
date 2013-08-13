@@ -332,10 +332,10 @@ Ext.define('encuestaModel', {
                 , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
                 , '7886'        //      Modos de Financiamiento
                 , '7887'        //      Con Programas Sepyme/Ministerio de Industria
-                , '7888'        //      Recibió Capacitación Empresarial / Gerencial / Mandos Medios
-                , '7889'        //      Realizó capacitaciones al personal
-                , '7890'        //      Recibió asesoramiento técnico
-                , '7891'        //      Capacitación y/o Asistencia con Programas Sepyme / Ministerio de Industria 
+                , '7888'        //      Recibiï¿½ Capacitaciï¿½n Empresarial / Gerencial / Mandos Medios
+                , '7889'        //      Realizï¿½ capacitaciones al personal
+                , '7890'        //      Recibiï¿½ asesoramiento tï¿½cnico
+                , '7891'        //      Capacitaciï¿½n y/o Asistencia con Programas Sepyme / Ministerio de Industria 
 
     ]
 });
