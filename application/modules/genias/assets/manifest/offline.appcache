@@ -6,15 +6,15 @@ CACHE MANIFEST
 
 CACHE:
 #BOOTSRAP
-{base_url}jscript/bootstrap/css/bootstrap.min.css
-{base_url}jscript/bootstrap/css/bootstrap-responsive.min.css
-{base_url}jscript/fontawesome/css/font-awesome.min.css
 {module_url}assets/css/extra-icons.css
+{module_url}assets/css/custom.bootstrap.css
+{base_url}jscript/bootstrap/js/bootstrap.min.js
+{base_url}jscript/bootstrap/css/bootstrap.min.css
+{base_url}jscript/fontawesome/css/font-awesome.min.css
 {module_url}assets/jscript/fullcalendar/fullcalendar.css
 {module_url}assets/jscript/datepicker/css/datepicker.css
-{base_url}jscript/bootstrap/js/bootstrap.min.js
+{base_url}jscript/bootstrap/css/bootstrap-responsive.min.css
 {module_url}assets/jscript/datepicker/js/bootstrap-datepicker.js
-{module_url}assets/css/custom.bootstrap.css
 {base_url}jscript/fontawesome/font/fontawesome-webfont.woff?v=3.2.1
 
 #CSS
@@ -26,6 +26,7 @@ CACHE:
 
 #EXT
 {base_url}css/load_mask.css
+{module_url}form_empresas_alt
 {base_url}jscript/ext/ext-all.js
 {base_url}jscript/ext/bootstrap.js
 {base_url}jscript/ext/ext-all-dev.js
@@ -34,6 +35,7 @@ CACHE:
 {module_url}assets/jscript/empresas.ext.data.js
 {base_url}jscript/ext/src/ux/form/SearchField.js
 {module_url}assets/jscript/empresasAlt/btnSync.js
+{base_url}jscript/ext/src/ux/statusbar/StatusBar.js
 {base_url}jscript/ext/src/ux/LiveFilterGridPanel.js
 {module_url}assets/jscript/ext.viewport.empresas.js
 {module_url}assets/jscript/empresasAlt/visitas.grid.js
@@ -52,6 +54,8 @@ CACHE:
 {module_url}assets/jscript/fullcalendar/fullcalendar.min.js
 {module_url}assets/jscript/jquery-validate/jquery.validate.min.js
 #JS
+
+{module_url}assets/jscript/onlineStatus.js
 {module_url}assets/jscript/modernizr.custom.22198.js
 {module_url}assets/jscript/dashboard.js
 #JSON
@@ -60,6 +64,8 @@ CACHE:
 {module_url}encuestas?page=1&start=0&limit=25
 {module_url}assets/json/genias.json?page=1&start=0&limit=25
 {module_url}assets/json/provincias.json?page=1&start=0&limit=25
+{module_url}assets/json/provincias.json?page=1&start=0&limit=25&filter=%5B%7B%22property%22%3A%22text%22%7D%5D
+{module_url}assets/json/partidos.json?page=1&start=0&limit=25&filter=%5B%7B%22property%22%3A%22text%22%7D%5D
 {module_url}assets/json/partidos.json?page=1&start=0&limit=25
 {module_url}visitas
 {module_url}empresas
