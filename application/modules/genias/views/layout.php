@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="{base_url}genias/manifest/offline.appcache">
+<html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
     <head>
         <title>DNA&sup2; Admin</title>
         <meta charset="UTF-8" />

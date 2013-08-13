@@ -33,6 +33,12 @@ class Genias extends MX_Controller {
         ini_set('xdebug.var_display_max_depth', 100);
     }
 
+    function test() {
+        $customData['base_url'] = $this->base_url;
+        $customData['module_url'] =$this->module_url;
+        $this->parser->parse('manifest', $customData);
+    }
+
     function Index() {
         $customData = array();
         $customData['base_url'] = base_url();
@@ -934,12 +940,11 @@ class Genias extends MX_Controller {
             return $genia;
         }
     }
-    
-    function touch(){
-        $update = array('origenGenia'=>(int)$this->idu); 
+
+    function touch() {
+        $update = array('origenGenia' => (int) $this->idu);
         return $update;
     }
-
 
 }
 
