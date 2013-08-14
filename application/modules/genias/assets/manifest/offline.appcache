@@ -83,7 +83,7 @@ CACHE:
 {base_url}jscript/ext/resources/ext-theme-neptune/images/grid/sort_asc.png
 
 NETWORK:
-*
+http://*
 
 SETTINGS:
 prefer-online
