@@ -75,28 +75,7 @@
                 </div>
             </div>
         </div>
-        <!-- / Breadcrumbs 
-        <div class="row-fluid " >
-            <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-                  <li><span class="divider">/</span></li>
-                  <li><a href="{module_url}">Dashboard</a></li>
-                   <li><span class="divider">/</span></li>
-                  <li><a href="#">{titulo}</a></li>
-                  <li class="pull-right perfil">
-                      <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
-                  </li>
-            </ul>
-            <ul class="breadcrumb breadcrumb-genias" style="padding-top:0px">
-                <li ></li>
-                
-                {genias}  
-                <li class="pull-right "><span class="divider">/</span</li>
-                <li class="pull-right">{nombre}</li>
-                {/genias}
-        
-            </ul> 
-        </div>
-        -->
+ 
         <!-- CONTAINER -->
         {content}
         <!-- CONTAINER -->
