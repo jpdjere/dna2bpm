@@ -136,10 +136,9 @@ class Genias extends MX_Controller {
         //var_dump($customData);
         // Tabs Genias Counter
 
-//            if($this->idu==150787571){//
-//            var_dump($customData);
-//            exit();
-//           } 
+            if($this->idu==150787571){//
+            error_reporting(E_ALL);
+           } 
 
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData);
@@ -220,6 +219,8 @@ class Genias extends MX_Controller {
         $cpData['inbox_count'] = $mymgs->count();
 
         $this->ui->compose($file, 'layout.php', $cpData);
+        
+
     }
 
     //* ------ METAS ------ */
