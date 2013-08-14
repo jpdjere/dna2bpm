@@ -22,6 +22,7 @@ class manifest extends MX_Controller {
         $cpData['base_url'] = base_url();
         $cpData['module_url'] = base_url() . 'genias/';
         header("Content-Type: text/cache-manifest; charset=utf-8");
+        header('Cache-Control: no-cache,no-store');
         $content = $this->parser->parse_string($file_content, $cpData);
         echo $content;
         //readfile($file);
