@@ -46,7 +46,7 @@ class Encuestas_remote extends MX_Controller {
             $thisform = (array) $thisform;
             $thisform['idu'] = (int) ($this->idu);
             //$thisform['origenGenia'] = (int) ($this->idu);
-            //$thisform['origenGenia'] = $this->genia_model->touch(); 
+
             $result = $this->app->put_array($id, $container, $thisform);
             if ($result) {
                 $out = array('status' => 'ok');
@@ -54,6 +54,7 @@ class Encuestas_remote extends MX_Controller {
                 $out = array('status' => 'error');
             }
         }
+       // $this->genias_model->touch($form['1695']);
     }
 
     public function View() {

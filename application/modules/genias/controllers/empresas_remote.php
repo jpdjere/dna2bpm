@@ -10,6 +10,7 @@ class Empresas_remote extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('user');
         $this->load->model('app');
+        $this->load->model('genias/genias_model');
         $this->user->authorize('modules/genias/controllers/genias');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
@@ -28,8 +29,7 @@ class Empresas_remote extends MX_Controller {
 
         $input = json_decode(file_get_contents('php://input'));
 
-        foreach ($input as $thisform) {
-            
+        foreach ($input as $thisform) {            
             //$form=array_filter((array)$thisform);
             $form= get_object_vars($thisform);
 //            var_dump('FORM',$form,'THIS-FORM',$thisform);
@@ -37,6 +37,7 @@ class Empresas_remote extends MX_Controller {
             $nuevo = ($form['id'] == null || strlen($form['id']) < 6 );
             /* CHECKEO CUIT */
             $queryCuit = array('1695' => $form['1695']);
+            
             $resultCuit = $this->mongo->db->$container->findOne($queryCuit);
             if ($resultCuit['id'] != null) {
                 if ($form[1695] != null) {
@@ -50,8 +51,8 @@ class Empresas_remote extends MX_Controller {
             $form=array_filter($form);
             $form['status'] = 'activa';
             $form['origen'] = 'genia2013';          
-            $form['origenGenia'] = (int) ($this->idu);
-            //$form['origenGenia'] = $this->genias_model->touch();
+            //$form['origenGenia'] = (int) ($this->idu);
+            
 
             /* IDENTIFICO TAREA */
             $getTask =(isset($form['task'])) ? (int) $form['task']:null;
@@ -69,12 +70,14 @@ class Empresas_remote extends MX_Controller {
                 $idTask = ($getTask == null || (int) ($getTask) < 6) ? $this->app->genid($containerTask) : $getTask;
                 $queryTask = array('finalizada' => 1);
                 $result = $this->app->put_array($idTask, $containerTask, $queryTask);
-
+                 //
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
             }
+            
         }
+           $this->genias_model->touch($form['1695']);     
     }
 
     /*
@@ -99,6 +102,10 @@ class Empresas_remote extends MX_Controller {
                 'data' => $fileArrMongo
             ));
         }
+    }
+    
+    public function touch($cuit="20-21976565-8"){
+        $this->genias_model->touch($cuit);
     }
 
 }
