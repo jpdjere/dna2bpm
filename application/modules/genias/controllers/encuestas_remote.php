@@ -54,7 +54,7 @@ class Encuestas_remote extends MX_Controller {
                 $out = array('status' => 'error');
             }
         }
-       // $this->genias_model->touch($form['1695']);
+        $this->genias_model->touch($thisform['cuit']);
     }
 
     public function View() {
