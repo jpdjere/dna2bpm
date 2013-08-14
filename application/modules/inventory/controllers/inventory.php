@@ -233,7 +233,7 @@ class Inventory extends MX_Controller {
             }
             $interval = $date2->diff($date1);
             $val['days'] = $interval->format('%a');
-            $val['user_data'] = $this->user->get_user_array((double) $val['user']);
+            $val['user_data'] = $this->user->get_user_array((int) $val['user']);
 
             $group = $this->group->get($val['user_data']['idgroup']);
             $val['group'] = $group['name'];
