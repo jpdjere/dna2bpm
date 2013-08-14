@@ -136,8 +136,9 @@ class Genias extends MX_Controller {
         //var_dump($customData);
         // Tabs Genias Counter
 
-            if($this->idu==150787571){//
-           $mygoals=array();
+           if($this->idu==150787571){//
+          // $mygoals=array();
+           var_dump($mygoals);
            } 
 
         $customData['metas'] = $mygoals;
