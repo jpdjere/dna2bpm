@@ -1,5 +1,4 @@
-
-<div class="row-fluid " >
+<div class="row-fluid test" >
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
     <button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
         <i class="icon-plus"></i> Nueva meta
