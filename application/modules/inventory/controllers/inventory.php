@@ -15,7 +15,8 @@ class Inventory extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('user');
+        $this->load->model('user/user');
+        $this->load->model('user/group');
         $this->load->model('inventory_model');
         $this->user->authorize('modules/inventory');
         $this->load->library('parser');
@@ -129,14 +130,16 @@ class Inventory extends MX_Controller {
                     $cpData['type'] = $type;
                 if ($code)
                     $cpData['code'] = $code;
-                $proyecto = $this->app->get_result('container.proyectos_pacc', array('6390' => $code), array());
-                //var_dump($proyecto);exit;
+                $proyecto_m = $this->app->get_result('container.proyectos_pacc', array('6390' => $code), array());
+                $proyecto = $proyecto_m->GetNext();
                 $cpData['title'] = '';
                 $result = $this->prepare($this->inventory_model->get($type, $code));
                 if ($result) {
                     unset($result['_id']);
-                    $cpData['estado'] = $proyecto['6225'];
-                    $cpData['6404'] = $proyecto['6404'];
+                    if ($proyecto_m->count()) {
+                        $cpData['estado'] = $proyecto['6225'];
+                        $cpData['6404'] = $proyecto['6404'];
+                    }
                     $cpData['result'] = $result;
                     $this->parser->parse('info_table', $cpData);
                 } else {
@@ -158,8 +161,8 @@ class Inventory extends MX_Controller {
                 //if ($result) {
                 unset($result['_id']);
 
-                $cpData['pacc_data']=$this->get_pacc_data($code);
-                        
+                $cpData['pacc_data'] = $this->get_pacc_data($code);
+
                 $cpData['result'] = $result;
                 $this->parser->parse('info_table', $cpData);
                 break;
@@ -231,6 +234,10 @@ class Inventory extends MX_Controller {
             $interval = $date2->diff($date1);
             $val['days'] = $interval->format('%a');
             $val['user_data'] = $this->user->get_user_array((double) $val['user']);
+
+            $group = $this->group->get($val['user_data']['idgroup']);
+            $val['group'] = $group['name'];
+            $val['date'] = date('d/m/Y H:i', strtotime($val['date']));
             $rtnArr[] = $val;
         }
         return $rtnArr;

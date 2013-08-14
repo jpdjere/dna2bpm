@@ -16,6 +16,7 @@
         <tr>
             <th>#</th>
             <th>Fecha</th>
+            <th>Grupo</th>
             <th>Usuario</th>
             <th>Dias</th>
         </tr>
@@ -25,6 +26,7 @@
         <tr>
             <td>1</td>
             <td>{date}</td>
+            <td>{group}</td>
             <td>{user_data}{name} {lastname}{/user_data}</td>
             <td>{days}</td>
         </tr>

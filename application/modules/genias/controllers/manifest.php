@@ -18,8 +18,9 @@ class manifest extends MX_Controller {
         $this->load->library('parser');
         $file = getcwd() . '/application/modules/genias/assets/manifest/offline.appcache';
         $file_content = file_get_contents($file);
-        $cpData['fecha'] = date('Y-m-d H:i:s');
-
+        $cpData['fecha'] = date('Y-m-d H');
+        $cpData['base_url'] = base_url();
+        $cpData['module_url'] = base_url() . 'genias/';
         header("Content-Type: text/cache-manifest; charset=utf-8");
         $content = $this->parser->parse_string($file_content, $cpData);
         echo $content;
