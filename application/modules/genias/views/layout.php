@@ -1,6 +1,3 @@
-<?php
-//header('Cache-Control: max-age:0,must-revalidate');
-?>
 <!DOCTYPE html>
 <html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
     <head>

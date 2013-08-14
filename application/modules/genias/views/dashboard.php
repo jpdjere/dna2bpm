@@ -1,4 +1,4 @@
-<!-- Submenu / Breadcrumbs -->
+
 <div class="row-fluid " >
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
     <button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
