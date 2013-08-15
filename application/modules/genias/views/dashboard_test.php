@@ -134,6 +134,7 @@ TESTEO DE SISTEMAS SOLO MATILDE
 <?php 
 
 foreach($metas as $meta){
+break;
 ?>
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
