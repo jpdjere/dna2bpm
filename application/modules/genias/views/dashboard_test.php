@@ -179,7 +179,7 @@ if($i==10)break;
                                 <i class="<?php echo $meta['status_icon_class'];?>"></i>&nbsp;<?php echo $meta['status'];?>   
                                 <!-- Btn Aprobar -->
                             </button>
-                               <?php if($meta['roll']=='coordinador'){?>
+                               <?php if($meta['rol']=='coordinador'){?>
                                 <?php if($meta['status_class']=='well status_open'){?>
 
 <!--                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
