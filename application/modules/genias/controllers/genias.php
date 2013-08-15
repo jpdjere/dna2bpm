@@ -142,7 +142,7 @@ class Genias extends MX_Controller {
         $customData['metas'] = $mygoals;
             if($this->idu==150787571){//
           // $mygoals=array();
-          $mygoals = array_slice($mygoals, 0, 20);
+          $mygoals = array_slice($mygoals, 0, 10);
 
               
            
