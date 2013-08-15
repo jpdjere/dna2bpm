@@ -136,7 +136,7 @@ $i=0;
 
 foreach($metas as $meta){
 $i++;
-var_dump($meta);
+print_r($meta);
 echo "$i<br>";
 continue;
 ?>
