@@ -136,7 +136,7 @@ $i=0;
 
 foreach($metas as $meta){
 $i++;
-if($i==30)break;
+if($i==35)break;
 ?>
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
@@ -217,6 +217,7 @@ if($i==30)break;
         
 <?php 
 }//foreach
+echo $i;
 ?>
     </div>
     <!-- ============= metas  ============= -->
