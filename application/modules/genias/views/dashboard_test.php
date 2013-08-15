@@ -144,7 +144,7 @@ if($i==10)break;
             <div class="well">
                 <!-- Nombre Proyecto -->
                 <div class="row-fluid"> 
-                    <?php if($meta['roll']=='coordinador'){?> 
+                    <?php if($meta['rol']=='coordinador'){?> 
                     <div class="span6">  
                     <select name="metas_proyecto">  
                        <?php echo $meta['select_project'];?>
