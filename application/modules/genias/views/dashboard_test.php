@@ -1,7 +1,7 @@
 <?php
 
-echo "TEST";
-exit();
+echo "INICIO DASH";
+
 
 ?>
 
@@ -132,7 +132,7 @@ TESTEO DE SISTEMAS SOLO MATILDE
     <div class="row">
 
 <?php 
-exit();
+
 foreach($metas as $meta){
 ?>
         <!-- test  -->
