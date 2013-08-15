@@ -136,7 +136,9 @@ $i=0;
 
 foreach($metas as $meta){
 $i++;
-
+var_dump($meta);
+echo "<br>";
+continue;
 ?>
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
