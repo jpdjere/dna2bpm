@@ -132,9 +132,10 @@ TESTEO DE SISTEMAS SOLO MATILDE
     <div class="row">
 
 <?php 
-
+$i=0;
 foreach($metas as $meta){
-break;
+$i++;
+if($i==10)break;
 ?>
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
@@ -165,7 +166,7 @@ break;
                             <i class="icon-calendar" ></i> Período:
                             <?php if($meta['roll']=='coordinador'){?>                                   
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp">
-                                <input type="text" name="desde" readonly="" value="{desde_raw}"  class="span1">
+                                <input type="text" name="desde" readonly="" value="<?php echo $meta['desde_raw'];?>"  class="span1">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
                             </div>
                             <?php }else{?>
@@ -184,7 +185,7 @@ break;
 <!--                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>-->
-                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
+                                        <button class="aprobar btn btn-mini btn-success" url="<?php echo $meta['url_case'];?>" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>
                                     <?php }?>
