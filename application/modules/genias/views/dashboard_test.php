@@ -149,15 +149,15 @@ continue;
                     <?php if($rol=='coordinador'){?> 
                     <div class="span6">  
                     <select name="metas_proyecto">  
-                       <?php echo $meta['select_project'];?>
+                       <?php //echo $meta['select_project'];?>
                     </select>
                      </div>
                     <div class="span6"> 
-                        <h3><span class="pull-right"><?php echo $meta['cumplidas_count'];?> / <?php echo $meta['cantidad'];?> </span></h3>
+                        <h3><span class="pull-right"><?php //echo $meta['cumplidas_count'];?> / <?php //echo $meta['cantidad'];?> </span></h3>
                     </div>
                    <?php }else{?>
                     <div class="span12"> 
-                    <h3><?php echo $meta['proyecto_name'];?><span class="pull-right"><?php echo $meta['cumplidas_count'];?> / <?php echo $meta['cantidad'];?></span></h3>
+                    <h3><?php //echo $meta['proyecto_name'];?><span class="pull-right"><?php //echo $meta['cumplidas_count'];?> / <?php //echo $meta['cantidad'];?></span></h3>
                     </div> 
                     <?php }?>
                 </div>
@@ -168,17 +168,17 @@ continue;
                             <i class="icon-calendar" ></i> Período:
                             <?php if($rol=='coordinador'){?>                                   
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp">
-                                <input type="text" name="desde" readonly="" value="<?php echo $meta['desde_raw'];?>"  class="span1">
+                                <input type="text" name="desde" readonly="" value="<?php //echo $meta['desde_raw'];?>"  class="span1">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
                             </div>
                             <?php }else{?>
-                                <?php echo $meta['desde'];?> 
+                                <?php //echo $meta['desde'];?> 
                            <?php }?>
                         </li>
                         <li>
                             <i class="icon-eye-open" ></i> Estado: 
                             <button class="btn btn-mini <?php echo $meta['label_class'];?>">
-                                <i class="<?php echo $meta['status_icon_class'];?>"></i>&nbsp;<?php echo $meta['status'];?>   
+                                <i class="<?php //echo $meta['status_icon_class'];?>"></i>&nbsp;<?php //echo $meta['status'];?>   
                                 <!-- Btn Aprobar -->
                             </button>
                                <?php if($rol=='coordinador'){?>
@@ -194,16 +194,16 @@ continue;
                                 <?php }?>
                         </li>
                         <li>
-                            <i class="icon-user" ></i> Autor: <?php echo $meta['owner'];?>
+                            <i class="icon-user" ></i> Autor: <?php //echo $meta['owner'];?>
                         </li>
                         <li>
-                            <i class="icon-flag" ></i> Genia: <?php echo $meta['genia_nombre'];?>
+                            <i class="icon-flag" ></i> Genia: <?php //echo $meta['genia_nombre'];?>
                         </li>
                     </ul>
                 </div>
 
                 <div>
-                    <textarea rows="3" class="input-block-level" name="observaciones"><?php echo $meta['observaciones'];?> </textarea>
+                    <textarea rows="3" class="input-block-level" name="observaciones"><?php //echo $meta['observaciones'];?> </textarea>
                 </div>
 
                 <?php if($rol=='coordinador'){?>
@@ -218,7 +218,7 @@ continue;
         
 <?php 
 }//foreach
-echo $i;
+
 ?>
     </div>
     <!-- ============= metas  ============= -->
