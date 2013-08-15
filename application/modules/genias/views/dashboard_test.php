@@ -135,7 +135,7 @@ TESTEO DE SISTEMAS SOLO MATILDE
 $i=0;
 foreach($metas as $meta){
 $i++;
-if($i==26)break;
+if($i==30)break;
 ?>
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
