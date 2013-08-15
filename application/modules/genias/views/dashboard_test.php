@@ -127,13 +127,13 @@ BLOC;
         </div>
     {/if}
       
-TESTEO DE SISTEMAS SOLO MATILDE
+TESTEO DE SISTEMAS SOLO MATILDE <?php echo count($metas);?>
     <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->
     <div class="row">
 
 <?php 
 $i=0;
-echo count($metas);
+
 foreach($metas as $meta){
 $i++;
 if($i==35)break;
@@ -156,7 +156,7 @@ if($i==35)break;
                     </div>
                    <?php }else{?>
                     <div class="span12"> 
-                    <h3><?php echo $meta['proyecto_name'].$i;?><span class="pull-right"><?php echo $meta['cumplidas_count'];?> / <?php echo $meta['cantidad'];?></span></h3>
+                    <h3><?php echo $meta['proyecto_name'];?><span class="pull-right"><?php echo $meta['cumplidas_count'];?> / <?php echo $meta['cantidad'];?></span></h3>
                     </div> 
                     <?php }?>
                 </div>
