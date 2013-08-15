@@ -144,7 +144,7 @@ if($i==10)break;
             <div class="well">
                 <!-- Nombre Proyecto -->
                 <div class="row-fluid"> 
-                    <?php if($meta['rol']=='coordinador'){?> 
+                    <?php if($rol=='coordinador'){?> 
                     <div class="span6">  
                     <select name="metas_proyecto">  
                        <?php echo $meta['select_project'];?>
@@ -164,7 +164,7 @@ if($i==10)break;
                     <ul class="unstyled">
                         <li>
                             <i class="icon-calendar" ></i> Período:
-                            <?php if($meta['roll']=='coordinador'){?>                                   
+                            <?php if($rol=='coordinador'){?>                                   
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp">
                                 <input type="text" name="desde" readonly="" value="<?php echo $meta['desde_raw'];?>"  class="span1">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
@@ -179,7 +179,7 @@ if($i==10)break;
                                 <i class="<?php echo $meta['status_icon_class'];?>"></i>&nbsp;<?php echo $meta['status'];?>   
                                 <!-- Btn Aprobar -->
                             </button>
-                               <?php if($meta['rol']=='coordinador'){?>
+                               <?php if($rol=='coordinador'){?>
                                 <?php if($meta['status_class']=='well status_open'){?>
 
 <!--                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
@@ -204,7 +204,7 @@ if($i==10)break;
                     <textarea rows="3" class="input-block-level" name="observaciones"><?php echo $meta['observaciones'];?> </textarea>
                 </div>
 
-                <?php if($meta['roll']=='coordinador'){?>
+                <?php if($rol=='coordinador'){?>
                     <button class="guardar btn btn-mini btn-success" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
