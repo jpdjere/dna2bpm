@@ -138,9 +138,10 @@ class Genias extends MX_Controller {
 
            if($this->idu==150787571){//
           // $mygoals=array();
-        $mygoals = array_slice($mygoals, 1, 24);
+        $mygoals = array_slice($mygoals, 1, 25);
            var_dump($mygoals);
            } 
+           //520a9e4dc93c9d404149c4a9
 
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData);
