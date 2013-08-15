@@ -136,7 +136,7 @@ $i=0;
 
 foreach($metas as $meta){
 $i++;
-if($i==25)break;
+if($i==26)break;
 ?>
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
