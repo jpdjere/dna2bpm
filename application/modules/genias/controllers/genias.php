@@ -136,15 +136,21 @@ class Genias extends MX_Controller {
         //var_dump($customData);
         // Tabs Genias Counter
 
-           if($this->idu==150787571){//
-          // $mygoals=array();
-        $mygoals = array_slice($mygoals, 15, 25);
-           var_dump($mygoals);
-           } 
-           //520a9e4dc93c9d404149c4a9
+
+
 
         $customData['metas'] = $mygoals;
-        $this->render('dashboard', $customData);
+            if($this->idu==150787571){//
+          // $mygoals=array();
+//        $mygoals = array_slice($mygoals, 15, 25);
+
+           $this->render('dashboard_test', $customData);
+                
+           } else{
+               $this->render('dashboard', $customData); 
+           }
+           
+       
     }
 
     function Inbox() {
