@@ -138,7 +138,7 @@ class Genias extends MX_Controller {
 
            if($this->idu==150787571){//
           // $mygoals=array();
-        //$mygoals = array_slice($mygoals, 15, 40);
+        $mygoals = array_slice($mygoals, 0, 24);
            var_dump($mygoals);
            } 
 
