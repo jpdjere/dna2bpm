@@ -11,7 +11,7 @@
         <li ></li>
         
         {genias}  
-        <li class="pull-right "><span class="divider">/</span</li>
+        <li class="pull-right "><span class="divider">/</span></li>
         <li class="pull-right">{nombre}</li>
         {/genias}
 
@@ -156,14 +156,7 @@ BLOC;
                     <ul class="unstyled">
                         <li>
                             <i class="icon-calendar" ></i> Período:
-                            {if {rol}=='coordinador'}                                     
-                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp">
-                                <input type="text" name="desde" readonly="" value="{desde_raw}"  class="span1">
-                                <span class="add-on"><i class="icon-calendar"></i></span>
-                            </div>
-                            {else}
-                                {desde}  
-                            {/if}
+
                         </li>
                         <li>
                             <i class="icon-eye-open" ></i> Estado: 
