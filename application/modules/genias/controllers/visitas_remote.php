@@ -68,4 +68,26 @@ class Visitas_remote extends MX_Controller {
             ));
         }
     }
+    
+    
+    public function Remove() {
+        echo "destroy";
+        exit();
+        $container = $this->containerGenias;
+        $query = array('_id' => (int)($this->idu));
+        $resultData = $this->mongo->db->$container->find($query);
+
+        foreach ($resultData as $returnData) {
+            $fileArrMongo[] = $returnData;
+        }
+        //return $fileArrMongo;             
+
+        if (!empty($fileArrMongo)) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => "Loaded data",
+                'data' => $fileArrMongo
+            ));
+        }
+    }
 }
