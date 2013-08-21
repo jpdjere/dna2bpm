@@ -260,7 +260,7 @@ var VisitasStore = Ext.create('Ext.data.Store', {
 
 
 
-/*var storeVisita = Ext.create('Ext.data.Store', {
+var storeVisita = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
     autoLoad: false,
     autoSync: true,
@@ -307,7 +307,7 @@ var VisitasStore = Ext.create('Ext.data.Store', {
             }
         }
     }
-});*/
+});
 
 var storeVisitaOffline = Ext.create('Ext.data.Store', {
     model: 'visitaModel',
