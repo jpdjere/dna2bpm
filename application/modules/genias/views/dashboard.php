@@ -11,7 +11,7 @@
         <li ></li>
         
         {genias}  
-        <li class="pull-right "><span class="divider">/</span</li>
+        <li class="pull-right "><span class="divider">/</span></li>
         <li class="pull-right">{nombre}</li>
         {/genias}
 
