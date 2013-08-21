@@ -203,8 +203,7 @@ var storeEmpresa = Ext.create('Ext.data.Store', {
 Ext.define('visitaModel', {
     extend: 'Ext.data.Model',
     fields: [
-                '_id'        
-                , 'fecha'         // 	Fecha de la Visita 
+        'fecha'         // 	Fecha de la Visita 
                 , 'cuit'
                 , 'nota'        // 	Notas / Observaciones 
                 , 'tipovisita'  //      tipo de visita
@@ -257,9 +256,6 @@ var VisitasStore = Ext.create('Ext.data.Store', {
     }
 });
 
-
-
-
 var storeVisita = Ext.create('Ext.data.Store', {
     model: 'EmpresaModel',
     autoLoad: false,
@@ -271,14 +267,9 @@ var storeVisita = Ext.create('Ext.data.Store', {
             read: globals.module_url + 'visitas_remote/View',
             create: globals.module_url + 'visitas_remote/Insert',
             update: globals.module_url + 'visitas_remote/Insert',
-            remove: globals.module_url + 'visitas_remote/Remove'
+            destroy: '' //'genias/app/geniasdev/destroy'
         },
-        remover: {
-            type: 'json',
-            successProperty: 'success',
-            root: 'data',
-            messageProperty: 'message'
-        },reader: {
+        reader: {
             type: 'json',
             successProperty: 'success',
             root: 'data',
@@ -319,15 +310,6 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
     }
 });
 
-var storeVisitaDelete = Ext.create('Ext.data.Store', {
-    model: 'visitaModel',
-    autoLoad: true,
-    autoSync: true,
-    proxy: {
-        type: 'localstorage',
-        id: 'visitas'
-    }
-});
 
 
 /*
