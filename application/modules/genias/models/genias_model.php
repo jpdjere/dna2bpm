@@ -219,7 +219,7 @@ class Genias_model extends CI_Model {
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2000);
         foreach ($result as $visita) {
-            unset($visita['_id']);
+            //unset($visita['_id']);
             unset($visita['id']);
             $rtn[] = $visita;
         }
