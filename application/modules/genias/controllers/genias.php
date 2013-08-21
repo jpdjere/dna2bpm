@@ -31,6 +31,7 @@ class Genias extends MX_Controller {
         $this->idu = (float) $this->session->userdata('iduser');
 
         ini_set('xdebug.var_display_max_depth', 100);
+
     }
 
     function test() {
@@ -46,7 +47,7 @@ class Genias extends MX_Controller {
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-        $customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
+        //$customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
 
         // Projects
         $projects = $this->genias_model->get_config_item('projects');
@@ -69,18 +70,24 @@ class Genias extends MX_Controller {
 
 
         $goals = $this->genias_model->get_goals((int) $this->idu);
-         $i=0;
+        $i=0;
         foreach ($goals as $goal) {
-            $i++;
-            if($i>30)break;
+        $i++;
+        if($i>30)break;
+
+//            var_dump($goal);
+//            echo "<br>----<br>";
+//            continue;
             // === Nombre del proyecto y select de proyectos para las metas
             $goal['select_project'] = "";
             foreach ($customData['projects'] as $current) {
                 if ($current['id'] == $goal['proyecto']) {
                     $goal['proyecto_name'] = $current['name'];
-                    $goal['select_project'].="<option  selected='selected' value='{$current['id']}' >{$current['name']}</option>";
+                    //$goal['select_project'].="<option  selected='selected' value='{$current['id']}' >{$current['name']}</option>";
+                    $goal['select_project'].="<option value='{$current['id']}' selected>{$current['name']}</option>";
                 } else {
-                    $goal['select_project'].="<option  value='{$current['id']}' >{$current['name']}</option>";
+                    //$goal['select_project'].="<option value='{$current['id']}' >{$current['name']}</option>";
+                    $goal['select_project'].="<option value='{$current['id']}'>{$current['name']}</option>";
                 }
             }
 
@@ -139,8 +146,6 @@ class Genias extends MX_Controller {
 //        if($this->idu==150787571){//
 //        }
 
-//echo $i;
-//exit();
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData); 
        
@@ -220,7 +225,7 @@ class Genias extends MX_Controller {
         $mymgs = $this->msg->get_msgs($this->idu);
         $cpData['inbox_count'] = $mymgs->count();
 
-        $this->ui->compose($file, 'layout.php', $cpData);
+       $this->ui->compose($file, 'layout.php', $cpData);
         
 
     }
