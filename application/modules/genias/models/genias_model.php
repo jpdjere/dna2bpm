@@ -51,7 +51,7 @@ class Genias_model extends CI_Model {
         $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto);
 
 
-        $result = $this->mongo->db->$container->find($query)->sort(array('id' => -1));
+        $result = $this->mongo->db->$container->find($query)->sort(array('$natural' => -1));
 
         //var_dump($result, json_encode($result), $result->count());
         return $result;
