@@ -31,6 +31,8 @@ class Visitas_remote extends MX_Controller {
             /* Lo paso como Objeto */
            $thisform = (array) $thisform;
            $thisform['idu'] = (int)($this->idu);
+           $thisform['origenGenia'] = (int)($this->idu);
+
            $result = $this->app->put_array($id, $container, $thisform);
 
 
@@ -42,7 +44,7 @@ class Visitas_remote extends MX_Controller {
                 $out = array('status' => 'error');
             }
         }
-        $this->genias_model->touch($thisform['cuit']);
+       // $this->genias_model->touch($thisform['cuit']);
     }
   
     /*
