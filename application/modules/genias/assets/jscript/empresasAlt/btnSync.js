@@ -21,9 +21,9 @@ var btnSync = Ext.create('Ext.Action',
                 /*Datos Visitas*/
                 storeVisitaOffline.each(function(rec) {
                     rec.setDirty();
-                    VisitasStore.add(rec)
+                    storeVisita.add(rec)
                 });
-                VisitasStore.sync();
+                storeVisita.sync();
                 
                  /*Datos Encuestas*/
                 storeEncuestasOffline.each(function(rec) {
