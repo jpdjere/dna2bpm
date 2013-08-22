@@ -19,32 +19,35 @@ class Visitas_remote extends MX_Controller {
     }
 
     /* GENIAS */
-    public function Insert() {        
+    public function Insert() {
         $container = $this->containerGenias;
+
         $input = json_decode(file_get_contents('php://input'));
-        foreach ($input as $thisform) {         
-          
+
+        foreach ($input as $thisform) {
+            $form= get_object_vars($thisform);            
+            
             /* GENERO ID */
-            $id = ($thisform->id == null || strlen($thisform->id) < 6 ) ? $this->app->genid($container) : $thisform->id;           
+            $id =  $this->app->genid($container);
+            unset($form['id']);
+            $form=array_filter($form);
            
+            $form = (array) $form;            
+                $form['idu'] = (int) ($this->idu);
 
-            /* Lo paso como Objeto */
-           $thisform = (array) $thisform;
-           $thisform['idu'] = (int)($this->idu);
-           $thisform['origenGenia'] = (int)($this->idu);
+            /* Insert/Update dato */
+            $result = $this->app->put_array($id, $container, $form);
 
-           $result = $this->app->put_array($id, $container, $thisform);
-
-
-            if ($result) {               
+             if ($result) {               
                 /* Update Goal */
                 $this->genias_model->goal_update('2',$id);
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
             }
+            
         }
-       // $this->genias_model->touch($thisform['cuit']);
+           $this->genias_model->touch($form['cuit']);     
     }
   
     /*

@@ -29,11 +29,10 @@ var VisitasGrid = Ext.create('Ext.view.View',
                                         7898: record.data['7898']
                                     });                                   
 
-                                    //VisitasStore.store.data.remove(record);    
-                                    storeVisitaDelete.add(visitaRecord);
-                                    storeVisitaOffline.remove(record);
-                                    storeVisitaOffline.sync();                                    
-                                    console.log(record.data['_id']);
+                                    VisitasStore.remove(record);    
+                                    VisitasStore.update(visitaRecord);
+                                    storeVisitaDelete.add(visitaRecord); 
+                                    
                                     /*Ext.Ajax.request({
                                      disableCaching: False,
                                      url: globals.module_url + 'visitas_remote/Remove/?' + record.data['_id']

@@ -310,6 +310,15 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
     }
 });
 
+var storeVisitaDelete = Ext.create('Ext.data.Store', {
+    model: 'visitaModel',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'visitas'
+    }
+});
 
 
 /*
