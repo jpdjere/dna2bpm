@@ -370,6 +370,13 @@ class Genias extends MX_Controller {
         foreach ($tasks as $task) {
             $dia = iso_decode($task['dia']);
             $user = (array)$this->user->get_user($task['idu']);
+            if(!$user){
+                $autor="Desconocido";
+            }else{
+                $name=(empty($user['name']))?($user['name']):('');
+                $lastname=(empty($user['lastname']))?($user['lastname']):('');
+                $autor="$lastname, $name";
+            }
 
             $item = array(
                 'id' => $task['id'],
@@ -383,7 +390,7 @@ class Genias extends MX_Controller {
                 'minutos' => $task['minutos'],
                 'proyecto' => $task['proyecto'],
                 'finalizada' => $task['finalizada'],
-                'autor' => $user->lastname . ", " . $user->name
+                'autor' => $autor
             );
 
             $mytasks[] = $item;
