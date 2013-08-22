@@ -3,7 +3,7 @@ var notaTpl = new Ext.XTemplate(
         '<div class="img-polaroid"><fieldset><i class="icon-comments"></i> <i>"{nota}"</i>',
         '<ul class="unstyled">',
         '<li><i class="icon-calendar"></i> Fecha: {fecha:date("d/m/Y")}</li>',
-        '<li><i class="icon-remove-sign"></i> <span class="remove label label-important"> Borrar Registro </span></li>',
+        /*'<li><i class="icon-remove-sign"></i> <span class="remove label label-important"> Borrar Registro </span></li>',*/
         '</ul>',
         '</fieldset></div>',
         '</tpl>'
@@ -29,11 +29,10 @@ var VisitasGrid = Ext.create('Ext.view.View',
                                         7898: record.data['7898']
                                     });                                   
 
-                                    //VisitasStore.store.data.remove(record);    
-                                    storeVisitaDelete.add(visitaRecord);
-                                    storeVisitaOffline.remove(record);
-                                    storeVisitaOffline.sync();                                    
-                                    console.log(record.data['_id']);
+                                    VisitasStore.remove(record);    
+                                    VisitasStore.update(visitaRecord);
+                                    storeVisitaDelete.add(visitaRecord); 
+                                    
                                     /*Ext.Ajax.request({
                                      disableCaching: False,
                                      url: globals.module_url + 'visitas_remote/Remove/?' + record.data['_id']
