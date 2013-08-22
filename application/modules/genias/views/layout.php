@@ -2,8 +2,7 @@
 header('Cache-Control: no-cache,must-revalidate');
 ?>
 <!DOCTYPE html>
-<html >
-<!--<html lang="es" manifest="{base_url}genias/manifest/offline.appcache">-->
+<html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
     <head>
         <title>DNA&sup2; Admin</title>
         <meta charset="UTF-8" />

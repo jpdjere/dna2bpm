@@ -172,14 +172,14 @@ BLOC;
                                 <!-- Btn Aprobar -->
                             </button>
                                 {if {rol}=='coordinador'}
-                                    {if {status_class} == 'well status_open'}
-<!--                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
-                                               <i class="icon-thumbs-up-alt"></i> Aprobar
-                                       </button>-->
+<!--                                    {if {status_class} == 'well status_open'}
                                         <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>
-                                    {/if}
+                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
+                                               <i class="icon-thumbs-up-alt"></i> Aprobar
+                                       </button>
+                                    {/if}-->
                                 {/if}
                         </li>
                         <li>

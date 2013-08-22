@@ -73,7 +73,7 @@ class Genias extends MX_Controller {
         $i=0;
         foreach ($goals as $goal) {
         $i++;
-        if($i>30)break;
+        //if($i>30)break;
 
 //            var_dump($goal);
 //            echo "<br>----<br>";
@@ -133,6 +133,7 @@ class Genias extends MX_Controller {
 
 
             $mygoals[] = $goal;
+
             //var_dump($goal);
         }
         $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
@@ -144,8 +145,6 @@ class Genias extends MX_Controller {
             $customData['resumen_class'] = 'alert-error';
 
 //        if($this->idu==150787571){//
-//        }
-
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData); 
        
@@ -370,7 +369,7 @@ class Genias extends MX_Controller {
         $mytasks = array();
         foreach ($tasks as $task) {
             $dia = iso_decode($task['dia']);
-            $user = $this->user->get_user($task['idu']);
+            $user = (array)$this->user->get_user($task['idu']);
 
             $item = array(
                 'id' => $task['id'],
