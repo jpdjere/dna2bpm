@@ -17,7 +17,9 @@ class ui {
 
         function compose($content, $file, $data) {
                 $this->CI->parser->options['convert_delimiters'] = array(false, '&#123;', '&#125;');
-                $data['content'] = $this->CI->parser->parse($content, $data, true, true);
+                $data['content'] = $this->CI->parser->parse($content, $data, true);
+                //@todo Juan al parser de arriba le quite un cuarto parametro que estaba en true, para que mierda lo pusiste?
+                //echo $data['content'];
                 $this->makeui($file, $data);
         }
 
@@ -63,8 +65,9 @@ class ui {
                          */
                 }
                 $data['inline_js'] = $globaljs;
-                $this->CI->parser->options['convert_delimiters'] = array(false, '&#123;', '&#125;');
+                $this->CI->parser->options['convert_delimiters'] = array(false, '&#123;', '&#125;');               
                 $this->CI->parser->parse($file, $data);
+
         }
 
 }
