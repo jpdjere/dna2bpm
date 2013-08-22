@@ -1,5 +1,5 @@
 <?php
-header('Cache-Control: no-cache,must-revalidate');
+header('Cache-Control: no-cache,public,max-age=0,must-revalidate');
 ?>
 <!DOCTYPE html>
 <html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
