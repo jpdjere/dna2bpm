@@ -2,8 +2,8 @@ var notaTpl = new Ext.XTemplate(
         '<tpl for=".">',
         '<div class="img-polaroid"><fieldset><i class="icon-comments"></i> <i>"{nota}"</i>',
         '<ul class="unstyled">',
-        '<li><i class="icon-calendar"></i> Fecha..: {fecha:date("d/m/Y")}</li>',
-        /*'<li><i class="icon-remove-sign"></i> <span class="remove label label-important"> Borrar Registro </span></li>',*/
+        '<li><i class="icon-calendar"></i> Fecha: {fecha:date("d/m/Y")}</li>',
+        '<li><i class="icon-remove-sign"></i> <span class="remove label label-important"> Borrar Registro </span></li>',
         '</ul>',
         '</fieldset></div>',
         '</tpl>'
