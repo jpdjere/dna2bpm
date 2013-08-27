@@ -1,9 +1,3 @@
-<?php
-header('Cache-Control: no-cache,public,max-age=0,must-revalidate');
-/* $offset=0;
-$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
-header($ExpStr);*/
-?>
 <!DOCTYPE html>
 <html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
 <head>
