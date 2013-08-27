@@ -11,6 +11,7 @@ var btnSync = Ext.create('Ext.Action',
                 offlineProxy = storeEmpresaOffline.proxy;
                 //---le pongo el proxy AJAX                   
                 //---Marcamos Dirty cada uno de los registros
+                
                 /*Datos Empresas*/
                 storeEmpresaOffline.each(function(rec) {
                     rec.setDirty();
