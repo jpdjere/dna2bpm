@@ -31,6 +31,7 @@ var btnSync = Ext.create('Ext.Action',
                      storeVisitaDelete.add(rec);
                 });
                 storeVisitaDelete.sync();
+                
 
                 /*Datos Encuestas*/
                 storeEncuestasOffline.each(function(rec) {
