@@ -18,7 +18,7 @@ var VisitasGrid = Ext.create('Ext.view.View',
             listeners:
                     {
                         itemclick: function(me, record, item, index, e, eOpts) {
-                            Ext.MessageBox.confirm('Delete', 'Esta segudo de borrar ' + record.data['fecha'], function(btn) {
+                            Ext.MessageBox.confirm('Delete', 'Borrar ' + record.data['fecha'] + '?', function(btn) {
                                 if (btn === 'yes') {
                                     visitaRecord = Ext.create('visitaModel', {
                                         id: record.data['id']
