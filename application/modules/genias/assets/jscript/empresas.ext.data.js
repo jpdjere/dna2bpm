@@ -310,13 +310,58 @@ var storeVisitaOffline = Ext.create('Ext.data.Store', {
     }
 });
 
-var storeVisitaDelete = Ext.create('Ext.data.Store', {
+var storeVisitaOfflineDelete = Ext.create('Ext.data.Store', {
     model: 'visitaModel',
     autoLoad: true,
     autoSync: true,
     proxy: {
         type: 'localstorage',
         id: 'visitas'
+    }
+});
+
+
+var storeVisitaDelete = Ext.create('Ext.data.Store', {
+    model: 'visitaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            destroy: globals.module_url + 'visitas_remote/Remove',
+            read: globals.module_url + 'visitas_remote/Remove',
+            create: globals.module_url + 'visitas_remote/Remove',
+            update: globals.module_url + 'visitas_remote/Remove',            
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
     }
 });
 
@@ -334,7 +379,7 @@ Ext.define('encuestaModel', {
             type: 'int',
             useNull: true
         },
-                'fecha' // 	Fecha de la Visita 
+        'fecha' // 	Fecha de la Visita 
                 , 'cuit'
                 , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
                 , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
