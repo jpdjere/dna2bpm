@@ -290,7 +290,6 @@ class Genias_model extends CI_Model {
             $this->mongo->db->$container_metas->save($meta);
         }
     }
-
     function goal_remove($id = null) {
         $container_metas = 'container.genias_goals';
         //----busco meta activa
