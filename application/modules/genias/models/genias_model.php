@@ -70,10 +70,10 @@ class Genias_model extends CI_Model {
         $query = array('id' => (integer) $goal['id']);
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
-    
+
     function update_goal() {
         $container = 'container.genias_goals';
-        $data = $this->input->post('data'); 
+        $data = $this->input->post('data');
 
         $date = date_create_from_format('d-m-Y', '01-' . $data['desde']);
         $month = $date->format('m');
@@ -88,7 +88,7 @@ class Genias_model extends CI_Model {
         $query = array('_id' => $id);
         $options = array('safe' => true);
 
-        return $this->mongo->db->$container->update($query, array('$set'=>$data), $options);
+        return $this->mongo->db->$container->update($query, array('$set' => $data), $options);
     }
 
     function get_goals($idu) {
@@ -96,18 +96,18 @@ class Genias_model extends CI_Model {
         $this->lang->load('calendar', $this->config->item('languaje'));
 
         $genias = $this->get_genia($idu);
-        $lista_genias=array();   
-    
+        $lista_genias = array();
+
         if ($genias !== false) { // 
             foreach ($genias['genias'] as $genia) {
-                $lista_genias[]=(string)$genia['_id'];
+                $lista_genias[] = (string) $genia['_id'];
             }
         }
         if ($genias['rol'] == 'coordinador') {
-        // Coordinador
-        $query = array('genia' => array('$in' => $lista_genias));          
-        }else{
-        $query = array('idu' => $idu);
+            // Coordinador
+            $query = array('genia' => array('$in' => $lista_genias));
+        } else {
+            $query = array('idu' => $idu);
         }
         $goals = $this->mongo->db->$container->find($query)->sort(array('desde' => -1));
         $result = array();
@@ -116,13 +116,12 @@ class Genias_model extends CI_Model {
             $date = date_create_from_format('Y-m-d', $mygoals['desde']);
             $mes = 'cal_' . strtolower(date_format($date, 'F'));
             $year = date_format($date, 'Y');
-            $mygoals['desde'] = $this->lang->line($mes)." ,$year";
-            $mygoals['desde_raw']=date_format($date, 'm-Y');
+            $mygoals['desde'] = $this->lang->line($mes) . " ,$year";
+            $mygoals['desde_raw'] = date_format($date, 'm-Y');
             $result[] = $mygoals;
         }
 
         return $result;
-
     }
 
     function get_case($case) {
@@ -130,7 +129,6 @@ class Genias_model extends CI_Model {
         $container = 'case';
         $result = $this->mongo->db->$container->findOne($query);
         return $result;
-        
     }
 
     // ======= CONFIG ======= //
@@ -192,7 +190,7 @@ class Genias_model extends CI_Model {
             , 'origenGenia'    // usuario que tocó la empresa
         );
         $container = 'container.empresas';
-        $sort=array('origenGenia'=>-1);
+        $sort = array('origenGenia' => -1);
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2500)->sort($sort);
         foreach ($result as $empresa) {
@@ -208,23 +206,31 @@ class Genias_model extends CI_Model {
         $rtn = array();
         $query['idu'] = (int) $idu;
         $fields = array('id'
-                , 'fecha'           // 	Fecha de la Visita 
-                , 'cuit'            //      CUIT
-                , 'nota'            // 	Comentarios 
-                , 'tipovisita'      //      tipo de visita
-                , 'otros'           //      para tipo de visita otros
-                , '7898'            //      Programas Informados           
+            , 'fecha'           // 	Fecha de la Visita 
+            , 'cuit'            //      CUIT
+            , 'nota'            // 	Comentarios 
+            , 'tipovisita'      //      tipo de visita
+            , 'otros'           //      para tipo de visita otros
+            , '7898'            //      Programas Informados           
         );
         $container = 'container.genias_visitas';
         $result = $this->mongo->db->$container->find($query, $fields);
         $result->limit(2000);
         foreach ($result as $visita) {
-            //unset($visita['_id']);
-            unset($visita['id']);
+            unset($visita['_id']);
+            //unset($visita['id']);
             $rtn[] = $visita;
         }
         return $rtn;
     }
+    
+    function visitas_remove($container, $id = null) {       
+        $query = array(
+            'id' => $id
+        );
+        $metas = $this->mongo->db->$container->remove($query);
+    }
+    
 
     /* RETURN ENCUESTAS */
 
@@ -232,18 +238,17 @@ class Genias_model extends CI_Model {
         $rtn = array();
         $query['idu'] = (int) $idu;
         $fields = array('id'
-                , 'fecha'       // 	Fecha de la Visita 
-                , 'cuit'        //      CUIT
-                , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
-                , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
-                , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
-                , '7886'        //      Modos de Financiamiento
-                , '7887'        //      Con Programas Sepyme/Ministerio de Industria
-                , '7888'        //      Recibi� Capacitaci�n Empresarial / Gerencial / Mandos Medios
-                , '7889'        //      Realiz� capacitaciones al personal
-                , '7890'        //      Recibi� asesoramiento t�cnico
-                , '7891'        //      Capacitaci�n y/o Asistencia con Programas Sepyme / Ministerio de Industria 
-       
+            , 'fecha'       // 	Fecha de la Visita 
+            , 'cuit'        //      CUIT
+            , '7663'        // 	Ha realizado/a acciones vinculadas a la Responsabilidad Social 
+            , '7664'        //      Tienen relaci&oacute;n con organismos gubernamentales
+            , '7883'        //      Registro Unico de Organizaciones de Responsabilidad Social
+            , '7886'        //      Modos de Financiamiento
+            , '7887'        //      Con Programas Sepyme/Ministerio de Industria
+            , '7888'        //      Recibi� Capacitaci�n Empresarial / Gerencial / Mandos Medios
+            , '7889'        //      Realiz� capacitaciones al personal
+            , '7890'        //      Recibi� asesoramiento t�cnico
+            , '7891'        //      Capacitaci�n y/o Asistencia con Programas Sepyme / Ministerio de Industria 
         );
         $container = 'container.genias_encuestas';
         $result = $this->mongo->db->$container->find($query, $fields);
@@ -270,7 +275,7 @@ class Genias_model extends CI_Model {
         //echo json_encode($query);exit;
         $metas = $this->mongo->db->$container_metas->find($query);
 
-        foreach ($metas as $meta) {           
+        foreach ($metas as $meta) {
             $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
                 break;
@@ -286,10 +291,18 @@ class Genias_model extends CI_Model {
         }
     }
 
+    function goal_remove($id = null) {
+        $container_metas = 'container.genias_goals';
+        //----busco meta activa
+        $query = array(
+            'id' => $id
+        );
+       // $metas = $this->mongo->db->$container_metas->remove($query);
+    }
+
     // ======= USER CONTROL ======= //
-    
     //==== Devuelve las genias del usuario====/
-    
+
     function get_genia($idu) {
         $container = 'container.genias';
 
@@ -327,23 +340,20 @@ class Genias_model extends CI_Model {
 
         return false;
     }
-    
+
     //==== Devuelve todas las genias====//
     function get_genias() {
         $container = 'container.genias';
         $result = $this->mongo->db->$container->find();
         return $result;
     }
-    
-    function touch($cuit=null){
+
+    function touch($cuit = null) {
         //if(!$cuit)exit();
         $container = 'container.empresas';
-        $update = array('$set'=>array('origenGenia'=>(int)$this->idu));
-        $query = array('1695' => $cuit);   
-        $this->mongo->db->$container->update($query,$update);
-
+        $update = array('$set' => array('origenGenia' => (int) $this->idu));
+        $query = array('1695' => $cuit);
+        $this->mongo->db->$container->update($query, $update);
     }
-    
-
 
 }
