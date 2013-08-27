@@ -19,24 +19,31 @@ var btnSync = Ext.create('Ext.Action',
                 storeEmpresa.sync();
 
                 /*Datos Visitas*/
-                storeVisitaOffline.each(function(rec) {
-                    rec.setDirty();
-                    storeVisita.add(rec)
+                storeVisitaOffline.each(function(rec) {                    
+                        rec.setDirty();
+                        storeVisita.add(rec);
                 });
                 storeVisita.sync();
                 
-                 /*Datos Encuestas*/
+                /*REMOVE Datos Visitas*/
+                 storeVisitaOfflineDelete.each(function(rec) {                      
+                     rec.setDirty();   
+                     storeVisitaDelete.add(rec);
+                });
+                storeVisitaDelete.sync();
+
+                /*Datos Encuestas*/
                 storeEncuestasOffline.each(function(rec) {
                     rec.setDirty();
                     storeEncuesta.add(rec)
                 });
                 storeEncuesta.sync();
-                
-                var getCount = storeEncuestasOffline.getCount()+storeVisitaOffline.getCount()+storeEmpresaOffline.getCount();
-                
-               
 
-                if (getCount!= 0) {
+                var getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeEmpresaOffline.getCount() + storeVisitaOfflineDelete.getCount();
+
+
+
+                if (getCount != 0) {
                     Ext.Msg.alert('Encenario Pyme', '<h5>Actualizado con Exito</h5>');
                 } else {
                     Ext.getCmp('btnSync').setText('No Hay informacion para actualizar');
@@ -46,9 +53,10 @@ var btnSync = Ext.create('Ext.Action',
                 storeEmpresaOffline.removeAll();
                 storeVisitaOffline.removeAll();
                 storeEncuestasOffline.removeAll();
-                
-                /*Actualizo el contador*/  
-                getCount = storeEncuestasOffline.getCount()+storeVisitaOffline.getCount()+storeEmpresaOffline.getCount();
+                storeVisitaOfflineDelete.removeAll();
+
+                /*Actualizo el contador*/
+                getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeEmpresaOffline.getCount() + storeVisitaOfflineDelete.getCount();
                 Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
             }
         }
