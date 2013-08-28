@@ -762,13 +762,14 @@ class Genias extends MX_Controller {
         $rtnArr = array();
         foreach ($empresas as $empresa) {
             if (isset($empresa['1693'])) {
+                $desc=(isset($empresa['1715'])) ? $empresa['1715']:'';
                 $rtnArr['markers'][] = array(
                     "latitude" => $empresa['7820'],
                     "longitude" => $empresa['7819'],
                     "title" => $empresa['1693'],
                     "tags" => array("genia"),
                     "icon" => "factory_marker.png",
-                    "content" => $empresa['1693'] . '<br/>' . $empresa['1715']
+                    "content" => $empresa['1693'] . '<br/>' . $desc,
                 );
             }
         }
