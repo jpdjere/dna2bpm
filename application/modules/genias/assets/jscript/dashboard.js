@@ -157,6 +157,14 @@ $('.nav-tabs a').click(function(e){
 });
 
 
+//function onUpdateReady() {
+// // alert('found new version!');
+//  location.reload();
+//}
+//window.applicationCache.addEventListener('updateready', onUpdateReady);
+//if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+//  onUpdateReady();
+//}
 
 
 
