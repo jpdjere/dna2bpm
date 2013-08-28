@@ -1,8 +1,7 @@
 <?php
 header('Cache-Control: no-cache,max-age=0,must-revalidate');
-//$offset = 60 * 60 * 24 * 3;
-$offset=0;
-$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time(-72000) + $offset) . " GMT";
+
+$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time()-3600 ) . " GMT";
 header($ExpStr);
  
 ?>
