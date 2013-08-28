@@ -21,6 +21,7 @@ $('.aprobar').click(function(){
   
 
 //== VALIDATE == //
+//
 $("#form_goals").validate({
 rules: {
 cantidad: "required",
@@ -80,8 +81,32 @@ $('button.guardar').click(function(){
    
 });
 
+/*==== DELETE META====*/
 
+$('.bt_delete').click(function(e){
+  if(!navigator.onLine)return;
+    e.preventDefault();
+   
+  var meta=$(this).parents('.meta');
+  var metaid=meta.find('[name="metaid"]').val();
+ 
+bootbox.confirm("Seguro que desea eliminar la meta?", function(result) {
+if(result){
+  $.post(globals.module_url+'remove_goal',{metaid:metaid},function(resp){
+      if(resp==0){
+          meta.detach();
+      }
+  }); 
+}
+}); 
+ 
 
+});
+
+$('#myModalDelete').on('show', function() {
+    var id = $(this).data('id');
+    alert(id);
+});
 
 //$('#form_goals a').click(function(){
 //    var data=$('#form_goals').serializeArray();
@@ -134,6 +159,9 @@ $('.nav-tabs a').click(function(e){
 
 
 });
+
+
+
 
 
 });

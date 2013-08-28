@@ -21,8 +21,7 @@
     
     <h1>Programas</h1>
 
-<footer>
-  <p>&copy; Genias 2013</p>
-</footer>
 
-</div
+
+</div>
+

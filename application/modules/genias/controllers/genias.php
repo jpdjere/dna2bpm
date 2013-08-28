@@ -45,7 +45,7 @@ class Genias extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
         $customData['titulo'] = "";
-        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         //$customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
 
@@ -70,14 +70,8 @@ class Genias extends MX_Controller {
 
 
         $goals = $this->genias_model->get_goals((int) $this->idu);
-        $i=0;
-        foreach ($goals as $goal) {
-        $i++;
-        //if($i>30)break;
 
-//            var_dump($goal);
-//            echo "<br>----<br>";
-//            continue;
+        foreach ($goals as $goal) {
             // === Nombre del proyecto y select de proyectos para las metas
             $goal['select_project'] = "";
             foreach ($customData['projects'] as $current) {
@@ -91,24 +85,13 @@ class Genias extends MX_Controller {
                 }
             }
 
-            // === get status case ===
+            // === STATUS ===
             if (isset($goal['case'])) {
                 $case = $this->genias_model->get_case($goal['case']);
                 $goal['url_case'] = "{$this->base_url}bpm/engine/run/model/genia_metas/{$goal['case']}";
             }
-
-            if (isset($case['status']) && $case['status'] == 'open') {
-                $goal['status'] = 'Pendiente aprobación';
-                $goal['status_icon_class'] = 'icon-time';
-                $goal['status_class'] = 'well status_open';
-                $goal['label_class'] = 'btn-danger';
-            } elseif (isset($case['status']) && $case['status'] == 'closed') {
-                $goal['status'] = 'Aprobado';
-                $goal['status_icon_class'] = 'icon-thumbs-up';
-                $goal['status_class'] = 'well status_closed';
-                $goal['label_class'] = '';
-                //----computo calculos para metas activas de este mes
-                //if ($goal['desde'] >= date('Y-m-01') and $goal['hasta'] <= date('Y-m-t')) {
+            $goal['status'] = isset($case['status'])?($case['status']):('Sin definir');
+            if ($case['status'] == 'closed') {
                 if (true) {
                     $customData['goal_cantidad_total']+=$goal['cantidad'];
                     $customData['goal_cumplidas_total']+=count($goal['cumplidas']);
@@ -116,11 +99,7 @@ class Genias extends MX_Controller {
                     $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
                     $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
                 }
-            } else {
-                $goal['status'] = 'undefined';
-                $goal['status_class'] = 'well status_null';
-                $goal['label_class'] = '';
-            }
+            } 
 
 
             // --- 
@@ -352,6 +331,12 @@ class Genias extends MX_Controller {
         $id = $this->input->post('id');
         $this->genias_model->remove_task($id);
         echo "tasks.{$this->idu}.$id";
+    }
+    
+    function remove_goal(){
+        $id = $this->input->post('metaid');
+        echo $this->genias_model->remove_goal($id);
+
     }
 
     function get_tasks($proyecto) {
@@ -957,8 +942,14 @@ class Genias extends MX_Controller {
             return $genia;
         }
     }
-    
 
+    /*==== RESUMEN DE VISITAS ====*/ 
+    
+function get_resumen_visitas(){
+    $visitas = $this->genias_model->get_visitas();
+    var_dump($visitas);
+}
+    
 
 }
 
