@@ -21,7 +21,7 @@ class manifest extends MX_Controller {
         $cpData['fecha'] = date('Y-m-d H');
         $cpData['base_url'] = base_url();
         $cpData['module_url'] = base_url() . 'genias/';
-        $cpData['sess'] = md5((int) $this->session->userdata('iduser'));
+        $cpData['ver'] = md5((int) $this->session->userdata('iduser')).$this->session->userdata('session_id');
         
         header("Content-Type: text/cache-manifest; charset=utf-8");
         //header('Cache-Control: no-cache,no-store');
