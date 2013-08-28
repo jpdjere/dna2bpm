@@ -1,5 +1,5 @@
 var countSync = function() {
-    var getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeEmpresaOffline.getCount();
+    var getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeEmpresaOffline.getCount()+ storeVisitaOfflineDelete.getCount();
     Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 }
 
