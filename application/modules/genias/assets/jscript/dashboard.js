@@ -103,10 +103,6 @@ if(result){
 
 });
 
-$('#myModalDelete').on('show', function() {
-    var id = $(this).data('id');
-    alert(id);
-});
 
 //$('#form_goals a').click(function(){
 //    var data=$('#form_goals').serializeArray();
