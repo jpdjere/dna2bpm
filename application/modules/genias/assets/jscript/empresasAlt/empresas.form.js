@@ -602,6 +602,10 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
                 {boxLabel: 'Nexo Pyme', name: '7898', inputValue: '40'},
                 {boxLabel: 'SGR', name: '7898', inputValue: '45'},
                 {boxLabel: 'Parques Industriales', name: '7898', inputValue: '50'},
+                {boxLabel: 'Programa del Bicentenario', name: '7898', inputValue: '55'},
+                {boxLabel: 'Capital Semilla', name: '7898', inputValue: '60'},
+                {boxLabel: 'Empresas Madrinas', name: '7898', inputValue: '65'},
+                {boxLabel: 'Proyectos de Desarrollo Local', name: '7898', inputValue: '70'}
             ]
         }, {
             id: 'notas',
