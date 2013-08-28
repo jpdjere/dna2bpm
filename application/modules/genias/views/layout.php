@@ -1,7 +1,7 @@
 <?php
 header('Cache-Control: no-cache,max-age=0,must-revalidate');
 
-$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time(-72000) ) . " GMT";
+$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time()-3600 ) . " GMT";
 header($ExpStr);
  
 ?>
