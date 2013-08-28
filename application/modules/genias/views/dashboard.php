@@ -167,16 +167,16 @@ BLOC;
                         </li>
                         <li>
                             <i class="icon-eye-open" ></i> Estado: 
-                                {if {status} == 'closed'}
+                                {if {status} == 'open'}
                                  <span class="label label-important">Pendiente de revisión</span>
                                 {/if}
-                                {if {status} == 'open'}
+                                {if {status} == 'closed'}
                                  <span class="label label-success">Aprobado</span>
                                 {/if}
                                 
                          
                                 {if {rol}=='coordinador'}
-                                   {if {status} == 'closed'}
+                                   {if {status} == 'open'}
                                         <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>

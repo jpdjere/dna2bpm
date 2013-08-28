@@ -68,7 +68,6 @@ class Genias extends MX_Controller {
         }
 
 
-
         $goals = $this->genias_model->get_goals((int) $this->idu);
 
         foreach ($goals as $goal) {
@@ -91,14 +90,13 @@ class Genias extends MX_Controller {
                 $goal['url_case'] = "{$this->base_url}bpm/engine/run/model/genia_metas/{$goal['case']}";
             }
             $goal['status'] = isset($case['status'])?($case['status']):('Sin definir');
+
             if ($case['status'] == 'closed') {
-                if (true) {
                     $customData['goal_cantidad_total']+=$goal['cantidad'];
                     $customData['goal_cumplidas_total']+=count($goal['cumplidas']);
 
                     $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
                     $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
-                }
             } 
 
 
@@ -124,6 +122,9 @@ class Genias extends MX_Controller {
             $customData['resumen_class'] = 'alert-error';
 
 //        if($this->idu==150787571){//
+
+
+
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData); 
        
