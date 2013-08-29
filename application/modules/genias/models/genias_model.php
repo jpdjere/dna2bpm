@@ -290,13 +290,13 @@ class Genias_model extends CI_Model {
             $this->mongo->db->$container_metas->save($meta);
         }
     }
-    function goal_remove($id = null) {
+    
+    function remove_goal($id){
         $container_metas = 'container.genias_goals';
-        //----busco meta activa
-        $query = array(
-            'id' => $id
-        );
-       // $metas = $this->mongo->db->$container_metas->remove($query);
+
+        $query = array("_id"=>new MongoId($id));
+        $result = $this->mongo->db->$container_metas->remove($query); 
+        return (isset($result['err']))?($result['err']):(0);
     }
 
     // ======= USER CONTROL ======= //
@@ -354,5 +354,15 @@ class Genias_model extends CI_Model {
         $query = array('1695' => $cuit);
         $this->mongo->db->$container->update($query, $update);
     }
+    
+    //==== RESUMEN DE VISITAS ====//
+    
+    function get_resumen_visitas(){
+        $container = 'container.genias_visitas';
+        $result = $this->mongo->db->$container->find();
+        return $result;
+        
+    }
+
 
 }

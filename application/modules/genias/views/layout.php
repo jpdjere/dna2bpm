@@ -1,10 +1,15 @@
 <?php
-header('Cache-Control: no-cache,public,max-age=0,must-revalidate');
+header('Cache-Control: no-cache,max-age=0,must-revalidate');
+
+$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time()-3600 ) . " GMT";
+header($ExpStr);
+ 
 ?>
 <!DOCTYPE html>
 <html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
+
     <head>
-        <title>DNA&sup2; Admin</title>
+        <title>DNA&sup2; Admin </title>
         <meta charset="UTF-8" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -84,9 +89,13 @@ header('Cache-Control: no-cache,public,max-age=0,must-revalidate');
         <!-- CONTAINER -->
 
         <script src="{module_url}assets/jscript/jquery.min.js"></script>
+
 <!--        <script src="{module_url}assets/jscript/jquery-ui-1.10.2.custom/js/jquery-ui-1.10.2.custom.min.js"></script>-->
         <script src="{base_url}jscript/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{module_url}assets/jscript/bootbox.min.js"></script>
         <script src="{module_url}assets/jscript/datepicker/js/bootstrap-datepicker.js"></script>
+        
+        
         <script src="{module_url}assets/jscript/fullcalendar/fullcalendar.min.js"></script>
 
         <script src="{module_url}assets/jscript/modernizr.custom.22198.js"></script>

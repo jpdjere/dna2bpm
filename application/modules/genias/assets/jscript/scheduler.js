@@ -221,7 +221,6 @@ $.ajax(
       url: url,
       success:function(resp){
           if(resp){
-              alert(resp);
             var myjson=JSON.parse(resp);             
             $.each( myjson, function( k, v ) {
                 if(v.finalizada==1){

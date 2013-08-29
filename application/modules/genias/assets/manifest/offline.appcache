@@ -1,7 +1,7 @@
 CACHE MANIFEST
 # Comments are OK here
 # Generated: {fecha}
-# Version 123
+# Version {ver}
 # Spaces before comments shouldn't matter
 
 CACHE:

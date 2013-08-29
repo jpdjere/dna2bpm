@@ -167,19 +167,20 @@ BLOC;
                         </li>
                         <li>
                             <i class="icon-eye-open" ></i> Estado: 
-                            <button class="btn btn-mini {label_class}">
-                                <i class="{status_icon_class}"></i>&nbsp;{status}   
-                                <!-- Btn Aprobar -->
-                            </button>
+                                {if {status} == 'open'}
+                                 <span class="label label-important">Pendiente de revisión</span>
+                                {/if}
+                                {if {status} == 'closed'}
+                                 <span class="label label-success">Aprobado</span>
+                                {/if}
+                                
+                         
                                 {if {rol}=='coordinador'}
-<!--                                    {if {status_class} == 'well status_open'}
+                                   {if {status} == 'open'}
                                         <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>
-                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
-                                               <i class="icon-thumbs-up-alt"></i> Aprobar
-                                       </button>
-                                    {/if}-->
+                                    {/if}
                                 {/if}
                         </li>
                         <li>
@@ -198,6 +199,9 @@ BLOC;
                     <button class="guardar btn btn-mini btn-success" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
+                    <a class="bt_delete btn btn-mini btn-danger"  type="button">
+                            <i class="icon-trash"></i> Eliminar
+                    </a>
                 {/if}
                 
   
@@ -208,5 +212,3 @@ BLOC;
     </div>
     <!-- ============= metas  ============= -->
 </div>
-
-

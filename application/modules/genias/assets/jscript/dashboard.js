@@ -2,7 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+if (window.applicationCache) {
+    applicationCache.addEventListener('updateready', function() {
+            window.location.reload();
+    });
+}
 
 $( document ).ready(function() {
 
@@ -21,6 +25,7 @@ $('.aprobar').click(function(){
   
 
 //== VALIDATE == //
+//
 $("#form_goals").validate({
 rules: {
 cantidad: "required",
@@ -80,7 +85,27 @@ $('button.guardar').click(function(){
    
 });
 
+/*==== DELETE META====*/
 
+$('.bt_delete').click(function(e){
+  if(!navigator.onLine)return;
+    e.preventDefault();
+   
+  var meta=$(this).parents('.meta');
+  var metaid=meta.find('[name="metaid"]').val();
+ 
+bootbox.confirm("Seguro que desea eliminar la meta?", function(result) {
+if(result){
+  $.post(globals.module_url+'remove_goal',{metaid:metaid},function(resp){
+      if(resp==0){
+          meta.detach();
+      }
+  }); 
+}
+}); 
+ 
+
+});
 
 
 //$('#form_goals a').click(function(){
@@ -134,6 +159,17 @@ $('.nav-tabs a').click(function(e){
 
 
 });
+
+
+//function onUpdateReady() {
+// // alert('found new version!');
+//  location.reload();
+//}
+//window.applicationCache.addEventListener('updateready', onUpdateReady);
+//if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+//  onUpdateReady();
+//}
+
 
 
 });
