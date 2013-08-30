@@ -766,6 +766,7 @@ var EncuestaForm = Ext.create('Ext.form.Panel', {
                         {boxLabel: 'Bancos', name: '7886', inputValue: '02'},
                         {boxLabel: 'Programas Asistencia Provincial', name: '7886', inputValue: '03'},
                         {boxLabel: 'Programas Asistencia Municipal', name: '7886', inputValue: '04'},
+                        {boxLabel: 'Otros programas nacionales', name: '7886', inputValue: '05'},
                     ]
                 }, {
                     xtype: 'checkboxgroup',
