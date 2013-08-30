@@ -413,10 +413,36 @@ class Genias_model extends CI_Model {
     
     function get_resumen_visitas(){
         $container = 'container.genias_visitas';
-        $result = $this->mongo->db->$container->find();
-        return $result;
+        $this->load->model('user/user');
         
+        
+        
+        $result = $this->mongo->db->$container->find();
+        $listado=array();
+        foreach($result as $visita){
+            //
+            if(isset($visita['fecha'])&&isset($visita['cuit'])&&isset($visita['idu'])){
+                $user = $this->user->get_user((int)$visita['idu']);
+                $username=(isset($user))?($user->lastname . ", " . $user->name):("-");
+                            
+                $myVisita=array('fecha'=>$visita['fecha'],'idu'=>$username);     
+                $empresa=$this->get_empresas(array('1695'=>$visita['cuit']));
+                if(empty($empresa) || empty($empresa[0][4651]))continue;
+                $prov=(array)$empresa[0][4651];
+                
+
+                $listado[$prov[0]][$visita['cuit']]['empresa']=$empresa[0][1693];
+                $listado[$prov[0]][$visita['cuit']]['4651']=$prov[0];
+                $listado[$prov[0]][$visita['cuit']]['fechas'][]=$myVisita;          
+                $listado[$prov[0]][$visita['cuit']]['nombre']=$username;
+
+            }
+            
+        }
+       return $listado;
     }
+    
+    
 
 
 }

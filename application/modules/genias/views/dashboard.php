@@ -121,8 +121,30 @@ BLOC;
     {/if}
        
     
+<!-- ================= VISITAS  ================= -->
+<?php
+/*
+foreach($visitas as $k => $provs){
+$block=<<<BLOC
+   <ul>
+       <li>$k
+            <ul>
+BLOC;
+  foreach($visitas as $provs => $cuits){
+      
+  }          
+            
+$block.=<<<BLOC2
+            </ul>   
+        </li>
+   </ul>
+BLOC2;
+}
+ * */
+ 
+?>
 
-
+<!-- _________________ VISITAS  _________________ -->
 
 
     <!-- xxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxx -->

@@ -123,8 +123,8 @@ class Genias extends MX_Controller {
 
 //        if($this->idu==150787571){//
 
-
-
+//        $customData['visitas']=$this->get_resumen_visitas();
+//        var_dump($customData['visitas']);
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData); 
        
@@ -948,7 +948,12 @@ class Genias extends MX_Controller {
     /*==== RESUMEN DE VISITAS ====*/ 
     
 function get_resumen_visitas(){
-    $visitas = $this->genias_model->get_visitas();
+    $visitas = $this->genias_model->get_resumen_visitas();
+    return $visitas;
+}
+
+function print_resumen_visitas(){
+    $visitas = $this->genias_model->get_resumen_visitas();
     var_dump($visitas);
 }
     
