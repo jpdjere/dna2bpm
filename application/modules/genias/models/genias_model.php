@@ -248,28 +248,25 @@ class Genias_model extends CI_Model {
             $newQuery = array(
                 'cumplidas' => $id
             );
-
-
             $newContainer = 'container.genias_goals';
             $result = $this->mongo->db->$newContainer->findOne($newQuery);
-            
-            $arrCheck = $result['cumplidas'];                       
+
+            $arrCheck = $result['cumplidas'];
             $resultArr = @array_diff($arrCheck, array($id));
-           
-            if(!empty($resultArr)){
-            foreach ($resultArr as $key => $value) {
-                $newArr[] =  $value;
-            }
 
-            $idQuery = array('id' => $result['id']);
-            $update = array('$set' => array('cumplidas' =>$newArr));
-            $options = array('multi' => false, 'upsert' => false);
-            $rs = $this->mongo->db->$newContainer->update($idQuery, $update, $options);
+            if (!empty($resultArr)) {
+                foreach ($resultArr as $key => $value) {
+                    $newArr[] = $value;
+                }
 
-            return $rs; 
-            exit();
+                $idQuery = array('id' => $result['id']);
+                $update = array('$set' => array('cumplidas' => $newArr));
+                $options = array('multi' => false, 'upsert' => false);
+                $rs = $this->mongo->db->$newContainer->update($idQuery, $update, $options);
+
+                return $rs;
+                exit();
             }
-            
         }
     }
 
