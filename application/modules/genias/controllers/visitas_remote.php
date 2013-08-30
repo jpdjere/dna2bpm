@@ -39,10 +39,12 @@ class Visitas_remote extends MX_Controller {
 
             /* Insert/Update dato */
             $result = $this->app->put_array($id, $container, $form);
-
+            
             if ($result) {
                 /* Update Goal */
-                $this->genias_model->goal_update('2', $id);
+                $newResult = $this->genias_model->goal_update('2', $id);
+                var_dump($newResult);
+                
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
@@ -54,27 +56,23 @@ class Visitas_remote extends MX_Controller {
     }
 
     /*
-     * VIEW
-     */
-
-    public function View() {
+     * FIX goals
+     */    
+    public function Fix() {
+        
 
         $container = $this->containerGenias;
-        $query = array('7406' => (int) ($this->idu));
-        $resultData = $this->mongo->db->$container->find($query);
-
-        foreach ($resultData as $returnData) {
-            $fileArrMongo[] = $returnData;
+        $query = array('idu' => (int) ($this->idu));
+        $result = $this->genias_model->get_visitas_all();
+        foreach ($result  as $returnData) {
+            $id = $returnData['id'];
+            $idu = $returnData['idu'];
+            $fecha = $returnData['fecha'];
+           $newResult = $this->genias_model->goal_update_all('2', $id,$idu, $fecha);
+           var_dump($newResult);
+           
         }
-        //return $fileArrMongo;             
-
-        if (!empty($fileArrMongo)) {
-            echo json_encode(array(
-                'success' => true,
-                'message' => "Loaded data",
-                'data' => $fileArrMongo
-            ));
-        }
+        exit();       
     }
 
     public function Remove() {       
@@ -93,5 +91,7 @@ class Visitas_remote extends MX_Controller {
          }
        
     }
+    
+   
 
 }
