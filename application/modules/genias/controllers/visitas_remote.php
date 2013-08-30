@@ -82,9 +82,10 @@ class Visitas_remote extends MX_Controller {
             $form = get_object_vars($thisform);              
             $resultData = $this->genias_model->visitas_remove($container, $form['id']);
              if ($resultData) {
-                /* Update Goal */
-                $this->genias_model->goal_remove($form['id']);
                 $out = array('status' => 'ok');
+                echo "<pre>";
+                var_dump($resultData);
+                echo "</pre>";
             } else {
                 $out = array('status' => 'error');
             }
