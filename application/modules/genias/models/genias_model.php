@@ -71,8 +71,8 @@ class Genias_model extends CI_Model {
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
 
-    function update_goal() {       
-        
+    function update_goal() {
+
         $container = 'container.genias_goals';
         $data = $this->input->post('data');
 
@@ -224,10 +224,9 @@ class Genias_model extends CI_Model {
         }
         return $rtn;
     }
-    
-    
+
     function get_visitas_all() {
-        $rtn = array();                
+        $rtn = array();
         $container = 'container.genias_visitas';
         $result = $this->mongo->db->$container->find();
         $result->limit(2000);
@@ -238,15 +237,46 @@ class Genias_model extends CI_Model {
         }
         return $rtn;
     }
-    
-    
-    function visitas_remove($container, $id = null) {       
+
+    function visitas_remove($container, $id = null) {
         $query = array(
             'id' => $id
         );
-        $metas = $this->mongo->db->$container->remove($query);
+        $visita = $this->mongo->db->$container->remove($query);
+
+        if ($visita) {
+            $newQuery = array(
+                'cumplidas' => $id
+            );
+
+
+            $newContainer = 'container.genias_goals';
+            $result = $this->mongo->db->$newContainer->findOne($newQuery);
+            
+            $arrCheck = $result['cumplidas'];                       
+            $resultArr = @array_diff($arrCheck, array($id));
+           
+            if(!empty($resultArr)){
+            foreach ($resultArr as $key => $value) {
+                $newArr[] =  $value;
+            }
+
+            $idQuery = array('id' => $result['id']);
+            $update = array('$set' => array('cumplidas' =>$newArr));
+            $options = array('multi' => false, 'upsert' => false);
+            $rs = $this->mongo->db->$newContainer->update($idQuery, $update, $options);
+
+            return $rs; 
+            exit();
+            }
+            
+        }
     }
-    
+
+    function array_delete($value, $array) {
+        $array = array_diff($array, array($value));
+        return $array;
+    }
 
     /* RETURN ENCUESTAS */
 
@@ -277,27 +307,25 @@ class Genias_model extends CI_Model {
         return $rtn;
     }
 
-    
-    
     //======== Actualiza Meta Activa =========//
 
     function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null) {
-        $container_metas = 'container.genias_goals';        
+        $container_metas = 'container.genias_goals';
         list($monthValue) = explode("/", $fecha);
-       
+
         //----busco meta activa
         $query = array(
             'proyecto' => $proyecto,
             'idu' => $idu,
-            'hasta' => array('$lte' => date('Y-'.$monthValue.'-t')),
-            'desde' => array('$gte' => date('Y-'.$monthValue.'-01')),
+            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t')),
+            'desde' => array('$gte' => date('Y-' . $monthValue . '-01')),
         );
-       
+
         $metas = $this->mongo->db->$container_metas->find($query);
         foreach ($metas as $meta) {
-            
+
             //return "<pre>" . json_encode($meta['case']). " " . json_encode($query). "</pre>";exit;
-            
+
             $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
                 break;
@@ -307,18 +335,17 @@ class Genias_model extends CI_Model {
         if (isset($meta) && isset($case) && $case['status'] == 'closed') {
             //----Agrego visita a la meta
             $meta['cumplidas'][] = $id_visita;
-            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));            
-            $result = $this->mongo->db->$container_metas->save($meta);            
-            return "<pre> " .$meta['case'] ." ".$id_visita ." ".$idu ." ".$monthValue."</pre>"; //$result;
+            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
+            $result = $this->mongo->db->$container_metas->save($meta);
+            return "<pre> " . $meta['case'] . " " . $id_visita . " " . $idu . " " . $monthValue . "</pre>"; //$result;
         }
     }
-    
-    
+
     //======== Actualiza Meta Activa =========//
 
     function goal_update($proyecto = '2', $id_visita = null) {
-        $container_metas = 'container.genias_goals';        
-        
+        $container_metas = 'container.genias_goals';
+
         //----busco meta activa
         $query = array(
             'proyecto' => $proyecto,
@@ -328,8 +355,8 @@ class Genias_model extends CI_Model {
         );
         //return "Consulta" . json_encode($query);exit;
         $metas = $this->mongo->db->$container_metas->find($query);
-        
-        foreach ($metas as $meta) {            
+
+        foreach ($metas as $meta) {
             $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
                 break;
@@ -339,18 +366,18 @@ class Genias_model extends CI_Model {
         if (isset($meta) && isset($case) && $case['status'] == 'closed') {
             //----Agrego visita a la meta
             $meta['cumplidas'][] = $id_visita;
-            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));            
+            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
             $result = $this->mongo->db->$container_metas->save($meta);
             return $result;
         }
     }
-    
-    function remove_goal($id){
+
+    function remove_goal($id) {
         $container_metas = 'container.genias_goals';
 
-        $query = array("_id"=>new MongoId($id));
-        $result = $this->mongo->db->$container_metas->remove($query); 
-        return (isset($result['err']))?($result['err']):(0);
+        $query = array("_id" => new MongoId($id));
+        $result = $this->mongo->db->$container_metas->remove($query);
+        return (isset($result['err'])) ? ($result['err']) : (0);
     }
 
     // ======= USER CONTROL ======= //
@@ -408,41 +435,37 @@ class Genias_model extends CI_Model {
         $query = array('1695' => $cuit);
         $this->mongo->db->$container->update($query, $update);
     }
-    
+
     //==== RESUMEN DE VISITAS ====//
-    
-    function get_resumen_visitas(){
+
+    function get_resumen_visitas() {
         $container = 'container.genias_visitas';
         $this->load->model('user/user');
-        
-        
-        
+
+
+
         $result = $this->mongo->db->$container->find();
-        $listado=array();
-        foreach($result as $visita){
+        $listado = array();
+        foreach ($result as $visita) {
             //
-            if(isset($visita['fecha'])&&isset($visita['cuit'])&&isset($visita['idu'])){
-                $user = $this->user->get_user((int)$visita['idu']);
-                $username=(isset($user))?($user->lastname . ", " . $user->name):("-");
-                            
-                $myVisita=array('fecha'=>$visita['fecha'],'idu'=>$username);     
-                $empresa=$this->get_empresas(array('1695'=>$visita['cuit']));
-                if(empty($empresa) || empty($empresa[0][4651]))continue;
-                $prov=(array)$empresa[0][4651];
-                
+            if (isset($visita['fecha']) && isset($visita['cuit']) && isset($visita['idu'])) {
+                $user = $this->user->get_user((int) $visita['idu']);
+                $username = (isset($user)) ? ($user->lastname . ", " . $user->name) : ("-");
 
-                $listado[$prov[0]][$visita['cuit']]['empresa']=$empresa[0][1693];
-                $listado[$prov[0]][$visita['cuit']]['4651']=$prov[0];
-                $listado[$prov[0]][$visita['cuit']]['fechas'][]=$myVisita;          
-                $listado[$prov[0]][$visita['cuit']]['nombre']=$username;
+                $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
+                $empresa = $this->get_empresas(array('1695' => $visita['cuit']));
+                if (empty($empresa) || empty($empresa[0][4651]))
+                    continue;
+                $prov = (array) $empresa[0][4651];
 
+
+                $listado[$prov[0]][$visita['cuit']]['empresa'] = $empresa[0][1693];
+                $listado[$prov[0]][$visita['cuit']]['4651'] = $prov[0];
+                $listado[$prov[0]][$visita['cuit']]['fechas'][] = $myVisita;
+                $listado[$prov[0]][$visita['cuit']]['nombre'] = $username;
             }
-            
         }
-       return $listado;
+        return $listado;
     }
-    
-    
-
 
 }
