@@ -71,7 +71,8 @@ class Genias_model extends CI_Model {
         return $this->mongo->db->$container->update($query, $goal, $options);
     }
 
-    function update_goal() {
+    function update_goal() {       
+        
         $container = 'container.genias_goals';
         $data = $this->input->post('data');
 
@@ -224,6 +225,21 @@ class Genias_model extends CI_Model {
         return $rtn;
     }
     
+    
+    function get_visitas_all() {
+        $rtn = array();                
+        $container = 'container.genias_visitas';
+        $result = $this->mongo->db->$container->find();
+        $result->limit(2000);
+        foreach ($result as $visita) {
+            unset($visita['_id']);
+            //unset($visita['id']);
+            $rtn[] = $visita;
+        }
+        return $rtn;
+    }
+    
+    
     function visitas_remove($container, $id = null) {       
         $query = array(
             'id' => $id
@@ -261,10 +277,48 @@ class Genias_model extends CI_Model {
         return $rtn;
     }
 
+    
+    
+    //======== Actualiza Meta Activa =========//
+
+    function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null) {
+        $container_metas = 'container.genias_goals';        
+        list($monthValue) = explode("/", $fecha);
+       
+        //----busco meta activa
+        $query = array(
+            'proyecto' => $proyecto,
+            'idu' => $idu,
+            'hasta' => array('$lte' => date('Y-'.$monthValue.'-t')),
+            'desde' => array('$gte' => date('Y-'.$monthValue.'-01')),
+        );
+       
+        $metas = $this->mongo->db->$container_metas->find($query);
+        foreach ($metas as $meta) {
+            
+            //return "<pre>" . json_encode($meta['case']). " " . json_encode($query). "</pre>";exit;
+            
+            $case = $this->get_case($meta['case']);
+            if ($case['status'] == 'closed') {
+                break;
+            }
+        }
+        //var_dump($query,$meta);exit;       
+        if (isset($meta) && isset($case) && $case['status'] == 'closed') {
+            //----Agrego visita a la meta
+            $meta['cumplidas'][] = $id_visita;
+            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));            
+            $result = $this->mongo->db->$container_metas->save($meta);            
+            return "<pre> " .$meta['case'] ." ".$id_visita ." ".$idu ." ".$monthValue."</pre>"; //$result;
+        }
+    }
+    
+    
     //======== Actualiza Meta Activa =========//
 
     function goal_update($proyecto = '2', $id_visita = null) {
-        $container_metas = 'container.genias_goals';
+        $container_metas = 'container.genias_goals';        
+        
         //----busco meta activa
         $query = array(
             'proyecto' => $proyecto,
@@ -272,22 +326,22 @@ class Genias_model extends CI_Model {
             'hasta' => array('$lte' => date('Y-m-t')),
             'desde' => array('$gte' => date('Y-m-01')),
         );
-        //echo json_encode($query);exit;
+        //return "Consulta" . json_encode($query);exit;
         $metas = $this->mongo->db->$container_metas->find($query);
-
-        foreach ($metas as $meta) {
+        
+        foreach ($metas as $meta) {            
             $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
                 break;
             }
         }
-
         //var_dump($query,$meta);exit;
         if (isset($meta) && isset($case) && $case['status'] == 'closed') {
             //----Agrego visita a la meta
             $meta['cumplidas'][] = $id_visita;
-            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
-            $this->mongo->db->$container_metas->save($meta);
+            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));            
+            $result = $this->mongo->db->$container_metas->save($meta);
+            return $result;
         }
     }
     
