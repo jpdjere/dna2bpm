@@ -796,30 +796,43 @@ class Genias extends MX_Controller {
         $provincias = array();
         foreach ($genias['genias'] as $thisGenia) {
             if (isset($thisGenia['query_empresas'])) {
+
                 foreach ($thisGenia['query_empresas'] as $key => $value) {
-                    //---me gurado provincias para filtrar partidos
+                    //---me guardo provincias para filtrar partidos
                     if ($key == 4651) {
                         $provincias[] = $value;
                     }
-
-                    if (isset($query[$key])) {
-                        if (is_array($query[$key])) {
-                            array_push($query[$key]['$in'], $value);
-                        } else {
-                            $original = $query[$key];
-                            $query[$key] = array();
-                            $query[$key]['$in'] = array($original, $value);
+                    
+                    // Armo Array
+                    if(is_array($value)){
+                        foreach($value as $v){
+                            $query[$key][]=$v;
                         }
-                    } else {
-                        if (is_array($value)) {
-                            $query[$key]['$in'] = $value;
-                        } else {
-                            $query[$key] = $value;
-                        }
+                    }else{
+                         $query[$key][]=$value;
                     }
+                     
+//  version anterior de query               
+//                    if (isset($query[$key])) {
+//                        if (is_array($query[$key])) {
+//                            array_push($query[$key]['$in'], $value);
+//                        } else {
+//                            $original = $query[$key];
+//                            $query[$key] = array();
+//                            $query[$key]['$in'] = array($original, $value);
+//                        }
+//                    } else {
+//                        if (is_array($value)) {
+//                            $query[$key]['$in'] = $value;
+//                        } else {
+//                            $query[$key] = $value;
+//                        }
+//                    }
                 }
             }
         }
+        
+        // Agregos los $in y $or al query
 
         $this->load->model('app');
         $debug = false;
@@ -836,8 +849,17 @@ class Genias extends MX_Controller {
                 $partidos+=$par;
             }
         }
-
-        $empresas = $this->genias_model->get_empresas($query);
+        
+        // WRAP para mongo meto $or y $in       
+        foreach($query as $k=>$items){
+            if(is_array($items)){
+                $newQ['$or'][]=array($k=>array('$in'=>$items));
+            }else{
+                $newQ['$or'][]=array($k=>$items);
+            }
+        }
+        
+        $empresas = $this->genias_model->get_empresas($newQ);
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
             //-----partido por texto
