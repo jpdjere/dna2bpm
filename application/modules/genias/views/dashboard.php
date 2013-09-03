@@ -123,25 +123,39 @@ BLOC;
     
 <!-- ================= VISITAS  ================= -->
 <?php
-/*
-foreach($visitas as $k => $provs){
-$block=<<<BLOC
-   <ul>
-       <li>$k
-            <ul>
-BLOC;
-  foreach($visitas as $provs => $cuits){
-      
-  }          
-            
-$block.=<<<BLOC2
-            </ul>   
-        </li>
-   </ul>
-BLOC2;
+if($rol=='coordinador'){
+echo '<ul class="ultree">';
+foreach($resumen_visitas as $k=>$provincias){
+
+    echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
+    /*==== provincias====*/
+        echo "<ul style='display:none'>";
+        $i=0;
+        foreach($provincias as $k=>$empresa){
+            $i++;
+            $stripe=($i%2==0)?('par'):('impar');
+            $visitas=count($empresa['fechas']);
+            echo "<li class='$stripe'>{$empresa['empresa']}<span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+//             /*==== Visitas====*/
+            echo "<ul style='display:none'>";
+                foreach($empresa['fechas'] as $k=>$fecha){ 
+                    if (($timestamp = strtotime($fecha['fecha'])) === false) {
+                        $fecha_visita='-';
+                    } else {
+                        $fecha_visita= date('d/m/Y', $timestamp);
+                    }
+                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
+                }
+            echo "</ul>";
+//
+            echo "</li>";
+        }
+        echo "</ul>";
+    echo "</li>";
+
 }
- * */
- 
+echo "</ul>";
+}
 ?>
 
 <!-- _________________ VISITAS  _________________ -->

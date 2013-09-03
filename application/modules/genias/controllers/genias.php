@@ -125,6 +125,7 @@ class Genias extends MX_Controller {
 
 //        $customData['visitas']=$this->get_resumen_visitas();
 //        var_dump($customData['visitas']);
+        $customData['resumen_visitas'] = $this->get_resumen_visitas();
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData); 
        
@@ -810,24 +811,7 @@ class Genias extends MX_Controller {
                         }
                     }else{
                          $query[$key][]=$value;
-                    }
-                     
-//  version anterior de query               
-//                    if (isset($query[$key])) {
-//                        if (is_array($query[$key])) {
-//                            array_push($query[$key]['$in'], $value);
-//                        } else {
-//                            $original = $query[$key];
-//                            $query[$key] = array();
-//                            $query[$key]['$in'] = array($original, $value);
-//                        }
-//                    } else {
-//                        if (is_array($value)) {
-//                            $query[$key]['$in'] = $value;
-//                        } else {
-//                            $query[$key] = $value;
-//                        }
-//                    }
+                    }                 
                 }
             }
         }

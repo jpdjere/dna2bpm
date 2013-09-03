@@ -454,8 +454,7 @@ class Genias_model extends CI_Model {
                 if (empty($empresa) || empty($empresa[0][4651]))
                     continue;
                 $prov = (array) $empresa[0][4651];
-
-
+                
                 $listado[$prov[0]][$visita['cuit']]['empresa'] = $empresa[0][1693];
                 $listado[$prov[0]][$visita['cuit']]['4651'] = $prov[0];
                 $listado[$prov[0]][$visita['cuit']]['fechas'][] = $myVisita;
