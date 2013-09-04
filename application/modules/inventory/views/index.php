@@ -32,6 +32,7 @@
                             <i class="icon-chevron-right"></i>
                         </a>
                     </li>
+                   <!--
                     <li>
                         <a href="{module_url}assign" id="assign">
                             <i class="icon-user"></i>
@@ -39,6 +40,7 @@
                             <i class="icon-chevron-right"></i>
                         </a>
                     </li>
+                   -->
                 </ul>
             </fieldset>
             <fieldset><legend>
