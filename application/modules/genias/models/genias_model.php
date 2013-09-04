@@ -438,9 +438,21 @@ class Genias_model extends CI_Model {
     function get_resumen_visitas() {
         $container = 'container.genias_visitas';
         $this->load->model('user/user');
-
-
-
+        
+        // LIstado de Provincias permitidas
+        $provincias=array();
+        $misgenias=$this->get_genia($this->idu);
+        foreach($misgenias['genias'] as $genia){
+            if(isset($genia['query_empresas'][4651])){
+                if(is_array($genia['query_empresas'][4651])){
+                    $provincias=  array_merge($genia['query_empresas'][4651],$provincias);
+                }else{
+                    $provincias[]=$genia['query_empresas'][4651];
+                }
+            }
+           
+        }
+//var_dump($provincias);
         $result = $this->mongo->db->$container->find();
         $listado = array();
         foreach ($result as $visita) {
@@ -454,14 +466,16 @@ class Genias_model extends CI_Model {
                 if (empty($empresa) || empty($empresa[0][4651]))
                     continue;
                 $prov = (array) $empresa[0][4651];
-                
+                if(in_array($prov[0],$provincias)){
                 $listado[$prov[0]][$visita['cuit']]['empresa'] = $empresa[0][1693];
                 $listado[$prov[0]][$visita['cuit']]['4651'] = $prov[0];
                 $listado[$prov[0]][$visita['cuit']]['fechas'][] = $myVisita;
                 $listado[$prov[0]][$visita['cuit']]['nombre'] = $username;
+                }
             }
         }
         return $listado;
     }
 
 }
+
