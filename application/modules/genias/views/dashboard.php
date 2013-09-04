@@ -136,7 +136,7 @@ foreach($resumen_visitas as $k=>$provincias){
             $i++;
             $stripe=($i%2==0)?('par'):('impar');
             $visitas=count($empresa['fechas']);
-            echo "<li class='$stripe'>{$empresa['empresa']}<span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+            echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
             echo "<ul style='display:none'>";
                 foreach($empresa['fechas'] as $k=>$fecha){ 
@@ -181,7 +181,7 @@ echo "</ul>";
                     </select>
                      </div>
                     <div class="span6"> 
-                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} </span></h3>
+                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} {case}</span></h3>
                     </div>
                     {else}
                     <div class="span12"> 

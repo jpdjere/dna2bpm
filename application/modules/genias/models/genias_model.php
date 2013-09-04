@@ -466,19 +466,23 @@ class Genias_model extends CI_Model {
                 
                 // Datos empresa
                 $container = 'container.empresas';
-                $fields=array('1695','4651','1693');
+                $fields=array('1695','4651','1693','1703');
                 $query=array('1695'=>$visita['cuit']);
                 $empresa = $this->mongo->db->$container->findOne($query, $fields);
 
                //$empresa = $this->get_empresas(array('1695' => $visita['cuit']));
                 if (empty($empresa) || empty($empresa[4651]))
                     continue;
+                $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
+                $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
+                
                 $prov = (array) $empresa[4651];
                 if(in_array($prov[0],$provincias)){
-                $listado[$prov[0]][$visita['cuit']]['empresa'] = $empresa[1693];
+                $listado[$prov[0]][$visita['cuit']]['empresa'] = $razon_social;
                 $listado[$prov[0]][$visita['cuit']]['4651'] = $prov[0];
                 $listado[$prov[0]][$visita['cuit']]['fechas'][] = $myVisita;
                 $listado[$prov[0]][$visita['cuit']]['nombre'] = $username;
+                $listado[$prov[0]][$visita['cuit']]['1703'] = $email;
                 }
             }
         }
