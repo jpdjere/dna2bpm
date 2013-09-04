@@ -237,9 +237,9 @@ echo "</ul>";
                     <button class="guardar btn btn-mini btn-success" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
-                    <a class="bt_delete btn btn-mini btn-danger"  type="button">
+<!--                    <a class="bt_delete btn btn-mini btn-danger"  type="button">
                             <i class="icon-trash"></i> Eliminar
-                    </a>
+                    </a>-->
                 {/if}
                 
   
