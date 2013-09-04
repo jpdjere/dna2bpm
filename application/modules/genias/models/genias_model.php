@@ -459,7 +459,7 @@ class Genias_model extends CI_Model {
         foreach ($result as $visita) {
             //
             if (isset($visita['fecha']) && isset($visita['cuit']) && isset($visita['idu'])) {
-               // $user = $this->user->get_user((int) $visita['idu']);
+                $user = $this->user->get_user((int) $visita['idu']);
                 $username = (isset($user)) ? ($user->lastname . ", " . $user->name) : ("-");
 
                 $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
