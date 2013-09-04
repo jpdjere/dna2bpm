@@ -121,11 +121,10 @@ class Genias extends MX_Controller {
         if ($ratio <= ($customData['goal_cantidad_total'] * .3))
             $customData['resumen_class'] = 'alert-error';
 
-//        if($this->idu==150787571){//
-
-//        $customData['visitas']=$this->get_resumen_visitas();
-//        var_dump($customData['visitas']);
-        $customData['resumen_visitas'] = $this->get_resumen_visitas();
+        // Cargo Resumen de las visitas solo para coordinadores
+        if($rol=='coordinador')
+            $customData['resumen_visitas'] = $this->get_resumen_visitas();
+        
         $customData['metas'] = $mygoals;
         $this->render('dashboard', $customData); 
        
