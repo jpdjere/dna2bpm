@@ -452,7 +452,7 @@ class Genias_model extends CI_Model {
             }
            
         }
-//var_dump($provincias);
+        
         $result = $this->mongo->db->$container->find();
         $listado = array();
         foreach ($result as $visita) {

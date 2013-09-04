@@ -123,8 +123,9 @@ BLOC;
     
 <!-- ================= VISITAS  ================= -->
 <?php
-if($rol=='coordinador'){
+if($rol=='coordinador' && isset($resumen_visitas)){
 echo '<ul class="ultree">';
+
 foreach($resumen_visitas as $k=>$provincias){
 
     echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
@@ -155,6 +156,7 @@ foreach($resumen_visitas as $k=>$provincias){
 
 }
 echo "</ul>";
+
 }
 ?>
 
