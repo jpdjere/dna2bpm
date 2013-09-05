@@ -130,7 +130,7 @@ class Genias extends MX_Controller {
 
         // Cargo Resumen de las visitas solo para coordinadores
         if($rol=='coordinador')
-            //$customData['resumen_visitas'] = $this->get_resumen_visitas();
+            $customData['resumen_visitas'] = $this->get_resumen_visitas();
         
         $customData['metas'] = $mygoals;
 
