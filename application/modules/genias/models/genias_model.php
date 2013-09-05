@@ -373,10 +373,25 @@ class Genias_model extends CI_Model {
 
     function remove_goal($id) {
         $container_metas = 'container.genias_goals';
-
+        $container_case = 'case';
+        // Busco el case del goal
         $query = array("_id" => new MongoId($id));
+        $my_goal = $this->mongo->db->$container_metas->findOne($query);
+        $my_case=$my_goal['case'];
+
         $result = $this->mongo->db->$container_metas->remove($query);
-        return (isset($result['err'])) ? ($result['err']) : (0);
+
+        if(!isset($result['err'])){
+            // Marco el case como borrado
+            $checkoutdate=date("Y-m-d H:i:s");
+            $query=array("id"=>$my_case);
+            $data=array('$set'=>array("checkoutdate"=>$checkoutdate,"status"=>"deleted"));
+            $rs_case = $this->mongo->db->$container_case->update($query,$data);
+
+        }else{
+            return $result['err'];
+        }
+
     }
 
     // ======= USER CONTROL ======= //

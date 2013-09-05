@@ -181,7 +181,7 @@ echo "</ul>";
                     </select>
                      </div>
                     <div class="span6"> 
-                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} </span></h3>
+                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} {case}</span></h3>
                     </div>
                     {else}
                     <div class="span12"> 
@@ -237,9 +237,9 @@ echo "</ul>";
                     <button class="guardar btn btn-mini btn-success" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
-<!--                    <a class="bt_delete btn btn-mini btn-danger"  type="button">
+                   <a class="bt_delete btn btn-mini btn-danger"  type="button">
                             <i class="icon-trash"></i> Eliminar
-                    </a>-->
+                    </a>
                 {/if}
                 
   
