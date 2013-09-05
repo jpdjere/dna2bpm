@@ -111,3 +111,46 @@ filter: dropshadow(color=#fff, offx=1, offy=1);
   -o-transition: height 0.001s;
   transition: height 0.001s;
 }
+
+/*==== UL TREE ====*/
+UL.ultree * LI,UL.ultree{
+    list-style: none;
+}
+
+UL.ultree > LI{
+    border-bottom: 1px solid #ccc;
+    padding:10px 3px;
+
+}
+
+UL.ultree UL LI{
+    padding:5px 0px;
+
+}
+
+a.ulcollapse{
+    display:inline-block;
+}
+UL.ultree .par{
+    background-color: #F1F1F1;
+}
+
+UL.ultree > LI > UL > LI{
+    border-bottom:1px dashed #ccc;
+}
+
+UL.ultree > LI > UL > LI:last-child{
+    border-bottom:none;
+}
+UL.ultree .cuit{
+    color:#f60;
+    margin-left:4px;
+}
+
+UL.ultree .cantidad{
+    margin-left:4px;
+}
+
+/*UL.ultree LI Ul LI{
+    display: none;
+}*/

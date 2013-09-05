@@ -49,6 +49,7 @@ submitHandler: function(form) {
       url: globals.module_url+'add_goal',
       data:{'data':data},
       success:function(resp){
+
       }
    });
 
@@ -145,7 +146,9 @@ $('.nav-tabs a').click(function(e){
     var code=$(this).attr('href').split('-');
     if($(this).attr('href')=="#tab_resumen"){
         $('.meta').show();
+        $('.ultree').show();
     }else{
+        $('.ultree').hide();
       $('[data-genia]').each(function(index){
        var genia=$(this).attr('data-genia');
        if(genia!=code[1]){
@@ -160,7 +163,9 @@ $('.nav-tabs a').click(function(e){
 
 });
 
-
+$('.ul_collapse').on('click',function(e){
+  $(this).next('UL').slideToggle();
+});
 //function onUpdateReady() {
 // // alert('found new version!');
 //  location.reload();

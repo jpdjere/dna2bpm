@@ -28,7 +28,13 @@ class Genias extends MX_Controller {
         $this->module_url = base_url() . 'genias/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
+        
+        // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
+        if(!$this->idu){
+            header("$this->module_url/user/logout");
+            exit();
+        }
 
         ini_set('xdebug.var_display_max_depth', 100);
 
@@ -41,6 +47,7 @@ class Genias extends MX_Controller {
     }
 
     function Index() {
+
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
@@ -121,11 +128,12 @@ class Genias extends MX_Controller {
         if ($ratio <= ($customData['goal_cantidad_total'] * .3))
             $customData['resumen_class'] = 'alert-error';
 
-//        if($this->idu==150787571){//
-
-//        $customData['visitas']=$this->get_resumen_visitas();
-//        var_dump($customData['visitas']);
+        // Cargo Resumen de las visitas solo para coordinadores
+        if($rol=='coordinador')
+            $customData['resumen_visitas'] = $this->get_resumen_visitas();
+        
         $customData['metas'] = $mygoals;
+
         $this->render('dashboard', $customData); 
        
     }
@@ -796,30 +804,26 @@ class Genias extends MX_Controller {
         $provincias = array();
         foreach ($genias['genias'] as $thisGenia) {
             if (isset($thisGenia['query_empresas'])) {
+
                 foreach ($thisGenia['query_empresas'] as $key => $value) {
-                    //---me gurado provincias para filtrar partidos
+                    //---me guardo provincias para filtrar partidos
                     if ($key == 4651) {
                         $provincias[] = $value;
                     }
-
-                    if (isset($query[$key])) {
-                        if (is_array($query[$key])) {
-                            array_push($query[$key]['$in'], $value);
-                        } else {
-                            $original = $query[$key];
-                            $query[$key] = array();
-                            $query[$key]['$in'] = array($original, $value);
+                    
+                    // Armo Array
+                    if(is_array($value)){
+                        foreach($value as $v){
+                            $query[$key][]=$v;
                         }
-                    } else {
-                        if (is_array($value)) {
-                            $query[$key]['$in'] = $value;
-                        } else {
-                            $query[$key] = $value;
-                        }
-                    }
+                    }else{
+                         $query[$key][]=$value;
+                    }                 
                 }
             }
         }
+        
+        // Agregos los $in y $or al query
 
         $this->load->model('app');
         $debug = false;
@@ -836,8 +840,17 @@ class Genias extends MX_Controller {
                 $partidos+=$par;
             }
         }
-
-        $empresas = $this->genias_model->get_empresas($query);
+        
+        // WRAP para mongo meto $or y $in       
+        foreach($query as $k=>$items){
+            if(is_array($items)){
+                $newQ['$or'][]=array($k=>array('$in'=>$items));
+            }else{
+                $newQ['$or'][]=array($k=>$items);
+            }
+        }
+        
+        $empresas = $this->genias_model->get_empresas($newQ);
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
             //-----partido por texto

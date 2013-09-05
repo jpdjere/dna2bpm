@@ -12,7 +12,9 @@ class Genias_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
+        
         $this->idu = (int) $this->session->userdata('iduser');
+        if(!$this->idu)header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
 
@@ -371,10 +373,25 @@ class Genias_model extends CI_Model {
 
     function remove_goal($id) {
         $container_metas = 'container.genias_goals';
-
+        $container_case = 'case';
+        // Busco el case del goal
         $query = array("_id" => new MongoId($id));
+        $my_goal = $this->mongo->db->$container_metas->findOne($query);
+        $my_case=$my_goal['case'];
+
         $result = $this->mongo->db->$container_metas->remove($query);
-        return (isset($result['err'])) ? ($result['err']) : (0);
+
+        if(!isset($result['err'])){
+            // Marco el case como borrado
+            $checkoutdate=date("Y-m-d H:i:s");
+            $query=array("id"=>$my_case);
+            $data=array('$set'=>array("checkoutdate"=>$checkoutdate,"status"=>"deleted"));
+            $rs_case = $this->mongo->db->$container_case->update($query,$data);
+
+        }else{
+            return $result['err'];
+        }
+
     }
 
     // ======= USER CONTROL ======= //
@@ -438,11 +455,24 @@ class Genias_model extends CI_Model {
     function get_resumen_visitas() {
         $container = 'container.genias_visitas';
         $this->load->model('user/user');
-
-
-
+        
+        // LIstado de Provincias permitidas
+        $provincias=array();
+        $misgenias=$this->get_genia($this->idu);
+        foreach($misgenias['genias'] as $genia){
+            if(isset($genia['query_empresas'][4651])){
+                if(is_array($genia['query_empresas'][4651])){
+                    $provincias=  array_merge($genia['query_empresas'][4651],$provincias);
+                }else{
+                    $provincias[]=$genia['query_empresas'][4651];
+                }
+            }
+           
+        }
+        
         $result = $this->mongo->db->$container->find();
         $listado = array();
+        $cache_empresas=array();
         foreach ($result as $visita) {
             //
             if (isset($visita['fecha']) && isset($visita['cuit']) && isset($visita['idu'])) {
@@ -450,19 +480,39 @@ class Genias_model extends CI_Model {
                 $username = (isset($user)) ? ($user->lastname . ", " . $user->name) : ("-");
 
                 $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
-                $empresa = $this->get_empresas(array('1695' => $visita['cuit']));
-                if (empty($empresa) || empty($empresa[0][4651]))
+                
+                // Datos empresa
+                $container = 'container.empresas';
+                $fields=array('1695','4651','1693','1703');
+                $query=array('1695'=>$visita['cuit']);
+
+                 // Cacheos datos de empresa para evitar accesos extras a la base
+                if (array_key_exists($visita['cuit'], $cache_empresas)) {
+                    $empresa=$cache_empresas[$visita['cuit']];
+                }else{
+                    $empresa = $this->mongo->db->$container->findOne($query, $fields);
+                    $cache_empresas[$visita['cuit']]=$empresa;
+                }
+                
+                // Si no hay cuit salgo del loop
+                if (empty($empresa) || empty($empresa[4651]))
                     continue;
-                $prov = (array) $empresa[0][4651];
-
-
-                $listado[$prov[0]][$visita['cuit']]['empresa'] = $empresa[0][1693];
+                $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
+                $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
+                
+                $prov = (array) $empresa[4651];
+                if(in_array($prov[0],$provincias)){
+                $listado[$prov[0]][$visita['cuit']]['empresa'] = $razon_social;
                 $listado[$prov[0]][$visita['cuit']]['4651'] = $prov[0];
                 $listado[$prov[0]][$visita['cuit']]['fechas'][] = $myVisita;
                 $listado[$prov[0]][$visita['cuit']]['nombre'] = $username;
+                $listado[$prov[0]][$visita['cuit']]['1703'] = $email;
+                }
             }
         }
+        //var_dump($cache_empresas);
         return $listado;
     }
 
 }
+
