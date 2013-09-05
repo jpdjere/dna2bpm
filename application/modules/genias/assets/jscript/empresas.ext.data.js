@@ -560,3 +560,28 @@ var PartidoStore = Ext.create('Ext.data.Store', {
         }
     }
 });
+
+/*
+ * @Name Online Status
+ * @type Store
+ * 
+ */
+var checkStatusStore = Ext.create('Ext.data.Store', {
+    id: 'checkStatusStore',
+    autoLoad: true,
+    model: 'OpcionModel',
+    proxy: {
+        type: 'ajax',        
+        url: globals.module_url + 'session_remote/ChkLogin',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+});
