@@ -28,7 +28,13 @@ class Genias extends MX_Controller {
         $this->module_url = base_url() . 'genias/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
+        
+        // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
+        if(!$this->idu){
+            header("$this->module_url/user/logout");
+            exit();
+        }
 
         ini_set('xdebug.var_display_max_depth', 100);
 
@@ -124,7 +130,7 @@ class Genias extends MX_Controller {
 
         // Cargo Resumen de las visitas solo para coordinadores
         if($rol=='coordinador')
-            $customData['resumen_visitas'] = $this->get_resumen_visitas();
+            //$customData['resumen_visitas'] = $this->get_resumen_visitas();
         
         $customData['metas'] = $mygoals;
 

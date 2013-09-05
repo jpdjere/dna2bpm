@@ -49,6 +49,7 @@ submitHandler: function(form) {
       url: globals.module_url+'add_goal',
       data:{'data':data},
       success:function(resp){
+
       }
    });
 

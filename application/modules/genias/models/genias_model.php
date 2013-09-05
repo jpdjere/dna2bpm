@@ -12,7 +12,9 @@ class Genias_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
+        
         $this->idu = (int) $this->session->userdata('iduser');
+        if(!$this->idu)header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
 
@@ -468,9 +470,16 @@ class Genias_model extends CI_Model {
                 $container = 'container.empresas';
                 $fields=array('1695','4651','1693','1703');
                 $query=array('1695'=>$visita['cuit']);
-                $empresa = $this->mongo->db->$container->findOne($query, $fields);
 
-               //$empresa = $this->get_empresas(array('1695' => $visita['cuit']));
+                 // Cacheos datos de empresa para evitar accesos extras a la base
+                if (array_key_exists($visita['cuit'], $cache_empresas)) {
+                    $empresa=$cache_empresas[$visita['cuit']];
+                }else{
+                    $empresa = $this->mongo->db->$container->findOne($query, $fields);
+                    $cache_empresas[$visita['cuit']]=$empresa;
+                }
+                
+                // Si no hay cuit salgo del loop
                 if (empty($empresa) || empty($empresa[4651]))
                     continue;
                 $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
@@ -486,6 +495,7 @@ class Genias_model extends CI_Model {
                 }
             }
         }
+        //var_dump($cache_empresas);
         return $listado;
     }
 
