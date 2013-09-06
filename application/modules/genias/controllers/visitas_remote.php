@@ -21,8 +21,7 @@ class Visitas_remote extends MX_Controller {
     /* GENIAS */
 
     public function Insert() {
-        $container = $this->containerGenias;
-        
+        $container = $this->containerGenias;        
 
         $input = json_decode(file_get_contents('php://input'));
 
@@ -43,8 +42,6 @@ class Visitas_remote extends MX_Controller {
             if ($result) {
                 /* Update Goal */
                 $newResult = $this->genias_model->goal_update('2', $id);
-                var_dump($newResult);
-                
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
@@ -92,7 +89,5 @@ class Visitas_remote extends MX_Controller {
          }
        
     }
-    
-   
 
 }
