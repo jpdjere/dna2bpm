@@ -22,7 +22,8 @@ class Session_remote extends MX_Controller {
      * CHECK LOGIN
      */
 
-    public function ChkLogin() {       
+    public function ChkLogin() {
+        $iduchK = array('idu' => $this->idu);
         $rtnArr = array();
         $rtnArr['totalCount'] = 1;
         $rtnArr['rows'] = $iduchK;
