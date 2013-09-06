@@ -23,8 +23,7 @@ class Visitas_remote extends MX_Controller {
 
     /* GENIAS */
 
-    public function Insert() {
-        
+    public function Insert() {       
         
         $container = $this->containerGenias;        
 
