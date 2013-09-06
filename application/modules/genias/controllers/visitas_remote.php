@@ -15,11 +15,17 @@ class Visitas_remote extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
         $this->containerGenias = 'container.genias_visitas';
+        if(!$this->idu){
+            header("$this->module_url/user/logout");
+            exit();
+        }
     }
 
     /* GENIAS */
 
     public function Insert() {
+        
+        
         $container = $this->containerGenias;        
 
         $input = json_decode(file_get_contents('php://input'));
@@ -71,7 +77,9 @@ class Visitas_remote extends MX_Controller {
         exit();       
     }
 
-    public function Remove() {       
+    public function Remove() {              
+        
+        
         $container = $this->containerGenias;
         $input = json_decode(file_get_contents('php://input'));
          foreach ($input as $thisform) {
