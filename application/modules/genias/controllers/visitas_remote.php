@@ -10,8 +10,7 @@ class Visitas_remote extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('user');
         $this->load->model('app');
-        $this->load->model('genias_model');
-        $this->user->authorize('modules/genias/controllers/genias');
+        $this->load->model('genias_model');        
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
