@@ -70,6 +70,7 @@ var btnSync = Ext.create('Ext.Action',
                              * si no tiene idu, vuelve al login
                              *
                              **/
+                            Ext.getCmp('btnSync').setText('La Session Esta Vencida');
                             window.location.replace("../user/logout");                             
                             
                         }
