@@ -70,7 +70,8 @@ var btnSync = Ext.create('Ext.Action',
                              * si no tiene idu, vuelve al login
                              *
                              **/
-                            window.location.replace("../genias");
+                            window.location.replace("../user/logout");                             
+                            
                         }
                     }
                 })
