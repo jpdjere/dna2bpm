@@ -31,7 +31,6 @@ class Dna2 extends MX_Controller {
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
-        
     }
 
     function Application($idapp) {
@@ -89,10 +88,21 @@ class Dna2 extends MX_Controller {
     }
 
     function Dashboard() {
-        //---hook para genios
         $user = $this->user->get_user($this->idu);
-        if (in_array(98, $user->group) or in_array(92,$user->group)) {
+
+        //---hook para genios
+        if (in_array(98, $user->group) or in_array(92, $user->group)) {
             redirect('/genias/');
+        }
+        //---hook para inventory
+        if (array_intersect(array(
+                    62, //---1.3 Gestión
+                    64, //---1.3 Evaluadores
+                    66, //---1.1 Evaluadores
+                    82, //---1.1 Evaluadores Administrativos
+                    83, //---PACC mesa de entradas
+                        ), $user->group)) {
+            redirect('/inventory/');
         }
         $customData = array();
         $customData['base_url'] = $this->base_url;
