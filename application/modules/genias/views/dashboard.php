@@ -123,7 +123,7 @@ BLOC;
     
 <!-- ================= VISITAS  ================= -->
 <?php
-if($rol=='coordinador' && isset($resumen_visitas)){
+if(isset($resumen_visitas)){
 echo '<ul class="ultree">';
 
 foreach($resumen_visitas as $k=>$provincias){
