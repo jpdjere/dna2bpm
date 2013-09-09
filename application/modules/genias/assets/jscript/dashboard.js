@@ -2,11 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-if (window.applicationCache) {
-    applicationCache.addEventListener('updateready', function() {
-            window.location.reload();
-    });
-}
 
 $( document ).ready(function() {
 
@@ -167,6 +162,13 @@ $('.ul_collapse').on('click',function(e){
   $(this).next('UL').slideToggle();
 });
 
+
+
+
+
+});
+
+
 function onUpdateReady() {
  // alert('found new version!');
   location.reload();
@@ -175,8 +177,3 @@ window.applicationCache.addEventListener('updateready', onUpdateReady);
 if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
   onUpdateReady();
 }
-
-
-
-});
-
