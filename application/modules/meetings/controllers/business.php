@@ -53,7 +53,7 @@ class Business extends MX_Controller {
                 if (count($b1)) {
 //                        $cpData['1693'] = $b1['1693'];
 //                        $cpData['1695'] = $b1['1695'];
-//                        $cpData['7466'] = $b1['7466'];
+//                        $cpData['7959'] = $b1['7959'];
 //                        $cpData['id'] = $b1['id'];
                         $cpData+=$b1;
                         

@@ -24,8 +24,8 @@ class Meeting extends CI_Model {
                                 
                         };
                 $this->db = $this->cimongo;
-                $this->frameEvent = '7403';
-                $this->frameBusiness = '7466';
+                $this->frameEvent = '7490';
+                $this->frameBusiness = '7959';
                 $this->orderby = array('1693'=>'asc');
                 $this->container_empresas = 'container.ronda1';
                 $this->container_import = 'container.ronda';
@@ -174,8 +174,8 @@ class Meeting extends CI_Model {
                         if ($b1) {
                                 //----Existe la empresa
                                 //----Importo los deseos
-                                if (isset($importb1['7466'])) {
-                                        $this->db->where(array('id' => $b1['id']))->set(array('7466' => $importb1['7466']))->update($this->container_empresas);
+                                if (isset($importb1['7959'])) {
+                                        $this->db->where(array('id' => $b1['id']))->set(array('7959' => $importb1['7959']))->update($this->container_empresas);
                                         $updates++;
                                 }
                         } else {

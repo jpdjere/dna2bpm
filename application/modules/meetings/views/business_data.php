@@ -47,7 +47,7 @@
         >
         Ver Deseos
         <span class="ui-li-count">(<?php
-$cant = (isset($_ci_vars['7466'])) ? count($_ci_vars['7466']) : 0;
+$cant = (isset($_ci_vars['7959'])) ? count($_ci_vars['7959']) : 0;
 echo $cant;
 ?>)</span>
 </a>

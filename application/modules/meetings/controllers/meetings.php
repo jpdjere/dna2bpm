@@ -33,8 +33,8 @@ class meetings extends MX_Controller {
                 $this->business_total = 500;
                 $this->tables_count = 10;
                 $this->interviews = 5;
-                $this->frameEvent = '7403';
-                $this->frameBusiness = '7466';
+                $this->frameEvent = '7490';
+                $this->frameBusiness = '7959';
                 $this->container_empresas = 'container.ronda1';
                 $this->intervals = array(
                     
@@ -462,8 +462,8 @@ class meetings extends MX_Controller {
                 $cuit = ($cuit) ? $cuit : $this->input->post('cuit');
                 $b1 = $this->meeting->get_empresa_cuit($cuit);
                 $cpData = $this->meeting->get_data($b1['id']);
-                if (isset($cpData['7466'])) {
-                        foreach ($cpData['7466'] as $b2) {
+                if (isset($cpData['7959'])) {
+                        foreach ($cpData['7959'] as $b2) {
                                 $arr = $this->meeting->get_data($b2);
                                 if (isset($arr['accredited'])) {
                                         $arr['accredited'] = ($arr['accredited']) ? true : false;
