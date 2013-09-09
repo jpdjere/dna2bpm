@@ -136,7 +136,7 @@ class Meeting extends CI_Model {
                 $this->db->select('id', $this->frameBusiness);
                 $this->db->where($query);
                 $result = $this->db->get($this->container_empresas)->result_array();
-
+                
                 return count($result);
         }
 
