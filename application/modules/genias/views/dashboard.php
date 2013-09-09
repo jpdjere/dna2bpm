@@ -181,7 +181,7 @@ echo "</ul>";
                     </select>
                      </div>
                     <div class="span6"> 
-                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad} {case}</span></h3>
+                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad}</span></h3>
                     </div>
                     {else}
                     <div class="span12"> 

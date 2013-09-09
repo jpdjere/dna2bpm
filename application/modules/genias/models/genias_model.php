@@ -470,10 +470,13 @@ class Genias_model extends CI_Model {
            
         }
         
-        $result = $this->mongo->db->$container->find();
+        $query=($misgenias['rol']=='coordinador')?(array()):(array('idu'=>$this->idu));
+        $result = $this->mongo->db->$container->find($query);
+
         $listado = array();
         $cache_empresas=array();
         foreach ($result as $visita) {
+
             //
             if (isset($visita['fecha']) && isset($visita['cuit']) && isset($visita['idu'])) {
                 $user = $this->user->get_user((int) $visita['idu']);
@@ -493,7 +496,7 @@ class Genias_model extends CI_Model {
                     $empresa = $this->mongo->db->$container->findOne($query, $fields);
                     $cache_empresas[$visita['cuit']]=$empresa;
                 }
-                
+
                 // Si no hay cuit salgo del loop
                 if (empty($empresa) || empty($empresa[4651]))
                     continue;
@@ -510,8 +513,9 @@ class Genias_model extends CI_Model {
                 }
             }
         }
-        //var_dump($cache_empresas);
-        return $listado;
+
+      // var_dump($listado);
+          return $listado;
     }
 
 }
