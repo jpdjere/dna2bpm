@@ -308,6 +308,7 @@ var EmpresaForm = Ext.create('Ext.form.Panel', {
                     displayField: 'text',
                     valueField: 'value',
                     emptyText: 'Seleccione la Provincia',
+                    allowBlank: false,
                     listeners: {
                         change: function(me, newValue, oldValue, eOpts) {
                             //if (newValue != null) {
