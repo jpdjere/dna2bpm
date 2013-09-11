@@ -186,7 +186,7 @@ class Meeting extends CI_Model {
                 foreach ($result as $emp) {
                         if (isset($emp[$this->frameBusiness])) {
                                 //----devuelvo solo las empresas que están acreditadas
-                                $arr[(float) $emp['id']] = array_intersect($accredited, $emp[$this->frameBusiness]);
+                                $arr[(int) $emp['id']] = array_intersect($accredited, $emp[$this->frameBusiness]);
                         }
                 }
                 return array_filter($arr);
