@@ -25,7 +25,7 @@ class meetings extends MX_Controller {
         $this->module_url = base_url() . 'meetings/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
-        $this->idu = (float) $this->session->userdata('iduser');
+        $this->idu = (int) $this->session->userdata('iduser');
         $this->dups = array();
         $this->wishlist = array();
 
@@ -37,6 +37,11 @@ class meetings extends MX_Controller {
         $this->frameBusiness = '7959';
         $this->container_empresas = 'container.ronda1';
         $this->intervals = array(
+            '14:00',
+            '14:30',
+            '15:00',
+            '15:30',
+            '16:00',
             '16:40',
             '17:00',
             '17:20',
