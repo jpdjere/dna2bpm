@@ -32,7 +32,11 @@ class Meeting extends CI_Model {
 
                 //$this->load->database();
         }
-
+        function reset(){
+                $this->db->delete('agenda_table');
+                $this->db->delete('agenda_business');
+                $this->db->delete('agenda_wishlist');
+        }
         function store_tables($arr) {
                 $this->db->delete('agenda_table');
                 $this->db->insert('agenda_table', $arr);
@@ -146,6 +150,14 @@ class Meeting extends CI_Model {
                 }
         }
 
+        function get_all_business() {
+                $query = array($this->frameEvent => '1');
+                $this->db->select('id', $this->frameBusiness,1693);
+                $this->db->where($query);
+                $result = $this->db->get($this->container_empresas)->result_array();
+                
+                return $result;
+        }
         function get_total_business() {
                 $query = array($this->frameEvent => '1');
                 $this->db->select('id', $this->frameBusiness);
