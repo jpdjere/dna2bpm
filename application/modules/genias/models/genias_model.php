@@ -12,7 +12,7 @@ class Genias_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
-        
+        $this->load->helper('genias/tools');
         $this->idu = (int) $this->session->userdata('iduser');
         if(!$this->idu)header("$this->module_url/user/logout");
         /* Set locale to Spansih */
@@ -453,8 +453,12 @@ class Genias_model extends CI_Model {
     //==== RESUMEN DE VISITAS ====//
 
     function get_resumen_visitas() {
-        $container = 'container.genias_visitas';
+        
         $this->load->model('user/user');
+              
+//        ob_start();
+//        echo date('H:i:s')."<br>";
+//        ob_flush();
         
         // LIstado de Provincias permitidas
         $provincias=array();
@@ -470,53 +474,78 @@ class Genias_model extends CI_Model {
            
         }
         
-        $query=($misgenias['rol']=='coordinador')?(array()):(array('idu'=>$this->idu));
-        $result = $this->mongo->db->$container->find($query);
-
-        $listado = array();
-        $cache_empresas=array();
-        foreach ($result as $visita) {
-
-            //
-            if (isset($visita['fecha']) && isset($visita['cuit']) && isset($visita['idu'])) {
-                $user = $this->user->get_user((int) $visita['idu']);
-                $username = (isset($user)) ? ($user->lastname . ", " . $user->name) : ("-");
-
-                $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
-                
-                // Datos empresa
-                $container = 'container.empresas';
-                $fields=array('1695','4651','1693','1703');
-                $query=array('1695'=>$visita['cuit']);
-
-                 // Cacheos datos de empresa para evitar accesos extras a la base
-                if (array_key_exists($visita['cuit'], $cache_empresas)) {
-                    $empresa=$cache_empresas[$visita['cuit']];
-                }else{
-                    $empresa = $this->mongo->db->$container->findOne($query, $fields);
-                    $cache_empresas[$visita['cuit']]=$empresa;
-                }
-
-                // Si no hay cuit salgo del loop
-                if (empty($empresa) || empty($empresa[4651]))
-                    continue;
-                $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
-                $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
-                
-                $prov = (array) $empresa[4651];
-                if(in_array($prov[0],$provincias)){
-                $listado[$prov[0]][$visita['cuit']]['empresa'] = $razon_social;
-                $listado[$prov[0]][$visita['cuit']]['4651'] = $prov[0];
-                $listado[$prov[0]][$visita['cuit']]['fechas'][] = $myVisita;
-                $listado[$prov[0]][$visita['cuit']]['nombre'] = $username;
-                $listado[$prov[0]][$visita['cuit']]['1703'] = $email;
-                }
-            }
+        // Todos los cuits cargados en visitas
+        $container = 'container.genias_visitas';
+        $cuits = $this->mongo->db->$container->distinct('cuit');    
+        // Todos los idus cargados en visitas
+        $idus = $this->mongo->db->$container->distinct('idu');
+        
+        // Listado de empresas
+        $container = 'container.empresas';
+        $fields=array('1695','4651','1693','1703');              
+        $query=array("1695"=>array('$in'=>$cuits),"4651"=>array('$in'=>$provincias));
+        $mongo_empresas = $this->mongo->db->$container->find($query, $fields);
+        foreach($mongo_empresas as $empresa){
+            $empresas[$empresa['1695']]=$empresa;
         }
 
-      // var_dump($listado);
+        $query=array("1695"=>array('$in'=>$cuits),"4651"=>array('$in'=>$provincias));
+        $mongo_empresas = $this->mongo->db->$container->find($query, $fields);
+
+        // Usuarios
+        $container = 'users';
+        $fields=array('lastname','name','email','idu');              
+        $query=array("idu"=>array('$in'=>$idus));
+        $mongo_usuarios = $this->mongo->db->$container->find($query, $fields);
+        foreach($mongo_usuarios as $usuario){
+            $usuarios[$usuario['idu']]=$usuario;
+        }     
+        // Visitas
+        $container = 'container.genias_visitas';
+        $query=($misgenias['rol']=='coordinador')?(array()):(array('idu'=>$this->idu));
+        $visitas = $this->mongo->db->$container->find();
+   
+     //  var_dump(iterator_to_array($mongo_visitas));
+        
+        $listado = array();
+
+        foreach ($visitas as $visita) {
+            
+        if(!key_exists($visita['cuit'], $empresas)) continue;
+
+            $empresa=$empresas[$visita['cuit']];
+            $temp=(array)$empresa['4651'];
+            $prov=$temp[0];
+
+            // Si no hay cuit salgo del loop
+
+            $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
+            $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
+            $username="{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
+            $razon_social=$empresa['1693'];
+            $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
+
+            $listado[$prov][$empresa['1695']]['empresa'] = $razon_social;
+            $listado[$prov][$empresa['1695']]['4651'] = $prov;
+            $listado[$prov][$empresa['1695']]['fechas'][] = $myVisita;
+            $listado[$prov][$empresa['1695']]['nombre'] = $username;
+            $listado[$prov][$empresa['1695']]['1703'] = $email;
+
+            
+        }
+//var_dump($listado);
+//echo date('H:i:s')."<br>";
+//ob_flush();
+//ob_clean();       
+//exit();
+//        
+
           return $listado;
     }
+    
+
+    
+
 
 }
 

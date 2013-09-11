@@ -26,4 +26,12 @@
     return date_format($date, 'd-m-Y');
     }
     
+function key_finder($pajar,$key,$value)
+{
+foreach($pajar as $item){
+    if($item[$key]==$value)return $item;
+}
+
+}
+    
 ?>
