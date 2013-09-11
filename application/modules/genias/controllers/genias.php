@@ -120,6 +120,7 @@ class Genias extends MX_Controller {
 
             //var_dump($goal);
         }
+
         $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
         if ($ratio >= ($customData['goal_cantidad_total'] * .7))
             $customData['resumen_class'] = 'alert-success';
@@ -130,7 +131,7 @@ class Genias extends MX_Controller {
 
         // Cargo Resumen de las visitas solo para coordinadores
         $customData['resumen_visitas'] = $this->get_resumen_visitas();
-        
+ 
         $customData['metas'] = $mygoals;
 
         $this->render('dashboard', $customData); 
