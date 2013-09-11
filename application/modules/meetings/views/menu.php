@@ -101,6 +101,16 @@
                                 Stats
                         </a>
                 </li>
+                <li  data-icon="gear">
+                        <a href="{module_url}test" id="stats">
+                                TEST
+                        </a>
+                </li>
+                <li  data-icon="gear">
+                        <a href="{module_url}reset" id="stats">
+                                RESET
+                        </a>
+                </li>
         </ul>
         <br/>
         <br/>
