@@ -56,8 +56,8 @@ class Meeting extends CI_Model {
         }
 
         function get_name($id) {
-                $name = 'XXX ' . (float) $id;
-                $this->db->where(array('id' => (float) $id));
+                $name = 'XXX ' . (int)$id;
+                $this->db->where(array('id' => (int)$id));
                 $this->db->select('1693', 'id');
                 $rs = $this->db->get($this->container_empresas)->result_array();
                 if ($rs)
@@ -66,7 +66,7 @@ class Meeting extends CI_Model {
         }
 
         function get_data($id) {
-                $this->db->where(array('id' => (float) $id));
+                $this->db->where(array('id' => (int)$id));
                 $rs = $this->db->get($this->container_empresas)->result_array();
                 if ($rs)
                         return $rs[0];
@@ -91,17 +91,32 @@ class Meeting extends CI_Model {
         }
 
         function get_empresa($id) {
-                $this->db->where(array('id' => (float) $id));
+                $this->db->where(array('id' => (int)$id));
                 $rs = $this->db->get($this->container_empresas)->result_array();
                 return $rs;
         }
 
         function accredit($id) {
                 $data = array('accredited' => 1);
-                $this->db->where(array('id' => (float) $id));
+                $this->db->where(array('id' => (int)$id));
                 $this->db->update($this->container_empresas, $data);
         }
-
+        
+        function unaccredit($id) {
+                $data = array('accredited' => 0);
+                $this->db->where(array('id' => (int)$id));
+                $this->db->update($this->container_empresas, $data);
+        }
+        
+        function get_accredited_fake() {
+                $this->db->where(array($this->frameEvent => '1'));
+                $this->db->select('id');
+                $this->db->order_by($this->orderby);
+                $rs = $this->db->get($this->container_empresas)->result_array();
+                if ($rs) {
+                        return $rs;
+                }
+        }
         function get_accredited() {
                 $this->db->where(array('accredited' => 1, $this->frameEvent => '1'));
                 $this->db->select('id');
