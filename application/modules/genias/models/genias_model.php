@@ -510,8 +510,8 @@ class Genias_model extends CI_Model {
         $listado = array();
 
         foreach ($visitas as $visita) {
-            if(!isset($visita['cuit']))echo 1;
-        if(!key_exists($visita['cuit'], $empresas)) continue;
+
+             if($visita['cuit']&& !key_exists($visita['cuit'], $empresas)) continue;
 
             $empresa=$empresas[$visita['cuit']];
             $temp=(array)$empresa['4651'];
