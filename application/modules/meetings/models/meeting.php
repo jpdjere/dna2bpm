@@ -212,7 +212,7 @@ class Meeting extends CI_Model {
                 //----Existe la empresa
                 //----Importo los deseos
                 if (isset($importb1['7959'])) {
-                    $this->db->where(array('id' => $b1['id']))->set(array('7959' => $importb1['7959']))->update($this->container_empresas);
+                    $this->db->where(array('id' =>(int) $b1['id']))->set(array('7959' => $importb1['7959']))->update($this->container_empresas);
                     $updates++;
                 }
             } else {
