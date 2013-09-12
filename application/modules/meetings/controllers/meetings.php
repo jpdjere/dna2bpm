@@ -742,7 +742,7 @@ class meetings extends MX_Controller {
             if ($debug) {
                 var_dump($db_data);
             } else {
-                $this->cezpdf->ezTable($db_data, $col_names, 'Lista de Entrevistas:' . $b, array('width' => 550));
+                $this->cezpdf->ezTable($db_data, $col_names, 'Lista de Entrevistas: ' . $b, array('width' => 550));
                 $this->cezpdf->ezSetY(0);
             }
             /*
