@@ -25,7 +25,7 @@ class Business extends MX_Controller {
         }
         function registered($query=null) {
                 if($this->input->post('seach-name')){
-                    $regexObj = new MongoRegex("/^".$this->input->post('seach-name')."/i"); 
+                    $regexObj = new MongoRegex("/".$this->input->post('seach-name')."/i"); 
                     $query=array("1693" => $regexObj);
                 }
                 $cpData = array();
