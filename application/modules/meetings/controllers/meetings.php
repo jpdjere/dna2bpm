@@ -512,8 +512,8 @@ class meetings extends MX_Controller {
         $cuit = ($cuit) ? $cuit : $this->input->post('cuit');
         $b1 = $this->meeting->get_empresa_cuit($cuit);
         $cpData = $this->meeting->get_data($b1['id']);
-        if (isset($cpData['7959'])) {
-            foreach ($cpData['7959'] as $b2) {
+        if (isset($cpData[$this->frameBusiness])) {
+            foreach ($cpData[$this->frameBusiness] as $b2) {
                 $arr = $this->meeting->get_data($b2);
                 if (isset($arr['accredited'])) {
                     $arr['accredited'] = ($arr['accredited']) ? true : false;
