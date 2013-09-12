@@ -330,17 +330,18 @@ class meetings extends MX_Controller {
         $this->load_data();
         $this->load->library('table');
         $cpData = array();
-        $this->tables_count = count($this->tables);
+        //$this->tables_count = count($this->tables);
         $possible_meets = count($this->intervals) * $this->tables_count;
         $wishes_count = $this->count_wishes($this->wishlist);
         //---remove dups
         $this->remove_dups($this->wishlist);
         $count_wishes = $this->count_wishes($this->wishlist) + $this->count_wishes($this->dups);
         $cpData['business_total'] = $this->business_total;
-        $cpData['available_tables'] = count($this->tables);
-        $cpData['available_periods'] = count($this->intervals);
+        $cpData['used_tables'] = count($this->tables);
+        $cpData['available_tables'] = $this->tables_count;
+        $cpData['available_periods'] = count($this->intervals).' ('.implode(',',$this->intervals).')';
         $cpData['meetings_per_business'] = $this->interviews;
-        $cpData['Total_Posible_meetings'] = (count($this->intervals) * count($this->tables));
+        $cpData['Total_Posible_meetings'] = $possible_meets;
         $cpData['Total_wishes'] = $count_wishes;
         $cpData['Total_wishes_without_dups'] = $wishes_count;
         //--calculate % of marginal gap

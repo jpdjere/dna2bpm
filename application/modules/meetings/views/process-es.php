@@ -10,6 +10,8 @@ Total Empresas: {business_total}
 
 Mesas Disponibles: {available_tables}
 <br/><br/>
+Mesas Utilizadas: {used_tables}
+<br/><br/>
 
 Periodos: {available_periods}
 <br/><br/>
