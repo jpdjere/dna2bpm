@@ -205,7 +205,7 @@ class meetings extends MX_Controller {
             for ($i = 0; $i <= $list; $i++) {
                 $addid = $this->business[rand(0, $this->business_total - 1)];
                 if ($addid <> $id)
-                    $object[] = (float) $addid;
+                    $object[] = (int) $addid;
             }
             $this->db->where(array('id' => $id));
             $this->db->update($this->container_empresas, array($this->frameBusiness => $object));
@@ -395,8 +395,8 @@ class meetings extends MX_Controller {
         //----try to satisfy all meetings
         //----try to grant all wishes
         foreach ($wishes as $wish) {
-            $b1 = (float) $wish[0];
-            $b2 = (float) $wish[1];
+            $b1 = (int) $wish[0];
+            $b2 = (int) $wish[1];
             $free = false;
             $table = false;
             //---get an available p for both business
