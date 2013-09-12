@@ -157,10 +157,7 @@ class Meeting extends CI_Model {
         $query = array($this->frameEvent => '1');
         $this->db->select('id', $this->frameBusiness, 1693);
         $this->db->where($query);
-        $this->db->debug = 1;
         $result = $this->db->get($this->container_empresas)->result_array();
-        $this->db->debug = 0;
-
         return $result;
     }
 
