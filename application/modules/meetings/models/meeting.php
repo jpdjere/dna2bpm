@@ -206,13 +206,14 @@ class Meeting extends CI_Model {
         $rs = $this->db->get($this->container_import)->result_array();
         $imports = 0;
         $updates = 0;
+        echo "Merging:".count($rs).'<hr/>';
         foreach ($rs as $importb1) {
             $b1 = $this->get_data($importb1['id']);
             if ($b1) {
                 //----Existe la empresa
                 //----Importo los deseos
-                if (isset($importb1['7959'])) {
-                    $this->db->where(array('id' =>(int) $b1['id']))->set(array('7959' => $importb1['7959']))->update($this->container_empresas);
+                if (isset($importb1[$this->frameBusiness])) {
+                    $this->db->where(array('id' =>(int) $b1['id']))->set(array($this->frameBusiness => $importb1[$this->frameBusiness]))->update($this->container_empresas);
                     $updates++;
                 }
             } else {
