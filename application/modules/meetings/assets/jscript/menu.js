@@ -30,7 +30,7 @@ $('#view-agenda').live('click',function(e){
 });*/
 $(document).ready(function (){
     
-$('a').on('click',function(e){
+$(document).on("click", "a",function(e){
     
     isMenu=$(this).attr('isMenu');
     isClear=$(this).hasClass('ui-input-clear')
