@@ -56,7 +56,7 @@ class meetings extends MX_Controller {
         $business = $this->meeting->get_all_business();
 
         echo "Acreditando: " . count($business) . ' Empresas...<hr/>';
-        $err=0;
+        $err = 0;
         foreach ($business as $b) {
             $e = $this->meeting->get_empresa((int) $b['id']);
             if ($e) {
@@ -67,7 +67,7 @@ class meetings extends MX_Controller {
                 $err++;
             }
         }
-        echo "Errores:".$err.'<br/>';
+        echo "Errores:" . $err . '<br/>';
         $this->run();
         $this->stats();
     }
@@ -137,7 +137,20 @@ class meetings extends MX_Controller {
     }
 
     function print_meetings() {
-        
+        $this->load_data();
+        foreach ($this->intervals as $interval) {
+            $c = 0;
+            echo "<h2>$interval</h2>";
+            foreach ($this->tables as $table) {
+                if (isset($this->table_agenda[$table][$interval])) {
+                    $b1 = $this->meeting->get_data($this->table_agenda[$table][$interval]['business1']);
+                    $b2 = $this->meeting->get_data($this->table_agenda[$table][$interval]['business2']);
+                    echo "$table(" . $b1['1693'] . ' ->' . $b2['1693'] . ')<br/>';
+                    $c++;
+                }
+            }
+            echo "<br/><br/>$c reuniones<hr/>";
+        }
     }
 
     function merge() {
