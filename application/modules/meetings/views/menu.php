@@ -74,7 +74,7 @@
                 </li>
                 <li><a href="{module_url}business/registered">Registradas<span class="ui-li-count">{business_total}</span></a></li>
                 <li><a href="{module_url}business/accredited">Acreditadas<span class="ui-li-count">{accredited_business}</span></a></li>
-                <li><a href="print_tables">Mesas<span class="ui-li-count">{Used_Tables}/{available_tables}</span></a></li>
+                <li><a href="{module_url}print_tables">Mesas<span class="ui-li-count">{Used_Tables}/{available_tables}</span></a></li>
                 <li>
                         <a href="{module_url}print_meetings">
                                 Reuniones
