@@ -20,7 +20,7 @@
                 </a>
 
                 <a 
-                        id="view-agenda"
+                        
                         href="{module_url}print_business/{1695}" 
                         data-inline="true" 
                         data-icon="gear" 
@@ -31,7 +31,7 @@
                 </a>
 
                 <a 
-                        id="view-wishes"
+                        
                         href="{module_url}print_wishes/{1695}" 
                         data-inline="true" 
                         data-icon="gear" 
