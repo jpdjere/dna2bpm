@@ -68,7 +68,7 @@ class Meeting extends CI_Model {
         $rs = $this->db->get($this->container_empresas)->result_array();
         if ($rs)
             $name = (isset($rs[0]['1693'])) ? $rs[0]['1693'] : $rs[0]['id'];
-        return utf8_encode(trim($name));
+        return utf8_decode(trim($name));
     }
 
     function get_data($id) {
