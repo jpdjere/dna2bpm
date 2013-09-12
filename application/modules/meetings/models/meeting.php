@@ -134,8 +134,11 @@ class Meeting extends CI_Model {
         }
     }
 
-    function get_registered() {
-        $this->db->where(array($this->frameEvent => '1'));
+    function get_registered($query=null) {
+        $base_query=array($this->frameEvent => '1');
+        
+        $query=($query) ? $base_query+$query: $base_query;
+        $this->db->where($query);
         $this->db->order_by($this->orderby);
         $rs = $this->db->get($this->container_empresas)->result_array();
         if ($rs)
