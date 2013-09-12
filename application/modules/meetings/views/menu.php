@@ -28,7 +28,7 @@
                 <li  data-icon="gear">
                         Buscar Nombre
                         {ignore}
-                        <form id="view-cuit" action="{module_url}print_business" method="post" data-ajax="false">
+                        <form id="view-cuit" action="{module_url}business/registered" method="post" data-ajax="false">
                                 <input 
                                         type="search" 
                                         data-mini="true"
