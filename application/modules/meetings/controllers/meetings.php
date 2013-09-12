@@ -31,17 +31,20 @@ class meetings extends MX_Controller {
 
         //---Basic Params
         $this->business_total = 500;
-        $this->tables_count = 50;
+        $this->tables_count = 48;
         $this->interviews = 5;
         $this->frameEvent = '7490';
         $this->frameBusiness = '7959';
         $this->container_empresas = 'container.ronda1';
         $this->intervals = array(
             '14:00',
-            '14:30',
+            '14:20',
+            '14:40',
             '15:00',
-            '15:30',
+            '15:20',
+            '15:40',
             '16:00',
+            '16:20',
             '16:40',
             '17:00',
             '17:20',
@@ -49,6 +52,7 @@ class meetings extends MX_Controller {
             '18:00',
             '18:20',
             '18:40',
+            
         );
     }
 

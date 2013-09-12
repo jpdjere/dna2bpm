@@ -23,11 +23,15 @@ class Business extends MX_Controller {
                 $this->meeting->find_business($query);
                 
         }
-        function registered() {
+        function registered($query=null) {
+                if($this->input->post('seach-name')){
+                    $regexObj = new MongoRegex("/^".$this->input->post('seach-name')."/i"); 
+                    $query=array("1693" => $regexObj);
+                }
                 $cpData = array();
                 $cpData['base_url'] = $this->base_url;
                 $cpData['module_url'] = $this->module_url;
-                $rs = $this->meeting->get_registered();
+                $rs = $this->meeting->get_registered($query);
                 $cpData['business'] = $rs;
                 @$this->parser->parse('business_registered', $cpData);
                 //var_dump($rs);
