@@ -43,7 +43,7 @@
                         {/ignore}
                 </li>
                 <li  data-icon="gear">
-                        <form id="view-table" action="print_tables" data-ajax="false">
+                        <form id="view-table" action="{module_url}print_tables" data-ajax="false">
                                 Ver Mesa
                                 <input 
                                         placeholder="M1....M{tables}" 
