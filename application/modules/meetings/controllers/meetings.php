@@ -52,7 +52,6 @@ class meetings extends MX_Controller {
             '18:00',
             '18:20',
             '18:40',
-            
         );
     }
 
@@ -133,6 +132,7 @@ class meetings extends MX_Controller {
                 $cpData['business'][] = $this->meeting->get_data($id);
             }
         }
+        $cpData['count'] = count($cpData['business']);
         if (isset($cpData['business'])) {
             @$this->parser->parse('business_registered', $cpData);
         } else {
@@ -308,6 +308,24 @@ class meetings extends MX_Controller {
         return $arr;
     }
 
+    function get_zero_meetings() {
+        $accredited=$this->meeting->get_accredited();
+        //----prepare all wishes
+        $wishes = array();
+        foreach ($this->wishlist as $b1 => $w) {
+            $wishes[] = $b1;
+            $wishes = array_merge($w, $wishes);
+        }
+        $wishes = array_unique($wishes);
+        $zero_arr=array();
+        foreach ($accredited as $b1) {
+            if (!in_array($b1['id'], $wishes)) {
+                array_push($zero_arr, $b1['id']);
+            }
+        }
+        return $zero_arr;
+    }
+
     function load_data() {
 
 //---load business with their original wishlist;
@@ -337,13 +355,15 @@ class meetings extends MX_Controller {
         //$this->tables_count = count($this->tables);
         $possible_meets = count($this->intervals) * $this->tables_count;
         $wishes_count = $this->count_wishes($this->wishlist);
+        $accredited = $this->meeting->get_accredited();
         //---remove dups
         $this->remove_dups($this->wishlist);
+
         $count_wishes = $this->count_wishes($this->wishlist) + $this->count_wishes($this->dups);
         $cpData['business_total'] = $this->business_total;
         $cpData['used_tables'] = count($this->tables);
         $cpData['available_tables'] = $this->tables_count;
-        $cpData['available_periods'] = count($this->intervals).' ('.implode(',',$this->intervals).')';
+        $cpData['available_periods'] = count($this->intervals) . ' (' . implode(',', $this->intervals) . ')';
         $cpData['meetings_per_business'] = $this->interviews;
         $cpData['Total_Posible_meetings'] = $possible_meets;
         $cpData['Total_wishes'] = $count_wishes;
@@ -384,6 +404,23 @@ class meetings extends MX_Controller {
                 $rs['1693'],
             );
         }
+        //---zero agenda
+        $zero_arr = array(array('id', 'CUIT', 'Nombre'));
+        $zero_business=$this->get_zero_meetings();
+        foreach($zero_business as $b1){
+            $rs = $this->meeting->get_data($b1);
+            $zero_arr[] = array(
+                $rs['id'],
+                $rs['1695'],
+                $rs['1693'],
+            );
+        }
+        $cpData["Zero_Count"] = count($zero_business);
+
+
+        $cpData["business_agenda"] = count($this->business_agenda);
+        $cpData["business_zero_agenda"] = $cpData["Zero_Count"];
+        $cpData["Zero_Business"] = $this->table->generate($zero_arr);
         $cpData["Free_Business"] = $this->table->generate($min_arr);
         $cpData["Busiest_Business"] = $this->table->generate($max_arr);
 

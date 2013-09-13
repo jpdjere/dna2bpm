@@ -114,16 +114,6 @@ class Meeting extends CI_Model {
         $this->db->update($this->container_empresas, $data);
     }
 
-    function get_accredited_fake() {
-        $this->db->where(array($this->frameEvent => '1'));
-        $this->db->select('id');
-        $this->db->order_by($this->orderby);
-        $rs = $this->db->get($this->container_empresas)->result_array();
-        if ($rs) {
-            return $rs;
-        }
-    }
-
     function get_accredited() {
         $this->db->where(array('accredited' => 1, $this->frameEvent => '1'));
         $this->db->select('id');

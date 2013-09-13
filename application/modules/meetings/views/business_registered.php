@@ -1,3 +1,4 @@
+{count}
 {business}
 <div data-role="collapsible" data-mini="true" data-theme="c">
         <h3>
