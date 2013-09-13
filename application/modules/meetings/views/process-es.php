@@ -38,10 +38,6 @@
         <br/><br/>
         Deseos no concedidos: {Wishes_not_Granted} ({not_granted_percent}%)
         <br/><br/>
-
-        Mesas Utilizadas:{Used_Tables}
-
-        <br/><br/>
         Mesas Libres:{Free_Tables}
         <br/><br/>
         Empresas con menos citas ({Min_Business}):

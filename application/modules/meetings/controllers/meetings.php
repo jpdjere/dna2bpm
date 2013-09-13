@@ -49,9 +49,6 @@ class meetings extends MX_Controller {
             '17:00',
             '17:20',
             '17:40',
-            '18:00',
-            '18:20',
-            '18:40',
         );
     }
 
@@ -269,8 +266,10 @@ class meetings extends MX_Controller {
 
             $this->remove_dups($this->wishlist);
             //---process duplicates first
+            echo "Procesando " . count($this->dups) . " duplicados<br/>";
             $this->agendas($this->dups);
             //---precess all other whishes
+            echo "Procesando " .$this->count_wishes($this->wishlist) . " Deseos<br/>";
             $this->agendas($this->wishlist);
             //---optimization
             //$this->optimize();
@@ -309,7 +308,7 @@ class meetings extends MX_Controller {
     }
 
     function get_zero_meetings() {
-        $accredited=$this->meeting->get_accredited();
+        $accredited = $this->meeting->get_accredited();
         //----prepare all wishes
         $wishes = array();
         foreach ($this->wishlist as $b1 => $w) {
@@ -317,7 +316,7 @@ class meetings extends MX_Controller {
             $wishes = array_merge($w, $wishes);
         }
         $wishes = array_unique($wishes);
-        $zero_arr=array();
+        $zero_arr = array();
         foreach ($accredited as $b1) {
             if (!in_array($b1['id'], $wishes)) {
                 array_push($zero_arr, $b1['id']);
@@ -406,8 +405,8 @@ class meetings extends MX_Controller {
         }
         //---zero agenda
         $zero_arr = array(array('id', 'CUIT', 'Nombre'));
-        $zero_business=$this->get_zero_meetings();
-        foreach($zero_business as $b1){
+        $zero_business = $this->get_zero_meetings();
+        foreach ($zero_business as $b1) {
             $rs = $this->meeting->get_data($b1);
             $zero_arr[] = array(
                 $rs['id'],
@@ -456,13 +455,21 @@ class meetings extends MX_Controller {
             $table = false;
             //---get an available p for both business
             $free = $this->get_free_interval($b1, $b2);
-            //---get available table
-            foreach ($free as $p) {
-                $table = $this->get_table($b1, $b2, $p);
-                if ($table) {
-                    break;
+            if (count($free)) {
+                //---get available table
+                foreach ($free as $p) {
+                    $table = $this->get_table($b1, $b2, $p);
+                    if ($table) {
+                        break;
+                    }
                 }
-            }
+            } else {
+                $B1=$this->meeting->get_data($b1);
+                $B2=$this->meeting->get_data($b2);
+                echo "no se pueden juntar:<br/>".
+                        $B1['1693'].' con '.
+                        $B2['1693'].'<br/>';
+                            }
             if ($table) {
                 //---add interview to b1
                 $this->business_agenda[$b1][$p] = array('business' => $b2, 'table' => $table);
