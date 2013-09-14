@@ -101,6 +101,7 @@
                                 Stats
                         </a>
                 </li>
+                <!--
                 <li  data-icon="gear">
                         <a href="{module_url}test" id="stats">
                                 TEST
@@ -111,6 +112,7 @@
                                 RESET
                         </a>
                 </li>
+                -->
         </ul>
         <br/>
         <br/>
