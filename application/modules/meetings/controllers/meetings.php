@@ -38,17 +38,15 @@ class meetings extends MX_Controller {
         $this->container_empresas = 'container.ronda1';
         $this->intervals = array(
             '14:00',
-            '14:20',
-            '14:40',
+            '14:30',
             '15:00',
-            '15:20',
-            '15:40',
+            '15:30',
             '16:00',
-            '16:20',
-            '16:40',
+            '16:30',
             '17:00',
-            '17:20',
-            '17:40',
+            '17:30',
+            '18:00',
+            '18:30'
         );
     }
 
@@ -466,7 +464,7 @@ class meetings extends MX_Controller {
             } else {
                 $B1=$this->meeting->get_data($b1);
                 $B2=$this->meeting->get_data($b2);
-                echo "no se pueden juntar:<br/>".
+                echo "no se puede juntar:<br/>".
                         $B1['1693'].' con '.
                         $B2['1693'].'<br/>';
                             }
