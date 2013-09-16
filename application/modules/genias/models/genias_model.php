@@ -519,7 +519,7 @@ class Genias_model extends CI_Model {
 
             $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
             $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
-            if($visita['idu']!=0 && in_array($visita['idu'],$usuarios)){
+            if($visita['idu']!=0 || in_array($visita['idu'],$usuarios)){
             $username="{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
 
             }else{
