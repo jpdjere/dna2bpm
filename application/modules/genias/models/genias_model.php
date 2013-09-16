@@ -503,10 +503,10 @@ class Genias_model extends CI_Model {
         // Visitas
         $container = 'container.genias_visitas';
         $query=($misgenias['rol']=='coordinador')?(array()):(array('idu'=>$this->idu));
-        $visitas = $this->mongo->db->$container->find();
+        $visitas = $this->mongo->db->$container->find($query);
    
-     //  var_dump(iterator_to_array($mongo_visitas));
-        
+//       var_dump(iterator_to_array($visitas));
+//        exit();
         $listado = array();
 
         foreach ($visitas as $visita) {
