@@ -499,7 +499,7 @@ class Genias_model extends CI_Model {
         }     
         // Visitas
         $container = 'container.genias_visitas';
-        $rx = new MongoRegex( "/^".$periodo."/" );
+        $rx = new MongoRegex( "/".$periodo."/" );
         $query=($misgenias['rol']=='coordinador')?(array('fecha'=>$rx)):(array('idu'=>$this->idu));
         $visitas = $this->mongo->db->$container->find($query);
    

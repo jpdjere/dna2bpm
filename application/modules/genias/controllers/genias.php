@@ -969,7 +969,7 @@ function get_resumen_visitas(){
         $m=date('m');
         $y=date('Y');
     }
-$periodo="$y-$m";
+$periodo=$m."[\/].*[\/]".$y;
 $visitas = $this->genias_model->get_resumen_visitas($periodo);
 echo '<ul class="ultree">';
 foreach($visitas as $k=>$provincias){
