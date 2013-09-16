@@ -452,14 +452,11 @@ class Genias_model extends CI_Model {
 
     //==== RESUMEN DE VISITAS ====//
 
-    function get_resumen_visitas() {
-        
+    function get_resumen_visitas($periodo) {
+
         $this->load->model('user/user');
-              
-//        ob_start();
-//        echo date('H:i:s')."<br>";
-//        ob_flush();
         
+
         // LIstado de Provincias permitidas
         $provincias=array();
         $misgenias=$this->get_genia($this->idu);
@@ -502,11 +499,12 @@ class Genias_model extends CI_Model {
         }     
         // Visitas
         $container = 'container.genias_visitas';
-        $query=($misgenias['rol']=='coordinador')?(array()):(array('idu'=>$this->idu));
+        $rx = new MongoRegex( "/^".$periodo."/" );
+        $query=($misgenias['rol']=='coordinador')?(array('fecha'=>$rx)):(array('idu'=>$this->idu));
         $visitas = $this->mongo->db->$container->find($query);
    
-//       var_dump(iterator_to_array($visitas));
-//        exit();
+//var_dump(iterator_to_array($visitas));
+//exit();
         $listado = array();
 
         foreach ($visitas as $visita) {
@@ -521,10 +519,11 @@ class Genias_model extends CI_Model {
 
             $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
             $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
-            if($visita['idu']!=0){
+            if($visita['idu']!=0 && in_array($visita['idu'],$usuarios)){
             $username="{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
+             $username="-";
             }else{
-              $username="-";  
+             $username="-";
             }
             $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
 
@@ -536,12 +535,7 @@ class Genias_model extends CI_Model {
 
             
         }
-//var_dump($listado);
-//echo date('H:i:s')."<br>";
-//ob_flush();
-//ob_clean();       
-//exit();
-//        
+ 
 
           return $listado;
     }
