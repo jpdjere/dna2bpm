@@ -85,7 +85,7 @@
                 </li>
         </ul>
 
-
+{if {isloggedin}}
         <h2>Herramientas</h2>
         <ul data-role="listview">
                 <li  data-icon="gear"><a href="{module_url}run">Procesar</a></li>
@@ -114,6 +114,7 @@
                 </li>
                 -->
         </ul>
+        {/if}
         <br/>
         <br/>
         <br/>
