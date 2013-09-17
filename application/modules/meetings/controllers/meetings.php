@@ -443,7 +443,6 @@ class meetings extends MX_Controller {
             $table = false;
             //---get an available p for both business
             $free = $this->get_free_interval($b1, $b2);
-            if($b1==3121667126 or $b2==3121667126) var_dump($wish,$free);
             if (count($free)) {
                 //---get available table
                 foreach ($free as $p) {
