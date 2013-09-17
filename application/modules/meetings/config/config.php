@@ -1,5 +1,5 @@
 <?php
-$config['tables_count'] =48;
+$config['tables_count'] =60;
 $config['intervals'] = array(
             '14:00',
             '14:30',

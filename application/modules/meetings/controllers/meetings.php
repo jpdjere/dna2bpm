@@ -26,7 +26,7 @@ class meetings extends MX_Controller {
         $this->module_url = base_url() . 'meetings/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         $this->dups = array();
         $this->wishlist = array();
 
@@ -46,12 +46,12 @@ class meetings extends MX_Controller {
         echo "Acreditando: " . count($business) . ' Empresas...<hr/>';
         $err = 0;
         foreach ($business as $b) {
-            $e = $this->meeting->get_empresa((int) $b['id']);
+            $e = $this->meeting->get_empresa((float) $b['id']);
             if ($e) {
                 $this->meeting->accredit($b['id']);
             } else {
                 var_dump($b);
-                //show_error("No se pudo encontrar:" . $b['id'] . ' ' . (int) $b['id']);
+                //show_error("No se pudo encontrar:" . $b['id'] . ' ' . (float) $b['id']);
                 $err++;
             }
         }
@@ -207,7 +207,7 @@ class meetings extends MX_Controller {
             for ($i = 0; $i <= $list; $i++) {
                 $addid = $this->business[rand(0, $this->business_total - 1)];
                 if ($addid <> $id)
-                    $object[] = (int) $addid;
+                    $object[] = (float) $addid;
             }
             $this->db->where(array('id' => $id));
             $this->db->update($this->container_empresas, array($this->frameBusiness => $object));
@@ -437,12 +437,13 @@ class meetings extends MX_Controller {
         //----try to satisfy all meetings
         //----try to grant all wishes
         foreach ($wishes as $wish) {
-            $b1 = (int) $wish[0];
-            $b2 = (int) $wish[1];
+            $b1 = (float) $wish[0];
+            $b2 = (float) $wish[1];
             $free = false;
             $table = false;
             //---get an available p for both business
             $free = $this->get_free_interval($b1, $b2);
+            if($b1==3121667126 or $b2==3121667126) var_dump($wish,$free);
             if (count($free)) {
                 //---get available table
                 foreach ($free as $p) {

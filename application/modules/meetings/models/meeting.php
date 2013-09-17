@@ -62,8 +62,8 @@ class Meeting extends CI_Model {
     }
 
     function get_name($id) {
-        $name = 'XXX ' . (int) $id;
-        $this->db->where(array('id' => (int) $id));
+        $name = 'XXX ' . (float) $id;
+        $this->db->where(array('id' => (float) $id));
         $this->db->select('1693', 'id');
         $rs = $this->db->get($this->container_empresas)->result_array();
         if ($rs)
@@ -72,7 +72,7 @@ class Meeting extends CI_Model {
     }
 
     function get_data($id) {
-        $this->db->where(array('id' => (int) $id));
+        $this->db->where(array('id' => (float) $id));
         $rs = $this->db->get($this->container_empresas)->result_array();
         if ($rs)
             return $rs[0];
@@ -97,20 +97,20 @@ class Meeting extends CI_Model {
     }
 
     function get_empresa($id) {
-        $this->db->where(array('id' => (int) $id));
+        $this->db->where(array('id' => (float) $id));
         $rs = $this->db->get($this->container_empresas)->result_array();
         return $rs;
     }
 
     function accredit($id) {
         $data = array('accredited' => 1);
-        $this->db->where(array('id' => (int) $id));
+        $this->db->where(array('id' => (float) $id));
         $this->db->update($this->container_empresas, $data);
     }
 
     function unaccredit($id) {
         $data = array('accredited' => 0);
-        $this->db->where(array('id' => (int) $id));
+        $this->db->where(array('id' => (float) $id));
         $this->db->update($this->container_empresas, $data);
     }
 
@@ -186,7 +186,7 @@ class Meeting extends CI_Model {
                     unset($emp[$this->frameBusiness][$key]);
                 }
                 //----devuelvo solo las empresas que están acreditadas
-                $arr[(int) $emp['id']] = array_intersect($accredited, $emp[$this->frameBusiness]);
+                $arr[(float) $emp['id']] = array_intersect($accredited, $emp[$this->frameBusiness]);
             }
         }
         return array_filter($arr);
@@ -203,7 +203,7 @@ class Meeting extends CI_Model {
                 //----Existe la empresa
                 //----Importo los deseos
                 if (isset($importb1[$this->frameBusiness])) {
-                    $this->db->where(array('id' =>(int) $b1['id']))->set(array($this->frameBusiness => $importb1[$this->frameBusiness]))->update($this->container_empresas);
+                    $this->db->where(array('id' =>(float) $b1['id']))->set(array($this->frameBusiness => $importb1[$this->frameBusiness]))->update($this->container_empresas);
                     $updates++;
                 }
             } else {
