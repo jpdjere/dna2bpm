@@ -32,12 +32,12 @@ class meetings extends MX_Controller {
 
         //---Basic Params
         $this->business_total = 500;
-        $this->tables_count =$this->config->item('tables_count');
+        $this->tables_count = $this->config->item('tables_count');
         $this->interviews = 5;
         $this->frameEvent = '7490';
         $this->frameBusiness = '7959';
         $this->container_empresas = 'container.ronda1';
-        $this->intervals =$this->config->item('intervals');
+        $this->intervals = $this->config->item('intervals');
     }
 
     function test() {
@@ -257,7 +257,7 @@ class meetings extends MX_Controller {
             echo "Procesando " . count($this->dups) . " duplicados<br/>";
             $this->agendas($this->dups);
             //---precess all other whishes
-            echo "Procesando " .$this->count_wishes($this->wishlist) . " Deseos<br/>";
+            echo "Procesando " . $this->count_wishes($this->wishlist) . " Deseos<br/>";
             $this->agendas($this->wishlist);
             //---optimization
             //$this->optimize();
@@ -452,12 +452,12 @@ class meetings extends MX_Controller {
                     }
                 }
             } else {
-                $B1=$this->meeting->get_data($b1);
-                $B2=$this->meeting->get_data($b2);
-                echo "no se puede juntar:<br/>".
-                        $B1['1693'].' con '.
-                        $B2['1693'].'<br/>';
-                            }
+                $B1 = $this->meeting->get_data($b1);
+                $B2 = $this->meeting->get_data($b2);
+                echo "no se puede juntar:<br/>" .
+                $B1['1693'] . ' con ' .
+                $B2['1693'] . '<br/>';
+            }
             if ($table) {
                 //---add interview to b1
                 $this->business_agenda[$b1][$p] = array('business' => $b2, 'table' => $table);
@@ -720,10 +720,17 @@ class meetings extends MX_Controller {
         foreach ($business_order as $b1 => $cuit) {
             $data = $this->meeting->get_data($b1);
             $db_data = array();
-            foreach ($this->business_agenda[$b1] as $interval => $meetingData) {
+            foreach ($this->intervals as $interval) {
+                $meetingData = (isset($this->business_agenda[$b1][$interval])) ? $this->business_agenda[$b1][$interval] : array('business' => -1,'table'=>'');
                 $b2 = $this->meeting->get_name($meetingData['business']);
+                /*
+                  foreach ($this->business_agenda[$b1] as $interval => $meetingData) {
+                  $b2 = $this->meeting->get_name($meetingData['business']);
+                  ksort($db_data);
+                  $db_data[$interval] = array('time' => $interval, 'business' => $b2, 'table' => $meetingData['table']);
+                  }
+                 */
                 $db_data[$interval] = array('time' => $interval, 'business' => $b2, 'table' => $meetingData['table']);
-                ksort($db_data);
             }
             if ($debug) {
                 var_dump($db_data);
@@ -770,10 +777,16 @@ class meetings extends MX_Controller {
 
         foreach ($this->tables as $b) {
             $db_data = array();
-            foreach ($this->table_agenda[$b] as $interval => $meetingData) {
+            foreach ($this->intervals as $interval) {
+                $meetingData = (isset($this->table_agenda[$b][$interval])) ? $this->table_agenda[$b][$interval] : array('business1' => -1, 'business2' => -1);
                 $b1 = $this->meeting->get_name($meetingData['business1']);
                 $b2 = $this->meeting->get_name($meetingData['business2']);
                 $db_data[] = array('time' => $interval, 'business1' => $b1, 'business2' => $b2);
+                /* foreach ($this->table_agenda[$b] as $interval => $meetingData) {
+                  $b1 = $this->meeting->get_name($meetingData['business1']);
+                  $b2 = $this->meeting->get_name($meetingData['business2']);
+                  $db_data[] = array('time' => $interval, 'business1' => $b1, 'business2' => $b2);
+                  } */
             }
             if ($debug) {
                 var_dump($db_data);

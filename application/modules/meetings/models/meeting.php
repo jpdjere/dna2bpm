@@ -63,6 +63,7 @@ class Meeting extends CI_Model {
 
     function get_name($id) {
         $name = 'XXX ' . (float) $id;
+        $name = '';
         $this->db->where(array('id' => (float) $id));
         $this->db->select('1693', 'id');
         $rs = $this->db->get($this->container_empresas)->result_array();
