@@ -32,6 +32,7 @@ class Business extends MX_Controller {
                 $cpData['base_url'] = $this->base_url;
                 $cpData['module_url'] = $this->module_url;
                 $rs = $this->meeting->get_registered($query);
+                $cpData['count'] = count($rs);
                 $cpData['business'] = $rs;
                 @$this->parser->parse('business_registered', $cpData);
                 //var_dump($rs);
@@ -42,6 +43,7 @@ class Business extends MX_Controller {
                 $cpData['base_url'] = $this->base_url;
                 $cpData['module_url'] = $this->module_url;
                 $rs = $this->meeting->get_accredited();
+                $cpData['count'] = count($rs);
                 $cpData['business'] = $rs;
                 @$this->parser->parse('business_registered', $cpData);
                 //var_dump($rs);
