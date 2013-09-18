@@ -1,4 +1,4 @@
-{count}
+{count} Empresas
 {business}
 <div data-role="collapsible" data-mini="true" data-theme="c">
         <h3>
