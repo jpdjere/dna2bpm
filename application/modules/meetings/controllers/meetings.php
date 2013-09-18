@@ -74,6 +74,7 @@ class meetings extends MX_Controller {
     function Index() {
         $this->load_data();
         //$this->prepare();
+        $cpData['isloggedin'] =($this->session->userdata('loggedin')) ? $this->session->userdata('loggedin'):false;
         $cpData['title'] = 'Meeting Main Menu';
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
