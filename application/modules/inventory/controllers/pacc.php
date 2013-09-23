@@ -30,7 +30,110 @@ class Pacc extends MX_Controller {
     }
 
     function Index() {
-        $this->PDE();
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['module_url_encoded'] = $this->qr->encode($this->module_url);
+        $cpData['title'] = 'Inventario Módulo PACC';
+        $cpData['css'] = array(
+            $this->module_url . 'assets/css/inventory.css' => "Mesa Entrada css",
+        );
+        $cpData['js'] = array(
+            $this->base_url . "inventory/assets/jscript/bootbox.min.js" => 'BootBox',
+            $this->base_url . "inventory/assets/jscript/actions.js" => 'Main Search',
+        );
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
+        $this->ui->compose('index_pacc', 'bootstrap.ui.php', $cpData);
+    }
+
+    function movimientos($mode = 'PDE') {
+        $this->load->model('inventory/inventory_model');
+        $cpData = array();
+        switch ($mode) {
+            case 'PP2012':
+                $type = 'PP';
+                $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
+FROM td_pacc AS tp1
+INNER JOIN td_pacc AS tp2 ON tp1.id = tp2.id
+INNER JOIN td_pacc AS tp3 ON tp1.id = tp3.id
+INNER JOIN td_pacc AS tp4 ON tp1.id = tp4.id
+INNER JOIN idsent ON tp1.id = idsent.id
+WHERE tp1.idpreg =5689
+AND tp1.valor
+IN (
+'120', '125'
+)
+AND tp2.idpreg =7356
+AND tp2.valor LIKE '%/2012'
+AND tp3.idpreg =5673
+AND tp4.idpreg =6065
+AND idsent.estado = 'activa'
+ORDER BY PDE";
+                break;
+            case 'PP2011':
+                $type = 'PP';
+                $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
+FROM td_pacc AS tp1
+INNER JOIN td_pacc AS tp2 ON tp1.id = tp2.id
+INNER JOIN td_pacc AS tp3 ON tp1.id = tp3.id
+INNER JOIN td_pacc AS tp4 ON tp1.id = tp4.id
+INNER JOIN idsent ON tp1.id = idsent.id
+WHERE tp1.idpreg =5689
+AND tp1.valor
+IN (
+'120', '125'
+)
+AND tp2.idpreg =5691
+AND tp2.valor LIKE '%/2011'
+AND tp3.idpreg =5673
+AND tp4.idpreg =6065
+AND idsent.estado = 'activa'
+ORDER BY PDE";
+                break;
+            default:
+                $type = 'PDE';
+                $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
+FROM td_pacc_1 AS tp1
+INNER JOIN td_pacc_1 AS tp2 ON tp1.id = tp2.id
+INNER JOIN td_pacc AS tp3 ON tp1.id = tp3.id
+INNER JOIN td_pacc_1 AS tp4 ON tp1.id = tp4.id
+INNER JOIN idsent ON tp1.id = idsent.id
+WHERE tp1.idpreg = 6225
+AND tp1.valor NOT IN ('10','100','470','480','490','50','500','99')
+AND tp2.idpreg = 6390
+AND tp3.idpreg = 5673
+AND tp4.idpreg = 6223
+AND idsent.estado = 'activa' 
+ORDER BY PDE";
+                break;
+        }
+        $query = $this->db->query($SQL);
+        foreach ($query->result() as $row) {
+            $mov = $this->inventory_model->get($type, $row->PDE);
+            $add = array('type' => $type, 'code' => $row->PDE);
+            if ($mov) {
+                $last = end($mov);
+                $last['user_data'][] = $this->user->get_user_array((double) $last['user']);
+                ///-----calculate days
+                $date1 = new DateTime();
+                $date2 = new DateTime($last['date']);
+                $interval = $date2->diff($date1);
+                $last['days'] = $interval->format('%a');
+                $add+=$last;
+            }
+            $cpData['result'][] = $add;
+        }
+        //var_dump($cpData);
+        //exit;
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Listado';
+        $cpData['css'] = array(
+            $this->base_url . "inventory/assets/css/avery6.css" => 'custom css',
+        );
+        $this->ui->compose('info_table_user', 'bootstrap.ui.php', $cpData);
     }
 
     function PDE() {
@@ -128,7 +231,7 @@ ORDER BY PDE";
         );
         $this->ui->compose('table', 'bootstrap.ui.php', $cpData);
     }
-    
+
     function PP2012() {
         $cpData = array();
         $SQL = "SELECT tp1.id AS id, tp2.valor AS PDE, tp3.valor AS Nombre, tp4.valor AS Empresa
@@ -159,7 +262,7 @@ ORDER BY PDE";
                 AND t1.id=" . $row->Empresa;
             $query_empresa = $this->db->query($SQL);
             $empresa = $query_empresa->result();
-            $empresa = (isset($empresa[0]))? $empresa[0]:null;
+            $empresa = (isset($empresa[0])) ? $empresa[0] : null;
             if ($empresa) {
                 $qr->nombre_empresa = $empresa->nombre;
                 $qr->cuit_empresa = $empresa->cuit;
