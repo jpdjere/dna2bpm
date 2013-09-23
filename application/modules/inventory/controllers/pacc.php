@@ -159,7 +159,7 @@ ORDER BY PDE";
                 AND t1.id=" . $row->Empresa;
             $query_empresa = $this->db->query($SQL);
             $empresa = $query_empresa->result();
-            $empresa = $empresa[0];
+            $empresa = (isset($empresa[0]))? $empresa[0]:'???';
             if ($empresa) {
                 $qr->nombre_empresa = $empresa->nombre;
                 $qr->cuit_empresa = $empresa->cuit;
