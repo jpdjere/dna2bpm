@@ -44,7 +44,7 @@ class inventory_model extends CI_Model {
     }
 
     function getbyuser($idu) {
-        $query = array('user' => $idu);
+        $query = array('user' => (double)$idu);
         $result = $this->db
                 ->where($query)
                 ->order_by(array('_id' => true))

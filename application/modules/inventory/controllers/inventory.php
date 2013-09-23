@@ -411,7 +411,7 @@ class Inventory extends MX_Controller {
         $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
     }
 
-    function get_users($idgroup) {
+    function get_users($idgroup=null) {
         $debug = false;
         $result = array();
         if ($idgroup) {
