@@ -23,11 +23,16 @@ class Business extends MX_Controller {
                 $this->meeting->find_business($query);
                 
         }
-        function registered() {
+        function registered($query=null) {
+                if($this->input->post('seach-name')){
+                    $regexObj = new MongoRegex("/".$this->input->post('seach-name')."/i"); 
+                    $query=array("1693" => $regexObj);
+                }
                 $cpData = array();
                 $cpData['base_url'] = $this->base_url;
                 $cpData['module_url'] = $this->module_url;
-                $rs = $this->meeting->get_registered();
+                $rs = $this->meeting->get_registered($query);
+                $cpData['count'] = count($rs);
                 $cpData['business'] = $rs;
                 @$this->parser->parse('business_registered', $cpData);
                 //var_dump($rs);
@@ -38,6 +43,7 @@ class Business extends MX_Controller {
                 $cpData['base_url'] = $this->base_url;
                 $cpData['module_url'] = $this->module_url;
                 $rs = $this->meeting->get_accredited();
+                $cpData['count'] = count($rs);
                 $cpData['business'] = $rs;
                 @$this->parser->parse('business_registered', $cpData);
                 //var_dump($rs);
@@ -53,7 +59,7 @@ class Business extends MX_Controller {
                 if (count($b1)) {
 //                        $cpData['1693'] = $b1['1693'];
 //                        $cpData['1695'] = $b1['1695'];
-//                        $cpData['7466'] = $b1['7466'];
+//                        $cpData['7959'] = $b1['7959'];
 //                        $cpData['id'] = $b1['id'];
                         $cpData+=$b1;
                         

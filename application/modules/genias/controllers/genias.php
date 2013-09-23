@@ -120,6 +120,7 @@ class Genias extends MX_Controller {
 
             //var_dump($goal);
         }
+
         $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
         if ($ratio >= ($customData['goal_cantidad_total'] * .7))
             $customData['resumen_class'] = 'alert-success';
@@ -129,8 +130,7 @@ class Genias extends MX_Controller {
             $customData['resumen_class'] = 'alert-error';
 
         // Cargo Resumen de las visitas solo para coordinadores
-        $customData['resumen_visitas'] = $this->get_resumen_visitas();
-        
+ 
         $customData['metas'] = $mygoals;
 
         $this->render('dashboard', $customData); 
@@ -959,14 +959,49 @@ class Genias extends MX_Controller {
 
     /*==== RESUMEN DE VISITAS ====*/ 
     
-function get_resumen_visitas(){
-    $visitas = $this->genias_model->get_resumen_visitas();
-    return $visitas;
-}
 
-function print_resumen_visitas(){
-    $visitas = $this->genias_model->get_resumen_visitas();
-    var_dump($visitas);
+function get_resumen_visitas(){
+    $mes=$this->input->post('mes');
+    if(!empty($mes)){      
+        $y=substr($mes, 0,4);
+        $m=substr($mes, 5,2);
+    }else{
+        $m=date('m');
+        $y=date('Y');
+    }
+$periodo=$m."[\/].*[\/]".$y;
+$visitas = $this->genias_model->get_resumen_visitas($periodo);
+echo '<ul class="ultree">';
+foreach($visitas as $k=>$provincias){
+
+    echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
+    /*==== provincias====*/
+        echo "<ul style='display:none'>";
+        $i=0;
+        foreach($provincias as $k=>$empresa){
+            $i++;
+            $stripe=($i%2==0)?('par'):('impar');
+            $visitas=count($empresa['fechas']);
+            echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+//             /*==== Visitas====*/
+            echo "<ul style='display:none'>";
+                foreach($empresa['fechas'] as $k=>$fecha){ 
+                    if (($timestamp = strtotime($fecha['fecha'])) === false) {
+                        $fecha_visita='-';
+                    } else {
+                        $fecha_visita= date('d/m/Y', $timestamp);
+                    }
+                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
+                }
+            echo "</ul>";
+//
+            echo "</li>";
+        }
+        echo "</ul>";
+    echo "</li>";
+
+}
+echo "</ul>";
 }
     
 

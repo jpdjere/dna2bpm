@@ -28,7 +28,7 @@
                 <li  data-icon="gear">
                         Buscar Nombre
                         {ignore}
-                        <form id="view-cuit" action="{module_url}print_business" method="post" data-ajax="false">
+                        <form id="view-cuit" action="{module_url}business/registered" method="post" data-ajax="false">
                                 <input 
                                         type="search" 
                                         data-mini="true"
@@ -43,7 +43,7 @@
                         {/ignore}
                 </li>
                 <li  data-icon="gear">
-                        <form id="view-table" action="print_tables" data-ajax="false">
+                        <form id="view-table" action="{module_url}print_tables" data-ajax="false">
                                 Ver Mesa
                                 <input 
                                         placeholder="M1....M{tables}" 
@@ -74,7 +74,7 @@
                 </li>
                 <li><a href="{module_url}business/registered">Registradas<span class="ui-li-count">{business_total}</span></a></li>
                 <li><a href="{module_url}business/accredited">Acreditadas<span class="ui-li-count">{accredited_business}</span></a></li>
-                <li><a href="print_tables">Mesas<span class="ui-li-count">{Used_Tables}/{available_tables}</span></a></li>
+                <li><a href="{module_url}print_tables">Mesas<span class="ui-li-count">{Used_Tables}/{available_tables}</span></a></li>
                 <li>
                         <a href="{module_url}print_meetings">
                                 Reuniones
@@ -85,7 +85,7 @@
                 </li>
         </ul>
 
-
+{if {isloggedin}}
         <h2>Herramientas</h2>
         <ul data-role="listview">
                 <li  data-icon="gear"><a href="{module_url}run">Procesar</a></li>
@@ -101,7 +101,20 @@
                                 Stats
                         </a>
                 </li>
+                <!--
+                <li  data-icon="gear">
+                        <a href="{module_url}test" id="stats">
+                                TEST
+                        </a>
+                </li>
+                <li  data-icon="gear">
+                        <a href="{module_url}reset" id="stats">
+                                RESET
+                        </a>
+                </li>
+                -->
         </ul>
+        {/if}
         <br/>
         <br/>
         <br/>

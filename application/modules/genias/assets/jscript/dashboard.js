@@ -17,6 +17,7 @@ $('.aprobar').click(function(){
  $('#dp3').datepicker(); 
  $('.dp').datepicker();
   
+
   
 
 //== VALIDATE == //
@@ -158,13 +159,19 @@ $('.nav-tabs a').click(function(e){
 
 });
 
-$('.ul_collapse').on('click',function(e){
+//==== VISITAS ==== //
+
+$( document ).on( "click", ".ul_collapse", function() {
   $(this).next('UL').slideToggle();
 });
 
-
-
-
+// Cargo visitas default
+ $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas'); 
+// cambio el mes
+$('#dp4').datepicker().on('changeDate',function(ev){
+    var mes=ev.date.toISOString();
+    $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas',{'mes':mes}); 
+}); 
 
 });
 

@@ -119,48 +119,24 @@ BLOC;
         ?>
         </div>
     {/if}
-       
+<!-- ================= VISITAS AJAX ================= -->   
     
+
 <!-- ================= VISITAS  ================= -->
-<?php
-if(isset($resumen_visitas)){
-echo '<ul class="ultree">';
 
-foreach($resumen_visitas as $k=>$provincias){
-
-    echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
-    /*==== provincias====*/
-        echo "<ul style='display:none'>";
-        $i=0;
-        foreach($provincias as $k=>$empresa){
-            $i++;
-            $stripe=($i%2==0)?('par'):('impar');
-            $visitas=count($empresa['fechas']);
-            echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
-//             /*==== Visitas====*/
-            echo "<ul style='display:none'>";
-                foreach($empresa['fechas'] as $k=>$fecha){ 
-                    if (($timestamp = strtotime($fecha['fecha'])) === false) {
-                        $fecha_visita='-';
-                    } else {
-                        $fecha_visita= date('d/m/Y', $timestamp);
-                    }
-                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
-                }
-            echo "</ul>";
-//
-            echo "</li>";
-        }
-        echo "</ul>";
-    echo "</li>";
-
-}
-echo "</ul>";
-
-}
-?>
-
-<!-- _________________ VISITAS  _________________ -->
+<div class='row'>
+    <!-- ====== Filtro  ====== -->
+<div class='span2'>
+<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-append date" id="dp4">
+ <input type="text" name="visitas_desde" readonly="" value=""  class="input-block-level" >
+ <span class="add-on"><i class="icon-calendar"></i></span>
+</div> 
+</div>
+<div class='span10' id="wrapper_visitas">
+<!-- dummy visitas -->
+</div>
+</div>
+<!-- __________________ VISITAS  __________________ -->
 
 
     <!-- xxxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxxx -->
