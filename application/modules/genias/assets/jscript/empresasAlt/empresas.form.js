@@ -585,7 +585,8 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
             tooltip: 'Fecha de la Visita',
             emptyText: 'Fecha de la Visita',
             editable: false,
-            allowBlank: false
+            allowBlank: false,
+            maxValue: new Date()  // limited to the current date or prior
         }, {
             xtype: 'checkboxgroup',
             fieldLabel: 'Programas Informados',
