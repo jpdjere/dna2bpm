@@ -117,7 +117,7 @@ ORDER BY PDE";
             $data = $this->module_url . "info/PP/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
-            $qr->PDE = 'PDE-' . $qr->PDE;
+            $qr->PDE = 'PP-' . $qr->PDE;
             $cpData['qr'][] = (array) $qr;
         }
         $cpData['base_url'] = $this->base_url;
@@ -167,7 +167,7 @@ ORDER BY PDE";
             $data = $this->module_url . "info/PP/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
-            $qr->PDE = 'PDE-' . $qr->PDE;
+            $qr->PDE = 'PP-' . $qr->PDE;
             $cpData['qr'][] = (array) $qr;
         }
         $cpData['base_url'] = $this->base_url;
