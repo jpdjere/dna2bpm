@@ -33,7 +33,7 @@ $(document).on('click', '#btn_gencode', function() {
 });
 
 $(document).on('click', '#btn_showobjects', function() {
-    idu = $("#user option:selected").val();
+    idu = $("#user_select option:selected").val();
     $.ajax({
         'url': globals.module_url + 'show_objects/' + idu,
         'type': 'POST',

@@ -7,3 +7,4 @@ $config['groups_allowed']=array(
     83,//---PACC mesa de entradas
     );
 $config['container']='inventory';
+$config['select_user']='Seleccione un usuario';

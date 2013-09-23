@@ -305,8 +305,8 @@ class Inventory extends MX_Controller {
             $cpData['result'] = $result;
             $this->parser->parse('info_table_user', $cpData);
         } else {
-            $cpData['msg'] = " No se encontraron resultados para: $type::$code";
-            $this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
+            $cpData['msg'] = " No se encontraron resultados.";
+            $this->parser->parse('error',$cpData);
         }
     }
 
