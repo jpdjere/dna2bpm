@@ -100,8 +100,8 @@
                     <span class="add-on"><i class="icon-user"></i> Usuario</span>
                     <br/>
                     <select name="user" id="user_select" size="1">
-                        {users}
                         <option value="">Yo</option>
+                        {users}
                         <option value="{idu}">
                             {name} {lastname}
                         </option>
