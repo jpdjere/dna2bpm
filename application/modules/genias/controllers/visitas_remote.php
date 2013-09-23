@@ -59,8 +59,7 @@ class Visitas_remote extends MX_Controller {
     /*
      * FIX goals
      */    
-    public function Fix() {
-        
+    public function Fix() {       
 
         $container = $this->containerGenias;
         $query = array('idu' => (int) ($this->idu));
@@ -70,8 +69,7 @@ class Visitas_remote extends MX_Controller {
             $idu = $returnData['idu'];
             $fecha = $returnData['fecha'];
            $newResult = $this->genias_model->goal_update_all('2', $id,$idu, $fecha);
-           var_dump($newResult);
-           
+           var_dump($newResult);           
         }
         exit();       
     }
