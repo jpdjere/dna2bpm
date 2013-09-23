@@ -114,7 +114,7 @@ ORDER BY PDE";
                 $qr->nombre_empresa = $empresa->nombre;
                 $qr->cuit_empresa = $empresa->cuit;
             }
-            $data = $this->module_url . "info/PDE/" . $qr->PDE;
+            $data = $this->module_url . "info/PP/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
             $qr->PDE = 'PDE-' . $qr->PDE;
@@ -164,7 +164,7 @@ ORDER BY PDE";
                 $qr->nombre_empresa = $empresa->nombre;
                 $qr->cuit_empresa = $empresa->cuit;
             }
-            $data = $this->module_url . "info/PDE/" . $qr->PDE;
+            $data = $this->module_url . "info/PP/" . $qr->PDE;
             $encoded_url = $this->qr->encode($data);
             $qr->src = $this->base_url . "qr/gen_url/$encoded_url/6/L";
             $qr->PDE = 'PDE-' . $qr->PDE;
