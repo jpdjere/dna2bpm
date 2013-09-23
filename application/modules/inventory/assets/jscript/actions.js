@@ -34,9 +34,14 @@ $(document).on('click', '#btn_gencode', function() {
 
 $(document).on('click', '#btn_showobjects', function() {
     idu = $("#user_select option:selected").val();
+    idgroup = $("#group_select option:selected").val();
     $.ajax({
-        'url': globals.module_url + 'show_objects/' + idu,
+        'url': globals.module_url + 'show_objects',
         'type': 'POST',
+        'data':{
+            'idu':idu,
+            'idgroup':idgroup
+        },
         'success': function(result) {
             $('#result').html(result);
         }
