@@ -55,6 +55,9 @@
                             <option val="PP">
                                 PP
                             </option>
+                            <option val="PFI">
+                                PFI
+                            </option>
                         </select>
                     </div>
                     <br/>
