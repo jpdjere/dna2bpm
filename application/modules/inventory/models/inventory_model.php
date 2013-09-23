@@ -11,20 +11,20 @@ class inventory_model extends CI_Model {
         $this->load->library('cimongo/cimongo');
         $this->load->config('config');
         $this->db = $this->cimongo;
-        $this->container=($this->config->item('container'))? $this->config->item('container'):'inventory';
+        $this->container = ($this->config->item('container')) ? $this->config->item('container') : 'inventory';
     }
 
     function claim($type, $code, $user) {
         $data['type'] = $type;
         $data['code'] = $code;
-        $data['user'] = (float)$user;
+        $data['user'] = (float) $user;
         $data['idu'] = $this->idu;
         $data['date'] = date('Y-m-d H:i:s');
         $rs = $this->get($type, $code);
         $last = array_pop($rs);
         //var_dump($last['idu'] == $this->idu, $last['idu'], $this->idu);
         if ($last) {
-            if ((float)$last['user'] == $data['user']) {
+            if ((float) $last['user'] == $data['user']) {
                 return;
             } else {
                 $this->db->insert($this->container, $data);
@@ -36,6 +36,15 @@ class inventory_model extends CI_Model {
 
     function get($type, $code) {
         $query = array('type' => $type, 'code' => $code);
+        $result = $this->db
+                ->where($query)
+                ->order_by(array('_id' => true))
+                ->get($this->container);
+        return $result->result_array();
+    }
+
+    function getbyuser($idu) {
+        $query = array('user' => $idu);
         $result = $this->db
                 ->where($query)
                 ->order_by(array('_id' => true))

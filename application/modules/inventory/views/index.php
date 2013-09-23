@@ -32,15 +32,15 @@
                             <i class="icon-chevron-right"></i>
                         </a>
                     </li>
-                   <!--
-                    <li>
-                        <a href="{module_url}assign" id="assign">
-                            <i class="icon-user"></i>
-                            Asignar a Usuario
-                            <i class="icon-chevron-right"></i>
-                        </a>
-                    </li>
-                   -->
+                    <!--
+                     <li>
+                         <a href="{module_url}assign" id="assign">
+                             <i class="icon-user"></i>
+                             Asignar a Usuario
+                             <i class="icon-chevron-right"></i>
+                         </a>
+                     </li>
+                    -->
                 </ul>
             </fieldset>
             <fieldset><legend>
@@ -79,20 +79,55 @@
                         <i class="icon-qrcode"></i> 
                         Generar C&oacute;digo
                     </button>
-                </div>
+                    <br/>
+                    <br/>
             </fieldset>
-
+            <fieldset><legend>
+                    <i class="icon-search"></i> 
+                    Mostrar Expedientes
+                </legend>
+                <form action="{module_url}show_objects" class="form-inline">
+                        <span class="add-on"><i class="icon-group"></i> Grupo</span>
+                        <br/>
+                        <select name="group" id="group_select">
+                            {groups}
+                            <option value="{idgroup}">
+                                {name}
+                            </option>
+                            {/groups}
+                        </select>
+                        <br/>
+                        <br/> 
+                        <span class="add-on"><i class="icon-user"></i> Usuario</span>
+                        <br/>
+                        <select name="user" id="user_select" size="1">
+                            {users}
+                            <option value="{idu}">
+                                {name} {lastname}
+                            </option>
+                            {/users}
+                        </select>
+                        <br/>
+                        <br/>
+                        <input id="data" type="hidden" value="{data}"/>
+                        <a id="btn_showobjects" class="btn">
+                            Mostrar
+                        </a>
+                </form>
         </div>
-        <div class="span9">
-            <!--Body content-->
-            <!-- MAIN CONTENT -->
-            <div id="main_content_wrap" class="text-center">
-                <section id="main_content">
-                    <div id="result"></div>
-                </section>
-            </div>
+        </fieldset>
+
+    </div>
+    <div class="span9">
+        <!--Body content-->
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="text-center">
+            <section id="main_content">
+                <div id="result"></div>
+            </section>
         </div>
     </div>
+</div>
 </div>
 
 <!-- FOOTER 

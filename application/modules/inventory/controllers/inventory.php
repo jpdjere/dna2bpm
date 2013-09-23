@@ -52,6 +52,21 @@ class Inventory extends MX_Controller {
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
         );
+        //---Users & Groups
+        $groups = $this->config->item('groups_allowed');
+        foreach ($groups as $idgroup) {
+            $group = $this->group->get($idgroup);
+            $cpData['groups'][] = (array) $group;
+        }
+//----select 1st group and load
+        $users = $this->user->getbygroup($groups[0]);
+//var_dump($users);exit;
+        foreach ($users as $thisUser)
+            $cpData['users'][] = array(
+                'idu' => $thisUser->idu,
+                'name' => (property_exists($thisUser, 'name')) ? $thisUser->name : '???',
+                'lastname' => (property_exists($thisUser, 'lastname')) ? $thisUser->lastname : '???',
+            );
         $this->ui->compose('index', 'bootstrap.ui.php', $cpData);
     }
 
@@ -279,6 +294,19 @@ class Inventory extends MX_Controller {
             $cpData['title'] = '';
             $cpData['data'] = $this->input->post('data');
             $this->parser->parse('assign', $cpData);
+        }
+    }
+
+    function show_objects($idu = null) {
+        $idu = ($idu) ? $idu : $this->idu;
+        $result = $this->prepare($this->inventory_model->getbyuser($idu));
+        if ($result) {
+            unset($result['_id']);
+            $cpData['result'] = $result;
+            $this->parser->parse('info_table_user', $cpData);
+        } else {
+            $cpData['msg'] = " No se encontraron resultados para: $type::$code";
+            $this->ui->compose('error', 'bootstrap.ui.php', $cpData, false, false);
         }
     }
 
