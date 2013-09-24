@@ -28,10 +28,10 @@ class Update_metas extends MX_Controller {
     }
 
     /*
-     * FIX goals
+     * Update GOALS
      */
 
-    public function Fix() {
+    public function index() {
 
         $container = $this->containerGenias;
         $query = array('idu' => (int) ($this->idu));
