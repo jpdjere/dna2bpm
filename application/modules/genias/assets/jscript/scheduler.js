@@ -1,6 +1,7 @@
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * TEST 
  */
 
 
@@ -175,8 +176,10 @@ $('#bt_delete').click(function(){
  
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
+    var proy=$('#detalle input[name="proyecto"]').val();
+    alert(proy);
     if($(this).hasClass('disabled'))return;
-    location.href=globals.module_url+'form_empresas_alt?task='+id;
+   // location.href=globals.module_url+'form_empresas_alt?task='+id;
 });
 
 
