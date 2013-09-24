@@ -44,9 +44,23 @@ class inventory_model extends CI_Model {
     }
 
     function getbyuser($idu) {
-        $query = array('user' => $idu);
+        $query = array('user' => (double)$idu);
         $result = $this->db
                 ->where($query)
+                ->order_by(array('_id' => true))
+                ->get($this->container);
+        return $result->result_array();
+    }
+    
+    function getbygroup($idgroup) {
+        $group=$this->user->getbygroup($idgroup);
+        //var_dump($group);
+        $userarr=array();
+        foreach((array)$group as $user) $userarr[]=$user->idu;
+        $query = array('user' =>array('$in',$userarr) );
+        //$this->db->debug=true;
+        $result = $this->db
+                ->where_in('user',$userarr)
                 ->order_by(array('_id' => true))
                 ->get($this->container);
         return $result->result_array();

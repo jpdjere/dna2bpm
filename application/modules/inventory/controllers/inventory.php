@@ -54,6 +54,10 @@ class Inventory extends MX_Controller {
         );
         //---Users & Groups
         $groups = $this->config->item('groups_allowed');
+        $cpData['groups'][] = array(
+            'idgroup' => '',
+            'name' => $this->config->item('select_group'),
+        );
         foreach ($groups as $idgroup) {
             $group = $this->group->get($idgroup);
             $cpData['groups'][] = (array) $group;
@@ -61,12 +65,21 @@ class Inventory extends MX_Controller {
 //----select 1st group and load
         $users = $this->user->getbygroup($groups[0]);
 //var_dump($users);exit;
-        foreach ($users as $thisUser)
-            $cpData['users'][] = array(
-                'idu' => $thisUser->idu,
-                'name' => (property_exists($thisUser, 'name')) ? $thisUser->name : '???',
-                'lastname' => (property_exists($thisUser, 'lastname')) ? $thisUser->lastname : '???',
-            );
+
+        $cpData['users'] = array();
+        /*
+          $cpData['users'][] = array(
+          'idu' => '',
+          'name' => $this->config->item('select_user'),
+          'lastname' => '',
+          );
+          foreach ($users as $thisUser)
+          $cpData['users'][] = array (
+          'idu' => $thisUser->idu,
+          'name' => (property_exists ($thisUser, 'name')) ? $thisUser->name : '???',
+          'lastname' => (property_exists ($thisUser, 'lastname')) ? $thisUser->lastname : '???',
+          );
+         */
         $this->ui->compose('index', 'bootstrap.ui.php', $cpData);
     }
 
@@ -233,6 +246,28 @@ class Inventory extends MX_Controller {
         return $cpData;
     }
 
+    function prepare_user($arr) {
+        $rtnArr = array();
+        $cant = count($arr);
+        for ($i = 0; $i < $cant; $i++) {
+            $val = $arr[$i];
+///-----calculate days
+
+            $date1 = new DateTime();
+            $date2 = new DateTime($arr[$i]['date']);
+
+            $interval = $date2->diff($date1);
+            $val['days'] = $interval->format('%a');
+            $val['user_data'] = $this->user->get_user_array((double) $val['user']);
+
+            $group = $this->group->get($val['user_data']['idgroup']);
+            $val['group'] = $group['name'];
+            $val['date'] = date('d/m/Y H:i', strtotime($val['date']));
+            $rtnArr[] = $val;
+        }
+        return $rtnArr;
+    }
+
     function prepare($arr) {
         $rtnArr = array();
         $cant = count($arr);
@@ -248,7 +283,7 @@ class Inventory extends MX_Controller {
             }
             $interval = $date2->diff($date1);
             $val['days'] = $interval->format('%a');
-            $val['user_data'] = $this->user->get_user_array((int) $val['user']);
+            $val['user_data'] = $this->user->get_user_array((double) $val['user']);
 
             $group = $this->group->get($val['user_data']['idgroup']);
             $val['group'] = $group['name'];
@@ -297,16 +332,22 @@ class Inventory extends MX_Controller {
         }
     }
 
-    function show_objects($idu = null) {
-        $idu = ($idu) ? $idu : $this->idu;
-        $result = $this->prepare($this->inventory_model->getbyuser($idu));
+    function show_objects() {
+
+        $idu = $this->input->post('idu');
+        $idgroup = $this->input->post('idgroup');
+        if ($idu) {
+            $result = $this->prepare_user($this->inventory_model->getbyuser($idu));
+        } else {
+            $result = $this->prepare_user($this->inventory_model->getbygroup($idgroup));
+        }
         if ($result) {
             unset($result['_id']);
             $cpData['result'] = $result;
             $this->parser->parse('info_table_user', $cpData);
         } else {
             $cpData['msg'] = " No se encontraron resultados.";
-            $this->parser->parse('error',$cpData);
+            $this->parser->parse('error', $cpData);
         }
     }
 
@@ -370,13 +411,18 @@ class Inventory extends MX_Controller {
         $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
     }
 
-    function get_users($idgroup) {
+    function get_users($idgroup=null) {
         $debug = false;
         $result = array();
         if ($idgroup) {
 //----select 1st group and load
             $users = $this->user->getbygroup($idgroup);
 //var_dump($users);exit;
+            $result[] = array(
+                'idu' => '',
+                'name' => $this->config->item('select_user'),
+                'lastname' => "",
+            );
             foreach ($users as $thisUser)
                 $result[] = array(
                     'idu' => $thisUser->idu,
@@ -421,4 +467,4 @@ class Inventory extends MX_Controller {
 }
 
 /* End of file welcome.php */
-/* Location: ./system/application/controllers/welcome.php */
+    /* Location: ./system/application/controllers/welcome.php */
