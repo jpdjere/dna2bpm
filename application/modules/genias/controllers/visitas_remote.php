@@ -54,25 +54,7 @@ class Visitas_remote extends MX_Controller {
         
             $this->genias_model->touch($form['cuit']);
         
-    }
-
-    /*
-     * FIX goals
-     */    
-    public function Fix() {       
-
-        $container = $this->containerGenias;
-        $query = array('idu' => (int) ($this->idu));
-        $result = $this->genias_model->get_visitas_all();
-        foreach ($result  as $returnData) {
-            $id = $returnData['id'];
-            $idu = $returnData['idu'];
-            $fecha = $returnData['fecha'];
-           $newResult = $this->genias_model->goal_update_all('2', $id,$idu, $fecha);
-           var_dump($newResult);           
-        }
-        exit();       
-    }
+    }  
 
     public function Remove() {              
         
