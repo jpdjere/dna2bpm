@@ -8,8 +8,12 @@ function confirm(result) {
 }
 function joinGroups() {
     groupField = Ext.getCmp('groupField');
-    groups = Ext.Array.remove(groupField.value.split(','), this.data.idgroup.toString());
+    store = Ext.data.StoreManager.lookup('UserGroupStore');
+    groups=new Array();
+    for(i in store.data.items) groups.push(store.data.items[i].data.idgroup);
+    groupField.suspendEvent('change');
     groupField.setValue(groups.join(','));
+    groupField.resumeEvent('change');
 }
 function renderGroups(groupField) {
     store = Ext.data.StoreManager.lookup('GroupStore');
@@ -116,18 +120,7 @@ var userform = Ext.create('Ext.form.Panel', {
                         return (value === password.getValue()) ? true : 'Passwords do not match.'
                     }
                 }
-                ,
-                {
-                    id: 'groupField',
-                    labelAlign: 'top',
-                    fieldLabel: 'Groups',
-                    hidden: false,
-                    name: 'group',
-                    listeners: {
-                        change: renderGroups
-                    }
-
-                }
+               
             ]
         }
         ,
@@ -163,7 +156,20 @@ var userform = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [{
+            items: [
+                 ///----GroupField
+                {
+                    id: 'groupField',
+                    labelAlign: 'top',
+                    fieldLabel: 'Groups',
+                    hidden: false,
+                    name: 'group',
+                    listeners: {
+                        change: renderGroups
+                    }
+
+                },
+                {
                     xtype: 'toolbar',
                     items: [
                         //---autocomplete from groups
@@ -266,6 +272,7 @@ var userform = Ext.create('Ext.form.Panel', {
                                     ,
                                     drop: function(node, data, dropRec, dropPosition) {
                                         joinGroups();
+                                        //return true;
 //
 //console.log(data.records[0].data);
                                         //var dropOn = dropRec ? ' ' + dropPosition + ' ' + dropRec.get('title') : ' on empty view';
