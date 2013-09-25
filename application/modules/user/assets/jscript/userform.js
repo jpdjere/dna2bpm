@@ -1,12 +1,15 @@
 function confirm(result) {
     if (result == 'yes') {
         store = Ext.data.StoreManager.lookup('UserGroupStore');
-        groupField = Ext.getCmp('groupField');
-        groups = Ext.Array.remove(groupField.value.split(','), this.data.idgroup.toString());
-        groupField.setValue(groups.join(','));
         store.remove(this);
+        joinGroups();
 
     }
+}
+function joinGroups() {
+    groupField = Ext.getCmp('groupField');
+    groups = Ext.Array.remove(groupField.value.split(','), this.data.idgroup.toString());
+    groupField.setValue(groups.join(','));
 }
 function renderGroups(groupField) {
     store = Ext.data.StoreManager.lookup('GroupStore');
@@ -18,7 +21,7 @@ function renderGroups(groupField) {
             value = groups[i];
             record = store.getAt(store.find('idgroup', value));
             if (record) {
-            //---make a copy of the original record
+                //---make a copy of the original record
                 grid.store.add(record.copy());
             }
             //html+=record.data.name+'<br/>';
@@ -262,7 +265,9 @@ var userform = Ext.create('Ext.form.Panel', {
                                     }
                                     ,
                                     drop: function(node, data, dropRec, dropPosition) {
-                                        //console.log(data.records[0].data);
+                                        joinGroups();
+//
+//console.log(data.records[0].data);
                                         //var dropOn = dropRec ? ' ' + dropPosition + ' ' + dropRec.get('title') : ' on empty view';
                                         //console.log("Drag", 'Dropped ' + data.records[0].get('title') +'\n'+ dropOn);
                                     }
@@ -283,8 +288,8 @@ var userform = Ext.create('Ext.form.Panel', {
             text: '<i class="icon-beaker"></i> Test',
             handler: function() {
                 form = this.up('form').getForm();
-                val=form.getValues()
-                window.location=globals.module_url + 'admin/test_user/' +val.idu;
+                val = form.getValues()
+                window.location = globals.module_url + 'admin/test_user/' + val.idu;
             }
         },
         {
