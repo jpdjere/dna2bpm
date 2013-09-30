@@ -401,11 +401,11 @@ class Genias extends MX_Controller {
             if (!$this->uri->segment(3))exit();
             $proyecto = $this->uri->segment(3);
             if ($this->uri->segment(4)){
-                $fecha = $this->uri->segment(4); 
-                $tasks = $this->get_tasks($proyecto,$fecha); 
+                $fecha = $this->uri->segment(4);        
             }else{
-                 $tasks = $this->get_tasks($proyecto); 
+                 $fecha=date('Y-m');
             }
+            $tasks = $this->get_tasks($proyecto,$fecha); 
             echo '<ul class="accordion-inner unstyled task_list ">';
             foreach($tasks as $task){
                 if($task['finalizada']==0){
