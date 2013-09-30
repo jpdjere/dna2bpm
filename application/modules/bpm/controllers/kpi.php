@@ -266,7 +266,9 @@ class Kpi extends MX_Controller {
         $cpData['module_url'] = $this->module_url;
         $cpData['idwf'] = $idwf;
         $kpis = $this->kpi_model->get_model($idwf);
-        //----PROCESS KPIS
+
+//----PROCESS KPIS
+        $kpi_show = array();
         foreach ($kpis as $kpi) {
             $kpi_show[] = $this->render($kpi);
         }
@@ -331,7 +333,6 @@ class Kpi extends MX_Controller {
 
     function time_avg_all($kpi) {
         $filter = $this->get_filter($kpi);
-        
     }
 
     function time_avg($kpi) {
