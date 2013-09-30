@@ -270,7 +270,7 @@ class Kpi extends MX_Controller {
 //----PROCESS KPIS
         $kpi_show = array();
         foreach ($kpis as $kpi) {
-        echo $kpi['type'].'<hr/>';
+        //echo $kpi['type'].'<hr/>';
             $kpi_show[] = $this->render($kpi);
         }
         $cpData['content'] = implode($kpi_show);
