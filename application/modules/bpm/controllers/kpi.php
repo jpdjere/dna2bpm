@@ -174,7 +174,7 @@ class Kpi extends MX_Controller {
         $cpData = $this->lang->language;
         $thisKpi = array();
         $custom = '';
-        $thisKpi = array();
+        $thisKpi = array('');
         if (isset($idkpi)) {
             $thisKpi = $this->kpi_model->get($idkpi);
         }
@@ -270,7 +270,7 @@ class Kpi extends MX_Controller {
 //----PROCESS KPIS
         $kpi_show = array();
         foreach ($kpis as $kpi) {
-        //echo $kpi['type'].'<hr/>';
+            //echo $kpi['type'].'<hr/>';
             $kpi_show[] = $this->render($kpi);
         }
         $cpData['content'] = implode($kpi_show);
@@ -330,6 +330,20 @@ class Kpi extends MX_Controller {
                 break;
         }
         return $filter;
+    }
+
+    function sla_time($kpi) {
+        $filter = $this->get_filter($kpi);
+        $filter['status'] = 'closed';
+        $cases = $this->bpm->get_cases_byFilter($filter);
+        //var_dump($filter, $cases);
+        foreach ($cases as $case) {
+            $d1 = new DateTime($case['checkdate']);
+            $d2 = new DateTime($case['checkoutdate']);
+            $interval = $d1->diff($d2);
+            $ref=new DateInterval($kpi['time_limit']);
+            var_dump($ref,$interval);
+        }
     }
 
     function time_avg_all($kpi) {
