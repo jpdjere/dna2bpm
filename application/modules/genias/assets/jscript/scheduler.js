@@ -4,10 +4,13 @@
  * TEST 
  */
 
+var agendas=[2,3];
+var tasks= [];
+var tasks666= [];
+for (var i = 0; i < agendas.length; i++) {
+  tasks[agendas[i]]=new Array();
+}
 
-var tasks= new Array();
-tasks[0]=new Array();
-tasks[666]=new Array();
 
 
 
@@ -26,19 +29,21 @@ e.preventDefault();
 // ==== OFFLINE ==== //
 
 if(navigator.onLine){
-mongo_get_tasks(0);
 
+for (var i = 0; i < agendas.length; i++) {
+  mongo_get_tasks(agendas[i]);
+  localStorage['tasks'+agendas[i]]=JSON.stringify(tasks[agendas[i]]);
+}
 //localStorage.clear();
 
-localStorage['tasks0']=JSON.stringify(tasks[0]);
-localStorage['tasks666']=JSON.stringify(tasks[666]);
+localStorage['tasks666']=JSON.stringify(tasks666);
 
 }else{
 localstorage_get_tasks();
 buttons_offline();
 }
 
-
+// ____ OFFLINE ____ //
 
 
 // Despliego el calendario
@@ -46,12 +51,12 @@ $('#calendar').fullCalendar({
 
     eventSources:[
        {
-            events: tasks[0],            
+            events: tasks[2],            
             color: '#C6372C',     // an option!
             textColor: 'white' // an option!
        },
        {
-            events: tasks[666],
+            events: tasks666,
             color: '#CCCCCC',     // an option!
             textColor: 'white' // an option!
        } 
@@ -94,9 +99,8 @@ buttonText:{month:'mes',week:'semana',day:'dia',today:'hoy'},
 
 //$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('#dp3').datepicker();
-/*
- *  SAVE / UPDATE
- */
+
+// ==== SAVE / UPDATE ==== //
 
 $("form").validate({
 rules: {
@@ -131,9 +135,7 @@ submitHandler: function(form) {
 }
 );
 
-/*
- *  CLEAR FORM
- */
+// ==== CLEAT ==== //
 
 $('#bt_clear').click(function(){
         $('#detalle input[name="id"]').val('');
@@ -176,10 +178,16 @@ $('#bt_delete').click(function(){
  
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
-    var proy=$('#detalle input[name="proyecto"]').val();
-    alert(proy);
+    var proy=$('#detalle select[name="proyecto"]').val();
     if($(this).hasClass('disabled'))return;
-   // location.href=globals.module_url+'form_empresas_alt?task='+id;
+    if(proy==2){
+    // Escenario PYME
+        location.href=globals.module_url+'form_empresas_alt?task='+id;
+    }else if(proy==3){
+    // Escenario PYME
+    alert('Modulo no habilitado');
+    }
+   // 
 });
 
 
@@ -204,16 +212,21 @@ $('#bt_form').click(function(){
 //}
 
 function localstorage_get_tasks(){
+// Trae las tareas del locastorage
+for (var i = 0; i < agendas.length; i++) {
+tasks[agendas[i]]=JSON.parse(localStorage['tasks'+agendas[i]]);
+}
 
-tasks[0]=JSON.parse(localStorage['tasks0']);
-tasks[666]=JSON.parse(localStorage['tasks666']);
+// Tareas ya realizadas 
+tasks666=JSON.parse(localStorage['tasks666']);
 }
 
 
 // Traigo las tareas de mongo
 function mongo_get_tasks(s){
-   
+
 url=globals.module_url+"print_tasks/"+s;
+
 $.ajax(
    {
       /* this option */
@@ -227,7 +240,7 @@ $.ajax(
             var myjson=JSON.parse(resp);             
             $.each( myjson, function( k, v ) {
                 if(v.finalizada==1){
-                    tasks[666].push(v);
+                    tasks666.push(v);
                 }else{
                     tasks[s].push(v);
                 }

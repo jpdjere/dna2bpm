@@ -1,18 +1,12 @@
 <!-- Submenu / Breadcrumbs -->
-<div class="row-fluid " >
+<div class="row-fluid " id="barra_user" >
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
          <li ></li> 
           <li class="pull-right perfil">
               <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
           </li>
     </ul>
-    <ul class="breadcrumb breadcrumb-genias" style="padding-top:0px">
-        <li ></li>      
-        {genias}  
-        <li class="pull-right "><span class="divider">/</span</li>
-        <li class="pull-right">{nombre}</li>
-        {/genias}
-    </ul> 
+
 </div>
 <!-- / Contenido -->
 <div  class="row-fluid container" >
@@ -96,7 +90,9 @@
 
     
     <textarea type="text" name="detail" placeholder="Detail" class="input-block-level" ></textarea>
-
+<label class="checkbox">
+<input type="checkbox" name="finalizada"> Finalizada
+</label>
     <a class="btn btn-block  btn-primary disabled" id="bt_form" href="#"><i class="icon-tasks"></i> Cargar formulario</a>
     <a class="btn btn-block btn-primary disabled"  id="bt_delete" href="#"><i class="icon-trash"></i> Eliminar tarea</a>
     <button class="btn btn-block btn-primary " type="button" id="bt_clear"><i class="icon-plus-sign"></i>  Nueva tarea</button>

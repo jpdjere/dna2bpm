@@ -1,4 +1,4 @@
-<div class="row-fluid test" >
+<div class="row-fluid test" id="barra_user" >
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
     <button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
         <i class="icon-plus"></i> Nueva meta
@@ -7,15 +7,7 @@
               <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
           </li>
     </ul>
-    <ul class="breadcrumb breadcrumb-genias" style="padding-top:0px">
-        <li ></li>
-        
-        {genias}  
-        <li class="pull-right "><span class="divider">/</span></li>
-        <li class="pull-right">{nombre}</li>
-        {/genias}
 
-    </ul> 
 </div>
 <!-- ==== Contenido ==== -->
 <div class="container" > 
@@ -76,7 +68,8 @@
 
         </div> 
     </div> 
-    
+ 
+
     <!-- ==== RESUMEN COORDINADOR==== -->
 
     {if {rol}=='coordinador'}
@@ -89,20 +82,24 @@
 
         <div class="tab-content">
             <div class="tab-pane active" id="tab_resumen">
+                <div class="row-fluid">
+                     <div class="span9">
+                         <h3>Escenario PYME</h3>
+                     </div>
+                    <div class="span3">
+                        <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right " id="dp4">
+                            <span class="add-on"><i class="icon-calendar"></i></span>
+                            <input type="text" name="visitas_desde" readonly="" value=""  class="" >
+
+                        </div> 
+                     </div>
+                </div>
+                
                 <div class="alert {resumen_class}" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Sus genias tienen {goal_cumplidas_total} de {goal_cantidad_total} objetivos cumplidos.</strong> 
                 </div> 
             </div>
-<!--        {genias} 
-            <div class="tab-pane" id="tab-{_id}">
-                <div class="alert" id="{_id}">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Sus genias tienen {goal_cumplidas} {/goal_cumplidas}  de {goal_cantidad} objetivos cumplidos. {_id}</strong> 
-                
-                </div>
-            </div> 
-        {/genias} -->
         <?php
         foreach($genias as $genia){     
 echo <<<BLOC
@@ -114,25 +111,17 @@ echo <<<BLOC
                 </div>
             </div> 
 BLOC;
-}
-        
+} 
         ?>
         </div>
     {/if}
-<!-- ================= VISITAS AJAX ================= -->   
     
 
 <!-- ================= VISITAS  ================= -->
 
-<div class='row'>
+<div class='row' id="filtro_visitas">
     <!-- ====== Filtro  ====== -->
-<div class='span2'>
-<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-append date" id="dp4">
- <input type="text" name="visitas_desde" readonly="" value=""  class="input-block-level" >
- <span class="add-on"><i class="icon-calendar"></i></span>
-</div> 
-</div>
-<div class='span10' id="wrapper_visitas">
+<div class='span12' id="wrapper_visitas">
 <!-- dummy visitas -->
 </div>
 </div>
@@ -145,7 +134,7 @@ BLOC;
         {metas}
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
-        <div class="span6 meta" data-genia="{genia}"> 
+        <div class="span6 meta" data-genia="{genia}" style="display:none"> 
             <input type="hidden" name="metaid" value="{_id}"/>
             <div class="well">
                 <!-- Nombre Proyecto -->

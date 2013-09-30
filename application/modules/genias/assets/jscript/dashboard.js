@@ -18,8 +18,6 @@ $('.aprobar').click(function(){
  $('.dp').datepicker();
   
 
-  
-
 //== VALIDATE == //
 //
 $("#form_goals").validate({
@@ -38,7 +36,7 @@ submitHandler: function(form) {
     $.ajax(
    {
       /* this option */
-      async: false,
+      async: true,
       cache: false,
       type: "POST",
       dataType: "text",
@@ -63,6 +61,7 @@ $('button.guardar').click(function(){
    var obs=meta.find('[name="observaciones"]').val();
    var metaid=meta.find('[name="metaid"]').val();
    var proyecto=meta.find('[name="metas_proyecto"]').val(); 
+//   var proyecto_nombre=meta.find('[name="metas_proyecto"] [value="'+proyecto+'"]').text();
    var data={'desde':desde,'observaciones':obs,'metaid':metaid,'proyecto':proyecto};
     $.ajax(
    {
@@ -105,18 +104,11 @@ if(result){
 });
 
 
-//$('#form_goals a').click(function(){
-//    var data=$('#form_goals').serializeArray();
-//
-//    $.post(globals.module_url+'add_goal',{'data':data},function(resp){
-//      location.reload();
-//
-//    });
-//});
 
-$(".detalle").click(function(){
-   $(this).next('.observaciones').slideToggle();
-});
+
+//$(".detalle").click(function(){
+//   $(this).next('.observaciones').slideToggle();
+//});
 
 // localStorage guardo datos usuario
 var userdata={idu:1,genia:1};
@@ -141,10 +133,12 @@ $('#dashboard_tab1 a:first').tab('show');
 $('.nav-tabs a').click(function(e){
     var code=$(this).attr('href').split('-');
     if($(this).attr('href')=="#tab_resumen"){
-        $('.meta').show();
+        $('.meta').hide();
         $('.ultree').show();
+        $('#filtro_visitas').show();
     }else{
         $('.ultree').hide();
+        $('#filtro_visitas').hide();
       $('[data-genia]').each(function(index){
        var genia=$(this).attr('data-genia');
        if(genia!=code[1]){
@@ -173,6 +167,10 @@ $('#dp4').datepicker().on('changeDate',function(ev){
     $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas',{'mes':mes}); 
 }); 
 
+
+
+
+// Fin ready
 });
 
 
