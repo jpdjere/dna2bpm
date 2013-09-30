@@ -29,8 +29,16 @@ body {
     padding-bottom:6px;
 }
 
+
+
+
+
+
 /* Profile */
 
+#barra_user{
+    padding-bottom:20px;
+}
 
 .perfil{
 font-size: 12px;

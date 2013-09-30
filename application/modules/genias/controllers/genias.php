@@ -83,10 +83,8 @@ class Genias extends MX_Controller {
             foreach ($customData['projects'] as $current) {
                 if ($current['id'] == $goal['proyecto']) {
                     $goal['proyecto_name'] = $current['name'];
-                    //$goal['select_project'].="<option  selected='selected' value='{$current['id']}' >{$current['name']}</option>";
-                    $goal['select_project'].="<option value='{$current['id']}' selected>{$current['name']}</option>";
+                    $goal['select_project'].="<option  selected='selected' value='{$current['id']}' >{$current['name']}</option>";
                 } else {
-                    //$goal['select_project'].="<option value='{$current['id']}' >{$current['name']}</option>";
                     $goal['select_project'].="<option value='{$current['id']}'>{$current['name']}</option>";
                 }
             }
@@ -118,7 +116,7 @@ class Genias extends MX_Controller {
 
             $mygoals[] = $goal;
 
-            //var_dump($goal);
+            
         }
 
         $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
@@ -132,7 +130,7 @@ class Genias extends MX_Controller {
         // Cargo Resumen de las visitas solo para coordinadores
  
         $customData['metas'] = $mygoals;
-
+//var_dump($customData['goal_cantidad']);
         $this->render('dashboard', $customData); 
        
     }
@@ -242,7 +240,7 @@ class Genias extends MX_Controller {
 
         $mydata['id'] = $this->app->genid('container.genias_goals'); // create new ID 
         $mydata['cumplidas'] = array();
-        //@todo  COMPLETAR
+
         // Busco nombre del proyecto
         $proyectos = $this->genias_model->get_config_item('projects');
         foreach ($proyectos['items'] as $v) {
@@ -298,12 +296,12 @@ class Genias extends MX_Controller {
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         $customData['titulo'] = "Tareas";
-        $customData['tasks'] = array();
-        foreach ($projects['items'] as $k => $item) {
-            $items = $this->get_tasks($k);
-            $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
-        }
-        // var_dump($customData);
+       $customData['tasks'] = array();
+//        foreach ($projects['items'] as $k => $item) {
+//            $items = $this->get_tasks($k);
+//            $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
+//        }
+   //      var_dump($customData['projects'] );
         //var_dump($projects['items']);
         //$customData['tasks']= print_r($this->get_tasks("1"));
 
@@ -347,28 +345,34 @@ class Genias extends MX_Controller {
 
     }
 
-    function get_tasks($proyecto) {
+    function get_tasks($proyecto,$periodo=null) {
+
+        if(empty($proyecto))exit();
 
         // Mapeo proyecto id - > orden de display en fullcalendar
-        $projects = $this->genias_model->get_config_item('projects');
-        $items = $projects['items'];
+//        $projects = $this->genias_model->get_config_item('projects');
+//        $items = $projects['items'];
+        // $proyecto = $items[$proyecto]['id'];
 
-        $proyecto = $items[$proyecto]['id'];
-
-        $tasks = $this->genias_model->get_tasks($this->idu, $proyecto);
+        $tasks = $this->genias_model->get_tasks($this->idu, $proyecto,$periodo);
+//        var_dump(iterator_to_array($tasks));
+//        exit();
         if (!$tasks->count())
             return array();
 
         $mytasks = array();
         foreach ($tasks as $task) {
             $dia = iso_decode($task['dia']);
+
             $user = (array)$this->user->get_user($task['idu']);
+
             if(!$user){
                 $autor="Desconocido";
             }else{
-                $name=(empty($user['name']))?($user['name']):('');
-                $lastname=(empty($user['lastname']))?($user['lastname']):('');
+                $name=(!empty($user['name']))?($user['name']):('');
+                $lastname=(!empty($user['lastname']))?($user['lastname']):('');
                 $autor="$lastname, $name";
+
             }
 
             $item = array(
@@ -392,13 +396,37 @@ class Genias extends MX_Controller {
         return $mytasks;
     }
 
-    // Calls get_tasks and print the result
-    function print_tasks() {
-        if (is_numeric($this->uri->segment(3))) {
+    // Calls get_tasks and print the result in UL
+    function print_ul_tasks() {
+            if (!$this->uri->segment(3))exit();
             $proyecto = $this->uri->segment(3);
-            $tasks = $this->get_tasks($proyecto);
-            echo json_encode($tasks);
-        }
+            if ($this->uri->segment(4)){
+                $fecha = $this->uri->segment(4); 
+                $tasks = $this->get_tasks($proyecto,$fecha); 
+            }else{
+                 $tasks = $this->get_tasks($proyecto); 
+            }
+            echo '<ul class="accordion-inner unstyled task_list ">';
+            foreach($tasks as $task){
+                if($task['finalizada']==0){
+                    echo "<li ><i class='icon-calendar' style='color:#0088CC'></i>{$task['dia']}<i class='icon-time' style='color:#0088CC'></i>{$task['hora']}:{$task['minutos']}<i class='icon-user' style='color:#0088CC'></i>{$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
+                }
+            }
+            echo '</ul>';
+            
+    }
+    
+    // tasks for scheduler
+    function print_tasks() {
+        if (!$this->uri->segment(3))exit();
+            $proyecto = $this->uri->segment(3);
+            if ($this->uri->segment(4)){
+                $fecha = $this->uri->segment(4); 
+                $tasks = $this->get_tasks($proyecto,$fecha); 
+            }else{
+                 $tasks = $this->get_tasks($proyecto); 
+            }
+            echo json_encode($tasks);   
     }
 
     /* ------ MAP ------ */

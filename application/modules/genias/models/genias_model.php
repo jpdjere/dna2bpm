@@ -35,9 +35,7 @@ class Genias_model extends CI_Model {
         return $rs['err'];
     }
 
-    function get_tasks($idu, $proyecto) {
-
-        //$query = array('idu' => (int) $idu, 'proyecto' => $proyecto);
+    function get_tasks($idu, $proyecto,$periodo=null) {
 
         $container = 'container.genias_tasks';
         $genias = $this->get_genia($idu);
@@ -50,12 +48,18 @@ class Genias_model extends CI_Model {
                 }
             }
         }
-        $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto);
+  
+        if(isset($periodo)){
+            $fecha = new MongoRegex("/$periodo-\d{2}/");
+             $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto,'dia'=>$fecha);
+        }else{
+            $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto);   
+        }
 
+        $result = $this->mongo->db->$container->find($query)->sort(array('dia' => -1));
 
-        $result = $this->mongo->db->$container->find($query)->sort(array('$natural' => -1));
-
-        //var_dump($result, json_encode($result), $result->count());
+//        var_dump(iterator_to_array($result));
+//        exit();
         return $result;
     }
 
@@ -86,6 +90,11 @@ class Genias_model extends CI_Model {
         $data['desde'] = "$year-$month-01";
         $data['hasta'] = "$year-$month-$daycount";
 
+        $proyectos = $this->genias_model->get_config_item('projects');
+        foreach ($proyectos['items'] as $v) {
+            if ($data['proyecto'] == $v['id'])
+                $data['proyecto_nombre'] = $v['name'];
+        }
 
         $id = new MongoId($data['metaid']);
         $query = array('_id' => $id);
@@ -494,6 +503,7 @@ class Genias_model extends CI_Model {
         $fields=array('lastname','name','email','idu');              
         $query=array("idu"=>array('$in'=>$idus));
         $mongo_usuarios = $this->mongo->db->$container->find($query, $fields);
+        $usuarios=array();
         foreach($mongo_usuarios as $usuario){
             $usuarios[$usuario['idu']]=$usuario;
         }     
@@ -507,9 +517,10 @@ class Genias_model extends CI_Model {
 //exit();
         $listado = array();
 
+        
         foreach ($visitas as $visita) {
             if(!isset($visita['cuit']))continue;
-            if(!key_exists($visita['cuit'], $empresas)) continue;
+            if(!array_key_exists($visita['cuit'], $empresas)) continue;
 
             $empresa=$empresas[$visita['cuit']];
             $temp=(array)$empresa['4651'];
@@ -519,9 +530,10 @@ class Genias_model extends CI_Model {
 
             $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
             $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
-            if($visita['idu']!=0){
-            $username="{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
 
+
+            if($visita['idu']!=0 && array_key_exists((int)$visita['idu'],$usuarios)){
+            $username="{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
             }else{
              $username="-";
             }
