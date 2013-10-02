@@ -4,13 +4,29 @@
  * TEST 
  */
 
-var agendas=[2,3];
+
 var tasks= [];
 var tasks666= [];
-for (var i = 0; i < agendas.length; i++) {
-  tasks[agendas[i]]=new Array();
-}
-
+tasks[2]=new Array();
+tasks[3]=new Array();
+var agendas=[
+       {
+            events: tasks[2],            
+            color: '#C6372C',     
+            textColor: 'white' 
+       },
+    {
+            events: tasks[3],            
+            color: '#ff6600',  
+            textColor: 'white' 
+       },
+       {
+            events: tasks666,
+            color: '#CCCCCC',     
+            textColor: 'white' 
+       } 
+       
+    ]
 
 
 
@@ -30,10 +46,11 @@ e.preventDefault();
 
 if(navigator.onLine){
 
-for (var i = 0; i < agendas.length; i++) {
-  mongo_get_tasks(agendas[i]);
-  localStorage['tasks'+agendas[i]]=JSON.stringify(tasks[agendas[i]]);
-}
+  mongo_get_tasks(2);
+  mongo_get_tasks(3);
+  localStorage['tasks2']=JSON.stringify(tasks[2]);
+  localStorage['tasks3']=JSON.stringify(tasks[3]);
+
 //localStorage.clear();
 
 localStorage['tasks666']=JSON.stringify(tasks666);
@@ -49,19 +66,7 @@ buttons_offline();
 // Despliego el calendario
 $('#calendar').fullCalendar({
 
-    eventSources:[
-       {
-            events: tasks[2],            
-            color: '#C6372C',     // an option!
-            textColor: 'white' // an option!
-       },
-       {
-            events: tasks666,
-            color: '#CCCCCC',     // an option!
-            textColor: 'white' // an option!
-       } 
-       
-    ],
+    eventSources: agendas,
     monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
  'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 dayNamesShort:['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
@@ -135,9 +140,10 @@ submitHandler: function(form) {
 }
 );
 
-// ==== CLEAT ==== //
+// ==== CLEAR ==== //
 
 $('#bt_clear').click(function(){
+
         $('#detalle input[name="id"]').val('');
         $('form')[0].reset();
         $('#bt_form').addClass('disabled');
