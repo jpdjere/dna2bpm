@@ -114,6 +114,8 @@ header($ExpStr);
 
                 window.addEventListener('online',  updateOnlineStatus);
                 window.addEventListener('offline', updateOnlineStatus);
+                
+                updateOnlineStatus();
               });
               
 
