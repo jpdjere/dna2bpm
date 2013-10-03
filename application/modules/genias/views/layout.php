@@ -116,12 +116,7 @@ header($ExpStr);
                 window.addEventListener('offline', updateOnlineStatus);
               });
               
-        $( document ).ready(function() {
-                    var condition = navigator.onLine ? "online" : "offline";
 
-                  status.className = condition;
-                  status.innerHTML = condition.toUpperCase();
-        }
         </script>
         {js}
 
