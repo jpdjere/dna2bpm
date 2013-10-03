@@ -36,6 +36,16 @@ body {
 
 /* Profile */
 
+#status{margin-right:10px;}
+#status.online{
+    color:#2B8D2B;
+}
+
+#status.offline{
+    color:#f00;
+}
+
+
 #barra_user{
     padding-bottom:20px;
 }
