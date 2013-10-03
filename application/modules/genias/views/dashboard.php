@@ -135,7 +135,7 @@ BLOC;
         {metas}
         <!-- test  -->
         <!-- <div class="span6 {status_class}">  -->
-        <div class="span6 meta" data-genia="{genia}" style="display:none"> 
+        <div class="span6 meta" data-genia="{genia}" style="display:block"> 
             <input type="hidden" name="metaid" value="{_id}"/>
             <div class="well">
                 <!-- Nombre Proyecto -->

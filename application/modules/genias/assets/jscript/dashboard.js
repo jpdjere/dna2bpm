@@ -133,7 +133,7 @@ $('#dashboard_tab1 a:first').tab('show');
 $('.nav-tabs a').click(function(e){
     var code=$(this).attr('href').split('-');
     if($(this).attr('href')=="#tab_resumen"){
-        $('.meta').hide();
+        //$('.meta').hide();
         $('.ultree').show();
         $('#filtro_visitas').show();
     }else{
