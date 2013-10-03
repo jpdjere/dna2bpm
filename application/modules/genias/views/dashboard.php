@@ -4,6 +4,7 @@
         <i class="icon-plus"></i> Nueva meta
     </button>
           <li class="pull-right perfil">
+              <span id="status"></span>
               <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
           </li>
     </ul>

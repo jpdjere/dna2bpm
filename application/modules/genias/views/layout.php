@@ -1,13 +1,10 @@
 <?php
 header('Cache-Control: no-cache,max-age=0,must-revalidate');
-
 $ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time()-3600 ) . " GMT";
 header($ExpStr);
- 
 ?>
 <!DOCTYPE html>
 <html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
-
     <head>
         <title>DNA&sup2; Admin </title>
         <meta charset="UTF-8" />
@@ -103,6 +100,21 @@ header($ExpStr);
         <script type="text/javascript">
             //-----declare global vars
             var globals={inline_js};
+            
+            window.addEventListener('load', function() {
+                var status = document.getElementById("status");
+
+                function updateOnlineStatus(event) {
+                  var condition = navigator.onLine ? "online" : "offline";
+
+                  status.className = condition;
+                  status.innerHTML = condition.toUpperCase();
+
+                }
+
+                window.addEventListener('online',  updateOnlineStatus);
+                window.addEventListener('offline', updateOnlineStatus);
+              });
         </script>
         {js}
 
