@@ -36,7 +36,7 @@ submitHandler: function(form) {
     $.ajax(
    {
       /* this option */
-      async: true,
+      async: false,
       cache: false,
       type: "POST",
       dataType: "text",
