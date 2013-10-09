@@ -1,6 +1,6 @@
 <div class="row-fluid test" id="barra_user" >
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-    <button type="button" class="btn " data-toggle="collapse" data-target="#meta_div">
+    <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
         <i class="icon-plus"></i> Nueva meta
     </button>
           <li class="pull-right perfil">
@@ -58,7 +58,7 @@
                 <div  class="row-fluid">
                     <div class="span12">
 
-                        <button class="btn btn-block btn-primary " type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
+                        <button class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
                     </div> 
 
                 </div> 
@@ -181,7 +181,7 @@ BLOC;
                          
                                 {if {rol}=='coordinador'}
                                    {if {status} == 'open'}
-                                        <button class="aprobar btn btn-mini btn-success" url="{url_case}" type="button">
+                                        <button class="aprobar btn btn-mini btn-success hide_offline" url="{url_case}" type="button">
                                                <i class="icon-thumbs-up-alt"></i> Aprobar
                                        </button>
                                     {/if}
@@ -200,10 +200,10 @@ BLOC;
                     <textarea rows="3" class="input-block-level" name="observaciones">{observaciones} </textarea>
                 </div>
                 {if {rol}=='coordinador'}
-                    <button class="guardar btn btn-mini btn-success" url="#" type="button">
+                    <button class="guardar btn btn-mini btn-success hide_offline" url="#" type="button">
                             <i class="icon-thumbs-up-alt"></i> Guardar
                     </button>
-                   <a class="bt_delete btn btn-mini btn-danger"  type="button">
+                   <a class="bt_delete btn btn-mini btn-danger hide_offline"  type="button">
                             <i class="icon-trash"></i> Eliminar
                     </a>
                 {/if}

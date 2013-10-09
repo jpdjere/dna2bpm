@@ -57,7 +57,6 @@ localStorage['tasks666']=JSON.stringify(tasks666);
 
 }else{
 localstorage_get_tasks();
-buttons_offline();
 }
 
 // ____ OFFLINE ____ //
@@ -260,8 +259,3 @@ $.ajax(
 }
 
 
-function buttons_offline(){
-$('#bt_delete').addClass('disabled');
-$('#bt_save').addClass('disabled');
-$('#bt_clear').addClass('disabled');
-}

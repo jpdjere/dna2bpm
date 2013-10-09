@@ -111,8 +111,8 @@ if(result){
 //});
 
 // localStorage guardo datos usuario
-var userdata={idu:1,genia:1};
-localStorage['userdata']="";
+//var userdata={idu:1,genia:1};
+//localStorage['userdata']="";
 
 // Desabilito los anchos que etan desabled 
 $('a[disabled]').one('click', function(e){
@@ -182,3 +182,5 @@ window.applicationCache.addEventListener('updateready', onUpdateReady);
 if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
   onUpdateReady();
 }
+
+        

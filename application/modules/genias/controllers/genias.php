@@ -603,7 +603,7 @@ class Genias extends MX_Controller {
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
-            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',           
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresas.grid.js' => 'Grid Empresas',
             $this->module_url . 'assets/jscript/empresas.form.js' => 'Form Empresas',
