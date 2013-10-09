@@ -14,7 +14,8 @@ class Genias_model extends CI_Model {
         parent::__construct();
         $this->load->helper('genias/tools');
         $this->idu = (int) $this->session->userdata('iduser');
-        if(!$this->idu)header("$this->module_url/user/logout");
+        if (!$this->idu)
+            header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
 
@@ -35,7 +36,7 @@ class Genias_model extends CI_Model {
         return $rs['err'];
     }
 
-    function get_tasks($idu, $proyecto,$periodo=null) {
+    function get_tasks($idu, $proyecto, $periodo = null) {
 
         $container = 'container.genias_tasks';
         $genias = $this->get_genia($idu);
@@ -48,12 +49,12 @@ class Genias_model extends CI_Model {
                 }
             }
         }
-  
-        if(isset($periodo)){
+
+        if (isset($periodo)) {
             $fecha = new MongoRegex("/$periodo-\d{2}/");
-             $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto,'dia'=>$fecha);
-        }else{
-            $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto);   
+            $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto, 'dia' => $fecha);
+        } else {
+            $query = array('idu' => array('$in' => $idus), 'proyecto' => $proyecto);
         }
 
         $result = $this->mongo->db->$container->find($query)->sort(array('dia' => -1));
@@ -208,6 +209,75 @@ class Genias_model extends CI_Model {
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
+        }
+        return $rtn;
+    }
+
+    /* RETURN VISITAS */
+
+    function get_empresas_raw($query) {
+        $rtn = array();
+        //$query['status'] = 'activa';
+        $fields = array('id',
+            'status'
+            , '1693'  //     Nombre de la empresa
+            , '1695'  //     CUIT
+            , '7819' // 	Longitud
+            , '7820' // 	Latitud
+            , '4651' // 	Provincia
+            , '4653' //     Calle Ruta
+            , '4654' //     Nro /km
+            , '4655' //     Piso
+            , '4656' //     Dto Oficina
+            , '1699' // 	Partido
+            , '1694'    // Tipo de empresa
+            , '1698'    //cod postal
+            , '1701'    //telefonos
+            , '1703'    //email
+            , '1704'    //web
+            , '1711'    //Cantidad de Empleados actual  
+            /* contacto */
+            , '7876'    // Apellido y Nombre del Contacto
+            , '7877'    // E-mail del Contacto
+            , '7878'    // Rubro de la Empresa                
+            /* PLANTA */
+            , '7879'    // Superficie Cubierta
+            , '7880'    // Posesi�n (idopcion = 729)
+            , '1715'    // Productos o servicios que Ofrece
+            /* PRODUCCION */
+            , '7881'    // Tiene componentes importados (idopcion = 15)
+            , '7882'    // Pueden ser reemplazados? (idopcion = 15)
+            , '7883'    // Tiene capacidad para exportar? (idopcion = 15)
+            , '1716'    // Mercado destino (idopcion = 88)
+            , '7884'    // Proveedores
+            , 'C7663'    // La empresa ha realizado o realiza acciones vinculadas a la Responsabilidad Social (idopcion = 716)
+            , '7665'    // Registro �nico de Organizaciones de Responsabilidad Social (idopcion = 715)
+            , 'origenGenia'    // usuario que tocó la empresa
+        );
+        $container = 'container.empresas';
+        $sort = array('origenGenia' => -1);
+        $result = $this->mongo->db->$container->find($query, $fields);
+        $result->sort($sort);
+        foreach ($result as $empresa) {
+            unset($empresa['_id']);
+            $rtn[] = $empresa;
+        }
+        return $rtn;
+    }
+
+    function get_empresas_id($query) {
+        $rtn = array();
+        //$query['status'] = 'activa';
+        
+  
+        $container = 'container.empresas';
+        $sort = array('id' => 1);
+        $result = $this->mongo->db->$container->find($query);
+        $result->sort($sort);
+        foreach ($result as $empresa) {
+            $empresaRtn['id']=$empresa['id'];            
+            $empresaRtn['checksum']=md5(json_encode($empresa));            
+            $rtn[] = $empresaRtn;
         }
         return $rtn;
     }
@@ -386,21 +456,19 @@ class Genias_model extends CI_Model {
         // Busco el case del goal
         $query = array("_id" => new MongoId($id));
         $my_goal = $this->mongo->db->$container_metas->findOne($query);
-        $my_case=$my_goal['case'];
+        $my_case = $my_goal['case'];
 
         $result = $this->mongo->db->$container_metas->remove($query);
 
-        if(!isset($result['err'])){
+        if (!isset($result['err'])) {
             // Marco el case como borrado
-            $checkoutdate=date("Y-m-d H:i:s");
-            $query=array("id"=>$my_case);
-            $data=array('$set'=>array("checkoutdate"=>$checkoutdate,"status"=>"deleted"));
-            $rs_case = $this->mongo->db->$container_case->update($query,$data);
-
-        }else{
+            $checkoutdate = date("Y-m-d H:i:s");
+            $query = array("id" => $my_case);
+            $data = array('$set' => array("checkoutdate" => $checkoutdate, "status" => "deleted"));
+            $rs_case = $this->mongo->db->$container_case->update($query, $data);
+        } else {
             return $result['err'];
         }
-
     }
 
     // ======= USER CONTROL ======= //
@@ -464,78 +532,79 @@ class Genias_model extends CI_Model {
     function get_resumen_visitas($periodo) {
 
         $this->load->model('user/user');
-        
+
 
         // LIstado de Provincias permitidas
-        $provincias=array();
-        $misgenias=$this->get_genia($this->idu);
-        foreach($misgenias['genias'] as $genia){
-            if(isset($genia['query_empresas'][4651])){
-                if(is_array($genia['query_empresas'][4651])){
-                    $provincias=  array_merge($genia['query_empresas'][4651],$provincias);
-                }else{
-                    $provincias[]=$genia['query_empresas'][4651];
+        $provincias = array();
+        $misgenias = $this->get_genia($this->idu);
+        foreach ($misgenias['genias'] as $genia) {
+            if (isset($genia['query_empresas'][4651])) {
+                if (is_array($genia['query_empresas'][4651])) {
+                    $provincias = array_merge($genia['query_empresas'][4651], $provincias);
+                } else {
+                    $provincias[] = $genia['query_empresas'][4651];
                 }
             }
-           
-        }
-        
-        // Todos los cuits cargados en visitas
-        $container = 'container.genias_visitas';
-        $cuits = $this->mongo->db->$container->distinct('cuit');    
-        // Todos los idus cargados en visitas
-        $idus = $this->mongo->db->$container->distinct('idu');
-        
-        // Listado de empresas
-        $container = 'container.empresas';
-        $fields=array('1695','4651','1693','1703');              
-        $query=array("1695"=>array('$in'=>$cuits),"4651"=>array('$in'=>$provincias));
-        $mongo_empresas = $this->mongo->db->$container->find($query, $fields);
-        foreach($mongo_empresas as $empresa){
-            $empresas[$empresa['1695']]=$empresa;
         }
 
-        $query=array("1695"=>array('$in'=>$cuits),"4651"=>array('$in'=>$provincias));
+        // Todos los cuits cargados en visitas
+        $container = 'container.genias_visitas';
+        $cuits = $this->mongo->db->$container->distinct('cuit');
+        // Todos los idus cargados en visitas
+        $idus = $this->mongo->db->$container->distinct('idu');
+
+        // Listado de empresas
+        $container = 'container.empresas';
+        $fields = array('1695', '4651', '1693', '1703');
+        $query = array("1695" => array('$in' => $cuits), "4651" => array('$in' => $provincias));
+        $mongo_empresas = $this->mongo->db->$container->find($query, $fields);
+        foreach ($mongo_empresas as $empresa) {
+            $empresas[$empresa['1695']] = $empresa;
+        }
+
+        $query = array("1695" => array('$in' => $cuits), "4651" => array('$in' => $provincias));
         $mongo_empresas = $this->mongo->db->$container->find($query, $fields);
 
         // Usuarios
         $container = 'users';
-        $fields=array('lastname','name','email','idu');              
-        $query=array("idu"=>array('$in'=>$idus));
+        $fields = array('lastname', 'name', 'email', 'idu');
+        $query = array("idu" => array('$in' => $idus));
         $mongo_usuarios = $this->mongo->db->$container->find($query, $fields);
-        $usuarios=array();
-        foreach($mongo_usuarios as $usuario){
-            $usuarios[$usuario['idu']]=$usuario;
-        }     
+        $usuarios = array();
+        foreach ($mongo_usuarios as $usuario) {
+            $usuarios[$usuario['idu']] = $usuario;
+        }
         // Visitas
         $container = 'container.genias_visitas';
-        $rx = new MongoRegex( "/".$periodo."/" );
-        $query=($misgenias['rol']=='coordinador')?(array('fecha'=>$rx)):(array('idu'=>$this->idu));
+        $rx = new MongoRegex("/" . $periodo . "/");
+        $query = ($misgenias['rol'] == 'coordinador') ? (array('fecha' => $rx)) : (array('idu' => $this->idu));
         $visitas = $this->mongo->db->$container->find($query);
-   
+
 //var_dump(iterator_to_array($visitas));
 //exit();
         $listado = array();
 
-        
-        foreach ($visitas as $visita) {
-            if(!isset($visita['cuit']))continue;
-            if(!array_key_exists($visita['cuit'], $empresas)) continue;
 
-            $empresa=$empresas[$visita['cuit']];
-            $temp=(array)$empresa['4651'];
-            $prov=$temp[0];
+        foreach ($visitas as $visita) {
+            if (!isset($visita['cuit']))
+                continue;
+            if (!array_key_exists($visita['cuit'], $empresas))
+                continue;
+
+            $empresa = $empresas[$visita['cuit']];
+            $temp = (array) $empresa['4651'];
+            $prov = $temp[0];
 
             // Si no hay cuit salgo del loop
 
-            $email=(empty($empresa[1703]))?('-'):($empresa[1703]);
-            $razon_social=(empty($empresa[1693]))?('-'):($empresa[1693]);
+            $email = (empty($empresa[1703])) ? ('-') : ($empresa[1703]);
+            $razon_social = (empty($empresa[1693])) ? ('-') : ($empresa[1693]);
 
 
-            if($visita['idu']!=0 && array_key_exists((int)$visita['idu'],$usuarios)){
-            $username="{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
-            }else{
-             $username="-";
+            if ($visita['idu'] != 0 && array_key_exists((int) $visita['idu'], $usuarios)) {
+                $username = "{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
+            } else {
+                $username = "-";
             }
             $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
 
@@ -544,17 +613,11 @@ class Genias_model extends CI_Model {
             $listado[$prov][$empresa['1695']]['fechas'][] = $myVisita;
             $listado[$prov][$empresa['1695']]['nombre'] = $username;
             $listado[$prov][$empresa['1695']]['1703'] = $email;
-
-            
         }
- 
 
-          return $listado;
+
+        return $listado;
     }
-    
-
-    
-
 
 }
 
