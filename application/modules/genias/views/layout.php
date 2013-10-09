@@ -5,6 +5,7 @@ header($ExpStr);
 ?>
 <!DOCTYPE html>
 <html lang="es" manifest="{base_url}genias/manifest/offline.appcache">
+
     <head>
         <title>DNA&sup2; Admin </title>
         <meta charset="UTF-8" />
@@ -103,12 +104,22 @@ header($ExpStr);
             
             window.addEventListener('load', function() {
                 var status = document.getElementById("status");
-
+                
                 function updateOnlineStatus(event) {
                   var condition = navigator.onLine ? "online" : "offline";
 
                   status.className = condition;
                   status.innerHTML = condition.toUpperCase();
+                  
+                    if(condition=='offline'){
+                        $('body').addClass('offline');
+                        $('.hide_offline').hide();
+                    }else{
+                        $('body').removeClass('offline');
+                        $('.hide_offline').show();
+                    }
+                    
+                  
 
                 }
 
