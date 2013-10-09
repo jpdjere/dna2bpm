@@ -99,7 +99,7 @@ var loadids = function() {
 
         }//---end if id
 
-        if (i == 100)
+        if (i == 2500)
             return false;
 
     });
