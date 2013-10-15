@@ -73,7 +73,7 @@
 
     <!-- ==== RESUMEN COORDINADOR==== -->
 
-    {if {rol}=='coordinador'}
+
         <ul class="nav nav-tabs" id="dashboard_tab1">
         <li class="active"><a href="#tab_resumen" data-toggle="tab">Resumen</a></li>
         {genias} 
@@ -115,7 +115,7 @@ BLOC;
 } 
         ?>
         </div>
-    {/if}
+
     
 
 <!-- ================= VISITAS  ================= -->

@@ -6,9 +6,6 @@
 $( document ).ready(function() {
 
 
-
-
-
 //$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('.aprobar').click(function(){
    window.location=$(this).attr('url');

@@ -110,14 +110,14 @@ header($ExpStr);
 
                   status.className = condition;
                   status.innerHTML = condition.toUpperCase();
-                  
-                    if(condition=='offline'){
-                        $('body').addClass('offline');
-                        $('.hide_offline').hide();
-                    }else{
-                        $('body').removeClass('offline');
-                        $('.hide_offline').show();
-                    }
+//                  
+//                    if(condition=='offline'){
+//                        $('body').addClass('offline');
+//                        $('.hide_offline').hide();
+//                    }else{
+//                        $('body').removeClass('offline');
+//                        $('.hide_offline').show();
+//                    }
                     
                   
 
