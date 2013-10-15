@@ -577,7 +577,7 @@ class Genias_model extends CI_Model {
         // Visitas
         $container = 'container.genias_visitas';
         $rx = new MongoRegex("/" . $periodo . "/");
-        $query = ($misgenias['rol'] == 'coordinador') ? (array('fecha' => $rx)) : (array('idu' => $this->idu));
+        $query = ($misgenias['rol'] == 'coordinador') ? (array('fecha' => $rx)) : (array('idu' => $this->idu,'fecha' => $rx));
         $visitas = $this->mongo->db->$container->find($query);
 
 //var_dump(iterator_to_array($visitas));
