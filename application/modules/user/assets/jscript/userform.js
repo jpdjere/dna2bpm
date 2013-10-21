@@ -292,6 +292,15 @@ var userform = Ext.create('Ext.form.Panel', {
 
     buttons: [
         {
+            text: '<i class="icon-remove"></i> Delete',
+            formBind: true, //only enabled once the form is valid
+            handler: function() {
+                this.up('form').getForm().reset();
+                mygrid.store.remove(mygrid.selModel.selected.items[0]);
+                mygrid.store.sync();
+            }
+        },
+        {
             text: '<i class="icon-beaker"></i> Test',
             handler: function() {
                 form = this.up('form').getForm();
