@@ -16,8 +16,9 @@ class Padfyj_model extends CI_Model {
     function save($array) {
         //---rpimero busco si existe
         $query = array('CUIT' => $array['CUIT']);
-
-        $details = $this->db->get_where('padfyj', $query)->result_array();
+        $details=array();
+        //---Comentar para la primera pasada.
+        //$details = $this->db->get_where('padfyj', $query)->result_array();
         if ($details[0]) {
             if (count($details) > 1) {
                 var_dump($query, json_encode($query));
