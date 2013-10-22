@@ -134,6 +134,26 @@ class Genias extends MX_Controller {
         $this->render('dashboard', $customData); 
        
     }
+    
+    // Carga el Manifiesto y va a dashboard
+    function splash(){
+        // testeo reemplazo appcache
+        $customData = array();
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'genias/';
+        $this->parser->parse('splash',$customData);
+    }
+    
+    // OFFLINE FALLBACK
+    function offline(){
+        // testeo reemplazo appcache
+        $customData = array();
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'genias/';
+        $this->render('offline', $customData); 
+    }
+    
+    
 
     function Inbox() {
         $this->load->model('msg');
@@ -208,7 +228,10 @@ class Genias extends MX_Controller {
         /* Inbox Count MSgs */
         $mymgs = $this->msg->get_msgs($this->idu);
         $cpData['inbox_count'] = $mymgs->count();
-
+        
+        // offline mark
+        $cpData['is_offline']=($this->uri->segment(3)=='offline')?('offline'):('');
+        
        $this->ui->compose($file, 'layout.php', $cpData);
         
 
@@ -461,14 +484,13 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['titulo'] = "Agenda";
-        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
+        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/fullcalendar/fullcalendar.min.js" => 'Calendar',$this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         //print_r($customData['projects']);
         $year = date('Y');
         $month = date('m');
-
         $this->render('scheduler', $customData);
     }
 

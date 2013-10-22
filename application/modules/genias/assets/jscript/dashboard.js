@@ -5,13 +5,12 @@
 
 $( document ).ready(function() {
 
-
 //$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('.aprobar').click(function(){
    window.location=$(this).attr('url');
 });
 
- $('#dp3').datepicker(); 
+ //$('#dp3').datepicker(); 
  $('.dp').datepicker();
   
 
@@ -28,7 +27,7 @@ desde: "Debe elegir una fecha"
 },
 submitHandler: function(form) {
     var data =$('#form_goals').serializeArray();
-    if(!navigator.onLine)return;
+    if(offline)return;
         
     $.ajax(
    {
@@ -52,7 +51,7 @@ submitHandler: function(form) {
 /*==== UPDATE META====*/
 
 $('button.guardar').click(function(){
-    if(!navigator.onLine)return;
+    if(offline)return;
    var meta=$(this).parents('.meta');
    var desde=meta.find('[name="desde"]').val();
    var obs=meta.find('[name="observaciones"]').val();
@@ -81,7 +80,7 @@ $('button.guardar').click(function(){
 /*==== DELETE META====*/
 
 $('.bt_delete').click(function(e){
-  if(!navigator.onLine)return;
+  if(offline)return;
     e.preventDefault();
    
   var meta=$(this).parents('.meta');
@@ -112,9 +111,9 @@ if(result){
 //localStorage['userdata']="";
 
 // Desabilito los anchos que etan desabled 
-$('a[disabled]').one('click', function(e){
-e.preventDefault();
-});
+//$('a[disabled]').one('click', function(e){
+//e.preventDefault();
+//});
 
 // ==== TABS ==== //
 //$('.nav-tabs li a').click(function(e){
@@ -127,13 +126,15 @@ e.preventDefault();
 
 $('#dashboard_tab1 a:first').tab('show');
 
-$('.nav-tabs a').click(function(e){
+$('.nav-tabs li a').click(function(e){
+
     var code=$(this).attr('href').split('-');
     if($(this).attr('href')=="#tab_resumen"){
         //$('.meta').hide();
         $('.ultree').show();
         $('#filtro_visitas').show();
     }else{
+        
         $('.ultree').hide();
         $('#filtro_visitas').hide();
       $('[data-genia]').each(function(index){

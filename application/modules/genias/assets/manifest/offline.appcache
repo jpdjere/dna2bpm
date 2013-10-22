@@ -82,9 +82,26 @@ CACHE:
 {base_url}jscript/ext/resources/ext-theme-neptune/images/loadmask/loading.gif
 {base_url}jscript/ext/resources/ext-theme-neptune/images/grid/sort_asc.png
 
+#scheduler
+{module_url}assets/jscript/scheduler.js
+
+
+#tasks
+{module_url}assets/jscript/tasks.js
+{module_url}assets/css/tasks.css
+
+#empresas
+{module_url}listado_empresas
+
 NETWORK:
 http://*
 *
+
+FALLBACK:
+{module_url} {module_url}index/offline
+{module_url}tasks {module_url}offline
+{module_url}map {module_url}offline
+{module_url}scheduler {module_url}scheduler/offline
 
 SETTINGS:
 prefer-online

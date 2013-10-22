@@ -9,6 +9,41 @@ var tasks= [];
 var tasks666= [];
 tasks[2]=new Array();
 tasks[3]=new Array();
+
+// La clase offline es agregada por el fallback del manifiesto
+//var offline =$('.offline').length;
+
+$( document ).ready(function() {
+
+
+$('.disabled','a[disabled]').live('click',function(e){
+    e.preventDefault();
+});
+
+// Desabilito los anchos que etan desabled 
+$('a[disabled]').one('click', function(e){
+e.preventDefault();
+});
+
+// ==== OFFLINE ==== //
+
+
+
+
+if(!offline){
+
+  mongo_get_tasks(2);
+  mongo_get_tasks(3);
+  localStorage['tasks2']=JSON.stringify(tasks[2]);
+  localStorage['tasks3']=JSON.stringify(tasks[3]);
+  localStorage['tasks666']=JSON.stringify(tasks666);
+//localStorage.clear();
+}else{
+
+    localstorage_get_tasks();
+}
+
+
 var agendas=[
        {
             events: tasks[2],            
@@ -28,36 +63,6 @@ var agendas=[
        
     ]
 
-
-
-$( document ).ready(function() {
-    
-    
-$('.disabled','a[disabled]').live('click',function(e){
-    e.preventDefault();
-});
-
-// Desabilito los anchos que etan desabled 
-$('a[disabled]').one('click', function(e){
-e.preventDefault();
-});
-
-// ==== OFFLINE ==== //
-
-if(navigator.onLine){
-
-  mongo_get_tasks(2);
-  mongo_get_tasks(3);
-  localStorage['tasks2']=JSON.stringify(tasks[2]);
-  localStorage['tasks3']=JSON.stringify(tasks[3]);
-
-//localStorage.clear();
-
-localStorage['tasks666']=JSON.stringify(tasks666);
-
-}else{
-localstorage_get_tasks();
-}
 
 // ____ OFFLINE ____ //
 
@@ -218,10 +223,9 @@ $('#bt_form').click(function(){
 
 function localstorage_get_tasks(){
 // Trae las tareas del locastorage
-for (var i = 0; i < agendas.length; i++) {
-tasks[agendas[i]]=JSON.parse(localStorage['tasks'+agendas[i]]);
-}
 
+tasks[2]=JSON.parse(localStorage['tasks2']);
+tasks[3]=JSON.parse(localStorage['tasks3']);
 // Tareas ya realizadas 
 tasks666=JSON.parse(localStorage['tasks666']);
 }

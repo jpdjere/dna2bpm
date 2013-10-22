@@ -10,9 +10,9 @@ $( document ).ready(function() {
 url=globals.module_url+"print_ul_tasks/";
 
 // Escenario PYME
-$('#collapse'+'2').load(url+'/2');
-// Escenario Politico
-$('#collapse'+'3').load(url+'/3');
+//$('#collapse'+'2').load(url+'/2');
+//// Escenario Politico
+//$('#collapse'+'3').load(url+'/3');
 
 
 $('.dp').datepicker().on('changeDate',function(ev){

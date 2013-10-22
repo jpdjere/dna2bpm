@@ -44,7 +44,7 @@
                             <input type="text" name="desde" placeholder="Período"   class="input-block-level "/>
                             </div>
                             -->
-                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date">
+                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
                                 <input type="text" name="desde" readonly="" value=""  class="input-block-level">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
                             </div>
@@ -161,7 +161,7 @@ BLOC;
                         <li>
                             <i class="icon-calendar" ></i> Período:
                             {if {rol}=='coordinador'}                                     
-                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp">
+                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp" >
                                 <input type="text" name="desde" readonly="" value="{desde_raw}"  class="span1">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
                             </div>
@@ -216,3 +216,6 @@ BLOC;
     </div>
     <!-- ============= metas  ============= -->
 </div>
+<iframe src="{module_url}splash" width="1" height="1">
+  <p>Your browser does not support iframes.</p>
+</iframe>
