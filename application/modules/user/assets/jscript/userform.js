@@ -49,7 +49,7 @@ var UserRemove = Ext.create('Ext.Action', {
             },
             fn: function(btn) {
                 if (btn == 'yes') {
-                    this.up('form').getForm().reset();
+                    userform.getForm().reset();
                     mygrid.store.remove(mygrid.selModel.selected.items[0]);
                     mygrid.store.sync();
                 }
