@@ -33,6 +33,32 @@ function renderGroups(groupField) {
     }
 
 }
+var UserRemove = Ext.create('Ext.Action', {
+    formBind: true, //only enabled once the form is valid
+    iconCls: 'icon-remove',
+    text: 'Remove User',
+            handler: function(widget, event) {
+        var n = tree.getSelectionModel().getSelection()[0];
+        Ext.MessageBox.show({
+            title: 'Remove User',
+            msg: 'What!?,you really want to remove this user?',
+            buttons: Ext.MessageBox.YESNO,
+            buttonText: {
+                yes: "Definitely!",
+                no: "Hell no!!!!"
+            },
+            fn: function(btn) {
+                if (btn == 'yes') {
+                    this.up('form').getForm().reset();
+                    mygrid.store.remove(mygrid.selModel.selected.items[0]);
+                    mygrid.store.sync();
+                }
+            }
+        });
+
+
+    }
+});
 var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 var userform = Ext.create('Ext.form.Panel', {
     id: 'userForm',
@@ -291,6 +317,7 @@ var userform = Ext.create('Ext.form.Panel', {
     ], //----end form items
 
     buttons: [
+       /*
         {
             text: '<i class="icon-remove"></i> Delete',
             formBind: true, //only enabled once the form is valid
@@ -299,7 +326,8 @@ var userform = Ext.create('Ext.form.Panel', {
                 mygrid.store.remove(mygrid.selModel.selected.items[0]);
                 mygrid.store.sync();
             }
-        },
+        }*/
+        UserRemove,
         {
             text: '<i class="icon-beaker"></i> Test',
             handler: function() {
