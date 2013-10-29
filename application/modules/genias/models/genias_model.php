@@ -284,20 +284,22 @@ class Genias_model extends CI_Model {
 
     /* RETURN VISITAS */
 
-    function get_visitas($query, $idu) {
+    function get_visitas($query=array(), $idu=null) {
         $rtn = array();
-        $query['idu'] = (int) $idu;
+        if(!is_null($idu))$query['idu'] = (int) $idu;
+        
         $fields = array('id'
             , 'fecha'           // 	Fecha de la Visita 
             , 'cuit'            //      CUIT
             , 'nota'            // 	Comentarios 
             , 'tipovisita'      //      tipo de visita
             , 'otros'           //      para tipo de visita otros
-            , '7898'            //      Programas Informados           
+            , '7898'            //      Programas Informados  
+            ,'idu'
         );
         $container = 'container.genias_visitas';
         $result = $this->mongo->db->$container->find($query, $fields);
-        $result->limit(2000);
+        //$result->limit(2000);
         foreach ($result as $visita) {
             unset($visita['_id']);
             //unset($visita['id']);
@@ -306,18 +308,7 @@ class Genias_model extends CI_Model {
         return $rtn;
     }
 
-    function get_visitas_all() {
-        $rtn = array();
-        $container = 'container.genias_visitas';
-        $result = $this->mongo->db->$container->find();
-        $result->limit(2000);
-        foreach ($result as $visita) {
-            unset($visita['_id']);
-            //unset($visita['id']);
-            $rtn[] = $visita;
-        }
-        return $rtn;
-    }
+
 
     function visitas_remove($container, $id = null) {
         $query = array(
@@ -386,8 +377,19 @@ class Genias_model extends CI_Model {
     }
 
     //======== Actualiza Meta Activa =========//
+    
+    function goal_clear_cumplidas($proyecto = '2') {
+        $container_metas = 'container.genias_goals';
+        $query = array();
+        $update=array('$set'=>array('cumplidas'=>array()));
+        $options=array('multiple'=>true); 
+        $result = $this->mongo->db->$container_metas->update($query,$update,$options);
+        return $result;       
+    }
 
     function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null) {
+
+        
         $container_metas = 'container.genias_goals';
         list($monthValue) = explode("/", $fecha);
 
@@ -398,25 +400,28 @@ class Genias_model extends CI_Model {
             'hasta' => array('$lte' => date('Y-' . $monthValue . '-t')),
             'desde' => array('$gte' => date('Y-' . $monthValue . '-01')),
         );
+        
+        
 
         $metas = $this->mongo->db->$container_metas->find($query);
+
+        if($metas->count()==0)return;
+        // Loop , si hay varias metas del mismo periodo salgo en la primera que este cerrada
+
         foreach ($metas as $meta) {
-
-            //return "<pre>" . json_encode($meta['case']). " " . json_encode($query). "</pre>";exit;
-
-            $case = $this->get_case($meta['case']);
+            $case = $this->get_case($meta['case']);   
             if ($case['status'] == 'closed') {
-                break;
+                $meta['cumplidas'][] = (float)$id_visita;
+                $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
+                $result = $this->mongo->db->$container_metas->save($meta);               
+               break;
             }
         }
+        
+        return;
+        //return "<pre>" . json_encode($meta['case'])." -". $case['status']."- " . json_encode($query). "</pre>";
         //var_dump($query,$meta);exit;       
-        if (isset($meta) && isset($case) && $case['status'] == 'closed') {
-            //----Agrego visita a la meta
-            $meta['cumplidas'][] = $id_visita;
-            $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
-            $result = $this->mongo->db->$container_metas->save($meta);
-            return "<pre> " . $meta['case'] . " " . $id_visita . " " . $idu . " " . $monthValue . "</pre>"; //$result;
-        }
+
     }
 
     //======== Actualiza Meta Activa =========//

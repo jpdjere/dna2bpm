@@ -33,20 +33,28 @@ class Update_metas extends MX_Controller {
 
     public function index() {
 
+        //Limpio todas las cumplidas
+        $result = $this->genias_model->goal_clear_cumplidas();
+
+        // Cargo la snuevas
         $container = $this->containerGenias;
-        $query = array('idu' => (int) ($this->idu));
-        $result = $this->genias_model->get_visitas_all();
+
+        $result = $this->genias_model->get_visitas();
+
+
         foreach ($result as $returnData) {
             $id = $returnData['id'];
             $idu = $returnData['idu'];
             $fecha = $returnData['fecha'];
             $newResult = $this->genias_model->goal_update_all('2', $id, $idu, $fecha);
+
             if (!empty($newResult)) {
                 echo "<pre>";
                 var_dump($newResult);
                 echo "</pre>";
             }
         }
+
         exit();
     }
 
