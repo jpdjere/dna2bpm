@@ -418,8 +418,11 @@ class Genias_model extends CI_Model {
             }
         }
         
-        return;
-        //return "<pre>" . json_encode($meta['case'])." -". $case['status']."- " . json_encode($query). "</pre>";
+        if($result){
+            return "<pre>{$meta['case']} |status:". $case['status']." |visita: $id_visita </pre>";
+        }
+        
+        return false;
         //var_dump($query,$meta);exit;       
 
     }

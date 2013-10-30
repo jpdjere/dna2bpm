@@ -41,6 +41,7 @@ class Update_metas extends MX_Controller {
 
         $result = $this->genias_model->get_visitas();
 
+        ob_start();
 
         foreach ($result as $returnData) {
             $id = $returnData['id'];
@@ -53,8 +54,10 @@ class Update_metas extends MX_Controller {
                 var_dump($newResult);
                 echo "</pre>";
             }
+            ob_flush();
+            flush();
         }
-
+        ob_end_flush();
         exit();
     }
 
