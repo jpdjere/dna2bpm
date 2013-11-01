@@ -387,7 +387,7 @@ class Genias_model extends CI_Model {
         return $result;       
     }
 
-    function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null) {
+    function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null,$i) {
 
         
         $container_metas = 'container.genias_goals';
@@ -419,9 +419,9 @@ class Genias_model extends CI_Model {
         }
         
         if($result){
-            return "<pre>{$meta['case']} |status:". $case['status']." |visita: $id_visita </pre>";
+            return "<pre>{$meta['case']} |status:". $case['status']." |visita: $id_visita | $i --</pre>";
         }
-        
+
         return false;
         //var_dump($query,$meta);exit;       
 

@@ -42,12 +42,13 @@ class Update_metas extends MX_Controller {
         $result = $this->genias_model->get_visitas();
 
         ob_start();
-
+$i=0;
         foreach ($result as $returnData) {
+            $i++;
             $id = $returnData['id'];
             $idu = $returnData['idu'];
             $fecha = $returnData['fecha'];
-            $newResult = $this->genias_model->goal_update_all('2', $id, $idu, $fecha);
+            $newResult = $this->genias_model->goal_update_all('2', $id, $idu, $fecha,$i);
 
             if (!empty($newResult)) {
                 echo "<pre>";
