@@ -397,13 +397,13 @@ class Genias_model extends CI_Model {
         $query = array(
             'proyecto' => $proyecto,
             'idu' => $idu,
-            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t'), mktime(0,0,0,$monthValue,15,$yearValue)),
-            'desde' => array('$gte' => date('Y-' . $monthValue . '-01'),mktime(0,0,0,$monthValue,15,$yearValue)),
+            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t'), mktime(0,0,0,(int)$monthValue,15,(int)$yearValue)),
+            'desde' => array('$gte' => date('Y-' . $monthValue . '-01'),mktime(0,0,0,(int)$monthValue,15,(int)$yearValue)),
         );
         
         
 
-        $metas = $this->mongo->db->$container_metas->find($query);
+        $metas = $this->mongo->db->$container_metas->find($query);  
 
         if($metas->count()==0)return "<pre>--------- Query: ".print_r($query,true)." | $monthValue $dayValue $yearValue ID: $id_visita  / $i</pre>";
         // Loop , si hay varias metas del mismo periodo salgo en la primera que este cerrada
