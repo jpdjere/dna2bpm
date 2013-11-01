@@ -391,7 +391,7 @@ class Genias_model extends CI_Model {
 
         
         $container_metas = 'container.genias_goals';
-        list($monthValue) = explode("/", $fecha);
+        list($monthValue,$dayValue,$yearValue) = explode("/", $fecha);
 
         //----busco meta activa
         $query = array(
@@ -405,7 +405,7 @@ class Genias_model extends CI_Model {
 
         $metas = $this->mongo->db->$container_metas->find($query);
 
-        if($metas->count()==0)return "<pre>--------- Query: ".print_r($query,true)." | ID: $id_visita  / $i</pre>";
+        if($metas->count()==0)return "<pre>--------- Query: ".print_r($query,true)." | $monthValue $dayValue $yearValue ID: $id_visita  / $i</pre>";
         // Loop , si hay varias metas del mismo periodo salgo en la primera que este cerrada
 
         foreach ($metas as $meta) {
