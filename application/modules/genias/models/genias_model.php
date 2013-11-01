@@ -397,8 +397,8 @@ class Genias_model extends CI_Model {
         $query = array(
             'proyecto' => $proyecto,
             'idu' => $idu,
-            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t'), mktime(0,0,0,(int)$monthValue,15,(int)$yearValue)),
-            'desde' => array('$gte' => date('Y-' . $monthValue . '-01'),mktime(0,0,0,(int)$monthValue,15,(int)$yearValue)),
+            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t',mktime(0,0,0,(int)$monthValue,15,(int)$yearValue))),
+            'desde' => array('$gte' => date('Y-' . $monthValue . '-01',mktime(0,0,0,(int)$monthValue,15,(int)$yearValue))),
         );
         
         
