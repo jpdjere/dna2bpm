@@ -405,7 +405,7 @@ class Genias_model extends CI_Model {
 
         $metas = $this->mongo->db->$container_metas->find($query);
 
-        if($metas->count()==0)return "<pre>--------- No meta| P: $proyecto / idu: $idu / $fecha / $i</pre>";
+        if($metas->count()==0)return "<pre>--------- No meta| ID: $id_visita / idu: $idu / $fecha / $i</pre>";
         // Loop , si hay varias metas del mismo periodo salgo en la primera que este cerrada
 
         foreach ($metas as $meta) {
