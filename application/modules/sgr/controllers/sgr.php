@@ -334,8 +334,7 @@ class Sgr extends MX_Controller {
         //$cpData['profile_img'] = get_gravatar($user->email);
 
         $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
-        //$cpData['sgr'] = $this->get_genia('nombre');
-        //$cpData['rol'] = $this->get_genia('rol');
+        
         $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
 
         $cpData = array_replace_recursive($customData, $cpData);
