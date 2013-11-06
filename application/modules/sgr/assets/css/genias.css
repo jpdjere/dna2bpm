@@ -1,0 +1,176 @@
+/* 
+    Document   : genias
+    Created on : 17/04/2013, 12:54:16
+    Author     : gabriel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+html {
+	height: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+.observaciones{
+  padding:0px 4px 4px 4px;
+  margin-top:10px;
+  background-color: #f0f0f0;
+  border:1px dotted #ccc;
+  border-top:1px solid #bfbfbf;
+}
+
+.line{
+    border-top: 1px solid #fff;
+    padding-bottom:6px;
+}
+
+
+/* offline styles */
+
+.offline .hide_offline{
+    display:none;
+}
+
+/* Profile */
+
+#status{margin-right:10px;}
+#status.online{
+    color:#2B8D2B;
+}
+
+#status.offline{
+    color:#f00;
+}
+
+
+#barra_user{
+    padding-bottom:20px;
+}
+
+.perfil{
+font-size: 12px;
+text-shadow: 1px 1px 0px #cccccc;
+filter: dropshadow(color=#cccccc, offx=1, offy=1); 
+}
+
+.breadcrumb-genias li{
+color:#999 !important;
+font-size: 12px;
+text-shadow: 1px 1px 0px #fff;
+filter: dropshadow(color=#fff, offx=1, offy=1); 
+}
+.form-inline{
+    margin-bottom: 8px;
+}
+
+.general-sidenav {
+    background-color: #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    margin: 30px 0 0;
+    padding: 0;
+    width: 228px;
+}
+.general-sidenav > li > a {
+    border: 1px solid #E5E5E5;
+    display: block;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+}
+.general-sidenav > li:first-child > a {
+    border-radius: 6px 6px 0 0;
+}
+.general-sidenav > li:last-child > a {
+    border-radius: 0 0 6px 6px;
+}
+.general-sidenav > .active > a {
+    border: 0 none;
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, -1px 0 0 rgba(0, 0, 0, 0.1) inset;
+    padding: 9px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+.general-sidenav .icon-chevron-right {
+    float: right;
+    margin-right: -6px;
+    margin-top: 2px;
+    opacity: 0.25;
+}
+.general-sidenav > li > a:hover {
+    background-color: #F5F5F5;
+}
+.general-sidenav a:hover .icon-chevron-right {
+    opacity: 0.5;
+}
+.general-sidenav .active .icon-chevron-right, .general-sidenav .active a:hover .icon-chevron-right {
+    background-image: url("../img/glyphicons-halflings-white.png");
+    opacity: 1;
+}
+
+/* ==== BARRA DE NAVEGACION ====*/
+
+.barra_coordinador{
+    background: #2F4E89 !important;
+    border-bottom:1px #ccc solid !important;
+}
+
+.container{
+    padding: 0px 30px !important;
+}
+
+.no-transition {
+  -webkit-transition: height 0.001s;
+  -moz-transition: height 0.001s;
+  -ms-transition: height 0.001s;
+  -o-transition: height 0.001s;
+  transition: height 0.001s;
+}
+
+/*==== UL TREE ====*/
+UL.ultree * LI,UL.ultree{
+    list-style: none;
+}
+
+UL.ultree > LI{
+    border-bottom: 1px solid #ccc;
+    padding:10px 3px;
+
+}
+
+UL.ultree UL LI{
+    padding:5px 0px;
+
+}
+
+a.ulcollapse{
+    display:inline-block;
+}
+UL.ultree .par{
+    background-color: #F1F1F1;
+}
+
+UL.ultree > LI > UL > LI{
+    border-bottom:1px dashed #ccc;
+}
+
+UL.ultree > LI > UL > LI:last-child{
+    border-bottom:none;
+}
+UL.ultree .cuit{
+    color:#f60;
+    margin-left:4px;
+}
+
+UL.ultree .cantidad{
+    margin-left:4px;
+}
+
+/*UL.ultree LI Ul LI{
+    display: none;
+}*/

@@ -1,0 +1,9 @@
+.ui-datepicker-calendar {
+        display: none;
+}
+
+/*.tab:not([class*='active']){
+    display:none;
+}*/
+
+ $('#myTab a:last').tab('show');
