@@ -38,6 +38,8 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
+        echo "index";
+        exit();
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
@@ -63,12 +65,14 @@ class Sgr extends MX_Controller {
         $this->render('dashboard', $resultRender);
     }
 
-    function Anexo($table = 'sgr_fdr_contingente', $filename = 'ANEXO14.xls') {
+    function Anexo($table = 'sgr_fdr_contingente', $filename = '2013-11-06_05:15:53.xls') {
 
         $user_id = (int) ($this->idu);
         //echo dirname(__FILE__); //$this->module_url;
 
-        $uploadpath = '/home/ich/Desktop/' . $filename;
+        $uploadpath = getcwd(). '/anexos_sgr/' . $filename;
+        
+     //  $uploadpath = base_url() . 'anexos_sgr/' . $filename;
 
         $this->load->library('excel_reader2');
         $data = new Excel_reader2($uploadpath);
