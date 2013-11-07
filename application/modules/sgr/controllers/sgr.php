@@ -254,6 +254,10 @@ class Sgr extends MX_Controller {
         
         // check if it is a path or file
         if (is_dir($absolute_path)) {
+            
+            
+              echo "file browser 259";
+        exit();
             // link generation helper
             $this->load->helper('url');
 
@@ -290,8 +294,7 @@ class Sgr extends MX_Controller {
             );           
             //$this->render('dashboard', $customData);
             
-            echo "file browser 292";
-        exit();
+          
             
             return $customData;
         }
