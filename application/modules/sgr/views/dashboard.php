@@ -18,7 +18,13 @@
 
 
 
-    <!-- FILE UPLOAD -->
+    
+
+<div class="row-fluid">
+    <!-- xxxxxxxxxxxxxxxx CREAR   xxxxxxxxxxxxxxxx -->
+    <div id="meta_div" class="collapse out no-transition">
+        
+        <!-- FILE UPLOAD -->
     <form action="{module_url}" method="POST" enctype="multipart/form-data" class="well" />
     Subir Anexo:<br />       
     <input type="file" name="userfile" multiple="multiple" />
@@ -31,33 +37,12 @@
 <br />
 {/foreach}
 {/if}
-
-<div class="row-fluid">
-    <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
-    <div id="meta_div" class="collapse out no-transition">
+        
         <form id="form_goals" method="post" class="well">
             <div  class="row-fluid">
                 <div class="span6">
-                    <label>Proyecto</label>
-                    <select name="proyecto" class="input-block-level">
-                        {projects}
-                        <option value="{id}">{name}</option>
-                        {/projects}
-                    </select>
-                    <label>Genia</label>
-                    <select name="genia" class="input-block-level">
-                        {genias}
-                        <option value="{_id}">{nombre}</option>
-                        {/genias}
-                    </select>
                     <div class="">
-                        <label>Cantidad</label>
-                        <input type="number" name="cantidad" placeholder="Cantidad"   class="input-block-level"/>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="">
-                        <label>Período</label>
+                        <label>Seleccione el Período</label>
 
                         <!--<div class="input-append">
                         <input type="text" name="desde" placeholder="Período"   class="input-block-level "/>
