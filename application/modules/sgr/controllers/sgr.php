@@ -250,10 +250,16 @@ class Sgr extends MX_Controller {
         $absolute_path = getcwd() . '/' . $path_in_url;
         $absolute_path = rtrim($absolute_path, '/');
         
+        if (is_dir($absolute_path)) {
         
           echo "file browser 254" . $absolute_path;
-        exit();
+         
         // check if it is a path or file
+        
+        }
+        
+        exit();
+        
         if (is_dir($absolute_path)) {
             
             
