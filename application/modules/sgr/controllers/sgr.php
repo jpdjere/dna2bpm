@@ -235,8 +235,7 @@ class Sgr extends MX_Controller {
 
     function file_browser() {
         
-        echo "file browser";
-        exit();
+        
 
         $segment_array = $this->uri->segment_array();
 
@@ -250,7 +249,10 @@ class Sgr extends MX_Controller {
             $path_in_url.= $segment . '/';
         $absolute_path = getcwd() . '/' . $path_in_url;
         $absolute_path = rtrim($absolute_path, '/');
-
+        
+        echo "file browser 253";
+        exit();
+        
         // check if it is a path or file
         if (is_dir($absolute_path)) {
             // link generation helper
