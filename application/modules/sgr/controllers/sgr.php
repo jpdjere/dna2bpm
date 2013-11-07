@@ -50,7 +50,8 @@ class Sgr extends MX_Controller {
         $projects = $this->sgr_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
 
-
+        echo "index";
+        exit();
         // UPLOAD ANEXO
         $this->upload_file();
 
