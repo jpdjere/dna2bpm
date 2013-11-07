@@ -55,12 +55,12 @@ class Sgr extends MX_Controller {
         $this->upload_file();
         
         
-        echo "index 58";
-        exit();
+        
         // UPLOAD ANEXO
         $fileBrowserData = $this->file_browser();
         
-        
+        echo "index 62";
+        exit();
         $resultRender = array_replace_recursive($customData, $fileBrowserData);        
 
         //RENDER
