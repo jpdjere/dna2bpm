@@ -234,6 +234,9 @@ class Sgr extends MX_Controller {
     }
 
     function file_browser() {
+        
+        echo "file browser";
+        exit();
 
         $segment_array = $this->uri->segment_array();
 
