@@ -250,19 +250,8 @@ class Sgr extends MX_Controller {
         $absolute_path = getcwd() . '/' . $path_in_url;
         $absolute_path = rtrim($absolute_path, '/');
         
-        if (is_dir($absolute_path)) {
-        
-          echo "file browser 254" . $absolute_path;
-         
-        // check if it is a path or file
-        
-        }
-        
-        exit();
         
         if (is_dir($absolute_path)) {
-            
-            
             
             // link generation helper
             $this->load->helper('url');
@@ -299,12 +288,10 @@ class Sgr extends MX_Controller {
                 'files' => $files,
             );           
             //$this->render('dashboard', $customData);
-            
-          
-            
             return $customData;
         }
         else {
+            return "error";
             // is it a file?
             if (is_file($absolute_path)) {
                 // open it
