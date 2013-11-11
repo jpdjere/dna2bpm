@@ -59,11 +59,14 @@ class Sgr extends MX_Controller {
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
         
-        
-        $resultRender = array_replace_recursive($customData, $fileBrowserData);        
-
+        if(!empty($fileBrowserData)){
+        $resultRender = array_replace_recursive($customData, $fileBrowserData); 
+            $this->render('dashboard', $resultRender);
+        } else {
+            $this->render('dashboard', $customData);
+        }
         //RENDER
-        $this->render('dashboard', $resultRender);
+        
     }
 
     function Anexo($table = 'sgr_fdr_contingente', $filename = '2013-11-06_05:15:53.xls') {
