@@ -290,8 +290,7 @@ class Sgr extends MX_Controller {
             //$this->render('dashboard', $customData);
             return $customData;
         }
-        else {
-            return "error";
+        else {            
             // is it a file?
             if (is_file($absolute_path)) {
                 // open it
