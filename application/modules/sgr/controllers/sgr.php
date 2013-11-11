@@ -312,8 +312,10 @@ class Sgr extends MX_Controller {
                 }
 
                 @readfile($absolute_path);
+                
             } else {
-                show_404();
+                //@show_404();
+                return "";
             }
         }
     }
