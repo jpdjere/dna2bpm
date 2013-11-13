@@ -108,13 +108,15 @@
 
             <div class="alert {resumen_class}" id="{_id}">                
                 <ul>
-                    {anexoList}                   
+                    {files_list}                   
                 </ul>
             </div> 
         </div>  
         <div class="tab-pane " id="tab_anexos">                                 
             <ul>                
-                {files_list}
+                {anexoList}
+                
+                
             </ul>
         </div>       
     </div>
