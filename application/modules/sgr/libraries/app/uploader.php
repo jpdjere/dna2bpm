@@ -26,7 +26,7 @@ class Uploader {
         
         $this->ci->load->library('upload', $this->config);
         if ($this->ci->upload->do_upload()) {
-            @$this->ci->data['status']->message = "File Uploaded Successfully";
+            @$this->ci->data['status']->message = "El Archivo subio correctamente";
             $this->ci->data['status']->success = TRUE;
             $this->ci->data["uploaded_file"] = $this->ci->upload->data();
             

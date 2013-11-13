@@ -199,12 +199,19 @@ class Sgr extends MX_Controller {
         /* VALIDATIONS */
         $header = "lib_" . $anexo . "_header";
         $data = "lib_" . $anexo . "_data";
-        $result = $this->load->library("anexos/" . $header, $headerArr);
-        $this->load->library("anexos/" . $data, $valuesArr);
-
-        //$result = $this->$header;
-        var_dump("result", $result);
-
+        
+        $result_head = (array)$this->load->library("anexos/" . $header, $headerArr);
+        
+        if(!$result_head){        
+            $result_data = (array)$this->load->library("anexos/" . $data, $valuesArr);
+            var_dump($result_data);            
+        } else {
+            //ERROR
+            var_dump($result_head['result']);
+            
+        }
+        
+     
 
 
         /* consulta */
