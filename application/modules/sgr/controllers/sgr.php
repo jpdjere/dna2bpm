@@ -207,7 +207,8 @@ class Sgr extends MX_Controller {
             var_dump($result_data);            
         } else {
             //ERROR
-            var_dump($result_head['result']);
+            
+            var_dump("ERROR ", $result_head['result']);
             
         }
         
