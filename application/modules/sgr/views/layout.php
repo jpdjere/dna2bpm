@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>DNA&sup2; | SGR</title>
+        <title>DNA&sup2; | SGR | {sgr_nombre}</title>
         <meta charset="UTF-8" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,7 +29,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="#">SOCIEDADES DE GARANTIAS RECIPROCAS</a>
+                    <a class="brand" href="#">{sgr_nombre} | SOCIEDADES DE GARANTIAS RECIPROCAS</a>
 
                     <div class="nav-collapse collapse">
                         <ul class="nav">

@@ -35,11 +35,25 @@ class Sgr extends MX_Controller {
             header("$this->module_url/user/logout");
             exit();
         }
+
+
+        /* DATOS SGR */
+        $sgrArr = $this->sgr_model->get_sgr();
+
+        foreach ($sgrArr as $sgr) {
+            $this->sgr_id = $sgr['id'];
+            $this->sgr_nombre = $sgr['1693'];
+        }
+        
+        $this->anexo = ($_REQUEST['anexo']) ? $_REQUEST['anexo'] : "06";
     }
 
     function Index() {
-        
+
         $customData = array();
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_id'] = $this->sgr_id;
+        $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['titulo'] = "";
@@ -50,33 +64,62 @@ class Sgr extends MX_Controller {
         $projects = $this->sgr_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
 
-        
+        $customData['anexo'] = $this->anexo;
+        $customData['anexoList'] = $this->AnexosDB();
+        $customData['anexoTitle'] = $this->oneAnexoDB($this->anexo);
+        $customData['anexoTitleCap'] = strtoupper($this->oneAnexoDB($this->anexo));
+
+
         // UPLOAD ANEXO
-        $this->upload_file();
+        $upload  = $this->upload_file();
         
+        if($upload['success']){
+            $customData['message'] = $upload['message'];
+        } else {
+            $customData['message'] =  $upload['message'];
+        }
+        
+        //PERIODO
+        $this->set_period();       
         
         
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
-        
-        if(!empty($fileBrowserData)){
-        $resultRender = array_replace_recursive($customData, $fileBrowserData); 
+
+        if (!empty($fileBrowserData)) {
+            $resultRender = array_replace_recursive($customData, $fileBrowserData);
             $this->render('dashboard', $resultRender);
         } else {
             $this->render('dashboard', $customData);
         }
         //RENDER
-        
     }
 
-    function Anexo($table = 'sgr_fdr_contingente', $filename = '2013-11-06_05:15:53.xls') {
+    function AnexosDB() {
+        $anexosArr = $this->sgr_model->get_anexos();
+        $result = "";
+        foreach ($anexosArr as $anexo) {
+            $result .= '<li><a href="?anexo=' . $anexo['number'] . '">' . $anexo['title'] . '</a></li>';
+        }
+        return $result;
+    }
+
+    function oneAnexoDB() {
+        $anexoValues = $this->sgr_model->get_anexo($this->anexo);
+        return $anexoValues['title'];
+    }
+
+    function Anexo($table = 'sgr_fdr_contingente') {
+        
+        var_dump($_REQUEST['filename']);
+        exit();
 
         $user_id = (int) ($this->idu);
         //echo dirname(__FILE__); //$this->module_url;
 
-        $uploadpath = getcwd(). '/anexos_sgr/' . $filename;
-        
-     //  $uploadpath = base_url() . 'anexos_sgr/' . $filename;
+        $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
+
+        //  $uploadpath = base_url() . 'anexos_sgr/' . $filename;
 
         $this->load->library('excel_reader2');
         $data = new Excel_reader2($uploadpath);
@@ -180,17 +223,28 @@ class Sgr extends MX_Controller {
           } */
     }
 
+    function set_period(){
+        if ($this->input->post("submit_period")) {
+            var_dump($_REQUEST);
+        }
+    }
+    
     function upload_file() {
         try {
             if ($this->input->post("submit")) {
                 $this->load->library("app/uploader");
-                $this->uploader->do_upload();
+                $result = (array)$this->uploader->do_upload();
+                
+                return $result;  
+                
             }
             //to render ->
         } catch (Exception $err) {
             log_message("error", $err->getMessage());
             return show_error($err->getMessage());
         }
+        
+        
     }
 
     // OFFLINE FALLBACK
@@ -236,10 +290,7 @@ class Sgr extends MX_Controller {
         $this->render('inbox', $customData);
     }
 
-    function file_browser() {
-        
-        
-
+    function file_browser() {       
         $segment_array = $this->uri->segment_array();
 
         // first and second segments are the controller and method
@@ -252,10 +303,10 @@ class Sgr extends MX_Controller {
             $path_in_url.= $segment . '/';
         $absolute_path = getcwd() . '/' . $path_in_url;
         $absolute_path = rtrim($absolute_path, '/');
-        
-        
+
+
         if (is_dir($absolute_path)) {
-            
+
             // link generation helper
             $this->load->helper('url');
 
@@ -282,18 +333,24 @@ class Sgr extends MX_Controller {
                 array_unshift($dirs, array('name' => ' '));
 
             // view data
-            $customData = array(
+            $fileData = array(
                 'controller' => $controller,
                 'method' => $method,
                 'virtual_root' => getcwd(),
                 'path_in_url' => $path_in_url,
                 'dirs' => $dirs,
                 'files' => $files,
-            );           
+            );
             //$this->render('dashboard', $customData);
+            //           
+           
+            /*CALL RENDER*/
+            $files_list = $this->render_file_browser($fileData);
+            $customData['files_list'] = $files_list;
             return $customData;
+            
         }
-        else {            
+        else {
             // is it a file?
             if (is_file($absolute_path)) {
                 // open it
@@ -315,12 +372,38 @@ class Sgr extends MX_Controller {
                 }
 
                 @readfile($absolute_path);
-                
             } else {
                 //@show_404();
                 return "";
             }
         }
+    }
+
+    function render_file_browser($customData) {       
+         
+        $files_list = "";
+        $prefix = $customData['controller'] . '/' . $customData['method'] . '/' . $customData['path_in_url'];
+        if (!empty($customData['dirs'])){           
+            foreach ($customData['dirs'] as $dir) { 
+               
+                $files_list .= anchor($prefix . $dir['name'], $dir['name']) . '<br>';
+            }
+        }  
+        
+        
+        if (!empty($customData['files'])) {             
+            foreach ($customData['files'] as $file) {
+                //echo anchor($prefix.$file['name'], $file['name']).'<br>';
+                list($sgr, $anexo, $filedate) = explode("_", $file['name']);
+                
+                if ($anexo == $this->anexo && (float)$sgr == $this->sgr_id) {
+                    $files_list .= '<li><a href="../anexos_sgr/' . $file['name'] . '">' . $file['name'] . '</a></li>';
+                }
+            }
+        }
+        
+        return $files_list;
+        
     }
 
     function render($file, $customData) {
@@ -347,7 +430,7 @@ class Sgr extends MX_Controller {
         //$cpData['profile_img'] = get_gravatar($user->email);
 
         $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
-        
+
         $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
 
         $cpData = array_replace_recursive($customData, $cpData);
@@ -361,4 +444,5 @@ class Sgr extends MX_Controller {
 
         $this->ui->compose($file, 'layout.php', $cpData);
     }
+
 }

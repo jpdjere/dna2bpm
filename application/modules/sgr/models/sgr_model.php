@@ -18,6 +18,40 @@ class Sgr_model extends CI_Model {
             header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
+    
+    /* RETURN ANEXOS */
+
+    function get_anexos() {
+        $container = 'container.sgr_anexos';
+        $result = $this->mongo->db->$container->find();
+        return $result;
+    }
+    
+     function get_anexo($anexo) {
+        $container = 'container.sgr_anexos';
+        $query['number'] = $anexo;
+        $result = $this->mongo->db->$container->findOne($query);
+        return $result;
+    }
+    
+    
+    function get_sgr() {
+        $rtn = array();
+        $this->load->model('user/user');
+        $idu = (int) -315924963;//$this->idu;
+        $data = array();
+        // Listado de empresas
+        $container = 'container.empresas';
+        $fields = array('id', '1695', '4651', '1693', '1703');
+        $query = array("owner" => $idu, "6026" => '30', "status"=> 'activa');
+        $result = $this->mongo->db->$container->find($query, $fields);             
+        
+        foreach ($result as $empresa) {
+            unset($empresa['_id']);
+            $rtn[] = $empresa;
+        }
+        return $rtn;
+    }
 
     // ======= TAREAS ======= //
 
