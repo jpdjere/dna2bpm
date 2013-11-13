@@ -346,7 +346,7 @@ class Sgr extends MX_Controller {
            
             /*CALL RENDER*/
             $files_list = $this->render_file_browser($fileData);
-            $customData['files_list'] = $files_list;
+            $customData['files_list'] = "..." . $files_list;
             return $customData;
             
         }
