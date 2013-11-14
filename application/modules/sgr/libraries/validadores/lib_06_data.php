@@ -4,8 +4,51 @@ class Lib_06_data {
     /* VALIDADOR ANEXO 06 */
 
     public function __construct($parameter) {
-        /* Vars */
-        $this->data = $parameter;
+        /* Vars 
+         * 
+         * $parameters =  
+         * $parameterArr[0]['fieldValue'] 
+         * $parameterArr[0]['row'] 
+         * $parameterArr[0]['col']
+         * $parameterArr[0]['count']
+         * 
+         */
+
+        //$this->data = (array)$parameter;
+        $parameterArr = (array) $parameter;
+        $result = array();
+        //$this->data = count($parameterArr); //$parameterArr[0]['fieldValue'];//['row']['col'];   
+        //$this->count = $parameterArr[0]['count'];
+        for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
+
+            /* Validacion Basica */
+            for ($i = 0; $i <= count($parameterArr); $i++) {
+
+                /* TIPO_OPERACION
+                 * Nro A.1
+                 * Detail:
+                 * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
+                  INCORPORACION
+                  INCREMENTO TENENCIA ACCIONARIA
+                  DISMINUCION DE CAPITAL SOCIAL
+                 */
+                $code_error = "A.1";
+                if ($parameterArr[$i]['col'] == 1) {
+
+                    //Valida Vacio
+                    $this->check_empty($parameterArr[$i]['fieldValue'], $code_error);
+                    $result[] = $i . "-" . $parameterArr[$i]['fieldValue'] . "[" . $parameterArr[$i]['row'] . "][" . $parameterArr[$i]['col'] . "]";
+                }
+            }
+        }
+
+        //$this->data = $result;
+    }
+
+    function check_empty($parameter, $code_error) {
+       // if ($parameter == NULL) {
+            $this->result = $parameter;
+       // }
     }
 
 }

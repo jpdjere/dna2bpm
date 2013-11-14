@@ -36,8 +36,8 @@ class Sgr extends MX_Controller {
             header("$this->module_url/user/logout");
             exit();
         }
-        
-        
+
+
 
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
@@ -188,51 +188,60 @@ class Sgr extends MX_Controller {
             $headerArr[] = $data->sheets[0]['cells'][1][$index];
         }
 
-        for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-
-            for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-                $valuesSql .= "<p>" . trim($data->sheets[0]['cells'][$i][$j]) . "</p>";
-                $valuesArr[] = trim($data->sheets[0]['cells'][$i][$j]);
-            }
-            //echo $valuesSql;
-        }
-
-
-        /* VALIDATIONS */
         $header = "lib_" . $anexo . "_header";
-        $data = "lib_" . $anexo . "_data";
-        
-        $result_head = (array)$this->load->library("validadores/" . $header, $headerArr);
-        
-        
-            
-        if(!$result_head['result']){        
-            $result_data = (array)$this->load->library("validadores/" . $data, $valuesArr);
-            var_dump($result_data);            
+        $result_head = (array) $this->load->library("validadores/" . $header, $headerArr);
+
+        if (!$result_head['result']) {
+            for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+
+                for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
+                    $count = $data->rowcount();
+                    
+                    $valuesSql .= "<p>" . trim($data->sheets[0]['cells'][$i][$j]) . "</p>";
+                    $stack = array('fieldValue' => trim($data->sheets[0]['cells'][$i][$j]), "row" => $i, "col" => $j, "count"=>$count);
+                    array_push($valuesArr, $stack);
+                }
+                //echo $valuesSql;
+            }
+
+
+            /* VALIDATIONS */
+
+            $data = "lib_" . $anexo . "_data";
+
+
+
+
+
+
+            $result_data = (array) $this->load->library("validadores/" . $data, $valuesArr);
+
+            echo "<pre>";
+            var_dump($result_data);
+            echo "</pre>";
         } else {
             //ERROR            
             var_dump("HEAD ERROR ", $result_head['result']);
-            
         }
-        
-     
 
- /*
-        /* consulta 
-        $config['hostname'] = "localhost";
-        $config['username'] = "root";
-        $config['password'] = "root";
-        $config['database'] = "forms2";
-        $config['dbdriver'] = "mysql";
-        $config['dbprefix'] = "";
-        $config['pconnect'] = FALSE;
-        $config['db_debug'] = TRUE;
-        $config['cache_on'] = FALSE;
-        $config['cachedir'] = "";
-        $config['char_set'] = "utf8";
-        $config['dbcollat'] = "utf8_general_ci";
-        $db = $this->load->database($config, true, false);
-*/
+
+
+        /*
+          /* consulta
+          $config['hostname'] = "localhost";
+          $config['username'] = "root";
+          $config['password'] = "root";
+          $config['database'] = "forms2";
+          $config['dbdriver'] = "mysql";
+          $config['dbprefix'] = "";
+          $config['pconnect'] = FALSE;
+          $config['db_debug'] = TRUE;
+          $config['cache_on'] = FALSE;
+          $config['cachedir'] = "";
+          $config['char_set'] = "utf8";
+          $config['dbcollat'] = "utf8_general_ci";
+          $db = $this->load->database($config, true, false);
+         */
         /*
          * Mysql Query & Insert
          * 
