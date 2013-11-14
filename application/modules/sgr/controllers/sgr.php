@@ -36,6 +36,8 @@ class Sgr extends MX_Controller {
             header("$this->module_url/user/logout");
             exit();
         }
+        
+        
 
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
@@ -47,6 +49,8 @@ class Sgr extends MX_Controller {
 
         $this->anexo = ($_REQUEST['anexo']) ? $_REQUEST['anexo'] : "06";
         $this->period = $this->session->userdata['period'];
+        
+        var_dump($this->sgr_id);
     }
 
     function Index() {
@@ -202,20 +206,21 @@ class Sgr extends MX_Controller {
         
         $result_head = (array)$this->load->library("anexos/" . $header, $headerArr);
         
-        if(!$result_head){        
+        
+            
+        if(!$result_head['result']){        
             $result_data = (array)$this->load->library("anexos/" . $data, $valuesArr);
             var_dump($result_data);            
         } else {
-            //ERROR
-            
-            var_dump("ERROR ", $result_head['result']);
+            //ERROR            
+            var_dump("HEAD ERROR ", $result_head['result']);
             
         }
         
      
 
-
-        /* consulta */
+ /*
+        /* consulta 
         $config['hostname'] = "localhost";
         $config['username'] = "root";
         $config['password'] = "root";
@@ -229,7 +234,7 @@ class Sgr extends MX_Controller {
         $config['char_set'] = "utf8";
         $config['dbcollat'] = "utf8_general_ci";
         $db = $this->load->database($config, true, false);
-
+*/
         /*
          * Mysql Query & Insert
          * 
