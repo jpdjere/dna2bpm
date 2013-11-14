@@ -49,8 +49,6 @@ class Sgr extends MX_Controller {
 
         $this->anexo = ($_REQUEST['anexo']) ? $_REQUEST['anexo'] : "06";
         $this->period = $this->session->userdata['period'];
-        
-        var_dump($this->sgr_id);
     }
 
     function Index() {
@@ -204,12 +202,12 @@ class Sgr extends MX_Controller {
         $header = "lib_" . $anexo . "_header";
         $data = "lib_" . $anexo . "_data";
         
-        $result_head = (array)$this->load->library("anexos/" . $header, $headerArr);
+        $result_head = (array)$this->load->library("validadores/" . $header, $headerArr);
         
         
             
         if(!$result_head['result']){        
-            $result_data = (array)$this->load->library("anexos/" . $data, $valuesArr);
+            $result_data = (array)$this->load->library("validadores/" . $data, $valuesArr);
             var_dump($result_data);            
         } else {
             //ERROR            
