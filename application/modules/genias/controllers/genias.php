@@ -556,6 +556,8 @@ class Genias extends MX_Controller {
         $cpData['titulo'] = "Escenario Pyme";
 
         $cpData['js'] = array(
+            'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
+            $this->base_url .'jscript/ext/src/ux/GMapPanel3.js' => 'Gmap Api',
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
             $this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
@@ -572,6 +574,8 @@ class Genias extends MX_Controller {
         );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
+    
+   
 
     function Listado_empresas($parm = null) {
 
