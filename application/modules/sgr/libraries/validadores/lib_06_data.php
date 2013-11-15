@@ -16,7 +16,7 @@ class Lib_06_data {
 
         //$this->data = (array)$parameter;
         $parameterArr = (array) $parameter;
-        $result = array();
+        $result = array("error_num"=>"", "error_row"=>"");
         //$this->data = count($parameterArr); //$parameterArr[0]['fieldValue'];//['row']['col'];   
         //$this->count = $parameterArr[0]['count'];
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -34,21 +34,33 @@ class Lib_06_data {
                  */
                 $code_error = "A.1";
                 if ($parameterArr[$i]['col'] == 1) {
-
                     //Valida Vacio
-                    $this->check_empty($parameterArr[$i]['fieldValue'], $code_error);
-                    $result[] = $i . "-" . $parameterArr[$i]['fieldValue'] . "[" . $parameterArr[$i]['row'] . "][" . $parameterArr[$i]['col'] . "]";
+                    $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                    if($return!=NULL){
+                        $result["error_num"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        
+                        //$add_arr[] = "error_num"=>$code_error; //"error_row"=>$parameterArr[$i]['row']);
+                        //array_push($result,$add_arr);
+                    }
+                    //$result[] = $i . "-" . $parameterArr[$i]['fieldValue'] . "[" . $parameterArr[$i]['row'] . "][" . $parameterArr[$i]['col'] . "]";
                 }
             }
         }
 
-        //$this->data = $result;
+        $this->data = $result;
     }
 
-    function check_empty($parameter, $code_error) {
-       // if ($parameter == NULL) {
-            $this->result = $parameter;
-       // }
+    function check_empty($parameter) {
+        if ($parameter == NULL) {
+            return "error" . $parameter;
+        }
+    }
+
+    function check_word($parameter) {
+        if ($parameter == NULL) {
+            return "error" . $parameter;
+        }
     }
 
 }
