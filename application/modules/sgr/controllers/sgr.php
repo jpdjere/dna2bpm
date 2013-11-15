@@ -189,7 +189,7 @@ class Sgr extends MX_Controller {
         }
 
         $header = "lib_" . $anexo . "_header";
-        $result_head = (array) $this->load->library("validadores/" . $header, $headerArr);
+        $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
 
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
@@ -214,7 +214,7 @@ class Sgr extends MX_Controller {
 
 
 
-            $result_data = (array) $this->load->library("validadores/" . $data, $valuesArr);
+            $result_data = (array) $this->load->library("validators/" . $data, $valuesArr);
 
             echo "<pre>";
             var_dump($result_data);
