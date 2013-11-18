@@ -162,7 +162,6 @@ class Sgr extends MX_Controller {
           $data->formatIndex($row,$col);
 
           Get sheet size:
-
           $data->rowcount();
           $data->colcount();
 
@@ -181,6 +180,8 @@ class Sgr extends MX_Controller {
           $data->sheets[0]['cellsInfo'][$i][$j]['rowspan']
 
          */
+
+        $error = false;
         $headerArr = array();
         $valuesArr = array();
         for ($index = 1; $index <= $data->sheets[0]['numCols']; $index++) {
@@ -191,15 +192,21 @@ class Sgr extends MX_Controller {
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
 
+
+
+
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
 
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-                    $count = $data->rowcount();
-                    
-                    $valuesSql .= "<p>" . trim($data->sheets[0]['cells'][$i][$j]) . "</p>";
-                    $stack = array('fieldValue' => trim($data->sheets[0]['cells'][$i][$j]), "row" => $i, "col" => $j, "count"=>$count);
-                    array_push($valuesArr, $stack);
+
+
+                    if (!empty($data->sheets[0]['cells'][$i][1])) {
+                        $count = $data->rowcount();
+                        $valuesSql .= "<p>" . trim($data->sheets[0]['cells'][$i][$j]) . "</p>";
+                        $stack = array('fieldValue' => trim($data->sheets[0]['cells'][$i][$j]), "row" => $i, "col" => $j, "count" => $count);
+                        array_push($valuesArr, $stack);
+                    }
                 }
                 //echo $valuesSql;
             }
@@ -207,23 +214,34 @@ class Sgr extends MX_Controller {
 
             /* VALIDATIONS */
 
+            if (!$count) {
+                echo "Error archivo no tiene la informacion necesaria";
+                $error = true;
+            }
+
             $data = "lib_" . $anexo . "_data";
-
-
-
-
-
-
             $result_data = (array) $this->load->library("validators/" . $data, $valuesArr);
-
-            echo "<pre>";
-            var_dump($result_data);
-            echo "</pre>";
+            foreach ($result_data['data'] as $data) {
+                if (!empty($data['error_code'])) {
+                    echo "<pre>";
+                    var_dump("FIELD ERROR ...", $data['error_code'], $data['error_row'], $data['error_input_value']);
+                    echo "</pre>";
+                    $error = true;
+                }
+            }
         } else {
-            //ERROR            
+            //ERROR    
+            echo "<pre>";
             var_dump("HEAD ERROR ", $result_head['result']);
+            echo "</pre>";
+            $error = true;
         }
 
+
+        if ($error) {
+            //unlink($uploadpath);
+            //exit();
+        }
 
 
         /*
