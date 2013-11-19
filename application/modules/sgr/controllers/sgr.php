@@ -239,7 +239,7 @@ class Sgr extends MX_Controller {
 
 
         if ($error) {
-            //unlink($uploadpath);
+            unlink($uploadpath);
             //exit();
         }
 
