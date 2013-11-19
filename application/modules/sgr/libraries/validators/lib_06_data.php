@@ -360,13 +360,13 @@ class Lib_06_data {
                 }
 
 
-                if ($parameterArr[$i]['col'] >= 39 && $parameterArr[$i]['col'] <= 40) {
-                    switch ($parameterArr[$i]['col']) {
-                        case 39:
-                            $code_error = "AL.1";
+                if ($parameterArr[$i]['col'] >= 38 && $parameterArr[$i]['col'] <= 39) {
 
+                    switch ($parameterArr[$i]['col']) {
+                        case 38:
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
+                                $code_error = "AL.1";
                                 $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
                                 if ($return != NULL) {
                                     $result["error_code"] = $code_error;
@@ -394,13 +394,103 @@ class Lib_06_data {
                                     array_push($stack, $result);
                                 }
                             }
-
-
                             break;
 
-                        case 40:
-                            $code_error = "AM.1";
+                        case 39:
+                            if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
+                                //CHECK FOR EMPTY
+                                $code_error = "AM.1";
+                                $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
+                                if ($return != NULL) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = "not empty";
+                                    array_push($stack, $result);
+                                }
+                            } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+                                //do something
+                                $code_error = "AM.2";
+                                $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                                if ($return != NULL) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = "empty";
+                                    array_push($stack, $result);
+                                }
+                            } else if ($AG_field_value == "TRANSFERENCIA") {
+                                $code_error = "AM.3";
+                                $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                                if ($return != NULL) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = "empty";
+                                    array_push($stack, $result);
+                                }
+                            }
+
+                            $code_error = "AM.4";
+                            if ($parameterArr[$i]['fieldValue'] != "") {
+                                $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
+
+                                $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                if ($return != NULL) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                    array_push($stack, $result);
+                                }
+                            }
                             break;
+                    }
+                }
+
+
+                /////////////////////////////////////////
+                /*
+                 * 2. VALIDADORES PARTICULARES
+                 * 2.1. COLUMNA A - TIPO DE OPERACIÓN: “INCORPORACIÓN”
+                 *                  
+                 */
+
+
+                if ($A1_field_value == "INCORPORACION") {
+                    /*
+                     * CUIT
+                     * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.
+                     */
+
+                    if ($parameterArr[$i]['col'] == 3) {
+                        $code_error = "C.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return != NULL) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
+                            if (!$return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
+                    if ($parameterArr[$i]['col'] == 4) {
+                        $code_error = "D.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return != NULL) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -442,6 +532,43 @@ class Lib_06_data {
     function check_is_numeric($parameter) {
         if (!is_numeric($parameter)) {
             return "error" . $parameter;
+        }
+    }
+
+    //FUNCION VALIDA CUIT
+    function cuit_checker($cuit) {
+        $cadena = str_split($cuit);
+
+        $result = $cadena[0] * 5;
+        $result += $cadena[1] * 4;
+        $result += $cadena[2] * 3;
+        $result += $cadena[3] * 2;
+        $result += $cadena[4] * 7;
+        $result += $cadena[5] * 6;
+        $result += $cadena[6] * 5;
+        $result += $cadena[7] * 4;
+        $result += $cadena[8] * 3;
+        $result += $cadena[9] * 2;
+
+        $div = intval($result / 11);
+        $resto = $result - ($div * 11);
+
+        if ($resto == 0) {
+            if ($resto == $cadena[10]) {
+                return true;
+            } else {
+                return false;
+            }
+        } elseif ($resto == 1) {
+            if ($cadena[10] == 9 AND $cadena[0] == 2 AND $cadena[1] == 3) {
+                return true;
+            } elseif ($cadena[10] == 4 AND $cadena[0] == 2 AND $cadena[1] == 3) {
+                return true;
+            }
+        } elseif ($cadena[10] == (11 - $resto)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
