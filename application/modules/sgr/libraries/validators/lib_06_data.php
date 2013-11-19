@@ -43,7 +43,7 @@ class Lib_06_data {
 
                     //empty field Validation
                     $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return != NULL) {
+                    if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
@@ -54,7 +54,7 @@ class Lib_06_data {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $allow_words = array("INCORPORACION", "INCREMENTO TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -79,7 +79,7 @@ class Lib_06_data {
 
                     //empty field Validation
                     $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return != NULL) {
+                    if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
@@ -89,7 +89,7 @@ class Lib_06_data {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $allow_words = array("A", "B");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -113,7 +113,7 @@ class Lib_06_data {
 
                     //empty field Validation
                     $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return != NULL) {
+                    if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
@@ -123,7 +123,7 @@ class Lib_06_data {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $allow_words = array("AGE", "AGO", "ACA", "EC");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -142,7 +142,7 @@ class Lib_06_data {
 
                     //empty field Validation
                     $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return != NULL) {
+                    if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
@@ -151,7 +151,7 @@ class Lib_06_data {
                     //Check Date Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = $this->check_date_format($parameterArr[$i]['fieldValue']);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -173,7 +173,7 @@ class Lib_06_data {
                     //Check Numeric Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = $this->check_is_numeric($parameterArr[$i]['fieldValue']);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -193,7 +193,7 @@ class Lib_06_data {
                     //Check Date Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = $this->check_date_format($parameterArr[$i]['fieldValue']);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -220,7 +220,7 @@ class Lib_06_data {
 
                     //empty field Validation
                     $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return != NULL) {
+                    if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
@@ -230,7 +230,7 @@ class Lib_06_data {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $allow_words = array("SUSCRIPCION", "TRANSFERENCIA");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -245,7 +245,7 @@ class Lib_06_data {
                             $code_error = "AG.2";
                             $allow_words = array("SUSCRIPCION");
                             $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                            if ($return != NULL) {
+                            if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -272,7 +272,7 @@ class Lib_06_data {
 
                             //empty field Validation
                             $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                            if ($return != NULL) {
+                            if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = "empty";
@@ -281,7 +281,7 @@ class Lib_06_data {
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
                                 $return = $this->check_is_numeric($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -295,7 +295,7 @@ class Lib_06_data {
                             $code_error = "AI.1";
                             //empty field Validation
                             $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                            if ($return != NULL) {
+                            if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = "empty";
@@ -304,7 +304,7 @@ class Lib_06_data {
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
                                 $return = $this->check_is_numeric($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -317,7 +317,7 @@ class Lib_06_data {
                             $code_error = "AJ.1";
                             //empty field Validation
                             $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                            if ($return != NULL) {
+                            if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = "empty";
@@ -326,7 +326,7 @@ class Lib_06_data {
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
                                 $return = $this->check_is_numeric($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -339,7 +339,7 @@ class Lib_06_data {
                             $code_error = "AK.1";
                             //empty field Validation
                             $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                            if ($return != NULL) {
+                            if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = "empty";
@@ -348,7 +348,7 @@ class Lib_06_data {
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
                                 $return = $this->check_is_numeric($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -368,7 +368,7 @@ class Lib_06_data {
                                 //CHECK FOR EMPTY
                                 $code_error = "AL.1";
                                 $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "not empty";
@@ -378,7 +378,7 @@ class Lib_06_data {
                                 //do something
                                 $code_error = "AL.2";
                                 $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "empty";
@@ -387,7 +387,7 @@ class Lib_06_data {
                             } else if ($AG_field_value == "TRANSFERENCIA") {
                                 $code_error = "AL.3";
                                 $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "empty";
@@ -401,7 +401,7 @@ class Lib_06_data {
                                 //CHECK FOR EMPTY
                                 $code_error = "AM.1";
                                 $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "not empty";
@@ -411,7 +411,7 @@ class Lib_06_data {
                                 //do something
                                 $code_error = "AM.2";
                                 $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "empty";
@@ -420,7 +420,7 @@ class Lib_06_data {
                             } else if ($AG_field_value == "TRANSFERENCIA") {
                                 $code_error = "AM.3";
                                 $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "empty";
@@ -433,7 +433,7 @@ class Lib_06_data {
                                 $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
 
                                 $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                                if ($return != NULL) {
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -463,7 +463,7 @@ class Lib_06_data {
                         $code_error = "C.1";
                         //Check Empry
                         $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "empty";
@@ -481,17 +481,143 @@ class Lib_06_data {
                         }
                     }
 
+                    /*
+                     * NOMBRE
+                     * El campo no puede estar vacío. En caso de que el CUIT informado ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
+                     */
                     if ($parameterArr[$i]['col'] == 4) {
                         $code_error = "D.1";
                         //Check Empry
                         $return = $this->check_empty($parameterArr[$i]['fieldValue']);
-                        if ($return != NULL) {
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
                         }
                     }
+
+
+                    /*
+                     * PROVINCIA
+                     * El campo no puede estar vacío. En caso de que el CUIT informado ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
+                     */
+                    if ($parameterArr[$i]['col'] == 5) {
+                        $code_error = "E.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $allow_words = array("CAPITAL FEDERAL", "BUENOS AIRES", "CATAMARCA", "CORDOBA", "CHUBUT", "CHACO", "CORRIENTES", "ENTRE RIOS", "FORMOSA", "JUJUY", "LA PAMPA", "LA RIOJA", "MISIONES", "MENDOZA", "NEUQUEN", "RIO NEGRO", "SALTA", "SANTA CRUZ", "SANTIAGO DEL ESTERO", "SANTA FE", "SAN JUAN", "SAN LUIS", "TIERRA DEL FUEGO", "TUCUMAN");
+
+                            $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
+                    /*
+                     * PARTIDO_MUNICIPIO_COMUNA
+                     * El campo no puede estar vacío.
+                     */
+                    if ($parameterArr[$i]['col'] == 6) {
+                        $code_error = "F.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    /*
+                     * LOCALIDAD
+                     * El campo no puede estar vacío.
+                     */
+                    if ($parameterArr[$i]['col'] == 7) {
+                        $code_error = "G.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    /*
+                     * CODIGO_POSTAL
+                     * El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos.
+                     */
+                    if ($parameterArr[$i]['col'] == 8) {
+                        $code_error = "H.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->check_zip_code($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                    
+                    /*
+                     * CALLE
+                     * El campo no puede estar vacío.
+                     */
+                    if ($parameterArr[$i]['col'] == 9) {
+                        $code_error = "I.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    }
+                    
+                    /*
+                     * NRO
+                     * El campo no puede estar vacío.
+                     */
+                    if ($parameterArr[$i]['col'] == 10) {
+                        $code_error = "J.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    }
+                    
+                    
+                    
                 }
 
 
@@ -506,32 +632,45 @@ class Lib_06_data {
 
     function check_empty($parameter) {
         if ($parameter == NULL) {
-            return "error" . $parameter;
+            return true;
         }
     }
 
     function check_for_empty($parameter) {
         if ($parameter != NULL) {
-            return "error" . $parameter;
+            return true;
         }
     }
 
     function check_word($parameter, $allow_words) {
         if (!in_array(strtoupper($parameter), $allow_words)) {
-            return "error" . $parameter;
+            return true;
         }
     }
 
     function check_date_format($parameter) {
         $num_length = strlen((string) $parameter);
         if ($num_length != 5) {
-            return "error" . $parameter;
+            return true;
+        }
+    }
+
+    function check_zip_code($parameter) {
+        $num_length = strlen((string) $parameter);
+        if ($num_length != 8) {
+            return true;
         }
     }
 
     function check_is_numeric($parameter) {
         if (!is_numeric($parameter)) {
-            return "error" . $parameter;
+            return true;
+        }
+    }
+
+    function check_is_alphabetic($parameter) {
+        if (!ctype_alpha($parameter)) {
+            return true;
         }
     }
 
