@@ -615,6 +615,68 @@ class Lib_06_data {
                             array_push($stack, $result);
                         }
                     }
+                    /*
+                     * CODIGO_POSTAL
+                     * El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos.
+                     
+                    if ($parameterArr[$i]['col'] == 8) {
+                        $code_error = "H.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->check_zip_code($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }*/
+                    
+                    /*
+                     * EMAIL
+                     * OPCIONA. De completarse, que tenga formato de dirección de correo electrónico.
+                     */
+                    if ($parameterArr[$i]['col'] == 15) {
+                        $code_error = "O.1";                      
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->check_email($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                    
+                    /*
+                     * WEB
+                     * OPCIONA. De completarse, que tenga formato de dirección de página web.
+                     */
+                    if ($parameterArr[$i]['col'] == 16) {
+                        $code_error = "P.1";                      
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->check_web($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                    
                     
                     
                     
@@ -658,6 +720,32 @@ class Lib_06_data {
     function check_zip_code($parameter) {
         $num_length = strlen((string) $parameter);
         if ($num_length != 8) {
+            return true;
+        }
+    }
+    
+    function check_area_code($parameter) {
+        $num_length = strlen((string) $parameter);
+        if ($num_length <= 2 && $num_length >= 4) {
+            return true;
+        }
+    }
+    
+    function check_phone_number($parameter) {
+        $num_length = strlen((string) $parameter);
+        if ($num_length <= 6 && $num_length >= 10) {
+            return true;
+        }
+    }
+    
+     function check_email($parameter) {
+        if (!filter_var($parameter, FILTER_VALIDATE_EMAIL)) {
+            return true;
+        }
+    }
+    
+    function check_web($parameter) {
+        if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
             return true;
         }
     }
