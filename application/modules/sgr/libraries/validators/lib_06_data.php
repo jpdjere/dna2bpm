@@ -49,6 +49,7 @@ class Lib_06_data {
 
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $A1_field_value = "";
                         $allow_words = array("INCORPORACION", "INCREMENTO TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -84,6 +85,7 @@ class Lib_06_data {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $B1_field_value = "";
                         $allow_words = array("A", "B");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -191,6 +193,7 @@ class Lib_06_data {
                     $code_error = "AF.1";
                     //Check Date Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $AF_field_value = "";
                         $return = $this->check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -201,8 +204,16 @@ class Lib_06_data {
 
                             $fecha = mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900);
                             $AF_field_value = strftime("%Y", $fecha);
-                            
-                            
+                            /* VALIDACION R.3 */
+                            $resto = $AF_field_value - $R2_field_value;
+
+                            if ($resto > 4) {
+                                $code_error = "R.3";
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $AF_field_value . "-" . $R2_field_value;
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -233,6 +244,7 @@ class Lib_06_data {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $AG_field_value = "";
                         $allow_words = array("SUSCRIPCION", "TRANSFERENCIA");
                         $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -783,14 +795,18 @@ class Lib_06_data {
 
                 if ($B1_field_value == "A") {
                     $range = range(18, 20);
+
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
                         switch ($parameterArr[$i]['col']) {
 
-                            case 18:
+                            case 18: //ANIO_MES1
                                 $code_error = "R.1";
+
                                 if ($parameterArr[$i]['fieldValue'] != "") {
-                                    $return = $this->check_date($parameterArr[$i]['fieldValue']);                                    
+                                    $R1_field_value = "";
+                                    $R2_field_value = "";
+                                    $return = $this->check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "R.2";
                                         $result["error_code"] = $code_error;
@@ -798,14 +814,60 @@ class Lib_06_data {
                                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                         array_push($stack, $result);
                                     } else {
+                                        $R1_field_value = $parameterArr[$i]['fieldValue'];
                                         $R2_field_value = $return;
                                     }
                                 }
 
                                 break;
 
-                            case 19:
+                            case 19://MONTO
+                                //Check Numeric Validation
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $S2_field_value = "";
+                                    $code_error = "S.2";
+                                    $return = $this->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    if ($return) {
+                                        $result["error_code"] = $code_error;
+                                        $result["error_row"] = $parameterArr[$i]['row'];
+                                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                        array_push($stack, $result);
+                                    } else {
+                                        $S2_field_value = $parameterArr[$i]['fieldValue'];
+                                    }
+                                }
+                                break;
 
+                            case 20://TIPO_ORIGEN
+                                //Value Validation
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $T2_field_value = "";
+                                    $code_error = "T.2";
+                                    $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
+                                    $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    if ($return) {
+                                        $result["error_code"] = $code_error;
+                                        $result["error_row"] = $parameterArr[$i]['row'];
+                                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                        array_push($stack, $result);
+                                    } else {
+                                        $T2_field_value = $parameterArr[$i]['fieldValue'];
+                                    }
+                                }
+
+
+                                /* CHECK ONE FOR ALL */
+                                if ((bool) $R1_field_value || (bool) $S2_field_value || (bool) $T2_field_value) {
+
+                                    echo "<pre>";
+                                    var_dump("1", $R1_field_value, $S2_field_value, $T2_field_value);
+                                    echo "</pre>";
+                                    if (!(bool) $R1_field_value || !(bool) $S2_field_value || !(bool) $T2_field_value) {
+                                        echo "<pre>";
+                                        var_dump("2", $R1_field_value, $S2_field_value, $T2_field_value);
+                                        echo "</pre>";
+                                    }
+                                }
 
                                 break;
                         }
@@ -911,7 +973,6 @@ class Lib_06_data {
     /* FIX CLANAE TO CIU */
 
     function cerosClanae($num) {
-
         $range = range(11111, 990000);
         if (in_array($num, $range)) {
             if (strlen($num) == 5) {
