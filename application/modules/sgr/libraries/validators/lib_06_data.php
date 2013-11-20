@@ -35,9 +35,6 @@ class Lib_06_data {
                   DISMINUCION DE CAPITAL SOCIAL
                  */
 
-
-
-
                 if ($parameterArr[$i]['col'] == 1) {
                     $code_error = "A.1";
 
@@ -94,6 +91,8 @@ class Lib_06_data {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
+                        } else {
+                            $B1_field_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
                 }
@@ -198,6 +197,12 @@ class Lib_06_data {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
+                        } else {
+
+                            $fecha = mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900);
+                            $AF_field_value = strftime("%Y", $fecha);
+                            
+                            
                         }
                     }
                 }
@@ -264,7 +269,10 @@ class Lib_06_data {
                  * El campo no puede estar vacío y debe contener dígitos numéricos.                 *
                  */
 
-                if ($parameterArr[$i]['col'] >= 34 && $parameterArr[$i]['col'] <= 38) {
+
+                $range = range(34, 38);
+                if (in_array($parameterArr[$i]['col'], $range)) {
+
 
                     switch ($parameterArr[$i]['col']) {
                         case 34:
@@ -360,7 +368,8 @@ class Lib_06_data {
                 }
 
 
-                if ($parameterArr[$i]['col'] >= 38 && $parameterArr[$i]['col'] <= 39) {
+                $range = range(38, 39);
+                if (in_array($parameterArr[$i]['col'], $range)) {
 
                     switch ($parameterArr[$i]['col']) {
                         case 38:
@@ -583,7 +592,7 @@ class Lib_06_data {
                             }
                         }
                     }
-                    
+
                     /*
                      * CALLE
                      * El campo no puede estar vacío.
@@ -599,7 +608,7 @@ class Lib_06_data {
                             array_push($stack, $result);
                         }
                     }
-                    
+
                     /*
                      * NRO
                      * El campo no puede estar vacío.
@@ -615,12 +624,15 @@ class Lib_06_data {
                             array_push($stack, $result);
                         }
                     }
+
+
                     /*
-                     * CODIGO_POSTAL
-                     * El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos.
-                     
-                    if ($parameterArr[$i]['col'] == 8) {
-                        $code_error = "H.1";
+                     * CODIGO_AREA
+                     * El campo no puede estar vacío. Debe tener entre 2 y 4 dígitos (sin el cero adelante).
+                     */
+                    if ($parameterArr[$i]['col'] == 13) {
+                        $code_error = "M.1";
+
                         //Check Empry
                         $return = $this->check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -629,24 +641,48 @@ class Lib_06_data {
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
                         }
-
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->check_zip_code($parameterArr[$i]['fieldValue']);
-                            if ($return) {
+                            $return = $this->check_area_code($parameterArr[$i]['fieldValue']);
+                            if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                 array_push($stack, $result);
                             }
                         }
-                    }*/
-                    
+                    }
+
+                    /*
+                     * TELEFONO
+                     * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
+                     */
+                    if ($parameterArr[$i]['col'] == 14) {
+                        $code_error = "N.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->check_phone_number($parameterArr[$i]['fieldValue']);
+                            if (!$return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
                     /*
                      * EMAIL
                      * OPCIONA. De completarse, que tenga formato de dirección de correo electrónico.
                      */
                     if ($parameterArr[$i]['col'] == 15) {
-                        $code_error = "O.1";                      
+                        $code_error = "O.1";
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $return = $this->check_email($parameterArr[$i]['fieldValue']);
@@ -658,13 +694,13 @@ class Lib_06_data {
                             }
                         }
                     }
-                    
+
                     /*
                      * WEB
                      * OPCIONA. De completarse, que tenga formato de dirección de página web.
                      */
                     if ($parameterArr[$i]['col'] == 16) {
-                        $code_error = "P.1";                      
+                        $code_error = "P.1";
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $return = $this->check_web($parameterArr[$i]['fieldValue']);
@@ -676,14 +712,106 @@ class Lib_06_data {
                             }
                         }
                     }
-                    
-                    
-                    
-                    
+
+
+                    /*
+                     * CODIGO_ACTIVIDAD_AFIP
+                     * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
+                     */
+                    if ($parameterArr[$i]['col'] == 17) {
+                        $code_error = "Q.1";
+                        //Check Empry
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty..";
+                            array_push($stack, $result);
+                        }
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = $this->ciu($this->cerosClanae($parameterArr[$i]['fieldValue']));
+                            if (!$return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
+                    /*
+                     * CONDICION_INSCRIPCION_AFIP
+                     * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
+                      EXCENTO
+                      INSCRIPTO
+                      MONOSTRIBUTISTA
+                     */
+                    if ($parameterArr[$i]['col'] == 27) {
+
+                        $code_error = "AA.1";
+
+                        //empty field Validation
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                        //Value Validation
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $allow_words = array("EXCENTO", "INSCRIPTO", "MONOSTRIBUTISTA");
+                            $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
                 }
 
 
                 /////////////////////////////////////////
+                /*
+                 * 2. VALIDADORES PARTICULARES
+                 * 2.1. COLUMNA A - TIPO DE OPERACIÓN: “INCORPORACIÓN”
+                 *                  
+                 */
+
+
+                if ($B1_field_value == "A") {
+                    $range = range(18, 20);
+                    if (in_array($parameterArr[$i]['col'], $range)) {
+
+                        switch ($parameterArr[$i]['col']) {
+
+                            case 18:
+                                $code_error = "R.1";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $return = $this->check_date($parameterArr[$i]['fieldValue']);                                    
+                                    if (!$return) {
+                                        $code_error = "R.2";
+                                        $result["error_code"] = $code_error;
+                                        $result["error_row"] = $parameterArr[$i]['row'];
+                                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                        array_push($stack, $result);
+                                    } else {
+                                        $R2_field_value = $return;
+                                    }
+                                }
+
+                                break;
+
+                            case 19:
+
+
+                                break;
+                        }
+                    }
+                }
+                //////////////////////////////////////////
             }
         }
 
@@ -717,33 +845,51 @@ class Lib_06_data {
         }
     }
 
+    function check_date($parameter) {
+        list($year, $month) = explode("/", $parameter);
+        $mm = $month;
+        $dd = "10";
+        $yyyy = $year;
+
+        If (@checkdate($mm, $dd, $yyyy)) {
+            return $yyyy;
+        }
+    }
+
     function check_zip_code($parameter) {
         $num_length = strlen((string) $parameter);
         if ($num_length != 8) {
             return true;
         }
     }
-    
+
     function check_area_code($parameter) {
+        if ($parameter[0] == 0) {
+            $parameter = substr($parameter, 1);
+        }
+
         $num_length = strlen((string) $parameter);
-        if ($num_length <= 2 && $num_length >= 4) {
+        $range = range(2, 4);
+        if (in_array($num_length, $range)) {
             return true;
         }
     }
-    
+
     function check_phone_number($parameter) {
+
         $num_length = strlen((string) $parameter);
-        if ($num_length <= 6 && $num_length >= 10) {
+        $range = range(6, 10);
+        if (in_array($num_length, $range)) {
             return true;
         }
     }
-    
-     function check_email($parameter) {
+
+    function check_email($parameter) {
         if (!filter_var($parameter, FILTER_VALIDATE_EMAIL)) {
             return true;
         }
     }
-    
+
     function check_web($parameter) {
         if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
             return true;
@@ -760,6 +906,88 @@ class Lib_06_data {
         if (!ctype_alpha($parameter)) {
             return true;
         }
+    }
+
+    /* FIX CLANAE TO CIU */
+
+    function cerosClanae($num) {
+
+        $range = range(11111, 990000);
+        if (in_array($num, $range)) {
+            if (strlen($num) == 5) {
+                return "0" . $num;
+            } else {
+                return $num;
+            }
+        }
+    }
+
+    /* CIU */
+
+    function ciu($sector) {
+        //AGROPECUARIO
+        //, INDUSTRIA Y MINERIA
+        //, COMERCIO
+        //, SERVICIOS
+        //, CONSTRUCCION
+        //, ADMINISTRACION PUBLICA
+        //, SERVICIO DOMESTICO u ORGANISMOS INTERNACIONALES
+        $newSectorCode = substr($sector, 0, 3);
+        $sectorCode = substr($sector, 0, 2);
+        $sector_value = "";
+
+        $codesArr = array('01', '02', '05');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 1;
+        }
+
+
+        $codesArr = array('10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '72');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 2;
+        }
+
+        $codesArr = array('50', '51', '52');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 3;
+        }
+
+        $codesArr = array('40', '41', '55', '60', '61', '62', '63', '64', '65', '66', '67', '70', '71', '73', '74', '80', '85', '90', '91', '92', '93');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 4;
+        }
+
+        $codesArr = array('45');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 5;
+        }
+
+        $codesArr = array('75');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 6;
+        }
+
+        $codesArr = array('95');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 7;
+        }
+
+        $codesArr = array('99');
+        if (in_array($sectorCode, $codesArr)) {
+            $sector_value = 8;
+        }
+
+        /*
+         * ?ARTICULO 3° Resolución 50/2013 ?
+         * Resolución N° 24/2001. Modificación.
+         */
+
+        $codesArr = array('921');
+        if (in_array($newSectorCode, $codesArr)) {
+            $sector_value = 2;
+        }
+
+        return $sector_value;
     }
 
     //FUNCION VALIDA CUIT

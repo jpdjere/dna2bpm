@@ -192,9 +192,7 @@ class Sgr extends MX_Controller {
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
 
-
-
-
+        //var_dump($result_head);
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
 
