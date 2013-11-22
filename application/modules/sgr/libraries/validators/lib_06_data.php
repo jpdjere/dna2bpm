@@ -37,6 +37,7 @@ class Lib_06_data {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
+
                     $code_error = "A.1";
 
                     //empty field Validation
@@ -1230,12 +1231,149 @@ class Lib_06_data {
                                 break;
                         }
                         //Check for Empty
-                        $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($A1_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
+                            $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = "not empty" . $A1_field_value;
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                }
+
+                /////////////////////////////////////////
+                /*
+                 * 2. VALIDADORES PARTICULARES
+                 * 2.2. COLUMNA A - TIPO DE OPERACIÓN: “DISMINUSIÓN DE CAPITAL SOCIAL”
+                 *                  
+                 */
+                if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+
+
+                    $range = range(3, 28);
+                    if (in_array($parameterArr[$i]['col'], $range)) {
+                        switch ($parameterArr[$i]['col']) {
+                            case 3: //CUIT
+                                $code_error = "C.2";
+                                break;
+                            case 4: //NOMBRE
+                                $code_error = "D.2";
+                                break;
+                            case 5: //Provincia
+                                $code_error = "E.2";
+                                break;
+                            case 6: //Partido/Municipio/Comuna
+                                $code_error = "F.2";
+                                break;
+                            case 7: //Localidad
+                                $code_error = "G.2";
+                                break;
+                            case 8: //Código Postal
+                                $code_error = "H.2";
+                                break;
+                            case 9: //Calle
+                                $code_error = "I.2";
+                                break;
+                            case 10: //Número
+                                $code_error = "J.2";
+                                break;
+                            case 11: //Piso
+                                $code_error = "K.2";
+                                break;
+                            case 12: //Dpto. / Oficina
+                                $code_error = "L.2";
+                                break;
+                            case 13: //Código de Área
+                                $code_error = "M.2";
+                                break;
+                            case 14: //Teléfono
+                                $code_error = "N.2";
+                                break;
+                            case 15: //Email
+                                $code_error = "O.2";
+                                break;
+                            case 16: //WEB
+                                $code_error = "P.2";
+                                break;
+                            case 17: //Código de Actividad
+                                $code_error = "Q.4";
+                                break;
+                            case 18: //Año/Mes 1
+                                $code_error = "R.5";
+                                break;
+                            case 19: //Monto 1
+                                $code_error = "S.5";
+                                break;
+                            case 20: //Tipo Origen 1
+                                $code_error = "T.4";
+                                break;
+
+                            case 21: //Año/Mes 2
+                                $code_error = "U.5";
+                                break;
+                            case 22: //Monto 2
+                                $code_error = "V.5";
+                                break;
+                            case 23: //Tipo Origen 2
+                                $code_error = "W.4";
+                                break;
+
+                            case 24: //Año/Mes 3
+                                $code_error = "X.5";
+                                break;
+                            case 25: //Monto 3
+                                $code_error = "Y.5";
+                                break;
+                            case 26: //Tipo Origen 3
+                                $code_error = "Z.4";
+                                break;
+                            case 27: //Condición de Inscripción ante AFIP
+                                $code_error = "AA.2";
+                                break;
+                            case 28: //Cantidad de Empleados
+                                $code_error = "AB.3";
+                                break;
+                        }
+                        //Check for Empty
+                        if ($A1_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
+                            $return = $this->check_for_empty($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = "not empty";
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
+
+                    /*
+                     * MODALIDAD
+                     * El campo no puede estar vacío y debe contener el siguientes parámetro:
+                      SUSCRIPCIÓN
+                     */
+                    if ($parameterArr[$i]['col'] == 33) {
+                        $code_error = "AG.2";
+                        //empty field Validation
+                        $return = $this->check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = "not empty";
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
                             array_push($stack, $result);
+                        }
+                        //Value Validation
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $allow_words = array("SUSCRIPCION");
+                            $return = $this->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -1245,6 +1383,10 @@ class Lib_06_data {
 
         $this->data = $stack;
         //return $this->data;
+    }
+
+    function debug($parameter) {
+        return "<pre>" . var_dump($parameter) . "</pre><hr>";
     }
 
     function check_empty($parameter) {
