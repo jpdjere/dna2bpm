@@ -217,13 +217,19 @@ class Sgr extends MX_Controller {
                 $error = true;
             }
 
+            
             $data = "lib_" . $anexo . "_data";
+            $lib_error = "lib_" . $anexo . "_error_legend"; 
+            $this->load->library("validators/" . $lib_error);
             $result_data = (array) $this->load->library("validators/" . $data, $valuesArr);
             foreach ($result_data['data'] as $data) {
                 if (!empty($data['error_code'])) {
                     echo "<pre>";
-                    var_dump("FIELD ERROR ...", $data['error_code'], $data['error_row'], $data['error_input_value']);
+                    var_dump($this->$lib_error->return_legend($data['error_code'],$data['error_row'],$data['error_input_value']));//var_dump("FIELD ERROR ...", $data['error_code'], $data['error_row'], $data['error_input_value']);
+                    //var_dump($data['error_code']);
                     echo "</pre>";
+                     
+                    
                     $error = true;
                 }
             }
@@ -235,10 +241,21 @@ class Sgr extends MX_Controller {
             $error = true;
         }
 
-
+        /*ERROR CASE*/
         if ($error) {
-            unlink($uploadpath);
+            
+            
+            
+           // unlink($uploadpath);
             //exit();
+        }
+        
+        
+        if(!$error){
+            
+            
+            echo "INSERT";
+            
         }
 
 
