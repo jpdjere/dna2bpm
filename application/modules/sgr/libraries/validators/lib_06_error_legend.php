@@ -163,7 +163,7 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
                 break;
             case "S.1":$result_error = '(Fila Nro.'. $row .')S:Monto 1:OPCIONAL. Si las COLUMNAS R o T tienen datos, esta debe tener datos..';
                 break;
-            case "S.2":$result_error = '(Fila Nro.'. $row .')::De ser completado, debe contener caracteres numéricos..';
+            case "S.2":$result_error = '(Fila Nro.'. $row .')S:Monto 1:De ser completado, debe contener caracteres numéricos..';
                 break;
             case "T.1":$result_error = '(Fila Nro.'. $row .')T:Tipo Origen 1:OPCIOINAL. Si las COLUMNAS R o S tienen datos, esta debe tener datos..';
                 break;
@@ -174,9 +174,9 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
                 break;
             case "U.1":$result_error = '(Fila Nro.'. $row .')U:Año/Mes 2:OPCIONAL. Si las COLUMNAS R, V o W tienen datos, esta debe tener datos..';
                 break;
-            case "U.2":$result_error = '(Fila Nro.'. $row .')U::De ser informado debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12..';
+            case "U.2":$result_error = '(Fila Nro.'. $row .')U:Año/Mes 2:De ser informado debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12..';
                 break;
-            case "U.3":$result_error = '(Fila Nro.'. $row .')U::Si la COLUMNA R tiene datos, el año aquí informado debe ser el inmediato posterior a aquel. De lo contrario, sólo puede ser uno a dos años anterior al del período de incorporación que se está informando..';
+            case "U.3":$result_error = '(Fila Nro.'. $row .')U:Año/Mes 2:Si la COLUMNA R tiene datos, el año aquí informado debe ser el inmediato posterior a aquel. De lo contrario, sólo puede ser uno a dos años anterior al del período de incorporación que se está informando..';
                 break;
             case "V.1":$result_error = '(Fila Nro.'. $row .')V:Monto 2:OPCIONAL. Si las COLUMNAS U o W tiene datos, esta debe tener datos..';
                 break;
@@ -191,7 +191,7 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
                 break;
             case "X.1":$result_error = '(Fila Nro.'. $row .')X:Año/Mes 3:El campo no puede estar vacío. De ser informado debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12..';
                 break;
-            case "X.2":$result_error = '(Fila Nro.'. $row .')X::Si la COLUMNA U tiene datos, el año aquí informado debe ser el inmediato posterior a aquel. De lo contrario, sólo puede ser igual al del período que se está informando o un año anterior..';
+            case "X.2":$result_error = '(Fila Nro.'. $row .')X:Año/Mes 3:Si la COLUMNA U tiene datos, el año aquí informado debe ser el inmediato posterior a aquel. De lo contrario, sólo puede ser igual al del período que se está informando o un año anterior..';
                 break;
             case "Y.1":$result_error = '(Fila Nro.'. $row .')Y:Monto 3:El campo no puede estar vacío y debe contener caracteres numéricos..';
                 break;
