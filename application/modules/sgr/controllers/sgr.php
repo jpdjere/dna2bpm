@@ -30,6 +30,7 @@ class Sgr extends MX_Controller {
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
+
         // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
         if (!$this->idu) {
@@ -82,8 +83,10 @@ class Sgr extends MX_Controller {
 
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
+            $customData['success'] = "success";
         } else {
             $customData['message'] = $upload['message'];
+            $customData['success'] = "error";
         }
 
 
@@ -114,6 +117,10 @@ class Sgr extends MX_Controller {
     }
 
     function Anexo($filename = null) {
+
+        $customData = array();
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_id'] = $this->sgr_id;
 
         if (!$filename) {
             exit();
@@ -180,7 +187,9 @@ class Sgr extends MX_Controller {
           $data->sheets[0]['cellsInfo'][$i][$j]['rowspan']
 
          */
-
+        $stack = array();
+        $result = "";
+        $result_header = "";
         $error = false;
         $headerArr = array();
         $valuesArr = array();
@@ -195,9 +204,7 @@ class Sgr extends MX_Controller {
         //var_dump($result_head);
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-
 
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $count = $data->rowcount();
@@ -217,45 +224,49 @@ class Sgr extends MX_Controller {
                 $error = true;
             }
 
-            
+
             $data = "lib_" . $anexo . "_data";
-            $lib_error = "lib_" . $anexo . "_error_legend"; 
+            $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
             $result_data = (array) $this->load->library("validators/" . $data, $valuesArr);
+
             foreach ($result_data['data'] as $data) {
                 if (!empty($data['error_code'])) {
-                    echo "<pre>";
-                    var_dump($this->$lib_error->return_legend($data['error_code'],$data['error_row'],$data['error_input_value']));//var_dump("FIELD ERROR ...", $data['error_code'], $data['error_row'], $data['error_input_value']);
-                    //var_dump($data['error_code']);
-                    echo "</pre>";
-                     
-                    
+                    $result .= "<li>" . $this->$lib_error->return_legend($data['error_code'], $data['error_row'], $data['error_input_value']) . "</li>";
                     $error = true;
                 }
             }
         } else {
             //ERROR    
-            echo "<pre>";
-            var_dump("HEAD ERROR ", $result_head['result']);
-            echo "</pre>";
+            foreach ($result_head['result'] as $data) {
+                $result_header .= "<li>" . $data . "</li>";
+                $error = true;
+            }
+
+            // $result_header .= $result_head['result'];            
             $error = true;
         }
 
-        /*ERROR CASE*/
+        /* ERROR CASE */
         if ($error) {
-            
-            
-            
-           // unlink($uploadpath);
+            $customData['message_header'] = $result_header;
+            $customData['message'] = $result;
+            $this->render('errors', $customData);
+
+            messaunlink($uploadpath);
             //exit();
         }
-        
-        
-        if(!$error){
+
+
+        if (!$error) {
+          
+
+            $data = "model_" . $anexo;
+            $this->load->Model($data);
+            $result_data = (array) $this->$data->save($valuesArr);
             
             
-            echo "INSERT";
-            
+            var_dump($result_data);
         }
 
 

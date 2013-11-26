@@ -1039,9 +1039,9 @@ class Lib_06_data {
 
                             /* AVERAGE AMOUNT */
                             $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3; //array($Y2_field_value, $V2_field_value, $S2_field_value);
-                            echo "<pre>";
+                            /*echo "<pre>";
                             var_dump($average_amount);
-                            echo "</pre>";
+                            echo "</pre>";*/
 
                             $average_amount_1 = 0;
                             $average_amount_2 = 0;

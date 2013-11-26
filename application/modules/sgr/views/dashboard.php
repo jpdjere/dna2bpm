@@ -1,6 +1,6 @@
 
 
-{message}
+
 
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" ><strong>{anexoTitleCap}</strong> 
@@ -12,8 +12,15 @@
             <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
         </li>
     </ul>
-
 </div>
+
+{if message}
+<div class="alert alert-{success}" id="{success}">   
+{message}
+</div>
+{/if}
+
+
 <!-- ==== Contenido ==== -->
 <div class="container" > 
     <div class="row-fluid">
@@ -77,7 +84,7 @@
         <div class="tab-pane active" id="tab_resumen">          
 
             <div class="alert {resumen_class}" id="{_id}">                
-                <h3>{anexoTitle}</h3>
+                <h3>{anexoTitle}...</h3>
                 <ul>
 
                     {files_list}                   
