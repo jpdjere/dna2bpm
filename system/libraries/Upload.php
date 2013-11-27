@@ -598,7 +598,8 @@ class CI_Upload {
 
 		if ( ! in_array($ext, $this->allowed_types))
 		{
-			return FALSE;
+                    return  $this->allowed_types;
+//return FALSE;
                 } else {
                     return TRUE;
                 }
