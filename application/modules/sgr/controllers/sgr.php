@@ -188,32 +188,30 @@ class Sgr extends MX_Controller {
 
          */
         $stack = array();
+        $fields = "";
         $result = "";
         $result_header = "";
         $error = false;
         $headerArr = array();
-        $valuesArr = array();
+        $valuesArr = array();        
         for ($index = 1; $index <= $data->sheets[0]['numCols']; $index++) {
-            // echo strtolower($data->sheets[0]['cells'][1][$index]). ",";
             $headerArr[] = $data->sheets[0]['cells'][1][$index];
         }
 
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
 
-        //var_dump($result_head);
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
 
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $count = $data->rowcount();
-                        $valuesSql .= "<p>" . trim($data->sheets[0]['cells'][$i][$j]) . "</p>";
-                        $stack = array('fieldValue' => trim($data->sheets[0]['cells'][$i][$j]), "row" => $i, "col" => $j, "count" => $count);
+                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
+                        $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
                         array_push($valuesArr, $stack);
                     }
                 }
-                //echo $valuesSql;
             }
 
 
@@ -225,25 +223,23 @@ class Sgr extends MX_Controller {
             }
 
 
-            $data = "lib_" . $anexo . "_data";
+            $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
-            $result_data = (array) $this->load->library("validators/" . $data, $valuesArr);
+            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-            foreach ($result_data['data'] as $data) {
-                if (!empty($data['error_code'])) {
-                    $result .= "<li>" . $this->$lib_error->return_legend($data['error_code'], $data['error_row'], $data['error_input_value']) . "</li>";
+            foreach ($result_data['data'] as $result_data) {
+                if (!empty($result_data['error_code'])) {
+                    $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . "</li>";
                     $error = true;
                 }
             }
         } else {
             //ERROR    
-            foreach ($result_head['result'] as $data) {
-                $result_header .= "<li>" . $data . "</li>";
+            foreach ($result_head['result'] as $error_head) {
+                $result_header .= "<li>" . $error_head . "</li>";
                 $error = true;
             }
-
-            // $result_header .= $result_head['result'];            
             $error = true;
         }
 
@@ -257,17 +253,18 @@ class Sgr extends MX_Controller {
             //exit();
         }
 
-
         if (!$error) {
-          
 
-            $data = "model_" . $anexo;
-            $this->load->Model($data);
-            $result_data = (array) $this->$data->save($valuesArr);
-            
-            
-            var_dump($result_data);
+            $model = "model_" . $anexo;
+            $this->load->Model($model);
+            //
+             for ($i = 2; $i <=  $data->rowcount(); $i++) {
+                
+                $result_data = (array) $this->$model->save($data->sheets[0]['cells'][$i]);
+             }
+           
         }
+
 
 
         /*
