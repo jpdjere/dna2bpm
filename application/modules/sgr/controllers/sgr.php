@@ -193,7 +193,7 @@ class Sgr extends MX_Controller {
         $result_header = "";
         $error = false;
         $headerArr = array();
-        $valuesArr = array();        
+        $valuesArr = array();
         for ($index = 1; $index <= $data->sheets[0]['numCols']; $index++) {
             $headerArr[] = $data->sheets[0]['cells'][1][$index];
         }
@@ -254,15 +254,17 @@ class Sgr extends MX_Controller {
         }
 
         if (!$error) {
+      
 
             $model = "model_" . $anexo;
             $this->load->Model($model);
             //
-             for ($i = 2; $i <=  $data->rowcount(); $i++) {
-                
+            for ($i = 2; $i <= $data->rowcount(); $i++) {
                 $result_data = (array) $this->$model->save($data->sheets[0]['cells'][$i]);
-             }
-           
+                echo "<pre>";
+                var_dump($result_data);
+                echo "</pre>";
+            }
         }
 
 
