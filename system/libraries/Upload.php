@@ -596,12 +596,11 @@ class CI_Upload {
 
 		$ext = strtolower(ltrim($this->file_ext, '.'));
 
-		if ( ! in_array($ext, $this->allowed_types))
+		if (in_array($ext, $this->allowed_types))
 		{
-                    return  $this->allowed_types;
-//return FALSE;
+                   return TRUE;
                 } else {
-                    return TRUE;
+                    return FALSE;
                 }
 
 		// Images get some additional checks
