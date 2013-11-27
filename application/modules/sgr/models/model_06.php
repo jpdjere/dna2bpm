@@ -162,7 +162,7 @@ class Model_06 {
            // $insertarr[5255] = strftime("%Y/%m/%d", $insertarr[5255]);
             
             $insertarr[5255] = $insertarr[5255];
-            //$insertarr[5255] = mktime(0,0,0,1,$insertarr[5255]-1,1900);
+            $insertarr[5255] = mktime(0,0,0,1,$insertarr[5255]-1,1900);
             //$insertarr[5255]  = date("m/d/Y",$ts); 
             
             
