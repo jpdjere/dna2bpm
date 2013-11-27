@@ -10,11 +10,16 @@ class Uploader {
         $this->today  = date('Y-m-d h:i:s');
         $this->sgr    = base64_decode($_REQUEST['sgr']);
         $this->anexo  = $_REQUEST['anexo'];
-
-
+        
+        
+        $sgrDIR =  dirname($_SERVER["SCRIPT_FILENAME"]) . "/anexos_sgr/";
+        if (!is_dir($sgrDIR)) {
+                mkdir($sgrDIR,0777,true);
+        }
+        
         $this->ci = & get_instance();
         $this->config = array(
-            'upload_path' => dirname($_SERVER["SCRIPT_FILENAME"]) . "/anexos_sgr/",
+            'upload_path' => $sgrDIR,
             'file_name' => $this->sgr ."_".$this->anexo ."_".$this->today,
             'upload_url' => base_url(),
             'allowed_types' => "xls",
