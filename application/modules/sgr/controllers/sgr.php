@@ -128,7 +128,7 @@ class Sgr extends MX_Controller {
 
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
-        $user_id = -315924963; //(int) ($this->idu);        
+        $user_id = (int) ($this->idu);        
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();

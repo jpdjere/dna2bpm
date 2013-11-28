@@ -38,7 +38,7 @@ class Sgr_model extends CI_Model {
     function get_sgr() {
         $rtn = array();
         $this->load->model('user/user');
-        $idu = (int) -315924963;//$this->idu;
+        $idu = (int)$this->idu;
         $data = array();
         // Listado de empresas
         $container = 'container.empresas';

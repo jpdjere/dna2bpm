@@ -24,9 +24,6 @@ class Lib_06_data {
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
-
-
-
                 /* TIPO_OPERACION
                  * Nro A.1
                  * Detail:
