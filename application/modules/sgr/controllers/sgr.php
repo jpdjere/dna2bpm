@@ -121,7 +121,9 @@ class Sgr extends MX_Controller {
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-
+        
+        var_dump($filename);
+        
         if (!$filename) {
             exit();
         }
