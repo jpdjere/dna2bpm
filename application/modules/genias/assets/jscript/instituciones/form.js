@@ -241,7 +241,7 @@ var btnSave = Ext.create('Ext.Action', {
             record.set(values);
             record.set('1716', values["1716"]);
             //---busco por cuit
-            if (InstitucionStore.find('1695', record.get('1695')) == -1) {
+            if (InstitucionStore.find('4896', record.get('4896')) == -1) {
                 //---si no estaba lo agrego al online
                 InstitucionStore.add(record);
             }
@@ -308,54 +308,9 @@ var btnSaveVisita = Ext.create('Ext.Action', {
 
 //==== BOTON SAVE ENCUESTA ====//
 
-var btnSaveEncuesta = Ext.create('Ext.Action', {
-    id: 'btn_save_encuesta',
-    disabled: true,
-    xtype: 'button',
-    text: '<i class="icon icon-save"></i> Guardar Encuesta',
-    handler: function() {
-
-        var formInstitucion = InstitucionForm;
-        var recordInstitucion = formInstitucion.getRecord();
-        var form = EncuestaForm;
-        var record = form.getRecord();
-        if (record) {
-            //----es uno del grid
-            form.getForm().updateRecord(record);
-        }
-
-        data = form.getValues();
-        dataInstitucion = formInstitucion.getValues();
-        var d = new Date();
-        var n = d.toISOString();
-        if (dataInstitucion['1695']) {
-            encuestaRecord = Ext.create('encuestaModel', {
-                fecha: n,
-                cuit: dataInstitucion['1695'],
-                7663: data['7663'],
-                7664: data['7664'],
-                7883: data['7883'],
-                7886: data['7886'],
-                7887: data['7887'],
-                7888: data['7888'],
-                7889: data['7889'],
-                7890: data['7890'],
-                7891: data['7891']
-            });
-            EncuestasStore.add(encuestaRecord);
-            //---busco por cuit            
-            //--agrego al que se usa para syncro y persistencia
-            storeEncuestasOffline.add(encuestaRecord);
-            storeEncuestasOffline.sync();
-            /*Sync Button*/
-            countSync();
-        }
-    }
-
-});
 
 /*
- *              FORMULARIO EMPRESAS
+ *              FORMULARIO INSTITUCION
  */
 
 var InstitucionForm = Ext.create('Ext.form.Panel', {
@@ -412,17 +367,6 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
             listeners: {
                 select: function(combo, records, eOpts) {
                     InstitucionForm.loadRecord(records[0]);
-                },
-                specialkey: function(field, e) {
-                    // e.HOME, e.END, e.PAGE_UP, e.PAGE_DOWN,
-                    // e.TAB, e.ESC, arrow keys: e.LEFT, e.RIGHT, e.UP, e.DOWN
-                    if (e.getKey() == e.ENTER || e.getKey() == e.TAB) {
-                        console.log('txt:', field.getValue(), field.findRecordByValue(field.getValue()));
-                        record = field.findRecordByValue(field.getValue());
-                        if (record) {
-                            //    InstitucionForm.loadRecord(record);
-                        }
-                    }
                 }
             }
         }
@@ -447,23 +391,23 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
                     items: [
                         {
                             boxLabel: 'Municipal',
-                            name: '1694',
-                            inputValue: 14
+                            name: '8104',
+                            inputValue: 1
                         },
                         {
                             boxLabel: 'Provincial',
-                            name: '1694',
-                            inputValue: 4
+                            name: '8104',
+                            inputValue: 2
                         },
                         {
                             boxLabel: 'Nacional',
-                            name: '1694',
-                            inputValue: 15
+                            name: '8104',
+                            inputValue: 3
                         },
                         {
                             boxLabel: 'Otro',
                             name: '1694',
-                            inputValue: 8
+                            inputValue: -1
                         }
                     ]
                 },
@@ -512,35 +456,40 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Seleccione el Partido'
                             //,editable: false
 
-                }, {
+               },
+                {
+                    emptyText: 'Localidad',
+                    name: '8103'
+                },
+                {
                     emptyText: 'Codigo Postal',
-                    name: '1698'
+                    name: '8115'
                 },
                 {
                     emptyText: 'Calle / Ruta',
-                    name: '4653'
+                    name: '8112'
                 },
                 {
                     emptyText: 'Nro. / Km.',
-                    name: '4654'
+                    name: '8106'
                 },
                 {
                     emptyText: 'Piso',
-                    name: '4655'
+                    name: '8113'
                 },
                 {
                     emptyText: 'Dto / Oficina',
-                    name: '4656'
+                    name: '8114'
                 }, {
                     emptyText: 'Telefonos',
-                    name: '1701'
+                    name: '8108'
                 }, {
                     emptyText: 'E-mail',
-                    name: '1703',
+                    name: '6196',
                     vtype: 'email'
                 }, {
                     emptyText: 'Pagina Web',
-                    name: '1704'
+                    name: '8111'
                 },
                 {
                     xtype: 'hidden',
@@ -578,14 +527,25 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
             defaults: {
                 anchor: '100%'
             },
-            items: [{
+            items: [
+                {
                     emptyText: 'Apellido y Nombre',
                     name: '8105',
-                }, {
+                },
+                {
+                    emptyText: 'cargo',
+                    name: '8107',
+                },
+                {
+                    emptyText: 'telefono',
+                    name: '8117',
+                },
+                {
                     emptyText: 'E-mail',
-                    name: '6196',
+                    name: '8116',
                     vtype: 'email'
-                }]
+                }
+            ]
         }
     ],
     listeners: {
@@ -838,323 +798,6 @@ var VisitaForm = Ext.create('Ext.form.Panel', {
  *              FORMULARIO ENCUESTAS
  */
 
-var EncuestaForm = Ext.create('Ext.form.Panel', {
-    id: 'EncuestaForm',
-    autoScroll: true,
-    //----para que resetee el dirty
-    trackResetOnLoad: true,
-    layout: {
-        type: 'vbox',
-        align: 'stretch'  // Child items are stretched to full width
-    },
-    margin: '5 5 5 5',
-    defaultType: 'textfield',
-    fieldDefaults: {
-        cls: 'input',
-        style: {
-            'font-size': '13px'
-        }
-    },
-    items: [{
-            xtype: 'fieldset',
-            title: 'RESPONSABILIDAD SOCIAL',
-            collapsible: false,
-            defaultType: 'textfield',
-            layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
-            items: [
-                {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Ha realizado/a acciones vinculadas a la Responsabilidad Social',
-                    labelWidth: 400,
-                    padding: '0 0 20 0',
-                    columns: 2,
-                    items: [
-                        {
-                            boxLabel: 'No, pero hay interes en hacerlo',
-                            name: '7663',
-                            inputValue: 4
-                        },
-                        {
-                            boxLabel: 'Si, en ambos periodos',
-                            name: '7663',
-                            inputValue: 3
-                        },
-                        {
-                            boxLabel: 'Si, en a&ntilde;os anteriores',
-                            name: '7663',
-                            inputValue: 2
-                        },
-                        {
-                            boxLabel: 'Si, en la actualidad',
-                            name: '7663',
-                            inputValue: 1
-                        },
-                        {
-                            boxLabel: 'No',
-                            name: '7663',
-                            inputValue: 5
-                        }
-                    ],
-                    listeners: {
-                        change: function(field, newValue, oldValue) {
-                            var response = JSON.stringify(newValue);
-                            if (response != null) {
-                                if (response == '{"7663":5}') {
-                                    Ext.getCmp('field7664').hide();
-
-                                } else {
-                                    Ext.getCmp('field7664').show();
-                                }
-
-                            }
-                        }
-                    }
-                },
-                {
-                    hidden: true,
-                    id: 'field7664',
-                    xtype: 'radiogroup',
-                    //fieldLabel: 'Existe articulaci&oacute;n de las acciones con organismos gubernamentales',
-                    fieldLabel: 'Tienen relaci&oacute;n con organismos gubernamentales',
-                    labelWidth: 400,
-                    padding: '0 0 20 0',
-                    items: [
-                        {
-                            boxLabel: 'SI',
-                            name: '7664',
-                            inputValue: 1
-                        },
-                        {
-                            boxLabel: 'NO',
-                            name: '7664',
-                            inputValue: 2
-                        },
-                    ]
-                }, {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Registro Unico de Organizaciones de Responsabilidad Social',
-                    labelWidth: 400,
-                    padding: '0 0 20 0',
-                    columns: 2,
-                    items: [
-                        {
-                            boxLabel: 'SI',
-                            name: '7883',
-                            inputValue: 'si'
-                        },
-                        {
-                            boxLabel: 'NO',
-                            name: '7883',
-                            inputValue: 'no'
-                        },
-                        {
-                            boxLabel: 'No Sabe/No contesta',
-                            name: '7883',
-                            inputValue: 'nc'
-                        }
-                    ]
-                }]
-        }, {
-            xtype: 'fieldset',
-            title: 'FINANCIAMIENTO',
-            collapsible: false,
-            defaultType: 'textfield',
-            layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
-            items: [
-                {
-                    xtype: 'checkboxgroup',
-                    fieldLabel: 'Modos de Financiamiento',
-                    labelWidth: 400,
-                    padding: '0 0 20 0',
-                    columns: 2,
-                    items: [
-                        {
-                            boxLabel: 'Proovedores',
-                            name: '7886',
-                            inputValue: '01'
-                        },
-                        {
-                            boxLabel: 'Bancos',
-                            name: '7886',
-                            inputValue: '02'
-                        },
-                        {
-                            boxLabel: 'Programas Asistencia Provincial',
-                            name: '7886',
-                            inputValue: '03'
-                        },
-                        {
-                            boxLabel: 'Programas Asistencia Municipal',
-                            name: '7886',
-                            inputValue: '04'
-                        },
-                        {
-                            boxLabel: 'Otros programas nacionales',
-                            name: '7886',
-                            inputValue: '05'
-                        },
-                    ]
-                }, {
-                    xtype: 'checkboxgroup',
-                    fieldLabel: 'Con Programas Sepyme/Ministerio de Industria',
-                    labelWidth: 400,
-                    columns: 2,
-                    items: [
-                        {
-                            boxLabel: 'Fonapyme',
-                            name: '7887',
-                            inputValue: 10
-                        },
-                        {
-                            boxLabel: 'R&eacute;gimen de Bonificaci&oacute;n de Tasas',
-                            name: '7887',
-                            inputValue: 20
-                        },
-                        {
-                            boxLabel: 'Mi Galp&oacute;n',
-                            name: '7887',
-                            inputValue: 30
-                        },
-                        {
-                            boxLabel: 'Nexo Pyme',
-                            name: '7887',
-                            inputValue: 40
-                        },
-                        {
-                            boxLabel: 'SGR',
-                            name: '7887',
-                            inputValue: 50
-                        },
-                        {
-                            boxLabel: 'Parques Industriales',
-                            name: '7887',
-                            inputValue: 60
-                        }
-                    ]
-                }]
-        }, {
-            xtype: 'fieldset',
-            title: 'CAPACITACION Y ASISTENCIA TECNICA',
-            collapsible: false,
-            defaultType: 'textfield',
-            layout: 'anchor',
-            defaults: {
-                anchor: '100%'
-            },
-            items: [
-                {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Recibi&oacute; Capacitaci&oacute;n Institucionrial/Gerencial/Mandos Medios',
-                    padding: '0 0 20 0',
-                    labelWidth: 400,
-                    items: [
-                        {
-                            boxLabel: 'SI',
-                            name: '7888',
-                            inputValue: 1
-                        },
-                        {
-                            boxLabel: 'NO',
-                            name: '7888',
-                            inputValue: 2
-                        },
-                    ]
-                }, {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Realiz&oacute; capacitaciones al personal',
-                    padding: '0 0 20 0',
-                    labelWidth: 400,
-                    items: [
-                        {
-                            boxLabel: 'SI',
-                            name: '7889',
-                            inputValue: 1
-                        },
-                        {
-                            boxLabel: 'NO',
-                            name: '7889',
-                            inputValue: 2
-                        },
-                    ]
-                }, {
-                    xtype: 'radiogroup',
-                    fieldLabel: 'Recibi&oacute; asesoramiento t&eacute;cnico',
-                    padding: '0 0 20 0',
-                    labelWidth: 400,
-                    items: [
-                        {
-                            boxLabel: 'SI',
-                            name: '7890',
-                            inputValue: 1
-                        },
-                        {
-                            boxLabel: 'NO',
-                            name: '7890',
-                            inputValue: 2
-                        },
-                    ]
-                }, {
-                    xtype: 'checkboxgroup',
-                    fieldLabel: ' Capacitaci&oacute;n/Asistencia Sepyme/Ministerio de Industria ',
-                    padding: '0 0 20 0',
-                    labelWidth: 400,
-                    columns: 1,
-                    items: [
-                        {
-                            boxLabel: 'Cr&eacute;dito Fiscal para Capacitaci&oacute;n',
-                            name: '7891',
-                            inputValue: '10'
-                        },
-                        {
-                            boxLabel: 'Cr&eacute;dito Fiscal para Capacitaci&oacute;n',
-                            name: '7891',
-                            inputValue: '20'
-                        },
-                        {
-                            boxLabel: 'PACC',
-                            name: '7891',
-                            inputValue: '30'
-                        },
-                        {
-                            boxLabel: 'Expertos PYME',
-                            name: '7891',
-                            inputValue: '40'
-                        },
-                        {
-                            boxLabel: 'Grupos PYME',
-                            name: '7891',
-                            inputValue: '50'
-                        },
-                    ]
-                }
-            ]
-        }
-    ],
-    listeners: {
-        dirtychange: function(form) {
-            /*Sync Button*/
-            countSync();
-            if (!InstitucionStore.isLoading())
-                InstitucionForm.setLoading(false);
-            if (form.isDirty()) {
-                Ext.getCmp('btn_save_encuesta').enable();
-            } else {
-                Ext.getCmp('btn_save_encuesta').disable();
-            }
-        }
-    }
-    ,
-    bbar: [
-        btnSaveEncuesta
-    ]
-});
-
 var InstitucionFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [InstitucionForm]
@@ -1163,11 +806,6 @@ var InstitucionFormPanel = Ext.create('Ext.Panel', {
 var VisitaFormPanel = Ext.create('Ext.Panel', {
     layout: 'fit',
     items: [VisitaForm]
-});
-
-var EncuestaFormPanel = Ext.create('Ext.Panel', {
-    layout: 'fit',
-    items: [EncuestaForm]
 });
 
 // Cargo mi posicion en hiddens

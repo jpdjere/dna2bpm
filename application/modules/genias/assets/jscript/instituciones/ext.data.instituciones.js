@@ -81,13 +81,22 @@ Ext.define('InstitucionModel', {
         '8102', // Partido (58)
         '8103', // Localidad
         '8104', // Tipo (495)
-        '8105', // Nombre del Contacto
-        '8106', //Apellido del Contacto
-        '8107', // Cargo del Contacto
         '8108', // Teléfono
         '6196', // E-mail
+        '8111', //  Pagina web 
         '8109', // Latitud Institucion
         '8110', // Longitud Institucion
+        //-----------Contacto
+        '8105', // Nombre del Contacto
+        '8107', // Cargo del Contacto
+        '8117', // telefonos Contacto
+        '8116', // email Contacto
+        //------------DOmicilio
+        '8106', // nro / Km
+        '8112', //  Calle / Ruta 
+        '8113', //  Piso
+        '8114', //  Dto / Oficina 
+        '8115', //  CP
         'origen', //Origen de los datos Genia 2013
         'origenGenia', //Origen de los datos Genia 2013 Genia
         'checksum' //---hash para saber si hay que actualizar
@@ -97,18 +106,33 @@ var InstitucionStore = Ext.create('Ext.data.Store', {
     id: 'InstitucionStore',
     autoLoad: true,
     model: 'InstitucionModel',
-    proxy: {
+     proxy: {
         type: 'ajax',
-        url: globals.module_url + 'instituciones',
-        actionMethods: {
-            read: 'GET'
+        api: {
+            read: globals.module_url + 'instituciones',
+            create: globals.module_url + 'instituciones_remote/Insert',
+            update: globals.module_url + 'instituciones_remote/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
         },
-        noCache: false,
-        useLocalStorage: true,
         reader: {
             type: 'json',
             root: 'rows',
             totalProperty: 'totalCount'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
         }
     }
     ,
@@ -122,7 +146,7 @@ var storeInstitucionOffline = Ext.create('Ext.data.Store', {
     autoLoad: false,
     autoSync: true,
     proxy: {
-        id: 'empresas',
+        id: 'instituiones',
         type: 'localstorage'
     }
 });

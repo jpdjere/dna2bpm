@@ -223,14 +223,22 @@ class Genias_model extends CI_Model {
             '8102', // Partido (58)
             '8103', // Localidad
             '8104', // Tipo (495)
-            '8105', // Nombre del Contacto
-            '8107', // Cargo del Contacto
             '8108', // Teléfono
             '6196', // E-mail
+            '8111', //  Pagina web 
             '8109', // Latitud Institucion
             '8110', // Longitud Institucion
+            //-----------Contacto
+            '8105', // Nombre del Contacto
+            '8107', // Cargo del Contacto
+            '8117', // telefonos Contacto
+            '8116', // email Contacto
             //------------DOmicilio
             '8106', // nro / Km
+            '8112', //  Calle / Ruta 
+            '8113', //  Piso
+            '8114', //  Dto / Oficina 
+            '8115', //  CP
             'origenGenia', //Origen de los datos Genia 2013 Genia
         );
         $container = 'container.agencias';

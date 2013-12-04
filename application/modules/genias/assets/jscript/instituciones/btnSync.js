@@ -19,9 +19,9 @@ var btnSync = Ext.create('Ext.Action',
                             /*Datos Institucions*/
                             storeInstitucionOffline.each(function(rec) {
                                 rec.setDirty();
-                                storeInstitucion.add(rec)
+                                InstitucionStore.add(rec)
                             });
-                            storeInstitucion.sync();
+                            InstitucionStore.sync();
 
                             /*Datos Visitas*/
                             storeVisitaOffline.each(function(rec) {
@@ -50,7 +50,7 @@ var btnSync = Ext.create('Ext.Action',
 
 
                             if (getCount != 0) {
-                                Ext.Msg.alert('Encenario Pyme', '<h5>Actualizado con Exito</h5>');
+                                Ext.Msg.alert('Encenario Institucional', '<h5>Actualizado con Exito</h5>');
                             } else {
                                 Ext.getCmp('btnSync').setText('No Hay informacion para actualizar');
                             }
