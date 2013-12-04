@@ -13,7 +13,7 @@ class Lib_06_data {
          * $parameterArr[0]['count']
          * 
          */
-        $stack = array();
+        $stack = array();       
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
@@ -472,13 +472,18 @@ class Lib_06_data {
                  *                  
                  */
 
-
+                
                 if ($A1_field_value == "INCORPORACION") {
+                    
+                    
                     /*
                      * CUIT
                      * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.
+                     * NO puede estar repetido dentro del mismo excel
                      */
-
+                    
+                    
+                    
                     if ($parameterArr[$i]['col'] == 3) {
                         $code_error = "C.1";
                         //Check Empry
@@ -1375,12 +1380,12 @@ class Lib_06_data {
                     }
                 }
             }
-        }
-
-
+        }       
         $this->data = $stack;
         //return $this->data;
     }
+    
+
 
     function debug($parameter) {
         return "<pre>" . var_dump($parameter) . "</pre><hr>";
@@ -1475,7 +1480,6 @@ class Lib_06_data {
     }
 
     /* FIX CLANAE TO CIU */
-
     function cerosClanae($num) {
         $range = range(11111, 990000);
         if (in_array($num, $range)) {

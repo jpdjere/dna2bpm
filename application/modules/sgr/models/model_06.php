@@ -1,13 +1,19 @@
 <?php
 
-class Model_06 {
-    /* VALIDADOR ANEXO 06 */
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Model_06 extends CI_Model {
 
     public function __construct() {
-        
+        // Call the Model constructor
+        parent::__construct();
+        $this->idu = (int) $this->session->userdata('iduser');
+        if (!$this->idu)
+            header("$this->module_url/user/logout");
     }
 
-    function save($parameter) {
+    function check($parameter) {
 
 
         /**
@@ -62,6 +68,7 @@ class Model_06 {
             39 => 5292 //CEDENTE_CARACTERISTICA
         );
 
+
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
@@ -89,15 +96,7 @@ class Model_06 {
             if (stristr($mistr, "SRL"))
                 $insertarr[1694] = "2";
             if (stristr($mistr, "S.H"))
-                $insertarr[1694] = "7";
-
-            //--- Tipo de Operacin
-            if ($insertarr[5779] == "INCORPORACION")
-                $insertarr[5779] = "1";
-            if ($insertarr[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-                $insertarr[5779] = "2";
-            if ($insertarr[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-                $insertarr[5779] = "3";
+                $insertarr[1694] = "7";         
 
             //--- Metemo & metemo la Provincia
             if ($insertarr[4651] == "CAPITAL FEDERAL")
@@ -156,17 +155,12 @@ class Model_06 {
                 $insertarr[4651] = "TUC";
 
             //$insertarr[1701] = $insertarr["CODIGO_AREA"]."-".$insertarr[1701];//.$insertarr[1701];
+            // $insertarr[5255] = mktime(0, 0, 0, 1, -1 + $insertarr[5255], 1900);
+            // $insertarr[5255] = strftime("%Y/%m/%d", $insertarr[5255]);
 
-
-           // $insertarr[5255] = mktime(0, 0, 0, 1, -1 + $insertarr[5255], 1900);
-           // $insertarr[5255] = strftime("%Y/%m/%d", $insertarr[5255]);
-            
             $insertarr[5255] = $insertarr[5255];
-            $insertarr[5255] = mktime(0,0,0,1,$insertarr[5255]-1,1900);
+            $insertarr[5255] = mktime(0, 0, 0, 1, $insertarr[5255] - 1, 1900);
             //$insertarr[5255]  = date("m/d/Y",$ts); 
-            
-            
-            
             //Regimen ante AFIP
             if ($insertarr[5596] == "EXENTO")
                 $insertarr[5596] = "3";
@@ -203,10 +197,45 @@ class Model_06 {
             if ($insertarr[5292] == "DESVINCULACION")
                 $insertarr[5292] = "2";
         }
-
-
-        //$this->debug($insertarr);
         return $insertarr;
+    }
+
+    function save($parameter) {
+        $container = 'container.empresas';
+        $query = array('1695' => $parameter[1695]);
+        $options = array('upsert' => true, 'safe' => true);
+        $exist = $this->mongo->db->$container->findOne($query);
+        $id = ($exist) ? $this->app->genid($container) : $exist[_id];
+
+        $result = $this->app->put_array($id, $container, $parameter);
+        //$result = $this->mongo->db->$container->update($id, $parameter, $options);
+
+        if ($result) {
+            $out = array('status' => 'ok');
+        } else {
+            $out = array('status' => 'error');
+        }
+        return $out;
+    }   
+   
+
+    function duplicate_cuits($my_arr, $clean = false) {
+        if ($clean === true) {
+            return array_unique($my_arr);
+        }
+        $dups = array();
+        foreach ($my_arr as $key => $val) {
+            if (isset($new_arr[$val])) {
+                $new_arr[$val] = $key;
+            } else {
+                if (isset($dups[$val])) {
+                    $dups[$val][] = $key;
+                } else {
+                    $dups[$val] = array($key);
+                }
+            }
+        }
+        return $dups;
     }
 
     function debug($parameter) {
