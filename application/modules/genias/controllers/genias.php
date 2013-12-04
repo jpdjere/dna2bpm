@@ -28,21 +28,20 @@ class Genias extends MX_Controller {
         $this->module_url = base_url() . 'genias/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
-        
+
         // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
-        if(!$this->idu){
+        if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
         }
 
         ini_set('xdebug.var_display_max_depth', 100);
-
     }
 
     function test() {
         $customData['base_url'] = $this->base_url;
-        $customData['module_url'] =$this->module_url;
+        $customData['module_url'] = $this->module_url;
         $this->parser->parse('manifest', $customData);
     }
 
@@ -55,7 +54,6 @@ class Genias extends MX_Controller {
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         //$customData['goals'] = (array) $this->genias_model->get_goals($this->idu);
-
         // Projects
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
@@ -71,7 +69,6 @@ class Genias extends MX_Controller {
         foreach ($genias_list as $mygenia) {
             $customData['goal_cantidad'][(string) $mygenia['_id']] = 0;
             $customData['goal_cumplidas'][(string) $mygenia['_id']] = 0;
-
         }
 
 
@@ -94,15 +91,15 @@ class Genias extends MX_Controller {
                 $case = $this->genias_model->get_case($goal['case']);
                 $goal['url_case'] = "{$this->base_url}bpm/engine/run/model/genia_metas/{$goal['case']}";
             }
-            $goal['status'] = isset($case['status'])?($case['status']):('Sin definir');
+            $goal['status'] = isset($case['status']) ? ($case['status']) : ('Sin definir');
 
             if ($case['status'] == 'closed') {
-                    $customData['goal_cantidad_total']+=$goal['cantidad'];
-                    $customData['goal_cumplidas_total']+=count($goal['cumplidas']);
+                $customData['goal_cantidad_total']+=$goal['cantidad'];
+                $customData['goal_cumplidas_total']+=count($goal['cumplidas']);
 
-                    $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
-                    $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
-            } 
+                $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
+                $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
+            }
 
 
             // --- 
@@ -115,8 +112,6 @@ class Genias extends MX_Controller {
 
 
             $mygoals[] = $goal;
-
-            
         }
 
         $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
@@ -128,32 +123,29 @@ class Genias extends MX_Controller {
             $customData['resumen_class'] = 'alert-error';
 
         // Cargo Resumen de las visitas solo para coordinadores
- 
+
         $customData['metas'] = $mygoals;
 //var_dump($customData['goal_cantidad']);
-        $this->render('dashboard', $customData); 
-       
+        $this->render('dashboard', $customData);
     }
-    
+
     // Carga el Manifiesto y va a dashboard
-    function splash(){
+    function splash() {
         // testeo reemplazo appcache
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
-        $this->parser->parse('splash',$customData);
+        $this->parser->parse('splash', $customData);
     }
-    
+
     // OFFLINE FALLBACK
-    function offline(){
+    function offline() {
         // testeo reemplazo appcache
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'genias/';
-        $this->render('offline', $customData); 
+        $this->render('offline', $customData);
     }
-    
-    
 
     function Inbox() {
         $this->load->model('msg');
@@ -228,13 +220,11 @@ class Genias extends MX_Controller {
         /* Inbox Count MSgs */
         $mymgs = $this->msg->get_msgs($this->idu);
         $cpData['inbox_count'] = $mymgs->count();
-        
-        // offline mark
-        $cpData['is_offline']=($this->uri->segment(3)=='offline')?('offline'):('');
-        
-       $this->ui->compose($file, 'layout.php', $cpData);
-        
 
+        // offline mark
+        $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
+
+        $this->ui->compose($file, 'layout.php', $cpData);
     }
 
     //* ------ METAS ------ */
@@ -319,12 +309,12 @@ class Genias extends MX_Controller {
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
         $customData['titulo'] = "Tareas";
-       $customData['tasks'] = array();
+        $customData['tasks'] = array();
 //        foreach ($projects['items'] as $k => $item) {
 //            $items = $this->get_tasks($k);
 //            $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
 //        }
-   //      var_dump($customData['projects'] );
+        //      var_dump($customData['projects'] );
         //var_dump($projects['items']);
         //$customData['tasks']= print_r($this->get_tasks("1"));
 
@@ -361,23 +351,23 @@ class Genias extends MX_Controller {
         $this->genias_model->remove_task($id);
         echo "tasks.{$this->idu}.$id";
     }
-    
-    function remove_goal(){
+
+    function remove_goal() {
         $id = $this->input->post('metaid');
         echo $this->genias_model->remove_goal($id);
-
     }
 
-    function get_tasks($proyecto,$periodo=null) {
+    function get_tasks($proyecto, $periodo = null) {
 
-        if(empty($proyecto))exit();
+        if (empty($proyecto))
+            exit();
 
         // Mapeo proyecto id - > orden de display en fullcalendar
 //        $projects = $this->genias_model->get_config_item('projects');
 //        $items = $projects['items'];
         // $proyecto = $items[$proyecto]['id'];
 
-        $tasks = $this->genias_model->get_tasks($this->idu, $proyecto,$periodo);
+        $tasks = $this->genias_model->get_tasks($this->idu, $proyecto, $periodo);
 //        var_dump(iterator_to_array($tasks));
 //        exit();
         if (!$tasks->count())
@@ -387,15 +377,14 @@ class Genias extends MX_Controller {
         foreach ($tasks as $task) {
             $dia = iso_decode($task['dia']);
 
-            $user = (array)$this->user->get_user($task['idu']);
+            $user = (array) $this->user->get_user($task['idu']);
 
-            if(!$user){
-                $autor="Desconocido";
-            }else{
-                $name=(!empty($user['name']))?($user['name']):('');
-                $lastname=(!empty($user['lastname']))?($user['lastname']):('');
-                $autor="$lastname, $name";
-
+            if (!$user) {
+                $autor = "Desconocido";
+            } else {
+                $name = (!empty($user['name'])) ? ($user['name']) : ('');
+                $lastname = (!empty($user['lastname'])) ? ($user['lastname']) : ('');
+                $autor = "$lastname, $name";
             }
 
             $item = array(
@@ -421,35 +410,36 @@ class Genias extends MX_Controller {
 
     // Calls get_tasks and print the result in UL
     function print_ul_tasks() {
-            if (!$this->uri->segment(3))exit();
-            $proyecto = $this->uri->segment(3);
-            if ($this->uri->segment(4)){
-                $fecha = $this->uri->segment(4);        
-            }else{
-                 $fecha=date('Y-m');
+        if (!$this->uri->segment(3))
+            exit();
+        $proyecto = $this->uri->segment(3);
+        if ($this->uri->segment(4)) {
+            $fecha = $this->uri->segment(4);
+        } else {
+            $fecha = date('Y-m');
+        }
+        $tasks = $this->get_tasks($proyecto, $fecha);
+        echo '<ul class="accordion-inner unstyled task_list ">';
+        foreach ($tasks as $task) {
+            if ($task['finalizada'] == 0) {
+                echo "<li ><i class='icon-calendar' style='color:#0088CC'></i>{$task['dia']}<i class='icon-time' style='color:#0088CC'></i>{$task['hora']}:{$task['minutos']}<i class='icon-user' style='color:#0088CC'></i>{$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
             }
-            $tasks = $this->get_tasks($proyecto,$fecha); 
-            echo '<ul class="accordion-inner unstyled task_list ">';
-            foreach($tasks as $task){
-                if($task['finalizada']==0){
-                    echo "<li ><i class='icon-calendar' style='color:#0088CC'></i>{$task['dia']}<i class='icon-time' style='color:#0088CC'></i>{$task['hora']}:{$task['minutos']}<i class='icon-user' style='color:#0088CC'></i>{$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
-                }
-            }
-            echo '</ul>';
-            
+        }
+        echo '</ul>';
     }
-    
+
     // tasks for scheduler
     function print_tasks() {
-        if (!$this->uri->segment(3))exit();
-            $proyecto = $this->uri->segment(3);
-            if ($this->uri->segment(4)){
-                $fecha = $this->uri->segment(4); 
-                $tasks = $this->get_tasks($proyecto,$fecha); 
-            }else{
-                 $tasks = $this->get_tasks($proyecto); 
-            }
-            echo json_encode($tasks);   
+        if (!$this->uri->segment(3))
+            exit();
+        $proyecto = $this->uri->segment(3);
+        if ($this->uri->segment(4)) {
+            $fecha = $this->uri->segment(4);
+            $tasks = $this->get_tasks($proyecto, $fecha);
+        } else {
+            $tasks = $this->get_tasks($proyecto);
+        }
+        echo json_encode($tasks);
     }
 
     /* ------ MAP ------ */
@@ -484,7 +474,7 @@ class Genias extends MX_Controller {
         $this->user->authorize();
         $customData = $this->lang->language;
         $customData['titulo'] = "Agenda";
-        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/fullcalendar/fullcalendar.min.js" => 'Calendar',$this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
+        $customData['js'] = array($this->module_url . "assets/jscript/scheduler.js" => 'Inicio Scheduler JS', $this->module_url . "assets/jscript/fullcalendar/fullcalendar.min.js" => 'Calendar', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/genias.css" => 'Genias CSS');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
@@ -557,7 +547,7 @@ class Genias extends MX_Controller {
 
         $cpData['js'] = array(
             'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
-            $this->base_url .'jscript/ext/src/ux/GMapPanel3.js' => 'Gmap Api',
+            $this->base_url . 'jscript/ext/src/ux/GMapPanel3.js' => 'Gmap Api',
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
             $this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
@@ -574,8 +564,6 @@ class Genias extends MX_Controller {
         );
         $this->ui->makeui('ext.ui.php', $cpData);
     }
-    
-   
 
     function Listado_empresas($parm = null) {
 
@@ -595,13 +583,49 @@ class Genias extends MX_Controller {
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
             $this->base_url . "jscript/ext/src/ux/form/SearchField.js" => 'Search Field',
-            $this->base_url . "jscript/ext/src/ux/statusbar/StatusBar.js" =>'Status Bar',
-            $this->base_url . "jscript/ext/src/ux/LiveFilterGridPanel.js" =>'Live Filter Panel',
+            $this->base_url . "jscript/ext/src/ux/statusbar/StatusBar.js" => 'Status Bar',
+            $this->base_url . "jscript/ext/src/ux/LiveFilterGridPanel.js" => 'Live Filter Panel',
             //$this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
             $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
             $this->module_url . 'assets/jscript/empresasAlt/btnSync.js' => 'btnSync',
             $this->module_url . 'assets/jscript/empresasAlt/empresas.grid.js' => 'Grid Empresas',
             $this->module_url . 'assets/jscript/empresasAlt/ext.viewport.empresas.table.js' => 'ViewPort',
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
+        $this->ui->makeui('ext.ui.php', $cpData);
+    }
+
+    function Form_instituciones($parm = null) {
+
+        //echo $this->idu;   
+        //---Libraries
+        $this->load->library('parser');
+        $this->load->library('ui');
+
+        $cpData = $this->lang->language;
+        $segments = $this->uri->segment_array();
+        $cpData['theme'] = $this->config->item('theme');
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Escenario Institucional';
+        $cpData['titulo'] = "Escenario Institucional";
+
+        $cpData['js'] = array(
+            'http://maps.google.com/maps/api/js?sensor=true' => 'Google API',
+            $this->base_url . 'jscript/ext/src/ux/GMapPanel3.js' => 'Gmap Api',
+            $this->module_url . 'assets/jscript/onlineStatus.js' => 'Online/Offline Status',
+            $this->base_url . 'jscript/ext/src/ux/form/SearchField.js' => 'Search Field',
+            $this->module_url . 'assets/jscript/ext.settings.js' => 'Ext Settings',
+            $this->module_url . 'assets/jscript/empresas.ext.data.js' => 'Base Data',
+            $this->module_url . 'assets/jscript/instituciones/ext.data.instituciones.js' => 'Instituciones Data',
+            $this->module_url . 'assets/jscript/instituciones/btnSync.js' => 'btnSync',
+            $this->module_url . 'assets/jscript/instituciones/visitas.grid.js' => 'Visitas Instituciones',
+            $this->module_url . 'assets/jscript/instituciones/form.js' => 'Form Instituciones',
+            $this->module_url . 'assets/jscript/instituciones/ext.viewport.instituciones.tab.js' => 'ViewPort',
         );
 
         $cpData['global_js'] = array(
@@ -824,7 +848,7 @@ class Genias extends MX_Controller {
         $rtnArr = array();
         foreach ($empresas as $empresa) {
             if (isset($empresa['1693'])) {
-                $desc=(isset($empresa['1715'])) ? $empresa['1715']:'';
+                $desc = (isset($empresa['1715'])) ? $empresa['1715'] : '';
                 $rtnArr['markers'][] = array(
                     "latitude" => $empresa['7820'],
                     "longitude" => $empresa['7819'],
@@ -863,19 +887,19 @@ class Genias extends MX_Controller {
                     if ($key == 4651) {
                         $provincias[] = $value;
                     }
-                    
+
                     // Armo Array
-                    if(is_array($value)){
-                        foreach($value as $v){
-                            $query[$key][]=$v;
+                    if (is_array($value)) {
+                        foreach ($value as $v) {
+                            $query[$key][] = $v;
                         }
-                    }else{
-                         $query[$key][]=$value;
-                    }                 
+                    } else {
+                        $query[$key][] = $value;
+                    }
                 }
             }
         }
-        
+
         // Agregos los $in y $or al query
 
         $this->load->model('app');
@@ -893,16 +917,16 @@ class Genias extends MX_Controller {
                 $partidos+=$par;
             }
         }
-        
+
         // WRAP para mongo meto $or y $in       
-        foreach($query as $k=>$items){
-            if(is_array($items)){
-                $newQ['$or'][]=array($k=>array('$in'=>$items));
-            }else{
-                $newQ['$or'][]=array($k=>$items);
+        foreach ($query as $k => $items) {
+            if (is_array($items)) {
+                $newQ['$or'][] = array($k => array('$in' => $items));
+            } else {
+                $newQ['$or'][] = array($k => $items);
             }
         }
-        
+
         $empresas = $this->genias_model->get_empresas($newQ);
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
@@ -917,6 +941,87 @@ class Genias extends MX_Controller {
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
         $rtnArr['rows'] = $empresas;
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            if ($compress) {
+                header('Content-Encoding: gzip');
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
+            } else {
+                echo json_encode($rtnArr);
+            }
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
+    function Instituciones($idgenia = null) {
+        $genias = $this->genias_model->get_genia($this->idu);
+        $query = array();
+        $provincias = array();
+        foreach ($genias['genias'] as $thisGenia) {
+            if (isset($thisGenia['query_empresas'])) {
+
+                foreach ($thisGenia['query_empresas'] as $key => $value) {
+                    //---me guardo provincias para filtrar partidos
+                    if ($key == 4651) {
+                        $provincias[] = $value;
+                    }
+
+                    // Armo Array
+                    if (is_array($value)) {
+                        foreach ($value as $v) {
+                            $query[$key][] = $v;
+                        }
+                    } else {
+                        $query[$key][] = $value;
+                    }
+                }
+            }
+        }
+
+        // Agregos los $in y $or al query
+
+        $this->load->model('app');
+        $debug = false;
+        $compress = false;
+        /*
+         * Hacer un regla para obtener las empresas de la genia sea por partidos o por provincia
+         * Basado en el idgenia
+         */
+        //---cacheo los partidos
+        $partidos = array();
+        if (isset($query['4651'])) {
+            foreach ($provincias as $prov) {
+                $par = $this->app->get_ops(58, $prov);
+                $partidos+=$par;
+            }
+        }
+
+        // WRAP para mongo meto $or y $in       
+        foreach ($query as $k => $items) {
+            if (is_array($items)) {
+                $newQ['$or'][] = array($k => array('$in' => $items));
+            } else {
+                $newQ['$or'][] = array($k => $items);
+            }
+        }
+
+        //$instituciones = $this->genias_model->get_instituciones($newQ);
+        //---las cargo sin filtrar
+        $instituciones = $this->genias_model->get_instituciones(array());
+        for ($i = 0; $i < count($instituciones); $i++) {
+            $thisInstitucion = &$instituciones[$i];
+            //-----partido por texto
+            if (isset($thisInstitucion[8102])) {
+                $thisInstitucion['partido_txt'] = (isset($partidos[$thisInstitucion[8102][0]])) ? $partidos[$thisInstitucion[8102][0]] : $thisInstitucion[8102][0];
+            } else {
+                $thisInstitucion['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
+            }
+        }
+        //var_dump($empresas);
+        $rtnArr = array();
+        $rtnArr['totalCount'] = count($instituciones);
+        $rtnArr['rows'] = $instituciones;
         if (!$debug) {
             header('Content-type: application/json;charset=UTF-8');
             if ($compress) {
@@ -1011,53 +1116,50 @@ class Genias extends MX_Controller {
         }
     }
 
-    /*==== RESUMEN DE VISITAS ====*/ 
-    
+    /* ==== RESUMEN DE VISITAS ==== */
 
-function get_resumen_visitas(){
-    $mes=$this->input->post('mes');
-    if(!empty($mes)){      
-        $y=substr($mes, 0,4);
-        $m=substr($mes, 5,2);
-    }else{
-        $m=date('m');
-        $y=date('Y');
-    }
-$periodo=$m."[\/].*[\/]".$y;
-$visitas = $this->genias_model->get_resumen_visitas($periodo);
-echo '<ul class="ultree">';
-foreach($visitas as $k=>$provincias){
+    function get_resumen_visitas() {
+        $mes = $this->input->post('mes');
+        if (!empty($mes)) {
+            $y = substr($mes, 0, 4);
+            $m = substr($mes, 5, 2);
+        } else {
+            $m = date('m');
+            $y = date('Y');
+        }
+        $periodo = $m . "[\/].*[\/]" . $y;
+        $visitas = $this->genias_model->get_resumen_visitas($periodo);
+        echo '<ul class="ultree">';
+        foreach ($visitas as $k => $provincias) {
 
-    echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
-    /*==== provincias====*/
-        echo "<ul style='display:none'>";
-        $i=0;
-        foreach($provincias as $k=>$empresa){
-            $i++;
-            $stripe=($i%2==0)?('par'):('impar');
-            $visitas=count($empresa['fechas']);
-            echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
-//             /*==== Visitas====*/
+            echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
+            /* ==== provincias==== */
             echo "<ul style='display:none'>";
-                foreach($empresa['fechas'] as $k=>$fecha){ 
+            $i = 0;
+            foreach ($provincias as $k => $empresa) {
+                $i++;
+                $stripe = ($i % 2 == 0) ? ('par') : ('impar');
+                $visitas = count($empresa['fechas']);
+                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+//             /*==== Visitas====*/
+                echo "<ul style='display:none'>";
+                foreach ($empresa['fechas'] as $k => $fecha) {
                     if (($timestamp = strtotime($fecha['fecha'])) === false) {
-                        $fecha_visita='-';
+                        $fecha_visita = '-';
                     } else {
-                        $fecha_visita= date('d/m/Y', $timestamp);
+                        $fecha_visita = date('d/m/Y', $timestamp);
                     }
                     echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
                 }
-            echo "</ul>";
+                echo "</ul>";
 //
+                echo "</li>";
+            }
+            echo "</ul>";
             echo "</li>";
         }
         echo "</ul>";
-    echo "</li>";
-
-}
-echo "</ul>";
-}
-    
+    }
 
 }
 
