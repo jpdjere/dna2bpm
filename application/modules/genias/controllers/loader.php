@@ -119,6 +119,30 @@ class Loader extends MX_Controller {
             var_dump(json_encode($rtnArr));
         }
     }
+    function instituciones_id($idgenia=null) {
+        $debug = false;
+        $compress = false;
+        $query = array('4651' => 'BA');
+        
+        
+        $empresas = $this->genias_model->get_empresas_id($query);
+        //var_dump($empresas);
+        $rtnArr = array();
+        $rtnArr['totalCount'] = count($empresas);
+        $rtnArr['rows'] = $empresas;
+        if (!$debug) {
+            header('Content-type: application/json;charset=UTF-8');
+            if ($compress) {
+                header('Content-Encoding: gzip');
+                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
+                echo gzcompress(json_encode($rtnArr));
+            } else {
+                echo json_encode($rtnArr);
+            }
+        } else {
+            var_dump(json_encode($rtnArr));
+        }
+    }
     function empresa($idemp) {
         $debug = false;
         $compress = false;
