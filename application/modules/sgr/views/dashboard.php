@@ -1,7 +1,3 @@
-
-
-
-
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" ><strong>{anexoTitleCap}</strong> 
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
@@ -45,10 +41,12 @@
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="tab_resumen">          
-
-            {if !sgr_period}
-            <form action="{module_url}" method="POST" class="well" />
+        <div class="tab-pane active" id="tab_resumen">            
+           
+            {if sgr_period} 
+                <!-- -->
+            {else}
+            <form class="well" method="post" />
             <div  class="row-fluid">
                 <div class="span6">
                     <div class="">
@@ -62,12 +60,6 @@
                                 <input type="text" name="input_period" readonly="" value=""  class="input-block-level">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
                             </div>
-                        
-                        
-                        <!--<div data-date-viewMode="months"  data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
-                            <input type="text" name="input_period"  class="input-block-level" >
-                            <span class="add-on"><i class="icon-calendar"></i></span>
-                        </div>-->
                     </div>
                     <!--
                     <label>Observaciones</label>
@@ -77,6 +69,7 @@
                 </div>
             </div>
 
+            
             <div  class="row-fluid">
                 <div class="span12">
                     <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
@@ -84,13 +77,12 @@
 
             </div>
             </form>
-            {/if}
+           {/if}
 
 
             <div class="alert {resumen_class}" id="{_id}">                
                 <h3>{anexoTitle} </h3>
                 <ul>
-
                     {files_list}                   
                 </ul>
             </div> 
@@ -102,8 +94,6 @@
         <div class="tab-pane " id="tab_anexos">                                 
             <ul>                
                 {anexoList}
-
-
             </ul>
         </div>       
     </div>

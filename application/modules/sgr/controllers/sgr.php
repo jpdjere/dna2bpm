@@ -41,8 +41,7 @@ class Sgr extends MX_Controller {
 
 
         /* DATOS SGR */
-        $sgrArr = $this->sgr_model->get_sgr();
-
+        $sgrArr = $this->sgr_model->get_sgr();        
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
@@ -52,8 +51,7 @@ class Sgr extends MX_Controller {
         $this->period = $this->session->userdata['period'];
     }
 
-    function Index() {
-
+    function Index() {        
 
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -74,7 +72,7 @@ class Sgr extends MX_Controller {
         $customData['anexoTitle'] = $this->oneAnexoDB($this->anexo);
         $customData['anexoTitleCap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
-        //SET PERIOD
+        //SET PERIOD        
         $this->set_period();
         $customData['sgr_period'] = $this->period;
 
@@ -244,15 +242,7 @@ class Sgr extends MX_Controller {
             $error = true;
         }
 
-        /* ERROR CASE */
-        if ($error) {
-            $customData['message_header'] = $result_header;
-            $customData['message'] = $result;
-            $this->render('errors', $customData);
-
-            messaunlink($uploadpath);
-            //exit();
-        }
+       
 
         if (!$error) {
             $model = "model_" . $anexo;
@@ -272,13 +262,10 @@ class Sgr extends MX_Controller {
            
 
             if (count(array_unique($array)) < count($array)) {
-                $duplicated = true;
-                 /*echo "<pre>";
-            var_dump($array);
-            echo "</pre>";*/
+                $duplicated = true;                 
                 $customData['message'] = 'Se esta intentando INCORPORAR el mismo CUIT mas de una vez dentro de el excel.';
                 $this->render('errors', $customData);
-               
+                unlink($uploadpath);
             } else {
                 $duplicated = false;
             }
@@ -296,7 +283,17 @@ class Sgr extends MX_Controller {
                 }
             }
         }
+        
+         /* ERROR CASE */
+        if ($error) {
+            $customData['message_header'] = $result_header;
+            $customData['message'] = $result;
+            $this->render('errors', $customData);
 
+            unlink($uploadpath);
+            
+        }
+        
 
 
         /*
@@ -344,7 +341,7 @@ class Sgr extends MX_Controller {
           } */
     }
 
-    function set_period() {
+    function set_period() {        
         if ($this->input->post("input_period")) {
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
@@ -371,7 +368,7 @@ class Sgr extends MX_Controller {
         try {
             if ($this->input->post("submit")) {
                 $this->load->library("app/uploader");
-                $result = (array) $this->uploader->do_upload();
+                $result = (array) $this->uploader->do_upload("pepe");
 
                 return $result;
             }

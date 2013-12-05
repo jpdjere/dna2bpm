@@ -201,7 +201,7 @@ class Model_06 extends CI_Model {
     }
 
     function save($parameter) {
-        $container = 'container.empresas';
+        $container = 'container.anexo_06';
         $query = array('1695' => $parameter[1695]);
         $options = array('upsert' => true, 'safe' => true);
         $exist = $this->mongo->db->$container->findOne($query);
@@ -219,24 +219,7 @@ class Model_06 extends CI_Model {
     }   
    
 
-    function duplicate_cuits($my_arr, $clean = false) {
-        if ($clean === true) {
-            return array_unique($my_arr);
-        }
-        $dups = array();
-        foreach ($my_arr as $key => $val) {
-            if (isset($new_arr[$val])) {
-                $new_arr[$val] = $key;
-            } else {
-                if (isset($dups[$val])) {
-                    $dups[$val][] = $key;
-                } else {
-                    $dups[$val] = array($key);
-                }
-            }
-        }
-        return $dups;
-    }
+  
 
     function debug($parameter) {
         return "<pre>" . var_dump($parameter) . "</pre><hr>";
