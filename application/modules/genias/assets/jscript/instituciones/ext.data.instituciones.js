@@ -150,3 +150,174 @@ var storeInstitucionOffline = Ext.create('Ext.data.Store', {
         type: 'localstorage'
     }
 });
+
+
+/*
+ * @Name VisitasStoreInst
+ * @type Store
+ * #visitaModelInst, #VisitasStoreInst, #storeVisitaInst, #storeVisitaOfflineInst, #storeVisitaOfflineDeleteInst, #storeVisitaDeleteInst
+ * 
+ */
+Ext.define('visitaModelInst', {
+    extend: 'Ext.data.Model',
+    fields: [
+        'fecha'         // 	Fecha de la Visita 
+                , 'cuit'
+                , 'nota'        // 	Notas / Observaciones 
+                , 'tipovisita'  //      tipo de visita
+                , 'otros'       //      para tipo de visita otros
+                , '7898'        //      Programas Informados
+
+    ]
+});
+
+var VisitasStoreInst = Ext.create('Ext.data.Store', {
+    id: 'VisitasStoreInst',
+    autoLoad: true,
+    model: 'visitaModelInst',
+    proxy: {
+        type: 'ajax',
+        url: globals.module_url + 'Visita_instituciones',
+        actionMethods: {
+            read: 'GET'
+        },
+        noCache: false,
+        useLocalStorage: true,
+        reader: {
+            type: 'json',
+            root: 'rows',
+            totalProperty: 'totalCount'
+        }
+    }
+    ,
+    sorters: [{
+            property: 'fecha',
+            direction: 'DESC'
+        }]
+            ,
+    cuitFilter: function(cuit) {
+        Ext.data.Store.prototype.clearFilter.call(this);
+        Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
+    },
+    listeners: {
+        load: function() {
+            VisitasStoreInst.cuitFilter('-1');
+            storeVisitaOfflineInst.load(function() {
+                //actualizo los modificados
+                storeVisitaOfflineInst.each(function(rec) {
+                    VisitasStoreInst.add(rec);
+                    VisitasStoreInst.cuitFilter('-1');
+                });
+            });
+        }
+    }
+});
+
+var storeVisitaInst = Ext.create('Ext.data.Store', {
+    model: 'EmpresaModel',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            read: globals.module_url + 'visitas_remote2/View',
+            create: globals.module_url + 'visitas_remote2/Insert',
+            update: globals.module_url + 'visitas_remote2/Insert',
+            destroy: '' //'genias/app/geniasdev/destroy'
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
+    }
+});
+
+var storeVisitaOfflineInst = Ext.create('Ext.data.Store', {
+    model: 'visitaModelInst',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'vistas_inst'
+    }
+});
+
+var storeVisitaOfflineDeleteInst = Ext.create('Ext.data.Store', {
+    model: 'visitaModelInst',
+    autoLoad: true,
+    autoSync: true,
+    proxy: {
+        type: 'localstorage',
+        id: 'vistas_inst'
+    }
+});
+
+
+var storeVisitaDeleteInst = Ext.create('Ext.data.Store', {
+    model: 'visitaModelInst',
+    autoLoad: false,
+    autoSync: true,
+    proxy: {
+        type: 'ajax',
+        id: 'store',
+        api: {
+            destroy: globals.module_url + 'visitas_remote2/Remove',
+            read: globals.module_url + 'visitas_remote2/Remove',
+            create: globals.module_url + 'visitas_remote2/Remove',
+            update: globals.module_url + 'visitas_remote2/Remove',            
+        },
+        reader: {
+            type: 'json',
+            successProperty: 'success',
+            root: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: true,
+            allowSingle: false
+        },
+        listeners: {
+            exception: function(proxy, response, operation) {
+                Ext.MessageBox.show({
+                    title: 'ERROR',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
+            }
+        }
+    },
+    listeners: {
+        write: function(proxy, operation) {
+            if (operation.action == 'destroy') {
+                main.child('#form').setActiveRecord(null);
+            }
+        }
+    }
+});

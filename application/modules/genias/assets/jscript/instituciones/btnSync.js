@@ -24,18 +24,18 @@ var btnSync = Ext.create('Ext.Action',
                             InstitucionStore.sync();
 
                             /*Datos Visitas*/
-                            storeVisitaOffline.each(function(rec) {
+                            storeVisitaOfflineInst.each(function(rec) {
                                 rec.setDirty();
-                                storeVisita.add(rec);
+                                storeVisitaInst.add(rec);
                             });
-                            storeVisita.sync();
+                            storeVisitaInst.sync();
 
                             /*REMOVE Datos Visitas*/
-                            storeVisitaOfflineDelete.each(function(rec) {
+                            storeVisitaOfflineDeleteInst.each(function(rec) {
                                 rec.setDirty();
-                                storeVisitaDelete.add(rec);
+                                storeVisitaDeleteInst.add(rec);
                             });
-                            storeVisitaDelete.sync();
+                            storeVisitaDeleteInst.sync();
 
 
                             /*Datos Encuestas*/
@@ -45,7 +45,7 @@ var btnSync = Ext.create('Ext.Action',
                             });
                             storeEncuesta.sync();
 
-                            var getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDelete.getCount();
+                            var getCount = storeEncuestasOffline.getCount() + storeVisitaOfflineInst.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDeleteInst.getCount();
 
 
 
@@ -57,12 +57,12 @@ var btnSync = Ext.create('Ext.Action',
 
                             /*Borro la informacion local*/
                             storeInstitucionOffline.removeAll();
-                            storeVisitaOffline.removeAll();
+                            storeVisitaOfflineInst.removeAll();
                             storeEncuestasOffline.removeAll();
-                            storeVisitaOfflineDelete.removeAll();
+                            storeVisitaOfflineDeleteInst.removeAll();
 
                             /*Actualizo el contador*/
-                            getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDelete.getCount();
+                            getCount = storeEncuestasOffline.getCount() + storeVisitaOfflineInst.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDeleteInst.getCount();
                             Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
                         } else {
                             /*

@@ -12,7 +12,7 @@ var notaTpl = new Ext.XTemplate(
 var VisitasGrid = Ext.create('Ext.view.View',
         {
             id: 'VisitasGrid',
-            store: VisitasStore,            
+            store: VisitasStoreInst,            
             tpl: notaTpl,
             itemSelector: 'span.remove',
             listeners:
@@ -24,9 +24,9 @@ var VisitasGrid = Ext.create('Ext.view.View',
                                         id: record.data['id']
                                     });                                   
 
-                                    VisitasStore.remove(record);    
-                                    VisitasStore.update(visitaRecord);
-                                    storeVisitaOfflineDelete.add(visitaRecord); 
+                                    VisitasStoreInst.remove(record);    
+                                    VisitasStoreInst.update(visitaRecord);
+                                    storeVisitaOfflineDeleteInst.add(visitaRecord); 
                                     countSync();                                   
                                 }
                             });

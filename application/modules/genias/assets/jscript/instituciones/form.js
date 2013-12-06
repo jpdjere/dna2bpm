@@ -44,7 +44,7 @@ Ext.define('InstitucionCombo', {
 
 
 var countSync = function() {
-    var getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDelete.getCount();
+    var getCount = storeEncuestasOffline.getCount() + storeVisitaOfflineInst.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDeleteInst.getCount();
     Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 }
 
@@ -98,9 +98,9 @@ var SearchInstitucion = function(me) {
 
         var cuitValue = Ext.getCmp('CUIT').getValue();
         if (cuitValue != "") {
-            VisitasStore.cuitFilter(cuitValue);
+            VisitasStoreInst.cuitFilter(cuitValue);
         } else {
-            VisitasStore.cuitFilter('-1');
+            VisitasStoreInst.cuitFilter('-1');
         }
         //carga tarea si existe
         if (InstitucionForm.params['task'] != null)
@@ -262,7 +262,7 @@ var btnSaveVisita = Ext.create('Ext.Action', {
     id: 'btn_save_visita',
     disabled: true,
     xtype: 'button',
-    text: '<i class="icon icon-save"></i> Guardar datos Visita',
+    text: '<i class="icon icon-save"></i> Guardar Visita Institucion',
     handler: function() {
         var form = VisitaForm;
         var formInstitucion = InstitucionForm;
@@ -278,11 +278,11 @@ var btnSaveVisita = Ext.create('Ext.Action', {
             data = form.getValues();
             dataInstitucion = formInstitucion.getValues();
             //var d = data['fecha']; //new Date();            
-            //var n = d.toISOString();            
-            if (dataInstitucion['1695']) {
-                visitaRecord = Ext.create('visitaModel', {
+            //var n = d.toISOString();                     
+            if (dataInstitucion['4896']) {
+                visitaRecord = Ext.create('visitaModelInst', {
                     fecha: data['fecha'], //n,
-                    cuit: dataInstitucion['1695'],
+                    cuit: dataInstitucion['4896'],
                     nota: data['nota'],
                     tipo: data['tipovisita'],
                     otros: data['otros'],
@@ -290,11 +290,11 @@ var btnSaveVisita = Ext.create('Ext.Action', {
                 });
                 //--agrego al que se usa para visualizar    
 
-                VisitasStore.add(visitaRecord);
+                VisitasStoreInst.add(visitaRecord);
                 //---busco por cuit            
                 //--agrego al que se usa para syncro y persistencia
-                storeVisitaOffline.add(visitaRecord);
-                storeVisitaOffline.sync();
+                storeVisitaOfflineInst.add(visitaRecord);
+                storeVisitaOfflineInst.sync();
                 VisitasGrid.refresh();
                 /*Actualizo listado de pendientes*/
 
@@ -358,7 +358,7 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
          }*/
         {
             xtype: 'combobox',
-            fieldLabel: 'Seleccionar institucion',
+            emptyText: 'AGREGAR / SELECCIONAR INSTITUCION',            
             queryMode: 'local',
             typeAhead: true,
             store: InstitucionStore,
@@ -456,7 +456,7 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
                     emptyText: 'Seleccione el Partido'
                             //,editable: false
 
-               },
+                },
                 {
                     emptyText: 'Localidad',
                     name: '8103'
