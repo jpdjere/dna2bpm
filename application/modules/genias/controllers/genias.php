@@ -456,8 +456,9 @@ class Genias extends MX_Controller {
             $this->base_url . 'map/assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
             $this->module_url . 'assets/jscript/map/map.json.js' => 'Load Json Map',
         );
-        $url = $this->module_url . 'assets/json/empresasGenia.json';
+        //$url = $this->module_url . 'assets/json/empresasGenia.json';
         $url = $this->module_url . 'empresas_mapa';
+        //$url = $this->module_url . 'instituciones_mapa';
         $customData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
@@ -792,94 +793,17 @@ class Genias extends MX_Controller {
         $this->output->enable_profiler(TRUE);
     }
 
-    function Empresas_mapa($idgenia = null) {
+    /*  ==== EMPRESAS 
+     */
+    
+
+    function Empresas($idgenia = null,$echo=false) {
+
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
         $provincias = array();
         foreach ($genias['genias'] as $thisGenia) {
-            if (isset($thisGenia['query_empresas'])) {
-                foreach ($thisGenia['query_empresas'] as $key => $value) {
-                    //---me gurado provincias para filtrar partidos
-                    if ($key == 4651) {
-                        $provincias[] = $value;
-                    }
-//                    if (isset($query[$key])) {
-//                        if (is_array($query[$key])) {
-//                            array_push($query[$key]['$in'], $value);
-//                        } else {
-//                            $original = $query[$key];
-//                            $query[$key] = array();
-//                            $query[$key]['$in'] = array($original, $value);
-//                        }
-//                    } else {
-//                        $query[$key] = $value;
-//                    }
-                    if (isset($query[$key])) {
-                        if (is_array($query[$key])) {
-                            array_push($query[$key]['$in'], $value);
-                        } else {
-                            $original = $query[$key];
-                            $query[$key] = array();
-                            $query[$key]['$in'] = array($original, $value);
-                        }
-                    } else {
-                        if (is_array($value)) {
-                            $query[$key]['$in'] = $value;
-                        } else {
-                            $query[$key] = $value;
-                        }
-                    }
-                }
-            }
-        }
-        $query = array(); //----dps lo sacamos
-        $query['$and'] = array(
-            array('7819' => array('$exists' => true)),
-            array('7819' => array('$ne' => '')),
-        );
 
-        //echo json_encode($query);exit;
-        $this->load->model('app');
-        $debug = false;
-        $compress = false;
-
-
-        $empresas = $this->genias_model->get_empresas($query);
-        $rtnArr = array();
-        foreach ($empresas as $empresa) {
-            if (isset($empresa['1693'])) {
-                $desc = (isset($empresa['1715'])) ? $empresa['1715'] : '';
-                $rtnArr['markers'][] = array(
-                    "latitude" => $empresa['7820'],
-                    "longitude" => $empresa['7819'],
-                    "title" => $empresa['1693'],
-                    "tags" => array("genia"),
-                    "icon" => "factory_marker.png",
-                    "content" => $empresa['1693'] . '<br/>' . $desc,
-                );
-            }
-        }
-        //var_dump($empresas);
-        //$rtnArr['totalCount'] = count($empresas);
-        if (!$debug) {
-            header('Content-type: application/json;charset=UTF-8');
-            if ($compress) {
-                header('Content-Encoding: gzip');
-                print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
-                echo gzcompress(json_encode($rtnArr));
-            } else {
-                echo json_encode($rtnArr);
-            }
-        } else {
-            var_dump(json_encode($rtnArr));
-        }
-    }
-
-    function Empresas($idgenia = null) {
-        $genias = $this->genias_model->get_genia($this->idu);
-        $query = array();
-        $provincias = array();
-        foreach ($genias['genias'] as $thisGenia) {
             if (isset($thisGenia['query_empresas'])) {
 
                 foreach ($thisGenia['query_empresas'] as $key => $value) {
@@ -896,6 +820,7 @@ class Genias extends MX_Controller {
                     } else {
                         $query[$key][] = $value;
                     }
+                                        
                 }
             }
         }
@@ -928,6 +853,7 @@ class Genias extends MX_Controller {
         }
 
         $empresas = $this->genias_model->get_empresas($newQ);
+
         for ($i = 0; $i < count($empresas); $i++) {
             $thisEmpresa = &$empresas[$i];
             //-----partido por texto
@@ -948,13 +874,44 @@ class Genias extends MX_Controller {
                 print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
                 echo gzcompress(json_encode($rtnArr));
             } else {
-                echo json_encode($rtnArr);
+                if(!$echo){
+                    echo json_encode($rtnArr);
+                }else{
+                    return $rtnArr;
+                }
             }
         } else {
             var_dump(json_encode($rtnArr));
         }
     }
-    function Instituciones($idgenia = null) {
+    
+    // Mapa de empresas
+        function empresas_mapa() {
+        
+        $empresas=$this->empresas(null,true);
+        $rtnArr=array();
+
+        foreach ($empresas['rows'] as $empresa) {
+            if (isset($empresa['1693']) && isset($empresa['7819']) && isset($empresa['7820'])) {
+                $desc = (isset($empresa['1715'])) ? print_r($empresa['1715'],true) : '';
+                $rtnArr['markers'][] = array(
+                    "latitude" => $empresa['7820'],
+                    "longitude" => $empresa['7819'],
+                    "title" => $empresa['1693'],
+                    "tags" => array("genia"),
+                    "icon" => "factory_marker.png",
+                    "content" => $empresa['1693'] . '<br/>' . $desc,
+                );
+            }
+        }
+
+        echo json_encode($rtnArr);
+    }
+    
+    /*  ==== INSTITUCIONES 
+     */
+    
+    function Instituciones($idgenia = null, $echo=false) {
         $genias = $this->genias_model->get_genia($this->idu);
         $query = array();
         $provincias = array();
@@ -1029,12 +986,36 @@ class Genias extends MX_Controller {
                 print("\x1f\x8b\x08\x00\x00\x00\x00\x00");
                 echo gzcompress(json_encode($rtnArr));
             } else {
-                echo json_encode($rtnArr);
+                if(!$echo){
+                    echo json_encode($rtnArr);
+                }else{
+                    return $rtnArr;
+                }
             }
         } else {
             var_dump(json_encode($rtnArr));
         }
     }
+    
+    // Mapa de instituciones
+    function instituciones_mapa() {     
+        $instituciones=$this->instituciones(null,true);
+        $rtnArr=array();
+        foreach ($instituciones['rows'] as $institucion) {
+            if (isset($institucion['4896'])) {
+                $rtnArr['markers'][] = array(
+                    "latitude" => $institucion['8109'],
+                    "longitude" => $institucion['8110'],
+                    "title" => $institucion['4896'],
+                    "tags" => array("genia"),
+                    "icon" => "factory_marker.png",
+                    "content" => $institucion['4896'],
+                );
+            }
+        }
+        echo json_encode($rtnArr);
+    }
+
 
     function Visitas($idgenia = null) {
         $genias = $this->genias_model->get_genia($this->idu);
