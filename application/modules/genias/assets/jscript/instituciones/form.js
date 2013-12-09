@@ -24,7 +24,6 @@ Ext.define('InstitucionCombo', {
                     var urltextfield = Ext.getCmp('urlfield_id');
                     var v = urltextfield.getValue();
 
-
                     if (v != null && v != "")
                     {
                         var websitecombo = Ext.getCmp('website_comboid');
@@ -47,68 +46,6 @@ var countSync = function() {
     var getCount = storeEncuestasOffline.getCount() + storeVisitaOfflineInst.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDeleteInst.getCount();
     Ext.getCmp('btnSync').setText('Hay (' + getCount + ') para actualizar');
 }
-
-
-
-
-
-var SearchInstitucion = function(me) {
-    val = me.value
-    if (me.isValid() && me.value.length == 13 && !InstitucionStore.isLoading()) {
-        InstitucionForm.setLoading('Buscando...');
-        actualRecord = InstitucionForm.getRecord();
-        index = InstitucionStore.find('1695', val);
-
-        if (index >= 0) {
-
-            record = InstitucionStore.getAt(index);
-            if (record != actualRecord) {
-                InstitucionForm.loadRecord(record);
-            }
-            InstitucionForm.setLoading(false);
-
-
-            /*ENCUESTA*/
-            EncuestaForm.setLoading('Buscando...')
-            actualRecordEncuesta = EncuestaForm.getRecord();
-            indexEncuesta = EncuestasStore.find('cuit', val);
-            recordEncuesta = EncuestasStore.getAt(indexEncuesta);
-            if (recordEncuesta != actualRecordEncuesta) {
-                EncuestaForm.loadRecord(recordEncuesta);
-            }
-            EncuestaForm.setLoading(false);
-
-            /* Para tareas relacionadas via Agenda*/
-
-            //---tomo parametros con Ext
-            var params = Ext.urlDecode(location.search.substring(1));
-
-            if (InstitucionForm.params['task'] != null) {
-                Ext.getCmp('task').setValue(InstitucionForm.params['task']);
-            }
-
-        } else {
-            record = Ext.create('InstitucionModel', {
-                1695: val
-            });
-            InstitucionForm.loadRecord(record);
-            InstitucionForm.setLoading(false);
-
-        }
-
-        var cuitValue = Ext.getCmp('CUIT').getValue();
-        if (cuitValue != "") {
-            VisitasStoreInst.cuitFilter(cuitValue);
-        } else {
-            VisitasStoreInst.cuitFilter('-1');
-        }
-        //carga tarea si existe
-        if (InstitucionForm.params['task'] != null)
-            Ext.getCmp('task').setValue(InstitucionForm.params['task']);
-
-    }
-};
-
 //==== BOTON POSICIONAR AUT ====// 
 
 var btnMap = Ext.create('Ext.Action', {
@@ -220,7 +157,6 @@ var btnNew = Ext.create('Ext.Action', {
 });
 
 //==== BOTON SAVE ====////
-
 var btnSave = Ext.create('Ext.Action', {
     id: 'btn_save',
     disabled: true,
@@ -358,7 +294,7 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
          }*/
         {
             xtype: 'combobox',
-            emptyText: 'AGREGAR / SELECCIONAR INSTITUCION',            
+            emptyText: 'AGREGAR / SELECCIONAR INSTITUCION',
             queryMode: 'local',
             typeAhead: true,
             store: InstitucionStore,
@@ -367,6 +303,15 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
             listeners: {
                 select: function(combo, records, eOpts) {
                     InstitucionForm.loadRecord(records[0]);
+
+                    var cuitValue = Ext.ComponentQuery.query('#inpt')[0].getValue();
+                    
+                     if (cuitValue != "") {
+                     VisitasStoreInst.cuitFilter(cuitValue);
+                     } else {
+                     VisitasStoreInst.cuitFilter('-1');
+                     }
+
                 }
             }
         }
@@ -381,7 +326,8 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
             },
             items: [{
                     emptyText: 'Nombre',
-                    name: '4896'
+                    name: '4896',
+                    id: 'inpt',
                 },
                 {
                     xtype: 'radiogroup',
@@ -553,30 +499,10 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
             params = Ext.urlDecode(location.search.substring(1));
             this.params = params;
             //console.log('Params:', params);
-            if (params['cuit'] != null) {
-                field = InstitucionForm.getForm().findField("1695");
-                field.setValue(InstitucionForm.params['cuit']);
-                //----me fijo si todavia est? cargando
+            InstitucionStore.load();
+            //---creo un record vacio
+            InstitucionForm.loadRecord(Ext.create('InstitucionModel', {}));
 
-                if (InstitucionStore.isLoading()) {
-                    InstitucionForm.setLoading('cargando...');
-                    InstitucionStore.on('load', function()
-                    {
-                        InstitucionForm.setLoading(false);
-                        //console.log('ahora?');
-                        SearchInstitucion(field);
-                    });
-                } else {
-                    //----si ya cargo simplemente filtro
-                    SearchInstitucion(field);
-
-                }
-
-            } else {
-                InstitucionStore.load();
-                //---creo un record vacio
-                InstitucionForm.loadRecord(Ext.create('InstitucionModel', {}));
-            }
             //carga la tarea si existe
             if (InstitucionForm.params['task'] != null)
                 Ext.getCmp('task').setValue(InstitucionForm.params['task']);
