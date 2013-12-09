@@ -52,7 +52,6 @@ var loadids = function() {
                     }
                 });
             }
-
         }//---end if id
 
         if (i == 2500)
@@ -110,8 +109,8 @@ var InstitucionStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         api: {
             read: globals.module_url + 'instituciones',
-            create: globals.module_url + 'instituciones_remote/Insert',
-            update: globals.module_url + 'instituciones_remote/Insert',
+            create: globals.module_url + 'visitas_remote_instituciones/Insert',
+            update: globals.module_url + 'visitas_remote_instituciones/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
@@ -161,7 +160,7 @@ var storeInstitucionOffline = Ext.create('Ext.data.Store', {
 Ext.define('visitaModelInst', {
     extend: 'Ext.data.Model',
     fields: [
-        'fecha'         // 	Fecha de la Visita 
+                'fecha'         // 	Fecha de la Visita 
                 , 'cuit'
                 , 'nota'        // 	Notas / Observaciones 
                 , 'tipovisita'  //      tipo de visita
@@ -196,7 +195,7 @@ var VisitasStoreInst = Ext.create('Ext.data.Store', {
         }]
             ,
     cuitFilter: function(cuit) {
-        Ext.data.Store.prototype.clearFilter.call(this);
+        Ext.data.Store.prototype.clearFilter.call(this);        
         Ext.data.Store.prototype.filter.call(this, 'cuit', cuit);
     },
     listeners: {
@@ -221,9 +220,9 @@ var storeVisitaInst = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            read: globals.module_url + 'visitas_remote2/View',
-            create: globals.module_url + 'visitas_remote2/Insert',
-            update: globals.module_url + 'visitas_remote2/Insert',
+            read: globals.module_url + 'visitas_remote_instituciones/View',
+            create: globals.module_url + 'visitas_remote_instituciones/Insert',
+            update: globals.module_url + 'visitas_remote_instituciones/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
@@ -286,10 +285,10 @@ var storeVisitaDeleteInst = Ext.create('Ext.data.Store', {
         type: 'ajax',
         id: 'store',
         api: {
-            destroy: globals.module_url + 'visitas_remote2/Remove',
-            read: globals.module_url + 'visitas_remote2/Remove',
-            create: globals.module_url + 'visitas_remote2/Remove',
-            update: globals.module_url + 'visitas_remote2/Remove',            
+            destroy: globals.module_url + 'visitas_remote_instituciones/Remove',
+            read: globals.module_url + 'visitas_remote_instituciones/Remove',
+            create: globals.module_url + 'visitas_remote_instituciones/Remove',
+            update: globals.module_url + 'visitas_remote_instituciones/Remove',            
         },
         reader: {
             type: 'json',
