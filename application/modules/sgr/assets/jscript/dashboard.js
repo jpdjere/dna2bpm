@@ -52,16 +52,12 @@ $("#form_goals").validate({
 
 /*==== UPDATE META====*/
 
-$('button.guardar').click(function() {
-    if (offline)
-        return;
-    var meta = $(this).parents('.meta');
-    var desde = meta.find('[name="desde"]').val();
-    var obs = meta.find('[name="observaciones"]').val();
-    var metaid = meta.find('[name="metaid"]').val();
-    var proyecto = meta.find('[name="metas_proyecto"]').val();
-//   var proyecto_nombre=meta.find('[name="metas_proyecto"] [value="'+proyecto+'"]').text();
-    var data = {'desde': desde, 'observaciones': obs, 'metaid': metaid, 'proyecto': proyecto};
+$('button.btn').click(function() {
+   
+    
+    var input_period = $('[name="input_period"]').val();  
+    var submit_period = $('[name="submit_period"]').val();   
+    var data = {'input_period': input_period, 'submit_period': submit_period};
     $.ajax(
             {
                 /* this option */
@@ -69,12 +65,13 @@ $('button.guardar').click(function() {
                 cache: false,
                 type: "POST",
                 dataType: "text",
-                url: globals.module_url + 'update_goal',
+                url: globals.module_url,
                 data: {'data': data},
                 success: function(resp) {
-                    var html = '<div class="alert alert-success" style="margin-top:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>Se han guardado sus cambios.</div>';
+                    /*var html = '<div class="alert alert-success" style="margin-top:10px"><button type="button" class="close" data-dismiss="alert">&times;</button>Se han guardado sus cambios.</div>';
                     meta.find('.well').append().show('slow');
-                    $(html).hide().appendTo($('.well', meta)).fadeIn('300');
+                    $(html).hide().appendTo($('.well', meta)).fadeIn('300');*/
+                    alert('ok');
                 }
             });
 
