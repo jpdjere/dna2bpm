@@ -892,7 +892,7 @@ class Genias extends MX_Controller {
         $rtnArr=array();
 
         foreach ($empresas['rows'] as $empresa) {
-            if (isset($empresa['1693']) && isset($empresa['7819']) && isset($empresa['7820'])) {
+            if (isset($empresa['1693']) && !empty($empresa['7819']) && !empty($empresa['7820'])) {
                 $desc = (isset($empresa['1715'])) ? print_r($empresa['1715'],true) : '';
                 $rtnArr['markers'][] = array(
                     "latitude" => $empresa['7820'],
