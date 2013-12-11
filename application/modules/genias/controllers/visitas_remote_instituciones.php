@@ -39,7 +39,7 @@ class Visitas_remote_instituciones extends MX_Controller {
 
             $form = (array) $form;
             $form['idu'] = (int) ($this->idu);
-
+            $form['proyecto'] = 4;
             /* Insert/Update dato */
             $result = $this->app->put_array($id, $container, $form);
             

@@ -112,8 +112,6 @@ var mymap = Ext.create('Ext.Panel', {
                     Ext.getCmp('long').setValue(latLong.lng());
                     Ext.getCmp('lat').setValue(latLong.lat());
                     Ext.getCmp('longLayDisplay').setValue("Longitud: " + latLong.lng() + ' Latitud: ' + latLong.lat());
-
-
                 },
                 mapready: function(obj, map) {
                     geoFindMe(map);
