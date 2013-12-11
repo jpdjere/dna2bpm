@@ -21,7 +21,7 @@ var btnSync = Ext.create('Ext.Action',
                                 rec.setDirty();                                
                                 InstitucionStore.add(rec);
                             });
-                            InstitucionStore.sync();
+                            InstitucionStore.sync();                            
 
                             /*Datos Visitas*/
                             storeVisitaOfflineInst.each(function(rec) {
