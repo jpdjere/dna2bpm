@@ -73,7 +73,7 @@ Ext.define('InstitucionModel', {
     fields: [{
             name: 'id',
             type: 'int',
-            useNull: true
+            useNull: true, leaf: false
         },
         '4896', //Nombre
         '4897', //Provincia (39)
@@ -99,8 +99,9 @@ Ext.define('InstitucionModel', {
         'origen', //Origen de los datos Genia 2013
         'origenGenia', //Origen de los datos Genia 2013 Genia
         'checksum' //---hash para saber si hay que actualizar
-    ]
+    ], idProperty:'id'
 });
+
 var InstitucionStore = Ext.create('Ext.data.Store', {
     id: 'InstitucionStore',
     autoLoad: true,
@@ -109,8 +110,8 @@ var InstitucionStore = Ext.create('Ext.data.Store', {
         type: 'ajax',
         api: {
             read: globals.module_url + 'instituciones',
-            create: globals.module_url + 'visitas_remote_instituciones/Insert',
-            update: globals.module_url + 'visitas_remote_instituciones/Insert',
+            create: globals.module_url + 'instituciones_remote/Insert',
+            update: globals.module_url + 'instituciones_remote/Insert',
             destroy: '' //'genias/app/geniasdev/destroy'
         },
         reader: {
