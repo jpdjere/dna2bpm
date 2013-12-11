@@ -16,10 +16,10 @@ var btnSync = Ext.create('Ext.Action',
                             //---le pongo el proxy AJAX                   
                             //---Marcamos Dirty cada uno de los registros
 
-                            /*Datos Institucions*/
+                            /*Datos Institucions*/                            
                             storeInstitucionOffline.each(function(rec) {
-                                rec.setDirty();
-                                InstitucionStore.add(rec)
+                                rec.setDirty();                                
+                                InstitucionStore.add(rec);
                             });
                             InstitucionStore.sync();
 
@@ -39,11 +39,11 @@ var btnSync = Ext.create('Ext.Action',
 
 
                             /*Datos Encuestas*/
-                            storeEncuestasOffline.each(function(rec) {
+                            /*storeEncuestasOffline.each(function(rec) {
                                 rec.setDirty();
                                 storeEncuesta.add(rec)
                             });
-                            storeEncuesta.sync();
+                            storeEncuesta.sync();*/
 
                             var getCount = storeEncuestasOffline.getCount() + storeVisitaOfflineInst.getCount() + storeInstitucionOffline.getCount() + storeVisitaOfflineDeleteInst.getCount();
 
@@ -58,7 +58,7 @@ var btnSync = Ext.create('Ext.Action',
                             /*Borro la informacion local*/
                             storeInstitucionOffline.removeAll();
                             storeVisitaOfflineInst.removeAll();
-                            storeEncuestasOffline.removeAll();
+                            //storeEncuestasOffline.removeAll();
                             storeVisitaOfflineDeleteInst.removeAll();
 
                             /*Actualizo el contador*/
@@ -71,8 +71,8 @@ var btnSync = Ext.create('Ext.Action',
                              *
                              **/
                             Ext.getCmp('btnSync').setText('La Session Esta Vencida');
-                            window.location.replace("../user/logout");                             
-                            
+                            window.location.replace("../user/logout");
+
                         }
                     }
                 })
