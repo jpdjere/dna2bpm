@@ -51,7 +51,7 @@ class Visitas_remote_instituciones extends MX_Controller {
             } else {
                 $out = array('status' => 'error');
             }
-            var_dump($result);
+            //var_dump($result);
              return $out;
         }
         
