@@ -28,7 +28,7 @@
             <form action="{module_url}" method="POST" enctype="multipart/form-data" class="well" />                   
             <input type="file" name="userfile" multiple="multiple" />
             <input type="hidden" name="sgr" value="{sgr_id_encode}" />
-            <input type="hidden" name="anexo" value="{anexo}" />
+            <input type="text" name="anexo" value="{anexo}" />
             <input type="submit" name="submit" value="Upload" class="btn btn-success" />
             </form>
 
@@ -45,13 +45,14 @@
            
             {if sgr_period} 
                 <!-- -->
-            {else}
+            {else}           
+            
             <form class="well" method="post" />
             <div  class="row-fluid">
                 <div class="span6">
                     <div class="">
                         <label>Seleccione el Período a informar {sgr_period}</label>
-
+                            
                         <div class="input-append">
                             <input type="hidden" name="desde" placeholder="Período" class="input-block-level "/>
                         </div>

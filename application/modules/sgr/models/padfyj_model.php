@@ -37,5 +37,19 @@ class Padfyj_model extends CI_Model {
         }
         return $result;
     }
+    
+    function info(){
+        
+       /* $container = 'padfyj';
+        $query['CUIT'] = '23233265519';
+        $result = $this->mongo->db->$container->find($query);
+        return $result;*/
+        
+        $container = $this->containerEmpresas;
+        $query = array('7406' => (int) ($this->idu));
+        $resultData = $this->mongo->db->$container->find($query);
+        return $resultData;
+        
+    }
 
 }

@@ -29,7 +29,7 @@ class Lib_06_error_legend {
                 $result_error = '(Fila Nro.'. $row .')AE:Número de Acta:OPCIONAL. De ser completado, deben ser datos numéricos.';
                 break;
 
-            case "AE.1":
+            case "AF.1":
                 $result_error = '(Fila Nro.'. $row .')AF:Fecha de Transacción:El campo no puede estar vacío y debe contener cinco dígitos numéricos. La fecha debe estar dentro del período informado.';
                 break;
 
