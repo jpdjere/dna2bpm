@@ -36,12 +36,13 @@
     </div> 
 
     <ul class="nav nav-tabs" id="dashboard_tab1">
-        <li class="active"><a href="#tab_resumen" data-toggle="tab">Archivos</a></li>
-        <li><a href="#tab_anexos" data-toggle="tab">Anexos</a></li>  
+        <li class="active"><a href="#tab_resume" data-toggle="tab">Pendientes</a></li>
+        <li><a href="#tab_anexos" data-toggle="tab">Anexos</a></li>
+        <li><a href="#tab_processed" data-toggle="tab">Procesado</a></li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="tab_resumen">            
+        <div class="tab-pane active" id="tab_resume">            
            
             {if sgr_period} 
                 <!-- -->
@@ -92,11 +93,12 @@
 
 
 
-        <div class="tab-pane " id="tab_anexos">                                 
+        <div class="tab-pane " id="tab_processed">                                 
             <ul>                
-                {anexoList}
+                
             </ul>
-        </div>       
+        </div>
+        <div class="tab-pane " id="tab_anexos"></div>
     </div>
 
 </div>
