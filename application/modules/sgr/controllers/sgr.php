@@ -41,7 +41,7 @@ class Sgr extends MX_Controller {
 
 
         /* DATOS SGR */
-        $sgrArr = $this->sgr_model->get_sgr();        
+        $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
@@ -51,7 +51,7 @@ class Sgr extends MX_Controller {
         $this->period = $this->session->userdata['period'];
     }
 
-    function Index() {        
+    function Index() {
 
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -72,9 +72,10 @@ class Sgr extends MX_Controller {
         $customData['anexoTitle'] = $this->oneAnexoDB($this->anexo);
         $customData['anexoTitleCap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
-        //SET PERIOD        
-        $this->set_period();
-        $customData['sgr_period'] = $this->period;
+
+
+
+
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
@@ -84,6 +85,14 @@ class Sgr extends MX_Controller {
             $customData['success'] = "success";
         } else {
             $customData['message'] = $upload['message'];
+            $customData['success'] = "error";
+        }
+
+        //SET PERIOD        
+        $error_set_period = $this->set_period();
+        $customData['sgr_period'] = $this->period;
+        if ($error_set_period) {
+            $customData['message'] = "Error";
             $customData['success'] = "error";
         }
 
@@ -115,7 +124,6 @@ class Sgr extends MX_Controller {
     }
 
     function Anexo($filename = null) {
-
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
@@ -124,6 +132,7 @@ class Sgr extends MX_Controller {
         if (!$filename) {
             exit();
         }
+
 
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
@@ -242,7 +251,7 @@ class Sgr extends MX_Controller {
             $error = true;
         }
 
-       
+
 
         if (!$error) {
             $model = "model_" . $anexo;
@@ -258,11 +267,8 @@ class Sgr extends MX_Controller {
                 }
             }
 
-
-           
-
             if (count(array_unique($array)) < count($array)) {
-                $duplicated = true;                 
+                $duplicated = true;
                 $customData['message'] = 'Se esta intentando INCORPORAR el mismo CUIT mas de una vez dentro de el excel.';
                 $this->render('errors', $customData);
                 unlink($uploadpath);
@@ -271,29 +277,26 @@ class Sgr extends MX_Controller {
             }
 
 
-
-
-
             //INSERT UPDATE
             if (!$duplicated) {
                 for ($i = 2; $i <= $data->rowcount(); $i++) {
                     $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                     $save = (array) $this->$model->save($result);
+                    //success
                     var_dump($save);
                 }
             }
         }
-        
-         /* ERROR CASE */
+
+        /* ERROR CASE */
         if ($error) {
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
             $this->render('errors', $customData);
 
             unlink($uploadpath);
-            
         }
-        
+
 
 
         /*
@@ -341,7 +344,7 @@ class Sgr extends MX_Controller {
           } */
     }
 
-    function set_period() {        
+    function set_period() {
         if ($this->input->post("input_period")) {
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
@@ -351,9 +354,10 @@ class Sgr extends MX_Controller {
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
             if ($limit_month <= $set_month) {
-                //error
+                return true;
             } else {
                 $this->session->set_userdata($newdata);
+                /* Check period if exist */
                 redirect('/sgr');
             }
         }
@@ -368,7 +372,7 @@ class Sgr extends MX_Controller {
         try {
             if ($this->input->post("submit")) {
                 $this->load->library("app/uploader");
-                $result = (array) $this->uploader->do_upload("pepe");
+                $result = (array) $this->uploader->do_upload();
 
                 return $result;
             }
@@ -523,13 +527,19 @@ class Sgr extends MX_Controller {
 
 
         if (!empty($customData['files'])) {
-            foreach ($customData['files'] as $file) {
-                //echo anchor($prefix.$file['name'], $file['name']).'<br>';
+            foreach ($customData['files'] as $file) {                
                 list($sgr, $anexo, $filedate) = explode("_", $file['name']);
 
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
                     list($filename, $extension) = explode(".", $file['name']);
-                    $files_list .= '<li><a href="anexo/' . $filename . '">' . $file['name'] . '</a></li>';
+
+                    /*check if file exist*/
+                    
+                    if ($this->session->userdata['period']) {
+                        $files_list .= '<li><a href="' . $this->module_url . 'anexo/' . $filename . '">' . $file['name'] . '</a></li>';
+                    } else {
+                        $files_list .= '<li>'.$file['name'].'</li>';
+                    }
                 }
             }
         }

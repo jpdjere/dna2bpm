@@ -18,7 +18,7 @@ class Sgr_model extends CI_Model {
             header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
-    
+
     /* RETURN ANEXOS */
 
     function get_anexos() {
@@ -26,26 +26,25 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->db->$container->find();
         return $result;
     }
-    
-     function get_anexo($anexo) {
+
+    function get_anexo($anexo) {
         $container = 'container.sgr_anexos';
         $query['number'] = $anexo;
         $result = $this->mongo->db->$container->findOne($query);
         return $result;
     }
-    
-    
+
     function get_sgr() {
         $rtn = array();
         $this->load->model('user/user');
-        $idu = (int)$this->idu;
+        $idu = (int) $this->idu;
         $data = array();
         // Listado de empresas
         $container = 'container.empresas';
         $fields = array('id', '1695', '4651', '1693', '1703');
-        $query = array("owner" => $idu, "6026" => '30', "status"=> 'activa');
-        $result = $this->mongo->db->$container->find($query, $fields);             
-        
+        $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
+        $result = $this->mongo->db->$container->find($query, $fields);
+
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
@@ -302,15 +301,15 @@ class Sgr_model extends CI_Model {
     function get_empresas_id($query) {
         $rtn = array();
         //$query['status'] = 'activa';
-        
-  
+
+
         $container = 'container.empresas';
         $sort = array('id' => 1);
         $result = $this->mongo->db->$container->find($query);
         $result->sort($sort);
         foreach ($result as $empresa) {
-            $empresaRtn['id']=$empresa['id'];            
-            $empresaRtn['checksum']=md5(json_encode($empresa));            
+            $empresaRtn['id'] = $empresa['id'];
+            $empresaRtn['checksum'] = md5(json_encode($empresa));
             $rtn[] = $empresaRtn;
         }
         return $rtn;
@@ -318,10 +317,11 @@ class Sgr_model extends CI_Model {
 
     /* RETURN VISITAS */
 
-    function get_visitas($query=array(), $idu=null) {
+    function get_visitas($query = array(), $idu = null) {
         $rtn = array();
-        if(!is_null($idu))$query['idu'] = (int) $idu;
-        
+        if (!is_null($idu))
+            $query['idu'] = (int) $idu;
+
         $fields = array('id'
             , 'fecha'           // 	Fecha de la Visita 
             , 'cuit'            //      CUIT
@@ -329,7 +329,7 @@ class Sgr_model extends CI_Model {
             , 'tipovisita'      //      tipo de visita
             , 'otros'           //      para tipo de visita otros
             , '7898'            //      Programas Informados  
-            ,'idu'
+            , 'idu'
         );
         $container = 'container.genias_visitas';
         $result = $this->mongo->db->$container->find($query, $fields);
@@ -341,8 +341,6 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-
-
 
     function visitas_remove($container, $id = null) {
         $query = array(
@@ -374,7 +372,10 @@ class Sgr_model extends CI_Model {
                 exit();
             }
         }
-    }
+        }
+
+
+      
 
     function array_delete($value, $array) {
         $array = array_diff($array, array($value));
@@ -411,54 +412,54 @@ class Sgr_model extends CI_Model {
     }
 
     //======== Actualiza Meta Activa =========//
-    
+
     function goal_clear_cumplidas($proyecto = '2') {
         $container_metas = 'container.genias_goals';
         $query = array();
-        $update=array('$set'=>array('cumplidas'=>array()));
-        $options=array('multiple'=>true); 
-        $result = $this->mongo->db->$container_metas->update($query,$update,$options);
-        return $result;       
+        $update = array('$set' => array('cumplidas' => array()));
+        $options = array('multiple' => true);
+        $result = $this->mongo->db->$container_metas->update($query, $update, $options);
+        return $result;
     }
 
-    function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null,$i) {
+    function goal_update_all($proyecto = '2', $id_visita = null, $idu = null, $fecha = null, $i) {
 
-        
+
         $container_metas = 'container.genias_goals';
-        list($monthValue,$dayValue,$yearValue) = explode("/", $fecha);
+        list($monthValue, $dayValue, $yearValue) = explode("/", $fecha);
 
         //----busco meta activa
         $query = array(
             'proyecto' => $proyecto,
             'idu' => $idu,
-            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t',mktime(0,0,0,(int)$monthValue,15,(int)$yearValue))),
-            'desde' => array('$gte' => date('Y-' . $monthValue . '-01',mktime(0,0,0,(int)$monthValue,15,(int)$yearValue))),
+            'hasta' => array('$lte' => date('Y-' . $monthValue . '-t', mktime(0, 0, 0, (int) $monthValue, 15, (int) $yearValue))),
+            'desde' => array('$gte' => date('Y-' . $monthValue . '-01', mktime(0, 0, 0, (int) $monthValue, 15, (int) $yearValue))),
         );
-        
-        
 
-        $metas = $this->mongo->db->$container_metas->find($query);  
 
-        if($metas->count()==0)return "<pre>--------- Query: ".print_r($query,true)." | $monthValue $dayValue $yearValue ID: $id_visita  / $i</pre>";
+
+        $metas = $this->mongo->db->$container_metas->find($query);
+
+        if ($metas->count() == 0)
+            return "<pre>--------- Query: " . print_r($query, true) . " | $monthValue $dayValue $yearValue ID: $id_visita  / $i</pre>";
         // Loop , si hay varias metas del mismo periodo salgo en la primera que este cerrada
 
         foreach ($metas as $meta) {
-            $case = $this->get_case($meta['case']);   
+            $case = $this->get_case($meta['case']);
             if ($case['status'] == 'closed') {
-                $meta['cumplidas'][] = (float)$id_visita;
+                $meta['cumplidas'][] = (float) $id_visita;
                 $meta['cumplidas'] = array_filter(array_unique($meta['cumplidas']));
-                $result = $this->mongo->db->$container_metas->save($meta);               
-               break;
+                $result = $this->mongo->db->$container_metas->save($meta);
+                break;
             }
         }
-        
-        if($result){
-            return "<pre>{$meta['case']} |status:". $case['status']." |visita: $id_visita | $i --</pre>";
+
+        if ($result) {
+            return "<pre>{$meta['case']} |status:" . $case['status'] . " |visita: $id_visita | $i --</pre>";
         }
 
         return false;
         //var_dump($query,$meta);exit;       
-
     }
 
     //======== Actualiza Meta Activa =========//
@@ -619,7 +620,7 @@ class Sgr_model extends CI_Model {
         // Visitas
         $container = 'container.genias_visitas';
         $rx = new MongoRegex("/" . $periodo . "/");
-        $query = ($misgenias['rol'] == 'coordinador') ? (array('fecha' => $rx)) : (array('idu' => $this->idu,'fecha' => $rx));
+        $query = ($misgenias['rol'] == 'coordinador') ? (array('fecha' => $rx)) : (array('idu' => $this->idu, 'fecha' => $rx));
         $visitas = $this->mongo->db->$container->find($query);
 
 //var_dump(iterator_to_array($visitas));
@@ -662,4 +663,3 @@ class Sgr_model extends CI_Model {
     }
 
 }
-

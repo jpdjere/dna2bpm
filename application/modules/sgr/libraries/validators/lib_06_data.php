@@ -1,9 +1,11 @@
 <?php
 
-class Lib_06_data {
+class Lib_06_data extends MX_Controller {
     /* VALIDADOR ANEXO 06 */
 
     public function __construct($parameter) {
+         parent::__construct();
+        $this->load->library('session');
         /* Vars 
          * 
          * $parameters =  
@@ -212,7 +214,17 @@ class Lib_06_data {
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = $AF_field_value . "-" . $R2_field_value;
                                 array_push($stack, $result);
-                            }
+                            }                           
+                            
+                        }
+                        /*PERIOD*/
+                        $return = $this->check_period($parameterArr[$i]['fieldValue']);
+                        $code_error = "AF.1";
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
                         }
                     }
                 }
@@ -1425,6 +1437,15 @@ class Lib_06_data {
         If (@checkdate($mm, $dd, $yyyy)) {
             return $yyyy;
         }
+    }
+    
+    function check_period($parameter){
+        $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
+        $period = $this->session->userdata['period'];        
+        if($valida_fecha!=$period){
+            return true;
+        }
+        
     }
 
     function check_zip_code($parameter) {

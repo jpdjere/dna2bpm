@@ -201,8 +201,10 @@ class Model_06 extends CI_Model {
     }
 
     function save($parameter) {
+        $period = $this->session->userdata['period'];
         $container = 'container.anexo_06';
-        $query = array('1695' => $parameter[1695]);
+        $query = array('1695' => $parameter[1695], 'period' => $period);
+        $parameter['period'] = $period;
         $options = array('upsert' => true, 'safe' => true);
         $exist = $this->mongo->db->$container->findOne($query);
         $id = ($exist) ? $this->app->genid($container) : $exist[_id];
@@ -212,6 +214,9 @@ class Model_06 extends CI_Model {
 
         if ($result) {
             $out = array('status' => 'ok');
+            /*ADD PERIOD*/
+            
+            
         } else {
             $out = array('status' => 'error');
         }
