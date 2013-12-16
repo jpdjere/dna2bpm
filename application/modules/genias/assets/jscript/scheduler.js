@@ -187,7 +187,7 @@ $('#bt_form').click(function(){
     if($(this).hasClass('disabled'))return;
     $.each(globals.proyectos, function( index, value ) {
     if(value.id==proy)
-        location.href=globals.module_url+value.link_form+'?task='+id;
+        location.href=globals.module_url+value.link+'?task='+id;
     });
 });
 
