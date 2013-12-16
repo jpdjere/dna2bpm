@@ -157,12 +157,21 @@ $( document ).on( "click", ".ul_collapse", function() {
   $(this).next('UL').slideToggle();
 });
 
-// Cargo visitas default
+// Cargo visitas politico
  $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas'); 
+ 
+ // Cargo visitas institucional
+ $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones'); 
+ 
 // cambio el mes
 $('#dp4').datepicker().on('changeDate',function(ev){
     var mes=ev.date.toISOString();
     $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas',{'mes':mes}); 
+}); 
+
+$('#datepicker_instituciones').datepicker().on('changeDate',function(ev){
+    var mes=ev.date.toISOString();
+    $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes}); 
 }); 
 
 

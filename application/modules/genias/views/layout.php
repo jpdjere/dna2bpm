@@ -12,7 +12,9 @@ header($ExpStr);
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="{base_url}jscript/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{base_url}jscript/bootstrap/css/bootstrap-responsive.min.css" />
-        <link rel="stylesheet" href="{base_url}jscript/fontawesome/css/font-awesome.min.css" />
+
+
+        <link rel="stylesheet" href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
         <link rel="stylesheet" href="{module_url}assets/jscript/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" />	
         <link rel="stylesheet" href="{module_url}assets/css/extra-icons.css" />	
         <link rel="stylesheet" href="{module_url}assets/jscript/fullcalendar/fullcalendar.css" />
@@ -41,7 +43,13 @@ header($ExpStr);
                             <li><a href="{module_url}">Inicio</a></li>
                             <li><a href="{module_url}tasks">Tareas</a></li>
                             <li><a href="{module_url}scheduler">Agenda</a></li>
-                            <li><a href="{module_url}form_empresas_alt"><i class='icon-plus'></i> Visita</a></li>  
+                            <li  class="dropdown" id="menu-visitas">
+                                <a href="#" data-toggle="dropdown" data-target="#menu-visitas" class="dropdown-toggle">Visita <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{module_url}form_empresas_alt"><i class='fa fa-plus'></i> Empresas</a></li>
+                                    <li><a href="{module_url}form_instituciones"><i class='fa fa-plus'></i> Instituciones</a></li>
+                                </ul>
+                            </li>  
                             <li><a href="{module_url}listado_empresas">Empresas</a></li>  
                             <li><a href="{module_url}map">Mapa</a></li>      
 
@@ -71,7 +79,7 @@ header($ExpStr);
                                 </ul>
                             </li>
                             <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
-                            <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
+                            <li><a   href="{base_url}user/logout"><i class="fa fa-power-off"></i> Salir</a></li>
                         </ul>
                     </div>
                 </div>

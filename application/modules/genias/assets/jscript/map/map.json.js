@@ -35,10 +35,11 @@ $(document).ready(function(){
     }
     $('#map_canvas').gmap(options).bind('init',function(){
         LoadGenias();
-       // LoadDNA2();
+        LoadGenias4();
+        //LoadDNA2();
     });
-    $('#mapGenias').on('click',ViewGenias);
-    $('#mapDNA2').on('click',ViewDNA2);
+    
+
     $('#mapClear').on('click',function(){
         $('#map_canvas').gmap({
             'clear':'markers'
@@ -46,34 +47,61 @@ $(document).ready(function(){
     });
 });
 
-var ViewGenias=function(){
-    $('#map_canvas').gmap('find', 'markers', {
-        'property': 'tags', 
-        'value': 'genia'
-    }, function(marker, found) {
-        marker.setVisible(found);
-    });
-}
-
-var ViewDNA2=function(){
-    $('#map_canvas').gmap('find', 'markers', {
-        'property': 'tags', 
-        'value': 'dna2'
-    }, function(marker, found) {
-        marker.setVisible(found);
-    });
-}
+//==== Genias Empresas
 var LoadGenias=function (){
     map=$( $('#map_canvas').gmap('get', 'map'));
-    url=globals.json_url;
+    url=globals.url_genias_2;
     LoadJSON(url);
   
 }
 
-var LoadDNA2=function (){
-    url=globals.module_url+'assets/json/empresasDNA2.json';
-    LoadJSON(url);
+var ViewGenias=function(){
+    $('#map_canvas').gmap('find', 'markers', {
+        'property': 'tags', 
+        'value': 'genia2'
+    }, function(marker, found) {
+        marker.setVisible(found);
+    });
 }
+
+//==== Genias Instituciones
+var LoadGenias4=function (){
+    map=$( $('#map_canvas').gmap('get', 'map'));
+    url=globals.url_genias_4;
+    LoadJSON(url);
+  
+}
+
+var ViewGenias4=function(){
+    $('#map_canvas').gmap('find', 'markers', {
+        'property': 'tags', 
+        'value': 'genia4'
+    }, function(marker, found) {
+        marker.setVisible(found);
+    });
+}
+
+
+
+//==== DNA2
+
+//var ViewDNA2=function(){
+//    $('#map_canvas').gmap('find', 'markers', {
+//        'property': 'tags', 
+//        'value': 'dna2'
+//    }, function(marker, found) {
+//      marker.setVisible(found);
+//    });
+//}
+//
+//var LoadDNA2=function (){
+//    url=globals.module_url+'assets/json/empresasDNA2.json';
+//    LoadJSON(url);
+//}
+
+
+//==== Carga JSONs
+
 var LoadJSON=function (url){
     $.getJSON(url, function(data) { 
         $.each( data.markers, function(i, marker) {
@@ -84,12 +112,15 @@ var LoadJSON=function (url){
                 'tags':marker.tags
             }).click(function() {
                 $('#map_canvas').gmap('openInfoWindow',{
-                    'content': marker.content
+                    'content': marker.content+'/'+marker.tags
                 }, this);
             });
         });
     });
 }
+
+//==== Controla Checks
+
 $('input:checkbox').click(function() {
     $('#map_canvas').gmap('closeInfoWindow');
     $('#map_canvas').gmap('set', 'bounds', null);
@@ -97,6 +128,7 @@ $('input:checkbox').click(function() {
     $('input:checkbox:checked').each(function(i, checkbox) {
         filters.push($(checkbox).val());
     });
+
     if ( filters.length > 0 ) {
         $('#map_canvas').gmap('find', 'markers', {
             'property': 'tags', 
@@ -111,7 +143,7 @@ $('input:checkbox').click(function() {
     } else {
         $.each($('#map_canvas').gmap('get', 'markers'), function(i, marker) {
             $('#map_canvas').gmap('addBounds', marker.position);
-            marker.setVisible(true); 
+            marker.setVisible(false); 
         });
     }
 });

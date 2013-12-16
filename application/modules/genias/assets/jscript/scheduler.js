@@ -7,67 +7,61 @@
 
 var tasks= [];
 var tasks666= [];
-tasks[2]=new Array();
-tasks[3]=new Array();
 
-// La clase offline es agregada por el fallback del manifiesto
-//var offline =$('.offline').length;
 
 $( document ).ready(function() {
 
+$('#dp3').datepicker();
 
+// Creo los indices
+$.each(globals.proyectos, function( index, myproy ) {
+tasks[myproy.id]=new Array();
+});
+
+
+// ==== MANEJO OFFLINE ==== //
+
+
+// Offline no puede hacer un soto
 $('.disabled','a[disabled]').live('click',function(e){
     e.preventDefault();
 });
 
-// Desabilito los anchos que etan desabled 
-$('a[disabled]').one('click', function(e){
-e.preventDefault();
-});
-
-// ==== OFFLINE ==== //
-
-
-
-
 if(!offline){
+// Si esta conectado
+$.each(globals.proyectos, function( index, value ) {
+mongo_get_tasks(value.id);
+localStorage['tasks'+value.id]=JSON.stringify(tasks[value.id]);
 
-  mongo_get_tasks(2);
-  mongo_get_tasks(3);
-  localStorage['tasks2']=JSON.stringify(tasks[2]);
-  localStorage['tasks3']=JSON.stringify(tasks[3]);
-  localStorage['tasks666']=JSON.stringify(tasks666);
+});
+localStorage['tasks666']=JSON.stringify(tasks666);
 //localStorage.clear();
 }else{
-
+// Si no esta conectado traigo del storage
     localstorage_get_tasks();
 }
 
-
-var agendas=[
-       {
-            events: tasks[2],            
-            color: '#C6372C',     
-            textColor: 'white' 
-       },
-    {
-            events: tasks[3],            
-            color: '#ff6600',  
-            textColor: 'white' 
-       },
-       {
+// ____ OFFLINE ____ //
+// 
+// Armo array de agendas
+var agendas=[{
             events: tasks666,
             color: '#CCCCCC',     
             textColor: 'white' 
-       } 
-       
-    ]
+       }]
+
+$.each(globals.proyectos, function( index, myproy ) {
+agendas.push({
+            events: tasks[myproy.id],            
+            color: myproy.bgcolor,     
+            textColor: myproy.color 
+       });
+});
 
 
-// ____ OFFLINE ____ //
 
+// ==== CALENDARIO ==== //
 
-// Despliego el calendario
 $('#calendar').fullCalendar({
 
     eventSources: agendas,
@@ -106,8 +100,8 @@ buttonText:{month:'mes',week:'semana',day:'dia',today:'hoy'},
 
 });
 
-//$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
-$('#dp3').datepicker();
+
+
 
 // ==== SAVE / UPDATE ==== //
 
@@ -189,15 +183,12 @@ $('#bt_delete').click(function(){
 $('#bt_form').click(function(){
     var id=$('#detalle input[name="id"]').val();
     var proy=$('#detalle select[name="proyecto"]').val();
+
     if($(this).hasClass('disabled'))return;
-    if(proy==2){
-    // Escenario PYME
-        location.href=globals.module_url+'form_empresas_alt?task='+id;
-    }else if(proy==3){
-    // Escenario PYME
-    alert('Modulo no habilitado');
-    }
-   // 
+    $.each(globals.proyectos, function( index, value ) {
+    if(value.id==proy)
+        location.href=globals.module_url+value.link_form+'?task='+id;
+    });
 });
 
 
@@ -223,9 +214,9 @@ $('#bt_form').click(function(){
 
 function localstorage_get_tasks(){
 // Trae las tareas del locastorage
-
-tasks[2]=JSON.parse(localStorage['tasks2']);
-tasks[3]=JSON.parse(localStorage['tasks3']);
+$.each(globals.proyectos, function( index, value ) {
+tasks[value.id]=JSON.parse(localStorage['tasks'+value.id]);
+});
 // Tareas ya realizadas 
 tasks666=JSON.parse(localStorage['tasks666']);
 }
