@@ -1,5 +1,5 @@
 <div class="row-fluid test" id="barra_user" > 
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" ><strong>{anexoTitleCap}</strong> 
+    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" ><strong>{anexo_title_cap}</strong> 
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
             <i class="icon-plus"></i>  Importar Archivo a Procesar
         </button> 
@@ -28,7 +28,7 @@
             <form action="{module_url}" method="POST" enctype="multipart/form-data" class="well" />                   
             <input type="file" name="userfile" multiple="multiple" />
             <input type="hidden" name="sgr" value="{sgr_id_encode}" />
-            <input type="text" name="anexo" value="{anexo}" />
+            <input type="hidden" name="anexo" value="{anexo}" />
             <input type="submit" name="submit" value="Upload" class="btn btn-success" />
             </form>
 
@@ -36,12 +36,13 @@
     </div> 
 
     <ul class="nav nav-tabs" id="dashboard_tab1">
-        <li class="active"><a href="#tab_resumen" data-toggle="tab">Archivos</a></li>
-        <li><a href="#tab_anexos" data-toggle="tab">Anexos</a></li>  
+        <li class="active"><a href="#tab_pending" data-toggle="tab">Archivos a Procesar</a></li>
+        <li><a href="#tab_anexos" data-toggle="tab">Anexos</a></li>
+        <li><a href="#tab_processed" data-toggle="tab">Procesados</a></li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="tab_resumen">            
+        <div class="tab-pane active" id="tab_pending">            
            
             {if sgr_period} 
                 <!-- -->
@@ -82,7 +83,7 @@
 
 
             <div class="alert {resumen_class}" id="{_id}">                
-                <h3>{anexoTitle} </h3>
+                <h3>{anexo_title} </h3>
                 <ul>
                     {files_list}                   
                 </ul>
@@ -94,9 +95,12 @@
 
         <div class="tab-pane " id="tab_anexos">                                 
             <ul>                
-                {anexoList}
+                {anexo_list}
             </ul>
-        </div>       
+        </div> 
+        
+       
+        <div id="tab_processed" class="tab-pane">{processed_list}</div>
     </div>
 
 </div>

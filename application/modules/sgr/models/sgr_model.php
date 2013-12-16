@@ -33,6 +33,15 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->db->$container->findOne($query);
         return $result;
     }
+    
+    function get_processed($anexo) {
+        $container = 'container.anexo_'. $anexo;        
+        $query['number'] = $anexo;
+        
+        $result = $this->mongo->db->$container->findOne($query);
+        return $result;
+    }
+    
 
     function get_sgr() {
         $rtn = array();

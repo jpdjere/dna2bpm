@@ -52,7 +52,6 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
-
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
@@ -68,17 +67,14 @@ class Sgr extends MX_Controller {
         $customData['projects'] = $projects['items'];
 
         $customData['anexo'] = $this->anexo;
-        $customData['anexoList'] = $this->AnexosDB();
-        $customData['anexoTitle'] = $this->oneAnexoDB($this->anexo);
-        $customData['anexoTitleCap'] = strtoupper($this->oneAnexoDB($this->anexo));
-
-
-
-
-
+        $customData['anexo_list'] = $this->AnexosDB();
+        $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
+        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
+        $customData['processed_list'] = $this->get_processed();
+        
 
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
@@ -95,8 +91,6 @@ class Sgr extends MX_Controller {
             $customData['message'] = "Error";
             $customData['success'] = "error";
         }
-
-
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
 
@@ -133,7 +127,6 @@ class Sgr extends MX_Controller {
             exit();
         }
 
-
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (int) ($this->idu);
@@ -141,7 +134,6 @@ class Sgr extends MX_Controller {
             var_dump($sgr, $this->sgr_id);
             exit();
         }
-
 
         //echo dirname(__FILE__); //$this->module_url;
 
@@ -281,10 +273,24 @@ class Sgr extends MX_Controller {
             if (!$duplicated) {
                 for ($i = 2; $i <= $data->rowcount(); $i++) {
                     $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
+                    $result['filename'] = $filename;
+                    $result['sgr_id'] = (int) $this->sgr_id;
                     $save = (array) $this->$model->save($result);
                     //success
-                    var_dump($save);
+                    
+                    
                 }
+                
+                /*SET PERIOD*/
+                if($save){
+                    $result = array();
+                    $result['filename'] = $filename;
+                    $result['sgr_id'] = (int) $this->sgr_id;
+                    $result['anexo']    = $this->anexo;
+                    $save_period = (array) $this->$model->save_period($result);
+                    var_dump($save_period);
+                }
+                
             }
         }
 
@@ -425,7 +431,13 @@ class Sgr extends MX_Controller {
 
         $this->render('inbox', $customData);
     }
-
+    
+    
+    function get_processed(){
+        
+        
+    }
+    
     function file_browser() {
         $segment_array = $this->uri->segment_array();
 
@@ -528,17 +540,18 @@ class Sgr extends MX_Controller {
 
         if (!empty($customData['files'])) {
             foreach ($customData['files'] as $file) {                
+                //echo anchor($prefix.$file['name'], $file['name']).'<br>';
                 list($sgr, $anexo, $filedate) = explode("_", $file['name']);
 
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
                     list($filename, $extension) = explode(".", $file['name']);
 
-                    /*check if file exist*/
-                    
+                    /*check if file exist*/                    
                     if ($this->session->userdata['period']) {
-                        $files_list .= '<li><a href="' . $this->module_url . 'anexo/' . $filename . '">' . $file['name'] . '</a></li>';
+                        //$files_list .= '<li><a href="' . $this->module_url . 'anexo/' . $filename . '">' . $file['name'] . '</a></li>';
+                        $files_list .= '<li>' . anchor('/sgr/anexo/' . $filename, $file['name']).'</li>';
                     } else {
-                        $files_list .= '<li>'.$file['name'].'</li>';
+                        $files_list .= '<li>' . anchor('anexos_sgr/'.$file['name'], $file['name']).'</li>';
                     }
                 }
             }

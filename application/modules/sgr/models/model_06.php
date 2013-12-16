@@ -14,8 +14,6 @@ class Model_06 extends CI_Model {
     }
 
     function check($parameter) {
-
-
         /**
          *   Funcion ...
          * 
@@ -96,7 +94,7 @@ class Model_06 extends CI_Model {
             if (stristr($mistr, "SRL"))
                 $insertarr[1694] = "2";
             if (stristr($mistr, "S.H"))
-                $insertarr[1694] = "7";         
+                $insertarr[1694] = "7";
 
             //--- Metemo & metemo la Provincia
             if ($insertarr[4651] == "CAPITAL FEDERAL")
@@ -201,30 +199,39 @@ class Model_06 extends CI_Model {
     }
 
     function save($parameter) {
+
         $period = $this->session->userdata['period'];
-        $container = 'container.anexo_06';
-        $query = array('1695' => $parameter[1695], 'period' => $period);
-        $parameter['period'] = $period;
+        $container = 'container.sgr_anexo_06';
+        $parameter['period'] = $period;       
         $options = array('upsert' => true, 'safe' => true);
-        $exist = $this->mongo->db->$container->findOne($query);
-        $id = ($exist) ? $this->app->genid($container) : $exist[_id];
+
+        $id = $this->app->genid($container);
 
         $result = $this->app->put_array($id, $container, $parameter);
         //$result = $this->mongo->db->$container->update($id, $parameter, $options);
 
         if ($result) {
             $out = array('status' => 'ok');
-            /*ADD PERIOD*/
-            
-            
         } else {
             $out = array('status' => 'error');
         }
         return $out;
-    }   
-   
+    }
 
-  
+    function save_period($parameter) {
+        /* ADD PERIOD */
+        $container = 'container.sgr_periodos';
+        $id = $this->app->genid($container);             
+        $parameter['period'] = $this->session->userdata['period'];
+        $period_param['status'] = 'activo';        
+        $result = $this->app->put_array($id, $container, $parameter);
+         if ($result) {
+            $out = array('status' => 'ok');
+        } else {
+            $out = array('status' => 'error');
+        }
+        return $out;
+    }
 
     function debug($parameter) {
         return "<pre>" . var_dump($parameter) . "</pre><hr>";
