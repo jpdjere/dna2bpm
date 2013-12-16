@@ -4,7 +4,7 @@
          <li ></li> 
           <li class="pull-right perfil">
               <span id="status"></span>
-              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+              <a title="{usermail}">{username}</a> <i class="fa fa-angle-right"></i> <i class="{rol_icono}"></i> {rol}
           </li>
     </ul>
 
@@ -35,7 +35,7 @@
             <div class="span6">
         <div  data-date-format="dd-mm-yyyy" data-date="" id="dp3" class="input-append date">
             <input type="text" name="dia" readonly="" value=""  class="span10">
-            <span class="add-on"><i class="icon-calendar"></i></span>
+            <span class="add-on"><i class="fa fa-calendar"></i></span>
         </div>
 <!--            <div class="input-prepend input-append">
              <span class="add-on "><i class="icon-calendar"></i></span>
@@ -94,10 +94,10 @@
 <label class="checkbox">
 <input type="checkbox" name="finalizada"> Finalizada
 </label>
-    <a class="btn btn-block  btn-primary disabled" id="bt_form" href="#"><i class="icon-tasks"></i> Cargar formulario</a>
-    <a class="btn btn-block btn-primary disabled hide_offline"  id="bt_delete" href="#"><i class="icon-trash"></i> Eliminar tarea</a>
-    <button class="btn btn-block btn-primary hide_offline" type="button" id="bt_clear"><i class="icon-plus-sign"></i>  Nueva tarea</button>
-    <button class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Guardar</button>
+    <a class="btn btn-block  btn-primary disabled" id="bt_form" href="#"><i class="fa fa-tasks"></i> Cargar formulario</a>
+    <a class="btn btn-block btn-primary disabled hide_offline"  id="bt_delete" href="#"><i class="fa fa-trash-o"></i> Eliminar tarea</a>
+    <button class="btn btn-block btn-primary hide_offline" type="button" id="bt_clear"><i class="fa fa-plus-circle"></i>  Nueva tarea</button>
+    <button class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="fa fa-save"></i>  Guardar</button>
 
     </form>
 </div>

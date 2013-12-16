@@ -5,10 +5,9 @@
     </button>
           <li class="pull-right perfil">
               <span id="status"></span>
-              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+              <a title="{usermail}">{username}</a> <i class="fa fa-angle-right"></i> <i class="{rol_icono}"></i> {rol}
           </li>
     </ul>
-
 </div>
 <!-- ==== Contenido ==== -->
 <div class="container" > 
@@ -71,7 +70,7 @@
     </div> 
  
 
-    <!-- ==== RESUMEN COORDINADOR==== -->
+<!-- ==== RESUMEN COORDINADOR ==== -->
 
 
         <ul class="nav nav-tabs" id="dashboard_tab1">
@@ -80,56 +79,92 @@
         <li class=""><a href="#tab-{_id}" data-toggle="tab">{nombre}</a></li>
         {/genias}
         </ul>
-
+        
         <div class="tab-content">
             <div class="tab-pane active" id="tab_resumen">
+<!-- =================  ESCENARIO POLITICO ================= -->
                 <div class="row-fluid">
-                     <div class="span9">
-                         <h3>Escenario PYME</h3>
-                     </div>
-                    <div class="span3">
-                        <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right " id="dp4">
-                            <span class="add-on"><i class="icon-calendar"></i></span>
-                            <input type="text" name="visitas_desde" readonly="" value=""  class="" >
-
-                        </div> 
+                     <div class="span12">
+                         <h1><i class="fa fa-bookmark"></i> Escenario PYME</h1>
                      </div>
                 </div>
                 
                 <div class="alert {resumen_class}" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Sus genias tienen {goal_cumplidas_total} de {goal_cantidad_total} objetivos cumplidos.</strong> 
+                <strong>Sus genias tienen {goal_cumplidas_total_2} de {goal_cantidad_total_2} objetivos cumplidos.</strong> 
                 </div> 
-            </div>
-        <?php
-        foreach($genias as $genia){     
-echo <<<BLOC
-            <div class="tab-pane" id="tab-{$genia['_id']}">
-                <div class="alert" id="{$genia['_id']}">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Sus genias tienen {$goal_cumplidas[(string)$genia['_id']]} de {$goal_cantidad[(string)$genia['_id']]} objetivos cumplidos.</strong> 
                 
-                </div>
-            </div> 
-BLOC;
-} 
-        ?>
-        </div>
-
-    
-
-<!-- ================= VISITAS  ================= -->
-
+                <!-- ================= VISITAS  -->
 <div class='row' id="filtro_visitas">
-    <!-- ====== Filtro  ====== -->
-<div class='span12' id="wrapper_visitas">
+<div class='span3' >
+<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right " id="dp4">
+    <span class="add-on"><i class="fa fa-calendar"></i></span>
+    <input type="text" name="visitas_desde" readonly="" value=""  class="" >
+</div> 
+</div>
+<div class='span9' id="wrapper_visitas">
 <!-- dummy visitas -->
 </div>
 </div>
-<!-- __________________ VISITAS  __________________ -->
+<!-- =================  ESCENARIO INSTITUCIONAL ================= -->
+                        <div class="row-fluid">
+                     <div class="span12">
+                         <h1><i class="fa fa-bookmark"></i> Escenario Institucional</h1>
+                     </div>
+                </div>
+                
+                <div class="alert {resumen_class}" id="{_id}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>Sus genias tienen {goal_cumplidas_total_4} de {goal_cantidad_total_4} objetivos cumplidos.</strong> 
+                </div> 
+                
+                <!-- ================= VISITAS  -->
+
+<div class='row' id="filtro_visitas_instituciones">
+<div class='span3' >
+<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right " id="datepicker_instituciones">
+    <span class="add-on"><i class="fa fa-calendar"></i></span>
+    <input type="text" name="visitas_desde" readonly="" value=""  class="" >
+</div> 
+</div>
+<div class='span9' id="wrapper_visitas_instituciones">
+<!-- dummy visitas -->
+</div>
+</div>                        
+            </div>
+<?php
+// ==== TABS DE LAS GENIAS
+foreach($genias as $genia){ 
+echo "<div class='tab-pane' id='tab-{$genia['_id']}'>";
+// Escenario Politico
+echo <<<BLOC
+        <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Escenario Político: {$goal_cumplidas_2[(string)$genia['_id']]} de {$goal_cantidad_2[(string)$genia['_id']]} objetivos cumplidos.</strong> 
+        </div>
+BLOC;
+// Escenario Institucional
+echo <<<BLOC
+        <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Escenario Institucional: {$goal_cumplidas_4[(string)$genia['_id']]} de {$goal_cantidad_4[(string)$genia['_id']]} objetivos cumplidos.</strong> 
+        </div>
+BLOC;
+        
+echo "</div>";
+} 
+?>
+        
+
+    
 
 
-    <!-- xxxxxxxxxxxxxxxxx METAS  xxxxxxxxxxxxxxxxx -->
+
+
+    <!-- ==== METAS ==== -->
+
+        <h1><i class="fa fa-bookmark"></i> Metas</h1>
+
     <div class="row">
 
         {metas}
@@ -147,11 +182,11 @@ BLOC;
                     </select>
                      </div>
                     <div class="span6"> 
-                        <h3><span class="pull-right">{cumplidas_count}/ {cantidad}</span></h3>
+                        <h1><span class="pull-right">{cumplidas_count}/ {cantidad}</span></h1>
                     </div>
                     {else}
                     <div class="span12"> 
-                    <h3>{proyecto_name}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h3>
+                    <h1>{proyecto_name}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h1>
                     </div> 
                     {/if}
                 </div>
@@ -159,11 +194,11 @@ BLOC;
                 <div> 
                     <ul class="unstyled">
                         <li>
-                            <i class="icon-calendar" ></i> Período:
+                            <i class="fa fa-calendar" ></i> Período:
                             {if {rol}=='coordinador'}                                     
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp" >
                                 <input type="text" name="desde" readonly="" value="{desde_raw}"  class="span1">
-                                <span class="add-on"><i class="icon-calendar"></i></span>
+                                <span class="add-on"><i class="fa fa-calendar"></i></span>
                             </div>
                             {else}
                                 {desde}  
@@ -201,10 +236,10 @@ BLOC;
                 </div>
                 {if {rol}=='coordinador'}
                     <button class="guardar btn btn-mini btn-success hide_offline" url="#" type="button">
-                            <i class="icon-thumbs-up-alt"></i> Guardar
+                            <i class="fa fa-thumbs-up"></i> Guardar
                     </button>
                    <a class="bt_delete btn btn-mini btn-danger hide_offline"  type="button">
-                            <i class="icon-trash"></i> Eliminar
+                            <i class="fa fa-trash-o"></i> Eliminar
                     </a>
                 {/if}
                 

@@ -61,14 +61,19 @@ class Genias extends MX_Controller {
         $genias = $this->get_genia();
         $rol = $genias['rol'];
         $mygoals = array();
-        $customData['goal_cantidad_total'] = 0;
-        $customData['goal_cumplidas_total'] = 0;
+        $customData['goal_cantidad_total_2'] = 0;
+        $customData['goal_cumplidas_total_2'] = 0;
+        $customData['goal_cantidad_total_4'] = 0;
+        $customData['goal_cumplidas_total_4'] = 0;
 
         // Inicializo contador de metas
         $genias_list = $this->genias_model->get_genias();
         foreach ($genias_list as $mygenia) {
-            $customData['goal_cantidad'][(string) $mygenia['_id']] = 0;
-            $customData['goal_cumplidas'][(string) $mygenia['_id']] = 0;
+            $customData['goal_cantidad_2'][(string) $mygenia['_id']] = 0;
+            $customData['goal_cumplidas_2'][(string) $mygenia['_id']] = 0;
+            $customData['goal_cantidad_4'][(string) $mygenia['_id']] = 0;
+            $customData['goal_cumplidas_4'][(string) $mygenia['_id']] = 0;
+
         }
 
 
@@ -94,11 +99,22 @@ class Genias extends MX_Controller {
             $goal['status'] = isset($case['status']) ? ($case['status']) : ('Sin definir');
 
             if ($case['status'] == 'closed') {
-                $customData['goal_cantidad_total']+=$goal['cantidad'];
-                $customData['goal_cumplidas_total']+=count($goal['cumplidas']);
 
-                $customData['goal_cantidad'][$goal['genia']]+=$goal['cantidad'];
-                $customData['goal_cumplidas'][$goal['genia']]+=count($goal['cumplidas']);
+                
+                if($goal['proyecto']=='2'){
+                $customData['goal_cantidad_2'][$goal['genia']]+=$goal['cantidad'];
+                $customData['goal_cumplidas_2'][$goal['genia']]+=count($goal['cumplidas']);
+                $customData['goal_cantidad_total_2']+=$goal['cantidad'];
+                $customData['goal_cumplidas_total_2']+=count($goal['cumplidas']);
+
+                }
+                if($goal['proyecto']=='4'){
+                $customData['goal_cantidad_4'][$goal['genia']]+=$goal['cantidad'];
+                $customData['goal_cumplidas_4'][$goal['genia']]+=count($goal['cumplidas']);
+                $customData['goal_cantidad_total_4']+=$goal['cantidad'];
+                $customData['goal_cumplidas_total_4']+=count($goal['cumplidas']);
+
+                }
             }
 
 
@@ -210,7 +226,7 @@ class Genias extends MX_Controller {
         $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
         $cpData['genia'] = $this->get_genia('nombre');
         $cpData['rol'] = $this->get_genia('rol');
-        $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
+        $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('fa fa-group') : ('fa fa-user');
 
         // Listado de genias de donde soy user
         $mygenias = $this->get_genia();
@@ -308,15 +324,17 @@ class Genias extends MX_Controller {
         $customData['genia'] = $this->get_genia('nombre');
         $projects = $this->genias_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
+//        var_dump($projects['items']);
+//        exit();
         $customData['titulo'] = "Tareas";
         $customData['tasks'] = array();
 //        foreach ($projects['items'] as $k => $item) {
 //            $items = $this->get_tasks($k);
 //            $customData['tasks'][$k] = array('id' => $item['id'], 'name' => $item['name'], 'items' => $this->get_tasks($k));
 //        }
-        //      var_dump($customData['projects'] );
-        //var_dump($projects['items']);
-        //$customData['tasks']= print_r($this->get_tasks("1"));
+//      var_dump($customData['projects'] );
+//var_dump($projects['items']);
+//$customData['tasks']= print_r($this->get_tasks("1"));
 
         $this->render('tasks', $customData);
     }
@@ -422,7 +440,7 @@ class Genias extends MX_Controller {
         echo '<ul class="accordion-inner unstyled task_list ">';
         foreach ($tasks as $task) {
             if ($task['finalizada'] == 0) {
-                echo "<li ><i class='icon-calendar' style='color:#0088CC'></i>{$task['dia']}<i class='icon-time' style='color:#0088CC'></i>{$task['hora']}:{$task['minutos']}<i class='icon-user' style='color:#0088CC'></i>{$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
+                echo "<li ><i class='fa fa-calendar' style='color:#0088CC'></i> {$task['dia']} <i class='fa fa-clock-o' style='color:#0088CC'></i> {$task['hora']}:{$task['minutos']} <i class='fa fa-user' style='color:#0088CC'></i> {$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
             }
         }
         echo '</ul>';
@@ -456,13 +474,14 @@ class Genias extends MX_Controller {
             $this->base_url . 'map/assets/jscript/jquery.ui.map.v3/jquery.ui.map.full.min.js' => 'Jquery.ui.map V3',
             $this->module_url . 'assets/jscript/map/map.json.js' => 'Load Json Map',
         );
-        //$url = $this->module_url . 'assets/json/empresasGenia.json';
-        $url = $this->module_url . 'empresas_mapa';
+        $url_genias_2 = $this->module_url . 'empresas_mapa';
+        $url_genias_4 = $this->module_url . 'instituciones_mapa';
         //$url = $this->module_url . 'instituciones_mapa';
         $customData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
-            'json_url' => $url,
+            'url_genias_2'=>$url_genias_2,
+            'url_genias_4'=>$url_genias_4
         );
         $customData['titulo'] = "Mapa";
         $this->render('map', $customData);
@@ -482,6 +501,15 @@ class Genias extends MX_Controller {
         //print_r($customData['projects']);
         $year = date('Y');
         $month = date('m');
+        // Defino agendas / colores
+        foreach($projects['items'] as $items){
+            $customData['global_js']["proyectos"][]=$items;
+        }
+
+//        $customData['global_js']=array("proyectos"=>array(
+//            array("id"=>2,"bgcolor"=>"#C6372C","color"=>"#fff","l"=>"form_empresas_alt"),
+//            array("id"=>4,"bgcolor"=>"#f60","color"=>"#fff","link_form"=>"form_instituciones")
+//            ));
         $this->render('scheduler', $customData);
     }
 
@@ -898,7 +926,7 @@ class Genias extends MX_Controller {
                     "latitude" => $empresa['7820'],
                     "longitude" => $empresa['7819'],
                     "title" => $empresa['1693'],
-                    "tags" => array("genia"),
+                    "tags" => array("genia2"),
                     "icon" => "factory_marker.png",
                     "content" => $empresa['1693'] . '<br/>' . $desc,
                 );
@@ -1001,14 +1029,17 @@ class Genias extends MX_Controller {
     function instituciones_mapa() {     
         $instituciones=$this->instituciones(null,true);
         $rtnArr=array();
+
         foreach ($instituciones['rows'] as $institucion) {
-            if (isset($institucion['4896'])) {
+
+            if (isset($institucion['4896']) && !empty($institucion['8109']) && !empty($institucion['8110'])) {
                 $rtnArr['markers'][] = array(
                     "latitude" => $institucion['8109'],
                     "longitude" => $institucion['8110'],
                     "title" => $institucion['4896'],
-                    "tags" => array("genia"),
-                    "icon" => "factory_marker.png",
+                    "tags" => array("genia4"),
+                    //"icon" => "factory_marker_cyan.png",
+                    "icon" => "instituciones_red.png",
                     "content" => $institucion['4896'],
                 );
             }
@@ -1128,6 +1159,7 @@ class Genias extends MX_Controller {
     /* ==== RESUMEN DE VISITAS ==== */
 
     function get_resumen_visitas() {
+
         $mes = $this->input->post('mes');
         if (!empty($mes)) {
             $y = substr($mes, 0, 4);
@@ -1138,10 +1170,57 @@ class Genias extends MX_Controller {
         }
         $periodo = $m . "[\/].*[\/]" . $y;
         $visitas = $this->genias_model->get_resumen_visitas($periodo);
+
         echo '<ul class="ultree">';
         foreach ($visitas as $k => $provincias) {
 
-            echo "<li>$k<a class='pull-right ul_collapse'><i class='icon-chevron-sign-down icon-large'></i></a>"; // PROV
+            echo "<li>$k<a class='pull-right ul_collapse'><i class='fa fa-chevron-circle-down'></i></a>"; // PROV
+            /* ==== provincias==== */
+            echo "<ul style='display:none'>";
+            $i = 0;
+            foreach ($provincias as $k => $empresa) {
+                $i++;
+                $stripe = ($i % 2 == 0) ? ('par') : ('impar');
+                $visitas = count($empresa['fechas']);
+                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+//             /*==== Visitas====*/
+                echo "<ul style='display:none'>";
+                foreach ($empresa['fechas'] as $k => $fecha) {
+                    if (($timestamp = strtotime($fecha['fecha'])) === false) {
+                        $fecha_visita = '-';
+                    } else {
+                        $fecha_visita = date('d/m/Y', $timestamp);
+                    }
+                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
+                }
+                echo "</ul>";
+//
+                echo "</li>";
+            }
+            echo "</ul>";
+            echo "</li>";
+        }
+        echo "</ul>";
+    }
+    
+       /* ==== RESUMEN DE VISITAS ==== */
+
+    function get_resumen_visitas_instituciones() {
+
+        $mes = $this->input->post('mes');
+        if (!empty($mes)) {
+            $y = substr($mes, 0, 4);
+            $m = substr($mes, 5, 2);
+        } else {
+            $m = date('m');
+            $y = date('Y');
+        }
+        $periodo = $m . "[\/].*[\/]" . $y;
+        $visitas = $this->genias_model->get_resumen_visitas_instituciones($periodo);
+        echo '<ul class="ultree">';
+        foreach ($visitas as $k => $provincias) {
+
+            echo "<li>$k<a class='pull-right ul_collapse'><i class='fa fa-chevron-circle-down'></i></a>"; // PROV
             /* ==== provincias==== */
             echo "<ul style='display:none'>";
             $i = 0;
