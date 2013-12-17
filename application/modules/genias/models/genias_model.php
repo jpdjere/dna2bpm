@@ -588,6 +588,8 @@ class Genias_model extends CI_Model {
 
         // LIstado de Provincias permitidas
         $provincias = array();
+        $empresas=array();
+        
         $misgenias = $this->get_genia($this->idu);
         foreach ($misgenias['genias'] as $genia) {
             if (isset($genia['query_empresas'][4651])) {
