@@ -95,7 +95,7 @@
 
         <div class="tab-pane " id="tab_processed">                                 
             <ul>                
-                
+                {anexoList}
             </ul>
         </div>
         <div class="tab-pane " id="tab_anexos"></div>
