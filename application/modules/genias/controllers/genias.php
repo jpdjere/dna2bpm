@@ -891,7 +891,9 @@ class Genias extends MX_Controller {
                 $thisEmpresa['partido_txt'] = '<span class="label label-important"><i class="icon-info-sign"/> COMPLETAR! </span>';
             }
         }
-        //var_dump($empresas);
+        
+//        var_dump($empresas);
+//        exit();
         $rtnArr = array();
         $rtnArr['totalCount'] = count($empresas);
         $rtnArr['rows'] = $empresas;
@@ -951,7 +953,8 @@ class Genias extends MX_Controller {
                     if ($key == 4651) {
                         $provincias[] = $value;
                     }
-
+                    // Mapeo a los valores de instituciones
+                    if($key==4651)$key=4897;
                     // Armo Array
                     if (is_array($value)) {
                         foreach ($value as $v) {
@@ -974,6 +977,9 @@ class Genias extends MX_Controller {
          * Basado en el idgenia
          */
         //---cacheo los partidos
+//            '4897', //Provincia (39)
+//            '8102', // Partido (58)
+                            
         $partidos = array();
         if (isset($query['4651'])) {
             foreach ($provincias as $prov) {
@@ -991,9 +997,9 @@ class Genias extends MX_Controller {
             }
         }
 
-        //$instituciones = $this->genias_model->get_instituciones($newQ);
+        $instituciones = $this->genias_model->get_instituciones($newQ);
         //---las cargo sin filtrar
-        $instituciones = $this->genias_model->get_instituciones(array());
+        //$instituciones = $this->genias_model->get_instituciones(array());
         for ($i = 0; $i < count($instituciones); $i++) {
             $thisInstitucion = &$instituciones[$i];
             //-----partido por texto
