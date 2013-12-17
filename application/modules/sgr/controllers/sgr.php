@@ -52,6 +52,8 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
+        
+        //var_dump($uploadpath);
 
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -146,7 +148,7 @@ class Sgr extends MX_Controller {
         //echo dirname(__FILE__); //$this->module_url;
 
         $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
-
+        
         //  $uploadpath = base_url() . 'anexos_sgr/' . $filename;
 
         $this->load->library('excel_reader2');
