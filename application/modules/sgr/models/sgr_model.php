@@ -33,15 +33,18 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->db->$container->findOne($query);
         return $result;
     }
-    
+
     function get_processed($anexo) {
-        $container = 'container.anexo_'. $anexo;        
-        $query['number'] = $anexo;
-        
-        $result = $this->mongo->db->$container->findOne($query);
-        return $result;
+        $rtn = array();
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename');
+        $query = array("status" => 'activo', "anexo" => $anexo);
+        $result = $this->mongo->db->$container->find($query, $fields);
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+        return $rtn;
     }
-    
 
     function get_sgr() {
         $rtn = array();
@@ -381,10 +384,7 @@ class Sgr_model extends CI_Model {
                 exit();
             }
         }
-        }
-
-
-      
+    }
 
     function array_delete($value, $array) {
         $array = array_diff($array, array($value));

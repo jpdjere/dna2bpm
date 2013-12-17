@@ -223,7 +223,7 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_periodos';
         $id = $this->app->genid($container);             
         $parameter['period'] = $this->session->userdata['period'];
-        $period_param['status'] = 'activo';        
+        $parameter['status'] = 'activo';        
         $result = $this->app->put_array($id, $container, $parameter);
          if ($result) {
             $out = array('status' => 'ok');

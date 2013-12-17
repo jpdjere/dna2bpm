@@ -1,11 +1,11 @@
 <div class="row-fluid test" id="barra_user" > 
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" ><strong>{anexo_title_cap}</strong> 
+    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >{sgr_nombre}
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
             <i class="icon-plus"></i>  Importar Archivo a Procesar
         </button> 
         <li class="pull-right perfil">
             <span id="status"></span>
-            <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+             <a   href="{base_url}user/logout"> <i class="{rol_icono}"></i> {username}</a> [{rol}]
         </li>
     </ul>
 </div>
@@ -36,32 +36,31 @@
     </div> 
 
     <ul class="nav nav-tabs" id="dashboard_tab1">
-        <li class="active"><a href="#tab_pending" data-toggle="tab">Archivos a Procesar</a></li>
-        <li><a href="#tab_anexos" data-toggle="tab">Anexos</a></li>
+        <li class="active"><a href="#tab_pending" data-toggle="tab">Archivos a Procesar</a></li>        
         <li><a href="#tab_processed" data-toggle="tab">Procesados</a></li>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane active" id="tab_pending">            
-           
+
             {if sgr_period} 
-                <!-- -->
+            <!-- -->
             {else}           
-            
+
             <form class="well" method="post" />
             <div  class="row-fluid">
                 <div class="span6">
                     <div class="">
                         <label>Seleccione el Período a informar {sgr_period}</label>
-                            
+
                         <div class="input-append">
                             <input type="hidden" name="desde" placeholder="Período" class="input-block-level "/>
                         </div>
 
                         <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
-                                <input type="text" name="input_period" readonly="" value=""  class="input-block-level">
-                                <span class="add-on"><i class="icon-calendar"></i></span>
-                            </div>
+                            <input type="text" name="input_period" readonly="" value=""  class="input-block-level">
+                            <span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>
                     </div>
                     <!--
                     <label>Observaciones</label>
@@ -71,7 +70,7 @@
                 </div>
             </div>
 
-            
+
             <div  class="row-fluid">
                 <div class="span12">
                     <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
@@ -79,28 +78,22 @@
 
             </div>
             </form>
-           {/if}
+            {/if}
 
 
             <div class="alert {resumen_class}" id="{_id}">                
                 <h3>{anexo_title} </h3>
-                <ul>
+                <ol>
                     {files_list}                   
-                </ul>
+                </ol>
             </div> 
         </div>  
 
-
-
-
-        <div class="tab-pane " id="tab_anexos">                                 
-            <ul>                
-                {anexo_list}
-            </ul>
-        </div> 
-        
-       
-        <div id="tab_processed" class="tab-pane">{processed_list}</div>
+        <div id="tab_processed" class="tab-pane">
+            <ol>
+                {processed_list}
+            </ol>
+        </div>
     </div>
 
 </div>

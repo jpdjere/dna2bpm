@@ -73,7 +73,7 @@ class Sgr extends MX_Controller {
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
-        $customData['processed_list'] = $this->get_processed();
+        $customData['processed_list'] = $this->get_processed($this->anexo);
         
 
         if ($upload['success']) {
@@ -397,44 +397,16 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $this->render('offline', $customData);
     }
-
-    function Inbox() {
-        $this->load->model('msg');
-
-        $customData['lang'] = (array) $this->user->get_user($this->idu);
-        $customData['user'] = (array) $this->user->get_user($this->idu);
-        $customData['inbox_icon'] = 'icon-envelope';
-        $customData['inbox_title'] = $this->lang->line('Inbox');
-        $customData['js'] = array($this->base_url . "dna2/assets/jscript/inbox.js" => 'Inbox JS');
-        $customData['css'] = array($this->base_url . "dna2/assets/css/dashboard.css" => 'Dashboard CSS');
-        //debug
-
-
-        $mymgs = $this->msg->get_msgs($this->idu);
-
-        foreach ($mymgs as $msg) {
-            $msg['msgid'] = $msg['_id'];
-            $msg['date'] = substr($msg['checkdate'], 0, 10);
-            $msg['icon_star'] = (isset($msg['star']) && $msg['star'] == true) ? ('icon-star') : ('icon-star-empty');
-            $msg['read'] = (isset($msg['read']) && $msg['read'] == true) ? ('muted') : ('');
-            if (isset($msg['from'])) {
-                $userdata = $this->user->get_user($msg['from']);
-                if (!is_null($userdata))
-                    $msg['sender'] = $userdata->nick;
-                else
-                    $msg['sender'] = "No sender";
-            }else {
-                $msg['sender'] = "System";
-            }
-            $customData['mymsgs'][] = $msg;
-        }
-
-        $this->render('inbox', $customData);
-    }
-    
-    
-    function get_processed(){
+ 
+    function get_processed($anexo){
         
+       $processed =   $this->sgr_model->get_processed($anexo);
+       
+       $list_files = "";       
+       foreach($processed as $file){
+          $list_files .= "<li>" . $file['filename']. "</li>";          
+       }
+       return $list_files;
         
     }
     
@@ -541,17 +513,21 @@ class Sgr extends MX_Controller {
         if (!empty($customData['files'])) {
             foreach ($customData['files'] as $file) {                
                 //echo anchor($prefix.$file['name'], $file['name']).'<br>';
-                list($sgr, $anexo, $filedate) = explode("_", $file['name']);
+                list($sgr, $anexo, $filedate, $filetime) = explode("_", $file['name']);
 
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
                     list($filename, $extension) = explode(".", $file['name']);
-
+                    
+                    /*Vars*/
+                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
+                    $download = anchor('anexos_sgr/'.$file['name'], '<i class="fa fa-download" alt="Descargar"></i>');
+                    
                     /*check if file exist*/                    
                     if ($this->session->userdata['period']) {
                         //$files_list .= '<li><a href="' . $this->module_url . 'anexo/' . $filename . '">' . $file['name'] . '</a></li>';
-                        $files_list .= '<li>' . anchor('/sgr/anexo/' . $filename, $file['name']).'</li>';
+                        $files_list .= '<li> Pendiente ' . $filedate." ".$filetime. " ". $download."  ". $process_file .'</li>';
                     } else {
-                        $files_list .= '<li>' . anchor('anexos_sgr/'.$file['name'], $file['name']).'</li>';
+                        $files_list .= '<li> Pendiente ' . $filedate ." ".$filetime. " " . $download.'</li>';
                     }
                 }
             }
