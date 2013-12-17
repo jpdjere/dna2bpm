@@ -82,7 +82,7 @@
         
         <div class="tab-content">
             <div class="tab-pane active" id="tab_resumen">
-<!-- =================  ESCENARIO POLITICO ================= -->
+<!-- =================  ESCENARIO PYME ================= -->
                 <div class="row-fluid">
                      <div class="span12">
                          <h1><i class="fa fa-bookmark"></i> Escenario PYME</h1>
@@ -106,7 +106,7 @@
 <!-- dummy visitas -->
 </div>
 </div>
-<!-- =================  ESCENARIO INSTITUCIONAL ================= -->
+<!-- =================  ESCENARIO POLITICO ================= -->
                         <div class="row-fluid">
                      <div class="span12">
                          <h1><i class="fa fa-bookmark"></i> Escenario Político</h1>
@@ -117,7 +117,7 @@
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Sus genias tienen {goal_cumplidas_total_4} de {goal_cantidad_total_4} objetivos cumplidos.</strong> 
                 </div> 
-                
+
                 <!-- ================= VISITAS  -->
 
 <div class='row' id="filtro_visitas_instituciones">
@@ -217,7 +217,7 @@ echo "</div>";
                                 {if {rol}=='coordinador'}
                                    {if {status} == 'open'}
                                         <button class="aprobar btn btn-mini btn-success hide_offline" url="{url_case}" type="button">
-                                               <i class="icon-thumbs-up-alt"></i> Aprobar
+                                               <i class="fa fa-thumbs-o-up"></i> Aprobar
                                        </button>
                                     {/if}
                                 {/if}
