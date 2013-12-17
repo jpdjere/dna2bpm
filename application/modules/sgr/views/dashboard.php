@@ -1,11 +1,11 @@
 <div class="row-fluid test" id="barra_user" > 
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >{sgr_nombre}
+    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
             <i class="icon-plus"></i>  Importar Archivo a Procesar
         </button> 
         <li class="pull-right perfil">
-            <span id="status"></span>
-            <i class="{rol_icono}"></i> <a   href="{base_url}user/logout"> {username}</a> [{rol}]
+            <span id="status"></span>{sgr_nombre}
+            <i class="{rol_icono}"></i>  <a   href="{base_url}user/logout"> {username}</a> [{rol}]
         </li>
     </ul>
 </div>

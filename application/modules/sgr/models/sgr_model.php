@@ -34,11 +34,11 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_processed($anexo) {
+    function get_processed($anexo, $sgr_id) {
         $rtn = array();
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename');
-        $query = array("status" => 'activo', "anexo" => $anexo);
+        $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id );
         $result = $this->mongo->db->$container->find($query, $fields);
         foreach ($result as $list) {
             $rtn[] = $list;
