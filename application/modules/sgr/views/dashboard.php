@@ -1,7 +1,7 @@
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
-            <i class="icon-plus"></i>  Importar Archivo a Procesar.
+            <i class="icon-plus"></i>  Importar Archivo a Procesar
         </button> 
         <li class="pull-right perfil">
             <span id="status"></span>{sgr_nombre}
