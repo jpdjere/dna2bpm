@@ -5,7 +5,7 @@
         </button> 
         <li class="pull-right perfil">
             <span id="status"></span>
-             <a   href="{base_url}user/logout"> <i class="{rol_icono}"></i> {username}</a> [{rol}]
+            <i class="{rol_icono}"></i> <a   href="{base_url}user/logout"> {username}</a> [{rol}]
         </li>
     </ul>
 </div>

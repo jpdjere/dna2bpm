@@ -397,7 +397,42 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $this->render('offline', $customData);
     }
- 
+
+    function Inbox() {
+        $this->load->model('msg');
+
+        $customData['lang'] = (array) $this->user->get_user($this->idu);
+        $customData['user'] = (array) $this->user->get_user($this->idu);
+        $customData['inbox_icon'] = 'icon-envelope';
+        $customData['inbox_title'] = $this->lang->line('Inbox');
+        $customData['js'] = array($this->base_url . "dna2/assets/jscript/inbox.js" => 'Inbox JS');
+        $customData['css'] = array($this->base_url . "dna2/assets/css/dashboard.css" => 'Dashboard CSS');
+        //debug
+
+
+        $mymgs = $this->msg->get_msgs($this->idu);
+
+        foreach ($mymgs as $msg) {
+            $msg['msgid'] = $msg['_id'];
+            $msg['date'] = substr($msg['checkdate'], 0, 10);
+            $msg['icon_star'] = (isset($msg['star']) && $msg['star'] == true) ? ('icon-star') : ('icon-star-empty');
+            $msg['read'] = (isset($msg['read']) && $msg['read'] == true) ? ('muted') : ('');
+            if (isset($msg['from'])) {
+                $userdata = $this->user->get_user($msg['from']);
+                if (!is_null($userdata))
+                    $msg['sender'] = $userdata->nick;
+                else
+                    $msg['sender'] = "No sender";
+            }else {
+                $msg['sender'] = "System";
+            }
+            $customData['mymsgs'][] = $msg;
+        }
+
+        $this->render('inbox', $customData);
+    }
+    
+    
     function get_processed($anexo){
         
        $processed =   $this->sgr_model->get_processed($anexo);
