@@ -42,19 +42,21 @@ class Update_metas extends MX_Controller {
         $result = $this->genias_model->get_visitas();
 
         ob_start();
-$i=0;
+        $i=0;
         foreach ($result as $returnData) {
+
             $i++;
             $id = $returnData['id'];
             $idu = $returnData['idu'];
             $fecha = $returnData['fecha'];
-            $newResult = $this->genias_model->goal_update_all('2', $id, $idu, $fecha,$i);
-
-            if (!empty($newResult)) {
-                echo "<pre>";
-                var_dump($newResult);
-                echo "</pre>";
-            }
+            $proyecto = (isset($returnData['proyecto'])&& is_numeric($returnData['proyecto']))?((string)$returnData['proyecto']):('2');
+            $newResult = $this->genias_model->goal_update_all($proyecto, $id, $idu, $fecha,$i);
+            
+            $style=($newResult['found'])?(''):('color:#ccc');
+            echo "<pre style='$style'>";
+            var_dump($newResult);
+            echo "</pre>";
+                
             ob_flush();
             flush();
         }

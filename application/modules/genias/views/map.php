@@ -4,7 +4,7 @@
          <li ></li> 
           <li class="pull-right perfil">
               <span id="status"></span>
-              <a title="{usermail}">{username}</a> <i class="icon-angle-right"></i> <i class="{rol_icono}"></i> {rol}
+              <a title="{usermail}">{username}</a> <i class="fa fa-angle-right"></i> <i class="{rol_icono}"></i> {rol}
           </li>
     </ul>
 
@@ -22,15 +22,15 @@
                 <!-- Mapa de Genias -->
                 <li>
                     <label class="checkbox">
-                        <input type="checkbox" value="genia">
+                        <input type="checkbox" value="genia2" checked="checked">
                         Empresas Genias
                     </label>
                 </li>
-                <!-- Mapa de Empresas Dna� -->
+                <!-- Mapa Instituciones-->
                 <li>
                     <label class="checkbox">
-                        <input type="checkbox" value="dna2">
-                        Empresas DNA&sup2;
+                        <input type="checkbox" value="genia4" checked="checked">
+                        Instituciones
                     </label>
 
                 </li>
