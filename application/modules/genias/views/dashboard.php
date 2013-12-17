@@ -109,7 +109,7 @@
 <!-- =================  ESCENARIO INSTITUCIONAL ================= -->
                         <div class="row-fluid">
                      <div class="span12">
-                         <h1><i class="fa fa-bookmark"></i> Escenario Institucional</h1>
+                         <h1><i class="fa fa-bookmark"></i> Escenario Político</h1>
                      </div>
                 </div>
                 
