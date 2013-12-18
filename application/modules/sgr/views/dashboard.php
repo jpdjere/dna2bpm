@@ -1,7 +1,7 @@
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
-            <i class="icon-plus"></i>  Importar Archivo a Procesar
+            <i class="icon-plus"></i>  Seleccionar Archivos a Procesar
         </button> 
         <li class="pull-right perfil">
             <span id="status"></span>{sgr_nombre}
@@ -73,7 +73,7 @@
 
             <div  class="row-fluid">
                 <div class="span12">
-                    <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
+                    <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>Activar Periodo</button>  
                 </div>
 
             </div>
