@@ -203,8 +203,6 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_06';
         $parameter['period'] = $period;       
-        $options = array('upsert' => true, 'safe' => true);
-
         $id = $this->app->genid($container);
 
         $result = $this->app->put_array($id, $container, $parameter);
@@ -231,6 +229,15 @@ class Model_06 extends CI_Model {
             $out = array('status' => 'error');
         }
         return $out;
+    }
+    
+    function update_period($id) {
+        $options = array('upsert' => true, 'safe' => true);
+        $container = 'container.sgr_periodos';
+        $query = array('id' => (integer) $id);
+        $parameter= array('status' => "rectificado");
+        $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
+        return $rs['err'];
     }
 
     function debug($parameter) {

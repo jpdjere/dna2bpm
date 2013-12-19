@@ -47,7 +47,8 @@ class Sgr extends MX_Controller {
             $this->sgr_nombre = $sgr['1693'];
         }
 
-        $this->anexo = ($_REQUEST['anexo']) ? $_REQUEST['anexo'] : "06";
+
+        $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
     }
 
@@ -88,7 +89,20 @@ class Sgr extends MX_Controller {
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
-            $customData['message'] = $error_set_period;
+            switch ($error_set_period) {
+                case 1:
+                    $error_msg = "El Periodo seleccionado es Invalido";
+                    break;
+
+                default:
+                    $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
+                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
+                    $error_msg = "El periodo del " . str_replace("-", "/", $error_set_period) . " ya fue informado [ " . $get_period['filename'] . " ] | " . $new_period;
+                    $customData['post_period'] = $error_set_period;
+                    $customData['rectifica'] = true;
+                    break;
+            }
+            $customData['message'] = $error_msg;
             $customData['success'] = "error";
         }
         // FILE BROWSER
@@ -103,11 +117,18 @@ class Sgr extends MX_Controller {
         //RENDER
     }
 
+    function Anexo_code($parameter) {
+        // $this->session->unset_userdata('anexo_code');
+        $newdata = array('anexo_code' => $parameter);
+        $this->session->set_userdata($newdata);
+        redirect('/sgr');
+    }
+
     function AnexosDB() {
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a href="?anexo=' . $anexo['number'] . '">' . $anexo['title'] . '</a></li>';
+            $result .= '<li><a href="sgr/anexo_code/' . $anexo['number'] . '">' . $anexo['title'] . '</a></li>';
         }
         return $result;
     }
@@ -127,9 +148,8 @@ class Sgr extends MX_Controller {
 
 
         if ($get_period) {
-           
-           //V????????????????
-           
+
+            //V????????????????
         }
 
 
@@ -362,28 +382,68 @@ class Sgr extends MX_Controller {
     }
 
     function set_period() {
-        if ($this->input->post("input_period")) {
+        $rectify = $this->input->post("rectifica");
+        $period = $this->input->post("input_period");
+
+
+
+        if ($period) {
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
-            $newdata = array('period' => $this->input->post("input_period"));
-            list($month, $year) = explode("-", $this->input->post("input_period"));
+            $newdata = array('period' => $period);
+            list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
-            if ($limit_month <= $set_month) {
-                return 1;
-            } else {
-                $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
-                if ($get_period) {
-                    return "Ya fue informado";
-                } else {
-                    $this->session->set_userdata($newdata);
-                    redirect('/sgr');
-                }
+            if ($rectify) {
+                //Rectificamos Anexo 
 
-                /* Check period if exist */
-                //
+                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+                $model = "model_" . $anexo;
+                $this->load->model($model);
+                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+                
+                if ($get_period) {                   
+                    $update_period = (array) $this->$model->update_period($get_period['id']);                 
+                }
+                var_dump($update_period);
+
+                $this->session->set_userdata($newdata);
+                //redirect('/sgr');
+            } else {
+                if ($limit_month <= $set_month) {
+                    return 1; // Posterior al mes actual
+                } else {
+
+                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+                    if ($get_period) {
+                        return $this->input->post("input_period"); //Ya fue informado                    
+                    } else {
+                        $this->session->set_userdata($newdata);
+                        redirect('/sgr');
+                    }
+                }
             }
+        }
+    }
+
+    function set_no_movement() {
+
+        $data = $this->input->post('data');
+        $period = $data['no_movement'];
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+
+        $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+        if (!$get_period) {
+            $result = array();
+            $result['period'] = $period;
+            $result['filename'] = "SIN MOVIMIENTOS";
+            $result['sgr_id'] = (int) $this->sgr_id;
+            $result['anexo'] = $anexo;
+            $save_period = (array) $this->$model->save_period($result);
+            echo "ok";
         }
     }
 
