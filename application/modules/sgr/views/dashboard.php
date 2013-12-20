@@ -45,7 +45,7 @@
         <div id="meta_div_2">
             <form  method="post" class="well">
                 <div  class="row-fluid " >
-                    <div class="span6 ">                        
+                    <div class="span6">                        
                         <label>{if rectifica} Rectificar {/if}Anexo</label>
                         <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
                         {if rectifica}
@@ -65,7 +65,7 @@
                             <label>Seleccione el Período a {if rectifica} Rectificar {else} Informar {/if} </label>
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
                                 <input type="text" name="input_period" readonly="" {if post_period} value="{post_period}" {/if} class="input-block-level">
-                                       <span class="add-on"><i class="icon-calendar"></i></span>
+                                       {if rectifica}{else}<span class="add-on"><i class="icon-calendar"></i></span>{/if}
                             </div>
                         </div>
                         {if rectifica}     
@@ -96,23 +96,23 @@
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="tab_pending">            
-
-
-
-
+        <div class="tab-pane active" id="tab_pending">  
             <div class="alert {resumen_class}" id="{_id}">                
                 <h3>{anexo_title} </h3>
                 <ol>
-                    {files_list}                   
+                    {files_list}
                 </ol>
             </div> 
         </div>  
 
-        <div id="tab_processed" class="tab-pane">
-            <ol>
-                {processed_list}
-            </ol>
+        <div id="tab_processed" class="tab-pane">            
+            <div class="alert {resumen_class}" id="{_id}">                
+                <h3>{anexo_title} </h3>
+                <div  class="row-fluid">  
+                    {processed_list}
+                </div>
+
+            </div> 
         </div>
     </div>
 

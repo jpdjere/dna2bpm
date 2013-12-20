@@ -202,11 +202,10 @@ class Model_06 extends CI_Model {
 
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_06';
-        $parameter['period'] = $period;       
+        $parameter['period'] = $period;
+        $parameter['origin'] = 2013;
         $id = $this->app->genid($container);
-
         $result = $this->app->put_array($id, $container, $parameter);
-        //$result = $this->mongo->db->$container->update($id, $parameter, $options);
 
         if ($result) {
             $out = array('status' => 'ok');
@@ -219,7 +218,7 @@ class Model_06 extends CI_Model {
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
-        $id = $this->app->genid($container);             
+        $id = $this->app->genid($container);        
         $parameter['period'] = $this->session->userdata['period'];
         $parameter['status'] = 'activo';        
         $result = $this->app->put_array($id, $container, $parameter);

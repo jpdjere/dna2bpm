@@ -402,9 +402,9 @@ class Sgr extends MX_Controller {
                 $model = "model_" . $anexo;
                 $this->load->model($model);
                 $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
-                
-                if ($get_period) {                   
-                    $update_period = (array) $this->$model->update_period($get_period['id']);                 
+
+                if ($get_period) {
+                    $update_period = (array) $this->$model->update_period($get_period['id']);
                 }
                 var_dump($update_period);
 
@@ -477,13 +477,18 @@ class Sgr extends MX_Controller {
     }
 
     function get_processed($anexo) {
-
-        $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id);
-
         $list_files = "";
-        foreach ($processed as $file) {
-            $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] </li>";
+        
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $list_files .= "<div class=span6><h5>" . $i . "</h5><ul>";
+            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);          
+            foreach ($processed as $file) {
+                $print_file = anchor('/sgr/print/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
+                $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] ".$print_file."</li>";                
+            }
+            $list_files .= "</ul></div>";
         }
+
         return $list_files;
     }
 
@@ -601,14 +606,17 @@ class Sgr extends MX_Controller {
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
-                        //$files_list .= '<li><a href="' . $this->module_url . 'anexo/' . $filename . '">' . $file['name'] . '</a></li>';
+                        //Process
                         $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . "  " . $process_file . '</li>';
                     } else {
-                        $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . '</li>';
+                        //Just Download 
+                        $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . ' <small>[Para procesar debe seleccionar el periodo a informar]</small> <i class="fa fa-external-link" alt="Procesar"></i></li>';
                     }
                 }
             }
         }
+
+        $files_list = ($files_list != "") ? $files_list : "<h5>No hay Archivos Pendientes</h5>";
         return $files_list;
     }
 
