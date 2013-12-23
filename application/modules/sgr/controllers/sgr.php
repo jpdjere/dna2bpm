@@ -480,7 +480,7 @@ class Sgr extends MX_Controller {
         $list_files = "";
         
         for ($i = 2009; $i <= date(Y); $i++) {
-            $list_files .= "<div class=span4><h5>" . $i . "</h5><ul>";
+            $list_files .= "<div class=span5><h5>" . $i . "</h5><ul>";
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);          
             foreach ($processed as $file) {
                 $print_file = anchor('/sgr/print/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
