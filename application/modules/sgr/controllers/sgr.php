@@ -601,7 +601,6 @@ class Sgr extends MX_Controller {
 
         if (!empty($customData['files'])) {
             foreach ($customData['files'] as $file) {
-                //echo anchor($prefix.$file['name'], $file['name']).'<br>';
                 list($sgr, $anexo, $filedate, $filetime) = explode("_", $file['name']);
 
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
