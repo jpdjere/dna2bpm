@@ -40,17 +40,22 @@ $(document).ready(function() {
                     data: {'data': data},
                     success: function(resp) {
                         var new_resp = (resp) ? "El periodo" + no_movement + " fue asociado con Exito" : "Error verifique la informacion";
-                        bootbox.alert(new_resp);
-                        if(resp){
+//                        bootbox.alert(new_resp);
+//                        if (resp) {
+//                            
+//                        }
+
+                        bootbox.alert(new_resp, function() {
+
                             location.reload();
-                        }
+                        });
                     }
                 });
     }
 
     $('button.no_movement').click(function() {
         var no_movement = $('#no_movement').val();
-        bootbox.confirm("Confirma la asociacion del " + no_movement +" SIN MOVIMIENTO?", function(result) {
+        bootbox.confirm("Confirma la asociacion del " + no_movement + " SIN MOVIMIENTO?", function(result) {
             if (result) {
                 add_no_movement();
             }
