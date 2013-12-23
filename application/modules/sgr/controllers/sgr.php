@@ -328,6 +328,8 @@ class Sgr extends MX_Controller {
 
         /* ERROR CASE */
         if ($error) {
+            $customData['sgr_period'] = $this->period;
+            $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
             $this->render('errors', $customData);
