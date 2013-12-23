@@ -248,7 +248,8 @@ class Sgr extends MX_Controller {
             /* VALIDATIONS */
 
             if (!$count) {
-                echo "Error archivo no tiene la informacion necesaria";
+                
+                $result_header = "<li>Error archivo no tiene la informacion necesaria</li>";
                 $error = true;
             }
 
