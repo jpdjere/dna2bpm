@@ -39,14 +39,8 @@ $(document).ready(function() {
                     url: globals.module_url + 'set_no_movement',
                     data: {'data': data},
                     success: function(resp) {
-                        var new_resp = (resp) ? "El periodo" + no_movement + " fue asociado con Exito" : "Error verifique la informacion";
-//                        bootbox.alert(new_resp);
-//                        if (resp) {
-//                            
-//                        }
-
+                        var new_resp = (resp) ? "El periodo " + no_movement + " fue asociado con Exito" : "Error verifique la informacion";
                         bootbox.alert(new_resp, function() {
-
                             location.reload();
                         });
                     }
@@ -55,7 +49,7 @@ $(document).ready(function() {
 
     $('button.no_movement').click(function() {
         var no_movement = $('#no_movement').val();
-        bootbox.confirm("Confirma la asociacion del " + no_movement + " SIN MOVIMIENTO?", function(result) {
+        bootbox.confirm("Confirma la asociacion del periodo " + no_movement + " como SIN MOVIMIENTO?", function(result) {
             if (result) {
                 add_no_movement();
             }
