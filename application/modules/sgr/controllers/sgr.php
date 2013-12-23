@@ -382,7 +382,7 @@ class Sgr extends MX_Controller {
     }
     
     function print_anexo($parameter=null){
-        if(!parameter){
+        if(!$parameter){
             exit();
         }
         echo "alo" + $parameter;
