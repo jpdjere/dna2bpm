@@ -22,7 +22,11 @@ $(document).ready(function() {
 
 
 //
-    $('button.no_movement').click(function() {
+    /*
+     
+     **/
+
+    function add_no_movement() {
         var no_movement = $('#no_movement').val();
         var data = {'no_movement': no_movement};
         $.ajax(
@@ -39,6 +43,31 @@ $(document).ready(function() {
                         bootbox.alert(new_resp);
                     }
                 });
+    }
+
+    $('button.no_movement').click(function() {
+        bootbox.confirm("Are you sure?", function(result) {
+            
+            alert("Confirm result: " + result);
+        });
+
+
+//        var no_movement = $('#no_movement').val();
+//        var data = {'no_movement': no_movement};
+//        $.ajax(
+//                {
+//                    /* this option */
+//                    async: false,
+//                    cache: false,
+//                    type: "POST",
+//                    dataType: "text",
+//                    url: globals.module_url + 'set_no_movement',
+//                    data: {'data': data},
+//                    success: function(resp) {
+//                        var new_resp = (resp) ? "OK" : "Error";
+//                        bootbox.alert(new_resp);
+//                    }
+//                });
     });
 
 
