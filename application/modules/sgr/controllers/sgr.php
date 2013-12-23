@@ -328,6 +328,7 @@ class Sgr extends MX_Controller {
 
         /* ERROR CASE */
         if ($error) {
+             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
