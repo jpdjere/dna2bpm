@@ -48,7 +48,7 @@ $(document).ready(function() {
     $('button.no_movement').click(function() {
         var no_movement = $('#no_movement').val();
         bootbox.confirm("Are you sure " + no_movement +"?", function(result) {
-            if ($result) {
+            if (result) {
                 add_no_movement();
             }
         });
