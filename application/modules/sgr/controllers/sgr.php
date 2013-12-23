@@ -380,6 +380,10 @@ class Sgr extends MX_Controller {
           echo $sql . rtrim($valuesSql, ", ") . " ) <br>";
           } */
     }
+    
+    function print_anexo($parameter){
+        echo "alo" + parameter;
+    }
 
     function set_period() {
         $rectify = $this->input->post("rectifica");
@@ -483,7 +487,7 @@ class Sgr extends MX_Controller {
             $list_files .= "<div class=span5><h5>" . $i . "</h5><ul>";
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);          
             foreach ($processed as $file) {
-                $print_file = anchor('/sgr/print/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
+                $print_file = anchor('/sgr/print_anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
                 $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] ".$print_file."</li>";                
             }
             $list_files .= "</ul></div>";
