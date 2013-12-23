@@ -385,7 +385,7 @@ class Sgr extends MX_Controller {
         if(!$parameter){
             exit();
         }
-        echo "alo" + $parameter;
+        echo  $parameter;
     }
 
     function set_period() {
@@ -490,7 +490,7 @@ class Sgr extends MX_Controller {
             $list_files .= "<div class=span5><h5>" . $i . "</h5><ul>";
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);          
             foreach ($processed as $file) {
-                $print_file = anchor('/sgr/print_anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
+                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], '<i class="fa fa-external-link" alt="Imprimir"></i>');
                 $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] ".$print_file."</li>";                
             }
             $list_files .= "</ul></div>";
