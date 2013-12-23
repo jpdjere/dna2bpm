@@ -39,15 +39,18 @@ $(document).ready(function() {
                     url: globals.module_url + 'set_no_movement',
                     data: {'data': data},
                     success: function(resp) {
-                        var new_resp = (resp) ? "OK" : "Error";
+                        var new_resp = (resp) ? "El periodo" + no_movement + " fue asociado con Exito" : "Error verifique la informacion";
                         bootbox.alert(new_resp);
+                        if(resp){
+                            location.reload();
+                        }
                     }
                 });
     }
 
     $('button.no_movement').click(function() {
         var no_movement = $('#no_movement').val();
-        bootbox.confirm("Are you sure " + no_movement +"?", function(result) {
+        bootbox.confirm("Confirma la asociacion del " + no_movement +" SIN MOVIMIENTO?", function(result) {
             if (result) {
                 add_no_movement();
             }
