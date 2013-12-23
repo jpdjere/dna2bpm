@@ -46,11 +46,11 @@
             <form  method="post" class="well">
                 <div  class="row-fluid " >
                     <div class="span6">                        
-                        <label>{if rectifica} Rectificar {/if}Anexo</label>
+                        <label>{if rectifica}Rectificar {/if}Anexo</label>
                         <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
                         {if rectifica}
                         <div>
-                            <label>Rectificacion de {post_period}/ Ingrese el Motivo</label>
+                            <label>Rectificación de {post_period}/ Ingrese el Motivo</label>
                             <select name="rectificar" id="rectificar" class="input-block-level">
                                 <option value=1>Errores en el sistema y/o procesamiento del archivo</option>
                                 <option value=2>Error en la informacion sumistrada</option>
@@ -108,11 +108,14 @@
         <div id="tab_processed" class="tab-pane">            
             <div class="alert {resumen_class}" id="{_id}">                
                 <h3>{anexo_title} </h3>
-                <div  class="row-fluid">  
-                    {processed_list}
-                </div>
+                
+                
 
-            </div> 
+            </div>
+            
+            {processed_list}
+            
+            
         </div>
     </div>
 
