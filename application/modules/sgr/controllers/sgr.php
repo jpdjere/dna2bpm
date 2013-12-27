@@ -248,7 +248,7 @@ class Sgr extends MX_Controller {
             /* VALIDATIONS */
 
             if (!$count) {
-                
+
                 $result_header = "<li>Error archivo no tiene la informacion necesaria</li>";
                 $error = true;
             }
@@ -328,7 +328,7 @@ class Sgr extends MX_Controller {
 
         /* ERROR CASE */
         if ($error) {
-             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+            $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
@@ -384,12 +384,22 @@ class Sgr extends MX_Controller {
           echo $sql . rtrim($valuesSql, ", ") . " ) <br>";
           } */
     }
-    
-    function print_anexo($parameter=null){
-        if(!$parameter){
+
+    function print_anexo($parameter = null) {
+        if (!$parameter) {
             exit();
         }
-        echo  $parameter;
+        
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+        
+        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
+        echo $get_anexo;
+        
+        
+
+       // echo $parameter;
     }
 
     function set_period() {
@@ -489,13 +499,13 @@ class Sgr extends MX_Controller {
 
     function get_processed($anexo) {
         $list_files = "";
-        
+
         for ($i = 2011; $i <= date(Y); $i++) {
             $list_files .= "<div class=span5><h5>" . $i . "</h5><ul>";
-            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);          
+            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], '<i class="fa fa-external-link" alt="Imprimir"></i>');
-                $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] ".$print_file."</li>";                
+                $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] " . $print_file . "</li>";
             }
             $list_files .= "</ul></div>";
         }

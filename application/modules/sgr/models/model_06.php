@@ -218,25 +218,38 @@ class Model_06 extends CI_Model {
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
-        $id = $this->app->genid($container);        
+        $id = $this->app->genid($container);
         $parameter['period'] = $this->session->userdata['period'];
-        $parameter['status'] = 'activo';        
+        $parameter['status'] = 'activo';
         $result = $this->app->put_array($id, $container, $parameter);
-         if ($result) {
+        if ($result) {
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
         return $out;
     }
-    
+
     function update_period($id) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $parameter= array('status' => "rectificado");
+        $parameter = array('status' => "rectificado");
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
+    }
+
+    function get_anexo_info($anexo, $parameter) {
+
+        $headerArr = array("TIPO_OPERACION", "TIPO_SOCIO", "CUIT", "NOMBRE", "PROVINCIA", "PARTIDO_MUNICIPIO_COMUNA", "LOCALIDAD", "CODIGO_POSTAL", "CALLE", "NRO", "PISO", "DTO_OFICINA", "CODIGO_AREA", "TELEFONO", "EMAIL", "WEB", "CODIGO_ACTIVIDAD_AFIP", "ANIO_MES1", "MONTO", "TIPO_ORIGEN", "ANIO_MES2", "MONTO2", "TIPO_ORIGEN2", "ANIO_MES3", "MONTO3", "TIPO ORIGEN3", "CONDICION_INSCRIPCION_AFIP", "CANTIDAD_DE_EMPLEADOS", "TIPO_ACTA", "FECHA_ACTA", "ACTA_NRO", "FECHA_DE_TRANSACCION", "MODALIDAD", "CAPITAL_SUSCRIPTO", "ACCIONES_SUSCRIPTAS", "CAPITAL_INTEGRADO", "ACCIONES_INTEGRADAS", "CEDENTE_CUIT", "CEDENTE_CARACTERISTICA");
+       
+        $anexoValues = $this->sgr_model->get_anexo_data($anexo, $parameter);
+        $values = array();
+        
+        $this->load->library('table');
+        $data = array($headerArr, $anexoValues);
+        
+        return $this->table->generate($data);
     }
 
     function debug($parameter) {

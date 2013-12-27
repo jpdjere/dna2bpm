@@ -108,15 +108,12 @@
         <div id="tab_processed" class="tab-pane">            
             <div class="alert {resumen_class}" id="{_id}">                
                 <h3>{anexo_title} </h3>
-                
-
             </div> 
-            
+
             <div  class="row-fluid">  
-                    {processed_list}
-                </div>
-            
-            
+                {processed_list}
+            </div>           
+
         </div>
     </div>
 
