@@ -110,9 +110,9 @@
                 <h3>{anexo_title} </h3>
             </div> 
 
-            <div  class="row-fluid">  
+             
                 {processed_list}
-            </div>           
+                    
 
         </div>
     </div>

@@ -72,13 +72,15 @@ class Model_06 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             $insertarr[5287] = mktime(0, 0, 0, date("m"), date("d"), date("Y")); //Fecha de Alta
-            //--- Tipo de Operacion
+            //--- Tipo de Operacion           
             if ($insertarr[5779] == "INCORPORACION")
                 $insertarr[5779] = "1";
             if ($insertarr[5779] == "INCREMENTO TENENCIA ACCIONARIA")
                 $insertarr[5779] = "2";
             if ($insertarr[5779] == "DISMINUCION DE CAPITAL SOCIAL")
                 $insertarr[5779] = "3";
+
+
 
             //---Parseamos el tipo (hay que sacarlo del nombre)
             $explodenombre = explode(' ', $insertarr[1693]);
@@ -242,14 +244,68 @@ class Model_06 extends CI_Model {
     function get_anexo_info($anexo, $parameter) {
 
         $headerArr = array("TIPO_OPERACION", "TIPO_SOCIO", "CUIT", "NOMBRE", "PROVINCIA", "PARTIDO_MUNICIPIO_COMUNA", "LOCALIDAD", "CODIGO_POSTAL", "CALLE", "NRO", "PISO", "DTO_OFICINA", "CODIGO_AREA", "TELEFONO", "EMAIL", "WEB", "CODIGO_ACTIVIDAD_AFIP", "ANIO_MES1", "MONTO", "TIPO_ORIGEN", "ANIO_MES2", "MONTO2", "TIPO_ORIGEN2", "ANIO_MES3", "MONTO3", "TIPO ORIGEN3", "CONDICION_INSCRIPCION_AFIP", "CANTIDAD_DE_EMPLEADOS", "TIPO_ACTA", "FECHA_ACTA", "ACTA_NRO", "FECHA_DE_TRANSACCION", "MODALIDAD", "CAPITAL_SUSCRIPTO", "ACCIONES_SUSCRIPTAS", "CAPITAL_INTEGRADO", "ACCIONES_INTEGRADAS", "CEDENTE_CUIT", "CEDENTE_CARACTERISTICA");
-       
-        $anexoValues = $this->sgr_model->get_anexo_data($anexo, $parameter);
-        $values = array();
-        
+        $data = array($headerArr);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+        foreach ($anexoValues as $values) {
+            $data[] = array_values($values);
+        }
         $this->load->library('table');
-        $data = array($headerArr, $anexoValues);
-        
         return $this->table->generate($data);
+    }
+
+    function get_anexo_data($anexo, $parameter) {
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->db->$container->find($query);
+
+        foreach ($result as $list) {
+
+
+            $new_list = array();
+            $new_list['TIPO_OPERACION'] = $list['5779'][0];
+            $new_list['TIPO_SOCIO'] = $list['5272'][0];
+            $new_list['CUIT'] = $list['1695'];
+            $new_list['NOMBRE'] = $list['1693'];
+            $new_list['PROVINCIA'] = $list['4651'][0];
+            $new_list['PARTIDO_MUNICIPIO_COMUNA'] = $list['1699'][0];
+            $new_list['LOCALIDAD'] = $list['1700'];
+            $new_list['CODIGO_POSTAL'] = $list['1698'];
+            $new_list['CALLE'] = $list['4653'];
+            $new_list['NRO'] = $list['4654'];
+            $new_list['PISO'] = $list['4655'];
+            $new_list['DTO_OFICINA'] = $list['4656'];
+            $new_list['CODIGO_AREA'] = $list['CODIGO_AREA'];
+            $new_list['TELEFONO'] = $list['1701'];
+            $new_list['EMAIL'] = $list['1703'];
+            $new_list['WEB'] = $list['1704'];
+            $new_list['CODIGO_ACTIVIDAD_AFIP'] = $list['5208'];
+            $new_list['"ANIO_MES1",'] = $list['19'];
+            $new_list['"MONTO",'] = $list['20'];
+            $new_list['"TIPO_ORIGEN",'] = $list['21'];
+            $new_list['"ANIO2",'] = $list['22'];
+            $new_list['"MONTO2",'] = $list['23'];
+            $new_list['"TIPO_ORIGEN2",'] = $list['24'];
+            $new_list['"ANIO3",'] = $list['25'];
+            $new_list['"MONTO3",'] = $list['26'];
+            $new_list['"TIPO_ORIGEN3",'] = $list['27'];
+            $new_list['CONDICION_INSCRIPCION_AFIP'] = $list['5596'][0];
+            $new_list['CANTIDAD_DE_EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
+            $new_list['TIPO_ACTA'] = $list['5253'][0];
+            $new_list['FECHA_ACTA'] = $list['5255'];
+            $new_list['ACTA_NRO.'] = $list['5254'];
+            $new_list['FECHA_DE_TRANSACCION'] = $list['FECHA_DE_TRANSACCION'];
+            $new_list['MODALIDAD'] = $list['5252'][0];
+            $new_list['CAPITAL_SUSCRIPTO'] = $list['5597'];
+            $new_list['ACCIONES_SUSCRIPTAS'] = $list['5250'];
+            $new_list['CAPITAL_INTEGRADO'] = $list['5598'];
+            $new_list['ACCIONES_INTEGRADAS'] = $list['5251'];
+            $new_list['CEDENTE_CUIT'] = $list['5248'];
+            $new_list['CEDENTE_CARACTERISTICA'] = $list['5292'][0];
+
+            $rtn[] = $new_list;
+        }
+        return $rtn;
     }
 
     function debug($parameter) {

@@ -389,17 +389,20 @@ class Sgr extends MX_Controller {
         if (!$parameter) {
             exit();
         }
-        
+
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-        
+        echo "<style>td
+{
+border:1px solid green;
+}</style>";
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
         echo $get_anexo;
-        
-        
 
-       // echo $parameter;
+
+
+        // echo $parameter;
     }
 
     function set_period() {
@@ -501,13 +504,19 @@ class Sgr extends MX_Controller {
         $list_files = "";
 
         for ($i = 2011; $i <= date(Y); $i++) {
-            $list_files .= "<div class=span5><h5>" . $i . "</h5><ul>";
+            if ($i % 2 != 0) {
+                $list_files .= "<div class='row-fluid'>";
+            }
+            $list_files .= "<div class=span6><h5>" . $i . "</h5><ul>";
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], '<i class="fa fa-external-link" alt="Imprimir"></i>');
                 $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] " . $print_file . "</li>";
             }
             $list_files .= "</ul></div>";
+            if ($i % 2 == 0) {
+                $list_files .= "</div>";
+            }
         }
 
         return $list_files;

@@ -33,20 +33,6 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->db->$container->findOne($query);
         return $result;
     }
-    
-    function get_anexo_data($anexo, $parameter) {
-        $rtn = array();
-        $fields = array('filename', 'sgr_id');
-        $container = 'container.sgr_anexo_'. $anexo;       
-        $query = array("filename" => $parameter);
-        $result = $this->mongo->db->$container->find($query,$fields);        
-        
-        foreach ($result as $list) {
-            unset($list['_id']);
-            $rtn[] = $list;
-        }           
-            return $rtn;
-    }
 
     function get_period_info($anexo, $sgr_id, $period){
         $container = 'container.sgr_periodos';
