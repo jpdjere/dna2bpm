@@ -1254,6 +1254,14 @@ class Genias extends MX_Controller {
         }
         echo "</ul>";
     }
+    
+    
+/* ==== ESTADISTICAS ==== */
+    
+    function estadisticas() {
+        $data = $this->genias_model->estadisticas();
+
+    }
 
 }
 
