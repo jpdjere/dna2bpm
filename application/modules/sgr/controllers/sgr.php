@@ -47,7 +47,8 @@ class Sgr extends MX_Controller {
             $this->sgr_nombre = $sgr['1693'];
         }
 
-        $this->anexo = ($_REQUEST['anexo']) ? $_REQUEST['anexo'] : "06";
+
+        $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
     }
 
@@ -74,7 +75,7 @@ class Sgr extends MX_Controller {
         // UPLOAD ANEXO
         $upload = $this->upload_file();
         $customData['processed_list'] = $this->get_processed($this->anexo);
-        
+
 
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
@@ -88,7 +89,20 @@ class Sgr extends MX_Controller {
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
-            $customData['message'] = "Error";
+            switch ($error_set_period) {
+                case 1:
+                    $error_msg = "El Periodo seleccionado es Invalido";
+                    break;
+
+                default:
+                    $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
+                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
+                    $error_msg = "El periodo del " . str_replace("-", "/", $error_set_period) . " ya fue informado [ " . $get_period['filename'] . " ] | " . $new_period;
+                    $customData['post_period'] = $error_set_period;
+                    $customData['rectifica'] = true;
+                    break;
+            }
+            $customData['message'] = $error_msg;
             $customData['success'] = "error";
         }
         // FILE BROWSER
@@ -103,11 +117,18 @@ class Sgr extends MX_Controller {
         //RENDER
     }
 
+    function Anexo_code($parameter) {
+        // $this->session->unset_userdata('anexo_code');
+        $newdata = array('anexo_code' => $parameter);
+        $this->session->set_userdata($newdata);
+        redirect('/sgr');
+    }
+
     function AnexosDB() {
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a href="?anexo=' . $anexo['number'] . '">' . $anexo['title'] . '</a></li>';
+            $result .= '<li><a href="sgr/anexo_code/' . $anexo['number'] . '">' . $anexo['title'] . '</a></li>';
         }
         return $result;
     }
@@ -121,6 +142,15 @@ class Sgr extends MX_Controller {
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
+
+
+        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+
+
+        if ($get_period) {
+
+            //V????????????????
+        }
 
 
         if (!$filename) {
@@ -138,7 +168,7 @@ class Sgr extends MX_Controller {
         //echo dirname(__FILE__); //$this->module_url;
 
         $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
-
+        $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $filename;
         //  $uploadpath = base_url() . 'anexos_sgr/' . $filename;
 
         $this->load->library('excel_reader2');
@@ -218,7 +248,8 @@ class Sgr extends MX_Controller {
             /* VALIDATIONS */
 
             if (!$count) {
-                echo "Error archivo no tiene la informacion necesaria";
+
+                $result_header = "<li>Error archivo no tiene la informacion necesaria</li>";
                 $error = true;
             }
 
@@ -277,25 +308,29 @@ class Sgr extends MX_Controller {
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $save = (array) $this->$model->save($result);
                     //success
-                    
-                    
                 }
-                
-                /*SET PERIOD*/
-                if($save){
+
+                /* SET PERIOD */
+                if ($save) {
                     $result = array();
                     $result['filename'] = $filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
-                    $result['anexo']    = $this->anexo;
+                    $result['anexo'] = $this->anexo;
                     $save_period = (array) $this->$model->save_period($result);
                     var_dump($save_period);
+
+
+                    copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
+                    unlink($uploadpath);
                 }
-                
             }
         }
 
         /* ERROR CASE */
         if ($error) {
+            $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+            $customData['sgr_period'] = $this->period;
+            $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
             $this->render('errors', $customData);
@@ -350,22 +385,89 @@ class Sgr extends MX_Controller {
           } */
     }
 
+    function print_anexo($parameter = null) {
+        if (!$parameter) {
+            exit();
+        }
+
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+        echo "<style>td
+{
+border:1px solid green;
+}</style>";
+        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
+        echo $get_anexo;
+
+
+
+        // echo $parameter;
+    }
+
     function set_period() {
-        if ($this->input->post("input_period")) {
+        $rectify = $this->input->post("rectifica");
+        $period = $this->input->post("input_period");
+
+
+
+        if ($period) {
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
-            $newdata = array('period' => $this->input->post("input_period"));
-            list($month, $year) = explode("-", $this->input->post("input_period"));
+            $newdata = array('period' => $period);
+            list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
-            if ($limit_month <= $set_month) {
-                return true;
-            } else {
+            if ($rectify) {
+                //Rectificamos Anexo 
+
+                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+                $model = "model_" . $anexo;
+                $this->load->model($model);
+                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+
+                if ($get_period) {
+                    $update_period = (array) $this->$model->update_period($get_period['id']);
+                }
+                var_dump($update_period);
+
                 $this->session->set_userdata($newdata);
-                /* Check period if exist */
-                redirect('/sgr');
+                //redirect('/sgr');
+            } else {
+                if ($limit_month <= $set_month) {
+                    return 1; // Posterior al mes actual
+                } else {
+
+                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+                    if ($get_period) {
+                        return $this->input->post("input_period"); //Ya fue informado                    
+                    } else {
+                        $this->session->set_userdata($newdata);
+                        redirect('/sgr');
+                    }
+                }
             }
+        }
+    }
+
+    function set_no_movement() {
+
+        $data = $this->input->post('data');
+        $period = $data['no_movement'];
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+
+        $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+        if (!$get_period) {
+            $result = array();
+            $result['period'] = $period;
+            $result['filename'] = "SIN MOVIMIENTOS";
+            $result['sgr_id'] = (int) $this->sgr_id;
+            $result['anexo'] = $anexo;
+            $save_period = (array) $this->$model->save_period($result);
+            echo "ok";
         }
     }
 
@@ -398,53 +500,28 @@ class Sgr extends MX_Controller {
         $this->render('offline', $customData);
     }
 
-    function Inbox() {
-        $this->load->model('msg');
+    function get_processed($anexo) {
+        $list_files = "";
 
-        $customData['lang'] = (array) $this->user->get_user($this->idu);
-        $customData['user'] = (array) $this->user->get_user($this->idu);
-        $customData['inbox_icon'] = 'icon-envelope';
-        $customData['inbox_title'] = $this->lang->line('Inbox');
-        $customData['js'] = array($this->base_url . "dna2/assets/jscript/inbox.js" => 'Inbox JS');
-        $customData['css'] = array($this->base_url . "dna2/assets/css/dashboard.css" => 'Dashboard CSS');
-        //debug
-
-
-        $mymgs = $this->msg->get_msgs($this->idu);
-
-        foreach ($mymgs as $msg) {
-            $msg['msgid'] = $msg['_id'];
-            $msg['date'] = substr($msg['checkdate'], 0, 10);
-            $msg['icon_star'] = (isset($msg['star']) && $msg['star'] == true) ? ('icon-star') : ('icon-star-empty');
-            $msg['read'] = (isset($msg['read']) && $msg['read'] == true) ? ('muted') : ('');
-            if (isset($msg['from'])) {
-                $userdata = $this->user->get_user($msg['from']);
-                if (!is_null($userdata))
-                    $msg['sender'] = $userdata->nick;
-                else
-                    $msg['sender'] = "No sender";
-            }else {
-                $msg['sender'] = "System";
+        for ($i = 2011; $i <= date(Y); $i++) {
+            if ($i % 2 != 0) {
+                $list_files .= "<div class='row-fluid'>";
             }
-            $customData['mymsgs'][] = $msg;
+            $list_files .= "<div class=span6><h5>" . $i . "</h5><ul>";
+            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            foreach ($processed as $file) {
+                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], '<i class="fa fa-external-link" alt="Imprimir"></i>');
+                $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] " . $print_file . "</li>";
+            }
+            $list_files .= "</ul></div>";
+            if ($i % 2 == 0) {
+                $list_files .= "</div>";
+            }
         }
 
-        $this->render('inbox', $customData);
+        return $list_files;
     }
-    
-    
-    function get_processed($anexo){
-        
-       $processed =   $this->sgr_model->get_processed($anexo);
-       
-       $list_files = "";       
-       foreach($processed as $file){
-          $list_files .= "<li>" . $file['filename']. "</li>";          
-       }
-       return $list_files;
-        
-    }
-    
+
     function file_browser() {
         $segment_array = $this->uri->segment_array();
 
@@ -539,34 +616,36 @@ class Sgr extends MX_Controller {
         $prefix = $customData['controller'] . '/' . $customData['method'] . '/' . $customData['path_in_url'];
         if (!empty($customData['dirs'])) {
             foreach ($customData['dirs'] as $dir) {
-
-                $files_list .= anchor($prefix . $dir['name'], $dir['name']) . '<br>';
+                //PRINT DIRECTORIES
+                //$files_list .= anchor($prefix . $dir['name'], $dir['name']) . '<br>';
             }
         }
 
 
         if (!empty($customData['files'])) {
-            foreach ($customData['files'] as $file) {                
-                //echo anchor($prefix.$file['name'], $file['name']).'<br>';
+            foreach ($customData['files'] as $file) {
                 list($sgr, $anexo, $filedate, $filetime) = explode("_", $file['name']);
 
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
                     list($filename, $extension) = explode(".", $file['name']);
-                    
-                    /*Vars*/
+
+                    /* Vars */
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
-                    $download = anchor('anexos_sgr/'.$file['name'], '<i class="fa fa-download" alt="Descargar"></i>');
-                    
-                    /*check if file exist*/                    
+                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>');
+
+                    /* check if file exist */
                     if ($this->session->userdata['period']) {
-                        //$files_list .= '<li><a href="' . $this->module_url . 'anexo/' . $filename . '">' . $file['name'] . '</a></li>';
-                        $files_list .= '<li> Pendiente ' . $filedate." ".$filetime. " ". $download."  ". $process_file .'</li>';
+                        //Process
+                        $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . "  " . $process_file . '</li>';
                     } else {
-                        $files_list .= '<li> Pendiente ' . $filedate ." ".$filetime. " " . $download.'</li>';
+                        //Just Download 
+                        $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . ' <small>[Para procesar debe seleccionar el periodo a informar]</small> <i class="fa fa-external-link" alt="Procesar"></i></li>';
                     }
                 }
             }
         }
+
+        $files_list = ($files_list != "") ? $files_list : "<h5>No hay Archivos Pendientes</h5>";
         return $files_list;
     }
 

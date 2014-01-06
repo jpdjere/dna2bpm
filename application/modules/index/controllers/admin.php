@@ -27,13 +27,13 @@ class admin extends MX_Controller {
         $this->user->authorize();
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . 'index/';
+        $this->module_url = base_url() . $this->router->fetch_module() . '/';
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
     }
 
-    function Index() {
+    function Menu($repoId = 0) {
         //    var_dump(base_url()); exit;
         //---only allow admins and Groups/Users enabled
         $this->load->library('ui');
@@ -67,12 +67,13 @@ class admin extends MX_Controller {
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
             'module_url' => $this->module_url,
+            'repoId' => $repoId,
         );
 
         $this->ui->makeui('user/ext.ui.php', $cpData);
     }
 
-    function getpaths() {
+    function getpaths($repoId = 0) {
         $this->user->authorize();
         $segments = $this->uri->segments;
         $debug = (in_array('debug', $segments)) ? true : false;
@@ -88,63 +89,11 @@ class admin extends MX_Controller {
         }
     }
 
-    function group($action) {
-        $this->user->authorize();
-        $segments = $this->uri->segments;
-        $debug = (in_array('debug', $segments)) ? true : false;
-        $cpData = $this->lang->language;
-        $groups = array();
-        $i = 0;
-        switch ($action) {
-            case 'create':
-                $post_groups = json_decode(file_get_contents('php://input'));
-                $groups = array();
-                //---Gen id 4 group
-                foreach ($post_groups as $group) {
-                    $idgroup = $this->group->genid();
-                    $group->idgroup = $idgroup;
-                    $this->group->save($group);
-                    $groups[] = $group;
-                }
-                break;
-            case 'read':
-                $db_groups = $this->group->get_groups();
-                $groups['totalCount'] = $db_groups->count();
-                while ($thisgroup = $db_groups->getNext()) {
-                    $groups['rows'][] = $thisgroup;
-                }
-                break;
-            case 'update':
-                $post_groups = json_decode(file_get_contents('php://input'));
-
-                foreach ($post_groups as $group) {
-                    $idgroup = $group->idgroup;
-                    $db_group = $this->group->get($idgroup);
-                    $obj = (array) $group + $db_group;
-                    $groups[] = $obj;
-                    $this->group->save($obj);
-                }
-                break;
-            case 'destroy':
-                $post_groups = json_decode(file_get_contents('php://input'));
-                foreach ($post_groups as $group) {
-                    $this->group->delete($group->idgroup);
-                }
-                break;
-        }
-        //var_dump($cpData);
-        if (!$debug) {
-            header('Content-type: application/json;charset=UTF-8');
-            echo json_encode($groups);
-        } else {
-            var_dump($groups);
-        }
-        //$this->load->view('footer');
-    }
-
     function get_properties() {
         $data['id'] = $this->input->post('id');
-        $data = $this->menu->get_path($this->input->post('id'));
+        $repoId = ($this->input->post('repoId')) ? (int) $this->input->post('repoId') : 0;
+
+        $data = $this->menu->get_path($repoId, $this->input->post('id'));
         $this->load->helper('dbframe');
         $debug = false;
         $menu_item = new dbframe($data['properties'], $this->tree_item);
@@ -156,7 +105,8 @@ class admin extends MX_Controller {
         }
     }
 
-    function repository($action) {
+    function repository($repoId = 0, $action) {
+        $repoId = (int) $repoId;
         $this->user->authorize();
         $this->load->helper('ext');
         $segments = $this->uri->segments;
@@ -177,13 +127,13 @@ class admin extends MX_Controller {
                         "checkdate" => date('Y-m-d H:i:s'),
                         "idu" => $this->idu
                     );
-                    $result = $this->menu->put_path($path, array_merge($properties,(array) $menuItem));
+                    $result = $this->menu->put_path($repoId, $path, array_merge($properties, (array) $menuItem));
                 }
                 $rtnArr['success'] = true;
                 break;
             case 'read':
                 $node = ($this->input->post('node')) ? $this->input->post('node') : 'root';
-                $repo = $this->menu->get_repository();
+                $repo = $this->menu->get_repository(array('repoId' => $repoId));
                 $rtnArr = explodeExtTree($repo, '/');
                 //var_dump($repo);
                 $rtnArr = (property_exists($rtnArr[0], 'children')) ? $rtnArr[0]->children : array();
@@ -191,11 +141,10 @@ class admin extends MX_Controller {
             case 'save':
                 $rtnArr['success'] = false;
                 $paths = $this->input->post('paths');
-                $idgroup = $this->input->post('idgroup');
                 //--remove all paths
-                $this->menu->clear_paths($idgroup);
+                $this->menu->clear_paths($repoId);
                 //----load repo to check if something is new
-                $repo = array_keys($this->menu->get_repository());
+                $repo = array_keys($this->menu->get_repository($repoId));
                 if ($paths) {
                     foreach ($paths as $path) {
                         $this->menu->put_path_to_group($path, $idgroup);
@@ -219,14 +168,13 @@ class admin extends MX_Controller {
             case 'delete':
 
                 $rtnArr['success'] = false;
-
                 $path = $this->input->post('path');
                 //----remove root from path
                 $path_arr = explode('/', $path);
                 array_shift($path_arr);
                 $path = implode('/', $path_arr);
                 if ($path)
-                    $rtnArr['success'] = $this->menu->remove_path($path);
+                    $rtnArr['success'] = $this->menu->remove_path($repoId, $path);
                 break;
         }
         if (!$debug) {
@@ -257,7 +205,7 @@ class admin extends MX_Controller {
         );
         $result = $this->menu->put_path($path, array_merge($properties, $menu_item->toSave()));
 
-        $rtnArr= $menu_item->toShow();
+        $rtnArr = $menu_item->toShow();
         if (!$debug) {
             header('Content-type: application/json;charset=UTF-8');
             echo json_encode($rtnArr);

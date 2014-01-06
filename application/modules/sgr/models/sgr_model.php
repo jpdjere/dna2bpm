@@ -34,12 +34,23 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_processed($anexo) {
+    function get_period_info($anexo, $sgr_id, $period){
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename', 'id');
+        $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, "period" => $period);
+        $result = $this->mongo->db->$container->findOne($query, $fields);      
+        return $result;
+    }
+    
+    //processes
+    function get_processed($anexo, $sgr_id, $year=null) {
         $rtn = array();
+        $regex = new MongoRegex('/'.$year.'/');
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename');
-        $query = array("status" => 'activo', "anexo" => $anexo);
-        $result = $this->mongo->db->$container->find($query, $fields);
+        $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period'=> $regex);
+        $result = $this->mongo->db->$container->find($query, $fields);    
+        
         foreach ($result as $list) {
             $rtn[] = $list;
         }

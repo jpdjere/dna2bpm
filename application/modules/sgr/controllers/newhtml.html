@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DNA&sup2; | SGR | LA SOCIEDAD SGR</title>
+        <meta charset="UTF-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/dna2bpm/jscript/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/dna2bpm/jscript/bootstrap/css/bootstrap-responsive.min.css" />
+        <!--<link rel="stylesheet" href="/dna2bpm/jscript/fontawesome/css/font-awesome.min.css" />-->
+        <link rel="stylesheet" href="/dna2bpm/sgr/assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/dna2bpm/sgr/assets/jscript/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" />	
+        <link rel="stylesheet" href="/dna2bpm/sgr/assets/css/extra-icons.css" />	
+        <link rel="stylesheet" href="/dna2bpm/sgr/assets/jscript/fullcalendar/fullcalendar.css" />
+        <link rel="stylesheet" href="/dna2bpm/sgr/assets/jscript/datepicker/css/datepicker.css" />
+        <link rel="stylesheet" href="/dna2bpm/sgr/assets/css/genias.css" />
+
+
+        <!--/ Custom CSS -->
+        <!-- CSS:Dashboard CSS -->
+<link rel='stylesheet' type='text/css' href='/dna2bpm/sgr/assets/css/dashboard.css' />
+
+
+    </head>
+    <body class="">
+        <!--/ NAVIGATION -->
+        <div class="navbar navbar-inverse navbar-static-top ">
+            <div class="navbar-inner barra_Usuarios">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">SOCIEDADES DE GARANTIAS RECIPROCAS</a>
+
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            
+
+                        </ul>
+                        <ul class="nav pull-right inline"> 
+                             
+                            <li><a   href="/dna2bpm/sgr/unset_period"><i class="icon-calendar"></i> Período: 07-2012</a></li>    
+                            
+
+                            <li class="dropdown" id="menu-messages">
+                                <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
+                                    <i class="icon icon-coment">
+                                    </i> <span class="text">Anexos</span> <span class="label label-important">MOVIMIENTOS DE CAPITAL SOCIAL</span> <b class="caret">
+                                    </b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                   <li><a href="sgr/anexo_code/06">Movimientos de capital social</a></li><li><a href="sgr/anexo_code/061">Relaciones de vinculacion</a></li><li><a href="sgr/anexo_code/12">Garantias otorgadas</a></li><li><a href="sgr/anexo_code/121">Sistema de amortizacion otros</a></li><li><a href="sgr/anexo_code/122">Cancelaciones anticipadas de garantias</a></li><li><a href="sgr/anexo_code/123">Saldos diarios</a></li><li><a href="sgr/anexo_code/124">Garantias reafianzadas</a></li><li><a href="sgr/anexo_code/125">Saldos de garantias vigentes por acreedor</a></li><li><a href="sgr/anexo_code/14">Movimientos del fdr contingente</a></li><li><a href="sgr/anexo_code/141">F.D.R. cotingente consolidado por socio participe</a></li><li><a href="sgr/anexo_code/15">Inversión del F.D.R.</a></li><li><a href="sgr/anexo_code/16">G.D.U. fondo de riesgo</a></li><li><a href="sgr/anexo_code/201">Movimientos de F.D.R.</a></li><li><a href="sgr/anexo_code/202">Saldo F.D.R. total computable</a></li>
+                                </ul>
+                            </li>
+                           
+                            <li><img src="http://www.gravatar.com/avatar/f82250abfb0d75f49675c0566e83185a?d=mm"  title="de Prueba, Sgr "  style="height:40px;back"/></li>
+                            <li><a   href="/dna2bpm/user/logout"><i class="icon-off"></i> Salir</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTAINER -->
+        <div class="row-fluid test" id="barra_user" > 
+    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
+        <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
+            <i class="icon-plus"></i>  Seleccionar Archivos a Procesar
+        </button> 
+        
+        <button type="button" id="no_movement" class="no_movement" value="07-2012">
+            <i class="icon-plus"></i>  Asociar el periodo 07-2012 a "Sin Movimientos"
+        </button>
+        
+        <li class="pull-right perfil">
+            <span id="status"></span>LA SOCIEDAD SGR
+            <i class="icon-user"></i>  <a   href="/dna2bpm/user/logout"> de Prueba, Sgr </a> [Usuarios]
+        </li>
+    </ul>
+</div>
+
+
+
+
+<!-- ==== Contenido ==== -->
+<div class="container" > 
+    <div class="row-fluid">
+        <!-- FILE UPLOAD -->
+        <div id="file_div" class="collapse out no-transition">
+            <form action="/dna2bpm/sgr/" method="POST" enctype="multipart/form-data" class="well" />                   
+            <input type="file" name="userfile" multiple="multiple" />
+            <input type="hidden" name="sgr" value="MTY3NjIxMzc2OQ==" />
+            <input type="hidden" name="anexo" value="06" />
+            <input type="submit" name="submit" value="Upload" class="btn btn-success" />
+            </form>
+
+        </div> 
+    </div>
+
+     
+    <!-- -->
+    
+
+
+    <!-- TABS -->
+
+    <ul class="nav nav-tabs" id="dashboard_tab1">
+        <li class="active"><a href="#tab_pending" data-toggle="tab">Archivos a Procesar</a></li>        
+        <li><a href="#tab_processed" data-toggle="tab">Procesados</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_pending">  
+            <div class="alert {resumen_class}" id="{_id}">                
+                <h3>Movimientos de capital social </h3>
+                <ol>
+                    <h5>No hay Archivos Pendientes</h5>
+                </ol>
+            </div> 
+        </div>  
+
+        <div id="tab_processed" class="tab-pane">            
+            <div class="alert {resumen_class}" id="{_id}">                
+                <h3>Movimientos de capital social </h3>
+                <div  class="row-fluid">
+                    <div class=span6><h5>2011</h5>1676213769_06_2013-12-20_12:50:06.xls</div><div class=span6><h5>2012</h5>1676213769_06_2013-12-20_12:50:06.xls</div><div class=span6><h5>2013</h5>1676213769_06_2013-12-20_12:50:06.xls</div>
+                </div>                
+            </div> 
+        </div>
+    </div>
+
+</div>
+
+
+        <!-- CONTAINER -->
+
+        <script src="/dna2bpm/sgr/assets/jscript/jquery.min.js"></script>
+        <script src="/dna2bpm/jscript/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/dna2bpm/sgr/assets/jscript/bootbox.min.js"></script>
+        <script src="/dna2bpm/sgr/assets/jscript/datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="/dna2bpm/sgr/assets/jscript/modernizr.custom.22198.js"></script>
+        <!-- Custom JS -->
+        <script type="text/javascript">
+            //-----declare global vars
+            var globals = {"base_url":"\/dna2bpm\/","module_url":"\/dna2bpm\/sgr\/","idu":-342725103};
+
+            // La clase offline es agregada por el fallback del manifiesto
+            var offline = $('.offline').length;
+
+            $(document).ready(function() {
+                if (offline) {
+                    $('#status').html('OFFLINE').css('color', '#f00');
+
+                } else {
+                    $('#status').html('ONLINE').css('color', '#059B28');
+                }
+            });
+
+
+
+        </script>
+        <!-- JS:Dashboard JS -->
+<script type='text/javascript'>try{document.getElementById('loading-msg').innerHTML +="<span class='ok'>OK.</span><br/>Loading Dashboard JS...";}catch(e){}</script>
+<script type='text/javascript' src='/dna2bpm/sgr/assets/jscript/dashboard.js'></script>
+
+<!-- JS:Validate -->
+<script type='text/javascript'>try{document.getElementById('loading-msg').innerHTML +="<span class='ok'>OK.</span><br/>Loading Validate...";}catch(e){}</script>
+<script type='text/javascript' src='/dna2bpm/sgr/assets/jscript/jquery-validate/jquery.validate.min_1.js'></script>
+
+
+
+
+    </body>
+</html>
