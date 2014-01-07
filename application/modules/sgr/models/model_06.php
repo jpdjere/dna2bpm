@@ -194,10 +194,10 @@ class Model_06 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_06';
-        
-        $parameter=array_map('trim',$parameter);
-        $parameter=array_map('addSlashes',$parameter);
-        
+
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         $id = $this->app->genid($container);
@@ -267,13 +267,32 @@ class Model_06 extends CI_Model {
             $inscripcion_iva = $this->app->get_ops(571);
             $acta_tipo = $this->app->get_ops(531);
 
+
+            $calcPromedio = "";
+            $promedio = "";
+            $sector = "";
+            $tipo_empresa = "";
+
+            $calcPromedio = ($list[20] != "") ? 1 : 0;
+            $calcPromedio += ($list[23] != "") ? 1 : 0;
+            $calcPromedio += ($list[26] != "") ? 1 : 0;
+            if ($calcPromedio != 0) {
+
+                $montosArr = array($insertarr[20], $insertarr[23], $insertarr[26]);
+                $sumaMontos = array_sum($montosArr);
+
+                $promedio = $sumaMontos / $calcPromedio;
+                $sector = sector(cerosClanae($insertarr[5208]));
+                $tipo_empresa = getCompanySize($promedio, $sector);
+            }
+
             $inner_table = '<table width="100%">';
             if ($list['19']) {
                 $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . $this->forNullValues($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';
             }
             if ($list['22']) {
                 $inner_table .= '<tr><td>' . $list['22'] . '</td><td align="right">' . $this->forNullValues($list['23']) . '</td><td>' . $list['24'] . '</td><tr>';
-            } 
+            }
             if ($list['25']) {
                 $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . $this->forNullValues($list['26']) . '</td><td>' . $list['27'] . '</td><tr>';
             }
@@ -288,7 +307,7 @@ class Model_06 extends CI_Model {
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
             $new_list['"ANIO"'] = $inner_table; //$list['19'] . " " . $this->forNullValues($list['20']) . " " . $list['21'] . "<br/>" . $list['22'] . " " . $this->forNullValues($list['23']) . " " . $list['24'] . "<br/>" . $list['25'] . " " . $this->forNullValues($list['26']) . " " . $list['27'];
-            $new_list['CONDICION_INSCRIPCION_AFIP'] = "[PROMEDIO] " . $inscripcion_iva[$list['5596'][0]];
+            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio ."<br/>" . $inscripcion_iva[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $this->translate_date($list['5255']) . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $this->translate_date($list['FECHA_DE_TRANSACCION']);
             $new_list['MODALIDAD'] = "Modalidad " . $list['5252'][0] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
