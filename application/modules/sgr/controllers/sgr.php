@@ -393,29 +393,17 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-        
+
         echo "<style>
-
-
-table { border-collapse: collapse;
-
-font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center}
-
-caption { font-size: larger; margin: 1em auto; } 
-
-th, td { padding: .65em; }
-
-th, thead { background: #000; color: #fff; border: 1px solid #000; }
-
-td { border: 1px solid #777; }
-
-
-</style>";
+        table { border-collapse: collapse;
+        font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center}
+        caption { font-size: larger; margin: 1em auto; } 
+        th, td { padding: .65em; }
+        th, thead { background: #000; color: #fff; border: 1px solid #000; }
+        td { border: 1px solid #777; }
+        </style>";
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
         echo $get_anexo;
-
-
-
         // echo $parameter;
     }
 
