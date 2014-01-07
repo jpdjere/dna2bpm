@@ -258,7 +258,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
 
             /* Vars */
-            $list = array_change_key_case($list,CASE_UPPER);
+            $list = array_map("strtoupper", $list);
             $cuit = str_replace("-", "", $list['1695']);
             $brand_name = $list['1693'];
 
