@@ -270,7 +270,8 @@ class Model_06 extends CI_Model {
         
         $this->load->model('app');
         
-        var_dump($this->app->get_ops(589));
+        $opt = $this->app->get_ops(589);
+        var_dump($opt[1]);
             
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $list['5779'][0];
