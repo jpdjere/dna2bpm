@@ -259,7 +259,7 @@ class Model_06 extends CI_Model {
             $cuit = str_replace("-","", $list['1695']);
             $brand_name = strtoupper($list['1693']);
             
-            $this->translate_options(589);
+            var_dump($this->translate_options(589));
             
             
             $new_list = array();
@@ -294,7 +294,7 @@ class Model_06 extends CI_Model {
         $query = array("idop" => $parameter);
         $result = $this->mongo->db->$container->find($query, $fields);
         
-        var_dump($result);
+        return $result;
     }
 
     function debug($parameter) {
