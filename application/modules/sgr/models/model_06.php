@@ -254,7 +254,7 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->db->$container->find($query);
-        $result = array_map("strtoupper", $result);
+        
         foreach ($result as $list) {
 
             /* Vars */
