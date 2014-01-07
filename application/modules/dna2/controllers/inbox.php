@@ -8,10 +8,11 @@ class Inbox extends MX_Controller {
         $this->load->library('parser');
         $this->load->library('ui');
         $this->load->model('msg');
+        $this->load->model('user');
         
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . 'dna2/';
+        $this->module_url = base_url() . $this->router->fetch_module().'/';
         $this->user->authorize();
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
@@ -119,7 +120,7 @@ class Inbox extends MX_Controller {
         'body'=>$body,
         'from'=>$this->idu
         );
-
+        print_r($data);
         $this->msg->send($msg,$to);
     }
     
@@ -130,6 +131,12 @@ class Inbox extends MX_Controller {
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         
         Modules::run('dna2/dna2/render','inbox_new',$customData);
+    }
+    
+    function get_users(){
+        $lista=$this->input->post('lista');
+        $user=$this->user->getbynick('gfojo');
+        print_r($user->idu);
     }
     
 

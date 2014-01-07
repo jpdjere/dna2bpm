@@ -765,6 +765,52 @@ class Genias_model extends CI_Model {
         return $listado;
     }
 
+    // ======= ESTADISTICAS ======= //
     
+     function estadisticas() {
+
+        $stats=array();
+        $total_visitas=0;
+        $total_metas=0;
+        $container = 'container.genias';
+        $misgenias = iterator_to_array($this->mongo->db->$container->find()->limit(100));
+        
+        // Genia x Genia    
+        foreach ($misgenias as $genia) {
+            
+            // Visitas
+            $container = 'container.genias_visitas';    
+            if(empty($genia['users']))continue;
+            
+            $count_visitas=$this->mongo->db->$container->find(array('idu'=>array('$in'=>$genia['users'])))->count();
+            $total_visitas+=$count_visitas;
+            $stats['genias'][(string)$genia['_id']]=array(
+                'id'=>$genia['_id'],
+                'nombre'=>$genia['nombre'],
+                'visitas'=>$count_visitas
+                );
+            
+            // Metas
+            $container = 'container.genias_goals';
+            $metas=$this->mongo->db->$container->find(array('genia'=>(string)$genia['_id']));
+            $count_metas=0;
+            $count_cumplidas=0;
+         //   var_dump(iterator_to_array($metas));
+            
+            foreach($metas as $meta){
+                $count_metas+=(integer)$meta['cantidad'];
+                $count_cumplidas+=(empty($meta['cumplidas']))?(0):(count($meta['cumplidas']));
+            }
+            $stats['genias'][(string)$genia['_id']]['cantidad']=$count_metas;
+            $stats['genias'][(string)$genia['_id']]['cumplidas']=$count_cumplidas;
+            $total_metas+=$count_metas;
+//            echo $genia['nombre']."/".$total_metas."<br>";
+        }
+        $stats['total_visitas']=$total_visitas;
+        $stats['total_metas']=$total_metas;
+      var_dump($stats);
+        
+        
+     }
 
 }
