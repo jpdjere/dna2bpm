@@ -69,7 +69,7 @@ class Model_06 extends CI_Model {
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
-            $insertarr[$value] = $parameter[$key];            
+            $insertarr[$value] = $parameter[$key];
             //--- Tipo de Operacion           
             if ($insertarr[5779] == "INCORPORACION")
                 $insertarr[5779] = "1";
@@ -79,7 +79,7 @@ class Model_06 extends CI_Model {
                 $insertarr[5779] = "3";
 
 
-           
+
             //---Parseamos el tipo (hay que sacarlo del nombre)
             $explodenombre = explode(' ', $insertarr[1693]);
             //  echo strtoupper($explodenombre[count($explodenombre)-1]).'<br/>';
@@ -150,8 +150,8 @@ class Model_06 extends CI_Model {
             if ($insertarr[4651] == "TIERRA DEL FUEGO")
                 $insertarr[4651] = "TDF";
             if ($insertarr[4651] == "TUCUMAN")
-                $insertarr[4651] = "TUC";           
-           
+                $insertarr[4651] = "TUC";
+
             //Regimen ante AFIP
             if ($insertarr[5596] == "EXENTO")
                 $insertarr[5596] = "3";
@@ -198,9 +198,9 @@ class Model_06 extends CI_Model {
         $parameter['origin'] = 2013;
         $id = $this->app->genid($container);
         $result = $this->app->put_array($id, $container, $parameter);
-        
-     
-        
+
+
+
         if ($result) {
             $out = array('status' => 'ok');
         } else {
@@ -254,27 +254,19 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->db->$container->find($query);
 
         foreach ($result as $list) {
-            
-            /*Vars*/
-            $cuit = str_replace("-","", $list['1695']);
+
+            /* Vars */
+            $cuit = str_replace("-", "", $list['1695']);
             $brand_name = strtoupper($list['1693']);
-            
-           // var_dump($this->translate_options(589));
-            
-            /* $container = 'options';
-        $fields = array("data");
-        $query = array("idop" => 589);
-        $result = $this->mongo->db->$container->findOne($query, $fields);
-        var_dump($result['data']);*/
-            
-        
-        $this->load->model('app');
-        
-        $opt = $this->app->get_ops(589);
-        var_dump($opt[1]);
-            
+
+
+
+            $this->load->model('app');
+            $tipo_operacion = $this->app->get_ops(589);
+
+
             $new_list = array();
-            $new_list['TIPO_OPERACION'] = $list['5779'][0];
+            $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
             $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $list['1699'][0] . "</br>" . $list['4651'][0] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
@@ -294,20 +286,22 @@ class Model_06 extends CI_Model {
     }
 
     function translate_date($parameter) {
-    if($parameter==""){exit();}
+        if ($parameter == "") {
+            exit();
+        }
         $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
         return strftime("%Y/%m/%d", $parameter);
     }
-    
-    function translate_options($parameter){
-         $rtn = array();
+
+    function translate_options($parameter) {
+        $rtn = array();
         $container = 'options';
         $fields = array("data");
         $query = array("idop" => $parameter);
         $result = $this->mongo->db->$container->find($query, $fields);
-        
+
         foreach ($result as $opt) {
-            
+
             $rtn[] = $opt;
         }
         return $rtn;
