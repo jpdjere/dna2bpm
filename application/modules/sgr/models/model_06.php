@@ -256,11 +256,9 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->db->$container->find($query);
 
         foreach ($result as $list) {
-            
-            
 
             /* Vars */
-            $list = array_map('strtoupper', $list);
+            $list = array_change_key_case($list,CASE_UPPER);
             $cuit = str_replace("-", "", $list['1695']);
             $brand_name = $list['1693'];
 
