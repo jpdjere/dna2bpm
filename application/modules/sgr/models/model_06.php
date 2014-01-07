@@ -282,8 +282,8 @@ class Model_06 extends CI_Model {
                 $sumaMontos = array_sum($montosArr);
 
                 $promedio = $sumaMontos / $calcPromedio;
-                $sector = sector(cerosClanae($insertarr[5208]));
-                $tipo_empresa = getCompanySize($promedio, $sector);
+                //$sector = sector(cerosClanae($insertarr[5208]));
+                //$tipo_empresa = getCompanySize($promedio, $sector);
             }
 
             $inner_table = '<table width="100%">';
