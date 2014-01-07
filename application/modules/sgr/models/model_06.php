@@ -259,12 +259,15 @@ class Model_06 extends CI_Model {
             $cuit = str_replace("-","", $list['1695']);
             $brand_name = strtoupper($list['1693']);
             
+            $this->translate_options(589);
+            
+            
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $list['5779'][0];
             $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $list['1699'][0] . "</br>" . $list['4651'][0] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
-            $new_list['TELEFONO'] = $list['CODIGO_AREA'] . "-" . $list['1701'];
+            $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
             $new_list['"ANIO",'] = $list['19'] . " " . $list['20'] . " " . $list['21'] . "<br/>" . $list['22'] . " " . $list['23'] . " " . $list['24'] . "<br/>" . $list['25'] . " " . $list['26'] . " " . $list['27'];
@@ -283,6 +286,15 @@ class Model_06 extends CI_Model {
     if($parameter==""){exit();}
         $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
         return strftime("%Y/%m/%d", $parameter);
+    }
+    
+    function translate_options($parameter){
+        $container = 'options';
+        $fields = array("data");
+        $query = array("idop" => $parameter);
+        $result = $this->mongo->db->$container->find($query, $fields);
+        
+        var_dump($result);
     }
 
     function debug($parameter) {
