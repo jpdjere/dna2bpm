@@ -264,7 +264,7 @@ class Model_06 extends CI_Model {
 
             $this->load->model('app');
             $tipo_operacion = $this->app->get_ops(589);
-
+            $inscripcion_iva = $this->app->get_ops(571);
 
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
@@ -275,7 +275,7 @@ class Model_06 extends CI_Model {
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
             $new_list['"ANIO",'] = $list['19'] . " " . $list['20'] . " " . $list['21'] . "<br/>" . $list['22'] . " " . $list['23'] . " " . $list['24'] . "<br/>" . $list['25'] . " " . $list['26'] . " " . $list['27'];
-            $new_list['CONDICION_INSCRIPCION_AFIP'] = "[PROMEDIO] " . $list['5596'][0];
+            $new_list['CONDICION_INSCRIPCION_AFIP'] = "[PROMEDIO] " . $inscripcion_iva[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $list['5253'][0] . "<br/>Acta: " . $this->translate_date($list['5255']) . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $this->translate_date($list['FECHA_DE_TRANSACCION']);
             $new_list['MODALIDAD'] = "Modalidad " . $list['5252'][0] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
