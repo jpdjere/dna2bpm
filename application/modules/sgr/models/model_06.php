@@ -261,12 +261,16 @@ class Model_06 extends CI_Model {
             
            // var_dump($this->translate_options(589));
             
-             $container = 'options';
+            /* $container = 'options';
         $fields = array("data");
         $query = array("idop" => 589);
         $result = $this->mongo->db->$container->findOne($query, $fields);
-        var_dump($result['data']);
+        var_dump($result['data']);*/
             
+        
+        $this->load->model('app');
+        
+        var_dump($this->app->get_ops(589));
             
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $list['5779'][0];
