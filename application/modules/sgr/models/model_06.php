@@ -266,6 +266,11 @@ class Model_06 extends CI_Model {
             $tipo_operacion = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);
             $acta_tipo = $this->app->get_ops(531);
+            $tipo_socio = $this->app->get_ops(532);
+            $tipo_transaccion = $this->app->get_ops(530);
+            $partido = $this->app->get_ops(58);
+            $provincia = $this->app->get_ops(39);
+            $caract_transferencia = $this->app->get_ops(571);
 
 
             $calcPromedio = "";
@@ -297,21 +302,21 @@ class Model_06 extends CI_Model {
                 $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . $this->money_format($list['26']) . '</td><td>' . $list['27'] . '</td><tr>';
             }
             $inner_table .= '</table>';
-
+            
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
-            $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
-            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $list['1699'][0] . "</br>" . $list['4651'][0] . "</br>[" . $list['1698'] . "]";
+            $new_list['SOCIO'] = $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
+            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
             $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
-            $new_list['"ANIO"'] = $inner_table; //$list['19'] . " " . $this->forNullValues($list['20']) . " " . $list['21'] . "<br/>" . $list['22'] . " " . $this->forNullValues($list['23']) . " " . $list['24'] . "<br/>" . $list['25'] . " " . $this->forNullValues($list['26']) . " " . $list['27'];
+            $new_list['"ANIO"'] = $inner_table; 
             $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio ."<br/>" . $inscripcion_iva[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $this->translate_date($list['5255']) . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $this->translate_date($list['FECHA_DE_TRANSACCION']);
-            $new_list['MODALIDAD'] = "Modalidad " . $list['5252'][0] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $list['5292'][0];
+            $new_list['MODALIDAD'] = "Modalidad " . $tipo_transaccion[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $caract_transferencia[$list['5292'][0]];
 
             $rtn[] = $new_list;
         }
