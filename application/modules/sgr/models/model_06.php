@@ -261,10 +261,10 @@ class Model_06 extends CI_Model {
             $brand_name = strtoupper($list['1693']);
 
 
-
             $this->load->model('app');
             $tipo_operacion = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);
+            $acta_tipo = $this->app->get_ops(531);
 
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
@@ -274,10 +274,10 @@ class Model_06 extends CI_Model {
             $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
-            $new_list['"ANIO",'] = $list['19'] . " " . $list['20'] . " " . $list['21'] . "<br/>" . $list['22'] . " " . $list['23'] . " " . $list['24'] . "<br/>" . $list['25'] . " " . $list['26'] . " " . $list['27'];
+            $new_list['"ANIO"'] = $list['19'] . " " . $this->forNullValues($list['20']) . " " . $list['21'] . "<br/>" . $list['22'] . " " . $this->forNullValues($list['23']) . " " . $list['24'] . "<br/>" . $list['25'] . " " . $this->forNullValues($list['26']) . " " . $list['27'];
             $new_list['CONDICION_INSCRIPCION_AFIP'] = "[PROMEDIO] " . $inscripcion_iva[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
-            $new_list['ACTA'] = "Tipo: " . $list['5253'][0] . "<br/>Acta: " . $this->translate_date($list['5255']) . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $this->translate_date($list['FECHA_DE_TRANSACCION']);
+            $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $this->translate_date($list['5255']) . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $this->translate_date($list['FECHA_DE_TRANSACCION']);
             $new_list['MODALIDAD'] = "Modalidad " . $list['5252'][0] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
             $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $list['5292'][0];
 
@@ -306,6 +306,25 @@ class Model_06 extends CI_Model {
             $rtn[] = $opt;
         }
         return $rtn;
+    }
+
+    /**
+     * Verifica los valores no Null & los convierte en formato de moneda
+     *
+     * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
+     * @type php
+     * @author Diego
+     * @name forNullValues
+     *
+     * */
+    function forNullValues($parameter) {
+
+        if ($_POST['excel'] == 1) {
+            $var = ($var != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+        } else {
+            $var = ($var != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "-";
+        }
+        echo $var;
     }
 
     function debug($parameter) {
