@@ -256,8 +256,11 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->db->$container->find($query);
 
         foreach ($result as $list) {
+            
+            
 
             /* Vars */
+            $list = array_map('strtoupper', $parameter);
             $cuit = str_replace("-", "", $list['1695']);
             $brand_name = strtoupper($list['1693']);
 
