@@ -254,10 +254,14 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->db->$container->find($query);
 
         foreach ($result as $list) {
-
+            
+            /*Vars*/
+            $cuit = str_replace("-","", $list['1695']);
+            $brand_name = strtoupper($list['1693']);
+            
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $list['5779'][0];
-            $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $list['1695'] . "</br>" . $list['1693'];
+            $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $list['1699'][0] . "</br>" . $list['4651'][0] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
             $new_list['TELEFONO'] = $list['CODIGO_AREA'] . "-" . $list['1701'];
