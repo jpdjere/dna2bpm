@@ -297,7 +297,7 @@ class Model_06 extends CI_Model {
         
         foreach ($result as $opt) {
             
-            $rtn[] = $opt;
+            $rtn[] = $opt[1];
         }
         return $rtn;
     }
