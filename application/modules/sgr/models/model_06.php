@@ -260,7 +260,7 @@ class Model_06 extends CI_Model {
             
 
             /* Vars */
-            $list = array_map('strtoupper', $parameter);
+            $list = array_map('strtoupper', $list);
             $cuit = str_replace("-", "", $list['1695']);
             $brand_name = $list['1693'];
 
