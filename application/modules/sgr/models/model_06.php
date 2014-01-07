@@ -320,11 +320,11 @@ class Model_06 extends CI_Model {
     function forNullValues($parameter) {
 
         if ($_POST['excel'] == 1) {
-            $var = ($var != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+            $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
         } else {
-            $var = ($var != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "-";
+            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "-";
         }
-        echo $var;
+        return $parameter;
     }
 
     function debug($parameter) {
