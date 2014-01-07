@@ -254,11 +254,11 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->db->$container->find($query);
-
+        $result = array_map("strtoupper", $result);
         foreach ($result as $list) {
 
             /* Vars */
-            $list = array_map("strtoupper", $list);
+            
             $cuit = str_replace("-", "", $list['1695']);
             $brand_name = $list['1693'];
 
