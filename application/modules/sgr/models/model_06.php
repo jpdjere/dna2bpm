@@ -265,7 +265,7 @@ class Model_06 extends CI_Model {
         $fields = array("data");
         $query = array("idop" => 589);
         $result = $this->mongo->db->$container->findOne($query, $fields);
-        var_dump($result);
+        var_dump($result['data']);
             
             
             $new_list = array();
