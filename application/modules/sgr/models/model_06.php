@@ -289,12 +289,17 @@ class Model_06 extends CI_Model {
     }
     
     function translate_options($parameter){
+         $rtn = array();
         $container = 'options';
         $fields = array("data");
         $query = array("idop" => $parameter);
         $result = $this->mongo->db->$container->find($query, $fields);
         
-        return $result;
+        foreach ($result as $opt) {
+            
+            $rtn[] = $opt;
+        }
+        return $rtn;
     }
 
     function debug($parameter) {
