@@ -265,25 +265,15 @@ class Model_06 extends CI_Model {
             $tipo_operacion = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);
             $acta_tipo = $this->app->get_ops(531);
-            
-            $inner_table = '<table width="100%" id="inner">
-                                                <tr>
-                                                    <td>'.$list['19'].'</td>
-                                                    <td align="right">'. $this->forNullValues($list['20']) .'</td>
-                                                    <td>' . $list['21'] .'</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>'.$list['22'].'</td>
-                                                    <td align="right">'. $this->forNullValues($list['23']) .'</td>
-                                                    <td>' . $list['24'] .'</td>
-                                                </tr>
-                                                <tr>
-                                                     <td>'.$list['25'].'</td>
-                                                    <td align="right">'. $this->forNullValues($list['26']) .'</td>
-                                                    <td>' . $list['27'] .'</td>
-                                                </tr>
-                                            </table>';
-            
+
+            $inner_table = '<table width="100%">';
+            if($list['19']){
+            $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . $this->forNullValues($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';
+            }
+            $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . $this->forNullValues($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';
+            $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . $this->forNullValues($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';                                                   
+            $inner_table .= '</table>';
+
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
             $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
@@ -292,7 +282,7 @@ class Model_06 extends CI_Model {
             $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
-            $new_list['"ANIO"'] = $inner_table;//$list['19'] . " " . $this->forNullValues($list['20']) . " " . $list['21'] . "<br/>" . $list['22'] . " " . $this->forNullValues($list['23']) . " " . $list['24'] . "<br/>" . $list['25'] . " " . $this->forNullValues($list['26']) . " " . $list['27'];
+            $new_list['"ANIO"'] = $inner_table; //$list['19'] . " " . $this->forNullValues($list['20']) . " " . $list['21'] . "<br/>" . $list['22'] . " " . $this->forNullValues($list['23']) . " " . $list['24'] . "<br/>" . $list['25'] . " " . $this->forNullValues($list['26']) . " " . $list['27'];
             $new_list['CONDICION_INSCRIPCION_AFIP'] = "[PROMEDIO] " . $inscripcion_iva[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $this->translate_date($list['5255']) . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $this->translate_date($list['FECHA_DE_TRANSACCION']);
@@ -340,7 +330,7 @@ class Model_06 extends CI_Model {
         if ($_POST['excel'] == 1) {
             $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
         } else {
-            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "-";
+            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
         }
         return $parameter;
     }
