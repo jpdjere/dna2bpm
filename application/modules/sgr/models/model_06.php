@@ -262,7 +262,7 @@ class Model_06 extends CI_Model {
             /* Vars */
             $list = array_map('strtoupper', $parameter);
             $cuit = str_replace("-", "", $list['1695']);
-            $brand_name = strtoupper($list['1693']);
+            $brand_name = $list['1693'];
 
 
             $this->load->model('app');
