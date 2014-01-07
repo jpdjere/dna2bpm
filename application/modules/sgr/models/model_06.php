@@ -278,23 +278,23 @@ class Model_06 extends CI_Model {
             $calcPromedio += ($list[26] != "") ? 1 : 0;
             if ($calcPromedio != 0) {
 
-                $montosArr = array($insertarr[20], $insertarr[23], $insertarr[26]);
+                $montosArr = array($list[20], $list[23], $list[26]);
                 $sumaMontos = array_sum($montosArr);
 
-                $promedio = $sumaMontos / $calcPromedio;
+                $promedio = $this->money_format($sumaMontos / $calcPromedio);
                 //$sector = sector(cerosClanae($insertarr[5208]));
                 //$tipo_empresa = getCompanySize($promedio, $sector);
             }
 
             $inner_table = '<table width="100%">';
             if ($list['19']) {
-                $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . $this->forNullValues($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';
+                $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . $this->money_format($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';
             }
             if ($list['22']) {
-                $inner_table .= '<tr><td>' . $list['22'] . '</td><td align="right">' . $this->forNullValues($list['23']) . '</td><td>' . $list['24'] . '</td><tr>';
+                $inner_table .= '<tr><td>' . $list['22'] . '</td><td align="right">' . $this->money_format($list['23']) . '</td><td>' . $list['24'] . '</td><tr>';
             }
             if ($list['25']) {
-                $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . $this->forNullValues($list['26']) . '</td><td>' . $list['27'] . '</td><tr>';
+                $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . $this->money_format($list['26']) . '</td><td>' . $list['27'] . '</td><tr>';
             }
             $inner_table .= '</table>';
 
@@ -341,15 +341,15 @@ class Model_06 extends CI_Model {
     }
 
     /**
-     * Verifica los valores no Null & los convierte en formato de moneda
+     * Convierte en formato de moneda
      *
      * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
      * @type php
      * @author Diego
-     * @name forNullValues
+     * @name money_format
      *
      * */
-    function forNullValues($parameter) {
+    function money_format($parameter) {
 
         if ($_POST['excel'] == 1) {
             $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
