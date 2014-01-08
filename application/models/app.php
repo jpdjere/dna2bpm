@@ -611,4 +611,3 @@ class App extends CI_Model {
     }
 
 }
-?>
