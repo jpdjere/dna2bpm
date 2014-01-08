@@ -91,30 +91,22 @@
     <!-- TABS -->
 
     <ul class="nav nav-tabs" id="dashboard_tab1">
-        <li class="active"><a href="#tab_pending" data-toggle="tab">Archivos a Procesar</a></li>        
-        <li><a href="#tab_processed" data-toggle="tab">Procesados</a></li>
+        <li class="active"><a href="#tab_pending" data-toggle="tab">Archivos a Procesar</a></li>
+        {processed_tab}
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane active" id="tab_pending">  
             <div class="alert {resumen_class}" id="{_id}">                
-                <h3>{anexo_title} </h3>
+                <h3>{anexo_title_cap} </h3>
                 <ol>
                     {files_list}
                 </ol>
             </div> 
         </div>  
 
-        <div id="tab_processed" class="tab-pane">            
-            <div class="alert {resumen_class}" id="{_id}">                
-                <h3>{anexo_title} </h3>
-            </div> 
+        {processed_list}
 
-             
-                {processed_list}
-                    
-
-        </div>
     </div>
 
 </div>

@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{module_url}assets/css/extra-icons.css" />	
         <link rel="stylesheet" href="{module_url}assets/jscript/fullcalendar/fullcalendar.css" />
         <link rel="stylesheet" href="{module_url}assets/jscript/datepicker/css/datepicker.css" />
-        <link rel="stylesheet" href="{module_url}assets/css/genias.css" />
+        <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
 
 
         <!--/ Custom CSS -->

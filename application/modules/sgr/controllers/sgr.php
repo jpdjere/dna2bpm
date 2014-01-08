@@ -62,7 +62,7 @@ class Sgr extends MX_Controller {
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-        //$customData['goals'] = (array) $this->sgr_model->get_goals($this->idu);
+
         // Projects
         $projects = $this->sgr_model->get_config_item('projects');
         $customData['projects'] = $projects['items'];
@@ -74,6 +74,7 @@ class Sgr extends MX_Controller {
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
+        $customData['processed_tab'] = $this->get_processed_tab($this->anexo);
         $customData['processed_list'] = $this->get_processed($this->anexo);
 
 
@@ -138,6 +139,11 @@ class Sgr extends MX_Controller {
         return $anexoValues['title'];
     }
 
+    function oneAnexoDB_short() {
+        $anexoValues = $this->sgr_model->get_anexo($this->anexo);
+        return $anexoValues['short'];
+    }
+
     function Anexo($filename = null) {
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -167,8 +173,16 @@ class Sgr extends MX_Controller {
 
         //echo dirname(__FILE__); //$this->module_url;
 
+        $original = array($this->sgr_id . '_', $this->anexo . '_', '_');
+        $replaced = array($this->oneAnexoDB_short($this->anexo) . ' - ', strtoupper($this->sgr_nombre) . ' - ', ' ');
+        $new_filename = str_replace($original, $replaced, $filename);
+
+
         $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
-        $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $filename;
+        $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $new_filename;
+
+
+
         //  $uploadpath = base_url() . 'anexos_sgr/' . $filename;
 
         $this->load->library('excel_reader2');
@@ -304,7 +318,7 @@ class Sgr extends MX_Controller {
             if (!$duplicated) {
                 for ($i = 2; $i <= $data->rowcount(); $i++) {
                     $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
-                    $result['filename'] = $filename;
+                    $result['filename'] = $new_filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $save = (array) $this->$model->save($result);
                     //success
@@ -313,15 +327,26 @@ class Sgr extends MX_Controller {
                 /* SET PERIOD */
                 if ($save) {
                     $result = array();
-                    $result['filename'] = $filename;
+                    $result['filename'] = $new_filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $result['anexo'] = $this->anexo;
                     $save_period = (array) $this->$model->save_period($result);
-                    var_dump($save_period);
 
+                    if ($save_period['status'] == "ok") {
 
-                    copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
-                    unlink($uploadpath);
+                        copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
+                        unlink($uploadpath);
+
+                        /* RENDER */
+                        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+                        $customData['sgr_period'] = $this->period;
+                        $customData['anexo_list'] = $this->AnexosDB();
+                        $customData['message'] = 'El Archivo fue importado con exito';
+                        $this->render('success', $customData);
+                    } else {
+
+                        $error = true;
+                    }
                 }
             }
         }
@@ -386,15 +411,35 @@ class Sgr extends MX_Controller {
     }
 
     function print_anexo($parameter = null) {
+
         if (!$parameter) {
             exit();
         }
-
+        $parameter = urldecode($parameter);
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
+
         echo "<style>
+            #header {
+    background: none no-repeat scroll 0 0 #FFFFFF;
+    height: 100px;
+    position: relative;
+}
+#header-dna {
+    background: url('http://www.accionpyme.mecon.gob.ar/dna2/style/img/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    width: 580px;
+}
+#header-logos {
+    background: url('http://www.accionpyme.mecon.gob.ar/dna2/style/img/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 210px;
+}
         table { border-collapse: collapse;
         font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center}
         caption { font-size: larger; margin: 1em auto; } 
@@ -402,6 +447,17 @@ class Sgr extends MX_Controller {
         th, thead { background: #000; color: #fff; border: 1px solid #000; }
         td { border: 1px solid #777; }
         </style>";
+        echo '<div id="header">
+            <div id="header-dna"></div>
+            <div id="header-logos"></div>
+        </div>';
+
+        echo "
+ACINDAR PYMES S.G.R. | C.U.I.T.: 30-70937729-5
+[Anexo 17] SGR Movimientos de Capital Social Importado por: [ADMINISTRADOR]
+Archivo Procesado: $parameter
+Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
+
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
         echo $get_anexo;
         // echo $parameter;
@@ -501,29 +557,40 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $this->render('offline', $customData);
     }
-
-    function get_processed($anexo) {
-        $list_files = "";
-
-        for ($i = 2011; $i <= date(Y); $i++) {
-            if ($i % 2 != 0) {
-                $list_files .= "<div class='row-fluid'>";
-            }
-            $list_files .= "<div class=span6><h5>" . $i . "</h5><ul>";
+    
+    
+    function get_processed_tab($anexo) {
+        $list_files = "";        
+        for ($i = 2011; $i <= date(Y); $i++) {            
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
-                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], '<i class="fa fa-external-link" alt="Imprimir"></i>');
-                $list_files .= "<li>" . $file['filename'] . " [" . $file['period'] . "] " . $print_file . "</li>";
-            }
-            $list_files .= "</ul></div>";
-            if ($i % 2 == 0) {
-                $list_files .= "</div>";
+                if($file) $list_files .= '<li><a href="#tab_processed'.$i.'" data-toggle="tab">Procesados '.$i.'</a></li>';
             }
         }
-
         return $list_files;
     }
-
+    
+    
+    function get_processed($anexo) {
+        $list_files = '';
+        for ($i = 2011; $i <= date(Y); $i++) {            
+            $list_files .= '<div id="tab_processed'.$i.'" class="tab-pane">             
+            <div class="alert {resumen_class}" id="'.$i.'">';
+            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            foreach ($processed as $file) {
+                $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar">Descargar</i>');
+                $print_filename = ($file['filename']=="SIN MOVIMIENTOS")? $file['filename'] : substr($file['filename'], 0, -25) ;
+                
+                
+                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>');
+                $list_files .= "<li>" . $download . " | " . $print_file . " "  .$print_filename . " [" . $file['period'] . "]</li>";
+            }
+            $list_files .= '</div>
+        </div>';
+        }
+        return $list_files;
+    }
+    
     function file_browser() {
         $segment_array = $this->uri->segment_array();
 
@@ -632,16 +699,18 @@ class Sgr extends MX_Controller {
                     list($filename, $extension) = explode(".", $file['name']);
 
                     /* Vars */
-                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>');
-                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>');
+                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>');
+                    $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>';
+                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> Descargar</i>');
+                    $disabled_anchor = anchor('#',' <small>[Para procesar debe seleccionar el periodo a informar]</small>' );
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
                         //Process
-                        $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . "  " . $process_file . '</li>';
+                        $files_list .= '<li> ' . $download . "  " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
                     } else {
                         //Just Download 
-                        $files_list .= '<li> Pendiente ' . $filedate . " " . $filetime . " " . $download . ' <small>[Para procesar debe seleccionar el periodo a informar]</small> <i class="fa fa-external-link" alt="Procesar"></i></li>';
+                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime .  $disabled_anchor. '</li>';
                     }
                 }
             }
