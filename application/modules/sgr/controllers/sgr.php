@@ -563,11 +563,12 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         $list_files = "";        
         for ($i = 2011; $i <= date(Y); $i++) {            
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            $processed = array($processed);
             foreach ($processed as $file) {
                 if($file) $list_files .= '<li><a href="#tab_processed'.$i.'" data-toggle="tab">Procesados '.$i.'</a></li>';
             }
         }
-        return array_unique($list_files);
+        return $list_files;
     }
     
     
