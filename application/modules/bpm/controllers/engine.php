@@ -34,6 +34,7 @@ class Engine extends MX_Controller {
         $this->load->helper('bpm');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
+        $this->lang->load('bpm', $this->config->item('language'));
         //---Set the shapes that will be digged
         $this->digInto = array('Pool', 'Subprocess', 'CollapsedSubprocess', 'Lane');
         //---Debug options
@@ -469,6 +470,8 @@ class Engine extends MX_Controller {
                         if ($debug)
                             echo "Calling Connector: $conn<br/>";
                         $this->data->$key = $this->$conn->get_data($value);
+                    } else {
+                        $this->data->$key = $value;
                     }
                 } else { //add regular data
                     $this->data->$key = $value;
@@ -656,7 +659,7 @@ class Engine extends MX_Controller {
                                         $rendering = trim($shape->properties->rendering);
                                         if ($rendering) {
                                             $token_id = $first['_id'];
-                                            if (strstr($rendering,'http')) {
+                                            if (strstr($rendering, 'http')) {
                                                 $redir = $rendering . "&id=$id&token=$token_id";
                                             } else {
                                                 $redir = $this->base_url . "dna2/render/edit/" . $shape->properties->rendering . "/$id/id/token/" . $token_id;
