@@ -567,7 +567,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 if($file) $list_files .= '<li><a href="#tab_processed'.$i.'" data-toggle="tab">Procesados '.$i.'</a></li>';
             }
         }
-        return $list_files;
+        return array_unique($list_files);
     }
     
     
