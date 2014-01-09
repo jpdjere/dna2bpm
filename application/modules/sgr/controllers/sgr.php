@@ -96,13 +96,13 @@ class Sgr extends MX_Controller {
         if ($error_set_period) {
             switch ($error_set_period) {
                 case 1:
-                    $error_msg = "El Periodo seleccionado es Invalido";
+                    $error_msg = '<i class="fa fa-bookmark"></i> El Periodo seleccionado es Invalido';
                     break;
 
                 default:
                     $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
-                    $error_msg = "El periodo del " . str_replace("-", "/", $error_set_period) . " ya fue informado [ " . $get_period['filename'] . " ] | " . $new_period;
+                    $error_msg = '<i class="fa fa-bookmark"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
                     break;
@@ -267,7 +267,7 @@ class Sgr extends MX_Controller {
 
             if (!$count) {
 
-                $result_header = "<li>Error archivo no tiene la informacion necesaria</li>";
+                $result_header = '<li><i class="fa fa-bookmark"></i> Error archivo no tiene la informacion necesaria</li>';
                 $error = true;
             }
 
@@ -708,7 +708,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>');
                     $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>';
                     $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> Descargar</i>');
-                    $disabled_anchor = ' <small>[Para procesar debe seleccionar el periodo a informar]</small>';
+                    
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
@@ -716,7 +716,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                         $files_list .= '<li> ' . $download . "  " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
                     } else {
                         //Just Download 
-                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime . $disabled_anchor . '</li>';
+                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime . '</li>';
                     }
                 }
             }
