@@ -23,7 +23,7 @@
 
 {if alert_message}
 <div class="alert alert-{success}" id="{success}">   
-    <h1>{alert_message}</h1>
+    <h3>{alert_message}</h3>
 </div>
 {/if}
 
