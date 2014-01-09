@@ -21,6 +21,12 @@
 </div>
 {/if}
 
+{if alert_message}
+<div class="alert alert-{alert_message}" id="{alert_message}">   
+    <h1>{alert_message}</h1>
+</div>
+{/if}
+
 
 <!-- ==== Contenido ==== -->
 <div class="container" > 
