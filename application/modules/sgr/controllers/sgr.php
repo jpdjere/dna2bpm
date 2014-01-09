@@ -109,12 +109,11 @@ class Sgr extends MX_Controller {
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
 
+        if (!$this->session->userdata['period']) {
+            $customData['alert_message'] = '<i class="fa fa-bookmark"></i>[Para procesar debe seleccionar el periodo a informar]';
+        }
+
         if (!empty($fileBrowserData)) {
-            
-            if (!$this->session->userdata['period']){
-                $customData['alert_message'] = '<i class="fa fa-bookmark"></i>[Para procesar debe seleccionar el periodo a informar]';
-            }
-            
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
             $this->render('dashboard', $resultRender);
         } else {
@@ -717,7 +716,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                         $files_list .= '<li> ' . $download . "  " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
                     } else {
                         //Just Download 
-                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime .  $disabled_anchor . '</li>';
+                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime . $disabled_anchor . '</li>';
                     }
                 }
             }
