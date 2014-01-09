@@ -55,7 +55,8 @@ class assets extends CI_Controller {
  
             readfile($file);
         } else {
-            show_404();
+            //show_404();
+            var_dump("404", $file);
         }
         exit;
     }
