@@ -588,7 +588,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar">Rectificar</i>', array('class' => 'rectifica-link'));
                 
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
-                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . ']</li>';
+                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . '][' . $file['status'] . '] </li>';
                 } else {
                     $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 }
