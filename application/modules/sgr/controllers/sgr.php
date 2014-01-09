@@ -38,8 +38,6 @@ class Sgr extends MX_Controller {
             exit();
         }
 
-
-
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
@@ -78,6 +76,7 @@ class Sgr extends MX_Controller {
         $customData['processed_list'] = $this->get_processed($this->anexo);
 
 
+
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
@@ -85,12 +84,15 @@ class Sgr extends MX_Controller {
             $customData['message'] = $upload['message'];
             $customData['success'] = "error";
         }
-        
-        if (!$this->session->userdata['period']) {
-            $customData['message'] = '<i class="fa fa-bookmark"></i> Para procesar debe seleccionar el periodo a informar';
+
+        /*
+         * SET PERIOD
+         */
+        if (!$upload) {
+            if (!$this->session->userdata['period']) {
+                $customData['message'] = '<i class="fa fa-bookmark"></i> Para procesar debe seleccionar el periodo a informar';
+            }
         }
-        
-        //SET PERIOD        
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
@@ -111,7 +113,7 @@ class Sgr extends MX_Controller {
             $customData['success'] = "error";
         }
         // FILE BROWSER
-        $fileBrowserData = $this->file_browser();        
+        $fileBrowserData = $this->file_browser();
 
         if (!empty($fileBrowserData)) {
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
@@ -471,9 +473,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         $rectify = $this->input->post("rectifica");
         $period = $this->input->post("input_period");
 
-
-
-        if ($period) {
+        if ($period) {            
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
             $newdata = array('period' => $period);
@@ -483,7 +483,6 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 
             if ($rectify) {
                 //Rectificamos Anexo 
-
                 $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
                 $model = "model_" . $anexo;
                 $this->load->model($model);
@@ -492,7 +491,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 if ($get_period) {
                     $update_period = (array) $this->$model->update_period($get_period['id']);
                 }
-                var_dump($update_period);
+                //var_dump($update_period);
 
                 $this->session->set_userdata($newdata);
                 //redirect('/sgr');
@@ -500,7 +499,6 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 if ($limit_month <= $set_month) {
                     return 1; // Posterior al mes actual
                 } else {
-
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
@@ -513,25 +511,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         }
     }
 
-    function set_no_movement() {
-
-        $data = $this->input->post('data');
-        $period = $data['no_movement'];
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
-        $model = "model_" . $anexo;
-        $this->load->model($model);
-
-        $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
-        if (!$get_period) {
-            $result = array();
-            $result['period'] = $period;
-            $result['filename'] = "SIN MOVIMIENTOS";
-            $result['sgr_id'] = (int) $this->sgr_id;
-            $result['anexo'] = $anexo;
-            $save_period = (array) $this->$model->save_period($result);
-            echo "ok";
-        }
-    }
+    
 
     function unset_period() {
         $this->session->unset_userdata('period');
@@ -550,6 +530,26 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         } catch (Exception $err) {
             log_message("error", $err->getMessage());
             return show_error($err->getMessage());
+        }
+    }
+    
+    function set_no_movement() {
+
+        $data = $this->input->post('data');
+        $period = $data['no_movement'];
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+
+        $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+        if (!$get_period) {
+            $result = array();
+            $result['period'] = $period;
+            $result['filename'] = "SIN MOVIMIENTOS";
+            $result['sgr_id'] = (int) $this->sgr_id;
+            $result['anexo'] = $anexo;
+            $save_period = (array) $this->$model->save_period($result);
+            echo "ok";
         }
     }
 
@@ -585,10 +585,12 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar">Descargar</i>');
                 $print_filename = ($file['filename'] == "SIN MOVIMIENTOS") ? $file['filename'] : substr($file['filename'], 0, -25);
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>');
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar">Rectificar</i>', array('class' => 'rectifica-link'));
+                
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
                     $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . ']</li>';
                 } else {
-                    $list_files .= "<li>" . $download . " | " . $print_file . " " . $print_filename . " [" . $file['period'] . "]</li>";
+                    $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "]</li>";
                 }
             }
             $list_files .= '</ul></div>
@@ -708,7 +710,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>');
                     $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>';
                     $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> Descargar</i>');
-                    
+
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {

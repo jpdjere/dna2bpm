@@ -42,7 +42,7 @@
     <!-- PERIOD -->
     <div class="row-fluid">
         <div id="meta_div_2">
-            <form  method="post" class="well">
+            <form  method="post" class="well" id="period">
                 <div  class="row-fluid " >
                     <div class="span6">                        
                         <label>{if rectifica}Rectificar {/if}Anexo</label>
@@ -64,7 +64,11 @@
                             <label>Seleccione el Período a {if rectifica} Rectificar {else} Informar {/if} </label>
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
                                 <input type="text" name="input_period" readonly="" {if post_period} value="{post_period}" {/if} class="input-block-level">
-                                       {if rectifica}{else}<span class="add-on"><i class="icon-calendar"></i></span>{/if}
+                                {if rectifica}
+                                       <!-- //  -->
+                                       {else}
+                                       <span class="add-on"><i class="icon-calendar"></i></span>
+                                {/if}
                             </div>
                         </div>
                         {if rectifica}     

@@ -5,11 +5,21 @@
 
 $(document).ready(function() {
 
+    $('.rectifica-link').click(function(event) {
+        var parameter = $('.rectifica-link').attr('href');
+        var arr = parameter.split('/');
+        var input_period = arr[2];
+        var anexo = arr[3];
+        event.preventDefault();
+        $.get(globals.module_url + "unset_period");
 
+        $("input[name$='input_period']").val(input_period);
+        $("input[name$='anexo']").val(anexo);
+        $("#period").submit();
+
+    });
     $('.dp').datepicker();
     $("#others").hide();
-
-
     /*RECTIFICAR*/
     $('#rectificar').change(function() {
         var option_value = $("#rectificar option:selected").val();
@@ -19,8 +29,6 @@ $(document).ready(function() {
             $("#others").hide();
         }
     });
-
-
 //
     /*
      
@@ -54,8 +62,6 @@ $(document).ready(function() {
                 add_no_movement();
             }
         });
-
-
 //        var no_movement = $('#no_movement').val();
 //        var data = {'no_movement': no_movement};
 //        $.ajax(
@@ -73,10 +79,7 @@ $(document).ready(function() {
 //                    }
 //                });
     });
-
-
     $('#dashboard_tab1 a:first').tab('show');
-
     $('.nav-tabs li a').click(function(e) {
 
         var code = $(this).attr('href').split('-');
@@ -101,13 +104,11 @@ $(document).ready(function() {
 
 
     });
-
 //==== VISITAS ==== //
 
     $(document).on("click", ".ul_collapse", function() {
         $(this).next('UL').slideToggle();
     });
-
 // Cargo visitas default
     $('#wrapper_visitas').load(globals.module_url + 'get_resumen_visitas');
 // cambio el mes
@@ -115,10 +116,6 @@ $(document).ready(function() {
         var mes = ev.date.toISOString();
         $('#wrapper_visitas').load(globals.module_url + 'get_resumen_visitas', {'mes': mes});
     });
-
-
-
-
 // Fin ready
 });
 function onUpdateReady() {
