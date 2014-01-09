@@ -590,7 +590,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
                     $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . ']</li>';
                 } else {
-                    $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "]</li>";
+                    $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 }
             }
             $list_files .= '</ul></div>
