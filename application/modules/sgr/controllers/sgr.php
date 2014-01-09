@@ -576,17 +576,16 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         $list_files = '';
         for ($i = 2011; $i <= date(Y); $i++) {            
             $list_files .= '<div id="tab_processed'.$i.'" class="tab-pane">             
-            <div class="alert {resumen_class}" id="'.$i.'">';
+            <div class="alert {resumen_class}" id="'.$i.'"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
                 $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar">Descargar</i>');
-                $print_filename = ($file['filename']=="SIN MOVIMIENTOS")? $file['filename'] : substr($file['filename'], 0, -25) ;
-                
+                $print_filename = ($file['filename']=="SIN MOVIMIENTOS")? $file['filename'] : substr($file['filename'], 0, -25) ;               
                 
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>');
                 $list_files .= "<li>" . $download . " | " . $print_file . " "  .$print_filename . " [" . $file['period'] . "]</li>";
             }
-            $list_files .= '</div>
+            $list_files .= '</ul></div>
         </div>';
         }
         return $list_files;
