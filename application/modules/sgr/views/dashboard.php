@@ -21,13 +21,6 @@
 </div>
 {/if}
 
-{if alert_message}
-<div class="alert alert-{success}" id="{success}">   
-    <h3>{alert_message}</h3>
-</div>
-{/if}
-
-
 <!-- ==== Contenido ==== -->
 <div class="container" > 
     <div class="row-fluid">
