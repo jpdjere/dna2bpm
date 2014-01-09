@@ -112,9 +112,7 @@ class Sgr extends MX_Controller {
         if (!empty($fileBrowserData)) {
             
             if (!$this->session->userdata['period']){
-                $customData['message'] = "test" . $this->session->userdata['period'];
-            } else {
-                $customData['message'] = "test2". $this->session->userdata['period'];
+                $customData['alert_message'] = '<i class="fa fa-bookmark"></i>[Para procesar debe seleccionar el periodo a informar]';
             }
             
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
