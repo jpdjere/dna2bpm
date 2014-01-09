@@ -85,7 +85,11 @@ class Sgr extends MX_Controller {
             $customData['message'] = $upload['message'];
             $customData['success'] = "error";
         }
-
+        
+        if (!$this->session->userdata['period']) {
+            $customData['message'] = '<i class="fa fa-bookmark"></i> Para procesar debe seleccionar el periodo a informar';
+        }
+        
         //SET PERIOD        
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
@@ -107,11 +111,7 @@ class Sgr extends MX_Controller {
             $customData['success'] = "error";
         }
         // FILE BROWSER
-        $fileBrowserData = $this->file_browser();
-
-        if (!$this->session->userdata['period']) {
-            $customData['alert_message'] = '<i class="fa fa-bookmark"></i>[Para procesar debe seleccionar el periodo a informar]';
-        }
+        $fileBrowserData = $this->file_browser();        
 
         if (!empty($fileBrowserData)) {
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
