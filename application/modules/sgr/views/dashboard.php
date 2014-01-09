@@ -90,19 +90,19 @@
     </div> 
     {/if}
 
-
+     <div class="alert {resumen_class}" id="{_id}">                
+                <h3>{anexo_title_cap} </h3>
+                <ol>
+                    {files_list}
+                </ol>
+            </div>  
     <!-- TABS -->
 
     <ul class="nav nav-tabs" id="dashboard_tab1">       
         {processed_tab}
     </ul>
    
-    <div class="alert {resumen_class}" id="{_id}">                
-                <h3>{anexo_title_cap} </h3>
-                <ol>
-                    {files_list}
-                </ol>
-            </div>  
+   
     
     <div class="tab-content">
          
