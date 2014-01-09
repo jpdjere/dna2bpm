@@ -557,40 +557,42 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         $customData['module_url'] = base_url() . 'sgr/';
         $this->render('offline', $customData);
     }
-    
-    
+
     function get_processed_tab($anexo) {
-        $list_files = "";        
-        for ($i = 2011; $i <= date(Y); $i++) {            
+        $list_files = "";
+        for ($i = 2011; $i <= date(Y); $i++) {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
-                if($file) $list_files .= '<li><a href="#tab_processed'.$i.'" data-toggle="tab">Procesados '.$i.'</a></li>';
+                if ($file)
+                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">Procesados ' . $i . '</a></li>';
             }
         }
         return $list_files;
     }
-    
-    
+
     function get_processed($anexo) {
         $list_files = '';
-        for ($i = 2011; $i <= date(Y); $i++) {            
-            $list_files .= '<div id="tab_processed'.$i.'" class="tab-pane">             
-            <div class="alert {resumen_class}" id="'.$i.'"><ul>';
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
+            <div class="alert {resumen_class}" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
                 $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar">Descargar</i>');
-                $print_filename = ($file['filename']=="SIN MOVIMIENTOS")? $file['filename'] : substr($file['filename'], 0, -25) ;               
-                
+                $print_filename = ($file['filename'] == "SIN MOVIMIENTOS") ? $file['filename'] : substr($file['filename'], 0, -25);
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>');
-                $list_files .= "<li>" . $download . " | " . $print_file . " "  .$print_filename . " [" . $file['period'] . "]</li>";
+                if ($file['filename'] == "SIN MOVIMIENTOS") {
+                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . ']</li>';
+                } else {
+                    $list_files .= "<li>" . $download . " | " . $print_file . " " . $print_filename . " [" . $file['period'] . "]</li>";
+                }
             }
             $list_files .= '</ul></div>
         </div>';
         }
         return $list_files;
     }
-    
+
     function file_browser() {
         $segment_array = $this->uri->segment_array();
 
@@ -702,7 +704,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>');
                     $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>';
                     $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> Descargar</i>');
-                    $disabled_anchor = anchor('#',' <small>[Para procesar debe seleccionar el periodo a informar]</small>' );
+                    $disabled_anchor = anchor('#', ' <small>[Para procesar debe seleccionar el periodo a informar]</small>');
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
@@ -710,7 +712,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                         $files_list .= '<li> ' . $download . "  " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
                     } else {
                         //Just Download 
-                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime .  $disabled_anchor. '</li>';
+                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime . $disabled_anchor . '</li>';
                     }
                 }
             }
