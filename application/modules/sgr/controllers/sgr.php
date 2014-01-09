@@ -704,7 +704,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>');
                     $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>';
                     $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> Descargar</i>');
-                    $disabled_anchor = anchor('#', ' <small>[Para procesar debe seleccionar el periodo a informar]</small>');
+                    $disabled_anchor = anchor('', ' <small>[Para procesar debe seleccionar el periodo a informar]</small>');
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
