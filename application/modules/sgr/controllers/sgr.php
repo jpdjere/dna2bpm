@@ -489,7 +489,8 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
 
                 if ($get_period) {
-                    $update_period = (array) $this->$model->update_period($get_period['id']);
+                    
+                    $update_period = (array) $this->$model->update_period($get_period['id'], $get_period['status']);
                 }
                 //var_dump($update_period);
 
