@@ -8,9 +8,18 @@ class Model_06 extends CI_Model {
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
+        $this->anexo = '06';
         $this->idu = (int) $this->session->userdata('iduser');
-        if (!$this->idu)
+        if (!$this->idu){
             header("$this->module_url/user/logout");
+        }
+        
+        /* DATOS SGR */
+        $sgrArr = $this->sgr_model->get_sgr();
+        foreach ($sgrArr as $sgr) {
+            $this->sgr_id = $sgr['id'];
+            $this->sgr_nombre = $sgr['1693'];
+        }
     }
 
     function check($parameter) {
@@ -193,7 +202,7 @@ class Model_06 extends CI_Model {
 
     function save($parameter) {
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_06';
+        $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
@@ -226,8 +235,18 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $this->session->userdata['period'];
         $parameter['status'] = 'activo';
         $result = $this->app->put_array($id, $container, $parameter);
+        
         if ($result) {
-            $out = array('status' => 'ok');
+           
+            /*
+             * VERIFICO PENDIENTE           
+             */
+            $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+            
+            var_dump($get_period);
+            exit();
+             $out = array('status' => 'ok');
+            
         } else {
             $out = array('status' => 'error');
         }
