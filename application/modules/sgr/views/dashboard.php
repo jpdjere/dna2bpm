@@ -93,18 +93,19 @@
 
     <!-- TABS -->
 
-    <ul class="nav nav-tabs" id="dashboard_tab1">
-       
+    <ul class="nav nav-tabs" id="dashboard_tab1">       
         {processed_tab}
     </ul>
-
-    <div class="tab-content">
-         <div class="alert {resumen_class}" id="{_id}">                
+   
+    <div class="alert {resumen_class}" id="{_id}">                
                 <h3>{anexo_title_cap} </h3>
                 <ol>
                     {files_list}
                 </ol>
             </div>  
+    
+    <div class="tab-content">
+         
 
         {processed_list}
 
