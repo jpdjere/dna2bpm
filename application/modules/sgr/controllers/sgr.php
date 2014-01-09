@@ -111,10 +111,10 @@ class Sgr extends MX_Controller {
 
         if (!empty($fileBrowserData)) {
             
-            if($this->set_period()){
+            if($this->period){
                 $customData['message'] = "test";
             } else {
-                $customData['message'] = "test2" . $this->set_period();
+                $customData['message'] = "test2". $this->period;
             }
             
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
