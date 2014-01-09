@@ -10,10 +10,10 @@ class Model_06 extends CI_Model {
         parent::__construct();
         $this->anexo = '06';
         $this->idu = (int) $this->session->userdata('iduser');
-        if (!$this->idu){
+        if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
-        
+
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
@@ -210,7 +210,7 @@ class Model_06 extends CI_Model {
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
         $parameter[5255] = $arr;
-        
+
         $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
 
         $parameter['period'] = $period;
@@ -231,22 +231,21 @@ class Model_06 extends CI_Model {
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
+        $period = $this->session->userdata['period'];
         $id = $this->app->genid($container);
-        $parameter['period'] = $this->session->userdata['period'];
+        $parameter['period'] = $period;
         $parameter['status'] = 'activo';
+
+        /*
+         * VERIFICO PENDIENTE           
+         */
+        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $this->update_period($get_period['id'], $get_period['status']);
+
         $result = $this->app->put_array($id, $container, $parameter);
-        
+
         if ($result) {
-           
-            /*
-             * VERIFICO PENDIENTE           
-             */
-            $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
-            
-            var_dump($get_period);
-            exit();
-             $out = array('status' => 'ok');
-            
+            $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
@@ -257,7 +256,7 @@ class Model_06 extends CI_Model {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $status = ($status=='pendiente')?'rectificado':'pendiente';
+        $status = ($status == 'pendiente') ? 'rectificado' : 'pendiente';
         $parameter = array('status' => $status);
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
@@ -335,7 +334,7 @@ class Model_06 extends CI_Model {
 
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
-            $new_list['SOCIO'] = "(".$list['5272'][0] .") ". $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
+            $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
             $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
