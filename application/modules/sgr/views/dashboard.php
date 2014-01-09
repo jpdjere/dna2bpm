@@ -91,7 +91,7 @@
     {/if}
 
      <div class="alert {resumen_class}" id="{_id}">                
-                <h3>{anexo_title_cap} </h3>
+                <h1>{anexo_title_cap} </h1>
                 <ol>
                     {files_list}
                 </ol>
