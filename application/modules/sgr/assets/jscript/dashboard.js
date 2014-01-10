@@ -21,8 +21,8 @@ $(document).ready(function() {
     $('.dp').datepicker();
     $("#others").hide();
     /*RECTIFICAR*/
-    $('#rectificar').change(function() {
-        var option_value = $("#rectificar option:selected").val();
+    $('#rectify').change(function() {
+        var option_value = $("#rectify option:selected").val();
         if (option_value == 3) {
             $("#others").show();
         } else {
