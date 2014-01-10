@@ -113,6 +113,13 @@ class Sgr extends MX_Controller {
             $customData['message'] = $error_msg;
             $customData['success'] = "error";
         }
+        
+        //RECTIFY
+        if($this->session->userdata['rectify']){
+            $customData['message'] = "RECTIFICA";
+        }
+        
+        
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
 
