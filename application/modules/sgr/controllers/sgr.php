@@ -115,9 +115,7 @@ class Sgr extends MX_Controller {
         }
         
         //RECTIFY
-        if($this->session->userdata['rectify']){
-            $customData['message'] = '<i class="fa fa-bookmark"></i>Para terminar la rectificacion deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo/SIN Movimiento';
-        }
+        $this->session_rectify();
         
         
         // FILE BROWSER
@@ -131,7 +129,14 @@ class Sgr extends MX_Controller {
         }
         //RENDER
     }
-
+    
+    function session_rectify(){
+        if($this->session->userdata['rectify']){
+            $customData['message'] = '<i class="fa fa-bookmark"></i>Para terminar la rectificacion deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo/SIN Movimiento';
+        }
+        
+    }
+    
     function Anexo_code($parameter) {
         // $this->session->unset_userdata('anexo_code');
         $newdata = array('anexo_code' => $parameter);
