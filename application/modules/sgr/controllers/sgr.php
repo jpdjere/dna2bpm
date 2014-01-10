@@ -480,9 +480,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
     }
 
     function set_period() {
-        $this->session->unset_userdata('period');
-        $this->session->unset_userdata('rectify');
-        $this->session->unset_userdata('others');
+        
         
         
         $rectify = $this->input->post("rectify");
