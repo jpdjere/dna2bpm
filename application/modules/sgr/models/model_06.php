@@ -252,12 +252,12 @@ class Model_06 extends CI_Model {
         return $out;
     }
 
-    function update_period($id, $status) {
+    function update_period($id) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $status = ($status == 'pendiente') ? 'rectificado' : 'pendiente';
-        $parameter = array('status' => $status);
+        $status = 'rectificado';
+        $parameter = array('status' => $status, 'reason'=>$this->session->userdata['rectify'], 'other'=>$this->session->userdata['others']);
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
