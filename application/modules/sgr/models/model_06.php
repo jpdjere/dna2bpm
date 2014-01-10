@@ -261,6 +261,8 @@ class Model_06 extends CI_Model {
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
+    
+   
 
     function get_anexo_info($anexo, $parameter) {
 
