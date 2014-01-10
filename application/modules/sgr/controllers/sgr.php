@@ -470,6 +470,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
     }
 
     function set_period() {
+        var_dump($this->input->post);
         $rectify = $this->input->post("rectifica");
         $period = $this->input->post("input_period");
 
@@ -482,19 +483,19 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
             if ($rectify) {
-                //Rectificamos Anexo 
-                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
-                $model = "model_" . $anexo;
-                $this->load->model($model);
-                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
-
-                if ($get_period) {                    
-                    $update_period = (array) $this->$model->update_period($get_period['id'], $get_period['status']);
-                }
-                //var_dump($update_period);
-
-                $this->session->set_userdata($newdata);
-                //redirect('/sgr');
+//                //Rectificamos Anexo 
+//                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+//                $model = "model_" . $anexo;
+//                $this->load->model($model);
+//                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+//
+//                if ($get_period) {
+//                    $update_period = (array) $this->$model->update_period($get_period['id']);
+//                }
+//                //var_dump($update_period);
+//
+//                //$this->session->set_userdata($newdata);
+//                //redirect('/sgr');
             } else {
                 if ($limit_month <= $set_month) {
                     return 1; // Posterior al mes actual
