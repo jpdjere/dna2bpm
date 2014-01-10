@@ -256,7 +256,7 @@ class Model_06 extends CI_Model {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $status = ($status == 'pendiente') ? 'rectificado' : 'pendiente';
+        $status = 'rectificado';
         $parameter = array('status' => $status);
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];

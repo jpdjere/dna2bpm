@@ -10,7 +10,7 @@
 <!-- ==== Contenido ==== -->
 <div class="container" > 
     <div class="alert alert-error" id="{_id}">       
-        <h3>Detalle de Errores</h3>    
+        <h1>Detalle de Errores</h1>    
 
         <a href="../../sgr/">VOLVER</a> | <i class="icon-print"></i> <a href="javascript:window.print()">Imprimir</a>    
         <h5>Verifique la lista de errores.</h5>
@@ -21,6 +21,9 @@
         {if message}
             <ol>{message}</ol>
         {/if}
+        
+        <p><i class="fa fa-download"></i> <a href=>Descargar Modelo</a> | <i class="fa fa-download"></i> <a href=>Descargar Manual</a></p>
+        
         <a href="../../sgr/">VOLVER</a> | <i class="icon-print"></i> <a href="javascript:window.print()">Imprimir</a>
     </div>
 </div>

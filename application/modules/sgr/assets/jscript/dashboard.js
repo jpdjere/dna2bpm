@@ -4,7 +4,7 @@
  */
 
 $(document).ready(function() {
-
+    /*RECTIFICA HREF*/
     $('.rectifica-link').click(function(event) {
         var parameter = $('.rectifica-link').attr('href');
         var arr = parameter.split('/');
@@ -18,6 +18,25 @@ $(document).ready(function() {
         $("#period").submit();
 
     });
+
+    $('.rectifica-warning').click(function(event) {
+        var parameter = $('.rectifica-warning').attr('href');
+        var arr = parameter.split('/');
+        var input_period = arr[2];
+        var anexo = arr[3];
+        event.preventDefault();
+        bootbox.confirm("El período " + input_period + " va a dejar de estar activo, desea continuar?", function(result) {
+            if (result) {
+                //$('#icon-calendar')[0].click();                
+                    $("input[name$='input_period']").val(input_period);
+                    $("input[name$='anexo']").val(anexo);
+                    $("#period").submit();
+                
+            }
+        });
+    });
+
+
     $('.dp').datepicker();
     $("#others").hide();
     /*RECTIFICAR*/
@@ -62,23 +81,9 @@ $(document).ready(function() {
                 add_no_movement();
             }
         });
-//        var no_movement = $('#no_movement').val();
-//        var data = {'no_movement': no_movement};
-//        $.ajax(
-//                {
-//                    /* this option */
-//                    async: false,
-//                    cache: false,
-//                    type: "POST",
-//                    dataType: "text",
-//                    url: globals.module_url + 'set_no_movement',
-//                    data: {'data': data},
-//                    success: function(resp) {
-//                        var new_resp = (resp) ? "OK" : "Error";
-//                        bootbox.alert(new_resp);
-//                    }
-//                });
     });
+
+
     $('#dashboard_tab1 a:first').tab('show');
     $('.nav-tabs li a').click(function(e) {
 

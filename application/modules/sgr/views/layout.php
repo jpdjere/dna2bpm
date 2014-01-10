@@ -36,23 +36,22 @@
 
                         </ul>
                         <ul class="nav pull-right inline"> 
+                            <li><a  href="../dna2/" target="_blank"><i class="fa fa-link"></i> Versión Anterior</a></li>
                             {if sgr_period}
-                            <li><a href="{base_url}sgr/unset_period"><i class="icon-calendar"></i> Período: {sgr_period}</a></li>    
+                            <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="icon-calendar"></i> Período: {sgr_period}</a></li>    
                             {/if}
 
                             <li class="dropdown" id="menu-messages">
                                 <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-                                    <i class="icon icon-coment">
-                                    </i> <span class="text">Anexos</span> <span class="label label-important">{anexo_title_cap}</span> <b class="caret">
+                                    <i class="fa fa-file-text">
+                                     </i> <span class="text"> Anexos</span> <span class="label label-important"> {anexo_title_cap} </span> <b class="caret">
                                     </b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     {anexo_list}
                                 </ul>
                             </li>
-
-                            <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
-                            <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
+                            <li><a  href="{base_url}user/logout"><i class="fa fa-power-off"></i> Salir</a></li>                            
                         </ul>
                     </div>
                 </div>
@@ -78,10 +77,10 @@
 
             $(document).ready(function() {
                 if (offline) {
-                    $('#status').html('OFFLINE').css('color', '#f00');
+                    $('#status').css('color', '#f00');
 
                 } else {
-                    $('#status').html('ONLINE').css('color', '#059B28');
+                    $('#status').css('color', '#059B28');
                 }
             });
 
@@ -89,7 +88,5 @@
 
         </script>
         {js}
-
-
     </body>
 </html>

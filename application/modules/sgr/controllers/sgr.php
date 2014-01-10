@@ -95,11 +95,12 @@ class Sgr extends MX_Controller {
             }
         }
         $error_set_period = $this->set_period();
+        
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
             switch ($error_set_period) {
-                case 1:
-                    $error_msg = '<i class="fa fa-bookmark"></i> El Periodo seleccionado es Invalido';
+                case '1':                    
+                    $error_msg = '<i class="fa fa-bookmark"></i> El Periodo seleccionado es Invalido...';
                     break;
 
                 default:
@@ -133,7 +134,11 @@ class Sgr extends MX_Controller {
     }
 
     function Anexo_code($parameter) {
-        // $this->session->unset_userdata('anexo_code');
+        /* BORRO SESSION RECTIFY */
+        $this->session->unset_userdata('rectify');
+        $this->session->unset_userdata('others');
+        $this->session->unset_userdata('period');
+
         $newdata = array('anexo_code' => $parameter);
         $this->session->set_userdata($newdata);
         redirect('/sgr');
@@ -295,10 +300,14 @@ class Sgr extends MX_Controller {
             }
         } else {
             //ERROR    
+            $result_header_desc = "<h3>El modelo de Anexo es incorrecto, restan las siguientes columnas</h3>";
             foreach ($result_head['result'] as $error_head) {
+
                 $result_header .= "<li>" . $error_head . "</li>";
                 $error = true;
             }
+            $result_header = $result_header_desc . $result_header;
+
             $error = true;
         }
 
@@ -468,9 +477,9 @@ class Sgr extends MX_Controller {
 
         echo "
 ACINDAR PYMES S.G.R. | C.U.I.T.: 30-70937729-5
-[Anexo 17] SGR Movimientos de Capital Social Importado por: [ADMINISTRADOR]
-Archivo Procesado: $parameter
-Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
+[Anexo 06]<br> SGR Movimientos de Capital Social Importado por: [ADMINISTRADOR]<br>
+Archivo Procesado: $parameter<br>
+Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascript:window.close();'>Cerrar Anexo</a>";
 
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
         echo $get_anexo;
@@ -496,20 +505,6 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 
             if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
-//                //Rectificamos Anexo 
-//                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
-//                $model = "model_" . $anexo;
-//                $this->load->model($model);
-//                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
-//
-//                if ($get_period) {
-//                    $update_period = (array) $this->$model->update_period($get_period['id']);
-//                }
-//                //var_dump($update_period);
-//
-//                
-//                //redirect('/sgr');
-
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
@@ -531,6 +526,8 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
     }
 
     function unset_period() {
+        $this->session->unset_userdata('rectify');
+        $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
         redirect('/sgr');
     }
@@ -558,7 +555,11 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         $model = "model_" . $anexo;
         $this->load->model($model);
 
-        $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+        if (!$this->session->userdata['rectify']) {
+            $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+        }
+
+
         if (!$get_period) {
             $result = array();
             $result['period'] = $period;
@@ -601,11 +602,13 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
             foreach ($processed as $file) {
                 $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar">Descargar</i>');
                 $print_filename = ($file['filename'] == "SIN MOVIMIENTOS") ? $file['filename'] : substr($file['filename'], 0, -25);
-                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>');
-                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar">Rectificar</i>', array('class' => 'rectifica-link'));
+                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>', array('target' => '_blank'));
+
+                $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning' : 'rectifica-link';
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar">Rectificar</i>', array('class' => $rectifica_link_class));
 
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
-                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . '][' . $file['status'] . '] </li>';
+                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>  | ' . $rectify . ' | ' . $print_filename . ' [' . $file['period'] . '][' . $file['status'] . '] </li>';
                 } else {
                     $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 }
@@ -763,7 +766,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
         $user = $this->user->get_user($this->idu);
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
-        $cpData['username'] = $user->lastname . ", " . $user->name;
+        $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
         $cpData['usermail'] = $user->email;
         // Profile 
         //$cpData['profile_img'] = get_gravatar($user->email);

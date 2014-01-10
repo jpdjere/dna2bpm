@@ -4,13 +4,12 @@
             <i class="icon-plus"></i>  Seleccionar Archivos a Procesar
         </button> 
         {if sgr_period}
-        <button type="button" id="no_movement" class="no_movement" value="{sgr_period}">
+        <button type="button" id="no_movement" class="no_movement btn btn-info" value="{sgr_period}">
             <i class="icon-plus"></i>  Asociar el periodo {sgr_period} a "Sin Movimientos"
         </button>
-        {/if}
+        {/if}        
         <li class="pull-right perfil">
-            <span id="status"></span>{sgr_nombre}
-            <i class="{rol_icono}"></i>  <a   href="{base_url}user/logout"> {username}</a> [{rol}]
+            SGR: {sgr_nombre}  <span id="status"> <i class="{rol_icono}"></i> {username} [Grupo: {rol}]</span> <!--<a  href="../dna2/" target="_blank"><i class="fa fa-link"></i>Versión Anterior</a>-->
         </li>
     </ul>
 </div>
@@ -98,15 +97,18 @@
         </div>
     </div> 
     {/if}
-
-    <div class="alert {resumen_class}" id="{_id}">                
-        <h1>{anexo_title_cap} </h1>
+    
+    <h1>{anexo_title_cap} </h1>
+    
+    <div class="alert {resumen_class}" id="{_id}">                        
         <ol>
             {files_list}
         </ol>
-    </div>  
+    </div>
+    {if processed_tab}
+    <h3>ANEXOS PROCESADOS</h3>
+    {/if}
     <!-- TABS -->
-
     <ul class="nav nav-tabs" id="dashboard_tab1">       
         {processed_tab}
     </ul>
