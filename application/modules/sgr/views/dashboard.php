@@ -21,14 +21,17 @@
 </div>
 {/if}
 
-{if rectify_message}
-<div class="navbar-inverse">   
+
+
+<!-- ==== Contenido ==== -->
+<div class="container" > 
+    
+    {if rectify_message}
+<div class="navbar-inverse well-small">   
     {rectify_message}
 </div>
 {/if}
 
-<!-- ==== Contenido ==== -->
-<div class="container" > 
     <div class="row-fluid">
         <!-- FILE UPLOAD -->
         <div id="file_div" class="collapse out no-transition">
