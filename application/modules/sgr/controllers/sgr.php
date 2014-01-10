@@ -116,7 +116,7 @@ class Sgr extends MX_Controller {
         
         //RECTIFY
         if($this->session->userdata['rectify']){
-            $customData['message'] = '<i class="fa fa-bookmark"></i>Para terminar la rectificacion deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo/SIN Movimiento';
+            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i>Para terminar la rectificacion deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo/SIN Movimiento';
         }
         
         
