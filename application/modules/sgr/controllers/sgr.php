@@ -51,7 +51,7 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
-        
+        var_dump($this->session->userdata);
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
