@@ -22,7 +22,7 @@
 {/if}
 
 {if rectify_message}
-<div class="nav alert-{success}" id="{success}">   
+<div class="nav">   
     {rectify_message}
 </div>
 {/if}
