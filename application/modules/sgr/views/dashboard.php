@@ -50,7 +50,7 @@
                         {if rectifica}
                         <div>
                             <label>Rectificación de {post_period}/ Ingrese el Motivo</label>
-                            <select name="rectificar" id="rectificar" class="input-block-level">
+                            <select name="rectify" id="rectify" class="input-block-level">
                                 <option value=1>Errores en el sistema y/o procesamiento del archivo</option>
                                 <option value=2>Error en la informacion sumistrada</option>
                                 <option value=3>Otros motivos</option>
@@ -72,9 +72,9 @@
                             </div>
                         </div>
                         {if rectifica}     
-                        <input type="hidden" name="rectifica" value="{anexo}" />
+                        <input type="hidden" name="anexo" value="{anexo}" />
                         <div id="others"><label>Otros Motivos</label>
-                            <textarea name="observaciones" placeholder="..." class="input-block-level" ></textarea>                        
+                            <textarea name="others" placeholder="..." class="input-block-level" ></textarea>                        
                         </div>
                         {/if}
                     </div>
