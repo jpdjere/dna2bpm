@@ -116,7 +116,7 @@ class Sgr extends MX_Controller {
 
         //RECTIFY
         if ($this->session->userdata['rectify']) {
-            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i> Para terminar la rectificación deberá asociar el período ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"';
+            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"';
         }
 
 
@@ -496,20 +496,20 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 
             if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
-                /*if ($this->session->userdata['rectify']) {
-                    //Rectificamos Anexo 
-                    $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
-                    $model = "model_" . $anexo;
-                    $this->load->model($model);
-                    $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+//                //Rectificamos Anexo 
+//                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+//                $model = "model_" . $anexo;
+//                $this->load->model($model);
+//                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+//
+//                if ($get_period) {
+//                    $update_period = (array) $this->$model->update_period($get_period['id']);
+//                }
+//                //var_dump($update_period);
+//
+//                
+//                //redirect('/sgr');
 
-                    if ($get_period) {
-                        $update_period = (array) $this->$model->update_period($get_period['id']);
-                    }
-                }*/
-
-
-             
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
@@ -605,9 +605,9 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar">Rectificar</i>', array('class' => 'rectifica-link'));
 
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
-                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' | ' . $rectify . ' [' . $file['period'] . '] </li>';
+                    $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . '][' . $file['status'] . '] </li>';
                 } else {
-                    $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "] </li>";
+                    $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 }
             }
             $list_files .= '</ul></div>
