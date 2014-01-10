@@ -22,7 +22,7 @@
 {/if}
 
 {if rectify_message}
-<div class="nav">   
+<div class="navbar-inverse">   
     {rectify_message}
 </div>
 {/if}
