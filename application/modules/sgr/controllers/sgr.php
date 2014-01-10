@@ -51,7 +51,7 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
-        
+
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
@@ -113,13 +113,13 @@ class Sgr extends MX_Controller {
             $customData['message'] = $error_msg;
             $customData['success'] = "error";
         }
-        
+
         //RECTIFY
-        if($this->session->userdata['rectify']){
-            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i> Para terminar la rectificación deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo o a "SIN MOVIMIENTO"';
+        if ($this->session->userdata['rectify']) {
+            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"';
         }
-        
-        
+
+
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
 
@@ -131,9 +131,7 @@ class Sgr extends MX_Controller {
         }
         //RENDER
     }
-    
-  
-    
+
     function Anexo_code($parameter) {
         // $this->session->unset_userdata('anexo_code');
         $newdata = array('anexo_code' => $parameter);
@@ -481,20 +479,23 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 
     function set_period() {
         $rectify = $this->input->post("rectify");
-        $period = $this->input->post("input_period");        
+        $period = $this->input->post("input_period");
         $others = $this->input->post("others");
         $anexo = $this->input->post("anexo");
 
-        if ($period) {            
-            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
+        if ($period) {
 
-            
+            $this->session->unset_userdata('period');
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+
+            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
             list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
             if ($rectify) {
-                $newdata = array('period' => $period,'rectify' => $rectify, 'others' => $others);
+                $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
 //                //Rectificamos Anexo 
 //                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
 //                $model = "model_" . $anexo;
@@ -508,8 +509,8 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 //
 //                
 //                //redirect('/sgr');
-                
-                /*PERIOD SESSION*/
+
+                /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
             } else {
@@ -528,8 +529,6 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
             }
         }
     }
-
-    
 
     function unset_period() {
         $this->session->unset_userdata('period');
@@ -550,7 +549,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
             return show_error($err->getMessage());
         }
     }
-    
+
     function set_no_movement() {
 
         $data = $this->input->post('data');
@@ -604,7 +603,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 $print_filename = ($file['filename'] == "SIN MOVIMIENTOS") ? $file['filename'] : substr($file['filename'], 0, -25);
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir">Imprimir</i>');
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar">Rectificar</i>', array('class' => 'rectifica-link'));
-                
+
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
                     $list_files .= '<li><i class="fa fa-download" alt="Descargar">Descargar</i> | <i class="fa fa-external-link" alt="Imprimir">Imprimir</i> ' . $print_filename . ' [' . $file['period'] . '][' . $file['status'] . '] </li>';
                 } else {
