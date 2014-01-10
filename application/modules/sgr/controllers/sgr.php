@@ -52,7 +52,6 @@ class Sgr extends MX_Controller {
 
     function Index() {
         
-        var_dump($this->session->userdata);
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
@@ -472,6 +471,10 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
     }
 
     function set_period() {
+        $this->session->unset_userdata('period');
+        $this->session->unset_userdata('rectify');
+        $this->session->unset_userdata('others');
+        
         
         $rectify = $this->input->post("rectify");
         $period = $this->input->post("input_period");        
