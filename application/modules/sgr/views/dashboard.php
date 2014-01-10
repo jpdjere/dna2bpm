@@ -21,6 +21,12 @@
 </div>
 {/if}
 
+{if rectify_message}
+<div class="alert alert-{success}" id="{success}">   
+    {rectify_message}
+</div>
+{/if}
+
 <!-- ==== Contenido ==== -->
 <div class="container" > 
     <div class="row-fluid">
