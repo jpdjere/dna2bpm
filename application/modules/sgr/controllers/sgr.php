@@ -496,20 +496,20 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 
             if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
-//                //Rectificamos Anexo 
-//                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
-//                $model = "model_" . $anexo;
-//                $this->load->model($model);
-//                $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
-//
-//                if ($get_period) {
-//                    $update_period = (array) $this->$model->update_period($get_period['id']);
-//                }
-//                //var_dump($update_period);
-//
-//                
-//                //redirect('/sgr');
+                if ($this->session->userdata['rectify']) {
+                    //Rectificamos Anexo 
+                    $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+                    $model = "model_" . $anexo;
+                    $this->load->model($model);
+                    $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
 
+                    if ($get_period) {
+                        $update_period = (array) $this->$model->update_period($get_period['id']);
+                    }
+                }
+
+
+             
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
