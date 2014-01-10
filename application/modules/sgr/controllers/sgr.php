@@ -51,6 +51,8 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
+        
+        var_dump($this->session->userdata);
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
@@ -470,19 +472,22 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
     }
 
     function set_period() {
-        var_dump($this->input->post);
-        $rectify = $this->input->post("rectifica");
-        $period = $this->input->post("input_period");
+        
+        $rectify = $this->input->post("rectify");
+        $period = $this->input->post("input_period");        
+        $others = $this->input->post("others");
+        $anexo = $this->input->post("anexo");
 
         if ($period) {            
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
-            $newdata = array('period' => $period);
+            
             list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
             if ($rectify) {
+                $newdata = array('period' => $period,'rectify' => $rectify, 'others' => $others);
 //                //Rectificamos Anexo 
 //                $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
 //                $model = "model_" . $anexo;
@@ -494,8 +499,11 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 //                }
 //                //var_dump($update_period);
 //
-//                //$this->session->set_userdata($newdata);
+//                
 //                //redirect('/sgr');
+                
+                /*PERIOD SESSION*/
+                $this->session->set_userdata($newdata);
             } else {
                 if ($limit_month <= $set_month) {
                     return 1; // Posterior al mes actual
@@ -504,6 +512,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
+                        $newdata = array('period' => $period);
                         $this->session->set_userdata($newdata);
                         redirect('/sgr');
                     }
