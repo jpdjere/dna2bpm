@@ -496,7 +496,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
 
             if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
-                if ($this->session->userdata['rectify']) {
+                /*if ($this->session->userdata['rectify']) {
                     //Rectificamos Anexo 
                     $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
                     $model = "model_" . $anexo;
@@ -506,7 +506,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                     if ($get_period) {
                         $update_period = (array) $this->$model->update_period($get_period['id']);
                     }
-                }
+                }*/
 
 
              
