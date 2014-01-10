@@ -25,12 +25,12 @@
 
 <!-- ==== Contenido ==== -->
 <div class="container" > 
-    
+
     {if rectify_message}
-<div class="navbar-inverse well-small">   
-    {rectify_message}
-</div>
-{/if}
+    <div class="navbar-inverse well-small">   
+        {rectify_message}
+    </div>
+    {/if}
 
     <div class="row-fluid">
         <!-- FILE UPLOAD -->
@@ -73,7 +73,7 @@
                             <label>Seleccione el Período a {if rectifica} Rectificar {else} Informar {/if} </label>
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
                                 <input type="text" name="input_period" readonly="" {if post_period} value="{post_period}" {/if} class="input-block-level">
-                                {if rectifica}
+                                       {if rectifica}
                                        <!-- //  -->
                                        {else}
                                        <span class="add-on"><i class="icon-calendar"></i></span>
@@ -99,22 +99,22 @@
     </div> 
     {/if}
 
-     <div class="alert {resumen_class}" id="{_id}">                
-                <h1>{anexo_title_cap} </h1>
-                <ol>
-                    {files_list}
-                </ol>
-            </div>  
+    <div class="alert {resumen_class}" id="{_id}">                
+        <h1>{anexo_title_cap} </h1>
+        <ol>
+            {files_list}
+        </ol>
+    </div>  
     <!-- TABS -->
 
     <ul class="nav nav-tabs" id="dashboard_tab1">       
         {processed_tab}
     </ul>
-   
-   
-    
+
+
+
     <div class="tab-content">
-         
+
 
         {processed_list}
 

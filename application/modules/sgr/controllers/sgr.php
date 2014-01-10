@@ -51,7 +51,7 @@ class Sgr extends MX_Controller {
     }
 
     function Index() {
-        var_dump($this->session->userdata);
+        
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
@@ -116,7 +116,7 @@ class Sgr extends MX_Controller {
         
         //RECTIFY
         if($this->session->userdata['rectify']){
-            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i>Para terminar la rectificacion deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo/SIN Movimiento';
+            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i> Para terminar la rectificación deberá asociar el perido '.$this->session->userdata['period'].' a un Archivo o a "SIN MOVIMIENTO"';
         }
         
         
@@ -480,9 +480,6 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
     }
 
     function set_period() {
-        
-        
-        
         $rectify = $this->input->post("rectify");
         $period = $this->input->post("input_period");        
         $others = $this->input->post("others");
@@ -514,6 +511,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | Cerrar Anexo";
                 
                 /*PERIOD SESSION*/
                 $this->session->set_userdata($newdata);
+                redirect('/sgr');
             } else {
                 if ($limit_month <= $set_month) {
                     return 1; // Posterior al mes actual
