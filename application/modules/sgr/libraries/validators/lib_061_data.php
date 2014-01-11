@@ -6,8 +6,7 @@ class Lib_061_data extends MX_Controller {
     public function __construct($parameter) {
          parent::__construct();
         $this->load->library('session');
-        $fn = 'tools_helper';
-        $this->load->library("helpers/" . $fn);
+        
         $this->load->helper('sgr/tools');
         
         /* Vars 
