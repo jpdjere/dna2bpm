@@ -8,6 +8,8 @@ class Lib_06_data extends MX_Controller {
         $this->load->library('session');
         $fn = 'tools_helper';
         $this->load->library("helpers/" . $fn);
+        $this->load->helper('sgr/tools');
+        
         
         
         /* Vars 
@@ -44,7 +46,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "A.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -56,7 +58,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $A1_field_value = "";
                         $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL");
-                        $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -81,7 +83,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "B.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -92,7 +94,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $B1_field_value = "";
                         $allow_words = array("A", "B");
-                        $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -118,7 +120,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "AC.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -128,7 +130,7 @@ class Lib_06_data extends MX_Controller {
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $allow_words = array("AGE", "AGO", "ACA", "EC");
-                        $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -147,7 +149,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "AD.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -156,7 +158,7 @@ class Lib_06_data extends MX_Controller {
                     }
                     //Check Date Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = $this->$fn->check_date_format($parameterArr[$i]['fieldValue']);
+                        $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -178,7 +180,7 @@ class Lib_06_data extends MX_Controller {
 
                     //Check Numeric Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -199,7 +201,7 @@ class Lib_06_data extends MX_Controller {
                     //Check Date Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $AF_field_value = "";
-                        $return = $this->$fn->check_date_format($parameterArr[$i]['fieldValue']);
+                        $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -222,7 +224,7 @@ class Lib_06_data extends MX_Controller {
                             
                         }
                         /*PERIOD*/
-                        $return = $this->$fn->check_period($parameterArr[$i]['fieldValue']);
+                        $return = check_period($parameterArr[$i]['fieldValue']);
                         $code_error = "AF.1";
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -250,7 +252,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "AG.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -261,7 +263,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $AG_field_value = "";
                         $allow_words = array("SUSCRIPCION", "TRANSFERENCIA");
-                        $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -276,7 +278,7 @@ class Lib_06_data extends MX_Controller {
                         if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
                             $code_error = "AG.2";
                             $allow_words = array("SUSCRIPCION");
-                            $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -306,7 +308,7 @@ class Lib_06_data extends MX_Controller {
                             $code_error = "AH.1";
 
                             //empty field Validation
-                            $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -315,7 +317,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
-                                $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -329,7 +331,7 @@ class Lib_06_data extends MX_Controller {
                         case 35:
                             $code_error = "AI.1";
                             //empty field Validation
-                            $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -338,7 +340,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
-                                $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -351,7 +353,7 @@ class Lib_06_data extends MX_Controller {
                         case 36:
                             $code_error = "AJ.1";
                             //empty field Validation
-                            $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -360,7 +362,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
-                                $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -373,7 +375,7 @@ class Lib_06_data extends MX_Controller {
                         case 37:
                             $code_error = "AK.1";
                             //empty field Validation
-                            $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -382,7 +384,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
-                                $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -403,7 +405,7 @@ class Lib_06_data extends MX_Controller {
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
                                 $code_error = "AL.1";
-                                $return = $this->$fn->check_for_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -413,7 +415,7 @@ class Lib_06_data extends MX_Controller {
                             } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
                                 //do something
                                 $code_error = "AL.2";
-                                $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -422,7 +424,7 @@ class Lib_06_data extends MX_Controller {
                                 }
                             } else if ($AG_field_value == "TRANSFERENCIA") {
                                 $code_error = "AL.3";
-                                $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -436,7 +438,7 @@ class Lib_06_data extends MX_Controller {
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
                                 $code_error = "AM.1";
-                                $return = $this->$fn->check_for_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -446,7 +448,7 @@ class Lib_06_data extends MX_Controller {
                             } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
                                 //do something
                                 $code_error = "AM.2";
-                                $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -455,7 +457,7 @@ class Lib_06_data extends MX_Controller {
                                 }
                             } else if ($AG_field_value == "TRANSFERENCIA") {
                                 $code_error = "AM.3";
-                                $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -468,7 +470,7 @@ class Lib_06_data extends MX_Controller {
                             if ($parameterArr[$i]['fieldValue'] != "") {
                                 $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
 
-                                $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -503,7 +505,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 3) {
                         $code_error = "C.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -512,7 +514,7 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
+                            $return = cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -529,7 +531,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 4) {
                         $code_error = "D.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -546,7 +548,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 5) {
                         $code_error = "E.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -557,7 +559,7 @@ class Lib_06_data extends MX_Controller {
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $allow_words = array("CAPITAL FEDERAL", "BUENOS AIRES", "CATAMARCA", "CORDOBA", "CHUBUT", "CHACO", "CORRIENTES", "ENTRE RIOS", "FORMOSA", "JUJUY", "LA PAMPA", "LA RIOJA", "MISIONES", "MENDOZA", "NEUQUEN", "RIO NEGRO", "SALTA", "SANTA CRUZ", "SANTIAGO DEL ESTERO", "SANTA FE", "SAN JUAN", "SAN LUIS", "TIERRA DEL FUEGO", "TUCUMAN");
 
-                            $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -574,7 +576,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 6) {
                         $code_error = "F.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -590,7 +592,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 7) {
                         $code_error = "G.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -606,7 +608,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 8) {
                         $code_error = "H.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -615,7 +617,7 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->check_zip_code($parameterArr[$i]['fieldValue']);
+                            $return = check_zip_code($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -632,7 +634,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 9) {
                         $code_error = "I.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -648,7 +650,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 10) {
                         $code_error = "J.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -666,7 +668,7 @@ class Lib_06_data extends MX_Controller {
                         $code_error = "M.1";
 
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -674,7 +676,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->check_area_code($parameterArr[$i]['fieldValue']);
+                            $return = check_area_code($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -691,7 +693,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 14) {
                         $code_error = "N.1";
                         //Check Empry
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -699,7 +701,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->check_phone_number($parameterArr[$i]['fieldValue']);
+                            $return = check_phone_number($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -717,7 +719,7 @@ class Lib_06_data extends MX_Controller {
                         $code_error = "O.1";
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->check_email($parameterArr[$i]['fieldValue']);
+                            $return = check_email($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -735,7 +737,7 @@ class Lib_06_data extends MX_Controller {
                         $code_error = "P.1";
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->check_web($parameterArr[$i]['fieldValue']);
+                            $return = check_web($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -754,7 +756,7 @@ class Lib_06_data extends MX_Controller {
                         $code_error = "Q.1";
                         //Check Empry
                         if ($B1_field_value == "A") {
-                            $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -763,7 +765,7 @@ class Lib_06_data extends MX_Controller {
                             }
                         }
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->ciu($this->$fn->cerosClanae($parameterArr[$i]['fieldValue']));
+                            $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -785,7 +787,7 @@ class Lib_06_data extends MX_Controller {
                         $code_error = "AA.1";
 
                         //empty field Validation
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -795,7 +797,7 @@ class Lib_06_data extends MX_Controller {
                         //Value Validation
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $allow_words = array("EXCENTO", "INSCRIPTO", "MONOSTRIBUTISTA");
-                            $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -825,7 +827,7 @@ class Lib_06_data extends MX_Controller {
                                 $R1_field_value = "";
                                 $R2_field_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
-                                    $return = $this->$fn->check_date($parameterArr[$i]['fieldValue']);
+                                    $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "R.2";
                                         $result["error_code"] = $code_error;
@@ -845,7 +847,7 @@ class Lib_06_data extends MX_Controller {
                                 $S2_field_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "S.2";
-                                    $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -864,7 +866,7 @@ class Lib_06_data extends MX_Controller {
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "T.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
-                                    $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -900,7 +902,7 @@ class Lib_06_data extends MX_Controller {
                                 $U1_field_value = "";
                                 $U2_field_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
-                                    $return = $this->$fn->check_date($parameterArr[$i]['fieldValue']);
+                                    $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "U.2";
                                         $result["error_code"] = $code_error;
@@ -920,7 +922,7 @@ class Lib_06_data extends MX_Controller {
                                 $V2_field_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "V.2";
-                                    $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -939,7 +941,7 @@ class Lib_06_data extends MX_Controller {
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "W.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
-                                    $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -978,7 +980,7 @@ class Lib_06_data extends MX_Controller {
                                 $X1_field_value = "";
                                 $X2_field_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
-                                    $return = $this->$fn->check_date($parameterArr[$i]['fieldValue']);
+                                    $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "X.2";
                                         $result["error_code"] = $code_error;
@@ -998,7 +1000,7 @@ class Lib_06_data extends MX_Controller {
                                 $Y2_field_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "Y.2";
-                                    $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -1017,7 +1019,7 @@ class Lib_06_data extends MX_Controller {
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "Z.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS", "ESTIMACION");
-                                    $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -1066,7 +1068,7 @@ class Lib_06_data extends MX_Controller {
                             $average_amount_3 = 0;
 
 
-                            $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -1075,7 +1077,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if ($parameterArr[$i]['fieldValue'] != "") {
-                                $return = $this->$fn->check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -1138,7 +1140,7 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         //Check for Empty
-                        $return = $this->$fn->check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -1150,7 +1152,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 28) {
                         $code_error = "AB.2";
                         //Check for Empty
-                        $return = $this->$fn->check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -1250,7 +1252,7 @@ class Lib_06_data extends MX_Controller {
                         }
                         //Check for Empty
                         if ($A1_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
-                            $return = $this->$fn->check_for_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -1356,7 +1358,7 @@ class Lib_06_data extends MX_Controller {
                         }
                         //Check for Empty
                         if ($A1_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
-                            $return = $this->$fn->check_for_empty($parameterArr[$i]['fieldValue']);
+                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -1375,7 +1377,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 33) {
                         $code_error = "AG.2";
                         //empty field Validation
-                        $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -1385,7 +1387,7 @@ class Lib_06_data extends MX_Controller {
                         //Value Validation
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $allow_words = array("SUSCRIPCION");
-                            $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];

@@ -8,6 +8,7 @@ class Lib_061_data extends MX_Controller {
         $this->load->library('session');
         $fn = 'tools_helper';
         $this->load->library("helpers/" . $fn);
+        $this->load->helper('sgr/tools');
         
         /* Vars 
          * 
@@ -46,7 +47,7 @@ class Lib_061_data extends MX_Controller {
                     $code_error = "A.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -56,7 +57,7 @@ class Lib_061_data extends MX_Controller {
                     
                     //cuit checker
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = $this->$fn->cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
+                            $return = cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -91,7 +92,7 @@ class Lib_061_data extends MX_Controller {
                     $code_error = "B.1";
 
                     //empty field Validation
-                    $return = $this->$fn->check_empty($parameterArr[$i]['fieldValue']);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -102,7 +103,7 @@ class Lib_061_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $B1_field_value = "";
                         $allow_words = array("SI", "NO");
-                        $return = $this->$fn->check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
