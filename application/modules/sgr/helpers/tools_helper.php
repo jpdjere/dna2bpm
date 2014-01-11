@@ -252,3 +252,47 @@ function cuit_checker($cuit) {
         return false;
     }
 }
+
+    /*
+     * PROCESS FNS
+     */
+
+    function translate_date($parameter) {
+        if ($parameter == "" || $parameter == NULL) {
+            exit();
+        }
+        $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
+        return strftime("%Y/%m/%d", $parameter);
+    }
+
+    function translate_options($parameter) {
+        $rtn = array();
+        $container = 'options';
+        $fields = array("data");
+        $query = array("idop" => $parameter);
+        $result = $this->mongo->db->$container->find($query, $fields);
+
+        foreach ($result as $opt) {
+            $rtn[] = $opt;
+        }
+        return $rtn;
+    }
+
+    /**
+     * Convierte en formato de moneda
+     *
+     * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
+     * @type php
+     * @author Diego
+     * @name money_format
+     *
+     * */
+    function money_format($parameter) {
+
+        if ($_POST['excel'] == 1) {
+            $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+        } else {
+            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
+        }
+        return $parameter;
+    }
