@@ -735,7 +735,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
                         //Process
-                        $files_list .= '<li> ' . $download . " | " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
+                        $files_list .= '<li> ' . $download . " | " . $process_file . ' | PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
                     } else {
                         //Just Download 
                         $files_list .= '<li> ' . $download . " | " . $process_file_disabled . ' | PENDIENTE ' . $filedate . ' ' . $filetime . '</li>';
