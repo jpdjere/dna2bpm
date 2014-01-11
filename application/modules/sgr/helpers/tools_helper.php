@@ -287,7 +287,7 @@ function cuit_checker($cuit) {
      * @name money_format
      *
      * */
-    function money_format($parameter) {
+    function _money_format($parameter) {
 
         if ($_POST['excel'] == 1) {
             $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
