@@ -10,9 +10,7 @@
 <!-- ==== Contenido ==== -->
 <div class="container" > 
     <div class="alert alert-error" id="{_id}">       
-        <h1>Detalle de Errores</h1>    
-
-        <a href="../../sgr/">VOLVER</a> | <i class="icon-print"></i> <a href="javascript:window.print()">Imprimir</a>    
+        <p>Detalle de Errores <i class="fa fa-backward"></i><a href="../../sgr/">Volver</a> | <i class="icon-print"></i> <a href="javascript:window.print()">Imprimir</a>   </p> 
         <h5>Verifique la lista de errores.</h5>
         {if message_header}
             <ol>{message_header}</ol>
@@ -21,9 +19,8 @@
         {if message}
             <ol>{message}</ol>
         {/if}
-        
-        <p><i class="fa fa-download"></i> <a href=>Descargar Modelo</a> | <i class="fa fa-download"></i> <a href=>Descargar Manual</a></p>
-        
-        <a href="../../sgr/">VOLVER</a> | <i class="icon-print"></i> <a href="javascript:window.print()">Imprimir</a>
+        <hr>
+        <p><i class="fa fa-download"></i> <a href=>Descargar Modelo</a> | <i class="fa fa-download"></i> <a href=>Descargar Manual</a>        
+        <a href="../../sgr/">VOLVER</a> | <i class="icon-print"></i> <a href="javascript:window.print()">Imprimir</a></p>
     </div>
 </div>
