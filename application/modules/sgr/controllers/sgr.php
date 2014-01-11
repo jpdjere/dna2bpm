@@ -727,18 +727,18 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                     list($filename, $extension) = explode(".", $file['name']);
 
                     /* Vars */
-                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>');
-                    $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> Procesar</i>';
-                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> Descargar</i>');
+                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"> PROCESAR</i>');
+                    $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar"> PROCESAR</i>';
+                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"> DESCARGAR</i>');
 
 
                     /* check if file exist */
                     if ($this->session->userdata['period']) {
                         //Process
-                        $files_list .= '<li> ' . $download . "  " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
+                        $files_list .= '<li> ' . $download . " | " . $process_file . ' Pendiente ' . $filedate . ' ' . $filetime . ' </li>';
                     } else {
                         //Just Download 
-                        $files_list .= '<li> ' . $download . "  " . $process_file_disabled . ' Pendiente ' . $filedate . ' ' . $filetime . '</li>';
+                        $files_list .= '<li> ' . $download . " | " . $process_file_disabled . ' | PENDIENTE ' . $filedate . ' ' . $filetime . '</li>';
                     }
                 }
             }
