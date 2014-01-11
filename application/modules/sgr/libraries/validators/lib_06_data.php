@@ -69,7 +69,7 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 /* TIPO_SOCIO
-                 * Nro A.2
+                 * Nro B.1
                  * Detail:
                  * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
                   A
