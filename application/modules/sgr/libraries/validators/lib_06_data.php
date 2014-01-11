@@ -6,7 +6,7 @@ class Lib_06_data extends MX_Controller {
     public function __construct($parameter) {
          parent::__construct();
         $this->load->library('session');
-        $fn = 'validation_functions';
+        $fn = '"validators/validation_functions';
         $this->load->library($fn);
         
         
