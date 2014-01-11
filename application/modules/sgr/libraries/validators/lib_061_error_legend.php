@@ -1,6 +1,6 @@
 <?php
 
-class Lib_06_error_legend {
+class Lib_061_error_legend {
 
     public function __construct() {
         $this->result = $this->return_legend($code, $row, $value);
