@@ -9,8 +9,9 @@
 </div>
 <!-- ==== Contenido ==== -->
 <div class="container" > 
+    <h1 class="error">Errores en la importación del Anexo</h1>
     <div class="alert alert-error" id="{_id}">       
-        <p><strong>Detalle de Errores</strong> <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a>   </p> 
+        <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a>   </p> 
         <h5>Verifique la lista de errores.</h5>
         {if message_header}
             <ol>{message_header}</ol>
