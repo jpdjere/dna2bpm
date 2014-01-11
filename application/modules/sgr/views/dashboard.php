@@ -98,7 +98,7 @@
     </div> 
     {/if}
     
-    <h1>{anexo_title_cap} </h1>
+    <h1><i class="fa fa-bars"></i>{anexo_title_cap} </h1>
     
     <div class="alert {resumen_class}" id="{_id}">                        
         <ol>
