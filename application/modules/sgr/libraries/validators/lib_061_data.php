@@ -1,13 +1,14 @@
 <?php
 
-class Lib_06_data extends MX_Controller {
-    /* VALIDADOR ANEXO 06 */
+class Lib_061_data extends MX_Controller {
+    /* VALIDADOR ANEXO 061 */
 
     public function __construct($parameter) {
          parent::__construct();
         $this->load->library('session');
         $fn = 'validation_functions';
         $this->load->library($fn);
+        
         
         
         /* Vars 
