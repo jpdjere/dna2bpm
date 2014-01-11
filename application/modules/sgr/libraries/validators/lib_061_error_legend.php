@@ -19,9 +19,7 @@ class Lib_061_error_legend {
                 $result_error = '(Fila Nro.'. $row .') A: Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.';
                 break;
              case "B.1": 
-                $result_error = '(Fila Nro.'. $row .') B: El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
-                SI
-                NO';
+                $result_error = '(Fila Nro.'. $row .') B: El campo no puede estar vacío y debe contener uno de los siguientes parámetros: SI/NO';
                 break;
             case "B.2": 
                 $result_error = '(Fila Nro.'. $row .') B: Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”.';
