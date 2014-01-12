@@ -732,7 +732,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                     list($filename, $extension) = explode(".", $file['name']);
 
                     /* Vars */
-                    $disabled_link =  ($this->session->userdata['period'])? $disabled_link = ' disabled_link':'';
+                    $disabled_link =  ($this->session->userdata['period'])? '' : ' fa-ban disabled_link';
                     
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i>', array('class' => 'btn btn-success' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar">PROCESAR</i>';
