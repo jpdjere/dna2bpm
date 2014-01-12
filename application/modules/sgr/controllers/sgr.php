@@ -600,20 +600,21 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
             <div class="alert {resumen_class}" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
-                
-                $print_filename = substr($file['filename'], 0, -25);
+                               
                 
                 if($file['filename'] == "SIN MOVIMIENTOS"){
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
                 }
                 
+                $print_filename = substr($file['filename'], 0, -25);
                 
-                $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar"> DESCARGAR</i>', array('class' => 'btn btn-success' . $disabled_link));               
-                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir"> IMPRIMIR</i>', array('target' => '_blank', 'class' => 'btn btn-success' . $disabled_link));
+                
+                $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success' . $disabled_link));               
+                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-success' . $disabled_link));
 
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning' : 'rectifica-link';
-                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-success' ));
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-warning' ));
                 
                 $list_files .= "<li>" . $download . " | " . $print_file . " | " . $rectify . " | " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 
