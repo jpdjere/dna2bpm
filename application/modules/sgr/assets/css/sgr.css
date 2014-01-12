@@ -185,3 +185,8 @@ UL.ultree .cantidad{
 /*UL.ultree LI Ul LI{
     display: none;
 }*/
+
+.link_disabled {
+       pointer-events: none;
+       cursor: default;
+    } 
