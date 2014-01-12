@@ -5,8 +5,8 @@
 
 $(document).ready(function() {
     /*RECTIFICA HREF*/
-    $('[class^="rectifica-link"]').click(function(event) {    
-        var parameter = $('.rectifica-link').attr('href');
+    $('[class*="rectifica-link"]').click(function(event) {    
+        var parameter = $('[class*="rectifica-link"]').attr('href');
         var arr = parameter.split('/');
         var input_period = arr[2];
         var anexo = arr[3];
@@ -19,7 +19,7 @@ $(document).ready(function() {
 
     });
     $('[class*="rectifica-warning"]').click(function(event) {   
-        var parameter = $('.rectifica-warning').attr('href');
+        var parameter = $('[class*="rectifica-warning"]').attr('href');
         alert(parameter);
         var arr = parameter.split('/');
         var input_period = arr[2];
