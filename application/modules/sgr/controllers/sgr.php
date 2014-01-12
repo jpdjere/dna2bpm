@@ -738,7 +738,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                     $process_file_disabled = '<i class="fa fa-external-link" alt="Procesar">PROCESAR</i>';
                     $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>',array('class' => 'btn btn-success'));
                     
-                    $files_list .= '<li> ' . $download . " | " . $process_file . ' | PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
+                    $files_list .= '<li> ' . $download . " " . $process_file . ' PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
 
                     
                 }
