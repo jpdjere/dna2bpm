@@ -18,9 +18,11 @@ $(document).ready(function() {
         $("#period").submit();
 
     });
-    $('[class*="rectifica-warning"]').click(function(event) {   
-        var parameter = $('[class*="rectifica-warning"]').attr('href');
-        alert(parameter);
+    $('[id*="rectifica-warning"]').click(function(event) {   
+        
+        alert('Picked: '+ event.target.id.slice(5));
+        var parameter = $('[id*="rectifica-warning"]').attr('href');
+        //alert(parameter);
         var arr = parameter.split('/');
         var input_period = arr[2];
         var anexo = arr[3];
