@@ -189,4 +189,5 @@ UL.ultree .cantidad{
 .link_disabled {
        pointer-events: none;
        cursor: default;
+       opacity:0.6;
     } 
