@@ -92,6 +92,7 @@ filter: dropshadow(color=#fff, offx=1, offy=1);
     display: block;
     margin: 0 0 -1px;
     padding: 8px 14px;
+    list-style-type: none;
 }
 .general-sidenav > li:first-child > a {
     border-radius: 6px 6px 0 0;

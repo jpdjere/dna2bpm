@@ -602,20 +602,18 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
             foreach ($processed as $file) {
                                
                 $print_filename = substr($file['filename'], 0, -25);
+                $disabled_link = '';
                 
                 if($file['filename'] == "SIN MOVIMIENTOS"){
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
-                }
-                
-                
-                
+                } 
                 
                 $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success' . $disabled_link));               
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-success' . $disabled_link));
 
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning' : 'rectifica-link';
-                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-alert' ));
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger' ));
                 
                 $list_files .= "<li>" . $download . $print_file . $rectify .  $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 
