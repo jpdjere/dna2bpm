@@ -615,7 +615,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning' : 'rectifica-link';
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger' ));
                 
-                $list_files .= "<li>" . $download . $print_file . $rectify . " " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
+                $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 
             }
             $list_files .= '</ul></div>
