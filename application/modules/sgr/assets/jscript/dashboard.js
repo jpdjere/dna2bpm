@@ -5,7 +5,7 @@
 
 $(document).ready(function() {
     /*RECTIFICA HREF*/
-    $('.rectifica-link').click(function(event) {
+    $('[class^="rectifica-link"]').click(function(event) {    
         var parameter = $('.rectifica-link').attr('href');
         var arr = parameter.split('/');
         var input_period = arr[2];
