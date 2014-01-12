@@ -1,4 +1,5 @@
 <?php
+var_dump($_SESSION);
 $this->load->library('session');
 
 function compact_serialized($serialized) {
