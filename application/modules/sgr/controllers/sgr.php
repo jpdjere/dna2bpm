@@ -605,7 +605,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-external-link" alt="Imprimir"> IMPRIMIR</i>', array('target' => '_blank', 'class' => 'btn btn-success'));
 
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning' : 'rectifica-link';
-                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . 'btn btn-success' ));
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-success' ));
 
                 if ($file['filename'] == "SIN MOVIMIENTOS") {
                     $list_files .= '<li><i class="fa fa-download" alt="Descargar"> DESCARGAR</i> | <i class="fa fa-external-link" alt="Imprimir"> IMPRIMIR</i>  | ' . $rectify . ' | ' . $print_filename . ' [' . $file['period'] . '][' . $file['status'] . '] </li>';
