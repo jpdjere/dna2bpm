@@ -189,10 +189,10 @@ UL.ultree .cantidad{
 .disabled_link {
     pointer-events: none;
     cursor: default;
-    opacity:0.6;
+    opacity:0.7;
 }
 
 li{
     list-style-type: none;
-    padding: 10px;
+    padding: 2px;
 }
