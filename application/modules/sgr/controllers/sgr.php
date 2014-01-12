@@ -735,6 +735,8 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                     $disabled_link =  ($this->session->userdata['period'])? '' : ' disabled_link';
                     $disabled_link =  ($this->session->userdata['rectify'])? '' : $disabled_link;
                     
+                    var_dump($this->session->userdata['rectify']);
+                    
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('class' => 'btn btn-success' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link fa-spin" alt="Procesar">PROCESAR</i>';
                     $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>',array('class' => 'btn btn-success'));
