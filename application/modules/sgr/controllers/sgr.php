@@ -91,7 +91,7 @@ class Sgr extends MX_Controller {
          */
         if (!$upload) {
             if (!$this->session->userdata['period']) {
-                $customData['message'] = '<i class="fa fa-bookmark"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
             }
         }
         $error_set_period = $this->set_period();
@@ -100,13 +100,13 @@ class Sgr extends MX_Controller {
         if ($error_set_period) {
             switch ($error_set_period) {
                 case '1':                    
-                    $error_msg = '<i class="fa fa-bookmark"></i> El Periodo seleccionado es Invalido...';
+                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido...';
                     break;
 
                 default:
                     $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
-                    $error_msg = '<i class="fa fa-bookmark"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
+                    $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
                     break;
@@ -117,7 +117,7 @@ class Sgr extends MX_Controller {
 
         //RECTIFY
         if ($this->session->userdata['rectify']) {
-            $customData['rectify_message'] = '<i class="fa fa-bookmark"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"';
+            $customData['rectify_message'] = '<i class="fa fa-info-circle"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"';
         }
 
 
@@ -282,7 +282,7 @@ class Sgr extends MX_Controller {
 
             if (!$count) {
 
-                $result_header = '<li><i class="fa fa-bookmark"></i> Error archivo no tiene la informacion necesaria</li>';
+                $result_header = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li>';
                 $error = true;
             }
 
