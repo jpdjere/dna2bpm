@@ -1,6 +1,4 @@
 <?php
-var_dump($_SESSION);
-$this->load->library('session');
 
 function compact_serialized($serialized) {
     $mydata = array();
@@ -77,9 +75,9 @@ function check_date($parameter) {
     }
 }
 
-function check_period($parameter) {
+function check_period($parameter, $period) {
     $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
-    $period = $this->session->userdata['period'];
+    $period = $period;
     if ($valida_fecha != $period) {
         return true;
     }
@@ -267,18 +265,7 @@ function cuit_checker($cuit) {
         return strftime("%Y/%m/%d", $parameter);
     }
 
-    function translate_options($parameter) {
-        $rtn = array();
-        $container = 'options';
-        $fields = array("data");
-        $query = array("idop" => $parameter);
-        $result = $this->mongo->db->$container->find($query, $fields);
-
-        foreach ($result as $opt) {
-            $rtn[] = $opt;
-        }
-        return $rtn;
-    }
+    
 
     /**
      * Convierte en formato de moneda

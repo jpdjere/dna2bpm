@@ -220,7 +220,7 @@ class Lib_06_data extends MX_Controller {
                             
                         }
                         /*PERIOD*/
-                        $return = check_period($parameterArr[$i]['fieldValue']);
+                        $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         $code_error = "AF.1";
                         if ($return) {
                             $result["error_code"] = $code_error;
