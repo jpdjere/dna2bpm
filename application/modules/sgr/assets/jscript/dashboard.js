@@ -21,6 +21,7 @@ $(document).ready(function() {
 
     $('.rectifica-warning').click(function(event) {
         var parameter = $('.rectifica-warning').attr('href');
+        alert(parameter);
         var arr = parameter.split('/');
         var input_period = arr[2];
         var anexo = arr[3];
