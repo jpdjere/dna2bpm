@@ -18,8 +18,7 @@ $(document).ready(function() {
         $("#period").submit();
 
     });
-
-    $('.rectifica-warning').click(function(event) {
+    $('[class^="rectifica-warning"]').click(function(event) {   
         var parameter = $('.rectifica-warning').attr('href');
         alert(parameter);
         var arr = parameter.split('/');
