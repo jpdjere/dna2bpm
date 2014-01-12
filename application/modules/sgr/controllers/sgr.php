@@ -604,7 +604,7 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                 $print_filename = substr($file['filename'], 0, -25);
                 
                 if($file['filename'] == "SIN MOVIMIENTOS"){
-                    $disabled_link = 'disabled_link';
+                    $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
                 }
                 
