@@ -18,22 +18,7 @@ class Sgr_model extends CI_Model {
             header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
-    
-    
-    /* OPTIONS */
-    function translate_options($parameter) {
-        $rtn = array();
-        $container = 'options';
-        $fields = array("data");
-        $query = array("idop" => $parameter);
-        $result = $this->mongo->db->$container->find($query, $fields);
-
-        foreach ($result as $opt) {
-            $rtn[] = $opt;
-        }
-        return $rtn;
-    }
-
+   
     /* RETURN ANEXOS */
 
     function get_anexos() {
