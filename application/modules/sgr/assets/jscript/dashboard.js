@@ -6,6 +6,7 @@
 $(document).ready(function() {
     
     function rectify(param){
+         event.preventDefault();
         alert(param);
     }
     
