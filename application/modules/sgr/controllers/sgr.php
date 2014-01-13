@@ -43,6 +43,7 @@ class Sgr extends MX_Controller {
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
+            $this->sgr_cuit = $sgr['1695'];
         }
 
 
@@ -96,6 +97,7 @@ class Sgr extends MX_Controller {
         }
         $error_set_period = $this->set_period();
         
+        
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
             switch ($error_set_period) {
@@ -115,10 +117,10 @@ class Sgr extends MX_Controller {
             $customData['success'] = "error";
         }
 
-        //RECTIFY
-        if ($this->session->userdata['rectify']) {
-            $customData['rectify_message'] = '<i class="fa fa-info-circle"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"';
-        }
+        //RECTIFY 
+        $rectify_msg = '<div class="navbar-inverse well-small"><i class="fa fa-info-circle"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"</div>';
+        $customData['rectify_message'] = ($this->session->userdata['rectify'])? $rectify_msg:"";
+        
 
 
         // FILE BROWSER
@@ -449,48 +451,26 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-
-
-        echo "<style>
-            #header {
-    background: none no-repeat scroll 0 0 #FFFFFF;
-    height: 100px;
-    position: relative;
-}
-#header-dna {
-    background: url('http://www.accionpyme.mecon.gob.ar/dna2/style/img/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    height: 100px;
-    width: 580px;
-}
-#header-logos {
-    background: url('http://www.accionpyme.mecon.gob.ar/dna2/style/img/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
-    height: 100px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 210px;
-}
-        table { border-collapse: collapse;
-        font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center}
-        caption { font-size: larger; margin: 1em auto; } 
-        th, td { padding: .65em; }
-        th, thead { background: #000; color: #fff; border: 1px solid #000; }
-        td { border: 1px solid #777; }
-        </style>";
-        echo '<div id="header">
-            <div id="header-dna"></div>
-            <div id="header-logos"></div>
-        </div>';
-
-        echo "
-ACINDAR PYMES S.G.R. | C.U.I.T.: 30-70937729-5
-[Anexo 06]<br> SGR Movimientos de Capital Social Importado por: [ADMINISTRADOR]<br>
-Archivo Procesado: $parameter<br>
-Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascript:window.close();'>Cerrar Anexo</a>";
-
-        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
-        echo $get_anexo;
-        // echo $parameter;
+        
+        $customData = array();
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_cuit'] = $this->sgr_cuit;
+        $customData['sgr_id'] = $this->sgr_id;
+        $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
+        $customData['base_url'] = base_url();        
+        $customData['module_url'] = base_url() . 'sgr/';        
+        $customData['parameter'] = urldecode($parameter);       
+        
+        $customData['anexo'] = $this->anexo;        
+        $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
+        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));       
+        
+        
+        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);       
+        
+        $customData['show_table'] = $get_anexo;
+        echo $this->parser->parse('print', $customData, true);
+        
     }
 
     function set_period() {

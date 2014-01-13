@@ -9,7 +9,7 @@ class Model_06 extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
-        
+
         $this->anexo = '06';
         $this->idu = (int) $this->session->userdata('iduser');
         if (!$this->idu) {
@@ -247,6 +247,10 @@ class Model_06 extends CI_Model {
         $result = $this->app->put_array($id, $container, $parameter);
 
         if ($result) {
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
@@ -263,8 +267,6 @@ class Model_06 extends CI_Model {
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
-    
-   
 
     function get_anexo_info($anexo, $parameter) {
 
@@ -355,4 +357,5 @@ class Model_06 extends CI_Model {
         }
         return $rtn;
     }
+
 }

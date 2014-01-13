@@ -32,15 +32,12 @@
 
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-
-
                         </ul>
                         <ul class="nav pull-right inline"> 
-                            <li><a  href="../dna2/" target="_blank"><i class="fa fa-link"></i> Versión Anterior</a></li>
+                            
                             {if sgr_period}
-                            <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="icon-calendar"></i> Período: {sgr_period}</a></li>    
+                            <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="icon-calendar"></i> Período: <span id="sgr_period"> {sgr_period}</span></a></li>    
                             {/if}
-
                             <li class="dropdown" id="menu-messages">
                                 <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
                                     <i class="fa fa-file-text">

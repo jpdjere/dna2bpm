@@ -10,6 +10,7 @@
                         <div>
                             <label>Rectificación de {post_period}/ Ingrese el Motivo</label>
                             <select name="rectify" id="rectify" class="input-block-level">
+                                <option value="">Seleccione el motivo</option>
                                 <option value=1>Errores en el sistema y/o procesamiento del archivo</option>
                                 <option value=2>Error en la informacion sumistrada</option>
                                 <option value=3>Otros motivos</option>

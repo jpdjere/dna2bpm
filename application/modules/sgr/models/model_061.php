@@ -92,6 +92,10 @@ class Model_061 extends CI_Model {
         $result = $this->app->put_array($id, $container, $parameter);
 
         if ($result) {
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
