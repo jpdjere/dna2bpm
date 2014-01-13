@@ -5,41 +5,35 @@
 
 $(document).ready(function() {
     
-    function rectify(param){
-         event.preventDefault();
-        alert(param);
-    }
+    $("#div_period").hide();
     
     /*RECTIFICA HREF*/
-    $('[class*="rectifica-link"]').click(function(event) {    
-        var parameter = $('[class*="rectifica-link"]').attr('href');
+    $('[class^="rectifica-link_"]').click(function(event) {
+        var parameter = $(this).attr('href');
         var arr = parameter.split('/');
         var input_period = arr[2];
         var anexo = arr[3];
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
-
         $("input[name$='input_period']").val(input_period);
         $("input[name$='anexo']").val(anexo);
         $("#period").submit();
 
     });
-    $('[id*="rectifica-warning"]').click(function(event) {   
-        
-        alert('Picked: '+ event.target.id.slice(5));
-        var parameter = $('[id*="rectifica-warning"]').attr('href');
-        //alert(parameter);
+    $('[class^="rectifica-warning_"]').click(function(event) {
+         
+        var parameter = $(this).attr('href');
         var arr = parameter.split('/');
         var input_period = arr[2];
         var anexo = arr[3];
         event.preventDefault();
+        $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período " + input_period + " va a dejar de estar activo, desea continuar?", function(result) {
             if (result) {
-                //$('#icon-calendar')[0].click();                
-                    $("input[name$='input_period']").val(input_period);
-                    $("input[name$='anexo']").val(anexo);
-                    $("#period").submit();
-                
+                $("#div_period").show();
+                $("input[name$='input_period']").val(input_period);
+                $("input[name$='anexo']").val(anexo);
+                $("#period").submit();
             }
         });
     });
@@ -135,7 +129,6 @@ function onUpdateReady() {
     // alert('found new version!');
     location.reload();
 }
-
 window.applicationCache.addEventListener('updateready', onUpdateReady);
 if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
     onUpdateReady();

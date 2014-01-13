@@ -60,7 +60,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
-        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');        
 
         // Projects
         $projects = $this->sgr_model->get_config_item('projects');
@@ -122,17 +122,24 @@ class Sgr extends MX_Controller {
 
 
         // FILE BROWSER
-        $fileBrowserData = $this->file_browser();
-
-        if (!empty($fileBrowserData)) {
+        $fileBrowserData = $this->file_browser();     
+        
+        //FORM TEMPLATE
+        $customData['form_template'] = $this->parser->parse('form', $customData, true);
+        
+        if (!empty($fileBrowserData)) {            
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
             $this->render('dashboard', $resultRender);
-        } else {
+        } else {            
             $this->render('dashboard', $customData);
         }
         //RENDER
     }
-
+    
+    
+     // Render page
+   
+    
     function Anexo_code($parameter) {
         /* BORRO SESSION RECTIFY */
         $this->session->unset_userdata('rectify');
@@ -531,6 +538,12 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
         $this->session->unset_userdata('period');
         redirect('/sgr');
     }
+    
+    function unset_period_active() {
+        $this->session->unset_userdata('rectify');
+        $this->session->unset_userdata('others');
+        $this->session->unset_userdata('period');        
+    }
 
     function upload_file() {
         try {
@@ -611,10 +624,10 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                 
                 $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));               
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                $script_href = $file['period'] . "/" . $anexo;
+
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period']  : 'rectifica-link_' . $file['period'];
-                //$rectify = anchor('', '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('id'=> $rectifica_link_class, 'class' =>  ' btn btn-danger', 'onclick'=>'rectify('.$script_href.');'));
-                $rectify = '<a href="javascript:rectify('.$script_href.');" class="btn btn-danger"><i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i></a>';
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger' ));
+                
                 $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 
             }
@@ -713,7 +726,6 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
     }
 
     function render_file_browser($customData) {
-
         $files_list = "";
         $prefix = $customData['controller'] . '/' . $customData['method'] . '/' . $customData['path_in_url'];
         if (!empty($customData['dirs'])) {

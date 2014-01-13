@@ -1,5 +1,24 @@
 <?php
 
+/**
+     * Convierte en formato de moneda
+     *
+     * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
+     * @type php
+     * @author Diego
+     * @name money_format
+     *
+     * */
+    function money_format_custom($parameter) {
+
+        if ($_POST['excel'] == 1) {
+            $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+        } else {
+            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
+        }
+        return $parameter;
+    }
+
 function compact_serialized($serialized) {
     $mydata = array();
     foreach ($serialized as $v) {
