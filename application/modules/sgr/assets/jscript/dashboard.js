@@ -4,6 +4,11 @@
  */
 
 $(document).ready(function() {
+    
+    function rectify(param){
+        alert(param);
+    }
+    
     /*RECTIFICA HREF*/
     $('[class*="rectifica-link"]').click(function(event) {    
         var parameter = $('[class*="rectifica-link"]').attr('href');
@@ -129,6 +134,7 @@ function onUpdateReady() {
     // alert('found new version!');
     location.reload();
 }
+
 window.applicationCache.addEventListener('updateready', onUpdateReady);
 if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
     onUpdateReady();
