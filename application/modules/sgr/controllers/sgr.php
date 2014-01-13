@@ -613,8 +613,8 @@ Información correspondiente al período 11/2013 | IMPRIMIR | <a href='javascrip
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                 $script_href = $file['period'] . "/" . $anexo;
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period']  : 'rectifica-link_' . $file['period'];
-                $rectify = anchor('', '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('id'=> $rectifica_link_class, 'class' =>  ' btn btn-danger', 'onclick'=>'rectify('.$script_href.');'));
-                //$rectify = '<a onclick=rectify('.$script_href.'); class="btn btn-danger"><i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i></a>';
+                //$rectify = anchor('', '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('id'=> $rectifica_link_class, 'class' =>  ' btn btn-danger', 'onclick'=>'rectify('.$script_href.');'));
+                $rectify = '<a onclick=rectify('.$script_href.'); class="btn btn-danger"><i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i></a>';
                 $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "][" . $file['status'] . "] </li>";
                 
             }
