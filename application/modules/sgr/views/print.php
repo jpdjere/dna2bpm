@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="{module_url}assets/css/print.css" />
     </head>
     <body>
-
         <div class="container" > 
             <div class="navbar navbar-inverse navbar-static-top ">
                 <div id="header">
@@ -18,7 +17,7 @@
                     <div id="header-logos"></div>
                 </div>
                 <div class="row-fluid"> 
-                    <h2><i class="fa fa-bars"> {sgr_nombre} | C.U.I.T.: {sgr_cuit}</i></h2>
+                    <h2><i class="fa fa-bars"> {sgr_nombre} | C.U.I.T.: <span class="text-info">{sgr_cuit}</span></i></h2>
                     <p>[Anexo 06] SGR {anexo_title} Importado por: [{user_print}]<br/>
                         <small>Archivo Procesado: {parameter}</small>                                  
                         <span class="pull-right perfil">
