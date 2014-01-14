@@ -18,8 +18,9 @@ class Sgr_model extends CI_Model {
             header("$this->module_url/user/logout");
         /* Set locale to Spansih */
     }
-   
+
     /* RETURN ANEXOS */
+
     function get_anexos() {
         $container = 'container.sgr_anexos';
         $result = $this->mongo->db->$container->find();
@@ -33,31 +34,39 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_period_info($anexo, $sgr_id, $period){
+    function get_period_info($anexo, $sgr_id, $period) {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
         $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, "period" => $period);
-        $result = $this->mongo->db->$container->findOne($query, $fields);      
+        $result = $this->mongo->db->$container->findOne($query, $fields);
         return $result;
     }
-    
-    function get_period_filename($filename){
+
+    function get_period_count($anexo, $sgr_id, $period) {
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename', 'id');
+        $query = array('status' => 'rectificado', 'anexo' => $anexo, 'sgr_id' => $sgr_id, 'period' => $period);
+        $result = $this->mongo->db->$container->find($query, $fields);
+        return $result->count();
+    }
+
+    function get_period_filename($filename) {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id', 'idu');
         $query = array("filename" => $filename);
-        $result = $this->mongo->db->$container->findOne($query, $fields);      
+        $result = $this->mongo->db->$container->findOne($query, $fields);
         return $result;
     }
-    
+
     //processes
-    function get_processed($anexo, $sgr_id, $year=null) {
+    function get_processed($anexo, $sgr_id, $year = null) {
         $rtn = array();
-        $regex = new MongoRegex('/'.$year.'/');
+        $regex = new MongoRegex('/' . $year . '/');
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename');
-        $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period'=> $regex);
-        $result = $this->mongo->db->$container->find($query, $fields);    
-        
+        $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
+        $result = $this->mongo->db->$container->find($query, $fields);
+
         foreach ($result as $list) {
             $rtn[] = $list;
         }
@@ -81,7 +90,6 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-
 
     /* RETURN EMPRESAS */
 
@@ -204,11 +212,9 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
-  
-
-
     function array_delete($value, $array) {
         $array = array_diff($array, array($value));
         return $array;
     }
+
 }
