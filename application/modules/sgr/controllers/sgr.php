@@ -63,10 +63,6 @@ class Sgr extends MX_Controller {
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');        
 
-        // Projects
-        $projects = $this->sgr_model->get_config_item('projects');
-        $customData['projects'] = $projects['items'];
-
         $customData['anexo'] = $this->anexo;
         $customData['anexo_list'] = $this->AnexosDB();
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
@@ -176,16 +172,8 @@ class Sgr extends MX_Controller {
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-
-
         $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
-
-
-        if ($get_period) {
-
-            //V????????????????
-        }
-
+        
 
         if (!$filename) {
             exit();
@@ -463,11 +451,14 @@ class Sgr extends MX_Controller {
         
         $customData['anexo'] = $this->anexo;        
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
-        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));       
+        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));               
         
-        
-        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);       
-        
+        /*PERIOD INFO*/
+        $get_period_info = $this->sgr_model->get_period_filename($parameter);              
+        $user = $this->user->get_user($get_period_info['idu']);
+        $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
+        $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
+        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
         $customData['show_table'] = $get_anexo;
         echo $this->parser->parse('print', $customData, true);
         
@@ -758,6 +749,8 @@ class Sgr extends MX_Controller {
             'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
+        
+        debug($user);
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);

@@ -1,0 +1,33 @@
+/* 
+    Document   : PRINT
+    Created on : 14/01/2014, 12:54:16
+    Author     : dIEGO
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+#header {
+    background: none no-repeat scroll 0 0 #FFFFFF;
+    height: 100px;
+    position: relative;
+}
+#header-dna {
+    background: url('http://www.accionpyme.mecon.gob.ar/dna2/style/img/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    width: 580px;
+}
+#header-logos {
+    background: url('http://www.accionpyme.mecon.gob.ar/dna2/style/img/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 210px;
+}
+table { border-collapse: collapse;
+        font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center}
+caption { font-size: larger; margin: 1em auto; } 
+th, td { padding: .65em; }
+th, thead { background: #000; color: #fff; border: 1px solid #000; }
+td { border: 1px solid #777; }

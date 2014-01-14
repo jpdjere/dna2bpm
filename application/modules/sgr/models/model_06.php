@@ -237,6 +237,7 @@ class Model_06 extends CI_Model {
         $id = $this->app->genid($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
+        $parameter['idu']  =    $this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -268,8 +269,8 @@ class Model_06 extends CI_Model {
         return $rs['err'];
     }
 
+    
     function get_anexo_info($anexo, $parameter) {
-
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
