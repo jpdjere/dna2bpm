@@ -61,7 +61,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
-        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');        
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
         $customData['anexo'] = $this->anexo;
         $customData['anexo_list'] = $this->AnexosDB();
@@ -92,12 +92,12 @@ class Sgr extends MX_Controller {
             }
         }
         $error_set_period = $this->set_period();
-        
-        
+
+
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
             switch ($error_set_period) {
-                case '1':                    
+                case '1':
                     $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido...';
                     break;
 
@@ -115,29 +115,28 @@ class Sgr extends MX_Controller {
 
         //RECTIFY 
         $rectify_msg = '<div class="navbar-inverse well-small"><i class="fa fa-info-circle"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"</div>';
-        $customData['rectify_message'] = ($this->session->userdata['rectify'])? $rectify_msg:"";
-        
+        $customData['rectify_message'] = ($this->session->userdata['rectify']) ? $rectify_msg : "";
+
 
 
         // FILE BROWSER
-        $fileBrowserData = $this->file_browser();     
-        
+        $fileBrowserData = $this->file_browser();
+
         //FORM TEMPLATE
         $customData['form_template'] = $this->parser->parse('form', $customData, true);
-        
-        if (!empty($fileBrowserData)) {            
+
+        if (!empty($fileBrowserData)) {
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
             $this->render('dashboard', $resultRender);
-        } else {            
+        } else {
             $this->render('dashboard', $customData);
         }
         //RENDER
     }
-    
-    
-     // Render page
-   
-    
+
+    // Render page
+
+
     function Anexo_code($parameter) {
         /* BORRO SESSION RECTIFY */
         $this->session->unset_userdata('rectify');
@@ -168,12 +167,16 @@ class Sgr extends MX_Controller {
         return $anexoValues['short'];
     }
 
+    /*
+     * PROCESS
+     */
+
     function Anexo($filename = null) {
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
         $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
-        
+
 
         if (!$filename) {
             exit();
@@ -353,16 +356,17 @@ class Sgr extends MX_Controller {
                     $save_period = (array) $this->$model->save_period($result);
 
                     if ($save_period['status'] == "ok") {
-
-                        copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
-                        unlink($uploadpath);
-
                         /* RENDER */
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
                         $customData['sgr_period'] = $this->period;
                         $customData['anexo_list'] = $this->AnexosDB();
-                        $customData['message'] = 'El Archivo fue importado con exito';
+                        $customData['process_filename'] = $new_filename;
+                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')). '</li>';                        
+                        $customData['message'] = '<li>El Archivo ('.$new_filename.') fue importado con exito</li>';                        
                         $this->render('success', $customData);
+                        copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
+                        unlink($uploadpath);
+                        
                     } else {
 
                         $error = true;
@@ -379,7 +383,6 @@ class Sgr extends MX_Controller {
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
             $this->render('errors', $customData);
-
             unlink($uploadpath);
         }
 
@@ -439,29 +442,28 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-        
+
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
         $customData['sgr_id'] = $this->sgr_id;
         $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
-        $customData['base_url'] = base_url();        
-        $customData['module_url'] = base_url() . 'sgr/';        
-        $customData['parameter'] = urldecode($parameter);       
-        
-        $customData['anexo'] = $this->anexo;        
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
+        $customData['parameter'] = urldecode($parameter);
+
+        $customData['anexo'] = $this->anexo;
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
-        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));               
-        
-        /*PERIOD INFO*/
-        $get_period_info = $this->sgr_model->get_period_filename($parameter);              
+        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+
+        /* PERIOD INFO */
+        $get_period_info = $this->sgr_model->get_period_filename($parameter);
         $user = $this->user->get_user($get_period_info['idu']);
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
         $customData['show_table'] = $get_anexo;
         echo $this->parser->parse('print', $customData, true);
-        
     }
 
     function set_period() {
@@ -509,11 +511,11 @@ class Sgr extends MX_Controller {
         $this->session->unset_userdata('period');
         redirect('/sgr');
     }
-    
+
     function unset_period_active() {
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
-        $this->session->unset_userdata('period');        
+        $this->session->unset_userdata('period');
     }
 
     function upload_file() {
@@ -584,22 +586,22 @@ class Sgr extends MX_Controller {
             <div class="alert {resumen_class}" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
-                               
+
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
-                
-                if($file['filename'] == "SIN MOVIMIENTOS"){
+
+                if ($file['filename'] == "SIN MOVIMIENTOS") {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
-                } 
-                /*RECTIFY COUNT*/                
+                }
+                /* RECTIFY COUNT */
                 $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
-                $rectify_count_each =  ($count>0)? "- " . $count. "º RECTIFICATIVA" : "";
-                $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));               
+                $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
+                $download = anchor('anexos_sgr/' . $file['name'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period']  : 'rectifica-link_' . $file['period'];
-                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger' ));                
-                $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] ".$rectify_count_each ." </li>";                
+                $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger'));
+                $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
             }
             $list_files .= '</ul></div>
         </div>';
@@ -714,16 +716,14 @@ class Sgr extends MX_Controller {
                     list($filename, $extension) = explode(".", $file['name']);
 
                     /* Vars */
-                    $disabled_link =  ($this->session->userdata['period'])? '' : ' disabled_link';
-                    $disabled_link =  ($this->session->userdata['rectify'])? '' : $disabled_link;
-                    
+                    $disabled_link = ($this->session->userdata['period']) ? '' : ' disabled_link';
+                    $disabled_link = ($this->session->userdata['rectify']) ? '' : $disabled_link;
+
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('class' => 'btn btn-success' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link fa-spin" alt="Procesar">PROCESAR</i>';
-                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>',array('class' => 'btn btn-success'));
-                    
-                    $files_list .= '<li> ' . $download . " " . $process_file . ' PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
+                    $download = anchor('anexos_sgr/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success'));
 
-                    
+                    $files_list .= '<li> ' . $download . " " . $process_file . ' PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
                 }
             }
         }
@@ -748,7 +748,7 @@ class Sgr extends MX_Controller {
             'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
-        
+
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);

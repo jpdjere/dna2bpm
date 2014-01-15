@@ -4,10 +4,11 @@ class Lib_06_data extends MX_Controller {
     /* VALIDADOR ANEXO 06 */
 
     public function __construct($parameter) {
-         parent::__construct();
+        parent::__construct();
         $this->load->library('session');
         $this->load->helper('sgr/tools');
-        
+        $this->load->model('sgr/sgr_model');
+
         /* Vars 
          * 
          * $parameters =  
@@ -17,7 +18,7 @@ class Lib_06_data extends MX_Controller {
          * $parameterArr[0]['count']
          * 
          */
-        $stack = array();       
+        $stack = array();
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
@@ -216,10 +217,9 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = $AF_field_value . "-" . $R2_field_value;
                                 array_push($stack, $result);
-                            }                           
-                            
+                            }
                         }
-                        /*PERIOD*/
+                        /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         $code_error = "AF.1";
                         if ($return) {
@@ -486,18 +486,18 @@ class Lib_06_data extends MX_Controller {
                  *                  
                  */
 
-                
+
                 if ($A1_field_value == "INCORPORACION") {
-                    
-                    
+
+
                     /*
                      * CUIT
                      * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.
                      * NO puede estar repetido dentro del mismo excel
                      */
-                    
-                    
-                    
+
+
+
                     if ($parameterArr[$i]['col'] == 3) {
                         $code_error = "C.1";
                         //Check Empry
@@ -968,9 +968,6 @@ class Lib_06_data extends MX_Controller {
                     $range = range(24, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
-
-
-
                         switch ($parameterArr[$i]['col']) {
                             case 24: //ANIO_MES3                                        
                                 $X1_field_value = "";
@@ -1037,9 +1034,6 @@ class Lib_06_data extends MX_Controller {
                                         array_push($stack, $result);
                                     }
                                 }
-
-
-
                                 break;
                         }
                     }
@@ -1055,9 +1049,9 @@ class Lib_06_data extends MX_Controller {
 
                             /* AVERAGE AMOUNT */
                             $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3; //array($Y2_field_value, $V2_field_value, $S2_field_value);
-                            /*echo "<pre>";
-                            var_dump($average_amount);
-                            echo "</pre>";*/
+                            /* echo "<pre>";
+                              var_dump($average_amount);
+                              echo "</pre>"; */
 
                             $average_amount_1 = 0;
                             $average_amount_2 = 0;
@@ -1393,9 +1387,24 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
                 }
+
+                if ($parameterArr[$i]['col'] == 17) {
+                    $code_error = "S.3";
+                    $result["error_code"] = $code_error;
+                    $result["error_row"] = $parameterArr[$i]['row'];
+                    $result["error_input_value"] = "xxx" . $parameterArr[$i]['fieldValue'];
+                    array_push($stack, $result);
+
+                    $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3;
+                    $code = $parameterArr[$i]['fieldValue'];
+                    $sgrArr = $this->sgr_model->get_company_size($code, $average_amount);
+                    $sgrArr = $this->sgr_model->clae2013($code);
+                    //var_dump($sgrArr);
+                }
             }
-        }       
+        }
         $this->data = $stack;
         //return $this->data;
     }
+
 }

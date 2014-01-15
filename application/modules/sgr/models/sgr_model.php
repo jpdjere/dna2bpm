@@ -217,4 +217,63 @@ class Sgr_model extends CI_Model {
         return $array;
     }
 
+    function clae2013($code) {
+        $container = 'container.sgr_clae2013';
+        $query = array("codigo" => $code);
+        $fields = array("sector");
+        $result = $this->mongo->db->$container->findOne($query);
+        return $result;
+        
+    }
+
+    function get_company_size($code, $average) {
+        
+        $sector = $this->clae2013($code);
+        
+        $container = 'container.sgr_size_empresa';
+        $query = array("sector" => $sector);
+        $fields = array("average");
+        $result = $this->mongo->db->$container->find();
+        return $result;
+        
+        var_dump("xxxxx", $sector);
+
+//        if ($prom >= 1) {
+//
+//            $resultSize = 0;
+//
+//            switch ($sector) {
+//                case 1:
+//                    //Agropecuario               
+//                    if ($prom <= 54000000)
+//                        $resultSize = "PYME";
+//                    break;
+//
+//                case 2:
+//                    //Industria y Mineria
+//                    if ($prom <= 183000000)
+//                        $resultSize = "PYME";
+//                    break;
+//
+//                case 3:
+//                    //Comercio
+//                    if ($prom <= 250000000)
+//                        $resultSize = "PYME";
+//                    break;
+//
+//                case 4:
+//                    //Servicios
+//                    if ($prom <= 63000000)
+//                        $resultSize = "PYME";
+//                    break;
+//
+//                case 5:
+//                    //Construccion
+//                    if ($prom <= 84000000)
+//                        $resultSize = "PYME";
+//                    break;
+//            }
+//        }
+    }
+
 }
