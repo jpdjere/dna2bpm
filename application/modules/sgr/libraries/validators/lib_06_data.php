@@ -1389,17 +1389,27 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 17) {
-                    $code_error = "S.3";
-                    $result["error_code"] = $code_error;
-                    $result["error_row"] = $parameterArr[$i]['row'];
-                    $result["error_input_value"] = "xxx" . $parameterArr[$i]['fieldValue'];
-                    array_push($stack, $result);
 
-                    $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3;
-                    $code = $parameterArr[$i]['fieldValue'];
-                    $sgrArr = $this->sgr_model->get_company_size($code, $average_amount);
-                    $sgrArr = $this->sgr_model->clae2013($code);
-                    //var_dump($sgrArr);
+
+                    /* CALC AVERAGE */
+                    $calcPromedio = ($S2_field_value != "") ? 1 : 0;
+                    $calcPromedio += ($V2_field_value != "") ? 1 : 0;
+                    $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
+                    if ($calcPromedio != 0) {
+                        $montosArr = array($S2_field_value, $V2_field_value, $Y2_field_value);
+                        $sumaMontos = array_sum($montosArr);
+                        $average_amount = $sumaMontos / $calcPromedio;
+                    }
+
+                    $sector = $this->sgr_model->clae2013($code);
+                    $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+                    if (!$isPyme) {
+                        $code_error = "S.3";
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "No califica como PYME";
+                        array_push($stack, $result);
+                    }
                 }
             }
         }

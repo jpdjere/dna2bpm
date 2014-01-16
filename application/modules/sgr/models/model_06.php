@@ -293,39 +293,46 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
 
             /* Vars */
-
             $cuit = str_replace("-", "", $list['1695']);
-            $brand_name = $list['1693'];
+            $this->load->model('padfyj_model');
+            $brand_name = $this->padfyj_model->search_name($cuit);
+            $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
+            
 
-
+            
             $this->load->model('app');
-            $tipo_operacion = $this->app->get_ops(589);
+            $operation_type = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);
-            $acta_tipo = $this->app->get_ops(531);
-            $tipo_socio = $this->app->get_ops(532);
-            $tipo_transaccion = $this->app->get_ops(530);
+            $acta_type = $this->app->get_ops(531);
+            $partner_type = $this->app->get_ops(532);
+            $transaction_type = $this->app->get_ops(530);
             $partido = $this->app->get_ops(58);
             $provincia = $this->app->get_ops(39);
-            $caract_transferencia = $this->app->get_ops(571);
+            $transfer_characteristic = $this->app->get_ops(571);
+            $sector_opt = $this->app->get_ops(494);
+            
 
 
-            $calcPromedio = "";
+            $calc_average = "";
             $promedio = "";
             $sector = "";
-            $tipo_empresa = "";
+            $company_type = "";
 
-            $calcPromedio = ($list[20] != "") ? 1 : 0;
-            $calcPromedio += ($list[23] != "") ? 1 : 0;
-            $calcPromedio += ($list[26] != "") ? 1 : 0;
-            if ($calcPromedio != 0) {
+            $calc_average = ($list[20] != "") ? 1 : 0;
+            $calc_average += ($list[23] != "") ? 1 : 0;
+            $calc_average += ($list[26] != "") ? 1 : 0;
+            if ($calc_average != 0) {
 
                 $montosArr = array($list[20], $list[23], $list[26]);
                 $sumaMontos = array_sum($montosArr);
 
-                $promedio = money_format_custom($sumaMontos / $calcPromedio);
-                //$sector = sector(cerosClanae($insertarr[5208]));
-                //$tipo_empresa = getCompanySize($promedio, $sector);
+                $promedio = money_format_custom($sumaMontos / $calc_average);
             }
+            
+            $sector_value = $this->sgr_model->clae2013($list['5208']);
+            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+            $company_type = ($isPyme)? "PyME":""; 
+            
 
             $inner_table = '<table width="100%">';
             if ($list['19']) {
@@ -340,19 +347,19 @@ class Model_06 extends CI_Model {
             $inner_table .= '</table>';
 
             $new_list = array();
-            $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
-            $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
+            $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
+            $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $partner_type[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
             $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
-            $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
+            $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
             $new_list['"ANIO"'] = $inner_table;
-            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $inscripcion_iva[$list['5596'][0]];
+            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type;
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
-            $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
-            $new_list['MODALIDAD'] = "Modalidad " . $tipo_transaccion[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $caract_transferencia[$list['5292'][0]];
+            $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
+            $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>".$grantor_brand_name. "<br/>" . $transfer_characteristic[$list['5292'][0]];
 
             $rtn[] = $new_list;
         }

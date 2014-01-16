@@ -281,6 +281,9 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
                 break;
             case "AB.3": $result_error = '(Fila Nro.'. $row .') AB: Cantidad de Empleados: DEBEN ESTAR VACÍAS.';
                 break;
+            case "S.3": $result_error = '(Fila Nro.'. $row .') S.3, V.3, Y.2 : El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
+                break;
+            
             
         }
 

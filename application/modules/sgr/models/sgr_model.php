@@ -217,63 +217,24 @@ class Sgr_model extends CI_Model {
         return $array;
     }
 
-    function clae2013($code) {
+    function clae2013($code) {        
+        $code = (strlen($code)==5)? "0".$code : $code;        
         $container = 'container.sgr_clae2013';
-        $query = array("codigo" => $code);
-        $fields = array("sector");
-        $result = $this->mongo->db->$container->findOne($query);
-        return $result;
-        
+        $query = array("codigo"=>$code);
+        $fields = array("sector", "codigo");
+        $result = $this->mongo->db->$container->findOne($query, $fields);
+        return $result['sector'];  
     }
 
-    function get_company_size($code, $average) {
-        
-        $sector = $this->clae2013($code);
+    function get_company_size($sector, $average) {        
         
         $container = 'container.sgr_size_empresa';
-        $query = array("sector" => $sector);
+        $query = array("sector" => $sector,"average"=>$average);
         $fields = array("average");
-        $result = $this->mongo->db->$container->find();
-        return $result;
+        $result = $this->mongo->db->$container->findOne();
+        //var_dump($result["average"]);
         
-        var_dump("xxxxx", $sector);
-
-//        if ($prom >= 1) {
-//
-//            $resultSize = 0;
-//
-//            switch ($sector) {
-//                case 1:
-//                    //Agropecuario               
-//                    if ($prom <= 54000000)
-//                        $resultSize = "PYME";
-//                    break;
-//
-//                case 2:
-//                    //Industria y Mineria
-//                    if ($prom <= 183000000)
-//                        $resultSize = "PYME";
-//                    break;
-//
-//                case 3:
-//                    //Comercio
-//                    if ($prom <= 250000000)
-//                        $resultSize = "PYME";
-//                    break;
-//
-//                case 4:
-//                    //Servicios
-//                    if ($prom <= 63000000)
-//                        $resultSize = "PYME";
-//                    break;
-//
-//                case 5:
-//                    //Construccion
-//                    if ($prom <= 84000000)
-//                        $resultSize = "PYME";
-//                    break;
-//            }
-//        }
+        $resultSize = ($average <= $result["average"])?true:false;
+        return $resultSize;
     }
-
 }
