@@ -892,7 +892,6 @@ class Lib_06_data extends MX_Controller {
 
                     $range = range(21, 23);
                     if (in_array($parameterArr[$i]['col'], $range)) {
-
                         switch ($parameterArr[$i]['col']) {
                             case 21: //ANIO_MES2                              
                                 $U1_field_value = "";

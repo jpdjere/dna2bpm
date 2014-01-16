@@ -4,11 +4,11 @@ class Lib_062_data extends MX_Controller {
     /* VALIDADOR ANEXO 061 */
 
     public function __construct($parameter) {
-         parent::__construct();
+        parent::__construct();
         $this->load->library('session');
-        
+
         $this->load->helper('sgr/tools');
-        
+
         /* Vars 
          * 
          * $parameters =  
@@ -18,7 +18,7 @@ class Lib_062_data extends MX_Controller {
          * $parameterArr[0]['count']
          * 
          */
-        $stack = array();       
+        $stack = array();
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
@@ -29,16 +29,10 @@ class Lib_062_data extends MX_Controller {
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
-                /* CUIT_SOCIO_INCORPORADO
+                /* CUIT
                  * Nro A.1
                  * Detail:
-                 * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
-                 * Nro A.2
-                 * Detail:
-                 * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado.
-                 * Nro A.3
-                 * Detail:
-                 * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
+                 * Debe tener 11 caracteres numéricos sin guiones.               
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
@@ -53,44 +47,83 @@ class Lib_062_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     }
-                    
+
                     //cuit checker
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
-                            if (!$return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                array_push($stack, $result);
-                            }
+                        $return = cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
+                        if (!$return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
                         }
-                        
-                     $code_error = "A.2";
-                     //Valida contra Mongo
-                     
-                     $code_error = "A.3";
-                     //Valida contra Mongo
+                    }
+
+                    $code_error = "A.2";
+                    //Valida contra Mongo
                 }
 
-                /* TIENE_VINCULACION
+                /* ANIO_MES
                  * Nro B.1
                  * Detail:
-                 * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
-                    SI
-                    NO
+                 * Debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12.
                  * Nro B.2
                  * Detail:
-                 * Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”. 
-                 * Nro B.3
-                 * Detail:
-                 * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
+                 * El año debe ser igual o menor al del período en que se está informando.
                  */
 
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
 
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_date($parameterArr[$i]['fieldValue']);
+                        if (!$return) {
+                            $code_error = "R.2";
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+
+                        /* PERIOD */
+                        $code_error = "B.2";
+                        $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+
+                /* FACTURACION
+                 * Nro C.1
+                 * Detail:
+                 * Debe ser formato numérico y aceptar hasta dos decimales.
+                 */
+                if ($parameterArr[$i]['col'] == 3) {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $code_error = "C.1";
+                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+                /* EMPLEADOS
+                 * Nro D.1
+                 * Detail:
+                 * Numero entero mayor a cero.
+                 */
+                if ($parameterArr[$i]['col'] == 4) {
                     //empty field Validation
+                   $code_error = "D.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
@@ -98,29 +131,38 @@ class Lib_062_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     }
-                    //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $B1_field_value = "";
-                        $allow_words = array("SI", "NO");
+                        
+                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+                /* EMPLEADOS
+                 * Nro E.1
+                 * Detail:
+                 * Numero entero mayor a cero.
+                 */
+                if ($parameterArr[$i]['col'] == 5) {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $code_error = "E.1";
+                        $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
-                        } else {
-                            $B1_field_value = $parameterArr[$i]['fieldValue'];
-                        }
+                        } 
                     }
-                    
-                    $code_error = "B.2";
-                    
-                    
                 }
-
             }
-        }       
+        }
         $this->data = $stack;
-        //return $this->data;
     }
+
 }
