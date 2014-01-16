@@ -39,6 +39,7 @@ class Inventory extends MX_Controller {
     function Index() {
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
+        $this->config->load('inventory/config');
         $cpData['module_url_encoded'] = $this->qr->encode($this->module_url);
         $cpData['title'] = 'Mesa de Entradas Digital';
         $cpData['css'] = array(

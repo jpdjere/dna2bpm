@@ -9,19 +9,20 @@
 </div>
 <!-- ==== Contenido ==== -->
 <div class="container" > 
-    <h1 class="error">Errores en la importación del Anexo</h1>
-    <div class="alert alert-error" id="{_id}">       
-        <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a>   </p> 
-        <h5>Verifique la lista de errores.</h5>
+    <h1 class="success">Información sobre la importación del Anexo</h1>
+    <div class="alert alert-success" id="{_id}">       
+        <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir pantalla</a>   </p> 
+        <h3>El Anexo se proceso correctamente.</h3>
+        <h4>Periodo informado: {sgr_period}</h4>
         {if message_header}
             <ol>{message_header}</ol>
         {/if}
 
         {if message}
-            <ol>{message}</ol>
+            <ol>{message}{print_file}</ol>
         {/if}
         <hr>
         <p><i class="fa fa-download"></i> <a href=>Descargar Modelo</a> | <i class="fa fa-download"></i> <a href=>Descargar Manual</a>        
-        | <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a></p>
+        | <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir Pantalla</a></p>
     </div>
 </div>

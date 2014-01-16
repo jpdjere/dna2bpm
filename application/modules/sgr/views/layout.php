@@ -13,14 +13,12 @@
         <link rel="stylesheet" href="{module_url}assets/css/extra-icons.css" />	
         <link rel="stylesheet" href="{module_url}assets/jscript/fullcalendar/fullcalendar.css" />
         <link rel="stylesheet" href="{module_url}assets/jscript/datepicker/css/datepicker.css" />
-        <link rel="stylesheet" href="{module_url}assets/css/genias.css" />
-
-
+        <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
         <!--/ Custom CSS -->
         {css}
 
     </head>
-    <body class="{is_offline}">
+    <body>
         <!--/ NAVIGATION -->
         <div class="navbar navbar-inverse navbar-static-top ">
             <div class="navbar-inner barra_{rol}">
@@ -34,27 +32,23 @@
 
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            
-
                         </ul>
                         <ul class="nav pull-right inline"> 
-                             {if sgr_period}
-                            <li><a   href="{base_url}sgr/unset_period"><i class="icon-calendar"></i> Período: {sgr_period}</a></li>    
+                            
+                            {if sgr_period}
+                            <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="icon-calendar"></i> Período: <span id="sgr_period"> {sgr_period}</span></a></li>    
                             {/if}
-
                             <li class="dropdown" id="menu-messages">
                                 <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-                                    <i class="icon icon-coment">
-                                    </i> <span class="text">Anexos</span> <span class="label label-important">{anexo_title_cap}</span> <b class="caret">
+                                    <i class="fa fa-file-text">
+                                     </i> <span class="text"> Anexos</span> <span class="label label-important"> {anexo_title_cap} </span> <b class="caret">
                                     </b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                   {anexo_list}
+                                    {anexo_list}
                                 </ul>
                             </li>
-                           
-                            <li><img src="{gravatar}"  title="{username}"  style="height:40px;back"/></li>
-                            <li><a   href="{base_url}user/logout"><i class="icon-off"></i> Salir</a></li>
+                            <li><a  href="{base_url}user/logout"><i class="fa fa-power-off"></i> Salir</a></li>                            
                         </ul>
                     </div>
                 </div>
@@ -63,8 +57,6 @@
 
         <!-- CONTAINER -->
         {content}
-
-
         <!-- CONTAINER -->
 
         <script src="{module_url}assets/jscript/jquery.min.js"></script>
@@ -82,10 +74,10 @@
 
             $(document).ready(function() {
                 if (offline) {
-                    $('#status').html('OFFLINE').css('color', '#f00');
+                    $('#status').css('color', '#f00');
 
                 } else {
-                    $('#status').html('ONLINE').css('color', '#059B28');
+                    $('#status').css('color', '#059B28');
                 }
             });
 
@@ -93,7 +85,5 @@
 
         </script>
         {js}
-
-
     </body>
 </html>

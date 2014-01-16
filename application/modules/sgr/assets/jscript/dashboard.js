@@ -4,23 +4,54 @@
  */
 
 $(document).ready(function() {
+    
+    $("#div_period").hide();
+    
+    /*RECTIFICA HREF*/
+    $('[class^="rectifica-link_"]').click(function(event) {
+        var parameter = $(this).attr('href');
+        var arr = parameter.split('/');
+        var input_period = arr[2];
+        var anexo = arr[3];
+        event.preventDefault();
+        $.get(globals.module_url + "unset_period");
+        $("input[name$='input_period']").val(input_period);
+        $("input[name$='anexo']").val(anexo);
+        $("#period").submit();
+
+    });
+    $('[class^="rectifica-warning_"]').click(function(event) {
+        var get_period = $("#sgr_period").html(); 
+        var parameter = $(this).attr('href');
+        var arr = parameter.split('/');
+        var input_period = arr[2];
+        var anexo = arr[3];
+        event.preventDefault();
+        $.get(globals.module_url + "unset_period_active");
+        bootbox.confirm("El período actual seleccionado ("+get_period+" ) va a dejar de estar activo, desea continuar?", function(result) {
+            if (result) {
+                $("#div_period").show();
+                $("#show_anexos").hide();
+                $("input[name$='input_period']").val(input_period);
+                $("input[name$='anexo']").val(anexo);
+                $("#period").submit();
+                $("#show_anexos").hide();                
+            }
+        });
+    });
 
 
     $('.dp').datepicker();
     $("#others").hide();
-
-
     /*RECTIFICAR*/
-    $('#rectificar').change(function() {
-        var option_value = $("#rectificar option:selected").val();
+    $('#rectify').change(function() {
+        var option_value = $("#rectify option:selected").val();
         if (option_value == 3) {
             $("#others").show();
         } else {
             $("#others").hide();
         }
     });
-
-
 //
     /*
      
@@ -54,29 +85,10 @@ $(document).ready(function() {
                 add_no_movement();
             }
         });
-
-
-//        var no_movement = $('#no_movement').val();
-//        var data = {'no_movement': no_movement};
-//        $.ajax(
-//                {
-//                    /* this option */
-//                    async: false,
-//                    cache: false,
-//                    type: "POST",
-//                    dataType: "text",
-//                    url: globals.module_url + 'set_no_movement',
-//                    data: {'data': data},
-//                    success: function(resp) {
-//                        var new_resp = (resp) ? "OK" : "Error";
-//                        bootbox.alert(new_resp);
-//                    }
-//                });
     });
 
 
     $('#dashboard_tab1 a:first').tab('show');
-
     $('.nav-tabs li a').click(function(e) {
 
         var code = $(this).attr('href').split('-');
@@ -101,13 +113,11 @@ $(document).ready(function() {
 
 
     });
-
 //==== VISITAS ==== //
 
     $(document).on("click", ".ul_collapse", function() {
         $(this).next('UL').slideToggle();
     });
-
 // Cargo visitas default
     $('#wrapper_visitas').load(globals.module_url + 'get_resumen_visitas');
 // cambio el mes
@@ -115,10 +125,6 @@ $(document).ready(function() {
         var mes = ev.date.toISOString();
         $('#wrapper_visitas').load(globals.module_url + 'get_resumen_visitas', {'mes': mes});
     });
-
-
-
-
 // Fin ready
 });
 function onUpdateReady() {

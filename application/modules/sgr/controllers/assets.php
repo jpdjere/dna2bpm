@@ -46,7 +46,8 @@ class assets extends CI_Controller {
                 
                 case 'pdf':
                   header('Content-type: application/pdf');
-                    break;
+                    break;                
+              
                 
                 case 'jpg' || 'jpeg' || 'png' || 'gif':
                     header('Content-type: image/'.$file_type);
@@ -55,7 +56,8 @@ class assets extends CI_Controller {
  
             readfile($file);
         } else {
-            show_404();
+            //show_404();
+            var_dump("404", $file);
         }
         exit;
     }
