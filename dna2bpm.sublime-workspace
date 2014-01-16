@@ -1,0 +1,239 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"j",
+				"JSON"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"enco",
+				"encode"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 52.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instll",
+				"Package Control: Install Package"
+			],
+			[
+				"confi",
+				"Package Control: Create Package File"
+			],
+			[
+				"git",
+				"Set Syntax: Git Graph"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/assets/jscript/scheduler.js",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/models/genias_model.php",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/assets/localidades.js",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/assets/localidades.json",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/views/layout.php",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/views/localidades.json",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/assets/manifest/offline.appcache",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/views/ext.ui.php",
+		"/home/gabriel/Escritorio/Link to www/HM2/index.php",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/application/modules/genias/assets/jscript/modernizr.custom.22198.js",
+		"/home/gabriel/Escritorio/modernizr.custom.22198.js",
+		"/home/gabriel/Escritorio/Link to www/dna2bpm/index.php",
+		"/home/juanb/Desktop/www/dna2bpm/application/modules",
+		"/var/www/dna2bpm/application/modules/genias/models/genias_model.php",
+		"/home/juanb/.config/sublime-text-2/Packages/Default/dna2BPM.sublime-project",
+		"/home/juanb/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/juanb/Desktop/www/dna2bpm/index.php",
+		"/home/juanb/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/juanb/Desktop/www/dna2bpm/application/modules/user/controllers/admin.php",
+		"/home/juanb/Desktop/www/dna2bpm/css/layout.css",
+		"/home/juanb/.config/sublime-text-2/Packages/Modific/Default (Linux).sublime-keymap",
+		"/home/juanb/Desktop/www/dna2bpm/application/modules/dna2/controllers/controlpanel.php",
+		"/home/juanb/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/juanb/.config/sublime-text-2/Packages/SideBarEnhancements/Default (Linux).sublime-keymap",
+		"/home/juanb/Desktop/www/dna2bpm/.gitignore",
+		"/home/juanb/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/juanb/.config/sublime-text-2/Packages/Modific/Modific.sublime-settings",
+		"/home/juanb/.config/sublime-text-2/Packages/SideBarGit/SideBarGit.sublime-settings",
+		"/home/juanb/.config/sublime-text-2/Packages/File History/Default.sublime-keymap",
+		"/home/juanb/.config/sublime-text-2/Packages/Git/Git.sublime-settings",
+		"/home/juanb/Desktop/www/dna2bpm/application/modules/qr/controllers/qr.php",
+		"/home/juanb/Desktop/www/dna2bpm/application/modules/bpm/controllers/engine.php",
+		"/home/juanb/Desktop/www/dna2bpm/application/modules/qr/controllers/assets.php",
+		"/home/juanb/.config/sublime-text-2/Packages/SideBarEnhancements/messages/11.13.2012.1305.0.txt"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"ctrl+shift+down",
+			"toggle",
+			"ctrl+shift+down",
+			"selectio",
+			"shift+up+alt",
+			"ctrl+up",
+			"ctrl+b\"",
+			"ctrl+>",
+			"ctrl+m",
+			"multi",
+			"cursor",
+			"ctrl+alt+",
+			"        $this->load->model('rbac');",
+			"        $this->load->model('user');\n        $this->load->model('rbac');\n        $this->user->authorize();\n",
+			"');\n",
+			"');",
+			"');\n",
+			"dupl",
+			"font",
+			"'));\n",
+			"');"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.vcs":
+	{
+		"height": 118.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true
+}

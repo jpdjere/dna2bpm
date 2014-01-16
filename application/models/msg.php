@@ -83,6 +83,7 @@ class Msg extends CI_Model {
     $criteria = array('_id' => $mongoid);
     $rs=$this->mongo->db->msg->update($criteria, $query);
     }
+    
 
 
 }

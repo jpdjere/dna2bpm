@@ -153,7 +153,7 @@ class CI_Parser {
 		{
 			$this->CI->output->append_output($template);
 		}
-
+                
 		return $template;
 	}
 
