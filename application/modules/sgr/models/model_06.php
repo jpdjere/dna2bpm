@@ -296,9 +296,8 @@ class Model_06 extends CI_Model {
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
             $brand_name = $this->padfyj_model->search_name($cuit);
+            $brand_name = ($brand_name=="")?$list['1693']: $brand_name;
             $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
-            
-
             
             $this->load->model('app');
             $operation_type = $this->app->get_ops(589);
@@ -309,7 +308,8 @@ class Model_06 extends CI_Model {
             $partido = $this->app->get_ops(58);
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
-            $sector_opt = $this->app->get_ops(494);
+            $afip_condition = $this->app->get_ops(570);
+              
             
 
 
@@ -355,7 +355,7 @@ class Model_06 extends CI_Model {
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
             $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
             $new_list['"ANIO"'] = $inner_table;
-            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type;
+            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type . "<br/>" . $afip_condition[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
