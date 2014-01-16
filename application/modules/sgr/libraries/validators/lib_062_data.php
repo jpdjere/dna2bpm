@@ -163,6 +163,7 @@ class Lib_062_data extends MX_Controller {
             }
         }
         $this->data = $stack;
+        var_dump($stack);
     }
 
 }
