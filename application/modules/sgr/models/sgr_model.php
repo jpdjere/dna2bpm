@@ -24,6 +24,7 @@ class Sgr_model extends CI_Model {
     function get_anexos() {
         $container = 'container.sgr_anexos';
         $result = $this->mongo->db->$container->find();
+        $result->sort(array('id' => 1));
         return $result;
     }
 

@@ -1,4 +1,3 @@
-
 <div class="row-fluid">
         <div id="meta_div_2">
             <form  method="post" class="well" id="period">
@@ -9,7 +8,7 @@
                         {if rectifica}
                         <div>
                             <label>Rectificación de {post_period}/ Ingrese el Motivo</label>
-                            <select name="rectify" id="rectify" class="input-block-level">
+                            <select name="rectify" id="rectify_{sgr_period}" class="input-block-level">
                                 <option value="">Seleccione el motivo</option>
                                 <option value=1>Errores en el sistema y/o procesamiento del archivo</option>
                                 <option value=2>Error en la informacion sumistrada</option>
@@ -33,7 +32,7 @@
                         </div>
                         {if rectifica}     
                         <input type="hidden" name="anexo" value="{anexo}" />
-                        <div id="others"><label>Otros Motivos</label>
+                        <div id="others_{sgr_period}"><label>Otros Motivos</label>
                             <textarea name="others" placeholder="..." class="input-block-level" ></textarea>                        
                         </div>
                         {/if}

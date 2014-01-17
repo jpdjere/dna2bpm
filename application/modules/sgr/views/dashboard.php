@@ -1,5 +1,3 @@
-
-
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
@@ -45,7 +43,7 @@
     </div>
 
 
-    <div id="div_period">                 
+    <div id="div_period">
         {form_template}
     </div>
 

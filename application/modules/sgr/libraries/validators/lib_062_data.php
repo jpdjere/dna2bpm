@@ -87,8 +87,8 @@ class Lib_062_data extends MX_Controller {
                         }
 
                         /* PERIOD */
-                        $code_error = "B.2";
-                        $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                        $code_error = "B.2";                                            
+                        $return = check_period_minor($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -107,7 +107,7 @@ class Lib_062_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.1";
-                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -162,8 +162,7 @@ class Lib_062_data extends MX_Controller {
                 }
             }
         }
-        $this->data = $stack;
-        var_dump($stack);
+        $this->data = $stack;        
     }
 
 }

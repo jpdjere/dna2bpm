@@ -102,6 +102,26 @@ function check_period($parameter, $period) {
     }
 }
 
+function check_period_minor($parameter, $period) {
+    
+    list($getYear,$getMonth) = explode("/", $parameter);
+    list($getPeriodMonth,$getPeriodYear) = explode("-", $period);   
+        
+    $check_date = mktime(0, 0, 0, date($getMonth)  , date(01), date($getYear));
+    $period = mktime(0, 0, 0, date($getPeriodMonth)  , date(01), date($getPeriodYear));          
+    if ($check_date > $period) {
+        return true;
+    }
+}
+
+function check_decimal($number,$decimal=2){
+    $m_factor=pow(10,$decimal);
+    if((int)($number*$m_factor)==$number*$m_factor)
+        return false;
+    else
+        return true;
+} 
+
 function check_zip_code($parameter) {
     $num_length = strlen((string) $parameter);
     if ($num_length != 8) {
