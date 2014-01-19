@@ -1,6 +1,6 @@
 <div class="row-fluid">
         <div id="meta_div_2">
-            <form  method="post" class="well" id="period">
+            <form  method="post" class="well" id="period_{sgr_period}">
                 <div  class="row-fluid " >
                     <div class="span6">                        
                         <label>{if rectifica}Rectificar {/if}Anexo</label>
@@ -8,7 +8,7 @@
                         {if rectifica}
                         <div>
                             <label>Rectificación de {post_period}/ Ingrese el Motivo</label>
-                            <select name="rectify" id="rectify_{sgr_period}" class="input-block-level">
+                            <select name="rectify" id="rectify_{sgr_period}" class="input-block-level required">
                                 <option value="">Seleccione el motivo</option>
                                 <option value=1>Errores en el sistema y/o procesamiento del archivo</option>
                                 <option value=2>Error en la informacion sumistrada</option>
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         {if rectifica}     
-                        <input type="hidden" name="anexo" value="{anexo}" />
+                        <input type="hidden" name="recitifica_value" id="check_rectify_{sgr_period}" value="{anexo}" />
                         <div id="others_{sgr_period}"><label>Otros Motivos</label>
                             <textarea name="others" placeholder="..." class="input-block-level" ></textarea>                        
                         </div>
@@ -41,7 +41,7 @@
                 <div  class="row-fluid">
                     <div class="span12">
                         <input type="hidden" name="anexo" value="{anexo}" />
-                        <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>{if rectifica} Rectificar {else} Activar{/if} Periodo</button>  
+                        <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="icon-save"></i>{if rectifica} Rectificar {else} Activar{/if} Periodo</button>  
                     </div>
                 </div>
             </form>
