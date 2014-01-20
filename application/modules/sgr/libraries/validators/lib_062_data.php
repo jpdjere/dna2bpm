@@ -50,7 +50,7 @@ class Lib_062_data extends MX_Controller {
 
                     //cuit checker
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
+                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];

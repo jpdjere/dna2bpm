@@ -218,24 +218,47 @@ class Sgr_model extends CI_Model {
         return $array;
     }
 
-    function clae2013($code) {        
-        $code = (strlen($code)==5)? "0".$code : $code;        
+    function clae2013($code) {
+        $code = (strlen($code) == 5) ? "0" . $code : $code;
         $container = 'container.sgr_clae2013';
-        $query = array("codigo"=>$code);
+        $query = array("codigo" => $code);
         $fields = array("sector", "codigo");
         $result = $this->mongo->db->$container->findOne($query, $fields);
-        return $result['sector'];  
+        return $result['sector'];
     }
 
-    function get_company_size($sector, $average) {        
-        
+    function get_company_size($sector, $average) {
+
         $container = 'container.sgr_size_empresa';
-        $query = array("sector" => $sector,"average"=>$average);
+        $query = array("sector" => $sector, "average" => $average);
         $fields = array("average");
         $result = $this->mongo->db->$container->findOne();
         //var_dump($result["average"]);
-        
-        $resultSize = ($average <= $result["average"])?true:false;
+
+        $resultSize = ($average <= $result["average"]) ? true : false;
         return $resultSize;
     }
+
+    function get_cnv_code($code) {
+
+        /* DATOS SGR */
+        $sgrArr = $this->sgr_model->get_sgr();
+        foreach ($sgrArr as $sgr) {          
+            $this->sgr_cuit = $sgr['1695'];
+        }
+        $container = 'container.sgr_code_CNV';
+        $query = array("codigo" => $code, "cuit_sgr" => $this->sgr_cuit);        
+        $result = $this->mongo->db->$container->findOne($query);        
+        return $result;
+    }
+    
+    function get_warranty_type($code) {
+        $container = 'container.sgr_tipo_garantias';
+        $query = array("codigo" => $code);        
+        $result = $this->mongo->db->$container->findOne($query);        
+        return $result;
+        
+        
+    }
+
 }

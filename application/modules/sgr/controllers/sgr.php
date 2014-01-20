@@ -63,11 +63,11 @@ class Sgr extends MX_Controller {
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
-        $customData['anexo'] = $this->anexo;        
+        $customData['anexo'] = $this->anexo;
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
-        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));        
+        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
         $customData['anexo_list'] = $this->AnexosDB();
-        
+
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
@@ -154,7 +154,7 @@ class Sgr extends MX_Controller {
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a href=  "'.$module_url.'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
+            $result .= '<li><a href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
         return $result;
     }
@@ -172,6 +172,7 @@ class Sgr extends MX_Controller {
     /*
      * PROCESS
      */
+
     function Anexo($filename = null) {
         $customData = array();
         $customData['base_url'] = base_url();
@@ -363,15 +364,14 @@ class Sgr extends MX_Controller {
                     if ($save_period['status'] == "ok") {
                         /* RENDER */
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
-                        $customData['sgr_period'] = $this->period;                        
+                        $customData['sgr_period'] = $this->period;
                         $customData['anexo_list'] = $this->AnexosDB();
                         $customData['process_filename'] = $new_filename;
-                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')). '</li>';                        
-                        $customData['message'] = '<li>El Archivo ('.$new_filename.') fue importado con exito</li>';                        
+                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
+                        $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                         $this->render('success', $customData);
                         copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
                         unlink($uploadpath);
-                        
                     } else {
 
                         $error = true;
@@ -383,7 +383,7 @@ class Sgr extends MX_Controller {
         /* ERROR CASE */
         if ($error) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
-            $customData['sgr_period'] = $this->period;            
+            $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
