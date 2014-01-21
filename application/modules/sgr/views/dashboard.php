@@ -25,7 +25,7 @@
 
 <!-- ==== Contenido ==== -->
 <div class="container" > 
-    <h2><i class="fa fa-bars"></i> {anexo_title_cap}</h2>   
+    <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>   
     <!-- RECTIFICATION ALERT-->
     {rectify_message}
    

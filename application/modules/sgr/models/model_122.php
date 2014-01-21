@@ -120,7 +120,7 @@ class Model_122 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO ORDEN", "NRO CUOTA", "VENCIMIENTO", "CUOTA GTA PESOS", "CUOTA MENOR PESOS");
+        $headerArr = array("NRO_GARANTIA","NUMERO_CUOTA_CUYO_VENC_MODIFICA","FECHA_VENC_CUOTA","FECHA_VENC_CUOTA_NUEVA","MONTO_CUOTA","SALDO_AL_VENCIMIENTO");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {

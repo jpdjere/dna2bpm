@@ -67,6 +67,7 @@ class Sgr extends MX_Controller {
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
         $customData['anexo_list'] = $this->AnexosDB();
+        $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
 
         // UPLOAD ANEXO
