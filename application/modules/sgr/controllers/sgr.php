@@ -465,8 +465,9 @@ class Sgr extends MX_Controller {
 
         /* PERIOD INFO */
         $get_period_info = $this->sgr_model->get_period_filename($parameter);
-        $user = $this->user->get_user($get_period_info['idu']);
-        var_dump($user);
+        var_dump($get_period_info);
+        
+        $user = $this->user->get_user($get_period_info['idu']);        
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
