@@ -59,11 +59,11 @@ class Lib_123_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     }
-                    
+
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $A1_field_value = "";
-                        $allow_words = array("GFMFO" , "GC1" , "GC2" , "GT");
+                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -99,6 +99,13 @@ class Lib_123_data extends MX_Controller {
 
                 $range = range(2, 32);
                 if (in_array($parameterArr[$i]['col'], $range)) {
+
+//                    for ($j = 2; $j <= 32; $j++) {
+//                        echo $i;
+//                    }
+
+
+
                     $code_error = "B.2";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
