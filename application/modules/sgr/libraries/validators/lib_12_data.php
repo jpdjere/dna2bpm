@@ -146,8 +146,6 @@ class Lib_12_data extends MX_Controller {
                     $this->load->model('app');
                     $warranty_type = $this->app->get_ops(525);
 
-
-
                     $D1_field_value = $parameterArr[$i]['fieldValue'];
 
                     $code_error = "D.1";
@@ -172,7 +170,7 @@ class Lib_12_data extends MX_Controller {
 
 
 //                            //PENDIENTE
-//                            if ($parameterArr[$i]['fieldValue'] == "GFCPD") {
+//                            if ($D1_field_value == "GFCPD") {
 //
 //                                $ctyDays = 0;
 //                                $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
@@ -468,6 +466,7 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
                 }
+
                 /* TASA
                  * Nro N.1
                  * Detail: 
@@ -492,7 +491,7 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $allow_words = array("FIJA", "LIBOR", "BADLAR PU","BADLAR PR","TEC","TEBP");
+                        $allow_words = array("FIJA", "LIBOR", "BADLAR PU", "BADLAR PR", "TEC", "TEBP");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -503,8 +502,70 @@ class Lib_12_data extends MX_Controller {
                     }
                 }
 
+                /* PUNTOS_ADIC_CRED_GARANT
+                 * Nro 0.1
+                 * Detail:
+                 * Debe tomar un valor entre -0,10 y 0,10. Debe aceptar hasta 3 decimales 
+                 * Nro 0.2
+                 * Detail:
+                 * Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30.
+                 */
+                if ($parameterArr[$i]['col'] == 15) {
 
-                //PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
+                    $code_error = "O.1";
+                    /* Debe tomar un valor entre -0,10 y 0,10. Debe aceptar hasta 3 decimales. DIEGO, VEAMOS ESTO!!!!! */
+
+                    $code_error = "O.2";
+                    /* Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30. DIEGO, VEAMOS ESTO!!!!!  */
+                }
+
+                /* PLAZO
+                 * Nro P.1
+                 * Detail:
+                 * Debe ser un campo numérico, sin decimales, y mayor a cero.
+                 * Nro P.2
+                 * Detail:
+                 * Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD, el plazo debe ser mayor a cero y meno a 365 (366 si implica un año bisiesto).
+                 * Nro P.3
+                 * Detail:
+                 * Si en la Columna “D” el Tipo de Garantía seleccionado fue GFVCP, el plazo debe ser mayor a cero y meno a 730 (731 si implica un año bisiesto).
+                 * Nro P.4
+                 * Detail:
+                 * Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites.
+                 */
+                if ($parameterArr[$i]['col'] == 14) {
+                    $code_error = "P.1";
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    //Check Numeric Validation
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        } else {
+                            if ($parameterArr[$i]['fieldValue'] > 0) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                    
+                    $code_error = "P.2";
+                }
+
+                //GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
             } // END FOR LOOP->
         }
         $this->data = $stack;
