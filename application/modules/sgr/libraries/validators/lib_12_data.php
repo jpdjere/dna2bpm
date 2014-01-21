@@ -167,21 +167,6 @@ class Lib_12_data extends MX_Controller {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
-
-
-//                            //PENDIENTE
-//                            if ($D1_field_value == "GFCPD") {
-//
-//                                $ctyDays = 0;
-//                                $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
-//
-//                                /* Sumo el plazo + la gracia */
-//                                $ctyDays = $insertarr[5224] + $insertarr[5225];
-//                                if ($ctyDays > $yearCtyDays) {
-//                                    $proc = false;
-//                                    $showError[] = '<li>El Tipo de Garant&iacute;a ( ' . $insertarr[5216] . ' ) de la linea (' . $i . ') no puede superar los 365/366 d&iacute;as.</li>';
-//                                }
-//                            }
                         }
                     }
                 }
@@ -533,7 +518,10 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites.
                  */
-                if ($parameterArr[$i]['col'] == 14) {
+                if ($parameterArr[$i]['col'] == 16) {
+
+                    $P1_field_value = $parameterArr[$i]['fieldValue'];
+
                     $code_error = "P.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -561,14 +549,237 @@ class Lib_12_data extends MX_Controller {
                             }
                         }
                     }
-                    
+
                     $code_error = "P.2";
+                    //PENDIENTE
+//                            if ($D1_field_value == "GFCPD") {
+//
+//                                $ctyDays = 0;
+//                                $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+//
+//                                /* Sumo el plazo + la gracia */
+//                                $ctyDays = $insertarr[5224] + $insertarr[5225];
+//                                if ($ctyDays > $yearCtyDays) {
+//                                    $proc = false;
+//                                    $showError[] = '<li>El Tipo de Garant&iacute;a ( ' . $insertarr[5216] . ' ) de la linea (' . $i . ') no puede superar los 365/366 d&iacute;as.</li>';
+//                                }
+//                            }
+
+                    $code_error = "P.3";
+                    //PENDIENTE
+//                            if ($D1_field_value == "GFVCP") {
+//
+//                                $ctyDays = 0;
+//                                $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;
+//
+//                                /* Sumo el plazo + la gracia */
+//                                $ctyDays = $insertarr[5224] + $insertarr[5225];
+//                                if ($ctyDays > $yearCtyDays) {
+//                                    $proc = false;
+//                                    $showError[] = '<li>El Tipo de Garant&iacute;a ( ' . $insertarr[5216] . ' ) de la linea (' . $i . ') no puede superar los 365/366 d&iacute;as.</li>';
+//                                }
+//                            }
+
+                    $code_error = "P.4";
+                    /* PENDIENTE */
                 }
 
-                //GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
+                /* GRACIA
+                 * Nro Q.1
+                 * Detail:
+                 * Debe ser un campo numérico, sin decimales, y mayor a cero.
+                 * Nro Q.2
+                 * Detail:
+                 * Si en la Columna R se indicó PAGO ÚNICO, el valor aquí indicado debe ser igual al valor indicado en la Columna P.
+                 */
+                if ($parameterArr[$i]['col'] == 17) {
+                    $Q1_field_value = $parameterArr[$i]['fieldValue'];
+                    $code_error = "Q.1";
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    //Check Numeric Validation
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        } else {
+                            if ($parameterArr[$i]['fieldValue'] > 0) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                }
+
+                /* PERIODICIDAD
+                 * Nro R.1
+                 * Detail:
+                 * Debe contener uno de los siguientes parámetros:
+                  PAGO UNICO
+                  MENSUAL
+                  BIMESTRAL
+                  TRIMESTRAL
+                  CUATRIMESTRAL
+                  SEMESTRAL
+                  ANUAL
+                  OTRO
+                 * Nro R.2
+                 * Detail:
+                 * Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD o GFVCP, este campo sólo puede indicar PAGO UNICO.
+                 */
+                if ($parameterArr[$i]['col'] == 18) {
+                    
+                    $R1_field_value = $parameterArr[$i]['fieldValue'];
+                    
+                    $code_error = "R.1";
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $allow_words = array("PAGO UNICO", "MENSUAL", "BIMESTRAL", "TRIMESTRAL", "CUATRIMESTRAL", "SEMESTRAL", "ANUAL", "OTRO");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    $code_error = "R.2";
+                    $types_arr = array("GFCPD", "GFVCP");
+                    if (in_array($D1_field_value, $types_arr)) {
+                        if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    $code_error = "Q.2";
+                    if ($parameterArr[$i]['fieldValue'] == "PAGO UNICO") {
+                        if ($P1_field_value != $Q1_field_value) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+                /* SISTEMA
+                 * Nro S.1
+                 * Detail:
+                 * Debe contener uno de los siguientes parámetros:
+                  PAGO UNICO
+                  FRANCES
+                  ALEMAN
+                  AMERICANO
+                  OTRO
+                 * Nro S.2
+                 * Detail:
+                 * Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD o GFVCP, este campo sólo puede indicar PAGO UNICO.
+                 * Nro S.3
+                 * Detail:
+                 * Si en la Columna “T” se indicó que la Periodicidad de los pagos es PAGO UNICO, este campo sólo puede indicar PAGO UNICO.
+                 */
+                if ($parameterArr[$i]['col'] == 19) {
+                    $code_error = "S.1";
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $allow_words = array("PAGO UNICO", "FRANCES", "ALEMAN", "AMERICANO", "OTRO");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    $code_error = "S.2";
+                    $types_arr = array("GFCPD", "GFVCP");
+                    if (in_array($D1_field_value, $types_arr)) {
+                        if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                    
+                    $code_error = "S.3";
+                    if($R1_field_value=="PAGO UNICO"){
+                        if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+                /* DESTINO_CREDITO
+                 * Nro T.1
+                 * Detail:
+                 * Debe contener uno de los siguientes parámetros:
+                  OBRA CIVIL
+                  BIENES DE CAPITAL
+                  INMUEBLES
+                  CAPITAL DE TRABAJO
+                  PROYECTO DE INVERSION
+                 */
+                if ($parameterArr[$i]['col'] == 20) {
+                    $code_error = "T.1";
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $allow_words = array("OBRA CIVIL","BIENES DE CAPITAL","INMUEBLES","CAPITAL DE TRABAJO","PROYECTO DE INVERSION");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }	
             } // END FOR LOOP->
         }
         $this->data = $stack;
     }
 
 }
+
