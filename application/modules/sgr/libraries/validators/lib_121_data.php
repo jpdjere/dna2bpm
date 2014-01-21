@@ -79,9 +79,9 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     
-                    var_dump("rows", $data->sheets[0]['numRows']);
+                   
                     
-                    if ($data->sheets[0]['numRows'] < 3) {
+                    if ($parameterArr[0]['count']< 3) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
