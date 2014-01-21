@@ -79,6 +79,8 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     
+                    var_dump("rows", $data->sheets[0]['numRows']);
+                    
                     if ($data->sheets[0]['numRows'] < 3) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -92,7 +94,6 @@ class Lib_121_data extends MX_Controller {
                  * Detail:
                  * Formato numérico de cinco dígitos sin decimales. Debe ser posterior a la fecha de emisión de la garantía informada en la Columna C del Anexo 12.
                  */
-
                 if ($parameterArr[$i]['col'] == 3) {
                     $code_error = "C.1";
                     //empty field Validation
