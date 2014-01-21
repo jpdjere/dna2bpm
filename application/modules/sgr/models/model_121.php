@@ -58,6 +58,9 @@ class Model_121 extends CI_Model {
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
+        
+        /* FIX DATE */
+        $parameter['VENCIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['VENCIMIENTO'], 1900));
 
         $parameter['period'] = $period;
 
@@ -136,8 +139,8 @@ class Model_121 extends CI_Model {
             $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
             $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];
             $new_list['VENCIMIENTO'] = $list['VENCIMIENTO'];
-            $new_list['CUOTA_GTA_PESOS'] = $list['CUOTA_GTA_PESOS'];
-            $new_list['CUOTA_MENOR_PESOS'] = $list['CUOTA_MENOR_PESOS'];
+            $new_list['CUOTA_GTA_PESOS'] = money_format_custom($list['CUOTA_GTA_PESOS']);
+            $new_list['CUOTA_MENOR_PESOS'] = money_format_custom($list['CUOTA_MENOR_PESOS']);
             $rtn[] = $new_list;
         }
         return $rtn;
