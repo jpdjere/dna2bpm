@@ -18,7 +18,7 @@
                 </div>
                 <div class="row-fluid"> 
                     <h2><i class="fa fa-bars"></i> {sgr_nombre} | C.U.I.T.: <span class="text-info">{sgr_cuit}</span></h2>
-                    <p>[Anexo {anexo_short}] SGR {anexo_title} Importado por: [{user_print}]<br/>
+                    <p>[Anexo {anexo_short}] SGR {anexo_title} - Importado por: [{user_print}]<br/>
                         <small>Archivo Procesado: {parameter}</small>                                  
                         <span class="pull-right perfil">
                             Información correspondiente al período {print_period} | <a href="javascript:window.print();"><i class="fa fa-print" alt="Imprimir"></i></a> | <a href='javascript:window.close();'>CERRAR</a><br>
