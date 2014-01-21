@@ -1,7 +1,7 @@
 <?php
 
 class Lib_12_data extends MX_Controller {
-    /* VALIDADOR ANEXO 061 */
+    /* VALIDADOR ANEXO 12 */
 
     public function __construct($parameter) {
         parent::__construct();
@@ -406,10 +406,105 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
-                    
-                    
-                    
                 }
+
+                /* IMPORTE_CRED_GARANT
+                 * Nro L.1
+                 * Detail: 
+                 * Aceptar hasta dos decimales.
+                 */
+
+                if ($parameterArr[$i]['col'] == 12) {
+                    $code_error = "L.1";
+
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+
+                /* MONEDA_CRED_GARANT
+                 * Nro M.1
+                 * Detail: 
+                 * Debe contener uno de los siguientes parámetros:
+                  Pesos Argentinos
+                  Dolares Americanos
+                 */
+                if ($parameterArr[$i]['col'] == 13) {
+                    $code_error = "M.1";
+
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+                /* TASA
+                 * Nro N.1
+                 * Detail: 
+                 * Debe contener uno de los siguientes parámetros:
+                  FIJA
+                  LIBOR
+                  BADLAR PU (Badlar Bancos Públicos)
+                  BADLAR PR (Badlar Bancos Privados)
+                  TEC
+                  TEBP
+                 */
+                if ($parameterArr[$i]['col'] == 14) {
+                    $code_error = "N.1";
+
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $allow_words = array("FIJA", "LIBOR", "BADLAR PU","BADLAR PR","TEC","TEBP");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+
+                //PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
             } // END FOR LOOP->
         }
         $this->data = $stack;
