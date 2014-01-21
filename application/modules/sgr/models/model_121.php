@@ -130,7 +130,7 @@ class Model_121 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->db->$container->find($query);
-        debug($result);
+        
         foreach ($result as $list) {            /* Vars */
             $new_list = array();
             $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
