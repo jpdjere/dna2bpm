@@ -182,6 +182,7 @@ class Sgr extends MX_Controller {
         $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        
 
 
         if (!$filename) {
@@ -456,6 +457,7 @@ class Sgr extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['parameter'] = urldecode($parameter);
+        $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
         $customData['anexo'] = $this->anexo;
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
@@ -464,6 +466,7 @@ class Sgr extends MX_Controller {
         /* PERIOD INFO */
         $get_period_info = $this->sgr_model->get_period_filename($parameter);
         $user = $this->user->get_user($get_period_info['idu']);
+        var_dump($user);
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
