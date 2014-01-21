@@ -10,7 +10,7 @@ class Model_121 extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '062';
+        $this->anexo = '121';
         $this->idu = (int) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
