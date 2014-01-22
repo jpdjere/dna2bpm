@@ -94,9 +94,8 @@ function check_date($parameter) {
     }
 }
 
-function check_period($parameter, $period) {
-    $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
-    $period = $period;
+function check_period($var,$period) {     
+    $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $var, 1900));      
     if ($valida_fecha != $period) {
         return true;
     }

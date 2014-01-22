@@ -12,6 +12,9 @@ class Model_121 extends CI_Model {
 
         $this->anexo = '121';
         $this->idu = (int) $this->session->userdata('iduser');
+        /*SWITCH TO SGR DB*/
+        $this->load->library('cimongo/cimongo','','sgr_db');
+        $this->sgr_db->switch_db('sgr');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -58,7 +61,7 @@ class Model_121 extends CI_Model {
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
-        
+
         /* FIX DATE */
         $parameter['VENCIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['VENCIMIENTO'], 1900));
 
@@ -84,7 +87,8 @@ class Model_121 extends CI_Model {
         $id = $this->app->genid($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
-
+        $parameter['idu'] = $this->idu;
+        
         /*
          * VERIFICO PENDIENTE           
          */
@@ -111,7 +115,7 @@ class Model_121 extends CI_Model {
         $query = array('id' => (integer) $id);
         $status = 'rectificado';
         $parameter = array('status' => $status);
-        $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
@@ -132,9 +136,9 @@ class Model_121 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->db->$container->find($query);
-        
-        foreach ($result as $list) {            /* Vars */
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $list) { /* Vars */
             $new_list = array();
             $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
             $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];

@@ -12,6 +12,9 @@ class Model_123 extends CI_Model {
 
         $this->anexo = '123';
         $this->idu = (int) $this->session->userdata('iduser');
+        /*SWITCH TO SGR DB*/
+        $this->load->library('cimongo/cimongo','','sgr_db');
+        $this->sgr_db->switch_db('sgr');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -60,7 +63,7 @@ class Model_123 extends CI_Model {
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
-        
+
         /* FIX DATE */
         $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
         $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
@@ -87,6 +90,7 @@ class Model_123 extends CI_Model {
         $id = $this->app->genid($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
+        $parameter['idu'] = $this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -114,13 +118,13 @@ class Model_123 extends CI_Model {
         $query = array('id' => (integer) $id);
         $status = 'rectificado';
         $parameter = array('status' => $status);
-        $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN","DIA1","DIA2","DIA3","DIA4","DIA5","DIA6","DIA7","DIA8","DIA9","DIA10","DIA11","DIA12","DIA13","DIA14","DIA15","DIA16","DIA17","DIA18","DIA19","DIA20","DIA21","DIA22","DIA23","DIA24","DIA25","DIA26","DIA27","DIA28","DIA29","DIA30","DIA31","PROMEDIO");
+        $headerArr = array("NRO_ORDEN", "DIA1", "DIA2", "DIA3", "DIA4", "DIA5", "DIA6", "DIA7", "DIA8", "DIA9", "DIA10", "DIA11", "DIA12", "DIA13", "DIA14", "DIA15", "DIA16", "DIA17", "DIA18", "DIA19", "DIA20", "DIA21", "DIA22", "DIA23", "DIA24", "DIA25", "DIA26", "DIA27", "DIA28", "DIA29", "DIA30", "DIA31", "PROMEDIO");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -135,9 +139,9 @@ class Model_123 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->db->$container->find($query);
-        
-        foreach ($result as $list) {            
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $list) {
             /* Vars */
             $new_list = array();
             $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];

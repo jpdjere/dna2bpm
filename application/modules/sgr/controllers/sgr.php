@@ -22,8 +22,8 @@ class Sgr extends MX_Controller {
         $this->load->model('user/rbac');
         $this->load->model('sgr/sgr_model');
         $this->load->helper('sgr/tools');
-        $this->load->library('session');
-
+        $this->load->library('session');        
+       
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
@@ -51,7 +51,7 @@ class Sgr extends MX_Controller {
         $this->period = $this->session->userdata['period'];
     }
 
-    function Index() {
+    function Index() {        
 
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -74,7 +74,6 @@ class Sgr extends MX_Controller {
         $upload = $this->upload_file();
         $customData['processed_tab'] = $this->get_processed_tab($this->anexo);
         $customData['processed_list'] = $this->get_processed($this->anexo);
-
 
 
         if ($upload['success']) {
@@ -325,7 +324,7 @@ class Sgr extends MX_Controller {
             $model = "model_" . $anexo;
             $this->load->Model($model);
             $array = array();
-            //Check Duplicates
+            //Check Duplicates ANEXO 06
             for ($i = 2; $i <= $data->rowcount(); $i++) {
                 $result_data_ = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                 if ($result_data_[5779] == 1) {
@@ -368,7 +367,7 @@ class Sgr extends MX_Controller {
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
                         $customData['sgr_period'] = $this->period;
                         $customData['anexo_list'] = $this->AnexosDB();
-                        $customData['process_filename'] = $new_filename;
+                        $custo_Data['process_filename'] = $new_filename;
                         $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
                         $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                         $this->render('success', $customData);
@@ -465,10 +464,11 @@ class Sgr extends MX_Controller {
         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
         /* PERIOD INFO */
-        $get_period_info = $this->sgr_model->get_period_filename($parameter);
-        var_dump($get_period_info);
+        $get_period_info = $this->sgr_model->get_period_filename($parameter);        
         
-        $user = $this->user->get_user($get_period_info['idu']);        
+        $user = $this->user->get_user($get_period_info['idu']);  
+        
+        var_dump($user->group);
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
