@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_06 extends CI_Model {
+class Model_12 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
@@ -33,171 +33,40 @@ class Model_06 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example ....
+         * @example NRO	CUIT_PARTICIPE	ORIGEN	TIPO	IMPORTE	MONEDA	LIBRADOR_NOMBRE	LIBRADOR_CUIT	NRO_OPERACION_BOLSA	ACREEDOR	CUIT_ACREEDOR	IMPORTE_CRED_GARANT	MONEDA_CRED_GARANT	TASA	PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
          * */
+        
         $defdna = array(
-            1 => 5779, //TIPO_OPERACION
-            2 => 5272, //TIPO_SOCIO
-            3 => 1695, //CUIT
-            4 => 1693, //NOMBRE
-            5 => 4651, //PROVINCIA
-            6 => 1699, //"PARTIDO_MUNICIPIO_COMUNA",
-            7 => 1700, //LOCALIDAD
-            8 => 1698, //CODIGO_POSTAL
-            9 => 4653, //CALLE
-            10 => 4654, //NRO
-            11 => 4655, //PISO
-            12 => 4656, //DTO_OFICINA
-            13 => "CODIGO_AREA", //CODIGO_AREA
-            14 => 1701, //TELEFONO
-            15 => 1703, //EMAIL
-            16 => 1704, //WEB
-            17 => 5208, //CODIGO_ACTIVIDAD_AFIP
-            18 => 19, //"ANIO_MES1",
-            19 => 20, //"MONTO",
-            20 => 21, //"TIPO_ORIGEN",
-            21 => 22, //"ANIO2",
-            22 => 23, //"MONTO2",
-            23 => 24, // "TIPO_ORIGEN2",
-            24 => 25, //"ANIO3",
-            25 => 26, //"MONTO3",
-            26 => 27, //"TIPO ORIGEN3",
-            27 => 5596, //CONDICION_INSCRIPCION_AFIP
-            28 => "CANTIDAD_DE_EMPLEADOS", //CANTIDAD_DE_EMPLEADOS
-            29 => 5253, //TIPO_ACTA
-            30 => 5255, //FECHA_ACTA
-            31 => 5254, //ACTA_NRO. 
-            32 => "FECHA_DE_TRANSACCION", //FECHA_DE_TRANSACCION
-            33 => 5252, //MODALIDAD
-            34 => 5597, //CAPITAL_SUSCRIPTO
-            35 => 5250, //ACCIONES_SUSCRIPTAS
-            36 => 5598, //CAPITAL_INTEGRADO
-            37 => 5251, //ACCIONES_INTEGRADAS
-            38 => 5248, //CEDENTE_CUIT
-            39 => 5292 //CEDENTE_CARACTERISTICA
+            1 => 5214, //"Nro",
+            2 => 5348, //"Participe",
+            3 => 5349, //"Cuit_participe",
+            4 => 5215, //"Origen",
+            5 => 5216, //"Tipo",
+            6 => 5217, //"Ponderacion",
+            7 => 5218, //"Importe",
+            8 => 5219, //"Moneda",
+            9 => 5725, //"Librador_nombre",
+            10 => 5726, //"Librador_cuit",
+            11 => 5727, //"Nro_operacion_bolsa",
+            12 => 5350, //"Acreedor",
+            13 => 5351, //"Cuit_acreedor",
+            14 => 5221, //"Importe_Cred_Garant",
+            15 => 5758, //"Moneda_Cred_Garant",
+            16 => 5222, //"Tasa",
+            17 => 5223, //"Puntos_adic_Cred_Garantizado",
+            18 => 5224, //"Plazo",  
+            19 => 5225, //"Gracia",
+            20 => 5226, //"Period.",
+            21 => 5227, //"if(strtoupper($insertarr[5227])",
+            22 => 5228, //"Tipo_Contragarantia",
+            23 => 5229   //"Valor_Contragarantia"
         );
 
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-            //--- Tipo de Operacion           
-            if ($insertarr[5779] == "INCORPORACION")
-                $insertarr[5779] = "1";
-            if ($insertarr[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-                $insertarr[5779] = "2";
-            if ($insertarr[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-                $insertarr[5779] = "3";
-
-
-
-            //---Parseamos el tipo (hay que sacarlo del nombre)
-            $explodenombre = explode(' ', $insertarr[1693]);
-            //  echo strtoupper($explodenombre[count($explodenombre)-1]).'<br/>';
-            $mistr = strtoupper($explodenombre[count($explodenombre) - 1]);
-
-            if (stristr($mistr, "S.A"))
-                $insertarr[1694] = "1";
-            if (stristr($mistr, "S.C.A"))
-                $insertarr[1694] = "1";
-            if (stristr($mistr, "S.R.L"))
-                $insertarr[1694] = "2";
-            if (stristr($mistr, "SRL"))
-                $insertarr[1694] = "2";
-            if (stristr($mistr, "S.H"))
-                $insertarr[1694] = "7";
-
-            //--- Metemo & metemo la Provincia
-            if ($insertarr[4651] == "CAPITAL FEDERAL")
-                $insertarr[4651] = "CABA";
-            if ($insertarr[4651] == "BUENOS AIRES")
-                $insertarr[4651] = "BA";
-
-            if ($insertarr[4651] == "BUENOS AIRES INTERIOR")
-                $insertarr[4651] = "BA";
-            if ($insertarr[4651] == "BUENOS AIRES CONOURBANO")
-                $insertarr[4651] = "BA";
-
-            if ($insertarr[4651] == "CATAMARCA")
-                $insertarr[4651] = "CAT";
-            if ($insertarr[4651] == "CORDOBA")
-                $insertarr[4651] = "CBA";
-            if ($insertarr[4651] == "CHUBUT")
-                $insertarr[4651] = "CH";
-            if ($insertarr[4651] == "CHACO")
-                $insertarr[4651] = "CHA";
-            if ($insertarr[4651] == "CORRIENTES")
-                $insertarr[4651] = "CTES";
-            if ($insertarr[4651] == "ENTRE RIOS")
-                $insertarr[4651] = "ER";
-            if ($insertarr[4651] == "FORMOSA")
-                $insertarr[4651] = "FOR";
-            if ($insertarr[4651] == "JUJUY")
-                $insertarr[4651] = "JUJ";
-            if ($insertarr[4651] == "LA PAMPA")
-                $insertarr[4651] = "LP";
-            if ($insertarr[4651] == "LA RIOJA")
-                $insertarr[4651] = "LR";
-            if ($insertarr[4651] == "MISIONES")
-                $insertarr[4651] = "MIS";
-            if ($insertarr[4651] == "MENDOZA")
-                $insertarr[4651] = "MZA";
-            if ($insertarr[4651] == "NEUQUEN")
-                $insertarr[4651] = "NEU";
-            if ($insertarr[4651] == "RIO NEGRO")
-                $insertarr[4651] = "RN";
-            if ($insertarr[4651] == "SALTA")
-                $insertarr[4651] = "SAL";
-            if ($insertarr[4651] == "SANTA CRUZ")
-                $insertarr[4651] = "SC";
-            if ($insertarr[4651] == "SANTIAGO DEL ESTERO")
-                $insertarr[4651] = "SDE";
-            if ($insertarr[4651] == "SANTA FE")
-                $insertarr[4651] = "SF";
-            if ($insertarr[4651] == "SAN JUAN")
-                $insertarr[4651] = "SJ";
-            if ($insertarr[4651] == "SAN LUIS")
-                $insertarr[4651] = "SL";
-            if ($insertarr[4651] == "TIERRA DEL FUEGO")
-                $insertarr[4651] = "TDF";
-            if ($insertarr[4651] == "TUCUMAN")
-                $insertarr[4651] = "TUC";
-
-            //Regimen ante AFIP
-            if ($insertarr[5596] == "EXENTO")
-                $insertarr[5596] = "3";
-            if ($insertarr[5596] == "INSCRIPTO")
-                $insertarr[5596] = "1";
-            if ($insertarr[5596] == "MONOTRIBUTISTA")
-                $insertarr[5596] = "2";
-            if ($insertarr[5596] == "NO CATEGORIZADO")
-                $insertarr[5596] = "";
-
-            //Tipo de Acta
-            if ($insertarr[5253] == "")
-                $insertarr[5253] = "";
-            if ($insertarr[5253] == "ACTA DEL CONSEJO DE ADMINISTRACION")
-                $insertarr[5253] = "1";
-            if ($insertarr[5253] == "ASAMBLEA ORDINARIA")
-                $insertarr[5253] = "2";
-            if ($insertarr[5253] == "ASAMBLEA CONSTITUTIVA")
-                $insertarr[5253] = "3";
-
-            //Modalidad            
-            if ($insertarr[5252] == "TRANSFERENCIA")
-                $insertarr[5252] = "1";
-            if ($insertarr[5252] == "SUSCRIPCION")
-                $insertarr[5252] = "2";
-
-            //Formatos numricos para importes
-            $insertarr[5597] = str_replace(",", ".", $insertarr[5597]);
-            $insertarr[5598] = str_replace(",", ".", $insertarr[5598]);
-
-            //  Arreglamo la caracteristica
-            if ($insertarr[5292] == "DISMINUCION DE TENENCIA ACCIONARIA")
-                $insertarr[5292] = "1";
-            if ($insertarr[5292] == "DESVINCULACION")
-                $insertarr[5292] = "2";
+           
         }
         return $insertarr;
     }
@@ -237,7 +106,7 @@ class Model_06 extends CI_Model {
         $id = $this->app->genid($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
-        $parameter['idu']  =    $this->idu;
+        $parameter['idu'] = $this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -269,7 +138,6 @@ class Model_06 extends CI_Model {
         return $rs['err'];
     }
 
-    
     function get_anexo_info($anexo, $parameter) {
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
@@ -296,9 +164,9 @@ class Model_06 extends CI_Model {
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
             $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name=="")?$list['1693']: $brand_name;
+            $brand_name = ($brand_name == "") ? $list['1693'] : $brand_name;
             $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
-            
+
             $this->load->model('app');
             $operation_type = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);
@@ -309,8 +177,8 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
-              
-            
+
+
 
 
             $calc_average = "";
@@ -328,11 +196,11 @@ class Model_06 extends CI_Model {
 
                 $promedio = money_format_custom($sumaMontos / $calc_average);
             }
-            
+
             $sector_value = $this->sgr_model->clae2013($list['5208']);
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
-            $company_type = ($isPyme)? "PyME":""; 
-            
+            $company_type = ($isPyme) ? "PyME" : "";
+
 
             $inner_table = '<table width="100%">';
             if ($list['19']) {
@@ -359,7 +227,7 @@ class Model_06 extends CI_Model {
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>".$grantor_brand_name. "<br/>" . $transfer_characteristic[$list['5292'][0]];
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]];
 
             $rtn[] = $new_list;
         }

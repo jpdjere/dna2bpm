@@ -27,6 +27,25 @@ class Lib_061_error_legend {
             case "B.3": 
                 $result_error = '(Fila Nro.'. $row .') B: Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.';
                 break;
+             case "C.1": 
+                $result_error = '(Fila Nro.'. $row .') C: Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.';
+                break;
+            case "D.1": 
+                $result_error = '(Fila Nro.'. $row .') D: Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.';
+                break;
+            case "E.1": 
+                $result_error = '(Fila Nro.'. $row .') E: Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y debe contener uno de los siguientes parámetros:ASCENDENTE/DESCENDENTE';
+                break;
+            case "E.2": 
+                $result_error = '(Fila Nro.'. $row .') E: Si el número de CUIT informado en la Columna A empieza con 20, 23 o 27 (los tres correspondientes a personas físicas), y se indicó que el Socio SI tiene Relaciones de Vinculación (Columna B), la opción elegida sólo puede ser DESCENDENTE.';
+                break;
+            case "F.1": 
+                $result_error = '(Fila Nro.'. $row .') F: Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.';
+                break;
+            case "F.2": 
+                $result_error = '(Fila Nro.'. $row .') F: De completarse, debe tener formato numérico.';
+                break;
+            
         }
 
         return $result_error;

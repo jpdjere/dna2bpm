@@ -4,9 +4,11 @@
  */
 
 $(document).ready(function() {
-    
+
+
+
     $("#div_period").hide();
-    
+
     /*RECTIFICA HREF*/
     $('[class^="rectifica-link_"]').click(function(event) {
         var parameter = $(this).attr('href');
@@ -15,47 +17,52 @@ $(document).ready(function() {
         var anexo = arr[3];
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
+
         $("input[name$='input_period']").val(input_period);
         $("input[name$='anexo']").val(anexo);
-        $("#period").submit();
+        $('[id^="period_"]').submit();
+        $("#show_anexos").hide();
+
 
     });
+
+
     $('[class^="rectifica-warning_"]').click(function(event) {
-        var get_period = $("#sgr_period").html(); 
+        var get_period = $("#sgr_period").html();
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
         var input_period = arr[2];
         var anexo = arr[3];
         event.preventDefault();
         $.get(globals.module_url + "unset_period_active");
-        bootbox.confirm("El período actual seleccionado ("+get_period+" ) va a dejar de estar activo, desea continuar?", function(result) {
+        bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
             if (result) {
                 $("#div_period").show();
                 $("#show_anexos").hide();
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
                 $("#period").submit();
-                $("#show_anexos").hide();                
+
+
             }
         });
     });
 
 
     $('.dp').datepicker();
-    $("#others").hide();
+    $('[id^="others_"]').hide();
     /*RECTIFICAR*/
-    $('#rectify').change(function() {
-        var option_value = $("#rectify option:selected").val();
+    $('[id^="rectify_"]').change(function() {
+        var option_value = $(this).val();
         if (option_value == 3) {
-            $("#others").show();
+            $('[id^="others_"]').show();
         } else {
-            $("#others").hide();
+            $('[id^="others_"]').hide();
         }
     });
-//
-    /*
-     
-     **/
+
+    
+
 
     function add_no_movement() {
         var no_movement = $('#no_movement').val();
@@ -89,43 +96,6 @@ $(document).ready(function() {
 
 
     $('#dashboard_tab1 a:first').tab('show');
-    $('.nav-tabs li a').click(function(e) {
-
-        var code = $(this).attr('href').split('-');
-        if ($(this).attr('href') == "#tab_resumen") {
-            //$('.meta').hide();
-            $('.ultree').show();
-            $('#filtro_visitas').show();
-        } else {
-
-            $('.ultree').hide();
-            $('#filtro_visitas').hide();
-            $('[data-genia]').each(function(index) {
-                var genia = $(this).attr('data-genia');
-                if (genia != code[1]) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-                //  alert(genia+"/"+code[1]);
-            });
-        }
-
-
-    });
-//==== VISITAS ==== //
-
-    $(document).on("click", ".ul_collapse", function() {
-        $(this).next('UL').slideToggle();
-    });
-// Cargo visitas default
-    $('#wrapper_visitas').load(globals.module_url + 'get_resumen_visitas');
-// cambio el mes
-    $('#dp4').datepicker().on('changeDate', function(ev) {
-        var mes = ev.date.toISOString();
-        $('#wrapper_visitas').load(globals.module_url + 'get_resumen_visitas', {'mes': mes});
-    });
-// Fin ready
 });
 function onUpdateReady() {
     // alert('found new version!');

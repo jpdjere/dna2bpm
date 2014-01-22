@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 $lang['dateFmt']='m/d/Y';
 $lang['dateFmt_JS']='d MM yy';
 $lang['dateTimeFmt']='m/d/Y H:i';
-$lang['thisLang']='English';
+$lang['thisLang']='Spanish';
 $lang['addNew']='add new';
 $lang['search']='search';
 $lang['delete']='delete';

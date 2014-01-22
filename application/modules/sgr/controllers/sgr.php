@@ -64,9 +64,11 @@ class Sgr extends MX_Controller {
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
         $customData['anexo'] = $this->anexo;
-        $customData['anexo_list'] = $this->AnexosDB();
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+        $customData['anexo_list'] = $this->AnexosDB();
+        $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
+
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
@@ -149,10 +151,11 @@ class Sgr extends MX_Controller {
     }
 
     function AnexosDB() {
+        $module_url = base_url() . 'sgr/';
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a href="sgr/anexo_code/' . $anexo['number'] . '">' . $anexo['title'] . '</a></li>';
+            $result .= '<li><a href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
         return $result;
     }
@@ -173,9 +176,14 @@ class Sgr extends MX_Controller {
 
     function Anexo($filename = null) {
         $customData = array();
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
         $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        
 
 
         if (!$filename) {
@@ -193,7 +201,7 @@ class Sgr extends MX_Controller {
         //echo dirname(__FILE__); //$this->module_url;
 
         $original = array($this->sgr_id . '_', $this->anexo . '_', '_');
-        $replaced = array($this->oneAnexoDB_short($this->anexo) . ' - ', strtoupper($this->sgr_nombre) . ' - ', ' ');
+        $replaced = array("Anexo " . $this->oneAnexoDB_short($this->anexo) . ' - ', strtoupper($this->sgr_nombre) . ' - ', ' ');
         $new_filename = str_replace($original, $replaced, $filename);
 
 
@@ -361,12 +369,11 @@ class Sgr extends MX_Controller {
                         $customData['sgr_period'] = $this->period;
                         $customData['anexo_list'] = $this->AnexosDB();
                         $customData['process_filename'] = $new_filename;
-                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')). '</li>';                        
-                        $customData['message'] = '<li>El Archivo ('.$new_filename.') fue importado con exito</li>';                        
+                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
+                        $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                         $this->render('success', $customData);
                         copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
                         unlink($uploadpath);
-                        
                     } else {
 
                         $error = true;
@@ -451,6 +458,7 @@ class Sgr extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['parameter'] = urldecode($parameter);
+        $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
         $customData['anexo'] = $this->anexo;
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
@@ -458,7 +466,9 @@ class Sgr extends MX_Controller {
 
         /* PERIOD INFO */
         $get_period_info = $this->sgr_model->get_period_filename($parameter);
-        $user = $this->user->get_user($get_period_info['idu']);
+        var_dump($get_period_info);
+        
+        $user = $this->user->get_user($get_period_info['idu']);        
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);

@@ -3,14 +3,14 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_123 extends CI_Model {
+class Model_062 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
-
-        $this->anexo = '123';
+        
+        $this->anexo = '062';
         $this->idu = (int) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -33,23 +33,22 @@ class Model_123 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... NRO_GARANTIA	NUMERO_CUOTA_CUYO_VENC_MODIFICA	FECHA_VENC_CUOTA	FECHA_VENC_CUOTA_NUEVA	MONTO_CUOTA	SALDO_AL_VENCIMIENTO
-
+         * @example .... CUIT	ANIO_MES	FACTURACION	EMPLEADOS	TIPO_ORIGEN
 
          * */
         $defdna = array(
-            1 => 'NRO_GARANTIA', //NRO_GARANTIA
-            2 => 'NUMERO_CUOTA_CUYO_VENC_MODIFICA', //NUMERO_CUOTA_CUYO_VENC_MODIFICA
-            3 => 'FECHA_VENC_CUOTA', //FECHA_VENC_CUOTA
-            4 => 'FECHA_VENC_CUOTA_NUEVA', //FECHA_VENC_CUOTA_NUEVA
-            5 => 'MONTO_CUOTA', //MONTO_CUOTA
-            6 => 'SALDO_AL_VENCIMIENTO', //SALDO_AL_VENCIMIENTO
+            1 => 'CUIT', //CUIT
+            2 => 'ANIO_MES', //ANIO_MES
+            3 => 'FACTURACION', //FACTURACION
+            4 => 'EMPLEADOS', //EMPLEADOS
+            5 => 'TIPO_ORIGEN', //TIPO_ORIGEN
         );
 
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            
         }
         return $insertarr;
     }
@@ -60,10 +59,6 @@ class Model_123 extends CI_Model {
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
-        
-        /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
 
         $parameter['period'] = $period;
 
@@ -117,10 +112,12 @@ class Model_123 extends CI_Model {
         $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
+    
+   
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN","DIA1","DIA2","DIA3","DIA4","DIA5","DIA6","DIA7","DIA8","DIA9","DIA10","DIA11","DIA12","DIA13","DIA14","DIA15","DIA16","DIA17","DIA18","DIA19","DIA20","DIA21","DIA22","DIA23","DIA24","DIA25","DIA26","DIA27","DIA28","DIA29","DIA30","DIA31","PROMEDIO");
+        $headerArr = array("CUIT_SOCIO_INCORPORADO", "TIENE_VINCULACION","CUIT_VINCULADO","RAZON_SOCIAL_VINCULADO","TIPO_RELACION_VINCULACION",	"PORCENTAJE_ACCIONES");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -136,19 +133,34 @@ class Model_123 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->db->$container->find($query);
-        
-        foreach ($result as $list) {            
+
+        foreach ($result as $list) {
+
             /* Vars */
+
+            $cuit = str_replace("-", "", $list['1695']);
+            $brand_name = $list['1693'];
+
+
+            $this->load->model('app');
+    
             $new_list = array();
-            $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['FECHA_VENC_CUOTA'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['FECHA_VENC_CUOTA_NUEVA'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['MONTO_CUOTA'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['SALDO_AL_VENCIMIENTO'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
+            $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
+            $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
+            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
+            $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
+            $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
+            $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
+            $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
+            $new_list['"ANIO"'] = $inner_table;
+            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $inscripcion_iva[$list['5596'][0]];
+            $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
+            $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
+            $new_list['MODALIDAD'] = "Modalidad " . $tipo_transaccion[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $caract_transferencia[$list['5292'][0]];
+
             $rtn[] = $new_list;
         }
         return $rtn;
     }
-
 }

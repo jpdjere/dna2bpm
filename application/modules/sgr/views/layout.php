@@ -45,7 +45,7 @@
                                     </b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    {anexo_list}
+                                   {anexo_list}
                                 </ul>
                             </li>
                             <li><a  href="{base_url}user/logout"><i class="fa fa-power-off"></i> Salir</a></li>                            

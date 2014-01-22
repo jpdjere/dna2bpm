@@ -510,7 +510,7 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = cuit_checker(str_replace("-", "", $parameterArr[$i]['fieldValue']));
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -892,7 +892,6 @@ class Lib_06_data extends MX_Controller {
 
                     $range = range(21, 23);
                     if (in_array($parameterArr[$i]['col'], $range)) {
-
                         switch ($parameterArr[$i]['col']) {
                             case 21: //ANIO_MES2                              
                                 $U1_field_value = "";

@@ -3,14 +3,14 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_123 extends CI_Model {
+class Model_122 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '123';
+        $this->anexo = '122';
         $this->idu = (int) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -120,7 +120,7 @@ class Model_123 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN","DIA1","DIA2","DIA3","DIA4","DIA5","DIA6","DIA7","DIA8","DIA9","DIA10","DIA11","DIA12","DIA13","DIA14","DIA15","DIA16","DIA17","DIA18","DIA19","DIA20","DIA21","DIA22","DIA23","DIA24","DIA25","DIA26","DIA27","DIA28","DIA29","DIA30","DIA31","PROMEDIO");
+        $headerArr = array("NRO_GARANTIA","NUMERO_CUOTA_CUYO_VENC_MODIFICA","FECHA_VENC_CUOTA","FECHA_VENC_CUOTA_NUEVA","MONTO_CUOTA","SALDO_AL_VENCIMIENTO");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {

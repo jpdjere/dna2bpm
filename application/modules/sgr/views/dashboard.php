@@ -1,5 +1,3 @@
-
-
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
@@ -27,7 +25,7 @@
 
 <!-- ==== Contenido ==== -->
 <div class="container" > 
-    <h2><i class="fa fa-bars"></i> {anexo_title_cap}</h2>   
+    <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>   
     <!-- RECTIFICATION ALERT-->
     {rectify_message}
    
@@ -45,7 +43,7 @@
     </div>
 
 
-    <div id="div_period">                 
+    <div id="div_period">
         {form_template}
     </div>
 

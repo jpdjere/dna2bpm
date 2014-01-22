@@ -1,23 +1,23 @@
 <?php
 
 /**
-     * Convierte en formato de moneda
-     *
-     * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
-     * @type php
-     * @author Diego
-     * @name money_format
-     *
-     * */
-    function money_format_custom($parameter) {
+ * Convierte en formato de moneda
+ *
+ * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
+ * @type php
+ * @author Diego
+ * @name money_format
+ *
+ * */
+function money_format_custom($parameter) {
 
-        if ($_POST['excel'] == 1) {
-            $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
-        } else {
-            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
-        }
-        return $parameter;
+    if ($_POST['excel'] == 1) {
+        $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+    } else {
+        $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
     }
+    return $parameter;
+}
 
 function compact_serialized($serialized) {
     $mydata = array();
@@ -102,6 +102,26 @@ function check_period($parameter, $period) {
     }
 }
 
+function check_period_minor($parameter, $period) {
+
+    list($getYear, $getMonth) = explode("/", $parameter);
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+
+    $check_date = mktime(0, 0, 0, date($getMonth), date(01), date($getYear));
+    $period = mktime(0, 0, 0, date($getPeriodMonth), date(01), date($getPeriodYear));
+    if ($check_date > $period) {
+        return true;
+    }
+}
+
+function check_decimal($number, $decimal = 2) {
+    $m_factor = pow(10, $decimal);
+    if ((int) ($number * $m_factor) == $number * $m_factor)
+        return false;
+    else
+        return true;
+}
+
 function check_zip_code($parameter) {
     $num_length = strlen((string) $parameter);
     if ($num_length != 8) {
@@ -154,6 +174,47 @@ function check_is_alphabetic($parameter) {
     }
 }
 
+/* CHECK CNV SYNTAX */
+
+function check_cnv_syntax($code) {
+    preg_match_all('/^([^\d]+)(\d+)/', $code, $match);
+    $text = $match[1][0];
+    $num = $match[2][0];
+
+    if (strlen($text) == 4 && strlen($num) == 9) {
+        return $text;
+    }
+}
+
+function check_cnv_syntax_alt($code) {
+    preg_match_all('/^([^\d]+)(\d+)/', $code, $match);
+    $text = $match[1][0];
+    $num = $match[2][0];
+
+    if (strlen($text) == 3 && strlen($num) == 1) {
+        return $text;
+    }
+}
+
+/* CHECK MVL CUITS */
+
+function check_mvl_cuit($cuit) {
+    /*
+      Mercado de Valores de Buenos Aires	MVBA	30-52531837-7
+      Mercado de Valores de Rosario	MROS	30-52917787-5
+      Mercado de Valores de Córdoba	MCOR	30-54286940-9
+      Mercado de Valores de Mendoza	MMZA	33-53787772-9
+      Mercado de Valores del Litoral	MLIT	33-65982192-9
+      Mercado de Valores de Bahía Blanca	MVBB	30-66415280-7
+      Mercado de Valores de Santa Fe	MSFE	30-56627523-2
+     */
+    
+    $mvl_arr = array("30525318377", "30529177875", "30542869409", "33537877729", "33659821929", "30664152807", "30566275232");
+    if (in_array($mvl_arr, $cuit)) {
+        return true;
+    }
+}
+
 /* FIX CLANAE TO CIU */
 
 function cerosClanae($num) {
@@ -170,13 +231,13 @@ function cerosClanae($num) {
 /* CIU */
 
 function ciu($sector) {
-    //AGROPECUARIO
-    //, INDUSTRIA Y MINERIA
-    //, COMERCIO
-    //, SERVICIOS
-    //, CONSTRUCCION
-    //, ADMINISTRACION PUBLICA
-    //, SERVICIO DOMESTICO u ORGANISMOS INTERNACIONALES
+//AGROPECUARIO
+//, INDUSTRIA Y MINERIA
+//, COMERCIO
+//, SERVICIOS
+//, CONSTRUCCION
+//, ADMINISTRACION PUBLICA
+//, SERVICIO DOMESTICO u ORGANISMOS INTERNACIONALES
     $newSectorCode = substr($sector, 0, 3);
     $sectorCode = substr($sector, 0, 2);
     $sector_value = "";
@@ -237,70 +298,73 @@ function ciu($sector) {
 
 //FUNCION VALIDA CUIT
 function cuit_checker($cuit) {
-    $cadena = str_split($cuit);
 
-    $result = $cadena[0] * 5;
-    $result += $cadena[1] * 4;
-    $result += $cadena[2] * 3;
-    $result += $cadena[3] * 2;
-    $result += $cadena[4] * 7;
-    $result += $cadena[5] * 6;
-    $result += $cadena[6] * 5;
-    $result += $cadena[7] * 4;
-    $result += $cadena[8] * 3;
-    $result += $cadena[9] * 2;
+    if (strstr($cuit, '-')) {
+        return false;
+    } else {
+        $cadena = str_split($cuit);
 
-    $div = intval($result / 11);
-    $resto = $result - ($div * 11);
+        $result = $cadena[0] * 5;
+        $result += $cadena[1] * 4;
+        $result += $cadena[2] * 3;
+        $result += $cadena[3] * 2;
+        $result += $cadena[4] * 7;
+        $result += $cadena[5] * 6;
+        $result += $cadena[6] * 5;
+        $result += $cadena[7] * 4;
+        $result += $cadena[8] * 3;
+        $result += $cadena[9] * 2;
 
-    if ($resto == 0) {
-        if ($resto == $cadena[10]) {
+        $div = intval($result / 11);
+        $resto = $result - ($div * 11);
+
+        if ($resto == 0) {
+            if ($resto == $cadena[10]) {
+                return true;
+            } else {
+                return false;
+            }
+        } elseif ($resto == 1) {
+            if ($cadena[10] == 9 AND $cadena[0] == 2 AND $cadena[1] == 3) {
+                return true;
+            } elseif ($cadena[10] == 4 AND $cadena[0] == 2 AND $cadena[1] == 3) {
+                return true;
+            }
+        } elseif ($cadena[10] == (11 - $resto)) {
             return true;
         } else {
             return false;
         }
-    } elseif ($resto == 1) {
-        if ($cadena[10] == 9 AND $cadena[0] == 2 AND $cadena[1] == 3) {
-            return true;
-        } elseif ($cadena[10] == 4 AND $cadena[0] == 2 AND $cadena[1] == 3) {
-            return true;
-        }
-    } elseif ($cadena[10] == (11 - $resto)) {
-        return true;
-    } else {
-        return false;
     }
 }
 
-    /*
-     * PROCESS FNS
-     */
+/*
+ * PROCESS FNS
+ */
 
-    function translate_date($parameter) {
-        if ($parameter == "" || $parameter == NULL) {
-            exit();
-        }
-        $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
-        return strftime("%Y/%m/%d", $parameter);
+function translate_date($parameter) {
+    if ($parameter == "" || $parameter == NULL) {
+        exit();
     }
+    $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
+    return strftime("%Y/%m/%d", $parameter);
+}
 
-    
+/**
+ * Convierte en formato de moneda
+ *
+ * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
+ * @type php
+ * @author Diego
+ * @name money_format
+ *
+ * */
+function _money_format($parameter) {
 
-    /**
-     * Convierte en formato de moneda
-     *
-     * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
-     * @type php
-     * @author Diego
-     * @name money_format
-     *
-     * */
-    function _money_format($parameter) {
-
-        if ($_POST['excel'] == 1) {
-            $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
-        } else {
-            $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
-        }
-        return $parameter;
+    if ($_POST['excel'] == 1) {
+        $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+    } else {
+        $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
     }
+    return $parameter;
+}

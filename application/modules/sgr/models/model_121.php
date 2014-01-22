@@ -3,14 +3,14 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_123 extends CI_Model {
+class Model_121 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '123';
+        $this->anexo = '121';
         $this->idu = (int) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -33,17 +33,15 @@ class Model_123 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... NRO_GARANTIA	NUMERO_CUOTA_CUYO_VENC_MODIFICA	FECHA_VENC_CUOTA	FECHA_VENC_CUOTA_NUEVA	MONTO_CUOTA	SALDO_AL_VENCIMIENTO
-
+         * @example .... "NRO_ORDEN","NRO_CUOTA","VENCIMIENTO","CUOTA_GTA_PESOS","CUOTA_MENOR_PESOS"
 
          * */
         $defdna = array(
-            1 => 'NRO_GARANTIA', //NRO_GARANTIA
-            2 => 'NUMERO_CUOTA_CUYO_VENC_MODIFICA', //NUMERO_CUOTA_CUYO_VENC_MODIFICA
-            3 => 'FECHA_VENC_CUOTA', //FECHA_VENC_CUOTA
-            4 => 'FECHA_VENC_CUOTA_NUEVA', //FECHA_VENC_CUOTA_NUEVA
-            5 => 'MONTO_CUOTA', //MONTO_CUOTA
-            6 => 'SALDO_AL_VENCIMIENTO', //SALDO_AL_VENCIMIENTO
+            1 => 'NRO_ORDEN', //NRO_ORDEN
+            2 => 'NRO_CUOTA', //NRO_CUOTA
+            3 => 'VENCIMIENTO', //VENCIMIENTO
+            4 => 'CUOTA_GTA_PESOS', //CUOTA_GTA_PESOS
+            5 => 'CUOTA_MENOR_PESOS', //CUOTA_MENOR_PESOS
         );
 
 
@@ -62,8 +60,7 @@ class Model_123 extends CI_Model {
         $parameter = array_map('addSlashes', $parameter);
         
         /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
+        $parameter['VENCIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['VENCIMIENTO'], 1900));
 
         $parameter['period'] = $period;
 
@@ -120,7 +117,7 @@ class Model_123 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN","DIA1","DIA2","DIA3","DIA4","DIA5","DIA6","DIA7","DIA8","DIA9","DIA10","DIA11","DIA12","DIA13","DIA14","DIA15","DIA16","DIA17","DIA18","DIA19","DIA20","DIA21","DIA22","DIA23","DIA24","DIA25","DIA26","DIA27","DIA28","DIA29","DIA30","DIA31","PROMEDIO");
+        $headerArr = array("NRO ORDEN", "NRO CUOTA", "VENCIMIENTO", "CUOTA GTA PESOS", "CUOTA MENOR PESOS");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -137,15 +134,13 @@ class Model_123 extends CI_Model {
         $query = array("filename" => $parameter);
         $result = $this->mongo->db->$container->find($query);
         
-        foreach ($result as $list) {            
-            /* Vars */
+        foreach ($result as $list) {            /* Vars */
             $new_list = array();
-            $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['FECHA_VENC_CUOTA'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['FECHA_VENC_CUOTA_NUEVA'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['MONTO_CUOTA'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['SALDO_AL_VENCIMIENTO'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
+            $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
+            $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];
+            $new_list['VENCIMIENTO'] = $list['VENCIMIENTO'];
+            $new_list['CUOTA_GTA_PESOS'] = money_format_custom($list['CUOTA_GTA_PESOS']);
+            $new_list['CUOTA_MENOR_PESOS'] = money_format_custom($list['CUOTA_MENOR_PESOS']);
             $rtn[] = $new_list;
         }
         return $rtn;
