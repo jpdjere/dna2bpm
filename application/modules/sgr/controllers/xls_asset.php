@@ -22,6 +22,7 @@ class xls_asset extends CI_Controller {
         $var = array_shift($this->uri->segments);
         $var = array_shift($this->uri->segments);
         $file = getcwd() . '/anexos_sgr/' . implode('/', $this->uri->segments);
+        $file = str_replace("%20", " ", $file);
         //----get path parts form extension
         $path_parts = pathinfo( $file);
         //---set the type for the headers

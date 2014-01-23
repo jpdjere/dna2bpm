@@ -10,7 +10,7 @@ class Model_12 extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '06';
+        $this->anexo = '12';
         $this->idu = (int) $this->session->userdata('iduser');
         /*SWITCH TO SGR DB*/
         $this->load->library('cimongo/cimongo','','sgr_db');
@@ -91,9 +91,9 @@ class Model_12 extends CI_Model {
         $parameter['period'] = $period;
 
         $parameter['origin'] = 2013;
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             $out = array('status' => 'ok');
@@ -107,7 +107,7 @@ class Model_12 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
@@ -118,7 +118,7 @@ class Model_12 extends CI_Model {
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             /* BORRO SESSION RECTIFY */

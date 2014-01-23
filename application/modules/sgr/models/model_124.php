@@ -12,10 +12,10 @@ class Model_124 extends CI_Model {
 
         $this->anexo = '124';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -67,8 +67,8 @@ class Model_124 extends CI_Model {
         $parameter['FECHA_REAFIANZA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_REAFIANZA'], 1900));
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        $id = $this->app->genid($container);
-        $result = $this->app->put_array($id, $container, $parameter);
+        $id = $this->app->genid_sgr($container);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             $out = array('status' => 'ok');
@@ -82,7 +82,7 @@ class Model_124 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
@@ -93,7 +93,7 @@ class Model_124 extends CI_Model {
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             /* BORRO SESSION RECTIFY */
@@ -141,7 +141,7 @@ class Model_124 extends CI_Model {
             $cuit = str_replace("-", "", $list['CUIT']);
             $this->load->model('padfyj_model');
             $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name:$list['RAZON_SOCIAL'];
+            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
 
 
             $new_list = array();
