@@ -8,6 +8,13 @@ class App extends CI_Model {
     function __construct() {
         parent::__construct();
         $this->idu = (int) $this->session->userdata('iduser');
+
+        /*
+         * SGR PATCH
+         * SWITCH TO SGR DB
+         */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->sgr_db->switch_db('sgr');
     }
 
     /*
@@ -57,12 +64,10 @@ class App extends CI_Model {
         }
     }
 
-    function put_object($object) {        
-        $options = array('upsert' => true, 'safe' => true);        
-        $result = $this->mongo->db->forms->save($object, $options);    
+    function put_object($object) {
+        $options = array('upsert' => true, 'safe' => true);
+        $result = $this->mongo->db->forms->save($object, $options);
         return $result;
-         
-        
     }
 
     function get_apps() {
@@ -180,10 +185,11 @@ class App extends CI_Model {
         return $rtnVal;
     }
 
-    function get_result($container,$query,$fields=array()) {
+    function get_result($container, $query, $fields = array()) {
         $result = $this->mongo->db->selectCollection($container)->find($query, $fields);
         return $result;
     }
+
     function getall($id, $container) {
         $debug = false;
         if ($debug)
@@ -313,13 +319,13 @@ class App extends CI_Model {
         return $this->mongo->db->forms->save($new_form, $options);
     }
 
-    function put_array($id, $container, $val_arr = array()) {        
-        
+    function put_array($id, $container, $val_arr = array()) {
+
         $thisArr = array();
 
         foreach ($val_arr as $idframe => $value) {
             $thisFrame = $this->get_frame($idframe, array('type', 'container'));
-            $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);            
+            $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
         }
         //var_dump($thisArr);
         //----check 4 id
@@ -330,9 +336,34 @@ class App extends CI_Model {
         $criteria = array('id' => $id);
         $update = array('$set' => $thisArr);
         $options = array('upsert' => true, 'safe' => true);
-        
+
         //var_dump($container, json_encode($criteria), json_encode($update));
         $result = $this->mongo->db->selectCollection($container)->update($criteria, $update, $options);
+        $thisArr['id'] = $id;
+        return $thisArr;
+    }
+    
+    /*SGR PATCH*/
+    function put_array_sgr($id, $container, $val_arr = array()) {
+
+        $thisArr = array();
+
+        foreach ($val_arr as $idframe => $value) {
+            $thisFrame = $this->get_frame($idframe, array('type', 'container'));
+            $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
+        }
+        //var_dump($thisArr);
+        //----check 4 id
+        if (!is_numeric($id)) {
+            $id = $this->genid($container);
+        }
+
+        $criteria = array('id' => $id);
+        $update = array('$set' => $thisArr);
+        $options = array('upsert' => true, 'safe' => true);
+
+        //var_dump($container, json_encode($criteria), json_encode($update));
+        $result = $this->mongo->sgr->selectCollection($container)->update($criteria, $update, $options);
         $thisArr['id'] = $id;
         return $thisArr;
     }
@@ -448,6 +479,48 @@ class App extends CI_Model {
         $this->mongo->db->selectCollection($container)->save($insert);
         return $id;
     }
+    
+    /* SGR PATCH */
+    function genid_sgr($container) {
+        $insert = array();
+        $id = mt_rand();
+        $trys = 10;
+        $i = 0;
+        //---if passed specific id
+        if (func_num_args() > 1) {
+            $id = (double) func_get_arg(1);
+            $passed = true;
+            //echo "passed: $id<br>";
+        }
+        $hasone = false;
+
+        while (!$hasone and $i <= $trys) {//---search until found or $trys iterations
+            //while (!$hasone) {//---search until found or 1000 iterations
+            $query = array('id' => $id);
+            $result = $this->mongo->sgr->selectCollection($container)->findOne($query);
+            $i++;
+            if ($result) {
+                if ($passed) {
+                    show_error("id:$id already Exists in $container");
+                    $hasone = true;
+                    break;
+                } else {//---continue search for free id
+                    $id = mt_rand();
+                }
+            } else {//---result is null
+                $hasone = true;
+            }
+        }
+        if (!$hasone) {//-----cant allocate free id
+            show_error("Can't allocate an id in $container after $trys attempts");
+        }
+        //-----make basic object
+        $insert['id'] = $id;
+        //----Allocate id in the collection (may result in empty docs)
+        $this->mongo->sgr->selectCollection($container)->save($insert);
+        return $id;
+    }
+    
 
     function genid_general($container, $fieldname) {
         $insert = array();
@@ -583,11 +656,11 @@ class App extends CI_Model {
         //var_dump($option);
         $option['data'] = (isset($option['data'])) ? $option['data'] : array();
         $option['data'] = (isset($option['fromContainer'])) ? $this->get_ops_from_container($option) : $option['data'];
-       
+
 
         foreach ($option['data'] as $thisop) {
-            /* TODO optimizar */                        
-            if ($idrel) {                 
+            /* TODO optimizar */
+            if ($idrel) {
                 if (in_array($idrel, $thisop)) {
                     $ops[$thisop['value']] = $thisop['text'];
                 }
