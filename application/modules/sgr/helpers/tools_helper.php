@@ -11,6 +11,7 @@
  * */
 function money_format_custom($parameter) {
 
+
     if ($_POST['excel'] == 1) {
         $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
     } else {
@@ -77,6 +78,11 @@ function check_word($parameter, $allow_words) {
 }
 
 function check_date_format($parameter) {
+    if (ctype_alpha($parameter)) {
+        return true;
+        exit();
+    }
+
     $num_length = strlen((string) $parameter);
     if ($num_length != 5) {
         return true;
@@ -94,8 +100,8 @@ function check_date($parameter) {
     }
 }
 
-function check_period($var,$period) {     
-    $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $var, 1900));      
+function check_period($var, $period) {
+    $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $var, 1900));
     if ($valida_fecha != $period) {
         return true;
     }
@@ -114,6 +120,11 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2) {
+    /*Chck if number*/
+    if (ctype_alpha($number)) {
+        return true;
+        exit();
+    }
     $m_factor = pow(10, $decimal);
     if ((int) ($number * $m_factor) == $number * $m_factor)
         return false;
@@ -207,7 +218,7 @@ function check_mvl_cuit($cuit) {
       Mercado de Valores de Bahía Blanca	MVBB	30-66415280-7
       Mercado de Valores de Santa Fe	MSFE	30-56627523-2
      */
-    
+
     $mvl_arr = array("30525318377", "30529177875", "30542869409", "33537877729", "33659821929", "30664152807", "30566275232");
     if (in_array($mvl_arr, $cuit)) {
         return true;
@@ -298,42 +309,49 @@ function ciu($sector) {
 //FUNCION VALIDA CUIT
 function cuit_checker($cuit) {
 
+    if (ctype_alpha($cuit)) {
+        return false;
+        exit();
+    }
+
     if (strstr($cuit, '-')) {
         return false;
-    } else {
-        $cadena = str_split($cuit);
+        exit();
+    }
 
-        $result = $cadena[0] * 5;
-        $result += $cadena[1] * 4;
-        $result += $cadena[2] * 3;
-        $result += $cadena[3] * 2;
-        $result += $cadena[4] * 7;
-        $result += $cadena[5] * 6;
-        $result += $cadena[6] * 5;
-        $result += $cadena[7] * 4;
-        $result += $cadena[8] * 3;
-        $result += $cadena[9] * 2;
+    /* VALIDATOR ALGORITHM */
+    $cadena = str_split($cuit);
 
-        $div = intval($result / 11);
-        $resto = $result - ($div * 11);
+    $result = $cadena[0] * 5;
+    $result += $cadena[1] * 4;
+    $result += $cadena[2] * 3;
+    $result += $cadena[3] * 2;
+    $result += $cadena[4] * 7;
+    $result += $cadena[5] * 6;
+    $result += $cadena[6] * 5;
+    $result += $cadena[7] * 4;
+    $result += $cadena[8] * 3;
+    $result += $cadena[9] * 2;
 
-        if ($resto == 0) {
-            if ($resto == $cadena[10]) {
-                return true;
-            } else {
-                return false;
-            }
-        } elseif ($resto == 1) {
-            if ($cadena[10] == 9 AND $cadena[0] == 2 AND $cadena[1] == 3) {
-                return true;
-            } elseif ($cadena[10] == 4 AND $cadena[0] == 2 AND $cadena[1] == 3) {
-                return true;
-            }
-        } elseif ($cadena[10] == (11 - $resto)) {
+    $div = intval($result / 11);
+    $resto = $result - ($div * 11);
+
+    if ($resto == 0) {
+        if ($resto == $cadena[10]) {
             return true;
         } else {
             return false;
         }
+    } elseif ($resto == 1) {
+        if ($cadena[10] == 9 AND $cadena[0] == 2 AND $cadena[1] == 3) {
+            return true;
+        } elseif ($cadena[10] == 4 AND $cadena[0] == 2 AND $cadena[1] == 3) {
+            return true;
+        }
+    } elseif ($cadena[10] == (11 - $resto)) {
+        return true;
+    } else {
+        return false;
     }
 }
 

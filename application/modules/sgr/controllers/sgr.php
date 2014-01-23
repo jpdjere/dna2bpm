@@ -604,8 +604,7 @@ class Sgr extends MX_Controller {
                     $print_filename = $file['filename'];
                 }
                 /* RECTIFY COUNT */
-                $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
-                
+                $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);                
                 
                 $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                 $download = anchor('sgr/xls_asset/'.$anexo.'/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
