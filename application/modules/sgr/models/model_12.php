@@ -12,10 +12,10 @@ class Model_12 extends CI_Model {
 
         $this->anexo = '12';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -39,7 +39,6 @@ class Model_12 extends CI_Model {
          *
          * @example NRO	CUIT_PARTICIPE	ORIGEN	TIPO	IMPORTE	MONEDA	LIBRADOR_NOMBRE	LIBRADOR_CUIT	NRO_OPERACION_BOLSA	ACREEDOR	CUIT_ACREEDOR	IMPORTE_CRED_GARANT	MONEDA_CRED_GARANT	TASA	PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
          * */
-        
         $defdna = array(
             1 => 5214, //"Nro",
             2 => 5348, //"Participe",
@@ -70,7 +69,8 @@ class Model_12 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-           
+            
+            
         }
         return $insertarr;
     }
@@ -87,6 +87,12 @@ class Model_12 extends CI_Model {
         $parameter[5255] = $arr;
 
         $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
+
+
+        if (strtoupper(trim($insertarr[5219])) == "PESOS ARGENTINOS")
+            $insertarr[5219] = "1";
+        if (strtoupper(trim($insertarr[5219])) == "DOLARES AMERICANOS")
+            $insertarr[5219] = "2";
 
         $parameter['period'] = $period;
 
@@ -164,11 +170,11 @@ class Model_12 extends CI_Model {
 
         foreach ($result as $list) {
 
-            /* Vars */           
+            /* Vars */
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($list['5248']);            
-            $brand_name = ($brand_name) ? $brand_name:$list['1693'];
-            
+            $brand_name = $this->padfyj_model->search_name($list['5248']);
+            $brand_name = ($brand_name) ? $brand_name : $list['1693'];
+
             $this->load->model('app');
             $operation_type = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);

@@ -259,5 +259,19 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
+    
+    function get_investment_options($code) {
+        $container = 'container.sgr_opciones_inversion';
+        $query = array("inciso_art_25" => $code);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        return $result;
+    }
+    
+    function get_depositories($code) {
+        $container = 'container.sgr_entidades_depositarias';
+        $query = array("codigo" => $code);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        return $result;
+    }
 
 }
