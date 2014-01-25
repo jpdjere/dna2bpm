@@ -1,0 +1,316 @@
+<?php
+
+class Lib_16_data extends MX_Controller {
+    /* VALIDADOR ANEXO 16 */
+
+    public function __construct($parameter) {
+        parent::__construct();
+        $this->load->library('session');
+        $this->load->helper('sgr/tools');
+        $this->load->model('sgr/sgr_model');
+
+        /* Vars 
+         * 
+         * $parameters =  
+         * $parameterArr[0]['fieldValue'] 
+         * $parameterArr[0]['row'] 
+         * $parameterArr[0]['col']
+         * $parameterArr[0]['count']
+         * 
+         */
+        $stack = array();
+        $original_array = array();
+        $parameterArr = (array) $parameter;
+        $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+
+        for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
+            /**
+             * BASIC VALIDATION
+             * 
+             * @param 
+             * @type PHP
+             * @name ...
+             * @author Diego             
+             * @example 
+             * PROMEDIO_SALDO_MENSUAL	
+             * SALDO_PROMEDIO_GARANTIAS_VIGENTES	
+             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
+             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
+             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
+             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010	
+             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011	
+             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011	
+             * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
+             * SALDO_PROMEDIO_FDR_CONTINGENTE
+             * */
+            for ($i = 0; $i <= count($parameterArr); $i++) {
+
+                /* PROMEDIO_SALDO_MENSUAL
+                 * Nro A.1
+                 * Detail:
+                 * Debe contener alguno de los siguientes parámetros:
+                  ENERO
+                  FEBRERO
+                  MARZO
+                  ABRIL
+                  MAYO
+                  JUNIO
+                  JULIO
+                  AGOSTO
+                  SEPTIEMBRE
+                  OCTUBRE
+                  NOVIEMBRE
+                  DICIEMBRE
+                 */
+                if ($parameterArr[$i]['col'] == 1) {
+                    $code_error = "A.1";
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                    //Value Validation
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $B1_field_value = "";
+                        $allow_words = array("ENERO",
+                            "FEBRERO",
+                            "MARZO",
+                            "ABRIL",
+                            "MAYO",
+                            "JUNIO",
+                            "JULIO",
+                            "AGOSTO",
+                            "SEPTIEMBRE",
+                            "OCTUBRE",
+                            "NOVIEMBRE",
+                            "DICIEMBRE");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+                /* DESCRIPCION
+                 * Nro BK.1
+                 * Detail:
+                 * Debe contener formato numérico sin decimales.
+                 */
+                
+                $range = range(2, 10);
+                if (in_array($parameterArr[$i]['col'], $range)) {
+                    $code_error = "BK.1";
+                    //empty field Validation                    
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                }
+
+                /* IDENTIFICACION
+                 * Nro C.1
+                 * Detail:
+                 * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                 
+                 */
+                if ($parameterArr[$i]['col'] == 3) {
+                    $code_error = "C.1";
+                    //empty field Validation                    
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                }
+
+                /* EMISOR
+                 * Nro D.1
+                 * Detail:
+                 * En caso de que el CUIT de la Columna E del importador ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR. De no estar registrado algún CUIT, se deberá agregar al Sistema a la lista EMISORES DE OPCIONES DE INVERSIÓN (HOY AÚN NO EXISTE) así queda registrado para el futuro.
+                 * Nro D.2
+                 * Detail:
+                 * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío.
+                 */
+                if ($parameterArr[$i]['col'] == 4) {
+
+                    $code_error = "D.2";
+                    $A1_arr = array("D", "J", "K");
+                    if (in_array($A1_field_value, $A1_arr)) {
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if (!$return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+                /* CUIT_EMISOR
+                 * Nro E.1
+                 * Detail:
+                 * Debe tener 11 caracteres numéricos sin guiones. Se le debe aplicar el Algoritmo Verificador de CUIT de forma de verificar que sea un CUIT existente.
+                 * Nro E.1
+                 * Detail:
+                 * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío. 
+                 */
+                if ($parameterArr[$i]['col'] == 5) {
+                    //empty field Validation
+                    $code_error = "E.1";
+
+                    $code_error = "E.2";
+                    $A1_arr = array("D", "J", "K");
+                    if (in_array($A1_field_value, $A1_arr)) {
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if (!$return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        $code_error = "E.1";
+                        //empty field Validation                    
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                            if (!$return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                }
+
+                /* ENTIDAD_DESPOSITARIA
+                 * Nro F.1
+                 * Detail:
+                 * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.
+                 */
+                if ($parameterArr[$i]['col'] == 6) {
+                    //empty field Validation
+                    $code_error = "F.1";
+                    //empty field Validation                    
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                }
+
+                /* CUIT_DEPOSITARIO
+                 * Nro G.1
+                 * Detail:
+                 * Debe estar compuesta por alguno de los parámetros establecidos en la Columna A de Anexo adjunto (OPCIONES DE INVERSIÓN) a tales efectos.                 
+                 */
+                if ($parameterArr[$i]['col'] == 7) {
+                    $code_error = "G.1";
+                    //empty field Validation                    
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                    $A1_field_value = $parameterArr[$i]['fieldValue'];
+                    $get_value = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
+                    if (!$get_value) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                }
+
+                /* MONEDA
+                 * Nro H.1
+                 * Detail:
+                 * Numero entero mayor a cero.
+                 */
+                if ($parameterArr[$i]['col'] == 8) {
+
+                    $code_error = "H.1";
+
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                }
+
+                /* MONTO
+                 * Nro I.1
+                 * Detail: 
+                 * Aceptar hasta dos decimales.
+                 * Nro I.2
+                 * Detail: 
+                 * Debe validar que la suma total de las inversiones sea igual al Saldo de la Columna 7 – Saldo del Aporte Disponible, de la Impresión del Anexo 20.2 más el saldo de la Columna D del importado de dicho Anexo.
+                 */
+
+                if ($parameterArr[$i]['col'] == 9) {
+                    $code_error = "I.1";
+
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+
+                        $code_error = "I.2";
+                        //Valida contra Mongo
+                    }
+                }
+            } // END FOR LOOP->
+        }
+        $this->data = $stack;
+    }
+
+}
