@@ -23,10 +23,9 @@ OCTUBRE/
 NOVIEMBRE/
 DICIEMBRE';
                 break;
-            case "BK.1":
-                $result_error = '(Fila Nro.' . $row . ') B: Debe contener formato numérico sin decimales.';
+            case "BJ.1":
+                $result_error = '(Fila Nro.' . $row . ') B-J: Debe contener formato numérico sin decimales.';
                 break;
-           
         }
         return $result_error;
     }

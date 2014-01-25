@@ -98,14 +98,14 @@ class Lib_16_data extends MX_Controller {
                 }
 
                 /* DESCRIPCION
-                 * Nro BK.1
+                 * Nro BJ.1
                  * Detail:
                  * Debe contener formato numérico sin decimales.
                  */
                 
                 $range = range(2, 10);
                 if (in_array($parameterArr[$i]['col'], $range)) {
-                    $code_error = "BK.1";
+                    $code_error = "BJ.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
