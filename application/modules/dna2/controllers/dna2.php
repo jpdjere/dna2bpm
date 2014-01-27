@@ -172,7 +172,6 @@ class Dna2 extends MX_Controller {
     }
 
     function render($file, $customData) {
-
         $this->load->model('app');
         $this->load->model('bpm/bpm');
         $this->user->authorize();
@@ -242,6 +241,7 @@ class Dna2 extends MX_Controller {
 
 
         $cpData+=$customData;
+
         $this->ui->compose($file, 'dna2/unicorn.ui.php', $cpData);
     }
 
