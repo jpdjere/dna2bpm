@@ -9,9 +9,14 @@ class Model_062 extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
-        
+
         $this->anexo = '062';
         $this->idu = (int) $this->session->userdata('iduser');
+        /*SWITCH TO SGR DB*/
+        $this->load->library('cimongo/cimongo','','sgr_db');
+        $this->sgr_db->switch_db('sgr');
+        
+        
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -48,7 +53,6 @@ class Model_062 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-            
         }
         return $insertarr;
     }
@@ -63,9 +67,9 @@ class Model_062 extends CI_Model {
         $parameter['period'] = $period;
 
         $parameter['origin'] = 2013;
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             $out = array('status' => 'ok');
@@ -79,9 +83,10 @@ class Model_062 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
+        $parameter['idu'] = $this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -89,7 +94,7 @@ class Model_062 extends CI_Model {
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             /* BORRO SESSION RECTIFY */
@@ -109,15 +114,13 @@ class Model_062 extends CI_Model {
         $query = array('id' => (integer) $id);
         $status = 'rectificado';
         $parameter = array('status' => $status);
-        $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
-    
-   
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("CUIT_SOCIO_INCORPORADO", "TIENE_VINCULACION","CUIT_VINCULADO","RAZON_SOCIAL_VINCULADO","TIPO_RELACION_VINCULACION",	"PORCENTAJE_ACCIONES");
+        $headerArr = array("CUIT_SOCIO_INCORPORADO", "TIENE_VINCULACION", "CUIT_VINCULADO", "RAZON_SOCIAL_VINCULADO", "TIPO_RELACION_VINCULACION", "PORCENTAJE_ACCIONES");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -132,7 +135,7 @@ class Model_062 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->db->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
 
@@ -143,7 +146,7 @@ class Model_062 extends CI_Model {
 
 
             $this->load->model('app');
-    
+
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
             $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
@@ -163,4 +166,5 @@ class Model_062 extends CI_Model {
         }
         return $rtn;
     }
+
 }

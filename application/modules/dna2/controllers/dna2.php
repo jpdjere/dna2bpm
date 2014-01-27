@@ -92,6 +92,12 @@ class Dna2 extends MX_Controller {
         if (in_array(98, $user->group) or in_array(92, $user->group)) {
             redirect('/genias/');
         }
+        
+        //---hook para SGR
+        if (in_array(58, $user->group)){
+            redirect('/sgr/');
+        }
+        
         //---hook para inventory
         if (array_intersect(array(
                     62, //---1.3 Gestión

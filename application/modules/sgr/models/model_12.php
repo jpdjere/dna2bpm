@@ -10,8 +10,12 @@ class Model_12 extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '06';
+        $this->anexo = '12';
         $this->idu = (int) $this->session->userdata('iduser');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->sgr_db->switch_db('sgr');
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -35,7 +39,6 @@ class Model_12 extends CI_Model {
          *
          * @example NRO	CUIT_PARTICIPE	ORIGEN	TIPO	IMPORTE	MONEDA	LIBRADOR_NOMBRE	LIBRADOR_CUIT	NRO_OPERACION_BOLSA	ACREEDOR	CUIT_ACREEDOR	IMPORTE_CRED_GARANT	MONEDA_CRED_GARANT	TASA	PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
          * */
-        
         $defdna = array(
             1 => 5214, //"Nro",
             2 => 5348, //"Participe",
@@ -66,7 +69,8 @@ class Model_12 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-           
+            
+            
         }
         return $insertarr;
     }
@@ -84,12 +88,18 @@ class Model_12 extends CI_Model {
 
         $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
 
+
+        if (strtoupper(trim($insertarr[5219])) == "PESOS ARGENTINOS")
+            $insertarr[5219] = "1";
+        if (strtoupper(trim($insertarr[5219])) == "DOLARES AMERICANOS")
+            $insertarr[5219] = "2";
+
         $parameter['period'] = $period;
 
         $parameter['origin'] = 2013;
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             $out = array('status' => 'ok');
@@ -103,7 +113,7 @@ class Model_12 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
@@ -114,7 +124,7 @@ class Model_12 extends CI_Model {
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             /* BORRO SESSION RECTIFY */
@@ -134,7 +144,7 @@ class Model_12 extends CI_Model {
         $query = array('id' => (integer) $id);
         $status = 'rectificado';
         $parameter = array('status' => $status);
-        $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
@@ -156,16 +166,14 @@ class Model_12 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->db->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
 
             /* Vars */
-            $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name == "") ? $list['1693'] : $brand_name;
-            $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
+            $brand_name = $this->padfyj_model->search_name($list['5248']);
+            $brand_name = ($brand_name) ? $brand_name : $list['1693'];
 
             $this->load->model('app');
             $operation_type = $this->app->get_ops(589);

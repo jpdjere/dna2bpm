@@ -3,18 +3,19 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_123 extends CI_Model {
+class Model_16 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '123';
+        $this->anexo = '16';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -36,23 +37,40 @@ class Model_123 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... NRO_GARANTIA	NUMERO_CUOTA_CUYO_VENC_MODIFICA	FECHA_VENC_CUOTA	FECHA_VENC_CUOTA_NUEVA	MONTO_CUOTA	SALDO_AL_VENCIMIENTO
-
-
+         * @example
+         * PROMEDIO_SALDO_MENSUAL	
+         * SALDO_PROMEDIO_GARANTIAS_VIGENTES	
+         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
+         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
+         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
+         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010	
+         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011	
+         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011	
+         * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
+         * SALDO_PROMEDIO_FDR_CONTINGENTE
          * */
         $defdna = array(
-            1 => 'NRO_GARANTIA', //NRO_GARANTIA
-            2 => 'NUMERO_CUOTA_CUYO_VENC_MODIFICA', //NUMERO_CUOTA_CUYO_VENC_MODIFICA
-            3 => 'FECHA_VENC_CUOTA', //FECHA_VENC_CUOTA
-            4 => 'FECHA_VENC_CUOTA_NUEVA', //FECHA_VENC_CUOTA_NUEVA
-            5 => 'MONTO_CUOTA', //MONTO_CUOTA
-            6 => 'SALDO_AL_VENCIMIENTO', //SALDO_AL_VENCIMIENTO
+            1 => 'PROMEDIO_SALDO_MENSUAL',
+            2 => 'GARANTIAS_VIGENTES',
+            3 => '80_HASTA_FEB_2010',
+            4 => '120_HASTA_FEB_2010',
+            5 => '80_DESDE_FEB_2010',
+            6 => '120_DESDE_FEB_2010',
+            7 => '80_DESDE_ENE_2011',
+            8 => '120_DESDE_ENE_2011',
+            9 => 'FDR_TOTAL_COMPUTABLE',
+            10 => 'FDR_CONTINGENTE'
         );
 
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+
+            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
+                $insertarr["MONEDA"] = "1";
+            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
+                $insertarr["MONEDA"] = "2";
         }
         return $insertarr;
     }
@@ -65,14 +83,9 @@ class Model_123 extends CI_Model {
         $parameter = array_map('addSlashes', $parameter);
 
         /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
-
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -124,7 +137,17 @@ class Model_123 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN", "DIA1", "DIA2", "DIA3", "DIA4", "DIA5", "DIA6", "DIA7", "DIA8", "DIA9", "DIA10", "DIA11", "DIA12", "DIA13", "DIA14", "DIA15", "DIA16", "DIA17", "DIA18", "DIA19", "DIA20", "DIA21", "DIA22", "DIA23", "DIA24", "DIA25", "DIA26", "DIA27", "DIA28", "DIA29", "DIA30", "DIA31", "PROMEDIO");
+
+        $headerArr = array("PROMEDIO_SALDO_MENSUAL"
+            ,"GARANTIAS_VIGENTES"
+            ,"80_HASTA_FEB_2010"
+            ,"120_HASTA_FEB_2010"
+            ,"80_DESDE_FEB_2010"
+            ,"120_DESDE_FEB_2010"
+            ,"80_DESDE_ENE_2011"
+            ,"120_DESDE_ENE_2011"
+            ,"FDR_TOTAL_COMPUTABLE"
+            ,"FDR_CONTINGENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -142,14 +165,30 @@ class Model_123 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-            /* Vars */
+            /* Vars 								
+             */
+
+            $this->load->model('padfyj_model');
+            $transmitter_name = $this->padfyj_model->search_name($list['CUIT_EMISOR']);
+            $transmitter_name = ($transmitter_name) ? $transmitter_name : strtoupper($list['EMISOR']);
+
+            $depositories_name = $this->sgr_model->get_depositories($list['CUIT_DEPOSITARIO']);
+            $depositories_name = ($depositories_name) ? $depositories_name['nombre'] : strtoupper($list['ENTIDAD_DESPOSITARIA']);
+
+            $this->load->model('app');
+            
+            
             $new_list = array();
-            $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['FECHA_VENC_CUOTA'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['FECHA_VENC_CUOTA_NUEVA'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['MONTO_CUOTA'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['SALDO_AL_VENCIMIENTO'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
+            $new_list['PROMEDIO_SALDO_MENSUAL'] = $list['PROMEDIO_SALDO_MENSUAL'];            
+            $new_list['GARANTIAS_VIGENTES'] = money_format_custom($list['GARANTIAS_VIGENTES']);
+            $new_list['80_HASTA_FEB_2010'] = money_format_custom($list['80_HASTA_FEB_2010']);
+            $new_list['120_HASTA_FEB_2010'] = money_format_custom($list['120_HASTA_FEB_2010']);
+            $new_list['80_DESDE_FEB_2010'] = money_format_custom($list['80_DESDE_FEB_2010']);
+            $new_list['120_DESDE_FEB_2010'] = money_format_custom($list['120_DESDE_FEB_2010']);
+            $new_list['80_DESDE_ENE_2011'] = money_format_custom($list['80_DESDE_ENE_2011']);
+            $new_list['120_DESDE_ENE_2011'] = money_format_custom($list['120_DESDE_ENE_2011']);
+            $new_list['FDR_TOTAL_COMPUTABLE'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
+            $new_list['FDR_CONTINGENTE'] = money_format_custom($list['FDR_CONTINGENTE']);
             $rtn[] = $new_list;
         }
         return $rtn;

@@ -12,6 +12,10 @@ class Model_06 extends CI_Model {
 
         $this->anexo = '06';
         $this->idu = (int) $this->session->userdata('iduser');
+        /*SWITCH TO SGR DB*/
+        $this->load->library('cimongo/cimongo','','sgr_db');
+        $this->sgr_db->switch_db('sgr');
+        
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -203,6 +207,9 @@ class Model_06 extends CI_Model {
     }
 
     function save($parameter) {
+        
+       
+        
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -218,9 +225,9 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $period;
 
         $parameter['origin'] = 2013;
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             $out = array('status' => 'ok');
@@ -234,7 +241,7 @@ class Model_06 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        $id = $this->app->genid($container);
+        $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
         $parameter['idu']  =    $this->idu;
@@ -245,7 +252,7 @@ class Model_06 extends CI_Model {
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
-        $result = $this->app->put_array($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             /* BORRO SESSION RECTIFY */
@@ -265,7 +272,7 @@ class Model_06 extends CI_Model {
         $query = array('id' => (integer) $id);
         $status = 'rectificado';
         $parameter = array('status' => $status);
-        $rs = $this->mongo->db->$container->update($query, array('$set' => $parameter), $options);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
@@ -288,15 +295,15 @@ class Model_06 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->db->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
 
             /* Vars */
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name=="")?$list['1693']: $brand_name;
+            $brand_name = $this->padfyj_model->search_name($cuit);            
+            $brand_name = ($brand_name) ? $brand_name:$list['1693'];
             $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
             
             $this->load->model('app');

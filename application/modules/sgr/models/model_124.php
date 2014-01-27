@@ -3,18 +3,19 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_123 extends CI_Model {
+class Model_124 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '123';
+        $this->anexo = '124';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -36,17 +37,15 @@ class Model_123 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... NRO_GARANTIA	NUMERO_CUOTA_CUYO_VENC_MODIFICA	FECHA_VENC_CUOTA	FECHA_VENC_CUOTA_NUEVA	MONTO_CUOTA	SALDO_AL_VENCIMIENTO
-
-
+         * @example .... NRO_GARANTIA	FECHA_REAFIANZA	SALDO_VIGENTE	REAFIANZADO	RAZON_SOCIAL	CUIT
          * */
         $defdna = array(
             1 => 'NRO_GARANTIA', //NRO_GARANTIA
-            2 => 'NUMERO_CUOTA_CUYO_VENC_MODIFICA', //NUMERO_CUOTA_CUYO_VENC_MODIFICA
-            3 => 'FECHA_VENC_CUOTA', //FECHA_VENC_CUOTA
-            4 => 'FECHA_VENC_CUOTA_NUEVA', //FECHA_VENC_CUOTA_NUEVA
-            5 => 'MONTO_CUOTA', //MONTO_CUOTA
-            6 => 'SALDO_AL_VENCIMIENTO', //SALDO_AL_VENCIMIENTO
+            2 => 'FECHA_REAFIANZA', //FECHA_REAFIANZA
+            3 => 'SALDO_VIGENTE', //SALDO_VIGENTE
+            4 => 'REAFIANZADO', //REAFIANZADO
+            5 => 'RAZON_SOCIAL', //RAZON_SOCIAL
+            6 => 'CUIT', //CUIT
         );
 
 
@@ -65,14 +64,10 @@ class Model_123 extends CI_Model {
         $parameter = array_map('addSlashes', $parameter);
 
         /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
-
+        $parameter['FECHA_REAFIANZA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_REAFIANZA'], 1900));
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -124,7 +119,7 @@ class Model_123 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN", "DIA1", "DIA2", "DIA3", "DIA4", "DIA5", "DIA6", "DIA7", "DIA8", "DIA9", "DIA10", "DIA11", "DIA12", "DIA13", "DIA14", "DIA15", "DIA16", "DIA17", "DIA18", "DIA19", "DIA20", "DIA21", "DIA22", "DIA23", "DIA24", "DIA25", "DIA26", "DIA27", "DIA28", "DIA29", "DIA30", "DIA31", "PROMEDIO");
+        $headerArr = array("NRO GARANTIA", "FECHA REAFIANZA", "SALDO VIGENTE", "REAFIANZADO", "RAZON SOCIAL", "CUIT");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -143,13 +138,19 @@ class Model_123 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
+            $cuit = str_replace("-", "", $list['CUIT']);
+            $this->load->model('padfyj_model');
+            $brand_name = $this->padfyj_model->search_name($cuit);
+            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
+
+
             $new_list = array();
             $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['FECHA_VENC_CUOTA'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['FECHA_VENC_CUOTA_NUEVA'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['MONTO_CUOTA'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['SALDO_AL_VENCIMIENTO'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
+            $new_list['FECHA_REAFIANZA'] = $list['FECHA_REAFIANZA'];
+            $new_list['SALDO_VIGENTE'] = money_format_custom($list['SALDO_VIGENTE']);
+            $new_list['REAFIANZADO'] = $list['REAFIANZADO'] . "%";
+            $new_list['RAZON_SOCIAL'] = $brand_name;
+            $new_list['CUIT'] = $list['CUIT'];
             $rtn[] = $new_list;
         }
         return $rtn;

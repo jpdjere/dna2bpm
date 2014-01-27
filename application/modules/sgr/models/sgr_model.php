@@ -14,24 +14,26 @@ class Sgr_model extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
         $this->idu = (int) $this->session->userdata('iduser');
+        /*SWITCH TO SGR DB*/
+        $this->load->library('cimongo/cimongo','','sgr_db');
+        $this->sgr_db->switch_db('sgr');
+
         if (!$this->idu)
             header("$this->module_url/user/logout");
-        /* Set locale to Spansih */
     }
 
     /* RETURN ANEXOS */
-
-    function get_anexos() {
+    function get_anexos() {        
         $container = 'container.sgr_anexos';
-        $result = $this->mongo->db->$container->find();
+        $result = $this->mongo->sgr->$container->find();
         $result->sort(array('id' => 1));
-        return $result;
+        return $result;        
     }
 
     function get_anexo($anexo) {
         $container = 'container.sgr_anexos';
         $query['number'] = $anexo;
-        $result = $this->mongo->db->$container->findOne($query);
+        $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
 
@@ -39,7 +41,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
         $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, "period" => $period);
-        $result = $this->mongo->db->$container->findOne($query, $fields);
+        $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
 
@@ -47,7 +49,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
         $query = array('status' => 'rectificado', 'anexo' => $anexo, 'sgr_id' => $sgr_id, 'period' => $period);
-        $result = $this->mongo->db->$container->find($query, $fields);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
         return $result->count();
     }
 
@@ -55,7 +57,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id', 'idu');
         $query = array("filename" => $filename);
-        $result = $this->mongo->db->$container->findOne($query, $fields);
+        $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
 
@@ -66,7 +68,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename');
         $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
-        $result = $this->mongo->db->$container->find($query, $fields);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
 
         foreach ($result as $list) {
             $rtn[] = $list;
@@ -76,7 +78,6 @@ class Sgr_model extends CI_Model {
 
     function get_sgr() {
         $rtn = array();
-        $this->load->model('user/user');
         $idu = (int) $this->idu;
         $data = array();
         // Listado de empresas
@@ -223,7 +224,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.sgr_clae2013';
         $query = array("codigo" => $code);
         $fields = array("sector", "codigo");
-        $result = $this->mongo->db->$container->findOne($query, $fields);
+        $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result['sector'];
     }
 
@@ -232,7 +233,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.sgr_size_empresa';
         $query = array("sector" => $sector, "average" => $average);
         $fields = array("average");
-        $result = $this->mongo->db->$container->findOne();
+        $result = $this->mongo->sgr->$container->findOne();
         //var_dump($result["average"]);
 
         $resultSize = ($average <= $result["average"]) ? true : false;
@@ -243,22 +244,34 @@ class Sgr_model extends CI_Model {
 
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
-        foreach ($sgrArr as $sgr) {          
+        foreach ($sgrArr as $sgr) {
             $this->sgr_cuit = $sgr['1695'];
         }
         $container = 'container.sgr_code_CNV';
-        $query = array("codigo" => $code, "cuit_sgr" => $this->sgr_cuit);        
-        $result = $this->mongo->db->$container->findOne($query);        
+        $query = array("codigo" => $code, "cuit_sgr" => $this->sgr_cuit);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        return $result;
+    }
+
+    function get_warranty_type($code) {
+        $container = 'container.sgr_tipo_garantias';
+        $query = array("codigo" => $code);
+        $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
     
-    function get_warranty_type($code) {
-        $container = 'container.sgr_tipo_garantias';
-        $query = array("codigo" => $code);        
-        $result = $this->mongo->db->$container->findOne($query);        
+    function get_investment_options($code) {
+        $container = 'container.sgr_opciones_inversion';
+        $query = array("inciso_art_25" => $code);
+        $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
-        
-        
+    }
+    
+    function get_depositories($code) {
+        $container = 'container.sgr_entidades_depositarias';
+        $query = array("codigo" => $code);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        return $result;
     }
 
 }
