@@ -105,7 +105,7 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Check Date Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -135,7 +135,7 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     
-                    if ($parameterArr[$i]['fieldValue'] != "") {                       
+                    if (isset($parameterArr[$i]['fieldValue'])) {                       
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -165,7 +165,7 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     
-                    if ($parameterArr[$i]['fieldValue'] != "") {                       
+                    if (isset($parameterArr[$i]['fieldValue'])) {                       
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;

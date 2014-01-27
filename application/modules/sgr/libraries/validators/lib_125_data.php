@@ -56,7 +56,7 @@ class Lib_125_data extends MX_Controller {
                     }
 
                     //cuit checker
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result["error_code"] = $code_error;
@@ -90,7 +90,7 @@ class Lib_125_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //cuit checker
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result["error_code"] = $code_error;
@@ -124,7 +124,7 @@ class Lib_125_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -158,7 +158,7 @@ class Lib_125_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -192,7 +192,7 @@ class Lib_125_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;

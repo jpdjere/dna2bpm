@@ -1,13 +1,13 @@
 <?php
 
-class Lib_062_data extends MX_Controller {
-    /* VALIDADOR ANEXO 061 */
+class Lib_202_data extends MX_Controller {
+    /* VALIDADOR ANEXO 12.5 */
 
     public function __construct($parameter) {
         parent::__construct();
         $this->load->library('session');
-
         $this->load->helper('sgr/tools');
+        $this->load->model('sgr/sgr_model');
 
         /* Vars 
          * 
@@ -23,23 +23,39 @@ class Lib_062_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
 
-
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
-
-            /* Validacion Basica */
+            /**
+             * BASIC VALIDATION
+             * 
+             * @param 
+             * @type PHP
+             * @name ...
+             * @author Diego             
+             * @example 
+             * NUMERO_DE_APORTE	
+             * CONTINGENTE_PROPORCIONAL_ASIGNADO	
+             * DEUDA_PROPORCIONAL_ASIGNADA	
+             * RENDIMIENTO_ASIGNADO
+             * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
-                /* CUIT
+                /* NUMERO_DE_APORTE
                  * Nro A.1
                  * Detail:
-                 * Debe tener 11 caracteres numéricos sin guiones.               
+                 * Formato numérico sin decimales.
+                 * Nro A.2
+                 * Detail:
+                  Debe validar que el número de aporte se encuentre registrado en el Sistema.
+                 * Nro A.3
+                 * Detail:
+                  Debe validar que, al menos, se encuentre listados todos los números de aportes que, tengan SALDOS DE APORTE mayores a Cero.
+                 * Nro A.4
+                 * Detail:
+                  Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna B sea Cero y que la Columna D tenga un monto informado.
                  */
-
                 if ($parameterArr[$i]['col'] == 1) {
-
                     $code_error = "A.1";
-
-                    //empty field Validation
+                    //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
@@ -48,65 +64,68 @@ class Lib_062_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    //cuit checker
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                            array_push($stack, $result);
-                        }
-                    }
 
-                    $code_error = "A.2";
-                    //Valida contra Mongo
-                }
-
-                /* ANIO_MES
-                 * Nro B.1
-                 * Detail:
-                 * Debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12.
-                 * Nro B.2
-                 * Detail:
-                 * El año debe ser igual o menor al del período en que se está informando.
-                 */
-
-                if ($parameterArr[$i]['col'] == 2) {
-
-                    $code_error = "B.1";
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_date($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-                            $code_error = "R.2";
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                            array_push($stack, $result);
-                        }
-
-                        /* PERIOD */
-                        $code_error = "B.2";                                            
-                        $return = check_period_minor($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         }
+
+                        $code_error = "A.2";
+                        //Valida contra Mongo
+
+                        $code_error = "A.3";
+                        //Valida contra Mongo
                     }
                 }
 
 
-                /* FACTURACION
+                /* CONTINGENTE_PROPORCIONAL_ASIGNADO
+                 * Nro B.1
+                 * Detail:
+                 * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                
+                 */
+                if ($parameterArr[$i]['col'] == 2) {
+                    $code_error = "B.1";
+                    //empty field Validation                    
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                    if (isset($parameterArr[$i]['fieldValue'])) {
+
+
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        } else {                            if ($parameterArr[$i]['fieldValue'] < 1) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+                }
+
+                /* DEUDA_PROPORCIONAL_ASIGNADA
                  * Nro C.1
                  * Detail:
-                 * Debe ser formato numérico y aceptar hasta dos decimales.
+                 * OPCIONAL. Valor con formato numérico positivo,  que acepte hasta dos decimales.
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $code_error = "C.1";
+                    $code_error = "C.1";
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -116,14 +135,17 @@ class Lib_062_data extends MX_Controller {
                         }
                     }
                 }
-                /* EMPLEADOS
+
+                /* RENDIMIENTO_ASIGNADO
                  * Nro D.1
                  * Detail:
-                 * Numero entero mayor a cero.
+                 * Valor con formato numérico,  que acepte hasta dos decimales.
+                 * 
                  */
                 if ($parameterArr[$i]['col'] == 4) {
-                    //empty field Validation
-                   $code_error = "D.1";
+
+                    $code_error = "D.1";
+                    //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
@@ -132,8 +154,7 @@ class Lib_062_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        
-                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -142,27 +163,9 @@ class Lib_062_data extends MX_Controller {
                         }
                     }
                 }
-                /* EMPLEADOS
-                 * Nro E.1
-                 * Detail:
-                 * Numero entero mayor a cero.
-                 */
-                if ($parameterArr[$i]['col'] == 5) {
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $code_error = "E.1";
-                        $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                            array_push($stack, $result);
-                        } 
-                    }
-                }
-            }
+            } // END FOR LOOP->
         }
-        $this->data = $stack;        
+        $this->data = $stack;
     }
 
 }

@@ -12,11 +12,11 @@ class Model_061 extends CI_Model {
 
         $this->anexo = '061';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
-        
+
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -38,7 +38,7 @@ class Model_061 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... CUIT_SOCIO_INCORPORADO 	TIENE_VINCULACION	CUIT_VINCULADO	RAZON_SOCIAL_VINCULADO	TIPO_RELACION_VINCULACION	PORCENTAJE_ACCIONES
+         * @example .... 
          * */
         $defdna = array(
             1 => 'CUIT_SOCIO_INCORPORADO', //CUIT_SOCIO_INCORPORADO
@@ -119,7 +119,17 @@ class Model_061 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("CUIT_SOCIO_INCORPORADO", "TIENE_VINCULACION", "CUIT_VINCULADO", "RAZON_SOCIAL_VINCULADO", "TIPO_RELACION_VINCULACION", "PORCENTAJE_ACCIONES");
+        $headerArr = array("TIPO<br/>DE<br/>SOCIO",
+            "CUIT SOCIO<br/>INCORPORADO",
+            "SOCIO<br/>INCORPORADO",
+            "TIENE<br/>VINCULACION",
+            "CUIT<br/>VINCULADO",
+            "RAZON<br/>SOCIAL<br/>VINCULADO",
+            "TIPO<br/>RELACION<br/>VINCULACION",
+            "PORCENTAJE<br/>ACCIONES",
+            "ES<br/>PARTICIPE",
+            "ES<br/>PROTECTOR"
+            );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -142,24 +152,29 @@ class Model_061 extends CI_Model {
 
             $cuit = str_replace("-", "", $list['1695']);
             $brand_name = $list['1693'];
-
-
             $this->load->model('app');
+            $this->load->model('padfyj_model');
+            
+            $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
+            $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
 
+            
+            
+            // 					
+            
             $new_list = array();
-            $new_list['TIPO_OPERACION'] = $tipo_operacion[$list['5779'][0]];
-            $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $tipo_socio[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
-            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
-            $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
-            $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
-            $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
-            $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]";
-            $new_list['"ANIO"'] = $inner_table;
-            $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $inscripcion_iva[$list['5596'][0]];
-            $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
-            $new_list['ACTA'] = "Tipo: " . $acta_tipo[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
-            $new_list['MODALIDAD'] = "Modalidad " . $tipo_transaccion[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $caract_transferencia[$list['5292'][0]];
+            $new_list['TIPO_SOCIO'] = "";           
+            $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];
+            $new_list['SOCIO_INCORPORADO'] = $parner_inc;
+            $new_list['"TIENE_VINCULACION"'] = $list['TIENE_VINCULACION'];
+            $new_list['"CUIT_VINCULADO"'] = $list['CUIT_VINCULADO'];
+            $new_list['"RAZON_SOCIAL_VINCULADO"'] = $parner_linked;
+            $new_list['"TIPO_RELACION_VINCULACION"'] = $list['TIPO_RELACION_VINCULACION'];
+            $new_list['"PORCENTAJE_ACCIONES"'] = $list['PORCENTAJE_ACCIONES']."%";
+            $new_list['"PARTICIPE"'] = "";
+            $new_list['"PROTECTOR"'] = "";
+            
+            
 
             $rtn[] = $new_list;
         }

@@ -73,7 +73,7 @@ class Lib_16_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $B1_field_value = "";
                         $allow_words = array("ENERO",
                             "FEBRERO",

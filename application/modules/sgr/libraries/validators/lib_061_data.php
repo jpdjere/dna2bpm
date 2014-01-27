@@ -57,7 +57,7 @@ class Lib_061_data extends MX_Controller {
                     }
 
                     //cuit checker
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result["error_code"] = $code_error;
@@ -101,7 +101,7 @@ class Lib_061_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $B1_field_value = "";
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -180,7 +180,7 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         //Value Validation
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $B1_field_value = "";
                             $allow_words = array("ASCENDENTE", "DESCENDENTE");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);

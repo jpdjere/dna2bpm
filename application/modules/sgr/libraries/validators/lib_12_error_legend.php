@@ -66,12 +66,12 @@ class Lib_12_error_legend {
                 break;
             case "K.3   ": 
                 $result_error = '(Fila Nro.'. $row .') K : i el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFEF1, GFEF2, GFEF3 Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
-                break;
-            case "L.2": 
+                break;            
+            case "L.1": 
                 $result_error = '(Fila Nro.'. $row .') L : Aceptar hasta dos decimales.';
                 break;
-            case "M.2": 
-                $result_error = '(Fila Nro.'. $row .') M : Debe contener uno de los siguientes parámetros: Pesos Argentinos/Dolares Americanos';
+            case "M.1": 
+                $result_error = '(Fila Nro.'. $row .') M : Debe contener uno de los siguientes parámetros: PESOS ARGENTINOS/DOLARES AMERICANOS';
                 break;
             case "N.1": 
                 $result_error = '(Fila Nro.'. $row .') N : Debe contener uno de los siguientes parámetros:FIJA/LIBOR/BADLAR PU (Badlar Bancos Públicos)/BADLAR PR (Badlar Bancos Privados)/TEC/TEBP';
@@ -104,7 +104,7 @@ class Lib_12_error_legend {
                 $result_error = '(Fila Nro.'. $row .') S : Si en la Columna “T” se indicó que la Periodicidad de los pagos es PAGO UNICO, este campo sólo puede indicar PAGO UNICO.';
                 break;
             case "T.1": 
-                $result_error = '(Fila Nro.'. $row .')  : Debe contener uno de los siguientes parámetros:OBRA CIVIL/BIENES DE CAPITAL/INMUEBLES/CAPITAL DE TRABAJO/PROYECTO DE INVERSIÓN';
+                $result_error = '(Fila Nro.'. $row .') T : Debe contener uno de los siguientes parámetros:OBRA CIVIL/BIENES DE CAPITAL/INMUEBLES/CAPITAL DE TRABAJO/PROYECTO DE INVERSION';
                 break;            
         }
         return $result_error;

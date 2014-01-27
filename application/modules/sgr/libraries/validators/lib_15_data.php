@@ -159,7 +159,7 @@ class Lib_15_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -232,7 +232,7 @@ class Lib_15_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -264,7 +264,7 @@ class Lib_15_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
 
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {

@@ -3,19 +3,18 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_062 extends CI_Model {
+class Model_201 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '062';
+        $this->anexo = '201';
         $this->idu = (int) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-
 
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -38,21 +37,55 @@ class Model_062 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... 
-
+         * @example
+         * NUMERO_DE_APORTE	
+         * FECHA_MOVIMIENTO	
+         * CUIT_PROTECTOR	
+         * APORTE	
+         * RETIRO	
+         * RETENCION_POR_CONTINGENTE	
+         * RETIRO_DE_RENDIMIENTOS	
+         * ESPECIE	
+         * TITULAR_ORIG	
+         * NRO_CTA_OR	
+         * ENTIDAD_OR	
+         * ENT_DEP_OR	
+         * TITULAR_DEST	
+         * NRO_DEST	
+         * ENTIDAD_DEST	
+         * ENT_DEP_DEST	
+         * FECHA_ACTA	
+         * NRO_ACTA
          * */
         $defdna = array(
-            1 => 'CUIT', //CUIT
-            2 => 'ANIO_MES', //ANIO_MES
-            3 => 'FACTURACION', //FACTURACION
-            4 => 'EMPLEADOS', //EMPLEADOS
-            5 => 'TIPO_ORIGEN', //TIPO_ORIGEN
+            1 => 'NUMERO_DE_APORTE',
+            2 => 'FECHA_MOVIMIENTO',
+            3 => 'CUIT_PROTECTOR',
+            4 => 'APORTE',
+            5 => 'RETIRO',
+            6 => 'RETENCION_POR_CONTINGENTE',
+            7 => 'RETIRO_DE_RENDIMIENTOS',
+            8 => 'ESPECIE',
+            9 => 'TITULAR_ORIG',
+            10 => 'NRO_CTA_OR',
+            11 => 'ENTIDAD_OR',
+            12 => 'ENT_DEP_OR',
+            13 => 'TITULAR_DEST',
+            14 => 'NRO_DEST',
+            15 => 'ENTIDAD_DEST',
+            16 => 'ENT_DEP_DEST',
+            17 => 'FECHA_ACTA',
+            18 => 'NRO_ACTA'
         );
-
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+
+            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
+                $insertarr["MONEDA"] = "1";
+            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
+                $insertarr["MONEDA"] = "2";
         }
         return $insertarr;
     }
@@ -63,12 +96,16 @@ class Model_062 extends CI_Model {
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
-
+        
+        
+        /* FIX DATE */
+        $parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
+        $parameter['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_ACTA'], 1900));
+        
+        
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -119,15 +156,26 @@ class Model_062 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-        
 
-        $headerArr = array("APELLIDO Y NOMBRE O RAZON SOCIAL",
-            "C.U.I.T",
-            "MES",
-            "AÑO",
-            "FACTURACIÓN",
-            "EMPLEADOS(*)"
-            );
+
+        $headerArr = array("NUMERO_DE_APORTE",
+            "FECHA_MOVIMIENTO",
+            "CUIT_PROTECTOR",
+            "APORTE",
+            "RETIRO",
+            "RETENCION_POR_CONTINGENTE",
+            "RETIRO_DE_RENDIMIENTOS",
+            "ESPECIE",
+            "TITULAR_ORIG",
+            "NRO_CTA_OR",
+            "ENTIDAD_OR",
+            "ENT_DEP_OR",
+            "TITULAR_DEST",
+            "NRO_DEST",
+            "ENTIDAD_DEST",
+            "ENT_DEP_DEST",
+            "FECHA_ACTA",
+            "NRO_ACTA");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -138,28 +186,42 @@ class Model_062 extends CI_Model {
     }
 
     function get_anexo_data($anexo, $parameter) {
-        header('Content-type: text/html; charset=UTF-8');
+        header('Content-type: text / html;
+        charset = UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
+            /* Vars 								
+             */
 
-            /* Vars */
-            $this->load->model('app');
             $this->load->model('padfyj_model');
+            $this->load->model('app');
             
-            $parner = $this->padfyj_model->search_name($list['CUIT']);
-            list($year,$month) = explode("/", $list['ANIO_MES']);
-            
+            //				
+
+
             $new_list = array();
-            $new_list['CUIT'] = $list['CUIT'];
-            $new_list['SOCIO'] = $parner;
-            $new_list['MES'] = $month;
-            $new_list['ANO'] = $year;
-            $new_list['FACTURACION'] = $list['FACTURACION'];
-            $new_list['EMPLEADOS'] = $list['EMPLEADOS'];
+            $new_list['NUMERO_DE_APORTE'] = $list['NUMERO_DE_APORTE'];
+            $new_list['FECHA_MOVIMIENTO'] = $list['FECHA_MOVIMIENTO'];
+            $new_list['CUIT_PROTECTOR'] = $list['CUIT_PROTECTOR'];
+            $new_list['APORTE'] = money_format_custom($list['APORTE']);
+            $new_list['RETIRO'] = money_format_custom($list['RETIRO']);
+            $new_list['RETENCION_POR_CONTINGENTE'] = money_format_custom($list['RETENCION_POR_CONTINGENTE']);
+            $new_list['RETIRO_DE_RENDIMIENTOS'] = money_format_custom($list['RETIRO_DE_RENDIMIENTOS']);
+            $new_list['ESPECIE'] = $list['ESPECIE'];
+            $new_list['TITULAR_ORIG'] = $list['TITULAR_ORIG'];
+            $new_list['NRO_CTA_OR'] = $list['NRO_CTA_OR'];
+            $new_list['ENTIDAD_OR'] = $list['ENTIDAD_OR'];
+            $new_list['ENT_DEP_OR'] = $list['ENT_DEP_OR'];
+            $new_list['TITULAR_DEST'] = $list['TITULAR_DEST'];
+            $new_list['NRO_DEST'] = $list['NRO_DEST'];
+            $new_list['ENTIDAD_DEST'] = $list['ENTIDAD_DEST'];
+            $new_list['ENT_DEP_DEST'] = $list['ENT_DEP_DEST'];
+            $new_list['FECHA_ACTA'] = $list['FECHA_ACTA'];
+            $new_list['NRO_ACTA'] = $list['NRO_ACTA'];
             $rtn[] = $new_list;
         }
         return $rtn;

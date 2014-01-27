@@ -52,7 +52,7 @@ class Lib_06_data extends MX_Controller {
                     }
 
                     //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $A1_field_value = "";
                         $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -88,7 +88,7 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $B1_field_value = "";
                         $allow_words = array("A", "B");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -125,7 +125,7 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $allow_words = array("AGE", "AGO", "ACA", "EC");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -154,7 +154,7 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Check Date Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -176,7 +176,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "AE.1";
 
                     //Check Numeric Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if ($parameterArr[$i]['fieldValue']!="") {
                         $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -196,7 +196,7 @@ class Lib_06_data extends MX_Controller {
 
                     $code_error = "AF.1";
                     //Check Date Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $AF_field_value = "";
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -256,7 +256,7 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $AG_field_value = "";
                         $allow_words = array("SUSCRIPCION", "TRANSFERENCIA");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -312,7 +312,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                             //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            if (isset($parameterArr[$i]['fieldValue'])) {
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
@@ -335,7 +335,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                             //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            if (isset($parameterArr[$i]['fieldValue'])) {
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
@@ -357,7 +357,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                             //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            if (isset($parameterArr[$i]['fieldValue'])) {
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
@@ -379,7 +379,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                             //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            if (isset($parameterArr[$i]['fieldValue'])) {
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
@@ -463,7 +463,7 @@ class Lib_06_data extends MX_Controller {
                             }
 
                             $code_error = "AM.4";
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            if (isset($parameterArr[$i]['fieldValue'])) {
                                 $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
 
                                 $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -509,7 +509,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -552,7 +552,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $allow_words = array("CAPITAL FEDERAL", "BUENOS AIRES", "CATAMARCA", "CORDOBA", "CHUBUT", "CHACO", "CORRIENTES", "ENTRE RIOS", "FORMOSA", "JUJUY", "LA PAMPA", "LA RIOJA", "MISIONES", "MENDOZA", "NEUQUEN", "RIO NEGRO", "SALTA", "SANTA CRUZ", "SANTIAGO DEL ESTERO", "SANTA FE", "SAN JUAN", "SAN LUIS", "TIERRA DEL FUEGO", "TUCUMAN");
 
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -612,7 +612,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = check_zip_code($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
@@ -671,7 +671,7 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
                         }
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = check_area_code($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -696,7 +696,7 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
                         }
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = check_phone_number($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -713,8 +713,8 @@ class Lib_06_data extends MX_Controller {
                      */
                     if ($parameterArr[$i]['col'] == 15) {
                         $code_error = "O.1";
-
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        
+                        if ($parameterArr[$i]['fieldValue']!="") {
                             $return = check_email($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
@@ -732,7 +732,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 16) {
                         $code_error = "P.1";
 
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if ($parameterArr[$i]['fieldValue']!="") {
                             $return = check_web($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
@@ -760,7 +760,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -791,7 +791,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         //Value Validation
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $allow_words = array("EXCENTO", "INSCRIPTO", "MONOSTRIBUTISTA");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
@@ -822,7 +822,7 @@ class Lib_06_data extends MX_Controller {
                             case 18: //ANIO_MES1                              
                                 $R1_field_value = "";
                                 $R2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "R.2";
@@ -841,7 +841,7 @@ class Lib_06_data extends MX_Controller {
                             case 19://MONTO
                                 //Check Numeric Validation
                                 $S2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $code_error = "S.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
@@ -859,7 +859,7 @@ class Lib_06_data extends MX_Controller {
                             case 20://TIPO_ORIGEN
                                 //Value Validation
                                 $T2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $code_error = "T.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
                                     $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -896,7 +896,7 @@ class Lib_06_data extends MX_Controller {
                             case 21: //ANIO_MES2                              
                                 $U1_field_value = "";
                                 $U2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "U.2";
@@ -915,7 +915,7 @@ class Lib_06_data extends MX_Controller {
                             case 22://MONTO
                                 //Check Numeric Validation
                                 $V2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $code_error = "V.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
@@ -933,7 +933,7 @@ class Lib_06_data extends MX_Controller {
                             case 23://TIPO_ORIGEN
                                 //Value Validation
                                 $W2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $code_error = "W.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
                                     $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -971,7 +971,7 @@ class Lib_06_data extends MX_Controller {
                             case 24: //ANIO_MES3                                        
                                 $X1_field_value = "";
                                 $X2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
                                         $code_error = "X.2";
@@ -990,7 +990,7 @@ class Lib_06_data extends MX_Controller {
                             case 25://MONTO
                                 //Check Numeric Validation                                
                                 $Y2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $code_error = "Y.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
@@ -1008,7 +1008,7 @@ class Lib_06_data extends MX_Controller {
                             case 26://TIPO_ORIGEN
                                 //Value Validation
                                 $Z2_field_value = "";
-                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                if (isset($parameterArr[$i]['fieldValue'])) {
                                     $code_error = "Z.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS", "ESTIMACION");
                                     $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -1065,7 +1065,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                             //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            if (isset($parameterArr[$i]['fieldValue'])) {
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
@@ -1374,7 +1374,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         //Value Validation
-                        if ($parameterArr[$i]['fieldValue'] != "") {
+                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $allow_words = array("SUSCRIPCION");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {

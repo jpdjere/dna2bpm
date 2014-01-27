@@ -3,19 +3,18 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_062 extends CI_Model {
+class Model_202 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '062';
+        $this->anexo = '202';
         $this->idu = (int) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-
 
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -38,17 +37,18 @@ class Model_062 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... 
-
+         * @example
+         * NUMERO_DE_APORTE	
+         * CONTINGENTE_PROPORCIONAL_ASIGNADO	
+         * DEUDA_PROPORCIONAL_ASIGNADA	
+         * RENDIMIENTO_ASIGNADO
          * */
         $defdna = array(
-            1 => 'CUIT', //CUIT
-            2 => 'ANIO_MES', //ANIO_MES
-            3 => 'FACTURACION', //FACTURACION
-            4 => 'EMPLEADOS', //EMPLEADOS
-            5 => 'TIPO_ORIGEN', //TIPO_ORIGEN
+            1 => 'NUMERO_DE_APORTE',
+            2 => 'CONTINGENTE_PROPORCIONAL_ASIGNADO',
+            3 => 'DEUDA_PROPORCIONAL_ASIGNADA',
+            4 => 'RENDIMIENTO_ASIGNADO'
         );
-
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
@@ -64,11 +64,10 @@ class Model_062 extends CI_Model {
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
 
+        /* FIX DATE */
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -119,16 +118,21 @@ class Model_062 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-        
 
-        $headerArr = array("APELLIDO Y NOMBRE O RAZON SOCIAL",
-            "C.U.I.T",
-            "MES",
-            "AÑO",
-            "FACTURACIÓN",
-            "EMPLEADOS(*)"
-            );
-        $data = array($headerArr);
+
+        $headerArr = array(
+            "N° DE APORTE",
+            "APELLIDO Y NOMBRE<BR/>O RAZÓN SOCIAL",
+            "CUIT",
+            "SALDO DEL APORTE",
+            "CONTINGENTE<BR/>PROPOCIONAL<BR/>ASIGNADO",
+            "DEUDA<BR/>PROPOCIONAL<BR/>ASIGNADA",
+            "SALDO DEL APORTE<BR/>DISPONIBLE",
+            "RENDIMIENTO<BR/>ASIGNADO"
+        );
+        $numberArr = array(1, 2, 3, 4, 5, 6, 7, 8);
+
+        $data = array($headerArr, $numberArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
@@ -145,21 +149,22 @@ class Model_062 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-
-            /* Vars */
-            $this->load->model('app');
+            /*
+             * Vars 								
+             */
             $this->load->model('padfyj_model');
-            
-            $parner = $this->padfyj_model->search_name($list['CUIT']);
-            list($year,$month) = explode("/", $list['ANIO_MES']);
-            
+
+            $this->load->model('app');
+
             $new_list = array();
-            $new_list['CUIT'] = $list['CUIT'];
-            $new_list['SOCIO'] = $parner;
-            $new_list['MES'] = $month;
-            $new_list['ANO'] = $year;
-            $new_list['FACTURACION'] = $list['FACTURACION'];
-            $new_list['EMPLEADOS'] = $list['EMPLEADOS'];
+            $new_list['NUMERO_DE_APORTE'] = 1; //$list['NUMERO_DE_APORTE'];
+            $new_list['RAZON_SOCIAL'] = "2";
+            $new_list['CUIT'] = "3";
+            $new_list['SALDO_APORTE'] = "4";
+            $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = 5; //money_format_custom($list['CONTINGENTE_PROPORCIONAL_ASIGNADO']);
+            $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = 6; //money_format_custom($list['DEUDA_PROPORCIONAL_ASIGNADA']);
+            $new_list['SALDO_APORTE_DISPONIBLE'] = "7";
+            $new_list['RENDIMIENTO_ASIGNADO'] = 8; //money_format_custom($list['RENDIMIENTO_ASIGNADO']);
             $rtn[] = $new_list;
         }
         return $rtn;
