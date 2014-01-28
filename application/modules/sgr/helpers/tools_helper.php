@@ -108,19 +108,19 @@ function check_period($var, $period) {
 }
 
 function check_period_minor($parameter, $period) {
+
     list($getYear, $getMonth) = explode("/", $parameter);
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
 
     $check_date = mktime(0, 0, 0, date($getMonth), date(01), date($getYear));
     $period = mktime(0, 0, 0, date($getPeriodMonth), date(01), date($getPeriodYear));
-    if ($check_date > $period)
-        return false;
-    else
+    if ($check_date > $period) {
         return true;
+    }
 }
 
 function check_decimal($number, $decimal = 2) {
-    /* Chck if number */
+    /*Chck if number*/
     if (ctype_alpha($number)) {
         return true;
         exit();

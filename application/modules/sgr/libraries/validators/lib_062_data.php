@@ -75,8 +75,14 @@ class Lib_062_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    } else {
                         $return = check_date($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $code_error = "R.2";
