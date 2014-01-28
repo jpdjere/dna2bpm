@@ -5,10 +5,6 @@
 
 $(document).ready(function() {
 
-    
-
-    $("#div_period").hide();
-;
 
     session_rectify_ajax();
 
@@ -39,7 +35,7 @@ $(document).ready(function() {
         $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
             if (result) {
-                $("#div_period").show();
+                
                 $("#show_anexos").hide();
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
