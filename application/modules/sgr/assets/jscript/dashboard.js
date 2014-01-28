@@ -5,9 +5,13 @@
 
 $(document).ready(function() {
 
-    session_rectify_ajax();
+    
 
     $("#div_period").hide();
+    $("#is_session").show();
+    $("#no_session").hide();
+
+    session_rectify_ajax();
 
     /*RECTIFICA HREF*/
     $('[class^="rectifica-link_"]').click(function(event) {
@@ -64,12 +68,15 @@ $(document).ready(function() {
         $.ajax(
                 {
                     type: "POST",
-                    url: globals.module_url + 'check_session_period',                    
+                    url: globals.module_url + 'check_session_period',
                     success: function(resp) {
                         if (resp) {
-                           alert("data");
+                            $("#is_session").show();
+                            $("#no_session").hide();
+
                         } else {
-                            alert("no data");
+                            $("#no_session").show();
+                            $("#is_session").hide();
                         }
                     }
                 });
