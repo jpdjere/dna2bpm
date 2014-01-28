@@ -14,20 +14,29 @@ class Sgr_model extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
         if (!$this->idu)
             header("$this->module_url/user/logout");
+        
+        
+        /* DATOS SGR */
+        $sgrArr = $this->get_sgr();
+        foreach ($sgrArr as $sgr) {
+            $this->sgr_id = $sgr['id'];
+            $this->sgr_nombre = $sgr['1693'];
+        }
     }
 
     /* RETURN ANEXOS */
-    function get_anexos() {        
+
+    function get_anexos() {
         $container = 'container.sgr_anexos';
         $result = $this->mongo->sgr->$container->find();
         $result->sort(array('id' => 1));
-        return $result;        
+        return $result;
     }
 
     function get_anexo($anexo) {
@@ -253,20 +262,39 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
+    /* GARANTIAS */
+
     function get_warranty_type($code) {
         $container = 'container.sgr_tipo_garantias';
         $query = array("codigo" => $code);
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
-    
+
+    function get_warranty_data($order_number, $options=null) {
+        
+        $container = 'container.sgr_anexo_12';
+        $period = 'container.sgr_periodos';
+        $query = array('status' => 'activo', 'anexo' => '12', 'sgr_id' => $this->sgr_id);
+        if($options){
+            $optionArr = array("period"=>$options);     
+        }
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $list) {
+            
+            $new_query = array(5214 => $order_number, 'filename'=>$list['filename']);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
+        }        
+        return $new_result;
+    }
+
     function get_investment_options($code) {
         $container = 'container.sgr_opciones_inversion';
         $query = array("inciso_art_25" => $code);
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
-    
+
     function get_depositories($code) {
         $container = 'container.sgr_entidades_depositarias';
         $query = array("codigo" => $code);

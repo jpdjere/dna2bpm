@@ -60,6 +60,15 @@ class Lib_121_data extends MX_Controller {
                     }
                     
                     //Valida contra Mongo
+                    $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
+                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);                    
+                    if(!in_array('OTRO', $warranty_info['5226'])){
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                    
                 }
 
                 /* NRO_CUOTA

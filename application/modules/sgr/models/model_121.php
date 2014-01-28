@@ -12,8 +12,8 @@ class Model_121 extends CI_Model {
 
         $this->anexo = '121';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -71,7 +71,6 @@ class Model_121 extends CI_Model {
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
         if ($result) {
             $out = array('status' => 'ok');
         } else {
@@ -88,7 +87,7 @@ class Model_121 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
-        
+
         /*
          * VERIFICO PENDIENTE           
          */
@@ -122,14 +121,52 @@ class Model_121 extends CI_Model {
     function get_anexo_info($anexo, $parameter) {
 
         $headerArr = array("NRO ORDEN", "NRO CUOTA", "VENCIMIENTO", "CUOTA GTA PESOS", "CUOTA MENOR PESOS");
-        $data = array($headerArr);
+
+        $tmpl = array(
+            'data' => '<tr>
+                                <td colspan="2" align="center">Garantía</td>
+                                <td colspan="2" align="center">Del Part&iacute;cipe / Beneficiario</td>
+                                <td colspan="3" align="center">Información sobre la Amortización</td>                                
+                            </tr>
+                            <tr> </tr>
+                            <tr> </tr>
+                            <tr>
+                            <td>N° de Orden de<br/>la Garantía<br/>Otorgada</td>
+                            <td>N° de<br/>Cuota</td>
+                            <td>C.U.I.T.</td>
+                            <td>Apellido y Nombre o Razón<br/>Social</td>
+                            <td>Fecha de<br/>Vencimiento<br/>de la Cuota</td>
+                            <td>Monto de la<br/>Cuota de la<br/>Garantía</td>
+                            <td>Monto de la<br/>Cuota del<br/>Importe Menor</td>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>                                               
+                            </tr>',
+        );
+
+        /* DRAW TABLE */
+        $fix_table = '<thead>
+<tr>
+<th>';
+
+        $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
         $this->load->library('table');
-        return $this->table->generate($data);
+        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
+
+        return $newTable;
     }
+
+    
 
     function get_anexo_data($anexo, $parameter) {
         header('Content-type: text/html; charset=UTF-8');
@@ -138,10 +175,21 @@ class Model_121 extends CI_Model {
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
 
+        
+        
+        
+        
         foreach ($result as $list) { /* Vars */
-            $new_list = array();
+            $new_list = array();            
+            
+            $warranty_info = $this->sgr_model->get_warranty_data($list['NRO_ORDEN'], $list['period']);
+            $this->load->model('padfyj_model');
+            $participate = $this->padfyj_model->search_name($warranty_info[5349]);
+            
             $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
             $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];
+            $new_list['CUIT'] = $warranty_info[5349];
+            $new_list['RAZON_SOCIAL'] = $participate;
             $new_list['VENCIMIENTO'] = $list['VENCIMIENTO'];
             $new_list['CUOTA_GTA_PESOS'] = money_format_custom($list['CUOTA_GTA_PESOS']);
             $new_list['CUOTA_MENOR_PESOS'] = money_format_custom($list['CUOTA_MENOR_PESOS']);
