@@ -5,7 +5,7 @@
 
 $(document).ready(function() {
 
-
+    session_rectify_ajax();
 
     $("#div_period").hide();
 
