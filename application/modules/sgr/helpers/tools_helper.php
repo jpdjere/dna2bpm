@@ -108,7 +108,9 @@ function check_period($var, $period) {
 }
 
 function check_period_minor($parameter, $period) {
-
+    
+    if(!isset($parameter))return true; exit();
+    
     list($getYear, $getMonth) = explode("/", $parameter);
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
 
