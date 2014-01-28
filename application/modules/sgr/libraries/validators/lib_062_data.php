@@ -89,7 +89,7 @@ class Lib_062_data extends MX_Controller {
                         /* PERIOD */
                         $code_error = "B.2";                                            
                         $return = check_period_minor($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                        if ($return) {
+                        if (!$return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
