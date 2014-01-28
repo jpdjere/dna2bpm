@@ -8,7 +8,7 @@ $(document).ready(function() {
     
 
     $("#div_period").hide();
-    $("#is_session").show();
+    $("#is_session").hide();
     $("#no_session").hide();
 
     session_rectify_ajax();
