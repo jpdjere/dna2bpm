@@ -521,10 +521,9 @@ class Sgr extends MX_Controller {
         $this->session->unset_userdata('period');
     }
     
-    function check_session_period(){ 
-        var_dump($this->session->userdata);
-       if($this->session->userdata['rectify']){
-             echo $this->session->userdata['rectify'];
+    function check_session_period(){        
+       if($this->session->userdata['period']){
+             echo $this->session->userdata['period'];
        }
  }
 
