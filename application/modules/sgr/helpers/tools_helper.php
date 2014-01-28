@@ -108,9 +108,12 @@ function check_period($var, $period) {
 }
 
 function check_period_minor($parameter, $period) {
-    
-    if(!isset($parameter))return true; exit();
-    
+
+    if (!isset($parameter) || !isset($period)) {
+        return true;
+        exit();
+    }
+
     list($getYear, $getMonth) = explode("/", $parameter);
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
 
@@ -122,7 +125,7 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2) {
-    /*Chck if number*/
+    /* Chck if number */
     if (ctype_alpha($number)) {
         return true;
         exit();
