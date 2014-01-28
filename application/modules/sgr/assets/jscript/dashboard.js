@@ -4,12 +4,9 @@
  */
 
 $(document).ready(function() {
-    {/literal}
-     {if rectifica}
-        alert("rect");
-    }
-     {/if}
-{literal}
+
+
+
     $("#div_period").hide();
 
     /*RECTIFICA HREF*/
@@ -61,8 +58,22 @@ $(document).ready(function() {
         }
     });
 
-    
 
+    function session_rectify_ajax() {
+
+        $.ajax(
+                {
+                    type: "POST",
+                    url: globals.module_url + 'check_session_period',                    
+                    success: function() {
+                        if (data) {
+                           alert("data");
+                        } else {
+                            alert("no data");
+                        }
+                    }
+                });
+    }
 
     function add_no_movement() {
         var no_movement = $('#no_movement').val();
