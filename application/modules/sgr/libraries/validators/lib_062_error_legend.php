@@ -16,7 +16,7 @@ class Lib_062_error_legend {
                 $result_error = '(Fila Nro.'. $row .') A: Debe corresponder con algún Socio Partícipe de la SGR que tenga saldo de acciones mayor a Cero.';
                 break;
             case "B.1": 
-                $result_error = '(Fila Nro.'. $row .') B: Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.';
+                $result_error = '(Fila Nro.'. $row .') B: Debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12.';
                 break;
              case "B.2": 
                 $result_error = '(Fila Nro.'. $row .') B: El año debe ser igual o menor al del período en que se está informando.';
