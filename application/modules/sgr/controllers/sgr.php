@@ -520,6 +520,15 @@ class Sgr extends MX_Controller {
         $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
     }
+    
+    function check_session_period(){
+ 
+       if($this->session->userdata['rectify']){
+             echo 1;
+       }else{
+             echo 0;
+       }
+ }
 
     function upload_file() {
         try {
