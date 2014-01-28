@@ -4,9 +4,12 @@
  */
 
 $(document).ready(function() {
-
-
-
+    {/literal}
+     {if rectifica}
+        alert("rect");
+    }
+     {/if}
+{literal}
     $("#div_period").hide();
 
     /*RECTIFICA HREF*/
@@ -17,7 +20,6 @@ $(document).ready(function() {
         var anexo = arr[3];
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
-
         $("input[name$='input_period']").val(input_period);
         $("input[name$='anexo']").val(anexo);
         $('[id^="period_"]').submit();
@@ -42,8 +44,6 @@ $(document).ready(function() {
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
                 $("#period").submit();
-
-
             }
         });
     });
