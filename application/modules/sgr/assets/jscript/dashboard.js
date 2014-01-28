@@ -8,8 +8,7 @@ $(document).ready(function() {
     
 
     $("#div_period").hide();
-    $("#is_session").hide();
-    $("#no_session").hide();
+;
 
     session_rectify_ajax();
 
@@ -73,7 +72,6 @@ $(document).ready(function() {
                         if (resp) {
                             $("#is_session").show();
                             $("#no_session").hide();
-
                         } else {
                             $("#no_session").show();
                             $("#is_session").hide();
