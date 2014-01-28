@@ -46,14 +46,7 @@
     <div id="div_period">
         {form_template}
     </div>
-
-    {if sgr_period} 
-    <!-- -->
-    {else}
-    <!-- PERIOD -->
-    {form_template}
-    {/if}    
-        
+    
     <div id="show_anexos">        
         <div class="alert {resumen_class}" id="{_id}">                        
             <ol>
