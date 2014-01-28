@@ -65,8 +65,8 @@ $(document).ready(function() {
                 {
                     type: "POST",
                     url: globals.module_url + 'check_session_period',                    
-                    success: function() {
-                        if (data) {
+                    success: function(resp) {
+                        if (resp) {
                            alert("data");
                         } else {
                             alert("no data");
