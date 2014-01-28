@@ -1,4 +1,4 @@
-<div id="is_session">
+<div id="no_session">
 <div class="row-fluid">
         <div id="meta_div_2">
             <form  method="post" class="well" id="period_{sgr_period}">
@@ -6,7 +6,6 @@
                     <div class="span6">                        
                         <label>Anexo</label>
                         <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
-                        
                     </div>
 
                     <div class="span6">
@@ -32,7 +31,7 @@
     </div>
 </div>
 
-<div id="no_session">
+<div id="is_session">
 <div class="row-fluid">
         <div id="meta_div_2">
             <form  method="post" class="well" id="period_{sgr_period}">
