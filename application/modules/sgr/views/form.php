@@ -23,7 +23,7 @@
                 </div>
                 <div  class="row-fluid">
                     <div class="span12">
-                        <input type="text" name="anexo" value="{anexo}" />
+                        <input type="hidden" name="anexo" value="{anexo}" />
                         <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="icon-save"></i> Activar Periodo</button>  
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
                         
                         <div>
-                            <label>Rectificación de {post_period}/ Ingrese el Motivo</label>
+                            <label>Rectificación de{if post_period}{post_period}{/if}/ Ingrese el Motivo</label>
                             <select name="rectify" id="rectify_{sgr_period}" class="input-block-level required">
                                 <option value="">Seleccione el motivo</option>
                                 <option value=1>Errores en el sistema y/o procesamiento del archivo</option>
@@ -57,7 +57,7 @@
 
                     <div class="span6">
                         <div>
-                            <label>Seleccione el Período a {if rectifica} Rectificar {else} Informar {/if} </label>
+                            <label>Seleccione el Período a  Rectificar</label>
                             <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
                                 <input type="text" name="input_period" readonly="" {if post_period} value="{post_period}" {/if} class="input-block-level">
                                        
