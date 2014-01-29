@@ -43,10 +43,11 @@
     </div>
 
 
-    <div id="div_period">
-        {form_template}
-    </div>
+       <!-- FORM PERIOD--> 
+      {form_template}
     
+        
+        
     <div id="show_anexos">        
         <div class="alert {resumen_class}" id="{_id}">                        
             <ol>
