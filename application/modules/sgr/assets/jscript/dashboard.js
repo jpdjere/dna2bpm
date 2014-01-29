@@ -6,8 +6,8 @@
 $(document).ready(function() {
 
 
-    session_rectify_ajax();
-
+    //session_rectify_ajax();
+    $("#is_session").hide();
     /*RECTIFICA HREF*/
     $('[class^="rectifica-link_"]').click(function(event) {
         var parameter = $(this).attr('href');
@@ -18,8 +18,10 @@ $(document).ready(function() {
         $.get(globals.module_url + "unset_period");
         $("input[name$='input_period']").val(input_period);
         $("input[name$='anexo']").val(anexo);
-        $('[id^="period_"]').submit();
+        //$('[id^="period_"]').submit();
         $("#show_anexos").hide();
+        $("#is_session").show();
+        $("#no_session").hide();
 
 
     });
@@ -35,10 +37,18 @@ $(document).ready(function() {
         $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
             if (result) {
-                $("#show_anexos").hide();
+                
+                /*$("#show_anexos").hide();
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
-                $("#period").submit();
+                $('[id^="period_"]').submit();
+                $("#is_session").show();*/
+                $("#sgr_period").html("Rectifica");
+                $("#no_movement").hide();
+                $("#is_session").show();
+                $("#no_session").hide();                
+                $("input[name$='input_period']").val(input_period);
+                $("input[name$='anexo']").val(anexo);
             }
         });
     });
@@ -64,11 +74,11 @@ $(document).ready(function() {
                     url: globals.module_url + 'check_session_period',
                     success: function(resp) {
                         if (resp) {                           
-                            $("#is_session").show();
-                            $("#no_session").hide();
+                          //  $("#is_session").show();
+                          //  $("#no_session").hide();
                         } else {
-                            $("#no_session").show();
-                            $("#is_session").hide();
+                           // $("#no_session").show();
+                           // $("#is_session").hide();
                         }
                     }
                 });

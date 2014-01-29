@@ -141,7 +141,7 @@ class Lib_06_error_legend {
                 break;
             case "O.1": $result_error = '(Fila Nro.'. $row .') O: Email: OPCIONA. De completarse, que tenga formato de dirección de correo electrónico..';
                 break;
-            case "P.1": $result_error = '(Fila Nro.'. $row .') P: WEB: OPCIONA. De completarse, que tenga formato de dirección de página web..';
+            case "P.1": $result_error = '(Fila Nro.'. $row .') P: WEB: OPCIONA. De completarse, que tenga formato de dirección de página web.';
                 break;
             case "Q.1": $result_error = '(Fila Nro.'. $row .') Q: Código de Actividad: El campo no puede estar vacío. Debe validar que sea alguno de los que figuran en el Archivo Excel que va aparte (se llaman código CIU que es igual a la CLANAE pero con un digito menos).';
                 break;

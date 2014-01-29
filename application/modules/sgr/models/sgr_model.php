@@ -271,8 +271,7 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_warranty_data($order_number, $options=null) {
-        
+    function get_warranty_data($order_number, $options=null) {        
         $container = 'container.sgr_anexo_12';
         $period = 'container.sgr_periodos';
         $query = array('status' => 'activo', 'anexo' => '12', 'sgr_id' => $this->sgr_id);
@@ -280,8 +279,7 @@ class Sgr_model extends CI_Model {
             $optionArr = array("period"=>$options);     
         }
         $result = $this->mongo->sgr->$period->find($query);
-        foreach ($result as $list) {
-            
+        foreach ($result as $list) {            
             $new_query = array(5214 => $order_number, 'filename'=>$list['filename']);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);            
         }        

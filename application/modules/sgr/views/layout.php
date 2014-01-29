@@ -28,7 +28,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="#">SOCIEDADES DE GARANTIAS RECIPROCAS</a>
+                    <a class="brand" href="{module_url}">SOCIEDADES DE GARANTIAS RECIPROCAS</a>
 
                     <div class="nav-collapse collapse">
                         <ul class="nav">

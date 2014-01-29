@@ -90,6 +90,7 @@ class Sgr extends MX_Controller {
         if (!$upload) {
             if (!$this->session->userdata['period']) {
                 $customData['message'] = '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['select_period'] = true;
             }
         }
         $error_set_period = $this->set_period();
@@ -122,7 +123,10 @@ class Sgr extends MX_Controller {
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
-
+        
+        //FILE UPLOAD FORM TEMPLATE
+        $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
+        
         //FORM TEMPLATE
         $customData['form_template'] = $this->parser->parse('form', $customData, true);
 
@@ -140,9 +144,10 @@ class Sgr extends MX_Controller {
 
     function Anexo_code($parameter) {
         /* BORRO SESSION RECTIFY */
+        
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
-        $this->session->unset_userdata('period');
+        
 
         $newdata = array('anexo_code' => $parameter);
         $this->session->set_userdata($newdata);
@@ -476,7 +481,7 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
-
+            
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -509,6 +514,7 @@ class Sgr extends MX_Controller {
     }
 
     function unset_period() {
+        
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
@@ -516,6 +522,7 @@ class Sgr extends MX_Controller {
     }
 
     function unset_period_active() {
+        
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
@@ -752,9 +759,26 @@ class Sgr extends MX_Controller {
                 }
             }
         }
-
-        $files_list = ($files_list != "") ? $files_list : "<h5>No hay Archivos Pendientes</h5>";
-        return $files_list;
+        
+        
+        $file_list_html = '<div class="alert">                        
+        <ol>
+            '.$files_list.'
+        </ol>
+    </div>';
+        
+        $no_list_html = '<div class="alert alert-error" id="{_id}">
+        No hay Archivos Pendientes |
+        <i class="fa fa-plus"></i> <a data-target="#file_div" data-toggle="collapse"> Seleccionar Archivos a Procesar</a>
+    </div>';
+        
+        if($files_list != ""){
+            return $file_list_html;
+        } else {
+            return $no_list_html;
+        }
+        
+        
     }
 
     function render($file, $customData) {

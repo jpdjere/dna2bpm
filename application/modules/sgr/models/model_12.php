@@ -234,8 +234,7 @@ class Model_12 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
-            $new_list = array();
-            
+            $new_list = array();           
             
             $this->load->model('padfyj_model');
             $participate = $this->padfyj_model->search_name($list[5349]);
@@ -249,8 +248,6 @@ class Model_12 extends CI_Model {
             /*PONDERACION*/
             $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);  
             //$currency = ($list[5219][0]=="")
-            
-
             
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;

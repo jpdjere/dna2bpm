@@ -167,6 +167,7 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
+    $parameter = "http://" . $parameter;    
     if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
         return true;
     }
