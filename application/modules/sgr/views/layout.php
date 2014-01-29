@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
         <!--/ Custom CSS -->
         {css}
-
+        
     </head>
     <body>
         <!--/ NAVIGATION -->

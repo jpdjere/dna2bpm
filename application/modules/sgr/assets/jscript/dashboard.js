@@ -35,7 +35,6 @@ $(document).ready(function() {
         $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
             if (result) {
-                
                 $("#show_anexos").hide();
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
@@ -59,18 +58,19 @@ $(document).ready(function() {
 
 
     function session_rectify_ajax() {
-
         $.ajax(
                 {
                     type: "POST",
                     url: globals.module_url + 'check_session_period',
                     success: function(resp) {
                         if (resp) {
-                            $("#is_session").show();
-                            $("#no_session").hide();
+                            alert("session");
+                            //$("#is_session").show();
+                            //$("#no_session").hide();
                         } else {
-                            $("#no_session").show();
-                            $("#is_session").hide();
+                            alert("nosession");
+                            //$("#no_session").show();
+                            //$("#is_session").hide();
                         }
                     }
                 });
