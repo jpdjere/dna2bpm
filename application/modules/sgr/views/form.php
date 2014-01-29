@@ -1,3 +1,6 @@
+{if sgr_period} 
+    <!-- -->
+    {else}
 <div id="no_session">
 <div class="row-fluid">
         <div id="meta_div_2">
@@ -30,7 +33,7 @@
         </div>
     </div>
 </div>
-
+{/if}
 <div id="is_session">
 <div class="row-fluid">
         <div id="meta_div_2">
