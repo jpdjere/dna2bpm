@@ -63,12 +63,10 @@ $(document).ready(function() {
                     type: "POST",
                     url: globals.module_url + 'check_session_period',
                     success: function(resp) {
-                        if (resp) {
-                            alert("session");
-                            //$("#is_session").show();
-                            //$("#no_session").hide();
+                        if (resp) {                           
+                            $("#is_session").show();
+                            $("#no_session").hide();
                         } else {
-                            alert("nosession");
                             //$("#no_session").show();
                             //$("#is_session").hide();
                         }
