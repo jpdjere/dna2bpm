@@ -67,8 +67,8 @@ $(document).ready(function() {
                             $("#is_session").show();
                             $("#no_session").hide();
                         } else {
-                            //$("#no_session").show();
-                            //$("#is_session").hide();
+                            $("#no_session").show();
+                            $("#is_session").hide();
                         }
                     }
                 });
