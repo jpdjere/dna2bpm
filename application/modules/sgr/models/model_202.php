@@ -107,12 +107,16 @@ class Model_202 extends CI_Model {
         return $out;
     }
 
-    function update_period($id, $status) {
+     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $rectified_on = date('Y-m-d h:i:s');
-        $parameter = array('status' => 'rectificado', 'rectified_on'=>$rectified_on);
+        $parameter = array(
+            'status' => 'rectificado',
+            'rectified_on' => date('Y-m-d h:i:s'),
+            'others' => $this->session->userdata['others'],
+            'reason' => $this->session->userdata['rectify']
+        );
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }

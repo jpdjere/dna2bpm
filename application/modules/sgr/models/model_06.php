@@ -12,10 +12,10 @@ class Model_06 extends CI_Model {
 
         $this->anexo = '06';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -207,9 +207,9 @@ class Model_06 extends CI_Model {
     }
 
     function save($parameter) {
-        
-       
-        
+
+
+
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -244,7 +244,7 @@ class Model_06 extends CI_Model {
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
-        $parameter['idu']  =    $this->idu;
+        $parameter['idu'] = $this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -270,13 +270,16 @@ class Model_06 extends CI_Model {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $rectified_on = date('Y-m-d h:i:s');
-        $parameter = array('status' => 'rectificado', 'rectified_on'=>$rectified_on);
+        $parameter = array(
+            'status' => 'rectificado',
+            'rectified_on' => date('Y-m-d h:i:s'),
+            'others' => $this->session->userdata['others'],
+            'reason' => $this->session->userdata['rectify']
+        );
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
-    
     function get_anexo_info($anexo, $parameter) {
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
@@ -302,10 +305,10 @@ class Model_06 extends CI_Model {
             /* Vars */
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);            
-            $brand_name = ($brand_name) ? $brand_name:$list['1693'];
+            $brand_name = $this->padfyj_model->search_name($cuit);
+            $brand_name = ($brand_name) ? $brand_name : $list['1693'];
             $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
-            
+
             $this->load->model('app');
             $operation_type = $this->app->get_ops(589);
             $inscripcion_iva = $this->app->get_ops(571);
@@ -316,8 +319,8 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
-              
-            
+
+
 
 
             $calc_average = "";
@@ -335,11 +338,11 @@ class Model_06 extends CI_Model {
 
                 $promedio = money_format_custom($sumaMontos / $calc_average);
             }
-            
+
             $sector_value = $this->sgr_model->clae2013($list['5208']);
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
-            $company_type = ($isPyme)? "PyME":""; 
-            
+            $company_type = ($isPyme) ? "PyME" : "";
+
 
             $inner_table = '<table width="100%">';
             if ($list['19']) {
@@ -366,7 +369,7 @@ class Model_06 extends CI_Model {
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $list['FECHA_DE_TRANSACCION'];
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>".$grantor_brand_name. "<br/>" . $transfer_characteristic[$list['5292'][0]];
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]];
 
             $rtn[] = $new_list;
         }
