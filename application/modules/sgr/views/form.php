@@ -43,6 +43,8 @@
 
 <!-- RECTIFICAR -->
 <div id="is_session">
+   "form"
+    
     <div class="row-fluid">
         <div id="meta_div_2">
             <form  method="post" class="well" id="period_{sgr_period}">
