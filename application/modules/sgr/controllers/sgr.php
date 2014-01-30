@@ -70,8 +70,7 @@ class Sgr extends MX_Controller {
         $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
 
-        // UPLOAD ANEXO
-        $upload = $this->upload_file();
+        
         $customData['processed_tab'] = $this->get_processed_tab($this->anexo);
         $customData['processed_list'] = $this->get_processed($this->anexo);
 
@@ -80,10 +79,17 @@ class Sgr extends MX_Controller {
         $customData['rectified_list'] = $this->get_rectified($this->anexo);
 
 
-
+        // UPLOAD ANEXO
+        $upload = $this->upload_file();
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
+            
+            if (!$this->session->userdata['period']) {
+                $customData['message'] = '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['select_period'] = true;
+            }
+            
         } else {
             $customData['message'] = $upload['message'];
             $customData['success'] = "error";
@@ -98,9 +104,8 @@ class Sgr extends MX_Controller {
                 $customData['select_period'] = true;
             }
         }
+        
         $error_set_period = $this->set_period();
-
-
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
             switch ($error_set_period) {
