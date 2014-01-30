@@ -84,6 +84,21 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
+    
+    //rectify
+    //processes
+    function get_rectified($anexo, $sgr_id, $year = null) {
+        $rtn = array();
+        $regex = new MongoRegex('/' . $year . '/');
+        $container = 'container.sgr_periodos';
+        $query = array("status" => 'rectificado', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+        return $rtn;
+    }
 
     function get_sgr() {
         $rtn = array();

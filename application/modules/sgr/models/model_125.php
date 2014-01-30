@@ -109,8 +109,8 @@ class Model_125 extends CI_Model {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
-        $status = 'rectificado';
-        $parameter = array('status' => $status);
+        $rectified_on = date('Y-m-d h:i:s');
+        $parameter = array('status' => 'rectificado', 'rectified_on'=>$rectified_on);
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
