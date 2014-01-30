@@ -1,9 +1,9 @@
 {if sgr_period} 
-    if sgr_period
+    
 {else}
     
 
-{if rectifica} if rectifica  {else} 
+{if rectifica}  {else} 
 
 {if select_period}
 
