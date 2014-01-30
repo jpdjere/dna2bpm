@@ -59,4 +59,20 @@
         </div>
     </div>
     
+    <hr>
+    
+    <!-- RECTIFIED ANEXOS-->
+    <div id="show_anexos">       
+        {if rectified_tab}
+        <h3>ANEXOS RECTIFICADOS</h3>
+        {/if}
+        <!-- TABS -->
+        <ul class="nav nav-tabs" id="dashboard_tab1">       
+            {rectified_tab}
+        </ul>
+        <div class="tab-content">
+            {rectified_list}
+        </div>
+    </div>
+    
 </div>

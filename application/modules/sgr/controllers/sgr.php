@@ -75,6 +75,11 @@ class Sgr extends MX_Controller {
         $customData['processed_tab'] = $this->get_processed_tab($this->anexo);
         $customData['processed_list'] = $this->get_processed($this->anexo);
 
+        // RECTIFY LIST
+        $customData['rectified_tab'] = $this->get_rectified_tab($this->anexo);
+        $customData['rectified_list'] = $this->get_rectified($this->anexo);
+
+
 
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
@@ -123,10 +128,10 @@ class Sgr extends MX_Controller {
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
-        
+
         //FILE UPLOAD FORM TEMPLATE
         $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
-        
+
         //FORM TEMPLATE
         $customData['form_template'] = $this->parser->parse('form', $customData, true);
 
@@ -144,10 +149,10 @@ class Sgr extends MX_Controller {
 
     function Anexo_code($parameter) {
         /* BORRO SESSION RECTIFY */
-        
+
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
-        
+
 
         $newdata = array('anexo_code' => $parameter);
         $this->session->set_userdata($newdata);
@@ -179,44 +184,44 @@ class Sgr extends MX_Controller {
      * 
      * Example Usage:
 
-          $data = new Spreadsheet_Excel_Reader("test.xls");
+      $data = new Spreadsheet_Excel_Reader("test.xls");
 
-          Retrieve formatted value of cell (first or only sheet):
+      Retrieve formatted value of cell (first or only sheet):
 
-          $data->val($row,$col)
+      $data->val($row,$col)
 
-          Or using column names:
+      Or using column names:
 
-          $data->val(10,'AZ')
+      $data->val(10,'AZ')
 
-          From a sheet other than the first:
+      From a sheet other than the first:
 
-          $data->val($row,$col,$sheet_index)
+      $data->val($row,$col,$sheet_index)
 
-          Retrieve cell info:
+      Retrieve cell info:
 
-          $data->type($row,$col);
-          $data->raw($row,$col);
-          $data->format($row,$col);
-          $data->formatIndex($row,$col);
+      $data->type($row,$col);
+      $data->raw($row,$col);
+      $data->format($row,$col);
+      $data->formatIndex($row,$col);
 
-          Get sheet size:
-          $data->rowcount();
-          $data->colcount();
+      Get sheet size:
+      $data->rowcount();
+      $data->colcount();
 
-          $data->sheets[0]['cells'][$i][$j] - data from $i-row $j-column
+      $data->sheets[0]['cells'][$i][$j] - data from $i-row $j-column
 
-          $data->sheets[0]['numRows'] - count rows
-          $data->sheets[0]['numCols'] - count columns
+      $data->sheets[0]['numRows'] - count rows
+      $data->sheets[0]['numCols'] - count columns
 
-          $data->sheets[0]['cellsInfo'][$i][$j] - extended info about cell
-          $data->sheets[0]['cellsInfo'][$i][$j]['type'] = "date" | "number" | "unknown"
-          $data->sheets[0]['cellsInfo'][$i][$j]['raw'] = value if cell without format
-          $data->sheets[0]['cellsInfo'][$i][$j]['format'] = Excel-style Format string of cell
-          $data->sheets[0]['cellsInfo'][$i][$j]['formatIndex'] = The internal Excel index of format
+      $data->sheets[0]['cellsInfo'][$i][$j] - extended info about cell
+      $data->sheets[0]['cellsInfo'][$i][$j]['type'] = "date" | "number" | "unknown"
+      $data->sheets[0]['cellsInfo'][$i][$j]['raw'] = value if cell without format
+      $data->sheets[0]['cellsInfo'][$i][$j]['format'] = Excel-style Format string of cell
+      $data->sheets[0]['cellsInfo'][$i][$j]['formatIndex'] = The internal Excel index of format
 
-          $data->sheets[0]['cellsInfo'][$i][$j]['colspan']
-          $data->sheets[0]['cellsInfo'][$i][$j]['rowspan'] 
+      $data->sheets[0]['cellsInfo'][$i][$j]['colspan']
+      $data->sheets[0]['cellsInfo'][$i][$j]['rowspan']
      */
 
     function Anexo($filename = null) {
@@ -233,7 +238,7 @@ class Sgr extends MX_Controller {
         if (!$filename) {
             exit();
         }
-        
+
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (int) ($this->idu);
@@ -316,7 +321,7 @@ class Sgr extends MX_Controller {
         }
 
 
-        
+
         if (!$error) {
             $model = "model_" . $anexo;
             $this->load->Model($model);
@@ -466,7 +471,7 @@ class Sgr extends MX_Controller {
         $get_period_info = $this->sgr_model->get_period_filename($parameter);
 
         $user = $this->user->get_user($get_period_info['idu']);
-        
+
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
@@ -481,7 +486,7 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
-            
+
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -514,7 +519,7 @@ class Sgr extends MX_Controller {
     }
 
     function unset_period() {
-        
+
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
@@ -522,17 +527,17 @@ class Sgr extends MX_Controller {
     }
 
     function unset_period_active() {
-        
+
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
     }
-    
-    function check_session_period(){        
-       if($this->session->userdata['period']){
-             echo $this->session->userdata['period'];
-       }
- }
+
+    function check_session_period() {
+        if ($this->session->userdata['period']) {
+            echo $this->session->userdata['period'];
+        }
+    }
 
     function upload_file() {
         try {
@@ -594,17 +599,30 @@ class Sgr extends MX_Controller {
         }
         return $list_files;
     }
-    
-    
+
+    function get_rectified_tab($anexo) {
+        $list_files = "";
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $processed = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
+            $processed = array($processed);
+            foreach ($processed as $file) {
+                if ($file)
+                    $list_files .= '<li><a href="#tab_rectified' . $i . '" data-toggle="tab">Rectificado ' . $i . '</a></li>';
+            }
+        }
+        return $list_files;
+    }
+
     /*
      * PROCESSED FILES BROWSER
      * 
      */
+
     function get_processed($anexo) {
         $list_files = '';
         for ($i = 2011; $i <= date(Y); $i++) {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
-            <div class="alert {resumen_class}" id="' . $i . '"><ul>';
+            <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
 
@@ -616,10 +634,10 @@ class Sgr extends MX_Controller {
                     $print_filename = $file['filename'];
                 }
                 /* RECTIFY COUNT */
-                $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);                
-                
+                $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
+
                 $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
-                $download = anchor('sgr/xls_asset/'.$anexo.'/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
+                $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger'));
@@ -630,12 +648,55 @@ class Sgr extends MX_Controller {
         }
         return $list_files;
     }
-    
-    
+
+    /*
+     * RECTIFIED FILES BROWSER
+     * 
+     */
+
+    function get_rectified($anexo) {
+        $list_files = '';
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
+            <div id="' . $i . '"><ul>';
+            $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
+            foreach ($rectified as $file) {
+                $print_filename = substr($file['filename'], 0, -25);
+                $disabled_link = '';
+
+                if ($file['filename'] == "SIN MOVIMIENTOS") {
+                    $disabled_link = ' disabled_link';
+                    $print_filename = $file['filename'];
+                }
+                
+                $rectified_on = $file['rectified_on'];
+                switch ($file['reason']) {
+                    case 1:
+                        $translate = 'Errores en el sistema y/o procesamiento del archivo';
+                        break;
+
+                    case 2:
+                        $translate = 'Error en la informacion sumistrada';
+                        break;
+
+                    case 3:
+                        $translate = $file['others'];
+                        break;
+                }
+
+                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>'.$translate. '</em></small> </li>';
+            }
+            $list_files .= '</ul></div>
+        </div>';
+        }
+        return $list_files;
+    }
+
     /*
      * 
      * 
      */
+
     function file_browser() {
         $segment_array = $this->uri->segment_array();
 
@@ -723,13 +784,13 @@ class Sgr extends MX_Controller {
             }
         }
     }
-    
-    
+
     /*
      * FILE BROWSER by anexo
      * directory /sgr/anexos_sgr/
      * 
      */
+
     function render_file_browser($customData) {
         $files_list = "";
         $prefix = $customData['controller'] . '/' . $customData['method'] . '/' . $customData['path_in_url'];
@@ -759,26 +820,24 @@ class Sgr extends MX_Controller {
                 }
             }
         }
-        
-        
+
+
         $file_list_html = '<div class="alert">                        
         <ol>
-            '.$files_list.'
+            ' . $files_list . '
         </ol>
     </div>';
-        
+
         $no_list_html = '<div class="alert alert-error" id="{_id}">
         No hay Archivos Pendientes |
         <i class="fa fa-plus"></i> <a data-target="#file_div" data-toggle="collapse"> Seleccionar Archivos a Procesar</a>
     </div>';
-        
-        if($files_list != ""){
+
+        if ($files_list != "") {
             return $file_list_html;
         } else {
             return $no_list_html;
         }
-        
-        
     }
 
     function render($file, $customData) {
