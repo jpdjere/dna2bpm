@@ -86,7 +86,7 @@ class Sgr extends MX_Controller {
             $customData['success'] = "success";
             
             if (!$this->session->userdata['period']) {
-                $customData['message'] = '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = $upload['message'] . '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
                 $customData['select_period'] = true;
             }
             
