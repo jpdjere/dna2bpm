@@ -1,6 +1,6 @@
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-        
+
         <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
             <i class="fa fa-plus"></i>  Seleccionar Archivos a Procesar
         </button> 
@@ -27,7 +27,7 @@
 <!-- ==== Contenido ==== -->
 <div class="container" > 
     <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>  
-    
+
     <!-- RECTIFICATION ALERT-->
     {rectify_message}
 
@@ -43,36 +43,38 @@
     <!-- FORM PERIOD--> 
     {form_template}
     <!-- UPLOADED FILES LIST-->
-    {files_list}    
-    
-    <!-- PROCESSED ANEXOS-->
-    <div id="show_anexos">       
-        {if processed_tab}
-        <h3>ANEXOS PROCESADOS</h3>
-        {/if}
-        <!-- TABS -->
-        <ul class="nav nav-tabs" id="dashboard_tab1">       
-            {processed_tab}
-        </ul>
-        <div class="tab-content">
-            {processed_list}
+    {files_list}   
+
+
+    <div class="well">
+        <!-- PROCESSED ANEXOS-->
+        <div id="show_anexos">       
+            {if processed_tab}
+            <h3>ANEXOS PROCESADOS</h3>
+            {/if}
+            <!-- TABS -->
+            <ul class="nav nav-tabs" id="dashboard_tab1">       
+                {processed_tab}
+            </ul>
+            <div class="tab-content">
+                {processed_list}
+            </div>
         </div>
     </div>
-    
     <hr>
-    
-    <!-- RECTIFIED ANEXOS-->
-    <div id="show_anexos">       
-        {if rectified_tab}
-        <h3>ANEXOS RECTIFICADOS</h3>
-        {/if}
-        <!-- TABS -->
-        <ul class="nav nav-tabs" id="dashboard_tab1">       
-            {rectified_tab}
-        </ul>
-        <div class="tab-content">
-            {rectified_list}
+    <div class="well">
+        <!-- RECTIFIED ANEXOS-->
+        <div id="show_anexos">       
+            {if rectified_tab}
+            <h3>ANEXOS RECTIFICADOS</h3>
+            {/if}
+            <!-- TABS -->
+            <ul class="nav nav-tabs" id="dashboard_tab1">       
+                {rectified_tab}
+            </ul>
+            <div class="tab-content">
+                {rectified_list}
+            </div>
         </div>
     </div>
-    
 </div>
