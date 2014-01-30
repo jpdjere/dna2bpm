@@ -10,7 +10,7 @@ class Lib_16_error_legend {
 
         switch ($code) {
             case "A.1":
-                $result_error = '(Fila Nro.' . $row . ') A: Debe contener alguno de los siguientes parámetros:ENERO/
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener alguno de los siguientes parámetros:ENERO/
 FEBRERO/
 MARZO/
 ABRIL/
@@ -24,7 +24,7 @@ NOVIEMBRE/
 DICIEMBRE';
                 break;
             case "BJ.1":
-                $result_error = '(Fila Nro.' . $row . ') B-J: Debe contener formato numérico sin decimales.';
+                $result_error = '<strong>Columna '.$code.' - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener formato numérico sin decimales.';
                 break;
         }
         return $result_error;
