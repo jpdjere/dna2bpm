@@ -1,3 +1,5 @@
+ "form"
+
 {if sgr_period} 
     
 {else}
@@ -43,7 +45,6 @@
 
 <!-- RECTIFICAR -->
 <div id="is_session">
-   "form"
     
     <div class="row-fluid">
         <div id="meta_div_2">
