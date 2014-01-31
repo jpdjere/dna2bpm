@@ -62,6 +62,11 @@ class Sgr extends MX_Controller {
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+            
+        
+       
+
+        
 
         $customData['anexo'] = $this->anexo;
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
@@ -70,7 +75,7 @@ class Sgr extends MX_Controller {
         $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
 
-        
+        /* TABS */
         $customData['processed_tab'] = $this->get_processed_tab($this->anexo);
         $customData['processed_list'] = $this->get_processed($this->anexo);
 
@@ -86,7 +91,7 @@ class Sgr extends MX_Controller {
             $customData['success'] = "success";
             
             if (!$this->session->userdata['period']) {
-                $customData['message'] = $upload['message'] . '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
                 $customData['select_period'] = true;
             }
             
@@ -100,7 +105,7 @@ class Sgr extends MX_Controller {
          */
         if (!$upload) {
             if (!$this->session->userdata['period']) {
-                $customData['message'] = '<i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
                 $customData['select_period'] = true;
             }
         }
@@ -119,6 +124,9 @@ class Sgr extends MX_Controller {
                     $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
+                    $customData['js'] = 
+                    $link_arr = array($this->module_url . "assets/jscript/rectify.js" => 'Rectify JS');
+                    array_push($customData['js'], $link_arr);
                     break;
             }
             $customData['message'] = $error_msg;
@@ -128,8 +136,6 @@ class Sgr extends MX_Controller {
         //RECTIFY 
         $rectify_msg = '<div class="navbar-inverse well-small"><i class="fa fa-info-circle"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"</div>';
         $customData['rectify_message'] = ($this->session->userdata['rectify']) ? $rectify_msg : "";
-
-
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();

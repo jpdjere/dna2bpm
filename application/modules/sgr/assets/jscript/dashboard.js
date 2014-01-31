@@ -3,8 +3,7 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {
-
+$(document).ready(function() {   
 
     //session_rectify_ajax();
     $("#is_session").hide();
