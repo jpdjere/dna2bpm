@@ -1,51 +1,46 @@
- 
-
 {if sgr_period} 
-    
+<!-- -->
 {else}
-    
+    {if rectifica} 
+        <!-- -->
+    {else}
+        {if select_period}
+            <div id="no_session">
+                <div class="row-fluid">
+                    <div id="meta_div_2">
+                        <form  method="post" class="well" id="period_{sgr_period}">
+                            <div  class="row-fluid " >
+                                <div class="span6">                        
+                                    <label>Anexo</label>
+                                    <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
+                                </div>
 
-{if rectifica}  {else} 
-
-{if select_period}
-
-<div id="no_session">
-    <div class="row-fluid">
-        <div id="meta_div_2">
-            <form  method="post" class="well" id="period_{sgr_period}">
-                <div  class="row-fluid " >
-                    <div class="span6">                        
-                        <label>Anexo</label>
-                        <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
-                    </div>
-
-                    <div class="span6">
-                        <div>
-                            <label>Seleccione el Período a  Informar </label>
-                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
-                                <input type="text" name="input_period" readonly="" {if post_period} value="{post_period}" {/if} class="input-block-level">                                       
-                                       <span class="add-on"><i class="icon-calendar"></i></span>                                
+                                <div class="span6">
+                                    <div>
+                                        <label>Seleccione el Período a  Informar </label>
+                                        <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
+                                            <input type="text" name="input_period" readonly="" {if post_period} value="{post_period}" {/if} class="input-block-level">                                       
+                                                   <span class="add-on"><i class="icon-calendar"></i></span>                                
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div  class="row-fluid">
+                                <div class="span12">
+                                    <input type="hidden" name="anexo" value="{anexo}" />
+                                    <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="icon-save"></i> Activar Periodo</button>  
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div  class="row-fluid">
-                    <div class="span12">
-                        <input type="hidden" name="anexo" value="{anexo}" />
-                        <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="icon-save"></i> Activar Periodo</button>  
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-{/if}
-{/if}
+            </div>
+        {/if}
+    {/if}
 {/if}
 
 <!-- RECTIFICAR -->
 <div id="is_session">
-    
     <div class="row-fluid">
         <div id="meta_div_2">
             <form  method="post" class="well" id="period_{sgr_period}">
