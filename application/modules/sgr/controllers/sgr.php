@@ -375,8 +375,8 @@ class Sgr extends MX_Controller {
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $result['anexo'] = $this->anexo;
-                    $save_period = (array) $this->$model->save_period($result);
-
+                    $save_period = (array) $this->$model->save_period($result);                    
+                  
                     if ($save_period['status'] == "ok") {
                         /* RENDER */
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));

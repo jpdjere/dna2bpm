@@ -207,9 +207,6 @@ class Model_06 extends CI_Model {
     }
 
     function save($parameter) {
-
-
-
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -247,12 +244,38 @@ class Model_06 extends CI_Model {
         $parameter['idu'] = $this->idu;
 
         /*
+         * VERIFICO INCORPORACIONES
+         */
+
+        $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
+        foreach ($anexoValues as $values) {
+            if (in_array('1', $values[5779])) {
+                $parameter['status'] = 'pending';
+            } else {
+                $parameter['status'] = 'activo';
+                /*
+                 * ACTUALIZO EL ANEXO 61 "SIN MOVIMIENTOS" POR NO TENER INCORPORACIONES
+                 */
+                $parameter061 = array();
+                $id061 = $this->app->genid_sgr($container);
+                $parameter061['filename'] = "SIN MOVIMIENTOS";
+                $parameter061['period'] = $period;
+                $parameter061['status'] = 'activo';
+                $parameter061['idu'] = $this->idu;
+
+                $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
+                $this->update_period($get_period['id'], $get_period['status']);
+                $result = $this->app->put_array_sgr($id, $container, $parameter061);
+            }
+        }
+
+        /*
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
+        //exit();
 
         if ($result) {
             /* BORRO SESSION RECTIFY */
@@ -372,6 +395,23 @@ class Model_06 extends CI_Model {
             $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]];
 
             $rtn[] = $new_list;
+        }
+        return $rtn;
+    }
+
+    /*
+     * CLEAN ANEXO DATA
+     */
+
+    function get_insert_data($anexo, $parameter) {
+
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
         }
         return $rtn;
     }

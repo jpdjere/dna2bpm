@@ -176,7 +176,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "AE.1";
 
                     //Check Numeric Validation
-                    if ($parameterArr[$i]['fieldValue']!="") {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -210,7 +210,6 @@ class Lib_06_data extends MX_Controller {
                             $AF_field_value = strftime("%Y", $fecha);
                             /* VALIDACION R.3 */
                             $resto = $AF_field_value - $R2_field_value;
-
                             if ($resto > 4 && $R2_field_value) {
                                 $code_error = "R.3";
                                 $result["error_code"] = $code_error;
@@ -270,7 +269,16 @@ class Lib_06_data extends MX_Controller {
                         }
 
 
-                        //CUSTOM VALIDATION AG.2
+
+                        /*
+                         * CUSTOM VALIDATION AG.2
+                         * El campo no puede estar vacío y debe contener el siguientes parámetro:
+                          SUSCRIPCIÓN
+                         * CUSTOM VALIDATION CAB
+                         * C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB
+                          DEBE ESTAR VACÍAS
+
+                         */
                         if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
                             $code_error = "AG.2";
                             $allow_words = array("SUSCRIPCION");
@@ -281,6 +289,26 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                 array_push($stack, $result);
                             }
+
+                            $code_error = "CAB";
+                            $is_empty_arr = array(17 => 'S.2', 19 => 'T.2');
+                            foreach ($is_empty_arr as $col_num => $error_code) {
+                                foreach ($stack as $value) {
+                                    if (in_array($error_code, $value)) {                                        
+                                        unset($value);                                        
+                                    }
+                                    
+                                    //NOT empty field Validation
+//                                    $return = check_empty($parameterArr[$col_num]['fieldValue']);                                                                       
+//                                    if (!$return) {
+//                                        $result["error_code"] = $code_error;
+//                                        $result["error_row"] = $parameterArr[$col_num]['row'];
+//                                        $result["error_input_value"] = "no empty";
+//                                        array_push($stack, $result);
+//                                    }
+                                }
+                            }
+                            
                         }
                     }
                 }
@@ -713,8 +741,8 @@ class Lib_06_data extends MX_Controller {
                      */
                     if ($parameterArr[$i]['col'] == 15) {
                         $code_error = "O.1";
-                        
-                        if ($parameterArr[$i]['fieldValue']!="") {
+
+                        if ($parameterArr[$i]['fieldValue'] != "") {
                             $return = check_email($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
@@ -732,7 +760,7 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['col'] == 16) {
                         $code_error = "P.1";
 
-                        if ($parameterArr[$i]['fieldValue']!="") {
+                        if ($parameterArr[$i]['fieldValue'] != "") {
                             $return = check_web($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result["error_code"] = $code_error;
@@ -1090,8 +1118,6 @@ class Lib_06_data extends MX_Controller {
 
 
                 if ($B1_field_value == "B") {
-
-
                     $range = range(17, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
@@ -1259,8 +1285,6 @@ class Lib_06_data extends MX_Controller {
                  *                  
                  */
                 if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
-
-
                     $range = range(3, 28);
                     if (in_array($parameterArr[$i]['col'], $range)) {
                         switch ($parameterArr[$i]['col']) {
@@ -1412,8 +1436,10 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
+        var_dump($stack);
+       // exit();
+
         $this->data = $stack;
-        //return $this->data;
     }
 
 }

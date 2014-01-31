@@ -284,6 +284,9 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
             case "S.3": $result_error = '<strong>Columna S - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
                 break;
             
+            case "CAB": $result_error = '<strong>Columna '.$code.' - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>La columan debe estar vacia.';
+                break;
+            
             
         }
 
