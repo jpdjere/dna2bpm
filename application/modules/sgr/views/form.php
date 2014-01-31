@@ -40,7 +40,6 @@
 {/if}
 
 <!-- RECTIFICAR -->
-{if select_period}<!-- -->{else}
 <div id="is_session">
     <div class="row-fluid">
         <div id="meta_div_2">
@@ -88,4 +87,3 @@
         </div>
     </div>
 </div>
-{/if}
