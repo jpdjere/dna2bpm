@@ -1416,9 +1416,9 @@ class Lib_06_data extends MX_Controller {
                             $is_empty_arr = array(17 => 'S.2', 19 => 'T.2');
                             foreach ($is_empty_arr as $col_num => $error_code) {
                                 foreach ($stack as $value) {
-                                    var_dump('R.2', $stack[0],$error_code, $value );
-                                    
-                                    if (in_array('R.2', $value)) {
+                                    var_dump('R.2', $stack[0], $error_code, $value);
+
+                                    if (in_array($error_code, $value)) {
                                         unset($value);
                                     }
 
@@ -1437,10 +1437,31 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-       /* if (in_array('R.2', $stack[0])) {
-            unset($stack[0]);
-        }*/
-        //svar_dump($stack);
+
+        $code_error = "CAB";
+        $is_empty_arr = array(17 => 'S.2', 19 => 'T.2');
+        foreach ($is_empty_arr as $col_num => $error_code) {
+            foreach ($stack as $value) {
+                var_dump('R.2', $stack[0], $error_code, $value);
+
+                if (in_array($error_code, $value)) {
+                    unset($value);
+                }
+
+                //NOT empty field Validation
+//                                    $return = check_empty($parameterArr[$col_num]['fieldValue']);                                                                       
+//                                    if (!$return) {
+//                                        $result["error_code"] = $code_error;
+//                                        $result["error_row"] = $parameterArr[$col_num]['row'];
+//                                        $result["error_input_value"] = "no empty";
+//                                        array_push($stack, $result);
+//                                    }
+            }
+        }
+        /* if (in_array('R.2', $stack[0])) {
+          unset($stack[0]);
+          } */
+        //var_dump($stack);
         exit();
 
         $this->data = $stack;
