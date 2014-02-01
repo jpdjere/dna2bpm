@@ -303,9 +303,8 @@ class Lib_06_data extends MX_Controller {
                                 28 => 'AB.1'
                             );
                             foreach ($is_empty_arr as $col_num => $error_code) {
-
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
-                                    echo $error_code . " found at index " . $pos;
+                                    echo $error_code . " found at index " . $pos."<br/>";
                                     unset($stack[$pos]);
                                 }
                             }
