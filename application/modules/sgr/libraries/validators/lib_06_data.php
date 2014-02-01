@@ -289,6 +289,25 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                 array_push($stack, $result);
                             }
+
+                            $code_error = "CAB";
+                            $is_empty_arr = array(
+                                17 => 'R.2',
+                                19 => 'S.2',
+                                20 => 'T.2',
+                                21 => 'U.2',
+                                22 => 'V.2',
+                                23 => 'W.2',
+                                24 => 'X.2',
+                                26 => 'Z.2',
+                                28 => 'AB.1'
+                            );
+                            foreach ($is_empty_arr as $col_num => $error_code) {
+                                if (false !== ($pos = array_search2d($error_code, $stack))) {
+                                    echo $error_code . " found at index " . $pos."<br/>";
+                                    unset($stack[$pos]);
+                                }
+                            }
                         }
                     }
                 }
@@ -1414,33 +1433,9 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-
-                if ($parameterArr[$i]['col'] == 39) {
-                    $code_error = "CAB";
-                    $is_empty_arr = array(
-                        17 => 'X.2',
-                        19 => 'S.2',
-                        20 => 'T.2',
-                        21 => 'U.2',
-                        22 => 'V.2',
-                        23 => 'W.2',
-                        24 => 'X.2',
-                        26 => 'Z.2',
-                        28 => 'AB.1'
-                    );
-                    foreach ($is_empty_arr as $col_num => $error_code) {
-                        if (false !== ($pos = array_search2d($error_code, $stack))) {
-                            echo $error_code . " found at index " . $pos . "<br/>";
-                            unset($stack[$pos]);
-                        } else {
-                            echo $error_code . " NOT found at index <br/>";
-                        }
-                    }
-                }
             }
         }
-        var_dump($stack);
-        exit();
         $this->data = $stack;
     }
+
 }
