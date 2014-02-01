@@ -1442,9 +1442,10 @@ class Lib_06_data extends MX_Controller {
         $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
         foreach ($is_empty_arr as $col_num => $error_code) {
             foreach ($stack as $value) {
-                if (in_array($error_code, $value)) {
-                  
-                    unset($stack[0]);
+                if (in_array($error_code, $value)) {                  
+                    var_dump($value[$stack]);
+                    unset($value[$stack]);
+                    
                 }
 
                 //NOT empty field Validation
