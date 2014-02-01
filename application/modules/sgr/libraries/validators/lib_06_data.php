@@ -299,6 +299,7 @@ class Lib_06_data extends MX_Controller {
                                 22 => 'V.2',
                                 23 => 'W.2',
                                 24 => 'X.2',
+                                25 => 'Y.2',
                                 26 => 'Z.2',
                                 28 => 'AB.1'
                             );
