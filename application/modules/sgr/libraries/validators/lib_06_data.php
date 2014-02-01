@@ -312,7 +312,7 @@ class Lib_06_data extends MX_Controller {
 
                                 //NOT empty field Validation
                                 $return = check_empty($parameterArr[$col_num]['fieldValue']);
-                                var_dump($return);
+                                var_dump($return, $parameterArr[$col_num]['fieldValue']);
                                 if (!$return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$col_num]['row'];
