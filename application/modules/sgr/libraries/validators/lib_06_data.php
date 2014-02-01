@@ -1440,10 +1440,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }
-        echo "<hr>";
-        debug($stack);
-        exit();
+        }        
         $this->data = $stack;
     }
 
