@@ -1445,7 +1445,7 @@ class Lib_06_data extends MX_Controller {
                 
                 if (in_array('R.2', $value)) {
                     unset($stack);
-                    var_dump($value);
+                    var_dump($stack);
                 }
 
                 //NOT empty field Validation
