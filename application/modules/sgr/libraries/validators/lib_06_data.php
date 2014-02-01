@@ -307,6 +307,7 @@ class Lib_06_data extends MX_Controller {
                             foreach ($is_empty_arr as $col_num => $error_code) {
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
                                     $ord_arr[] = $pos;
+                                    echo $pos;
                                 }
                             }
 
