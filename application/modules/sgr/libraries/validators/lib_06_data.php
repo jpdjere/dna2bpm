@@ -1439,30 +1439,28 @@ class Lib_06_data extends MX_Controller {
         }
 
         $code_error = "CAB";
-        $n = 0; 
+
+        function array_search2d($needle, $haystack) {
+            for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
+                if (in_array($needle, $haystack[$i]))
+                    return $i;
+            }
+            return false;
+        }
+
         $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
         foreach ($is_empty_arr as $col_num => $error_code) {
-            foreach ($stack as $value) {
-                if (in_array($error_code, $value)) {                  
-                    unset($stack[$n]);
-                    $n++;
-                }
 
-                //NOT empty field Validation
-//                                    $return = check_empty($parameterArr[$col_num]['fieldValue']);                                                                       
-//                                    if (!$return) {
-//                                        $result["error_code"] = $code_error;
-//                                        $result["error_row"] = $parameterArr[$col_num]['row'];
-//                                        $result["error_input_value"] = "no empty";
-//                                        array_push($stack, $result);
-//                                    }
+            if (false !== ($pos = array_search2d($error_code, $stack))) {
+                echo $error_code . " found at index " . $pos;
+                unset($stack[$pos]);
             }
         }
-//         if (in_array('R.2', $stack[0])) {
-//          unset($stack[0]);
-//          } 
-        echo "<hr>";
+
+
+        echo "<pre>";
         var_dump($stack);
+        echo "</pre>";
         exit();
 
         $this->data = $stack;
