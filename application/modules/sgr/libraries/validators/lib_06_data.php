@@ -1442,7 +1442,7 @@ class Lib_06_data extends MX_Controller {
         $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
         foreach ($is_empty_arr as $col_num => $error_code) {
             foreach ($stack as $value) {
-                var_dump($value);
+                var_dump(array_unique($value));
                 if (in_array('R.2', $stack)) {
                     unset($stack);
                 }
