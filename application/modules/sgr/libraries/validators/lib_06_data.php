@@ -1445,9 +1445,9 @@ class Lib_06_data extends MX_Controller {
             foreach ($stack as $value) {
                 if (in_array($error_code, $value)) {                  
                     unset($stack[$n]);
-                    $n++;
+                    
                 }
-
+                $n++;
                 //NOT empty field Validation
 //                                    $return = check_empty($parameterArr[$col_num]['fieldValue']);                                                                       
 //                                    if (!$return) {
