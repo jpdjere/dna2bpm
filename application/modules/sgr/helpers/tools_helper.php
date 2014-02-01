@@ -398,7 +398,7 @@ function _money_format($parameter) {
  * */
 function array_search2d($needle, $haystack) {
     for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
-        var_dump(count($haystack));
+        var_dump($needle, $haystack[$i]);
         
         if ($haystack[$i]) {
             if (in_array($needle, $haystack[$i]))
