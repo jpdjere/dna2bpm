@@ -306,6 +306,8 @@ class Lib_06_data extends MX_Controller {
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
                                     echo $error_code . " found at index " . $pos."<br/>";
                                     unset($stack[$pos]);
+                                }else {
+                                    echo $error_code . " NOT found at index <br/>";
                                 }
                             }
                         }
