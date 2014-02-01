@@ -313,6 +313,8 @@ class Lib_06_data extends MX_Controller {
                             foreach ($ord_arr as $ord_num) {
                                 unset($stack[$ord_num]);
                             }
+                            
+                            var_dump($stack);
                         }
                     }
                 }
@@ -1440,7 +1442,7 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-        
+        echo "<hr>";
         debug($stack);
         exit();
         $this->data = $stack;
