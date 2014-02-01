@@ -316,7 +316,7 @@ class Lib_06_data extends MX_Controller {
                                 if (!$return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$col_num]['row'];
-                                    $result["error_input_value"] = "no empty";
+                                    $result["error_input_value"] = $parameterArr[$col_num]['fieldValue'];
                                     array_push($stack, $result);
                                 }
                             }
