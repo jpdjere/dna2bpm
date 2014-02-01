@@ -1436,9 +1436,9 @@ class Lib_06_data extends MX_Controller {
             }
         }
         if (in_array('R.2', $stack[0])) {
-            unset($value);
+            unset($stack[0]);
         }
-        var_dump($stack[0]);
+        var_dump($stack);
         exit();
 
         $this->data = $stack;
