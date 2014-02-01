@@ -309,16 +309,6 @@ class Lib_06_data extends MX_Controller {
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
                                     $ord_arr[] = $pos;
                                 }
-
-                                //NOT empty field Validation
-                                $return = check_empty($parameterArr[$col_num]['fieldValue']);
-                                var_dump($return, $col_num);
-                                if (!$return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$col_num]['row'];
-                                    $result["error_input_value"] = $parameterArr[$col_num]['fieldValue'];
-                                    array_push($stack, $result);
-                                }
                             }
 
 
@@ -1452,9 +1442,6 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-        echo "<hr>";
-        debug($stack);
-        exit();
         $this->data = $stack;
     }
 
