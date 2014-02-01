@@ -1418,7 +1418,7 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 39) {
                     $code_error = "CAB";
                     $is_empty_arr = array(
-                        17 => 'R.2',
+                        17 => 'X.2',
                         19 => 'S.2',
                         20 => 'T.2',
                         21 => 'U.2',
