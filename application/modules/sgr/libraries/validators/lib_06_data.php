@@ -1463,7 +1463,7 @@ class Lib_06_data extends MX_Controller {
 //          } 
 //        echo "<hr>";
 //        var_dump($stack);
-//        exit();
+//        
 
 
         function array_search2d($needle, $haystack) {
@@ -1482,7 +1482,7 @@ class Lib_06_data extends MX_Controller {
         } else {
             echo "Could not find " . $searchTerm;
         }
-
+        exit();
         $this->data = $stack;
     }
 
