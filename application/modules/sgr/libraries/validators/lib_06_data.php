@@ -1443,8 +1443,8 @@ class Lib_06_data extends MX_Controller {
         foreach ($is_empty_arr as $col_num => $error_code) {
             foreach ($stack as $value) {
                 if (in_array($error_code, $value)) {
-                    var_dump($error_code, $value, $stack);
-                    unset($value);
+                  
+                    unset($stack[0]);
                 }
 
                 //NOT empty field Validation
@@ -1461,7 +1461,7 @@ class Lib_06_data extends MX_Controller {
 //          unset($stack[0]);
 //          } 
         echo "<hr>";
-        //var_dump($stack);
+        var_dump($stack);
         exit();
 
         $this->data = $stack;
