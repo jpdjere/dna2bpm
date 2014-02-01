@@ -1417,7 +1417,7 @@ class Lib_06_data extends MX_Controller {
                             foreach ($is_empty_arr as $col_num => $error_code) {
                                 foreach ($stack as $value) {
                                     if (in_array('R.2', $stack[0])) {
-                                        unset($value);
+                                        unset($stack[0]);
                                     }
 
                                     //NOT empty field Validation
@@ -1435,9 +1435,9 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-        if (in_array('R.2', $stack[0])) {
+       /* if (in_array('R.2', $stack[0])) {
             unset($stack[0]);
-        }
+        }*/
         var_dump($stack);
         exit();
 
