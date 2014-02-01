@@ -291,7 +291,17 @@ class Lib_06_data extends MX_Controller {
                             }
 
                             $code_error = "CAB";
-                            $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
+                            $is_empty_arr = array(
+                                17 => 'R.2',
+                                19 => 'S.2',
+                                20 => 'T.2',
+                                21 => 'U.2',
+                                22 => 'V.2',
+                                23 => 'W.2',
+                                24 => 'X.2',
+                                26 => 'Z.2',
+                                28 => 'AB.1'
+                            );
                             foreach ($is_empty_arr as $col_num => $error_code) {
 
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
@@ -1425,7 +1435,8 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }       
+        }
         $this->data = $stack;
     }
+
 }
