@@ -290,15 +290,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
 
-                            $code_error = "CAB";
-
-                            function array_search2d($needle, $haystack) {
-                                for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
-                                    if (in_array($needle, $haystack[$i]))
-                                        return $i;
-                                }
-                                return false;
-                            }
+                            $code_error = "CAB";                           
 
                             $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
                             foreach ($is_empty_arr as $col_num => $error_code) {
