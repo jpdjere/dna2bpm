@@ -1439,13 +1439,12 @@ class Lib_06_data extends MX_Controller {
         }
 
         $code_error = "CAB";
-        $n = 0; 
+        $n = 0;
         $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
         foreach ($is_empty_arr as $col_num => $error_code) {
             foreach ($stack as $value) {
-                if (in_array($error_code, $value)) {                  
+                if (in_array($error_code, $value)) {
                     unset($stack[$n]);
-                    
                 }
                 $n++;
                 //NOT empty field Validation
@@ -1458,12 +1457,31 @@ class Lib_06_data extends MX_Controller {
 //                                    }
             }
         }
+
 //         if (in_array('R.2', $stack[0])) {
 //          unset($stack[0]);
 //          } 
 //        echo "<hr>";
 //        var_dump($stack);
 //        exit();
+
+
+        function array_search2d($needle, $haystack) {
+            for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
+                if (in_array($needle, $haystack[$i]))
+                    return $i;
+            }
+            return false;
+        }
+
+       
+        $searchTerm = "R.2";
+
+        if (false !== ($pos = array_search2d($searchTerm, $stack))) {
+            echo $searchTerm . " found at index " . $pos;
+        } else {
+            echo "Could not find " . $searchTerm;
+        }
 
         $this->data = $stack;
     }
