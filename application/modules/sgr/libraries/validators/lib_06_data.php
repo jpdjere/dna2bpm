@@ -1441,5 +1441,4 @@ class Lib_06_data extends MX_Controller {
         }
         $this->data = $stack;
     }
-
 }
