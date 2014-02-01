@@ -232,6 +232,86 @@ class Lib_06_data extends MX_Controller {
 
 
 
+                /*
+                 * MODALIDAD AG                 * 
+                 * 
+                 * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
+                  SUSCRIPCION
+                  TRANSFERENCIA
+                  En caso de que en la Columna A se complete la opción “DISMINUCION DE CAPITAL SOCIAL”, solo puede contener la opción “SUSCRIPCION”                *
+                 *
+                 */
+
+                if ($parameterArr[$i]['col'] == 33) {
+
+                    $code_error = "AG.1";
+
+                    //empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = "empty";
+                        array_push($stack, $result);
+                    }
+                    //Value Validation
+                    if (isset($parameterArr[$i]['fieldValue'])) {
+                        $AG_field_value = "";
+                        $allow_words = array("SUSCRIPCION", "TRANSFERENCIA");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        } else {
+                            $AG_field_value = $parameterArr[$i]['fieldValue'];
+                        }
+
+
+
+                        /*
+                         * CUSTOM VALIDATION AG.2
+                         * El campo no puede estar vacío y debe contener el siguientes parámetro:
+                          SUSCRIPCIÓN
+                         * CUSTOM VALIDATION CAB
+                         * C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB
+                          DEBE ESTAR VACÍAS
+
+                         */
+                        if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+                            $code_error = "AG.2";
+                            $allow_words = array("SUSCRIPCION");
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            if ($return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+
+                            $code_error = "CAB";
+
+                            function array_search2d($needle, $haystack) {
+                                for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
+                                    if (in_array($needle, $haystack[$i]))
+                                        return $i;
+                                }
+                                return false;
+                            }
+
+                            $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
+                            foreach ($is_empty_arr as $col_num => $error_code) {
+
+                                if (false !== ($pos = array_search2d($error_code, $stack))) {
+                                    echo $error_code . " found at index " . $pos;
+                                    unset($stack[$pos]);
+                                }
+                            }
+                        }
+                    }
+                }
+
 
                 /*
                  * CAPITAL_SUSCRIPTO	ACCIONES_SUSCRIPTAS	CAPITAL_INTEGRADO	ACCIONES_INTEGRADAS
@@ -1353,115 +1433,10 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-
-                /*
-                 * MODALIDAD AG                 * 
-                 * 
-                 * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
-                  SUSCRIPCION
-                  TRANSFERENCIA
-                  En caso de que en la Columna A se complete la opción “DISMINUCION DE CAPITAL SOCIAL”, solo puede contener la opción “SUSCRIPCION”                *
-                 *
-                 */
-
-                if ($parameterArr[$i]['col'] == 33) {
-
-                    $code_error = "AG.1";
-
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
-                        array_push($stack, $result);
-                    }
-                    //Value Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $AG_field_value = "";
-                        $allow_words = array("SUSCRIPCION", "TRANSFERENCIA");
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                            array_push($stack, $result);
-                        } else {
-                            $AG_field_value = $parameterArr[$i]['fieldValue'];
-                        }
-
-
-
-                        /*
-                         * CUSTOM VALIDATION AG.2
-                         * El campo no puede estar vacío y debe contener el siguientes parámetro:
-                          SUSCRIPCIÓN
-                         * CUSTOM VALIDATION CAB
-                         * C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB
-                          DEBE ESTAR VACÍAS
-
-                         */
-                        if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
-                            $code_error = "AG.2";
-                            $allow_words = array("SUSCRIPCION");
-                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                            if ($return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                array_push($stack, $result);
-                            }
-
-//                            $code_error = "CAB";
-//                            $is_empty_arr = array(17 => 'S.2', 19 => 'T.2');
-//                            foreach ($is_empty_arr as $col_num => $error_code) {
-//                                foreach ($stack as $value) {
-//                                    var_dump('R.2', $stack[0], $error_code, $value);
-//
-//                                    if (in_array($error_code, $value)) {
-//                                        unset($value);
-//                                    }
-//
-//                                    NOT empty field Validation
-//                                    $return = check_empty($parameterArr[$col_num]['fieldValue']);                                                                       
-//                                    if (!$return) {
-//                                        $result["error_code"] = $code_error;
-//                                        $result["error_row"] = $parameterArr[$col_num]['row'];
-//                                        $result["error_input_value"] = "no empty";
-//                                        array_push($stack, $result);
-//                                    }
-//                                }
-//                            }
-                        }
-                    }
-                }
             }
         }
-
-        $code_error = "CAB";
-
-        function array_search2d($needle, $haystack) {
-            for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
-                if (in_array($needle, $haystack[$i]))
-                    return $i;
-            }
-            return false;
-        }
-
-        $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
-        foreach ($is_empty_arr as $col_num => $error_code) {
-
-            if (false !== ($pos = array_search2d($error_code, $stack))) {
-                echo $error_code . " found at index " . $pos;
-                unset($stack[$pos]);
-            }
-        }
-
-
-        echo "<pre>";
         var_dump($stack);
-        echo "</pre>";
-        exit();
+        // exit();
 
         $this->data = $stack;
     }
