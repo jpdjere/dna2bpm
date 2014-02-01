@@ -297,14 +297,24 @@ class Lib_06_data extends MX_Controller {
                                 20 => 'T.2',
                                 21 => 'U.2',
                                 22 => 'V.2',
+                            );
+
+                            $is_empty_arr2 = array(
                                 23 => 'W.2',
                                 24 => 'X.2',
+                                25 => 'Y.2',
                                 26 => 'Z.2',
                                 28 => 'AB.1'
                             );
                             foreach ($is_empty_arr as $col_num => $error_code) {
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
-                                    echo $error_code . " found at index " . $pos."<br/>";
+                                    echo $error_code . " found at index " . $pos . "<br/>";
+                                    unset($stack[$pos]);
+                                }
+                            }
+                            foreach ($is_empty_arr2 as $col_num => $error_code) {
+                                if (false !== ($pos = array_search2d($error_code, $stack))) {
+                                    echo $error_code . " found at index " . $pos . "<br/>";
                                     unset($stack[$pos]);
                                 }
                             }
