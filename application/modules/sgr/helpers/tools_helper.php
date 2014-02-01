@@ -120,7 +120,7 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2) {
-    /*Chck if number*/
+    /* Chck if number */
     if (ctype_alpha($number)) {
         return true;
         exit();
@@ -167,7 +167,7 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
-    $parameter = "http://" . $parameter;    
+    $parameter = "http://" . $parameter;
     if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
         return true;
     }
@@ -385,4 +385,20 @@ function _money_format($parameter) {
         $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
     }
     return $parameter;
+}
+/**
+ * Buscador en array de 2 dimensiones
+ *
+ * @param Boolean (true) 
+ * @type php
+ * @author Diego
+ * @name array_search2d
+ *
+ * */
+function array_search2d($needle, $haystack) {
+    for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
+        if (in_array($needle, $haystack[$i]))
+            return $i;
+    }
+    return false;
 }
