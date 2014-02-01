@@ -1444,7 +1444,7 @@ class Lib_06_data extends MX_Controller {
         foreach ($is_empty_arr as $col_num => $error_code) {
             foreach ($stack as $value) {
                 if (in_array($error_code, $value)) {                  
-                    unset($value[$n]);
+                    unset($stack[$n]);
                     $n++;
                 }
 
