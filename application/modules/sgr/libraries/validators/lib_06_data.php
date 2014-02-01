@@ -290,8 +290,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
 
-                            $code_error = "CAB";                           
-
+                            $code_error = "CAB";
                             $is_empty_arr = array(17 => 'R.2', 19 => 'S.2');
                             foreach ($is_empty_arr as $col_num => $error_code) {
 
@@ -1426,10 +1425,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }
-        var_dump($stack);
-        exit();
-
+        }       
         $this->data = $stack;
     }
 
