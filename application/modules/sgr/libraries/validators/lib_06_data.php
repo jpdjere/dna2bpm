@@ -314,7 +314,7 @@ class Lib_06_data extends MX_Controller {
                                 unset($stack[$ord_num]);
                             }
                             
-                            var_dump($stack);
+                            var_dump($ord_arr, $stack);
                         }
                     }
                 }
