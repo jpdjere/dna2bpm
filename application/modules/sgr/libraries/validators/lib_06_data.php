@@ -1080,7 +1080,6 @@ class Lib_06_data extends MX_Controller {
                         if ($A1_field_value != "INCREMENTO DE TENENCIA ACCIONARIA") {
                             $code_error = "AB.1";
 
-
                             /* AVERAGE AMOUNT */
                             $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3; //array($Y2_field_value, $V2_field_value, $S2_field_value);
                             /* echo "<pre>";
@@ -1098,9 +1097,8 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = "empty";
                                 array_push($stack, $result);
-                            }
-                            //Check Numeric Validation
-                            if (isset($parameterArr[$i]['fieldValue'])) {
+                            } else {
+                                //Check Numeric Validation
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
