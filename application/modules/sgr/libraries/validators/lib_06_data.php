@@ -1416,16 +1416,6 @@ class Lib_06_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 17) {
                     
-                    if($A1_field_value=="DISMINUCION DE CAPITAL SOCIAL"){
-                        //empty field Validation
-                        $return = check_empty($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . $parameterArr[$i]['fieldValue'];
-                            array_push($stack, $result);
-                        }
-                    } else {
 
                     /* CALC AVERAGE */
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
@@ -1446,7 +1436,6 @@ class Lib_06_data extends MX_Controller {
                         $result["error_input_value"] = "No califica como PYME";
                         array_push($stack, $result);
                     }
-                }
                 }
             }
         }
