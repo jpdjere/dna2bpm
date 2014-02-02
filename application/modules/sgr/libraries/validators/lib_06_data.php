@@ -323,7 +323,8 @@ class Lib_06_data extends MX_Controller {
                  * CHECK 4 NO EMPTY
                  */
                 foreach ($is_empty_arr as $col_num => $error_code) {
-                    echo "<br>" . $parameterArr[$col_num]['fieldValue'];
+                    if($parameterArr[$col_num]['fieldValue'])
+                    echo "<br>". $col_num. "->" . $parameterArr[$col_num]['fieldValue'];
                 }
 
 
