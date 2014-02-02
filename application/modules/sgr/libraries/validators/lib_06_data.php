@@ -310,9 +310,13 @@ class Lib_06_data extends MX_Controller {
                                     $ord_arr[] = $pos;
                                 }
 
+                                 if ($parameterArr[$i]['col'] == $col_num) {
+                                     var_dump($col_num, $parameterArr[$col_num]['fieldValue']);
+                                 }
+                                
                                 //NOT empty field Validation
                                 $return = check_empty($parameterArr[$col_num]['fieldValue']);
-                                var_dump($col_num, $parameterArr[$col_num]['fieldValue']);
+                                
                                 if (!$return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$col_num]['row'];
