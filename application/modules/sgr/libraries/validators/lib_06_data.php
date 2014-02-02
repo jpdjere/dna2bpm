@@ -49,7 +49,7 @@ class Lib_06_data extends MX_Controller {
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
-                    }
+                    } 
 
                     //Value Validation
                     if (isset($parameterArr[$i]['fieldValue'])) {
@@ -316,15 +316,6 @@ class Lib_06_data extends MX_Controller {
                             }
                         }
                     }
-                }
-                
-                
-                /*
-                 * CHECK 4 NO EMPTY
-                 */
-                foreach ($is_empty_arr as $col_num => $error_code) {
-                    if($parameterArr[$col_num]['fieldValue'])
-                    echo "<br>". $col_num. "->" . $parameterArr[$col_num]['fieldValue'];
                 }
 
 
@@ -1424,7 +1415,17 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 17) {
-
+                    
+                    if($A1_field_value=="DISMINUCION DE CAPITAL SOCIAL"){
+                        //empty field Validation
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if (!$return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    } else {
 
                     /* CALC AVERAGE */
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
@@ -1445,6 +1446,7 @@ class Lib_06_data extends MX_Controller {
                         $result["error_input_value"] = "No califica como PYME";
                         array_push($stack, $result);
                     }
+                }
                 }
             }
         }
