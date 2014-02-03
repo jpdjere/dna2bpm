@@ -1,6 +1,6 @@
 <?php
 
-class Lib_13_header {  
+class Lib_14_header {  
 
     public function __construct($parameter) {
         /* Vars */

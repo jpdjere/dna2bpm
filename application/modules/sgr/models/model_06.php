@@ -415,5 +415,20 @@ class Model_06 extends CI_Model {
         }
         return $rtn;
     }
+    
+    /*ACCIONES
+     * Compra venta por socio
+     */
+    function buy_shares($cuit){      
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        
+    }
+    
+    function sell_shares($cuit){
+        
+    }
+    
 
 }

@@ -49,7 +49,7 @@ class Lib_06_data extends MX_Controller {
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
-                    } 
+                    }
 
                     //Value Validation
                     if (isset($parameterArr[$i]['fieldValue'])) {
@@ -233,8 +233,7 @@ class Lib_06_data extends MX_Controller {
 
 
                 /*
-                 * MODALIDAD AG                 * 
-                 * 
+                 * MODALIDAD AG 
                  * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
                   SUSCRIPCION
                   TRANSFERENCIA
@@ -274,7 +273,7 @@ class Lib_06_data extends MX_Controller {
                          * CUSTOM VALIDATION AG.2
                          * El campo no puede estar vacío y debe contener el siguientes parámetro:
                           SUSCRIPCIÓN
-                         * CUSTOM VALIDATION CAB
+                         * CUSTOM VALIDATION C-AB
                          * C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB
                           DEBE ESTAR VACÍAS
 
@@ -290,26 +289,36 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
 
-                            $code_error = "CAB";
+                            $code_error = "C-AB";
                             $is_empty_arr = array(
                                 17 => 'R.2',
-                                19 => 'S.2',
-                                20 => 'T.2',
-                                21 => 'U.2',
-                                22 => 'V.2',
-                                23 => 'W.2',
-                                24 => 'X.2',
-                                25 => 'Y.2',
-                                26 => 'Z.2',
-                                28 => 'AB.1'
+                                18 => 'S.2',
+                                19 => 'T.2',
+                                20 => 'U.2',
+                                21 => 'V.2',
+                                22 => 'W.2',
+                                23 => 'X.2',
+                                24 => 'Y.2',
+                                2 => 'Z.2',
+                                27 => 'AB.1'
                             );
                             $ord_arr = array();
 
                             foreach ($is_empty_arr as $col_num => $error_code) {
+                                //empty field Validation
+                                $return = check_empty($parameterArr[$col_num]['fieldValue']);
+                                if (!$return) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = $col_num;
+                                    array_push($stack, $result);
+                                }
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
                                     $ord_arr[] = $pos;
                                 }
                             }
+
+
 
                             foreach ($ord_arr as $ord_num) {
                                 unset($stack[$ord_num]);
@@ -322,9 +331,7 @@ class Lib_06_data extends MX_Controller {
                 /*
                  * CAPITAL_SUSCRIPTO	ACCIONES_SUSCRIPTAS	CAPITAL_INTEGRADO	ACCIONES_INTEGRADAS
                  * AH.1, AI.1, AJ.1, AK.1
-                 * 
-                 * 
-                 * El campo no puede estar vacío y debe contener dígitos numéricos.                 *
+                 * El campo no puede estar vacío y debe contener dígitos numéricos.                 
                  */
 
 
@@ -434,8 +441,8 @@ class Lib_06_data extends MX_Controller {
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
                                 $code_error = "AL.1";
-                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
+                                $return = check_for_empty($parameterArr[$i]['fieldValue']);                                
+                                if ($return) {                                    
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "not empty";
@@ -467,7 +474,7 @@ class Lib_06_data extends MX_Controller {
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
                                 $code_error = "AM.1";
-                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_for_empty($parameterArr[$i]['fieldValue']);                                
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -496,9 +503,10 @@ class Lib_06_data extends MX_Controller {
                             }
 
                             $code_error = "AM.4";
-                            if (isset($parameterArr[$i]['fieldValue'])) {
+                            if ($parameterArr[$i]['fieldValue']!="") {
                                 $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
-
+                                 $return = check_empty($parameterArr[$i]['fieldValue']);
+                                if ($return) {
                                 $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
@@ -506,6 +514,7 @@ class Lib_06_data extends MX_Controller {
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                     array_push($stack, $result);
                                 }
+                            }
                             }
                             break;
                     }
@@ -791,14 +800,28 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_row"] = $parameterArr[$i]['row'];
                                 $result["error_input_value"] = "empty";
                                 array_push($stack, $result);
+                            } else {
+                                $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
+                                if (!$return) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                    array_push($stack, $result);
+                                }
                             }
                         }
-                        if (isset($parameterArr[$i]['fieldValue'])) {
-                            $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
+
+                        /*
+                         * 2.1.2. COLUMNA B - TIPO DE SOCIO: “B” - > TODAS DEBEN ESTAR VACÍAS
+                         */
+
+                        if ($B1_field_value == "B") {
+                            $code_error = "Q.3";
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                $result["error_input_value"] = "empty";
                                 array_push($stack, $result);
                             }
                         }
@@ -1125,9 +1148,7 @@ class Lib_06_data extends MX_Controller {
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
                         switch ($parameterArr[$i]['col']) {
-                            case 17: //Código de Actividad
-                                $code_error = "Q.3";
-                                break;
+
                             case 18: //Año/Mes 1
                                 $code_error = "R.4";
                                 break;
@@ -1415,7 +1436,7 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 17) {
-                    
+
 
                     /* CALC AVERAGE */
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
@@ -1439,6 +1460,8 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
+        //exit();
         $this->data = $stack;
     }
+
 }
