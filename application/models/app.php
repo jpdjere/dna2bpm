@@ -342,34 +342,35 @@ class App extends CI_Model {
         $thisArr['id'] = $id;
         return $thisArr;
     }
-    
-    /*SGR PATCH*/
-    function put_array_sgr($id, $container, $val_arr = array()) {
 
+    /* SGR PATCH */
+    function put_array_sgr($id, $container, $val_arr = array()) {
         $thisArr = array();
 
         foreach ($val_arr as $idframe => $value) {
-            $thisFrame = $this->get_frame($idframe, array('type', 'container'));
+            $thisFrame = $this->get_frame($idframe, array('type', 'container'));            
             $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
         }
-        //var_dump($thisArr);
+
         //----check 4 id
         if (!is_numeric($id)) {
             $id = $this->genid($container);
         }
-
+        unset($thisArr[4653], $thisArr[4654]);
         $criteria = array('id' => $id);
         $update = array('$set' => $thisArr);
         $options = array('upsert' => true, 'safe' => true);
-
-        //var_dump($container, json_encode($criteria), json_encode($update));
+        //var_dump($container, json_encode($criteria), json_encode($update));        
         $result = $this->mongo->sgr->selectCollection($container)->update($criteria, $update, $options);
         $thisArr['id'] = $id;
+        
+        exit();
         return $thisArr;
     }
 
     function cast_type($input, $type) {
-        $retval = '';
+        $retval = '';        
+        $input = htmlentities($input, ENT_QUOTES,'UTF-8');
 
         switch ($type) {
             case 'checklist':
@@ -479,8 +480,9 @@ class App extends CI_Model {
         $this->mongo->db->selectCollection($container)->save($insert);
         return $id;
     }
-    
+
     /* SGR PATCH */
+
     function genid_sgr($container) {
         $insert = array();
         $id = mt_rand();
@@ -520,7 +522,6 @@ class App extends CI_Model {
         $this->mongo->sgr->selectCollection($container)->save($insert);
         return $id;
     }
-    
 
     function genid_general($container, $fieldname) {
         $insert = array();
