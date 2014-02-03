@@ -1,10 +1,10 @@
-{if sgr_period} 
-<!-- -->
+<!--{if sgr_period} 
+ 
 {else}
     {if rectifica} 
-        <!-- -->
+         
     {else}
-        {if select_period}
+        {if select_period}-->
             <div id="no_session">
                 <div class="row-fluid">
                     <div id="meta_div_2">
@@ -35,9 +35,9 @@
                     </div>
                 </div>
             </div>
-        {/if}
+<!--        {/if}
     {/if}
-{/if}
+{/if}-->
 
 <!-- RECTIFICAR -->
 <div id="is_session">
@@ -46,7 +46,7 @@
             <form  method="post" class="well" id="period_{sgr_period}">
                 <div  class="row-fluid " >
                     <div class="span6">                        
-                        <label>Rectificar Anexo</label>
+                        <label>Rectificar Anexo | <a href="">Seleccionar otro periodo</a></label>
                         <input type="text"  placeholder="{anexo_title}"  class="input-block-level" disabled="true"/>
 
                         <div>
