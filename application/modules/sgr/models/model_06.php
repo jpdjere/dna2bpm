@@ -240,7 +240,7 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['status'] = 'activo';
+        //$parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
 
         /*
@@ -249,6 +249,7 @@ class Model_06 extends CI_Model {
 
         $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
         foreach ($anexoValues as $values) {
+            /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values[5779])) {
                 $parameter['status'] = 'pending';
             } else {
@@ -258,14 +259,20 @@ class Model_06 extends CI_Model {
                  */
                 $parameter061 = array();
                 $id061 = $this->app->genid_sgr($container);
+                $parameter061['anexo'] = "061";
                 $parameter061['filename'] = "SIN MOVIMIENTOS";
                 $parameter061['period'] = $period;
                 $parameter061['status'] = 'activo';
                 $parameter061['idu'] = $this->idu;
+                $parameter061['sgr_id'] = $this->sgr_id;
+                
 
                 $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
-                $this->update_period($get_period['id'], $get_period['status']);
-                $result = $this->app->put_array_sgr($id, $container, $parameter061);
+                if ($get_period['id']) {
+                    $this->update_period($get_period['id'], $get_period['status']);
+                }
+                $result = $this->app->put_array_sgr($id061, $container, $parameter061);
+                
             }
         }
 
@@ -273,7 +280,9 @@ class Model_06 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        if ($get_period['id']) {
+            $this->update_period($get_period['id'], $get_period['status']);
+        }
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         //exit();
 
@@ -415,20 +424,19 @@ class Model_06 extends CI_Model {
         }
         return $rtn;
     }
-    
-    /*ACCIONES
+
+    /* ACCIONES
      * Compra venta por socio
      */
-    function buy_shares($cuit){      
+
+    function buy_shares($cuit) {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->findOne($query);
+    }
+
+    function sell_shares($cuit) {
         
     }
-    
-    function sell_shares($cuit){
-        
-    }
-    
 
 }
