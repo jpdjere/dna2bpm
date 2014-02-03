@@ -40,7 +40,7 @@
 {/if}-->
 
 <!-- RECTIFICAR -->
-<div id="is_session">
+<div id="is_session" style="display:none">
     <div class="row-fluid">
         <div id="meta_div_2">
             <form  method="post" class="well" id="period_{sgr_period}">
