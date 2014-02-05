@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {   
-
+$(document).ready(function() {  
     //session_rectify_ajax();
     $("#is_session").hide();
     /*RECTIFICA HREF*/
     $('[class^="rectifica-link_"]').click(function(event) {
+         $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
         var input_period = arr[2];
@@ -42,6 +42,7 @@ $(document).ready(function() {
                 $("input[name$='anexo']").val(anexo);
                 $('[id^="period_"]').submit();
                 $("#is_session").show();*/
+                 $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
                 $("#sgr_period").html("Rectifica");
                 $("#no_movement").hide();
                 $("#is_session").show();

@@ -218,11 +218,10 @@ class Model_06 extends CI_Model {
         $parameter[5255] = $arr;
 
         $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
-
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
+        $parameter['sgr_id'] = $this->sgr_id;
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
@@ -265,14 +264,13 @@ class Model_06 extends CI_Model {
                 $parameter061['status'] = 'activo';
                 $parameter061['idu'] = $this->idu;
                 $parameter061['sgr_id'] = $this->sgr_id;
-                
+
 
                 $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
                 if ($get_period['id']) {
                     $this->update_period($get_period['id'], $get_period['status']);
                 }
                 $result = $this->app->put_array_sgr($id061, $container, $parameter061);
-                
             }
         }
 
@@ -284,7 +282,6 @@ class Model_06 extends CI_Model {
             $this->update_period($get_period['id'], $get_period['status']);
         }
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-        //exit();
 
         if ($result) {
             /* BORRO SESSION RECTIFY */
@@ -333,7 +330,6 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-
             /* Vars */
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
@@ -425,18 +421,44 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
-    /* ACCIONES
+    /* ACCIONES COMPRA
      * Compra venta por socio
+     * Integradas
      */
 
-    function buy_shares($cuit) {
+    function buy_shares($cuit,$partner_type) {
+
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->findOne($query);
+        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id);        
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $list) {            
+            $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
+        }
+        
+        var_dump($new_result);
+        return $new_result;
     }
 
-    function sell_shares($cuit) {
-        
+    /* ACCIONES VENTA
+     * Compra venta por socio
+     * Integradas 
+     */
+
+    function sell_shares($cuit_cedente,$partner_type) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id);
+
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $list) {
+            $new_query = array(5248 => $cuit_cedente, 'sgr_id' => $list['sgr_id'],'filename' => $list['filename'], 5272 => $partner_type);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+        }
+        return $new_result;
     }
 
 }

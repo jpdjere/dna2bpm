@@ -62,11 +62,9 @@ class Sgr extends MX_Controller {
         $customData['titulo'] = "";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-            
-        
-       
 
-        
+
+
 
         $customData['anexo'] = $this->anexo;
         $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
@@ -89,12 +87,11 @@ class Sgr extends MX_Controller {
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
-            
+
             if (!$this->session->userdata['period']) {
                 $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
                 $customData['select_period'] = true;
             }
-            
         } else {
             $customData['message'] = $upload['message'];
             $customData['success'] = "error";
@@ -109,7 +106,7 @@ class Sgr extends MX_Controller {
                 $customData['select_period'] = true;
             }
         }
-        
+
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
         if ($error_set_period) {
@@ -124,8 +121,7 @@ class Sgr extends MX_Controller {
                     $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
-                    $customData['js'] = 
-                    $link_arr = array($this->module_url . "assets/jscript/rectify.js" => 'Rectify JS');
+                    $customData['js'] = $link_arr = array($this->module_url . "assets/jscript/rectify.js" => 'Rectify JS');
                     array_push($customData['js'], $link_arr);
                     break;
             }
@@ -136,6 +132,7 @@ class Sgr extends MX_Controller {
         //RECTIFY 
         $rectify_msg = '<div class="navbar-inverse well-small"><i class="fa fa-info-circle"></i> Para terminar la rectificación deberá asociar el perido ' . $this->session->userdata['period'] . ' a un Archivo o a "SIN MOVIMIENTO"</div>';
         $customData['rectify_message'] = ($this->session->userdata['rectify']) ? $rectify_msg : "";
+        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
@@ -375,8 +372,8 @@ class Sgr extends MX_Controller {
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $result['anexo'] = $this->anexo;
-                    $save_period = (array) $this->$model->save_period($result);                    
-                  
+                    $save_period = (array) $this->$model->save_period($result);
+
                     if ($save_period['status'] == "ok") {
                         /* RENDER */
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
@@ -679,7 +676,7 @@ class Sgr extends MX_Controller {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
                 }
-                
+
                 $rectified_on = $file['rectified_on'];
                 switch ($file['reason']) {
                     case 1:
@@ -695,12 +692,39 @@ class Sgr extends MX_Controller {
                         break;
                 }
 
-                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>'.$translate. '</em></small> </li>';
+                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>' . $translate . '</em></small> </li>';
             }
             $list_files .= '</ul></div>
         </div>';
         }
         return $list_files;
+    }
+
+    function get_rectified_legend($anexo) {       
+        
+        switch ($anexo) {
+            case 06:
+                $legend_msg = "6.1, 6.2, 20.1";
+                break;
+            case 12:
+                $legend_msg = "12.1 ,12.2 ,12.3 ,12.4 ,12.5";
+                break;
+            case 13:
+            case 14:
+                $legend_msg = "14.1";
+                break;
+            case 201:
+                $legend_msg = "20.2";
+                break;
+            case 202:
+               $legend_msg = "13, 20.2"; 
+                break;
+             default:
+                $legend_msg = "6.1, 6.2, 20.1";
+                break;
+        }
+        return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
+        
     }
 
     /*

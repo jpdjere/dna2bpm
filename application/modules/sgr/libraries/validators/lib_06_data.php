@@ -2,12 +2,14 @@
 
 class Lib_06_data extends MX_Controller {
     /* VALIDADOR ANEXO 06 */
-
     public function __construct($parameter) {
         parent::__construct();
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
+
+        $model_anexo = "model_06";
+        $this->load->Model($model_anexo);
 
         /* Vars 
          * 
@@ -441,12 +443,14 @@ class Lib_06_data extends MX_Controller {
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
                                 $code_error = "AL.1";
-                                $return = check_for_empty($parameterArr[$i]['fieldValue']);                                
-                                if ($return) {                                    
+                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                                if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = "not empty";
                                     array_push($stack, $result);
+                                } else {
+                                    $AL1_field_value = $parameterArr[$i]['fieldValue'];
                                 }
                             } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
                                 //do something
@@ -474,7 +478,7 @@ class Lib_06_data extends MX_Controller {
                             if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                                 //CHECK FOR EMPTY
                                 $code_error = "AM.1";
-                                $return = check_for_empty($parameterArr[$i]['fieldValue']);                                
+                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -503,18 +507,18 @@ class Lib_06_data extends MX_Controller {
                             }
 
                             $code_error = "AM.4";
-                            if ($parameterArr[$i]['fieldValue']!="") {
+                            if ($parameterArr[$i]['fieldValue'] != "") {
                                 $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
-                                 $return = check_empty($parameterArr[$i]['fieldValue']);
+                                $return = check_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
-                                $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                    array_push($stack, $result);
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    if ($return) {
+                                        $result["error_code"] = $code_error;
+                                        $result["error_row"] = $parameterArr[$i]['row'];
+                                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                        array_push($stack, $result);
+                                    }
                                 }
-                            }
                             }
                             break;
                     }
@@ -552,6 +556,8 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         if (isset($parameterArr[$i]['fieldValue'])) {
+                            $C1_field_value = $parameterArr[$i]['fieldValue'];
+
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -1412,6 +1418,9 @@ class Lib_06_data extends MX_Controller {
                       SUSCRIPCIÓN
                      */
                     if ($parameterArr[$i]['col'] == 33) {
+
+
+
                         $code_error = "AG.2";
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -1420,6 +1429,20 @@ class Lib_06_data extends MX_Controller {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
                             array_push($stack, $result);
+                        } else {
+                            
+                            /* TRANSFERENCIA */
+                            if ($parameterArr[$i]['fieldValue'] == "TRANSFERENCIA") {
+                                $buy = $this->$model_anexo->buy_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
+                                $sell = $this->$model_anexo->sell_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
+                                $balance = $buy[5598] - $sell['5598'];
+                                if ($balance < 0) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
+                                    array_push($stack, $result);
+                                }
+                            }
                         }
                         //Value Validation
                         if (isset($parameterArr[$i]['fieldValue'])) {
@@ -1436,8 +1459,6 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 17) {
-
-
                     /* CALC AVERAGE */
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
                     $calcPromedio += ($V2_field_value != "") ? 1 : 0;
@@ -1459,8 +1480,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }
-        //exit();
+        }        
         $this->data = $stack;
     }
 
