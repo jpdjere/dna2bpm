@@ -100,6 +100,19 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+    function get_pending($anexo, $sgr_id) {
+        $rtn = array();
+        $regex = new MongoRegex('/' . $year . '/');
+        $container = 'container.sgr_periodos';
+        $query = array("status" => 'pendiente', "anexo" => $anexo, "sgr_id" => $sgr_id);
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+        return $rtn;
+    }
+
     function get_sgr() {
         $rtn = array();
         $idu = (int) $this->idu;

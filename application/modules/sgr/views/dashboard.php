@@ -44,37 +44,56 @@
     {form_template}
     <!-- UPLOADED FILES LIST-->
     {files_list}   
-
-
+    
+    <!-- PENDING LIST -->
+    {if pending_list}
+    <div class="well">
+        <!-- PENDING ANEXOS-->
+        <div id="show_anexos" class="perfil">       
+            <h6>ANEXOS PENDIENTES</h6>            
+            {pending_list}
+        </div>
+    </div>
+    <hr>
+    {/if}
+        
+    
+    
+   {if processed_list}
     <div class="well">
         <!-- PROCESSED ANEXOS-->
-        <div id="show_anexos">       
-            {if processed_tab}
-            <h3>ANEXOS PROCESADOS</h3>
-            {/if}
+        <div id="show_anexos">                   
+                  
             <!-- TABS -->
             <ul class="nav nav-tabs" id="dashboard_tab1">       
-                {processed_tab}
+              {processed_tab}
             </ul>
-            <div class="tab-content">
+            <div class="tab-content perfil">
                 {processed_list}
             </div>
         </div>
     </div>
+   {else}
+   <div id="{_id}" class="alert alert-error">
+        No hay Archivos Procesados para este anexo. 
+        
+    </div>
+  {/if}
+    
+    {if rectified_list}
     <hr>
     <div class="well">
         <!-- RECTIFIED ANEXOS-->
         <div id="show_anexos">       
-            {if rectified_tab}
-            <h3>ANEXOS RECTIFICADOS</h3>
-            {/if}
+            <h6>ANEXOS RECTIFICADOS</h6>
             <!-- TABS -->
-            <ul class="nav nav-tabs" id="dashboard_tab1">       
+            <ul class="nav nav-tabs" id="dashboard_rec_tab1">       
                 {rectified_tab}
             </ul>
-            <div class="tab-content">
+            <div class="tab-content perfil">
                 {rectified_list}
             </div>
         </div>
     </div>
+    {/if}
 </div>

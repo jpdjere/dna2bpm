@@ -87,27 +87,31 @@ class Model_061 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
+        $parameter['activated_on'] = date('Y-m-d h:i:s');
+
         /*
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
         if ($result) {
-            /* BORRO SESSION RECTIFY */
-            $this->session->unset_userdata('rectify');
-            $this->session->unset_userdata('others');
-            $this->session->unset_userdata('period');
-            $out = array('status' => 'ok');
+            /* ACTUALIZO PENDIND DEL ANEXO 06 */
+            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);           
+            $this->update_pending($get_period['id'], $get_period['status']);            
+                /* BORRO SESSION RECTIFY */
+                $this->session->unset_userdata('rectify');
+                $this->session->unset_userdata('others');
+                $this->session->unset_userdata('period');
+                $out = array('status' => 'ok');
+            
         } else {
             $out = array('status' => 'error');
         }
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -120,6 +124,21 @@ class Model_061 extends CI_Model {
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
+
+    /* UPDATE ANEXO 06 */
+
+    function update_pending($id, $status) {
+        $options = array('upsert' => true, 'safe' => true);
+        $container = 'container.sgr_periodos';
+        $query = array('id' => (integer) $id);
+        $parameter = array(
+            'status' => 'activo',
+            'activated_on' => date('Y-m-d h:i:s')
+        );
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        return $rs['err'];
+    }
+
     function get_anexo_info($anexo, $parameter) {
 
         $headerArr = array("TIPO<br/>DE<br/>SOCIO",
@@ -132,7 +151,7 @@ class Model_061 extends CI_Model {
             "PORCENTAJE<br/>ACCIONES",
             "ES<br/>PARTICIPE",
             "ES<br/>PROTECTOR"
-            );
+        );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -157,27 +176,27 @@ class Model_061 extends CI_Model {
             $brand_name = $list['1693'];
             $this->load->model('app');
             $this->load->model('padfyj_model');
-            
+
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
             $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
 
-            
-            
+
+
             // 					
-            
+
             $new_list = array();
-            $new_list['TIPO_SOCIO'] = "";           
+            $new_list['TIPO_SOCIO'] = "";
             $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];
             $new_list['SOCIO_INCORPORADO'] = $parner_inc;
             $new_list['"TIENE_VINCULACION"'] = $list['TIENE_VINCULACION'];
             $new_list['"CUIT_VINCULADO"'] = $list['CUIT_VINCULADO'];
             $new_list['"RAZON_SOCIAL_VINCULADO"'] = $parner_linked;
             $new_list['"TIPO_RELACION_VINCULACION"'] = $list['TIPO_RELACION_VINCULACION'];
-            $new_list['"PORCENTAJE_ACCIONES"'] = $list['PORCENTAJE_ACCIONES']."%";
+            $new_list['"PORCENTAJE_ACCIONES"'] = $list['PORCENTAJE_ACCIONES'] . "%";
             $new_list['"PARTICIPE"'] = "";
             $new_list['"PROTECTOR"'] = "";
-            
-            
+
+
 
             $rtn[] = $new_list;
         }

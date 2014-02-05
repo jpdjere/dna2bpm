@@ -13,8 +13,8 @@
     <h1 class="success">Información sobre la importación del Anexo</h1>
     <div class="alert alert-success" id="{_id}">       
             
-        <h3>El Anexo se proceso correctamente.</h3>
-        <h4>Periodo informado: {sgr_period}</h4>
+        <h6>El Anexo se proceso correctamente.</h6>
+        <h6>Periodo informado: {sgr_period}</h6>
         <p> </p>
         <hr>
         {if message_header}

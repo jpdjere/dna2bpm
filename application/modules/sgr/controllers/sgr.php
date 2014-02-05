@@ -81,6 +81,8 @@ class Sgr extends MX_Controller {
         $customData['rectified_tab'] = $this->get_rectified_tab($this->anexo);
         $customData['rectified_list'] = $this->get_rectified($this->anexo);
 
+        // PENDING LIST        
+        $customData['pending_list'] = $this->get_pending($this->anexo);
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
@@ -596,7 +598,7 @@ class Sgr extends MX_Controller {
     }
 
     function get_processed_tab($anexo) {
-        $list_files = "";
+        $list_files = "<li class=processed>ANEXOS PROCESADOS</li>";
         for ($i = 2011; $i <= date(Y); $i++) {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
@@ -609,7 +611,7 @@ class Sgr extends MX_Controller {
     }
 
     function get_rectified_tab($anexo) {
-        $list_files = "";
+        $list_files = "<li class=rectified>ANEXOS RECTIFICADOS</li>";
         for ($i = 2011; $i <= date(Y); $i++) {
             $processed = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             $processed = array($processed);
@@ -627,13 +629,19 @@ class Sgr extends MX_Controller {
      */
 
     function get_processed($anexo) {
-        $list_files = '';
+
         for ($i = 2011; $i <= date(Y); $i++) {
-            $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
-            <div class="" id="' . $i . '"><ul>';
+            $header_list_files = '<div id="tab_processed' . $i . '" class="tab-pane"><div class="" id="' . $i . '"><ul>';
+            $bottom_list_files = '</ul></div></div>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
 
+                if (!$file) {
+                    return false;
+                    exit();
+                }
+
+                $list_files = '';
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
 
@@ -649,10 +657,8 @@ class Sgr extends MX_Controller {
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger'));
-                $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
+                $list_files .= $header_list_files . "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>" . $bottom_list_files;
             }
-            $list_files .= '</ul></div>
-        </div>';
         }
         return $list_files;
     }
@@ -663,12 +669,19 @@ class Sgr extends MX_Controller {
      */
 
     function get_rectified($anexo) {
-        $list_files = '';
+        
         for ($i = 2011; $i <= date(Y); $i++) {
-            $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
+            $header_list_files = '<div id="tab_rectified' . $i . '" class="tab-pane">             
             <div id="' . $i . '"><ul>';
+            $bottom_list_files = '</ul></div>
+        </div>';
             $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             foreach ($rectified as $file) {
+                if (!$file) {
+                    return false;
+                    exit();
+                }
+                $list_files = '';
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
 
@@ -692,16 +705,45 @@ class Sgr extends MX_Controller {
                         break;
                 }
 
-                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>' . $translate . '</em></small> </li>';
+                $list_files .= $header_list_files . '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>' . $translate . '</em></small> </li>'. $bottom_list_files;
             }
-            $list_files .= '</ul></div>
-        </div>';
         }
-        return $list_files;
+
+            return $list_files;
     }
 
-    function get_rectified_legend($anexo) {       
+    /*
+     * PENDING FILES BROWSER
+     * 
+     */
+
+    function get_pending($anexo) {
         
+
+        $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
+        foreach ($pending as $file) {
+            
+             if (!$file) {
+                    return false;
+                    exit();
+                }
+            $list_files = '';    
+            $print_filename = substr($file['filename'], 0, -25);
+            $disabled_link = '';
+
+            if ($file['filename'] == "SIN MOVIMIENTOS") {
+                $disabled_link = ' disabled_link';
+                $print_filename = $file['filename'];
+            }
+            $pending_on = $file['pending_on'];
+            $list_files .= '<li><small>[' . $file['period'] . '] ' . $print_filename . ' (' . $pending_on . ') </small> </li>';
+        }
+            return $list_files;
+    }
+
+    
+    function get_rectified_legend($anexo) {
+
         switch ($anexo) {
             case 06:
                 $legend_msg = "6.1, 6.2, 20.1";
@@ -717,14 +759,13 @@ class Sgr extends MX_Controller {
                 $legend_msg = "20.2";
                 break;
             case 202:
-               $legend_msg = "13, 20.2"; 
+                $legend_msg = "13, 20.2";
                 break;
-             default:
+            default:
                 $legend_msg = "6.1, 6.2, 20.1";
                 break;
         }
         return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
-        
     }
 
     /*

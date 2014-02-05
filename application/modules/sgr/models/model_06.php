@@ -239,8 +239,7 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['idu'] = $this->idu;
-        
+        $parameter['idu'] = $this->idu;        
 
         /*
          * VERIFICO INCORPORACIONES
@@ -250,11 +249,8 @@ class Model_06 extends CI_Model {
         foreach ($anexoValues as $values) {
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values[5779])) {
-              /*  $parameter['status'] = 'pending';
-                $parameter['pending_on'] = date('Y-m-d h:i:s');*/
-                
-                 $parameter['activated_on'] = date('Y-m-d h:i:s');
                 $parameter['status'] = 'activo';
+                $parameter['pending_on'] = date('Y-m-d h:i:s');
             } else {
                 $parameter['activated_on'] = date('Y-m-d h:i:s');
                 $parameter['status'] = 'activo';
