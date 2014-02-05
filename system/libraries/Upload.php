@@ -200,7 +200,7 @@ class CI_Upload {
 		$this->file_type = preg_replace("/^(.+?);.*$/", "\\1", $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
 		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
-		$this->file_ext	 = $this->get_extension($this->file_name);
+		$this->file_ext	 = strtolower($this->get_extension($this->file_name));
 		$this->client_name = $this->file_name;
 
 		// Is the file type allowed to be uploaded?
