@@ -239,8 +239,8 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        //$parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
+        
 
         /*
          * VERIFICO INCORPORACIONES
@@ -250,8 +250,13 @@ class Model_06 extends CI_Model {
         foreach ($anexoValues as $values) {
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values[5779])) {
-                $parameter['status'] = 'pending';
+              /*  $parameter['status'] = 'pending';
+                $parameter['pending_on'] = date('Y-m-d h:i:s');*/
+                
+                 $parameter['activated_on'] = date('Y-m-d h:i:s');
+                $parameter['status'] = 'activo';
             } else {
+                $parameter['activated_on'] = date('Y-m-d h:i:s');
                 $parameter['status'] = 'activo';
                 /*
                  * ACTUALIZO EL ANEXO 61 "SIN MOVIMIENTOS" POR NO TENER INCORPORACIONES
@@ -438,7 +443,7 @@ class Model_06 extends CI_Model {
             $new_result = $this->mongo->sgr->$container->findOne($new_query);            
         }
         
-        var_dump($new_result);
+        //var_dump($new_result);
         return $new_result;
     }
 
