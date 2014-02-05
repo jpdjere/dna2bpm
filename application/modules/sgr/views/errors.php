@@ -1,8 +1,6 @@
 <div class="row-fluid test" id="barra_user" > 
     <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-        <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
-            <i class="fa fa-plus"></i>  Seleccionar Archivos a Procesar
-        </button> 
+        <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a> 
               
         <li class="pull-right perfil">
             SGR: {sgr_nombre}  <span id="status"> <i class="{rol_icono}"></i> {username} [Grupo: {rol}]</span>
@@ -14,7 +12,7 @@
 <div class="container" > 
     <h1 class="error">Errores en la importación del Anexo</h1>
     <div class="alert alert-error" id="{_id}">       
-        <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a>   </p> 
+          </p> 
         <h3>Verifique la lista de errores.</h3>
         {if message_header}
             <ol>{message_header}</ol>
