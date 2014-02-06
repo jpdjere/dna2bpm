@@ -78,8 +78,8 @@ class Sgr extends MX_Controller {
         $customData['processed_list'] = $this->get_processed($this->anexo);
 
         // RECTIFY LIST
-        $customData['rectified_tab'] = $this->get_processed_tab($this->anexo);
-        $customData['rectified_list'] = $this->get_processed($this->anexo);
+        $customData['rectified_tab'] = $this->get_rectified_tab($this->anexo);
+        $customData['rectified_list'] = $this->get_rectified($this->anexo);
 
         // PENDING LIST        
         $customData['pending_list'] = $this->get_pending($this->anexo);
