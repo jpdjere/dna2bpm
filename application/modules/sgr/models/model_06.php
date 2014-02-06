@@ -448,7 +448,7 @@ class Model_06 extends CI_Model {
              $set_period = array("period"=> $period);
         }
         $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id, $set_period);
-
+var_dump($query);
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array('sgr_id' => $list['sgr_id'],'filename' => $list['filename'], 1695 => $cuit);
