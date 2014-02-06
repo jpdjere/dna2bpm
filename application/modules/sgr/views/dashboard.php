@@ -87,7 +87,7 @@
         <div id="show_anexos">       
             <h6>ANEXOS RECTIFICADOS</h6>
             <!-- TABS -->
-            <ul class="nav nav-tabs" id="dashboard_rec_tab1">       
+            <ul class="nav nav-tabs" id="dashboard_tab1">       
                 {rectified_tab}
             </ul>
             <div class="tab-content perfil">
