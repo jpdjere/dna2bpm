@@ -631,7 +631,7 @@ class Sgr extends MX_Controller {
     function get_processed($anexo) {
 
         for ($i = 2011; $i <= date(Y); $i++) {
-            $header_list_files = '<div id="tab_processed' . $i . '" class="tab-pane"><div class="" id="' . $i . '"><ul>';
+            $header_list_files = '<div id="tab_processed' . $i . '" class="tab-pane"><div class="" id="processed_' . $i . '"><ul>';
             $bottom_list_files = '</ul></div></div>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
@@ -671,8 +671,8 @@ class Sgr extends MX_Controller {
     function get_rectified($anexo) {
         
         for ($i = 2011; $i <= date(Y); $i++) {
-            $header_list_files = '<div id="tab_rectified' . $i . '" class="tab-pane">             
-            <div id="' . $i . '"><ul>';
+            $header_list_files = '<div id="tab_rectified' . $i . '" class="tab-pane">          
+            <div id="rectified_' . $i . '"><ul>';
             $bottom_list_files = '</ul></div>
         </div>';
             $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
