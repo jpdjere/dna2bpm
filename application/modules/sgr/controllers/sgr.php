@@ -656,7 +656,13 @@ class Sgr extends MX_Controller {
             $list_files .= '</ul></div>
         </div>';
         }
-        return $list_files;
+        //return $list_files;
+        
+        
+        //FORM TEMPLATE
+       $test = $this->parser->parse('form', $customData, true);
+       return $test;
+        
     }
     /*
      * PROCESSED FILES BROWSER
