@@ -55,9 +55,8 @@
         </div>
     </div>
     <hr>
-    {/if}
-        
-    
+    {/if}        
+   
     
    {if processed_list}
     <div class="well">
