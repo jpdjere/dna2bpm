@@ -464,7 +464,7 @@ class Model_06 extends CI_Model {
         }
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
-            $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 1695 => $cuit);
+            $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list) {
                 $rtn[] = $list;
@@ -472,7 +472,6 @@ class Model_06 extends CI_Model {
         }
         var_dump($rtn);
         return $rtn;
-        
     }
 
     /* ACCIONES COMPRA
