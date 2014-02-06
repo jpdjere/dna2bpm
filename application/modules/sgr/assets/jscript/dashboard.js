@@ -6,6 +6,10 @@
 $(document).ready(function() {  
     //session_rectify_ajax();
     $("#is_session").hide();
+    
+    $('#myModal').modal('show');
+    
+    
     /*RECTIFICA HREF*/
     $('[class^="rectifica-link_"]').click(function(event) {
          $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');

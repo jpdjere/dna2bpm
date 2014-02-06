@@ -29,8 +29,10 @@
     <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>  
 
     <!-- RECTIFICATION ALERT-->
-    {rectify_message}
+    {rectify_message_template}
 
+    
+    
     <div class="row-fluid">
         {if $files_list}
         {else}

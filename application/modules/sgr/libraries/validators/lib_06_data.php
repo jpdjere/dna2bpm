@@ -576,7 +576,6 @@ class Lib_06_data extends MX_Controller {
 
                         if (isset($parameterArr[$i]['fieldValue'])) {
                             $C1_field_value = $parameterArr[$i]['fieldValue'];
-
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
