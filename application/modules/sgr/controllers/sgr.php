@@ -604,7 +604,7 @@ class Sgr extends MX_Controller {
             $processed = array($processed);
             foreach ($processed as $file) {
                 if ($file)
-                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">Procesados ' . $i . '</a></li>';
+                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $i . '</a></li>';
             }
         }
         return $list_files;
@@ -617,7 +617,7 @@ class Sgr extends MX_Controller {
             $processed = array($processed);
             foreach ($processed as $file) {
                 if ($file)
-                    $list_files .= '<li><a href="#tab_rectified' . $i . '" data-toggle="tab">Rectificado ' . $i . '</a></li>';
+                    $list_files .= '<li><a href="#tab_rectified' . $i . '" data-toggle="tab">' . $i . '</a></li>';
             }
         }
         return $list_files;
