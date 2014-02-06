@@ -74,7 +74,12 @@ class Lib_061_data extends MX_Controller {
 
                         $code_error = "A.2";
                         $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                        var_dump($partner_data);
+                        if (!$partner_data) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
 
                         $code_error = "A.3";
                         //Valida contra Mongo
