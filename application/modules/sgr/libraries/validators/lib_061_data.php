@@ -73,7 +73,7 @@ class Lib_061_data extends MX_Controller {
                         }
 
                         $code_error = "A.2";
-                        $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
+                        $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         var_dump($partner_data);
 
                         $code_error = "A.3";
