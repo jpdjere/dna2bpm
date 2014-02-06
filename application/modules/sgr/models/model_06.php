@@ -436,6 +436,9 @@ class Model_06 extends CI_Model {
      */
 
     function get_partner($cuit, $period=null) {
+        
+        var_dump($cuit, $period);
+        
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
