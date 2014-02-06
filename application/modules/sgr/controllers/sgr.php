@@ -132,10 +132,8 @@ class Sgr extends MX_Controller {
         }
 
         //RECTIFY 
-        $rectify_msg = '<div class="navbar-inverse well-small"><i class="fa fa-info-circle"></i>Para continuar con la rectificación del Anexo seleccionado deberá asociar el perido ' . $this->session->userdata['period'] . ' a un nuevo Archivo o a la opción "SIN MOVIMIENTO."</div>';
-        
        
-        $customData['rectify_message'] = ($this->session->userdata['rectify']) ? $rectify_msg : "";
+        $customData['rectify_message'] = $this->session->userdata['period'];
         $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true):"";       
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
 
