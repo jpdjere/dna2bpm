@@ -425,35 +425,20 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
-    /* ACCIONES COMPRA
-     * Compra venta por socio
-     * Integradas
-     */
-
-    /* ACCIONES VENTA
-     * Compra venta por socio
-     * Integradas 
-     */
-
     function get_partner($cuit, $get_period = null) {
-
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-         
+
         $set_period = "";
 
         $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
-         //PERIOD TIENE QUE CAMBIAR A PENDIENTE
+        //PERIOD TIENE QUE CAMBIAR A PENDIENTE
         $query['status'] = 'activo';
         if ($period) {
             $set_period = array("period" => $get_period);
             $query['period'] = $get_period;
         }
-        
-       
-        
-        var_dump($query);
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 1695 => $cuit);
@@ -462,6 +447,10 @@ class Model_06 extends CI_Model {
         return $new_result;
     }
 
+    /* ACCIONES COMPRA
+     * Compra venta por socio
+     * Integradas
+     */
     function buy_shares($cuit, $partner_type) {
 
         $anexo = $this->anexo;
