@@ -82,7 +82,8 @@ class Lib_061_data extends MX_Controller {
                         }
 
                         $code_error = "A.3";
-                        //Valida contra Mongo
+                        $partners_data = $this->$model_06->get_all_partners($this->session->userdata['period']);
+                        var_dump($partners_data); 
                     }
                 }
 
