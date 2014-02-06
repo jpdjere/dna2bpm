@@ -435,7 +435,7 @@ class Model_06 extends CI_Model {
      * Integradas 
      */
 
-    function get_partner($cuit, $period=null) {
+    function get_partner($cuit, $get_period=null) {
         
         var_dump($cuit, $period);
         
@@ -445,7 +445,7 @@ class Model_06 extends CI_Model {
         //PERIOD TIENE QUE CAMBIAR A PENDIENTE 
         $set_period = "";
         if($period){
-             $set_period = array("period"=> $period);
+             $set_period = array("period"=> $get_period);
         }
         $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id, $set_period);
 var_dump($query);
