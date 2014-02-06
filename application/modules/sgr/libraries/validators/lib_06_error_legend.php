@@ -57,19 +57,19 @@ class Lib_06_error_legend {
                 break;
 
             case "AH.2":
-                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B". De no tenerlos, se debe rechazar la importación.';
+                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
                 break;
 
             case "AI.2":
-                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B". De no tenerlos, se debe rechazar la importación.';
+                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
                 break;
 
             case "AJ.2":
-                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B". De no tenerlos, se debe rechazar la importación.';
+                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
                 break;
 
             case "AK.2":
-                $result_error = '<strong>Columna AK - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B". De no tenerlos, se debe rechazar la importación.';
+                $result_error = '<strong>Columna AK - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
                 break;
 
             case "AL.1":

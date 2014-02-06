@@ -273,7 +273,8 @@ class Lib_06_data extends MX_Controller {
                                 $sell = $this->$model_anexo->sell_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);                               
                                 $balance = $buy[5598] - $sell[5598];
                                
-                                if ($balance <= 0) {                                     
+                                if ($balance <= 0) {                            
+                                    $code_error = "AH.2";
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
@@ -1481,8 +1482,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }        
-        exit();
+        }
         $this->data = $stack;
     }
 
