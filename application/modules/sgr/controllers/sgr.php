@@ -598,7 +598,7 @@ class Sgr extends MX_Controller {
     }
 
     function get_processed_tab($anexo) {
-        $list_files = "<li class=processed>ANEXOS PROCESADOS</li>";
+        $list_files = "<li class=processed><b>ANEXOS PROCESADOS</b></li>";
         for ($i = 2011; $i <= date(Y); $i++) {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
