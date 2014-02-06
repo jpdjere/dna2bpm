@@ -443,13 +443,15 @@ class Model_06 extends CI_Model {
          
         $set_period = "";
 
-        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id, $set_period);
+        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
+         //PERIOD TIENE QUE CAMBIAR A PENDIENTE
+        $query['status'] = 'activo';
         if ($period) {
             $set_period = array("period" => $get_period);
             $query['period'] = $get_period;
         }
         
-        //PERIOD TIENE QUE CAMBIAR A PENDIENTE
+       
         
         var_dump($query);
         $result = $this->mongo->sgr->$period->find($query);
