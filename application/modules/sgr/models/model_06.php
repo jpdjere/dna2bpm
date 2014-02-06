@@ -442,7 +442,7 @@ class Model_06 extends CI_Model {
         //PERIOD TIENE QUE CAMBIAR A PENDIENTE 
         $set_period = "";
         if($period){
-             $set_period = array("period"=> "08-2013");
+             $set_period = array("period"=> $period);
         }
         $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id, $set_period);
 
