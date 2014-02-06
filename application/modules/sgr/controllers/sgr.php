@@ -656,12 +656,8 @@ class Sgr extends MX_Controller {
             $list_files .= '</ul></div>
         </div>';
         }
-        //return $list_files;
+        return $list_files;
         
-        
-        //FORM TEMPLATE
-       $test = $this->parser->parse('form', $customData, true);
-       return $test;
         
     }
     /*
@@ -708,8 +704,45 @@ class Sgr extends MX_Controller {
      * RECTIFIED FILES BROWSER
      * 
      */
-
     function get_rectified($anexo) {
+        $list_files = '';
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
+            <div id="' . $i . '"><ul>';
+            $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
+            foreach ($rectified as $file) {
+                $print_filename = substr($file['filename'], 0, -25);
+                $disabled_link = '';
+
+                if ($file['filename'] == "SIN MOVIMIENTOS") {
+                    $disabled_link = ' disabled_link';
+                    $print_filename = $file['filename'];
+                }
+                
+                $rectified_on = $file['rectified_on'];
+                switch ($file['reason']) {
+                    case 1:
+                        $translate = 'Errores en el sistema y/o procesamiento del archivo';
+                        break;
+
+                    case 2:
+                        $translate = 'Error en la informacion sumistrada';
+                        break;
+
+                    case 3:
+                        $translate = $file['others'];
+                        break;
+                }
+
+                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>'.$translate. '</em></small> </li>';
+            }
+            $list_files .= '</ul></div>
+        </div>';
+        }
+        return $list_files;
+    }
+
+    function get_rectified_($anexo) {
         
         for ($i = 2011; $i <= date(Y); $i++) {
             $header_list_files = '<div id="tab_rectified' . $i . '" class="tab-pane">          
