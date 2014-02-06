@@ -59,26 +59,7 @@
         
     
     
-   
-    
-    {if rectified_list}
-    <hr>
-    <div class="well">
-        <!-- RECTIFIED ANEXOS-->
-        <div id="show_anexos"> 
-            <!-- TABS -->
-            <ul class="nav nav-tabs" id="dashboard_rec_tab1">       
-                {rectified_tab}
-            </ul>
-            <div class="tab-content perfil">
-                {rectified_list}
-            </div>
-        </div>
-    </div>
-    {/if}
-    
-    
-    {if processed_list}
+   {if processed_list}
     <div class="well">
         <!-- PROCESSED ANEXOS-->
         <div id="show_anexos">                   
@@ -98,4 +79,20 @@
         
     </div>
   {/if}
+    
+    {if rectified_list}
+    <hr>
+    <div class="well">
+        <!-- RECTIFIED ANEXOS-->
+        <div id="show_anexos"> 
+            <!-- TABS -->
+            <ul class="nav nav-tabs" id="dashboard_rec_tab1">       
+                {rectified_tab}
+            </ul>
+            <div class="tab-content perfil">
+                {rectified_list}
+            </div>
+        </div>
+    </div>
+    {/if}
 </div>
