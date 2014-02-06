@@ -657,9 +657,8 @@ class Sgr extends MX_Controller {
         </div>';
         }
         return $list_files;
-        
-        
     }
+
     /*
      * PROCESSED FILES BROWSER
      * 
@@ -673,10 +672,6 @@ class Sgr extends MX_Controller {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             foreach ($processed as $file) {
 
-                if (!$file) {
-                    return false;
-                    exit();
-                }
 
                 $list_files = '';
                 $print_filename = substr($file['filename'], 0, -25);
@@ -697,13 +692,15 @@ class Sgr extends MX_Controller {
                 $list_files .= $header_list_files . "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>" . $bottom_list_files;
             }
         }
-        return $list_files;
+        if ($file)
+            return $list_files;
     }
 
     /*
      * RECTIFIED FILES BROWSER
      * 
      */
+
     function get_rectified($anexo) {
         $list_files = '';
         for ($i = 2011; $i <= date(Y); $i++) {
@@ -718,7 +715,7 @@ class Sgr extends MX_Controller {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
                 }
-                
+
                 $rectified_on = $file['rectified_on'];
                 switch ($file['reason']) {
                     case 1:
@@ -734,55 +731,12 @@ class Sgr extends MX_Controller {
                         break;
                 }
 
-                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>'.$translate. '</em></small> </li>';
+                $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>' . $translate . '</em></small> </li>';
             }
             $list_files .= '</ul></div>
         </div>';
         }
-        return $list_files;
-    }
-
-    function get_rectified_($anexo) {
-        
-        for ($i = 2011; $i <= date(Y); $i++) {
-            $header_list_files = '<div id="tab_rectified' . $i . '" class="tab-pane">          
-            <div id="rectified_' . $i . '"><ul>';
-            $bottom_list_files = '</ul></div>
-        </div>';
-            $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
-            foreach ($rectified as $file) {
-                if (!$file) {
-                    return false;
-                    exit();
-                }
-                $list_files = '';
-                $print_filename = substr($file['filename'], 0, -25);
-                $disabled_link = '';
-
-                if ($file['filename'] == "SIN MOVIMIENTOS") {
-                    $disabled_link = ' disabled_link';
-                    $print_filename = $file['filename'];
-                }
-
-                $rectified_on = $file['rectified_on'];
-                switch ($file['reason']) {
-                    case 1:
-                        $translate = 'Errores en el sistema y/o procesamiento del archivo';
-                        break;
-
-                    case 2:
-                        $translate = 'Error en la informacion sumistrada';
-                        break;
-
-                    case 3:
-                        $translate = $file['others'];
-                        break;
-                }
-
-                $list_files .= $header_list_files . '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $rectified_on . ') <small><em>' . $translate . '</em></small> </li>'. $bottom_list_files;
-            }
-        }
-
+        if ($file)
             return $list_files;
     }
 
@@ -792,16 +746,16 @@ class Sgr extends MX_Controller {
      */
 
     function get_pending($anexo) {
-        
+
 
         $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
         foreach ($pending as $file) {
-            
-             if (!$file) {
-                    return false;
-                    exit();
-                }
-            $list_files = '';    
+
+            if (!$file) {
+                return false;
+                exit();
+            }
+            $list_files = '';
             $print_filename = substr($file['filename'], 0, -25);
             $disabled_link = '';
 
@@ -812,10 +766,9 @@ class Sgr extends MX_Controller {
             $pending_on = $file['pending_on'];
             $list_files .= '<li><small>[' . $file['period'] . '] ' . $print_filename . ' (' . $pending_on . ') </small> </li>';
         }
-            return $list_files;
+        return $list_files;
     }
 
-    
     function get_rectified_legend($anexo) {
 
         switch ($anexo) {
