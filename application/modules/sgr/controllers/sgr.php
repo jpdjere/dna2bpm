@@ -611,7 +611,7 @@ class Sgr extends MX_Controller {
     }
 
     function get_rectified_tab($anexo) {
-        $list_files = "<li class=rectified>ANEXOS RECTIFICADOS</li>";
+        $list_files = "<li class=rectified><b>ANEXOS RECTIFICADOS</b></li>";
         for ($i = 2011; $i <= date(Y); $i++) {
             $processed = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             $processed = array($processed);
