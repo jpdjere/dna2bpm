@@ -316,7 +316,7 @@ class Sgr extends MX_Controller {
                 if (!empty($result_data['error_code'])) {                    
                     if($result_data['error_input_value']=="empty"){
                         list($column_value) = explode(".", $result_data['error_code']);
-                        $result .= '<strong>Columna '.$column_value.' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code']  . '</strong><br/>El campo no puede estar vacío.';                                                
+                        $result .= '<li><strong>Columna '.$column_value.' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code']  . '</strong><br/>El campo no puede estar vacío.</li>';                                                
                     } else {
                         $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . "</li>";
                     }
