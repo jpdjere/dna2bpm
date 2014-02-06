@@ -629,6 +629,41 @@ class Sgr extends MX_Controller {
      */
 
     function get_processed($anexo) {
+        $list_files = '';
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
+            <div class="" id="' . $i . '"><ul>';
+            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            foreach ($processed as $file) {
+
+                $print_filename = substr($file['filename'], 0, -25);
+                $disabled_link = '';
+
+                if ($file['filename'] == "SIN MOVIMIENTOS") {
+                    $disabled_link = ' disabled_link';
+                    $print_filename = $file['filename'];
+                }
+                /* RECTIFY COUNT */
+                $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
+
+                $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
+                $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
+                $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
+                $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"> RECTIFICAR</i>', array('class' => $rectifica_link_class . ' btn btn-danger'));
+                $list_files .= "<li>" . $download . " " . $print_file . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
+            }
+            $list_files .= '</ul></div>
+        </div>';
+        }
+        return $list_files;
+    }
+    /*
+     * PROCESSED FILES BROWSER
+     * 
+     */
+
+    function get_processed_($anexo) {
 
         for ($i = 2011; $i <= date(Y); $i++) {
             $header_list_files = '<div id="tab_processed' . $i . '" class="tab-pane"><div class="" id="processed_' . $i . '"><ul>';
