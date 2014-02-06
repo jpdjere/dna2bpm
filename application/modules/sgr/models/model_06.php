@@ -468,9 +468,10 @@ class Model_06 extends CI_Model {
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list) {
                 $rtn[] = $list;
+                var_dump($list);
             }
         }
-        var_dump($rtn);
+        
         return $rtn;
     }
 
