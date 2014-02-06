@@ -2,6 +2,7 @@
 
 class Lib_06_data extends MX_Controller {
     /* VALIDADOR ANEXO 06 */
+
     public function __construct($parameter) {
         parent::__construct();
         $this->load->library('session');
@@ -511,6 +512,11 @@ class Lib_06_data extends MX_Controller {
                                 $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
                                 $return = check_empty($parameterArr[$i]['fieldValue']);
                                 if ($return) {
+                                    $result["error_code"] = $code_error;
+                                    $result["error_row"] = $parameterArr[$i]['row'];
+                                    $result["error_input_value"] = "empty";
+                                    array_push($stack, $result);
+                                } else {
                                     $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                     if ($return) {
                                         $result["error_code"] = $code_error;
@@ -1430,7 +1436,7 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
                             array_push($stack, $result);
                         } else {
-                            
+
                             /* TRANSFERENCIA */
                             if ($parameterArr[$i]['fieldValue'] == "TRANSFERENCIA") {
                                 $buy = $this->$model_anexo->buy_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
@@ -1480,7 +1486,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }        
+        }
         $this->data = $stack;
     }
 
