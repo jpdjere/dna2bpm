@@ -8,6 +8,12 @@ class Lib_061_data extends MX_Controller {
         $this->load->library('session');
 
         $this->load->helper('sgr/tools');
+        $model_anexo = "model_061";
+        $this->load->Model($model_anexo);
+
+        /* PARTNER INFO */
+        $model_06 = 'model_06';
+        $this->load->Model($model_06);
 
         /* Vars 
          * 
@@ -65,13 +71,14 @@ class Lib_061_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         }
+
+                        $code_error = "A.2";
+                        $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
+                        var_dump($partner_data);
+
+                        $code_error = "A.3";
+                        //Valida contra Mongo
                     }
-
-                    $code_error = "A.2";
-                    //Valida contra Mongo
-
-                    $code_error = "A.3";
-                    //Valida contra Mongo
                 }
 
                 /* TIENE_VINCULACION
@@ -245,6 +252,7 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
+        exit();
         $this->data = $stack;
     }
 
