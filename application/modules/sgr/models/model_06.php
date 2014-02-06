@@ -239,7 +239,10 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['idu'] = $this->idu;        
+        $parameter['idu'] = $this->idu;  
+        /*TEMPORAL*/
+        $parameter['activated_on'] = date('Y-m-d h:i:s');
+        $parameter['status'] = 'activo';
 
         /*
          * VERIFICO INCORPORACIONES
