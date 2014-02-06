@@ -13,7 +13,7 @@
     <h1 class="error">Errores en la importación del Anexo</h1>
     <div class="alert alert-error" id="{_id}">       
           </p> 
-        <h6>Verifique la lista de errores.</h6>
+        <h2>Verifique la lista de errores.</h2>
         {if message_header}
             <ol>{message_header}</ol>
         {/if}
