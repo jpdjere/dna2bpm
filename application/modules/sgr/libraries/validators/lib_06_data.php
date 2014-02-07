@@ -65,7 +65,17 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         } else {
-                            $A1_field_value = $parameterArr[$i]['fieldValue'];
+                            $A1_field_value = $parameterArr[$i]['fieldValue'];                            
+                            $buy = $this->$model_anexo->buy_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
+                            $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);                            
+                            $balance = $buy[5598] - $sell[5598];                           
+                            if ($balance > 0) {
+                                $code_error = "AH.3";
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -267,19 +277,18 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         } else {
-                            $AG_field_value = $parameterArr[$i]['fieldValue'];                            
-                            if($parameterArr[$i]['fieldValue']=="TRANSFERENCIA"){
+                            $AG_field_value = $parameterArr[$i]['fieldValue'];
+                            if ($parameterArr[$i]['fieldValue'] == "TRANSFERENCIA") {
                                 $buy = $this->$model_anexo->buy_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
-                                $sell = $this->$model_anexo->sell_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);                               
+                                $sell = $this->$model_anexo->sell_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
                                 $balance = $buy[5598] - $sell[5598];
-                               
-                                if ($balance <= 0) {                            
+                                if ($balance <= 0) {
                                     $code_error = "AH.2";
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
+                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                     array_push($stack, $result);
-                                }                                
+                                }
                             }
                         }
 
@@ -1444,7 +1453,7 @@ class Lib_06_data extends MX_Controller {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'] . "empty";
                             array_push($stack, $result);
-                        } 
+                        }
                         //Value Validation
                         if (isset($parameterArr[$i]['fieldValue'])) {
                             $allow_words = array("SUSCRIPCION");
@@ -1481,7 +1490,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }
+        }        
         $this->data = $stack;
     }
 

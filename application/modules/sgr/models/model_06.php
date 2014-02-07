@@ -446,8 +446,9 @@ class Model_06 extends CI_Model {
         }
         return $new_result;
     }
-
-    function get_all_partners($cuit, $get_period = null) {
+    /*PARTNERS INFO*/
+    function get_all_partners($get_period = null) {
+        
         $rtn = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -455,26 +456,47 @@ class Model_06 extends CI_Model {
 
         $set_period = "";
 
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
-        //PERIOD TIENE QUE CAMBIAR A PENDIENTE
+        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);     
         $query['status'] = 'activo';
         if ($period) {
             $set_period = array("period" => $get_period);
             $query['period'] = $get_period;
-        }
+        }        
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list) {
                 $rtn[] = $list;
-                var_dump($list);
+                
             }
-        }
-        
-        return $rtn;
+        }        
+        return $rtn;        
     }
+    
+    function count_partners($get_period = null) {
+        
+        $rtn = array();
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
 
+        $set_period = "";
+
+        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);        
+        $query['status'] = 'activo';
+        if ($period) {
+            $set_period = array("period" => $get_period);
+            $query['period'] = $get_period;
+        }        
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $list) {
+            $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
+            $new_result = $this->mongo->sgr->$container->find($new_query);
+            return $new_result->count();
+        }
+    }
+    
     /* ACCIONES COMPRA
      * Compra venta por socio
      * Integradas
