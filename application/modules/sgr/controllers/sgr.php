@@ -465,6 +465,12 @@ class Sgr extends MX_Controller {
             case 06:
                 $msg = "El campo no puede estar vacío, y debe contener alguno de los siguientes parámetros : INCORPORACION, INCREMENTO TENENCIA ACCIONARIA o DISMINUCION DE CAPITAL SOCIAL";
                 break;
+            case 061:
+                $msg = "El campo no puede estar vacío y debe tener 11 caracteres sin guiones.";
+                break;
+            case 062:
+                $msg = "Debe tener 11 caracteres numéricos sin guiones.";
+                break;
         }
         
         $legend = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li><li>'. $msg  .'</li>';
