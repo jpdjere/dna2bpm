@@ -270,12 +270,6 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
-
-
-
-
-        var_dump($stack);
-        exit();
         $this->data = $stack;
     }
 
