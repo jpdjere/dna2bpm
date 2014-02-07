@@ -290,7 +290,6 @@ class Sgr extends MX_Controller {
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $count = $data->rowcount();
                         $fields = trim($data->sheets[0]['cells'][$i][$j]);
@@ -300,10 +299,9 @@ class Sgr extends MX_Controller {
                 }
             }
 
-
             /* VALIDATIONS */
             if (!$count) {
-                $result_header = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li>';
+                 $result_header = $this->empty_xls_advice($this->anexo);
                 $error = true;
             }
 
@@ -459,6 +457,18 @@ class Sgr extends MX_Controller {
           }
           echo $sql . rtrim($valuesSql, ", ") . " ) <br>";
           } */
+    }
+    
+    
+    function empty_xls_advice($anexo){
+        switch($anexo){
+            case 06:
+                $msg = "El campo no puede estar vacío, y debe contener alguno de los siguientes parámetros : INCORPORACION, INCREMENTO TENENCIA ACCIONARIA o DISMINUCION DE CAPITAL SOCIAL";
+                break;
+        }
+        
+        $legend = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li><li>'. $msg  .'</li>';
+        return $legend;
     }
 
     function print_anexo($parameter = null) {
