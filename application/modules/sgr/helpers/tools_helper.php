@@ -179,6 +179,12 @@ function check_is_numeric($parameter) {
     }
 }
 
+function check_is_numeric_no_decimal($parameter) {
+    if (!is_int($parameter)) {
+        return true;
+    }
+}
+
 function check_is_alphabetic($parameter) {
     if (!ctype_alpha($parameter)) {
         return true;
