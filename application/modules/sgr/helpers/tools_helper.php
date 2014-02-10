@@ -174,14 +174,14 @@ function check_web($parameter) {
 }
 
 function check_is_numeric($parameter) {
-    $parameter = (int)$parameter;
+    $parameter = (int) $parameter;
     if (!is_numeric($parameter)) {
         return true;
     }
 }
 
 function check_is_numeric_no_decimal($parameter) {
-    $parameter = (int)$parameter;
+    $parameter = (int) $parameter;
     if (!is_int($parameter)) {
         return true;
     }
@@ -412,9 +412,26 @@ function array_search2d($needle, $haystack) {
     return false;
 }
 
+function translate_period_date($period) {
+    list($period_month, $period_year) = explode("-", $period);
+    $isdate = date($period_year . '-' . $period_month . '-01');
+    return $isdate;
+}
 
-function translate_period_date($period){
-        list($period_month, $period_year) = explode("-", $period);
-        $isdate =  date($period_year . '-' . $period_month . '-01');
-        return $isdate;
-    }
+/*
+ * bool consecutive numbers( int $numero1, int $numero2, int $numero3)
+ * Devuelve true si los 3 números son consecutivos, false en caso contrario.
+ */
+
+function consecutive_numbers($num1, $num2, $num3) {
+    return ($num2-$num1 == 1 && $num3-$num2 == 1) ? true : false;
+}
+
+function three_fields($fields_arr){
+    foreach ($fields_arr as $key => $value) { 
+      if (is_null($value) || $value=="") { 
+        unset($fields_arr[$key]); 
+      } 
+    }  
+    var_dump(count($fields_arr));
+}
