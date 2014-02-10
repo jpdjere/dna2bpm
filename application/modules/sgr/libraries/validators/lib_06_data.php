@@ -65,10 +65,10 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         } else {
-                            $A1_field_value = $parameterArr[$i]['fieldValue'];                            
+                            $A1_field_value = $parameterArr[$i]['fieldValue'];
                             $buy = $this->$model_anexo->buy_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
-                            $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);                            
-                            $balance = $buy[5598] - $sell[5598];                           
+                            $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
+                            $balance = $buy[5598] - $sell[5598];
                             if ($balance > 0) {
                                 $code_error = "AH.3";
                                 $result["error_code"] = $code_error;
@@ -355,12 +355,13 @@ class Lib_06_data extends MX_Controller {
 
                 /*
                  * CAPITAL_SUSCRIPTO	ACCIONES_SUSCRIPTAS	CAPITAL_INTEGRADO	ACCIONES_INTEGRADAS
-                 * AH.1, AI.1, AJ.1, AK.1
-                 * El campo no puede estar vacío y debe contener dígitos numéricos.                 
+                 * AH.1, AI.1
+                 * El campo no puede estar vacío y debe contener dígitos numéricos enteros, sin decimales.                
+                 * 
                  */
 
 
-                $range = range(34, 38);
+                $range = range(34, 35);
                 if (in_array($parameterArr[$i]['col'], $range)) {
 
 
@@ -401,7 +402,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if (isset($parameterArr[$i]['fieldValue'])) {
-                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -411,27 +412,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             break;
 
-                        case 36:
-                            $code_error = "AJ.1";
-                            //empty field Validation
-                            $return = check_empty($parameterArr[$i]['fieldValue']);
-                            if ($return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = "empty";
-                                array_push($stack, $result);
-                            }
-                            //Check Numeric Validation
-                            if (isset($parameterArr[$i]['fieldValue'])) {
-                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                    array_push($stack, $result);
-                                }
-                            }
-                            break;
+
 
                         case 37:
                             $code_error = "AK.1";
@@ -445,7 +426,7 @@ class Lib_06_data extends MX_Controller {
                             }
                             //Check Numeric Validation
                             if (isset($parameterArr[$i]['fieldValue'])) {
-                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -457,101 +438,42 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
 
+                if ($parameterArr[$i]['col'] == 1) {
 
-                $range = range(38, 39);
-                if (in_array($parameterArr[$i]['col'], $range)) {
 
-                    switch ($parameterArr[$i]['col']) {
-                        case 38:
-                            if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
-                                //CHECK FOR EMPTY
-                                $code_error = "AL.1";
-                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "not empty";
-                                    array_push($stack, $result);
-                                } else {
-                                    $AL1_field_value = $parameterArr[$i]['fieldValue'];
-                                }
-                            } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
-                                //do something
-                                $code_error = "AL.2";
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "empty";
-                                    array_push($stack, $result);
-                                }
-                            } else if ($AG_field_value == "TRANSFERENCIA") {
-                                $code_error = "AL.3";
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "empty";
-                                    array_push($stack, $result);
-                                }
-                            }
-                            break;
-
-                        case 39:
-                            if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
-                                //CHECK FOR EMPTY
-                                $code_error = "AM.1";
-                                $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "not empty";
-                                    array_push($stack, $result);
-                                }
-                            } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
-                                //do something
-                                $code_error = "AM.2";
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "empty";
-                                    array_push($stack, $result);
-                                }
-                            } else if ($AG_field_value == "TRANSFERENCIA") {
-                                $code_error = "AM.3";
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "empty";
-                                    array_push($stack, $result);
-                                }
-                            }
-
-                            $code_error = "AM.4";
-                            if ($parameterArr[$i]['fieldValue'] != "") {
-                                $allow_words = array("DISMINUCION DE TENENCIA ACCIONARIA", "DESVINCULACION");
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = "empty";
-                                    array_push($stack, $result);
-                                } else {
-                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                                    if ($return) {
-                                        $result["error_code"] = $code_error;
-                                        $result["error_row"] = $parameterArr[$i]['row'];
-                                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                        array_push($stack, $result);
-                                    }
-                                }
-                            }
-                            break;
+                    if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
+                        //CHECK FOR EMPTY
+                        $code_error = "AJ.1";
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "not empty";
+                            array_push($stack, $result);
+                        } else {
+                            $AL1_field_value = $parameterArr[$i]['fieldValue'];
+                        }
+                    } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+                        //do something
+                        $code_error = "AJ.2";
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    } else if ($AG_field_value == "TRANSFERENCIA") {
+                        $code_error = "AJ.3";
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
                     }
                 }
-
 
                 /////////////////////////////////////////
                 /*
@@ -1490,7 +1412,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }        
+        }
         $this->data = $stack;
     }
 
