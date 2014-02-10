@@ -68,7 +68,7 @@ class Lib_06_data extends MX_Controller {
                             $A1_field_value = $parameterArr[$i]['fieldValue'];
                             $buy = $this->$model_anexo->buy_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
                             $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
-                            $balance = $buy[5598] - $sell[5598];
+                            $balance = $buy[1695] - $sell[1695];
                             if ($balance > 0) {
                                 $code_error = "AH.3";
                                 $result["error_code"] = $code_error;
