@@ -403,3 +403,10 @@ function array_search2d($needle, $haystack) {
     }
     return false;
 }
+
+
+function translate_period_date($period){
+        list($period_month, $period_year) = explode("-", $period);
+        $isdate =  date($period_year . '-' . $period_month . '-01');
+        return $isdate;
+    }
