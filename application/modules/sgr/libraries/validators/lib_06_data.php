@@ -819,8 +819,6 @@ class Lib_06_data extends MX_Controller {
                  * 2.1.1. COLUMNA B - TIPO DE SOCIO: “A”
                  *                  
                  */
-
-
                 if ($B1_field_value == "A") {
                     $range = range(18, 20);
                     if (in_array($parameterArr[$i]['col'], $range)) {
