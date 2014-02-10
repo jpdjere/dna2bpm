@@ -92,8 +92,9 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         $regex = new MongoRegex('/' . $year . '/');
         $container = 'container.sgr_periodos';
+        $sort = array('period_date'=> -1);
         $query = array("status" => 'rectificado', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
-        $result = $this->mongo->sgr->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort($sort);
 
         foreach ($result as $list) {
             $rtn[] = $list;
