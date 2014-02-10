@@ -658,8 +658,10 @@ class Sgr extends MX_Controller {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            
+            
             foreach ($processed as $file) {
-
+                
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
 
@@ -734,8 +736,7 @@ class Sgr extends MX_Controller {
      */
 
     function get_pending($anexo) {
-
-
+        
         $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
         foreach ($pending as $file) {
 
