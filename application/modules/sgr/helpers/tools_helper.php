@@ -182,7 +182,6 @@ function check_is_numeric($parameter) {
 
 function check_is_numeric_no_decimal($parameter) {
     $parameter = (int)$parameter;
-    var_dump($parameter);
     if (!is_int($parameter)) {
         return true;
     }
