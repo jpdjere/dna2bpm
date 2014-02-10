@@ -42,30 +42,26 @@ class Lib_06_error_legend {
                 break;
 
             case "AH.1":
-                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital Suscripto: El campo no puede estar vacío y debe contener dígitos numéricos.';
+                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital Suscripto: El campo no puede estar vacío y debe contener dígitos numéricos enteros, sin decimales.';
                 break;
             case "AI.1":
-                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Acciones Suscriptas: El campo no puede estar vacío y debe contener dígitos numéricos.';
-                break;
-
-            case "AJ.1":
-                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital Integrado: El campo no puede estar vacío y debe contener dígitos numéricos.';
-                break;
-
-            case "AK.1":
-                $result_error = '<strong>Columna AK - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Acciones Integradas: El campo no puede estar vacío y debe contener dígitos numéricos.';
+                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Acciones Suscriptas: El campo no puede estar vacío y debe contener dígitos numéricos enteros, sin decimales.';
                 break;
 
             case "AH.2":
-                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
+                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL) tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, “A” o “B”.';
                 break;
 
             case "AI.2":
-                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
+                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL) tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, “A” o “B”. ';
                 break;
-
+            
+            case "AJ.1":
+                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna “A” se completen las opciones “INCORPORACIÓN” o “INCREMENTO DE TENENCIA ACCIONARIA” y en la columna AG se complete la modalidad SUSCRIPCION, esta columna debe estar vacía.';
+                break;
+            
             case "AJ.2":
-                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
+                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna “A” se complete la opción “DISMINUSIÓN DE CAPITAL SOCIAL”, esta columna NO PUEDE ESTAR VACÍA.';
                 break;
 
             case "AK.2":
@@ -148,11 +144,11 @@ class Lib_06_error_legend {
             case "AA.1": $result_error = '<strong>Columna AA - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Condición de Inscripción ante AFIP: "El campo no puede estar vacío y debe contener uno de los siguientes parámetros: 
 EXCENTO,INSCRIPTO,MONOSTRIBUTISTA".';
                 break;
-            case "AH.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
+            case "AH.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. De tenerlos, sean clase “A” o “B” debe rechazar la importación.';
                 break;
-            case "AI.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
+            case "AI.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. De tenerlos, sean clase “A” o “B” debe rechazar la importación.';
                 break;
-            case "AJ.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
+            case "AJ.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: En caso de que en la columna AG se complete la modalidad TRANSFERENCIA, esta columna NO PUEDE ESTAR VACÍA.';
                 break;
             case "AK.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Capital y Acciones Suscriptas e Integradas: EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
                 break;
