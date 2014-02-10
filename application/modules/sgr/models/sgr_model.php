@@ -76,8 +76,9 @@ class Sgr_model extends CI_Model {
         $regex = new MongoRegex('/' . $year . '/');
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename');
+        $sort = array('period_date'=> -1);
         $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
-        $result = $this->mongo->sgr->$container->find($query, $fields);
+        $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
 
         foreach ($result as $list) {
             $rtn[] = $list;
@@ -327,5 +328,6 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
-
+    
+    
 }

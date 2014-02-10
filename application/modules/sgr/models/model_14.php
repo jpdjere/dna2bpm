@@ -83,6 +83,7 @@ class Model_14 extends CI_Model {
         $period = $this->session->userdata['period'];
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
+        $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
 

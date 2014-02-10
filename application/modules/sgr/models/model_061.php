@@ -83,8 +83,10 @@ class Model_061 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
+        
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
+        $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
         $parameter['activated_on'] = date('Y-m-d h:i:s');

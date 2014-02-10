@@ -237,6 +237,8 @@ class Model_06 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
+        
+        $parameter['period_date'] = translate_period_date($period);
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['idu'] = $this->idu;
@@ -446,9 +448,11 @@ class Model_06 extends CI_Model {
         }
         return $new_result;
     }
-    /*PARTNERS INFO*/
+
+    /* PARTNERS INFO */
+
     function get_all_partners($get_period = null) {
-        
+
         $rtn = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -456,26 +460,25 @@ class Model_06 extends CI_Model {
 
         $set_period = "";
 
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);     
+        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
         $query['status'] = 'activo';
         if ($period) {
             $set_period = array("period" => $get_period);
             $query['period'] = $get_period;
-        }        
+        }
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list) {
                 $rtn[] = $list;
-                
             }
-        }        
-        return $rtn;        
+        }
+        return $rtn;
     }
-    
+
     function count_partners($get_period = null) {
-        
+
         $rtn = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -483,12 +486,12 @@ class Model_06 extends CI_Model {
 
         $set_period = "";
 
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);        
+        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
         $query['status'] = 'activo';
         if ($period) {
             $set_period = array("period" => $get_period);
             $query['period'] = $get_period;
-        }        
+        }
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
@@ -496,7 +499,7 @@ class Model_06 extends CI_Model {
             return $new_result->count();
         }
     }
-    
+
     /* ACCIONES COMPRA
      * Compra venta por socio
      * Integradas
