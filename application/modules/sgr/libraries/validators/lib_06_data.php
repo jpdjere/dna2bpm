@@ -350,8 +350,6 @@ class Lib_06_data extends MX_Controller {
                                     array_push($stack, $result);
                                 }
                                 
-                                var_dump($error_code, $stack);
-                                
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
                                     $ord_arr[] = $pos;
                                 }
