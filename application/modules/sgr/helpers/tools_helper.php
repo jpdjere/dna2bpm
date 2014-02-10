@@ -406,7 +406,7 @@ function _money_format($parameter) {
  * */
 function array_search2d($needle, $haystack) {
     for ($i = 0, $l = count($haystack); $i < $l; ++$i) {
-        if (in_array($needle, $haystack[$i]))
+        if (@in_array($needle, $haystack[$i]))
             return $i;
     }
     return false;
