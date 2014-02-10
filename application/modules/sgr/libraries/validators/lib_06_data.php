@@ -286,7 +286,7 @@ class Lib_06_data extends MX_Controller {
                                     $code_error = "AH.2";
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = $balance;
+                                    $result["error_input_value"] = 'balance';
                                     array_push($stack, $result);
                                 }
                             }
@@ -918,8 +918,21 @@ class Lib_06_data extends MX_Controller {
                                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                         array_push($stack, $result);
                                     } else {
-                                        $U1_field_value = $parameterArr[$i]['fieldValue'];
-                                        $U2_field_value = $return;
+
+                                        list($year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
+                                        list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+
+                                        $check_diff = (int) $period_to_check - (int) $year_to_check;
+                                        if (!in_array($check_diff, range(0, 1))) {
+                                            $code_error = "U.3";
+                                            $result["error_code"] = $code_error;
+                                            $result["error_row"] = $parameterArr[$i]['row'];
+                                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                            array_push($stack, $result);
+                                        } else {
+                                            $U1_field_value = $parameterArr[$i]['fieldValue'];
+                                            $U2_field_value = $return;
+                                        }
                                     }
                                 }
 
@@ -1393,6 +1406,8 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 38) {
+                    /* CONSECUTIVE NUMBERS */
+
                     /* CALC AVERAGE */
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
                     $calcPromedio += ($V2_field_value != "") ? 1 : 0;
@@ -1415,6 +1430,7 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
+        exit();
         $this->data = $stack;
     }
 
