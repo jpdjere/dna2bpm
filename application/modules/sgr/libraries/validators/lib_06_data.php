@@ -69,7 +69,18 @@ class Lib_06_data extends MX_Controller {
                             $buy = $this->$model_anexo->buy_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
                             $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
                             $balance = $buy[1695] - $sell[1695];
-                            if ($balance > 0) {
+
+                            //var_dump($balance, $parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue'], $parameterArr[$i]['fieldValue']);
+
+                            if ($balance >= 0 && $parameterArr[$i]['fieldValue'] == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                                $code_error = "B.3";
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
+
+                            if ($balance != 0 && $parameterArr[$i]['fieldValue'] == "INCORPORACION") {
                                 $code_error = "AH.3";
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -233,7 +244,7 @@ class Lib_06_data extends MX_Controller {
                         }
                         /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                        
+
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -754,7 +765,7 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_input_value"] = "empty";
                                 array_push($stack, $result);
                             } else {
-                                 $code_error = "Q.2";
+                                $code_error = "Q.2";
                                 $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
                                 $ciu = $parameterArr[$i]['fieldValue'];
                                 if (!$return) {
@@ -764,8 +775,7 @@ class Lib_06_data extends MX_Controller {
                                     array_push($stack, $result);
                                 }
                             }
-                        }                   
-                     
+                        }
                     }
 
                     /*
@@ -1095,12 +1105,12 @@ class Lib_06_data extends MX_Controller {
                  * 2.1.2. COLUMNA B - TIPO DE SOCIO: “B”
                  *                  
                  */
-                
+
 
                 if ($B1_field_value == "B") {
                     $range = range(17, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
-                        
+
                         switch ($parameterArr[$i]['col']) {
 
                             case 18: //Año/Mes 1
@@ -1414,7 +1424,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
-        }    
+        }
 //        var_dump($stack);
 //        exit();
         $this->data = $stack;

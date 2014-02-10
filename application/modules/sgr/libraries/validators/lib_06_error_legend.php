@@ -229,7 +229,7 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
                 break;
             case "AB.2": $result_error = '<strong>Columna AB- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: DEBE ESTAR VACÍA.';
                 break;
-            case "B.3": $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: Debe verificar que el Tipo de Socio se correspondan con el carácter que el Socio tiene en ese momento en la SGR. Si es Partícipe, puede incrementar la tenencia de Acciones Clase A, y si es protector sólo de Acciones Clase B..';
+            case "B.3": $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: Debe verificar que el Tipo de Socio se correspondan con el carácter que el Socio tiene en ese momento en la SGR. Si es Partícipe, puede incrementar la tenencia de Acciones Clase A, y si es protector sólo de Acciones Clase B.';
                 break;
             case "C.2": $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cuit: El campo no puede estar vacío y  debe tener 11 caracteres sin guiones..';
                 break;
