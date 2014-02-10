@@ -754,9 +754,9 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_input_value"] = "empty";
                                 array_push($stack, $result);
                             } else {
+                                 $code_error = "Q.2";
                                 $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
                                 $ciu = $parameterArr[$i]['fieldValue'];
-
                                 if (!$return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -764,22 +764,8 @@ class Lib_06_data extends MX_Controller {
                                     array_push($stack, $result);
                                 }
                             }
-                        }
-
-                        /*
-                         * 2.1.2. COLUMNA B - TIPO DE SOCIO: “B” - > TODAS DEBEN ESTAR VACÍAS
-                         */
-
-                        if ($B1_field_value == "B") {
-                            $code_error = "Q.3";
-                            $return = check_empty($parameterArr[$i]['fieldValue']);
-                            if (!$return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = "empty";
-                                array_push($stack, $result);
-                            }
-                        }
+                        }                   
+                     
                     }
 
                     /*
@@ -1109,12 +1095,12 @@ class Lib_06_data extends MX_Controller {
                  * 2.1.2. COLUMNA B - TIPO DE SOCIO: “B”
                  *                  
                  */
-
+                
 
                 if ($B1_field_value == "B") {
                     $range = range(17, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
-
+                        
                         switch ($parameterArr[$i]['col']) {
 
                             case 18: //Año/Mes 1
@@ -1149,6 +1135,7 @@ class Lib_06_data extends MX_Controller {
                         //Check for Empty
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
+                            $code_error = "Q-AB";
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "not empty";

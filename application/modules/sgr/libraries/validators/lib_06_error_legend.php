@@ -207,27 +207,27 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
                 break;
             case "AB.1": $result_error = '<strong>Columna AB - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero..';
                 break;
-            case "Q.3": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: DEBE ESTA VACÍA.';
+            case "Q.3": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: DEBE ESTAR VACÍA.';
                 break;
-            case "R.4": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 1: DEBE ESTA VACÍA.';
+            case "R.4": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 1: DEBE ESTAR VACÍA.';
                 break;
-            case "S.4": $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 1: DEBE ESTA VACÍA.';
+            case "S.4": $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 1: DEBE ESTAR VACÍA.';
                 break;
-            case "T.3": $result_error = '<strong>Columna T- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo Origen 1: DEBE ESTA VACÍA.';
+            case "T.3": $result_error = '<strong>Columna T- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo Origen 1: DEBE ESTAR VACÍA.';
                 break;
-            case "U.4": $result_error = '<strong>Columna U - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 2: DEBE ESTA VACÍA.';
+            case "U.4": $result_error = '<strong>Columna U - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 2: DEBE ESTAR VACÍA.';
                 break;
-            case "V.4": $result_error = '<strong>Columna V - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 2: DEBE ESTA VACÍA.';
+            case "V.4": $result_error = '<strong>Columna V - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 2: DEBE ESTAR VACÍA.';
                 break;
-            case "W.3": $result_error = '<strong>Columna W - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo Origen 2: DEBE ESTA VACÍA.';
+            case "W.3": $result_error = '<strong>Columna W - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo Origen 2: DEBE ESTAR VACÍA.';
                 break;
-            case "X.3": $result_error = '<strong>Columna X- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 3: DEBE ESTA VACÍA.';
+            case "X.3": $result_error = '<strong>Columna X- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 3: DEBE ESTAR VACÍA.';
                 break;
-            case "Y.3": $result_error = '<strong>Columna Y - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 3: DEBE ESTA VACÍA.';
+            case "Y.3": $result_error = '<strong>Columna Y - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 3: DEBE ESTAR VACÍA.';
                 break;
-            case "Z.3": $result_error = '<strong>Columna Z- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo Origen 3: DEBE ESTA VACÍA.';
+            case "Z.3": $result_error = '<strong>Columna Z- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo Origen 3: DEBE ESTAR VACÍA.';
                 break;
-            case "AB.2": $result_error = '<strong>Columna AB- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: DEBE ESTA VACÍA.';
+            case "AB.2": $result_error = '<strong>Columna AB- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: DEBE ESTAR VACÍA.';
                 break;
             case "B.3": $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: Debe verificar que el Tipo de Socio se correspondan con el carácter que el Socio tiene en ese momento en la SGR. Si es Partícipe, puede incrementar la tenencia de Acciones Clase A, y si es protector sólo de Acciones Clase B..';
                 break;
@@ -286,6 +286,8 @@ Existen unos tipos de actividad (que están pintados de rojo en el Excel) que po
             case "S.3": $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
                 break;
             case "C-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB) debe/n estar vacia.';
+                break;
+            case "Q-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (Q, R, S, T, U, V, W, X, Y, Z, AB) debe/n estar vacia.';
                 break;
         }
 
