@@ -286,7 +286,7 @@ class Lib_06_data extends MX_Controller {
                                     $code_error = "AH.2";
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                    $result["error_input_value"] = $balance;
                                     array_push($stack, $result);
                                 }
                             }
@@ -757,6 +757,8 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
+                                $ciu = $parameterArr[$i]['fieldValue'];
+
                                 if (!$return) {
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
@@ -1390,7 +1392,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
 
-                if ($parameterArr[$i]['col'] == 17) {
+                if ($parameterArr[$i]['col'] == 38) {
                     /* CALC AVERAGE */
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
                     $calcPromedio += ($V2_field_value != "") ? 1 : 0;
@@ -1401,7 +1403,7 @@ class Lib_06_data extends MX_Controller {
                         $average_amount = $sumaMontos / $calcPromedio;
                     }
 
-                    $sector = $this->sgr_model->clae2013($code);
+                    $sector = $this->sgr_model->clae2013($ciu);
                     $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
                     if (!$isPyme) {
                         $code_error = "S.3";

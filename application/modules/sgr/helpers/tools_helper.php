@@ -174,12 +174,15 @@ function check_web($parameter) {
 }
 
 function check_is_numeric($parameter) {
+    $parameter = (int)$parameter;
     if (!is_numeric($parameter)) {
         return true;
     }
 }
 
 function check_is_numeric_no_decimal($parameter) {
+    $parameter = (int)$parameter;
+    var_dump($parameter);
     if (!is_int($parameter)) {
         return true;
     }
