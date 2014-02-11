@@ -353,6 +353,15 @@ class Lib_12_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        var_dump($D1_field_value, $return);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
