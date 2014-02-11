@@ -1,7 +1,7 @@
 <?php
 
 class Lib_13_data extends MX_Controller {
-    /* VALIDADOR ANEXO 12.5 */
+    /* VALIDADOR ANEXO 13 */
 
     public function __construct($parameter) {
         parent::__construct();
@@ -60,7 +60,7 @@ class Lib_13_data extends MX_Controller {
                     if (!$types) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                         array_push($stack, $result);
                     }
                 }
