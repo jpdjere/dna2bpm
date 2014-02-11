@@ -102,8 +102,8 @@ class Lib_12_data extends MX_Controller {
                     list($month_period,$year_period) =  explode("-",$this->session->userdata['period']);
                     $transaction_year = explode("-",$partner_data['FECHA_DE_TRANSACCION']);
                     
-                    $result_dates = (int)$year_period-(int)$transaction_year;
-                    echo $result_dates."->".$year_period."->".$transaction_year;
+                    $result_dates = (int)$year_period-(int)$transaction_year[0];
+                    echo $result_dates."->".$year_period."->".$transaction_year[0];
                     if ($result_dates<=0) {
                         $code_error = "B.2";
                         $result["error_code"] = $code_error;
