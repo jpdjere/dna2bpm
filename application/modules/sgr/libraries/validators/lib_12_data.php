@@ -96,7 +96,8 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     $code_error = "B.2";
-                    //Valida contra Mongo
+                    $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
+                    var_dump($partner_data);
                 }
 
                 /* ORIGEN
@@ -829,8 +830,8 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-//         var_dump($stack);
-//        exit();
+         var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
