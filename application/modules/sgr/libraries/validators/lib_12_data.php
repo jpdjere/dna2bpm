@@ -241,7 +241,7 @@ class Lib_12_data extends MX_Controller {
                   CFCPD
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF1", "GFFF2", "GFFF3", "CFCPD", "GFVCP");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD", "GFVCP");
                     $code_error = "G.1";
 
                     if (in_array($D1_field_value, $codes_arr)) {
@@ -265,7 +265,7 @@ class Lib_12_data extends MX_Controller {
                   CFCPD
                  */
                 if ($parameterArr[$i]['col'] == 8) {
-                    $codes_arr = array("GFFF1", "GFFF2", "GFFF3", "CFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD");
 
                     if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -294,9 +294,11 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:
                   GFCPD
+                  GFON0
                   GFON1
                   GFON2
                   GFON3
+                  GFPB
                  * Nro I.2
                  * Detail:
                  * Si la Columna D se completó con la opción CFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV. Se adjunta Anexo con Códigos.
@@ -309,7 +311,7 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFON1", "GFON2", "GFON3");
+                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB");
                     if (in_array($D1_field_value, $codes_arr)) {
                         $code_error = "I.1";
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -320,8 +322,9 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
+                        $I2_validate_arr = array("GFCPD", "GFPB");
+                        if (in_array($D1_field_value, $I2_validate_arr)) {
 
-                        if ($D1_field_value == "GFCPD") {
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
                             if (!$check_cnv_syntax) {
                                 $code_error = "I.2";
@@ -359,7 +362,7 @@ class Lib_12_data extends MX_Controller {
                  * Nro K.2
                  * Detail:
                  * Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:
-                  GFCPD, GFFF1, GFFF2, GFFF3, GFON1, GFON2, GFON3, GFMFO
+                  GFCPD, GFVCP, GFPB, GFFF1, GFFF2, GFFF3, GFON1, GFON2, GFON3, GFMFO
                   debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los Mercados de Valores donde se realizan las operaciones.
                  * Nro K.3
                  * Detail:
@@ -470,6 +473,7 @@ class Lib_12_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     } else {
+                        $N1_field_value = $parameterArr[$i]['fieldValue'];
                         $allow_words = array("FIJA", "LIBOR", "BADLAR PU", "BADLAR PR", "TEC", "TEBP");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -493,9 +497,25 @@ class Lib_12_data extends MX_Controller {
 
                     $code_error = "O.1";
                     /* Debe tomar un valor entre -0,10 y 0,10. Debe aceptar hasta 3 decimales. DIEGO, VEAMOS ESTO!!!!! */
+                    $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                        array_push($stack, $result);
+                    }
 
                     $code_error = "O.2";
                     /* Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30. DIEGO, VEAMOS ESTO!!!!!  */
+                    if ($N1_field_value == "FIJA") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
                 }
 
                 /* PLAZO
@@ -764,6 +784,7 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        $this->data = $stack;        
+        $this->data = $stack;
     }
+
 }
