@@ -315,9 +315,12 @@ class Lib_12_data extends MX_Controller {
                      $code_error = "I.1";
                     if (in_array($D1_field_value, $codes_arr)) {                       
                         $return = check_empty($parameterArr[$i]['fieldValue']);
-                        var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
-                        exit();
+                        
                         if ($return) {
+                            
+                            var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                        exit();
+                            
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "empty";
