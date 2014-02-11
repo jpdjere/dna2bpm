@@ -669,8 +669,7 @@ class Lib_12_data extends MX_Controller {
 
                     $range = range($ctyMinor, $ctyMayor);
 
-                    if (!in_array($ctyDays, $range)) {
-                        echo $ctyDays."-> ".$ctyMinor."-> ".$ctyMayor;
+                    if (!in_array($ctyDays, $range)) {                       
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -830,7 +829,7 @@ class Lib_12_data extends MX_Controller {
             } // END FOR LOOP->
         }
         // var_dump($stack);
-        exit();
+      // exit();
         $this->data = $stack;
     }
 
