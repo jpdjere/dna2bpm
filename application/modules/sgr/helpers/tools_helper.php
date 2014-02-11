@@ -120,21 +120,22 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2) {
-    /* Chck if number */
-//    $number = (int)$number;
-//    
-//    if (ctype_alpha($number)) {
-//        return true;
-//        exit();
-//    }
+    $number = str_replace(",",".",$number);
     
-    
-    
-    $m_factor = pow(10, $decimal);
-    if ((int) ($number * $m_factor) == $number * $m_factor)
-        return false;
-    else
+    $value = isfloat($number);
+    if ($value) {
+        $places_count = strlen(substr(strrchr($number, "."), 1));
+        if ($places_count > $decimal) {
+            return true;
+        }
+    } else {
         return true;
+    }
+}
+
+function isfloat($f) {
+    $value = ($f == (string) (float) $f);
+    return $value;
 }
 
 function check_zip_code($parameter) {
@@ -429,14 +430,14 @@ function translate_period_date($period) {
  */
 
 function consecutive_numbers($num1, $num2, $num3) {
-    return ($num2-$num1 == 1 && $num3-$num2 == 1) ? true : false;
+    return ($num2 - $num1 == 1 && $num3 - $num2 == 1) ? true : false;
 }
 
-function three_fields($fields_arr){
-    foreach ($fields_arr as $key => $value) { 
-      if (is_null($value) || $value=="") { 
-        unset($fields_arr[$key]); 
-      } 
-    }  
+function three_fields($fields_arr) {
+    foreach ($fields_arr as $key => $value) {
+        if (is_null($value) || $value == "") {
+            unset($fields_arr[$key]);
+        }
+    }
     var_dump(count($fields_arr));
 }
