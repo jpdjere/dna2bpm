@@ -120,6 +120,9 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2) {
+    if(!$number){
+        exit();
+    }
     $number = str_replace(",",".",$number);
     
     $value = isfloat($number);
