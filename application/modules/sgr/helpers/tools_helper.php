@@ -121,12 +121,15 @@ function check_period_minor($parameter, $period) {
 
 function check_decimal($number, $decimal = 2) {
     /* Chck if number */
-    $number = (int)$number;
+//    $number = (int)$number;
+//    
+//    if (ctype_alpha($number)) {
+//        return true;
+//        exit();
+//    }
     
-    if (ctype_alpha($number)) {
-        return true;
-        exit();
-    }
+    
+    
     $m_factor = pow(10, $decimal);
     if ((int) ($number * $m_factor) == $number * $m_factor)
         return false;
