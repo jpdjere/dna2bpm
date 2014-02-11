@@ -586,8 +586,6 @@ class Lib_12_data extends MX_Controller {
                             }
                         }
                     }
-
-                   
                 }
 
                 /* GRACIA
@@ -629,7 +627,7 @@ class Lib_12_data extends MX_Controller {
 
 
                     /* PLAZO + GRACIA */
-                   
+
                     if ($D1_field_value == "GFCPD") {
                         $code_error = "P.2";
                         $ctyDays = 0;
@@ -644,8 +642,8 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
-                    
-                    
+
+
                     if ($D1_field_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
@@ -660,23 +658,23 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
-                    
-                     $code_error = "P.4";
-                     $return = $this->sgr_model->get_warranty_type($D1_field_value);
-                     $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
-                     
-                     $ctyMayor = $return['minor']*$yearCtyDays;
-                     $ctyMinor = $return['mayor']*$yearCtyDays;
-                     $ctyDays = $P1_field_value + $Q1_field_value;
-                     
-                     $range = range($ctyMinor, $ctyMayor);
-                     
-                     if (in_array($ctyDays, $range)) {
-                        var_dump($ctyDays, $ctyMinor, $ctyMayor);
+
+                    $code_error = "P.4";
+                    $return = $this->sgr_model->get_warranty_type($D1_field_value);
+                    $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+
+                    $ctyMayor = $return['minor'] * $yearCtyDays;
+                    $ctyMinor = $return['mayor'] * $yearCtyDays;
+                    $ctyDays = $P1_field_value + $Q1_field_value;
+
+                    $range = range($ctyMinor, $ctyMayor);
+
+                    if (!in_array($ctyDays, $range)) {
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                        array_push($stack, $result);
                     }
-                     
-                       
-                    /* PENDIENTE */
                 }
 
                 /* PERIODICIDAD
@@ -830,7 +828,7 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-       // var_dump($stack);
+        // var_dump($stack);
         exit();
         $this->data = $stack;
     }
