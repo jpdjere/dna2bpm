@@ -121,6 +121,8 @@ function check_period_minor($parameter, $period) {
 
 function check_decimal($number, $decimal = 2) {
     /* Chck if number */
+    $number = (int)$number;
+    
     if (ctype_alpha($number)) {
         return true;
         exit();
