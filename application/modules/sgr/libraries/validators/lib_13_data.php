@@ -98,14 +98,20 @@ class Lib_13_data extends MX_Controller {
 //                     } else {
 //                         echo "<br>error " .(int)$test ." -  ". (float)$test;
 //                     }
-                    
+
                     if ((int) $test == $test) {
-                        echo "int" . $test;
+                        echo "<br>int" . $test;
                     } else {
-                        echo "validate float" . $test;
+                        
+                        $m_factor = pow(10, $decimal);
+                        if ((int) ($test * $m_factor) == $test * $m_factor){
+                             echo "<br>validate float" . $test;
+                        } else {
+                             echo "<br>Error validate float" . $test;
+                        }
                     }
-                    
-                  //  var_dump($return,$parameterArr[$i]['fieldValue']);
+
+                    //  var_dump($return,$parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -148,7 +154,7 @@ class Lib_13_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-                
+
                 /* VALOR_CONTRAGARANTIAS
                  * Nro F.1
                  * Detail:
