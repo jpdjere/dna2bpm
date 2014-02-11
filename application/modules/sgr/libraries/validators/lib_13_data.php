@@ -92,6 +92,8 @@ class Lib_13_data extends MX_Controller {
                     $code_error = "C.1";
 
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    
+                    var_dump($return,$parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -154,6 +156,7 @@ class Lib_13_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
+        exit();
         $this->data = $stack;
     }
 
