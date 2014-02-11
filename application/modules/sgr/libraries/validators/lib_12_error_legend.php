@@ -37,8 +37,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción CFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV.';
                 break;
             case "G.3": 
-                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones: GFON1/GFON2/GFON3/ deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P
-';
+                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones: GFON1/GFON2/GFON3/ deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P';
                 break;
             case "H.1": 
                 $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:GFFF0/GFFF1/GFFF2/GFFF3/CFCPD.';
@@ -81,6 +80,12 @@ class Lib_12_error_legend {
                 break;
             case "P.2": 
                 $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD, el plazo debe ser mayor a cero y meno a 365 (366 si implica un año bisiesto).';
+                break;
+             case "P.3": 
+                $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna “D” el Tipo de Garantía seleccionado fue GFVCP, el plazo debe ser mayor a cero y meno a 730 (731 si implica un año bisiesto).';
+                break;
+             case "P.4": 
+                $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites descriptos en la columna B';
                 break;
             case "Q.1": 
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser un campo numérico, sin decimales, y mayor a cero.';
