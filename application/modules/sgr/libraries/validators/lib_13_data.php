@@ -93,11 +93,17 @@ class Lib_13_data extends MX_Controller {
 
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
                     $test = str_replace(",", ".", $parameterArr[$i]['fieldValue']);
-                     if (is_int($test) || is_float($test)) {
-                         echo "<br>ok " .(int)$test ." -  ". (float)$test;
-                     } else {
-                         echo "<br>error " .(int)$test ." -  ". (float)$test;
-                     }
+//                     if (is_int($test) || is_float($test)) {
+//                         echo "<br>ok " .(int)$test ." -  ". (float)$test;
+//                     } else {
+//                         echo "<br>error " .(int)$test ." -  ". (float)$test;
+//                     }
+                    
+                    if ((int) $test == $test) {
+                        echo "int" . $test;
+                    } else {
+                        echo "validate float" . $test;
+                    }
                     
                   //  var_dump($return,$parameterArr[$i]['fieldValue']);
                     if ($return) {
