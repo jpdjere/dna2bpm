@@ -92,11 +92,11 @@ class Lib_13_data extends MX_Controller {
                     $code_error = "C.1";
 
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    
-                     if (is_int($parameterArr[$i]['fieldValue']) || is_float($parameterArr[$i]['fieldValue'])) {
-                         echo "<br>ok " .(int)$parameterArr[$i]['fieldValue'] ." -  ". (float)$parameterArr[$i]['fieldValue'];
+                    $test = str_replace(",", ".", $parameterArr[$i]['fieldValue']);
+                     if (is_int($test) || is_float($test)) {
+                         echo "<br>ok " .(int)$test ." -  ". (float)$test;
                      } else {
-                          echo "<br>error " .(int)$parameterArr[$i]['fieldValue'] ." -  ". (float)$parameterArr[$i]['fieldValue'];
+                         echo "<br>error " .(int)$test ." -  ". (float)$test;
                      }
                     
                   //  var_dump($return,$parameterArr[$i]['fieldValue']);
