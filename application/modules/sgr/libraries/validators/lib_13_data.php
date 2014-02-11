@@ -102,7 +102,7 @@ class Lib_13_data extends MX_Controller {
                     if ((int) $test == $test) {
                         echo "<br>int" . $test;
                     } else {
-                        
+                        $decimal = 2;
                         $m_factor = pow(10, $decimal);
                         if ((int) ($test * $m_factor) == $test * $m_factor){
                              echo "<br>validate float" . $test;
