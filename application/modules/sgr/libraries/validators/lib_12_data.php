@@ -103,7 +103,7 @@ class Lib_12_data extends MX_Controller {
                     $transaction_year = explode("-",$partner_data['FECHA_DE_TRANSACCION']);
                     
                     $result_dates = (int)$year_period-(int)$transaction_year;
-                    var_dump($result_dates);
+                    var_dump($result_dates, (int)$year_period-(int)$transaction_year);
                     if ($result_dates<=0) {
                         $code_error = "B.2";
                         $result["error_code"] = $code_error;
