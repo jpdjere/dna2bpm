@@ -311,16 +311,12 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD" , "GFCPD" , "GFON0", "GFON1", "GFON2", "GFON3", "GFPB"); 
-                     $code_error = "I.1";
-                    if (in_array($D1_field_value, $codes_arr)) {                       
+                    $codes_arr = array("GFCPD", "GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB");
+                    $code_error = "I.1";
+                    if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
-                        
+
                         if ($return) {
-                            
-                            var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
-                        exit();
-                            
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "empty";
@@ -340,6 +336,11 @@ class Lib_12_data extends MX_Controller {
                             } else {
                                 $return = $this->sgr_model->get_cnv_code($check_cnv_syntax);
                                 if (!$return) {
+
+                                    var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                                    exit();
+
+
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -358,7 +359,7 @@ class Lib_12_data extends MX_Controller {
                         }
                     } else {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                         //var_dump("2 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                        //var_dump("2 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
