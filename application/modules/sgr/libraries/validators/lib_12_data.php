@@ -314,6 +314,7 @@ class Lib_12_data extends MX_Controller {
                     $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB");
                     if (in_array($D1_field_value, $codes_arr)) {
                         $code_error = "I.1";
+                        var_dump($parameterArr[$i]['fieldValue']);
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
@@ -784,8 +785,8 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
