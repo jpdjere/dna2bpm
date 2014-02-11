@@ -238,14 +238,21 @@ class Lib_12_data extends MX_Controller {
                   GFFF1
                   GFFF2
                   GFFF3
-                  CFCPD
+                  
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD", "GFVCP");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD");
                     $code_error = "G.1";
-
                     if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -286,6 +293,15 @@ class Lib_12_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
+                        
                     }
                 }
 
