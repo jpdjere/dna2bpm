@@ -663,8 +663,8 @@ class Lib_12_data extends MX_Controller {
                     $return = $this->sgr_model->get_warranty_type($D1_field_value);
                     $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
 
-                    $ctyMayor = $return['minor'] * $yearCtyDays;
-                    $ctyMinor = $return['mayor'] * $yearCtyDays;
+                    $ctyMayor = $return['mayor'] * $yearCtyDays;
+                    $ctyMinor = $return['minor'] * $yearCtyDays;
                     $ctyDays = $P1_field_value + $Q1_field_value;
 
                     $range = range($ctyMinor, $ctyMayor);
