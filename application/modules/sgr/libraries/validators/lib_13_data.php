@@ -73,12 +73,14 @@ class Lib_13_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 2) {
                     $code_error = "B.1";
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                        array_push($stack, $result);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -90,17 +92,19 @@ class Lib_13_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
                     //empty field Validation
                     $code_error = "C.1";
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                        array_push($stack, $result);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
 
-                
+
 
                 /* MENOR_365_DIAS
                  * Nro D.1
@@ -110,12 +114,14 @@ class Lib_13_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 4) {
 
                     $code_error = "D.1";
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                        array_push($stack, $result);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -128,12 +134,14 @@ class Lib_13_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "E.1";
 
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                        array_push($stack, $result);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -146,16 +154,18 @@ class Lib_13_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "F.1";
 
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                        array_push($stack, $result);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
                     }
                 }
             } // END FOR LOOP->
-        }        
+        }
         $this->data = $stack;
     }
 
