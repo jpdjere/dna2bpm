@@ -238,7 +238,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF1
                   GFFF2
                   GFFF3
-                  
+
                  */
                 if ($parameterArr[$i]['col'] == 7) {
                     $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD");
@@ -301,7 +301,6 @@ class Lib_12_data extends MX_Controller {
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
                         }
-                        
                     }
                 }
 
@@ -588,38 +587,7 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
 
-                    $code_error = "P.2";
-                    //PENDIENTE
-//                            if ($D1_field_value == "GFCPD") {
-//
-//                                $ctyDays = 0;
-//                                $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
-//
-//                                /* Sumo el plazo + la gracia */
-//                                $ctyDays = $insertarr[5224] + $insertarr[5225];
-//                                if ($ctyDays > $yearCtyDays) {
-//                                    $proc = false;
-//                                    $showError[] = '<li>El Tipo de Garant&iacute;a ( ' . $insertarr[5216] . ' ) de la linea (' . $i . ') no puede superar los 365/366 d&iacute;as.</li>';
-//                                }
-//                            }
-
-                    $code_error = "P.3";
-                    //PENDIENTE
-//                            if ($D1_field_value == "GFVCP") {
-//
-//                                $ctyDays = 0;
-//                                $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;
-//
-//                                /* Sumo el plazo + la gracia */
-//                                $ctyDays = $insertarr[5224] + $insertarr[5225];
-//                                if ($ctyDays > $yearCtyDays) {
-//                                    $proc = false;
-//                                    $showError[] = '<li>El Tipo de Garant&iacute;a ( ' . $insertarr[5216] . ' ) de la linea (' . $i . ') no puede superar los 365/366 d&iacute;as.</li>';
-//                                }
-//                            }
-
-                    $code_error = "P.4";
-                    /* PENDIENTE */
+                   
                 }
 
                 /* GRACIA
@@ -631,7 +599,7 @@ class Lib_12_data extends MX_Controller {
                  * Si en la Columna R se indicó PAGO ÚNICO, el valor aquí indicado debe ser igual al valor indicado en la Columna P.
                  */
                 if ($parameterArr[$i]['col'] == 17) {
-                    $Q1_field_value = $parameterArr[$i]['fieldValue'];
+                    $Q1_field_value = (int) $parameterArr[$i]['fieldValue'];
                     $code_error = "Q.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -658,6 +626,46 @@ class Lib_12_data extends MX_Controller {
                             }
                         }
                     }
+
+
+                    /* PLAZO + GRACIA */
+                   
+                    if ($D1_field_value == "GFCPD") {
+                        $code_error = "P.2";
+                        $ctyDays = 0;
+                        $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+
+                        /* Sumo el plazo + la gracia */
+                        $ctyDays = $P1_field_value + $Q1_field_value;
+                        if ($ctyDays > $yearCtyDays) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                    
+                    
+                    if ($D1_field_value == "GFVCP") {
+                        $code_error = "P.3";
+                        $ctyDays = 0;
+                        $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;
+
+                        /* Sumo el plazo + la gracia */
+                        $ctyDays = $P1_field_value + $Q1_field_value;
+                        if ($ctyDays > $yearCtyDays) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+                    }
+                    
+                     $code_error = "P.4";
+                     $return = $this->sgr_model->get_warranty_type($D1_field_value);
+                     var_dump($return['mayor'],$return['minor']);
+                       
+                    /* PENDIENTE */
                 }
 
                 /* PERIODICIDAD
@@ -811,8 +819,8 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
