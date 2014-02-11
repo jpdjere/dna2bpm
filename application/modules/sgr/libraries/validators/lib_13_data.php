@@ -91,7 +91,7 @@ class Lib_13_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "C.1";
 
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);                    
+                    $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
@@ -99,6 +99,9 @@ class Lib_13_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
+
+
+                
 
                 /* MENOR_365_DIAS
                  * Nro D.1
