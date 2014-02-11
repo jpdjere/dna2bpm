@@ -659,7 +659,7 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
 
-                    $code_error = "P.4";
+
                     $return = $this->sgr_model->get_warranty_type($D1_field_value);
                     $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
 
@@ -670,7 +670,7 @@ class Lib_12_data extends MX_Controller {
                     $range = range($ctyMinor, $ctyMayor);
 
                     if (!in_array($ctyDays, $range)) {
-                        echo $ctyDays."-> ".$ctyMinor."-> ".$ctyMayor."<br>";
+                        $code_error = "P.4";
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
