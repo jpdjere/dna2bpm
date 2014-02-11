@@ -669,7 +669,7 @@ class Lib_12_data extends MX_Controller {
 
                     $range = range($ctyMinor, $ctyMayor);
 
-                    if (!in_array($ctyDays, $range)||$ctyMayor!= 0) {
+                    if (!in_array($ctyDays, $range)) {
                         echo $ctyDays."-> ".$ctyMinor."-> ".$ctyMayor."<br>";
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
