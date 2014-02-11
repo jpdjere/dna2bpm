@@ -93,10 +93,10 @@ class Lib_13_data extends MX_Controller {
 
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
                     
-                     if (ctype_alpha($parameterArr[$i]['fieldValue'])) {
-                         echo "<br>error " .$parameterArr[$i]['fieldValue'];
-                     } else {
+                     if (is_int($parameterArr[$i]['fieldValue']) || is_float($parameterArr[$i]['fieldValue'])) {
                          echo "<br>ok " .$parameterArr[$i]['fieldValue'];
+                     } else {
+                         echo "<br>error " .$parameterArr[$i]['fieldValue'];
                      }
                     
                   //  var_dump($return,$parameterArr[$i]['fieldValue']);
