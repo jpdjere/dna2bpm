@@ -90,7 +90,6 @@ class Lib_13_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
                     //empty field Validation
                     $code_error = "C.1";
-
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
@@ -156,8 +155,7 @@ class Lib_13_data extends MX_Controller {
                     }
                 }
             } // END FOR LOOP->
-        }
-        exit();
+        }        
         $this->data = $stack;
     }
 
