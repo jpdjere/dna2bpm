@@ -91,27 +91,7 @@ class Lib_13_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "C.1";
 
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    $test = str_replace(",", ".", $parameterArr[$i]['fieldValue']);
-//                     if (is_int($test) || is_float($test)) {
-//                         echo "<br>ok " .(int)$test ." -  ". (float)$test;
-//                     } else {
-//                         echo "<br>error " .(int)$test ." -  ". (float)$test;
-//                     }
-
-                    if ((int) $test == $test) {
-                        echo "<br>int" . $test;
-                    } else {
-                        $decimal = 2;
-                        $m_factor = pow(10, $decimal);
-                        if ((int) ($test * $m_factor) == $test * $m_factor){
-                             echo "<br>validate float" . $test;
-                        } else {
-                             echo "<br>Error validate float" . $test;
-                        }
-                    }
-
-                    //  var_dump($return,$parameterArr[$i]['fieldValue']);
+                    $return = check_decimal($parameterArr[$i]['fieldValue']);                    
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
