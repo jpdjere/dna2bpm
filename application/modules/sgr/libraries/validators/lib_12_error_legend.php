@@ -31,7 +31,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: PESOS ARGENTINOS/DOLARES AMERICANOS';
                 break;
             case "G.1": 
-                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:GFFF1/GFFF2/GFFF3/CFCPD';
+                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:GFFF0/GFFF1/GFFF2/GFFF3/CFCPD';
                 break;
             case "G.2": 
                 $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción CFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV.';
@@ -41,19 +41,19 @@ class Lib_12_error_legend {
 ';
                 break;
             case "H.1": 
-                $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:GFFF1/GFFF2/GFFF3/CFCPD.';
+                $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:GFFF0/GFFF1/GFFF2/GFFF3/CFCPD.';
                 break;
             case "H.2": 
                 $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>.Debe tener 11 caracteres sin guiones.';
                 break;
             case "I.1": 
-                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones: CFCPD/GFON1/GFON2/GFON3';
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones: GFON0/CFCPD/GFON1/GFON2/GFON3/GFPB';
                 break;
             case "I.2": 
-                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción CFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV. Se adjunta Anexo con Códigos.';
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción CFCPD  o GFPB, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV.';
                 break;
             case "I.3": 
-                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones:GFON1/GFON2/GFON3/ deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P';
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones:GFON0/GFON1/GFON2/GFON3/GFVCP deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P';
                 break;
             case "J.1": 
                 $result_error = '<strong>Columna J - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>En caso de que el CUIT informado ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.';
