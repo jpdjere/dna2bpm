@@ -97,8 +97,6 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
 
-                   
-                    echo $year_period . "<br>";
                     
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
                     list($month_period,$year_period) =  explode("-",$this->session->userdata['period']);
@@ -845,7 +843,7 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        var_dump($stack);
+       // var_dump($stack);
         exit();
         $this->data = $stack;
     }
