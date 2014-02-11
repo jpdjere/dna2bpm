@@ -663,7 +663,7 @@ class Lib_12_data extends MX_Controller {
                     
                      $code_error = "P.4";
                      $return = $this->sgr_model->get_warranty_type($D1_field_value);
-                     var_dump($return['mayor'],$return['minor']);
+                     var_dump($D1_field_value, $return);
                        
                     /* PENDIENTE */
                 }
