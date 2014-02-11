@@ -311,11 +311,12 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB"); 
+                    $codes_arr = array("GFCPD" , "GFCPD" , "GFON0", "GFON1", "GFON2", "GFON3", "GFPB"); 
                      $code_error = "I.1";
                     if (in_array($D1_field_value, $codes_arr)) {                       
                         $return = check_empty($parameterArr[$i]['fieldValue']);
-                        //var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                        var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                        exit();
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
