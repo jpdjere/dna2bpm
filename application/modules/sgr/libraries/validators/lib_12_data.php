@@ -9,7 +9,9 @@ class Lib_12_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
-
+        /* PARTNER INFO */
+        $model_06 = 'model_06';
+        $this->load->Model($model_06);
 
 
         /* Vars 
