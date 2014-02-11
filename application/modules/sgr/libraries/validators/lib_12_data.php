@@ -669,8 +669,9 @@ class Lib_12_data extends MX_Controller {
                      $ctyDays = $P1_field_value + $Q1_field_value;
                      
                      $range = range($ctyMinor, $ctyMayor);
+                     var_dump($ctyDays, $ctyMinor, $ctyMayor);
                      if (in_array($ctyDays, $range)) {
-                        var_dump($ctyDays, $ctyMinor, $ctyMayor);
+                        
                     }
                      
                        
