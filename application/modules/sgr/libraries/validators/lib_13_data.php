@@ -94,7 +94,7 @@ class Lib_13_data extends MX_Controller {
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
                     
                      if (is_int($parameterArr[$i]['fieldValue']) || is_float($parameterArr[$i]['fieldValue'])) {
-                         echo "<br>ok " .$parameterArr[$i]['fieldValue'];
+                         echo "<br>ok " .(int)$parameterArr[$i]['fieldValue'] ." ". (float)$parameterArr[$i]['fieldValue'];
                      } else {
                          echo "<br>error " .$parameterArr[$i]['fieldValue'];
                      }
