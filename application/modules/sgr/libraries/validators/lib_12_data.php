@@ -97,19 +97,26 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
 
-                    
+
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-                    list($month_period,$year_period) =  explode("-",$this->session->userdata['period']);
-                    $transaction_year = explode("-",$partner_data['FECHA_DE_TRANSACCION']);
-                    
-                    $result_dates = (int)$year_period-(int)$transaction_year[0];
-                    echo $result_dates."->".$year_period."->".$transaction_year[0];
-                    if ($result_dates<=0) {
+
+                    if (!$partner_data['FECHA_DE_TRANSACCION']) {
                         $code_error = "B.2";
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                         array_push($stack, $result);
+                    } else {
+                        list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
+                        $transaction_year = explode("-", $partner_data['FECHA_DE_TRANSACCION']);
+                        $result_dates = (int) $year_period - (int) $transaction_year[0];
+                        if ($result_dates <= 0) {
+                            $code_error = "B.2";
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -843,8 +850,8 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-       // var_dump($stack);
-        exit();
+        // var_dump($stack);
+        //exit();
         $this->data = $stack;
     }
 
