@@ -97,9 +97,16 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
 
-                    $code_error = "B.2";
+                    $year_period =  $this->session->userdata['period'];
+                    echo $year_period . "<br>";
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-                    var_dump($partner_data, $parameterArr[$i]['fieldValue']);
+                    if ($partner_data['FECHA_DE_TRANSACCION']) {
+                        $code_error = "B.2";
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                        array_push($stack, $result);
+                    }
                 }
 
                 /* ORIGEN
@@ -832,7 +839,7 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-         var_dump($stack);
+        var_dump($stack);
         exit();
         $this->data = $stack;
     }
