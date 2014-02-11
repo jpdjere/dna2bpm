@@ -93,11 +93,11 @@ class Lib_13_data extends MX_Controller {
 
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
                     
-                     if (ctype_alpha($number)) {
-                         echo "error";
+                     if (ctype_alpha($parameterArr[$i]['fieldValue'])) {
+                         echo "<br>error" .$parameterArr[$i]['fieldValue'];
                      }
                     
-                    var_dump($return,$parameterArr[$i]['fieldValue']);
+                  //  var_dump($return,$parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
