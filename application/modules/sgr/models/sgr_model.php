@@ -296,7 +296,7 @@ class Sgr_model extends CI_Model {
 
     function get_warranty_type($code) {
         $container = 'container.sgr_tipo_garantias';
-        $query = array("codigo" => $code);
+        $query = array("code" => $code);
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
