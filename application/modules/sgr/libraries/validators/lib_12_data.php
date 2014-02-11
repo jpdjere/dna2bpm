@@ -336,11 +336,7 @@ class Lib_12_data extends MX_Controller {
                             } else {
                                 $return = $this->sgr_model->get_cnv_code($check_cnv_syntax);
                                 if (!$return) {
-
-                                    var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
-                                    exit();
-
-
+                                    $code_error = "I.2";
                                     $result["error_code"] = $code_error;
                                     $result["error_row"] = $parameterArr[$i]['row'];
                                     $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
