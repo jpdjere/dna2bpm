@@ -99,7 +99,7 @@ class Lib_12_data extends MX_Controller {
 
                     $code_error = "B.2";
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-                    var_dump($partner_data);
+                    var_dump($partner_data, $parameterArr[$i]['fieldValue']);
                 }
 
                 /* ORIGEN
