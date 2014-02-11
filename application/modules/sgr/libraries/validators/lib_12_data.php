@@ -312,11 +312,10 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 9) {
                     $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB");
-                    if (in_array($D1_field_value, $codes_arr)) {
-                        $code_error = "I.1";
-                        
+                     $code_error = "I.1";
+                    if (in_array($D1_field_value, $codes_arr)) {                       
                         $return = check_empty($parameterArr[$i]['fieldValue']);
-                        var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                        //var_dump("1 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -355,7 +354,7 @@ class Lib_12_data extends MX_Controller {
                         }
                     } else {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                         var_dump("2 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                         //var_dump("2 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -795,8 +794,8 @@ class Lib_12_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        var_dump($stack);
-        exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
