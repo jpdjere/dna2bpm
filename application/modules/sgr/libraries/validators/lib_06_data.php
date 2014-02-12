@@ -68,9 +68,9 @@ class Lib_06_data extends MX_Controller {
                             $A1_field_value = $parameterArr[$i]['fieldValue'];
                             $buy = $this->$model_anexo->buy_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
                             $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
-                            $balance = $buy-$sell;                            
-                            
-                            if ($balance== 0 && $parameterArr[$i]['fieldValue'] == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                            $balance = $buy - $sell;
+
+                            if ($balance == 0 && $parameterArr[$i]['fieldValue'] == "INCREMENTO DE TENENCIA ACCIONARIA") {
                                 $code_error = "B.3";
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -90,7 +90,7 @@ class Lib_06_data extends MX_Controller {
                         /* VALIDO EN TODAS LAS */
                         $buy = $this->$model_anexo->buy_shares_all($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
                         $sell = $this->$model_anexo->sell_shares_all($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
-                        $balance = $buy-$sell;
+                        $balance = $buy - $sell;
                         if ($balance != 0 && $parameterArr[$i]['fieldValue'] == "INCORPORACION") {
                             $code_error = "B.2";
                             $result["error_code"] = $code_error;
@@ -239,16 +239,12 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         } else {
-
-                            $fecha = mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900);
-                            $AF_field_value = strftime("%Y", $fecha);
                             /* VALIDACION R.3 */
-                            $resto = $AF_field_value - $R2_field_value;
-                            if ($resto > 4 && $R2_field_value) {
+                            if (!in_array($check_diff, range(0, 3))) {
                                 $code_error = "R.3";
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $AF_field_value . "-" . $R2_field_value;
+                                $result["error_input_value"] = $check_diff;
                                 array_push($stack, $result);
                             }
                         }
@@ -302,7 +298,7 @@ class Lib_06_data extends MX_Controller {
                             if ($parameterArr[$i]['fieldValue'] == "TRANSFERENCIA") {
                                 $buy = $this->$model_anexo->buy_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
                                 $sell = $this->$model_anexo->sell_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
-                                $balance = $buy-$sell;
+                                $balance = $buy - $sell;
                                 if ($balance <= 0) {
                                     $code_error = "AH.2";
                                     $result["error_code"] = $code_error;
@@ -766,9 +762,6 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
                      */
                     if ($parameterArr[$i]['col'] == 17) {
-
-
-
                         $code_error = "Q.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -842,6 +835,10 @@ class Lib_06_data extends MX_Controller {
                                     } else {
                                         $R1_field_value = $parameterArr[$i]['fieldValue'];
                                         $R2_field_value = $return;
+
+                                        list($first_year_to_check) = explode("/", $R2_field_value);
+                                        list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+                                        $check_diff = (int) $period_to_check - (int) $first_year_to_check;
                                     }
                                 }
 
@@ -915,12 +912,12 @@ class Lib_06_data extends MX_Controller {
                                         array_push($stack, $result);
                                     } else {
 
-                                        list($year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
+                                        list($second_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+                                        $check_diff2 = (int) $first_year_to_check + 1;
 
-                                        $check_diff = (int) $period_to_check - (int) $year_to_check;
 
-                                        if (!in_array($check_diff, range(0, 2))) {
+                                        if ($check_diff2 != $second_year_to_check) {
                                             $code_error = "U.3";
                                             $result["error_code"] = $code_error;
                                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -992,19 +989,30 @@ class Lib_06_data extends MX_Controller {
 
                         switch ($parameterArr[$i]['col']) {
                             case 24: //ANIO_MES3                                        
-                                $X1_field_value = "";
+                                $X1_field_value = $parameterArr[$i]['fieldValue'];
                                 $X2_field_value = "";
+                                $code_error = "X.2";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
-                                        $code_error = "X.2";
                                         $result["error_code"] = $code_error;
                                         $result["error_row"] = $parameterArr[$i]['row'];
                                         $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                         array_push($stack, $result);
                                     } else {
-                                        $X1_field_value = $parameterArr[$i]['fieldValue'];
-                                        $X2_field_value = $return;
+
+                                        list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
+                                        list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+                                        $check_diff3 = (int) $second_year_to_check + 1;
+
+                                        if ($check_diff3 != $last_year_to_check) {
+                                            $result["error_code"] = $code_error;
+                                            $result["error_row"] = $parameterArr[$i]['row'];
+                                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                            array_push($stack, $result);
+                                        } else {
+                                            $X2_field_value = $return;
+                                        }
                                     }
                                 }
 
@@ -1418,12 +1426,15 @@ class Lib_06_data extends MX_Controller {
 
                     $get_ciu = ciu(cerosClanae($ciu));
                     $sector = ($get_ciu) ? $get_ciu : $this->sgr_model->clae2013($ciu);
+
                     if (!$sector) {
-                        $code_error = "Q.2";
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "No califica como PYME";
-                        array_push($stack, $result);
+                        if ($A1_field_value == "INCORPORACION") {
+                            $code_error = "Q.2";
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "No califica como PYME";
+                            array_push($stack, $result);
+                        }
                     } else {
                         $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
                         if (!$isPyme) {

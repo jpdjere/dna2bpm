@@ -180,18 +180,23 @@ function check_web($parameter) {
     }
 }
 
-function check_is_numeric($parameter) {
-    $parameter = (int) $parameter;
-    if (!is_numeric($parameter)) {
+function check_is_numeric($number) {
+    $value = isfloat($number);
+    if (!$value) {
         return true;
-    }
+    }    
 }
 
-function check_is_numeric_no_decimal($parameter) {
-    $parameter = (int) $parameter;
-    if (!is_int($parameter)) {
+function check_is_numeric_no_decimal($number) {
+    $value = isfloat($number);
+    if ($value) {
+        $places_count = strlen(substr(strrchr($number, "."), 0));
+        if ($places_count > $decimal) {
+            return true;
+        }
+    } else {
         return true;
-    }
+    }  
 }
 
 function check_is_alphabetic($parameter) {
