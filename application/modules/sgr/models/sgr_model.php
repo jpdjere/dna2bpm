@@ -20,8 +20,8 @@ class Sgr_model extends CI_Model {
 
         if (!$this->idu)
             header("$this->module_url/user/logout");
-        
-        
+
+
         /* DATOS SGR */
         $sgrArr = $this->get_sgr();
         foreach ($sgrArr as $sgr) {
@@ -76,7 +76,7 @@ class Sgr_model extends CI_Model {
         $regex = new MongoRegex('/' . $year . '/');
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename');
-        $sort = array('period_date'=> -1);
+        $sort = array('period_date' => -1);
         $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
         $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
 
@@ -85,14 +85,14 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-    
+
     //rectify
     //processes
     function get_rectified($anexo, $sgr_id, $year = null) {
         $rtn = array();
         $regex = new MongoRegex('/' . $year . '/');
         $container = 'container.sgr_periodos';
-        $sort = array('period_date'=> -1);
+        $sort = array('period_date' => -1);
         $query = array("status" => 'rectificado', "anexo" => $anexo, "sgr_id" => $sgr_id, 'period' => $regex);
         $result = $this->mongo->sgr->$container->find($query)->sort($sort);
 
@@ -296,39 +296,38 @@ class Sgr_model extends CI_Model {
 
     function get_warranty_type($code) {
         $container = 'container.sgr_tipo_garantias';
-        $query = array("code" => $code);
+        $query = array("code" => utf8_decode($code));
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
 
-    function get_warranty_data($order_number, $options=null) {        
+    function get_warranty_data($order_number, $options = null) {
         $container = 'container.sgr_anexo_12';
         $period = 'container.sgr_periodos';
         $query = array('status' => 'activo', 'anexo' => '12', 'sgr_id' => $this->sgr_id);
-        if($options){
-            $optionArr = array("period"=>$options);     
+        if ($options) {
+            $optionArr = array("period" => $options);
         }
         $result = $this->mongo->sgr->$period->find($query);
-        foreach ($result as $list) {            
-            $new_query = array(5214 => $order_number, 'filename'=>$list['filename']);
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
-        }        
+        foreach ($result as $list) {
+            $new_query = array(5214 => $order_number, 'filename' => $list['filename']);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+        }
         return $new_result;
     }
 
     function get_investment_options($code) {
         $container = 'container.sgr_opciones_inversion';
-        $query = array("inciso_art_25" => $code);
+        $query = array("inciso_art_25" => utf8_decode($code));
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
 
     function get_depositories($code) {
         $container = 'container.sgr_entidades_depositarias';
-        $query = array("codigo" => $code);
+        $query = array("codigo" => utf8_decode($code));
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
-    
-    
+
 }
