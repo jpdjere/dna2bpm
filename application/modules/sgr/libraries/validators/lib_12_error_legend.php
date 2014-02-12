@@ -75,6 +75,12 @@ class Lib_12_error_legend {
             case "N.1": 
                 $result_error = '<strong>Columna N - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros:FIJA/LIBOR/BADLAR PU (Badlar Bancos Públicos)/BADLAR PR (Badlar Bancos Privados)/TEC/TEBP';
                 break;
+            case "O.1": 
+                $result_error = '<strong>Columna O - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tomar un valor entre -0,10 y 0,10. Debe aceptar hasta 3 decimales.';
+                break;
+            case "O.2": 
+                $result_error = '<strong>Columna O - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30.';
+                break;
             case "P.1": 
                 $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser un campo numérico, sin decimales, y mayor a cero.';
                 break;
