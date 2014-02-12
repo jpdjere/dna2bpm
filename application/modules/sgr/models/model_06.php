@@ -237,7 +237,7 @@ class Model_06 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        
+
         $parameter['period_date'] = translate_period_date($period);
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
@@ -507,16 +507,20 @@ class Model_06 extends CI_Model {
 
     function buy_shares($cuit, $partner_type) {
 
+        $nresult_arr = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id);
+        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id, 'period' => array('$ne' => $this->session->userdata['period']));
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $nresult_arr[] = $new_result[5598];
         }
-        return $new_result;
+        $result = array_sum($nresult_arr);
+        return $result;
     }
 
     /* ACCIONES VENTA
@@ -524,18 +528,69 @@ class Model_06 extends CI_Model {
      * Integradas 
      */
 
-    function sell_shares($cuit_cedente, $partner_type) {
+    function sell_shares($cuit, $partner_type) {
+        $nresult_arr = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id);
+        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => $this->sgr_id, 'period' => array('$ne' => $this->session->userdata['period']));
 
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
-            $new_query = array(5248 => $cuit_cedente, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $nresult_arr[] = $new_result[5598];
         }
-        return $new_result;
+        $result = array_sum($nresult_arr);
+        return $result;
+    }
+
+    /* ACCIONES COMPRA
+     * Compra venta por socio
+     * Integradas
+     */
+
+    function buy_shares_all($cuit, $partner_type) {
+        $nresult_arr = array();
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => array('$ne' => $this->sgr_id), 'period' => array('$ne' => $this->session->userdata['period']));
+        $result = $this->mongo->sgr->$period->find($query);
+
+        foreach ($result as $list) {
+            $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $nresult_arr[] = $new_result[5598];
+        }
+        $result = array_sum($nresult_arr);
+        return $result;
+    }
+
+    /* ACCIONES VENTA
+     * Compra venta por socio
+     * Integradas 
+     */
+
+    function sell_shares_all($cuit, $partner_type) {
+        $nresult_arr = array();
+        $partner_type = ($partner_type == "A") ? "B" : "A";
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => array('$ne' => $this->sgr_id), 'period' => array('$ne' => $this->session->userdata['period']));
+
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $list) {
+            $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $nresult_arr[] = $new_result[5598];
+        }
+        $result = array_sum($nresult_arr);
+        return $result;
     }
 
 }

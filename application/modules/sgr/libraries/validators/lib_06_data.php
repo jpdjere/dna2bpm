@@ -68,11 +68,9 @@ class Lib_06_data extends MX_Controller {
                             $A1_field_value = $parameterArr[$i]['fieldValue'];
                             $buy = $this->$model_anexo->buy_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
                             $sell = $this->$model_anexo->sell_shares($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
-                            $balance = $buy[1695] - $sell[1695];
-
-                            //var_dump($balance, $parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue'], $parameterArr[$i]['fieldValue']);
-
-                            if ($balance >= 0 && $parameterArr[$i]['fieldValue'] == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                            $balance = $buy-$sell;                            
+                            
+                            if ($balance== 0 && $parameterArr[$i]['fieldValue'] == "INCREMENTO DE TENENCIA ACCIONARIA") {
                                 $code_error = "B.3";
                                 $result["error_code"] = $code_error;
                                 $result["error_row"] = $parameterArr[$i]['row'];
@@ -87,6 +85,18 @@ class Lib_06_data extends MX_Controller {
                                 $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                                 array_push($stack, $result);
                             }
+                        }
+
+                        /* VALIDO EN TODAS LAS */
+                        $buy = $this->$model_anexo->buy_shares_all($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
+                        $sell = $this->$model_anexo->sell_shares_all($parameterArr[2]['fieldValue'], $parameterArr[1]['fieldValue']);
+                        $balance = $buy-$sell;
+                        if ($balance != 0 && $parameterArr[$i]['fieldValue'] == "INCORPORACION") {
+                            $code_error = "B.2";
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
                         }
                     }
                 }
@@ -292,7 +302,7 @@ class Lib_06_data extends MX_Controller {
                             if ($parameterArr[$i]['fieldValue'] == "TRANSFERENCIA") {
                                 $buy = $this->$model_anexo->buy_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
                                 $sell = $this->$model_anexo->sell_shares($parameterArr[37]['fieldValue'], $parameterArr[1]['fieldValue']);
-                                $balance = $buy[5598] - $sell[5598];
+                                $balance = $buy-$sell;
                                 if ($balance <= 0) {
                                     $code_error = "AH.2";
                                     $result["error_code"] = $code_error;
@@ -756,9 +766,9 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
                      */
                     if ($parameterArr[$i]['col'] == 17) {
-                        
-                        
-                        
+
+
+
                         $code_error = "Q.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -768,7 +778,7 @@ class Lib_06_data extends MX_Controller {
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
                         } else {
-                            $ciu = $parameterArr[$i]['fieldValue'];                           
+                            $ciu = $parameterArr[$i]['fieldValue'];
                         }
                     }
 
@@ -1405,9 +1415,9 @@ class Lib_06_data extends MX_Controller {
                         $sumaMontos = array_sum($montosArr);
                         $average_amount = $sumaMontos / $calcPromedio;
                     }
-                     
-                    $get_ciu = ciu(cerosClanae($ciu));                    
-                    $sector = ($get_ciu)? $get_ciu:$this->sgr_model->clae2013($ciu);
+
+                    $get_ciu = ciu(cerosClanae($ciu));
+                    $sector = ($get_ciu) ? $get_ciu : $this->sgr_model->clae2013($ciu);
                     if (!$sector) {
                         $code_error = "Q.2";
                         $result["error_code"] = $code_error;
