@@ -152,10 +152,9 @@ EXCENTO,INSCRIPTO,MONOSTRIBUTISTA".';
                 break;
             case "AK.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
                 break;
-            case "Q.2": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: "Debe validar que coincida con alguno de los Códigos del CIU (Ver listado Excel enviado a tales efectos)
-Existen unos tipos de actividad (que están pintados de rojo en el Excel) que por normativa deberían comunicarse con nosotros antes de poder subirlo. Con lo cual, el validador, si descubriera un socio que se quiere incorporar con uno de los códigos pintados en rojo no debería dejar cargarlo y el mensaje a tirarles seria:  ""El tipo de actividad del socio (tal) requiere ser chequeado con la DSyCSGR. Por favor comuníquese con ellos a tales fines. Gracias."" (¿¿¿¿¿????) Esto estaba escrito. Que significa???????????????????".';
+            case "Q.2": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: "Debe validar que coincida con alguno de los Códigos del CIU';
                 break;
-            case "R.1": $result_error = '<strong>Columna R - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 1: OPCIONAL. Si las COLUMNAS S o T tienen datos, esta debe tener datos..';
+            case "R.1": $result_error = '<strong>Columna R - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 1: OPCIONAL. Si las COLUMNAS S o T tienen datos, esta debe tener datos.';
                 break;
             case "R.2": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>De ser informado debe tener el siguiente formato:  xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12..';
                 break;
