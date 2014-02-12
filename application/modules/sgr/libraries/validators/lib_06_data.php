@@ -349,7 +349,7 @@ class Lib_06_data extends MX_Controller {
                                     $result["error_input_value"] = $col_num;
                                     array_push($stack, $result);
                                 }
-                                
+
                                 if (false !== ($pos = array_search2d($error_code, $stack))) {
                                     $ord_arr[] = $pos;
                                 }
@@ -756,26 +756,19 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
                      */
                     if ($parameterArr[$i]['col'] == 17) {
+                        
+                        
+                        
                         $code_error = "Q.1";
                         //Check Empry
-                        if ($B1_field_value == "A") {
-                            $return = check_empty($parameterArr[$i]['fieldValue']);
-                            if ($return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = "empty";
-                                array_push($stack, $result);
-                            } else {
-                                $code_error = "Q.2";
-                                $return = ciu(cerosClanae($parameterArr[$i]['fieldValue']));
-                                $ciu = $parameterArr[$i]['fieldValue'];
-                                if (!$return) {
-                                    $result["error_code"] = $code_error;
-                                    $result["error_row"] = $parameterArr[$i]['row'];
-                                    $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                    array_push($stack, $result);
-                                }
-                            }
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        } else {
+                            $ciu = $parameterArr[$i]['fieldValue'];                           
                         }
                     }
 
@@ -916,7 +909,8 @@ class Lib_06_data extends MX_Controller {
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
                                         $check_diff = (int) $period_to_check - (int) $year_to_check;
-                                        if (!in_array($check_diff, range(0, 1))) {
+
+                                        if (!in_array($check_diff, range(0, 2))) {
                                             $code_error = "U.3";
                                             $result["error_code"] = $code_error;
                                             $result["error_row"] = $parameterArr[$i]['row'];
@@ -1411,15 +1405,24 @@ class Lib_06_data extends MX_Controller {
                         $sumaMontos = array_sum($montosArr);
                         $average_amount = $sumaMontos / $calcPromedio;
                     }
-
-                    $sector = $this->sgr_model->clae2013($ciu);
-                    $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
-                    if (!$isPyme) {
-                        $code_error = "S.3";
+                     
+                    $get_ciu = ciu(cerosClanae($ciu));                    
+                    $sector = ($get_ciu)? $get_ciu:$this->sgr_model->clae2013($ciu);
+                    if (!$sector) {
+                        $code_error = "Q.2";
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "No califica como PYME";
                         array_push($stack, $result);
+                    } else {
+                        $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+                        if (!$isPyme) {
+                            $code_error = "S.3";
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "No califica como PYME";
+                            array_push($stack, $result);
+                        }
                     }
                 }
             }
@@ -1428,4 +1431,5 @@ class Lib_06_data extends MX_Controller {
 //        exit();
         $this->data = $stack;
     }
+
 }
