@@ -107,7 +107,13 @@ class Lib_14_data extends MX_Controller {
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
+                    } else {
+                        $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']); 
+                        var_dump($warranty_info);
+                        
                     }
+                    
+                    
                 }
 
                 /* CAIDA
