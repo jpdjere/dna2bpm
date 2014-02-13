@@ -51,13 +51,13 @@ class Lib_12_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    
-                    $col_A_arr[]= $parameterArr[$i]['fieldValue'];
-                    
+
+                    $col_A_arr[] = $parameterArr[$i]['fieldValue'];
+
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {                             
+                    if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -98,7 +98,7 @@ class Lib_12_data extends MX_Controller {
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
 
                     if (!$partner_data['FECHA_DE_TRANSACCION']) {
-                        $code_error = "B.2";                        
+                        $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
@@ -220,8 +220,8 @@ class Lib_12_data extends MX_Controller {
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -242,7 +242,7 @@ class Lib_12_data extends MX_Controller {
                     $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
                     $code_error = "G.1";
                     if (in_array($D1_field_value, $codes_arr)) {
-                        $return = check_empty($parameterArr[$i]['fieldValue']);                        
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result["error_input_value"] = "empty.";
                             array_push($stack, $result);
@@ -330,8 +330,8 @@ class Lib_12_data extends MX_Controller {
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
                             if (!$check_cnv_syntax) {
                                 $code_error = "I.2";
-                                
-                                
+
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
@@ -346,8 +346,8 @@ class Lib_12_data extends MX_Controller {
                             $check_cnv_syntax_alt = check_cnv_syntax_alt($parameterArr[$i]['fieldValue']);
                             if (!$check_cnv_syntax_alt) {
                                 $code_error = "I.3";
-                                
-                                
+
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -356,8 +356,8 @@ class Lib_12_data extends MX_Controller {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         //var_dump("2 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            
-                            
+
+
                             $result["error_input_value"] = "not empty";
                             array_push($stack, $result);
                         }
@@ -385,8 +385,8 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -394,8 +394,8 @@ class Lib_12_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -413,8 +413,8 @@ class Lib_12_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -423,8 +423,8 @@ class Lib_12_data extends MX_Controller {
 
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -445,16 +445,16 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -478,8 +478,8 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
@@ -487,8 +487,8 @@ class Lib_12_data extends MX_Controller {
                         $allow_words = array("FIJA", "LIBOR", "BADLAR PU", "BADLAR PR", "TEC", "TEBP");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -509,8 +509,8 @@ class Lib_12_data extends MX_Controller {
                     /* Debe tomar un valor entre -0,10 y 0,10. Debe aceptar hasta 3 decimales. DIEGO, VEAMOS ESTO!!!!! */
                     $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -520,8 +520,8 @@ class Lib_12_data extends MX_Controller {
                     if ($N1_field_value == "FIJA") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -550,21 +550,21 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
                             if ((int) $parameterArr[$i]['fieldValue'] < 0) {
-                                
-                                
+
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -585,8 +585,8 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "Q.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -595,14 +595,14 @@ class Lib_12_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
                             if ((int) $parameterArr[$i]['fieldValue'] < 0) {
-                                
-                                
+
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -620,8 +620,8 @@ class Lib_12_data extends MX_Controller {
                         /* Sumo el plazo + la gracia */
                         $ctyDays = $P1_field_value + $Q1_field_value;
                         if ($ctyDays > $yearCtyDays) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -636,8 +636,8 @@ class Lib_12_data extends MX_Controller {
                         /* Sumo el plazo + la gracia */
                         $ctyDays = $P1_field_value + $Q1_field_value;
                         if ($ctyDays > $yearCtyDays) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -655,8 +655,8 @@ class Lib_12_data extends MX_Controller {
 
                     if (!in_array($ctyDays, $range)) {
                         $code_error = "P.4";
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -685,15 +685,15 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "R.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {                        
+                    if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $allow_words = array("PAGO UNICO", "MENSUAL", "BIMESTRAL", "TRIMESTRAL", "CUATRIMESTRAL", "SEMESTRAL", "ANUAL", "OTRO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -703,8 +703,8 @@ class Lib_12_data extends MX_Controller {
                         $types_arr = array("GFCPD", "GFVCP");
                         if (in_array($D1_field_value, $types_arr)) {
                             if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
-                                
-                                
+
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -713,8 +713,8 @@ class Lib_12_data extends MX_Controller {
                         $code_error = "Q.2";
                         if ($parameterArr[$i]['fieldValue'] == "PAGO UNICO") {
                             if ($P1_field_value != $Q1_field_value) {
-                                
-                                
+
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -743,16 +743,16 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $allow_words = array("PAGO UNICO", "FRANCES", "ALEMAN", "AMERICANO", "OTRO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -762,8 +762,8 @@ class Lib_12_data extends MX_Controller {
                     $types_arr = array("GFCPD", "GFVCP");
                     if (in_array($D1_field_value, $types_arr)) {
                         if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -772,8 +772,8 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "S.3";
                     if ($R1_field_value == "PAGO UNICO") {
                         if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
-                            
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -794,8 +794,8 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
@@ -808,15 +808,14 @@ class Lib_12_data extends MX_Controller {
                     }
                 }
             } // END FOR LOOP->
-            
-            
-            /*NROS DE ORDEN REPETIDOS*/
+
+
+            /* NROS DE ORDEN REPETIDOS */
             if (count(array_unique($col_A_arr)) < count($col_A_arr)) {
                 $code_error = "A.1";
                 $result = return_error_array($code_error, "Todas", "Nros. de Orden repetidos dentro del mismo Anexo");
-                array_push($stack, $result);                
+                array_push($stack, $result);
             }
-            
         }
 //        var_dump($stack);
 //        exit();
