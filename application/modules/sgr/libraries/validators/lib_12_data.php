@@ -587,24 +587,16 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "Q.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    //Check Numeric Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
+                        //Check Numeric Validation
                         $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
                             if ((int) $parameterArr[$i]['fieldValue'] < 0) {
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -621,9 +613,7 @@ class Lib_12_data extends MX_Controller {
 
                         /* Sumo el plazo + la gracia */
                         $ctyDays = $P1_field_value + $Q1_field_value;
-                        if ($ctyDays > $yearCtyDays) {
-
-
+                        if ($ctyDays >= $yearCtyDays) {                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -637,9 +627,7 @@ class Lib_12_data extends MX_Controller {
 
                         /* Sumo el plazo + la gracia */
                         $ctyDays = $P1_field_value + $Q1_field_value;
-                        if ($ctyDays > $yearCtyDays) {
-
-
+                        if ($ctyDays >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -657,8 +645,6 @@ class Lib_12_data extends MX_Controller {
 
                     if (!in_array($ctyDays, $range)) {
                         $code_error = "P.4";
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
