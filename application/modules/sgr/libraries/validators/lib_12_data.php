@@ -610,9 +610,9 @@ class Lib_12_data extends MX_Controller {
                         $code_error = "P.2";
                         $ctyDays = 0;
                         $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
-
                         /* Sumo el plazo + la gracia */
                         $ctyDays = $P1_field_value + $Q1_field_value;
+                        var_dump($ctyDays,$yearCtyDays);
                         if ($ctyDays >= $yearCtyDays) {                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -790,7 +790,7 @@ class Lib_12_data extends MX_Controller {
             }
         }
 //        var_dump($stack);
-//        exit();
+        exit();
         $this->data = $stack;
     }
 
