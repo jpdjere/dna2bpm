@@ -322,12 +322,9 @@ class Lib_12_data extends MX_Controller {
 
                         $I2_validate_arr = array("GFCPD", "GFPB");
                         if (in_array($D1_field_value, $I2_validate_arr)) {
-
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
                             if (!$check_cnv_syntax) {
                                 $code_error = "I.2";
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
