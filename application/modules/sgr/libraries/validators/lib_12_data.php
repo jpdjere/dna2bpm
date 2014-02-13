@@ -233,7 +233,6 @@ class Lib_12_data extends MX_Controller {
                   GFFF1
                   GFFF2
                   GFFF3
-
                  */
                 if ($parameterArr[$i]['col'] == 7) {
                     $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
@@ -241,7 +240,7 @@ class Lib_12_data extends MX_Controller {
                     if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_input_value"] = "empty.";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
                     } else {
