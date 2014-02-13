@@ -151,9 +151,15 @@ class Lib_14_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $code_error = "C.2";
-                        $warranty_info = $this->sgr_model->get_warranty_data($B1_field_value);
-                        var_dump($warranty_info[5218], $parameterArr[$i]['fieldValue']);
+                        
+                        $warranty_info = $this->sgr_model->get_warranty_data($B1_field_value);                        
+                        if($parameterArr[$i]['fieldValue']>$warranty_info[5218]){
+                            $code_error = "C.2";
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
 
                         $code_error = "C.3";
                         //Valida contra Mongo
