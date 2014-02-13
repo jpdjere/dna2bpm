@@ -236,18 +236,16 @@ class Lib_12_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
                     $code_error = "G.1";
-                    
                     if (in_array($D1_field_value, $codes_arr)) {
-                        $return = check_empty($parameterArr[$i]['fieldValue']);
-                        var_dump($D1_field_value, $codes_arr);
+                        $return = check_empty($parameterArr[$i]['fieldValue']);                        
                         if ($return) {
                             $result["error_input_value"] = "empty.";
                             array_push($stack, $result);
                         }
                     } else {
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = ($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -262,10 +260,10 @@ class Lib_12_data extends MX_Controller {
                   GFFF1
                   GFFF2
                   GFFF3
-                  CFCPD
+                  GFCPD
                  */
                 if ($parameterArr[$i]['col'] == 8) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "CFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
 
                     if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -303,7 +301,7 @@ class Lib_12_data extends MX_Controller {
                   GFPB
                  * Nro I.2
                  * Detail:
-                 * Si la Columna D se completó con la opción CFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV. Se adjunta Anexo con Códigos.
+                 * Si la Columna D se completó con la opción GFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV. Se adjunta Anexo con Códigos.
                  * Nro I.3
                  * Detail: Si la Columna D se completó con alguna de las siguientes Opciones:
                   GFON1
