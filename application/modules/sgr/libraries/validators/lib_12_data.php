@@ -813,7 +813,7 @@ class Lib_12_data extends MX_Controller {
             /*NROS DE ORDEN REPETIDOS*/
             if (count(array_unique($col_A_arr)) < count($col_A_arr)) {
                 $code_error = "A.1";
-                $result = return_error_array($code_error, "", "");
+                $result = return_error_array($code_error, "", "Nros de Orden repetidos dentro del mismo archivo");
                 array_push($stack, $result);                
             }
             
