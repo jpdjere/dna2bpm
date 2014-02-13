@@ -498,7 +498,7 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 15) {
                     /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
-                    $in_value = $parameterArr[$i]['fieldValue'];
+                    $in_value = (int)$parameterArr[$i]['fieldValue'];
                     $range1 = range(-19, -2);
                     $range2 = range(2, 19);
                     $range3 = range(2, 49);
