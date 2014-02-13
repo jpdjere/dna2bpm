@@ -108,12 +108,14 @@ class Lib_14_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     } else {
-                        $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']); 
-                        var_dump($warranty_info, $parameterArr[$i]['fieldValue']);
-                        
+                        $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue']);
+                        if ($warranty_info) {                            
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = "empty";
+                            array_push($stack, $result);
+                        }
                     }
-                    
-                    
                 }
 
                 /* CAIDA
@@ -149,9 +151,10 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         $code_error = "C.2";
-                        //Valida contra Mongo
-                        
-                         $code_error = "C.3";
+                        $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue']);
+                        var_dump($warranty_info);
+
+                        $code_error = "C.3";
                         //Valida contra Mongo
                     }
                 }
@@ -190,8 +193,8 @@ class Lib_14_data extends MX_Controller {
 
                         $code_error = "D.2";
                         //Valida contra Mongo
-                        
-                         $code_error = "D.3";
+
+                        $code_error = "D.3";
                         //Valida contra Mongo
                     }
                 }
@@ -230,8 +233,8 @@ class Lib_14_data extends MX_Controller {
 
                         $code_error = "E.2";
                         //Valida contra Mongo
-                        
-                         $code_error = "E.3";
+
+                        $code_error = "E.3";
                         //Valida contra Mongo
                     }
                 }
@@ -267,8 +270,6 @@ class Lib_14_data extends MX_Controller {
 
                         $code_error = "F.2";
                         //Valida contra Mongo
-                        
-                        
                     }
                 }
             } // END FOR LOOP->
