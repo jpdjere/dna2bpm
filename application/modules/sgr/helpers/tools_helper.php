@@ -120,9 +120,9 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2) {
-    
-    $number = str_replace(",",".",$number);
-    
+
+    $number = str_replace(",", ".", $number);
+
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
@@ -184,7 +184,7 @@ function check_is_numeric($number) {
     $value = isfloat($number);
     if (!$value) {
         return true;
-    }    
+    }
 }
 
 function check_is_numeric_no_decimal($number) {
@@ -196,7 +196,7 @@ function check_is_numeric_no_decimal($number) {
         }
     } else {
         return true;
-    }  
+    }
 }
 
 function check_is_alphabetic($parameter) {
@@ -450,4 +450,13 @@ function three_fields($fields_arr) {
 
 function Bisiesto($year) {
     return date('L', mktime(1, 1, 1, 1, 1, $year));
+}
+
+function return_error_array($code, $row, $value) {
+    $result = array();
+    $result["error_code"] = $code;
+    $result["error_row"] = $row;
+    $result["error_input_value"] = $value;
+    
+    return $result;
 }
