@@ -109,7 +109,7 @@ class Lib_14_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']); 
-                        var_dump($warranty_info);
+                        var_dump($warranty_info, $parameterArr[$i]['fieldValue']);
                         
                     }
                     
