@@ -187,10 +187,7 @@ class Lib_12_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
+                    } else {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -543,33 +540,38 @@ class Lib_12_data extends MX_Controller {
                  * Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites.
                  */
                 if ($parameterArr[$i]['col'] == 16) {
-
                     $P1_field_value = (int) $parameterArr[$i]['fieldValue'];
-
                     $code_error = "P.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            if ((int) $parameterArr[$i]['fieldValue'] < 0) {
-
-
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
                         }
                     }
+
+
+
+//                    if ($return) {
+//                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+//                        array_push($stack, $result);
+//                    } else {
+//                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+//                        if ($return) {
+//                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+//                            array_push($stack, $result);
+//                        } else {
+//                            if ((int) $parameterArr[$i]['fieldValue'] < 0) {
+//                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+//                                array_push($stack, $result);
+//                            }
+//                        }
+//                    }
                 }
 
                 /* GRACIA
