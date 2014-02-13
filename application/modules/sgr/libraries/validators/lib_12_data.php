@@ -200,10 +200,12 @@ class Lib_12_data extends MX_Controller {
                 /* MONEDA
                  * Nro F.1
                  * Detail:
-                 * Numero entero mayor a cero.
+                 * Debe contener uno de los siguientes parámetros:
+                  Pesos Argentinos
+                  Dolares Americanos
+                  Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS
                  */
                 if ($parameterArr[$i]['col'] == 6) {
-
                     $code_error = "F.1";
 
                     //empty field Validation
@@ -211,16 +213,17 @@ class Lib_12_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            if ($D1_field_value == "GFCPD" && $parameterArr[$i]['fieldValue'] != "PESOS ARGENTINOS") {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -343,7 +346,7 @@ class Lib_12_data extends MX_Controller {
                             }
                         }
                     } else {
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);                        
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -440,10 +443,13 @@ class Lib_12_data extends MX_Controller {
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            if ($D1_field_value == "GFCPD" && $parameterArr[$i]['fieldValue'] != "PESOS ARGENTINOS") {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -491,24 +497,22 @@ class Lib_12_data extends MX_Controller {
                  * Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30.
                  */
                 if ($parameterArr[$i]['col'] == 15) {
+                    /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
+                    $in_value = $parameterArr[$i]['fieldValue'];
+                    $range1 = range(-19, -2);
+                    $range2 = range(2, 19);
+                    $range3 = range(2, 49);
 
-                    $code_error = "O.1";
-                    /* Debe tomar un valor entre -0,10 y 0,10. Debe aceptar hasta 3 decimales. DIEGO, VEAMOS ESTO!!!!! */
-                    $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-
-
+                    if (!in_array($in_value, $range1) && !in_array($in_value, $range2)) {
+                        $code_error = "O.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
 
-                    $code_error = "O.2";
-                    /* Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30. DIEGO, VEAMOS ESTO!!!!!  */
+                    /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 1 y 50.   */
                     if ($N1_field_value == "FIJA") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return) {
-
-
+                        if (!in_array($in_value, $range3)) {
+                            $code_error = "O.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -585,7 +589,7 @@ class Lib_12_data extends MX_Controller {
                         /* Sumo el plazo + la gracia */
                         $ctyDays = $P1_field_value + $Q1_field_value;
                         //echo $P1_field_value .",". $Q1_field_value.",".$ctyDays.",".$yearCtyDays;
-                        if ($ctyDays >= $yearCtyDays) {                            
+                        if ($ctyDays >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -762,7 +766,7 @@ class Lib_12_data extends MX_Controller {
             }
         }
 //        var_dump($stack);
-       // exit();
+        // exit();
         $this->data = $stack;
     }
 
