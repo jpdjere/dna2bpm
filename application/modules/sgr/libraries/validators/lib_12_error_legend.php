@@ -7,7 +7,6 @@ class Lib_12_error_legend {
     }
 
     function return_legend($code, $row, $value) {
-
         switch ($code) {
             case "A.1": 
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El Número no puede estar cargado previamente en el Sistema en la misma SGR, así como tampoco puede estar repetido en el archivo que se está importando.';
