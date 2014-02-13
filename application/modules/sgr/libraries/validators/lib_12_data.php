@@ -245,7 +245,7 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-                        $return = ($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -315,7 +315,6 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "I.1";
                     if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
-
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
@@ -343,19 +342,14 @@ class Lib_12_data extends MX_Controller {
                             $check_cnv_syntax_alt = check_cnv_syntax_alt($parameterArr[$i]['fieldValue']);
                             if (!$check_cnv_syntax_alt) {
                                 $code_error = "I.3";
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
                     } else {
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                        //var_dump("2 " . $D1_field_value, $return, $parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);                        
                         if ($return) {
-
-
-                            $result["error_input_value"] = "not empty";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
