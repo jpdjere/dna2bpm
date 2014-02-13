@@ -680,8 +680,6 @@ class Lib_12_data extends MX_Controller {
                         $allow_words = array("PAGO UNICO", "MENSUAL", "BIMESTRAL", "TRIMESTRAL", "CUATRIMESTRAL", "SEMESTRAL", "ANUAL", "OTRO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -691,8 +689,6 @@ class Lib_12_data extends MX_Controller {
                         $types_arr = array("GFCPD", "GFVCP");
                         if (in_array($D1_field_value, $types_arr)) {
                             if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -701,8 +697,6 @@ class Lib_12_data extends MX_Controller {
                         $code_error = "Q.2";
                         if ($parameterArr[$i]['fieldValue'] == "PAGO UNICO") {
                             if ($P1_field_value != $Q1_field_value) {
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -731,16 +725,12 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $allow_words = array("PAGO UNICO", "FRANCES", "ALEMAN", "AMERICANO", "OTRO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -750,8 +740,6 @@ class Lib_12_data extends MX_Controller {
                     $types_arr = array("GFCPD", "GFVCP");
                     if (in_array($D1_field_value, $types_arr)) {
                         if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -760,8 +748,6 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "S.3";
                     if ($R1_field_value == "PAGO UNICO") {
                         if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -782,8 +768,6 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
