@@ -133,7 +133,7 @@ class Sgr extends MX_Controller {
 
         //RECTIFY       
         $customData['rectify_message'] = $this->session->userdata['period'];
-        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true):"";       
+        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
 
         // FILE BROWSER
@@ -300,7 +300,7 @@ class Sgr extends MX_Controller {
 
             /* VALIDATIONS */
             if (!$count) {
-                 $result_header = $this->empty_xls_advice($this->anexo);
+                $result_header = $this->empty_xls_advice($this->anexo);
                 $error = true;
             }
 
@@ -310,15 +310,14 @@ class Sgr extends MX_Controller {
             $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
             foreach ($result_data['data'] as $result_data) {
-                if (!empty($result_data['error_code'])) {                    
-                    if($result_data['error_input_value']=="empty"){                        
+                if (!empty($result_data['error_code'])) {
+                    if ($result_data['error_input_value'] == "empty") {
                         list($column_value) = explode(".", $result_data['error_code']);
-                        $result .= '<li><strong>Columna '.$column_value.' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code']  . '</strong><br/>El campo no puede estar vacío.</li>';                                                
+                        $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
                     } else {
-                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . " Valor Ingresado <strong>“". $result_data['error_input_value']."”</strong></li>";
+                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . " Valor Ingresado <strong>“" . $result_data['error_input_value'] . "”</strong></li>";
                     }
-                    
-                    
+
                     $error = true;
                 }
             }
@@ -457,10 +456,9 @@ class Sgr extends MX_Controller {
           echo $sql . rtrim($valuesSql, ", ") . " ) <br>";
           } */
     }
-    
-    
-    function empty_xls_advice($anexo){
-        switch($anexo){
+
+    function empty_xls_advice($anexo) {
+        switch ($anexo) {
             case 06:
                 $msg = "El campo no puede estar vacío, y debe contener alguno de los siguientes parámetros : INCORPORACION, INCREMENTO TENENCIA ACCIONARIA o DISMINUCION DE CAPITAL SOCIAL";
                 break;
@@ -471,8 +469,8 @@ class Sgr extends MX_Controller {
                 $msg = "Debe tener 11 caracteres numéricos sin guiones.";
                 break;
         }
-        
-        $legend = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li><li>'. $msg  .'</li>';
+
+        $legend = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li><li>' . $msg . '</li>';
         return $legend;
     }
 
@@ -657,10 +655,10 @@ class Sgr extends MX_Controller {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
-            
-            
+
+
             foreach ($processed as $file) {
-                
+
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
 
@@ -735,7 +733,7 @@ class Sgr extends MX_Controller {
      */
 
     function get_pending($anexo) {
-        
+
         $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
         foreach ($pending as $file) {
 

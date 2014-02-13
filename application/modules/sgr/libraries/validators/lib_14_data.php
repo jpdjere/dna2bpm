@@ -50,8 +50,6 @@ class Lib_14_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -59,18 +57,15 @@ class Lib_14_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        $code_error = "A.2";
+                        
                         /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
-
-
+                            $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -263,8 +258,8 @@ class Lib_14_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        var_dump($stack);
-        exit();
+//       var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
