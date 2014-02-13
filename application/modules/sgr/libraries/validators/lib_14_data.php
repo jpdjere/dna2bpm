@@ -155,9 +155,10 @@ class Lib_14_data extends MX_Controller {
                         $warranty_info = $this->sgr_model->get_warranty_data($B1_field_value);                        
                         if($parameterArr[$i]['fieldValue']>$warranty_info[5218]){
                             $code_error = "C.2";
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+//                            $result["error_code"] = $code_error;
+//                            $result["error_row"] = $parameterArr[$i]['row'];
+//                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                           $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
