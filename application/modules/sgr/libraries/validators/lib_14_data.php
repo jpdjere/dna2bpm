@@ -100,6 +100,7 @@ class Lib_14_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 2) {
                     $code_error = "B.1";
+                    $B1_field_value = $parameterArr[$i]['fieldValue'];
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -151,7 +152,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         $code_error = "C.2";
-                        $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue']);
+                        $warranty_info = $this->sgr_model->get_warranty_data($B1_field_value);
                         var_dump($warranty_info);
 
                         $code_error = "C.3";
