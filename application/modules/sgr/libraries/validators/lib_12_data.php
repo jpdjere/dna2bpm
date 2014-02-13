@@ -27,6 +27,7 @@ class Lib_12_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $col_A_arr = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -50,11 +51,13 @@ class Lib_12_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-
+                    
+                    $col_A_arr[]= $parameterArr[$i]['fieldValue'];
+                    
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {                        
+                    if ($return) {                             
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -799,14 +802,21 @@ class Lib_12_data extends MX_Controller {
                         $allow_words = array("OBRA CIVIL", "BIENES DE CAPITAL", "INMUEBLES", "CAPITAL DE TRABAJO", "PROYECTO DE INVERSION");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
                 }
             } // END FOR LOOP->
+            
+            
+            /*NROS DE ORDEN REPETIDOS*/
+            if (count(array_unique($col_A_arr)) < count($col_A_arr)) {
+                $code_error = "A.1";
+                $result = return_error_array($code_error, "", "");
+                array_push($stack, $result);                
+            }
+            
         }
 //        var_dump($stack);
 //        exit();
