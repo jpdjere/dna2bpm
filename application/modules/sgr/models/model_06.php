@@ -506,7 +506,6 @@ class Model_06 extends CI_Model {
      */
 
     function buy_shares($cuit, $partner_type) {
-
         $nresult_arr = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -553,6 +552,7 @@ class Model_06 extends CI_Model {
 
     function buy_shares_all($cuit, $partner_type) {
         $nresult_arr = array();
+        $partner_type = ($partner_type == "A") ? "B" : "A";
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;

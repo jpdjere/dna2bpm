@@ -63,7 +63,9 @@ class Lib_06_error_legend {
             case "AJ.2":
                 $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que en la columna “A” se complete la opción “DISMINUSIÓN DE CAPITAL SOCIAL”, esta columna NO PUEDE ESTAR VACÍA.';
                 break;
-
+            case "AJ.3": 
+                $result_error = '<strong>Columna Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que en la columna AG se complete la modalidad TRANSFERENCIA, esta columna NO PUEDE ESTAR VACÍA.';
+                break;
             case "AK.2":
                 $result_error = '<strong>Columna AK - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL y AM)tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, "A" o "B".';
                 break;
@@ -148,8 +150,7 @@ EXCENTO,INSCRIPTO,MONOSTRIBUTISTA".';
                 break;
             case "AI.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. De tenerlos, sean clase “A” o “B” debe rechazar la importación.';
                 break;
-            case "AJ.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que en la columna AG se complete la modalidad TRANSFERENCIA, esta columna NO PUEDE ESTAR VACÍA.';
-                break;
+            
             case "AK.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
                 break;
             case "Q.2": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: Debe validar que coincida con alguno de los Códigos del CIU';

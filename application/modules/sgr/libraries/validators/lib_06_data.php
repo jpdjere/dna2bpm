@@ -375,8 +375,8 @@ class Lib_06_data extends MX_Controller {
 
 
 
-                        case 37:
-                            $code_error = "AK.1";
+                        case 36:
+                            $code_error = "AJ.1";
                             //empty field Validation
                             $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
@@ -387,17 +387,6 @@ class Lib_06_data extends MX_Controller {
                                 if ($return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
-
-                                    if ($parameterArr[$i]['fieldValue'] == "TRANSFERENCIA") {
-                                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
-                                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
-                                        $balance = $buy - $sell;
-                                        if ($balance <= 0) {
-                                            $code_error = "AH.2";
-                                            $result["error_input_value"] = 'balance';
-                                            array_push($stack, $result);
-                                        }
-                                    }
                                 }
                             }
                             break;
@@ -405,36 +394,41 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 36) {
+                    $AL1_field_value = $parameterArr[$i]['fieldValue'];
                     if ($AG_field_value == "SUSCRIPCION" && ($A1_field_value == "INCORPORACION" || $A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                         //CHECK FOR EMPTY
                         $code_error = "AJ.1";
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result["error_input_value"] = "not empty";
                             array_push($stack, $result);
-                        } else {
-                            $AL1_field_value = $parameterArr[$i]['fieldValue'];
                         }
-                    } else if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
-                        //do something
-                        $code_error = "AJ.2";
+                    }
+
+                    if ($A1_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
+                            $code_error = "AJ.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-                    } else if ($AG_field_value == "TRANSFERENCIA") {
+                    }
+
+                    if ($AG_field_value == "TRANSFERENCIA") {
                         $code_error = "AJ.3";
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
+                        } else {
+                            $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
+                            $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
+                            $balance = $buy - $sell;
+                            if ($balance > 0) {
+                                $code_error = "AH.2";
+                                $result["error_input_value"] = 'balance';
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -468,8 +462,8 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 /* "INCORPORACION" */
-                                $buy = $this->$model_anexo->buy_shares($C1_field_value,$B1_field_value);
-                                $sell = $this->$model_anexo->sell_shares($C1_field_value,$B1_field_value);
+                                $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                                $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
                                 $balance = $buy - $sell;
 
                                 if ($balance != 0) {
@@ -480,8 +474,8 @@ class Lib_06_data extends MX_Controller {
 
 
                                 /* VALIDO EN TODAS LAS */
-                                $buy = $this->$model_anexo->buy_shares_all($C1_field_value,$B1_field_value);
-                                $sell = $this->$model_anexo->sell_shares_all($C1_field_value,$B1_field_value);
+                                $buy = $this->$model_anexo->buy_shares_all($C1_field_value, $B1_field_value);
+                                $sell = $this->$model_anexo->sell_shares_all($C1_field_value, $B1_field_value);
                                 $balance = $buy - $sell;
                                 if ($balance != 0) {
                                     $code_error = "B.2";
@@ -1145,9 +1139,9 @@ class Lib_06_data extends MX_Controller {
 
                     if ($parameterArr[$i]['col'] == 3) {
                         /* "INCREMENTO DE TENENCIA ACCIONARIA" */
-                        $buy = $this->$model_anexo->buy_shares($C1_field_value,$B1_field_value);
-                        $sell = $this->$model_anexo->sell_shares($C1_field_value,$B1_field_value);
-                        $balance = $buy - $sell;                        
+                        $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                        $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
+                        $balance = $buy - $sell;
                         if ($balance == 0) {
                             $code_error = "B.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
