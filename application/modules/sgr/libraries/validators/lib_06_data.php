@@ -729,7 +729,7 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
                       EXCENTO
                       INSCRIPTO
-                      MONOSTRIBUTISTA
+                      MONOTRIBUTISTA
                      */
                     if ($parameterArr[$i]['col'] == 27) {
 
@@ -745,7 +745,7 @@ class Lib_06_data extends MX_Controller {
                         }
                         //Value Validation
                         if ($parameterArr[$i]['fieldValue'] != "") {
-                            $allow_words = array("EXCENTO", "INSCRIPTO", "MONOSTRIBUTISTA");
+                            $allow_words = array("EXCENTO", "INSCRIPTO", "MONOTRIBUTISTA");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
 

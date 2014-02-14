@@ -144,7 +144,7 @@ class Lib_06_error_legend {
             case "Q.1": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: El campo no puede estar vacío. Debe validar que sea alguno de los que figuran en el Archivo Excel que va aparte (se llaman código CIU que es igual a la CLANAE pero con un digito menos).';
                 break;
             case "AA.1": $result_error = '<strong>Columna AA - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Condición de Inscripción ante AFIP: "El campo no puede estar vacío y debe contener uno de los siguientes parámetros: 
-EXCENTO,INSCRIPTO,MONOSTRIBUTISTA".';
+EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
                 break;
             case "AH.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. De tenerlos, sean clase “A” o “B” debe rechazar la importación.';
                 break;
