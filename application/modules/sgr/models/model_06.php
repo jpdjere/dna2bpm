@@ -514,8 +514,7 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
-            var_dump($new_query);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $nresult_arr[] = $new_result[5597];
         }
