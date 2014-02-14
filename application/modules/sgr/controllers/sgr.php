@@ -132,9 +132,9 @@ class Sgr extends MX_Controller {
         }
 
         //RECTIFY       
-//        $customData['rectify_message'] = $this->session->userdata['period'];
-//        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
-//        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
+        $customData['rectify_message'] = $this->session->userdata['period'];
+        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
+        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
@@ -517,7 +517,6 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
-
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -531,7 +530,7 @@ class Sgr extends MX_Controller {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
-                redirect('/sgr');
+                redirect('/sgrcc');
             } else {
                 if ($limit_month <= $set_month) {
                     return 1; // Posterior al mes actual
