@@ -133,7 +133,7 @@ class Sgr extends MX_Controller {
 
         //RECTIFY       
         $customData['rectify_message'] = $this->session->userdata['period'];
-        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
+        //$customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
 
         // FILE BROWSER
