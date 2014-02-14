@@ -23,8 +23,6 @@ $(document).ready(function() {
         $("#show_anexos").hide();
         $("#is_session").show();
         $("#no_session").hide();
-
-
     });
 
 
