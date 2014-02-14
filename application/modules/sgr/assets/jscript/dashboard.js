@@ -5,14 +5,12 @@
 
 $(document).ready(function() {  
     //session_rectify_ajax();
-    $("#is_session").hide();
-    
+    $("#is_session").hide();    
     $('#myModal').modal('show');
     
     
     /*RECTIFICA HREF*/
-    $('[class^="rectifica-link_"]').click(function(event) {
-        alert("1");
+    $('[class^="rectifica-link_"]').click(function(event) {       
          $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
@@ -21,8 +19,7 @@ $(document).ready(function() {
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
         $("input[name$='input_period']").val(input_period);
-        $("input[name$='anexo']").val(anexo);
-        
+        $("input[name$='anexo']").val(anexo);        
         $("#show_anexos").hide();
         $("#is_session").show();
         $("#no_session").hide();
@@ -31,8 +28,7 @@ $(document).ready(function() {
     });
 
 
-    $('[class^="rectifica-warning_"]').click(function(event) {
-        alert("2");
+    $('[class^="rectifica-warning_"]').click(function(event) {        
         var get_period = $("#sgr_period").html();
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
