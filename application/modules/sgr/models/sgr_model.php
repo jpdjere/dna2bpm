@@ -268,13 +268,13 @@ class Sgr_model extends CI_Model {
     }
 
     function get_company_size($sector, $average) {
-
+        $sector = (string)$sector;
         $container = 'container.sgr_size_empresa';
         $query = array("sector" => $sector, "average" => $average);
         $fields = array("average");
-        $result = $this->mongo->sgr->$container->findOne();
-        //var_dump($result["average"]);
-
+        $result = $this->mongo->sgr->$container->findOne($query);         
+        
+        
         $resultSize = ($average <= $result["average"]) ? true : false;
         return $resultSize;
     }

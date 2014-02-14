@@ -505,7 +505,7 @@ class Model_06 extends CI_Model {
      * Integradas
      */
 
-    function buy_shares($cuit, $partner_type) {
+    function buy_shares($cuit, $partner_type) {        
         $nresult_arr = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -514,9 +514,10 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
             if ($new_result)
-                $nresult_arr[] = $new_result[5598];
+                $nresult_arr[] = $new_result[5597];
+           
         }
         $result = array_sum($nresult_arr);
         return $result;
@@ -528,6 +529,7 @@ class Model_06 extends CI_Model {
      */
 
     function sell_shares($cuit, $partner_type) {
+        var_dump($cuit, $partner_type);
         $nresult_arr = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -539,7 +541,8 @@ class Model_06 extends CI_Model {
             $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5598];
+                $nresult_arr[] = $new_result[5597];  
+               
         }
         $result = array_sum($nresult_arr);
         return $result;
@@ -563,7 +566,7 @@ class Model_06 extends CI_Model {
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5598];
+                $nresult_arr[] = $new_result[5597];
         }
         $result = array_sum($nresult_arr);
         return $result;
@@ -587,7 +590,7 @@ class Model_06 extends CI_Model {
             $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5598];
+                $nresult_arr[] = $new_result[5597];
         }
         $result = array_sum($nresult_arr);
         return $result;
