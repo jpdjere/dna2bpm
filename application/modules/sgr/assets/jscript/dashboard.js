@@ -12,6 +12,7 @@ $(document).ready(function() {
     
     /*RECTIFICA HREF*/
     $('[class^="rectifica-link_"]').click(function(event) {
+        alert("1");
          $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
@@ -21,7 +22,7 @@ $(document).ready(function() {
         $.get(globals.module_url + "unset_period");
         $("input[name$='input_period']").val(input_period);
         $("input[name$='anexo']").val(anexo);
-        //$('[id^="period_"]').submit();
+        
         $("#show_anexos").hide();
         $("#is_session").show();
         $("#no_session").hide();
@@ -31,6 +32,7 @@ $(document).ready(function() {
 
 
     $('[class^="rectifica-warning_"]').click(function(event) {
+        alert("2");
         var get_period = $("#sgr_period").html();
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
@@ -39,14 +41,8 @@ $(document).ready(function() {
         event.preventDefault();
         $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
-            if (result) {
-                
-                /*$("#show_anexos").hide();
-                $("input[name$='input_period']").val(input_period);
-                $("input[name$='anexo']").val(anexo);
-                $('[id^="period_"]').submit();
-                $("#is_session").show();*/
-                 $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
+            if (result) {              
+                $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
                 $("#sgr_period").html("Rectifica");
                 $("#no_movement").hide();
                 $("#is_session").show();
