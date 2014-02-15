@@ -118,6 +118,7 @@ class Sgr extends MX_Controller {
                     break;
 
                 default:
+                    
                     $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
                     $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
@@ -527,10 +528,12 @@ class Sgr extends MX_Controller {
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
             if ($rectify) {
+                var_dump($rectify);
+                exit();
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
-                redirect('/sgrcc');
+                redirect('/sgr');
             } else {
                 if ($limit_month <= $set_month) {
                     return 1; // Posterior al mes actual
