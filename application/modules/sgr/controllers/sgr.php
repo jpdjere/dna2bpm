@@ -87,33 +87,33 @@ class Sgr extends MX_Controller {
         // UPLOAD ANEXO
         $upload = $this->upload_file();
         $translate_upload = $this->translate_upload($upload);
-        foreach ($translate_upload as $key => $each) {
-            $customData[$key] = $each;
-        }
+        if ($translate_upload)
+            foreach ($translate_upload as $key => $each) {
+                $customData[$key] = $each;
+            }
 
         /*
          * SET PERIOD
          */
-//        if (!$upload) {
-//            if (!$this->session->userdata['period']) {
-//                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
-//                $customData['select_period'] = true;
-//            }
-//        }
+        if (!$upload) {
+            if (!$this->session->userdata['period']) {
+                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['select_period'] = true;
+            }
+        }
 
 
         //RECTIFY
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
-        $translate_error = $this->translate_error_period($error_set_period);
-        if ($translate_error) {
-            foreach ($translate_error as $key => $each) {
-                $customData[$key] = $each;
-            }
+        $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
+        $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
+        $test = array_merge($rectify_status, $translate_error);
+        foreach ($test as $key => $each) {
+            $customData[$key] = $each;
         }
-        $customData['rectify_message'] = $this->session->userdata['period'];
-        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
-        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
+
+
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
@@ -135,15 +135,17 @@ class Sgr extends MX_Controller {
 
     // Render page
 
+
+    function rectify_status() {
+        $customData = array();
+        $customData['rectify_message'] = $this->session->userdata['period'];
+        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
+        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
+        return $customData;
+    }
+
     function translate_upload($upload) {
-        if (!$upload) {
-            if (!$this->session->userdata['period']) {
-                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
-                $customData['select_period'] = true;
-            }
-        }
-        
-        
+        $customData = array();
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
@@ -156,6 +158,8 @@ class Sgr extends MX_Controller {
             $customData['message'] = $upload['message'];
             $customData['success'] = "error";
         }
+
+        return $customData;
     }
 
     function Anexo_code($parameter) {
