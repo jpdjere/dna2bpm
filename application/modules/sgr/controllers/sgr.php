@@ -86,53 +86,31 @@ class Sgr extends MX_Controller {
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
-        if ($upload['success']) {
-            $customData['message'] = $upload['message'];
-            $customData['success'] = "success";
-
-            if (!$this->session->userdata['period']) {
-                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
-                $customData['select_period'] = true;
-            }
-        } else {
-            $customData['message'] = $upload['message'];
-            $customData['success'] = "error";
+        $translate_upload = $this->translate_upload($upload);
+        foreach ($translate_upload as $key => $each) {
+            $customData[$key] = $each;
         }
 
         /*
          * SET PERIOD
          */
-        if (!$upload) {
-            if (!$this->session->userdata['period']) {
-                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
-                $customData['select_period'] = true;
-            }
-        }
+//        if (!$upload) {
+//            if (!$this->session->userdata['period']) {
+//                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+//                $customData['select_period'] = true;
+//            }
+//        }
 
+
+        //RECTIFY
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
-        if ($error_set_period) {
-            switch ($error_set_period) {
-                case '1':
-                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido...';
-                    break;
-
-                default:
-                    
-                    $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
-                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
-                    $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
-                    $customData['post_period'] = $error_set_period;
-                    $customData['rectifica'] = true;
-                    $customData['js'] = $link_arr = array($this->module_url . "assets/jscript/rectify.js" => 'Rectify JS');
-                    array_push($customData['js'], $link_arr);
-                    break;
+        $translate_error = $this->translate_error_period($error_set_period);
+        if ($translate_error) {
+            foreach ($translate_error as $key => $each) {
+                $customData[$key] = $each;
             }
-            $customData['message'] = $error_msg;
-            $customData['success'] = "error";
         }
-
-        //RECTIFY       
         $customData['rectify_message'] = $this->session->userdata['period'];
         $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
@@ -157,6 +135,28 @@ class Sgr extends MX_Controller {
 
     // Render page
 
+    function translate_upload($upload) {
+        if (!$upload) {
+            if (!$this->session->userdata['period']) {
+                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['select_period'] = true;
+            }
+        }
+        
+        
+        if ($upload['success']) {
+            $customData['message'] = $upload['message'];
+            $customData['success'] = "success";
+
+            if (!$this->session->userdata['period']) {
+                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['select_period'] = true;
+            }
+        } else {
+            $customData['message'] = $upload['message'];
+            $customData['success'] = "error";
+        }
+    }
 
     function Anexo_code($parameter) {
         /* BORRO SESSION RECTIFY */
@@ -475,6 +475,35 @@ class Sgr extends MX_Controller {
         return $legend;
     }
 
+    function translate_error_period($error_set_period) {
+        if ($error_set_period) {
+            switch ($error_set_period) {
+                case '1':
+                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido...';
+                    break;
+
+                default:
+                    $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
+                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
+                    $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
+                    $customData['post_period'] = $error_set_period;
+                    $customData['rectifica'] = true;
+                    $customData['js'] = $link_arr = array($this->module_url . "assets/jscript/rectify.js" => 'Rectify JS');
+
+                    if (!in_array($link_arr, $customData)) {
+                        array_push($customData['js'], $link_arr);
+                    }
+                    break;
+            }
+            $customData['message'] = $error_msg;
+            $customData['success'] = "error";
+
+            return $customData;
+        } else {
+            return false;
+        }
+    }
+
     function print_anexo($parameter = null) {
 
         if (!$parameter) {
@@ -527,7 +556,7 @@ class Sgr extends MX_Controller {
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
-            if ($rectify) {               
+            if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
