@@ -527,9 +527,7 @@ class Sgr extends MX_Controller {
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
-            if ($rectify) {
-                var_dump($rectify);
-                exit();
+            if ($rectify) {               
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
