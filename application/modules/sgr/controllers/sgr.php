@@ -80,40 +80,32 @@ class Sgr extends MX_Controller {
         // RECTIFY LIST
         $customData['rectified_tab'] = $this->get_rectified_tab($this->anexo);
         $customData['rectified_list'] = $this->get_rectified($this->anexo);
+        
+        //RECTIFY
+        $error_set_period = $this->set_period();
+        $customData['sgr_period'] = $this->period;
+        $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
+        $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
+        $rectify_merge = array_merge($rectify_status, $translate_error);
+        foreach ($rectify_merge as $key => $each) {
+            $customData[$key] = $each;
+        }
+        
 
         // PENDING LIST        
         $customData['pending_list'] = $this->get_pending($this->anexo);
 
         // UPLOAD ANEXO
         $upload = $this->upload_file();
-        $translate_upload = $this->translate_upload($upload);
-        if ($translate_upload)
-            foreach ($translate_upload as $key => $each) {
-                $customData[$key] = $each;
-            }
-
-        /*
-         * SET PERIOD
-         */
-        if (!$upload) {
-            if (!$this->session->userdata['period']) {
-                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
-                $customData['select_period'] = true;
-            }
-        }
-
-
-        //RECTIFY
-        $error_set_period = $this->set_period();
-        $customData['sgr_period'] = $this->period;
-        $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
-        $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
-        $test = array_merge($rectify_status, $translate_error);
-        foreach ($test as $key => $each) {
+        $translate_upload = ($this->translate_upload($upload)) ? $this->translate_upload($upload) : array();
+        $upload_status = ($this->upload_status($upload)) ? $this->upload_status($upload) : array();
+        $upload_merge = array_merge($translate_upload, $upload_status);
+        foreach ($upload_merge as $key => $each) {
             $customData[$key] = $each;
         }
 
 
+        
 
         // FILE BROWSER
         $fileBrowserData = $this->file_browser();
@@ -124,23 +116,39 @@ class Sgr extends MX_Controller {
         //FORM TEMPLATE
         $customData['form_template'] = $this->parser->parse('form', $customData, true);
 
+
+        //RENDER
         if (!empty($fileBrowserData)) {
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
             $this->render('dashboard', $resultRender);
         } else {
             $this->render('dashboard', $customData);
         }
-        //RENDER
     }
 
-    // Render page
-
+    /* RECTIFY FNs */
 
     function rectify_status() {
-        $customData = array();
+        $customData = array();        
         $customData['rectify_message'] = $this->session->userdata['period'];
-        $customData['rectify_message_template'] = ($this->session->userdata['rectify']) ? $this->parser->parse('rectify', $customData, true) : "";
-        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
+        if ($this->session->userdata['rectify']) {            
+                $customData['rectify_message_template'] = $this->parser->parse('rectify', $customData, true);
+            $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
+            return $customData;
+        }
+        
+    }
+
+    /* UPLOAD FN */
+
+    function upload_status($upload) {
+        $customData = array();
+        if (!$upload) {
+            if (!$this->session->userdata['period']) {
+                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['select_period'] = true;
+            }
+        }
         return $customData;
     }
 
@@ -149,7 +157,7 @@ class Sgr extends MX_Controller {
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
-
+            $customData['rectify_message_template'] = "";
             if (!$this->session->userdata['period']) {
                 $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
                 $customData['select_period'] = true;
@@ -161,6 +169,8 @@ class Sgr extends MX_Controller {
 
         return $customData;
     }
+
+    /* ANEXOS FNs */
 
     function Anexo_code($parameter) {
         /* BORRO SESSION RECTIFY */
@@ -560,7 +570,7 @@ class Sgr extends MX_Controller {
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
 
-            if ($rectify) {
+            if ($rectify) {                
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
                 /* PERIOD SESSION */
                 $this->session->set_userdata($newdata);
@@ -591,7 +601,6 @@ class Sgr extends MX_Controller {
     }
 
     function unset_period_active() {
-
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
         $this->session->unset_userdata('period');
@@ -619,7 +628,6 @@ class Sgr extends MX_Controller {
     }
 
     function set_no_movement() {
-
         $data = $this->input->post('data');
         $period = $data['no_movement'];
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
@@ -814,7 +822,7 @@ class Sgr extends MX_Controller {
         return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
     }
 
-    /*
+    /* FILE BROWSER
      * 
      * 
      */
@@ -1003,3 +1011,4 @@ class Sgr extends MX_Controller {
     }
 
 }
+
