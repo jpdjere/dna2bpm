@@ -84,6 +84,7 @@ class Sgr extends MX_Controller {
         //RECTIFY
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
+        $customData['rectify_message_template'] = "";
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
         $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
         $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
@@ -158,7 +159,7 @@ class Sgr extends MX_Controller {
         if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
-            $customData['rectify_message_template'] = "";
+            
             if (!$this->session->userdata['period']) {
                 $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
                 $customData['select_period'] = true;
