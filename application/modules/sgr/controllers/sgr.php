@@ -84,6 +84,7 @@ class Sgr extends MX_Controller {
         //RECTIFY
         $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
+        $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
         $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
         $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
         $rectify_merge = array_merge($rectify_status, $translate_error);
@@ -133,7 +134,7 @@ class Sgr extends MX_Controller {
         $customData['rectify_message'] = $this->session->userdata['period'];
         if ($this->session->userdata['rectify']) {            
                 $customData['rectify_message_template'] = $this->parser->parse('rectify', $customData, true);
-            $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
+            
             return $customData;
         }
         
