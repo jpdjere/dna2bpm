@@ -405,7 +405,7 @@ class Lib_06_data extends MX_Controller {
                         var_dump($sector, $average_amount);
                         if (!$isPyme) {
                             $code_error = "S.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") - (" . $sector . ") - (" . $average_amount . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") / Sector Code: (" . $sector . ") / Promedio: (" . $average_amount . ")");
                             array_push($stack, $result);
                         }
                     }
@@ -1299,8 +1299,8 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-        var_dump($stack);
-        exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
