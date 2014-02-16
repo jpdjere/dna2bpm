@@ -259,16 +259,14 @@ class Sgr_model extends CI_Model {
     }
 
     function clae2013($code) {
-        //$code = (strlen($code) == 5) ? "0" . $code : $code;
-        
+        //$code = (strlen($code) == 5) ? "0" . $code : $code;        
         $regex = new MongoRegex('/^' . $code . '/i');
         $container = 'container.sgr_clae2013';
-        $query = array("codigo" => $regex);
-        $fields = array("sector", "codigo");
+        $query = array("code" => $regex);
+        $fields = array("sector", "code");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
-        return $result['sector'];
-        
         var_dump($result);
+        return $result['sector'];
     }
 
     function get_company_size($sector, $average) {

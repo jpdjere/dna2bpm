@@ -394,7 +394,7 @@ class Lib_06_data extends MX_Controller {
                     $get_ciu = $ciu;//;ciu($ciu);//ciu(cerosClanae($ciu));
                     $sector = ($get_ciu) ? $get_ciu : $this->sgr_model->clae2013($ciu);
                     
-                    var_dump($sector);
+                   
                     if (!$sector) {
                         if ($A1_field_value == "INCORPORACION") {
                             $code_error = "Q.2";
@@ -1299,7 +1299,7 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-        var_dump($stack);
+       // var_dump($stack);
         exit();
         $this->data = $stack;
     }
