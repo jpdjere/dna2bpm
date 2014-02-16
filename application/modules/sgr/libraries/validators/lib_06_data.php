@@ -1299,7 +1299,7 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-       // var_dump($stack);
+        var_dump($stack);
         exit();
         $this->data = $stack;
     }
