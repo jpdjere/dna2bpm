@@ -404,7 +404,7 @@ class Lib_06_data extends MX_Controller {
                         $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
                         if (!$isPyme) {
                             $code_error = "S.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") - (" . $average_amount . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") - (" . $sector . ") - (" . $average_amount . ")");
                             array_push($stack, $result);
                         }
                     }
