@@ -397,7 +397,7 @@ class Lib_06_data extends MX_Controller {
                     if (!$sector) {
                         if ($A1_field_value == "INCORPORACION") {
                             $code_error = "Q.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $average_amount . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Sector errorneo (" . $ciu . ")");
                             array_push($stack, $result);
                         }
                     } else {
