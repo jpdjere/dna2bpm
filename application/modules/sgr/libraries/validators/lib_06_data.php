@@ -393,6 +393,8 @@ class Lib_06_data extends MX_Controller {
 
                     $get_ciu = ciu($ciu);//ciu(cerosClanae($ciu));
                     $sector = ($get_ciu) ? $get_ciu : $this->sgr_model->clae2013($ciu);
+                    
+                   
 
                     if (!$sector) {
                         if ($A1_field_value == "INCORPORACION") {
