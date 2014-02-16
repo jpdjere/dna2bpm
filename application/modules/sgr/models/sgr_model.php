@@ -263,6 +263,7 @@ class Sgr_model extends CI_Model {
         //$regex = new MongoRegex('/' . $code . '/i');
         $container = 'container.sgr_clae2013';
         $query = array("code" => $code);
+        $query = '"$or" : [{"code" : '.$code.'}, {"code" : "0'.$code.'"}]';
         $fields = array("sector", "code");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         var_dump($query,$result['sector']);
