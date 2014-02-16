@@ -259,25 +259,29 @@ class Sgr_model extends CI_Model {
     }
 
     function clae2013($code) {
-        $code = (strlen($code) == 5) ? "0" . $code : $code;        
+        //$code = (strlen($code) == 5) ? "0" . $code : $code;        
         //$regex = new MongoRegex('/' . $code . '/i');
         $container = 'container.sgr_clae2013';
         $query = array("code" => $code);
-        $query = '"$or" : [{"code" : '.$code.'}, {"code" : "0'.$code.'"}]';
         $fields = array("sector", "code");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
-        var_dump($query,$result['sector']);
-        return $result['sector'];
+        if ($result) {
+            return $result['sector'];
+        } else {
+            $query = array("code" => "0".$code);            
+            $result = $this->mongo->sgr->$container->findOne($query, $fields);
+            return $result['sector'];
+        }
     }
 
     function get_company_size($sector, $average) {
-        $sector = (string)$sector;
+        $sector = (string) $sector;
         $container = 'container.sgr_size_empresa';
         $query = array("sector" => $sector, "average" => $average);
         $fields = array("average");
-        $result = $this->mongo->sgr->$container->findOne($query);         
-        
-        
+        $result = $this->mongo->sgr->$container->findOne($query);
+
+
         $resultSize = ($average <= $result["average"]) ? true : false;
         return $resultSize;
     }
