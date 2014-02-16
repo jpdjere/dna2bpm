@@ -397,14 +397,14 @@ class Lib_06_data extends MX_Controller {
                     if (!$sector) {
                         if ($A1_field_value == "INCORPORACION") {
                             $code_error = "Q.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Sector errorneo (" . $ciu . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Código  errorneo (" . $ciu . ")");
                             array_push($stack, $result);
                         }
                     } else {
                         $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
                         if (!$isPyme) {
                             $code_error = "S.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $average_amount . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") - (" . $average_amount . ")");
                             array_push($stack, $result);
                         }
                     }
