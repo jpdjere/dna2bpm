@@ -267,6 +267,8 @@ class Sgr_model extends CI_Model {
         $fields = array("sector", "codigo");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result['sector'];
+        
+        var_dump($result);
     }
 
     function get_company_size($sector, $average) {
