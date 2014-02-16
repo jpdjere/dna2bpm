@@ -391,9 +391,8 @@ class Lib_06_data extends MX_Controller {
                         $average_amount = $sumaMontos / $calcPromedio;
                     }
 
-                    $get_ciu = $ciu;//;ciu($ciu);//ciu(cerosClanae($ciu));
-                    $sector =  $this->sgr_model->clae2013($ciu);
-                    
+                   
+                    $sector =  $this->sgr_model->clae2013($ciu);                   
                    
                     if (!$sector) {
                         if ($A1_field_value == "INCORPORACION") {
@@ -1300,7 +1299,7 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);
+        var_dump($stack);
         exit();
         $this->data = $stack;
     }
