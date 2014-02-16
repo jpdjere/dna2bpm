@@ -259,9 +259,11 @@ class Sgr_model extends CI_Model {
     }
 
     function clae2013($code) {
-        $code = (strlen($code) == 5) ? "0" . $code : $code;
+        //$code = (strlen($code) == 5) ? "0" . $code : $code;
+        
+        $regex = new MongoRegex('/' . $code . '/');
         $container = 'container.sgr_clae2013';
-        $query = array("codigo" => $code);
+        $query = array("codigo" => $regex);
         $fields = array("sector", "codigo");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result['sector'];
