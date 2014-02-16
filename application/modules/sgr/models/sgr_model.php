@@ -265,7 +265,7 @@ class Sgr_model extends CI_Model {
         $query = array("code" => $regex);
         $fields = array("sector", "code");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
-        var_dump($result);
+        var_dump($code,$result);
         return $result['sector'];
     }
 
