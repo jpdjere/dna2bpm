@@ -401,8 +401,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-                        $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
-                        var_dump($sector, $average_amount);
+                        $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);                        
                         if (!$isPyme) {
                             $code_error = "S.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") / Sector Code: (" . $sector . ") / Promedio: (" . $average_amount . ")");
@@ -1300,7 +1299,7 @@ class Lib_06_data extends MX_Controller {
             }
         }
 //        var_dump($stack);
-//        exit();
+        exit();
         $this->data = $stack;
     }
 
