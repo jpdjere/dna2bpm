@@ -382,6 +382,7 @@ class Lib_06_data extends MX_Controller {
 
 
                     /* CALC AVERAGE */
+                    $sector = "";
                     $calcPromedio = ($S2_field_value != "") ? 1 : 0;
                     $calcPromedio += ($V2_field_value != "") ? 1 : 0;
                     $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
