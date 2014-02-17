@@ -30,7 +30,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: PESOS ARGENTINOS/DOLARES AMERICANOS. Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS';
                 break;
             case "G.1": 
-                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones:GFFF0/GFFF1/GFFF2/GFFF3/GFCPD';
+                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones: GFFF0/GFFF1/GFFF2/GFFF3/GFCPD';
                 break;
             case "G.2": 
                 $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción GFCPD, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV.';
@@ -51,7 +51,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción GFCPD  o GFPB, deberá tener el siguiente formato: 4 LETRAS Y 9 NÚMEROS. Ej. CUAV250200005 Las cuatro letras deben coincidir con el Código asignado a cada SGR por la CNV.';
                 break;
             case "I.3": 
-                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones:GFON0/GFON1/GFON2/GFON3/GFVCP deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P';
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones: GFON0/GFON1/GFON2/GFON3/GFVCP deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P';
                 break;
             case "J.1": 
                 $result_error = '<strong>Columna J - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>En caso de que el CUIT informado ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.';
@@ -61,10 +61,10 @@ class Lib_12_error_legend {
                 break;
             
             case "K.2": 
-                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFCPD, GFFF1, GFFF2, GFFF3, GFON1, GFON2, GFON3, GFMFO debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los Mercados de Valores donde se realizan las operaciones.';
+                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes: GFCPD, GFFF1, GFFF2, GFFF3, GFON1, GFON2, GFON3, GFMFO debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los Mercados de Valores donde se realizan las operaciones.';
                 break;
             case "K.3": 
-                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>i el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFEF1, GFEF2, GFEF3 Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
+                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>i el Tipo de Garantía informado en la Columna D es alguno de los siguientes: GFEF1, GFEF2, GFEF3 Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
                 break;            
             case "L.1": 
                 $result_error = '<strong>Columna L - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Aceptar hasta dos decimales.';
@@ -100,13 +100,13 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna R se indicó PAGO ÚNICO, el valor aquí indicado debe ser igual al valor indicado en la Columna P.';
                 break;
             case "R.1": 
-                $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros:PAGO UNICO/MENSUAL/BIMESTRAL/TRIMESTRAL/CUATRIMESTRAL/SEMESTRAL/ANUAL/OTRO';
+                $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: PAGO UNICO/MENSUAL/BIMESTRAL/TRIMESTRAL/CUATRIMESTRAL/SEMESTRAL/ANUAL/OTRO';
                 break;
             case "R.2": 
                 $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD, este campo sólo puede indicar PAGO UNICO.';
                 break;
             case "S.1": 
-                $result_error = '<strong>Columna S - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros:PAGO UNICO/FRANCES/ALEMAN/AMERICANO/OTRO';
+                $result_error = '<strong>Columna S - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: PAGO UNICO/FRANCES/ALEMAN/AMERICANO/OTRO';
                 break;
             case "S.2": 
                 $result_error = '<strong>Columna S - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD, este campo sólo puede indicar PAGO UNICO.';
