@@ -456,14 +456,12 @@ class Lib_06_data extends MX_Controller {
                      */
                     
                     
-                    if ($parameterArr[$i]['fieldValue'] != "") {
-                        
+                    if ($parameterArr[$i]['fieldValue'] != "") {                        
                         $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
                         $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
-                        $balance = $buy - $sell;                       
-                       
+                        $balance = $buy - $sell;                              
                         
-                        if ($balance > $AH1_field_value) {
+                        if ($balance < $AH1_field_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);

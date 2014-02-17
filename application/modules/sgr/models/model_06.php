@@ -507,7 +507,6 @@ class Model_06 extends CI_Model {
 
     function buy_shares($cuit, $partner_type, $field = 5597) {
 
-
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int)$getPeriodMonth-1;
@@ -528,8 +527,10 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {               
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $nresult_arr[] = $new_result[$field];
+           
+            if ($new_result){                
+                $nresult_arr[] = $new_result[$field];               
+            }
         }
 
         $result = array_sum($nresult_arr);

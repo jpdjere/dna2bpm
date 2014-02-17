@@ -280,8 +280,6 @@ class Sgr_model extends CI_Model {
         $query = array("sector" => $sector, "average" => $average);
         $fields = array("average");
         $result = $this->mongo->sgr->$container->findOne($query);
-
-
         $resultSize = ($average <= $result["average"]) ? true : false;
         return $resultSize;
     }
