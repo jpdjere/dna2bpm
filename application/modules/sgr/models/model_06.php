@@ -508,13 +508,13 @@ class Model_06 extends CI_Model {
     function buy_shares($cuit, $partner_type, $field = 5597) {
 
 
-        $start = new MongoDate(strtotime("2012-10-02 00:00:00"));
-        $end = new MongoDate(strtotime("2010-12-30 00:00:00"));
-        $period = 'container.sgr_periodos';
-        
-        $result = $this->mongo->sgr->$period->findOne(array("period_date" => array('$gt' => $start, '$lte' => $end)));
-        var_dump($result, $start, $end);
-        exit();
+//        $start = new MongoDate(strtotime("2012-10-02 00:00:00"));
+//        $end = new MongoDate(strtotime("2010-12-30 00:00:00"));
+//        $period = 'container.sgr_periodos';
+//        
+//        $result = $this->mongo->sgr->$period->findOne(array("period_date" => array('$gt' => $start, '$lte' => $end)));
+//        var_dump($result, $start, $end);
+//        exit();
 
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
