@@ -400,8 +400,7 @@ class Lib_12_data extends MX_Controller {
                         }
 
                         $code_error = "K.3";
-                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");
-                         
+                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");                         
                         if (in_array($D1_field_value, $k3_check_arr)) {                            
                             $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($D1_field_value, "COMERCIAL");                                
                             if (!$is_cuit) {                            
@@ -785,8 +784,8 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);
-//        exit();
+        //var_dump($stack);
+        //exit();
         $this->data = $stack;
     }
 
