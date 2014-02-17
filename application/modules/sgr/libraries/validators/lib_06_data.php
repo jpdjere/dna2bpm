@@ -443,11 +443,26 @@ class Lib_06_data extends MX_Controller {
                      * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                      * De no poseerlo, se debe rechazar la importación.
                      * */
-
+                    
+                     /*
+                     * AI.2
+                      Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación..
+                     * AI.3
+                      Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.
+                     * AI.4
+                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.
+                     * AI.5
+                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
+                     */
+                    
+                    
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        
                         $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
                         $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
-                        $balance = $buy - $sell;
+                        $balance = $buy - $sell;                       
+                       
+                        
                         if ($balance > $AH1_field_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -461,22 +476,13 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
-                    }
-
-                    /*
-                     * AI.2
-                      Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación..
-                     * AI.3
-                      Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.
-                     * AI.4
-                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.
-                     * AI.5
-                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
-                     */
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        
+                        /*AI CODE*/
+                        
                         $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
                         $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
                         $balance_integrado = $buy - $sell;
+                        
                         if ($balance_integrado > $AI1_field_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -506,6 +512,12 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                        
+                    }
+
+                   
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        
                     }
                 }
 
@@ -1347,8 +1359,8 @@ class Lib_06_data extends MX_Controller {
                 }                
             }
         }
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 

@@ -508,72 +508,65 @@ class Model_06 extends CI_Model {
     function buy_shares($cuit, $partner_type, $field = 5597) {
 
 
-//        $start = new MongoDate(strtotime("2012-10-02 00:00:00"));
-//        $end = new MongoDate(strtotime("2010-12-30 00:00:00"));
-//        $period = 'container.sgr_periodos';
-//        
-//        $result = $this->mongo->sgr->$period->findOne(array("period_date" => array('$gt' => $start, '$lte' => $end)));
-//        var_dump($result, $start, $end);
-//        exit();
-
-
+        $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $endDate = mktime(0, 0, 0, date($getPeriodMonth), date(01), date($getPeriodYear));
+        $getPeriodMonth = (int)$getPeriodMonth-1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+
 
         $nresult_arr = array();
         $anexo = $this->anexo;
-        
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array('status' => 'activo'
-            , 'anexo' => $anexo
-            , 'sgr_id' => $this->sgr_id
-            , 'period' => array('$ne' => $this->session->userdata['period']));
-        $result = $this->mongo->sgr->$period->find($query);
-        foreach ($result as $list) {
 
-            list($year, $month, $day) = explode("-", $list["period_date"]);
-            $getDate = mktime(0, 0, 0, date($month), date(01), date($year));
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array(
+            "period_date" => array('$lte' => $endDate),
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id);
+        $result = $this->mongo->sgr->$period->find($query);
+        
+        foreach ($result as $list) {               
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                if ($getDate < $endDate) {
-                    $nresult_arr[] = $new_result[$field];
-                }
+                $nresult_arr[] = $new_result[$field];
         }
+
         $result = array_sum($nresult_arr);
         return $result;
     }
 
-    /* ACCIONES VENTA
+    /* ACCIONES VENTA 5248
      * Compra venta por socio
      * Integradas 
      */
 
     function sell_shares($cuit, $partner_type, $field = 5597) {
 
+        $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $startDate = mktime(0, 0, 0, date(01), date(01), date(1980));
-        $endDate = mktime(0, 0, 0, date($getPeriodMonth), date(01), date($getPeriodYear));
+        $getPeriodMonth = (int)$getPeriodMonth-1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
 
         $nresult_arr = array();
         $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array('$gt' => $startDate, '$lt' => $endDate
-            , 'status' => 'activo'
-            , 'anexo' => $anexo
-            , 'sgr_id' => $this->sgr_id
-            , 'period' => array('$ne' => $this->session->userdata['period']));
 
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array(
+            "period_date" => array('$lte' => $endDate),
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$period->find($query);
-        foreach ($result as $list) {
+        
+        foreach ($result as $list) {               
             $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-
             if ($new_result)
                 $nresult_arr[] = $new_result[$field];
         }
+
         $result = array_sum($nresult_arr);
         return $result;
     }
