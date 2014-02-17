@@ -142,6 +142,14 @@ class Lib_061_data extends MX_Controller {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
+                        } else {
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                            if (!$return) {
+                                $result["error_code"] = $code_error;
+                                $result["error_row"] = $parameterArr[$i]['row'];
+                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
