@@ -133,7 +133,6 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
 
                     $code_error = "C.1";
-
                     //empty field Validation
                     if ($B1_field_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
