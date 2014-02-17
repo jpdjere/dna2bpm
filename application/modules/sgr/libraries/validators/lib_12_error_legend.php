@@ -59,10 +59,11 @@ class Lib_12_error_legend {
             case "K.1": 
                 $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones.';
                 break;
+            
             case "K.2": 
                 $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFCPD, GFFF1, GFFF2, GFFF3, GFON1, GFON2, GFON3, GFMFO debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los Mercados de Valores donde se realizan las operaciones.';
                 break;
-            case "K.3   ": 
+            case "K.3": 
                 $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>i el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFEF1, GFEF2, GFEF3 Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
                 break;            
             case "L.1": 
