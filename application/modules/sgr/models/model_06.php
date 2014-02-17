@@ -505,7 +505,7 @@ class Model_06 extends CI_Model {
      * Integradas
      */
 
-    function buy_shares($cuit, $partner_type) {
+    function buy_shares($cuit, $partner_type, $field=5597) {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $startDate = mktime(0, 0, 0, date(01), date(01), date(1980));
@@ -525,7 +525,7 @@ class Model_06 extends CI_Model {
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5597];
+                $nresult_arr[] = $new_result[$field];
         }
         $result = array_sum($nresult_arr);
         return $result;
@@ -536,7 +536,7 @@ class Model_06 extends CI_Model {
      * Integradas 
      */
 
-    function sell_shares($cuit, $partner_type) {
+    function sell_shares($cuit, $partner_type, $field=5597) {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $startDate = mktime(0, 0, 0, date(01), date(01), date(1980));
@@ -558,7 +558,7 @@ class Model_06 extends CI_Model {
             $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5597];
+                $nresult_arr[] = $new_result[$field];
         }
         $result = array_sum($nresult_arr);
         return $result;
@@ -569,7 +569,7 @@ class Model_06 extends CI_Model {
      * Integradas
      */
 
-    function buy_shares_all($cuit, $partner_type) {
+    function buy_shares_all($cuit, $partner_type, $field=5597) {
         $nresult_arr = array();
         $partner_type = ($partner_type == "A") ? "B" : "A";
         $anexo = $this->anexo;
@@ -582,7 +582,7 @@ class Model_06 extends CI_Model {
             $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5597];
+                $nresult_arr[] = $new_result[$field];
         }
         $result = array_sum($nresult_arr);
         return $result;
@@ -593,7 +593,7 @@ class Model_06 extends CI_Model {
      * Integradas 
      */
 
-    function sell_shares_all($cuit, $partner_type) {
+    function sell_shares_all($cuit, $partner_type, $field=5597) {
         $nresult_arr = array();
         $partner_type = ($partner_type == "A") ? "B" : "A";
         $anexo = $this->anexo;
@@ -606,7 +606,7 @@ class Model_06 extends CI_Model {
             $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
-                $nresult_arr[] = $new_result[5597];
+                $nresult_arr[] = $new_result[$field];
         }
         $result = array_sum($nresult_arr);
         return $result;

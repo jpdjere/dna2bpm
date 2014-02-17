@@ -10,7 +10,7 @@ class Lib_06_error_legend {
 
         switch ($code) {
             case "A.1":
-                $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Operación: El campo no puede estar vacío y debe contener uno de los siguientes parámetros: INCORPORACION, INCREMENTO TENENCIA ACCIONARIA, DISMINUCION DE CAPITAL SOCIAL';
+                $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Operación: El campo no puede estar vacío y debe contener uno de los siguientes parámetros: INCORPORACION, INCREMENTO TENENCIA ACCIONARIA, DISMINUCION DE CAPITAL SOCIAL, INTEGRACION PENDIENTE';
                 break;
 
             case "B.1":
@@ -49,11 +49,11 @@ class Lib_06_error_legend {
                 break;
 
             case "AH.2":
-                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL) tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, “A” o “B”.';
+                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Sin en la Columna A se completó la opción “INCORPORACION”, “INCREMENTO DE TENENCIA ACCIONARIA” o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.';
                 break;
 
             case "AI.2":
-                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que en la columna AG se completa la opción TRANSFERENCIA, se debe chequear en los movimientos históricos que el Socio Cedente (Columnas AL) tenga los saldos a ser transferidos y que corresponden al tipo de Acción que corresponda, “A” o “B”. ';
+                $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación.';
                 break;
             
             case "AJ.1":
@@ -146,9 +146,17 @@ class Lib_06_error_legend {
             case "AA.1": $result_error = '<strong>Columna AA - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Condición de Inscripción ante AFIP: "El campo no puede estar vacío y debe contener uno de los siguientes parámetros: 
 EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
                 break;
-            case "AH.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. De tenerlos, sean clase “A” o “B” debe rechazar la importación.';
+            case "AH.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la Columna A se completa la opción “INTEGRACIÓN PENDIENTE”, este campo debe tomar valor CERO.';
                 break;
-            case "AI.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. De tenerlos, sean clase “A” o “B” debe rechazar la importación.';
+            case "AH.4": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Suscripto para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación.';
+                break;
+            case "AI.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.';
+                break;
+            case "AI.4": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.';
+                break;
+            case "AI.5": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.';
+                break;
+            case "AI.8": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la Columna A se completa la opción “INTEGRACIÓN PENDIENTE”, este campo debe tomar valor mayor a CERO y se debe verificar que el valor indicado sea menor o igual a la diferencia entre los saldos previos de Capital Suscripto y Capital Integrado. Es decir, sólo puede realizar una “INTEGRACIÓN PENDIENTE”, en caso de que haya SUSCRIPTO CAPITAL sin haberlo integrado.';
                 break;
             
             case "AK.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. Se debe chequear en los movimientos históricos que el Socio Incorporado no tenga saldos positivos en ninguna de estas variables en la SGR en la que se está incorporando. ';
@@ -205,7 +213,7 @@ EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
                 break;
             case "S.3, V.3, Y.2": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Promedio Montos Facturados: El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad. Estos parámetros cambian a lo largo del tiempo, por lo que las validaciones, a su vez, deben respetar los límites correspondientes a cada período informado (Para los casos en que se rectifiquen períodos viejos)..';
                 break;
-            case "AB.1": $result_error = '<strong>Columna AB - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero..';
+            case "AB.1": $result_error = '<strong>Columna AB - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.';
                 break;
             case "Q.3": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: DEBE ESTAR VACÍA.';
                 break;
@@ -286,6 +294,8 @@ EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
             case "S.3": $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
                 break;
             case "C-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB) debe/n estar vacia.';
+                break;
+            case "E-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB) debe/n estar vacia.';
                 break;
             case "Q-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (Q, R, S, T, U, V, W, X, Y, Z, AB) debe/n estar vacia.';
                 break;

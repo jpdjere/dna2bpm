@@ -39,6 +39,7 @@ class Lib_06_data extends MX_Controller {
                   INCORPORACION
                   INCREMENTO TENENCIA ACCIONARIA
                   DISMINUCION DE CAPITAL SOCIAL
+                  INTEGRACION PENDIENTE
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
@@ -55,7 +56,7 @@ class Lib_06_data extends MX_Controller {
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $A1_field_value = "";
-                        $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL");
+                        $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -296,19 +297,20 @@ class Lib_06_data extends MX_Controller {
 
 
                 /*
-                 * CAPITAL_SUSCRIPTO		CAPITAL_INTEGRADO	
+                 * CAPITAL_SUSCRIPTO CAPITAL_INTEGRADO	
                  * AH.1, AI.1
-                 * El campo no puede estar vacío y debe contener dígitos numéricos enteros, sin decimales.                
+                 * El campo no puede estar vacío y debe contener dígitos numéricos enteros, sin decimales.
+                 * AH.3
+                 * Si en la Columna A se completa la opción “INTEGRACIÓN PENDIENTE”, este campo debe tomar valor CERO. 
+                 * AI.8
+                  Si en la Columna A se completa la opción “INTEGRACIÓN PENDIENTE”, este campo debe tomar valor mayor a CERO y se debe verificar que el valor indicado sea menor o igual a la diferencia entre los saldos previos de Capital Suscripto y Capital Integrado. Es decir, sólo puede realizar una “INTEGRACIÓN PENDIENTE”, en caso de que haya SUSCRIPTO CAPITAL sin haberlo integrado.               
                  * 
                  */
-
-
                 $range = range(34, 35);
                 if (in_array($parameterArr[$i]['col'], $range)) {
-
-
                     switch ($parameterArr[$i]['col']) {
                         case 34:
+                            $AH1_field_value = (int) $parameterArr[$i]['fieldValue'];
                             $code_error = "AH.1";
 
                             //empty field Validation
@@ -316,9 +318,8 @@ class Lib_06_data extends MX_Controller {
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                                 array_push($stack, $result);
-                            }
-                            //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            } else {
+                                //Check Numeric Validation
                                 $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -326,24 +327,37 @@ class Lib_06_data extends MX_Controller {
                                 }
                             }
 
+
+                            /* AH3 */
+                            if ($A1_field_value == "INTEGRACION PENDIENTE" && $AH1_field_value != 0) {
+                                $code_error = "AH.3";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+
                             break;
 
                         case 35:
+                            $AI1_field_value = $parameterArr[$i]['fieldValue'];
                             $code_error = "AI.1";
                             //empty field Validation
                             $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                                 array_push($stack, $result);
-                            }
-                            //Check Numeric Validation
-                            if ($parameterArr[$i]['fieldValue'] != "") {
+                            } else {
                                 $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                                 if ($return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
+                                }
+
+                                if ($A1_field_value == "INTEGRACION PENDIENTE") {
+                                    if ($parameterArr[$i]['fieldValue'] < 0) {
+                                        $code_error = "AI.8";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    }
                                 }
                             }
                             break;
@@ -382,31 +396,28 @@ class Lib_06_data extends MX_Controller {
 
 
                     /* CALC AVERAGE */
-                    $sector = "";
-                    $calcPromedio = ($S2_field_value != "") ? 1 : 0;
-                    $calcPromedio += ($V2_field_value != "") ? 1 : 0;
-                    $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
-                    if ($calcPromedio != 0) {
-                        $montosArr = array($S2_field_value, $V2_field_value, $Y2_field_value);
-                        $sumaMontos = array_sum($montosArr);
-                        $average_amount = $sumaMontos / $calcPromedio;
-                    }
+                    $sector = $this->sgr_model->clae2013($ciu);
+                    if ($A1_field_value == "INCORPORACION") {
 
-                   
-                    $sector =  $this->sgr_model->clae2013($ciu);                   
-                   
-                    if (!$sector) {
-                        if ($A1_field_value == "INCORPORACION") {
+                        $calcPromedio = ($S2_field_value != "") ? 1 : 0;
+                        $calcPromedio += ($V2_field_value != "") ? 1 : 0;
+                        $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
+                        if ($calcPromedio != 0) {
+                            $montosArr = array($S2_field_value, $V2_field_value, $Y2_field_value);
+                            $sumaMontos = array_sum($montosArr);
+                            $average_amount = $sumaMontos / $calcPromedio;
+                        }
+                        if (!$sector) {
                             $code_error = "Q.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "Código  errorneo (" . $ciu . ")");
                             array_push($stack, $result);
-                        }
-                    } else {
-                        $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);                        
-                        if (!$isPyme) {
-                            $code_error = "S.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") / Sector Code: (" . $sector . ") / Promedio: (" . $average_amount . ")");
-                            array_push($stack, $result);
+                        } else {
+                            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+                            if (!$isPyme) {
+                                $code_error = "S.3";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") / Sector Code: (" . $sector . ") / Promedio: (" . $average_amount . ")");
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -422,16 +433,78 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    if ($AG_field_value == "TRANSFERENCIA" || $AG_field_value == "SUSCRIPCION") {                       
-                        if ($parameterArr[$i]['fieldValue'] != "") {
-                            $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
-                            $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
-                            $balance = $buy - $sell;
-                            if ($balance == 0) {
+                    /* AH.2
+                      Sin en la Columna A se completó la opción “INCORPORACION”
+                     * , INCREMENTO DE TENENCIA ACCIONARIA”
+                     * , “DISMINUSIÓN DE CAPITAL SOCIAL”, 
+                     * debe tomar valor mayor a cero.                     
+                     * AH.4
+                     * Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Suscripto 
+                     * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
+                     * De no poseerlo, se debe rechazar la importación.
+                     * */
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
+                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value);
+                        $balance = $buy - $sell;
+                        if ($balance > $AH1_field_value) {
+                            $code_error = "AH.4";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        if ($A1_field_value != "INTEGRACION PENDIENTE") {
+                            if ($AH1_field_value < 0) {
                                 $code_error = "AH.2";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
+                        }
+                    }
+
+                    /*
+                     * AI.2
+                      Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación..
+                     * AI.3
+                      Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.
+                     * AI.4
+                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.
+                     * AI.5
+                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
+                     */
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
+                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
+                        $balance_integrado = $buy - $sell;
+                        if ($balance_integrado > $AI1_field_value) {
+                            $code_error = "AI.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        if ($AG_field_value == "TRANSFERENCIA") {
+                            if ($AI1_field_value != $AH1_field_value) {
+                                $code_error = "AI.3";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+
+                        if ($A1_field_value == "INCORPORACION" && $AG_field_value == "SUSCRIPCION") {
+                            $code_error = "AI.4";
+                            $AH_percent = $AH1_field_value / 2;
+                            $range = range($AH_percent, $AH1_field_value);
+                            if (!in_array($AI1_field_value, $range)) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+
+                        if ($balance_integrado > $balance) {
+                            $code_error = "AI.5";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
                         }
                     }
                 }
@@ -464,18 +537,6 @@ class Lib_06_data extends MX_Controller {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
-                                /* "INCORPORACION" */
-                                $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
-                                $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
-                                $balance = $buy - $sell;
-
-                                if ($balance != 0) {
-                                    $code_error = "AH.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                    array_push($stack, $result);
-                                }
-
-
                                 /* VALIDO EN TODAS LAS */
                                 $buy = $this->$model_anexo->buy_shares_all($C1_field_value, $B1_field_value);
                                 $sell = $this->$model_anexo->sell_shares_all($C1_field_value, $B1_field_value);
@@ -963,16 +1024,11 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.
                      */
                     if ($parameterArr[$i]['col'] == 28) {
-                        if ($A1_field_value != "INCREMENTO DE TENENCIA ACCIONARIA") {
+                        if ($A1_field_value == "INCORPORACION") {
                             $code_error = "AB.1";
 
                             /* AVERAGE AMOUNT */
                             $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3;
-                            //array($Y2_field_value, $V2_field_value, $S2_field_value);
-                            /* echo "<pre>";
-                              var_dump($average_amount);
-                              echo "</pre>"; */
-
                             $average_amount_1 = 0;
                             $average_amount_2 = 0;
                             $average_amount_3 = 0;
@@ -980,7 +1036,7 @@ class Lib_06_data extends MX_Controller {
 
                             $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty." . $A1_field_value);
                                 array_push($stack, $result);
                             } else {
                                 //Check Numeric Validation
@@ -1065,16 +1121,9 @@ class Lib_06_data extends MX_Controller {
                 /*
                  * 2. VALIDADORES PARTICULARES
                  * 2.2. COLUMNA A - TIPO DE OPERACIÓN: “INCREMENTO DE TENENCIA ACCIONARIA”
-                 *                  
                  */
 
-
                 if ($A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
-
-                    if ($parameterArr[$i]['col'] == 3) {
-                        
-                    }
-
 
                     $range = range(5, 28);
                     if (in_array($parameterArr[$i]['col'], $range)) {
@@ -1158,12 +1207,17 @@ class Lib_06_data extends MX_Controller {
                         if ($A1_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
                             $return = check_for_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
-                                $result["error_input_value"] = "not empty" . $A1_field_value;
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
                     }
                 }
+
+
+
+
+
 
                 /////////////////////////////////////////
                 /*
@@ -1260,8 +1314,6 @@ class Lib_06_data extends MX_Controller {
                         if ($A1_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
                             $return = check_for_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -1292,11 +1344,7 @@ class Lib_06_data extends MX_Controller {
                             }
                         }
                     }
-                }
-
-                if ($parameterArr[$i]['col'] == 38) {
-                    /* CONSECUTIVE NUMBERS */
-                }
+                }                
             }
         }
 //        var_dump($stack);
