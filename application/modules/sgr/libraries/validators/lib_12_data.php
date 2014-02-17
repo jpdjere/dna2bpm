@@ -13,6 +13,9 @@ class Lib_12_data extends MX_Controller {
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
 
         /* Vars 
          * 
@@ -376,18 +379,35 @@ class Lib_12_data extends MX_Controller {
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
 
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
+                        //cuit checker
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }
+
+                        $code_error = "K.2";
+                        $k2_check_arr = array("GFCPD", "GFVCP", "GFPB", "GFFF1", "GFFF2", "GFFF3", "GFON1", "GFON2", "GFON3", "GFMFO");
+
+                        if (in_array($D1_field_value, $k2_check_arr)) {
+                            $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($D1_field_value, "MV");
+                            if (!is_cuit) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+
+                        $code_error = "K.3";
+                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");
+                        if (in_array($D1_field_value, $k3_check_arr)) {
+                            $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($D1_field_value, "COMERCIAL");
+                            if (!is_cuit) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -498,7 +518,7 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 15) {
                     /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
-                    $in_value = (int)$parameterArr[$i]['fieldValue'];
+                    $in_value = (int) $parameterArr[$i]['fieldValue'];
                     $range1 = range(-19, -2);
                     $range2 = range(2, 19);
                     $range3 = range(2, 49);
@@ -766,7 +786,7 @@ class Lib_12_data extends MX_Controller {
             }
         }
 //        var_dump($stack);
-        // exit();
+//        exit();
         $this->data = $stack;
     }
 
