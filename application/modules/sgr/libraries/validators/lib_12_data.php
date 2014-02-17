@@ -586,7 +586,7 @@ class Lib_12_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         //Check Numeric Validation
-                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
