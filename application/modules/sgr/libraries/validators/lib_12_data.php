@@ -605,10 +605,7 @@ class Lib_12_data extends MX_Controller {
                         $code_error = "P.2";
                         $ctyDays = 0;
                         $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
-                        /* Sumo el plazo + la gracia */
-                        $ctyDays = $P1_field_value + $Q1_field_value;
-                        //echo $P1_field_value .",". $Q1_field_value.",".$ctyDays.",".$yearCtyDays;
-                        if ($ctyDays >= $yearCtyDays) {
+                        if ($P1_field_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -618,11 +615,8 @@ class Lib_12_data extends MX_Controller {
                     if ($D1_field_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;
-
-                        /* Sumo el plazo + la gracia */
-                        $ctyDays = $P1_field_value + $Q1_field_value;
-                        if ($ctyDays >= $yearCtyDays) {
+                        $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;                        
+                        if ($P1_field_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
