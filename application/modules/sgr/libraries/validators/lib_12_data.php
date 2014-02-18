@@ -644,7 +644,7 @@ class Lib_12_data extends MX_Controller {
 
                     if (!in_array($ctyDays, $range)) {
                         $code_error = "P.4";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'],$P1_field_value);
                         array_push($stack, $result);
                     }
                 }
