@@ -285,7 +285,6 @@ class Sgr_model extends CI_Model {
     }
 
     function get_cnv_code($code) {
-
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
