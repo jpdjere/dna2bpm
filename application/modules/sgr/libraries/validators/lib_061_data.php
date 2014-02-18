@@ -224,13 +224,13 @@ class Lib_061_data extends MX_Controller {
 
                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     array_push($stack, $result);
-                }
-
+                } 
+                
                 /* COLUMN A */
                 $code_error = "A.1";
                 //empty field Validation
                 $return = check_empty($A1_field_value);
-                var_dump($return, $A1_field_value);
+                var_dump("-->", $return, $A1_field_value);
                 if ($return) {
                     $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                     array_push($stack, $result);
@@ -244,6 +244,7 @@ class Lib_061_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
+                
             }
         }
 
