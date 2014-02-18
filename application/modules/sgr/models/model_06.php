@@ -434,16 +434,24 @@ class Model_06 extends CI_Model {
 
         $set_period = "";
 
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
-        //PERIOD TIENE QUE CAMBIAR A PENDIENTE
-        $query['status'] = 'activo';
+        $query = array(
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id
+        );
+       
+        $query['status'] = 'activo';  //PERIOD TIENE QUE CAMBIAR A PENDIENTE
         if ($period) {
-            $set_period = array("period" => $get_period);
+            $set_period = array(
+                "period" => $get_period
+            );
             $query['period'] = $get_period;
         }
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
-            $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 1695 => $cuit);
+            $new_query = array('sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                1695 => $cuit
+            );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
         }
         return $new_result;
@@ -460,7 +468,10 @@ class Model_06 extends CI_Model {
 
         $set_period = "";
 
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
+        $query = array(
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id
+        );
         $query['status'] = 'activo';
         if ($period) {
             $set_period = array("period" => $get_period);
@@ -468,7 +479,10 @@ class Model_06 extends CI_Model {
         }
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
-            $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list) {
                 $rtn[] = $list;
@@ -513,6 +527,7 @@ class Model_06 extends CI_Model {
      * Compra venta por socio
      * Integradas
      */
+
     function buy_shares($cuit, $partner_type, $field = 5597) {
 
         $period = 'container.sgr_periodos';
@@ -525,7 +540,9 @@ class Model_06 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
-            "period_date" => array('$lte' => $endDate),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
@@ -567,7 +584,9 @@ class Model_06 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
-            "period_date" => array('$lte' => $endDate),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
@@ -600,11 +619,21 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => array('$ne' => $this->sgr_id), 'period' => array('$ne' => $this->session->userdata['period']));
+        $query = array(
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => array('$ne' => $this->sgr_id),
+            'period' => array('$ne' => $this->session->userdata['period'])
+        );
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $list) {
-            $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_query = array(
+                1695 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => $partner_type
+            );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $nresult_arr[] = $new_result[$field];
@@ -624,11 +653,25 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array('status' => 'activo', 'anexo' => $anexo, 'sgr_id' => array('$ne' => $this->sgr_id), 'period' => array('$ne' => $this->session->userdata['period']));
+        $query = array(
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => array(
+                '$ne' => $this->sgr_id
+            ),
+            'period' => array(
+                '$ne' => $this->session->userdata['period']
+            )
+        );
 
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
-            $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_query = array(
+                5248 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => $partner_type
+            );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $nresult_arr[] = $new_result[$field];
