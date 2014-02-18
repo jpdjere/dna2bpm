@@ -375,13 +375,14 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 11) {
                     $code_error = "K.1";
+
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        $k1_field_value = $parameterArr[$i]['fieldValue'];
                         //cuit checker
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
@@ -400,10 +401,10 @@ class Lib_12_data extends MX_Controller {
                         }
 
                         $code_error = "K.3";
-                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");                         
-                        if (in_array($D1_field_value, $k3_check_arr)) {                            
-                            $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($D1_field_value, "COMERCIAL");                                
-                            if (!$is_cuit) {                            
+                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");
+                        if (in_array($D1_field_value, $k3_check_arr)) {
+                            $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($D1_field_value, "COMERCIAL");
+                            if (!$is_cuit) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -551,6 +552,8 @@ class Lib_12_data extends MX_Controller {
                  * Nro P.4
                  * Detail:
                  * Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites.
+                 * Nro P.5
+                 * Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2555 días)
                  */
                 if ($parameterArr[$i]['col'] == 16) {
                     $P1_field_value = (int) $parameterArr[$i]['fieldValue'];
@@ -615,7 +618,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D1_field_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;                        
+                        $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;
                         if ($P1_field_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -628,7 +631,7 @@ class Lib_12_data extends MX_Controller {
 
                     $ctyMayor = $return['mayor'] * $yearCtyDays;
                     $ctyMinor = $return['minor'] * $yearCtyDays;
-                    $ctyDays = $P1_field_value + $Q1_field_value;
+                    $ctyDays = $P1_field_value;
 
                     $range = range($ctyMinor, $ctyMayor);
 
@@ -637,6 +640,13 @@ class Lib_12_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
+                    
+                    if($k1_field_value == '30708258691' && $P1_field_value>2555){
+                        $code_error = "P.5";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
+                    
                 }
 
                 /* PERIODICIDAD

@@ -93,6 +93,9 @@ class Lib_12_error_legend {
              case "P.4": 
                 $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites descriptos en la columna B';
                 break;
+             case "P.5": 
+                $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2555 días)';
+                break;
             case "Q.1": 
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser un campo numérico, sin decimales, y mayor a cero.';
                 break;
