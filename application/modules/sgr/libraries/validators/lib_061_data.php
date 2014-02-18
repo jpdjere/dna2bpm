@@ -141,7 +141,9 @@ class Lib_061_data extends MX_Controller {
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = "empty";
                             array_push($stack, $result);
-                        } else {
+                        } 
+                        
+                        if($parameterArr[$i]['fieldValue']!=""){
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result["error_code"] = $code_error;
@@ -150,6 +152,8 @@ class Lib_061_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+                        
+                        
                     }
                 }
 
