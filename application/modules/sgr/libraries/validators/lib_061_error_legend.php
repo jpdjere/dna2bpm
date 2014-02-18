@@ -10,13 +10,13 @@ class Lib_061_error_legend {
 
         switch ($code) {
             case "A.1": 
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.';
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.';
                 break;
             case "A.2": 
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El CUIT debe estar informado en la Columna C del ANEXO 6 del período correspondiente, y deber figurar como “INCORPORADO” en la Columna A de dicho anexo.';
                 break;
             case "A.3": 
-                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.';
+                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Debe verificar en el Anexo 6 del período correspondiente que todos los CUIT informados en la Columna C del mismo y que en la Columna A figuran como “INCORPORACION”, deben figurar al menos una vez en esta columna.';
                 break;
              case "B.1": 
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El campo no puede estar vacío y debe contener uno de los siguientes parámetros: SI/NO';
