@@ -13,7 +13,7 @@ class Lib_061_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.';
                 break;
             case "A.2": 
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado.';
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El CUIT debe estar informado en la Columna C del ANEXO 6 del período correspondiente, y deber figurar como “INCORPORADO” en la Columna A de dicho anexo.';
                 break;
             case "A.3": 
                 $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.';
@@ -29,6 +29,9 @@ class Lib_061_error_legend {
                 break;
              case "C.1": 
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.';
+                break;
+            case "C.2": 
+                $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna E se completó la opción ASCENDENTE, se debe permitir que este capo tome, ADICIONALMENTE, alguno de los siguientes valores:  “11111111111”, código que se utilizará para indicar, de corresponder, la parte de las Acciones de la empresa que cotizan en el Mercado de Valores Nacional.Alguno de los códigos que figuran en el archivo adjunto “ANEXO 06.1 - CÓDIGOS EMPRESAS EXTRANJERAS”, los cuales se utilizaran para indicar que la tenencia accionaria está en poder de una persona física o jurídica extranjera.';
                 break;
             case "D.1": 
                 $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.';
