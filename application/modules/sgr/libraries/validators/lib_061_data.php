@@ -190,8 +190,6 @@ class Lib_061_data extends MX_Controller {
 
                     if (in_array($check_cuit, $opt_arr)) {
                         if ($parameterArr[$i]['fieldValue'] != "DESCENDENTE") {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
