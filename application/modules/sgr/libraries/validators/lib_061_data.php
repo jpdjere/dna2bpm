@@ -262,6 +262,9 @@ class Lib_061_data extends MX_Controller {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
             array_push($stack, $result);
         }
+        
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
