@@ -16,7 +16,7 @@ class Lib_061_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado.';
                 break;
             case "A.3": 
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.';
+                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.';
                 break;
              case "B.1": 
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El campo no puede estar vacío y debe contener uno de los siguientes parámetros: SI/NO';
@@ -44,7 +44,7 @@ class Lib_061_error_legend {
                 break;
             case "F.2": 
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>De completarse, debe tener formato numérico.';
-                break;            
+                break;                   
         }
         return $result_error;
     }

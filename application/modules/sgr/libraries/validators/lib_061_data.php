@@ -257,25 +257,22 @@ class Lib_061_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-
-
-                /* CUIT_SOCIO_INCORPORADO
-                 * Nro A.3
-                 * Detail:
-                 * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
-                 */
-                if ($parameterArr[$i]['col'] == 1) {
-                    $code_error = "A.3";
-                    $partners_data = $this->$model_06->count_partners($this->session->userdata['period']);
-                    $rows_count = count($count_inc);
-                    if ($partners_data != $rows_count) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                        array_push($stack, $result);
-                    }
-                }
             }
+        }
+
+        /* CUIT_SOCIO_INCORPORADO
+         * Nro A.3
+         * Detail:
+         * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
+         */
+        $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
+        if ($partners_error_data) {
+            $stack = array();
+            $code_error = "A.3";
+            $result["error_code"] = $code_error;
+            $result["error_row"] = 1;
+            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+            array_push($stack, $result);
         }
         $this->data = $stack;
     }
