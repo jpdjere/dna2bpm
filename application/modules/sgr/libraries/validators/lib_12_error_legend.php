@@ -42,7 +42,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones: GFFF0/GFFF1/GFFF2/GFFF3/GFCPD';
                 break;
             case "H.2": 
-                $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>.Debe tener 11 caracteres sin guiones y/o ser una CUIT válida.';
+                $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones y/o ser una CUIT válida.';
                 break;
             case "I.1": 
                 $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Sólo deberá estar completo en caso de que en la Columna D – Tipo de Garantía Otorgada, se haya completado alguna de las siguientes opciones: GFON0/GFCPD/GFON1/GFON2/GFON3/GFPB';
