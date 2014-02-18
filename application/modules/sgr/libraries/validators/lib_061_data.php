@@ -51,9 +51,7 @@ class Lib_061_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $A1_field_value = $parameterArr[$i]['fieldValue'];
@@ -64,18 +62,14 @@ class Lib_061_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
                         $code_error = "A.2";
                         $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if (!$partner_data) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -102,9 +96,7 @@ class Lib_061_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     //Value Validation
@@ -113,9 +105,7 @@ class Lib_061_data extends MX_Controller {
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
                             $B1_field_value = $parameterArr[$i]['fieldValue'];
@@ -137,23 +127,17 @@ class Lib_061_data extends MX_Controller {
                     if ($B1_field_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = "empty";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
-                        } 
-                        
-                        if($parameterArr[$i]['fieldValue']!=""){
-                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                            if (!$return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
-                                array_push($stack, $result);
-                            }
                         }
-                        
-                        
+                    }
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                        if (!$return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -168,9 +152,9 @@ class Lib_061_data extends MX_Controller {
                     if ($B1_field_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = "empty";
+                            
+                           
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
                     }
@@ -192,9 +176,9 @@ class Lib_061_data extends MX_Controller {
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = "empty";
+                            
+                           
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
                         //Value Validation
@@ -203,9 +187,9 @@ class Lib_061_data extends MX_Controller {
                             $allow_words = array("ASCENDENTE", "DESCENDENTE");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                
+                               
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
@@ -225,9 +209,9 @@ class Lib_061_data extends MX_Controller {
 
                         if (in_array($check_cuit, $opt_arr)) {
                             if ($parameterArr[$i]['fieldValue'] != "DESCENDENTE") {
-                                $result["error_code"] = $code_error;
-                                $result["error_row"] = $parameterArr[$i]['row'];
-                                $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                                
+                               
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
@@ -246,18 +230,18 @@ class Lib_061_data extends MX_Controller {
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = "empty";
+                            
+                           
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
                     }
                     $code_error = "F.2";
                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                        
+                       
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
                 }
@@ -273,9 +257,9 @@ class Lib_061_data extends MX_Controller {
         if ($partners_error_data) {
             $stack = array();
             $code_error = "A.3";
-            $result["error_code"] = $code_error;
+            
             $result["error_row"] = 1;
-            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
             array_push($stack, $result);
         }
         $this->data = $stack;
