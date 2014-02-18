@@ -482,64 +482,43 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $container_period = 'container.sgr_periodos';
         $container_anexo = 'container.sgr_anexo_' . $anexo;
-        
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id, 'status'=>'activo', 'period'=>$get_period);
+
+        $query = array(
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id,
+            'status' => 'activo',
+            'period' => $get_period
+        );
         $period_arr = $this->mongo->sgr->$container_period->findOne($query);
         $filename = $period_arr['filename'];
-       
-        
-        foreach ($partners_arr as $list){
-            $anexo_query = array(1695=>$list, 'filename'=>$filename, 5779 => "1");
+
+
+        foreach ($partners_arr as $list) {
+            $anexo_query = array(
+                1695 => $list,
+                'filename' => $filename,
+                5779 => "1"
+            );
             $new_result = $this->mongo->sgr->$container_anexo->findOne($anexo_query);
-            if(!$new_result){                
-               $get_error = $list;                
-            } 
+            if (!$new_result) {
+                $get_error = $list;
+            }
         }
-        
-        if($get_error)
+
+        if ($get_error)
             return true;
-    }
-
-    function count_partners($get_period = null) {
-        $a = array();
-        $rtn = array();
-        $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-
-        $set_period = "";
-
-        $query = array('anexo' => $anexo, 'sgr_id' => $this->sgr_id);
-        $query['status'] = 'activo';
-        if ($period) {
-            $set_period = array("period" => $get_period);
-            $query['period'] = $get_period;
-        }
-
-        $result = $this->mongo->sgr->$period->find($query);
-        foreach ($result as $list) {
-            $new_query = array('sgr_id' => $list['sgr_id'], 'filename' => $list['filename']);
-            $new_result = $this->mongo->sgr->$container->find($new_query);
-
-            $a[] = (int) $new_result->count();
-        }
-
-        echo array_sum($a);
-        return array_sum($a);
     }
 
     /* ACCIONES COMPRA
      * Compra venta por socio
      * Integradas
      */
-
     function buy_shares($cuit, $partner_type, $field = 5597) {
 
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-
 
         $nresult_arr = array();
         $anexo = $this->anexo;
@@ -553,7 +532,12 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $list) {
-            $new_query = array(1695 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_query = array(
+                1695 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => $partner_type
+            );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
 
             if ($new_result) {
@@ -590,7 +574,12 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $list) {
-            $new_query = array(5248 => $cuit, 'sgr_id' => $list['sgr_id'], 'filename' => $list['filename'], 5272 => $partner_type);
+            $new_query = array(
+                5248 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => $partner_type
+            );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $nresult_arr[] = $new_result[$field];

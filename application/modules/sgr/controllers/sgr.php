@@ -320,28 +320,17 @@ class Sgr extends MX_Controller {
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
-            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
-            
-            
-            
+            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);          
             
             foreach ($result_data['data'] as $result_data) {                
                 if (!empty($result_data['error_code'])) {
-                    
-                    $valor = ($result_data['error_input_value']!="")? " Valor Ingresado <strong>“" . $result_data['error_input_value'] . "”</strong>":"";
-            
-           
-                    
-                    
+                    $error_input_value = ($result_data['error_input_value']!="")? " Valor Ingresado <strong>“" . $result_data['error_input_value'] . "”</strong>" : "";                    
                     if ($result_data['error_input_value'] == "empty") {
                         list($column_value) = explode(".", $result_data['error_code']);
                         $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
                     } else {
-                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $valor .  "</li>";
+                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value .  "</li>";
                     }
-                    
-                     
-
                     $error = true;
                 }
             }
@@ -349,15 +338,12 @@ class Sgr extends MX_Controller {
             //ERROR    
             $result_header_desc = "<h3>El modelo de Anexo es incorrecto, restan las siguientes columnas</h3>";
             foreach ($result_head['result'] as $error_head) {
-
                 $result_header .= "<li>" . $error_head . "</li>";
                 $error = true;
             }
             $result_header = $result_header_desc . $result_header;
-
             $error = true;
         }
-
 
 
         if (!$error) {
