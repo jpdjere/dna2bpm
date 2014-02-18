@@ -556,6 +556,7 @@ class Lib_12_data extends MX_Controller {
                  * Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2555 días)
                  */
                 if ($parameterArr[$i]['col'] == 16) {
+                    echo $parameterArr[$i]['fieldValue']. "<br>";
                     $P1_field_value = (int) $parameterArr[$i]['fieldValue'];
                     $code_error = "P.1";
                     //empty field Validation
@@ -608,6 +609,7 @@ class Lib_12_data extends MX_Controller {
                         $code_error = "P.2";
                         $ctyDays = 0;
                         $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                       
                         if ($P1_field_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -618,7 +620,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D1_field_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 730 : 731;
+                        $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;                         
                         if ($P1_field_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -788,8 +790,8 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //var_dump($stack);
-        //exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
