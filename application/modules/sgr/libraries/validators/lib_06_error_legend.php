@@ -299,7 +299,7 @@ EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
                 break;
             case "E-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB) debe/n estar vacia.';
                 break;
-            case "Q-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (Q, R, S, T, U, V, W, X, Y, Z, AB) debe/n estar vacia.';
+            case "Q-AB": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La columna/s (R, S, T, U, V, W, X, Y, Z, AB) debe/n estar vacia.';
                 break;
         }
 
