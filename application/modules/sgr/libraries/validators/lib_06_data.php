@@ -459,8 +459,8 @@ class Lib_06_data extends MX_Controller {
                     }
 
                     /* "INCREMENTO DE TENENCIA ACCIONARIA" */
-                    if ($A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {                        
-                        /*B.3*/
+                    if ($A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                        /* B.3 */
                         $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
                         $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
                         $balance = $buy - $sell;
@@ -469,11 +469,11 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
-                        /* C.3 */                        
+
+                        /* C.3 */
                         $return = check_empty($C1_field_value);
                         if ($return) {
-                             $code_error = "C.3";
+                            $code_error = "C.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
@@ -481,12 +481,11 @@ class Lib_06_data extends MX_Controller {
 
 
                     /*
-                     * AI.2
-                      Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación..
+
                      * AI.3
                       Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.
                      * AI.4
-                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.                     
+                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.
                      */
 
 
@@ -521,12 +520,17 @@ class Lib_06_data extends MX_Controller {
                             }
                         }
 
-                        /* AI CODE */
+                        /* AI.2
+                          Si la columna AJ está completa, se debe verificar que el Socio Cedente 
+                         * informado en la misma posea la cantidad de Capital Integrado para transferir, 
+                         * y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación.
+                         */
+                        
+                        
                         $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
                         $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
-                        $balance_integrado = $buy - $sell;
-
-                        if ($balance_integrado > $AI1_field_value) {
+                        $balance_integrado = $buy - $sell;                        
+                        if ($balance_integrado < $AI1_field_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -551,20 +555,21 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
+                    $partner = $parameterArr[$i]['fieldValue'];
+                    
+                    $buy = $this->$model_anexo->buy_shares($partner, $B1_field_value);
+                    $sell = $this->$model_anexo->sell_shares($partner, $B1_field_value);
 
-                    $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
-                    $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
-
-                    $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
-                    $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
+                    $buy_integrado = $this->$model_anexo->buy_shares($partner, $B1_field_value, 5598);
+                    $sell_integrado = $this->$model_anexo->sell_shares($partner, $B1_field_value, 5598);
 
 
-                    $suscripto = ($buy - $sell) + $AH1_field_value;
-                    $integrado = ($buy_integrado - $sell_integrado) + $AI1_field_value;                    
+                    $suscripto = ($buy - $sell);
+                    $integrado = ($buy_integrado - $sell_integrado);
 
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
-                     */
+                     */                   
                     if ($integrado < $suscripto) {
                         $code_error = "AI.5";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI1_field_value . " - Suscripto: " . $AH1_field_value);
