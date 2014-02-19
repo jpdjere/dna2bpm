@@ -38,9 +38,9 @@ $(document).on('click', '#btn_showobjects', function() {
     $.ajax({
         'url': globals.module_url + 'show_objects',
         'type': 'POST',
-        'data':{
-            'idu':idu,
-            'idgroup':idgroup
+        'data': {
+            'idu': idu,
+            'idgroup': idgroup
         },
         'success': function(result) {
             $('#result').html(result);
@@ -90,4 +90,21 @@ $(document).on('click', '#btn_claim', function() {
         }
     ]
             );
+})
+$(document).on('click', '#btn_assign_to', function() {
+    type = $("#type option:selected").val();
+    code = $("#code").val();
+    type = $("#type option:selected").val();
+    code = $("#code").val();
+    $('#result').load();
+    $.ajax({
+        'url': globals.module_url + 'assign_to',
+        'type': 'POST',
+        'data': {
+            'data': globals.module_url + 'info/' + type + '/' + code,
+        },
+        'success': function(result) {
+            $('#result').html(result);
+        }
+    });
 })

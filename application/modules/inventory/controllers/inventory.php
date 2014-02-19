@@ -27,7 +27,7 @@ class Inventory extends MX_Controller {
 //----LOAD LANGUAGE
         $this->idu = (float) $this->session->userdata('iduser');
 //---config
-        $this->load->config('config');
+        $this->load->config('inventory/config');
 //---QR
         $this->load->module('qr');
     }
@@ -48,6 +48,7 @@ class Inventory extends MX_Controller {
         $cpData['js'] = array(
             $this->base_url . "inventory/assets/jscript/bootbox.min.js" => 'BootBox',
             $this->base_url . "inventory/assets/jscript/actions.js" => 'Main Search',
+            $this->base_url . "inventory/assets/jscript/assign.js" => 'Assign',
         );
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
@@ -294,12 +295,40 @@ class Inventory extends MX_Controller {
         return $rtnArr;
     }
 
+    function Assign() {
+
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Assign';
+        $cpData['reader_title'] = $cpData['title'];
+        $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
+        $cpData['css'] = array(
+            $this->base_url . "inventory/assets/css/inventory.css" => 'custom css',
+        );
+        $cpData['js'] = array(
+            $this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
+            $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
+            $this->base_url . "inventory/assets/jscript/reader_post.js" => 'Reader functions',
+            $this->base_url . "inventory/assets/jscript/assign.js" => 'Assign functions',
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'redir' => $this->module_url . 'assign_to',
+            'idu' => $this->idu
+        );
+        $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
+    }
+
     /*
      * Esta funcion realiza el checkin para el usuario actual o user
      */
 
     function Assign_to() {
         $this->load->model('user/group');
+        //$this->module_url = 'http://www.accionpyme.mecon.gov.ar/dna2bpm/inventory/';
+        //var_dump($this->input->post('data'));
         if ($this->input->post('data')) {
             $groups = $this->config->item('groups_allowed');
             foreach ($groups as $idgroup) {
@@ -412,7 +441,7 @@ class Inventory extends MX_Controller {
         $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
     }
 
-    function get_users($idgroup=null) {
+    function get_users($idgroup = null) {
         $debug = false;
         $result = array();
         if ($idgroup) {
@@ -437,32 +466,6 @@ class Inventory extends MX_Controller {
         } else {
             var_dump($result);
         }
-    }
-
-    function Assign() {
-
-        $cpData['base_url'] = $this->base_url;
-        $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Assign';
-        $cpData['reader_title'] = $cpData['title'];
-        $cpData['reader_subtitle'] = 'Read QR Codes from any HTML5 enabled device';
-        $cpData['css'] = array(
-            $this->base_url . "inventory/assets/css/inventory.css" => 'custom css',
-        );
-        $cpData['js'] = array(
-            $this->base_url . "qr/assets/jscript/html5-qrcode.min.js" => 'HTML5 qrcode',
-            $this->base_url . "qr/assets/jscript/jquery.animate-colors-min.js" => 'Color Animation',
-            $this->base_url . "inventory/assets/jscript/reader_post.js" => 'Reader functions',
-            $this->base_url . "inventory/assets/jscript/assign.js" => 'Assign functions',
-        );
-
-        $cpData['global_js'] = array(
-            'base_url' => $this->base_url,
-            'module_url' => $this->module_url,
-            'redir' => $this->module_url . 'assign_to',
-            'idu' => $this->idu
-        );
-        $this->ui->compose('query', 'bootstrap.ui.php', $cpData);
     }
 
 }
