@@ -567,7 +567,7 @@ class Lib_06_data extends MX_Controller {
                      */
                     if ($integrado < $suscripto) {
                         $code_error = "AI.5";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI1_field_value . " - Suscripto: " . $AH1_field_value);
                         array_push($stack, $result);
                     }
                 }
