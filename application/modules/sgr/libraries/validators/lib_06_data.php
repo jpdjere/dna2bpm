@@ -415,6 +415,27 @@ class Lib_06_data extends MX_Controller {
                     $sector = $this->sgr_model->clae2013($ciu);
                     if ($A1_field_value == "INCORPORACION") {
 
+
+
+                        /* C.2 */
+                        $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                        $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
+
+                        $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
+                        $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
+
+
+                        $suscripto = $buy - $sell + $AH1_field_value;
+                        $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
+                        $saldo = array_sum(array($suscripto, $integrado));
+                        if ($saldo != 0) {
+                            $code_error = "C.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                            array_push($stack, $result);
+                        }
+
+
+
                         $calcPromedio = ($S2_field_value != "") ? 1 : 0;
                         $calcPromedio += ($V2_field_value != "") ? 1 : 0;
                         $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
@@ -438,7 +459,8 @@ class Lib_06_data extends MX_Controller {
                     }
 
                     /* "INCREMENTO DE TENENCIA ACCIONARIA" */
-                    if ($A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                    if ($A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {                        
+                        /*B.3*/
                         $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
                         $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
                         $balance = $buy - $sell;
@@ -447,11 +469,15 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                        
+                        /* C.3 */                        
+                        $return = check_empty($C1_field_value);
+                        if ($return) {
+                             $code_error = "C.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
                     }
-
-
-
-
 
 
                     /*
@@ -527,7 +553,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                   
+
                     $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
                     $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
 
@@ -538,7 +564,7 @@ class Lib_06_data extends MX_Controller {
                     $suscripto = $buy - $sell + $AH1_field_value;
                     $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
 
-                    if($integrado>$suscripto) {
+                    if ($integrado > $suscripto) {
                         $code_error = "AI.5";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
                         array_push($stack, $result);
