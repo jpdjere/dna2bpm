@@ -355,12 +355,12 @@ class Lib_06_data extends MX_Controller {
 
                                     $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
                                     $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
-                                    
+
                                     $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
                                     $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
-                                    
-                                    
-                                    $suscripto = $buy - $sell +  $AH1_field_value;
+
+
+                                    $suscripto = $buy - $sell + $AH1_field_value;
                                     $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
 
                                     if ($parameterArr[$i]['fieldValue'] < 0) {
@@ -368,13 +368,12 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     }
-                                    
-                                    if($integrado>$suscripto){
+
+                                    if ($integrado > $suscripto) {
                                         $code_error = "AI.8";
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado ." - Saldo Suscripto: " .$suscripto);
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
                                         array_push($stack, $result);
                                     }
-                                    
                                 }
                             }
                             break;
@@ -526,17 +525,23 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
-
-                        if ($balance_integrado > $balance) {
-                            $code_error = "AI.5";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
                     }
 
+                   
+                    $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                    $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
-                        
+                    $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
+                    $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
+
+
+                    $suscripto = $buy - $sell + $AH1_field_value;
+                    $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
+
+                    if($integrado>$suscripto) {
+                        $code_error = "AI.5";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                        array_push($stack, $result);
                     }
                 }
 
