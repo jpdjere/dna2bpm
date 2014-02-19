@@ -73,12 +73,10 @@ class Model_06 extends CI_Model {
             31 => 5254, //ACTA_NRO. 
             32 => "FECHA_DE_TRANSACCION", //FECHA_DE_TRANSACCION
             33 => 5252, //MODALIDAD
-            34 => 5597, //CAPITAL_SUSCRIPTO
-            35 => 5250, //ACCIONES_SUSCRIPTAS
-            36 => 5598, //CAPITAL_INTEGRADO
-            37 => 5251, //ACCIONES_INTEGRADAS
-            38 => 5248, //CEDENTE_CUIT
-            39 => 5292 //CEDENTE_CARACTERISTICA
+            34 => 5597, //CAPITAL_SUSCRIPTO            
+            35 => 5598, //CAPITAL_INTEGRADO            
+            36 => 5248, //CEDENTE_CUIT
+            
         );
 
 
@@ -547,7 +545,7 @@ class Model_06 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$period->find($query);
-
+        /*FIND ANEXO*/
         foreach ($result as $list) {
             $new_query = array(
                 1695 => $cuit,
@@ -556,12 +554,14 @@ class Model_06 extends CI_Model {
                 5272 => $partner_type
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-
+            
+            
             if ($new_result) {
                 $nresult_arr[] = $new_result[$field];
             }
+             var_dump($field, $new_result[$field]);
         }
-
+       
         $result = array_sum($nresult_arr);
         return $result;
     }

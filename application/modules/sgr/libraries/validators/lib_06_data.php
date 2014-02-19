@@ -352,11 +352,29 @@ class Lib_06_data extends MX_Controller {
                                 }
 
                                 if ($A1_field_value == "INTEGRACION PENDIENTE") {
+
+                                    $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                                    $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
+                                    
+                                    $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
+                                    $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
+                                    
+                                    
+                                    $suscripto = $buy - $sell +  $AH1_field_value;
+                                    $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
+
                                     if ($parameterArr[$i]['fieldValue'] < 0) {
                                         $code_error = "AI.8";
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     }
+                                    
+                                    if($integrado>$suscripto){
+                                        $code_error = "AI.8";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado ." - Saldo Suscripto: " .$suscripto);
+                                        array_push($stack, $result);
+                                    }
+                                    
                                 }
                             }
                             break;
@@ -434,6 +452,9 @@ class Lib_06_data extends MX_Controller {
 
 
 
+
+
+
                     /*
                      * AI.2
                       Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación..
@@ -457,6 +478,8 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
+                        //  echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B1_field_value . "->" . $AH1_field_value;
+
                         if ($balance < $AH1_field_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -464,9 +487,9 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         /* AH.2
-                          Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO DE TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.           
+                          Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO DE TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.
                          * */
-                        
+
                         if ($A1_field_value != "INTEGRACION PENDIENTE") {
                             if ($AH1_field_value < 0) {
                                 $code_error = "AH.2";
@@ -1355,8 +1378,8 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
