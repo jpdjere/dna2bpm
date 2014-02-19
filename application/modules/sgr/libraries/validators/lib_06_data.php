@@ -486,9 +486,7 @@ class Lib_06_data extends MX_Controller {
                      * AI.3
                       Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.
                      * AI.4
-                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.
-                     * AI.5
-                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
+                      Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.                     
                      */
 
 
@@ -561,10 +559,13 @@ class Lib_06_data extends MX_Controller {
                     $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
 
 
-                    $suscripto = $buy - $sell + $AH1_field_value;
-                    $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
+                    $suscripto = ($buy - $sell) + $AH1_field_value;
+                    $integrado = ($buy_integrado - $sell_integrado) + $AI1_field_value;                    
 
-                    if ($integrado > $suscripto) {
+                    /** AI.5
+                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
+                     */
+                    if ($integrado < $suscripto) {
                         $code_error = "AI.5";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
                         array_push($stack, $result);
