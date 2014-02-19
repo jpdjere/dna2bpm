@@ -558,8 +558,7 @@ class Model_06 extends CI_Model {
             
             if ($new_result) {
                 $nresult_arr[] = $new_result[$field];
-            }
-             var_dump($field, $new_result[$field]);
+            }             
         }
        
         $result = array_sum($nresult_arr);
