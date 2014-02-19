@@ -324,7 +324,7 @@ class Sgr extends MX_Controller {
             
             foreach ($result_data['data'] as $result_data) {                
                 if (!empty($result_data['error_code'])) {
-                    $error_input_value = ($result_data['error_input_value']!="")? " Valor Ingresado <strong>“" . $result_data['error_input_value'] . "”</strong>" : "";                    
+                    $error_input_value = ($result_data['error_input_value']!="")? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";                    
                     if ($result_data['error_input_value'] == "empty") {
                         list($column_value) = explode(".", $result_data['error_code']);
                         $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';

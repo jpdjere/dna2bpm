@@ -352,9 +352,26 @@ class Lib_06_data extends MX_Controller {
                                 }
 
                                 if ($A1_field_value == "INTEGRACION PENDIENTE") {
+
+                                    $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                                    $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
+
+                                    $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
+                                    $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
+
+
+                                    $suscripto = $buy - $sell + $AH1_field_value;
+                                    $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
+
                                     if ($parameterArr[$i]['fieldValue'] < 0) {
                                         $code_error = "AI.8";
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    }
+
+                                    if ($integrado > $suscripto) {
+                                        $code_error = "AI.8";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
                                         array_push($stack, $result);
                                     }
                                 }
@@ -398,6 +415,27 @@ class Lib_06_data extends MX_Controller {
                     $sector = $this->sgr_model->clae2013($ciu);
                     if ($A1_field_value == "INCORPORACION") {
 
+
+
+                        /* C.2 */
+                        $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
+                        $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
+
+                        $buy_integrado = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value, 5598);
+                        $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
+
+
+                        $suscripto = $buy - $sell;
+                        $integrado = $buy_integrado - $sell_integrado;
+                        $saldo = array_sum(array($suscripto, $integrado));
+                        if ($saldo != 0) {
+                            $code_error = "C.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo: " . $saldo);
+                            array_push($stack, $result);
+                        }
+
+
+
                         $calcPromedio = ($S2_field_value != "") ? 1 : 0;
                         $calcPromedio += ($V2_field_value != "") ? 1 : 0;
                         $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
@@ -422,6 +460,7 @@ class Lib_06_data extends MX_Controller {
 
                     /* "INCREMENTO DE TENENCIA ACCIONARIA" */
                     if ($A1_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                        /* B.3 */
                         $buy = $this->$model_anexo->buy_shares($C1_field_value, $B1_field_value);
                         $sell = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value);
                         $balance = $buy - $sell;
@@ -430,19 +469,23 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+
+                        /* C.3 */
+                        $return = check_empty($C1_field_value);
+                        if ($return) {
+                            $code_error = "C.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
                     }
 
 
-
                     /*
-                     * AI.2
-                      Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Integrado para transferir, y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación..
+
                      * AI.3
                       Si en la columna AG se completó la opción “TRANSFERENCIA”, el valor aquí indicado debe ser igual al valor indicado en la Columna AH.
                      * AI.4
                       Si en la Columna A se completó la opción “INCORPORACIÓN” y en la Columna AG se completó la opción “SUSCRIPCIÓN”, el valor aquí indicado debe ser mayor o igual al 50% del valor indicado en la Columna AH y a lo sumo igual a este último.
-                     * AI.5
-                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
                      */
 
 
@@ -457,6 +500,8 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
+                        //  echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B1_field_value . "->" . $AH1_field_value;
+
                         if ($balance < $AH1_field_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -464,9 +509,9 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         /* AH.2
-                          Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO DE TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.           
+                          Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO DE TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.
                          * */
-                        
+
                         if ($A1_field_value != "INTEGRACION PENDIENTE") {
                             if ($AH1_field_value < 0) {
                                 $code_error = "AH.2";
@@ -475,12 +520,17 @@ class Lib_06_data extends MX_Controller {
                             }
                         }
 
-                        /* AI CODE */
+                        /* AI.2
+                          Si la columna AJ está completa, se debe verificar que el Socio Cedente 
+                         * informado en la misma posea la cantidad de Capital Integrado para transferir, 
+                         * y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación.
+                         */
+                        
+                        
                         $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
                         $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B1_field_value, 5598);
-                        $balance_integrado = $buy - $sell;
-
-                        if ($balance_integrado > $AI1_field_value) {
+                        $balance_integrado = $buy - $sell;                        
+                        if ($balance_integrado < $AI1_field_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -503,17 +553,27 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
-
-                        if ($balance_integrado > $balance) {
-                            $code_error = "AI.5";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
                     }
 
+                    $partner = $parameterArr[$i]['fieldValue'];
+                    
+                    $buy = $this->$model_anexo->buy_shares($partner, $B1_field_value);
+                    $sell = $this->$model_anexo->sell_shares($partner, $B1_field_value);
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
-                        
+                    $buy_integrado = $this->$model_anexo->buy_shares($partner, $B1_field_value, 5598);
+                    $sell_integrado = $this->$model_anexo->sell_shares($partner, $B1_field_value, 5598);
+
+
+                    $suscripto = ($buy - $sell);
+                    $integrado = ($buy_integrado - $sell_integrado);
+
+                    /** AI.5
+                      El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
+                     */                   
+                    if ($integrado < $suscripto) {
+                        $code_error = "AI.5";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI1_field_value . " - Suscripto: " . $AH1_field_value);
+                        array_push($stack, $result);
                     }
                 }
 
@@ -1068,9 +1128,8 @@ class Lib_06_data extends MX_Controller {
                  *                  
                  */
 
-
                 if ($B1_field_value == "B") {
-                    $range = range(17, 26);
+                    $range = range(18, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
                         switch ($parameterArr[$i]['col']) {
