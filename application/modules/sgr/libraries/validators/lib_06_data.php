@@ -425,12 +425,12 @@ class Lib_06_data extends MX_Controller {
                         $sell_integrado = $this->$model_anexo->sell_shares($C1_field_value, $B1_field_value, 5598);
 
 
-                        $suscripto = $buy - $sell + $AH1_field_value;
-                        $integrado = $buy_integrado - $sell_integrado + $AI1_field_value;
+                        $suscripto = $buy - $sell;
+                        $integrado = $buy_integrado - $sell_integrado;
                         $saldo = array_sum(array($suscripto, $integrado));
                         if ($saldo != 0) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo: " . $saldo);
                             array_push($stack, $result);
                         }
 
