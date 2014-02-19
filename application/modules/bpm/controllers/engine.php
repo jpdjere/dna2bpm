@@ -674,7 +674,7 @@ class Engine extends MX_Controller {
                                         $rendering = trim($shape->properties->rendering);
                                         if ($rendering) {
                                             $token_id = $first['_id'];
-                                            $streval = 'return ' . $rendering . ';';
+                                            $streval = 'return "' . $rendering . '";';
                                             $test_ok = @eval($streval);
                                             if (!$test_ok) {
                                                 show_error("Rendering Value has an error:<br/>$streval", 500);
