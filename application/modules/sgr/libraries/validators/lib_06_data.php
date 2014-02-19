@@ -1123,9 +1123,8 @@ class Lib_06_data extends MX_Controller {
                  *                  
                  */
 
-
                 if ($B1_field_value == "B") {
-                    $range = range(17, 26);
+                    $range = range(18, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
                         switch ($parameterArr[$i]['col']) {
