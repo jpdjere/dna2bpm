@@ -72,7 +72,7 @@ function GetInt4d_old($data, $pos) {
     return $value;
 }
 
-function _GetInt4d($data, $pos) {
+function GetInt4d($data, $pos) {
         $value = ord($data[$pos]) | (ord($data[$pos + 1]) << 8) | (ord($data[$pos + 2]) <<
                 16) | (ord($data[$pos + 3]) << 24);
         if ($value >= 4294967294) {
