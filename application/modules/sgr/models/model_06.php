@@ -564,7 +564,7 @@ class Model_06 extends CI_Model {
      * Integradas
      */
 
-    function buy_shares($cuit, $partner_type=null, $field = 5597) {
+    function buy_shares($cuit, $partner_type, $field = 5597) {
 
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
@@ -608,13 +608,14 @@ class Model_06 extends CI_Model {
      * Integradas 
      */
 
-    function sell_shares($cuit, $partner_type=null, $field = 5597) {
+    function sell_shares($cuit, $partner_type, $field = 5597) {
 
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-        
+
+
         $nresult_arr = array();
         $anexo = $this->anexo;
 
@@ -632,13 +633,9 @@ class Model_06 extends CI_Model {
             $new_query = array(
                 5248 => $cuit,
                 'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']
+                'filename' => $list['filename'],
+                5272 => $partner_type
             );
-            
-            if($partner_type){
-               $new_query['5272'] = $partner_type;
-            }
-            
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $nresult_arr[] = $new_result[$field];
@@ -671,12 +668,9 @@ class Model_06 extends CI_Model {
             $new_query = array(
                 1695 => $cuit,
                 'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']
+                'filename' => $list['filename'],
+                5272 => $partner_type
             );
-            
-            if($partner_type){
-               $new_query['5272'] = $partner_type;
-            }
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $nresult_arr[] = $new_result[$field];
