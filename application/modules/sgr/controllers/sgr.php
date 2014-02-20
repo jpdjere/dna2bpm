@@ -150,8 +150,8 @@ class Sgr extends MX_Controller {
 
     function translate_upload($upload) {
         $customData = array();
-        
-        if ($upload['success']) {            
+
+        if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
             $customData['rectify_message_template'] = "";
@@ -299,14 +299,20 @@ class Sgr extends MX_Controller {
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
 
+        /* COLUMN HEADER ERROR */
+
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+                
+                /*CHECK FOR EMPTY ROWS*/
+                $row_count = @implode($data->sheets[0]['cells'][$i]);
+                $row_lenght = strlen($row_count);
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-                    if (!empty($data->sheets[0]['cells'][$i][1])) {
-                        $count = $data->rowcount();
-                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
-                        $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
-                        array_push($valuesArr, $stack);
+                    if ($row_lenght > 1){
+                    $count = $data->rowcount();
+                    $fields = trim($data->sheets[0]['cells'][$i][$j]);
+                    $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
+                    array_push($valuesArr, $stack);
                     }
                 }
             }
@@ -317,19 +323,21 @@ class Sgr extends MX_Controller {
                 $error = true;
             }
 
+            /* XLS CELL DATA ERROR */
+
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
-            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);          
-            
-            foreach ($result_data['data'] as $result_data) {                
+            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
+
+            foreach ($result_data['data'] as $result_data) {
                 if (!empty($result_data['error_code'])) {
-                    $error_input_value = ($result_data['error_input_value']!="")? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";                    
+                    $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
                     if ($result_data['error_input_value'] == "empty") {
                         list($column_value) = explode(".", $result_data['error_code']);
                         $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
                     } else {
-                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value .  "</li>";
+                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
                     }
                     $error = true;
                 }
@@ -1006,4 +1014,3 @@ class Sgr extends MX_Controller {
     }
 
 }
-
