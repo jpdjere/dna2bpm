@@ -115,6 +115,8 @@ class Lib_12_data extends MX_Controller {
                         $transaction_year = explode("-", $transaction_date);
                         $result_dates = (int) $year_period - (int) $transaction_year[0];
                         
+                         var_dump($amount_employees , $result_dates, $year_period,$transaction_year[0]);
+                        
                         if ($result_dates < 1) {
                             $code_error = "B.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -797,7 +799,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);exit();
+        var_dump($stack);exit();
         $this->data = $stack;
     }
 
