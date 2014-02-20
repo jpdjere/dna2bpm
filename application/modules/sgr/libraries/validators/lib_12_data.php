@@ -99,16 +99,20 @@ class Lib_12_data extends MX_Controller {
 
 
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
+                    $amount_employees = (int) $partner_data['CANTIDAD_DE_EMPLEADOS'];
+                    $transaction_date = $partner_data['FECHA_DE_TRANSACCION'];
 
-                    if (!$partner_data['FECHA_DE_TRANSACCION']) {
+
+                    if ($amount_employees == 0) {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
                         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
-                        $transaction_year = explode("-", $partner_data['FECHA_DE_TRANSACCION']);
+                        $transaction_year = explode("-", $transaction_date);
                         $result_dates = (int) $year_period - (int) $transaction_year[0];
-                        if ($result_dates <= 0) {
+                        
+                        if ($result_dates <= 1) {
                             $code_error = "B.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -303,6 +307,7 @@ class Lib_12_data extends MX_Controller {
                   GFON1
                   GFON2
                   GFON3
+                  GFVCP
                   GFPB
                  * Nro I.2
                  * Detail:
@@ -312,11 +317,12 @@ class Lib_12_data extends MX_Controller {
                   GFON1
                   GFON2
                   GFON3
+                  GFVCP
                   deberá tener el siguiente formato: 3 Letras, un Numero, una letra.
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB");
+                    $codes_arr = array("GFCPD", "GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D1_field_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -555,7 +561,7 @@ class Lib_12_data extends MX_Controller {
                  * Nro P.5
                  * Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2555 días)
                  */
-                if ($parameterArr[$i]['col'] == 16) {                    
+                if ($parameterArr[$i]['col'] == 16) {
                     $P1_field_value = (int) $parameterArr[$i]['fieldValue'];
                     $code_error = "P.1";
                     //empty field Validation
@@ -644,7 +650,7 @@ class Lib_12_data extends MX_Controller {
 
                     if (!in_array($ctyDays, $range)) {
                         $code_error = "P.4";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'],$P1_field_value);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $P1_field_value);
                         array_push($stack, $result);
                     }
                 }
@@ -788,8 +794,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);
-//        exit();
+        //var_dump($stack);exit();
         $this->data = $stack;
     }
 
