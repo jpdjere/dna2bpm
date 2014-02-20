@@ -539,7 +539,7 @@ class Lib_12_data extends MX_Controller {
                     $in_value = (int) $parameterArr[$i]['fieldValue'];
                     $range1 = range(-19, -2);
                     $range2 = range(2, 19);
-                    $range3 = range(0, 51);
+                    $range3 = range(1, 50);
                     /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 1 y 50.   */
                     if ($N1_field_value == "FIJA") {
                         if (!in_array($in_value, $range3)) {
