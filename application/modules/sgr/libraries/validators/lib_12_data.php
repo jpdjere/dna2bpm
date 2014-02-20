@@ -536,7 +536,7 @@ class Lib_12_data extends MX_Controller {
                  * Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30.
                  */
                 if ($parameterArr[$i]['col'] == 15) {
-
+                     $in_value = (int) $parameterArr[$i]['fieldValue'];
                     /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 1 y 50.   */
                     if ($N1_field_value == "FIJA") {
                         if (!in_array($in_value, $range3)) {
@@ -546,7 +546,7 @@ class Lib_12_data extends MX_Controller {
                         }
                     } else {
                         /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
-                        $in_value = (int) $parameterArr[$i]['fieldValue'];
+                       
                         $range1 = range(-19, -2);
                         $range2 = range(2, 19);
                         $range3 = range(2, 49);
