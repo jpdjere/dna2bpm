@@ -102,17 +102,20 @@ class Lib_12_data extends MX_Controller {
                     $amount_employees = (int) $partner_data['CANTIDAD_DE_EMPLEADOS'];
                     $transaction_date = $partner_data['FECHA_DE_TRANSACCION'];
 
-
+                    
+                    
                     if ($amount_employees == 0) {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
+                       
+                        
                         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
                         $transaction_year = explode("-", $transaction_date);
                         $result_dates = (int) $year_period - (int) $transaction_year[0];
                         
-                        if ($result_dates <= 1) {
+                        if ($result_dates < 1) {
                             $code_error = "B.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
