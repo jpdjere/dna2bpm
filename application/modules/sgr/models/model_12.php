@@ -283,7 +283,8 @@ class Model_12 extends CI_Model {
     
     
     //container.sgr_cuits_comerciales_y_mv
-    function get_mv_and_comercial_cuits($cuit, $type){        
+    function get_mv_and_comercial_cuits($cuit, $type){       
+        
         $container = 'container.sgr_cuits_comerciales_y_mv';
         $query = array("cuit" => $cuit, "type"=>$type);
         $result = $this->mongo->sgr->$container->findOne($query);
