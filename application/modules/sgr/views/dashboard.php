@@ -16,12 +16,19 @@
     </ul>
 </div>
 
-{if message}
-<div class="alert alert-{success}" id="{success}">   
-    {message}
-</div>
-{/if}
 
+    <!-- MESSAGES -->
+    {if period_message}
+        <div class="alert alert-{success}" id="{success}">   
+            {period_message}
+        </div>
+    {else}
+        {if message}
+        <div class="alert alert-{success}" id="{success}">   
+            {message}
+        </div>
+        {/if}
+    {/if}
 
 
 <!-- ==== Contenido ==== -->
@@ -31,8 +38,8 @@
     <!-- RECTIFICATION ALERT-->
     {rectify_message_template}
 
-    
-    
+
+
     <div class="row-fluid">
         {if $files_list}
         {else}
@@ -46,7 +53,7 @@
     {form_template}
     <!-- UPLOADED FILES LIST-->
     {files_list}   
-    
+
     <!-- PENDING LIST -->
     {if pending_list}
     <div class="well">
@@ -58,29 +65,29 @@
     </div>
     <hr>
     {/if}        
-   
-    
-   {if processed_list}
+
+
+    {if processed_list}
     <div class="well">
         <!-- PROCESSED ANEXOS-->
         <div id="show_anexos">                   
-                  
+
             <!-- TABS -->
             <ul class="nav nav-tabs" id="dashboard_tab1">       
-              {processed_tab}
+                {processed_tab}
             </ul>
             <div class="tab-content perfil">
                 {processed_list}
             </div>
         </div>
     </div>
-   {else}
-   <div id="{_id}" class="alert alert-error">
+    {else}
+    <div id="{_id}" class="alert alert-error">
         No hay Archivos Procesados para este anexo. 
-        
+
     </div>
-  {/if}
-    
+    {/if}
+
     {if rectified_list}
     <hr>
     <div class="well">
