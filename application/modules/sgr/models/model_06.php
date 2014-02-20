@@ -450,7 +450,7 @@ class Model_06 extends CI_Model {
 
     function get_partner($cuit, $get_period = null) {
         
-        var_dump($cuit, $get_period);
+        
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
@@ -470,16 +470,25 @@ class Model_06 extends CI_Model {
             $query['period'] = $set_period;
         }
         
+       
+        
         $result = $this->mongo->sgr->$period->find($query);
+        $return_result = array();
         foreach ($result as $list) {
+            
+            
+            
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
+             if($new_result)
+             $return_result[] = $new_result;
+            
         }
-        return $new_result;
+        return $return_result;
     }
     
     
