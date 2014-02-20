@@ -82,7 +82,7 @@ class Sgr extends MX_Controller {
         $customData['rectified_list'] = $this->get_rectified($this->anexo);
 
         //RECTIFY
-        $error_set_period = $this->set_period();
+        $error_set_period = $this->set_period();        
         $customData['sgr_period'] = $this->period;
 
         $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
@@ -141,7 +141,7 @@ class Sgr extends MX_Controller {
         $customData = array();
         if (!$upload) {
             if (!$this->session->userdata['period']) {
-                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar.';
                 $customData['select_period'] = true;
             }
         }
@@ -157,7 +157,7 @@ class Sgr extends MX_Controller {
             $customData['rectify_message_template'] = "";
 
             if (!$this->session->userdata['period']) {
-                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar..';
                 $customData['select_period'] = true;
             }
         } else {
@@ -495,8 +495,8 @@ class Sgr extends MX_Controller {
     function translate_error_period($error_set_period) {
         if ($error_set_period) {
             switch ($error_set_period) {
-                case '1':
-                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido...';
+                case 1:
+                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido';
                     break;
 
                 default:
@@ -512,7 +512,7 @@ class Sgr extends MX_Controller {
                     }
                     break;
             }
-            $customData['message'] = $error_msg;
+            $customData['period_message'] = $error_msg;
             $customData['success'] = "error";
 
             return $customData;
@@ -564,11 +564,15 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
+            
+           
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
 
-            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
+            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));          
+             
+             
             list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
@@ -579,7 +583,8 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
             } else {
-                if ($limit_month <= $set_month) {
+                
+                if ($limit_month < $set_month) {
                     return 1; // Posterior al mes actual
                 } else {
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
