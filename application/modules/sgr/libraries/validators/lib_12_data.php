@@ -102,7 +102,7 @@ class Lib_12_data extends MX_Controller {
                     $amount_employees = (int) $partner_data['CANTIDAD_DE_EMPLEADOS'];
                     $transaction_date = $partner_data['FECHA_DE_TRANSACCION'];
 
-                    var_dump($partner_data);
+                    //var_dump($partner_data);
                     
                     if ($amount_employees == 0) {
                         $code_error = "B.2";
