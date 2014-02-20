@@ -142,7 +142,7 @@ class Lib_12_data extends MX_Controller {
 
                     $suscripto = $buy - $sell;
                     $integrado = $buy_integrado - $sell_integrado;
-                    var_dump($suscripto,$integrado);
+                    //var_dump($suscripto,$integrado);
                     if ($integrado != $suscripto) {
                         $code_error = "B.3";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
@@ -491,11 +491,10 @@ class Lib_12_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        $code_error = "M.2";
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
