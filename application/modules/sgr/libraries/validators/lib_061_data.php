@@ -225,17 +225,14 @@ class Lib_061_data extends MX_Controller {
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
                     }
                     $code_error = "F.2";
+                    if($parameterArr[$i]['fieldValue']!="")
                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
