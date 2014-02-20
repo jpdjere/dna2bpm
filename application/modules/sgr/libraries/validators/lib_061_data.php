@@ -39,33 +39,40 @@ class Lib_061_data extends MX_Controller {
                 /* CUIT_SOCIO_INCORPORADO
                  * Nro A.1
                  * Detail:
-                 * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
-                 * Nro A.2
-                 * Detail:
-                 * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado.                 
+                 * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.                                 
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    $A1_field_value = ($parameterArr[$i]['fieldValue'])?$parameterArr[$i]['fieldValue'] : 0;                    
+                    $A1_field_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
                     $code_error = "A.1";
                     //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);                        
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                         $A1_field_value = false;
                     }
 
-
+                    /*
+                     * Nro A.2
+                     * Detail:
+                     * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado. 
+                     */
+                    
 
                     $code_error = "A.2";
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                    if (!$partner_data) {
+                    
+                     foreach ($partner_data as $partner){                       
+                        $transaction_date = $partner[5779];
+                    }
+                    
+                    if ($partner[5779]!=1) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
                 }
-                
+
 
                 /* TIENE_VINCULACION
                  * Nro B.1
@@ -270,3 +277,4 @@ class Lib_061_data extends MX_Controller {
     }
 
 }
+
