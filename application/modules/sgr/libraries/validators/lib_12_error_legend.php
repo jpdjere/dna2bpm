@@ -16,7 +16,10 @@ class Lib_12_error_legend {
                 break;
             case "B.2": 
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando.';
-                break;           
+                break;   
+            case "B.3": 
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe verificar en el sistema que para el CUIT informado el Saldo de Capital Integrado sea igual que el Saldo de Capital suscripto (Art. 50 Ley 24.467)';
+                break; 
              case "C.1": 
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener cinco dígitos numéricos. La fecha debe estar dentro del período informado.';
                 break;
