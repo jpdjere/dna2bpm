@@ -61,7 +61,7 @@ class Lib_061_data extends MX_Controller {
                     
 
                     $code_error = "A.2";
-                    $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                     var_dump($partner_data);
                      foreach ($partner_data as $partner){                       
                         $transaction_date = $partner[5779];
