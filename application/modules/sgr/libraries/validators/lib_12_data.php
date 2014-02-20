@@ -99,10 +99,12 @@ class Lib_12_data extends MX_Controller {
 
 
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-                    $amount_employees = (int) $partner_data['CANTIDAD_DE_EMPLEADOS'];
-                    $transaction_date = $partner_data['FECHA_DE_TRANSACCION'];
+                    
 
-                    //var_dump($partner_data);
+                    foreach ($partner_data as $partner){
+                        $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
+                        $transaction_date = $partner['FECHA_DE_TRANSACCION'];
+                    }
                     
                     if ($amount_employees == 0) {
                         $code_error = "B.2";
@@ -799,7 +801,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        var_dump($stack);exit();
+//        var_dump($stack);exit();
         $this->data = $stack;
     }
 
