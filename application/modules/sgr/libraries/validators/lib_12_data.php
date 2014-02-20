@@ -73,9 +73,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Debe tener 11 caracteres numéricos sin guiones.
                   Debe verificarse que el CUIT esté registrado en el sistema como Socio Partícipe (Clase A) y que tengas saldo positivo de tenencia accionaria.
-                 * Nro B.2
-                 * Detail:
-                 * Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando. Ej. Si se están informando las garantías otorgadas en Enero de 2013, deben haber informado previamente la información de Facturación y Cantidad de Empleados del año 2012. Debe validar sólo el año, ya que ambos datos se piden al cierre de cada ejercicio, y los cierres de ejercicios pueden realizarse en cualquier mes del año.                  
+
                  */
 
                 if ($parameterArr[$i]['col'] == 2) {
@@ -97,28 +95,36 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
 
+                    /* Nro B.2
+                     * Detail:
+                     * Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando. 
+                     * Ej. Si se están informando las garantías otorgadas en Enero de 2013, 
+                     * deben haber informado previamente la información de Facturación y Cantidad de Empleados del año 2012. 
+                     * Debe validar sólo el año, ya que ambos datos se piden al cierre de cada ejercicio, y los cierres de ejercicios 
+                     * pueden realizarse en cualquier mes del año.
+                     */
 
                     $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-                    
 
-                    foreach ($partner_data as $partner){
+
+                    foreach ($partner_data as $partner) {
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
-                    
+
                     if ($amount_employees == 0) {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
-                       
-                        
+
+
                         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
                         $transaction_year = explode("-", $transaction_date);
                         $result_dates = (int) $year_period - (int) $transaction_year[0];
-                        
-                         //var_dump($amount_employees , $result_dates, $year_period,$transaction_year[0]);
-                        
+
+                        //var_dump($amount_employees , $result_dates, $year_period,$transaction_year[0]);
+
                         if ($result_dates < 1) {
                             $code_error = "B.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -530,22 +536,23 @@ class Lib_12_data extends MX_Controller {
                  * Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30.
                  */
                 if ($parameterArr[$i]['col'] == 15) {
-                    /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
-                    $in_value = (int) $parameterArr[$i]['fieldValue'];
-                    $range1 = range(-19, -2);
-                    $range2 = range(2, 19);
-                    $range3 = range(2, 49);
-
-                    if (!in_array($in_value, $range1) && !in_array($in_value, $range2)) {
-                        $code_error = "O.1";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
-                    }
 
                     /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 1 y 50.   */
                     if ($N1_field_value == "FIJA") {
                         if (!in_array($in_value, $range3)) {
                             $code_error = "O.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
+                        $in_value = (int) $parameterArr[$i]['fieldValue'];
+                        $range1 = range(-19, -2);
+                        $range2 = range(2, 19);
+                        $range3 = range(2, 49);
+
+                        if (!in_array($in_value, $range1) && !in_array($in_value, $range2)) {
+                            $code_error = "O.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
