@@ -76,7 +76,6 @@ class Model_06 extends CI_Model {
             34 => 5597, //CAPITAL_SUSCRIPTO            
             35 => 5598, //CAPITAL_INTEGRADO            
             36 => 5248, //CEDENTE_CUIT
-            
         );
 
 
@@ -425,6 +424,30 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
+    function get_partner_period($cuit, $get_period) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $query = array(
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id,
+            'period' => $get_period,
+            'status' => 'activo'            
+        );
+
+        $result_period = $this->mongo->sgr->$period->findOne($query);
+        $query_partner = array(
+            'filename' => $result_period['filename'],
+            1695 => $cuit
+        );
+        
+        $result_partner = $this->mongo->sgr->$container->findOne($query_partner);
+        
+        return $result_partner;
+        
+    }
+
     function get_partner($cuit, $get_period = null) {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -436,17 +459,19 @@ class Model_06 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id
         );
-       
+
         $query['status'] = 'activo';  //PERIOD TIENE QUE CAMBIAR A PENDIENTE
-        if ($period) {
+        if ($get_period) {
             $set_period = array(
                 "period" => $get_period
             );
-            $query['period'] = $get_period;
+            $query['period'] = $set_period;
         }
+        
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $list) {
-            $new_query = array('sgr_id' => $list['sgr_id'],
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
@@ -454,6 +479,8 @@ class Model_06 extends CI_Model {
         }
         return $new_result;
     }
+    
+    
 
     /* PARTNERS INFO */
 
@@ -545,7 +572,7 @@ class Model_06 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$period->find($query);
-        /*FIND ANEXO*/
+        /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
                 1695 => $cuit,
@@ -554,13 +581,13 @@ class Model_06 extends CI_Model {
                 5272 => $partner_type
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            
-            
+
+
             if ($new_result) {
                 $nresult_arr[] = $new_result[$field];
-            }             
+            }
         }
-       
+
         $result = array_sum($nresult_arr);
         return $result;
     }
