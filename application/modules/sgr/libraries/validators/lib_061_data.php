@@ -62,8 +62,7 @@ class Lib_061_data extends MX_Controller {
 
                     $code_error = "A.2";
                     $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                    var_dump($partner_data[5779]);
-                     
+                    
                     if ($partner_data[5779]!=1) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -268,7 +267,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        var_dump($stack);        exit();
+       // var_dump($stack);        exit();
         $this->data = $stack;
     }
 
