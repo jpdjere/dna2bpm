@@ -549,10 +549,9 @@ class Lib_12_data extends MX_Controller {
                         }
                     } else {
                         /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
-
                         if (!in_array($in_value, $range1) && !in_array($in_value, $range2)) {
                             $code_error = "O.1";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "..." . $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
