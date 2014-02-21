@@ -385,8 +385,7 @@ class Sgr extends MX_Controller {
                         $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                         $result['filename'] = $new_filename;
                         $result['sgr_id'] = (int) $this->sgr_id;
-                        var_dump($result);
-                        exit();
+                       
                         $save = (array) $this->$model->save($result);
                     }
                 }
