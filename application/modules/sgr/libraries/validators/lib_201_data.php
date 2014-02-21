@@ -125,7 +125,7 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $return = check_date_format($parameterArr[$i]['fieldValue']);
+                        $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
                             $code_error = "B.2";
                             $result["error_code"] = $code_error;
@@ -298,12 +298,9 @@ class Lib_201_data extends MX_Controller {
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
-                    }
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
-                        if ($return) {
-                            $code_error = "B.2";
+                        if ($return) {                           
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
