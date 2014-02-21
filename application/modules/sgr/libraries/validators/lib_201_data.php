@@ -143,33 +143,21 @@ class Lib_201_data extends MX_Controller {
                 /* CUIT_PROTECTOR
                  * Nro C.1
                  * Detail:
-                 * Debe tener 11 dígitos sin guiones.
-                 * Nro C.2
-                 * Detail:
-                  En caso de que se trate de un Retiro (Columna E) o un Retiro de Rendimientos (Columna G), el campo debe estar vacío y el Sistema tomará el CUIT registrado previamente en el mismo para el número de aporte informado.
+                 * Debe tener 11 dígitos sin guiones.                
                  * Nro C.3
                  * Detail:
                   En caso de que se trate de un Aporte (Columna D), debe verificar que el CUIT pertenece a un Socio Protector incorporado como Socio B y con Tenencia de Acciones positivas.
 
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-                    $code_error = "C.1";
-                    //empty field Validation                    
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    } else {
+
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $C1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-
-                            $code_error = "C.2";
-                            //Valida contra Mongo
-
                             $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                             if ($partner_data[5272] != 'B') {
                                 $code_error = "C.3";
@@ -209,7 +197,7 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 5) {
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "E.2";
                         $E1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -261,8 +249,6 @@ class Lib_201_data extends MX_Controller {
                      */
                     if ($E1_field_value && $parameterArr[$i]['fieldValue'] && $D1_field_value) {
                         $code_error = "D.1";
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -279,23 +265,38 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $G1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
                         if ($D1_field_value != "") {
                             $code_error = "E.1";
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                    }
+
+                    /*
+                     * Nro C.2
+                     * Detail: En caso de que se trate de un Retiro (Columna E) o un Retiro de Rendimientos (Columna G), 
+                     * el campo debe estar vacío y el Sistema tomará el CUIT 
+                     * registrado previamente en el mismo para el número de aporte informado. 
+                     */
+
+                    if ($E1_field_value || $G1_field_value && $C1_field_value) {
+                        $code_error = "C.2";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    } else if (!$C1_field_value) {
+                        
+                        var_dump("entre" .  $parameterArr[$i]['row']);
+                        $code_error = "C.1";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        array_push($stack, $result);
                     }
                 }
 
@@ -350,8 +351,6 @@ class Lib_201_data extends MX_Controller {
                     C .
                             $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -367,19 +366,7 @@ class Lib_201_data extends MX_Controller {
                     //Valida contra Mongo
 
                     $code_error = "A.6";
-                    //Valida contra Mongo
-
-                    $code_error = "C.2";
-                    if ($E1_field_value || $G1_field_value) {
-                        //Not empty
-                        $return = check_empty($C1_field_value);
-                        if (!$return) {
-
-
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                            array_push($stack, $result);
-                        }
-                    }
+                    //Valida contra Mongo                    
 
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
                     $code_error = "VG.1";
@@ -389,8 +376,6 @@ class Lib_201_data extends MX_Controller {
                     $cols_count = array($D_value, $E_value, $G_value);
 
                     if (array_sum($cols_count) < 1) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
