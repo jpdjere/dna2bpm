@@ -157,31 +157,26 @@ class Lib_201_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $C1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+
+                            $code_error = "C.2";
+                            //Valida contra Mongo
+
+                            $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                            if ($partner_data[5272] != 'B') {
+                                $code_error = "C.3";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
-                    }
-
-                    $code_error = "C.2";
-                    //Valida contra Mongo
-
-                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                    if ($partner_data[5272] != 'B') {
-                        $code_error = "C.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
                     }
                 }
 
@@ -242,7 +237,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
 
                     $code_error = "F.2";
-                    $F1_field_value = $parameterArr[$i]['fieldValue'];                    
+                    $F1_field_value = $parameterArr[$i]['fieldValue'];
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -250,7 +245,7 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
+
                         if ($D1_field_value != "") {
                             $code_error = "F.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
