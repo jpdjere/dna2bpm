@@ -219,16 +219,12 @@ class Lib_201_data extends MX_Controller {
                         $E1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
                         if ($D1_field_value != "") {
                             $code_error = "E.1";
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -238,25 +234,25 @@ class Lib_201_data extends MX_Controller {
                 /* RETENCION_POR_CONTINGENTE
                  * Nro F.1
                  * Detail:
-                 * Formato Numérico. Debe aceptar hasta 2 decimales.
+                 * Si la columna D está completa, esta debe estar vacía.
+                 * Nro F.1
+                 * Detail:
+                 * Formato Numérico. Debe aceptar hasta 2 decimales.   
                  */
                 if ($parameterArr[$i]['col'] == 6) {
 
-                    $code_error = "F.1";
-                    $F1_field_value = $parameterArr[$i]['fieldValue'];
-                    //empty field Validation                    
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-
-
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
+                    $code_error = "F.2";
+                    $F1_field_value = $parameterArr[$i]['fieldValue'];                    
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        
+                        if ($D1_field_value != "") {
+                            $code_error = "F.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
