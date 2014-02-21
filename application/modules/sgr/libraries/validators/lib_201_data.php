@@ -12,6 +12,9 @@ class Lib_201_data extends MX_Controller {
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
+        
+        $model_201 = 'model_201';
+        $this->load->Model($model_201);
 
         /* Vars 
          * 
@@ -61,9 +64,7 @@ class Lib_201_data extends MX_Controller {
                  * Nro A.1
                  * Detail:
                  * Debe tener formato numérico, entero sin decimales.
-                 * Nro A.2
-                 * Detail: 
-                 * Si lo que se está informando es un Aporte (Columna D), debe validar con los movimientos históricos que están cargados en el Sistema que el número informado no exista y sea correlativo al último informado.
+
                  * Nro A.3
                  * Detail: 
                   En un mismo archivo no se puede repetir el mismo número para los casos en que se estén informando Aportes (Columna D).
@@ -83,17 +84,12 @@ class Lib_201_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
+                    } else {
+                        $A1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -292,8 +288,8 @@ class Lib_201_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else if (!$C1_field_value) {
-                        
-                        var_dump("entre" .  $parameterArr[$i]['row']);
+
+                        var_dump("entre" . $parameterArr[$i]['row']);
                         $code_error = "C.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
@@ -355,9 +351,17 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    /* CHECK COLUMNS VALID PENDING */
+                    /* Nro A.2
+                     * Detail: 
+                     * Si lo que se está informando es un Aporte (Columna D), 
+                     * debe validar con los movimientos históricos que están cargados en el Sistema que el 
+                     * número informado no exista y sea correlativo al último informado. 
+                     */
                     $code_error = "A.2";
-                    //Valida contra Mongo
+                    if($D1_field_value){
+                        $get_order_number = $this->$model_201->get_order_number($A1_field_value);                        
+                    }
+
 
                     $code_error = "A.4";
                     //Valida contra Mongo
@@ -382,7 +386,7 @@ class Lib_201_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack);        exit();
+        //var_dump($stack);                exit();
         $this->data = $stack;
     }
 
