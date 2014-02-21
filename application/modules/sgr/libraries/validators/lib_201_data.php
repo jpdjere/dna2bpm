@@ -177,15 +177,12 @@ class Lib_201_data extends MX_Controller {
                 }
 
                 /* APORTE
-                 * Nro D.1
+                 * Nro D.2
                  * Detail:
                  * Formato Numérico. Debe aceptar hasta 2 decimales.                 
                  */
                 if ($parameterArr[$i]['col'] == 4) {
-
-
-                    $code_error = "D.1";                    
-
+                    $code_error = "D.2";
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $D1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -201,15 +198,26 @@ class Lib_201_data extends MX_Controller {
                 /* RETIRO
                  * Nro E.1
                  * Detail:
+                 * Si la columna D está completa, esta debe estar vacía.
+                 * Nro E.2
+                 * Detail:
                  * Formato Numérico. Debe aceptar hasta 2 decimales.                  
                  */
-                if ($parameterArr[$i]['col'] == 5) {                    
-                    $code_error = "E.1";                   
+                if ($parameterArr[$i]['col'] == 5) {
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
+                        $code_error = "E.2";
                         $E1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+
+                        if ($D1_field_value != "") {
+                            $code_error = "E.1";
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -226,6 +234,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
 
                     $code_error = "F.1";
+                    $F1_field_value = $parameterArr[$i]['fieldValue'];
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -244,20 +253,45 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
+
+
+                    /*
+                     * Nro D.1
+                     * Detail:
+                     * Si las Columnas E o F están completas, esta debe estar vacía.
+                     */
+                    if ($E1_field_value && $parameterArr[$i]['fieldValue'] && $D1_field_value) {
+                        $code_error = "D.1";
+                        $result["error_code"] = $code_error;
+                        $result["error_row"] = $parameterArr[$i]['row'];
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                        array_push($stack, $result);
+                    }
                 }
 
                 /* RETIRO_DE_RENDIMIENTOS
                  * Nro G.1
+                 * Detail:                 
+                  Si la columna D está completa, esta debe estar vacía.
+                 * Nro G.2
                  * Detail:
-                 * Debe estar compuesta por alguno de los parámetros establecidos en la Columna A de Anexo adjunto (OPCIONES DE INVERSIÓN) a tales efectos.                 
+                 * De estar completa, debe tomar Formato Numérico mayor a cero y aceptar hasta 2 decimales.
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $code_error = "G.1";                    
+                    $code_error = "G.1";
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $G1_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
+                            $result["error_code"] = $code_error;
+                            $result["error_row"] = $parameterArr[$i]['row'];
+                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            array_push($stack, $result);
+                        }
+
+                        if ($D1_field_value != "") {
+                            $code_error = "E.1";
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -300,7 +334,7 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
-                        if ($return) {                           
+                        if ($return) {
                             $result["error_code"] = $code_error;
                             $result["error_row"] = $parameterArr[$i]['row'];
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
@@ -315,8 +349,8 @@ class Lib_201_data extends MX_Controller {
                  * Debe tener formato numérico de cinco dígitos sin decimales.
                  */
                 if ($parameterArr[$i]['col'] == 18) {
-                    $code_error = "R.1";                    
-                    
+                    $code_error = "R.1";
+
                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
@@ -355,14 +389,14 @@ class Lib_201_data extends MX_Controller {
                     $D_value = ($D1_field_value) ? 1 : 0;
                     $E_value = ($E1_field_value) ? 1 : 0;
                     $G_value = ($G1_field_value) ? 1 : 0;
-                    $cols_count = array($D_value, $E_value, $G_value);                    
-                    
+                    $cols_count = array($D_value, $E_value, $G_value);
+
                     if (array_sum($cols_count) < 1) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
-                    }                     
+                    }
                 }
             } // END FOR LOOP->
         }
