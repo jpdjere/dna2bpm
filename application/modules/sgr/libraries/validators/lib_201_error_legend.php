@@ -63,7 +63,7 @@ class Lib_201_error_legend {
             case "Q.1":
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> Q: Debe tener formato numérico de cinco dígitos sin decimales.';
                 break;
-            case "R.2":
+            case "R.1":
                 $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> R: OPCIONAL. De ser completada debe tener formato numérico sin decimales.';
                 break;
             case "VG.1":
