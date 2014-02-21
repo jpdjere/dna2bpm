@@ -314,8 +314,9 @@ class Lib_201_data extends MX_Controller {
                  * Detail:
                  * Debe tener formato numérico de cinco dígitos sin decimales.
                  */
-                if ($parameterArr[$i]['col'] == 17) {
-                    $code_error = "R.1";
+                if ($parameterArr[$i]['col'] == 18) {
+                    $code_error = "R.1";                    
+                    
                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result["error_code"] = $code_error;
@@ -365,6 +366,7 @@ class Lib_201_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
