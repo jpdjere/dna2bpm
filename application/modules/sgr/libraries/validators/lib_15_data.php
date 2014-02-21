@@ -61,10 +61,12 @@ class Lib_15_data extends MX_Controller {
                     }
                     $A1_field_value = $parameterArr[$i]['fieldValue'];
                     $options = $this->sgr_model->get_investment_options($parameterArr[$i]['fieldValue']);
+                    
+                    
                     if (!$options) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                         array_push($stack, $result);
                     }
                 }
@@ -206,10 +208,12 @@ class Lib_15_data extends MX_Controller {
                     }
                     $A1_field_value = $parameterArr[$i]['fieldValue'];
                     $get_value = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
+                    
+                    
                     if (!$get_value) {
                         $result["error_code"] = $code_error;
                         $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                         array_push($stack, $result);
                     }
                 }
@@ -280,6 +284,7 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
+        //var_dump($stack); exit();
         $this->data = $stack;
     }
 
