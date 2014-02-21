@@ -55,7 +55,7 @@ class Lib_201_error_legend {
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
                 break;
             case "F.1":
-                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';
                 break;
             case "F.2":
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
