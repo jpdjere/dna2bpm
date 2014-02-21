@@ -570,7 +570,7 @@ class Lib_06_data extends MX_Controller {
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
                      */                   
-                    if ($integrado < $suscripto) {
+                    if ($integrado > $suscripto) {
                         $code_error = "AI.5";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI1_field_value . " - Suscripto: " . $AH1_field_value);
                         array_push($stack, $result);
