@@ -95,6 +95,7 @@ class Lib_061_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $B_cell_value = $parameterArr[$i]['fieldValue'];
+
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -115,6 +116,12 @@ class Lib_061_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+
+
+
+                        /* B.3 */
+                        if ($parameterArr[$i]['fieldValue'] == "NO")
+                            $A_cell_array['CUIT'] = $A_cell_value;
                     }
                 }
 
@@ -275,7 +282,6 @@ class Lib_061_data extends MX_Controller {
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
                     if ($E_cell_value == "ASCENDENTE") {
-                        $A_cell_array[] = $A_cell_value;
                         array_push($partner_shares_arr, $shares_result);
                     }
                 }
@@ -299,7 +305,6 @@ class Lib_061_data extends MX_Controller {
 
             /* F.3 */
             $AF3_result = count_shares($partner_shares_arr);
-
             foreach ($AF3_result as $cell) {
                 $count_shares = $cell['acumulados']['shares'];
                 if ($count_shares > 1) {
@@ -309,8 +314,13 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
+        var_dump($A_cell_array);
+        
 //        var_dump($stack);
-//        exit();
+ exit();
+        
+        
+        
         $this->data = $stack;
     }
 
