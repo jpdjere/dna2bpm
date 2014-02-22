@@ -462,7 +462,7 @@ function return_error_array($code, $row, $value) {
 }
 
 function count_shares($data) {
-    //agrupar por usuario  (cortar, solo el nombre)  -> dinamicamente
+    //agrupar por cuit 
     foreach ($data as $i) {
         $catUser = explode(".", $i[0]);
         $user = $catUser[1];
