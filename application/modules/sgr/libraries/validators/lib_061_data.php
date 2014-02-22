@@ -43,14 +43,14 @@ class Lib_061_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    $A_field_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
+                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                        $A_field_value = false;
+                        $A_cell_value = false;
                     }
 
                     /*
@@ -96,14 +96,14 @@ class Lib_061_data extends MX_Controller {
                     }
                     //Value Validation
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $B_field_value = "";
+                        $B_cell_value = "";
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $B_field_value = $parameterArr[$i]['fieldValue'];
+                            $B_cell_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
 
@@ -119,7 +119,7 @@ class Lib_061_data extends MX_Controller {
 
                     $code_error = "C.1";
                     //empty field Validation
-                    if ($B_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -144,7 +144,7 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 4) {
                     $code_error = "D.1";
                     //Check Empry
-                    if ($B_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
 
@@ -166,7 +166,7 @@ class Lib_061_data extends MX_Controller {
 
                     $code_error = "D.1";
                     //Check Empry
-                    if ($B_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         $code_error = "E.1";
 
                         //empty field Validation
@@ -179,7 +179,7 @@ class Lib_061_data extends MX_Controller {
                         }
                         //Value Validation
                         if (isset($parameterArr[$i]['fieldValue'])) {
-                            $B_field_value = "";
+                            $B_cell_value = "";
                             $allow_words = array("ASCENDENTE", "DESCENDENTE");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
@@ -199,7 +199,7 @@ class Lib_061_data extends MX_Controller {
                          * la opción elegida sólo puede ser DESCENDENTE.
                          */
                         $code_error = "E.2";
-                        $check_cuit = substr($A_field_value, 0, 2);
+                        $check_cuit = substr($A_cell_value, 0, 2);
                         $opt_arr = array('20', '23', '27');
                         $pos = strpos($check_cuit, $findme);
 
@@ -221,7 +221,7 @@ class Lib_061_data extends MX_Controller {
 
                     $code_error = "F.1";
 
-                    if ($B_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -237,12 +237,12 @@ class Lib_061_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
-                    if ($A_field_value) {
+                    if ($A_cell_value) {
                         $code_error = "A.1";
-                        $count_inc[] = $A_field_value;
-                        $return = cuit_checker($A_field_value);
+                        $count_inc[] = $A_cell_value;
+                        $return = cuit_checker($A_cell_value);
                         if (!$return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_field_value);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         }
                     }
