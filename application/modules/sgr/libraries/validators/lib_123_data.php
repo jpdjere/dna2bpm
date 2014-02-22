@@ -62,7 +62,7 @@ class Lib_123_data extends MX_Controller {
 
                     //Value Validation
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $A1_field_value = "";
+                        $A_field_value = "";
                         $allow_words = array("GFMFO", "GC1", "GC2", "GT");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -71,7 +71,7 @@ class Lib_123_data extends MX_Controller {
                             $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
                             array_push($stack, $result);
                         } else {
-                            $A1_field_value = $parameterArr[$i]['fieldValue'];
+                            $A_field_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
                 }

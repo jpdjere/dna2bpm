@@ -59,7 +59,7 @@ class Lib_15_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     }
-                    $A1_field_value = $parameterArr[$i]['fieldValue'];
+                    $A_field_value = $parameterArr[$i]['fieldValue'];
                     $options = $this->sgr_model->get_investment_options($parameterArr[$i]['fieldValue']);
                     
                     
@@ -117,7 +117,7 @@ class Lib_15_data extends MX_Controller {
 
                     $code_error = "D.2";
                     $A1_arr = array("D", "J", "K");
-                    if (in_array($A1_field_value, $A1_arr)) {
+                    if (in_array($A_field_value, $A1_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result["error_code"] = $code_error;
@@ -142,7 +142,7 @@ class Lib_15_data extends MX_Controller {
 
                     $code_error = "E.2";
                     $A1_arr = array("D", "J", "K");
-                    if (in_array($A1_field_value, $A1_arr)) {
+                    if (in_array($A_field_value, $A1_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result["error_code"] = $code_error;
@@ -206,7 +206,7 @@ class Lib_15_data extends MX_Controller {
                         $result["error_input_value"] = "empty";
                         array_push($stack, $result);
                     }
-                    $A1_field_value = $parameterArr[$i]['fieldValue'];
+                    $A_field_value = $parameterArr[$i]['fieldValue'];
                     $get_value = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
                     
                     
