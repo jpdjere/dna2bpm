@@ -298,7 +298,7 @@ class Lib_061_data extends MX_Controller {
                 $count_shares = $cell['acumulados']['shares'];
                 if ($count_shares > 1) {
                     $code_error = "F.3";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0] . "Total" . $count_shares);
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $AF3_result[$cell] . " Total Acciones: " . $count_shares);
                     array_push($stack, $result);
                 }
             }
