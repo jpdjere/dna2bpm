@@ -30,6 +30,7 @@ class Lib_061_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $count_inc = array();
+        $A_cell_array = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -45,6 +46,7 @@ class Lib_061_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
+                    $A_cell_array[] = $parameterArr[$i]['fieldValue'];
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -290,8 +292,11 @@ class Lib_061_data extends MX_Controller {
             
             /*F.3*/
             $AF3_result = count_shares($partner_shares_arr);
-            var_dump($AF3_result);
             
+            foreach($A_cell_array as $cell){
+                var_dump($new_group_arr[$cell]['acumulados']['shares']);
+                
+            }
             
         }
         var_dump($partner_shares_arr);
