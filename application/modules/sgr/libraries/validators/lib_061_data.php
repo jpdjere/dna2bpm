@@ -266,9 +266,8 @@ class Lib_061_data extends MX_Controller {
                     }
 
                     /* F.3 */
-                   
-                        $shares_result = array( $E_cell_value . '.' . $A_cell_value . '.', $float_var);
-                        array_push($partner_shares_arr, $shares_result);
+                    $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
+                    if($E_cell_value=="ASCENDENTE") array_push($partner_shares_arr, $shares_result);
                 }
             }
 
@@ -287,7 +286,8 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        var_dump($partner_shares_arr);        exit();
+        var_dump($partner_shares_arr);
+        exit();
         $this->data = $stack;
     }
 
