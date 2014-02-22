@@ -350,14 +350,14 @@ class Lib_061_data extends MX_Controller {
                 $counter = count($search_cuit);
                 if ($counter > 1) {
                     $code_error = "F.3";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cuit . " Total de Veces: " . $counter);
+                    $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                     array_push($stack, $result);
                 }
             }
         }
 
 
-        var_dump($stack);  exit();
+        //var_dump($stack);  exit();
         $this->data = $stack;
     }
 
