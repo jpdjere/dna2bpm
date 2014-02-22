@@ -47,7 +47,7 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
                     $code_error = "A.1";
-                    //empty field Validation
+//empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -83,7 +83,6 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
-
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -91,7 +90,6 @@ class Lib_061_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $B_cell_value = $parameterArr[$i]['fieldValue'];
-
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -115,10 +113,15 @@ class Lib_061_data extends MX_Controller {
 
 
 
-                        /* B.3 */
+                        /*
+                         * Nro B.3/2
+                         * Detail:
+                         * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
+                         */
                         $A_cell_array[] = $A_cell_value;
-                        if ($parameterArr[$i]['fieldValue'] == "NO")
+                        if ($parameterArr[$i]['fieldValue'] == "NO") {
                             $A_cell_array_no[] = $A_cell_value;
+                        }
                     }
                 }
 
@@ -135,6 +138,14 @@ class Lib_061_data extends MX_Controller {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    } else {
+
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -155,13 +166,18 @@ class Lib_061_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                     $code_error = "D.1";
-                    //Check Empry
+//Check Empry
                     if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -180,16 +196,13 @@ class Lib_061_data extends MX_Controller {
                     //Check Empry
                     if ($B_cell_value == "SI") {
                         $code_error = "E.1";
-
-                        //empty field Validation
+//empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-                        //Value Validation
+//Value Validation
                         if (isset($parameterArr[$i]['fieldValue'])) {
                             $B_cell_value = "";
                             $allow_words = array("ASCENDENTE", "DESCENDENTE");
@@ -222,6 +235,13 @@ class Lib_061_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -245,6 +265,13 @@ class Lib_061_data extends MX_Controller {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -313,21 +340,28 @@ class Lib_061_data extends MX_Controller {
         }
 
         /*
-         * Nro B.3
+         * Nro B.3/1
          * Detail:
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
-        
-        foreach ($A_cell_array_no as $cuit){
-            var_dump($cuit);
-            var_dump($A_cell_array);
-            var_dump(array_count_values($A_cell_array));
+        foreach ($A_cell_array_no as $cuit) {
+            if (in_array($cuit, $A_cell_array)) {
+                $search_cuit = (array_keys($A_cell_array, $cuit));
+                $counter = count($search_cuit);
+                if ($counter > 1) {
+                    $code_error = "F.3";
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cuit . " Total de Veces: " . $counter);
+                    array_push($stack, $result);
+                }
+            }
         }
-        
-        
-        
 
-//        var_dump($stack);
+
+
+
+
+
+        var_dump($stack);
         exit();
 
 
