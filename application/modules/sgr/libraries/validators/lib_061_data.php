@@ -78,9 +78,7 @@ class Lib_061_data extends MX_Controller {
                  * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
                   SI
                   NO
-                 * Nro B.2
-                 * Detail:
-                 * Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”. 
+
                  * Nro B.3
                  * Detail:
                  * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
@@ -95,21 +93,29 @@ class Lib_061_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Value Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $B_cell_value = "";
+                    } else {
+                        $B_cell_value = $parameterArr[$i]['fieldValue'];
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            $B_cell_value = $parameterArr[$i]['fieldValue'];
+                        }
+
+
+                        /*
+                         * Nro B.2
+                         * Detail:
+                         * Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”. 
+                         */
+                        $b2_value = substr($A_cell_value, 0, 2);
+                        $array = array("30", "33");
+                        if (in_array($b2_value, $array) && $parameterArr[$i]['fieldValue'] == "NO") {
+                            $code_error = "B.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "B.2";
                 }
 
                 /* CUIT_VINCULADO
