@@ -32,8 +32,7 @@ class Lib_061_data extends MX_Controller {
         $count_inc = array();
         $A_cell_array = array();
 
-        for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
-            var_dump($parameterArr[0]);
+        for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {          
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
@@ -120,8 +119,8 @@ class Lib_061_data extends MX_Controller {
 
 
                         /* B.3 */
-                        $A_cell_array['cuit'] = $A_cell_value;
-                        $A_cell_array['entailment'] = $parameterArr[$i]['fieldValue'];
+                        $A_cell_array[] = $A_cell_value.$parameterArr[$i]['fieldValue'];
+                        
                     }
                 }
 
