@@ -58,12 +58,12 @@ class Lib_061_data extends MX_Controller {
                      * Detail:
                      * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado. 
                      */
-                    
+
 
                     $code_error = "A.2";
                     $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                   
-                    if ($partner_data[5779][0]!='1') {
+
+                    if ($partner_data[5779][0] != '1') {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -215,7 +215,13 @@ class Lib_061_data extends MX_Controller {
                 /* TIPO_RELACION_VINCULACION
                  * Nro F.1
                  * Detail:
-                 * Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.
+                  Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.
+                 * Nro F.2
+                 * Detail:
+                  De completarse, debe tener formato numérico y sólo debe tomar valores entre 0 y 1 y aceptar hasta 2 decimales.
+                 * Nro F.3
+                 * Detail:
+                  Para un mismo CUIT informado en la Columna A, los campos que en la Columna E indiquen ASCENDENTE, deben sumar 1, de forma de cerciorarse que estén informando el total de los Accionistas de la empresa.
                  */
                 if ($parameterArr[$i]['col'] == 6) {
 
@@ -230,8 +236,8 @@ class Lib_061_data extends MX_Controller {
                         }
                     }
                     $code_error = "F.2";
-                    if($parameterArr[$i]['fieldValue']!="")
-                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                    if ($parameterArr[$i]['fieldValue'] != "")
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -264,7 +270,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-       // var_dump($stack);        exit();
+        // var_dump($stack);        exit();
         $this->data = $stack;
     }
 
