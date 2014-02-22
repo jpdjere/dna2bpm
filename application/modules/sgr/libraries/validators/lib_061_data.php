@@ -236,15 +236,16 @@ class Lib_061_data extends MX_Controller {
                         }
                     }
 
-
-                    $range = range(0, 1);
+                    /*Multiplico para usar INT*/
+                    $range = range(0,100);
+                    $float_to_int = (float)$parameterArr[$i]['fieldValue']*100;
                     $code_error = "F.2";
                     if ($parameterArr[$i]['fieldValue'] != "")
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
-                    } else if (!in_array((float)$parameterArr[$i]['fieldValue'], $range)) {
+                    } else if (!in_array($float_to_int, $range)) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], (float)$parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
