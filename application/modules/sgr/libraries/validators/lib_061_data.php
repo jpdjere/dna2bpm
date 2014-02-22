@@ -45,8 +45,7 @@ class Lib_061_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
-                   
+                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;                   
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -269,9 +268,10 @@ class Lib_061_data extends MX_Controller {
 
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
-                    if ($E_cell_value == "ASCENDENTE")
+                    if ($E_cell_value == "ASCENDENTE"){
                          $A_cell_array[] = $A_cell_value;
                         array_push($partner_shares_arr, $shares_result);
+                    }
                 }
             }
 
@@ -294,8 +294,8 @@ class Lib_061_data extends MX_Controller {
             /*F.3*/
             $AF3_result = count_shares($partner_shares_arr);
             
-            foreach($A_cell_array as $cell){
-                var_dump($AF3_result[$cell]['acumulados']['shares']);
+            foreach($AF3_result as $cell){
+                var_dump($cell);
                 
             }
             
