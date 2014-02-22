@@ -14,6 +14,7 @@ class Lib_061_data extends MX_Controller {
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
+        $partner_shares_arr = array();
 
         /* Vars 
          * 
@@ -199,6 +200,7 @@ class Lib_061_data extends MX_Controller {
                          * la opción elegida sólo puede ser DESCENDENTE.
                          */
                         $code_error = "E.2";
+                        $E_cell_value = $parameterArr[$i]['fieldValue'];
                         $check_cuit = substr($A_cell_value, 0, 2);
                         $opt_arr = array('20', '23', '27');
                         $pos = strpos($check_cuit, $findme);
@@ -236,9 +238,10 @@ class Lib_061_data extends MX_Controller {
                         }
                     }
 
-                    /*Multiplico para usar INT*/
-                    $range = range(0,100);
-                    $float_to_int = (float)$parameterArr[$i]['fieldValue']*100;
+                    /* Multiplico para usar INT */
+                    $range = range(0, 100);
+                    $float_var = (float) $parameterArr[$i]['fieldValue'];
+                    $float_to_int = $float_var * 100;
                     $code_error = "F.2";
                     if ($parameterArr[$i]['fieldValue'] != "")
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -246,12 +249,12 @@ class Lib_061_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else if (!in_array($float_to_int, $range)) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'],$parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
-                    
-                    
-                    /*A.1*/
+
+
+                    /* A.1 */
                     if ($A_cell_value) {
                         $code_error = "A.1";
                         $count_inc[] = $A_cell_value;
@@ -261,6 +264,11 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
+
+                    /* F.3 */
+                    if ($E_cell_value == "ASCENDENTE")
+                        $shares_result = array('ascendente.' . $A_cell_value . '.', $float_var);
+                        array_push($partner_shares_arr, $shares_result);
                 }
             }
 
@@ -279,7 +287,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-         //var_dump($stack);        exit();
+        var_dump($partner_shares_arr);        exit();
         $this->data = $stack;
     }
 
