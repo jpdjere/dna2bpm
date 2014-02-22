@@ -320,6 +320,7 @@ class Lib_061_data extends MX_Controller {
         
         foreach ($A_cell_array_no as $cuit){
             var_dump($cuit);
+            var_dump($A_cell_array);
             var_dump(array_count_values($A_cell_array));
         }
         
