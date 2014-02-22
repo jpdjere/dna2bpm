@@ -14,7 +14,6 @@ class Lib_061_data extends MX_Controller {
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
-        $partner_shares_arr = array();
 
         /* Vars 
          * 
@@ -30,7 +29,9 @@ class Lib_061_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $count_inc = array();
+        $partner_shares_arr = array();
         $A_cell_array = array();
+        $A_cell_array_no = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /* Validacion Basica */
@@ -115,7 +116,9 @@ class Lib_061_data extends MX_Controller {
 
 
                         /* B.3 */
-                        $A_cell_array[] = $A_cell_value . "*" . $parameterArr[$i]['fieldValue'];
+                        $A_cell_array[] = $A_cell_value;
+                        if ($parameterArr[$i]['fieldValue'] == "NO")
+                            $A_cell_array_no[] = $A_cell_value;
                     }
                 }
 
@@ -315,8 +318,13 @@ class Lib_061_data extends MX_Controller {
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
         
-        list($cuit, $entailment) = explode("*",$A_cell_array );
-        var_dump(array_count_values($cuit, $entailment));
+        foreach ($A_cell_array_no as $cuit){
+            var_dump($cuit);
+        }
+        
+        var_dump(array_count_values($A_cell_array));
+        list($cuit, $entailment) = explode("*", $A_cell_array);
+
 //        var_dump($stack);
         exit();
 
