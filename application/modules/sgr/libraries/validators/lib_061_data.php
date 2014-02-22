@@ -120,8 +120,7 @@ class Lib_061_data extends MX_Controller {
 
 
                         /* B.3 */
-                        if ($parameterArr[$i]['fieldValue'] == "NO")
-                            $A_cell_array['CUIT'] = $A_cell_value;
+                        $A_cell_array['CUIT'] = $A_cell_value;
                     }
                 }
 
@@ -315,12 +314,12 @@ class Lib_061_data extends MX_Controller {
             }
         }
         var_dump($A_cell_array);
-        
+
 //        var_dump($stack);
- exit();
-        
-        
-        
+        exit();
+
+
+
         $this->data = $stack;
     }
 
