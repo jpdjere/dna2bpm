@@ -55,14 +55,14 @@ class Lib_06_data extends MX_Controller {
 
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $A_field_value = "";
+                        $A_cell_value = "";
                         $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $A_field_value = $parameterArr[$i]['fieldValue'];
+                            $A_cell_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
                 }
@@ -87,21 +87,21 @@ class Lib_06_data extends MX_Controller {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $B_field_value = "";
+                        $B_cell_value = "";
                         $allow_words = array("A", "B");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $B_field_value = $parameterArr[$i]['fieldValue'];
+                            $B_cell_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
                 }
 
                 if ($parameterArr[$i]['col'] == 3) {
 
-                    $C_field_value = $parameterArr[$i]['fieldValue'];
+                    $C_cell_value = $parameterArr[$i]['fieldValue'];
                 }
 
 
@@ -189,7 +189,7 @@ class Lib_06_data extends MX_Controller {
                     $code_error = "AF.1";
                     //Check Date Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $AF_field_value = "";
+                        $AF_cell_value = "";
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -227,7 +227,7 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 33) {
 
                     $code_error = "AG.1";
-                    $AG_field_value = $parameterArr[$i]['fieldValue'];
+                    $AG_cell_value = $parameterArr[$i]['fieldValue'];
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -251,7 +251,7 @@ class Lib_06_data extends MX_Controller {
                           DEBE ESTAR VACÍAS
 
                          */
-                        if ($A_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+                        if ($A_cell_value == "DISMINUCION DE CAPITAL SOCIAL") {
                             $code_error = "AG.2";
                             $allow_words = array("SUSCRIPCION");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -310,7 +310,7 @@ class Lib_06_data extends MX_Controller {
                 if (in_array($parameterArr[$i]['col'], $range)) {
                     switch ($parameterArr[$i]['col']) {
                         case 34:
-                            $AH_field_value = (int) $parameterArr[$i]['fieldValue'];
+                            $AH_cell_value = (int) $parameterArr[$i]['fieldValue'];
                             $code_error = "AH.1";
                             //empty field Validation
                             $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -328,7 +328,7 @@ class Lib_06_data extends MX_Controller {
 
 
                             /* AH3 */
-                            if ($A_field_value == "INTEGRACION PENDIENTE" && $AH_field_value != 0) {
+                            if ($A_cell_value == "INTEGRACION PENDIENTE" && $AH_cell_value != 0) {
                                 $code_error = "AH.3";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -337,7 +337,7 @@ class Lib_06_data extends MX_Controller {
                             break;
 
                         case 35:
-                            $AI_field_value = $parameterArr[$i]['fieldValue'];
+                            $AI_cell_value = $parameterArr[$i]['fieldValue'];
                             $code_error = "AI.1";
                             //empty field Validation
                             $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -351,17 +351,17 @@ class Lib_06_data extends MX_Controller {
                                     array_push($stack, $result);
                                 }
 
-                                if ($A_field_value == "INTEGRACION PENDIENTE") {
+                                if ($A_cell_value == "INTEGRACION PENDIENTE") {
 
-                                    $buy = $this->$model_anexo->buy_shares($C_field_value, $B_field_value);
-                                    $sell = $this->$model_anexo->sell_shares($C_field_value, $B_field_value);
+                                    $buy = $this->$model_anexo->buy_shares($C_cell_value, $B_cell_value);
+                                    $sell = $this->$model_anexo->sell_shares($C_cell_value, $B_cell_value);
 
-                                    $buy_integrado = $this->$model_anexo->buy_shares($C_field_value, $B_field_value, 5598);
-                                    $sell_integrado = $this->$model_anexo->sell_shares($C_field_value, $B_field_value, 5598);
+                                    $buy_integrado = $this->$model_anexo->buy_shares($C_cell_value, $B_cell_value, 5598);
+                                    $sell_integrado = $this->$model_anexo->sell_shares($C_cell_value, $B_cell_value, 5598);
 
 
-                                    $suscripto = $buy - $sell + $AH_field_value;
-                                    $integrado = $buy_integrado - $sell_integrado + $AI_field_value;
+                                    $suscripto = $buy - $sell + $AH_cell_value;
+                                    $integrado = $buy_integrado - $sell_integrado + $AI_cell_value;
 
                                     if ($parameterArr[$i]['fieldValue'] < 0) {
                                         $code_error = "AI.8";
@@ -381,8 +381,8 @@ class Lib_06_data extends MX_Controller {
                 }
 
                 if ($parameterArr[$i]['col'] == 36) {
-                    $AL_field_value = $parameterArr[$i]['fieldValue'];
-                    if ($AG_field_value == "SUSCRIPCION" && ($A_field_value == "INCORPORACION" || $A_field_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
+                    $AL_cell_value = $parameterArr[$i]['fieldValue'];
+                    if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                         //CHECK FOR EMPTY
                         $code_error = "AJ.1";
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
@@ -392,7 +392,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    if ($A_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+                    if ($A_cell_value == "DISMINUCION DE CAPITAL SOCIAL") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $code_error = "AJ.2";
@@ -401,7 +401,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    if ($AG_field_value == "TRANSFERENCIA") {
+                    if ($AG_cell_value == "TRANSFERENCIA") {
                         $code_error = "AJ.3";
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -413,16 +413,16 @@ class Lib_06_data extends MX_Controller {
 
                     /* CALC AVERAGE */
                     $sector = $this->sgr_model->clae2013($ciu);
-                    if ($A_field_value == "INCORPORACION") {
+                    if ($A_cell_value == "INCORPORACION") {
 
 
 
                         /* C.2 */
-                        $buy = $this->$model_anexo->buy_shares($C_field_value, $B_field_value);
-                        $sell = $this->$model_anexo->sell_shares($C_field_value, $B_field_value);
+                        $buy = $this->$model_anexo->buy_shares($C_cell_value, $B_cell_value);
+                        $sell = $this->$model_anexo->sell_shares($C_cell_value, $B_cell_value);
 
-                        $buy_integrado = $this->$model_anexo->buy_shares($C_field_value, $B_field_value, 5598);
-                        $sell_integrado = $this->$model_anexo->sell_shares($C_field_value, $B_field_value, 5598);
+                        $buy_integrado = $this->$model_anexo->buy_shares($C_cell_value, $B_cell_value, 5598);
+                        $sell_integrado = $this->$model_anexo->sell_shares($C_cell_value, $B_cell_value, 5598);
 
 
                         $suscripto = $buy - $sell;
@@ -436,11 +436,11 @@ class Lib_06_data extends MX_Controller {
 
 
 
-                        $calcPromedio = ($S2_field_value != "") ? 1 : 0;
-                        $calcPromedio += ($V2_field_value != "") ? 1 : 0;
-                        $calcPromedio += ($Y2_field_value != "") ? 1 : 0;
+                        $calcPromedio = ($S2_cell_value != "") ? 1 : 0;
+                        $calcPromedio += ($V2_cell_value != "") ? 1 : 0;
+                        $calcPromedio += ($Y2_cell_value != "") ? 1 : 0;
                         if ($calcPromedio != 0) {
-                            $montosArr = array($S2_field_value, $V2_field_value, $Y2_field_value);
+                            $montosArr = array($S2_cell_value, $V2_cell_value, $Y2_cell_value);
                             $sumaMontos = array_sum($montosArr);
                             $average_amount = $sumaMontos / $calcPromedio;
                         }
@@ -459,10 +459,10 @@ class Lib_06_data extends MX_Controller {
                     }
 
                     /* "INCREMENTO DE TENENCIA ACCIONARIA" */
-                    if ($A_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                    if ($A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
                         /* B.3 */
-                        $buy = $this->$model_anexo->buy_shares($C_field_value, $B_field_value);
-                        $sell = $this->$model_anexo->sell_shares($C_field_value, $B_field_value);
+                        $buy = $this->$model_anexo->buy_shares($C_cell_value, $B_cell_value);
+                        $sell = $this->$model_anexo->sell_shares($C_cell_value, $B_cell_value);
                         $balance = $buy - $sell;
                         if ($balance == 0) {
                             $code_error = "B.3";
@@ -471,7 +471,7 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         /* C.3 */
-                        $return = check_empty($C_field_value);
+                        $return = check_empty($C_cell_value);
                         if ($return) {
                             $code_error = "C.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -490,8 +490,8 @@ class Lib_06_data extends MX_Controller {
 
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B_field_value);
-                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B_field_value);
+                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B_cell_value);
+                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B_cell_value);
                         $balance = $buy - $sell;
 
                         /*
@@ -500,9 +500,9 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
-                        //  echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_field_value . "->" . $AH_field_value;
+                        //  echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
 
-                        if ($balance < $AH_field_value) {
+                        if ($balance < $AH_cell_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -512,8 +512,8 @@ class Lib_06_data extends MX_Controller {
                           Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO DE TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.
                          * */
 
-                        if ($A_field_value != "INTEGRACION PENDIENTE") {
-                            if ($AH_field_value < 0) {
+                        if ($A_cell_value != "INTEGRACION PENDIENTE") {
+                            if ($AH_cell_value < 0) {
                                 $code_error = "AH.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -527,28 +527,28 @@ class Lib_06_data extends MX_Controller {
                          */
                         
                         
-                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B_field_value, 5598);
-                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B_field_value, 5598);
+                        $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
+                        $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
                         $balance_integrado = $buy - $sell;                        
-                        if ($balance_integrado < $AI_field_value) {
+                        if ($balance_integrado < $AI_cell_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        if ($AG_field_value == "TRANSFERENCIA") {
-                            if ($AI_field_value != $AH_field_value) {
+                        if ($AG_cell_value == "TRANSFERENCIA") {
+                            if ($AI_cell_value != $AH_cell_value) {
                                 $code_error = "AI.3";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
 
-                        if ($A_field_value == "INCORPORACION" && $AG_field_value == "SUSCRIPCION") {
+                        if ($A_cell_value == "INCORPORACION" && $AG_cell_value == "SUSCRIPCION") {
                             $code_error = "AI.4";
-                            $AH_percent = $AH_field_value / 2;
-                            $range = range($AH_percent, $AH_field_value);
-                            if (!in_array($AI_field_value, $range)) {
+                            $AH_percent = $AH_cell_value / 2;
+                            $range = range($AH_percent, $AH_cell_value);
+                            if (!in_array($AI_cell_value, $range)) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -557,11 +557,11 @@ class Lib_06_data extends MX_Controller {
 
                     $partner = $parameterArr[$i]['fieldValue'];
                     
-                    $buy = $this->$model_anexo->buy_shares($partner, $B_field_value);
-                    $sell = $this->$model_anexo->sell_shares($partner, $B_field_value);
+                    $buy = $this->$model_anexo->buy_shares($partner, $B_cell_value);
+                    $sell = $this->$model_anexo->sell_shares($partner, $B_cell_value);
 
-                    $buy_integrado = $this->$model_anexo->buy_shares($partner, $B_field_value, 5598);
-                    $sell_integrado = $this->$model_anexo->sell_shares($partner, $B_field_value, 5598);
+                    $buy_integrado = $this->$model_anexo->buy_shares($partner, $B_cell_value, 5598);
+                    $sell_integrado = $this->$model_anexo->sell_shares($partner, $B_cell_value, 5598);
 
 
                     $suscripto = ($buy - $sell);
@@ -572,7 +572,7 @@ class Lib_06_data extends MX_Controller {
                      */                   
                     if ($integrado > $suscripto) {
                         $code_error = "AI.5";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI_field_value . " - Suscripto: " . $AH_field_value);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI_cell_value . " - Suscripto: " . $AH_cell_value);
                         array_push($stack, $result);
                     }
                 }
@@ -585,7 +585,7 @@ class Lib_06_data extends MX_Controller {
                  */
 
 
-                if ($A_field_value == "INCORPORACION") {
+                if ($A_cell_value == "INCORPORACION") {
                     /*
                      * CUIT
                      * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.
@@ -606,8 +606,8 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 /* VALIDO EN TODAS LAS */
-                                $buy = $this->$model_anexo->buy_shares_all($C_field_value, $B_field_value);
-                                $sell = $this->$model_anexo->sell_shares_all($C_field_value, $B_field_value);
+                                $buy = $this->$model_anexo->buy_shares_all($C_cell_value, $B_cell_value);
+                                $sell = $this->$model_anexo->sell_shares_all($C_cell_value, $B_cell_value);
                                 $balance = $buy - $sell;
                                 if ($balance != 0) {
                                     $code_error = "B.2";
@@ -855,15 +855,15 @@ class Lib_06_data extends MX_Controller {
                  * 2.1.1. COLUMNA B - TIPO DE SOCIO: “A”
                  *                  
                  */
-                if ($B_field_value == "A") {
+                if ($B_cell_value == "A") {
                     $range = range(18, 20);
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
                         switch ($parameterArr[$i]['col']) {
 
                             case 18: //ANIO_MES1                              
-                                $R_field_value = "";
-                                $R2_field_value = "";
+                                $R_cell_value = "";
+                                $R2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
@@ -871,10 +871,10 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                        $R_field_value = $parameterArr[$i]['fieldValue'];
-                                        $R2_field_value = $return;
+                                        $R_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $R2_cell_value = $return;
 
-                                        list($first_year_to_check) = explode("/", $R2_field_value);
+                                        list($first_year_to_check) = explode("/", $R2_cell_value);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
                                         $check_diff = (int) $period_to_check - (int) $first_year_to_check;
                                     }
@@ -884,7 +884,7 @@ class Lib_06_data extends MX_Controller {
 
                             case 19://MONTO
                                 //Check Numeric Validation
-                                $S2_field_value = "";
+                                $S2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "S.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
@@ -892,15 +892,15 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                        $S2_field_value = $parameterArr[$i]['fieldValue'];
-                                        $average_amount_1 = $S2_field_value;
+                                        $S2_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $average_amount_1 = $S2_cell_value;
                                     }
                                 }
                                 break;
 
                             case 20://TIPO_ORIGEN
                                 //Value Validation
-                                $T2_field_value = $parameterArr[$i]['fieldValue'];
+                                $T2_cell_value = $parameterArr[$i]['fieldValue'];
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "T.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
@@ -913,10 +913,10 @@ class Lib_06_data extends MX_Controller {
 
 
                                 /* CHECK ONE FOR ALL */
-                                if ((bool) $R_field_value || (bool) $S2_field_value || (bool) $T2_field_value) {
-                                    if (!(bool) $R_field_value || !(bool) $S2_field_value || !(bool) $T2_field_value) {
+                                if ((bool) $R_cell_value || (bool) $S2_cell_value || (bool) $T2_cell_value) {
+                                    if (!(bool) $R_cell_value || !(bool) $S2_cell_value || !(bool) $T2_cell_value) {
                                         $code_error = "R.1";
-                                        $result_error_input_value = $R_field_value . "*" . $S2_field_value . "*" . $T2_field_value;
+                                        $result_error_input_value = $R_cell_value . "*" . $S2_cell_value . "*" . $T2_cell_value;
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
                                         array_push($stack, $result);
                                     }
@@ -931,8 +931,8 @@ class Lib_06_data extends MX_Controller {
                     if (in_array($parameterArr[$i]['col'], $range)) {
                         switch ($parameterArr[$i]['col']) {
                             case 21: //ANIO_MES2                              
-                                $U_field_value = "";
-                                $U2_field_value = "";
+                                $U_cell_value = "";
+                                $U2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
@@ -951,8 +951,8 @@ class Lib_06_data extends MX_Controller {
                                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                             array_push($stack, $result);
                                         } else {
-                                            $U_field_value = $parameterArr[$i]['fieldValue'];
-                                            $U2_field_value = $return;
+                                            $U_cell_value = $parameterArr[$i]['fieldValue'];
+                                            $U2_cell_value = $return;
                                         }
                                     }
                                 }
@@ -961,7 +961,7 @@ class Lib_06_data extends MX_Controller {
 
                             case 22://MONTO
                                 //Check Numeric Validation
-                                $V2_field_value = "";
+                                $V2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "V.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
@@ -969,15 +969,15 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                        $V2_field_value = $parameterArr[$i]['fieldValue'];
-                                        $average_amount_2 = $V2_field_value;
+                                        $V2_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $average_amount_2 = $V2_cell_value;
                                     }
                                 }
                                 break;
 
                             case 23://TIPO_ORIGEN
                                 //Value Validation
-                                $W2_field_value = "";
+                                $W2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "W.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
@@ -986,16 +986,16 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                        $W2_field_value = $parameterArr[$i]['fieldValue'];
+                                        $W2_cell_value = $parameterArr[$i]['fieldValue'];
                                     }
                                 }
 
 
                                 /* CHECK ONE FOR ALL */
-                                if ((bool) $U_field_value || (bool) $V2_field_value || (bool) $W2_field_value) {
-                                    if (!(bool) $U_field_value || !(bool) $V2_field_value || !(bool) $W2_field_value) {
+                                if ((bool) $U_cell_value || (bool) $V2_cell_value || (bool) $W2_cell_value) {
+                                    if (!(bool) $U_cell_value || !(bool) $V2_cell_value || !(bool) $W2_cell_value) {
                                         $code_error = "U.1";
-                                        $result_error_input_value = $U_field_value . "*" . $V2_field_value . "*" . $W2_field_value;
+                                        $result_error_input_value = $U_cell_value . "*" . $V2_cell_value . "*" . $W2_cell_value;
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
                                         array_push($stack, $result);
                                     }
@@ -1011,8 +1011,8 @@ class Lib_06_data extends MX_Controller {
 
                         switch ($parameterArr[$i]['col']) {
                             case 24: //ANIO_MES3                                        
-                                $X_field_value = $parameterArr[$i]['fieldValue'];
-                                $X2_field_value = "";
+                                $X_cell_value = $parameterArr[$i]['fieldValue'];
+                                $X2_cell_value = "";
                                 $code_error = "X.2";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
@@ -1033,7 +1033,7 @@ class Lib_06_data extends MX_Controller {
                                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                             array_push($stack, $result);
                                         } else {
-                                            $X2_field_value = $return;
+                                            $X2_cell_value = $return;
                                         }
                                     }
                                 }
@@ -1042,7 +1042,7 @@ class Lib_06_data extends MX_Controller {
 
                             case 25://MONTO
                                 //Check Numeric Validation                                
-                                $Y2_field_value = "";
+                                $Y2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "Y.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
@@ -1052,15 +1052,15 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                        $Y2_field_value = $parameterArr[$i]['fieldValue'];
-                                        $average_amount_3 = $Y2_field_value;
+                                        $Y2_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $average_amount_3 = $Y2_cell_value;
                                     }
                                 }
                                 break;
 
                             case 26://TIPO_ORIGEN
                                 //Value Validation
-                                $Z2_field_value = "";
+                                $Z2_cell_value = "";
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "Z.2";
                                     $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS", "ESTIMACION");
@@ -1069,16 +1069,16 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                        $Z2_field_value = $parameterArr[$i]['fieldValue'];
+                                        $Z2_cell_value = $parameterArr[$i]['fieldValue'];
                                     }
                                 }
 
 
                                 /* CHECK ONE FOR ALL */
-                                if ((bool) $X_field_value || (bool) $Y2_field_value || (bool) $Z2_field_value) {
-                                    if (!(bool) $X_field_value || !(bool) $Y2_field_value || !(bool) $Z2_field_value) {
+                                if ((bool) $X_cell_value || (bool) $Y2_cell_value || (bool) $Z2_cell_value) {
+                                    if (!(bool) $X_cell_value || !(bool) $Y2_cell_value || !(bool) $Z2_cell_value) {
                                         $code_error = "X.1";
-                                        $result_error_input_value = $X_field_value . "*" . $Y2_field_value . "*" . $Z2_field_value;
+                                        $result_error_input_value = $X_cell_value . "*" . $Y2_cell_value . "*" . $Z2_cell_value;
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
                                         array_push($stack, $result);
                                     }
@@ -1092,7 +1092,7 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.
                      */
                     if ($parameterArr[$i]['col'] == 28) {
-                        if ($A_field_value == "INCORPORACION") {
+                        if ($A_cell_value == "INCORPORACION") {
                             $code_error = "AB.1";
 
                             /* AVERAGE AMOUNT */
@@ -1104,7 +1104,7 @@ class Lib_06_data extends MX_Controller {
 
                             $return = check_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty." . $A_field_value);
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty." . $A_cell_value);
                                 array_push($stack, $result);
                             } else {
                                 //Check Numeric Validation
@@ -1128,7 +1128,7 @@ class Lib_06_data extends MX_Controller {
                  *                  
                  */
 
-                if ($B_field_value == "B") {
+                if ($B_cell_value == "B") {
                     $range = range(18, 26);
                     if (in_array($parameterArr[$i]['col'], $range)) {
 
@@ -1190,7 +1190,7 @@ class Lib_06_data extends MX_Controller {
                  * 2.2. COLUMNA A - TIPO DE OPERACIÓN: “INCREMENTO DE TENENCIA ACCIONARIA”
                  */
 
-                if ($A_field_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                if ($A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
 
                     $range = range(5, 28);
                     if (in_array($parameterArr[$i]['col'], $range)) {
@@ -1271,7 +1271,7 @@ class Lib_06_data extends MX_Controller {
                                 break;
                         }
                         //Check for Empty
-                        if ($A_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
+                        if ($A_cell_value != "DISMINUCION DE CAPITAL SOCIAL") {
                             $return = check_for_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -1292,7 +1292,7 @@ class Lib_06_data extends MX_Controller {
                  * 2.2. COLUMNA A - TIPO DE OPERACIÓN: “DISMINUSIÓN DE CAPITAL SOCIAL”
                  *                  
                  */
-                if ($A_field_value == "DISMINUCION DE CAPITAL SOCIAL") {
+                if ($A_cell_value == "DISMINUCION DE CAPITAL SOCIAL") {
                     $range = range(3, 28);
                     if (in_array($parameterArr[$i]['col'], $range)) {
                         switch ($parameterArr[$i]['col']) {
@@ -1378,7 +1378,7 @@ class Lib_06_data extends MX_Controller {
                                 break;
                         }
                         //Check for Empty
-                        if ($A_field_value != "DISMINUCION DE CAPITAL SOCIAL") {
+                        if ($A_cell_value != "DISMINUCION DE CAPITAL SOCIAL") {
                             $return = check_for_empty($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
