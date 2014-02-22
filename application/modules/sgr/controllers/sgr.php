@@ -384,8 +384,7 @@ class Sgr extends MX_Controller {
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                         $result['filename'] = $new_filename;
-                        $result['sgr_id'] = (int) $this->sgr_id;
-                       
+                        $result['sgr_id'] = (int) $this->sgr_id;                      
                         $save = (array) $this->$model->save($result);
                     }
                 }
