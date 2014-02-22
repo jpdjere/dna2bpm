@@ -292,11 +292,12 @@ class Lib_061_data extends MX_Controller {
             
             /*F.3*/
             $AF3_result = count_shares($partner_shares_arr);
+            $var_dump($AF3_result);
             
-            foreach($A_cell_array as $cell){
-                var_dump($new_group_arr[$cell]['acumulados']['shares']);
-                
-            }
+//            foreach($A_cell_array as $cell){
+//                var_dump($new_group_arr[$cell]['acumulados']['shares']);
+//                
+//            }
             
         }
         var_dump($partner_shares_arr);
