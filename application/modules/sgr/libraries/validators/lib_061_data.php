@@ -32,7 +32,7 @@ class Lib_061_data extends MX_Controller {
         $count_inc = array();
         $A_cell_array = array();
 
-        for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {          
+        for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
@@ -77,10 +77,6 @@ class Lib_061_data extends MX_Controller {
                  * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
                   SI
                   NO
-
-                 * Nro B.3
-                 * Detail:
-                 * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
                  */
 
                 if ($parameterArr[$i]['col'] == 2) {
@@ -119,8 +115,7 @@ class Lib_061_data extends MX_Controller {
 
 
                         /* B.3 */
-                        $A_cell_array[] = $A_cell_value."*".$parameterArr[$i]['fieldValue'];
-                        
+                        $A_cell_array[] = $A_cell_value . "*" . $parameterArr[$i]['fieldValue'];
                     }
                 }
 
@@ -313,9 +308,15 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
-        var_dump(array_count_values($A_cell_array));
-       
 
+        /*
+         * Nro B.3
+         * Detail:
+         * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
+         */
+        
+        list($cuit, $entailment) = explode("*",$A_cell_array );
+        var_dump(array_count_values($cuit, $entailment));
 //        var_dump($stack);
         exit();
 
