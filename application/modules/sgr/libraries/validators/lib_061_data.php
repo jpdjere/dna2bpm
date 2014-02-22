@@ -303,7 +303,7 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
-        var_dump($partner_shares_arr);
+        var_dump($stack);
         exit();
         $this->data = $stack;
     }
