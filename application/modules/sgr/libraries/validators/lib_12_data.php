@@ -553,8 +553,8 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 15) {
                     $in_value = (int) $parameterArr[$i]['fieldValue'];
-                    $range1 = range(-19, -2);
-                    $range2 = range(2, 19);
+                    $range1 = range(-20, -1);
+                    $range2 = range(1, 20);
                     $range3 = range(1, 50);
                     /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 1 y 50.   */
                     if ($N_cell_value == "FIJA") {
