@@ -45,7 +45,7 @@ class Lib_061_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;                   
+                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -268,8 +268,8 @@ class Lib_061_data extends MX_Controller {
 
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
-                    if ($E_cell_value == "ASCENDENTE"){
-                         $A_cell_array[] = $A_cell_value;
+                    if ($E_cell_value == "ASCENDENTE") {
+                        $A_cell_array[] = $A_cell_value;
                         array_push($partner_shares_arr, $shares_result);
                     }
                 }
@@ -289,16 +289,19 @@ class Lib_061_data extends MX_Controller {
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                 array_push($stack, $result);
             }
-            
-            
-            /*F.3*/
+
+
+            /* F.3 */
             $AF3_result = count_shares($partner_shares_arr);
-            
-            foreach($AF3_result as $cell){
-                var_dump($cell);
-                
+
+            foreach ($AF3_result as $cell) {
+                $count_shares = $cell['acumulados']['shares'];
+                if ($count_shares > 1) {
+                    $code_error = "F.3";
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell . "Total" . $count_shares);
+                    array_push($stack, $result);
+                }
             }
-            
         }
         var_dump($partner_shares_arr);
         exit();
