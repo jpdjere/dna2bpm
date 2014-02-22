@@ -244,7 +244,7 @@ class Lib_061_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
-                    } else if (!in_array($parameterArr[$i]['fieldValue'], $range)) {
+                    } else if (!in_array((float)$parameterArr[$i]['fieldValue'], $range)) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
