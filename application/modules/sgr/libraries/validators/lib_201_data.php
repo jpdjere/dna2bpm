@@ -87,7 +87,7 @@ class Lib_201_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $A1_field_value = $parameterArr[$i]['fieldValue'];
+                        $A_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -148,7 +148,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $C1_field_value = $parameterArr[$i]['fieldValue'];
+                        $C_field_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -172,7 +172,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 4) {
                     $code_error = "D.2";
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $D1_field_value = $parameterArr[$i]['fieldValue'];
+                        $D_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
 
@@ -195,14 +195,14 @@ class Lib_201_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "E.2";
-                        $E1_field_value = $parameterArr[$i]['fieldValue'];
+                        $E_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        if ($D1_field_value != "") {
+                        if ($D_field_value != "") {
                             $code_error = "E.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -221,7 +221,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
 
                     $code_error = "F.2";
-                    $F1_field_value = $parameterArr[$i]['fieldValue'];
+                    $F_field_value = $parameterArr[$i]['fieldValue'];
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -230,7 +230,7 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($D1_field_value != "") {
+                        if ($D_field_value != "") {
                             $code_error = "F.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -243,7 +243,7 @@ class Lib_201_data extends MX_Controller {
                      * Detail:
                      * Si las Columnas E o F están completas, esta debe estar vacía.
                      */
-                    if ($E1_field_value && $parameterArr[$i]['fieldValue'] && $D1_field_value) {
+                    if ($E_field_value && $parameterArr[$i]['fieldValue'] && $D_field_value) {
                         $code_error = "D.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -262,14 +262,14 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "G.1";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $G1_field_value = $parameterArr[$i]['fieldValue'];
+                        $G_field_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        if ($D1_field_value != "") {
+                        if ($D_field_value != "") {
                             $code_error = "E.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -283,11 +283,11 @@ class Lib_201_data extends MX_Controller {
                      * registrado previamente en el mismo para el número de aporte informado. 
                      */
 
-                    if ($E1_field_value || $G1_field_value && $C1_field_value) {
+                    if ($E_field_value || $G_field_value && $C_field_value) {
                         $code_error = "C.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
-                    } else if (!$C1_field_value) {
+                    } else if (!$C_field_value) {
 
                         var_dump("entre" . $parameterArr[$i]['row']);
                         $code_error = "C.1";
@@ -358,8 +358,8 @@ class Lib_201_data extends MX_Controller {
                      * número informado no exista y sea correlativo al último informado. 
                      */
                     $code_error = "A.2";
-                    if($D1_field_value){
-                        $get_order_number = $this->$model_201->get_order_number($A1_field_value);                        
+                    if($D_field_value){
+                        $get_order_number = $this->$model_201->get_order_number($A_field_value);                        
                     }
 
 
@@ -374,9 +374,9 @@ class Lib_201_data extends MX_Controller {
 
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
                     $code_error = "VG.1";
-                    $D_value = ($D1_field_value) ? 1 : 0;
-                    $E_value = ($E1_field_value) ? 1 : 0;
-                    $G_value = ($G1_field_value) ? 1 : 0;
+                    $D_value = ($D_field_value) ? 1 : 0;
+                    $E_value = ($E_field_value) ? 1 : 0;
+                    $G_value = ($G_field_value) ? 1 : 0;
                     $cols_count = array($D_value, $E_value, $G_value);
 
                     if (array_sum($cols_count) < 1) {
