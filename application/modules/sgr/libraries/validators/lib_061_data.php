@@ -119,7 +119,7 @@ class Lib_061_data extends MX_Controller {
 
 
                         /* B.3 */
-                        $A_cell_array[] = $A_cell_value.$parameterArr[$i]['fieldValue'];
+                        $A_cell_array[] = $A_cell_value."*".$parameterArr[$i]['fieldValue'];
                         
                     }
                 }
@@ -313,7 +313,8 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
-        var_dump($A_cell_array);
+        var_dump(array_count_values($A_cell_array));
+       
 
 //        var_dump($stack);
         exit();
