@@ -235,14 +235,22 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
+
+
+                    $range = range(0, 1);
                     $code_error = "F.2";
                     if ($parameterArr[$i]['fieldValue'] != "")
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
+                    } else if (!in_array($parameterArr[$i]['fieldValue'], $range)) {
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
                     }
-
+                    
+                    
+                    /*A.1*/
                     if ($A_cell_value) {
                         $code_error = "A.1";
                         $count_inc[] = $A_cell_value;
