@@ -120,7 +120,8 @@ class Lib_061_data extends MX_Controller {
 
 
                         /* B.3 */
-                        $A_cell_array['CUIT'] = $A_cell_value;
+                        $A_cell_array['cuit'] = $A_cell_value;
+                        $A_cell_array['entailment'] = $A_cell_value;
                     }
                 }
 
