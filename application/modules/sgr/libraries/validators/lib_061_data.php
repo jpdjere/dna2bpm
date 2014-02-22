@@ -266,6 +266,7 @@ class Lib_061_data extends MX_Controller {
                     }
 
                     /* F.3 */
+                    var_dump($E_cell_value . '.' . $A_cell_value . '.', $float_var);
                     if ($E_cell_value == "ASCENDENTE")
                         $shares_result = array( $E_cell_value . '.' . $A_cell_value . '.', $float_var);
                         array_push($partner_shares_arr, $shares_result);
