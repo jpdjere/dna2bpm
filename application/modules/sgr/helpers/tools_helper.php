@@ -457,6 +457,35 @@ function return_error_array($code, $row, $value) {
     $result["error_code"] = $code;
     $result["error_row"] = $row;
     $result["error_input_value"] = $value;
-    
+
     return $result;
+}
+
+function count_shares($data) {
+    //agrupar por usuario  (cortar, solo el nombre)  -> dinamicamente
+    foreach ($data as $i) {
+        $catUser = explode(".", $i[0]);
+        $user = $catUser[1];
+        $group[$user][] = array(
+            "gridGroupName" => $user,
+            "shares" => $i[1]);
+    }
+    //sumar columnas - totales 
+    $final_shares = 0;
+    foreach ($group as $k => $i) {
+        $sum_shares = 0;
+        foreach ($group[$k] as $r) {
+            //acumulados
+            $sum_shares += $r['shares'];
+
+            //totales Finales
+            $final_shares += $r['shares'];
+        }
+
+
+        $group[$k]['acumulados'] = array("shares" => $sum_shares);
+    }
+
+    $group['total_shares'] = array("shares" => $final_shares);
+    return $group;
 }
