@@ -46,8 +46,11 @@ class Lib_061_error_legend {
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.';
                 break;
             case "F.2": 
-                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>De completarse, debe tener formato numérico.';
-                break;                   
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>De completarse, debe tener formato numérico y sólo debe tomar valores entre 0 y 1 y aceptar hasta 2 decimales.';
+                break;
+             case "F.3": 
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Para un mismo CUIT informado en la Columna A, los campos que en la Columna E indiquen ASCENDENTE, deben sumar 1, de forma de cerciorarse que estén informando el total de los Accionistas de la empresa.';
+                break;
         }
         return $result_error;
     }
