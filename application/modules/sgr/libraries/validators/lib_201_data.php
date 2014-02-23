@@ -140,14 +140,15 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 3) {
+                    
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $code_error = "C.3";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            $code_error = "C.3";
+                        } else {                           
                             $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                             if ($partner_data[5272] != 'B') {
                                 
