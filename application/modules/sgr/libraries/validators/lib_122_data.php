@@ -50,9 +50,10 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                     }
 
                     //Valida contra Mongo
@@ -72,7 +73,7 @@ class Lib_122_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $cuota_arr[] = $parameterArr[$i]['fieldValue'];
+                        $cuota_arr[] = $parameterArr[$i]['fieldValue']."*".$A_cell_value;
                     }
                 }
 
