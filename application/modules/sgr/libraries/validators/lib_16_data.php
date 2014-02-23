@@ -67,9 +67,9 @@ class Lib_16_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     //Value Validation
@@ -89,9 +89,9 @@ class Lib_16_data extends MX_Controller {
                             "DICIEMBRE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                           
+                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -109,9 +109,9 @@ class Lib_16_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                 }                
