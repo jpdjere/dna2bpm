@@ -490,7 +490,7 @@ function count_shares($data) {
     return $group;
 }
 
-
+/*FIND REPEATED*/
 function repeatedElements($array, $returnWithNonRepeatedItems = false)
 {
     $repeated = array();
@@ -532,3 +532,24 @@ function repeatedElements($array, $returnWithNonRepeatedItems = false)
  
     return $repeated;
 }
+
+/* CONSECUTIVE */
+function consecutive($array){
+        $numAnt = array();
+        foreach($array as $pos => $num){
+            $return_arr = array();
+            if($pos>0){
+                // se compara desde el segundo elemento de la matris
+                // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
+                // actual guardamos una varible indicando que el numero es consecutivo
+                $resto = $pos-1; 
+                if((@$numAnt[$resto]+1)==$num){                   
+                }else{
+                    $return_arr[] = $num;
+                    
+                }  
+            }
+            $numAnt[$pos]=$num;    
+        }
+        return $return_arr;
+    }
