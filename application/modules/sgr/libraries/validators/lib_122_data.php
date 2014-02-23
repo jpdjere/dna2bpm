@@ -190,10 +190,12 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        /* EXTRA VALIDATION */
-        $code_error = "B.1";
+        /* EXTRA VALIDATION B.1*/
+        
         foreach (repeatedElements($cuota_arr) as $arr) {
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $arr['value']);
+            $code_error = "B.1";
+            list($cuota, $warranty)= explode('*', $arr['value']);            
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota." para la Garantía ". $warranty);
             array_push($stack, $result);
         }
         
