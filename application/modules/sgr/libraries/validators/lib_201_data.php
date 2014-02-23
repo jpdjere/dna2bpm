@@ -142,7 +142,7 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-                    
+
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.3";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
@@ -150,16 +150,16 @@ class Lib_201_data extends MX_Controller {
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {                           
+                        } else {
                             $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                             if ($partner_data[5272] != 'B') {
-                                
+
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
 
-                            $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'],'B' );
-                            $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'],'B');
+                            $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
+                            $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
                             $balance = $buy - $sell;
                             if ($balance == 0) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -360,7 +360,7 @@ class Lib_201_data extends MX_Controller {
                      */
                     $code_error = "A.2";
                     $order_number_array[] = $A_cell_value;
-                    if ($D_cell_value) {                                           
+                    if ($D_cell_value) {
                         $order_number_array_aporte[] = $A_cell_value;
                     }
 
@@ -388,13 +388,11 @@ class Lib_201_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack);   
-        
-        
-        //$get_order_number = $this->$model_201->get_last_input_number($A_cell_value);    
-        
-        
-         foreach ($order_number_array_aporte as $order_number) {
+
+
+
+
+        foreach ($order_number_array_aporte as $order_number) {
             if (in_array($order_number, $order_number_array)) {
                 $search_cuit = (array_keys($order_number_array, $order_number));
                 $counter = count($search_cuit);
@@ -405,9 +403,24 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-        
-        var_dump(consecutive($order_number_array_aporte));
-        exit();
+
+        $check_consecutive = consecutive($order_number_array_aporte);
+        if ($check_consecutive) {
+            $code_error = "A.2";
+            $result = return_error_array($code_error, "-", "Los valores en NUMERO_DE_APORTE no son consecutivos");
+            array_push($stack, $result);
+        }        
+        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);       
+
+        foreach ($order_number_array_aporte as $number) {
+            if ($get_max_order_number >= $number) {
+                $code_error = "A.2";
+                $result = return_error_array($code_error, "-", "El número de aporte " . $number . " ya fue registrado en el sistema");
+                array_push($stack, $result);
+            }
+        }
+
+        //var_dump($stack);
         $this->data = $stack;
     }
 
