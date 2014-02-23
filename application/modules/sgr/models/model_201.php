@@ -283,5 +283,42 @@ class Model_201 extends CI_Model {
         $result = array_sum($nresult_arr);
         return $result;
     }
+    
+    function get_last_input_number($code) {
+        $period = 'container.sgr_periodos';
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+
+        $nresult_arr = array();
+        $anexo = $this->anexo;
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array(
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id);
+        $result = $this->mongo->sgr->$period->find($query);
+        /* FIND ANEXO */
+        foreach ($result as $list) {       
+            $new_query = array(
+                'NUMERO_DE_APORTE' => $code,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+            
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            $new_result = $this->mongo->sgr->$container->find(array('NUMERO_DE_APORTE' => $code))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
+            if ($new_result) {
+                $nresult_arr[] = $new_result[$field];
+            } 
+        }
+
+        $result = array_sum($nresult_arr);
+        return $result;
+    }
 
 }
