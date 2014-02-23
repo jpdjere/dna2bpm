@@ -12,7 +12,7 @@ class Lib_201_data extends MX_Controller {
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
-        
+
         $model_201 = 'model_201';
         $this->load->Model($model_201);
 
@@ -110,8 +110,6 @@ class Lib_201_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -119,8 +117,6 @@ class Lib_201_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -128,8 +124,6 @@ class Lib_201_data extends MX_Controller {
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
                             $code_error = "B.2";
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -146,7 +140,6 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
@@ -154,9 +147,18 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
+                            $code_error = "C.3";
                             $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                             if ($partner_data[5272] != 'B') {
-                                $code_error = "C.3";
+                                
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+
+                            $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'],'B' );
+                            $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'],'B');
+                            $balance = $buy - $sell;
+                            if ($balance == 0) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -175,8 +177,6 @@ class Lib_201_data extends MX_Controller {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -307,8 +307,6 @@ class Lib_201_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -358,8 +356,8 @@ class Lib_201_data extends MX_Controller {
                      * número informado no exista y sea correlativo al último informado. 
                      */
                     $code_error = "A.2";
-                    if($D_cell_value){
-                        $get_order_number = $this->$model_201->get_order_number($A_cell_value);                        
+                    if ($D_cell_value) {
+                        $get_order_number = $this->$model_201->get_order_number($A_cell_value);
                     }
 
 
