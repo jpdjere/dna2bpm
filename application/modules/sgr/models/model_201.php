@@ -313,8 +313,7 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename']
             );
 
-        $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);            
-        
+        $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1); 
             foreach ($new_result as $new_list) {
                 return $new_list['NUMERO_DE_APORTE'];
             }

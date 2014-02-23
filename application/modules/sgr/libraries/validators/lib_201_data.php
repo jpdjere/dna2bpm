@@ -359,7 +359,7 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "A.2";
                     if ($D_cell_value) {
                         $get_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-                        //var_dump($get_order_number);
+                        var_dump($get_order_number);
                     }
 
 
@@ -387,7 +387,7 @@ class Lib_201_data extends MX_Controller {
             } // END FOR LOOP->
         }
         //var_dump($stack);                
-        
+        exit();
         $this->data = $stack;
     }
 
