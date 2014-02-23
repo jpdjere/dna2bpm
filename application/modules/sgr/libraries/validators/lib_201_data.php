@@ -155,8 +155,8 @@ class Lib_201_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
 
-                            $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'],'B' );
-                            $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'],'B');
+                            $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'],'B' );
+                            $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'],'B');
                             $balance = $buy - $sell;
                             if ($balance == 0) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
