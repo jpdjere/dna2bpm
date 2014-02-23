@@ -406,7 +406,8 @@ class Lib_201_data extends MX_Controller {
             }
         }
         
-        
+        var_dump(consecutive($order_number_array_aporte));
+        exit();
         $this->data = $stack;
     }
 
