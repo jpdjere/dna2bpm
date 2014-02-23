@@ -22,7 +22,7 @@ class Lib_122_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-
+        $cuota_arr = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -71,7 +71,11 @@ class Lib_122_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $cuota_arr[]   =   $parameterArr[$i]['fieldValue']; 
+                        
                     }
+                    
                 }
 
                 /* FECHA_VENC_CUOTA
@@ -190,6 +194,8 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
+        
+        var_dump(repeatedElements($cuota_arr));
         $this->data = $stack;
     }
 
