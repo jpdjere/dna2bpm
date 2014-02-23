@@ -310,11 +310,13 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename']
             );
             
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            $new_result = $this->mongo->sgr->$container->find(array('NUMERO_DE_APORTE' => $code))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
-            if ($new_result) {
-                $nresult_arr[] = $new_result[$field];
-            } 
+            $new_result = $this->mongo->sgr->$container->findOne($new_query->sort(array('NUMERO_DE_APORTE' => -1))->limit(1));
+            
+var_dump($new_result);
+//$new_result = $this->mongo->sgr->$container->find(array('NUMERO_DE_APORTE' => $code))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
+//            if ($new_result) {
+//                $nresult_arr[] = $new_result[$field];
+//            } 
         }
 
         $result = array_sum($nresult_arr);
