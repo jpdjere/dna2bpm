@@ -303,12 +303,11 @@ class Model_201 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
-        ;
+        
 
 
         /* FIND ANEXO */
         foreach ($result as $list) {
-            var_dump($list['sgr_id']);
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
@@ -317,11 +316,8 @@ class Model_201 extends CI_Model {
         $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);            
         
             foreach ($new_result as $new_list) {
-                var_dump($list['filename'],$new_list['filename']);
+                return $new_list['NUMERO_DE_APORTE'];
             }
-//            if ($new_result) {
-//                $nresult_arr[] = $new_result[$field];
-//            } 
         }
 
         $result = array_sum($nresult_arr);
