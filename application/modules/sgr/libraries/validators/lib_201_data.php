@@ -29,6 +29,8 @@ class Lib_201_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $order_number_array = array();
+        $order_number_array_aporte = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -357,9 +359,9 @@ class Lib_201_data extends MX_Controller {
                      * número informado no exista y sea correlativo al último informado. 
                      */
                     $code_error = "A.2";
-                    if ($D_cell_value) {
-                        $get_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-                        var_dump($get_order_number);
+                    $order_number_array[] = $A_cell_value;
+                    if ($D_cell_value) {                                           
+                        $order_number_array_aporte[] = $A_cell_value;
                     }
 
 
@@ -386,8 +388,25 @@ class Lib_201_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack);                
-        exit();
+        //var_dump($stack);   
+        
+        
+        //$get_order_number = $this->$model_201->get_last_input_number($A_cell_value);    
+        
+        
+         foreach ($order_number_array_aporte as $order_number) {
+            if (in_array($order_number, $order_number_array)) {
+                $search_cuit = (array_keys($order_number_array, $order_number));
+                $counter = count($search_cuit);
+                if ($counter > 1) {
+                    $code_error = "A.2";
+                    $result = return_error_array($code_error, "-", $order_number . " Total de Veces: " . $counter);
+                    array_push($stack, $result);
+                }
+            }
+        }
+        
+        
         $this->data = $stack;
     }
 
