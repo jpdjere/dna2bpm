@@ -403,14 +403,24 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-
+        
+        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
+        $order_number_array_aporte[] = $get_max_order_number;
         $check_consecutive = consecutive($order_number_array_aporte);
         if ($check_consecutive) {
             $code_error = "A.2";
-            $result = return_error_array($code_error, "-", "Los valores en NUMERO_DE_APORTE no son consecutivos");
+            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos");
             array_push($stack, $result);
-        }        
-        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);       
+        }
+
+        
+        
+        $min_value = min($order_number_array_aporte);
+        if ($min_value <= $get_max_order_number) {
+            $code_error = "A.2";
+            $result = return_error_array($code_error, "-", "El número de aporte " . $min_value . " ya fue registrado en el sistema");
+            array_push($stack, $result);
+        }
 
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
