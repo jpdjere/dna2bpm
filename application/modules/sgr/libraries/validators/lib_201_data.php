@@ -397,7 +397,7 @@ class Lib_201_data extends MX_Controller {
                 $search_cuit = (array_keys($order_number_array, $order_number));
                 $counter = count($search_cuit);
                 if ($counter > 1) {
-                    $code_error = "A.2";
+                    $code_error = "A.3";
                     $result = return_error_array($code_error, "-", $order_number . " Total de Veces: " . $counter);
                     array_push($stack, $result);
                 }
@@ -415,12 +415,6 @@ class Lib_201_data extends MX_Controller {
 
         
         
-        $min_value = min($order_number_array_aporte);
-        if ($min_value <= $get_max_order_number) {
-            $code_error = "A.2";
-            $result = return_error_array($code_error, "-", "El número de aporte " . $min_value . " ya fue registrado en el sistema");
-            array_push($stack, $result);
-        }
 
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
