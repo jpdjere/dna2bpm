@@ -413,7 +413,7 @@ class Lib_201_data extends MX_Controller {
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);       
 
         foreach ($order_number_array_aporte as $number) {
-            if ($get_max_order_number >= $number) {
+            if ($number >= $get_max_order_number) {
                 $code_error = "A.2";
                 $result = return_error_array($code_error, "-", "El número de aporte " . $number . " ya fue registrado en el sistema");
                 array_push($stack, $result);
