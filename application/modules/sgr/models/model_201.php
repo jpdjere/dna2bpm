@@ -315,7 +315,7 @@ class Model_201 extends CI_Model {
 
 //$new_result = $this->mongo->sgr->$container->find(array('NUMERO_DE_APORTE' => $code))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
 $new_result = $this->mongo->db->apps->find($query)->sort(array('NUMERO_DE_APORTE' => -1));
-foreach ($result as $list) {
+foreach ($new_result as $list) {
 var_dump($list);
 }
 //            if ($new_result) {
