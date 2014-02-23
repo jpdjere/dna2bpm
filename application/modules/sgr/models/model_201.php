@@ -106,6 +106,7 @@ class Model_201 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
+        $parameter['sgr_id'] = $this->sgr_id;
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -232,7 +233,7 @@ class Model_201 extends CI_Model {
         return $rtn;
     }
 
-    function get_order_number_($code) {        
+    function get_order_number_($code) {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("NUMERO_DE_APORTE" => $code, 'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$container->findOne($query);
@@ -244,10 +245,10 @@ class Model_201 extends CI_Model {
             $result = $this->mongo->sgr->$container->find(array(), array('NUMERO_DE_APORTE' => 1))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
             return $result;
         }
-        
+
         var_dump($result);
     }
-    
+
     function get_order_number($code) {
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
@@ -267,23 +268,23 @@ class Model_201 extends CI_Model {
             'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$period->find($query);
         /* FIND ANEXO */
-        foreach ($result as $list) {       
+        foreach ($result as $list) {
             $new_query = array(
                 'NUMERO_DE_APORTE' => $code,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
-            
+
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result) {
                 $nresult_arr[] = $new_result[$field];
-            } 
+            }
         }
 
         $result = array_sum($nresult_arr);
         return $result;
     }
-    
+
     function get_last_input_number($code) {
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
@@ -301,23 +302,23 @@ class Model_201 extends CI_Model {
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
+        $result = $this->mongo->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
+        ;
+
+
         /* FIND ANEXO */
-        foreach ($result as $list) {       
+        foreach ($result as $list) {
+            var_dump($list['sgr_id']);
             $new_query = array(
-                'NUMERO_DE_APORTE' => $code,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
-            
-//            $new_result = $this->mongo->sgr->$container->find($new_query->sort(array('NUMERO_DE_APORTE' => -1))->limit(1));
-            
 
-//$new_result = $this->mongo->sgr->$container->find(array('NUMERO_DE_APORTE' => $code))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
-$new_result = $this->mongo->db->apps->find($query)->sort(array('NUMERO_DE_APORTE' => -1));
-foreach ($new_result as $list) {
-var_dump($code,$list);
-}
+        $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);            
+        
+            foreach ($new_result as $new_list) {
+                var_dump($list['filename'],$new_list['filename']);
+            }
 //            if ($new_result) {
 //                $nresult_arr[] = $new_result[$field];
 //            } 
