@@ -438,7 +438,7 @@ class Engine extends MX_Controller {
                 echo '<hr/>';
             }
             //$this->$strStor= bindArrayToObject($this->app->getall($item,$container));
-            $this->data->$strStor = (object) $this->$conn->get_data($resource);
+            $this->data->$strStor = (object)$this->$conn->get_data($resource);
 
             //----4 debug
             if ($debug) {
@@ -674,15 +674,9 @@ class Engine extends MX_Controller {
                                         $rendering = trim($shape->properties->rendering);
                                         if ($rendering) {
                                             $token_id = $first['_id'];
-                                            $streval = 'return ' . $rendering . ';';
-                                            $test_ok = @eval($streval);
-                                            if (!$test_ok) {
-                                                show_error("Rendering Value has an error:<br/>$streval", 500);
-                                                exit;
-                                            }
-
+                                            $streval='return '.$rendering.';';
                                             $rendering = eval($streval);
-
+                                            
                                             if (strstr($rendering, 'http')) {
                                                 $querystr = array_filter(
                                                         array(
@@ -695,7 +689,7 @@ class Engine extends MX_Controller {
                                                 $q = '';
                                                 foreach ($querystr as $key => $value)
                                                     $q.='&' . $key . '=' . $value;
-                                                $redir = $rendering . $q;
+                                                $redir = $rendering .$q;
                                             } else {
                                                 $redir = $this->base_url . "dna2/render/edit/" . $shape->properties->rendering . "/$id/id/token/" . $token_id;
                                             }
