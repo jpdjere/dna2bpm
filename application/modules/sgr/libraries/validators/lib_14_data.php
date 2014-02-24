@@ -127,21 +127,14 @@ class Lib_14_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-
 
                         $warranty_info = $this->sgr_model->get_warranty_data($B_cell_value);
                         if ($parameterArr[$i]['fieldValue'] > $warranty_info[5218]) {
@@ -227,7 +220,7 @@ class Lib_14_data extends MX_Controller {
                     }
                 }
 
-                /* INCOBRABLES_PERIODO
+                /* GASTOS_EFECTUADOS_PERIODO
                  * Nro F.1
                  * Detail:
                  * Formato de número. Debe ser un valor numérico y aceptar hasta 2 decimales.
@@ -245,7 +238,7 @@ class Lib_14_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    if ($parameterArr[$i]['fieldValue']!="") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -256,6 +249,32 @@ class Lib_14_data extends MX_Controller {
                         //Valida contra Mongo
                     }
                 }
+                
+                /*RECUPERO_GASTOS_PERIODO*/
+                if ($parameterArr[$i]['col'] == 7) {  
+                    $code_error = "G.1";
+                    if ($parameterArr[$i]['fieldValue']!="") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }                        
+                    }  
+                }
+                
+                /*GASTOS_INCOBRABLES_PERIODO*/
+                 if ($parameterArr[$i]['col'] == 8) {                 
+                     $code_error = "H.1";
+                     if ($parameterArr[$i]['fieldValue']!="") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }                        
+                    }                     
+                }
+                
+                
             } // END FOR LOOP->
         }
 //       var_dump($stack);

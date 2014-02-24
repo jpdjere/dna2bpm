@@ -552,4 +552,6 @@ function consecutive($array){
             $numAnt[$pos]=$num;    
         }
         return $return_arr;
-    }
+    } 
+    
+    
