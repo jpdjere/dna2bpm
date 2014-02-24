@@ -295,9 +295,10 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
-    
-    /*CÓDIGOS EMPRESAS EXTRANJERAS*/
-    function get_cuit_ext_company($cuit) {       
+
+    /* CÓDIGOS EMPRESAS EXTRANJERAS */
+
+    function get_cuit_ext_company($cuit) {
         $container = 'container.sgr_code_empresa_ext';
         $query = array("cuit" => $cuit);
         $result = $this->mongo->sgr->$container->findOne($query);
@@ -340,6 +341,19 @@ class Sgr_model extends CI_Model {
         $query = array("codigo" => utf8_decode($code));
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
+    }
+
+    /* COTIZACION */
+
+    function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
+        $container = 'container.sgr_cotizacion_dolar';
+        $quotation_date = $quotation_date . "  00:00:00";
+        $query = array("date" => array(
+                '$lte' => $quotation_date
+            ), 'currency' => $currency
+        );
+        $result = $this->mongo->sgr->$container->findOne($query);
+        return $result[amount];
     }
 
 }

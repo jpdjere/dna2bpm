@@ -424,7 +424,12 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
-    function get_partner_period($cuit, $get_period) {
+    function get_partner_period($cuit, $get_period) {        
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+        
+        
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
@@ -432,7 +437,9 @@ class Model_06 extends CI_Model {
         $query = array(
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id,
-            'period' => $get_period,
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo'            
         );
 
@@ -444,8 +451,7 @@ class Model_06 extends CI_Model {
         
         $result_partner = $this->mongo->sgr->$container->findOne($query_partner);
         
-        return $result_partner;
-        
+        return $result_partner;        
     }
 
     function get_partner($cuit, $get_period = null) {
@@ -540,23 +546,23 @@ class Model_06 extends CI_Model {
             'period' => $get_period
         );
         $period_arr = $this->mongo->sgr->$container_period->findOne($query);
-        $filename = $period_arr['filename'];
-
-
+        $period_arr = array_unique($period_arr);
+        $filename = $period_arr['filename'];     
         foreach ($partners_arr as $list) {
             $anexo_query = array(
-                1695 => $list,
+                //1695 => $list,
                 'filename' => $filename,
                 5779 => "1"
-            );
-            $new_result = $this->mongo->sgr->$container_anexo->findOne($anexo_query);
-            if (!$new_result) {
-                $get_error = $list;
-            }
+            );           
+            $get_error = array();
+            $new_result = $this->mongo->sgr->$container_anexo->find($anexo_query);
+            foreach($new_result as $new_list){                
+                $get_error[] = $list;
+            }            
         }
-
+        
         if ($get_error)
-            return true;
+            return $get_error;
     }
 
     /* ACCIONES COMPRA

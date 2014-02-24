@@ -47,7 +47,7 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
                     $code_error = "A.1";
-//empty field Validation
+                    //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -60,11 +60,8 @@ class Lib_061_data extends MX_Controller {
                      * Detail:
                      * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado. 
                      */
-
-
                     $code_error = "A.2";
-                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-
+                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
                     if ($partner_data[5779][0] != '1') {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -141,12 +138,11 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($B_cell_value);
                         if ($return) {
                             $code_error = "B.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                            //array_push($stack, $result);
                         }
                     }
 
@@ -166,7 +162,7 @@ class Lib_061_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                     $code_error = "D.1";
-//Check Empry
+                    //Check Empry
                     if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -174,11 +170,11 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($B_cell_value);
                         if ($return) {
                             $code_error = "B.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                            //array_push($stack, $result);
                         }
                     }
                 }
@@ -236,11 +232,11 @@ class Lib_061_data extends MX_Controller {
                             }
                         }
                     } else {
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($B_cell_value);
                         if ($return) {
                             $code_error = "B.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                            //array_push($stack, $result);
                         }
                     }
                 }
@@ -268,11 +264,11 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $return = check_for_empty($B_cell_value);
                         if ($return) {
                             $code_error = "B.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                            // array_push($stack, $result);
                         }
                     }
 
@@ -281,14 +277,15 @@ class Lib_061_data extends MX_Controller {
                     $float_var = (float) $parameterArr[$i]['fieldValue'];
                     $float_to_int = $float_var * 100;
                     $code_error = "F.2";
-                    if ($parameterArr[$i]['fieldValue'] != "")
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
-                    } else if (!in_array($float_to_int, $range)) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        } else if (!in_array($float_to_int, $range)) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
 
 
@@ -317,12 +314,16 @@ class Lib_061_data extends MX_Controller {
              * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
              */
             $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
-            if ($partners_error_data) {
+                 
+            
+            $register_on_06 =  count($partners_error_data);
+            $count_on_061 = count(array_unique($A_cell_array));         
+            
+            if ($register_on_06!=$count_on_061) {
                 $stack = array();
                 $code_error = "A.3";
-
                 $result["error_row"] = 1;
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                $result = return_error_array($code_error, " - ", "No figuran todos los socios incorporados");
                 array_push($stack, $result);
             }
 
@@ -331,7 +332,7 @@ class Lib_061_data extends MX_Controller {
             $AF3_result = count_shares($partner_shares_arr);
             foreach ($AF3_result as $cell) {
                 $count_shares = $cell['acumulados']['shares'];
-                if ($count_shares > 1) {
+                if ($count_shares != 1) {
                     $code_error = "F.3";
                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . $count_shares);
                     array_push($stack, $result);
@@ -357,9 +358,8 @@ class Lib_061_data extends MX_Controller {
         }
 
 
-        //var_dump($stack);  exit();
+      //  var_dump($stack);  exit();
         $this->data = $stack;
     }
 
 }
-
