@@ -43,18 +43,27 @@ class Lib_201_error_legend {
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>En caso de que se trate de un Aporte (Columna D), debe verificar que el CUIT pertenece a un Socio Protector incorporado como Socio B y con Tenencia de Acciones positivas.';
                 break;
             case "D.1":
-                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
+                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si las Columnas E o F están completas, esta debe estar vacía.';
                 break;
             case "D.2":
                 $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
                 break;
             case "E.1":
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';
+                break;
+            case "E.2":
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
-                break;           
+                break;
             case "F.1":
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';
+                break;
+            case "F.2":
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
                 break;
             case "G.1":
+                $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';
+                break;
+            case "G.2":
                 $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato Numérico. Debe aceptar hasta 2 decimales.';
                 break;
             case "HP.1":
@@ -63,7 +72,7 @@ class Lib_201_error_legend {
             case "Q.1":
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> Q: Debe tener formato numérico de cinco dígitos sin decimales.';
                 break;
-            case "R.2":
+            case "R.1":
                 $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> R: OPCIONAL. De ser completada debe tener formato numérico sin decimales.';
                 break;
             case "VG.1":

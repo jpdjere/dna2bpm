@@ -29,9 +29,11 @@ class Lib_061_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $count_inc = array();
+        $partner_shares_arr = array();
+        $A_cell_array = array();
+        $A_cell_array_no = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
-
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
@@ -39,33 +41,36 @@ class Lib_061_data extends MX_Controller {
                 /* CUIT_SOCIO_INCORPORADO
                  * Nro A.1
                  * Detail:
-                 * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
-                 * Nro A.2
-                 * Detail:
-                 * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado.                 
+                 * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.                                 
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    $A1_field_value = ($parameterArr[$i]['fieldValue'])?$parameterArr[$i]['fieldValue'] : 0;                    
+                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
                     $code_error = "A.1";
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);                        
+//empty field Validation
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                        $A1_field_value = false;
+                        $A_cell_value = false;
                     }
 
+                    /*
+                     * Nro A.2
+                     * Detail:
+                     * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado. 
+                     */
 
 
                     $code_error = "A.2";
-                    $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                    if (!$partner_data) {
+                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+
+                    if ($partner_data[5779][0] != '1') {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
                 }
-                
+
 
                 /* TIENE_VINCULACION
                  * Nro B.1
@@ -73,38 +78,51 @@ class Lib_061_data extends MX_Controller {
                  * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
                   SI
                   NO
-                 * Nro B.2
-                 * Detail:
-                 * Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”. 
-                 * Nro B.3
-                 * Detail:
-                 * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
                  */
 
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
-
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Value Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $B1_field_value = "";
+                    } else {
+                        $B_cell_value = $parameterArr[$i]['fieldValue'];
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            $B1_field_value = $parameterArr[$i]['fieldValue'];
+                        }
+
+
+                        /*
+                         * Nro B.2
+                         * Detail:
+                         * Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”. 
+                         */
+                        $b2_value = substr($A_cell_value, 0, 2);
+                        $array = array("30", "33");
+                        if (in_array($b2_value, $array) && $parameterArr[$i]['fieldValue'] == "NO") {
+                            $code_error = "B.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+
+
+                        /*
+                         * Nro B.3/2
+                         * Detail:
+                         * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
+                         */
+                        $A_cell_array[] = $A_cell_value;
+                        if ($parameterArr[$i]['fieldValue'] == "NO") {
+                            $A_cell_array_no[] = $A_cell_value;
                         }
                     }
-
-                    $code_error = "B.2";
                 }
 
                 /* CUIT_VINCULADO
@@ -116,10 +134,18 @@ class Lib_061_data extends MX_Controller {
 
                     $code_error = "C.1";
                     //empty field Validation
-                    if ($B1_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    } else {
+
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -140,13 +166,18 @@ class Lib_061_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                     $code_error = "D.1";
-                    //Check Empry
-                    if ($B1_field_value == "SI") {
+//Check Empry
+                    if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -163,20 +194,17 @@ class Lib_061_data extends MX_Controller {
 
                     $code_error = "D.1";
                     //Check Empry
-                    if ($B1_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         $code_error = "E.1";
-
-                        //empty field Validation
+//empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-                        //Value Validation
+//Value Validation
                         if (isset($parameterArr[$i]['fieldValue'])) {
-                            $B1_field_value = "";
+                            $B_cell_value = "";
                             $allow_words = array("ASCENDENTE", "DESCENDENTE");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
@@ -196,7 +224,8 @@ class Lib_061_data extends MX_Controller {
                          * la opción elegida sólo puede ser DESCENDENTE.
                          */
                         $code_error = "E.2";
-                        $check_cuit = substr($A1_field_value, 0, 2);
+                        $E_cell_value = $parameterArr[$i]['fieldValue'];
+                        $check_cuit = substr($A_cell_value, 0, 2);
                         $opt_arr = array('20', '23', '27');
                         $pos = strpos($check_cuit, $findme);
 
@@ -206,45 +235,78 @@ class Lib_061_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
                 /* TIPO_RELACION_VINCULACION
                  * Nro F.1
                  * Detail:
-                 * Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.
+                  Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.
+                 * Nro F.2
+                 * Detail:
+                  De completarse, debe tener formato numérico y sólo debe tomar valores entre 0 y 1 y aceptar hasta 2 decimales.
+                 * Nro F.3
+                 * Detail:
+                  Para un mismo CUIT informado en la Columna A, los campos que en la Columna E indiquen ASCENDENTE, deben sumar 1, de forma de cerciorarse que estén informando el total de los Accionistas de la empresa.
                  */
                 if ($parameterArr[$i]['col'] == 6) {
 
                     $code_error = "F.1";
 
-                    if ($B1_field_value == "SI") {
+                    if ($B_cell_value == "SI") {
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
+                    } else {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
+
+                    /* Multiplico para usar INT */
+                    $range = range(0, 100);
+                    $float_var = (float) $parameterArr[$i]['fieldValue'];
+                    $float_to_int = $float_var * 100;
                     $code_error = "F.2";
-                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                    if ($parameterArr[$i]['fieldValue'] != "")
+                        $return = check_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    } else if (!in_array($float_to_int, $range)) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
 
-                    if ($A1_field_value) {
+
+                    /* A.1 */
+                    if ($A_cell_value) {
                         $code_error = "A.1";
-                        $count_inc[] = $A1_field_value;
-                        $return = cuit_checker($A1_field_value);
+                        $count_inc[] = $A_cell_value;
+                        $return = cuit_checker($A_cell_value);
                         if (!$return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A1_field_value);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         }
+                    }
+
+                    /* F.3 */
+                    $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
+                    if ($E_cell_value == "ASCENDENTE") {
+                        array_push($partner_shares_arr, $shares_result);
                     }
                 }
             }
@@ -263,10 +325,41 @@ class Lib_061_data extends MX_Controller {
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                 array_push($stack, $result);
             }
+
+
+            /* F.3 */
+            $AF3_result = count_shares($partner_shares_arr);
+            foreach ($AF3_result as $cell) {
+                $count_shares = $cell['acumulados']['shares'];
+                if ($count_shares > 1) {
+                    $code_error = "F.3";
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . $count_shares);
+                    array_push($stack, $result);
+                }
+            }
         }
-//        var_dump($stack);
-//        exit();
+
+        /*
+         * Nro B.3/1
+         * Detail:
+         * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
+         */
+        foreach ($A_cell_array_no as $cuit) {
+            if (in_array($cuit, $A_cell_array)) {
+                $search_cuit = (array_keys($A_cell_array, $cuit));
+                $counter = count($search_cuit);
+                if ($counter > 1) {
+                    $code_error = "F.3";
+                    $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
+                    array_push($stack, $result);
+                }
+            }
+        }
+
+
+        //var_dump($stack);  exit();
         $this->data = $stack;
     }
 
 }
+

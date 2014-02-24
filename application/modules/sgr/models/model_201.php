@@ -96,16 +96,17 @@ class Model_201 extends CI_Model {
 
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
-        
-        
+
+
         /* FIX DATE */
         $parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
         $parameter['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_ACTA'], 1900));
-        
-        
+
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
+        $parameter['sgr_id'] = $this->sgr_id;
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -146,7 +147,7 @@ class Model_201 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -204,7 +205,7 @@ class Model_201 extends CI_Model {
 
             $this->load->model('padfyj_model');
             $this->load->model('app');
-            
+
             //				
 
 
@@ -230,6 +231,96 @@ class Model_201 extends CI_Model {
             $rtn[] = $new_list;
         }
         return $rtn;
+    }
+
+    function get_order_number_($code) {
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("NUMERO_DE_APORTE" => $code, 'sgr_id' => $this->sgr_id);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        var_dump($query);
+        if ($result) {
+            return $result;
+        } else {
+            /* GET MAX */
+            $result = $this->mongo->sgr->$container->find(array(), array('NUMERO_DE_APORTE' => 1))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
+            return $result;
+        }
+
+        var_dump($result);
+    }
+
+    function get_order_number($code) {
+        $period = 'container.sgr_periodos';
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+
+        $nresult_arr = array();
+        $anexo = $this->anexo;
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array(
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id);
+        $result = $this->mongo->sgr->$period->find($query);
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'NUMERO_DE_APORTE' => $code,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $nresult_arr[] = $new_result[$field];
+            }
+        }
+
+        $result = array_sum($nresult_arr);
+        return $result;
+    }
+
+    function get_last_input_number($code) {
+        $period = 'container.sgr_periodos';
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+
+        $nresult_arr = array();
+        $anexo = $this->anexo;
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array(
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
+            'status' => 'activo',
+            'anexo' => $anexo,
+            'sgr_id' => $this->sgr_id);
+        $result = $this->mongo->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
+        
+
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+
+        $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1); 
+            foreach ($new_result as $new_list) {
+                return $new_list['NUMERO_DE_APORTE'];
+            }
+        }
+
+        $result = array_sum($nresult_arr);
+        return $result;
     }
 
 }

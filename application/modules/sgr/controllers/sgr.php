@@ -82,7 +82,7 @@ class Sgr extends MX_Controller {
         $customData['rectified_list'] = $this->get_rectified($this->anexo);
 
         //RECTIFY
-        $error_set_period = $this->set_period();
+        $error_set_period = $this->set_period();        
         $customData['sgr_period'] = $this->period;
 
         $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
@@ -141,7 +141,7 @@ class Sgr extends MX_Controller {
         $customData = array();
         if (!$upload) {
             if (!$this->session->userdata['period']) {
-                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar.';
                 $customData['select_period'] = true;
             }
         }
@@ -150,14 +150,14 @@ class Sgr extends MX_Controller {
 
     function translate_upload($upload) {
         $customData = array();
-        
-        if ($upload['success']) {            
+
+        if ($upload['success']) {
             $customData['message'] = $upload['message'];
             $customData['success'] = "success";
             $customData['rectify_message_template'] = "";
 
             if (!$this->session->userdata['period']) {
-                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar';
+                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar..';
                 $customData['select_period'] = true;
             }
         } else {
@@ -299,14 +299,20 @@ class Sgr extends MX_Controller {
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
 
+        /* COLUMN HEADER ERROR */
+
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
+                
+                /*CHECK FOR EMPTY ROWS*/
+                $row_count = @implode($data->sheets[0]['cells'][$i]);
+                $row_lenght = strlen($row_count);
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-                    if (!empty($data->sheets[0]['cells'][$i][1])) {
-                        $count = $data->rowcount();
-                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
-                        $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
-                        array_push($valuesArr, $stack);
+                    if ($row_lenght > 1){
+                    $count = $data->rowcount();
+                    $fields = trim($data->sheets[0]['cells'][$i][$j]);
+                    $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
+                    array_push($valuesArr, $stack);
                     }
                 }
             }
@@ -317,19 +323,21 @@ class Sgr extends MX_Controller {
                 $error = true;
             }
 
+            /* XLS CELL DATA ERROR */
+
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
-            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);          
-            
-            foreach ($result_data['data'] as $result_data) {                
+            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
+
+            foreach ($result_data['data'] as $result_data) {
                 if (!empty($result_data['error_code'])) {
-                    $error_input_value = ($result_data['error_input_value']!="")? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";                    
+                    $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
                     if ($result_data['error_input_value'] == "empty") {
                         list($column_value) = explode(".", $result_data['error_code']);
                         $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
                     } else {
-                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value .  "</li>";
+                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
                     }
                     $error = true;
                 }
@@ -376,7 +384,7 @@ class Sgr extends MX_Controller {
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                         $result['filename'] = $new_filename;
-                        $result['sgr_id'] = (int) $this->sgr_id;
+                        $result['sgr_id'] = (int) $this->sgr_id;                      
                         $save = (array) $this->$model->save($result);
                     }
                 }
@@ -487,8 +495,8 @@ class Sgr extends MX_Controller {
     function translate_error_period($error_set_period) {
         if ($error_set_period) {
             switch ($error_set_period) {
-                case '1':
-                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido...';
+                case 1:
+                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido';
                     break;
 
                 default:
@@ -504,7 +512,7 @@ class Sgr extends MX_Controller {
                     }
                     break;
             }
-            $customData['message'] = $error_msg;
+            $customData['period_message'] = $error_msg;
             $customData['success'] = "error";
 
             return $customData;
@@ -556,11 +564,15 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
+            
+           
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
 
-            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
+            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));          
+             
+             
             list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
@@ -571,7 +583,8 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
             } else {
-                if ($limit_month <= $set_month) {
+                
+                if ($limit_month < $set_month) {
                     return 1; // Posterior al mes actual
                 } else {
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
@@ -1006,4 +1019,3 @@ class Sgr extends MX_Controller {
     }
 
 }
-

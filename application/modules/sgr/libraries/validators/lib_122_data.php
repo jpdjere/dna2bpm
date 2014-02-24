@@ -22,7 +22,7 @@ class Lib_122_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-
+        $cuota_arr = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -50,10 +50,10 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                     }
 
                     //Valida contra Mongo
@@ -70,10 +70,10 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $cuota_arr[] = $parameterArr[$i]['fieldValue']."*".$A_cell_value;
                     }
                 }
 
@@ -87,18 +87,18 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+
+
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     //Check Date Validation
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+
+
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -117,24 +117,22 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        /* PERIOD */
+                        $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    //Valida contra Mongo
                 }
 
                 /* MONTO_CUOTA
@@ -148,18 +146,18 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+
+
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+
+
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -172,21 +170,18 @@ class Lib_122_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 5) {
+                    $code_error = "F.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -195,6 +190,17 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
+        /* EXTRA VALIDATION B.1*/
+        
+        foreach (repeatedElements($cuota_arr) as $arr) {
+            $code_error = "B.1";
+            list($cuota, $warranty)= explode('*', $arr['value']);            
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota." para la Garantía ". $warranty);
+            array_push($stack, $result);
+        }
+        
+        
+        
         $this->data = $stack;
     }
 

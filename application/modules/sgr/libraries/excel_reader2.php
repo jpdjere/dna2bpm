@@ -64,7 +64,20 @@ define('START_BLOCK_POS', 0x74);
 define('SIZE_POS', 0x78);
 define('IDENTIFIER_OLE', pack("CCCCCCCC", 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1));
 
+
+/* Fix for the reading of large negative values on 64-bit systems. */
 function GetInt4d($data, $pos) {
+    $value = ord($data[$pos]) | (ord($data[$pos + 1]) << 8) | (ord($data[$pos + 2]) << 16) | (ord($data[$pos + 3]) << 24);
+    if ($value >= 4294967294) {
+        $value = -2;
+    }
+    if ($value >= 4000000000 && $value < 4294967294) { // Add these lines
+        $value = -2 - 4294967294 + $value;
+    } // End add lines
+    return $value;
+}
+
+function GetInt4d_OLD($data, $pos) {
     $value = ord($data[$pos]) | (ord($data[$pos + 1]) << 8) | (ord($data[$pos + 2]) << 16) | (ord($data[$pos + 3]) << 24);
     if ($value >= 4294967294) {
         $value = -2;
@@ -1779,7 +1792,20 @@ class Excel_reader2 {
         return $result;
     }
 
+    /* Fix for the reading of large negative values on 64-bit systems. */
+
     function _GetInt4d($data, $pos) {
+        $value = ord($data[$pos]) | (ord($data[$pos + 1]) << 8) | (ord($data[$pos + 2]) << 16) | (ord($data[$pos + 3]) << 24);
+        if ($value >= 4294967294) {
+            $value = -2;
+        }
+        if ($value >= 4000000000 && $value < 4294967294) { // Add these lines
+            $value = -2 - 4294967294 + $value;
+        } // End add lines
+        return $value;
+    }
+
+    function _GetInt4d_OLD($data, $pos) {
         $value = ord($data[$pos]) | (ord($data[$pos + 1]) << 8) | (ord($data[$pos + 2]) << 16) | (ord($data[$pos + 3]) << 24);
         if ($value >= 4294967294) {
             $value = -2;

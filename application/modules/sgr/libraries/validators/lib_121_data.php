@@ -53,19 +53,20 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     
                     //Valida contra Mongo
                     $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
-                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);                    
+                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);  
+                    if($warranty_info)
                     if(!in_array('OTRO', $warranty_info['5226'])){
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     
@@ -82,18 +83,18 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     
                    
                     
                     if ($parameterArr[0]['count']< 3) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
                 }
@@ -108,18 +109,18 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     //Check Date Validation
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                           
+                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -138,18 +139,18 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     
                     if (isset($parameterArr[$i]['fieldValue'])) {                       
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                           
+                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -168,18 +169,18 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result["error_code"] = $code_error;
-                        $result["error_row"] = $parameterArr[$i]['row'];
-                        $result["error_input_value"] = "empty";
+                       
+                        
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     
                     if (isset($parameterArr[$i]['fieldValue'])) {                       
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                            $result["error_code"] = $code_error;
-                            $result["error_row"] = $parameterArr[$i]['row'];
-                            $result["error_input_value"] = $parameterArr[$i]['fieldValue'];
+                           
+                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -189,6 +190,8 @@ class Lib_121_data extends MX_Controller {
 
             } // END FOR LOOP->
         }
+        
+        //var_dump($stack); exit();
         $this->data = $stack;
     }
 

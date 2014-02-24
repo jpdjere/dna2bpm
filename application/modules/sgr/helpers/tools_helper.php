@@ -457,6 +457,99 @@ function return_error_array($code, $row, $value) {
     $result["error_code"] = $code;
     $result["error_row"] = $row;
     $result["error_input_value"] = $value;
-    
+
     return $result;
 }
+
+function count_shares($data) {
+    //agrupar por cuit 
+    foreach ($data as $i) {
+        $catUser = explode(".", $i[0]);
+        $user = $catUser[1];
+        $group[$user][] = array(
+            "gridGroupName" => $user,
+            "shares" => $i[1]);
+    }
+    //sumar columnas - totales 
+    $final_shares = 0;
+    foreach ($group as $k => $i) {
+        $sum_shares = 0;
+        foreach ($group[$k] as $r) {
+            //acumulados
+            $sum_shares += $r['shares'];
+
+            //totales Finales
+            $final_shares += $r['shares'];
+        }
+
+
+        $group[$k]['acumulados'] = array("shares" => $sum_shares);
+    }
+
+    $group['total_shares'] = array("shares" => $final_shares);
+    return $group;
+}
+
+/*FIND REPEATED*/
+function repeatedElements($array, $returnWithNonRepeatedItems = false)
+{
+    $repeated = array();
+ 
+    foreach( (array)$array as $value )
+    {
+        $inArray = false;
+ 
+        foreach( $repeated as $i => $rItem )
+        {
+            if( $rItem['value'] === $value )
+            {
+                $inArray = true;
+                ++$repeated[$i]['count'];
+            }
+        }
+ 
+        if( false === $inArray )
+        {
+            $i = count($repeated);
+            $repeated[$i] = array();
+            $repeated[$i]['value'] = $value;
+            $repeated[$i]['count'] = 1;
+        }
+    }
+ 
+    if( ! $returnWithNonRepeatedItems )
+    {
+        foreach( $repeated as $i => $rItem )
+        {
+            if($rItem['count'] === 1)
+            {
+                unset($repeated[$i]);
+            }
+        }
+    }
+ 
+    sort($repeated);
+ 
+    return $repeated;
+}
+
+/* CONSECUTIVE */
+function consecutive($array){
+        $numAnt = array();
+        foreach($array as $pos => $num){
+            $return_arr = array();
+            if($pos>0){
+                // se compara desde el segundo elemento de la matris
+                // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
+                // actual guardamos una varible indicando que el numero es consecutivo
+                $resto = $pos-1; 
+                if((@$numAnt[$resto]+1)==$num){                   
+                }else{
+                    $return_arr[] = $num;
+                    
+                }  
+            }
+            $numAnt[$pos]=$num;    
+        }
+        return $return_arr;
+    }
