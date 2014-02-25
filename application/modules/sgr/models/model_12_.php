@@ -143,17 +143,19 @@ class Model_12 extends CI_Model {
 
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5215], 1900)));
-        $parameter[5215] = $arr;       
+        $parameter[5215] = $arr;
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
+        $out = array('status' => 'error');
         if ($result) {
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
             $out = array('status' => 'ok');
-        } else {
-            $out = array('status' => 'error');
         }
         return $out;
     }
@@ -162,27 +164,23 @@ class Model_12 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
+        $parameter['period_date'] = new MongoDate(strtotime(translate_period_date($period)));
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['period_date'] = translate_period_date($period);
-        $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
+        /* TEMPORAL */
+        $parameter['activated_on'] = date('Y-m-d h:i:s');
+        $parameter['status'] = 'activo';
 
         /*
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);        
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
+        $out = array('status' => 'error');
         if ($result) {
-            /* BORRO SESSION RECTIFY */
-            $this->session->unset_userdata('rectify');
-            $this->session->unset_userdata('others');
-            $this->session->unset_userdata('period');
-            
             $out = array('status' => 'ok');
-        } else {
-            $out = array('status' => 'error');
         }
         return $out;
     }
