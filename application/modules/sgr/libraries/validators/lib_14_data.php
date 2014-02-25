@@ -9,6 +9,7 @@ class Lib_14_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+
         /* Vars 
          * 
          * $parameters =  
@@ -46,22 +47,23 @@ class Lib_14_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
+                    $A_cell_value = "";
                     $code_error = "A.1";
+
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        
+
                         /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
@@ -84,13 +86,16 @@ class Lib_14_data extends MX_Controller {
                  * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                  * Nro B.4
                  * Detail: 
-                 * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
+                 * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
+                 * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                  * Nro B.5
                  * Detail: 
-                 * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
+                 * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
+                 * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
                  * Nro B.6
                  * Detail: 
-                 * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
+                 * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
+                 * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
                  */
 
                 if ($parameterArr[$i]['col'] == 2) {
@@ -136,15 +141,22 @@ class Lib_14_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
+                        /* MONEDA 5219 | IMPORTE 5218 */
                         $warranty_info = $this->sgr_model->get_warranty_data($B_cell_value);
-                        if ($parameterArr[$i]['fieldValue'] > $warranty_info[5218]) {
-                            $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        if ($warranty_info['5219'][0] == 1) {
+                            if ($parameterArr[$i]['fieldValue'] > $warranty_info[5218]) {
+                                $code_error = "C.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
 
-                        $code_error = "C.3";
-                        //Valida contra Mongo
+                        if ($warranty_info['5219'][0] == 2) {
+                            $code_error = "C.3";
+                            //get_dollar_quotation
+                            $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
+                            var_dump($warranty_info, $dollar_quotation);
+                        }
                     }
                 }
 
@@ -238,7 +250,7 @@ class Lib_14_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                     //Check Date Validation
-                    if ($parameterArr[$i]['fieldValue']!="") {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -249,36 +261,34 @@ class Lib_14_data extends MX_Controller {
                         //Valida contra Mongo
                     }
                 }
-                
-                /*RECUPERO_GASTOS_PERIODO*/
-                if ($parameterArr[$i]['col'] == 7) {  
+
+                /* RECUPERO_GASTOS_PERIODO */
+                if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
-                    if ($parameterArr[$i]['fieldValue']!="") {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }                        
-                    }  
+                        }
+                    }
                 }
-                
-                /*GASTOS_INCOBRABLES_PERIODO*/
-                 if ($parameterArr[$i]['col'] == 8) {                 
-                     $code_error = "H.1";
-                     if ($parameterArr[$i]['fieldValue']!="") {
+
+                /* GASTOS_INCOBRABLES_PERIODO */
+                if ($parameterArr[$i]['col'] == 8) {
+                    $code_error = "H.1";
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }                        
-                    }                     
+                        }
+                    }
                 }
-                
-                
             } // END FOR LOOP->
         }
 //       var_dump($stack);
-//        exit();
+        exit();
         $this->data = $stack;
     }
 

@@ -320,7 +320,7 @@ class Sgr extends MX_Controller {
             /* VALIDATIONS */
             if (!$count) {
                 $result_header = $this->empty_xls_advice($this->anexo);
-                $error = true;
+                $error = 1;
             }
 
             /* XLS CELL DATA ERROR */
@@ -330,16 +330,20 @@ class Sgr extends MX_Controller {
             $this->load->library("validators/" . $lib_error);
             $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-            foreach ($result_data['data'] as $result_data) {
-                if (!empty($result_data['error_code'])) {
+            foreach ($result_data['data'] as $result_data) { 
+                
+                if (!empty($result_data['error_code'])) {                    
+                    
                     $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
-                    if ($result_data['error_input_value'] == "empty") {
+                    
+                    if ($result_data['error_input_value'] == "empty") {                        
                         list($column_value) = explode(".", $result_data['error_code']);
                         $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
                     } else {
                         $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
                     }
-                    $error = true;
+                    
+                    $error = 2;
                 }
             }
         } else {
@@ -350,7 +354,7 @@ class Sgr extends MX_Controller {
                 $error = true;
             }
             $result_header = $result_header_desc . $result_header;
-            $error = true;
+            $error = 3;
         }
 
 
@@ -397,7 +401,7 @@ class Sgr extends MX_Controller {
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $result['anexo'] = $this->anexo;
                     $save_period = (array) $this->$model->save_period($result);
-
+                    
                     if ($save_period['status'] == "ok") {
                         /* RENDER */
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
@@ -411,12 +415,12 @@ class Sgr extends MX_Controller {
                         unlink($uploadpath);
                     } else {
 
-                        $error = true;
+                        $error = 4;
                     }
                 }
             }
         }
-
+        
         /* ERROR CASE */
         if ($error) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
@@ -425,7 +429,7 @@ class Sgr extends MX_Controller {
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
             $this->render('errors', $customData);
-            unlink($uploadpath);
+           unlink($uploadpath);
         }
 
 
