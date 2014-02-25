@@ -29,7 +29,8 @@ class Instituciones_remote extends MX_Controller {
 
         $input = json_decode(file_get_contents('php://input'));
 
-        foreach ($input as $thisform) {            
+        foreach ($input as $thisform) {   
+
             //$form=array_filter((array)$thisform);
             $form= get_object_vars($thisform);
 //            var_dump('FORM',$form,'THIS-FORM',$thisform);
