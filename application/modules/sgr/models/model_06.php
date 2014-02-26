@@ -292,7 +292,7 @@ class Model_06 extends CI_Model {
             $this->session->unset_userdata('others');
             $this->session->unset_userdata('period');
             $out = array('status' => 'ok');
-        } 
+        }
         return $out;
     }
 
@@ -422,12 +422,12 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
-    function get_partner_period($cuit, $get_period) {        
+    function get_partner_period($cuit, $get_period) {
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-        
-        
+
+
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
@@ -438,7 +438,7 @@ class Model_06 extends CI_Model {
             "period_date" => array(
                 '$lte' => $endDate
             ),
-            'status' => 'activo'            
+            'status' => 'activo'
         );
 
         $result_period = $this->mongo->sgr->$period->findOne($query);
@@ -446,56 +446,45 @@ class Model_06 extends CI_Model {
             'filename' => $result_period['filename'],
             1695 => $cuit
         );
-        
+
         $result_partner = $this->mongo->sgr->$container->findOne($query_partner);
-        
-        return $result_partner;        
+
+        return $result_partner;
     }
 
-    function get_partner($cuit, $get_period = null) {
-        
-        
+    function get_partner($cuit) {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+        
         $set_period = "";
-
         $query = array(
             'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id
-        );
+            'sgr_id' => $this->sgr_id,
+            'period_date' => array(
+                '$lte' => $endDate
+            ),'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
+        );        
+        
 
-        $query['status'] = 'activo';  //PERIOD TIENE QUE CAMBIAR A PENDIENTE
-        if ($get_period) {
-            $set_period = array(
-                "period" => $get_period
-            );
-            $query['period'] = $set_period;
-        }
-        
-       
-        
         $result = $this->mongo->sgr->$period->find($query);
         $return_result = array();
         foreach ($result as $list) {
-            
-            
-            
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-             if($new_result)
-             $return_result[] = $new_result;
-            
+            if ($new_result)
+                $return_result[] = $new_result;
         }
         return $return_result;
     }
-    
-    
 
     /* PARTNERS INFO */
 
@@ -545,20 +534,20 @@ class Model_06 extends CI_Model {
         );
         $period_arr = $this->mongo->sgr->$container_period->findOne($query);
         $period_arr = array_unique($period_arr);
-        $filename = $period_arr['filename'];     
+        $filename = $period_arr['filename'];
         foreach ($partners_arr as $list) {
             $anexo_query = array(
                 //1695 => $list,
                 'filename' => $filename,
                 5779 => "1"
-            );           
+            );
             $get_error = array();
             $new_result = $this->mongo->sgr->$container_anexo->find($anexo_query);
-            foreach($new_result as $new_list){                
+            foreach ($new_result as $new_list) {
                 $get_error[] = $list;
-            }            
+            }
         }
-        
+
         if ($get_error)
             return $get_error;
     }
