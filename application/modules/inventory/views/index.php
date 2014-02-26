@@ -31,7 +31,7 @@
                             <i class="icon-chevron-right"></i>
                         </a>
                     </li>
-                    <!--
+                    
                      <li>
                          <a href="{module_url}assign" id="assign">
                              <i class="icon-user"></i>
@@ -39,7 +39,7 @@
                              <i class="icon-chevron-right"></i>
                          </a>
                      </li>
-                    -->
+                    
                 </ul>
             </fieldset>
             <fieldset><legend>
@@ -74,6 +74,12 @@
                     <button type="button" class="btn" id="btn_claim">
                         <i class="icon-signin"></i> 
                         Check-In
+                    </button>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn" id="btn_claim">
+                        <i class="icon-user"></i> 
+                        Assignar Usuario
                     </button>
                     <br/>
                     <br/>
