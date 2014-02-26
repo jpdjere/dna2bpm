@@ -55,7 +55,13 @@ class Lib_201_error_legend {
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';
                 break;
             case "F.2":
-                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>De estar completa debe tomar Formato Numérico mayor a cero y aceptar hasta 2 decimales.';
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna E está vacía, esta debe estar vacía.';
+                break;
+             case "F.3":
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna E está completa, esta debe estar completa.';
+                break;
+            case "F.4":
+                $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>De estar completa, debe tomar Formato Numérico mayor o igual a cero y  aceptar hasta 2 decimales.';
                 break;
             case "G.1":
                 $result_error = '<strong>Columna G - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';

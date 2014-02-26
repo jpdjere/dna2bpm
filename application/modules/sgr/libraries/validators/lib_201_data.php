@@ -188,7 +188,7 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                     $code_error = "D.1";
-                    $D_cell_value = "";
+                    $D_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -249,14 +249,28 @@ class Lib_201_data extends MX_Controller {
                 /* RETENCION_POR_CONTINGENTE
                  * Nro F.1
                  * Detail:
-                 * Si la columna D está completa, esta debe estar vacía.
-                 * Nro F.1
+                  Si la columna D está completa, esta debe estar vacía.
+                 * Nro F.2
                  * Detail:
-                 * Formato Numérico. Debe aceptar hasta 2 decimales.   
+                  Si la Columna E está vacía, esta debe estar vacía.
+                 * Nro F.3
+                 * Detail:
+                  Si la Columna E está completa, esta debe estar completa.
+                 * Nro F.4
+                 * Detail:
+                  De estar completa, debe tomar Formato Numérico mayor o igual a cero y  aceptar hasta 2 decimales.
                  */
                 if ($parameterArr[$i]['col'] == 6) {
-                    $F_cell_value = '';
-                    $code_error = "F.2";
+                    $F_cell_value = null;
+
+                    if ($E_cell_value != null) {
+                        $code_error = "F.3";
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
+
+                    $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -270,8 +284,15 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($D_cell_value != "") {
+
+                        if ($D_cell_value != null) {
                             $code_error = "F.1";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        if ($E_cell_value == null) {
+                            $code_error = "F.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
