@@ -162,19 +162,19 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             $code_error = "C.3";
-                            $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                            //var_dump($partner_data[1695], $partner_data[5272]);                            
-                            if ($partner_data[5272] != 'B') {
+                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                            if ($partner_data[0][5272][0] == 'A') {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
-                            }
+                            } else {
 
-                            $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
-                            $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
-                            $balance = $buy - $sell;
-                            if ($balance == 0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
+                                $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
+                                $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
+                                $balance = $buy - $sell;
+                                if ($balance == 0) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                    array_push($stack, $result);
+                                }
                             }
                         }
                     }
@@ -225,7 +225,7 @@ class Lib_201_data extends MX_Controller {
 
                         $code_error = "E.2";
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $a5_array[] = $A_cell_value.'*'.$B_cell_value;
+                        $a5_array[] = $A_cell_value . '*' . $B_cell_value;
 
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -307,11 +307,11 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "G.1";
                     $G_cell_value = "";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        
+
                         $G_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $a6_array[] = $A_cell_value.'*'.$B_cell_value;
-                        
-                        
+                        $a6_array[] = $A_cell_value . '*' . $B_cell_value;
+
+
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -500,22 +500,24 @@ class Lib_201_data extends MX_Controller {
             }
         }
 
-        /* B.3 */        
+        /* B.3 */
         foreach (repeatedElements($a5_array) as $arr) {
             $code_error = "A.5";
-            list($input, $input_date)= explode('*', $arr['value']);  
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input." está ". $arr['count']." veces repetido." );
+            list($input, $input_date) = explode('*', $arr['value']);
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
             array_push($stack, $result);
         }
-        
-         /* B.4 */        
+
+        /* B.4 */
         foreach (repeatedElements($a6_array) as $arr) {
             $code_error = "A.6";
-            list($input, $input_date)= explode('*', $arr['value']);  
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input." está ". $arr['count']." veces repetido." );
+            list($input, $input_date) = explode('*', $arr['value']);
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
             array_push($stack, $result);
         }
-      
+//
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
