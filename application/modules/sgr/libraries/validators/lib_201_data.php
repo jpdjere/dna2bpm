@@ -483,7 +483,7 @@ class Lib_201_data extends MX_Controller {
 
         if ($check_consecutive) {
             $code_error = "A.2";
-            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos");
+            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
             array_push($stack, $result);
         }
 
