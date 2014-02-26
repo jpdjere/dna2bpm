@@ -220,7 +220,7 @@ class Lib_201_data extends MX_Controller {
                  * Formato Numérico. Debe aceptar hasta 2 decimales.                  
                  */
                 if ($parameterArr[$i]['col'] == 5) {
-                    $E_cell_value = "";
+                    $E_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
 
                         $code_error = "E.2";
@@ -305,7 +305,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 7) {
 
                     $code_error = "G.1";
-                    $G_cell_value = "";
+                    $G_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
 
                         $G_cell_value = (int) $parameterArr[$i]['fieldValue'];
@@ -331,20 +331,15 @@ class Lib_201_data extends MX_Controller {
                         }
                     }
 
-
-
-
-
                     /*
                      * Nro C.2
                      * Detail: En caso de que se trate de un Retiro (Columna E) o un Retiro de Rendimientos (Columna G), 
-                     * el campo debe estar vacío y el Sistema tomará el CUIT 
-                     * registrado previamente en el mismo para el número de aporte informado. 
+                     * el campo DEBE ESTAR VACÍO y el Sistema tomará el CUIT registrado previamente en el mismo para el número de aporte informado. 
                      */
 
-                    if ($E_cell_value || $G_cell_value && $C_cell_value) {
+                    if ($C_cell_value && ($E_cell_value || $G_cell_value)) {
                         $code_error = "C.2";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
                         array_push($stack, $result);
                     }
                 }
@@ -516,8 +511,8 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 //
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
