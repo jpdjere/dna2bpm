@@ -511,8 +511,8 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 //
-        var_dump($stack);
-        exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
