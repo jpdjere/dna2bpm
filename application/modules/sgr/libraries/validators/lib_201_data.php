@@ -441,14 +441,14 @@ class Lib_201_data extends MX_Controller {
                     //Valida contra Mongo                    
 
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
-                    $code_error = "VG.1";
+
                     $D_value = ($D_cell_value) ? 1 : 0;
                     $E_value = ($E_cell_value) ? 1 : 0;
                     $F_value = ($F_cell_value) ? 1 : 0;
                     $G_value = ($G_cell_value) ? 1 : 0;
-                    $cols_count = array($D_value, $E_value, $G_value);
-
+                    $cols_count = array($D_value, $F_value, $E_value, $G_value);
                     if (array_sum($cols_count) < 1) {
+                        $code_error = "VG.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "No pueden estar vacias las D,E,F,G");
                         array_push($stack, $result);
                     }
@@ -471,11 +471,15 @@ class Lib_201_data extends MX_Controller {
             }
         }
 
+
+        /* Nro A.2
+         * Detail: 
+         * Si lo que se está informando es un Aporte (Columna D), 
+         * debe validar con los movimientos históricos que están cargados en el Sistema que el 
+         * número informado no exista y sea correlativo al último informado. 
+         */
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
         $order_number_array_aporte[] = $get_max_order_number;
-
-
-
         $check_consecutive = consecutive($order_number_array_aporte);
 
         if ($check_consecutive) {
