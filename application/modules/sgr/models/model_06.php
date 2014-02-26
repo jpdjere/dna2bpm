@@ -285,16 +285,14 @@ class Model_06 extends CI_Model {
             $this->update_period($get_period['id'], $get_period['status']);
         }
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
+        $out = array('status' => 'error');
         if ($result) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
             $this->session->unset_userdata('period');
             $out = array('status' => 'ok');
-        } else {
-            $out = array('status' => 'error');
-        }
+        } 
         return $out;
     }
 
