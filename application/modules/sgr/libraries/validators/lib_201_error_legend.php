@@ -79,7 +79,7 @@ class Lib_201_error_legend {
                 $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> R: OPCIONAL. De ser completada debe tener formato numérico sin decimales.';
                 break;
             case "VG.1":
-                $result_error = '<strong>Columna V - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> D,E,G: En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos.';
+                $result_error = '<strong>Columna V - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> Alguna de la siguientes columnas debe contener datos: D, E, F o G.';
                 break;
         }
         return $result_error;
