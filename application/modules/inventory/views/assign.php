@@ -42,7 +42,7 @@
     <form action="{module_url}claim" class="form-inline">
         <div class="input-prepend">
             <span class="add-on"><i class="icon-group"></i> Grupo</span>
-            <select name="group" id="group_select">
+            <select name="group" id="group_assign">
                 {groups}
                 <option value="{idgroup}">
                     {name}
@@ -52,7 +52,7 @@
             <br/>
             <br/>
             <span class="add-on"><i class="icon-user"></i> Usuario</span>
-            <select name="user" id="user_select" size="10">
+            <select name="user" id="user_assign" size="10">
                 {users}
                 <option value="{idu}">
                     {name} {lastname}
@@ -61,7 +61,7 @@
             </select>
             <br/>
             <br/>
-            <input id="data" type="hidden" value="{data}"/>
+            <input id="data-assign" type="hidden" value="{data}"/>
             <a id="btn_assign" class="btn btn-success">
                 <i class="icon-chevron-right"/>
                 Asignar
