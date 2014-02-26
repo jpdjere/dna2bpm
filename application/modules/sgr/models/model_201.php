@@ -266,18 +266,19 @@ class Model_201 extends CI_Model {
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
+        $result = $this->mongo->sgr->$period->find($query);        
+        
         /* FIND ANEXO */
-        foreach ($result as $list) {
+        foreach ($result as $list) {            
             $new_query = array(
                 'NUMERO_DE_APORTE' => $code,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
 
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
             if ($new_result) {
-                $nresult_arr[] = $new_result[$field];
+                $nresult_arr[] = $new_result['APORTE'];
             }
         }
 

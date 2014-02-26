@@ -84,8 +84,6 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "A.1";
                     $A_cell_value = "";
                     $get_input_number = "";
-
-
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -205,7 +203,7 @@ class Lib_201_data extends MX_Controller {
                         }
                     }
 
-                    /* A.4 */
+                    /* A.4 */                   
                     if (!$get_input_number) {
                         $a4_array[] = $A_cell_value . '*' . $D_cell_value . "*" . $B_cell_value;
                     }
@@ -529,9 +527,9 @@ class Lib_201_data extends MX_Controller {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
             array_push($stack, $result);
         }
-//
+
 //        var_dump($stack);
-//        exit();
+        //exit();
         $this->data = $stack;
     }
 
