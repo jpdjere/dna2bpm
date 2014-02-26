@@ -31,6 +31,7 @@ class Lib_201_data extends MX_Controller {
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $order_number_array = array();
         $order_number_array_aporte = array();
+        $a4_array = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -66,13 +67,9 @@ class Lib_201_data extends MX_Controller {
                  * Nro A.1
                  * Detail:
                  * Debe tener formato numérico, entero sin decimales.
-
                  * Nro A.3
                  * Detail: 
                   En un mismo archivo no se puede repetir el mismo número para los casos en que se estén informando Aportes (Columna D).
-                 * Nro A.4
-                 * Detail: 
-                  En caso de que se esté informando un retiro (Columna E), el número de Aporte debe estar previamente registrado en el Sistema o en el mismo archivo que se está importando, en cuyo caso debe corresponder a un Aporte (Columna D) y tener Fecha de Movimiento (Columna B) anterior a la Fecha de Movimiento (Columna B) del retiro informado.
                  * Nro A.5
                  * Detail: 
                   Para los casos en que se estén informando Retiros (Columna E), no puede darse que para un mismo número haya informada dos files en la que la Fecha de Movimiento (Columna B) sea la misma.
@@ -83,14 +80,18 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 1) {
                     $code_error = "A.1";
-                    //empty field Validation                    
+                    $A_cell_value = "";
+                    $get_input_number = "";
+
+
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $get_input_number = $this->$model_201->get_input_number($A_cell_value);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -109,14 +110,14 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 2) {
                     $code_error = "B.1";
-                    //empty field Validation
+                    $B_cell_value = "";
+
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
+                        $B_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -201,6 +202,11 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
+
+                    /* A.4 */
+                    if (!$get_input_number) {
+                        $a4_array[] = $A_cell_value . '*' . $D_cell_value . "*" . $B_cell_value;
+                    }
                 }
 
                 /* RETIRO
@@ -215,7 +221,6 @@ class Lib_201_data extends MX_Controller {
                     $E_cell_value = "";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "E.2";
-
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -381,11 +386,11 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 18) {
                     $code_error = "R.1";
-                    $R_cell_value = (int)$parameterArr[$i]['fieldValue'];
-                    if($R_cell_value<0){
+                    $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                    if ($R_cell_value < 0) {
                         
                     }
-                    
+
                     $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -405,8 +410,7 @@ class Lib_201_data extends MX_Controller {
                     }
 
 
-                    $code_error = "A.4";
-                    //Valida contra Mongo
+
 
                     $code_error = "A.5";
                     //Valida contra Mongo
@@ -471,7 +475,25 @@ class Lib_201_data extends MX_Controller {
             }
         }
 
-      // var_dump($stack);        exit();
+        /* Nro A.4
+         * Detail: 
+          En caso de que se esté informando un retiro (Columna E), el número de Aporte debe estar previamente registrado en el
+         * Sistema o en el mismo archivo que se está importando, en cuyo caso debe corresponder a un Aporte (Columna D) y tener 
+         * Fecha de Movimiento (Columna B) anterior a la Fecha de Movimiento (Columna B) del retiro informado. 
+         */
+
+        foreach ($a4_array as $a4) {
+            list($a_value, $d_value, $b_value) = explode("*", $a4);
+            if (!$d_value) {
+                $code_error = "A.4";
+                $result = return_error_array($code_error, "-", "No hay aportes registrados ni incoporados en este anexo para " . $a_value);
+                array_push($stack, $result);
+            }
+        }
+
+
+
+        //exit();
         $this->data = $stack;
     }
 

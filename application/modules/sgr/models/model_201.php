@@ -249,7 +249,7 @@ class Model_201 extends CI_Model {
         var_dump($result);
     }
 
-    function get_order_number($code) {
+    function get_input_number($code) {
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
@@ -303,9 +303,6 @@ class Model_201 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
         $result = $this->mongo->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
-        
-
-
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
