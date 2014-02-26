@@ -32,8 +32,8 @@ class Lib_201_data extends MX_Controller {
         $order_number_array = array();
         $order_number_array_aporte = array();
         $a4_array = array();
-        $a5_array = array();
-        $a6_array = array();
+        $b3_array = array();
+        $b4_array = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -223,7 +223,7 @@ class Lib_201_data extends MX_Controller {
 
                         $code_error = "E.2";
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $a5_array[] = $A_cell_value . '*' . $B_cell_value;
+                        $b3_array[] = $A_cell_value . '*' . $B_cell_value;
 
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -328,7 +328,7 @@ class Lib_201_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
 
                         $G_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $a6_array[] = $A_cell_value . '*' . $B_cell_value;
+                        $b4_array[] = $A_cell_value . '*' . $B_cell_value;
 
 
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -513,16 +513,16 @@ class Lib_201_data extends MX_Controller {
         }
 
         /* B.3 */
-        foreach (repeatedElements($a5_array) as $arr) {
-            $code_error = "A.5";
+        foreach (repeatedElements($b3_array) as $arr) {
+            $code_error = "B.3";
             list($input, $input_date) = explode('*', $arr['value']);
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
             array_push($stack, $result);
         }
 
         /* B.4 */
-        foreach (repeatedElements($a6_array) as $arr) {
-            $code_error = "A.6";
+        foreach (repeatedElements($b4_array) as $arr) {
+            $code_error = "B.4";
             list($input, $input_date) = explode('*', $arr['value']);
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
             array_push($stack, $result);
