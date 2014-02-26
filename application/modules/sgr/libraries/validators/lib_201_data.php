@@ -395,15 +395,15 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 18) {
                     $code_error = "R.1";
-                    $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                    if ($R_cell_value < 0) {
-                        
-                    }
-
-                    $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                        if ($R_cell_value < 0) {
+                            $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
                     }
 
                     /* Nro A.2
@@ -516,8 +516,8 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 //
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
