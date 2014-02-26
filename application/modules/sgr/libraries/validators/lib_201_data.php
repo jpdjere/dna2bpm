@@ -263,7 +263,7 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
                     $F_cell_value = null;
 
-                    if ($E_cell_value != null) {
+                    if ($E_cell_value == null) {
                         $code_error = "F.3";
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -486,9 +486,6 @@ class Lib_201_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
             array_push($stack, $result);
         }
-
-
-
 
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
