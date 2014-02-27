@@ -112,10 +112,8 @@ class Lib_15_data extends MX_Controller {
 
                     $code_error = "D.2";
                     $A1_arr = array("D", "J", "K");
-                    
-                   
                     if (in_array($A_cell_value, $A1_arr)) {
-                         var_dump($A_cell_value, $A1_arr);
+                         var_dump($A_cell_value, $parameterArr[$i]['fieldValue']);
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
