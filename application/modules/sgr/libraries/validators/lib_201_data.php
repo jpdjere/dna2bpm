@@ -437,15 +437,6 @@ class Lib_201_data extends MX_Controller {
                         $order_number_array_aporte[] = $A_cell_value;
                     }
 
-
-
-
-                    $code_error = "A.5";
-                    //Valida contra Mongo
-
-                    $code_error = "A.6";
-                    //Valida contra Mongo                    
-
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
 
                     $D_value = ($D_cell_value) ? 1 : 0;
