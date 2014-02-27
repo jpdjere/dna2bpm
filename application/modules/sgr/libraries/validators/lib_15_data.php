@@ -112,6 +112,8 @@ class Lib_15_data extends MX_Controller {
 
                     $code_error = "D.2";
                     $A1_arr = array("D", "J", "K");
+                    
+                    var_dump($A_cell_value, $A1_arr);
                     if (in_array($A_cell_value, $A1_arr)) {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if (!$return) {
@@ -261,7 +263,8 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack); exit();
+        //var_dump($stack); 
+        exit();
         $this->data = $stack;
     }
 
