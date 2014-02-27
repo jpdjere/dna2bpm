@@ -203,7 +203,7 @@ class Lib_201_data extends MX_Controller {
                         }
                     }
 
-                    /* A.4 */                   
+                    /* A.4 */
                     if (!$get_input_number) {
                         $a4_array[] = $A_cell_value . '*' . $D_cell_value . "*" . $B_cell_value;
                     }
@@ -261,13 +261,16 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
                     $F_cell_value = null;
 
-                    if ($E_cell_value == null) {
-                        $code_error = "F.3";
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
-                    }
-
+                    
+                    
+                    if ($E_cell_value != null && $parameterArr[$i]['fieldValue']=="") {
+                            $code_error = "F.3";
+                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    
+                    
                     $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
@@ -294,6 +297,7 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                        
                     }
 
 
@@ -528,8 +532,8 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-//        var_dump($stack);
-        //exit();
+//       var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
