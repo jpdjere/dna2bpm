@@ -392,7 +392,6 @@ class Sgr extends MX_Controller {
                         $save = (array) $this->$model->save($result);
                     }
                 }
-                exit();
 
                 /* SET PERIOD */
                 if ($save) {
