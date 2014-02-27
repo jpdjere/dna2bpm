@@ -130,24 +130,25 @@ class Lib_15_data extends MX_Controller {
                  * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío. 
                  */
                 if ($parameterArr[$i]['col'] == 5) {
+                    
 
-                    $code_error = "E.1";
-                    //empty field Validation                    
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    } else {
-                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                    $code_error = "E.2";
+                    $A1_arr = array("D", "J", "K");
+                    if (in_array($A_cell_value, $A1_arr)) {
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-
-                        $code_error = "E.2";
-                        $A1_arr = array("D", "J", "K");
-                        if (in_array($A_cell_value, $A1_arr)) {
-                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $code_error = "E.1";
+                        //empty field Validation                    
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        } else {
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -155,7 +156,6 @@ class Lib_15_data extends MX_Controller {
                         }
                     }
                 }
-
 
                 /* ENTIDAD_DESPOSITARIA
                  * Nro F.1
@@ -235,9 +235,11 @@ class Lib_15_data extends MX_Controller {
                     $code_error = "I.1";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
+                    if ($return) {                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    
+                        
                     } else {
 
                         $I_cell_value = (int) $parameterArr[$i]['fieldValue'];
@@ -264,4 +266,3 @@ class Lib_15_data extends MX_Controller {
     }
 
 }
-
