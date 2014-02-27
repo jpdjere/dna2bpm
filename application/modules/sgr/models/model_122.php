@@ -12,10 +12,10 @@ class Model_122 extends CI_Model {
 
         $this->anexo = '122';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -62,6 +62,12 @@ class Model_122 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
+        /*FILTER NUMBERS/STRINGS*/
+        $int_values = array_filter($parameter, 'is_int');
+        $float_values = array_filter($parameter, 'is_float');        
+        $numbers_values = array_merge($int_values,$float_values);              
+        
+        /*FIX INFORMATION*/
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
 
@@ -70,10 +76,12 @@ class Model_122 extends CI_Model {
         $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
 
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
+        
         $id = $this->app->genid_sgr($container);
 
+        /* MERGE CAST */
+        $parameter = array_merge($parameter, $numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -114,7 +122,7 @@ class Model_122 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);

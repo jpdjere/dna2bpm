@@ -57,20 +57,26 @@ class Model_062 extends CI_Model {
         return $insertarr;
     }
 
-    function save($parameter) {
+    function save($parameter){       
+       
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-        $parameter = array_map('trim', $parameter);
+        
+        /*FILTER NUMBERS/STRINGS*/
+        $int_values = array_filter($parameter, 'is_int');
+        $float_values = array_filter($parameter, 'is_float');        
+        $numbers_values = array_merge($int_values,$float_values);              
+        /*FIX INFORMATION*/
+        $parameter = array_map('trim', $parameter);       
         $parameter = array_map('addSlashes', $parameter);
-
+        /* FIX DATE */
         $parameter['period'] = $period;
-
-        $parameter['origin'] = 2013;
-        $id = $this->app->genid_sgr($container);
-
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
-
+        $parameter['origin'] = 2013;        
+        /*MERGE CAST*/
+        $new_parameter = array_merge($parameter,$numbers_values);  
+        $id = $this->app->genid_sgr($container);        
+        $result = $this->app->put_array_sgr($id, $container, $new_parameter);
+       
         if ($result) {
             $out = array('status' => 'ok');
         } else {

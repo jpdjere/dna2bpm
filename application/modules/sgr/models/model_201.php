@@ -93,7 +93,13 @@ class Model_201 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
+                
+        /*FILTER NUMBERS/STRINGS*/
+        $int_values = array_filter($parameter, 'is_int');
+        $float_values = array_filter($parameter, 'is_float');        
+        $numbers_values = array_merge($int_values,$float_values);              
+        
+        /*FIX INFORMATION*/
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
 
@@ -101,12 +107,14 @@ class Model_201 extends CI_Model {
         /* FIX DATE */
         $parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
         $parameter['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_ACTA'], 1900));
-
-
+        
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
+        
         $id = $this->app->genid_sgr($container);
-        $parameter['sgr_id'] = $this->sgr_id;
+        
+         /*MERGE CAST*/
+        $parameter = array_merge($parameter,$numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
