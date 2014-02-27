@@ -77,8 +77,7 @@ class Model_15 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
         
-        var_dump($parameter);
-        
+       
         /*FILTER NUMBERS/STRINGS*/
         $int_values = array_filter($parameter, 'is_int');
         $float_values = array_filter($parameter, 'is_float');        
@@ -93,6 +92,9 @@ class Model_15 extends CI_Model {
         $parameter['origin'] = 2013;
         
         $id = $this->app->genid_sgr($container);
+        
+         var_dump($parameter);
+        
         
         /*MERGE CAST*/
         $parameter = array_merge($parameter,$numbers_values);
