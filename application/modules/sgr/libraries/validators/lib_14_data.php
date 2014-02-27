@@ -372,8 +372,8 @@ class Lib_14_data extends MX_Controller {
 //        var_dump("--->3", $spending_management);
 //
         
-        var_dump($input_array,$fall_array);
-        exit();
+        //var_dump($input_array,$fall_array);
+        //exit();
         $this->data = $stack;
     }
 
