@@ -112,12 +112,9 @@ class Lib_15_data extends MX_Controller {
 
                     $code_error = "D.2";
                     $A1_arr = array("D", "J", "K");
-                    if (in_array($A_cell_value, $A1_arr)) {
-                        
-                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                        var_dump($A_cell_value, $parameterArr[$i]['fieldValue'], $return);
-                        if (!$return) {
-                             
+                    if (in_array($A_cell_value, $A1_arr)) {                        
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);                       
+                        if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -139,7 +136,7 @@ class Lib_15_data extends MX_Controller {
                     $A1_arr = array("D", "J", "K");
                     if (in_array($A_cell_value, $A1_arr)) {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
+                        if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -264,8 +261,7 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack); 
-        exit();
+        //var_dump($stack);         exit();
         $this->data = $stack;
     }
 
