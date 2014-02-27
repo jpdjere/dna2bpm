@@ -161,6 +161,7 @@ class Lib_201_data extends MX_Controller {
                         } else {
                             $code_error = "C.3";
                             $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                            
                             if ($partner_data[0][5272][0] == 'A') {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -414,8 +415,11 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 18) {
                     $code_error = "R.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $R_cell_value = (int)$parameterArr[$i]['fieldValue'];                       
+                        
+                        
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return) {
+                        if ($return || $R_cell_value<1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -533,7 +537,7 @@ class Lib_201_data extends MX_Controller {
         }
 
 //       var_dump($stack);
-//        exit();
+     //exit();
         $this->data = $stack;
     }
 

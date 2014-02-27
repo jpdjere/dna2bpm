@@ -76,7 +76,7 @@ class Lib_201_error_legend {
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> Q: Debe tener formato numérico de cinco dígitos sin decimales.';
                 break;
             case "R.1":
-                $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> R: OPCIONAL. De ser completada debe tener formato numérico sin decimales.';
+                $result_error = '<strong>Columna R - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> R: OPCIONAL. De ser completada debe tener formato numérico sin decimales y ser mayor a cero.';
                 break;
             case "VG.1":
                 $result_error = '<strong>Columna V - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> Alguna de la siguientes columnas debe contener datos: D, E, F o G.';

@@ -460,29 +460,32 @@ class Model_06 extends CI_Model {
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-        
-        $set_period = "";
+
         $query = array(
             'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'sgr_id' => $this->sgr_id,
             'period_date' => array(
                 '$lte' => $endDate
-            ),'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
-        );        
-        
+            ), 'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
+        );
 
         $result = $this->mongo->sgr->$period->find($query);
         $return_result = array();
         foreach ($result as $list) {
+
+
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
+
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $return_result[] = $new_result;
         }
+
         return $return_result;
     }
 
