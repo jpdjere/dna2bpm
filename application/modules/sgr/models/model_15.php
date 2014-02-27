@@ -89,17 +89,12 @@ class Model_15 extends CI_Model {
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
         
-         var_dump($parameter);
-
+       
         /* FIX DATE */
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         
         $id = $this->app->genid_sgr($container);
-        
-        var_dump("<hr>", $parameter);
-         
-        
         
         /*MERGE CAST*/
         $parameter = array_merge($parameter,$numbers_values);
