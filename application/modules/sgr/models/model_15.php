@@ -93,7 +93,7 @@ class Model_15 extends CI_Model {
         
         $id = $this->app->genid_sgr($container);
         
-         var_dump($parameter);
+        // var_dump($parameter);
         
         
         /*MERGE CAST*/
