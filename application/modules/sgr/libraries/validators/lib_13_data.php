@@ -47,17 +47,18 @@ class Lib_13_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $code_error = "A.1";
-                    //empty field Validation
+                    $A_cell_value = NULL;
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    $types = $this->sgr_model->get_warranty_type($parameterArr[$i]['fieldValue']);
-                    if (!$types) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
+                    } else {                        
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $types = $this->sgr_model->get_warranty_type($parameterArr[$i]['fieldValue']);
+                        if (!$types) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
