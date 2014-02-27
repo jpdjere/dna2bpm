@@ -50,16 +50,12 @@ class Lib_13_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     $types = $this->sgr_model->get_warranty_type($parameterArr[$i]['fieldValue']);
                     if (!$types) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -73,11 +69,15 @@ class Lib_13_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 2) {
                     $code_error = "B.1";
+                    $B_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $B_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        if ($B_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -92,11 +92,15 @@ class Lib_13_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
                     //empty field Validation
                     $code_error = "C.1";
+                    $C_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $C_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        if ($C_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -114,11 +118,15 @@ class Lib_13_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 4) {
 
                     $code_error = "D.1";
+                    $D_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        if ($D_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -133,12 +141,15 @@ class Lib_13_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 5) {
                     //empty field Validation
                     $code_error = "E.1";
-
+                    $E_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        if ($E_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -151,17 +162,29 @@ class Lib_13_data extends MX_Controller {
                  * Formato de número. Acepta hasta dos decimales.                 
                  */
                 if ($parameterArr[$i]['col'] == 6) {
-                    //empty field Validation
+                    $F_cell_value = NULL;
                     $code_error = "F.1";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+
+                        if ($F_cell_value < 0) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    /* SUMA B-F */
+                    $result_sum = array_sum(array($B_cell_value, $C_cell_value, $D_cell_value, $E_cell_value, $F_cell_value));
+                    if ($result_sum == 0) {
+                        $code_error = "B.2";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
                     }
                 }
             } // END FOR LOOP->
