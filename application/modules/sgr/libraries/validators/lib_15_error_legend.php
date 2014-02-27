@@ -40,7 +40,7 @@ class Lib_15_error_legend {
                 $result_error = '<strong>Columna H - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros:Pesos Argentinos/Dolares Americanos';
                 break;
              case "I.1":
-                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener formato numérico y aceptar hasta dos decimales.';
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener formato numérico y aceptar hasta dos decimales. Debe ser mayor que cero';
                 break;
             case "I.2":
                 $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe validar que la suma total de las inversiones sea igual al Saldo de la Columna 7 – Saldo del Aporte Disponible, de la Impresión del Anexo 20.2 más el saldo de la Columna D del importado de dicho Anexo.';

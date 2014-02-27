@@ -259,21 +259,22 @@ class Lib_15_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 9) {
                     $code_error = "I.1";
-
+                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
+                    }else{
+                        
+                        $I_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                        
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        
+                        if ($I_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
