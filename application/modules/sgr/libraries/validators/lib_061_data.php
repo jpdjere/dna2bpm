@@ -41,31 +41,25 @@ class Lib_061_data extends MX_Controller {
                 /* CUIT_SOCIO_INCORPORADO
                  * Nro A.1
                  * Detail:
-                 * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones.                                 
+                 * Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    $A_cell_value = ($parameterArr[$i]['fieldValue']) ? $parameterArr[$i]['fieldValue'] : 0;
-                    $code_error = "A.1";
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                        $A_cell_value = false;
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $A_cell_array[] = $A_cell_value;
                     }
-
                     /*
                      * Nro A.2
                      * Detail:
                      * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado. 
                      */
-                    $code_error = "A.2";
-                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
-                    if ($partner_data[5779][0] != '1') {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
-                    }
+//                    $code_error = "A.2";
+//                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+//                    if ($partner_data[5779][0] != '1') {
+//                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+//                        array_push($stack, $result);
+//                    }
                 }
 
 
@@ -108,12 +102,10 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-
-
                         /*
                          * Nro B.3/2
                          * Detail:
-                         * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
+                         * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo.
                          */
                         $A_cell_array[] = $A_cell_value;
                         if ($parameterArr[$i]['fieldValue'] == "NO") {
@@ -130,29 +122,31 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
 
                     $code_error = "C.1";
-                    //empty field Validation
+                    /*CHECK EMPTY*/
                     if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-                    } else {
-                        $return = check_for_empty($B_cell_value);
-                        if ($return) {
-                            $code_error = "B.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
-                            //array_push($stack, $result);
-                        }
-                    }
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        /*CUIT CHECKER*/
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                            if (!$return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
-                    }
+                    } else {
+                        /*CHECK FOR IS NOT EMPTY ????? */
+//                        $return = check_for_empty($B_cell_value);
+//                        if ($return) {
+//                            $code_error = "B.3";
+//                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+//                            array_push($stack, $result);
+//                        }
+                   }
                 }
 
                 /* RAZON_SOCIAL_VINCULADO
@@ -192,20 +186,18 @@ class Lib_061_data extends MX_Controller {
                     //Check Empry
                     if ($B_cell_value == "SI") {
                         $code_error = "E.1";
-//empty field Validation
+
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-//Value Validation
+
                         if (isset($parameterArr[$i]['fieldValue'])) {
                             $B_cell_value = "";
                             $allow_words = array("ASCENDENTE", "DESCENDENTE");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
-
-
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -254,6 +246,20 @@ class Lib_061_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 6) {
 
+                    if ($parameterArr[$i]['fieldValue'] != "" || $B_cell_value) {
+                        /* A.1 */
+                        if ($A_cell_value) {
+                            $code_error = "A.1";
+                            $count_inc[] = $A_cell_value;
+                            $return = cuit_checker($A_cell_value);
+                            if (!$return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
+
                     $code_error = "F.1";
 
                     if ($B_cell_value == "SI") {
@@ -289,16 +295,7 @@ class Lib_061_data extends MX_Controller {
                     }
 
 
-                    /* A.1 */
-                    if ($A_cell_value) {
-                        $code_error = "A.1";
-                        $count_inc[] = $A_cell_value;
-                        $return = cuit_checker($A_cell_value);
-                        if (!$return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                            array_push($stack, $result);
-                        }
-                    }
+
 
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
@@ -314,12 +311,12 @@ class Lib_061_data extends MX_Controller {
              * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
              */
             $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
-                 
-            
-            $register_on_06 =  count($partners_error_data);
-            $count_on_061 = count(array_unique($A_cell_array));         
-            
-            if ($register_on_06!=$count_on_061) {
+
+
+            $register_on_06 = count($partners_error_data);
+            $count_on_061 = count(array_unique($A_cell_array));
+
+            if ($register_on_06 != $count_on_061) {
                 $stack = array();
                 $code_error = "A.3";
                 $result["error_row"] = 1;
@@ -358,7 +355,7 @@ class Lib_061_data extends MX_Controller {
         }
 
 
-      //  var_dump($stack);  exit();
+        //  var_dump($stack);  exit();
         $this->data = $stack;
     }
 
