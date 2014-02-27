@@ -83,6 +83,8 @@ class Model_15 extends CI_Model {
         $float_values = array_filter($parameter, 'is_float');        
         $numbers_values = array_merge($int_values,$float_values);              
         
+        var_dump($parameter);
+        
         /*FIX INFORMATION*/
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
@@ -93,7 +95,7 @@ class Model_15 extends CI_Model {
         
         $id = $this->app->genid_sgr($container);
         
-        // var_dump($parameter);
+         
         
         
         /*MERGE CAST*/
