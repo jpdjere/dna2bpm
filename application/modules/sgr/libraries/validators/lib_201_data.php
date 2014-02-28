@@ -161,18 +161,24 @@ class Lib_201_data extends MX_Controller {
                         } else {
                             $code_error = "C.3";
                             $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                            
-                            if ($partner_data[0][5272][0] == 'A') {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            } else {
 
-                                $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
-                                $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
-                                $balance = $buy - $sell;
-                                if ($balance == 0) {
+                            foreach ($partner_data as $partner) {
+                                
+
+                                if ($partner[5272][0] == 'A') {
+                                    
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
+                                    
+                                } else {
+
+                                    $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
+                                    $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
+                                    $balance = $buy - $sell;
+                                    if ($balance == 0) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    }
                                 }
                             }
                         }
@@ -262,16 +268,16 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
                     $F_cell_value = null;
 
-                    
-                    
-                    if ($E_cell_value != null && $parameterArr[$i]['fieldValue']=="") {
-                            $code_error = "F.3";
-                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-                    
-                    
+
+
+                    if ($E_cell_value != null && $parameterArr[$i]['fieldValue'] == "") {
+                        $code_error = "F.3";
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
+
+
                     $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
@@ -298,7 +304,6 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
                     }
 
 
@@ -415,11 +420,11 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 18) {
                     $code_error = "R.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $R_cell_value = (int)$parameterArr[$i]['fieldValue'];                       
-                        
-                        
+                        $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
+
+
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return || $R_cell_value<1) {
+                        if ($return || $R_cell_value < 1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -476,14 +481,6 @@ class Lib_201_data extends MX_Controller {
          * número informado no exista y sea correlativo al último informado. 
          */
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-        $order_number_array_aporte[] = $get_max_order_number;
-        $check_consecutive = consecutive($order_number_array_aporte);
-
-        if ($check_consecutive) {
-            $code_error = "A.2";
-            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
-            array_push($stack, $result);
-        }
 
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
@@ -494,6 +491,17 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
+
+
+        array_unshift($order_number_array_aporte, $get_max_order_number);
+        $check_consecutive = consecutive($order_number_array_aporte);
+        if ($check_consecutive) {
+            $code_error = "A.2";
+            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
+            array_push($stack, $result);
+        }
+
+
 
         /* Nro A.4
          * Detail: 
@@ -528,7 +536,7 @@ class Lib_201_data extends MX_Controller {
         }
 
 //       var_dump($stack);
-     //exit();
+        //exit();
         $this->data = $stack;
     }
 
