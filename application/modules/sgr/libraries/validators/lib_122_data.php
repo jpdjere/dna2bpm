@@ -115,7 +115,7 @@ class Lib_122_data extends MX_Controller {
                         $result_dates = (int) $interval->format('%R%a');
                         if ($result_dates < 1) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'],$C_cell_date_format);
                             array_push($stack, $result);
                         }
                     }
