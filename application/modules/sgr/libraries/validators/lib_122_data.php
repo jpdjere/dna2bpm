@@ -80,6 +80,13 @@ class Lib_122_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $cuota_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
+                        $B_cell_value = (int)$parameterArr[$i]['fieldValue'];                       
+                        
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return || $B_cell_value<1) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -196,10 +203,10 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        /* EXTRA VALIDATION B.1 */
-
+        
+        /* EXTRA VALIDATION B.2 */
         foreach (repeatedElements($cuota_arr) as $arr) {
-            $code_error = "B.1";
+            $code_error = "B.2";
             list($cuota, $warranty) = explode('*', $arr['value']);
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota . " para la Garantía " . $warranty);
             array_push($stack, $result);
