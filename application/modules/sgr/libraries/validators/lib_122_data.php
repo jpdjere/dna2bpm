@@ -112,8 +112,13 @@ class Lib_122_data extends MX_Controller {
                         $datetime1 = new DateTime($warranty_info['5215']);
                         $datetime2 = new DateTime($C_cell_date_format);
                         $interval = $datetime1->diff($datetime2);
-                        $result_dates =  $interval->format('%R%a');
-                        var_dump($result_dates,$warranty_info['5215'],$C_cell_date_format );
+                        $result_dates =  (int)$interval->format('%R%a');
+                        
+                        if($result_dates<1){
+                            var_dump($result_dates,$warranty_info['5215'],$C_cell_date_format );
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                         
                     }
 
