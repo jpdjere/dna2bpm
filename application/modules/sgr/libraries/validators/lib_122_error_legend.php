@@ -19,7 +19,10 @@ class Lib_122_error_legend {
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Una misma cuota de una garantía no puede figurar dos veces en el archivo importado.';
                 break;
              case "C.1": 
-                $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico de cinco dígitos sin decimales. Debe ser posterior a la fecha de emisión de la garantía informada en la Columna C del Anexo 12.';
+                $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico, entero, mayor que cero.Formato numérico de cinco dígitos sin decimales. ';
+                break;
+             case "C.2": 
+                $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Fecha debe ser posterior a la fecha de emisión de la garantía indicada en la columna “A”.';
                 break;
             case "D.1": 
                 $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico de cinco dígitos sin decimales. La fecha debe encontrarse dentro del período que se está informando.';
