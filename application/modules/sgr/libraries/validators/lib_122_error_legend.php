@@ -13,8 +13,11 @@ class Lib_122_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El Número de garantía debe estar informado en el sistema.';
                 break;            
              case "B.1": 
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico, entero, mayor que cero.';
+                break; 
+            case "B.2": 
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Una misma cuota de una garantía no puede figurar dos veces en el archivo importado.';
-                break;                     
+                break;
              case "C.1": 
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico de cinco dígitos sin decimales. Debe ser posterior a la fecha de emisión de la garantía informada en la Columna C del Anexo 12.';
                 break;
