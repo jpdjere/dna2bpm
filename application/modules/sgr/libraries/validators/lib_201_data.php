@@ -34,6 +34,7 @@ class Lib_201_data extends MX_Controller {
         $a4_array = array();
         $b3_array = array();
         $b4_array = array();
+        $E_cell_array_values = array("nro" => '', 'amount' => '');
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -91,6 +92,8 @@ class Lib_201_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $get_input_number = $this->$model_201->get_input_number($A_cell_value);
+
+
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -163,15 +166,10 @@ class Lib_201_data extends MX_Controller {
                             $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
 
                             foreach ($partner_data as $partner) {
-                                
-
                                 if ($partner[5272][0] == 'A') {
-                                    
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
-                                    
                                 } else {
-
                                     $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
                                     $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
                                     $balance = $buy - $sell;
@@ -248,6 +246,12 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+
+                        /* E.3 */
+                        //$E_cell_array_values[] = $parameterArr[$i]['fieldValue'];
+
+                        $E_cell_array = array("nro" => $A_cell_value . "*" . $get_input_number, 'amount' => (int) $parameterArr[$i]['fieldValue']);
+                        array_push($E_cell_array_values, $E_cell_array);
                     }
                 }
 
@@ -480,7 +484,7 @@ class Lib_201_data extends MX_Controller {
          * debe validar con los movimientos históricos que están cargados en el Sistema que el 
          * número informado no exista y sea correlativo al último informado. 
          */
-        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);        
+        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
                 if ($number != 0) {
@@ -534,8 +538,32 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-//       var_dump($stack);
-        //exit();
+
+        $totals = array();
+        foreach ($E_cell_array_values AS $e_val) {
+            if (!empty($e_val['nro'])) {
+                if (!isset($totals[$e_val['nro']]))
+                    $totals[$e_val['nro']] = 0;
+                $totals[$e_val['nro']] += $e_val['amount'];
+            }
+        }
+
+        foreach ($totals as $key => $value) {
+            list($new_num, $new_amount) = explode("*", $key);
+            $new_amount = (int) $new_amount;
+            if ($new_amount < $value) {
+                $code_error = "E.3";
+                list($input, $input_date) = explode('*', $arr['value']);
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "La suma de retiros es de $" . $value);
+                array_push($stack, $result);
+            }
+        }
+
+//        
+//            echo $new_num.'->'. $new_amount;
+
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
