@@ -11,7 +11,7 @@ class Lib_14_data extends MX_Controller {
 
         $model_anexo = "model_14";
         $this->load->Model($model_anexo);
-        
+
         /* Vars 
          * 
          * $parameters =  
@@ -25,11 +25,17 @@ class Lib_14_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-        
+
         $input_array = array();
-        $fall_array = array();
+        $b2_array = array();
+        $b3_array = array();
+        $b4_array = array();
+        $b5_array = array();
+        $b6_array = array();
+
+
         $spending_recovery = array();
-        $recovered_uncollectible = array();
+        //$recovered_uncollectible = array();
         $spending_management = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -60,7 +66,7 @@ class Lib_14_data extends MX_Controller {
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if($return){
+                    if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
@@ -86,34 +92,21 @@ class Lib_14_data extends MX_Controller {
                  * Nro B.1
                  * Detail:
                  * Si se está informando la CAÍDA de una Garantía (Columna C del importador), 
-                 * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12).
-                 * Nro B.2
-                 * Detail:
-                 * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
-                 * previamente en el sistema (o en el mismo archivo que se está importando) una caída.
-                 * Nro B.3
-                 * Detail:
-                 * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
-                 * previamente en el sistema (o en el mismo archivo que se está importando) una caída.
-                 * Nro B.4
-                 * Detail: 
-                 * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
-                 * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
-                 * Nro B.5
-                 * Detail: 
-                 * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
-                 * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
-                 * GASTO POR GESTIÓN DE RECUPERO.
-                 * Nro B.6
-                 * Detail: 
-                 * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
-                 * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
-                 * GASTO POR GESTIÓN DE RECUPERO.
+                 * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12).                
                  */
 
                 if ($parameterArr[$i]['col'] == 2) {
                     $B_cell_value = $parameterArr[$i]['fieldValue'];
-                    $B_warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue']);                    
+                    $B_warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue']);
+
+                    $get_movement_data = $this->$model_anexo->get_movement_data($B_cell_value);
+                    $CAIDAS = array($get_movement_data['CAIDA']);
+                    $c3_values_array = array($get_movement_data['RECUPERO']);
+                    $c3_values = $get_movement_data['RECUPERO'];
+                    $b3_values_array = array($get_movement_data['INCOBRABLES_PERIODO']);
+                    $b4_values_array = array($get_movement_data['GASTOS_EFECTUADOS_PERIODO']);
+                    $b5_values_array = array($get_movement_data['RECUPERO_GASTOS_PERIODO']);
+                    $b6_values_array = array($get_movement_data['GASTOS_INCOBRABLES_PERIODO']);
                 }
 
                 /* CAIDA
@@ -122,8 +115,9 @@ class Lib_14_data extends MX_Controller {
                  * Formato de número. Debe ser un valor numérico y aceptar hasta 2 decimales.
                  */
                 if ($parameterArr[$i]['col'] == 3) {
+                    
                     $code_error = "C.1";
-                    if ($parameterArr[$i]['fieldValue'] != ""){
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -172,17 +166,16 @@ class Lib_14_data extends MX_Controller {
                          * Detail:
                          * Si se está informando la CAÍDA de una Garantía (Columna C del importador), 
                          * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12). 
-                         */                        
-                        
+                         */
+
                         if (!$B_warranty_info) {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
                             array_push($stack, $result);
                         }
-                        
-                        /**/
-                        $input_array[]= $B_cell_value.'*'.$parameterArr[$i]['fieldValue'];
-                        
+
+                        /* NRO_GARANTIA TO COMPARE */
+                        $input_array[] = $B_cell_value;
                     }
                 }
 
@@ -209,21 +202,22 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
                          * previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                          */
-                        
-                        
-                        $get_movement_data = $this->$model_anexo->get_movement_data($B_cell_value);
-                        
-                        
-                        
-                        if (!$get_movement_data['CAIDA']) {                            
-                            $fall_array[] = $B_cell_value.'*'.$parameterArr[$i]['fieldValue'];                            
+
+
+
+                        if (!$get_movement_data['CAIDA']) {
+                            $b2_array[] = $B_cell_value;
                         }
 
                         /* Nro D.3
                          * Detail:
                          * Debe validar que la suma de todos los RECUPEROS e INCOBRABLES registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todas las caídas de esa misma garantía registradas en el Sistema (incluidos los informados  en el archivo que se está importando).
                          */
-                        $recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
+                        //$recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
+                        
+                        array_push($c3_values_array, $parameterArr[$i]['fieldValue']);
+                        $c3_values += $parameterArr[$i]['fieldValue'];
+                        
                     }
                 }
 
@@ -250,15 +244,15 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
                          * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
                          */
-                        if (!$get_movement_data['CAIDA']) {                            
-                            $fall_array[] = $B_cell_value.'*'.$parameterArr[$i]['fieldValue'];                            
+                        if (!$get_movement_data['INCOBRABLE']) {
+                            $b3_array[] = $B_cell_value;
                         }
 
                         /* Nro E.3
                          * Detail:
                          * Debe validar que la suma de todos los RECUPEROS e INCOBRABLES registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todas las caídas de esa misma garantía registradas en el Sistema (incluidos los informados  en el archivo que se está importando).
                          */
-                        $recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
+                        //$recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
                     }
                 }
 
@@ -284,8 +278,8 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
                          * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                          */
-                        if (!$get_movement_data['CAIDA']) {                            
-                            $fall_array[] = $B_cell_value.'*'.$parameterArr[$i]['fieldValue'];                            
+                        if (!$get_movement_data['INCOBRABLES_PERIODO']) {
+                            $b4_array[] = $B_cell_value;
                         }
                     }
                 }
@@ -313,8 +307,8 @@ class Lib_14_data extends MX_Controller {
                          * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
                          * GASTO POR GESTIÓN DE RECUPERO. 
                          */
-                        if (!$B_warranty_info) {
-                            $spending_recovery[] = $B_warranty_info;
+                        if (!$get_movement_data['RECUPERO_GASTOS_PERIODO']) {
+                            $b5_array[] = $B_cell_value;
                         }
 
                         /* G.3 */
@@ -347,9 +341,10 @@ class Lib_14_data extends MX_Controller {
                          * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
                          * GASTO POR GESTIÓN DE RECUPERO. 
                          */
-                        if (!$B_warranty_info) {
-                            $spending_recovery[] = $B_warranty_info;
+                        if (!$get_movement_data['GASTOS_INCOBRABLES_PERIODO']) {
+                            $b6_array[] = $B_cell_value;
                         }
+
 
                         /* H.3 */
                         if (!$B_warranty_info) {
@@ -366,14 +361,81 @@ class Lib_14_data extends MX_Controller {
          * $recovered_uncollectible = array();
          * $spending_management = array();
          */
-        
+
 //        var_dump("--->1", $spending_recovery);
 //        var_dump("--->2", $recovered_uncollectible);
 //        var_dump("--->3", $spending_management);
 //
-        
-        //var_dump($input_array,$fall_array);
-        //exit();
+
+
+        /* Nro B.2
+         * Detail:
+         * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
+         * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
+         */
+        foreach ($b2_array as $b2) {
+            if (!in_array($b2, $input_array)) {
+                $code_error = "B.2";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b2);
+                array_push($stack, $result);
+            }
+        }
+
+        /* Nro B.3
+         * Detail:
+         * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
+         * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
+         */
+        foreach ($b3_array as $b3) {
+            if (!in_array($b3, $input_array)) {
+                $code_error = "B.3";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b3);
+                array_push($stack, $result);
+            }
+        }
+
+        /* Nro B.4
+         * Detail: 
+         * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
+         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
+         */
+        foreach ($b4_array as $b4) {
+            if (!in_array($b4, $input_array)) {
+                $code_error = "B.4";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b4);
+                array_push($stack, $result);
+            }
+        }
+
+        /* Nro B.5
+         * Detail: 
+         * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
+         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
+         * GASTO POR GESTIÓN DE RECUPERO. 
+         */
+        foreach ($b5_array as $b5) {
+            if (!in_array($b5, $input_array)) {
+                $code_error = "B.5";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b5);
+                array_push($stack, $result);
+            }
+        }
+
+        /* Nro B.6
+         * Detail: 
+         * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
+         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
+         * GASTO POR GESTIÓN DE RECUPERO. 
+         */
+        foreach ($b6_array as $b6) {
+            if (!in_array($b6, $input_array)) {
+                $code_error = "B.6";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b6);
+                array_push($stack, $result);
+            }
+        }
+
+       
         $this->data = $stack;
     }
 
