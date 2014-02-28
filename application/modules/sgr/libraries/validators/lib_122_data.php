@@ -50,14 +50,20 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    } else {
-                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                     }
 
                     //Valida contra Mongo
+                    $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                    if (!$warranty_info) {
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
                 }
+
 
                 /* NUMERO_CUOTA_CUYO_VENC_MODIFICA
                  * Nro B.1
@@ -73,7 +79,7 @@ class Lib_122_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $cuota_arr[] = $parameterArr[$i]['fieldValue']."*".$A_cell_value;
+                        $cuota_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
                     }
                 }
 
@@ -190,17 +196,17 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        /* EXTRA VALIDATION B.1*/
-        
+        /* EXTRA VALIDATION B.1 */
+
         foreach (repeatedElements($cuota_arr) as $arr) {
             $code_error = "B.1";
-            list($cuota, $warranty)= explode('*', $arr['value']);            
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota." para la Garantía ". $warranty);
+            list($cuota, $warranty) = explode('*', $arr['value']);
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota . " para la Garantía " . $warranty);
             array_push($stack, $result);
         }
-        
-        
-        
+
+
+
         $this->data = $stack;
     }
 
