@@ -51,6 +51,9 @@ class Lib_201_error_legend {
             case "E.2":
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>De estar completa debe tomar Formato Numérico mayor a cero y aceptar hasta 2 decimales.';
                 break;
+            case "E.3":
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe verificar que el monto retirado (sumado a los demás montos que ya se hubieran retirado anteriormente de dicho aporte), no exceda el monto del aporte.';
+                break;
             case "F.1":
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la columna D está completa, esta debe estar vacía.';
                 break;

@@ -23,7 +23,7 @@ class Model_12 extends CI_Model {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = (int) $sgr['id'];
+            $this->sgr_id = (int)$sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
     }
@@ -137,27 +137,27 @@ class Model_12 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-        /* FILTER NUMBERS/STRINGS */
+        
+        /*FILTER NUMBERS/STRINGS*/
         $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');
-        $numbers_values = array_merge($int_values, $float_values);
-
-        /* FIX INFORMATION */
+        $float_values = array_filter($parameter, 'is_float');        
+        $numbers_values = array_merge($int_values,$float_values);              
+        
+        /*FIX INFORMATION*/
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
 
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5215], 1900)));
-        $parameter[5215] = $arr;
-
+        $parameter[5215] = $arr;       
+        
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
-
-        /* MERGE CAST */
-        $parameter = array_merge($parameter, $numbers_values);
-
+        
+        /*MERGE CAST*/
+        $parameter = array_merge($parameter,$numbers_values);
+        
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -183,13 +183,13 @@ class Model_12 extends CI_Model {
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);        
         if ($result) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
             $this->session->unset_userdata('period');
-
+            
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
@@ -365,13 +365,16 @@ class Model_12 extends CI_Model {
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
         $nresult_arr = array();
         $anexo = $this->anexo;
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
-            'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01')),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
@@ -405,14 +408,17 @@ class Model_12 extends CI_Model {
 
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;        
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
         $nresult_arr = array();
         $anexo = $this->anexo;
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
-            'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01')),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
