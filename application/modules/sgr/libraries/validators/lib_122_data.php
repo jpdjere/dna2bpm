@@ -112,7 +112,8 @@ class Lib_122_data extends MX_Controller {
                         $datetime1 = new DateTime($warranty_info['5215']);
                         $datetime2 = new DateTime($C_cell_date_format);
                         $interval = $datetime1->diff($datetime2);
-                        echo $interval->format('%R%a días');
+                        $result_dates =  $interval->format('%R%a');
+                        var_dump($result_dates,$warranty_info['5215'],$C_cell_date_format );
                         
                     }
 
