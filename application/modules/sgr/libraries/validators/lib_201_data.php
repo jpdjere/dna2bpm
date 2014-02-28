@@ -480,8 +480,7 @@ class Lib_201_data extends MX_Controller {
          * debe validar con los movimientos históricos que están cargados en el Sistema que el 
          * número informado no exista y sea correlativo al último informado. 
          */
-        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-
+        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);        
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
                 if ($number != 0) {
