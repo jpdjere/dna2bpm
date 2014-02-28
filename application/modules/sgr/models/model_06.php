@@ -433,7 +433,8 @@ class Model_06 extends CI_Model {
 
     function get_partner_period($cuit, $get_period) {
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;       
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
 
         $anexo = $this->anexo;
@@ -443,7 +444,9 @@ class Model_06 extends CI_Model {
         $query = array(
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id,
-            'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01')),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo'
         );
 
@@ -465,13 +468,15 @@ class Model_06 extends CI_Model {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
-        
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
+
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'sgr_id' => $this->sgr_id,
-            'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01')),
-            'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
+            'period_date' => array(
+                '$lte' => $endDate
+            ), 'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
         );
 
         $result = $this->mongo->sgr->$period->find($query);
@@ -568,14 +573,17 @@ class Model_06 extends CI_Model {
 
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;        
+        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
         $nresult_arr = array();
         $anexo = $this->anexo;
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
-            'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01')),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
@@ -610,6 +618,7 @@ class Model_06 extends CI_Model {
         $period = 'container.sgr_periodos';
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
 
         $nresult_arr = array();
@@ -617,7 +626,9 @@ class Model_06 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
-            'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01')),
+            "period_date" => array(
+                '$lte' => $endDate
+            ),
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
