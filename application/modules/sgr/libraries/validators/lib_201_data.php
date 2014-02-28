@@ -164,17 +164,24 @@ class Lib_201_data extends MX_Controller {
                         } else {
                             $code_error = "C.3";
                             $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                            
+                            
+                            if (!$partner_data) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
 
-                            foreach ($partner_data as $partner) {
-                                if ($partner[5272][0] == 'A') {
+
+                            foreach ($partner_data as $partner) {                                
+                                if ($partner[5272][0] != 'B') {                                   
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
-                                } else {
+                                } else {                                    
                                     $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
                                     $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
                                     $balance = $buy - $sell;
                                     if ($balance == 0) {
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
                                         array_push($stack, $result);
                                     }
                                 }
@@ -562,8 +569,8 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-       // var_dump($stack);
-       // exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
