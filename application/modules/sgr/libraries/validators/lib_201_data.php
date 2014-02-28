@@ -562,8 +562,8 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-        var_dump($stack);
-        exit();
+       // var_dump($stack);
+       // exit();
         $this->data = $stack;
     }
 
