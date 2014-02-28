@@ -50,15 +50,12 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     //Valida contra Mongo
                     $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                    var_dump($warranty_info);
                     if (!$warranty_info) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -81,10 +78,10 @@ class Lib_122_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $cuota_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
-                        $B_cell_value = (int)$parameterArr[$i]['fieldValue'];                       
-                        
+                        $B_cell_value = (int) $parameterArr[$i]['fieldValue'];
+
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return || $B_cell_value<1) {
+                        if ($return || $B_cell_value < 1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -101,20 +98,22 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                        /* C.2 */
+                        $C_cell_date_format  = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                        
+                        $datetime1 = new DateTime($warranty_info['5215']);
+                        $datetime2 = new DateTime($C_cell_date_format);
+                        $interval = $datetime1->diff($datetime2);
+                        echo $interval->format('%R%a días');
+                        
                     }
 
                     //Valida contra Mongo
@@ -204,7 +203,7 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        
+
         /* EXTRA VALIDATION B.2 */
         foreach (repeatedElements($cuota_arr) as $arr) {
             $code_error = "B.2";
