@@ -432,10 +432,6 @@ class Model_06 extends CI_Model {
     }
 
     function get_partner_period($cuit, $get_period) {
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-
 
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -444,9 +440,7 @@ class Model_06 extends CI_Model {
         $query = array(
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id,
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
+            'period' => $get_period,
             'status' => 'activo'
         );
 
@@ -462,12 +456,15 @@ class Model_06 extends CI_Model {
     }
 
     function get_partner($cuit) {
+        
+       
+        
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
+        $getPeriodMonth = (int) $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
         $query = array(
@@ -478,20 +475,22 @@ class Model_06 extends CI_Model {
                 '$lte' => $endDate
             ), 'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
         );
+         
+         
 
         $result = $this->mongo->sgr->$period->find($query);
         $return_result = array();
-        foreach ($result as $list) {
-
-
+        foreach ($result as $list) {  
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
 
+            
+            
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
+            if ($new_result)                
                 $return_result[] = $new_result;
         }
 
@@ -597,8 +596,6 @@ class Model_06 extends CI_Model {
                 5272 => $partner_type
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-
-
             if ($new_result) {
                 $nresult_arr[] = $new_result[$field];
             }
