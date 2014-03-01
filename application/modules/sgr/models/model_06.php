@@ -227,7 +227,7 @@ class Model_06 extends CI_Model {
         $parameter['origin'] = 2013;
         
         $id = $this->app->genid_sgr($container);
-         var_dump($parameter);
+         var_dump($parameter,$numbers_values);
         /*MERGE CAST*/
         $parameter = array_merge($parameter,$numbers_values);
         
