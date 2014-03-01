@@ -258,6 +258,9 @@ class Model_06 extends CI_Model {
 
         $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
         foreach ($anexoValues as $values) {
+            
+            var_dump($anexoValues);
+            exit();
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values[5779])) {
                 $parameter['status'] = 'activo';
