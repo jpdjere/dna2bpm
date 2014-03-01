@@ -55,7 +55,7 @@ class Model_06 extends CI_Model {
          * @example ....
          * */
         $defdna = array(
-            1 => "5779", //TIPO_OPERACION
+            1 => 5779, //TIPO_OPERACION
             2 => 5272, //TIPO_SOCIO
             3 => 1695, //CUIT
             4 => 1693, //NOMBRE
@@ -222,10 +222,6 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-
-
-
-
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
         $parameter[5255] = $arr;
@@ -236,11 +232,6 @@ class Model_06 extends CI_Model {
 
         $id = $this->app->genid_sgr($container);
 
-        /* MERGE CAST */
-        $parameter = array_merge($parameter, $numbers_values);
-
-
-        //var_dump($parameter,$numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
