@@ -28,18 +28,12 @@ class Model_06 extends CI_Model {
         }
     }
 
-    function sanitize($parameter) {
-        /* FILTER NUMBERS/STRINGS */
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');
-        $numbers_values = array_merge($int_values, $float_values);
-
+    function sanitize($parameter) {       
         /* FIX INFORMATION */
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
-        /* MERGE CAST */
-        $parameter = array_merge($parameter, $numbers_values);
-        
+       
+
         return $parameter;
     }
 
@@ -97,6 +91,18 @@ class Model_06 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+
+            /* INTEGERS */
+            $insertarr[4654] = (int) $insertarr[4654];
+            $insertarr[5208] = (int) $insertarr[5208];
+            $insertarr[28] = (int) $insertarr[28];
+            
+            
+            /*FLOAT*/
+            $insertarr[20] = (float) $insertarr[20];
+            $insertarr[23] = (float) $insertarr[23];
+            $insertarr[26] = (float) $insertarr[26];
+            
             //--- Tipo de Operacion           
             if ($insertarr["5779"] == "INCORPORACION")
                 $insertarr["5779"] = "1";
