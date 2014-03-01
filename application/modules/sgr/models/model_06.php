@@ -40,7 +40,7 @@ class Model_06 extends CI_Model {
          * @example ....
          * */
         $defdna = array(
-            1 => 5779, //TIPO_OPERACION
+            1 => "5779", //TIPO_OPERACION
             2 => 5272, //TIPO_SOCIO
             3 => 1695, //CUIT
             4 => 1693, //NOMBRE
@@ -83,12 +83,12 @@ class Model_06 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
             //--- Tipo de Operacion           
-            if ($insertarr[5779] == "INCORPORACION")
-                $insertarr[5779] = "1";
-            if ($insertarr[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-                $insertarr[5779] = "2";
-            if ($insertarr[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-                $insertarr[5779] = "3";
+            if ($insertarr["5779"] == "INCORPORACION")
+                $insertarr["5779"] = "1";
+            if ($insertarr["5779"] == "INCREMENTO DE TENENCIA ACCIONARIA")
+                $insertarr["5779"] = "2";
+            if ($insertarr["5779"] == "DISMINUCION DE CAPITAL SOCIAL")
+                $insertarr["5779"] = "3";
 
 
 
@@ -299,7 +299,7 @@ class Model_06 extends CI_Model {
            
             
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
-            if (in_array('1', $values[5779])) {
+            if (in_array('1', $values["5779"])) {
                 $parameter['status'] = 'activo';
                 $parameter['pending_on'] = date('Y-m-d h:i:s');
             } else {
@@ -435,7 +435,7 @@ class Model_06 extends CI_Model {
             $inner_table .= '</table>';
 
             $new_list = array();
-            $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
+            $new_list['TIPO_OPERACION'] = $operation_type[$list['"5779"'][0]];
             $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $partner_type[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
@@ -569,7 +569,7 @@ class Model_06 extends CI_Model {
             $anexo_query = array(
                 //1695 => $list,
                 'filename' => $filename,
-                5779 => "1"
+                "5779" => "1"
             );
             $get_error = array();
             $new_result = $this->mongo->sgr->$container_anexo->find($anexo_query);
