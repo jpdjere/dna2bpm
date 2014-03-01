@@ -404,10 +404,7 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
-
-
-
-
+            
             $calc_average = "";
             $promedio = "";
             $sector = "";
@@ -607,12 +604,11 @@ class Model_06 extends CI_Model {
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo,$this->session->userdata['period']);
+        $result = $this->sgr_model->get_active($anexo);
 
        
         /* FIND ANEXO */
-        foreach ($result as $list) {
-            debug($new_query);
+        foreach ($result as $list) {          
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
@@ -621,10 +617,9 @@ class Model_06 extends CI_Model {
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
-             debug($new_query);
+            
             $buy_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($buy_result) {
-                 var_dump($buy_result);
                 $buy_result_arr[] = $buy_result[$field];
             }
 
@@ -665,7 +660,7 @@ class Model_06 extends CI_Model {
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_other_sgrs($anexo,$this->session->userdata['period']);
+        $result = $this->sgr_model->get_active_other_sgrs($anexo);
 
         $return_result = array();
         /* FIND ANEXO */
