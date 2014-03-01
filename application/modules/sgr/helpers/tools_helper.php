@@ -426,7 +426,7 @@ function array_search2d($needle, $haystack) {
 
 function translate_period_date($period) {
     list($period_month, $period_year) = explode("-", $period);
-    //$isdate = date($period_year . '-' . $period_month . '-01');
+    
     $period_day = '01';
     $realtime = date("$period_year-$period_month-$period_day H:i:s");
     $mongotime = New Mongodate(strtotime($realtime));
