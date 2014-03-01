@@ -393,6 +393,8 @@ function translate_mongo_date($parameter) {
     list($period_month, $period_year, $period_day) = explode("-", $shift_date);
     $realtime = date("$period_year-$period_month-$period_day H:i:s");
     $mongotime = New Mongodate(strtotime($realtime));
+    
+    return $mongotime;
 }
 
 function translate_period_date($period) {
