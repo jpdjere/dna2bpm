@@ -93,7 +93,7 @@ class Model_06 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             /* INTEGERS */
-            $insertarr[1695] = (int) $insertarr[1695];
+            $insertarr[1695] = (string) $insertarr[1695];
             $insertarr[4654] = (int) $insertarr[4654];
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
