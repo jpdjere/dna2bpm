@@ -91,9 +91,10 @@ class Model_06 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-
-            /* INTEGERS */
-            $insertarr[1695] = (string) $insertarr[1695];
+            
+             $insertarr[1695] = (string) $insertarr[1695];
+            
+            /* INTEGERS */           
             $insertarr[4654] = (int) $insertarr[4654];
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
