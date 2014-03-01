@@ -507,8 +507,10 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
 
         $result = $this->sgr_model->get_active($anexo);
+        
+        
         $return_result = array();
-        foreach ($result as $list) {
+        foreach ($result as $list) {            
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
