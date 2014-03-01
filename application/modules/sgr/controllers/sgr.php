@@ -367,8 +367,8 @@ class Sgr extends MX_Controller {
                 
                 
                 
-                $sanitize_data = (array) $this->$model->sanitize($data->sheets[0]['cells'][$i]);
-                $result_data_ = (array) $this->$model->check($data->sheets[0]['cells'][$i]);               
+                $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
+                $result_data_ =  $this->$model->check($sanitize_data);               
                 
                 
                 if ($result_data_[5779] == 1) {

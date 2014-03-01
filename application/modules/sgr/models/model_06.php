@@ -30,6 +30,7 @@ class Model_06 extends CI_Model {
 
     function sanitize($parameter) {       
         /* FIX INFORMATION */
+        $parameter = (array)$parameter;
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);      
 
