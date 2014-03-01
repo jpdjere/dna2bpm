@@ -389,11 +389,8 @@ function translate_date($parameter) {
 }
 
 function translate_mongo_date($parameter) {
-    $shift_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
-    list($period_month, $period_year, $period_day) = explode("-", $shift_date);
-    $realtime = date("$period_year-$period_month-$period_day H:i:s");
-    $mongotime = New Mongodate(strtotime($realtime));
-    
+    $shift_date = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
+    $mongotime = New Mongodate(strtotime(date($shift_date)));
     return $mongotime;
 }
 
