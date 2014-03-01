@@ -574,13 +574,14 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         } else {
+
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
-                                /* VALIDO EN TODAS LAS */
-                                $balance = $this->$model_06->shares_others_sgrs($parameterArr[$i]['fieldValue'], 'B');
+                                /* VALIDO EN TODAS LAS */                                
+                                $balance = $this->$model_06->shares_others_sgrs($C_cell_value, $B_cell_value);
                                 if ($balance != 0) {
                                     $code_error = "B.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
