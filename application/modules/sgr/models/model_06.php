@@ -238,8 +238,38 @@ class Model_06 extends CI_Model {
         }
         return $out;
     }
-
+    
     function save_period($parameter) {
+        /* ADD PERIOD */
+        $container = 'container.sgr_periodos';
+        $period = $this->session->userdata['period'];
+        $id = $this->app->genid_sgr($container);
+        $parameter['period'] = $period;
+        $parameter['period_date'] = translate_period_date($period);
+        $parameter['status'] = 'activo';
+        $parameter['idu'] = $this->idu;
+
+        /*
+         * VERIFICO PENDIENTE           
+         */
+        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $this->update_period($get_period['id'], $get_period['status']);
+        $result = $this->app->put_array_sgr($id, $container, $parameter);        
+        if ($result) {
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
+            
+            $out = array('status' => 'ok');
+        } else {
+            $out = array('status' => 'error');
+        }
+        return $out;
+    }
+    
+    /*REVISAR*/
+    function save_period_check($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
@@ -257,9 +287,12 @@ class Model_06 extends CI_Model {
          */
 
         $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
+        
+         var_dump($this->anexo, $parameter['filename']);
+        
         foreach ($anexoValues as $values) {
             
-            var_dump($values[5779]);
+           
             exit();
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values[5779])) {
