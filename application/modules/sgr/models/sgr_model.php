@@ -354,30 +354,55 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result[amount];
     }
-
+    
+    /*GET ACTIVE ANEXOS*/
     function get_active($anexo, $exclude_this = false) {
-
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth;
+        $getPeriodMonth =  $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
-
+        
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'sgr_id' => $this->sgr_id,
-            //'period_date' => array('$lte' => date($getPeriodYear . '-' . $getPeriodMonth . '-01'))
+            'status' => 'activo', //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
             'period_date' => array(
                 '$lte' => $endDate
-            ), 'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
+            ),             
         );
-
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
         }
+        
+        
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $each) {
+            $rtn[] = $each;
+        }
+        return $rtn;
+    }
+    
+    function get_active_other_sgrs($anexo, $exclude_this = false) {
+        $rtn = array();
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth =  $getPeriodMonth;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
+        
+        $query = array(
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),           
+            'sgr_id' => array('$ne' => $this->sgr_id),
+            'status' => 'activo',
+            'period' => array('$ne' => $this->session->userdata['period'])          
+        );
+        
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
             $rtn[] = $each;
