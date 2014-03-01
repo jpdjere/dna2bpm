@@ -207,7 +207,7 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
         
-        var_dump($parameter);
+        
         
         /*FILTER NUMBERS/STRINGS*/
         $int_values = array_filter($parameter, 'is_int');
@@ -230,6 +230,8 @@ class Model_06 extends CI_Model {
         
         /*MERGE CAST*/
         $parameter = array_merge($parameter,$numbers_values);
+        
+        var_dump($parameter);
         
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
