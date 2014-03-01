@@ -115,9 +115,6 @@ class Model_201 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-
-
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
