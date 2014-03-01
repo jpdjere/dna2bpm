@@ -456,29 +456,11 @@ class Model_06 extends CI_Model {
     }
 
     function get_partner($cuit) {
-        
-       
-        
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-
-        $query = array(
-            'anexo' => $anexo,
-            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
-            'sgr_id' => $this->sgr_id,
-            'period_date' => array(
-                '$lte' => $endDate
-            ), 'status' => 'activo' //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
-        );
-         
-         
-
-        $result = $this->mongo->sgr->$period->find($query);
+        
+        $result = $this->sgr_model->get_active($anexo);        
         $return_result = array();
         foreach ($result as $list) {  
             $new_query = array(
@@ -486,8 +468,6 @@ class Model_06 extends CI_Model {
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
-
-            
             
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)                
@@ -500,7 +480,6 @@ class Model_06 extends CI_Model {
     /* PARTNERS INFO */
 
     function get_all_partners($get_period = null) {
-
         $rtn = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
