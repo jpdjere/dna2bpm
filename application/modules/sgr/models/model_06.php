@@ -606,7 +606,7 @@ class Model_06 extends CI_Model {
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo);
+        $result = $this->sgr_model->get_active($anexo,$this->session->userdata['period']);
 
         $return_result = array();
         /* FIND ANEXO */
@@ -661,7 +661,7 @@ class Model_06 extends CI_Model {
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_other_sgrs($anexo);
+        $result = $this->sgr_model->get_active_other_sgrs($anexo,$this->session->userdata['period']);
 
         $return_result = array();
         /* FIND ANEXO */
