@@ -209,14 +209,14 @@ class Model_06 extends CI_Model {
         
         
         
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
+//        /*FILTER NUMBERS/STRINGS*/
+//        $int_values = array_filter($parameter, 'is_int');
+//        $float_values = array_filter($parameter, 'is_float');        
+//        $numbers_values = array_merge($int_values,$float_values);              
+//        
+//        /*FIX INFORMATION*/
+//        $parameter = array_map('trim', $parameter);
+//        $parameter = array_map('addSlashes', $parameter);
 
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
@@ -232,7 +232,7 @@ class Model_06 extends CI_Model {
         $parameter = array_merge($parameter,$numbers_values);
         
        
-        var_dump($parameter,$numbers_values);
+        //var_dump($parameter,$numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
