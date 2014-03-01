@@ -592,9 +592,8 @@ class Model_06 extends CI_Model {
             return $get_error;
     }
 
-    /* ACCIONES COMPRA/VENTA
+    /* ACCIONES COMPRA/VENTA X SGR
      * Compra/venta por socio
-     * Integradas
      */
 
     function shares($cuit, $partner_type = null, $field = 5597) {
@@ -634,7 +633,7 @@ class Model_06 extends CI_Model {
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
-            
+
             $sell_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($sell_result) {
                 $sell_result_arr[] = $sell_result[$field];
@@ -646,7 +645,11 @@ class Model_06 extends CI_Model {
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
-    
+
+    /* ACCIONES COMPRA/VENTA todas las otras SGR
+     * Compra/venta por socio
+     */
+
     function shares_others_sgrs($cuit, $partner_type, $field = 5597) {
 
         $anexo = $this->anexo;
@@ -670,7 +673,7 @@ class Model_06 extends CI_Model {
                 'filename' => $list['filename'],
                 5272 => $partner_type
             );
-            
+
             $buy_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($buy_result) {
                 $buy_result_arr[] = $buy_result[$field];
@@ -681,10 +684,10 @@ class Model_06 extends CI_Model {
                 5248 => $cuit,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
-                5272 => $partner_type              
+                5272 => $partner_type
             );
-           
-            
+
+
             $sell_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($sell_result) {
                 $sell_result_arr[] = $sell_result[$field];
@@ -695,78 +698,6 @@ class Model_06 extends CI_Model {
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
         return $balance;
-    }
-    
-    /* ACCIONES COMPRA
-     * Compra venta por socio
-     * Integradas
-     */
-
-    function buy_shares_all($cuit, $partner_type, $field = 5597) {
-        $nresult_arr = array();
-        $partner_type = ($partner_type == "A") ? "B" : "A";
-        $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => array('$ne' => $this->sgr_id),
-            'period' => array('$ne' => $this->session->userdata['period'])
-        );
-        $result = $this->mongo->sgr->$period->find($query);
-
-        foreach ($result as $list) {
-            $new_query = array(
-                1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename'],
-                5272 => $partner_type
-            );
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $nresult_arr[] = $new_result[$field];
-        }
-        $result = array_sum($nresult_arr);
-        return $result;
-    }
-
-    /* ACCIONES VENTA
-     * Compra venta por socio
-     * Integradas 
-     */
-
-    function sell_shares_all($cuit, $partner_type, $field = 5597) {
-        $nresult_arr = array();
-        $partner_type = ($partner_type == "A") ? "B" : "A";
-        $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => array(
-                '$ne' => $this->sgr_id
-            ),
-            'period' => array(
-                '$ne' => $this->session->userdata['period']
-            )
-        );
-
-        $result = $this->mongo->sgr->$period->find($query);
-        foreach ($result as $list) {
-            $new_query = array(
-                5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename'],
-                5272 => $partner_type
-            );
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $nresult_arr[] = $new_result[$field];
-        }
-        $result = array_sum($nresult_arr);
-        return $result;
     }
 
 }
