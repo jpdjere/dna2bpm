@@ -388,10 +388,9 @@ function translate_date($parameter) {
     return strftime("%Y-%m-%d", $parameter);
 }
 
-function translate_mongo_date($parameter) {
-    $shift_date = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
-    $mongotime = New Mongodate(strtotime(date($shift_date)));
-    return $mongotime;
+function translate_for_mongo($parameter) {
+    $result = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));    
+    return $result;
 }
 
 function translate_period_date($period) {

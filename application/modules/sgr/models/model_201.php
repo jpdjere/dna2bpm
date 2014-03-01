@@ -116,8 +116,9 @@ class Model_201 extends CI_Model {
         //$parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
         //$parameter['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_ACTA'], 1900));
         
-        $parameter['FECHA_MOVIMIENTO'] =new MongoDate(strtotime("2010-01-15 00:00:00")); // translate_mongo_date('FECHA_MOVIMIENTO');
-        $parameter['FECHA_ACTA'] = translate_mongo_date('FECHA_ACTA');
+        $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_mongo_date('FECHA_MOVIMIENTO'))); 
+        
+         $parameter['FECHA_ACTA'] = new MongoDate(strtotime(translate_mongo_date('FECHA_ACTA')));
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
         
