@@ -385,7 +385,23 @@ function translate_date($parameter) {
         exit();
     }
     $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
-    return strftime("%Y/%m/%d", $parameter);
+    return strftime("%Y-%m-%d", $parameter);
+}
+
+function translate_mongo_date($parameter) {
+    $shift_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
+    list($period_month, $period_year, $period_day) = explode("-", $shift_date);
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+}
+
+function translate_period_date($period) {
+    list($period_month, $period_year) = explode("-", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
 }
 
 /**
@@ -422,15 +438,6 @@ function array_search2d($needle, $haystack) {
             return $i;
     }
     return false;
-}
-
-function translate_period_date($period) {
-    list($period_month, $period_year) = explode("-", $period);
-    
-    $period_day = '01';
-    $realtime = date("$period_year-$period_month-$period_day H:i:s");
-    $mongotime = New Mongodate(strtotime($realtime));
-    return $mongotime;
 }
 
 /*
