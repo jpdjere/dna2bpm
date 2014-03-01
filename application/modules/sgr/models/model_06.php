@@ -93,6 +93,7 @@ class Model_06 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             /* INTEGERS */
+            $insertarr[1695] = (int) $insertarr[1695];
             $insertarr[4654] = (int) $insertarr[4654];
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
@@ -212,8 +213,8 @@ class Model_06 extends CI_Model {
                 $insertarr[5252] = "2";
 
             //Formatos numricos para importes
-            $insertarr[5597] = str_replace(",", ".", $insertarr[5597]);
-            $insertarr[5598] = str_replace(",", ".", $insertarr[5598]);
+            $insertarr[5597] = (int)str_replace(",", ".", $insertarr[5597]);
+            $insertarr[5598] = (int)str_replace(",", ".", $insertarr[5598]);
 
             //  Arreglamo la caracteristica
             if ($insertarr[5292] == "DISMINUCION DE TENENCIA ACCIONARIA")
@@ -608,9 +609,10 @@ class Model_06 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo,$this->session->userdata['period']);
 
-        $return_result = array();
+       
         /* FIND ANEXO */
         foreach ($result as $list) {
+            debug($new_query);
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
@@ -619,9 +621,10 @@ class Model_06 extends CI_Model {
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
-
+             debug($new_query);
             $buy_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($buy_result) {
+                 var_dump($buy_result);
                 $buy_result_arr[] = $buy_result[$field];
             }
 
@@ -636,6 +639,7 @@ class Model_06 extends CI_Model {
 
             $sell_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($sell_result) {
+                var_dump($sell_result);
                 $sell_result_arr[] = $sell_result[$field];
             }
         }
