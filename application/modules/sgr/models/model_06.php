@@ -28,6 +28,21 @@ class Model_06 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FILTER NUMBERS/STRINGS */
+        $int_values = array_filter($parameter, 'is_int');
+        $float_values = array_filter($parameter, 'is_float');
+        $numbers_values = array_merge($int_values, $float_values);
+
+        /* FIX INFORMATION */
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+        /* MERGE CAST */
+        $parameter = array_merge($parameter, $numbers_values);
+        
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -206,17 +221,10 @@ class Model_06 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        
-        
-//        /*FILTER NUMBERS/STRINGS*/
-//        $int_values = array_filter($parameter, 'is_int');
-//        $float_values = array_filter($parameter, 'is_float');        
-//        $numbers_values = array_merge($int_values,$float_values);              
-//        
-//        /*FIX INFORMATION*/
-//        $parameter = array_map('trim', $parameter);
-//        $parameter = array_map('addSlashes', $parameter);
+
+
+
+
 
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
@@ -225,13 +233,13 @@ class Model_06 extends CI_Model {
         $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
+
         $id = $this->app->genid_sgr($container);
-         
-        /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
-        
-       
+
+        /* MERGE CAST */
+        $parameter = array_merge($parameter, $numbers_values);
+
+
         //var_dump($parameter,$numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
@@ -242,7 +250,7 @@ class Model_06 extends CI_Model {
         }
         return $out;
     }
-    
+
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
@@ -258,21 +266,22 @@ class Model_06 extends CI_Model {
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);        
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
             $this->session->unset_userdata('period');
-            
+
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
         return $out;
     }
-    
-    /*REVISAR*/
+
+    /* REVISAR */
+
     function save_period_check($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
@@ -291,13 +300,13 @@ class Model_06 extends CI_Model {
          */
 
         $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
-        
-         var_dump($this->anexo, $parameter['filename']);
-        
+
+        var_dump($this->anexo, $parameter['filename']);
+
         foreach ($anexoValues as $values) {
-            
-           
-            
+
+
+
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values["5779"])) {
                 $parameter['status'] = 'activo';
@@ -499,18 +508,18 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        
-        $result = $this->sgr_model->get_active($anexo);        
+
+        $result = $this->sgr_model->get_active($anexo);
         $return_result = array();
-        foreach ($result as $list) {  
+        foreach ($result as $list) {
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
-            
+
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)                
+            if ($new_result)
                 $return_result[] = $new_result;
         }
 
