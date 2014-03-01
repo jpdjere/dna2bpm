@@ -27,7 +27,7 @@ class Model_201 extends CI_Model {
             $this->sgr_nombre = $sgr['1693'];
         }
     }
-    
+
     function sanitize($parameter) {
         /* FIX INFORMATION */
         $parameter = (array) $parameter;
@@ -36,7 +36,7 @@ class Model_201 extends CI_Model {
 
         return $parameter;
     }
-    
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -91,10 +91,23 @@ class Model_201 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
 
+            $insertarr["CUIT_PROTECTOR"] = (string) $insertarr["CUIT_PROTECTOR"];
+
+            /* INTEGERS  & FLOATS */
+            $insertarr["APORTE"] = (float) $insertarr["APORTE"];
+            $insertarr["RETIRO"] = (float) $insertarr["RETIRO"];
+            $insertarr["RETENCION_POR_CONTINGENTE"] = (float) $insertarr["RETENCION_POR_CONTINGENTE"];
+            $insertarr["RETIRO_DE_RENDIMIENTOS"] = (float) $insertarr["RETIRO_DE_RENDIMIENTOS"];
+            $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
+
             if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
                 $insertarr["MONEDA"] = "1";
             if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
                 $insertarr["MONEDA"] = "2";
+
+            /* FIX DATE */
+            $insertarr['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_MOVIMIENTO'], 1900));
+            $insertarr['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_ACTA'], 1900));
         }
         return $insertarr;
     }
@@ -102,16 +115,14 @@ class Model_201 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-    
-        /* FIX DATE */
-        $parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
-        $parameter['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_ACTA'], 1900));
-        
+
+
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
+
         $id = $this->app->genid_sgr($container);
-        
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -271,17 +282,17 @@ class Model_201 extends CI_Model {
             'status' => 'activo',
             'anexo' => $anexo,
             'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);        
-        
+        $result = $this->mongo->sgr->$period->find($query);
+
         /* FIND ANEXO */
-        foreach ($result as $list) {            
+        foreach ($result as $list) {
             $new_query = array(
                 'NUMERO_DE_APORTE' => $code,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
 
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);            
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result) {
                 $nresult_arr[] = $new_result['APORTE'];
             }
@@ -316,7 +327,7 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename']
             );
 
-        $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1); 
+            $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
             foreach ($new_result as $new_list) {
                 return $new_list['NUMERO_DE_APORTE'];
             }
