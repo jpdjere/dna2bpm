@@ -421,7 +421,7 @@ class Sgr extends MX_Controller {
             }
         }
         
-       
+       exit();
         
         /* ERROR CASE */
         if ($error) {
