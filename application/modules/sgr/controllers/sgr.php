@@ -364,9 +364,6 @@ class Sgr extends MX_Controller {
             $array = array();
             //Check Duplicates ANEXO 06
             for ($i = 2; $i <= $data->rowcount(); $i++) {
-                
-                
-                
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
                 $result_data_ =  $this->$model->check($sanitize_data);               
                 
@@ -426,7 +423,7 @@ class Sgr extends MX_Controller {
                 }
             }
         }
-        exit();
+        
       
         /* ERROR CASE */
         if ($error) {
