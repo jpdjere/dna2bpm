@@ -365,8 +365,10 @@ class Sgr extends MX_Controller {
             //Check Duplicates ANEXO 06
             for ($i = 2; $i <= $data->rowcount(); $i++) {
                 
-               
-                $result_data_ = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
+                
+                
+                $sanitize_data = (array) $this->$model->sanitize($data->sheets[0]['cells'][$i]);
+                $result_data_ = (array) $this->$model->check($sanitize_data);
                 
                 
                 
@@ -426,8 +428,7 @@ class Sgr extends MX_Controller {
             }
         }
         
-       
-        
+      
         /* ERROR CASE */
         if ($error) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
