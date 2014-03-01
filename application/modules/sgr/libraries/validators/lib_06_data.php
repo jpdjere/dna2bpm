@@ -354,8 +354,8 @@ class Lib_06_data extends MX_Controller {
                                 if ($A_cell_value == "INTEGRACION PENDIENTE") {
 
 
-                                    $balance = $this->$model_06->shares($C_cell_value, $B_cell_value);
-                                    $balance_integrated = $this->$model_06->shares($C_cell_value, $B_cell_value, 5598);
+                                    $balance = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
+                                    $balance_integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
 
                                     $subscribed = $balance + $AH_cell_value;
                                     $integrated = $balance_integrated + $AI_cell_value;
@@ -415,8 +415,8 @@ class Lib_06_data extends MX_Controller {
 
 
                         /* C.2 */                      
-                        $subscribed = $this->$model_06->shares($C_cell_value, $B_cell_value);
-                        $integrated = $this->$model_06->shares($C_cell_value, $B_cell_value, 5598);
+                        $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
+                        $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
                         $saldo = array_sum(array($subscribed, $integrated));
                         if ($saldo != 0) {
                             $code_error = "C.2";
@@ -449,7 +449,7 @@ class Lib_06_data extends MX_Controller {
                     /* "INCREMENTO DE TENENCIA ACCIONARIA" */
                     if ($A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
                         /* B.3 */
-                        $balance = $balance = $this->$model_06->shares($C_cell_value, $B_cell_value);
+                        $balance = $balance = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
                         if ($balance == 0) {
                             $code_error = "B.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -476,7 +476,7 @@ class Lib_06_data extends MX_Controller {
 
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $balance = $this->$model_06->shares($parameterArr[$i]['fieldValue'], $B_cell_value);
+                        $balance = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value);
 
                         /*
                          * AH.4
@@ -512,7 +512,7 @@ class Lib_06_data extends MX_Controller {
 
 
                        
-                        $balance_integrado = $this->$model_06->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
+                        $balance_integrado = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
                         if ($balance_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -539,8 +539,8 @@ class Lib_06_data extends MX_Controller {
                     }
 
                     $partner = $parameterArr[$i]['fieldValue'];
-                    $subscribed = $this->$model_06->shares($partner, $B_cell_value);
-                    $integrated = $this->$model_06->shares($partner, $B_cell_value, 5598);
+                    $subscribed = $this->$model_anexo->shares($partner, $B_cell_value);
+                    $integrated = $this->$model_anexo->shares($partner, $B_cell_value, 5598);
 
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
