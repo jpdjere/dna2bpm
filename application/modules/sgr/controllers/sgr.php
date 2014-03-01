@@ -364,7 +364,14 @@ class Sgr extends MX_Controller {
             $array = array();
             //Check Duplicates ANEXO 06
             for ($i = 2; $i <= $data->rowcount(); $i++) {
+                
+                
+                
+                
                 $result_data_ = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
+                
+                var_dump($result_data_);
+                
                 if ($result_data_[5779] == 1) {
                     if ($result_data_[1695] != NULL) {
                         $array[] = $result_data_[1695];
