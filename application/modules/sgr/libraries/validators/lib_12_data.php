@@ -128,19 +128,13 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     /* B.3 */
-                    $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue']);
-                    $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue']);
 
-                    $buy_integrado = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], 5598);
-                    $sell_integrado = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], 5598);
-
-
-                    $suscripto = $buy - $sell;
-                    $integrado = $buy_integrado - $sell_integrado;
-                    //var_dump($suscripto,$integrado);
-                    if ($integrado != $suscripto) {
+                    $subscribed = $this->$model_06->shares($parameterArr[$i]['fieldValue']);
+                    $integrated = $this->$model_06->shares($parameterArr[$i]['fieldValue'], 5598);
+                    //var_dump($subscribed,$integrated);
+                    if ($integrated != $subscribed) {
                         $code_error = "B.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }

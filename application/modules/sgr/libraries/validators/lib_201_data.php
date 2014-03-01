@@ -176,10 +176,8 @@ class Lib_201_data extends MX_Controller {
                                 if ($partner[5272][0] != 'B') {                                   
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
-                                } else {                                    
-                                    $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
-                                    $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
-                                    $balance = $buy - $sell;
+                                } else {
+                                    $balance = $this->$model_06->shares($parameterArr[$i]['fieldValue'], 'B');
                                     if ($balance == 0) {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
                                         array_push($stack, $result);
