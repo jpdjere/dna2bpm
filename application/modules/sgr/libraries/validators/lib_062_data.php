@@ -141,6 +141,7 @@ class Lib_062_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                            var_dump($D_cell_value);
                             if ($D_cell_value < 1) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $D_cell_value);
                                 array_push($stack, $result);
@@ -168,6 +169,9 @@ class Lib_062_data extends MX_Controller {
                 }
             }
         }
+        
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
