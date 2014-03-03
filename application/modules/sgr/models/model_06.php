@@ -601,10 +601,10 @@ class Model_06 extends CI_Model {
      * Compra/venta por socio
      */
 
-    function shares($cuit, $partner_type = null, $field = 5597, $exclude = null) {
+    function shares($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
-        $period_value = (!$exclude)? $this->session->userdata['period'] : null;
+        $period_value = $this->session->userdata['period'];
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -651,6 +651,60 @@ class Model_06 extends CI_Model {
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
+    
+    function shares_no_06($cuit, $partner_type = null, $field = 5597) {
+
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $buy_result_arr = array();
+        $sell_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            /* BUY */
+            $new_query = array(
+                1695 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $buy_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($buy_result) {
+                $buy_result_arr[] = $buy_result[$field];
+            }
+
+            /* SELL */
+            $new_query = array(
+                5248 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $sell_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($sell_result) {
+                $sell_result_arr[] = $sell_result[$field];
+            }
+        }
+
+        $buy_sum = array_sum($buy_result_arr);
+        $sell_sum = array_sum($sell_result_arr);
+        $balance = $buy_sum - $sell_sum;
+        return $balance;
+    }
+    
+    
+    
 
     /* ACCIONES COMPRA/VENTA todas las otras SGR
      * Compra/venta por socio
