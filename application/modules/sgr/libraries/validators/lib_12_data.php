@@ -65,6 +65,7 @@ class Lib_12_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $is_order_num = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                        var_dump($is_order_num);
                         if ($is_order_num) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "El nro de Orden " . $parameterArr[$i]['fieldValue']. " ya está en el sistema.");
                             array_push($stack, $result);
@@ -816,7 +817,8 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);exit();
+//        var_dump($stack);
+exit();
         $this->data = $stack;
     }
 
