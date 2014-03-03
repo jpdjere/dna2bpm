@@ -59,7 +59,7 @@ class Lib_062_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                             foreach ($partner_data as $partner) {
-                                if ($partner[5272][0] != 'B') {
+                                if ($partner[5272][0] != 'A') {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 } else {
