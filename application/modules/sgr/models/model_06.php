@@ -601,10 +601,10 @@ class Model_06 extends CI_Model {
      * Compra/venta por socio
      */
 
-    function shares($cuit, $partner_type = null, $field = 5597) {
+    function shares($cuit, $partner_type = null, $field = 5597, $exclude = null) {
 
         $anexo = $this->anexo;
-        $period_value = $this->session->userdata['period'];
+        $period_value = (!$exclude)? $this->session->userdata['period'] : null;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
