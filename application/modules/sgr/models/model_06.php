@@ -600,7 +600,6 @@ class Model_06 extends CI_Model {
     /* ACCIONES COMPRA/VENTA X SGR
      * Compra/venta por socio
      */
-
     function shares($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
@@ -652,7 +651,10 @@ class Model_06 extends CI_Model {
         return $balance;
     }
     
-    function shares_no_06($cuit, $partner_type = null, $field = 5597) {
+    /* ACCIONES COMPRA/VENTA X SGR de socios que estan activos en el sistema
+     * Compra/venta por socio
+     */
+    function shares_active_partners($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
         $period_value = $this->session->userdata['period'];
