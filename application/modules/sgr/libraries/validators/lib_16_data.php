@@ -33,15 +33,15 @@ class Lib_16_data extends MX_Controller {
              * @author Diego             
              * @example 
              * PROMEDIO_SALDO_MENSUAL	
-             * SALDO_PROMEDIO_GARANTIAS_VIGENTES	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011	
-             * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
-             * SALDO_PROMEDIO_FDR_CONTINGENTE
+             *  SALDO_PROMEDIO_GARANTIAS_VIGENTES
+            SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010
+            SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010
+            SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010
+            SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010
+            SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011
+            SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011
+            SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE
+            SALDO_PROMEDIO_FDR_CONTINGENTE
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
@@ -89,8 +89,6 @@ class Lib_16_data extends MX_Controller {
                             "DICIEMBRE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -109,8 +107,6 @@ class Lib_16_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
