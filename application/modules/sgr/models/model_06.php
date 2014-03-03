@@ -604,6 +604,7 @@ class Model_06 extends CI_Model {
     function shares($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -611,7 +612,7 @@ class Model_06 extends CI_Model {
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo);
+        $result = $this->sgr_model->get_active($anexo, $period_value);
 
 
         /* FIND ANEXO */
