@@ -142,7 +142,7 @@ class Lib_062_data extends MX_Controller {
                         } else {
                             $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
                             if ($D_cell_value < 1) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $D_cell_value);
                                 array_push($stack, $result);
                             }
                         }
