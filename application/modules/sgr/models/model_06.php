@@ -667,7 +667,6 @@ class Model_06 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
 
-
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
