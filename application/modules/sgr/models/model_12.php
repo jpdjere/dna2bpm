@@ -23,9 +23,18 @@ class Model_12 extends CI_Model {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = (int)$sgr['id'];
+            $this->sgr_id = (int) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
+    }
+
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
     }
 
     function check($parameter) {
@@ -66,7 +75,20 @@ class Model_12 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-
+            
+            /*STRING*/
+            $insertarr[5349] = (string) $insertarr[5349];
+            $insertarr[5351] = (string) $insertarr[5351];
+            
+            /*FLOAT*/
+            $insertarr[5218] = (float) $insertarr[5218];
+            $insertarr[5221] = (float) $insertarr[5221];
+            $insertarr[5223] = (float) $insertarr[5223];
+            
+            /*INTEGER*/
+            $insertarr[5224] = (int) $insertarr[5224];
+            $insertarr[5225] = (int) $insertarr[5225];
+            
             /* MONEDA */
             if (strtoupper(trim($insertarr[5219])) == "PESOS ARGENTINOS")
                 $insertarr[5219] = "1";
@@ -137,27 +159,16 @@ class Model_12 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
 
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5215], 1900)));
-        $parameter[5215] = $arr;       
-        
+        $parameter[5215] = $arr;
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
-        
-        /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
-        
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -167,6 +178,8 @@ class Model_12 extends CI_Model {
         }
         return $out;
     }
+
+    
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -183,13 +196,13 @@ class Model_12 extends CI_Model {
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);        
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
             $this->session->unset_userdata('period');
-            
+
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
@@ -354,7 +367,36 @@ class Model_12 extends CI_Model {
         if ($result)
             return true;
     }
+    
+    
+    /* GET DATA */
 
+    function get_order_number($nro) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5214 => $nro
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $return_result[] = $new_result;
+        }
+
+        return $return_result;
+    }
+    
+    
+    
     /* ACCIONES COMPRA
      * Compra venta por socio
      * Integradas
