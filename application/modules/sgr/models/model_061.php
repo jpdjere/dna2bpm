@@ -29,6 +29,15 @@ class Model_061 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -53,6 +62,10 @@ class Model_061 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            $insertarr['CUIT_SOCIO_INCORPORADO'] = (string) $insertarr['CUIT_SOCIO_INCORPORADO'];
+
+            /* FLOAT */
+            $insertarr['PORCENTAJE_ACCIONES'] = (float) $insertarr['PORCENTAJE_ACCIONES'];
         }
         return $insertarr;
     }
@@ -60,22 +73,12 @@ class Model_061 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
 
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
 
-        /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);        
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -90,7 +93,7 @@ class Model_061 extends CI_Model {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        
+
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
@@ -106,14 +109,13 @@ class Model_061 extends CI_Model {
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
-            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);           
-            $this->update_pending($get_period['id'], $get_period['status']);            
-                /* BORRO SESSION RECTIFY */
-                $this->session->unset_userdata('rectify');
-                $this->session->unset_userdata('others');
-                $this->session->unset_userdata('period');
-                $out = array('status' => 'ok');
-            
+            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
+            $this->update_pending($get_period['id'], $get_period['status']);
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
+            $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
