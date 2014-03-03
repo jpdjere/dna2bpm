@@ -91,10 +91,10 @@ class Model_06 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-            
-             $insertarr[1695] = (string) $insertarr[1695];
-            
-            /* INTEGERS */           
+
+            $insertarr[1695] = (string) $insertarr[1695];
+
+            /* INTEGERS */
             $insertarr[4654] = (int) $insertarr[4654];
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
@@ -214,8 +214,8 @@ class Model_06 extends CI_Model {
                 $insertarr[5252] = "2";
 
             //Formatos numricos para importes
-            $insertarr[5597] = (int)str_replace(",", ".", $insertarr[5597]);
-            $insertarr[5598] = (int)str_replace(",", ".", $insertarr[5598]);
+            $insertarr[5597] = (int) str_replace(",", ".", $insertarr[5597]);
+            $insertarr[5598] = (int) str_replace(",", ".", $insertarr[5598]);
 
             //  Arreglamo la caracteristica
             if ($insertarr[5292] == "DISMINUCION DE TENENCIA ACCIONARIA")
@@ -231,16 +231,16 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $this->anexo;
 
         /* FIX DATE */
-//        list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
-//        $parameter[5255] = $arr;
+
 //
 //        $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
-        
-        $parameter[5255] = new MongoDate(strtotime(translate_for_mongo($parameter[5255])));
+
+        list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
+        $parameter[5255] = $arr;
         $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
-        
-        
-        
+
+
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
@@ -411,7 +411,7 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
-            
+
             $calc_average = "";
             $promedio = "";
             $sector = "";
@@ -613,9 +613,9 @@ class Model_06 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
 
-       
+
         /* FIND ANEXO */
-        foreach ($result as $list) {          
+        foreach ($result as $list) {
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
@@ -624,7 +624,7 @@ class Model_06 extends CI_Model {
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
-            
+
             $buy_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($buy_result) {
                 $buy_result_arr[] = $buy_result[$field];
