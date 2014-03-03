@@ -28,6 +28,15 @@ class Model_062 extends CI_Model {
             $this->sgr_nombre = $sgr['1693'];
         }
     }
+    
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
 
     function check($parameter) {
         /**
@@ -53,30 +62,24 @@ class Model_062 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+             $insertarr["CUIT"] = (string) $insertarr["CUIT"];
+              /* FLOAT */
+            $insertarr["FACTURACION"] = (float) $insertarr["FACTURACION"];
         }
         return $insertarr;
     }
 
-    function save($parameter){       
-       
+    function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);       
-        $parameter = array_map('addSlashes', $parameter);
-        /* FIX DATE */
+
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;        
-        /*MERGE CAST*/
-        $new_parameter = array_merge($parameter,$numbers_values);  
-        $id = $this->app->genid_sgr($container);        
-        $result = $this->app->put_array_sgr($id, $container, $new_parameter);
-       
+        $parameter['origin'] = 2013;
+
+        $id = $this->app->genid_sgr($container);
+
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
+
         if ($result) {
             $out = array('status' => 'ok');
         } else {

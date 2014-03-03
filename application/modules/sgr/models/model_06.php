@@ -230,11 +230,6 @@ class Model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        /* FIX DATE */
-
-//
-//        $parameter['FECHA_DE_TRANSACCION'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_DE_TRANSACCION'], 1900));
-
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
         $parameter[5255] = $arr;
         $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
