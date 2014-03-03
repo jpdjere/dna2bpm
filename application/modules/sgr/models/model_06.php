@@ -221,7 +221,9 @@ class Model_06 extends CI_Model {
             if ($insertarr[5292] == "DISMINUCION DE TENENCIA ACCIONARIA")
                 $insertarr[5292] = "1";
             if ($insertarr[5292] == "DESVINCULACION")
-                $insertarr[5292] = "2";
+                $insertarr[5292] = "2";            
+            
+            $insertarr['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($insertarr['FECHA_DE_TRANSACCION'])));
         }
         return $insertarr;
     }
@@ -237,7 +239,7 @@ class Model_06 extends CI_Model {
 
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
         $parameter[5255] = $arr;
-        $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
+        
 
 
 
