@@ -641,7 +641,6 @@ class Model_06 extends CI_Model {
 
             $sell_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($sell_result) {
-                var_dump($sell_result);
                 $sell_result_arr[] = $sell_result[$field];
             }
         }
