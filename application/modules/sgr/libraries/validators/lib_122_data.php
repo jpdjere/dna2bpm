@@ -112,7 +112,11 @@ class Lib_122_data extends MX_Controller {
                         /* C.2 */
                         $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
                         
-                        var_dump($warranty_info);
+                        
+                        foreach ($warranty_info as $info){
+                        var_dump($warranty_info['5215']);    
+                            
+                        }
                         
                         $datetime1 = new DateTime($warranty_info['5215']);
                         $datetime2 = new DateTime($C_cell_date_format);
