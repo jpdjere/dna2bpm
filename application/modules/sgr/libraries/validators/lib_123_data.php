@@ -101,8 +101,8 @@ class Lib_123_data extends MX_Controller {
 //                }
 
                 $range = range(1, 32);                
-                if (in_array($parameterArr[$i]['col'], $range)) {
-                    $range = array_unique($range);
+                //if (in_array($parameterArr[$i]['col'], $range)) {
+                   
                     foreach ($range as $cell) {
                         
                         var_dump($cell);
@@ -119,7 +119,7 @@ class Lib_123_data extends MX_Controller {
 //                        }
                     }
                    
-                }
+               // }
             } // END FOR LOOP->
         }
         exit();
