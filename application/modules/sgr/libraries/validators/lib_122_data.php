@@ -220,8 +220,9 @@ class Lib_122_data extends MX_Controller {
                         foreach ($warranty_info as $order_number) {
                             $amount_warranty = (float)$order_number[5218];
                             
-                            var_dump($F_cell_value,$amount_warranty, "<hr>");
+                            
                             if ($F_cell_value > $amount_warranty) {
+                                var_dump($F_cell_value,$amount_warranty, "<hr>");
                                 $code_error = "F.1";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "($" . $order_number[5218] . ")");
                                 array_push($stack, $result);
