@@ -108,7 +108,7 @@ class Lib_123_data extends MX_Controller {
                             $code_error = "B.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
-                        } else if ($parameterArr[$cell]['fieldValue'] > $amount) {
+                        } else if ($parameterArr[$cell]['fieldValue'] >= $amount) {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
                             array_push($stack, $result);
