@@ -125,6 +125,9 @@ class Lib_123_data extends MX_Controller {
 
         foreach ($cell_values as $key=>$cell) {
             list($value, $amount, $row) = explode("*", $cell);
+            
+        var_dump($value, $amount, $row);exit();
+            
             if ($value == "") {
                 $code_error = "B.2";
                 $result = return_error_array($code_error, $cell);
