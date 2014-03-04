@@ -365,14 +365,21 @@ class Sgr_model extends CI_Model {
         $getPeriodMonth =  $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
         
-        $query = array(
+        $query_ = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
-            'sgr_id' => $this->sgr_id,
-            'status' => 'activo', //PERIOD TIENE QUE CAMBIAR A PENDIENTE para el 06
+            'sgr_id' => (int)$this->sgr_id,
+            'status' => 'activo',
             'period_date' => array(
                 '$lte' => $endDate
             ),             
+        );
+        
+        $query = array(
+            'anexo' => $anexo,"filename" => array('$ne' => 'SIN MOVIMIENTOS'),'sgr_id' => (int)$this->sgr_id, 'status' => 'activo', 'period_date' => array(
+                '$lte' => $endDate
+            ),     
+           
         );
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
@@ -380,7 +387,9 @@ class Sgr_model extends CI_Model {
         
         
         $result = $this->mongo->sgr->$period->find($query);
+        
         foreach ($result as $each) {
+            var_dump($each);
             $rtn[] = $each;
         }
         return $rtn;
