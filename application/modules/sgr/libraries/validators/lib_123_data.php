@@ -101,7 +101,7 @@ class Lib_123_data extends MX_Controller {
 //                    }
 //                }
 
-                $range = range(1, 32);
+                $range = range(1, 31);
                 if (in_array($parameterArr[$i]['col'], $range)) {
 
                     foreach ($range as $cell) {
@@ -126,6 +126,9 @@ class Lib_123_data extends MX_Controller {
         foreach ($cell_values as $key => $cell) {
             list($value, $amount, $row) = explode("*", $cell);
             echo $value." - ".$amount." - ".$row." - ". $key. "<br>";
+            
+            /*1600000 - 1500000 - 2 - 1*/
+            
             if ($value == "") {
                 $code_error = "B.2";
                 $result = return_error_array($code_error, $row, "empty");
@@ -139,7 +142,7 @@ class Lib_123_data extends MX_Controller {
             }
         }
 
-        //var_dump($cell_values);
+        var_dump($stack);
       exit();
         $this->data = $stack;
     }
