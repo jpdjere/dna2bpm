@@ -222,7 +222,7 @@ class Lib_122_data extends MX_Controller {
         }
 
 
-        //exit();
+        exit();
         $this->data = $stack;
     }
 
