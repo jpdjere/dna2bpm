@@ -45,7 +45,9 @@ class Lib_121_data extends MX_Controller {
                 /* NRO_ORDEN
                  * Nro A.1
                  * Detail:
-                 * El Número se debe corresponder con alguna de las Garantías informadas mediante el Anexo 12 del mismo período y apara la cual figura que el Sistema de Amortización o la periodicidad de los pagos fue informado como “OTRO” (Columnas R y S del Anexo 12).
+                 * El Número se debe corresponder con alguna de las Garantías informadas mediante el Anexo 12 del mismo período 
+                 * y apara la cual figura que el Sistema de Amortización o la periodicidad de los pagos fue informado como “OTRO” 
+                 * (Columnas R y S del Anexo 12).
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
@@ -59,14 +61,11 @@ class Lib_121_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-
-                    //Valida contra Mongo
-                    //  $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-                    var_dump($warranty_info);
+                  
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);                   
                     $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
                     if ($warranty_info)
-                        if (!in_array('OTRO', $warranty_info['5226'])) {
+                        if (!in_array('04', $warranty_info['5226'])) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
