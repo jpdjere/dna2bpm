@@ -103,6 +103,7 @@ class Lib_123_data extends MX_Controller {
                 $range = range(1, 32);                
                 if (in_array($parameterArr[$i]['col'], $range)) {
                     foreach ($range as $cell) {
+                        $cell = array_unique($cell);
                         var_dump($cell);
 //                        $return = check_empty($parameterArr[$cell]['fieldValue']);
 //                        if ($return) {
