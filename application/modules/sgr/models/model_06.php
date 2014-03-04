@@ -233,9 +233,7 @@ class Model_06 extends CI_Model {
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
         $parameter[5255] = $arr;
         $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
-
-
-
+        
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
