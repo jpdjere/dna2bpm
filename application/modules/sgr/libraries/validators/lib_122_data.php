@@ -110,21 +110,18 @@ class Lib_122_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         /* C.2 */
-                        $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                        $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));   
                         
-                        
-                        foreach ($warranty_info as $info){
-                        var_dump($warranty_info['5215']);    
-                            
+                        foreach ($warranty_info as $nro_orden){
+                             $datetime1 = new DateTime($nro_orden['5215']);
                         }
-                        
-                        $datetime1 = new DateTime($warranty_info['5215']);
+                       
                         $datetime2 = new DateTime($C_cell_date_format);
                         $interval = $datetime1->diff($datetime2);
                         $result_dates = (int) $interval->format('%R%a');
                         if ($result_dates < 1) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_date_format);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $datetime1."/".$datetime2);
                             array_push($stack, $result);
                         }
                     }
