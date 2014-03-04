@@ -58,7 +58,7 @@ class Lib_122_data extends MX_Controller {
                     }
 
                     //Valida contra Mongo
-                    $warranty_info = $this->sgr_model->get_order_number($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);    
                     if (!$warranty_info) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
