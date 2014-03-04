@@ -9,6 +9,9 @@ class Lib_124_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
         /* Vars 
          * 
          * $parameters =  
