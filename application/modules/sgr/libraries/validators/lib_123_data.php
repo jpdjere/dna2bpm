@@ -128,12 +128,12 @@ class Lib_123_data extends MX_Controller {
 
             if ($value == "") {
                 $code_error = "B.2";
-                $result = return_error_array($code_error, $cell, "empty");
+                $result = return_error_array($code_error, $row, "empty");
                 array_push($stack, $result);
             } else {
                 if ($value > $amount) {
                     $code_error = "B.1";
-                    $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $key);
+                    $result = return_error_array($code_error, $row, $value . "->" . $key);
                     array_push($stack, $result);
                 }
             }
