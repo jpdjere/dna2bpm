@@ -8,10 +8,10 @@ class Lib_122_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
-        
+
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
-        
+
         /* Vars 
          * 
          * $parameters =  
@@ -58,7 +58,7 @@ class Lib_122_data extends MX_Controller {
                     }
 
                     //Valida contra Mongo
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);    
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
                     if (!$warranty_info) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -110,18 +110,18 @@ class Lib_122_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                         /* C.2 */
-                        $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));   
-                        
-                        foreach ($warranty_info as $nro_orden){
-                             $datetime1 = new DateTime($nro_orden['5215']);
+                        $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+
+                        foreach ($warranty_info as $nro_orden) {
+                            $datetime1 = new DateTime($nro_orden['5215']);
                         }
-                       
+
                         $datetime2 = new DateTime($C_cell_date_format);
                         $interval = $datetime1->diff($datetime2);
                         $result_dates = (int) $interval->format('%R%a');
                         if ($result_dates < 1) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $datetime1."/".$datetime2);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $datetime1 . "/" . $datetime2);
                             array_push($stack, $result);
                         }
                     }
@@ -199,13 +199,29 @@ class Lib_122_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
+                        $F_cell_value = (float) $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            $int_value = $parameterArr[$i]['fieldValue'];
+                            if ($int_value < 0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+
+
+                        /* F.2 */
+                        foreach ($warranty_info as $order_number) {
+                            $amount_warranty = $order_number[5218];
+                            if ($F_cell_value > $amount_warranty) {
+                                $code_error = "F.1";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -223,7 +239,7 @@ class Lib_122_data extends MX_Controller {
         }
 
 
-       
+
         $this->data = $stack;
     }
 
