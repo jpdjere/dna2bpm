@@ -100,25 +100,27 @@ class Lib_123_data extends MX_Controller {
 //                    }
 //                }
 
-                $range = range(1, 32);
+                $range = range(1, 32);                
                 if (in_array($parameterArr[$i]['col'], $range)) {
                     foreach ($range as $cell) {
-                        $return = check_empty($parameterArr[$cell]['fieldValue']);
-                        if ($return) {
-                            $code_error = "B.2";
-                            $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
-                        } else {
-                            if ($parameterArr[$cell]['fieldValue'] > $amount) {
-                                $code_error = "B.1";
-                                $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $cell);
-                                array_push($stack, $result);
-                            }
-                        }
+                        var_dump($cell);
+//                        $return = check_empty($parameterArr[$cell]['fieldValue']);
+//                        if ($return) {
+//                            $code_error = "B.2";
+//                            $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
+//                        } else {
+//                            if ($parameterArr[$cell]['fieldValue'] > $amount) {
+//                                $code_error = "B.1";
+//                                $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $cell);
+//                                array_push($stack, $result);
+//                            }
+//                        }
                     }
+                   
                 }
             } // END FOR LOOP->
         }
-        
+        exit();
         $this->data = $stack;
     }
 
