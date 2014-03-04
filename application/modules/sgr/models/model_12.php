@@ -75,20 +75,24 @@ class Model_12 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-            
-            /*STRING*/
+
+            /* STRING */
+
+            $insertarr[5214] = (string) $insertarr[5214]; //Nro orden
+
+
             $insertarr[5349] = (string) $insertarr[5349];
             $insertarr[5351] = (string) $insertarr[5351];
-            
-            /*FLOAT*/
+
+            /* FLOAT */
             $insertarr[5218] = (float) $insertarr[5218];
             $insertarr[5221] = (float) $insertarr[5221];
             $insertarr[5223] = (float) $insertarr[5223];
-            
-            /*INTEGER*/
+
+            /* INTEGER */
             $insertarr[5224] = (int) $insertarr[5224];
             $insertarr[5225] = (int) $insertarr[5225];
-            
+
             /* MONEDA */
             if (strtoupper(trim($insertarr[5219])) == "PESOS ARGENTINOS")
                 $insertarr[5219] = "1";
@@ -178,8 +182,6 @@ class Model_12 extends CI_Model {
         }
         return $out;
     }
-
-    
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -367,8 +369,7 @@ class Model_12 extends CI_Model {
         if ($result)
             return true;
     }
-    
-    
+
     /* GET DATA */
 
     function get_order_number($nro) {
@@ -378,8 +379,8 @@ class Model_12 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo,$period_value);
- 
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -387,104 +388,13 @@ class Model_12 extends CI_Model {
                 'filename' => $list['filename'],
                 5214 => $nro
             );
-           
+
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $return_result[] = $new_result;
         }
 
         return $return_result;
-    }
-    
-    
-    
-    /* ACCIONES COMPRA
-     * Compra venta por socio
-     * Integradas
-     */
-
-    function buy_shares($cuit, $partner_type = null, $field = 5597) {
-
-        $period = 'container.sgr_periodos';
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-
-        $nresult_arr = array();
-        $anexo = $this->anexo;
-
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
-        /* FIND ANEXO */
-        foreach ($result as $list) {
-            $new_query = array(
-                1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename'],
-                5272 => $partner_type
-            );
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-
-
-            if ($new_result) {
-                $nresult_arr[] = $new_result[$field];
-            }
-        }
-
-        $result = array_sum($nresult_arr);
-        return $result;
-    }
-
-    /* ACCIONES VENTA 5248
-     * Compra venta por socio
-     * Integradas 
-     */
-
-    function sell_shares($cuit, $partner_type = null, $field = 5597) {
-
-        $period = 'container.sgr_periodos';
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-
-        $nresult_arr = array();
-        $anexo = $this->anexo;
-
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
-
-        foreach ($result as $list) {
-            $new_query = array(
-                5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']
-            );
-
-            if ($partner_type) {
-                $new_query['5272'] = $partner_type;
-            }
-
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $nresult_arr[] = $new_result[$field];
-        }
-
-        $result = array_sum($nresult_arr);
-        return $result;
     }
 
 }
