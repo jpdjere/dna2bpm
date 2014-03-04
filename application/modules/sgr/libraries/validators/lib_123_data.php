@@ -140,7 +140,7 @@ class Lib_123_data extends MX_Controller {
         }
 
         //var_dump($cell_values);
-        exit();
+      
         $this->data = $stack;
     }
 
