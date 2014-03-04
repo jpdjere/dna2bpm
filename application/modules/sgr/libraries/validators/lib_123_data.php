@@ -57,7 +57,7 @@ class Lib_123_data extends MX_Controller {
                     $code_error = "A.1";
                     
                     $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-                    var_dump($parameterArr[$i]['fieldValue'], $warranty_info);
+                    var_dump($parameterArr[$i]['fieldValue'], $warranty_info[0]);
                   
                     
                     //empty field Validation
