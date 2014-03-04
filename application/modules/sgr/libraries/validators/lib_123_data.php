@@ -99,8 +99,9 @@ class Lib_123_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-
-                $range = range(2, 32);
+            } // END FOR LOOP->
+            
+             $range = range(2, 32);
                 if (in_array($parameterArr[$i]['col'], $range)) {
                     
                     foreach($range as $cell){
@@ -122,7 +123,6 @@ class Lib_123_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-            } // END FOR LOOP->
         }
         var_dump($stack);
         exit();
