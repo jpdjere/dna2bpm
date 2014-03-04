@@ -188,8 +188,8 @@ class Lib_121_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-exit();
-        //var_dump($stack); 
+
+        //var_dump($stack);exit(); 
         $this->data = $stack;
     }
 
