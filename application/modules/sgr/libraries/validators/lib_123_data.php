@@ -131,7 +131,7 @@ class Lib_123_data extends MX_Controller {
             
             if ($value == "") {
                 $code_error = "B.2";
-                $result = return_error_array($code_error, $row, "empty");
+                $result = return_error_array($code_error, $row, "empty " . $key);
                 array_push($stack, $result);
             } else {
                 if ($value > $amount) {
@@ -142,8 +142,8 @@ class Lib_123_data extends MX_Controller {
             }
         }
 
-        var_dump($stack);
-      exit();
+//        var_dump($stack);
+//      exit();
         $this->data = $stack;
     }
 
