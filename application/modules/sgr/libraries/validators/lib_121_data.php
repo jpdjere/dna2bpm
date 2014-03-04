@@ -65,7 +65,7 @@ class Lib_121_data extends MX_Controller {
                     $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);                   
                     $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
                     if ($warranty_info)
-                        if (!in_array('04', $warranty_info['5226'])) {
+                        if (!in_array('04', $warrantyArr)) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
