@@ -103,11 +103,11 @@ class Lib_124_data extends MX_Controller {
                         }
 
 
-                        $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                        $B_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
                         
                         foreach ($warranty_info as $nro_orden) {
                             $datetime1 = new DateTime($nro_orden['5215']);
-                            $datetime2 = new DateTime($C_cell_date_format);
+                            $datetime2 = new DateTime($B_cell_date_format);
                             $interval = $datetime1->diff($datetime2);
                             $result_dates = (int) $interval->format('%R%a');
 
