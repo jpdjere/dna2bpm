@@ -45,18 +45,30 @@ class Lib_124_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-
+                    $A_cell_value = "";
                     $code_error = "A.1";
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+
+
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        foreach ($warranty_info as $info) {
+                            $check_word = $info['5216'][0];
+                            $amount = $info['5218'];
+                        }
 
-                    //Valida contra Mongo
+                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
+                        $return = check_word($check_word, $allow_words);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
                 }
 
                 /* FECHA_REAFIANZA
@@ -76,8 +88,8 @@ class Lib_124_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -85,8 +97,8 @@ class Lib_124_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -95,11 +107,11 @@ class Lib_124_data extends MX_Controller {
                         //Valida contra Mongo
 
                         $code_error = "B.3";
-                        /* PERIOD */                            
+                        /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -117,8 +129,8 @@ class Lib_124_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -126,8 +138,8 @@ class Lib_124_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -144,8 +156,8 @@ class Lib_124_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -162,8 +174,8 @@ class Lib_124_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -180,8 +192,8 @@ class Lib_124_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -190,8 +202,8 @@ class Lib_124_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
