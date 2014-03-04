@@ -393,8 +393,6 @@ class Model_12 extends CI_Model {
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result) {
                 $return_result[] = $new_result;
-            } else {
-                return false;
             }
         }
 
