@@ -129,6 +129,8 @@ class Model_12 extends CI_Model {
                 $insertarr[5226] = "180";
             if (strtoupper(trim($insertarr[5226])) == "ANUAL")
                 $insertarr[5226] = "360";
+            if (strtoupper(trim($insertarr[5226])) == "OTRO")
+                $insertarr[5226] = "04";
 
             /* SISTEMA */
             if (strtoupper(trim($insertarr[5227])) == "PAGO UNICO")
@@ -139,8 +141,7 @@ class Model_12 extends CI_Model {
                 $insertarr[5227] = "03";
             if (strtoupper(trim($insertarr[5227])) == "OTRO")
                 $insertarr[5227] = "04";
-            if (strtoupper(trim($insertarr[5227])) == "OTROS")
-                $insertarr[5227] = "04";
+          
 
 
             /* TASA */
