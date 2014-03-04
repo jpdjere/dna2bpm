@@ -102,9 +102,14 @@ class Lib_123_data extends MX_Controller {
 
                 $range = range(2, 32);
                 if (in_array($parameterArr[$i]['col'], $range)) {
+                    
+                    foreach($range as $cell){
+                        
+                                 echo $parameterArr[$cell]['fieldValue'] . "-" . $amount ."<br>";
+                    }
 
                     for ($j = 2; $j <= 32; $j++) {
-                        echo $i . "-" . $amount ."<br>";
+                     //   echo $i . "-" . $amount ."<br>";
                     }
 
 
