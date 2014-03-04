@@ -119,6 +119,9 @@ class Lib_122_data extends MX_Controller {
                         $datetime2 = new DateTime($C_cell_date_format);
                         $interval = $datetime1->diff($datetime2);
                         $result_dates = (int) $interval->format('%R%a');
+                        
+                        var_dump($nro_orden['5215']);
+                        
                         if ($result_dates < 1) {
                             $code_error = "C.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -192,7 +195,7 @@ class Lib_122_data extends MX_Controller {
                  * Formato numérico. Aceptar hasta dos decimales. El monto debe ser inferior al registrado en como Monto de Garantí Otorgada del Anexo 12.';
                  */
 
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($parameterArr[$i]['col'] == 6) {
                     $code_error = "F.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -239,7 +242,7 @@ class Lib_122_data extends MX_Controller {
         }
 
 
-
+        exit();
         $this->data = $stack;
     }
 
