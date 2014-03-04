@@ -119,7 +119,7 @@ class Lib_123_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        $stack = array_unique($stack);
+        
         $this->data = $stack;
     }
 
