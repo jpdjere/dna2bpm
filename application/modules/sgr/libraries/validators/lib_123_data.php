@@ -100,7 +100,7 @@ class Lib_123_data extends MX_Controller {
 //                    }
 //                }
 
-                $range = range(2, 32);
+                $range = range(1, 32);
                 if (in_array($parameterArr[$i]['col'], $range)) {
 
                     foreach ($range as $cell) {
@@ -109,7 +109,6 @@ class Lib_123_data extends MX_Controller {
                             $code_error = "B.2";
                             $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
                         } else {
-
                             if ($parameterArr[$cell]['fieldValue'] > $amount) {
                                 $code_error = "B.1";
                                 $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $cell);
