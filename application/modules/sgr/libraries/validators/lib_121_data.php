@@ -61,9 +61,7 @@ class Lib_121_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-
-                    //Valida contra Mongo
-                    //  $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
+                  
                     $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);                   
                     $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
                     if ($warranty_info)
