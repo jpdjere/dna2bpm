@@ -120,10 +120,8 @@ class Lib_122_data extends MX_Controller {
                         $interval = $datetime1->diff($datetime2);
                         $result_dates = (int) $interval->format('%R%a');
                         
-                        
-                        
                         if ($result_dates < 1) {
-                            var_dump($nro_orden['5215'], $C_cell_date_format, $result_dates, "<hr>");
+                           
                             $code_error = "C.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -243,7 +241,7 @@ class Lib_122_data extends MX_Controller {
         }
 
 
-        exit();
+ 
         $this->data = $stack;
     }
 
