@@ -23,7 +23,7 @@ class Model_12 extends CI_Model {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = (int) $sgr['id'];
+            $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
     }
