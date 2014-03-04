@@ -133,7 +133,6 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     /* B.3 */
-
                     $subscribed = $this->$model_06->shares($parameterArr[$i]['fieldValue']);
                     $integrated = $this->$model_06->shares($parameterArr[$i]['fieldValue'], 5598);
                     //var_dump($subscribed,$integrated);
