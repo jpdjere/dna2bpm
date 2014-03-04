@@ -126,19 +126,19 @@ class Lib_123_data extends MX_Controller {
         foreach ($cell_values as $key=>$cell) {
             list($value, $amount, $row) = explode("*", $cell);
             
-        var_dump($value, $amount, $row);exit();
+        var_dump($value, $amount, $row, $key, "<hr>");
             
-            if ($value == "") {
-                $code_error = "B.2";
-                $result = return_error_array($code_error, $cell);
-                array_push($stack, $result);
-            } else {
-                if ($value > $amount) {
-                    $code_error = "B.1";
-                    $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $key);
-                    array_push($stack, $result);
-                }
-            }
+//            if ($value == "") {
+//                $code_error = "B.2";
+//                $result = return_error_array($code_error, $cell);
+//                array_push($stack, $result);
+//            } else {
+//                if ($value > $amount) {
+//                    $code_error = "B.1";
+//                    $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $key);
+//                    array_push($stack, $result);
+//                }
+//            }
         }
 
         //var_dump($cell_values);
