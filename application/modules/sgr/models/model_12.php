@@ -141,7 +141,7 @@ class Model_12 extends CI_Model {
                 $insertarr[5227] = "03";
             if (strtoupper(trim($insertarr[5227])) == "OTRO")
                 $insertarr[5227] = "04";
-          
+
 
 
             /* TASA */
@@ -391,8 +391,11 @@ class Model_12 extends CI_Model {
             );
 
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
+            if ($new_result) {
                 $return_result[] = $new_result;
+            } else {
+                return false;
+            }
         }
 
         return $return_result;
