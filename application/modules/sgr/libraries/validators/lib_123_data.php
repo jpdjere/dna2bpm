@@ -68,12 +68,12 @@ class Lib_123_data extends MX_Controller {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
 
                         foreach ($warranty_info as $info){
-                            var_dump($info['5216'][0]);
-                            
+                            $check_word = $info['5216'][0];
+                            $amount = $info['5218'];                            
                         }
                         
                         $allow_words = array("GFMFO", "GC1", "GC2", "GT");
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        $return = check_word($check_word, $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -95,8 +95,6 @@ class Lib_123_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -105,9 +103,9 @@ class Lib_123_data extends MX_Controller {
                 $range = range(2, 32);
                 if (in_array($parameterArr[$i]['col'], $range)) {
 
-//                    for ($j = 2; $j <= 32; $j++) {
-//                        echo $i;
-//                    }
+                    for ($j = 2; $j <= 32; $j++) {
+                        echo $i . "-" . $amount ."<br>";
+                    }
 
 
 
@@ -115,8 +113,6 @@ class Lib_123_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
