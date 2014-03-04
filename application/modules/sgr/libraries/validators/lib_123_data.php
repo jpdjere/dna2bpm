@@ -63,9 +63,10 @@ class Lib_123_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-                        var_dump($parameterArr[$i]['fieldValue'],$warranty_info);
+                        
                         if (!$warranty_info) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            var_dump($parameterArr[$i]['fieldValue'],$warranty_info);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No está registrado en el sistema el Nro de Orden:" . $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
                             $allow_words = array("GFMFO", "GC1", "GC2", "GT");
