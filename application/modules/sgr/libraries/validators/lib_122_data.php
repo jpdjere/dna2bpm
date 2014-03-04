@@ -221,7 +221,7 @@ class Lib_122_data extends MX_Controller {
                             $amount_warranty = $order_number[5218];
                             if ($F_cell_value > $amount_warranty) {
                                 $code_error = "F.1";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "($" . $order_number[5218] . ")");
                                 array_push($stack, $result);
                             }
                         }
