@@ -26,6 +26,15 @@ class Model_123 extends CI_Model {
             $this->sgr_nombre = $sgr['1693'];
         }
     }
+    
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
 
     function check($parameter) {
         /**
@@ -53,35 +62,33 @@ class Model_123 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            /*STRING*/
+            $insertarr['NRO_GARANTIA'] = (string) $insertarr['NRO_GARANTIA']; //Nro orden
+            
+            /*INT & FLOAT*/
+            $insertarr['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = (int) $insertarr['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
+            
+            $insertarr['MONTO_CUOTA'] = (float) $insertarr['MONTO_CUOTA'];
+            $insertarr['SALDO_AL_VENCIMIENTO'] = (float) $insertarr['SALDO_AL_VENCIMIENTO'];
+            
         }
         return $insertarr;
     }
-
+    
+    
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
 
-        /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
-
+        
+        $parameter['FECHA_VENC_CUOTA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_VENC_CUOTA'])));
+        $parameter['FECHA_VENC_CUOTA_NUEVA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_VENC_CUOTA_NUEVA'])));
+        
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
+
         $id = $this->app->genid_sgr($container);
-        
-        /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
-        
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -91,6 +98,7 @@ class Model_123 extends CI_Model {
         }
         return $out;
     }
+    
 
     function save_period($parameter) {
         /* ADD PERIOD */
