@@ -125,7 +125,6 @@ class Lib_123_data extends MX_Controller {
 
         foreach ($cell_values as $key => $cell) {
             list($value, $amount, $row) = explode("*", $cell);
-            echo $value." - ".$amount." - ".$row." - ". $key. "<br>";
             
             /*1600000 - 1500000 - 2 - 1*/
             
