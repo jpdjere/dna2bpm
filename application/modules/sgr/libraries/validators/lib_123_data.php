@@ -57,7 +57,7 @@ class Lib_123_data extends MX_Controller {
                     $code_error = "A.1";
 
                     $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-                    
+
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -67,17 +67,17 @@ class Lib_123_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
 
-                        foreach ($warranty_info as $info){
+                        foreach ($warranty_info as $info) {
                             $check_word = $info['5216'][0];
-                            $amount = $info['5218'];                            
+                            $amount = $info['5218'];
                         }
-                        
+
                         $allow_words = array("GFMFO", "GC1", "GC2", "GT");
                         $return = check_word($check_word, $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } 
+                        }
                     }
                 }
 
@@ -90,39 +90,32 @@ class Lib_123_data extends MX_Controller {
                  * Si algún día el saldo estuvo en Cero, deben informar “0”. Ningún campo puede estar vacío. 
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
-                    $code_error = "B.2";
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
+//                if ($parameterArr[$i]['col'] == 2) {
+//                    $code_error = "B.1";
+//                    //empty field Validation
+//                    $return = check_empty($parameterArr[$i]['fieldValue']);
+//                    if ($return) {
+//                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+//                        array_push($stack, $result);
+//                    }
+//                }
+
+                $range = range(2, 32);
+                if (in_array($parameterArr[$i]['col'], $range)) {
+
+                    foreach ($range as $cell) {
+                        if ($parameterArr[$cell]['fieldValue'] == "") {
+                            $code_error = "B.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        } else if ($parameterArr[$cell]['fieldValue'] > $amount) {
+                            $code_error = "B.1";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$cell]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
             } // END FOR LOOP->
-            
-             $range = range(2, 32);
-                if (in_array($parameterArr[$i]['col'], $range)) {
-                    
-                    foreach($range as $cell){
-                        
-                                 echo $parameterArr[$cell]['fieldValue'] . "-" . $amount ."<br>";
-                    }
-
-                    for ($j = 2; $j <= 32; $j++) {
-                     //   echo $i . "-" . $amount ."<br>";
-                    }
-
-
-
-                    $code_error = "B.2";
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
-                }
         }
         var_dump($stack);
         exit();
