@@ -18,6 +18,9 @@ class Lib_123_error_legend {
             case "B.2":
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si algún día el saldo estuvo en Cero, deben informar “0”. Ningún campo puede estar vacío.';
                 break;
+            case "B.3":
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>';
+                break;
         }
         return $result_error;
     }

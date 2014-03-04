@@ -125,18 +125,31 @@ class Lib_123_data extends MX_Controller {
 
         foreach ($cell_values as $key => $cell) {
             list($value, $amount, $row) = explode("*", $cell);
-            
-            /*1600000 - 1500000 - 2 - 1*/
-            
+
+            /* 1600000 - 1500000 - 2 - 1 */
+
             if ($value == "") {
                 $code_error = "B.2";
-               $result = return_error_array($code_error, $row, "El Día ". $key ." No puede estar vacio");
+                $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
                 array_push($stack, $result);
             } else {
                 if ($value > $amount) {
                     $code_error = "B.1";
-                    $result = return_error_array($code_error, $row, "El Día". $key ." (" .$value.")");
+                    $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
                     array_push($stack, $result);
+                }
+
+                $return = check_decimal($value);
+                if ($return) {
+                    $code_error = "B.3";
+                    $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
+                    array_push($stack, $result);
+                } else {
+                    $int_value = (int) $value;
+                    if ($int_value < 0) {
+                        $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
+                        array_push($stack, $result);
+                    }
                 }
             }
         }
