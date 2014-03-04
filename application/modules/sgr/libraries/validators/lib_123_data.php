@@ -55,6 +55,10 @@ class Lib_123_data extends MX_Controller {
 
                     $A_cell_value = "";
                     $code_error = "A.1";
+                    
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                    var_dump($warranty_info);
+                    
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -69,9 +73,8 @@ class Lib_123_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-                            foreach ($warranty_info as $order_number) {
-                                var_dump($order_number[5214]);
+                            
+                            foreach ($warranty_info as $order_number) {                               
                                 if (!$order_number[5214]) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], "No está registrado en el sistema el Nro de Orden:" . $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
