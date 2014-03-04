@@ -50,28 +50,27 @@ class Lib_123_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 1) {
 
+                    $A_cell_value = "";
                     $code_error = "A.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
 
-                    //Value Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $A_cell_value = "";
-                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return) {
-                           
-                            
+                        if (!$warranty_info) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $A_cell_value = $parameterArr[$i]['fieldValue'];
+                            $allow_words = array("GFMFO", "GC1", "GC2", "GT");
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -90,8 +89,8 @@ class Lib_123_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -110,8 +109,8 @@ class Lib_123_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
