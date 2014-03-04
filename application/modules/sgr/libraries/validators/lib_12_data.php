@@ -454,7 +454,7 @@ class Lib_12_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 12) {
-                    $code_error = "L.1";
+                    $code_error = "L.2";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
