@@ -378,7 +378,7 @@ class Model_12 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
-
+ 
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -386,7 +386,7 @@ class Model_12 extends CI_Model {
                 'filename' => $list['filename'],
                 5214 => $nro
             );
-            var_dump($new_query);
+           
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)
                 $return_result[] = $new_result;
