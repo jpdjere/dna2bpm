@@ -9,7 +9,8 @@ class Lib_121_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
-
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
 
 
         /* Vars 
@@ -53,23 +54,22 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
+
                     //Valida contra Mongo
-                    $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
-                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);  
-                    if($warranty_info)
-                    if(!in_array('OTRO', $warranty_info['5226'])){
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
-                    
+                    //  $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                    var_dump($warranty_info);
+                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
+                    if ($warranty_info)
+                        if (!in_array('OTRO', $warranty_info['5226'])) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                 }
 
                 /* NRO_CUOTA
@@ -83,17 +83,17 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                   
-                    
-                    if ($parameterArr[0]['count']< 3) {
-                       
-                        
+
+
+
+                    if ($parameterArr[0]['count'] < 3) {
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -109,8 +109,8 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -118,13 +118,13 @@ class Lib_121_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-                    
+
                     //Valida contra Mongo
                 }
 
@@ -139,22 +139,22 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                    if (isset($parameterArr[$i]['fieldValue'])) {                       
+
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-                    
+
                     //Valida contra Mongo
                 }
 
@@ -169,29 +169,28 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                    if (isset($parameterArr[$i]['fieldValue'])) {                       
+
+                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-                    
+
                     //Valida contra Mongo
                 }
-
             } // END FOR LOOP->
         }
-        
-        //var_dump($stack); exit();
+exit();
+        //var_dump($stack); 
         $this->data = $stack;
     }
 
