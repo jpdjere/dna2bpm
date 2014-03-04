@@ -8,7 +8,7 @@ class Lib_123_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
-        
+
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
 
@@ -62,22 +62,20 @@ class Lib_123_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-                        foreach ($warranty_info as $order_number){
-                            var_dump($order_number[5214]);
-                            
-                        }
-                        
-                        if (!$warranty_info) {
-                            var_dump($parameterArr[$i]['fieldValue'],$warranty_info);
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No está registrado en el sistema el Nro de Orden:" . $parameterArr[$i]['fieldValue']);
+
+                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
+                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $allow_words = array("GFMFO", "GC1", "GC2", "GT");
-                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                            if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
+                            $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                            foreach ($warranty_info as $order_number) {
+                                var_dump($order_number[5214]);
+                                if (!$order_number[5214]) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "No está registrado en el sistema el Nro de Orden:" . $parameterArr[$i]['fieldValue']);
+                                    array_push($stack, $result);
+                                }
                             }
                         }
                     }
