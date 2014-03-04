@@ -101,12 +101,12 @@ class Lib_123_data extends MX_Controller {
 //                    }
 //                }
 
-                $range = range(1, 32);                
+                $range = range(1, 32);
                 if (in_array($parameterArr[$i]['col'], $range)) {
-                   
+
                     foreach ($range as $cell) {
-                        $cell_values[$cell] = $parameterArr[$cell]['fieldValue']."*".$amount. "*".$parameterArr[$cell]['row'];
-                        
+                        $cell_values[$cell] = $parameterArr[$cell]['fieldValue'] . "*" . $amount . "*" . $parameterArr[$cell]['row'];
+
 //                        $return = check_empty($parameterArr[$cell]['fieldValue']);
 //                        if ($return) {
 //                            $code_error = "B.2";
@@ -119,11 +119,26 @@ class Lib_123_data extends MX_Controller {
 //                            }
 //                        }
                     }
-                   
                 }
             } // END FOR LOOP->
         }
-        var_dump($cell_values);
+
+        foreach ($cell_values as $key=>$cell) {
+            list($value, $amount, $row) = explode("*", $cell);
+            if ($value == "") {
+                $code_error = "B.2";
+                $result = return_error_array($code_error, $cell);
+                array_push($stack, $result);
+            } else {
+                if ($value > $amount) {
+                    $code_error = "B.1";
+                    $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $key);
+                    array_push($stack, $result);
+                }
+            }
+        }
+
+        //var_dump($cell_values);
         exit();
         $this->data = $stack;
     }
