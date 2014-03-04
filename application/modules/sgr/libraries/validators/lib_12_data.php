@@ -64,9 +64,9 @@ class Lib_12_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $is_order_num = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);                        
+                        $is_order_num = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
                         if ($is_order_num) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El nro de Orden " . $parameterArr[$i]['fieldValue']. " ya está en el sistema.");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El nro de Orden " . $parameterArr[$i]['fieldValue'] . " ya está en el sistema.");
                             array_push($stack, $result);
                         }
                     }
@@ -222,6 +222,12 @@ class Lib_12_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            $int_value = (int) $parameterArr[$i]['fieldValue'];
+                            if ($int_value < 0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -452,20 +458,21 @@ class Lib_12_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
-
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            $int_value = (int) $parameterArr[$i]['fieldValue'];
+                            if ($int_value < 0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
