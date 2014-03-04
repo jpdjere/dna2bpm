@@ -105,7 +105,7 @@ class Lib_123_data extends MX_Controller {
                 if (in_array($parameterArr[$i]['col'], $range)) {
 
                     foreach ($range as $cell) {
-                        $cell_values[$cell] = $parameterArr[$cell]['fieldValue'] . "*" . $amount . "*" . $parameterArr[$cell]['row'];
+                        $cell_values[$cell] = $parameterArr[$cell]['fieldValue'] . "*" . $amount . "*" . $parameterArr[$i]['row'];
 
 //                        $return = check_empty($parameterArr[$cell]['fieldValue']);
 //                        if ($return) {
@@ -125,7 +125,7 @@ class Lib_123_data extends MX_Controller {
 
         foreach ($cell_values as $key => $cell) {
             list($value, $amount, $row) = explode("*", $cell);
-
+            echo $value." - ".$amount." - ".$row." - ". $key. "<br>";
             if ($value == "") {
                 $code_error = "B.2";
                 $result = return_error_array($code_error, $row, "empty");
