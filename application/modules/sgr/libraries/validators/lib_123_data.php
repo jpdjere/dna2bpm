@@ -25,6 +25,7 @@ class Lib_123_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $cell_values = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -101,11 +102,11 @@ class Lib_123_data extends MX_Controller {
 //                }
 
                 $range = range(1, 32);                
-                //if (in_array($parameterArr[$i]['col'], $range)) {
+                if (in_array($parameterArr[$i]['col'], $range)) {
                    
                     foreach ($range as $cell) {
+                        $cell_values[$cell] = $parameterArr[$cell]['fieldValue'];
                         
-                        var_dump($cell);
 //                        $return = check_empty($parameterArr[$cell]['fieldValue']);
 //                        if ($return) {
 //                            $code_error = "B.2";
@@ -119,9 +120,10 @@ class Lib_123_data extends MX_Controller {
 //                        }
                     }
                    
-               // }
+                }
             } // END FOR LOOP->
         }
+        var_dump($cell_values);
         exit();
         $this->data = $stack;
     }
