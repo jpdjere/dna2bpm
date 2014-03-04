@@ -104,20 +104,23 @@ class Lib_123_data extends MX_Controller {
                 if (in_array($parameterArr[$i]['col'], $range)) {
 
                     foreach ($range as $cell) {
-                        if ($parameterArr[$cell]['fieldValue'] == "") {
+                        $return = check_empty($parameterArr[$cell]['fieldValue']);
+                        if ($return) {
                             $code_error = "B.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$cell]['fieldValue']);
-                            array_push($stack, $result);
-                        } else if ($parameterArr[$cell]['fieldValue'] >= $amount) {
-                            $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
-                            array_push($stack, $result);
+                        } else {
+
+                            if ($parameterArr[$cell]['fieldValue'] >= $amount) {
+                                $code_error = "B.1";
+                                $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
             } // END FOR LOOP->
         }
-       
+        $stack = array_unique($stack);
         $this->data = $stack;
     }
 
