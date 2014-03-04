@@ -373,11 +373,12 @@ class Model_12 extends CI_Model {
 
     function get_order_number($nro) {
         $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo);
+        $result = $this->sgr_model->get_active($anexo,$period_value);
  
         $return_result = array();
         foreach ($result as $list) {
