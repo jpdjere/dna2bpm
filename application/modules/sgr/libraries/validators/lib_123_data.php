@@ -74,6 +74,7 @@ class Lib_123_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             if (!$warranty_info[0]) {
+                                var_dump("error");
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], "No está registrado en el sistema el Nro de Orden:" . $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
