@@ -8,7 +8,10 @@ class Lib_122_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
-
+        
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+        
         /* Vars 
          * 
          * $parameters =  
