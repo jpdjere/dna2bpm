@@ -366,7 +366,7 @@ class Lib_06_data extends MX_Controller {
                                         array_push($stack, $result);
                                     }
 
-                                    if ($integrated > $subscribed) {
+                                    if ($integrated >= $subscribed) {
                                         $code_error = "AI.8";
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                                         array_push($stack, $result);
