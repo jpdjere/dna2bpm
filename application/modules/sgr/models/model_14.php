@@ -27,6 +27,15 @@ class Model_14 extends CI_Model {
             $this->sgr_nombre = $sgr['1693'];
         }
     }
+    
+     function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
 
     function check($parameter) {
         /**
@@ -55,34 +64,31 @@ class Model_14 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            
+             /* STRING */
+            $insertarr["NRO_GARANTIA"] = (string) $insertarr["NRO_GARANTIA"]; //Nro orden
+            /* INTEGERS & FLOAT */
+            $insertarr["CAIDA"] = (float) $insertarr["CAIDA"];
+            $insertarr["RECUPERO"] = (float) $insertarr["RECUPERO"];
+            $insertarr["INCOBRABLES_PERIODO"] = (float) $insertarr["INCOBRABLES_PERIODO"];
+            $insertarr["GASTOS_EFECTUADOS_PERIODO"] = (float) $insertarr["GASTOS_EFECTUADOS_PERIODO"];
+            $insertarr["RECUPERO_GASTOS_PERIODO"] = (float) $insertarr["RECUPERO_GASTOS_PERIODO"];
+            $insertarr["GASTOS_INCOBRABLES_PERIODO"] = (float) $insertarr["GASTOS_INCOBRABLES_PERIODO"];
         }
         return $insertarr;
     }
 
-    function save($parameter) {
-
+   function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-        /* FILTER NUMBERS/STRINGS */
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');
-        $numbers_values = array_merge($int_values, $float_values);
-
-        /* FIX INFORMATION */
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        /* FIX DATE */
-        $parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
-
+        
+        $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
+        
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
         $id = $this->app->genid_sgr($container);
 
-        /* MERGE CAST */
-        $parameter = array_merge($parameter, $numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
