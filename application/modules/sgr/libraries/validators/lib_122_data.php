@@ -114,17 +114,16 @@ class Lib_122_data extends MX_Controller {
 
                         foreach ($warranty_info as $nro_orden) {
                             $datetime1 = new DateTime($nro_orden['5215']);
-                        }
+                            $datetime2 = new DateTime($C_cell_date_format);
+                            $interval = $datetime1->diff($datetime2);
+                            $result_dates = (int) $interval->format('%R%a');
 
-                        $datetime2 = new DateTime($C_cell_date_format);
-                        $interval = $datetime1->diff($datetime2);
-                        $result_dates = (int) $interval->format('%R%a');
-                        
-                        if ($result_dates < 1) {
-                           
-                            $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                            if ($result_dates < 1) {
+
+                                $code_error = "C.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -174,17 +173,13 @@ class Lib_122_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        if ($E_cell_value < 0) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
+                       
                     }
                 }
 
@@ -218,8 +213,8 @@ class Lib_122_data extends MX_Controller {
 
                         /* F.2 */
                         foreach ($warranty_info as $order_number) {
-                            $amount_warranty = (float)$order_number[5218];
-                            if ($F_cell_value > $amount_warranty) {                              
+                            $amount_warranty = (float) $order_number[5218];
+                            if ($F_cell_value > $amount_warranty) {
                                 $code_error = "F.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $order_number[5218] . ")");
                                 array_push($stack, $result);
