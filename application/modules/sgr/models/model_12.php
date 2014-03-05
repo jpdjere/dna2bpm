@@ -371,7 +371,6 @@ class Model_12 extends CI_Model {
     }
 
     /* GET DATA */
-
     function get_order_number($nro) {
         $anexo = $this->anexo;
         $period_value = $this->session->userdata['period'];
@@ -395,6 +394,31 @@ class Model_12 extends CI_Model {
             }
         }
 
+        return $return_result;
+    }
+    
+    /* GET DATA */
+    function get_order_number_others($nro) {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);        
+        $return_result = array();
+        foreach ($result as $list) {
+          
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5214 => $nro
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
         return $return_result;
     }
     

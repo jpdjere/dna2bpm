@@ -163,7 +163,11 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             $code_error = "C.3";
-                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                           
+                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
+                            
+                            $balance = $this->$model_06->shares_active_partners($parameterArr[$i]['fieldValue'], 'B');
+                            var_dump($parameterArr[$i]['fieldValue'], $balance);
+                           
                             
                             if (!$partner_data) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -474,7 +478,7 @@ class Lib_201_data extends MX_Controller {
         }
 
 
-        array_unshift($order_number_array_aporte, $get_max_order_number);
+        array_unshift($order_number_array_aporte, $get_max_order_number);        
         $check_consecutive = consecutive($order_number_array_aporte);
         if ($check_consecutive) {
             $code_error = "A.2";
@@ -540,8 +544,8 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
