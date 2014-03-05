@@ -120,25 +120,26 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal($number, $decimal = 2, $mayor = null) {
+
     $number = str_replace(",", ".", $number);
-    
-    
-    if($mayor){
-        $number = (int)$number;
-        if($number<0){
-            return true;
-            exit();
-        }
-    }
 
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
-        if ($places_count > $decimal) {
+        if ($places_count > $decimal) {            
             return true;
+            
+        }
+
+        if ($mayor) {
+            $number = (int) $number;
+            if ($number < 0) {                
+                return true;                
+            }
         }
     } else {
         return true;
+        
     }
 }
 
@@ -195,16 +196,16 @@ function check_is_numeric($number) {
     }
 }
 
-function check_is_numeric_no_decimal($number, $mayor=null) {
-    
-    if($mayor){
-        $number = (int)$number;
-        if($number<0){
+function check_is_numeric_no_decimal($number, $mayor = null) {
+
+    if ($mayor) {
+        $number = (int) $number;
+        if ($number < 0) {
             return true;
             exit();
         }
     }
-    
+
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 0));
@@ -406,7 +407,7 @@ function translate_date($parameter) {
 }
 
 function translate_for_mongo($parameter) {
-    $result = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));    
+    $result = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
     return $result;
 }
 
