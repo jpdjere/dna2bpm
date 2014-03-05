@@ -73,7 +73,7 @@ class Lib_13_data extends MX_Controller {
                     $B_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $B_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -92,7 +92,7 @@ class Lib_13_data extends MX_Controller {
                     $C_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $C_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -114,7 +114,7 @@ class Lib_13_data extends MX_Controller {
                     $D_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -133,7 +133,7 @@ class Lib_13_data extends MX_Controller {
                     $E_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -151,7 +151,7 @@ class Lib_13_data extends MX_Controller {
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                            $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
