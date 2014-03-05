@@ -12,6 +12,10 @@ class Lib_14_data extends MX_Controller {
         $model_anexo = "model_14";
         $this->load->Model($model_anexo);
 
+        $model_12 = 'model_12';
+        $this->load->Model($model_12);
+
+
         /* Vars 
          * 
          * $parameters =  
@@ -37,6 +41,9 @@ class Lib_14_data extends MX_Controller {
         $spending_recovery = array();
         //$recovered_uncollectible = array();
         $spending_management = array();
+        
+        
+                
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -97,9 +104,13 @@ class Lib_14_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 2) {
                     $B_cell_value = $parameterArr[$i]['fieldValue'];
-                    $B_warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue']);
+
+                    $B_warranty_info = $this->$model_12->get_order_number_others($parameterArr[$i]['fieldValue']);
+
 
                     $get_movement_data = $this->$model_anexo->get_movement_data($B_cell_value);
+                    //var_dump($B_cell_value,$get_movement_data['CAIDA']);
+
                     $CAIDAS = array($get_movement_data['CAIDA']);
                     $c3_values_array = array($get_movement_data['RECUPERO']);
                     $c3_values = $get_movement_data['RECUPERO'];
@@ -115,7 +126,7 @@ class Lib_14_data extends MX_Controller {
                  * Formato de número. Debe ser un valor numérico y aceptar hasta 2 decimales.
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-                    
+
                     $code_error = "C.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -203,8 +214,6 @@ class Lib_14_data extends MX_Controller {
                          * previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                          */
 
-
-
                         if (!$get_movement_data['CAIDA']) {
                             $b2_array[] = $B_cell_value;
                         }
@@ -214,10 +223,9 @@ class Lib_14_data extends MX_Controller {
                          * Debe validar que la suma de todos los RECUPEROS e INCOBRABLES registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todas las caídas de esa misma garantía registradas en el Sistema (incluidos los informados  en el archivo que se está importando).
                          */
                         //$recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
-                        
+
                         array_push($c3_values_array, $parameterArr[$i]['fieldValue']);
                         $c3_values += $parameterArr[$i]['fieldValue'];
-                        
                     }
                 }
 
@@ -244,7 +252,7 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
                          * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
                          */
-                        if (!$get_movement_data['INCOBRABLE']) {
+                        if (!$get_movement_data['CAIDA']) {
                             $b3_array[] = $B_cell_value;
                         }
 
@@ -278,7 +286,7 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
                          * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                          */
-                        if (!$get_movement_data['INCOBRABLES_PERIODO']) {
+                        if (!$get_movement_data['CAIDA']) {
                             $b4_array[] = $B_cell_value;
                         }
                     }
@@ -434,8 +442,7 @@ class Lib_14_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-
-       
+      exit();
         $this->data = $stack;
     }
 
