@@ -368,8 +368,8 @@ class Lib_06_data extends MX_Controller {
                                     
                                     
                                     $diff_int_sus = $integrated - $subscribed;
-                                    var_dump($diff_int_sus,(int)$parameterArr[$i]['fieldValue']);
-                                    if ($diff_int_sus >= (int)$parameterArr[$i]['fieldValue']) {
+                                   
+                                    if ($diff_int_sus < (int)$parameterArr[$i]['fieldValue']) {
                                         $code_error = "AI.8";
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                                         array_push($stack, $result);
@@ -1389,7 +1389,7 @@ class Lib_06_data extends MX_Controller {
             }
         }
 //        var_dump($stack);
-      exit();
+      //exit();
         $this->data = $stack;
     }
 
