@@ -162,10 +162,14 @@ class Lib_124_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
