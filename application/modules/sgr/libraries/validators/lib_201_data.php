@@ -196,7 +196,7 @@ class Lib_201_data extends MX_Controller {
                     $D_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -224,7 +224,7 @@ class Lib_201_data extends MX_Controller {
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $b3_array[] = $A_cell_value . '*' . $B_cell_value;
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -274,7 +274,7 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -329,7 +329,7 @@ class Lib_201_data extends MX_Controller {
                         $b4_array[] = $A_cell_value . '*' . $B_cell_value;
 
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -528,11 +528,11 @@ class Lib_201_data extends MX_Controller {
 
         foreach ($totals as $key => $value) {
             list($new_num, $new_amount) = explode("*", $key);
-            $new_amount = (int) $new_amount;
+            $new_amount = (int) $new_amount;            
             if ($new_amount < $value) {
                 $code_error = "E.3";
                 list($input, $input_date) = explode('*', $arr['value']);
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], "La suma de retiros es de $" . $value);
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "($new_amount)La suma de retiros es de $" . $value);
                 array_push($stack, $result);
             }
         }
