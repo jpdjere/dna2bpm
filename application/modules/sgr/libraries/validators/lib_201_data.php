@@ -528,11 +528,11 @@ class Lib_201_data extends MX_Controller {
 
         foreach ($totals as $key => $value) {
             list($new_num, $new_amount) = explode("*", $key);
-            $new_amount = (int) $new_amount;
+            $new_amount = (int) $new_amount;            
             if ($new_amount < $value) {
                 $code_error = "E.3";
                 list($input, $input_date) = explode('*', $arr['value']);
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], "La suma de retiros es de $" . $value);
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "($new_amount)La suma de retiros es de $" . $value);
                 array_push($stack, $result);
             }
         }
