@@ -104,7 +104,7 @@ class Lib_124_data extends MX_Controller {
 
 
                         $B_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
-                        
+
                         foreach ($warranty_info as $nro_orden) {
                             $datetime1 = new DateTime($nro_orden['5215']);
                             $datetime2 = new DateTime($B_cell_date_format);
@@ -141,17 +141,11 @@ class Lib_124_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], false, true);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
