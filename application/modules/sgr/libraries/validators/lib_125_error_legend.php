@@ -10,10 +10,10 @@ class Lib_125_error_legend {
 
         switch ($code) {
             case "A.1":
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones.';
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones. Debe validar, mediante algoritmo, que sea una CUIT válida.';
                 break;
              case "A.2":
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe figura en el Sistema con Garantías Otorgadas en el Sistema (Anexo 12)';
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe figurar en el Sistema con Garantías Otorgadas (Anexo 12)';
                 break;
             case "B.1":
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones.';
