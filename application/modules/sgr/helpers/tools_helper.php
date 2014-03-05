@@ -119,9 +119,17 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-function check_decimal($number, $decimal = 2) {
-
+function check_decimal($number, $decimal = 2, $mayor = null) {
     $number = str_replace(",", ".", $number);
+    
+    
+    if($mayor){
+        $number = (int)$number;
+        if($number<0){
+            return true;
+            exit();
+        }
+    }
 
     $value = isfloat($number);
     if ($value) {
