@@ -516,7 +516,7 @@ class Lib_06_data extends MX_Controller {
                         $balance_integrado = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
                         if ($balance_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(".$balance_integrated.")");
                             array_push($stack, $result);
                         }
 
@@ -548,7 +548,7 @@ class Lib_06_data extends MX_Controller {
                      */
                     if ($integrated > $subscribed) {
                         $code_error = "AI.5";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $AI_cell_value . " - Suscripto: " . $AH_cell_value);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $integrated . " - Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }
