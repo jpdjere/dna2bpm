@@ -138,18 +138,11 @@ class Lib_123_data extends MX_Controller {
                     $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
                     array_push($stack, $result);
                 }
-
-                $return = check_decimal($value);
+                $return = check_decimal($value, false, true);
                 if ($return) {
                     $code_error = "B.3";
                     $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
                     array_push($stack, $result);
-                } else {
-                    $int_value = (int) $value;
-                    if ($int_value < 0) {
-                        $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
-                        array_push($stack, $result);
-                    }
                 }
             }
         }
