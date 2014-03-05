@@ -48,6 +48,7 @@ class Lib_125_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
+                    $A_cell_value = "";
                     $code_error = "A.1";
                     $sharer_info = $this->$model_anexo->get_sharer($parameterArr[$i]['fieldValue']);
 
@@ -56,6 +57,8 @@ class Lib_125_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -66,7 +69,7 @@ class Lib_125_data extends MX_Controller {
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }                        
+                        }
                     }
                 }
 
@@ -92,10 +95,14 @@ class Lib_125_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                    }
 
-                    $code_error = "B.2";
-                    //Valida contra Mongo
+                        $code_error = "B.2";
+                        $creditor_info = $this->$model_anexo->get_creditor($A_cell_value, $parameterArr[$i]['fieldValue']);                        
+                        if(!$creditor_info){
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
                 }
 
                 /* SLDO_FINANC
@@ -188,7 +195,9 @@ class Lib_125_data extends MX_Controller {
                     //Valida contra Mongo
                 }
             } // END FOR LOOP->
-        }        
+        }
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
