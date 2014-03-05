@@ -90,7 +90,7 @@ class Model_201 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-
+            /* STRING */
             $insertarr["CUIT_PROTECTOR"] = (string) $insertarr["CUIT_PROTECTOR"];
 
             /* INTEGERS  & FLOATS */
@@ -98,7 +98,9 @@ class Model_201 extends CI_Model {
             $insertarr["RETIRO"] = (float) $insertarr["RETIRO"];
             $insertarr["RETENCION_POR_CONTINGENTE"] = (float) $insertarr["RETENCION_POR_CONTINGENTE"];
             $insertarr["RETIRO_DE_RENDIMIENTOS"] = (float) $insertarr["RETIRO_DE_RENDIMIENTOS"];
+
             $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
+            $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
 
             if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
                 $insertarr["MONEDA"] = "1";
@@ -116,7 +118,7 @@ class Model_201 extends CI_Model {
         /* FIX DATE */
         $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
         $parameter['FECHA_ACTA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_ACTA'])));
-        
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
@@ -263,41 +265,47 @@ class Model_201 extends CI_Model {
     }
 
     function get_input_number($code) {
-        $period = 'container.sgr_periodos';
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
-        $nresult_arr = array();
         $anexo = $this->anexo;
-
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
 
+        $input_result_arr = array();
+        $output_result_arr = array();
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
+            //var_dump($list['filename']);
+            /* APORTE */
             $new_query = array(
-                'NUMERO_DE_APORTE' => $code,
+                'NUMERO_DE_APORTE' => (int) $code,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
-
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $nresult_arr[] = $new_result['APORTE'];
+            
+            
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {
+                
+                if ($data['APORTE']) {
+                    // var_dump($input_result['APORTE']);
+                    $input_result_arr[] = (int)$data['APORTE'];
+                }
+                if ($data['RETIRO']) {
+                    // var_dump($input_result['RETIRO']);
+                    $output_result_arr[] = (int)$data['RETIRO'];
+                }
             }
         }
 
-        $result = array_sum($nresult_arr);
-        return $result;
-    }
+        $input_sum = array_sum($input_result_arr);
+        $output_sum = array_sum($output_result_arr);
+        $balance = $input_sum - $output_sum;
+        return $balance;
+    }    
 
     function get_last_input_number($code) {
         $period = 'container.sgr_periodos';
