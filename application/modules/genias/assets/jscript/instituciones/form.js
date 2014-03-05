@@ -162,6 +162,7 @@ var btnSave = Ext.create('Ext.Action', {
     text: '<i class="icon icon-save"></i> Guardar datos Institucion',
     handler: function() {
         var form = InstitucionForm;
+
         if (!form.isValid()) {
             Ext.Msg.alert('Encenario Pyme', '<h5>Complete los campos correctamente</h5>');
         } else {
