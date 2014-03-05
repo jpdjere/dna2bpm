@@ -195,7 +195,16 @@ function check_is_numeric($number) {
     }
 }
 
-function check_is_numeric_no_decimal($number) {
+function check_is_numeric_no_decimal($number, $mayor=null) {
+    
+    if($mayor){
+        $number = (int)$number;
+        if($number<0){
+            return true;
+            exit();
+        }
+    }
+    
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 0));

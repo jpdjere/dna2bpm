@@ -196,15 +196,8 @@ class Lib_201_data extends MX_Controller {
                     $D_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-
-
-                        if ($D_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -227,22 +220,16 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 5) {
                     $E_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
-
                         $code_error = "E.2";
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $b3_array[] = $A_cell_value . '*' . $B_cell_value;
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-
-                        if ($E_cell_value < 0) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
+                       
                         if ($D_cell_value != "") {
                             $code_error = "E.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -287,13 +274,8 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-                        if ($F_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -347,14 +329,8 @@ class Lib_201_data extends MX_Controller {
                         $b4_array[] = $A_cell_value . '*' . $B_cell_value;
 
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-                        if ($G_cell_value < 0) {
-                            $code_error = "G.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
