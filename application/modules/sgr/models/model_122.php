@@ -12,10 +12,10 @@ class Model_122 extends CI_Model {
 
         $this->anexo = '122';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
         }
@@ -26,6 +26,15 @@ class Model_122 extends CI_Model {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
+    }
+    
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
     }
 
     function check($parameter) {
@@ -54,6 +63,14 @@ class Model_122 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            /*STRING*/
+            $insertarr['NRO_GARANTIA'] = (string) $insertarr['NRO_GARANTIA'];
+            
+            /*INT & FLOAT*/
+            $insertarr['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = (int) $insertarr['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
+            
+            $insertarr['MONTO_CUOTA'] = (float) $insertarr['MONTO_CUOTA'];
+            $insertarr['SALDO_AL_VENCIMIENTO'] = (float) $insertarr['SALDO_AL_VENCIMIENTO'];            
         }
         return $insertarr;
     }
@@ -61,17 +78,13 @@ class Model_122 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
-
+        
+        $parameter['FECHA_VENC_CUOTA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_VENC_CUOTA'])));
+        $parameter['FECHA_VENC_CUOTA_NUEVA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_VENC_CUOTA_NUEVA'])));
+        
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -83,6 +96,7 @@ class Model_122 extends CI_Model {
         }
         return $out;
     }
+    
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -114,7 +128,7 @@ class Model_122 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);

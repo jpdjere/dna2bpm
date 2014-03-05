@@ -28,6 +28,15 @@ class Model_124 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -52,6 +61,13 @@ class Model_124 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            /*STRING*/
+            $insertarr['NRO_GARANTIA'] = (string) $insertarr['NRO_GARANTIA']; //Nro orden
+            $insertarr['CUIT'] = (string) $insertarr['CUIT'];
+            
+            /*FLOAT*/
+            $insertarr['SALDO_VIGENTE'] = (float) $insertarr['SALDO_VIGENTE'];
+            $insertarr['REAFIANZADO'] = (float) $insertarr['REAFIANZADO'];
         }
         return $insertarr;
     }
@@ -60,14 +76,14 @@ class Model_124 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
         /* FIX DATE */
-        $parameter['FECHA_REAFIANZA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_REAFIANZA'], 1900));
+        $parameter['FECHA_REAFIANZA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_REAFIANZA'])));
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -77,6 +93,7 @@ class Model_124 extends CI_Model {
         }
         return $out;
     }
+    
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -108,7 +125,7 @@ class Model_124 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);

@@ -364,7 +364,10 @@ class Sgr extends MX_Controller {
             $array = array();
             //Check Duplicates ANEXO 06
             for ($i = 2; $i <= $data->rowcount(); $i++) {
-                $result_data_ = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
+                $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
+                $result_data_ =  $this->$model->check($sanitize_data);               
+                
+                
                 if ($result_data_[5779] == 1) {
                     if ($result_data_[1695] != NULL) {
                         $array[] = $result_data_[1695];
@@ -388,11 +391,10 @@ class Sgr extends MX_Controller {
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                         $result['filename'] = $new_filename;
-                        $result['sgr_id'] = (int) $this->sgr_id;                      
+                        $result['sgr_id'] = (int)$this->sgr_id;                      
                         $save = (array) $this->$model->save($result);
                     }
                 }
-
 
                 /* SET PERIOD */
                 if ($save) {
@@ -401,6 +403,7 @@ class Sgr extends MX_Controller {
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $result['anexo'] = $this->anexo;
                     $save_period = (array) $this->$model->save_period($result);
+                    
                     
                     if ($save_period['status'] == "ok") {
                         /* RENDER */
@@ -421,6 +424,7 @@ class Sgr extends MX_Controller {
             }
         }
         
+      
         /* ERROR CASE */
         if ($error) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));

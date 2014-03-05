@@ -28,6 +28,15 @@ class Model_125 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -40,10 +49,10 @@ class Model_125 extends CI_Model {
          * @example .... CUIT_PART	CUIT_ACREEDOR	SLDO_FINANC	SLDO_COMER	SLDO_TEC
          * */
         $defdna = array(
-            1 => 'CUIT_PART', 
-            2 => 'CUIT_ACREEDOR', 
-            3 => 'SLDO_FINANC', 
-            4 => 'SLDO_COMER', 
+            1 => 'CUIT_PART',
+            2 => 'CUIT_ACREEDOR',
+            3 => 'SLDO_FINANC',
+            4 => 'SLDO_COMER',
             5 => 'SLDO_TEC'
         );
 
@@ -51,6 +60,13 @@ class Model_125 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            /* STRING */
+            $insertarr['CUIT_PART'] = (string) $insertarr['CUIT_PART'];
+            $insertarr['CUIT_ACREEDOR'] = (string) $insertarr['CUIT_ACREEDOR'];
+            /* FLOAT */
+            $insertarr['SLDO_FINANC'] = (float) $insertarr['SLDO_FINANC'];
+            $insertarr['SLDO_COMER'] = (float) $insertarr['SLDO_COMER'];
+            $insertarr['SLDO_TEC'] = (float) $insertarr['SLDO_TEC'];
         }
         return $insertarr;
     }
@@ -59,13 +75,11 @@ class Model_125 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        /* FIX DATE */        
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -106,7 +120,7 @@ class Model_125 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -122,7 +136,7 @@ class Model_125 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("CUIT_PART","CUIT_ACREEDOR","SLDO_FINANC","SLDO_COMER","SLDO_TEC");
+        $headerArr = array("CUIT_PART", "CUIT_ACREEDOR", "SLDO_FINANC", "SLDO_COMER", "SLDO_TEC");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {

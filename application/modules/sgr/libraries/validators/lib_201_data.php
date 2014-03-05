@@ -34,6 +34,7 @@ class Lib_201_data extends MX_Controller {
         $a4_array = array();
         $b3_array = array();
         $b4_array = array();
+        $E_cell_array_values = array("nro" => '', 'amount' => '');
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -91,6 +92,8 @@ class Lib_201_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $get_input_number = $this->$model_201->get_input_number($A_cell_value);
+
+
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -160,19 +163,22 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             $code_error = "C.3";
-                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
+                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                           
                             
-                            if ($partner_data[0][5272][0] == 'A') {
+                            if (!$partner_data) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
-                            } else {
-
-                                $buy = $this->$model_06->buy_shares($parameterArr[$i]['fieldValue'], 'B');
-                                $sell = $this->$model_06->sell_shares($parameterArr[$i]['fieldValue'], 'B');
-                                $balance = $buy - $sell;
-                                if ($balance == 0) {
+                            }
+                            foreach ($partner_data as $partner) {                                
+                                if ($partner[5272][0] != 'B') {                                   
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
+                                } else {
+                                    $balance = $this->$model_06->shares_active_partners($parameterArr[$i]['fieldValue'], 'B');
+                                    if ($balance == 0) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
+                                        array_push($stack, $result);
+                                    }
                                 }
                             }
                         }
@@ -190,15 +196,8 @@ class Lib_201_data extends MX_Controller {
                     $D_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-
-
-                        if ($D_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -221,27 +220,27 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 5) {
                     $E_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
-
                         $code_error = "E.2";
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $b3_array[] = $A_cell_value . '*' . $B_cell_value;
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-
-                        if ($E_cell_value < 0) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
+                       
                         if ($D_cell_value != "") {
                             $code_error = "E.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+
+                        /* E.3 */
+                        //$E_cell_array_values[] = $parameterArr[$i]['fieldValue'];
+
+                        $E_cell_array = array("nro" => $A_cell_value . "*" . $get_input_number, 'amount' => (int) $parameterArr[$i]['fieldValue']);
+                        array_push($E_cell_array_values, $E_cell_array);
                     }
                 }
 
@@ -262,26 +261,21 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
                     $F_cell_value = null;
 
-                    
-                    
-                    if ($E_cell_value != null && $parameterArr[$i]['fieldValue']=="") {
-                            $code_error = "F.3";
-                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-                    
-                    
+
+
+                    if ($E_cell_value != null && $parameterArr[$i]['fieldValue'] == "") {
+                        $code_error = "F.3";
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
+
+
                     $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-                        if ($F_cell_value < 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -298,7 +292,6 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
                     }
 
 
@@ -336,14 +329,8 @@ class Lib_201_data extends MX_Controller {
                         $b4_array[] = $A_cell_value . '*' . $B_cell_value;
 
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-                        if ($G_cell_value < 0) {
-                            $code_error = "G.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -415,11 +402,11 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 18) {
                     $code_error = "R.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $R_cell_value = (int)$parameterArr[$i]['fieldValue'];                       
-                        
-                        
+                        $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
+
+
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return || $R_cell_value<1) {
+                        if ($return || $R_cell_value < 1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -436,15 +423,6 @@ class Lib_201_data extends MX_Controller {
                     if ($D_cell_value) {
                         $order_number_array_aporte[] = $A_cell_value;
                     }
-
-
-
-
-                    $code_error = "A.5";
-                    //Valida contra Mongo
-
-                    $code_error = "A.6";
-                    //Valida contra Mongo                    
 
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
 
@@ -485,15 +463,6 @@ class Lib_201_data extends MX_Controller {
          * número informado no exista y sea correlativo al último informado. 
          */
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-        $order_number_array_aporte[] = $get_max_order_number;
-        $check_consecutive = consecutive($order_number_array_aporte);
-
-        if ($check_consecutive) {
-            $code_error = "A.2";
-            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
-            array_push($stack, $result);
-        }
-
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
                 if ($number != 0) {
@@ -503,6 +472,17 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
+
+
+        array_unshift($order_number_array_aporte, $get_max_order_number);
+        $check_consecutive = consecutive($order_number_array_aporte);
+        if ($check_consecutive) {
+            $code_error = "A.2";
+            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
+            array_push($stack, $result);
+        }
+
+
 
         /* Nro A.4
          * Detail: 
@@ -536,8 +516,32 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-//       var_dump($stack);
-     //exit();
+
+        $totals = array();
+        foreach ($E_cell_array_values AS $e_val) {
+            if (!empty($e_val['nro'])) {
+                if (!isset($totals[$e_val['nro']]))
+                    $totals[$e_val['nro']] = 0;
+                $totals[$e_val['nro']] += $e_val['amount'];
+            }
+        }
+
+        foreach ($totals as $key => $value) {
+            list($new_num, $new_amount) = explode("*", $key);
+            $new_amount = (int) $new_amount;
+            if ($new_amount < $value) {
+                $code_error = "E.3";
+                list($input, $input_date) = explode('*', $arr['value']);
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "La suma de retiros es de $" . $value);
+                array_push($stack, $result);
+            }
+        }
+
+//        
+//            echo $new_num.'->'. $new_amount;
+
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 

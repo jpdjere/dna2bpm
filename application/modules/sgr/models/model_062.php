@@ -28,6 +28,15 @@ class Model_062 extends CI_Model {
             $this->sgr_nombre = $sgr['1693'];
         }
     }
+    
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
 
     function check($parameter) {
         /**
@@ -53,6 +62,9 @@ class Model_062 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+             $insertarr["CUIT"] = (string) $insertarr["CUIT"];
+              /* FLOAT */
+            $insertarr["FACTURACION"] = (float) $insertarr["FACTURACION"];
         }
         return $insertarr;
     }
@@ -61,12 +73,9 @@ class Model_062 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);

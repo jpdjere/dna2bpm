@@ -63,8 +63,13 @@ class Lib_12_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $is_order_num = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                        if ($is_order_num) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El nro de Orden " . $parameterArr[$i]['fieldValue'] . " ya está en el sistema.");
+                            array_push($stack, $result);
+                        }
                     }
-                    //Valida contra Mongo
                 }
 
 
@@ -128,19 +133,12 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     /* B.3 */
-                    $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue']);
-                    $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue']);
-
-                    $buy_integrado = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], 5598);
-                    $sell_integrado = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], 5598);
-
-
-                    $suscripto = $buy - $sell;
-                    $integrado = $buy_integrado - $sell_integrado;
-                    //var_dump($suscripto,$integrado);
-                    if ($integrado != $suscripto) {
+                    $subscribed = $this->$model_06->shares($parameterArr[$i]['fieldValue']);
+                    $integrated = $this->$model_06->shares($parameterArr[$i]['fieldValue'], 5598);
+                   
+                    if ($integrated != $subscribed) {
                         $code_error = "B.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }
@@ -220,11 +218,11 @@ class Lib_12_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }
+                        } 
                     }
                 }
 
@@ -450,25 +448,18 @@ class Lib_12_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 12) {
-                    $code_error = "L.1";
+                    $code_error = "L.2";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }
+                        } 
                     }
                 }
 
@@ -624,16 +615,11 @@ class Lib_12_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         //Check Numeric Validation
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            if ((int) $parameterArr[$i]['fieldValue'] < 0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
-                        }
+                        } 
                     }
 
 

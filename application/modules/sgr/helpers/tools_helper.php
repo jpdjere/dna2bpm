@@ -119,18 +119,27 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-function check_decimal($number, $decimal = 2) {
+function check_decimal($number, $decimal = 2, $mayor = null) {
 
     $number = str_replace(",", ".", $number);
 
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
-        if ($places_count > $decimal) {
+        if ($places_count > $decimal) {            
             return true;
+            
+        }
+
+        if ($mayor) {
+            $number = (int) $number;
+            if ($number < 0) {                
+                return true;                
+            }
         }
     } else {
         return true;
+        
     }
 }
 
@@ -187,7 +196,16 @@ function check_is_numeric($number) {
     }
 }
 
-function check_is_numeric_no_decimal($number) {
+function check_is_numeric_no_decimal($number, $mayor = null) {
+
+    if ($mayor) {
+        $number = (int) $number;
+        if ($number < 0) {
+            return true;
+            exit();
+        }
+    }
+
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 0));
@@ -385,7 +403,21 @@ function translate_date($parameter) {
         exit();
     }
     $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
-    return strftime("%Y/%m/%d", $parameter);
+    return strftime("%Y-%m-%d", $parameter);
+}
+
+function translate_for_mongo($parameter) {
+    $result = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
+    return $result;
+}
+
+function translate_period_date($period) {
+    list($period_month, $period_year) = explode("-", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
 }
 
 /**
@@ -422,12 +454,6 @@ function array_search2d($needle, $haystack) {
             return $i;
     }
     return false;
-}
-
-function translate_period_date($period) {
-    list($period_month, $period_year) = explode("-", $period);
-    $isdate = date($period_year . '-' . $period_month . '-01');
-    return $isdate;
 }
 
 /*
@@ -490,68 +516,95 @@ function count_shares($data) {
     return $group;
 }
 
-/*FIND REPEATED*/
-function repeatedElements($array, $returnWithNonRepeatedItems = false)
-{
+/* FIND REPEATED */
+
+function repeatedElements($array, $returnWithNonRepeatedItems = false) {
     $repeated = array();
- 
-    foreach( (array)$array as $value )
-    {
+
+    foreach ((array) $array as $value) {
         $inArray = false;
- 
-        foreach( $repeated as $i => $rItem )
-        {
-            if( $rItem['value'] === $value )
-            {
+
+        foreach ($repeated as $i => $rItem) {
+            if ($rItem['value'] === $value) {
                 $inArray = true;
                 ++$repeated[$i]['count'];
             }
         }
- 
-        if( false === $inArray )
-        {
+
+        if (false === $inArray) {
             $i = count($repeated);
             $repeated[$i] = array();
             $repeated[$i]['value'] = $value;
             $repeated[$i]['count'] = 1;
         }
     }
- 
-    if( ! $returnWithNonRepeatedItems )
-    {
-        foreach( $repeated as $i => $rItem )
-        {
-            if($rItem['count'] === 1)
-            {
+
+    if (!$returnWithNonRepeatedItems) {
+        foreach ($repeated as $i => $rItem) {
+            if ($rItem['count'] === 1) {
                 unset($repeated[$i]);
             }
         }
     }
- 
+
     sort($repeated);
- 
+
     return $repeated;
 }
 
 /* CONSECUTIVE */
-function consecutive($array){
-        $numAnt = array();
-        foreach($array as $pos => $num){
-            $return_arr = array();
-            if($pos>0){
-                // se compara desde el segundo elemento de la matris
-                // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
-                // actual guardamos una varible indicando que el numero es consecutivo
-                $resto = $pos-1; 
-                if((@$numAnt[$resto]+1)==$num){                   
-                }else{
-                    $return_arr[] = $num;
-                    
-                }  
+
+function consecutive($array) {
+    $numAnt = array();
+    foreach ($array as $pos => $num) {
+        $return_arr = array();
+        if ($pos > 0) {
+            // se compara desde el segundo elemento de la matris
+            // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
+            // actual guardamos una varible indicando que el numero es consecutivo
+            $resto = $pos - 1;
+            if ((@$numAnt[$resto] + 1) == $num) {
+                
+            } else {
+                $return_arr[] = $num;
             }
-            $numAnt[$pos]=$num;    
         }
-        return $return_arr;
-    } 
-    
-    
+        $numAnt[$pos] = $num;
+    }
+    return $return_arr;
+}
+
+function array_mesh() {
+    // Combine multiple associative arrays and sum the values for any common keys
+    // The function can accept any number of arrays as arguments
+    // The values must be numeric or the summed value will be 0
+    // Get the number of arguments being passed
+    $numargs = func_num_args();
+
+    // Save the arguments to an array
+    $arg_list = func_get_args();
+
+    // Create an array to hold the combined data
+    $out = array();
+
+    // Loop through each of the arguments
+    for ($i = 0; $i < $numargs; $i++) {
+        $in = $arg_list[$i]; // This will be equal to each array passed as an argument
+        // Loop through each of the arrays passed as arguments
+        foreach ($in as $key => $value) {
+            // If the same key exists in the $out array
+            if (array_key_exists($key, $out)) {
+                // Sum the values of the common key
+                $sum = $in[$key] + $out[$key];
+                // Add the key => value pair to array $out
+                $out[$key] = $sum;
+            } else {
+                // Add to $out any key => value pairs in the $in array that did not have a match in $out
+                $out[$key] = $in[$key];
+            }
+        }
+    }
+
+    return $out;
+}
+

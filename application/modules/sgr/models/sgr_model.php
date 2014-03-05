@@ -344,14 +344,71 @@ class Sgr_model extends CI_Model {
     }
 
     /* COTIZACION */
+
     function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
-        $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date-1), 1900));       
+        $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = $quotation_date;
         $query = array("date" => $quotation_date, 'currency' => $currency
         );
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result[amount];
+    }
+    
+    /*GET ACTIVE ANEXOS*/
+    function get_active($anexo, $exclude_this = false) {
+        $rtn = array();
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth =  $getPeriodMonth;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
+        
+        $query = array(
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'sgr_id' => (int)$this->sgr_id,
+            'status' => 'activo',
+            'period_date' => array(
+                '$lte' => $endDate
+            ),             
+        );
+       
+        if ($exclude_this) {
+            $query['period'] = array('$ne' => $exclude_this);
+        }
+        
+        $result = $this->mongo->sgr->$period->find($query);
+        
+        foreach ($result as $each) {
+            $rtn[] = $each;
+        }
+        return $rtn;
+    }
+    
+    function get_active_other_sgrs($anexo, $exclude_this = false) {
+        $rtn = array();
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth =  $getPeriodMonth;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
+        
+        $query = array(
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),           
+            'sgr_id' => array('$ne' => $this->sgr_id),
+            'status' => 'activo',
+            'period' => array('$ne' => $this->session->userdata['period'])          
+        );
+        
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $each) {
+            $rtn[] = $each;
+        }
+        return $rtn;
     }
 
 }

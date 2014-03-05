@@ -9,6 +9,9 @@ class Lib_122_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
         /* Vars 
          * 
          * $parameters =  
@@ -52,12 +55,16 @@ class Lib_122_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    } else {
-                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                     }
 
                     //Valida contra Mongo
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                    if (!$warranty_info) {
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
                 }
+
 
                 /* NUMERO_CUOTA_CUYO_VENC_MODIFICA
                  * Nro B.1
@@ -73,7 +80,14 @@ class Lib_122_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $cuota_arr[] = $parameterArr[$i]['fieldValue']."*".$A_cell_value;
+                        $cuota_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
+                        $B_cell_value = (int) $parameterArr[$i]['fieldValue'];
+
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return || $B_cell_value < 1) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -87,19 +101,29 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //Check Date Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }
+                        /* C.2 */
+                        $C_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+
+                        foreach ($warranty_info as $nro_orden) {
+                            $datetime1 = new DateTime($nro_orden['5215']);
+                            $datetime2 = new DateTime($C_cell_date_format);
+                            $interval = $datetime1->diff($datetime2);
+                            $result_dates = (int) $interval->format('%R%a');
+
+                            if ($result_dates < 1) {
+
+                                $code_error = "C.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -146,17 +170,12 @@ class Lib_122_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -169,20 +188,30 @@ class Lib_122_data extends MX_Controller {
                  * Formato numérico. Aceptar hasta dos decimales. El monto debe ser inferior al registrado en como Monto de Garantí Otorgada del Anexo 12.';
                  */
 
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($parameterArr[$i]['col'] == 6) {
                     $code_error = "F.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $F_cell_value = (float) $parameterArr[$i]['fieldValue'];
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }
+
+
+                        /* F.2 */
+                        foreach ($warranty_info as $order_number) {
+                            $amount_warranty = (float) $order_number[5218];
+                            if ($F_cell_value > $amount_warranty) {
+                                $code_error = "F.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $order_number[5218] . ")");
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -190,17 +219,17 @@ class Lib_122_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        /* EXTRA VALIDATION B.1*/
-        
+
+        /* EXTRA VALIDATION B.2 */
         foreach (repeatedElements($cuota_arr) as $arr) {
-            $code_error = "B.1";
-            list($cuota, $warranty)= explode('*', $arr['value']);            
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota." para la Garantía ". $warranty);
+            $code_error = "B.2";
+            list($cuota, $warranty) = explode('*', $arr['value']);
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Cuota Repetida " . $cuota . " para la Garantía " . $warranty);
             array_push($stack, $result);
         }
-        
-        
-        
+
+
+
         $this->data = $stack;
     }
 
