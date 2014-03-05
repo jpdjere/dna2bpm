@@ -77,7 +77,6 @@ class Model_12 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             /* STRING */
-
             $insertarr[5214] = (string) $insertarr[5214]; //Nro orden
 
 
