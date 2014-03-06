@@ -320,6 +320,8 @@ class Lib_14_data extends MX_Controller {
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
+            
+            
 
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
             $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
@@ -350,13 +352,12 @@ class Lib_14_data extends MX_Controller {
                     array_push($stack, $result);
                 }
 
-//                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
-//
-//                foreach ($get_recuperos_tmp as $recuperos) {
-//
-//                    $resu = $this->$model_anexo->get_test_tmp($recuperos);
-//                    
-//                }
+                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
+                foreach ($get_recuperos_tmp as $recuperos) {
+                    
+                    var_dump($recuperos);
+                    $resu = $this->$model_anexo->get_test_tmp($recuperos);                    
+                }
             }
 
 
@@ -416,6 +417,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
+        exit();
         $this->data = $stack;
     }
 
