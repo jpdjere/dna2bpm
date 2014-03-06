@@ -466,7 +466,7 @@ class Lib_201_data extends MX_Controller {
          * número informado no exista y sea correlativo al último informado. 
          */
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-        var_dump($get_max_order_number,"<hr>", $order_number_array_aporte);
+       
         
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
@@ -545,8 +545,7 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-        var_dump($stack);
-        exit();
+        
         $this->data = $stack;
     }
 
