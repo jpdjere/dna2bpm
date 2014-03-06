@@ -99,17 +99,6 @@ class Lib_14_data extends MX_Controller {
                     /* WARRANTY DATA */
                     $B_warranty_info = $this->$model_12->get_order_number_others($parameterArr[$i]['fieldValue']);
 
-
-
-                    /* INSERT TMP DATA LO SUMAMOS AL FINAL */
-//                    $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
-//                    $insert_tmp['CAIDA'] = $get_movement_data['CAIDA'];
-//                    $insert_tmp['RECUPERO'] = $get_movement_data['RECUPERO'];
-//                    $insert_tmp['INCOBRABLES_PERIODO'] = $get_movement_data['INCOBRABLES_PERIODO'];
-//                    $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
-//                    $insert_tmp['RECUPERO_GASTOS_PERIODO'] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
-//                    $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
-                    // var_dump($insert_tmp);
                 }
 
                 /* CAIDA
@@ -361,13 +350,13 @@ class Lib_14_data extends MX_Controller {
                     array_push($stack, $result);
                 }
 
-                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
-
-                foreach ($get_recuperos_tmp as $recuperos) {
-
-                    $resu = $this->$model_anexo->get_test_tmp($recuperos);
-                    
-                }
+//                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
+//
+//                foreach ($get_recuperos_tmp as $recuperos) {
+//
+//                    $resu = $this->$model_anexo->get_test_tmp($recuperos);
+//                    
+//                }
             }
 
 
@@ -427,10 +416,6 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-
-
-        var_dump($stack);
-        exit();
         $this->data = $stack;
     }
 
