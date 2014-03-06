@@ -28,6 +28,15 @@ class Model_202 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -53,6 +62,13 @@ class Model_202 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+
+            
+            /* INT & FLOAT */
+            $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
+            $insertarr["CONTINGENTE_PROPORCIONAL_ASIGNADO"] = (float) $insertarr["CONTINGENTE_PROPORCIONAL_ASIGNADO"];
+            $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"] = (float) $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"];
+            $insertarr["RENDIMIENTO_ASIGNADO"] = (float) $insertarr["RENDIMIENTO_ASIGNADO"];
         }
         return $insertarr;
     }
@@ -60,29 +76,11 @@ class Model_202 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-                
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-
-        /* FIX DATE */
-        $parameter['FECHA_MOVIMIENTO'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_MOVIMIENTO'], 1900));
-        $parameter['FECHA_ACTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_ACTA'], 1900));
-
+        $id = $this->app->genid_sgr($container);
 
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
-        $id = $this->app->genid_sgr($container);
-        
-         /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -123,7 +121,7 @@ class Model_202 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
