@@ -513,10 +513,12 @@ class Lib_06_data extends MX_Controller {
 
 
                         $balance_integrado = $this->$model_anexo->shares("30711529523", "A", 5598);
-                        var_dump($balance_integrado, $parameterArr[$i]['fieldValue'], $B_cell_value);
-                        exit();
+                        var_dump($balance_integrado, "30711529523", "A", 5598);
+                        
 
                         $balance_integrado = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
+                         var_dump($balance_integrado, $parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
+                        exit();
                         if ($balance_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $balance_integrated . ")");
