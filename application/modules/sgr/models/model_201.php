@@ -275,7 +275,7 @@ class Model_201 extends CI_Model {
         $output_result_arr = array();
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-        
+
         /* FIND ANEXO */
         foreach ($result as $list) {
             //var_dump($list['filename']);
@@ -285,18 +285,18 @@ class Model_201 extends CI_Model {
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
-            
-            
+
+
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
-                
+
                 if ($data['APORTE']) {
                     // var_dump($input_result['APORTE']);
-                    $input_result_arr[] = (int)$data['APORTE'];
+                    $input_result_arr[] = (int) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
                     // var_dump($input_result['RETIRO']);
-                    $output_result_arr[] = (int)$data['RETIRO'];
+                    $output_result_arr[] = (int) $data['RETIRO'];
                 }
             }
         }
@@ -305,26 +305,18 @@ class Model_201 extends CI_Model {
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
         return $balance;
-    }    
+    }
 
     function get_last_input_number($code) {
-        $period = 'container.sgr_periodos';
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
 
-        $nresult_arr = array();
         $anexo = $this->anexo;
-
+        $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
+        $period_value = $this->session->userdata['period'];
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_last_rec($anexo, $period_value);
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
