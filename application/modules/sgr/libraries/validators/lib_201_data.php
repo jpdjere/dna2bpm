@@ -505,12 +505,16 @@ class Lib_201_data extends MX_Controller {
                 array_push($stack, $result);
             }
 
-            $B_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+            $B_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $b_value, 1900));
             $get_movement_info = $this->$model_201->get_movement_info($A_cell_value);
             $datetime1 = new DateTime($get_movement_info['FECHA_MOVIMIENTO']);
             $datetime2 = new DateTime($B_cell_date_format);
             $interval = $datetime1->diff($datetime2);
             $result_dates = (int) $interval->format('%R%a');
+            
+            
+            var_dump($B_cell_date_format,$get_movement_info['FECHA_MOVIMIENTO'] );
+            exit();
 
             if ($result_dates < 1) {
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
