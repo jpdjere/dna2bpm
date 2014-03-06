@@ -136,6 +136,9 @@ class Lib_12_data extends MX_Controller {
                     $subscribed = $this->$model_06->shares($parameterArr[$i]['fieldValue']);
                     $integrated = $this->$model_06->shares($parameterArr[$i]['fieldValue'], 5598);
                    
+                    var_dump($parameterArr[$i]['fieldValue'], $subscribed,$integrated );
+                    exit();
+                    
                     if ($integrated != $subscribed) {
                         $code_error = "B.3";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
