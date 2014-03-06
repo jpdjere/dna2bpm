@@ -168,9 +168,6 @@ class Lib_201_data extends MX_Controller {
                             
                             $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
                             
-                            var_dump($balance,$parameterArr[$i]['fieldValue']);
-                           
-                            
                             if (!$partner_data) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -469,7 +466,7 @@ class Lib_201_data extends MX_Controller {
          * número informado no exista y sea correlativo al último informado. 
          */
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-        var_dump($get_max_order_number, $order_number_array_aporte);
+        var_dump($get_max_order_number,"<hr>", $order_number_array_aporte);
         
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
