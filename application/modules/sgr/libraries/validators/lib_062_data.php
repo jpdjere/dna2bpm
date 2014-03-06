@@ -64,7 +64,7 @@ class Lib_062_data extends MX_Controller {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 } else {
-                                    $balance = $this->$model_06->shares_active_partners($parameterArr[$i]['fieldValue'], 'B');
+                                    $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
                                     if ($balance == 0) {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
                                         array_push($stack, $result);
