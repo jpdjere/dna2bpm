@@ -562,7 +562,7 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-
+        exit();
         $this->data = $stack;
     }
 
