@@ -505,9 +505,36 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo);
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                1695 => $cuit
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $return_result[] = $new_result;
+        }
+
+        return $return_result;
+    }
+    
+    /*FROM OUTSIDE (ANOTHER ANEXO)*/
+    function get_partner_left($cuit) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
 
         $return_result = array();
         foreach ($result as $list) {
@@ -618,9 +645,9 @@ class Model_06 extends CI_Model {
             if ($partner_type)
                 $new_query[5272] = $partner_type;
 
-            $buy_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($buy_result) {
-                $buy_result_arr[] = $buy_result[$field];
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                $buy_result_arr[] = $buy[$field];
             }
 
             /* SELL */
@@ -632,9 +659,9 @@ class Model_06 extends CI_Model {
             if ($partner_type)
                 $new_query[5272] = $partner_type;
 
-            $sell_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($sell_result) {
-                $sell_result_arr[] = $sell_result[$field];
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach($sell_result as $sell) {
+                $sell_result_arr[] = $sell[$field];
             }
         }
 
@@ -647,10 +674,9 @@ class Model_06 extends CI_Model {
     /* ACCIONES COMPRA/VENTA X SGR de socios que estan activos en el sistema
      * Compra/venta por socio
      */
-    function shares_active_partners($cuit, $partner_type = null, $field = 5597) {
+    function shares_active_left($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
-        $period_value = $this->session->userdata['period'];
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -659,7 +685,6 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
-
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
@@ -671,9 +696,9 @@ class Model_06 extends CI_Model {
             if ($partner_type)
                 $new_query[5272] = $partner_type;
 
-            $buy_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($buy_result) {
-                $buy_result_arr[] = $buy_result[$field];
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                $buy_result_arr[] = $buy[$field];
             }
 
             /* SELL */
@@ -685,9 +710,9 @@ class Model_06 extends CI_Model {
             if ($partner_type)
                 $new_query[5272] = $partner_type;
 
-            $sell_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($sell_result) {
-                $sell_result_arr[] = $sell_result[$field];
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach($sell_result as $sell) {
+                $sell_result_arr[] = $sell[$field];
             }
         }
 
