@@ -155,10 +155,10 @@ class Lib_121_data extends MX_Controller {
                         }
                     }
                     
-                    if(check_decimal($parameterArr[$i]['fieldValue'],null,true)){
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                    }
+//                    if(check_decimal($parameterArr[$i]['fieldValue'],null,true)){
+//                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+//                            array_push($stack, $result);
+//                    }
 
                     //Valida contra Mongo
                 }
