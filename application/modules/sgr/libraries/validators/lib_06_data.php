@@ -25,10 +25,7 @@ class Lib_06_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-        
-         $balance_integrado = $this->$model_anexo->shares("30711529523", "A", 5598);
-        var_dump($balance_integrado);
-        exit();
+
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -368,11 +365,11 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     }
-                                    
-                                    
+
+
                                     $diff_int_sus = $integrated - $subscribed;
-                                   
-                                    if ($diff_int_sus < (int)$parameterArr[$i]['fieldValue']) {
+
+                                    if ($diff_int_sus < (int) $parameterArr[$i]['fieldValue']) {
                                         $code_error = "AI.8";
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                                         array_push($stack, $result);
@@ -420,13 +417,13 @@ class Lib_06_data extends MX_Controller {
 
 
 
-                        /* C.2 */                      
+                        /* C.2 */
                         $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
                         $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
                         $saldo = array_sum(array($subscribed, $integrated));
                         if ($saldo != 0) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo: " . $saldo . ' para ' . $C_cell_value ."(". $subscribed."-".$integrated.")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo: " . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
                             array_push($stack, $result);
                         }
 
@@ -515,11 +512,14 @@ class Lib_06_data extends MX_Controller {
                          */
 
 
-                       
+                        $balance_integrado = $this->$model_anexo->shares("30711529523", "A", 5598);
+                        var_dump($balance_integrado, $parameterArr[$i]['fieldValue'], $B_cell_value);
+                        exit();
+
                         $balance_integrado = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
                         if ($balance_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(".$balance_integrated.")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $balance_integrated . ")");
                             array_push($stack, $result);
                         }
 
@@ -1392,7 +1392,7 @@ class Lib_06_data extends MX_Controller {
             }
         }
 //        var_dump($stack);
-      //exit();
+        //exit();
         $this->data = $stack;
     }
 
