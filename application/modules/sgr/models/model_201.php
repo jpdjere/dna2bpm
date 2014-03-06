@@ -248,22 +248,32 @@ class Model_201 extends CI_Model {
         return $rtn;
     }
 
-    function get_order_number_($code) {
+    
+    function get_movement_info($code) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("NUMERO_DE_APORTE" => $code, 'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$container->findOne($query);
-        var_dump($query);
-        if ($result) {
-            return $result;
-        } else {
-            /* GET MAX */
-            $result = $this->mongo->sgr->$container->find(array(), array('NUMERO_DE_APORTE' => 1))->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
-            return $result;
+        $period_value = $this->session->userdata['period'];
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                1695 => $cuit
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $return_result[] = $new_result;
         }
 
-        var_dump($result);
+        return $return_result;
     }
-
+    
     function get_input_number($code) {
 
         $anexo = $this->anexo;
@@ -273,12 +283,12 @@ class Model_201 extends CI_Model {
 
         $input_result_arr = array();
         $output_result_arr = array();
+        
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
 
         /* FIND ANEXO */
-        foreach ($result as $list) {
-            //var_dump($list['filename']);
+        foreach ($result as $list) {            
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
