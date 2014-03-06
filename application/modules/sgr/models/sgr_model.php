@@ -387,6 +387,38 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
     
+    function get_active_last_rec($anexo, $exclude_this = false) {
+        $rtn = array();
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth =  $getPeriodMonth;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
+        
+        $query = array(
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'sgr_id' => (int)$this->sgr_id,
+            'status' => 'activo',
+            'period_date' => array(
+                '$lte' => $endDate
+            ),             
+        );
+       
+        if ($exclude_this) {
+            $query['period'] = array('$ne' => $exclude_this);
+        }
+        
+        
+        $result = $this->mongo->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
+        
+        foreach ($result as $each) {
+            $rtn[] = $each;
+        }
+        return $rtn;
+    }
+    
     function get_active_other_sgrs($anexo, $exclude_this = false) {
         $rtn = array();
         $period = 'container.sgr_periodos';
