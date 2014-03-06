@@ -30,7 +30,7 @@ class Lib_14_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $this->$model_anexo->clear_tmp($insert_tmp);
-        
+
         $order_num = array();
 
 
@@ -181,7 +181,7 @@ class Lib_14_data extends MX_Controller {
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
                         $insert_tmp['CAIDA'] = $parameterArr[$i]['fieldValue'];
-                        
+
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
@@ -207,9 +207,9 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                       
+
                         $insert_tmp['RECUPERO'] = $parameterArr[$i]['fieldValue'];
-                        
+
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
@@ -226,7 +226,7 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "E.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -235,9 +235,9 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                       
+
                         $insert_tmp['INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
-                       
+
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
@@ -262,7 +262,7 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                        
+
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
@@ -278,7 +278,7 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -287,9 +287,9 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                       
+
                         $insert_tmp['RECUPERO_GASTOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
-                        
+
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
@@ -314,7 +314,7 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                       
+
                         $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
@@ -330,7 +330,7 @@ class Lib_14_data extends MX_Controller {
         foreach ($order_num_unique as $number) {
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
-            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);            
+            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
 
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
             $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
@@ -353,16 +353,21 @@ class Lib_14_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['RECUPERO']);
                     array_push($stack, $result);
                 }
-                
-            /*D.3*/    
-                if($sum_RECUPEROS>$sum_CAIDA){
+
+                /* D.3 */
+                if ($sum_RECUPEROS > $sum_CAIDA) {
                     $code_error = "D.3";
-                    $result = return_error_array($code_error, "","( Nro de Orden ". $number ." Caidas: ".$sum_CAIDA." ) ". $sum_RECUPERO. "/". $sum_INCOBRABLES_PERIODO);
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $sum_RECUPERO . "/" . $sum_INCOBRABLES_PERIODO);
                     array_push($stack, $result);
                 }
-                
-                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number,'RECUPERO');
-                
+
+                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
+
+                foreach ($get_recuperos_tmp as $recuperos) {
+
+                    $resu = $this->$model_anexo->get_test_tmp($recuperos);
+                    
+                }
             }
 
 
@@ -404,10 +409,8 @@ class Lib_14_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['GASTOS_EFECTUADOS_PERIODO']);
                     array_push($stack, $result);
                 }
-                
-                /*G.3*/
-                
-                
+
+                /* G.3 */
             }
 
             /* Nro B.6
