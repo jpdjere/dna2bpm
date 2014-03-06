@@ -162,8 +162,12 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
+                            
                             $code_error = "C.3";
-                            $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);                            
+                            $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);  
+                            var_dump($partner_data, $parameterArr[$i]['fieldValue']);
+                            exit();
+                            
                             $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
                             
                             if (!$partner_data) {
