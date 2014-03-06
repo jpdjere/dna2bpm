@@ -25,7 +25,10 @@ class Lib_06_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-
+        
+         $balance_integrado = $this->$model_anexo->shares("30711529523", "A", 5598);
+        var_dump($balance_integrado);
+        exit();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
