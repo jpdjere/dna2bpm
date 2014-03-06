@@ -29,21 +29,12 @@ class Lib_14_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-
-        $input_array = array();
-        $b2_array = array();
-        $b3_array = array();
-        $b4_array = array();
-        $b5_array = array();
-        $b6_array = array();
-
-
-        $spending_recovery = array();
-        //$recovered_uncollectible = array();
-        $spending_management = array();
+        $this->$model_anexo->clear_tmp($insert_tmp);
         
-        
-                
+        $order_num = array();
+
+
+
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -70,7 +61,7 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
                     $code_error = "A.1";
-
+                    $insert_tmp = array();
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -104,20 +95,21 @@ class Lib_14_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 2) {
                     $B_cell_value = $parameterArr[$i]['fieldValue'];
-
+                    $order_num[] = $B_cell_value;
+                    /* WARRANTY DATA */
                     $B_warranty_info = $this->$model_12->get_order_number_others($parameterArr[$i]['fieldValue']);
 
 
-                    $get_movement_data = $this->$model_anexo->get_movement_data($B_cell_value);
-                    //var_dump($B_cell_value,$get_movement_data['CAIDA']);
 
-                    $CAIDAS = array($get_movement_data['CAIDA']);
-                    $c3_values_array = array($get_movement_data['RECUPERO']);
-                    $c3_values = $get_movement_data['RECUPERO'];
-                    $b3_values_array = array($get_movement_data['INCOBRABLES_PERIODO']);
-                    $b4_values_array = array($get_movement_data['GASTOS_EFECTUADOS_PERIODO']);
-                    $b5_values_array = array($get_movement_data['RECUPERO_GASTOS_PERIODO']);
-                    $b6_values_array = array($get_movement_data['GASTOS_INCOBRABLES_PERIODO']);
+                    /* INSERT TMP DATA LO SUMAMOS AL FINAL */
+//                    $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+//                    $insert_tmp['CAIDA'] = $get_movement_data['CAIDA'];
+//                    $insert_tmp['RECUPERO'] = $get_movement_data['RECUPERO'];
+//                    $insert_tmp['INCOBRABLES_PERIODO'] = $get_movement_data['INCOBRABLES_PERIODO'];
+//                    $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
+//                    $insert_tmp['RECUPERO_GASTOS_PERIODO'] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
+//                    $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
+                    // var_dump($insert_tmp);
                 }
 
                 /* CAIDA
@@ -129,7 +121,7 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "C.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -185,8 +177,12 @@ class Lib_14_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        /* NRO_GARANTIA TO COMPARE */
-                        $input_array[] = $B_cell_value;
+                        /* INSERT */
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                        $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                        $insert_tmp['CAIDA'] = $parameterArr[$i]['fieldValue'];
+                        
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
 
@@ -202,30 +198,19 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "D.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        /* Nro D.2 = B.2
-                         * Detail:
-                         * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
-                         * previamente en el sistema (o en el mismo archivo que se está importando) una caída.
-                         */
-
-                        if (!$get_movement_data['CAIDA']) {
-                            $b2_array[] = $B_cell_value;
-                        }
-
-                        /* Nro D.3
-                         * Detail:
-                         * Debe validar que la suma de todos los RECUPEROS e INCOBRABLES registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todas las caídas de esa misma garantía registradas en el Sistema (incluidos los informados  en el archivo que se está importando).
-                         */
-                        //$recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
-
-                        array_push($c3_values_array, $parameterArr[$i]['fieldValue']);
-                        $c3_values += $parameterArr[$i]['fieldValue'];
+                        /* INSERT */
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                        $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                       
+                        $insert_tmp['RECUPERO'] = $parameterArr[$i]['fieldValue'];
+                        
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
 
@@ -241,26 +226,19 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "E.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        /* Nro E.2 = B.3
-                         * Detail:
-                         * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
-                         * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
-                         */
-                        if (!$get_movement_data['CAIDA']) {
-                            $b3_array[] = $B_cell_value;
-                        }
-
-                        /* Nro E.3
-                         * Detail:
-                         * Debe validar que la suma de todos los RECUPEROS e INCOBRABLES registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todas las caídas de esa misma garantía registradas en el Sistema (incluidos los informados  en el archivo que se está importando).
-                         */
-                        //$recovered_uncollectible[] = $parameterArr[$i]['fieldValue'];
+                        /* INSERT */
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                        $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                       
+                        $insert_tmp['INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                       
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
 
@@ -275,20 +253,17 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
                     $code_error = "F.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        /* Nro F.2 = B.4
-                         * Detail: 
-                         * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
-                         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
-                         */
-                        if (!$get_movement_data['CAIDA']) {
-                            $b4_array[] = $B_cell_value;
-                        }
+                        /* INSERT */
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                        $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                        
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
 
@@ -303,26 +278,19 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
-                        /* Nro G.2 = B.5
-                         * Detail: 
-                         * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
-                         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
-                         * GASTO POR GESTIÓN DE RECUPERO. 
-                         */
-                        if (!$get_movement_data['RECUPERO_GASTOS_PERIODO']) {
-                            $b5_array[] = $B_cell_value;
-                        }
-
-                        /* G.3 */
-                        if (!$B_warranty_info) {
-                            $spending_management[] = $B_warranty_info;
-                        }
+                        /* INSERT */
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                        $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                       
+                        $insert_tmp['RECUPERO_GASTOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                        
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
 
@@ -343,106 +311,123 @@ class Lib_14_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        /* Nro B.6
-                         * Detail: 
-                         * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
-                         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
-                         * GASTO POR GESTIÓN DE RECUPERO. 
-                         */
-                        if (!$get_movement_data['GASTOS_INCOBRABLES_PERIODO']) {
-                            $b6_array[] = $B_cell_value;
-                        }
-
-
-                        /* H.3 */
-                        if (!$B_warranty_info) {
-                            $spending_management[] = $B_warranty_info;
-                        }
+                        /* INSERT */
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                        $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                       
+                        $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack);
-
-        /*
-         * $spending_recovery = array();
-         * $recovered_uncollectible = array();
-         * $spending_management = array();
-         */
-
-//        var_dump("--->1", $spending_recovery);
-//        var_dump("--->2", $recovered_uncollectible);
-//        var_dump("--->3", $spending_management);
-//
 
 
-        /* Nro B.2
-         * Detail:
-         * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
-         * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
-         */
-        foreach ($b2_array as $b2) {
-            if (!in_array($b2, $input_array)) {
-                $code_error = "B.2";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b2);
-                array_push($stack, $result);
+
+
+        $order_num_unique = array_unique($order_num);
+
+        foreach ($order_num_unique as $number) {
+            /* MOVEMENT DATA */
+            $get_historic_data = $this->$model_anexo->get_movement_data($number);
+            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);            
+
+            $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
+            $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
+            $sum_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $get_temp_data['INCOBRABLES_PERIODO']));
+            $sum_RECUPEROS = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
+
+            $sum_GASTOS_EFECTUADOS_PERIODO = array_sum(array($get_historic_data['GASTOS_EFECTUADOS_PERIODO'], $get_temp_data['GASTOS_EFECTUADOS_PERIODO']));
+            $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $get_temp_data['RECUPERO_GASTOS_PERIODO']));
+            $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
+
+
+            /* Nro B.2/D.2
+             * Detail:
+             * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
+             * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
+             */
+            if ($get_temp_data['RECUPERO'] > 0) {
+                if ($sum_CAIDA == 0) {
+                    $code_error = "B.2";
+                    $result = return_error_array($code_error, "", $get_temp_data['RECUPERO']);
+                    array_push($stack, $result);
+                }
+                
+            /*D.3*/    
+                if($sum_RECUPEROS>$sum_CAIDA){
+                    $code_error = "D.3";
+                    $result = return_error_array($code_error, "","( Nro de Orden ". $number ." Caidas: ".$sum_CAIDA." ) ". $sum_RECUPERO. "/". $sum_INCOBRABLES_PERIODO);
+                    array_push($stack, $result);
+                }
+                
+                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number,'RECUPERO');
+                
+            }
+
+
+            /* Nro B.3
+             * Detail:
+             * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
+             * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
+             */
+            if ($get_temp_data['INCOBRABLES_PERIODO'] > 0) {
+                if ($sum_CAIDA == 0) {
+                    $code_error = "B.3";
+                    $result = return_error_array($code_error, "", $get_temp_data['INCOBRABLES_PERIODO']);
+                    array_push($stack, $result);
+                }
+            }
+
+            /* Nro B.4
+             * Detail: 
+             * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
+             * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
+             */
+            if ($get_temp_data['GASTOS_EFECTUADOS_PERIODO'] > 0) {
+                if ($sum_CAIDA == 0) {
+                    $code_error = "B.4";
+                    $result = return_error_array($code_error, "", $get_temp_data['GASTOS_EFECTUADOS_PERIODO']);
+                    array_push($stack, $result);
+                }
+            }
+
+            /* Nro B.5
+             * Detail: 
+             * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
+             * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
+             * GASTO POR GESTIÓN DE RECUPERO. 
+             */
+            if ($get_temp_data['RECUPERO_GASTOS_PERIODO'] > 0) {
+                if ($sum_RECUPERO_GASTOS_PERIODO == 0) {
+                    $code_error = "B.5";
+                    $result = return_error_array($code_error, "", $get_temp_data['GASTOS_EFECTUADOS_PERIODO']);
+                    array_push($stack, $result);
+                }
+                
+                /*G.3*/
+                
+                
+            }
+
+            /* Nro B.6
+             * Detail: 
+             * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
+             * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
+             * GASTO POR GESTIÓN DE RECUPERO. 
+             */
+            if ($get_temp_data['GASTOS_INCOBRABLES_PERIODO'] > 0) {
+                if ($sum_RECUPERO_GASTOS_PERIODO == 0) {
+                    $code_error = "B.5";
+                    $result = return_error_array($code_error, "", $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
+                    array_push($stack, $result);
+                }
             }
         }
 
-        /* Nro B.3
-         * Detail:
-         * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
-         * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
-         */
-        foreach ($b3_array as $b3) {
-            if (!in_array($b3, $input_array)) {
-                $code_error = "B.3";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b3);
-                array_push($stack, $result);
-            }
-        }
 
-        /* Nro B.4
-         * Detail: 
-         * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
-         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
-         */
-        foreach ($b4_array as $b4) {
-            if (!in_array($b4, $input_array)) {
-                $code_error = "B.4";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b4);
-                array_push($stack, $result);
-            }
-        }
-
-        /* Nro B.5
-         * Detail: 
-         * Si se está informando un RECUPERO DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
-         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
-         * GASTO POR GESTIÓN DE RECUPERO. 
-         */
-        foreach ($b5_array as $b5) {
-            if (!in_array($b5, $input_array)) {
-                $code_error = "B.5";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b5);
-                array_push($stack, $result);
-            }
-        }
-
-        /* Nro B.6
-         * Detail: 
-         * Si se está informando un INCOBRABLE DE GASTOS POR GESTIÓN DE RECUPERO (Columna G), 
-         * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
-         * GASTO POR GESTIÓN DE RECUPERO. 
-         */
-        foreach ($b6_array as $b6) {
-            if (!in_array($b6, $input_array)) {
-                $code_error = "B.6";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $b6);
-                array_push($stack, $result);
-            }
-        }
-      exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
