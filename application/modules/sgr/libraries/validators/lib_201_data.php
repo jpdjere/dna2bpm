@@ -206,10 +206,7 @@ class Lib_201_data extends MX_Controller {
                         }
                     }
 
-                    /* A.4 */
-                    if (!$get_input_number) {
-                        $a4_array[] = $A_cell_value . '*' . $D_cell_value . "*" . $B_cell_value;
-                    }
+                    
                 }
 
                 /* RETIRO
@@ -241,6 +238,8 @@ class Lib_201_data extends MX_Controller {
 
                         /* E.3 */
                         //$E_cell_array_values[] = $parameterArr[$i]['fieldValue'];
+                        
+                        
 
                         $E_cell_array = array("nro" => $A_cell_value . "*" . $get_input_number, 'amount' => (int) $parameterArr[$i]['fieldValue']);
                         array_push($E_cell_array_values, $E_cell_array);
@@ -497,10 +496,10 @@ class Lib_201_data extends MX_Controller {
          */
 
         foreach ($a4_array as $a4) {
-             $code_error = "A.4";
+            $code_error = "A.4";
             list($a_value, $d_value, $b_value) = explode("*", $a4);
             if (!$d_value) {
-               
+
                 $result = return_error_array($code_error, "-", "No hay aportes registrados ni incoporados en este Anexo para " . $a_value);
                 array_push($stack, $result);
             }
@@ -511,11 +510,9 @@ class Lib_201_data extends MX_Controller {
             $datetime2 = new DateTime($B_cell_date_format);
             $interval = $datetime1->diff($datetime2);
             $result_dates = (int) $interval->format('%R%a');
-            
-            
-            var_dump($B_cell_date_format,$get_movement_info['FECHA_MOVIMIENTO'] );
-            exit();
 
+
+           
             if ($result_dates < 1) {
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                 array_push($stack, $result);
@@ -562,7 +559,7 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-        exit();
+        
         $this->data = $stack;
     }
 
