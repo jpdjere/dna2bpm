@@ -135,9 +135,6 @@ class Lib_12_data extends MX_Controller {
                     /* B.3 */
                     $subscribed = $this->$model_06->shares($parameterArr[$i]['fieldValue'], "A");
                     $integrated = $this->$model_06->shares($parameterArr[$i]['fieldValue'], "A", 5598);
-                   
-                    var_dump($parameterArr[$i]['fieldValue'], $subscribed,$integrated );
-                    exit();
                     
                     if ($integrated != $subscribed) {
                         $code_error = "B.3";
