@@ -162,18 +162,18 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            
+
                             $code_error = "C.3";
-                            $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);  
-                            
+                            $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
+
                             $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
-                            
+
                             if (!$partner_data) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
-                            foreach ($partner_data as $partner) {                                
-                                if ($partner[5272][0] != 'B') {                                   
+                            foreach ($partner_data as $partner) {
+                                if ($partner[5272][0] != 'B') {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 } else {
@@ -199,7 +199,7 @@ class Lib_201_data extends MX_Controller {
                     $D_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -227,12 +227,12 @@ class Lib_201_data extends MX_Controller {
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $b3_array[] = $A_cell_value . '*' . $B_cell_value;
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                       
+
                         if ($D_cell_value != "") {
                             $code_error = "E.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -277,7 +277,7 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "F.4";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $F_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -332,7 +332,7 @@ class Lib_201_data extends MX_Controller {
                         $b4_array[] = $A_cell_value . '*' . $B_cell_value;
 
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -466,8 +466,8 @@ class Lib_201_data extends MX_Controller {
          * número informado no exista y sea correlativo al último informado. 
          */
         $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-       
-        
+
+
         foreach ($order_number_array_aporte as $number) {
             if ($number <= $get_max_order_number) {
                 if ($number != 0) {
@@ -479,7 +479,7 @@ class Lib_201_data extends MX_Controller {
         }
 
 
-        array_unshift($order_number_array_aporte, $get_max_order_number);        
+        array_unshift($order_number_array_aporte, $get_max_order_number);
         $check_consecutive = consecutive($order_number_array_aporte);
         if ($check_consecutive) {
             $code_error = "A.2";
@@ -497,10 +497,23 @@ class Lib_201_data extends MX_Controller {
          */
 
         foreach ($a4_array as $a4) {
+             $code_error = "A.4";
             list($a_value, $d_value, $b_value) = explode("*", $a4);
             if (!$d_value) {
-                $code_error = "A.4";
-                $result = return_error_array($code_error, "-", "No hay aportes registrados ni incoporados en este anexo para " . $a_value);
+               
+                $result = return_error_array($code_error, "-", "No hay aportes registrados ni incoporados en este Anexo para " . $a_value);
+                array_push($stack, $result);
+            }
+
+            $B_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+            $get_movement_info = $this->$model_201->get_movement_info($A_cell_value);
+            $datetime1 = new DateTime($get_movement_info['FECHA_MOVIMIENTO']);
+            $datetime2 = new DateTime($B_cell_date_format);
+            $interval = $datetime1->diff($datetime2);
+            $result_dates = (int) $interval->format('%R%a');
+
+            if ($result_dates < 1) {
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                 array_push($stack, $result);
             }
         }
@@ -533,7 +546,7 @@ class Lib_201_data extends MX_Controller {
 
         foreach ($totals as $key => $value) {
             list($new_num, $new_amount) = explode("*", $key);
-            $new_amount = (int) $new_amount;            
+            $new_amount = (int) $new_amount;
             if ($new_amount < $value) {
                 $code_error = "E.3";
                 list($input, $input_date) = explode('*', $arr['value']);
@@ -545,7 +558,7 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-        
+
         $this->data = $stack;
     }
 
