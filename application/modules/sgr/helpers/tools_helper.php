@@ -558,6 +558,7 @@ function consecutive($array) {
     $numAnt = array();
     foreach ($array as $pos => $num) {
         $return_arr = array();
+//        echo "$pos $num /";
         if ($pos > 0) {
             // se compara desde el segundo elemento de la matris
             // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
@@ -572,6 +573,22 @@ function consecutive($array) {
         $numAnt[$pos] = $num;
     }
     return $return_arr;
+}
+
+/* === Consecutives bis === */
+function check_consecutive_values($array){
+
+    for($i=0;$i<count($array);$i++){
+
+        // we need at leaset 2 items to compare
+        if(count($array)<2)return false;
+        // check if there is one more item to compare..        
+        if(isset($array[$i+1])){
+            if(($array[$i]+1)!=$array[$i+1])
+                return false;
+        }           
+    }
+    return true; 
 }
 
 function array_mesh() {

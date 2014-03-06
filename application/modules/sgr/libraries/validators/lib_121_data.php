@@ -26,8 +26,8 @@ class Lib_121_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-
-
+        $b1_array = array();
+        
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
             /**
@@ -94,6 +94,10 @@ class Lib_121_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
+                    
+                    $b1_array[]=$parameterArr[$i]['fieldValue'];
+                    
+
                 }
 
                 /* VENCIMIENTO
@@ -146,10 +150,14 @@ class Lib_121_data extends MX_Controller {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
 
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                    }
+                    
+                    if(check_decimal($parameterArr[$i]['fieldValue'],null,true)){
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
                     }
 
                     //Valida contra Mongo
@@ -187,7 +195,17 @@ class Lib_121_data extends MX_Controller {
             } // END FOR LOOP->
         }
 
-        //var_dump($stack);exit(); 
+        // ============ Validation B.1 ==
+           
+        if(!check_consecutive_values($b1_array)){
+            $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
+            array_push($stack, $result);
+        }
+        
+
+
+        
+        
         $this->data = $stack;
     }
 
