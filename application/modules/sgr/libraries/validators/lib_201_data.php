@@ -165,8 +165,6 @@ class Lib_201_data extends MX_Controller {
                             
                             $code_error = "C.3";
                             $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);  
-                            var_dump($partner_data, $parameterArr[$i]['fieldValue']);
-                            exit();
                             
                             $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
                             
