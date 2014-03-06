@@ -168,6 +168,9 @@ class Lib_201_data extends MX_Controller {
                             
                             $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
                             
+                            var_dump($balance,$parameterArr[$i]['fieldValue']);
+                           
+                            
                             if (!$partner_data) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -543,8 +546,8 @@ class Lib_201_data extends MX_Controller {
 //        
 //            echo $new_num.'->'. $new_amount;
 
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
