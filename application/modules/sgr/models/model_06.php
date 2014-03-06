@@ -534,7 +534,7 @@ class Model_06 extends CI_Model {
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo, $period_value);
+        $result = $this->sgr_model->get_active($anexo);
 
         $return_result = array();
         foreach ($result as $list) {
