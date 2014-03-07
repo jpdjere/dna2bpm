@@ -336,12 +336,12 @@ class Model_14 extends CI_Model {
     }
 
     function get_test_tmp($nro, $date) {
- 
+
         $caida_result_arr = array();
         $recupero_result_arr = array();
         $inc_periodo_arr = array();
-        
-        
+
+
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
         $token = $this->idu . $this->session->userdata['period'];
@@ -357,13 +357,18 @@ class Model_14 extends CI_Model {
 
         $movement_result = $this->mongo->sgr->$container->find($new_query);
 
-        foreach ($movement_result as $movement) {           
-            var_dump($movement);
+        foreach ($movement_result as $movement) {
+            $caida_result_arr[] = $movement['CAIDA'];
+            $recupero_result_arr[] = $movement['RECUPERO'];
+            $inc_periodo_arr[] = $movement['INCOBRABLES_PERIODO'];
         }
 
-
-
-        return $date_movement_arr;
+        $return_arr = array(
+            'CAIDA' => $caida_sum,
+            'RECUPERO' => $recupero_sum,
+            'INCOBRABLES_PERIODO' => $inc_periodo_sum            
+        );
+        return $return_arr;
     }
 
 }

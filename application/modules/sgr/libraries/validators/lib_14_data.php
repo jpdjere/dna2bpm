@@ -354,7 +354,8 @@ class Lib_14_data extends MX_Controller {
 
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
                 foreach ($get_recuperos_tmp as $recuperos) {
-                    $resu = $this->$model_anexo->get_test_tmp($number,$recuperos);                    
+                    $resu = $this->$model_anexo->get_test_tmp($number,$recuperos);      
+                    var_dump($resu);
                 }
             }
 
