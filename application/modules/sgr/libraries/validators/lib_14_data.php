@@ -358,7 +358,7 @@ class Lib_14_data extends MX_Controller {
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-                    $return_cale = calc_anexo_14($caidas, $get_historic_data);
+                    $return_cale = calc_anexo_14($caidas, $get_historic_data,$number);
                     if ($return_calc) {
                         $code_error = "D.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -370,7 +370,7 @@ class Lib_14_data extends MX_Controller {
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-                    $return_calc = calc_anexo_14($caidas, $get_historic_data);
+                    $return_calc = calc_anexo_14($caidas, $get_historic_data,$number);
                     if ($return_calc) {
                         $code_error = "D.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -431,7 +431,7 @@ class Lib_14_data extends MX_Controller {
                 $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
                     $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data);
+                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data,$number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -443,7 +443,7 @@ class Lib_14_data extends MX_Controller {
                 $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
                     $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data);
+                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data,$number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
