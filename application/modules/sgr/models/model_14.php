@@ -358,8 +358,6 @@ class Model_14 extends CI_Model {
         $movement_result = $this->mongo->sgr->$container->find($new_query);
 
         foreach ($movement_result as $movement) {
-            var_dump($movement['RECUPERO']);
-
             $caida_result_arr[] = $movement['CAIDA'];
             $recupero_result_arr[] = $movement['RECUPERO'];
             $inc_periodo_arr[] = $movement['INCOBRABLES_PERIODO'];
