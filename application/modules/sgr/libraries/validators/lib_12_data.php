@@ -102,21 +102,22 @@ class Lib_12_data extends MX_Controller {
 
                     /* Nro B.2
                      * Detail:
-                     * Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando. 
+                     * Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados 
+                     * mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando. 
                      * Ej. Si se están informando las garantías otorgadas en Enero de 2013, 
                      * deben haber informado previamente la información de Facturación y Cantidad de Empleados del año 2012. 
                      * Debe validar sólo el año, ya que ambos datos se piden al cierre de cada ejercicio, y los cierres de ejercicios 
                      * pueden realizarse en cualquier mes del año.
                      */
-
-                    $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-
-
-                    foreach ($partner_data as $partner) {
+                    $amount_employees = 0;
+                    $transaction_date = null;
+                    $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
+                    foreach ($partner_data as $partner) {                        
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
-                    }
-
+                    }                   
+                    
+                    
                     if ($amount_employees == 0) {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -133,8 +134,8 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     /* B.3 */
-                    $subscribed = $this->$model_06->shares($parameterArr[$i]['fieldValue'], "A");
-                    $integrated = $this->$model_06->shares($parameterArr[$i]['fieldValue'], "A", 5598);
+                    $subscribed = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A");
+                    $integrated = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A", 5598);
                     
                     if ($integrated != $subscribed) {
                         $code_error = "B.3";
@@ -803,7 +804,8 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);exit();
+    //        var_dump($stack);exit();
+    //        exit();
         $this->data = $stack;
     }
 
