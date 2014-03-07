@@ -320,7 +320,7 @@ class Lib_14_data extends MX_Controller {
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
 
-
+            echo $get_historic_data['CAIDA']."<hr>";
 
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
             $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
@@ -360,7 +360,7 @@ class Lib_14_data extends MX_Controller {
                     $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
                     $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
                   
-                    echo $number. "| " . $get_historic_data['CAIDA'] ."->". $caidas['CAIDA'];
+                    echo $number. " | " . $get_historic_data['CAIDA'] ."->". $caidas['CAIDA']."<br>";
                 }
             }
 
