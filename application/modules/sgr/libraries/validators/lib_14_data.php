@@ -98,7 +98,6 @@ class Lib_14_data extends MX_Controller {
                     $order_num[] = $B_cell_value;
                     /* WARRANTY DATA */
                     $B_warranty_info = $this->$model_12->get_order_number_others($parameterArr[$i]['fieldValue']);
-
                 }
 
                 /* CAIDA
@@ -320,8 +319,8 @@ class Lib_14_data extends MX_Controller {
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
-            
-            
+
+
 
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
             $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
@@ -354,8 +353,15 @@ class Lib_14_data extends MX_Controller {
 
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
                 foreach ($get_recuperos_tmp as $recuperos) {
-                    $resu = $this->$model_anexo->get_test_tmp($number,$recuperos);      
-                    var_dump($resu);
+                    $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
+
+                    $sum_CAIDA_bis = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
+                    $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
+                    $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
+                    $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
+                    
+                    var_dump($number, $sum_CAIDA_bis,$sum_RECUPERO_bis,$sum_INCOBRABLES_PERIODO_bis,$sum_RECUPEROS_bis, "<hr>");
+                    
                 }
             }
 
