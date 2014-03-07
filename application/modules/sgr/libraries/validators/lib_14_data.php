@@ -130,7 +130,7 @@ class Lib_14_data extends MX_Controller {
                             if ($c_info['5219'][0] == 1) {                                
                                 if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
                                     $code_error = "C.2";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $warranty_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
                             }
@@ -148,7 +148,7 @@ class Lib_14_data extends MX_Controller {
 
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $warranty_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
                             }
