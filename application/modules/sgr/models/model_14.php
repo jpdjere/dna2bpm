@@ -302,8 +302,6 @@ class Model_14 extends CI_Model {
         $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
         $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
 
-
-
         $return_arr = array(
             'CAIDA' => $caida_sum,
             'RECUPERO' => $recupero_sum,
