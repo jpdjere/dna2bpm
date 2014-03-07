@@ -628,6 +628,10 @@ function array_mesh() {
 }
 
 function test_anexo_14($number, $query_param, $get_historic_data) {
+
+    $model_anexo = "model_14";
+    $this->load->Model($model_anexo);
+
     $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
     foreach ($get_recuperos_tmp as $recuperos) {
         $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
