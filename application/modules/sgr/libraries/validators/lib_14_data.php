@@ -320,8 +320,6 @@ class Lib_14_data extends MX_Controller {
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
 
-            echo $get_historic_data['CAIDA']."<hr>";
-
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
             $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
             $sum_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $get_temp_data['INCOBRABLES_PERIODO']));
@@ -350,18 +348,11 @@ class Lib_14_data extends MX_Controller {
                     $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $sum_RECUPERO . "/" . $sum_INCOBRABLES_PERIODO);
                     array_push($stack, $result);
                 }
-
-                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, 'RECUPERO');
-                foreach ($get_recuperos_tmp as $recuperos) {
-                    $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-
-                    $sum_CAIDA_bis = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
-                    $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
-                    $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
-                    $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
-                  
-                    echo $number. " | " . $get_historic_data['CAIDA'] ."->". $caidas['CAIDA']."<br>";
-                }
+                
+                
+                /*D.3*/
+                $query_param = 'RECUPERO';
+                test_anexo_14($number, $query_param, $get_historic_data);
             }
 
 
@@ -405,6 +396,7 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */
+                
             }
 
             /* Nro B.6
@@ -421,6 +413,8 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
+        
+        var_dump($stack);
         exit();
         $this->data = $stack;
     }
