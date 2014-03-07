@@ -359,16 +359,20 @@ class Model_14 extends CI_Model {
 
         foreach ($movement_result as $movement) {
             var_dump($movement['RECUPERO']);
-            
+
             $caida_result_arr[] = $movement['CAIDA'];
             $recupero_result_arr[] = $movement['RECUPERO'];
             $inc_periodo_arr[] = $movement['INCOBRABLES_PERIODO'];
         }
 
+        $caida_sum = array_sum($caida_result_arr);
+        $recupero_sum = array_sum($recupero_result_arr);
+        $inc_periodo_sum = array_sum($inc_periodo_arr);
+
         $return_arr = array(
             'CAIDA' => $caida_sum,
             'RECUPERO' => $recupero_sum,
-            'INCOBRABLES_PERIODO' => $inc_periodo_sum            
+            'INCOBRABLES_PERIODO' => $inc_periodo_sum
         );
         return $return_arr;
     }
