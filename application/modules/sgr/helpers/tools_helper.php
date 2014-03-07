@@ -627,21 +627,16 @@ function array_mesh() {
     return $out;
 }
 
-function test_anexo_14($get_recuperos_tmp, $get_historic_data) {
-    
-    foreach ($get_recuperos_tmp as $recuperos) {
-        $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
+function test_anexo_14($caidas, $get_historic_data) {
+    $sum_CAIDA_bis = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
+    $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
+    $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
+    $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
 
-        $sum_CAIDA_bis = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
-        $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
-        $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
-        $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
-
-        if ($sum_RECUPEROS_bis > $sum_CAIDA_bis) {
-            $code_error = "D.3";
-            $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA_bis . " ) " . $sum_RECUPEROS_bis . "/" . $sum_INCOBRABLES_PERIODO_bis);
-            array_push($stack, $result);
-        }
+    if ($sum_RECUPEROS_bis > $sum_CAIDA_bis) {
+        $code_error = "D.3";
+        $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA_bis . " ) " . $sum_RECUPEROS_bis . "/" . $sum_INCOBRABLES_PERIODO_bis);
+        array_push($stack, $result);
     }
 }
 
