@@ -400,7 +400,6 @@ class Model_12 extends CI_Model {
     /* GET DATA */
     function get_order_number_others($nro) {
         $anexo = $this->anexo;
-        $period_value = $this->session->userdata['period'];
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
