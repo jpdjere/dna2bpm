@@ -335,6 +335,46 @@ class Model_14 extends CI_Model {
         return $date_movement_arr;
     }
 
+    function get_gastos_tmp($nro, $date) {
+
+        $gasto_efectuado_periodo_arr = array();
+        $recupero_gasto_periodo_arr = array();
+        $gasto_incobrable_periodo_arr = array();
+
+
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
+        $token = $this->idu . $this->session->userdata['period'];
+        $new_query = array(
+            'NRO_GARANTIA' => $nro,
+            'TOKEN' => $token,
+            'FECHA_MOVIMIENTO' => array(
+                '$lte' => $date
+            )
+        );
+
+        $date_movement_arr = array();
+
+        $movement_result = $this->mongo->sgr->$container->find($new_query);
+
+        foreach ($movement_result as $movement) {
+            $gasto_efectuado_periodo_arr[] = $movement['GASTOS_EFECTUADOS_PERIODO'];
+            $recupero_gasto_periodo_arr[] = $movement['RECUPERO_GASTOS_PERIODO'];
+            $gasto_incobrable_periodo_arr[] = $movement['GASTOS_INCOBRABLES_PERIODO'];
+        }
+
+        $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
+        $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
+        $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
+
+        $return_arr = array(
+            'GASTOS_EFECTUADOS_PERIODO' => $gasto_efectuado_periodo_sum,
+            'RECUPERO_GASTOS_PERIODO' => $recupero_gasto_periodo_sum,
+            'GASTOS_INCOBRABLES_PERIODO' => $gasto_incobrable_periodo_sum
+        );
+        return $return_arr;
+    }
+
     function get_caida_tmp($nro, $date) {
 
         $caida_result_arr = array();
