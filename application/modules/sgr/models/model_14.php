@@ -335,7 +335,7 @@ class Model_14 extends CI_Model {
         return $date_movement_arr;
     }
 
-    function get_test_tmp($nro, $date) {
+    function get_caida_tmp($nro, $date) {
 
         $caida_result_arr = array();
         $recupero_result_arr = array();
