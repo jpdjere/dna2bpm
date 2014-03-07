@@ -348,7 +348,7 @@ class Lib_14_data extends MX_Controller {
                 /* D.3 */
                 if ($sum_RECUPEROS > $sum_CAIDA) {
                     $code_error = "D.3";
-                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $get_historic_data['RECUPERO'] . "/" . $get_temp_data['RECUPERO']);
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $get_historic_data['RECUPERO'] . "/" . $get_temp_data['RECUPERO'] . "+" . $get_historic_data['INCOBRABLES_PERIODO']. "/" .  $get_temp_data['INCOBRABLES_PERIODO']);
                     array_push($stack, $result);
                 }
 
