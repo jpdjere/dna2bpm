@@ -122,8 +122,7 @@ class Lib_14_data extends MX_Controller {
                          * Monto de la Garantía Otorgada informada mediante Anexo 12 registrado en el Sistema. 
                          */
 
-                        /* MONEDA 5219 | IMPORTE 5218 */
-                                            
+                        /* MONEDA 5219 | IMPORTE 5218 */                   
 
                         
                         foreach ($B_warranty_info as $c_info) {
@@ -470,8 +469,8 @@ class Lib_14_data extends MX_Controller {
             }
         }
 
-        var_dump($stack);
-        exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 
