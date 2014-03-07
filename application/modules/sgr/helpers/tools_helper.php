@@ -628,16 +628,26 @@ function array_mesh() {
 }
 
 function calc_anexo_14($caidas, $get_historic_data) {
-    $sum_CAIDA_bis = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
-    $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
-    $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
-    $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
+    $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
+    $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
+    $sum_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
+    $sum_RECUPEROS = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
 
-    if ($sum_RECUPEROS_bis > $sum_CAIDA_bis) {
-        $error_text = "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA_bis . " ) " . $sum_RECUPEROS_bis . "/" . $sum_INCOBRABLES_PERIODO_bis;
-        return  $error_text;
+    if ($sum_RECUPEROS > $sum_CAIDA) {
+        $error_text = "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $sum_RECUPEROS . "/" . $sum_INCOBRABLES_PERIODO;
+        return $error_text;
     }
-    
-    
+}
+
+function calc_anexo_14_gastos($gastos, $get_historic_data) {
+    $sum_GASTOS_EFECTUADOS_PERIODO = array_sum(array($get_historic_data['GASTOS_EFECTUADOS_PERIODO'], $gastos['GASTOS_EFECTUADOS_PERIODO']));
+    $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $gastos['RECUPERO_GASTOS_PERIODO']));
+    $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $gastos['GASTOS_INCOBRABLES_PERIODO']));
+    $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
+
+    if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
+        $error_text = "( Nro de Orden " . $number . " Caidas: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO . "/" . $sum_GASTOS_INCOBRABLES_PERIODO;
+        return $error_text;
+    }
 }
 
