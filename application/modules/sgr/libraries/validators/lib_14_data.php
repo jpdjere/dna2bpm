@@ -123,32 +123,35 @@ class Lib_14_data extends MX_Controller {
                          */
 
                         /* MONEDA 5219 | IMPORTE 5218 */
-                        $warranty_info = $this->sgr_model->get_warranty_data($B_cell_value);
-                        if ($warranty_info['5219'][0] == 1) {
-                            if ($parameterArr[$i]['fieldValue'] > $warranty_info[5218]) {
-                                $code_error = "C.2";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $warranty_info[5218]);
-                                array_push($stack, $result);
+                                            
+
+                        
+                        foreach ($B_warranty_info as $c_info) {
+                            
+                            if ($c_info['5219'][0] == 1) {                                
+                                if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
+                                    $code_error = "C.2";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $warranty_info[5218]);
+                                    array_push($stack, $result);
+                                }
                             }
-                        }
 
+                            /* Nro C.3
+                             * Detail:
+                             * En  caso de que la garantía haya sido otorgada en DÓLARES debe validar que el importe aquí informado sea menor o igual 
+                             * al Monto de la Garantía Otorgada informado mediante Anexo 12 registrado en el Sistema, dividido por el 
+                             * TIPO DE CAMBIO DEL día anterior al que fue otorgada la garantía y multiplicado por el TIPO DE CAMBIO del día 
+                             * anterior al que se está informando que se cayó la garantía. */
 
-                        /* Nro C.3
-                         * Detail:
-                         * En  caso de que la garantía haya sido otorgada en DÓLARES debe validar que el importe aquí informado sea menor o igual 
-                         * al Monto de la Garantía Otorgada informado mediante Anexo 12 registrado en el Sistema, dividido por el 
-                         * TIPO DE CAMBIO DEL día anterior al que fue otorgada la garantía y multiplicado por el TIPO DE CAMBIO del día 
-                         * anterior al que se está informando que se cayó la garantía. 
-                         */
-                        if ($warranty_info['5219'][0] == 2) {
-                            $code_error = "C.3";
-                            //get_dollar_quotation
-                            $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
-                            $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
-                            if ($dollar_value > $warranty_info[5218]) {
-                                $code_error = "C.3";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $dollar_value . ') a la fecha ' . $dollar_quotation . '. Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $warranty_info[5218]);
-                                array_push($stack, $result);
+                            if ($c_info['5219'][0] == 2) {
+                                $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
+                                $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
+
+                                if ($dollar_value > $c_info[5218]) {
+                                    $code_error = "C.3";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $warranty_info[5218]);
+                                    array_push($stack, $result);
+                                }
                             }
                         }
 
@@ -316,7 +319,7 @@ class Lib_14_data extends MX_Controller {
         $order_num_unique = array_unique($order_num);
 
         foreach ($order_num_unique as $number) {
-            
+
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
@@ -348,7 +351,7 @@ class Lib_14_data extends MX_Controller {
                 /* D.3 */
                 if ($sum_RECUPEROS > $sum_CAIDA) {
                     $code_error = "D.3";
-                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $get_historic_data['RECUPERO'] . "/" . $get_temp_data['RECUPERO'] . "+" . $get_historic_data['INCOBRABLES_PERIODO']. "/" .  $get_temp_data['INCOBRABLES_PERIODO']);
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $get_historic_data['RECUPERO'] . "/" . $get_temp_data['RECUPERO'] . "+" . $get_historic_data['INCOBRABLES_PERIODO'] . "/" . $get_temp_data['INCOBRABLES_PERIODO']);
                     array_push($stack, $result);
                 }
 
@@ -358,7 +361,7 @@ class Lib_14_data extends MX_Controller {
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-                    $return_cale = calc_anexo_14($caidas, $get_historic_data,$number);
+                    $return_cale = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "D.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -370,7 +373,7 @@ class Lib_14_data extends MX_Controller {
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-                    $return_calc = calc_anexo_14($caidas, $get_historic_data,$number);
+                    $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "D.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -419,38 +422,37 @@ class Lib_14_data extends MX_Controller {
                     array_push($stack, $result);
                 }
 
-                /* G.3 */                
+                /* G.3 */
                 if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
                     $code_error = "G.3";
-                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO']."/". $get_temp_data['RECUPERO_GASTOS_PERIODO']  . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO']."/". $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO'] . "/" . $get_temp_data['RECUPERO_GASTOS_PERIODO'] . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO'] . "/" . $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
                     array_push($stack, $result);
                 }
-                
-                 
+
+
                 $query_param = 'RECUPERO_GASTOS_PERIODO';
                 $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
                     $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data,$number);
+                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
                 }
-                
+
                 $query_param = 'GASTOS_INCOBRABLES_PERIODO';
                 $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
                     $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data,$number);
+                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
                 }
-                
             }
 
             /* Nro B.6
@@ -468,8 +470,8 @@ class Lib_14_data extends MX_Controller {
             }
         }
 
-//        var_dump($stack);
-//        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
