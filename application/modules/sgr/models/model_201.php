@@ -316,6 +316,48 @@ class Model_201 extends CI_Model {
         $balance = $input_sum - $output_sum;
         return $balance;
     }
+    
+    function get_input_number_left($code) {
+
+        $anexo = $this->anexo;        
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $input_result_arr = array();
+        $output_result_arr = array();
+        
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {            
+            /* APORTE */
+            $new_query = array(
+                'NUMERO_DE_APORTE' => (int) $code,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+
+
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {
+
+                if ($data['APORTE']) {
+                    // var_dump($input_result['APORTE']);
+                    $input_result_arr[] = (int) $data['APORTE'];
+                }
+                if ($data['RETIRO']) {
+                    // var_dump($input_result['RETIRO']);
+                    $output_result_arr[] = (int) $data['RETIRO'];
+                }
+            }
+        }
+
+        $input_sum = array_sum($input_result_arr);
+        $output_sum = array_sum($output_result_arr);
+        $balance = $input_sum - $output_sum;
+        return $balance;
+    }
 
     function get_last_input_number($code) {
 
