@@ -638,5 +638,10 @@ function test_anexo_14($caidas, $get_historic_data) {
         $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA_bis . " ) " . $sum_RECUPEROS_bis . "/" . $sum_INCOBRABLES_PERIODO_bis);
         array_push($stack, $result);
     }
+    
+      $code_error = "x.3";
+        $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA_bis . " ) " . $sum_RECUPEROS_bis . "/" . $sum_INCOBRABLES_PERIODO_bis);
+        array_push($stack, $result);
+    
 }
 
