@@ -316,6 +316,9 @@ class Lib_14_data extends MX_Controller {
         $order_num_unique = array_unique($order_num);
 
         foreach ($order_num_unique as $number) {
+            
+            $sum_CAIDA = 0;
+            $sum_RECUPERO = 0;
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
