@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 class Lib_12_error_legend {
 
@@ -7,7 +7,6 @@ class Lib_12_error_legend {
     }
 
     function return_legend($code, $row, $value) {
-
         switch ($code) {           
             case "A.1":
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El Número no puede estar cargado previamente en el Sistema en la misma SGR, así como tampoco puede estar repetido en el archivo que se está importando.';
@@ -66,11 +65,11 @@ class Lib_12_error_legend {
             case "K.3":
                 $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Aceptar hasta dos decimales.';
                 break;
-            case "L.1":
-                $result_error = '<strong>Columna L - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener formato numérico. Aceptar hasta dos decimales. No puede tomar valores negativos';
+            case "L.2":
+                $result_error = '<strong>Columna L - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: Pesos Argentinos/Dolares Americanos';
                 break;
             case "M.2":
-                $result_error = '<strong>Columna M - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: Pesos Argentinos/Dolares Americanos. Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS';
+                $result_error = '<strong>Columna M - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS';
                 break;
             case "N.1":
                 $result_error = '<strong>Columna N - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: FIJA/LIBOR/BADLAR PU (Badlar Bancos Públicos)/BADLAR PR (Badlar Bancos Privados)/TEC/TEBP';
