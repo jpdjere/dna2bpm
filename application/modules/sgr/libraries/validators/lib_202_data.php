@@ -9,6 +9,9 @@ class Lib_202_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_201 = 'model_201';
+        $this->load->Model($model_201);
+
         /* Vars 
          * 
          * $parameters =  
@@ -54,31 +57,38 @@ class Lib_202_data extends MX_Controller {
                   Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna B sea Cero y que la Columna D tenga un monto informado.
                  */
                 if ($parameterArr[$i]['col'] == 1) {
-                    $code_error = "A.1";
+
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $code_error = "A.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
                         $code_error = "A.2";
-                        //Valida contra Mongo
+                        $get_input_number = $this->$model_201->get_input_number_left($parameterArr[$i]['fieldValue']);
+                        if (!$get_input_number) {
+                            $code_error = "A.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
 
                         $code_error = "A.3";
-                        //Valida contra Mongo
+                        if($get_input_number>0){
+                             $code_error = "A.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        
                     }
                 }
 
@@ -89,27 +99,23 @@ class Lib_202_data extends MX_Controller {
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                
                  */
                 if ($parameterArr[$i]['col'] == 2) {
+                    
+                    $B_cell_value = false;
                     $code_error = "B.1";
-                    //empty field Validation                    
+                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
-
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $B_cell_value = $parameterArr[$i]['fieldValue'];
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {                            if ($parameterArr[$i]['fieldValue'] < 1) {
-                               
-                                
+                        } else {
+                            if ($parameterArr[$i]['fieldValue'] > $get_input_number) {
+                                $code_error = "B.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -126,10 +132,8 @@ class Lib_202_data extends MX_Controller {
                     $code_error = "C.1";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -148,16 +152,11 @@ class Lib_202_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
