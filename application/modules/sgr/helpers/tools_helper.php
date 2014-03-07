@@ -646,7 +646,7 @@ function calc_anexo_14_gastos($gastos, $get_historic_data) {
     $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
 
     if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
-        $error_text = "( Nro de Orden " . $number . " Caidas: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO . "/" . $sum_GASTOS_INCOBRABLES_PERIODO;
+        $error_text = "( Nro de Orden " . $number . " Gastos por Gestión de Recuperos : " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO . "/" . $sum_GASTOS_INCOBRABLES_PERIODO;
         return $error_text;
     }
 }
