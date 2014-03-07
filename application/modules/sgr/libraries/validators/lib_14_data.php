@@ -348,12 +348,16 @@ class Lib_14_data extends MX_Controller {
                     $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $sum_RECUPERO . "/" . $sum_INCOBRABLES_PERIODO);
                     array_push($stack, $result);
                 }
-                
-                
-                /*D.3*/
+
+
+                /* D.3 */
                 $query_param = 'RECUPERO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
-                test_anexo_14($get_recuperos_tmp, $get_historic_data);
+                
+                foreach ($get_recuperos_tmp as $recuperos) {
+                    $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
+                    test_anexo_14($caidas, $get_historic_data);
+                }
             }
 
 
@@ -397,7 +401,6 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */
-                
             }
 
             /* Nro B.6
@@ -414,7 +417,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        
+
         var_dump($stack);
         exit();
         $this->data = $stack;
