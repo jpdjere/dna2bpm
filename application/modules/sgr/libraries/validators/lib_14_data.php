@@ -419,11 +419,25 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */                
-                if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO ) {
+                if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
                     $code_error = "G.3";
                     $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO  . "/" . $sum_GASTOS_INCOBRABLES_PERIODO);
                     array_push($stack, $result);
                 }
+                
+                 /* D.3 */
+                $query_param = 'RECUPERO_GASTOS_PERIODO';
+                $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
+                foreach ($get_gastos_tmp as $gastos) {
+                    $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
+                    $return_cale = calc_anexo_14($gastos, $get_historic_data);
+                    if ($return_calc) {
+                        $code_error = "G.3";
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                        array_push($stack, $result);
+                    }
+                }
+                
             }
 
             /* Nro B.6
