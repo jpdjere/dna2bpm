@@ -359,9 +359,8 @@ class Lib_14_data extends MX_Controller {
                     $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
                     $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
                     $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
-                    echo "<pre>";
-                    var_dump($number, $get_historic_data['CAIDA'], $caidas['CAIDA'], "<hr>");
-                    echo "</pre>";
+                  
+                    echo $number. "| " . $get_historic_data['CAIDA'] ."->". $caidas['CAIDA'];
                 }
             }
 
