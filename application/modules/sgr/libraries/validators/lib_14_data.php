@@ -422,7 +422,7 @@ class Lib_14_data extends MX_Controller {
                 /* G.3 */                
                 if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
                     $code_error = "G.3";
-                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO  . "/" . $sum_GASTOS_INCOBRABLES_PERIODO);
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO']."/". $get_temp_data['RECUPERO_GASTOS_PERIODO']  . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO']."/". $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
                     array_push($stack, $result);
                 }
                 
