@@ -360,7 +360,7 @@ class Lib_14_data extends MX_Controller {
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-                    $return_cale = calc_anexo_14($caidas, $get_historic_data, $number);
+                    $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "D.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
