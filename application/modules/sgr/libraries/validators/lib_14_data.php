@@ -352,7 +352,8 @@ class Lib_14_data extends MX_Controller {
                 
                 /*D.3*/
                 $query_param = 'RECUPERO';
-                test_anexo_14($number, $query_param, $get_historic_data);
+                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
+                test_anexo_14($get_recuperos_tmp, $get_historic_data);
             }
 
 
