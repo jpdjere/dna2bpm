@@ -328,6 +328,8 @@ class Lib_14_data extends MX_Controller {
             $sum_GASTOS_EFECTUADOS_PERIODO = array_sum(array($get_historic_data['GASTOS_EFECTUADOS_PERIODO'], $get_temp_data['GASTOS_EFECTUADOS_PERIODO']));
             $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $get_temp_data['RECUPERO_GASTOS_PERIODO']));
             $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
+            $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
+
 
 
             /* Nro B.2/D.2
@@ -358,7 +360,7 @@ class Lib_14_data extends MX_Controller {
                     $return_cale = calc_anexo_14($caidas, $get_historic_data);
                     if ($return_calc) {
                         $code_error = "D.3";
-                        $result = return_error_array($code_error, "", "[".$query_param."] " . $return_calc);
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
                 }
@@ -370,7 +372,7 @@ class Lib_14_data extends MX_Controller {
                     $return_calc = calc_anexo_14($caidas, $get_historic_data);
                     if ($return_calc) {
                         $code_error = "D.3";
-                        $result = return_error_array($code_error, "", "[".$query_param."] " . $return_calc);
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
                 }
@@ -416,7 +418,12 @@ class Lib_14_data extends MX_Controller {
                     array_push($stack, $result);
                 }
 
-                /* G.3 */
+                /* G.3 */                
+                if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO ) {
+                    $code_error = "G.3";
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO  . "/" . $sum_GASTOS_INCOBRABLES_PERIODO);
+                    array_push($stack, $result);
+                }
             }
 
             /* Nro B.6
