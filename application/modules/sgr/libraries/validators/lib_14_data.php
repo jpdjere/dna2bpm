@@ -317,8 +317,6 @@ class Lib_14_data extends MX_Controller {
 
         foreach ($order_num_unique as $number) {
             
-            $sum_CAIDA = 0;
-            $sum_RECUPERO = 0;
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
@@ -350,7 +348,7 @@ class Lib_14_data extends MX_Controller {
                 /* D.3 */
                 if ($sum_RECUPEROS > $sum_CAIDA) {
                     $code_error = "D.3";
-                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $sum_RECUPERO . "/" . $sum_INCOBRABLES_PERIODO);
+                    $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $get_historic_data['RECUPERO'] . "/" . $get_temp_data['RECUPERO']);
                     array_push($stack, $result);
                 }
 
