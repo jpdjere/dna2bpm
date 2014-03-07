@@ -438,6 +438,18 @@ class Lib_14_data extends MX_Controller {
                     }
                 }
                 
+                $query_param = 'GASTOS_INCOBRABLES_PERIODO';
+                $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
+                foreach ($get_gastos_tmp as $gastos) {
+                    $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
+                    $return_cale = calc_anexo_14($gastos, $get_historic_data);
+                    if ($return_calc) {
+                        $code_error = "G.3";
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                        array_push($stack, $result);
+                    }
+                }
+                
             }
 
             /* Nro B.6
