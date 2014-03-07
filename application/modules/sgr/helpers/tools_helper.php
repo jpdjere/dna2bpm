@@ -122,24 +122,23 @@ function check_period_minor($parameter, $period) {
 function check_decimal($number, $decimal = 2, $positive = null) {
 
     $number = str_replace(",", ".", $number);
-    $status=false;
-    
+    $status = false;
+
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
-        if ($places_count > $decimal) {      
+        if ($places_count > $decimal) {
             $status = true;
         }
 
         if ($positive) {
             $number = (int) $number;
-            if ($number < 0) {                
+            if ($number < 0) {
                 $status = true;
             }
         }
-        
     } else {
-        $status=true;   
+        $status = true;
     }
     return $status;
 }
@@ -577,19 +576,21 @@ function consecutive($array) {
 }
 
 /* === Consecutives bis === */
-function check_consecutive_values($array){
 
-    for($i=0;$i<count($array);$i++){
+function check_consecutive_values($array) {
+
+    for ($i = 0; $i < count($array); $i++) {
 
         // we need at leaset 2 items to compare
-        if(count($array)<2)return false;
+        if (count($array) < 2)
+            return false;
         // check if there is one more item to compare..        
-        if(isset($array[$i+1])){
-            if(($array[$i]+1)!=$array[$i+1])
+        if (isset($array[$i + 1])) {
+            if (($array[$i] + 1) != $array[$i + 1])
                 return false;
-        }           
+        }
     }
-    return true; 
+    return true;
 }
 
 function array_mesh() {
@@ -624,5 +625,23 @@ function array_mesh() {
     }
 
     return $out;
+}
+
+function test_anexo_14($number, $query_param, $get_historic_data) {
+    $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
+    foreach ($get_recuperos_tmp as $recuperos) {
+        $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
+
+        $sum_CAIDA_bis = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
+        $sum_RECUPERO_bis = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
+        $sum_INCOBRABLES_PERIODO_bis = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
+        $sum_RECUPEROS_bis = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
+
+        if ($sum_RECUPEROS_bis > $sum_CAIDA_bis) {
+            $code_error = "D.3";
+            $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA_bis . " ) " . $sum_RECUPEROS_bis . "/" . $sum_INCOBRABLES_PERIODO_bis);
+            array_push($stack, $result);
+        }
+    }
 }
 
