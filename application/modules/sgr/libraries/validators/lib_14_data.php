@@ -352,12 +352,19 @@ class Lib_14_data extends MX_Controller {
 
                 /* D.3 */
                 $query_param = 'RECUPERO';
-                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
-                
+                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);                
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
                     test_anexo_14($caidas, $get_historic_data);
                 }
+                
+                $query_param = 'INCOBRABLES_PERIODO';
+                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);                
+                foreach ($get_recuperos_tmp as $recuperos) {
+                    $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
+                    test_anexo_14($caidas, $get_historic_data);
+                }
+                
             }
 
 
