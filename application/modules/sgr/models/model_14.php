@@ -317,49 +317,53 @@ class Model_14 extends CI_Model {
 
     function get_recuperos_tmp($nro, $type) {
         $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';        
+        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
         $token = $this->idu . $this->session->userdata['period'];
         $new_query = array(
             'NRO_GARANTIA' => $nro,
-            'TOKEN' => $token,
-        );        
-        
-        $date_movement_arr= array();
-        
+            'TOKEN' => $token
+        );
+
+        $date_movement_arr = array();
+
         $movement_result = $this->mongo->sgr->$container->find($new_query);
-        
+
         foreach ($movement_result as $movement) {
-            if($movement[$type])
-            $date_movement_arr[] = $movement['FECHA_MOVIMIENTO'];
+            if ($movement[$type])
+                $date_movement_arr[] = $movement['FECHA_MOVIMIENTO'];
         }
-        
-       return $date_movement_arr;
-        
+        return $date_movement_arr;
     }
-    
-    function get_test_tmp($date) {
+
+    function get_test_tmp($nro, $date) {
+ 
+        $caida_result_arr = array();
+        $recupero_result_arr = array();
+        $inc_periodo_arr = array();
+        
+        
         $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';        
+        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
         $token = $this->idu . $this->session->userdata['period'];
         $new_query = array(
             'NRO_GARANTIA' => $nro,
-            'TOKEN' => $token,
-            'period_date' => array(
+            //'TOKEN' => $token,
+            'FECHA_MOVIMIENTO' => array(
                 '$lte' => $date
-            ), 
-        );        
-        var_dump($new_query);
-        $date_movement_arr= array();
-        
+            )
+        );
+
+        $date_movement_arr = array();
+
         $movement_result = $this->mongo->sgr->$container->find($new_query);
-        
-        foreach ($movement_result as $movement) {
+
+        foreach ($movement_result as $movement) {           
             var_dump($movement);
         }
-        
-       return $date_movement_arr;
-        
+
+
+
+        return $date_movement_arr;
     }
-    
 
 }
