@@ -83,7 +83,7 @@ class Lib_202_data extends MX_Controller {
                         }
 
                         $code_error = "A.3";
-                        if($get_input_number>0){
+                        if($get_input_number<0){
                              $code_error = "A.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -163,7 +163,7 @@ class Lib_202_data extends MX_Controller {
                     }
                 }
             } // END FOR LOOP->
-        }
+        }        
         $this->data = $stack;
     }
 
