@@ -13,8 +13,8 @@ class Lib_201_data extends MX_Controller {
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
-        $model_201 = 'model_201';
-        $this->load->Model($model_201);
+        $model_anexo = 'model_201';
+        $this->load->Model($model_anexo);
 
         /* Vars 
          * 
@@ -29,12 +29,11 @@ class Lib_201_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-        $order_number_array = array();
-        $order_number_array_aporte = array();
-        $a4_array = array();
-        $b3_array = array();
-        $b4_array = array();
-        $E_cell_array_values = array("nro" => '', 'amount' => '');
+
+        $this->$model_anexo->clear_tmp($insert_tmp);
+        $input_num = array();
+
+
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -82,6 +81,7 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 1) {
+                    $insert_tmp = array();
                     $code_error = "A.1";
                     $A_cell_value = "";
                     $get_input_number = "";
@@ -91,10 +91,10 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $get_input_number = $this->$model_201->get_input_number($A_cell_value);
+                        $input_num[] = $A_cell_value;
 
-
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
+                        $get_input_number = $this->$model_anexo->get_input_number_left($A_cell_value);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -204,9 +204,13 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                    }
 
-                    
+
+                        $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
+                        $insert_tmp['APORTE'] = $parameterArr[$i]['fieldValue'];
+                        $this->$model_anexo->save_tmp($insert_tmp);
+                    }
                 }
 
                 /* RETIRO
@@ -236,13 +240,10 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        /* E.3 */
-                        //$E_cell_array_values[] = $parameterArr[$i]['fieldValue'];
-                        
-                        
-
-                        $E_cell_array = array("nro" => $A_cell_value . "*" . $get_input_number, 'amount' => (int) $parameterArr[$i]['fieldValue']);
-                        array_push($E_cell_array_values, $E_cell_array);
+                        $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
+                        $insert_tmp['RETIRO'] = $parameterArr[$i]['fieldValue'];
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
                 }
 
@@ -342,6 +343,11 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+
+                        $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
+                        $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
+                        $insert_tmp['RETIRO_DE_RENDIMIENTOS'] = $parameterArr[$i]['fieldValue'];
+                        $this->$model_anexo->save_tmp($insert_tmp);
                     }
 
                     /*
@@ -443,123 +449,103 @@ class Lib_201_data extends MX_Controller {
         }
 
 
+        $input_num_unique = array_unique($input_num);
+
+        foreach ($input_num_unique as $number) {
+
+            $number = (int) $number;
+            /* MOVEMENT DATA */
+            $get_historic_data = $this->$model_anexo->get_movement_data($number);
+            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
+
+            $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
+            $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $get_temp_data['RETIRO']));
 
 
-        foreach ($order_number_array_aporte as $order_number) {
-            if (in_array($order_number, $order_number_array)) {
-                $search_cuit = (array_keys($order_number_array, $order_number));
-                $counter = count($search_cuit);
-                if ($counter > 1) {
-                    $code_error = "A.3";
-                    $result = return_error_array($code_error, "-", $order_number . " Total de Veces: " . $counter);
-                    array_push($stack, $result);
-                }
-            }
-        }
-
-
-        /* Nro A.2
-         * Detail: 
-         * Si lo que se está informando es un Aporte (Columna D), 
-         * debe validar con los movimientos históricos que están cargados en el Sistema que el 
-         * número informado no exista y sea correlativo al último informado. 
-         */
-        $get_max_order_number = $this->$model_201->get_last_input_number($A_cell_value);
-
-
-        foreach ($order_number_array_aporte as $number) {
-            if ($number <= $get_max_order_number) {
-                if ($number != 0) {
-                    $code_error = "A.2";
-                    $result = return_error_array($code_error, "-", "El número de aporte " . $number . " ya fue registrado en el sistema");
-                    array_push($stack, $result);
-                }
-            }
-        }
-
-
-        array_unshift($order_number_array_aporte, $get_max_order_number);
-        $check_consecutive = consecutive($order_number_array_aporte);
-        if ($check_consecutive) {
-            $code_error = "A.2";
-            $result = return_error_array($code_error, "-", "Los número de aporte no son consecutivos y correlativo al ultimo informado");
-            array_push($stack, $result);
-        }
-
-
-
-        /* Nro A.4
-         * Detail: 
-          En caso de que se esté informando un retiro (Columna E), el número de Aporte debe estar previamente registrado en el
-         * Sistema o en el mismo archivo que se está importando, en cuyo caso debe corresponder a un Aporte (Columna D) y tener 
-         * Fecha de Movimiento (Columna B) anterior a la Fecha de Movimiento (Columna B) del retiro informado. 
-         */
-
-        foreach ($a4_array as $a4) {
-            $code_error = "A.4";
-            list($a_value, $d_value, $b_value) = explode("*", $a4);
-            if (!$d_value) {
-
-                $result = return_error_array($code_error, "-", "No hay aportes registrados ni incoporados en este Anexo para " . $a_value);
+            /* A.2 */
+            if ($get_historic_data['APORTE'] > 0) {
+                $code_error = "A.2";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number);
                 array_push($stack, $result);
             }
 
-            $B_cell_date_format = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $b_value, 1900));
-            $get_movement_info = $this->$model_201->get_movement_info($A_cell_value);
-            $datetime1 = new DateTime($get_movement_info['FECHA_MOVIMIENTO']);
-            $datetime2 = new DateTime($B_cell_date_format);
-            $interval = $datetime1->diff($datetime2);
-            $result_dates = (int) $interval->format('%R%a');
+
+            $get_last_input_number = $this->$model_anexo->get_last_input();
+            if ($number < $get_last_input_number) {
+                $code_error = "A.2";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo informado.");
+                array_push($stack, $result);
+            }
 
 
+            /* A.3 */
+            if ($get_temp_data['TOTAL'] > 1) {
+                $code_error = "A.3";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number);
+                array_push($stack, $result);
+            }
+
+            /* A.4 */
+            if ($get_temp_data['RETIRO'] > 0) {
+                if ($sum_APORTE == 0) {
+                    $code_error = "A.4";
+                    $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
+                    array_push($stack, $result);
+                }
            
-            if ($result_dates < 1) {
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                array_push($stack, $result);
+                /*B.3*/
+                $query_param = 'RETIRO';
+                $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
+                $retiros_arr = array();
+                foreach ($get_retiros_tmp as $o) {
+                    $date = $o;
+                    $retiros_arr[] = date('Y-m-d', $date->sec);
+                }
+
+                foreach (repeatedElements($retiros_arr) as $arr) {
+                    $code_error = "B.3";
+                    $result = return_error_array($code_error, "", $arr['value']);
+                    array_push($stack, $result);
+                }
+                
+                /*B.4*/
+                $query_param = 'RETIRO_DE_RENDIMIENTOS';
+                $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
+                $retiros_arr = array();
+                foreach ($get_retiros_tmp as $o) {
+                    $date = $o;
+                    $retiros_arr[] = date('Y-m-d', $date->sec);
+                }
+
+                foreach (repeatedElements($retiros_arr) as $arr) {
+                    $code_error = "B.4";
+                    $result = return_error_array($code_error, "", $arr['value']);
+                    array_push($stack, $result);
+                }
+                
+
+
+                foreach ($get_retiros_tmp as $retiros) {
+                    $aporte = $this->$model_anexo->get_aporte_tmp($number, $retiros);
+                    $return_calc = calc_anexo_201($aporte, $get_historic_data, $number);
+                    if ($return_calc) {
+                        $code_error = "A.4";
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                        array_push($stack, $result);
+                    }
+                }
+                
+                 /* D.3 */
+                if ($sum_RETIRO > $sum_APORTE) {
+                    $code_error = "E.3";
+                    $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
+                    array_push($stack, $result);
+                }
+                
             }
         }
-
-        /* B.3 */
-        foreach (repeatedElements($b3_array) as $arr) {
-            $code_error = "B.3";
-            list($input, $input_date) = explode('*', $arr['value']);
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
-            array_push($stack, $result);
-        }
-
-        /* B.4 */
-        foreach (repeatedElements($b4_array) as $arr) {
-            $code_error = "B.4";
-            list($input, $input_date) = explode('*', $arr['value']);
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Nro de Orden " . $input . " está " . $arr['count'] . " veces repetido.");
-            array_push($stack, $result);
-        }
-
-
-        $totals = array();
-        foreach ($E_cell_array_values AS $e_val) {
-            if (!empty($e_val['nro'])) {
-                if (!isset($totals[$e_val['nro']]))
-                    $totals[$e_val['nro']] = 0;
-                $totals[$e_val['nro']] += $e_val['amount'];
-            }
-        }
-
-        foreach ($totals as $key => $value) {
-            list($new_num, $new_amount) = explode("*", $key);
-            $new_amount = (int) $new_amount;
-            if ($new_amount < $value) {
-                $code_error = "E.3";
-                list($input, $input_date) = explode('*', $arr['value']);
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], "($new_amount)La suma de retiros es de $" . $value);
-                array_push($stack, $result);
-            }
-        }
-
-//        
-//            echo $new_num.'->'. $new_amount;
-
-        
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 

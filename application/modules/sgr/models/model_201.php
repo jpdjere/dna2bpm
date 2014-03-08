@@ -248,7 +248,6 @@ class Model_201 extends CI_Model {
         return $rtn;
     }
 
-    
     function get_movement_info($code) {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -273,7 +272,7 @@ class Model_201 extends CI_Model {
 
         return $return_result;
     }
-    
+
     function get_input_number($code) {
 
         $anexo = $this->anexo;
@@ -283,12 +282,12 @@ class Model_201 extends CI_Model {
 
         $input_result_arr = array();
         $output_result_arr = array();
-        
+
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
 
         /* FIND ANEXO */
-        foreach ($result as $list) {            
+        foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
@@ -316,21 +315,21 @@ class Model_201 extends CI_Model {
         $balance = $input_sum - $output_sum;
         return $balance;
     }
-    
+
     function get_input_number_left($code) {
 
-        $anexo = $this->anexo;        
+        $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
         $input_result_arr = array();
         $output_result_arr = array();
-        
+
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
 
         /* FIND ANEXO */
-        foreach ($result as $list) {            
+        foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
@@ -368,7 +367,7 @@ class Model_201 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_last_rec($anexo, $period_value);
-        
+
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
@@ -384,6 +383,196 @@ class Model_201 extends CI_Model {
 
         $result = array_sum($nresult_arr);
         return $result;
+    }
+
+    function clear_tmp($parameter) {
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $token . '_tmp';
+        $delete = $this->mongo->sgr->$container->remove();
+    }
+
+    function save_tmp($parameter) {
+        $token = $this->idu;
+        $period = $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_' . $token . '_tmp';
+
+        $parameter['TOKEN'] = $token;
+        $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
+
+        $id = $this->app->genid_sgr($container);
+
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
+
+        if ($result) {
+            $out = array('status' => 'ok');
+        } else {
+            $out = array('status' => 'error');
+        }
+        return $out;
+    }
+
+    function get_last_input() {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+            $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
+            foreach ($new_result as $new_list) {
+                return $new_list['NUMERO_DE_APORTE'];
+            }
+        }
+    }
+
+    function get_movement_data($nro) {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $aporte_result_arr = array();
+        $retiro_result_arr = array();
+        $rendimientos_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                'NUMERO_DE_APORTE' => $nro
+            );
+
+            $movement_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($movement_result as $movement) {
+                $aporte_result_arr[] = $movement['APORTE'];
+                $retiro_result_arr[] = $movement['RETIRO'];
+                $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
+            }
+        }
+
+
+        $aporte_sum = array_sum($aporte_result_arr);
+        $retiro_sum = array_sum($retiro_result_arr);
+        $rendimientos_sum = array_sum($rendimientos_result_arr);
+
+        $return_arr = array(
+            'APORTE' => $aporte_sum,
+            'RETIRO' => $retiro_sum,
+            'RETIRO_DE_RENDIMIENTOS' => $rendimientos_sum
+        );
+        return $return_arr;
+    }
+
+    function get_tmp_movement_data($nro) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+
+        $number_result_arr = array();
+        $aporte_result_arr = array();
+        $retiro_result_arr = array();
+        $rendimientos_result_arr = array();
+
+        $token = $this->idu;
+        $new_query = array(
+            'NUMERO_DE_APORTE' => $nro,
+            'TOKEN' => $token
+        );
+
+        $movement_result = $this->mongo->sgr->$container->find($new_query);
+        foreach ($movement_result as $movement) {
+
+            if ($movement['APORTE']) {
+                $number_result_arr[] = 1;
+            }
+            $aporte_result_arr[] = $movement['APORTE'];
+            $retiro_result_arr[] = $movement['RETIRO'];
+            $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
+        }
+
+        $number_sum = array_sum($number_result_arr);
+        $aporte_sum = array_sum($aporte_result_arr);
+        $retiro_sum = array_sum($retiro_result_arr);
+        $rendimientos_sum = array_sum($rendimientos_result_arr);
+
+        $return_arr = array(
+            'TOTAL' => $number_sum,
+            'APORTE' => $aporte_sum,
+            'RETIRO' => $retiro_sum,
+            'RETIRO_DE_RENDIMIENTOS' => $rendimientos_sum
+        );
+        return $return_arr;
+    }
+
+    function get_retiros_tmp($nro, $type) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+        $token = $this->idu;
+        $new_query = array(
+            'NUMERO_DE_APORTE' => $nro,
+            'TOKEN' => $token
+        );
+        $date_movement_arr = array();
+
+        $movement_result = $this->mongo->sgr->$container->find($new_query);
+
+        foreach ($movement_result as $movement) {
+            if ($movement[$type])
+                $date_movement_arr[] = $movement['FECHA_MOVIMIENTO'];
+        }
+        return $date_movement_arr;
+    }
+
+    function get_aporte_tmp($nro, $date) {
+
+        $aporte_result_arr = array();
+        $retiro_result_arr = array();
+        $rendimientos_result_arr = array();
+
+
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+        $token = $this->idu;
+        $new_query = array(
+            'NUMERO_DE_APORTE' => $nro,
+            'TOKEN' => $token,
+            'FECHA_MOVIMIENTO' => array(
+                '$lte' => $date
+            )
+        );
+
+        $date_movement_arr = array();
+
+        $movement_result = $this->mongo->sgr->$container->find($new_query);
+
+        foreach ($movement_result as $movement) {
+            $aporte_result_arr[] = $movement['APORTE'];
+            $retiro_result_arr[] = $movement['RETIRO'];
+            $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
+        }
+
+        $aporte_sum = array_sum($aporte_result_arr);
+        $retiro_sum = array_sum($retiro_result_arr);
+        $rendimientos_sum = array_sum($rendimientos_result_arr);
+
+        $return_arr = array(
+            'APORTE' => $aporte_sum,
+            'RETIRO' => $retiro_sum,
+            'RETIRO_DE_RENDIMIENTOS' => $rendimientos_sum
+        );
+        return $return_arr;
     }
 
 }

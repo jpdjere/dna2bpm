@@ -100,17 +100,17 @@ class Model_14 extends CI_Model {
     }
 
     function clear_tmp($parameter) {
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
-        $result = $this->mongo->sgr->$container->remove();
-        //
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $token . '_tmp';
+        $delete = $this->mongo->sgr->$container->remove();
     }
 
     function save_tmp($parameter) {
-
+        $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
+        $container = 'container.sgr_anexo_' . $token . '_tmp';
 
-        $parameter['TOKEN'] = $this->idu . $this->session->userdata['period'];
+        $parameter['TOKEN'] = $token;
         $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
 
         $id = $this->app->genid_sgr($container);
@@ -269,7 +269,7 @@ class Model_14 extends CI_Model {
 
     function get_tmp_movement_data($nro) {
         $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
 
         $caida_result_arr = array();
         $recupero_result_arr = array();
@@ -278,7 +278,7 @@ class Model_14 extends CI_Model {
         $recupero_gasto_periodo_arr = array();
         $gasto_incobrable_periodo_arr = array();
 
-        $token = $this->idu . $this->session->userdata['period'];
+        $token = $this->idu;
         $new_query = array(
             'NRO_GARANTIA' => $nro,
             'TOKEN' => $token,
@@ -315,8 +315,8 @@ class Model_14 extends CI_Model {
 
     function get_recuperos_tmp($nro, $type) {
         $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
-        $token = $this->idu . $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+        $token = $this->idu;
         $new_query = array(
             'NRO_GARANTIA' => $nro,
             'TOKEN' => $token
@@ -341,8 +341,8 @@ class Model_14 extends CI_Model {
 
 
         $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
-        $token = $this->idu . $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+        $token = $this->idu;
         $new_query = array(
             'NRO_GARANTIA' => $nro,
             'TOKEN' => $token,
@@ -381,8 +381,8 @@ class Model_14 extends CI_Model {
 
 
         $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->anexo . '_tmp';
-        $token = $this->idu . $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+        $token = $this->idu;
         $new_query = array(
             'NRO_GARANTIA' => $nro,
             'TOKEN' => $token,

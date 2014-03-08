@@ -651,3 +651,14 @@ function calc_anexo_14_gastos($gastos, $get_historic_data, $number) {
     }
 }
 
+function calc_anexo_201($aporte, $get_historic_data, $number) {
+    $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $caidas['APORTE']));
+    $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $caidas['RETIRO']));    
+
+    if ($sum_RETIRO > $sum_APORTE) {
+        $error_text = "( Nro de Aporte " . $number . " Aporte: " . $sum_CAIDA . " ) " . $sum_RETIRO;
+        return $error_text;
+    }
+}
+
+
