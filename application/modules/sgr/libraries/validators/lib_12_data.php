@@ -420,7 +420,7 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $code_error = "K.2";
+                        $code_error = "K.2";                        
                         $k2_check_arr = array("GFCPD", "GFVCP", "GFPB", "GFFF1", "GFFF2", "GFFF3", "GFON1", "GFON2", "GFON3", "GFMFO");
                         if (in_array($D_cell_value, $k2_check_arr)) {
                             $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($parameterArr[$i]['fieldValue'], "MV");
@@ -431,7 +431,7 @@ class Lib_12_data extends MX_Controller {
                         }
 
                         $code_error = "K.3";
-                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");
+                        $k3_check_arr = array("GFEF0", "GFEF1", "GFEF2", "GFEF3");
                         if (in_array($D_cell_value, $k3_check_arr)) {
                             $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($parameterArr[$i]['fieldValue'], "COMERCIAL");
                             if (!$is_cuit) {
@@ -449,7 +449,7 @@ class Lib_12_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 12) {
-                    $code_error = "L.2";
+                    $code_error = "L.1";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {

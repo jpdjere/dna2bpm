@@ -151,12 +151,7 @@ class Lib_201_data extends MX_Controller {
                         $code_error = "C.1";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                        $str_value = (int) strlen($parameterArr[$i]['fieldValue']);
-
-                        if ($str_value > 11) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        } else if (!$return) {
+                        if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -181,8 +176,8 @@ class Lib_201_data extends MX_Controller {
                         }
 
                         /* C.3 */
-                        $lte_date =  new MongoDate(strtotime(translate_for_mongo(($B_cell_value+1))));
-                        $balance = $this->$model_06->shares_active_left_until_date($C_cell_value,$lte_date);
+                        $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value + 1))));
+                        $balance = $this->$model_06->shares_active_left_until_date($C_cell_value, $lte_date);
                         if ($balance == 0) {
                             $code_error = "C.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);

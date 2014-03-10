@@ -73,7 +73,7 @@ class Lib_141_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $B_warranty_info = $this->$model_12->get_order_number_others($parameterArr[$i]['fieldValue']);
+                        $B_warranty_info = $this->$model_12->get_warranty_partner_left($parameterArr[$i]['fieldValue']);
                         if (!$B_warranty_info) {
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);

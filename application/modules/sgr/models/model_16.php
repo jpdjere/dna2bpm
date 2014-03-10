@@ -78,24 +78,24 @@ class Model_16 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        /*FILTER NUMBERS/STRINGS*/
+
+        /* FILTER NUMBERS/STRINGS */
         $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
+        $float_values = array_filter($parameter, 'is_float');
+        $numbers_values = array_merge($int_values, $float_values);
+
+        /* FIX INFORMATION */
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
 
         /* FIX DATE */
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
+
         $id = $this->app->genid_sgr($container);
-        
-         /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
+
+        /* MERGE CAST */
+        $parameter = array_merge($parameter, $numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -136,7 +136,7 @@ class Model_16 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -153,23 +153,65 @@ class Model_16 extends CI_Model {
     function get_anexo_info($anexo, $parameter) {
 
 
-        $headerArr = array("PROMEDIO_SALDO_MENSUAL"
-            ,"GARANTIAS_VIGENTES"
-            ,"80_HASTA_FEB_2010"
-            ,"120_HASTA_FEB_2010"
-            ,"80_DESDE_FEB_2010"
-            ,"120_DESDE_FEB_2010"
-            ,"80_DESDE_ENE_2011"
-            ,"120_DESDE_ENE_2011"
-            ,"FDR_TOTAL_COMPUTABLE"
-            ,"FDR_CONTINGENTE");
-        $data = array($headerArr);
+        $tmpl = array(
+            'data' => '<tr>
+        <td align="center" rowspan="2">Promedio Saldo <br>mensual correspondiente al mes</td>
+        <td align="center" rowspan="2">Saldo Promedio <br />Garantias Vigentes</td>
+        <td align="center" rowspan="2">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 hasta feb 2010</td>
+        <td align="center" rowspan="2">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 hasta feb 2010</td>
+        
+        <td colspan="2">Emitidas entre el 25 de Febrero y el 31 de Diciembre de 2010</td>
+        <td colspan="2">Emitidas desde el 1° de Febrero de 2011</td>
+        
+                                <td rowspan="2" align="center">Saldo Total de Garantias Vigentes que Computan para el 80%</td>
+                                <td rowspan="2" align="center">Saldo Total de Garantias Vigentes que Computan para el 120%</td>
+                                <td rowspan="2" align="center">Saldo Promedio <br />Fonde de Riesgo<br /> Total computable</td>                                
+                                <td rowspan="2" align="center">Saldo Promedio <br />Fonde de Riesgo<br /> contingente</td>
+                                <td rowspan="2" align="center">Saldo Promedio <br />Fonde de Riesgo<br /> Total disponible</td>
+                                <td rowspan="2" align="center">Solvencia (Apalancamiento)</td>
+                                <td rowspan="2" align="center">Grado de Utilización para el 80%</td>
+                                <td rowspan="2" align="center">Grado de Utilización para el 120%</td>
+    </tr>
+    <tr>
+         <td align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 desde feb 2010</td>
+                                <td  align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 desde feb 2010</td>
+                                <td  align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 desde ene 2011</td>
+                                <td align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 desde ene 2011</td>
+                                
+    </tr>
+                            <tr>
+                                <td align="center">1</td>
+                                <td align="center">2</td>
+                                <td align="center">3</td>
+                                <td align="center">4</td>
+                                <td align="center">5</td>
+                                <td align="center">6</td>
+                                <td align="center">7</td>
+                                <td align="center">8</td>
+                                <td align="center">9 (3+5+7)</td>
+                                <td align="center">10 (4+6+8)</td>
+                                <td align="center">11</td>
+                                <td align="center">12</td>
+                                <td align="center">13 (11-12)</td>
+                                <td align="center">14 (2/11)</td>
+                                <td align="center">15 (9/11)</td>
+                                <td align="center">16 (10/11)</td>
+                            </tr>',
+        );
+
+        /* DRAW TABLE */
+        $fix_table = '<thead>
+<tr>
+<th>';
+
+        $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
         $this->load->library('table');
-        return $this->table->generate($data);
+        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -193,17 +235,31 @@ class Model_16 extends CI_Model {
             $this->load->model('app');
             
             
+           
+            $col9 = array_sum(array($list['80_HASTA_FEB_2010'],$list['80_DESDE_FEB_2010'],$list['80_DESDE_ENE_2011']));
+            $col10 = array_sum(array($list['120_HASTA_FEB_2010'],$list['120_DESDE_FEB_2010'],$list['120_DESDE_ENE_2011']));
+            $col13 = $list['FDR_TOTAL_COMPUTABLE']- $list['FDR_CONTINGENTE'];
+            $col14 = $list['GARANTIAS_VIGENTES']/$list['FDR_TOTAL_COMPUTABLE'];
+            $col15 = $col9/$list['FDR_TOTAL_COMPUTABLE'];
+            $col15 = $col10/$list['FDR_TOTAL_COMPUTABLE'];
+
             $new_list = array();
-            $new_list['PROMEDIO_SALDO_MENSUAL'] = $list['PROMEDIO_SALDO_MENSUAL'];            
-            $new_list['GARANTIAS_VIGENTES'] = money_format_custom($list['GARANTIAS_VIGENTES']);
-            $new_list['80_HASTA_FEB_2010'] = money_format_custom($list['80_HASTA_FEB_2010']);
-            $new_list['120_HASTA_FEB_2010'] = money_format_custom($list['120_HASTA_FEB_2010']);
-            $new_list['80_DESDE_FEB_2010'] = money_format_custom($list['80_DESDE_FEB_2010']);
-            $new_list['120_DESDE_FEB_2010'] = money_format_custom($list['120_DESDE_FEB_2010']);
-            $new_list['80_DESDE_ENE_2011'] = money_format_custom($list['80_DESDE_ENE_2011']);
-            $new_list['120_DESDE_ENE_2011'] = money_format_custom($list['120_DESDE_ENE_2011']);
-            $new_list['FDR_TOTAL_COMPUTABLE'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
-            $new_list['FDR_CONTINGENTE'] = money_format_custom($list['FDR_CONTINGENTE']);
+            $new_list['col1'] = $list['PROMEDIO_SALDO_MENSUAL'];
+            $new_list['col2'] = money_format_custom($list['GARANTIAS_VIGENTES']);
+            $new_list['col3'] = money_format_custom($list['80_HASTA_FEB_2010']);
+            $new_list['col4'] = money_format_custom($list['120_HASTA_FEB_2010']);
+            $new_list['col5'] = money_format_custom($list['80_DESDE_FEB_2010']);
+            $new_list['col6'] = money_format_custom($list['120_DESDE_FEB_2010']);
+            $new_list['col7'] = money_format_custom($list['80_DESDE_ENE_2011']);
+            $new_list['col8'] = money_format_custom($list['120_DESDE_ENE_2011']);
+            $new_list['col9'] = money_format_custom($col9,true);
+            $new_list['col10'] = money_format_custom($col10,true);
+            $new_list['col11'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
+            $new_list['col12'] = money_format_custom($list['FDR_CONTINGENTE']);
+            $new_list['col13'] = money_format_custom($col13, true);
+            $new_list['col14'] = percent_format_custom($col14);
+            $new_list['col15'] = percent_format_custom($col15);
+            $new_list['col16'] = percent_format_custom($col16);
             $rtn[] = $new_list;
         }
         return $rtn;

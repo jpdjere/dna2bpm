@@ -9,13 +9,30 @@
  * @name money_format
  *
  * */
-function money_format_custom($parameter) {
+function money_format_custom($parameter, $entero=null) {
 
+    if ($parameter == NULL) {
+        $parameter = 0;
+    }
+
+    if ($entero) {
+        $parameter = "$" . @number_format($parameter, 0, ",", ".");
+    } else {
+        $parameter = "$" . @number_format($parameter, 2, ",", ".");
+    }
+    return $parameter;
+}
+
+function percent_format_custom($parameter) {
+
+    if ($parameter == NULL) {
+        $parameter = 0;
+    }
 
     if ($_POST['excel'] == 1) {
-        $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+        $parameter = @number_format($parameter, 2, ",", ".");
     } else {
-        $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
+        $parameter = @number_format($parameter, 2, ",", "."). "%";
     }
     return $parameter;
 }
@@ -346,11 +363,13 @@ function ciu($sector) {
 }
 
 //FUNCION VALIDA CUIT
-function cuit_checker($cuit) {
+function cuit_checker($cuit) {    
+    if ((int) strlen($cuit) != 11) {
+          return false;
+    }
 
     if (ctype_alpha($cuit)) {
         return false;
-        exit();
     }
 
     if (strstr($cuit, '-')) {
@@ -420,24 +439,9 @@ function translate_period_date($period) {
     return $mongotime;
 }
 
-/**
- * Convierte en formato de moneda
- *
- * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
- * @type php
- * @author Diego
- * @name money_format
- *
- * */
-function _money_format($parameter) {
 
-    if ($_POST['excel'] == 1) {
-        $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
-    } else {
-        $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
-    }
-    return $parameter;
-}
+
+
 
 /**
  * Buscador en array de 2 dimensiones
@@ -653,12 +657,11 @@ function calc_anexo_14_gastos($gastos, $get_historic_data, $number) {
 
 function calc_anexo_201($aporte, $get_historic_data, $number) {
     $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $caidas['APORTE']));
-    $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $caidas['RETIRO']));    
+    $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $caidas['RETIRO']));
 
     if ($sum_RETIRO > $sum_APORTE) {
         $error_text = "( Nro de Aporte " . $number . " Aporte: " . $sum_CAIDA . " ) " . $sum_RETIRO;
         return $error_text;
     }
 }
-
 
