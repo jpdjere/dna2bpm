@@ -329,8 +329,6 @@ class Model_12 extends CI_Model {
             $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
             
            
-            //$currency = ($list[5219][0]=="")
-
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];

@@ -106,18 +106,6 @@ class Lib_123_data extends MX_Controller {
 
                     foreach ($range as $cell) {
                         $cell_values[$cell] = $parameterArr[$cell]['fieldValue'] . "*" . $amount . "*" . $parameterArr[$i]['row'];
-
-//                        $return = check_empty($parameterArr[$cell]['fieldValue']);
-//                        if ($return) {
-//                            $code_error = "B.2";
-//                            $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue']);
-//                        } else {
-//                            if ($parameterArr[$cell]['fieldValue'] > $amount) {
-//                                $code_error = "B.1";
-//                                $result = return_error_array($code_error, $parameterArr[$cell]['row'], $parameterArr[$cell]['fieldValue'] . "->" . $cell);
-//                                array_push($stack, $result);
-//                            }
-//                        }
                     }
                 }
             } // END FOR LOOP->
@@ -135,7 +123,7 @@ class Lib_123_data extends MX_Controller {
             } else {
                 if ($value > $amount) {
                     $code_error = "B.1";
-                    $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
+                    $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
                     array_push($stack, $result);
                 }
                 $return = check_decimal($value, false, true);
