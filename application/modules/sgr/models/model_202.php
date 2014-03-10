@@ -185,8 +185,8 @@ class Model_202 extends CI_Model {
             $data[] = array_values($values);
         }
 
-        $this->load->library('table');
-        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
+        $this->load->library('table_custom');
+        $newTable = str_replace($fix_table, '<thead>', $this->table_custom->generate($data));
         return $newTable;
     }
 
