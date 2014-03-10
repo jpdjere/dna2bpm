@@ -141,7 +141,6 @@ class Model_201 extends CI_Model {
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
-
         /*
          * VERIFICO PENDIENTE           
          */
