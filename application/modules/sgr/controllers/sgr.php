@@ -295,7 +295,7 @@ class Sgr extends MX_Controller {
 
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
-
+        
         /* COLUMN HEADER ERROR */
 
         if (!$result_head['result']) {
@@ -392,7 +392,9 @@ class Sgr extends MX_Controller {
                         $save = (array) $this->$model->save($result);
                     }
                 }
-
+                
+                 
+                
                 /* SET PERIOD */
                 if ($save) {
                     $result = array();
