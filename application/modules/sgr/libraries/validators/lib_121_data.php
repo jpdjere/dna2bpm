@@ -27,7 +27,7 @@ class Lib_121_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $b1_array = array();
-
+        
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
             /**
@@ -60,9 +60,8 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                   
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);  
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);                   
                     $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
-
                     if ($warranty_info)
                         if (!in_array('04', $warrantyArr)) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -82,6 +81,7 @@ class Lib_121_data extends MX_Controller {
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
 
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -89,6 +89,7 @@ class Lib_121_data extends MX_Controller {
 
 
                     if ($parameterArr[0]['count'] < 3) {
+
 
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -109,28 +110,21 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
                     //Check Date Validation
-                    // 5214 nro orden
-                    // 5215 origen 
-                    $orden=$parameterArr[$i-2]['fieldValue'];
-
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        // date format
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
+
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-//                        $test = $this->$model_anexo->get_order_number($orden);
-
-
-                        
                     }
-                    
-                    
 
                     //Valida contra Mongo
                 }
@@ -146,17 +140,19 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        // Decimal check
                         $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } 
+                        }
                     }
                     
 

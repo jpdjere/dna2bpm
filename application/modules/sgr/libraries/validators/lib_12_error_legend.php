@@ -57,16 +57,16 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna J - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones.';
                 break;
             case "K.1":
-                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes: GFCPD/GFVCP/GFPB/GFFF1/GFFF2/GFFF3/GFON1/GFON2/GFON3/GFMFO. debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto/donde se listan los Mercados de Valores donde se realizan las operaciones.';
+                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones.';
                 break;
             case "K.2":
-                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFEF1/GFEF2/GFEF3. Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
+                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFCPD, GFVCP, GFPB, GFFF1, GFFF2, GFFF3, GFON1, GFON2, GFON3, GFMFO. Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los Mercados de Valores donde se realizan las operaciones.';
                 break;
             case "K.3":
-                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Aceptar hasta dos decimales.';
+                $result_error = '<strong>Columna K - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:GFEF0, GFEF1, GFEF2, GFEF3.Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
                 break;
-            case "L.2":
-                $result_error = '<strong>Columna L - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: Pesos Argentinos/Dolares Americanos';
+            case "L.1":
+                $result_error = '<strong>Columna L - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener formato numérico. Aceptar hasta dos decimales. No puede tomar valores negativos.';
                 break;
             case "M.2":
                 $result_error = '<strong>Columna M - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS';

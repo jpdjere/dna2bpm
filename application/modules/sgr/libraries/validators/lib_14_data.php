@@ -97,7 +97,7 @@ class Lib_14_data extends MX_Controller {
                     $B_cell_value = $parameterArr[$i]['fieldValue'];
                     $order_num[] = $B_cell_value;
                     /* WARRANTY DATA */
-                    $B_warranty_info = $this->$model_12->get_order_number_others($parameterArr[$i]['fieldValue']);
+                    $B_warranty_info = $this->$model_12->get_order_number_left($parameterArr[$i]['fieldValue']);
                 }
 
                 /* CAIDA

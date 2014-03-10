@@ -141,6 +141,7 @@ class Model_201 extends CI_Model {
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
+
         /*
          * VERIFICO PENDIENTE           
          */
@@ -175,148 +176,61 @@ class Model_201 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter, $xls = false) {
-        /* "NUMERO_DE_APORTE",
-          "FECHA_MOVIMIENTO",
-          "CUIT_PROTECTOR",
-          "APORTE",
-          "RETIRO",
-          "RETENCION_POR_CONTINGENTE",
-          "RETIRO_DE_RENDIMIENTOS",
-          "especie",
-          "titular_orig",
-          "nro_cta_or",
-          "entidad_or",
-          "ent_dep_or",
-          "titular_dest",
-          "nro_dest",
-          "entidad_dest",
-          "ent_dep_dest",
-          "fecha_acta",
-          "nro_acta */
-        $tmpl = array(
-            'data' => '<tr><td align="center" rowspan="2">Número de Aporte</td>
-                                <td align="center" rowspan="2">Fecha de Movimiento</td>
-                                <td align="center" rowspan="2">Nombre o Razón Social del Socio Protector</td>
-                                <td align="center" rowspan="2">C.U.I.T. Socio Protector</td>
-                                <td align="center" rowspan="2">Monto del Aporte</td>
-                                <td align="center" rowspan="2">Monto del Retiro</td>
-                                <td align="center" rowspan="2">Fecha del Aporte Original</td>
-                                <td align="center" rowspan="2">Monto del Aporte Original</td>                                
-                                <td align="center" rowspan="2">Retencion por Contingente</td>
-                                <td align="center" rowspan="2">Retiro de Rendimientos</td>                                
-                                <td align="center" rowspan="2">Especie</td>
-                                <td align="center" colspan="4">Cuenta Origen</td>
-                                <td align="center" colspan="4">Cuenta Destino</td>
-                                <td align="center" colspan="2">Acta de Autorización</td></tr>
-    <tr>
-        <td>Titular</td>
-        <td>N°</td>
-        <td>Entidad</td>
-        <td>Entidad Depositaria</td>
-        <td>Titular</td>
-        <td>N°</td>
-        <td>Entidad</td>
-        <td>Entidad Depositaria</td>
-        <td>Fecha</td>
-        <td>Número</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-        <td>10</td>
-        <td>11</td>
-        <td>12</td>
-        <td>13</td>
-        <td>14</td>
-        <td>15</td>
-        <td>16</td>
-        <td>17</td>
-        <td>18</td>
-        <td>19</td>
-        <td>20</td>
-        <td>21</td>
-    </tr> ',
-        );
-
-        $tmpl_xls = array(
-            'data' => '<tr><td>Numero de Aporte</td>
-                                <td align="center">Nombre o Razon Social del Socio Protector</td>
-                                <td>C.U.I.T.</td>
-                                <td>Saldo del Aporte</td>
-                                <td>Contingente Proporcional Asignado</td>
-                                <td>Deuda Proporcional Asignada</td>
-                                <td>Saldo del Aporte Disponible</td>
-                                <td>Rendimiento Asignado</td>
-                            </tr>',
-        );
-
-        /* DRAW TABLE */
-        $fix_table = '<thead>
-<tr>
-<th>';
+    function get_anexo_info($anexo, $parameter) {
 
 
-        $template = ($xls) ? $tmpl_xls : $tmpl;
-        $data = array($template);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
-        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
-        $anexoValues = array_merge($anexoValues, $anexoValues2);
+        $headerArr = array("NUMERO_DE_APORTE",
+            "FECHA_MOVIMIENTO",
+            "CUIT_PROTECTOR",
+            "APORTE",
+            "RETIRO",
+            "RETENCION_POR_CONTINGENTE",
+            "RETIRO_DE_RENDIMIENTOS",
+            "ESPECIE",
+            "TITULAR_ORIG",
+            "NRO_CTA_OR",
+            "ENTIDAD_OR",
+            "ENT_DEP_OR",
+            "TITULAR_DEST",
+            "NRO_DEST",
+            "ENTIDAD_DEST",
+            "ENT_DEP_DEST",
+            "FECHA_ACTA",
+            "NRO_ACTA");
+        $data = array($headerArr);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-
         $this->load->library('table');
-        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
-        return $newTable;
+        return $this->table->generate($data);
     }
 
-    function get_anexo_data($anexo, $parameter, $xls = false) {
-
-
-        header('Content-type: text/html; charset=UTF-8');
+    function get_anexo_data($anexo, $parameter) {
+        header('Content-type: text / html;
+        charset = UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
-        
+        $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-            /*
-             * Vars 								
+            /* Vars 								
              */
+
             $this->load->model('padfyj_model');
+            $this->load->model('app');
 
+            //				
 
-            $model_201 = 'model_201';
-            $this->load->Model($model_201);
-
-
-            $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
-            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
-            foreach ($partener_info as $partner) {
-                $cuit = $partner["CUIT_PROTECTOR"];
-                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
-            }
 
             $new_list = array();
             $new_list['NUMERO_DE_APORTE'] = $list['NUMERO_DE_APORTE'];
             $new_list['FECHA_MOVIMIENTO'] = $list['FECHA_MOVIMIENTO'];
-            $new_list['RAZON_SOCIAL'] = $brand_name;
-            $new_list['CUIT_PROTECTOR'] = $cuit;
+            $new_list['CUIT_PROTECTOR'] = $list['CUIT_PROTECTOR'];
             $new_list['APORTE'] = money_format_custom($list['APORTE']);
             $new_list['RETIRO'] = money_format_custom($list['RETIRO']);
-            $new_list['FECHA_APORTE_ORIGINAL'] = ($get_movement_data['FECHA_MOVIMIENTO']);
-            $new_list['APORTE_ORIGINAL'] =money_format_custom($get_movement_data['APORTE']);
-            
-            $new_list['RETENCION_POR_CONTINGENTE'] = $get_movement_data['RETENCION_POR_CONTINGENTE'];
+            $new_list['RETENCION_POR_CONTINGENTE'] = money_format_custom($list['RETENCION_POR_CONTINGENTE']);
             $new_list['RETIRO_DE_RENDIMIENTOS'] = money_format_custom($list['RETIRO_DE_RENDIMIENTOS']);
             $new_list['ESPECIE'] = $list['ESPECIE'];
             $new_list['TITULAR_ORIG'] = $list['TITULAR_ORIG'];
@@ -331,59 +245,6 @@ class Model_201 extends CI_Model {
             $new_list['NRO_ACTA'] = $list['NRO_ACTA'];
             $rtn[] = $new_list;
         }
-        return $rtn;
-    }
-
-    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
-
-        $rtn = array();
-
-        $col6 = array();
-        $col8 = array();
-        $col10 = array();
-
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
-        $new_list = array();
-        foreach ($result as $list) {
-
-            $model_201 = 'model_201';
-            $this->load->Model($model_201);
-            $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
-
-            $col6[] = (float) $list['RETIRO'];
-            $col8[] = (float) $get_movement_data['APORTE'];
-            $col10[] = (float) $list['RETIRO_DE_RENDIMIENTOS'];
-        }
-
-
-        $new_list = array();
-        $new_list['NUMERO_DE_APORTE'] = "<strong>TOTALES</strong>";
-        $new_list['FECHA_MOVIMIENTO'] = "-";
-        $new_list['RAZON_SOCIAL'] = "-";
-        $new_list['CUIT_PROTECTOR'] = "-";
-        $new_list['APORTE'] = "-";
-        $new_list['RETIRO'] =  money_format_custom(array_sum($col6));
-        $new_list['APORTE_ORIGINAL'] = "-";
-        $new_list['FECHA_APORTE_ORIGINAL'] =  money_format_custom(array_sum($col8));
-        $new_list['RETENCION_POR_CONTINGENTE'] = "-";
-        $new_list['RETIRO_DE_RENDIMIENTOS'] =  money_format_custom(array_sum($col10));
-        $new_list['ESPECIE'] = "-";
-        $new_list['TITULAR_ORIG'] ="-";
-        $new_list['NRO_CTA_OR'] = "-";
-        $new_list['ENTIDAD_OR'] = "-";
-        $new_list['ENT_DEP_OR'] = "-";
-        $new_list['TITULAR_DEST'] = "-";
-        $new_list['NRO_DEST'] = "-";
-        $new_list['ENTIDAD_DEST'] = "-";
-        $new_list['ENT_DEP_DEST'] = "-";
-        $new_list['FECHA_ACTA'] = "-";
-        $new_list['NRO_ACTA'] = "-";
-
-        $rtn[] = $new_list;
-
-
         return $rtn;
     }
 
@@ -471,14 +332,15 @@ class Model_201 extends CI_Model {
         return $balance;
     }
 
-    function get_input_number_print($code, $period_date) {
+    
+    function get_input_number_print($code,$period_date) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
 
         $rtn = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_print($anexo, $period_date);
+        $result = $this->sgr_model->get_active_print($anexo,$period_date);
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
@@ -487,7 +349,7 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename']
             );
             $io_result = $this->mongo->sgr->$container->find($new_query);
-            foreach ($io_result as $data) {
+            foreach ($io_result as $data) {                
                 $rtn[] = $data;
             }
         }
@@ -610,13 +472,13 @@ class Model_201 extends CI_Model {
         );
         return $return_arr;
     }
-
-    function get_movement_data_print($nro, $period_date) {
+    
+    function get_movement_data_print($nro,$period_date) {
         $anexo = $this->anexo;
-
+        
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $nro = (int) $nro;
+        $nro = (int)$nro;
 
         $aporte_result_arr = array();
         $retiro_result_arr = array();
@@ -653,32 +515,7 @@ class Model_201 extends CI_Model {
         );
         return $return_arr;
     }
-
-    function get_original_aporte_print($nro, $period_date) {
-        $anexo = $this->anexo;
-
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-        $nro = (int) $nro;
-
-
-
-        /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_print($anexo, $period_date);
-
-        /* FIND ANEXO */
-        foreach ($result as $list) {
-            $new_query = array(
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename'],
-                'NUMERO_DE_APORTE' => $nro
-            );
-
-            $movement_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($movement_result['APORTE'])
-                return $movement_result;
-        }
-    }
+    
 
     function get_tmp_movement_data($nro) {
         $anexo = $this->anexo;
@@ -780,3 +617,4 @@ class Model_201 extends CI_Model {
     }
 
 }
+

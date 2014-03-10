@@ -231,42 +231,42 @@ class Model_12 extends CI_Model {
 
         $tmpl = array(
             'data' => '<tr>
-                                <td rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</td>
-                                <td colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</td>
-                                <td colspan="5" rowspan="3" align="center">De la Garant&iacute;a</td>
-                                <td colspan="3" rowspan="3" align="center">Operaciones con Cheques de Pago    Diferido</td>
-                                <td colspan="2" rowspan="3" align="center">Del Acreedor</td>
-                                <td colspan="9" rowspan="3" align="center">Del Cr&eacute;dito Garantizado</td>                                
+                <th rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</th>
+                                <th colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</th>
+                                <th colspan="5" rowspan="3" align="center">De la Garant&iacute;a</th>
+                                <th colspan="3" rowspan="3" align="center">Operaciones con Cheques de Pago    Diferido</th>
+                                <th colspan="2" rowspan="3" align="center">Del Acreedor</th>
+                                <th colspan="9" rowspan="3" align="center">Del Cr&eacute;dito Garantizado</th>                                
                             </tr>
                             <tr> </tr>
                             <tr> </tr>
                             <tr>
-                                <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
-                                <td rowspan="2" align="center">C.U.I.T.</td>
-                                <td rowspan="2" align="center">Fecha de    origen</td>
-                                <td rowspan="2" align="center">Tipo</td>
-                                <td rowspan="2" align="center">Ponderaci&oacute;n</td>
-                                <td rowspan="2" align="center">Importe en $</td>
-                                <td rowspan="2" align="center">Moneda    de Origen</td>
-                                <td colspan="2" align="center">Librador</td>
-                                <td rowspan="2" align="center">N&ordm; de    Operaci&oacute;n en la Bolsa</td>
-                                <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
-                                <td rowspan="2" align="center">C.U.I.T</td>
-                                <td rowspan="2" align="center">Importe Total en <br />Pesos Argentinos</td>
-                                <td rowspan="2" align="center">Moneda de Origen</td>
-                                <td colspan="2" align="center">Tasa de inter&eacute;s pactada</td>
-                                <td rowspan="2" align="center">Plazo<br>(d&iacute;as)</td>
-                                <td rowspan="2" align="center">Per&iacute;odo de gracia (d&iacute;as)</td>
-                                <td rowspan="2" align="center">Periodicidad de los pagos<br>
-                                        (d&iacute;as)</td>
-                                <td rowspan="2" align="center">Sistema de amortizaci&oacute;n</td>
-                                <td rowspan="2" align="center">Destino del Credito</td>                                
+                                <th rowspan="2" align="center">Nombre o raz&oacute;n social</th>
+                                <th rowspan="2" align="center">C.U.I.T.</th>
+                                <th rowspan="2" align="center">Fecha de    origen</th>
+                                <th rowspan="2" align="center">Tipo</th>
+                                <th rowspan="2" align="center">Ponderaci&oacute;n</th>
+                                <th rowspan="2" align="center">Importe en $</th>
+                                <th rowspan="2" align="center">Moneda    de Origen</th>
+                                <th colspan="2" align="center">Librador</th>
+                                <th rowspan="2" align="center">N&ordm; de    Operaci&oacute;n en la Bolsa</th>
+                                <th rowspan="2" align="center">Nombre o raz&oacute;n social</th>
+                                <th rowspan="2" align="center">C.U.I.T</th>
+                                <th rowspan="2" align="center">Importe Total en <br />Pesos Argentinos</th>
+                                <th rowspan="2" align="center">Moneda de Origen</th>
+                                <th colspan="2" align="center">Tasa de inter&eacute;s pactada</th>
+                                <th rowspan="2" align="center">Plazo<br>(d&iacute;as)</th>
+                                <th rowspan="2" align="center">Per&iacute;odo de gracia (d&iacute;as)</th>
+                                <th rowspan="2" align="center">Periodicidad de los pagos<br>
+                                        (d&iacute;as)</th>
+                                <th rowspan="2" align="center">Sistema de amortizaci&oacute;n</th>
+                                <th rowspan="2" align="center">Destino del Credito</th>                                
                             </tr>
                             <tr>
-                                <td align="center">Nombre</td>
-                                <td align="center">C.U.I.T.</td>
-                                <td align="center">Tasa    de Referencia</td>
-                                <td align="center">Puntos    Porcentuales adicionales Fijos (%)</td>
+                                <th align="center">Nombre</th>
+                                <th align="center">C.U.I.T.</th>
+                                <th align="center">Tasa    de Referencia</th>
+                                <th align="center">Puntos    Porcentuales adicionales Fijos (%)</th>
                             </tr>
                             <tr>
                                 <th>1</th>
@@ -328,9 +328,15 @@ class Model_12 extends CI_Model {
 
             $this->load->model('app');
             $warranty_type = $this->app->get_ops(525);
+            $currency = $this->app->get_ops(549);
+            $repayment_system = $this->app->get_ops(527);
+            $rate = $this->app->get_ops(526);
+            $periodicity = $this->app->get_ops(548);
 
             /* PONDERACION */
             $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
+            
+           
             //$currency = ($list[5219][0]=="")
 
             $new_list['NRO'] = $list[5214];
@@ -338,22 +344,22 @@ class Model_12 extends CI_Model {
             $new_list['CUIT_PARTICIPE'] = $list[5349];
             $new_list['ORIGEN'] = $list[5215];
             $new_list['TIPO'] = $list[5216][0];
-            $new_list['PONDERACION'] = $get_weighting['ponderacion'] * 100;
+            $new_list['PONDERACION'] = $get_weighting['weighted'] * 100;
             $new_list['IMPORTE'] = money_format_custom($list[5218]);
-            $new_list['MONEDA'] = $list[5219][0];
+            $new_list['MONEDA'] = $currency[$list[5219][0]];
             $new_list['LIBRADOR_NOMBRE'] = $drawer;
             $new_list['LIBRADOR_CUIT'] = $list[5726];
             $new_list['NRO_OPERACION_BOLSA'] = $list[5727];
             $new_list['ACREEDOR'] = $creditor;
             $new_list['CUIT_ACREEDOR'] = $list[5351];
             $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
-            $new_list['MONEDA_CRED_GARANT'] = $list[5758];
-            $new_list['TASA'] = $list[5222][0];
+            $new_list['MONEDA_CRED_GARANT'] = $currency[$list[5758][0]];
+            $new_list['TASA'] = $rate[$list[5222][0]];
             $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223];
             $new_list['PLAZO'] = $list[5224];
             $new_list['GRACIA'] = $list[5225];
-            $new_list['PERIODICIDAD'] = $list[5226][0];
-            $new_list['SISTEMA'] = $list[5227][0];
+            $new_list['PERIODICIDAD'] = $periodicity[$list[5226][0]];
+            $new_list['SISTEMA'] = $repayment_system[$list[5227][0]];
             $new_list['DESTINO_CREDITO'] = $list['DESTINO_CREDITO'];
             $rtn[] = $new_list;
         }
@@ -393,12 +399,11 @@ class Model_12 extends CI_Model {
                 $return_result[] = $new_result;
             }
         }
-
         return $return_result;
     }
     
     /* GET DATA */
-    function get_order_number_others($nro) {
+    function get_order_number_left($nro) {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
@@ -406,8 +411,7 @@ class Model_12 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);        
         $return_result = array();
-        foreach ($result as $list) {
-          
+        foreach ($result as $list) {          
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
@@ -421,6 +425,29 @@ class Model_12 extends CI_Model {
         return $return_result;
     }
     
+    
+    /* GET DATA */
+    function get_warranty_partner_left($cuit) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);        
+        $return_result = array();
+        foreach ($result as $list) {          
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5349 => $cuit
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
     
     /* GET SHARER PARTNER WARRANTIES */
 
