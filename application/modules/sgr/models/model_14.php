@@ -170,10 +170,12 @@ class Model_14 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter) {
+    function get_anexo_infox($anexo, $parameter) {
 
 
-        $headerArr = array("FECHA_MOVIMIENTO", "NRO_GARANTIA", "CAIDA", "RECUPERO", "INCOBRABLES_PERIODO", "GASTOS_EFECTUADOS_PERIODO", "RECUPERO_GASTOS_PERIODO", "GASTOS_INCOBRABLES_PERIODO");
+        $headerArr = array("Fecha",
+            "N° de Orden de la Garantía Otorgada",
+            "CAIDA", "RECUPERO", "INCOBRABLES_PERIODO", "GASTOS_EFECTUADOS_PERIODO", "RECUPERO_GASTOS_PERIODO", "GASTOS_INCOBRABLES_PERIODO");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -183,7 +185,51 @@ class Model_14 extends CI_Model {
         return $this->table->generate($data);
     }
 
-    function get_anexo_data($anexo, $parameter) {
+    function get_anexo_info($anexo, $parameter, $xls = false) {
+        $tmpl = array(
+            'data' => '<tr><td align="center" rowspan="2">Fecha</td>
+                                <td align="center" rowspan="2">N° de Orden de la Garantía Otorgada</td>
+                                <td align="center" rowspan="2">Socio Participe</td>
+                                <td align="center" rowspan="2">C.U.I.T</td>                                
+                                <td align="center" colspan="3">GARANTIAS AFRONTADAS</td>
+                                <td align="center" colspan="3">Gastos por Gestión de Recuperos</td>
+    <tr>
+        <td>Deuda Originada en el Período</td>
+        <td>Cobranza o Recupero del Período</td>
+        <td>Incobrables declarados en el Período</td>
+        <td>Gastos efectuados en el Período</td>
+        <td>Recuperos del Período</td>
+        <td>Incobrables declarados en el Período</td>       
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>       
+    </tr> ',
+        );
+
+
+        $data = array($tmpl);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
+        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
+        $anexoValues = array_merge($anexoValues, $anexoValues2);
+        foreach ($anexoValues as $values) {
+            $data[] = array_values($values);
+        }
+
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+        return $newTable;
+    }
+
+    function get_anexo_data($anexo, $parameter, $xls = false) {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
@@ -194,20 +240,75 @@ class Model_14 extends CI_Model {
             /* Vars */
             $cuit = str_replace("-", "", $list['CUIT']);
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
+            $model_12 = 'model_12';
+            $this->load->Model($model_12);
+
+
+
+            $get_movement_data = $this->$model_12->get_order_number_print("12585/10", $list['period']);
+
+            foreach ($get_movement_data as $partner) {
+                $cuit = $partner[5349];
+                $brand_name = $this->padfyj_model->search_name($partner[5349]);
+            }
+
+
 
             $new_list = array();
-            $new_list['FECHA_MOVIMIENTO'] = $list['FECHA_MOVIMIENTO'];
-            $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['CAIDA'] = money_format_custom($list['CAIDA']);
-            $new_list['RECUPERO'] = money_format_custom($list['RECUPERO']);
-            $new_list['INCOBRABLES_PERIODO'] = money_format_custom($list['INCOBRABLES_PERIODO']);
-            $new_list['GASTOS_EFECTUADOS_PERIODO'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
-            $new_list['RECUPERO_GASTOS_PERIODO'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
-            $new_list['GASTOS_INCOBRABLES_PERIODO'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
+            $new_list['col1'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
+            $new_list['col2'] = $list['NRO_GARANTIA'];
+            $new_list['col3'] = $brand_name;
+            $new_list['col4'] = $cuit;
+            $new_list['col5'] = money_format_custom($list['CAIDA']);
+            $new_list['col6'] = money_format_custom($list['RECUPERO']);
+            $new_list['col7'] = money_format_custom($list['INCOBRABLES_PERIODO']);
+            $new_list['col8'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
+            $new_list['col9'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
+            $new_list['col10'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
             $rtn[] = $new_list;
         }
+        return $rtn;
+    }
+
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
+
+        $rtn = array();
+        $col5 = array();
+        $col6 = array();
+        $col7 = array();
+        $col8 = array();
+        $col10 = array();
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+
+            $col5[] = (float) ($list['CAIDA']);
+            $col6[] = (float) ($list['RECUPERO']);
+            $col7[] = (float) ($list['INCOBRABLES_PERIODO']);
+            $col8[] = (float) ($list['GASTOS_EFECTUADOS_PERIODO']);
+            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
+            $col10[] = (float) ($list['GASTOS_INCOBRABLES_PERIODO']);
+        }
+
+
+        $new_list = array();
+
+        $new_list['col1'] = "<strong>TOTALES</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = "-";
+        $new_list['col5'] = money_format_custom($list['CAIDA']);
+        $new_list['col6'] = money_format_custom(array_sum($col6));
+        $new_list['col7'] = money_format_custom(array_sum($col7));
+        $new_list['col8'] = money_format_custom(array_sum($col8));
+        $new_list['col9'] = money_format_custom(array_sum($col9));
+        $new_list['col10'] = money_format_custom(array_sum($col10));
+        $rtn[] = $new_list;
+
+
         return $rtn;
     }
 
