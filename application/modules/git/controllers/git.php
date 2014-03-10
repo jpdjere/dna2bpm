@@ -60,5 +60,10 @@ class Git extends MX_Controller {
             }
         }
     }
+    
+    function viewlog(){
+        readfile('update-git.log');
+    exit;
+    }
 
 }
