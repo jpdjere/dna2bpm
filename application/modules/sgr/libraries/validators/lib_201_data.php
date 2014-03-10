@@ -148,42 +148,17 @@ class Lib_201_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-
+                        $code_error = "C.1";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         $str_value = (int) strlen($parameterArr[$i]['fieldValue']);
 
                         if ($str_value > 11) {
-                            $code_error = "C.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else if (!$return) {
-                            $code_error = "C.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-
-                            $code_error = "C.3";
-                            $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
-
-                            $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
-
-                            if (!$partner_data) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
-                            foreach ($partner_data as $partner) {
-                                if ($partner[5272][0] != 'B') {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                    array_push($stack, $result);
-                                } else {
-                                    $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
-                                    if ($balance == 0) {
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
-                                        array_push($stack, $result);
-                                    }
-                                }
-                            }
                         }
                     }
                 }
@@ -205,6 +180,14 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
+                        /* C.3 */
+                        $lte_date =  new MongoDate(strtotime(translate_for_mongo(($B_cell_value+1))));
+                        $balance = $this->$model_06->shares_active_left_until_date($C_cell_value,$lte_date);
+                        if ($balance == 0) {
+                            $code_error = "C.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
+                            array_push($stack, $result);
+                        }
 
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
@@ -492,8 +475,8 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
                     array_push($stack, $result);
                 }
-           
-                /*B.3*/
+
+                /* B.3 */
                 $query_param = 'RETIRO';
                 $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
                 $retiros_arr = array();
@@ -507,8 +490,8 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $arr['value']);
                     array_push($stack, $result);
                 }
-                
-                /*B.4*/
+
+                /* B.4 */
                 $query_param = 'RETIRO_DE_RENDIMIENTOS';
                 $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
                 $retiros_arr = array();
@@ -522,7 +505,7 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $arr['value']);
                     array_push($stack, $result);
                 }
-                
+
 
 
                 foreach ($get_retiros_tmp as $retiros) {
@@ -534,14 +517,13 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-                
-                 /* D.3 */
+
+                /* D.3 */
                 if ($sum_RETIRO > $sum_APORTE) {
                     $code_error = "E.3";
                     $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
                     array_push($stack, $result);
                 }
-                
             }
         }
 //        var_dump($stack);

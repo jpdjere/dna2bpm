@@ -233,7 +233,7 @@ class Model_06 extends CI_Model {
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5255], 1900)));
         $parameter[5255] = $arr;
         $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
-        
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
@@ -525,8 +525,9 @@ class Model_06 extends CI_Model {
 
         return $return_result;
     }
-    
-    /*FROM OUTSIDE (ANOTHER ANEXO)*/
+
+    /* FROM OUTSIDE (ANOTHER ANEXO) */
+
     function get_partner_left($cuit) {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -620,6 +621,7 @@ class Model_06 extends CI_Model {
     /* ACCIONES COMPRA/VENTA X SGR
      * Compra/venta por socio
      */
+
     function shares($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
@@ -660,7 +662,7 @@ class Model_06 extends CI_Model {
                 $new_query[5272] = $partner_type;
 
             $sell_result = $this->mongo->sgr->$container->find($new_query);
-            foreach($sell_result as $sell) {
+            foreach ($sell_result as $sell) {
                 $sell_result_arr[] = $sell[$field];
             }
         }
@@ -670,10 +672,11 @@ class Model_06 extends CI_Model {
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
-    
+
     /* ACCIONES COMPRA/VENTA X SGR de socios que estan activos en el sistema
      * Compra/venta por socio
      */
+
     function shares_active_left($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
@@ -711,7 +714,7 @@ class Model_06 extends CI_Model {
                 $new_query[5272] = $partner_type;
 
             $sell_result = $this->mongo->sgr->$container->find($new_query);
-            foreach($sell_result as $sell) {
+            foreach ($sell_result as $sell) {
                 $sell_result_arr[] = $sell[$field];
             }
         }
@@ -721,9 +724,58 @@ class Model_06 extends CI_Model {
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
-    
-    
-    
+
+    function shares_active_left_until_date($cuit, $date) {
+
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $buy_result_arr = array();
+        $sell_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+
+            /* BUY */
+            $new_query = array(
+                1695 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => 'B'
+                , 'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $date
+                )
+            );
+
+
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                var_dump($buy['FECHA_DE_TRANSACCION']);
+                $buy_result_arr[] = $buy[5597];
+            }
+
+            /* SELL */
+            $new_query = array(
+                5248 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => 'B'
+            );
+            
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($sell_result as $sell) {
+                $sell_result_arr[] = $sell[5597];
+            }
+        }
+
+        $buy_sum = array_sum($buy_result_arr);
+        $sell_sum = array_sum($sell_result_arr);
+        $balance = $buy_sum - $sell_sum;
+        return $balance;
+    }
 
     /* ACCIONES COMPRA/VENTA todas las otras SGR
      * Compra/venta por socio
