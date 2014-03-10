@@ -231,42 +231,42 @@ class Model_12 extends CI_Model {
 
         $tmpl = array(
             'data' => '<tr>
-                                <td rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</td>
-                                <td colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</td>
-                                <td colspan="5" rowspan="3" align="center">De la Garant&iacute;a</td>
-                                <td colspan="3" rowspan="3" align="center">Operaciones con Cheques de Pago    Diferido</td>
-                                <td colspan="2" rowspan="3" align="center">Del Acreedor</td>
-                                <td colspan="9" rowspan="3" align="center">Del Cr&eacute;dito Garantizado</td>                                
+                <th rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</th>
+                                <th colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</th>
+                                <th colspan="5" rowspan="3" align="center">De la Garant&iacute;a</th>
+                                <th colspan="3" rowspan="3" align="center">Operaciones con Cheques de Pago    Diferido</th>
+                                <th colspan="2" rowspan="3" align="center">Del Acreedor</th>
+                                <th colspan="9" rowspan="3" align="center">Del Cr&eacute;dito Garantizado</th>                                
                             </tr>
                             <tr> </tr>
                             <tr> </tr>
                             <tr>
-                                <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
-                                <td rowspan="2" align="center">C.U.I.T.</td>
-                                <td rowspan="2" align="center">Fecha de    origen</td>
-                                <td rowspan="2" align="center">Tipo</td>
-                                <td rowspan="2" align="center">Ponderaci&oacute;n</td>
-                                <td rowspan="2" align="center">Importe en $</td>
-                                <td rowspan="2" align="center">Moneda    de Origen</td>
-                                <td colspan="2" align="center">Librador</td>
-                                <td rowspan="2" align="center">N&ordm; de    Operaci&oacute;n en la Bolsa</td>
-                                <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
-                                <td rowspan="2" align="center">C.U.I.T</td>
-                                <td rowspan="2" align="center">Importe Total en <br />Pesos Argentinos</td>
-                                <td rowspan="2" align="center">Moneda de Origen</td>
-                                <td colspan="2" align="center">Tasa de inter&eacute;s pactada</td>
-                                <td rowspan="2" align="center">Plazo<br>(d&iacute;as)</td>
-                                <td rowspan="2" align="center">Per&iacute;odo de gracia (d&iacute;as)</td>
-                                <td rowspan="2" align="center">Periodicidad de los pagos<br>
-                                        (d&iacute;as)</td>
-                                <td rowspan="2" align="center">Sistema de amortizaci&oacute;n</td>
-                                <td rowspan="2" align="center">Destino del Credito</td>                                
+                                <th rowspan="2" align="center">Nombre o raz&oacute;n social</th>
+                                <th rowspan="2" align="center">C.U.I.T.</th>
+                                <th rowspan="2" align="center">Fecha de    origen</th>
+                                <th rowspan="2" align="center">Tipo</th>
+                                <th rowspan="2" align="center">Ponderaci&oacute;n</th>
+                                <th rowspan="2" align="center">Importe en $</th>
+                                <th rowspan="2" align="center">Moneda    de Origen</th>
+                                <th colspan="2" align="center">Librador</th>
+                                <th rowspan="2" align="center">N&ordm; de    Operaci&oacute;n en la Bolsa</th>
+                                <th rowspan="2" align="center">Nombre o raz&oacute;n social</th>
+                                <th rowspan="2" align="center">C.U.I.T</th>
+                                <th rowspan="2" align="center">Importe Total en <br />Pesos Argentinos</th>
+                                <th rowspan="2" align="center">Moneda de Origen</th>
+                                <th colspan="2" align="center">Tasa de inter&eacute;s pactada</th>
+                                <th rowspan="2" align="center">Plazo<br>(d&iacute;as)</th>
+                                <th rowspan="2" align="center">Per&iacute;odo de gracia (d&iacute;as)</th>
+                                <th rowspan="2" align="center">Periodicidad de los pagos<br>
+                                        (d&iacute;as)</th>
+                                <th rowspan="2" align="center">Sistema de amortizaci&oacute;n</th>
+                                <th rowspan="2" align="center">Destino del Credito</th>                                
                             </tr>
                             <tr>
-                                <td align="center">Nombre</td>
-                                <td align="center">C.U.I.T.</td>
-                                <td align="center">Tasa    de Referencia</td>
-                                <td align="center">Puntos    Porcentuales adicionales Fijos (%)</td>
+                                <th align="center">Nombre</th>
+                                <th align="center">C.U.I.T.</th>
+                                <th align="center">Tasa    de Referencia</th>
+                                <th align="center">Puntos    Porcentuales adicionales Fijos (%)</th>
                             </tr>
                             <tr>
                                 <th>1</th>
