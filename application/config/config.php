@@ -12,7 +12,7 @@
 |
 */
 
-$config['base_url']	= "http://dna2-tests/dna2bpm/";
+$config['base_url']	= "http://dna2-tests.mecon.ar/dna2bpm/";
 
 // // $config['base_url']	= "http://localhost/dna2bpm/";
 
