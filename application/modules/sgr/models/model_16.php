@@ -28,6 +28,15 @@ class Model_16 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -74,28 +83,16 @@ class Model_16 extends CI_Model {
         }
         return $insertarr;
     }
-
+    
     function save($parameter) {
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_' . $this->anexo;
+        $container = 'container.sgr_anexo_' . $this->anexo;        
 
-        /* FILTER NUMBERS/STRINGS */
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');
-        $numbers_values = array_merge($int_values, $float_values);
-
-        /* FIX INFORMATION */
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        /* FIX DATE */
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-
+        //$parameter['PROMEDIO_SALDO_MENSUAL'] = $period;
         $id = $this->app->genid_sgr($container);
 
-        /* MERGE CAST */
-        $parameter = array_merge($parameter, $numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -105,6 +102,7 @@ class Model_16 extends CI_Model {
         }
         return $out;
     }
+   
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -199,7 +197,7 @@ class Model_16 extends CI_Model {
                             </tr>',
         );
 
-       
+
 
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
@@ -232,13 +230,15 @@ class Model_16 extends CI_Model {
             $this->load->model('app');
             
             
-           
-            $col9 = array_sum(array($list['80_HASTA_FEB_2010'],$list['80_DESDE_FEB_2010'],$list['80_DESDE_ENE_2011']));
-            $col10 = array_sum(array($list['120_HASTA_FEB_2010'],$list['120_DESDE_FEB_2010'],$list['120_DESDE_ENE_2011']));
-            $col13 = $list['FDR_TOTAL_COMPUTABLE']- $list['FDR_CONTINGENTE'];
-            $col14 = $list['GARANTIAS_VIGENTES']/$list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col9/$list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col10/$list['FDR_TOTAL_COMPUTABLE'];
+            
+
+
+            $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
+            $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
+            $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
+            $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
+            $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col15 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
 
             $new_list = array();
             $new_list['col1'] = $list['PROMEDIO_SALDO_MENSUAL'];
@@ -249,8 +249,8 @@ class Model_16 extends CI_Model {
             $new_list['col6'] = money_format_custom($list['120_DESDE_FEB_2010']);
             $new_list['col7'] = money_format_custom($list['80_DESDE_ENE_2011']);
             $new_list['col8'] = money_format_custom($list['120_DESDE_ENE_2011']);
-            $new_list['col9'] = money_format_custom($col9,true);
-            $new_list['col10'] = money_format_custom($col10,true);
+            $new_list['col9'] = money_format_custom($col9, true);
+            $new_list['col10'] = money_format_custom($col10, true);
             $new_list['col11'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
             $new_list['col12'] = money_format_custom($list['FDR_CONTINGENTE']);
             $new_list['col13'] = money_format_custom($col13, true);
