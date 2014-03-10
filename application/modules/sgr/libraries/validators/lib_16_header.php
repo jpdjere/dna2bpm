@@ -3,7 +3,9 @@
 class Lib_16_header {
 
     public function __construct($parameter) {
-        /* Vars */
+        /* Vars */       
+        /*								
+*/
         $this->headerArr = array(
             "SALDO_PROMEDIO_GARANTIAS_VIGENTES",
             "SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010",
@@ -15,6 +17,7 @@ class Lib_16_header {
             "SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE",
             "SALDO_PROMEDIO_FDR_CONTINGENTE"
         );
+        
         $this->result = array_diff_assoc($this->headerArr, array_change_key_case($parameter, CASE_UPPER));
         return $this->result;
     }
