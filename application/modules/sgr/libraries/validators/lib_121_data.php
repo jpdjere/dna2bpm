@@ -60,7 +60,8 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                   
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);                   
+                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);  
+                   
                     $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
                     if ($warranty_info)
                         if (!in_array('04', $warrantyArr)) {
@@ -125,6 +126,20 @@ class Lib_121_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
+                    
+                    //vto. de la cuota sea posterior a la de emisión de la garantía
+                    if (isset($parameterArr[$i-2]['fieldValue'])) {
+                        $nro=$parameterArr[$i-2]['fieldValue'];
+                        $item = $this->$model_anexo->get_order_number_left($nro); 
+                        if(isset($item[0][5215])){
+                            $fecha_emision=$item[0][5215];
+                            $fecha_row=translate_date($parameterArr[$i]['fieldValue']);
+                            if($fecha_row>$fecha_emision){
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
 
                     //Valida contra Mongo
                 }
@@ -141,7 +156,6 @@ class Lib_121_data extends MX_Controller {
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
 
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -155,6 +169,9 @@ class Lib_121_data extends MX_Controller {
                         }
                     }
                     
+
+                    
+ 
 
 
                     //Valida contra Mongo
