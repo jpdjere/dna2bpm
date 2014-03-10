@@ -1,6 +1,5 @@
 <?php
 $xlsFileName = str_replace(" ", "_", $fileName);
-////Generate  file
 
 header("Content-Description: File Transfer");
 header("Content-type: application/x-msexcel");
