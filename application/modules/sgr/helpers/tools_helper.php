@@ -417,6 +417,7 @@ function cuit_checker($cuit) {
  * PROCESS FNS
  */
 
+/* DATES */
 function translate_date($parameter) {
     if ($parameter == "" || $parameter == NULL) {
         exit();
@@ -437,6 +438,10 @@ function translate_period_date($period) {
     $realtime = date("$period_year-$period_month-$period_day H:i:s");
     $mongotime = New Mongodate(strtotime($realtime));
     return $mongotime;
+}
+
+function mongodate_to_print($date){
+    return date('Y-m-d', $date->sec);    
 }
 
 
