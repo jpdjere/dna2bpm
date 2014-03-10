@@ -27,6 +27,7 @@ class Lib_121_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $b1_array = array();
+        $d2_sum = 0;
         
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -160,20 +161,19 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
 
+                    // Decimal check 
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }else{
+                            // D2
+                            $d2_sum+=(float)$parameterArr[$i]['fieldValue'];
+                            $d2_nro=$parameterArr[$i-3]['fieldValue'];
                         }
                     }
                     
-
-                    
- 
-
-
                     //Valida contra Mongo
                 }
 
@@ -214,10 +214,23 @@ class Lib_121_data extends MX_Controller {
             array_push($stack, $result);
         }
         
-
-
+        // ============ Validation D.2 ==
         
+
+        if (!empty($d2_nro)) {
+            $item = $this->$model_anexo->get_order_number_left($d2_nro);
+            $code_error = "D.2";
+            
+            if (isset($item[0][5218])) {
+                if ($d2_sum != $item[0][5218]) {
+                    $result = return_error_array($code_error, "-", $d2_sum);
+                    array_push($stack, $result);
+                }
+            }
+            
+        }
         
+ //5221       
         $this->data = $stack;
     }
 
