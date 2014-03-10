@@ -116,6 +116,7 @@ class Model_201 extends CI_Model {
         $id = $this->app->genid_sgr($container);
 
         /* FIX DATE */
+           var_dump($parameter['FECHA_MOVIMIENTO'],new MongoDate());
         $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
         $parameter['FECHA_ACTA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_ACTA'])));
 
@@ -175,25 +176,7 @@ class Model_201 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter, $xls = false) {
-        /* "NUMERO_DE_APORTE",
-          "FECHA_MOVIMIENTO",
-          "CUIT_PROTECTOR",
-          "APORTE",
-          "RETIRO",
-          "RETENCION_POR_CONTINGENTE",
-          "RETIRO_DE_RENDIMIENTOS",
-          "especie",
-          "titular_orig",
-          "nro_cta_or",
-          "entidad_or",
-          "ent_dep_or",
-          "titular_dest",
-          "nro_dest",
-          "entidad_dest",
-          "ent_dep_dest",
-          "fecha_acta",
-          "nro_acta */
+    function get_anexo_info($anexo, $parameter, $xls = false) {        
         $tmpl = array(
             'data' => '<tr><td align="center" rowspan="2">Número de Aporte</td>
                                 <td align="center" rowspan="2">Fecha de Movimiento</td>
@@ -258,11 +241,7 @@ class Model_201 extends CI_Model {
                             </tr>',
         );
 
-        /* DRAW TABLE */
-        $fix_table = '<thead>
-<tr>
-<th>';
-
+       
 
         $template = ($xls) ? $tmpl_xls : $tmpl;
         $data = array($template);
@@ -273,8 +252,8 @@ class Model_201 extends CI_Model {
             $data[] = array_values($values);
         }
 
-        $this->load->library('table');
-        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
         return $newTable;
     }
 
@@ -308,7 +287,7 @@ class Model_201 extends CI_Model {
 
             $new_list = array();
             $new_list['NUMERO_DE_APORTE'] = $list['NUMERO_DE_APORTE'];
-            $new_list['FECHA_MOVIMIENTO'] = $list['FECHA_MOVIMIENTO'];
+            $new_list['FECHA_MOVIMIENTO'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['RAZON_SOCIAL'] = $brand_name;
             $new_list['CUIT_PROTECTOR'] = $cuit;
             $new_list['APORTE'] = money_format_custom($list['APORTE']);
@@ -327,7 +306,7 @@ class Model_201 extends CI_Model {
             $new_list['NRO_DEST'] = $list['NRO_DEST'];
             $new_list['ENTIDAD_DEST'] = $list['ENTIDAD_DEST'];
             $new_list['ENT_DEP_DEST'] = $list['ENT_DEP_DEST'];
-            $new_list['FECHA_ACTA'] = $list['FECHA_ACTA'];
+            $new_list['FECHA_ACTA'] = mongodate_to_print($list['FECHA_ACTA']);
             $new_list['NRO_ACTA'] = $list['NRO_ACTA'];
             $rtn[] = $new_list;
         }

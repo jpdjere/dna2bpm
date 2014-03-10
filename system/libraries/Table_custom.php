@@ -26,7 +26,7 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/uri.html
  */
-class CI_Table {
+class CI_Table_custom {
 
 	var $rows                       = array();
 	var $heading			= array();
@@ -501,10 +501,10 @@ class CI_Table {
 						'thead_open'			=> '<thead>',
 						'thead_close'			=> '</thead>',
 
-						'heading_row_start'		=> '<tr>',
-						'heading_row_end'		=> '</tr>',
- 						'heading_cell_start'	=> '<th>',
-						'heading_cell_end'		=> '</th>',
+//						'heading_row_start'		=> '<tr>',
+//						'heading_row_end'		=> '</tr>',
+// 						'heading_cell_start'	=> '<th>',
+//						'heading_cell_end'		=> '</th>',
 
 						'tbody_open'			=> '<tbody>',
 						'tbody_close'			=> '</tbody>',
