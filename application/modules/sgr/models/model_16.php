@@ -199,18 +199,15 @@ class Model_16 extends CI_Model {
                             </tr>',
         );
 
-        /* DRAW TABLE */
-        $fix_table = '<thead>
-<tr>
-<th>';
+       
 
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
         return $newTable;
     }
 
