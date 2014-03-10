@@ -227,8 +227,6 @@ class Model_12 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-
-
         $tmpl = array(
             'data' => '<tr><td rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</td>
                                 <td colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</td>
@@ -292,19 +290,13 @@ class Model_12 extends CI_Model {
                                 <th>22</th>                
                             </tr> ',
         );
-        
-
-        
-       
-       
-
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        $newTable =  $this->table->generate($data);
+        $this->load->library('table_custom');
+        $newTable =  $this->table_custom->generate($data);
         
         return $newTable;
     }
@@ -420,6 +412,32 @@ class Model_12 extends CI_Model {
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result) {
                 $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
+    
+    function get_order_number_print($nro, $period_date) {
+        $anexo = $this->anexo;
+        
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_print($anexo, $period_date);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {           
+            
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5214 => $nro
+            );            
+           $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+                
             }
         }
         return $return_result;
