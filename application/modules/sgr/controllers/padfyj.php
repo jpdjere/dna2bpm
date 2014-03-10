@@ -18,7 +18,7 @@ class Padfyj extends MX_Controller {
         $this->idu = (float) $this->session->userdata('iduser');
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
-        $this->db->switch_db('sgr');
+        $this->db->switch_db('padfyj');
     }
 
     function Index() {

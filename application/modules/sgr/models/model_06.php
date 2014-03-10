@@ -753,7 +753,6 @@ class Model_06 extends CI_Model {
 
             $buy_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($buy_result as $buy) {
-                var_dump($buy['FECHA_DE_TRANSACCION']);
                 $buy_result_arr[] = $buy[5597];
             }
 
