@@ -323,6 +323,7 @@ class Lib_061_data extends MX_Controller {
 
 
             /* F.3 */
+            var_dump($partner_shares_arr);
             $AF3_result = count_shares($partner_shares_arr);
             foreach ($AF3_result as $cell) {
                 $count_shares = $cell['acumulados']['shares'];
@@ -346,7 +347,7 @@ class Lib_061_data extends MX_Controller {
                 $counter = count($search_cuit);
                 if ($counter > 1) {
                     $code_error = "B.3";
-                    $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
+                    $result = return_error_array($code_error, "-", $cuit . " Total de Veces.: " . $counter);
                     array_push($stack, $result);
                 }
             }
