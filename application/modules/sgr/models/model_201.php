@@ -574,7 +574,10 @@ class Model_201 extends CI_Model {
             }
         }
     }
-
+    
+    
+    
+    
     function get_movement_data($nro) {
         $anexo = $this->anexo;
         $period_value = $this->session->userdata['period'];
@@ -588,6 +591,49 @@ class Model_201 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                'NUMERO_DE_APORTE' => $nro
+            );
+
+            $movement_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($movement_result as $movement) {
+                $aporte_result_arr[] = $movement['APORTE'];
+                $retiro_result_arr[] = $movement['RETIRO'];
+                $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
+            }
+        }
+
+
+        $aporte_sum = array_sum($aporte_result_arr);
+        $retiro_sum = array_sum($retiro_result_arr);
+        $rendimientos_sum = array_sum($rendimientos_result_arr);
+
+        $return_arr = array(
+            'APORTE' => $aporte_sum,
+            'RETIRO' => $retiro_sum,
+            'RETIRO_DE_RENDIMIENTOS' => $rendimientos_sum
+        );
+        return $return_arr;
+    }
+    
+    function get_movement_recursive($nro) {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $aporte_result_arr = array();
+        $retiro_result_arr = array();
+        $rendimientos_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_just_active($anexo);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
