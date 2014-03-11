@@ -52,9 +52,10 @@ class Padfyj_model extends CI_Model {
     }
 
     function search_name($cuit) {
+        
         $container = 'padfyj';
         $query = array("CUIT" => $cuit);
-        $resultData = $this->mongo->db->$container->findOne($query);
+        $resultData = $this->mongo->padfyj->$container->findOne($query);
         return $resultData["DENOMINACION"];
     }
 
