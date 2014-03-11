@@ -30,7 +30,8 @@ class Instituciones_remote extends MX_Controller {
         $input = json_decode(file_get_contents('php://input'));
 
         foreach ($input as $thisform) {   
-
+//            print_r($thisform);
+//            continue;
             //$form=array_filter((array)$thisform);
             $form= get_object_vars($thisform);
 //            var_dump('FORM',$form,'THIS-FORM',$thisform);
@@ -58,6 +59,7 @@ class Instituciones_remote extends MX_Controller {
 
             /* IDENTIFICO TAREA */
             $getTask =(isset($form['task'])) ? (int) $form['task']:null;
+
             /* Lo paso como Objeto */
             $form = (array) $form;
             /* solo pongo idu si es nuevo */
@@ -72,6 +74,7 @@ class Instituciones_remote extends MX_Controller {
                 $idTask = ($getTask == null || (int) ($getTask) < 6) ? $this->app->genid($containerTask) : $getTask;
                 $queryTask = array('finalizada' => 1);
                 $result = $this->app->put_array($idTask, $containerTask, $queryTask);
+
                  //
                 $out = array('status' => 'ok');
             } else {
