@@ -97,6 +97,7 @@ class Lib_202_data extends MX_Controller {
                     $B_cell_value = false;
                     $code_error = "B.1";
 
+
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -116,24 +117,10 @@ class Lib_202_data extends MX_Controller {
                         }
                     }
 
-
-
-                    if ($parameterArr[$i]['fieldvalue'] != 0) {
-
-                        /* A.4 */
-                        if ($get_input_number == 0) {
-                            $code_error = "A.4";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                            array_push($stack, $result);
-                        }
-
-
-                        /* A.2 */
-                        if ($get_input_number < 1) {
-                            $code_error = "A.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                            array_push($stack, $result);
-                        }
+                    if ($get_input_number < 1 && $B_cell_value != 0) {
+                        $code_error = "A.2";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                        array_push($stack, $result);
                     }
                 }
 
@@ -169,11 +156,18 @@ class Lib_202_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        $D_cell_value = $parameterArr[$i]['fieldValue'];
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                    }
+
+                    if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
+                        $code_error = "A.4";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                        array_push($stack, $result);
                     }
                 }
             } // END FOR LOOP->
