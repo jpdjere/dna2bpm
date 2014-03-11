@@ -54,7 +54,7 @@ class Padfyj_model extends CI_Model {
     
     function search_name($cuit){  
         
-        var_dump($cuit);
+        
         $container = 'padfyj';
         $query = array("CUIT"=>$cuit);
         $fields = array("DENOMINACION");
