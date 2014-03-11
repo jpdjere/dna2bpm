@@ -435,7 +435,7 @@ class Lib_201_data extends MX_Controller {
 
             $number = (int) $number;
             /* MOVEMENT DATA */
-            $get_historic_data = $this->$model_anexo->get_movement_data($number);
+            $get_historic_data = $this->$model_anexo->get_movement_recursive($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
 
             $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
