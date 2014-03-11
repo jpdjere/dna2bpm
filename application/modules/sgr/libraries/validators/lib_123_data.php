@@ -57,9 +57,7 @@ class Lib_123_data extends MX_Controller {
                     $A_cell_value = "";
                     $code_error = "A.1";
 
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
-
-
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -114,8 +112,6 @@ class Lib_123_data extends MX_Controller {
         foreach ($cell_values as $key => $cell) {
             list($value, $amount, $row) = explode("*", $cell);
 
-            /* 1600000 - 1500000 - 2 - 1 */
-
             if ($value == "") {
                 $code_error = "B.2";
                 $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
@@ -126,7 +122,7 @@ class Lib_123_data extends MX_Controller {
                     $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
                     array_push($stack, $result);
                 }
-                $return = check_decimal($value, false, true);
+                $return = check_decimal($value, 2, true);
                 if ($return) {
                     $code_error = "B.3";
                     $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
@@ -135,8 +131,7 @@ class Lib_123_data extends MX_Controller {
             }
         }
 
-//        var_dump($stack);
-//      exit();
+        //var_dump($stack);   exit();
         $this->data = $stack;
     }
 
