@@ -63,9 +63,10 @@ class Lib_202_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $get_input_number = $this->$model_201->get_input_number_left($A_cell_value);
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
 
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -74,13 +75,7 @@ class Lib_202_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $code_error = "A.2";
-                        $get_input_number = $this->$model_201->get_input_number_left($parameterArr[$i]['fieldValue']);
-                        if ($get_input_number < 1) {
-                            $code_error = "A.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
+
 
                         $code_error = "A.3";
                         if ($get_input_number < 0) {
@@ -121,11 +116,24 @@ class Lib_202_data extends MX_Controller {
                         }
                     }
 
-                    $code_error = "A.4";
-                    if ($get_input_number == 0 && $parameterArr[$i]['fieldValue'] != 0) {
-                        $code_error = "A.4";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
+
+
+                    if ($parameterArr[$i]['fieldvalue'] != 0) {
+
+                        /* A.4 */
+                        if ($get_input_number == 0) {
+                            $code_error = "A.4";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }
+
+
+                        /* A.2 */
+                        if ($get_input_number < 1) {
+                            $code_error = "A.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -170,7 +178,8 @@ class Lib_202_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //  var_dump($stack);        exit();
+//        var_dump($stack);
+//        exit();
         $this->data = $stack;
     }
 

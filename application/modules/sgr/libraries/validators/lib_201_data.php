@@ -443,6 +443,8 @@ class Lib_201_data extends MX_Controller {
 
 
             /* A.2 */
+            
+            
             if ($get_historic_data['APORTE'] > 0) {
                 $code_error = "A.2";
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $number);
@@ -523,8 +525,7 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-//        var_dump($stack);
-        //exit();
+       // exit();
         $this->data = $stack;
     }
 
