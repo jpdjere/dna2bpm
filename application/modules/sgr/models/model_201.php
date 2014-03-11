@@ -116,7 +116,6 @@ class Model_201 extends CI_Model {
         $id = $this->app->genid_sgr($container);
 
         /* FIX DATE */
-           var_dump($parameter['FECHA_MOVIMIENTO'],new MongoDate());
         $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
         $parameter['FECHA_ACTA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_ACTA'])));
 

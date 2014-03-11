@@ -76,6 +76,7 @@ class Lib_202_data extends MX_Controller {
 
                         $code_error = "A.2";
                         $get_input_number = $this->$model_201->get_input_number_left($parameterArr[$i]['fieldValue']);
+                        
                         if ($get_input_number < 1) {
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
