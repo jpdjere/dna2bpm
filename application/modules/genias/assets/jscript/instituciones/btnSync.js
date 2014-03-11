@@ -18,11 +18,11 @@ var btnSync = Ext.create('Ext.Action',
 
                             /*Datos Institucions*/                            
                             storeInstitucionOffline.each(function(rec) {
-                                rec.setDirty();                                
+                                rec.setDirty();   
                                 InstitucionStore.add(rec);
                             });
                             InstitucionStore.sync();                            
-
+                            
                             /*Datos Visitas*/
                             storeVisitaOfflineInst.each(function(rec) {
                                 rec.setDirty();
