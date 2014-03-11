@@ -28,7 +28,8 @@ class Lib_121_data extends MX_Controller {
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $b1_array = array();
         $d2_sum = 0;
-        
+        $e2_sum = 0;
+
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
             /**
@@ -61,14 +62,20 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                   
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);  
-                   
-                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
-                    if ($warranty_info)
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);  
+
+                    if ($warranty_info){
+                        $warrantyArr = array($warranty_info[0]['5227'][0]);
                         if (!in_array('04', $warrantyArr)) {
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                    }else{
+                        // warranty_info no trae 
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
+                    }
                 }
 
                 /* NRO_CUOTA
@@ -121,8 +128,6 @@ class Lib_121_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -132,11 +137,12 @@ class Lib_121_data extends MX_Controller {
                     if (isset($parameterArr[$i-2]['fieldValue'])) {
                         $nro=$parameterArr[$i-2]['fieldValue'];
                         $item = $this->$model_anexo->get_order_number_left($nro); 
+
                         if(isset($item[0][5215])){
                             $fecha_emision=$item[0][5215];
                             $fecha_row=translate_date($parameterArr[$i]['fieldValue']);
-                            if($fecha_row>$fecha_emision){
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            if($fecha_row<$fecha_emision){
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']."($fecha_row)");
                                 array_push($stack, $result);
                             }
                         }
@@ -188,17 +194,19 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-
+                    // Check decimal y positivo
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }else{
+                            // E2
+                            $e2_sum+=(float)$parameterArr[$i]['fieldValue'];
+                            $e2_nro=$parameterArr[$i-4]['fieldValue'];
                         }
                     }
 
@@ -214,9 +222,8 @@ class Lib_121_data extends MX_Controller {
             array_push($stack, $result);
         }
         
-        // ============ Validation D.2 ==
+        // ============ Validation D.2 
         
-
         if (!empty($d2_nro)) {
             $item = $this->$model_anexo->get_order_number_left($d2_nro);
             $code_error = "D.2";
@@ -230,7 +237,23 @@ class Lib_121_data extends MX_Controller {
             
         }
         
- //5221       
+        // ============ Validation E.2 
+       
+
+        if (!empty($e2_nro)) {
+            $item = $this->$model_anexo->get_order_number_left($e2_nro);
+            $code_error = "E.2";
+            
+            if (isset($item[0][5221])) {
+                if ($e2_sum != $item[0][5221]) {
+                    $result = return_error_array($code_error, "-", $e2_sum." de ".$item[0][5221]);
+                    array_push($stack, $result);
+                }
+            }
+         
+        }
+        
+        
         $this->data = $stack;
     }
 
