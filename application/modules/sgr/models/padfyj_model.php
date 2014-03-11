@@ -10,7 +10,7 @@ class Padfyj_model extends CI_Model {
         $this->idu = (float) $this->session->userdata('iduser');
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
-        $this->db->switch_db('sgr');
+        $this->db->switch_db('padfyj');
     }
 
     function save($array) {
@@ -59,8 +59,6 @@ class Padfyj_model extends CI_Model {
         $query = array("CUIT"=>$cuit);
         $fields = array("DENOMINACION");
         $resultData = $this->mongo->db->$container->findOne($query);
-        var_dump($resultData);
-        
         return $resultData["DENOMINACION"];
         
     }
