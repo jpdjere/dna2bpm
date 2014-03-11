@@ -339,9 +339,10 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
+        var_dump($A_cell_array);
         foreach ($A_cell_array_no as $cuit) {
             
-            var_dump($cuit, $A_cell_array);
+            
             if (in_array($cuit, $A_cell_array)) {
                 $search_cuit = (array_keys($A_cell_array, $cuit));
                 $counter = count($search_cuit);
