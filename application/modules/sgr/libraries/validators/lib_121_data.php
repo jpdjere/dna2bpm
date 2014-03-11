@@ -128,8 +128,6 @@ class Lib_121_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -139,11 +137,12 @@ class Lib_121_data extends MX_Controller {
                     if (isset($parameterArr[$i-2]['fieldValue'])) {
                         $nro=$parameterArr[$i-2]['fieldValue'];
                         $item = $this->$model_anexo->get_order_number_left($nro); 
+
                         if(isset($item[0][5215])){
                             $fecha_emision=$item[0][5215];
                             $fecha_row=translate_date($parameterArr[$i]['fieldValue']);
-                            if($fecha_row>$fecha_emision){
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            if($fecha_row<$fecha_emision){
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']."($fecha_row)");
                                 array_push($stack, $result);
                             }
                         }
