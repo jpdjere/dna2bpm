@@ -289,7 +289,7 @@ class Lib_061_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'],"1*" . $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else if (!in_array($float_to_int, $range)) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'],"1*". $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'],"2*". $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
