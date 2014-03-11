@@ -16,7 +16,7 @@ class Lib_202_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe validar que el número de aporte se encuentre registrado en el Sistema.';
                 break;
             case "A.3":
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe validar que, al menos, se encuentre listados todos los números de aportes que, tengan SALDOS DE APORTE mayores a Cero.';
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe validar que, al menos, se encuentren listados todos los números de aportes que, tengan SALDOS DE APORTE mayores a Cero.';
                 break;
             case "A.4":
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna B sea Cero y que la Columna D tenga un monto informado.';
