@@ -19,7 +19,7 @@ class Lib_123_error_legend {
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si algún día el saldo estuvo en Cero, deben informar “0”. Ningún campo puede estar vacío.';
                 break;
             case "B.3":
-                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>';
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El monto ingresado debe tener formato numérico, mayor a cero, hasta dos decimales.';
                 break;
         }
         return $result_error;
