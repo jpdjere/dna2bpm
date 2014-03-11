@@ -281,7 +281,7 @@ class Lib_061_data extends MX_Controller {
                     /* Multiplico para usar INT */
                     $range = range(0, 100);
                     $float_var = (float) $parameterArr[$i]['fieldValue'];
-                    $float_to_int = $float_var * 100;
+                    $float_to_int =(int) $float_var * 100;
                     $code_error = "F.2";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
