@@ -62,19 +62,19 @@ class Lib_121_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                   
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);  
-                    
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);  
 
                     if ($warranty_info){
-                        $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);
+                        $warrantyArr = array($warranty_info[0]['5227'][0]);
                         if (!in_array('04', $warrantyArr)) {
+
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }else{
-                        // $warranty_info is null
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        // warranty_info no trae 
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
                     }
                 }
 
