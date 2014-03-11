@@ -122,7 +122,7 @@ class Lib_123_data extends MX_Controller {
                     $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
                     array_push($stack, $result);
                 }
-                $return = check_decimal($value, false, true);
+                $return = check_decimal($value, 2, true);
                 if ($return) {
                     $code_error = "B.3";
                     $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
