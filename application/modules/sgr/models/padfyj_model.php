@@ -16,7 +16,7 @@ class Padfyj_model extends CI_Model {
     function save($array) {
         //---rpimero busco si existe
         $query = array('CUIT' => $array['CUIT']);
-        $details=array();
+        $details = array();
         //---Comentar para la primera pasada.
         //$details = $this->db->get_where('padfyj', $query)->result_array();
         if ($details[0]) {
@@ -37,28 +37,25 @@ class Padfyj_model extends CI_Model {
         }
         return $result;
     }
-    
-    function info(){
-        
-       /* $container = 'padfyj';
-        $query['CUIT'] = '23233265519';
-        $result = $this->mongo->db->$container->find($query);
-        return $result;*/
-        
+
+    function info() {
+
+        /* $container = 'padfyj';
+          $query['CUIT'] = '23233265519';
+          $result = $this->mongo->db->$container->find($query);
+          return $result; */
+
         $container = $this->containerEmpresas;
         $query = array('7406' => (int) ($this->idu));
         $resultData = $this->mongo->db->$container->find($query);
         return $resultData;
-        
     }
-    
-    function search_name($cuit){
+
+    function search_name($cuit) {
         $container = 'padfyj';
-        $query = array("CUIT"=>$cuit);
+        $query = array("CUIT" => $cuit);
         $resultData = $this->mongo->db->$container->findOne($query);
-       var_dump($resultData,$query);
         return $resultData["DENOMINACION"];
-        
     }
 
 }
