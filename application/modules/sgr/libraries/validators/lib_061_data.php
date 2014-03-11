@@ -339,15 +339,13 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
-        var_dump($A_cell_array);
+        
         foreach ($A_cell_array_no as $cuit) {
-            
-            
             if (in_array($cuit, $A_cell_array)) {
                 $search_cuit = (array_keys($A_cell_array, $cuit));
                 $counter = count($search_cuit);
                 if ($counter > 1) {
-                    $code_error = "F.3";
+                    $code_error = "B.3";
                     $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                     array_push($stack, $result);
                 }
