@@ -25,6 +25,7 @@ class Lib_202_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $A_array_value = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -64,7 +65,8 @@ class Lib_202_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $A_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                        $A_array_value[] = $A_cell_value;
                         $get_input_number = $this->$model_201->get_input_number_left($A_cell_value);
 
 
@@ -75,13 +77,14 @@ class Lib_202_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-
-
                         $code_error = "A.3";
-                        if ($get_input_number < 0) {
-                            $code_error = "A.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        $get_anexo_data_left = $this->$model_201->get_anexo_data_left($A_cell_value);
+                        $A3_array = array();
+                        foreach ($get_anexo_data_left as $aportes) {
+                            $get_input_number_check = $this->$model_201->get_input_number_left($aportes['NUMERO_DE_APORTE']);
+                            if ($get_input_number_check > 0) {
+                                $A3_array[] = $aportes['NUMERO_DE_APORTE'];
+                            }
                         }
                     }
                 }
@@ -119,7 +122,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($get_input_number < 1 && $B_cell_value != 0) {
                         $code_error = "A.2";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:". $get_input_number. " B:" . $B_cell_value);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $get_input_number . " B:" . $B_cell_value);
                         array_push($stack, $result);
                     }
                 }
@@ -166,14 +169,26 @@ class Lib_202_data extends MX_Controller {
 
                     if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
                         $code_error = "A.4";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo " . $get_input_number . " B:" . $B_cell_value. " D:". $D_cell_value);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo " . $get_input_number . " B:" . $B_cell_value . " D:" . $D_cell_value);
                         array_push($stack, $result);
                     }
                 }
             } // END FOR LOOP->
         }
-//        var_dump($stack);
-//        exit();
+
+
+        /* A.3 */
+        $A3_result = array_diff(array_unique($A3_array), array_unique($A_array_value));
+        if ($A3_result) {
+            foreach ($A3_result as $A3) {
+                $code_error = "A.3";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "Resta " . $A3);
+                array_push($stack, $result);
+            }
+        }
+
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 

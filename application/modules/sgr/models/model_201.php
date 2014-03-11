@@ -175,7 +175,7 @@ class Model_201 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter, $xls = false) {        
+    function get_anexo_info($anexo, $parameter, $xls = false) {
         $tmpl = array(
             'data' => '<tr><td align="center" rowspan="2">Número de Aporte</td>
                                 <td align="center" rowspan="2">Fecha de Movimiento</td>
@@ -240,7 +240,7 @@ class Model_201 extends CI_Model {
                             </tr>',
         );
 
-       
+
 
         $template = ($xls) ? $tmpl_xls : $tmpl;
         $data = array($template);
@@ -264,7 +264,7 @@ class Model_201 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
-        
+
 
         foreach ($result as $list) {
             /*
@@ -292,8 +292,8 @@ class Model_201 extends CI_Model {
             $new_list['APORTE'] = money_format_custom($list['APORTE']);
             $new_list['RETIRO'] = money_format_custom($list['RETIRO']);
             $new_list['FECHA_APORTE_ORIGINAL'] = mongodate_to_print($get_movement_data['FECHA_MOVIMIENTO']);
-            $new_list['APORTE_ORIGINAL'] =money_format_custom($get_movement_data['APORTE']);
-            
+            $new_list['APORTE_ORIGINAL'] = money_format_custom($get_movement_data['APORTE']);
+
             $new_list['RETENCION_POR_CONTINGENTE'] = $get_movement_data['RETENCION_POR_CONTINGENTE'];
             $new_list['RETIRO_DE_RENDIMIENTOS'] = money_format_custom($list['RETIRO_DE_RENDIMIENTOS']);
             $new_list['ESPECIE'] = $list['ESPECIE'];
@@ -342,13 +342,13 @@ class Model_201 extends CI_Model {
         $new_list['RAZON_SOCIAL'] = "-";
         $new_list['CUIT_PROTECTOR'] = "-";
         $new_list['APORTE'] = "-";
-        $new_list['RETIRO'] =  money_format_custom(array_sum($col6));
+        $new_list['RETIRO'] = money_format_custom(array_sum($col6));
         $new_list['APORTE_ORIGINAL'] = "-";
-        $new_list['FECHA_APORTE_ORIGINAL'] =  money_format_custom(array_sum($col8));
+        $new_list['FECHA_APORTE_ORIGINAL'] = money_format_custom(array_sum($col8));
         $new_list['RETENCION_POR_CONTINGENTE'] = "-";
-        $new_list['RETIRO_DE_RENDIMIENTOS'] =  money_format_custom(array_sum($col10));
+        $new_list['RETIRO_DE_RENDIMIENTOS'] = money_format_custom(array_sum($col10));
         $new_list['ESPECIE'] = "-";
-        $new_list['TITULAR_ORIG'] ="-";
+        $new_list['TITULAR_ORIG'] = "-";
         $new_list['NRO_CTA_OR'] = "-";
         $new_list['ENTIDAD_OR'] = "-";
         $new_list['ENT_DEP_OR'] = "-";
@@ -362,6 +362,35 @@ class Model_201 extends CI_Model {
         $rtn[] = $new_list;
 
 
+        return $rtn;
+    }
+
+    function get_anexo_data_left($period) {
+
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $rtn = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            /* APORTE */
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+           
+            
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {
+                $rtn[] = $data;
+            }
+        }
+
+       
         return $rtn;
     }
 
