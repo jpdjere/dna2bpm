@@ -76,19 +76,18 @@ class Lib_202_data extends MX_Controller {
 
                         $code_error = "A.2";
                         $get_input_number = $this->$model_201->get_input_number_left($parameterArr[$i]['fieldValue']);
-                        if (!$get_input_number) {
+                        if ($get_input_number < 1) {
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
                         $code_error = "A.3";
-                        if($get_input_number<0){
-                             $code_error = "A.3";
+                        if ($get_input_number < 0) {
+                            $code_error = "A.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
                     }
                 }
 
@@ -99,10 +98,10 @@ class Lib_202_data extends MX_Controller {
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                
                  */
                 if ($parameterArr[$i]['col'] == 2) {
-                    
+
                     $B_cell_value = false;
                     $code_error = "B.1";
-                    
+
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -120,6 +119,13 @@ class Lib_202_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+                    }
+
+                    $code_error = "A.4";
+                    if ($get_input_number == 0 && $parameterArr[$i]['fieldValue'] != 0) {
+                        $code_error = "A.4";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
                     }
                 }
 
@@ -163,7 +169,8 @@ class Lib_202_data extends MX_Controller {
                     }
                 }
             } // END FOR LOOP->
-        }        
+        }
+        //  var_dump($stack);        exit();
         $this->data = $stack;
     }
 

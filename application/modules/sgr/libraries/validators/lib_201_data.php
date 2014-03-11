@@ -93,7 +93,7 @@ class Lib_201_data extends MX_Controller {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $input_num[] = $A_cell_value;
 
-                        $get_input_number = $this->$model_anexo->get_input_number_left($A_cell_value);
+                        $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
