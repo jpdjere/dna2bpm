@@ -182,7 +182,7 @@ class Lib_202_data extends MX_Controller {
         if ($A3_result) {
             foreach ($A3_result as $A3) {
                 $code_error = "A.3";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], "Resta " . $A3);
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "Resta el Nro de Aporte: " . $A3);
                 array_push($stack, $result);
             }
         }
