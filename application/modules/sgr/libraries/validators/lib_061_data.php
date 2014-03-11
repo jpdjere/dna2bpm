@@ -286,10 +286,11 @@ class Lib_061_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'],"1*" . $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else if (!in_array($float_to_int, $range)) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'],"2*". $parameterArr[$i]['fieldValue']);
+                            var_dump($parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
