@@ -289,14 +289,10 @@ class Lib_061_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else if (!in_array($float_to_int, $range)) {
-                            var_dump($float_to_int, $range);
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-
-
 
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
@@ -344,6 +340,8 @@ class Lib_061_data extends MX_Controller {
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
         foreach ($A_cell_array_no as $cuit) {
+            
+            var_dump($cuit, $A_cell_array);
             if (in_array($cuit, $A_cell_array)) {
                 $search_cuit = (array_keys($A_cell_array, $cuit));
                 $counter = count($search_cuit);
