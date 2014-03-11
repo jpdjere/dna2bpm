@@ -48,7 +48,7 @@ var btnSync = Ext.create('Ext.Action',
                             var getCount = storeEncuestasOffline.getCount() + storeVisitaOffline.getCount() + storeEmpresaOffline.getCount() + storeVisitaOfflineDelete.getCount();
 
 
-
+console.log(InstitucionStore);
                             if (getCount != 0) {
                                 Ext.Msg.alert('Encenario Pyme', '<h5>Actualizado con Exito</h5>');
                             } else {

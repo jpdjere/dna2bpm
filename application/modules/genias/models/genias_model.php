@@ -742,7 +742,7 @@ class Genias_model extends CI_Model {
             $temp = (array) $agencia['4897'];
             $prov = $temp[0];
 
-            // Si no hay cuit salgo del loop
+            // xxx Si no hay cuit salgo del loop
 
             $email = (empty($agencia[6196])) ? ('-') : ($agencia[6196]);
             $razon_social = (empty($agencia[4896])) ? ('-') : ($agencia[4896]);

@@ -98,7 +98,8 @@ Ext.define('InstitucionModel', {
         '8115', //  CP
         'origen', //Origen de los datos Genia 2013
         'origenGenia', //Origen de los datos Genia 2013 Genia
-        'checksum' //---hash para saber si hay que actualizar
+        'checksum', //---hash para saber si hay que actualizar
+        'task'
     ], idProperty:'id'
 });
 
