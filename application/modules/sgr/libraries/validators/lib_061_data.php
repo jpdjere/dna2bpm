@@ -327,11 +327,11 @@ class Lib_061_data extends MX_Controller {
             $AF3_result = count_shares($partner_shares_arr);
             foreach ($AF3_result as $cell) {
                 $count_shares = $cell['acumulados']['shares']*100;
-                $count_shares = (float)$count_shares;
+                $count_shares = (int)$count_shares;
                 var_dump($count_shares);
-                if ($count_shares != 1 && $count_shares!=0) {
+                if ($count_shares != 100 && $count_shares!=0) {
                     $code_error = "F.3";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . $count_shares);
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . $cell['acumulados']['shares']);
                     array_push($stack, $result);
                 }
             }
