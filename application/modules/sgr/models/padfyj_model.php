@@ -59,6 +59,8 @@ class Padfyj_model extends CI_Model {
         $query = array("CUIT"=>$cuit);
         $fields = array("DENOMINACION");
         $resultData = $this->mongo->db->$container->findOne($query);
+        var_dump($resultData);
+        
         return $resultData["DENOMINACION"];
         
     }
