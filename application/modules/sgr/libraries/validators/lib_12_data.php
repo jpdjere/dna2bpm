@@ -13,6 +13,9 @@ class Lib_12_data extends MX_Controller {
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
+        $model_062 = 'model_062';
+        $this->load->Model($model_062);
+
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
 
@@ -115,11 +118,20 @@ class Lib_12_data extends MX_Controller {
                     foreach ($partner_data as $partner) {                        
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
-                    }                   
-                    
-                    
-                    if ($amount_employees == 0) {
-                        $code_error = "B.2";
+                    }
+                    $amount_employees2  = 0;
+                    $partner_data_062 = $this->$model_062->get_partner_left($parameterArr[$i]['fieldValue']);
+                    if ($partner_data_062) {
+                        foreach ($partner_data_062 as $partner_062) {
+                            $amount_employees2 = (int) $partner_062['EMPLEADOS'];
+                        }
+                    }
+
+                    $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
+
+
+                    if ($sum_amount_employees == 0) {
+                        $code_error = "B.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
@@ -136,7 +148,7 @@ class Lib_12_data extends MX_Controller {
                     /* B.3 */
                     $subscribed = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A");
                     $integrated = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A", 5598);
-                    
+
                     if ($integrated != $subscribed) {
                         $code_error = "B.3";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
@@ -223,7 +235,7 @@ class Lib_12_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } 
+                        }
                     }
                 }
 
@@ -400,7 +412,7 @@ class Lib_12_data extends MX_Controller {
                  * Nro K.3
                  * Detail:
                  * Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:
-                  GFEF1, GFEF2, GFEF3
+                  GFEF0, GFEF1, GFEF2, GFEF3
                   Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.
                  */
                 if ($parameterArr[$i]['col'] == 11) {
@@ -420,7 +432,7 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $code_error = "K.2";                        
+                        $code_error = "K.2";
                         $k2_check_arr = array("GFCPD", "GFVCP", "GFPB", "GFFF1", "GFFF2", "GFFF3", "GFON1", "GFON2", "GFON3", "GFMFO");
                         if (in_array($D_cell_value, $k2_check_arr)) {
                             $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($parameterArr[$i]['fieldValue'], "MV");
@@ -460,7 +472,7 @@ class Lib_12_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } 
+                        }
                     }
                 }
 
@@ -620,7 +632,7 @@ class Lib_12_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } 
+                        }
                     }
 
 
@@ -804,8 +816,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-    //        var_dump($stack);exit();
-    //        exit();
+    
         $this->data = $stack;
     }
 

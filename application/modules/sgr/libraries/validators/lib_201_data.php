@@ -1,7 +1,7 @@
 <?php
 
 class Lib_201_data extends MX_Controller {
-    /* VALIDADOR ANEXO 12.5 */
+    /* VALIDADOR ANEXO 201 */
 
     public function __construct($parameter) {
         parent::__construct();

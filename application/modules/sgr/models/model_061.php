@@ -224,5 +224,4 @@ class Model_061 extends CI_Model {
         }
         return $rtn;
     }
-
 }
