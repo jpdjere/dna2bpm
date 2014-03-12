@@ -252,8 +252,6 @@ class Model_14 extends CI_Model {
                 $brand_name = $this->padfyj_model->search_name($partner[5349]);
             }
 
-
-
             $new_list = array();
             $new_list['col1'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['col2'] = $list['NRO_GARANTIA'];
