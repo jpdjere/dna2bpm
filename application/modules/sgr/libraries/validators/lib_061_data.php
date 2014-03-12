@@ -31,7 +31,7 @@ class Lib_061_data extends MX_Controller {
         $count_inc = array();
         $partner_shares_arr = array();
         $A_cell_array = array();
-        $A_cell_array_no = array();        
+        $A_cell_array_no = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /* Validacion Basica */
@@ -341,20 +341,27 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
-
         foreach ($A_cell_array_no as $cuit) {
+            $arr_error = array();
             if (in_array($cuit, $A_cell_array)) {
                 $search_cuit = (array_keys($A_cell_array_no, $cuit));
                 $counter = count($search_cuit);
-                if ($counter > 1) {                    
-                    $code_error = "B.3";
-                    $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
-                    array_push($stack, $result);
+                
+                if ($counter > 1) {
+                    $b3_arr_error[] = $cuit."*".$counter;                    
                 }
             }
+        }        
+        $b3_arr_error = array_unique($b3_arr_error);
+        foreach ($b3_arr_error as $b3) {
+            list($cuit, $counter) = explode("*", $b3);
+            $code_error = "B.3";
+            $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
+            array_push($stack, $result);
         }
 
-        
+
+       
         $this->data = $stack;
     }
 
