@@ -168,12 +168,8 @@ class Model_121 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-
-        $headerArr = array("NRO ORDEN", "NRO CUOTA", "VENCIMIENTO", "CUOTA GTA PESOS", "CUOTA MENOR PESOS");
-
         $tmpl = array(
-            'data' => '<tr>
-                                <td colspan="2" align="center">Garantía</td>
+            'data' => '<tr><td colspan="2" align="center">Garantía.</td>
                                 <td colspan="2" align="center">Del Part&iacute;cipe / Beneficiario</td>
                                 <td colspan="3" align="center">Información sobre la Amortización</td>                                
                             </tr>
@@ -199,40 +195,45 @@ class Model_121 extends CI_Model {
                             </tr>',
         );
 
-        /* DRAW TABLE */
-        $fix_table = '<thead>
-<tr>
-<th>';
 
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
 
         return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
+
+
+        $this->load->model('padfyj_model');
+        $model_12 = 'model_12';
+        $this->load->Model($model_12);
+        
+        
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
-
         foreach ($result as $list) { /* Vars */
             $new_list = array();
+            
+            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_ORDEN'], $list['period']);
 
-            $warranty_info = $this->sgr_model->get_warranty_data($list['NRO_ORDEN'], $list['period']);
-            $this->load->model('padfyj_model');
-            $participate = $this->padfyj_model->search_name($warranty_info[5349]);
-
+            foreach ($get_movement_data as $warranty) {
+                $cuit = $warranty[5349];
+                $brand_name = $this->padfyj_model->search_name($warranty[5349]);
+            }
+            
             $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
             $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];
-            $new_list['CUIT'] = $warranty_info[5349];
-            $new_list['RAZON_SOCIAL'] = $participate;
+            $new_list['CUIT'] = $cuit;
+            $new_list['RAZON_SOCIAL'] = $brand_name;
             $new_list['VENCIMIENTO'] = $list['VENCIMIENTO'];
             $new_list['CUOTA_GTA_PESOS'] = money_format_custom($list['CUOTA_GTA_PESOS']);
             $new_list['CUOTA_MENOR_PESOS'] = money_format_custom($list['CUOTA_MENOR_PESOS']);
