@@ -54,22 +54,10 @@ class Lib_062_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             $code_error = "A.2";
-                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                            if (!$partner_data) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $partner_data = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A");                            
+                            if ($partner_data==0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Saldo " . $partner_data);
                                 array_push($stack, $result);
-                            }
-                            foreach ($partner_data as $partner) {
-                                if ($partner[5272][0] != 'A') {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                    array_push($stack, $result);
-                                } else {
-                                    $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
-                                    if ($balance == 0) {
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
-                                        array_push($stack, $result);
-                                    }
-                                }
                             }
                         }
                     }
@@ -182,8 +170,7 @@ class Lib_062_data extends MX_Controller {
                     }
                 }
             }
-        }
-
+        }      
         $this->data = $stack;
     }
 
