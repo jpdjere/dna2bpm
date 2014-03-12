@@ -389,17 +389,19 @@ class Lib_061_data extends MX_Controller {
             }
         }
 
-        if (!empty($b3_arr_error))
+        
+
+        if ($b3_arr_error) {
             $b3_arr_error = array_unique($b3_arr_error);
 
 
-        foreach ($b3_arr_error as $b3) {
-            list($cuit, $counter) = explode("*", $b3);
-            $code_error = "B.3";
-            $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
-            array_push($stack, $result);
+            foreach ($b3_arr_error as $b3) {
+                list($cuit, $counter) = explode("*", $b3);
+                $code_error = "B.3";
+                $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
+                array_push($stack, $result);
+            }
         }
-
 
 
         $this->data = $stack;
