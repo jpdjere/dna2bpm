@@ -156,7 +156,7 @@ class Model_061 extends CI_Model {
             "C.U.I.T Socio<br/>Incorporado",
             "Socio<br/>Incorporado",
             "Tiene<br/>Vinculacion",
-            "C.U.I.T>br/>Vinculado",
+            "C.U.I.T<br/>Vinculado",
             "Razón<br/>Social<br/>Vinculado",
             "Tipo<br/>Relación<br/>Vinculación",
             "Porcentaje<br/>Acciones",
@@ -192,6 +192,21 @@ class Model_061 extends CI_Model {
             $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
 
 
+            $model_anexo = "model_06";
+            $this->load->Model($model_anexo);
+            $info_06 = $this->$model_anexo->get_partner_print($list['CUIT_VINCULADO']);
+
+            $es_participe = "NO";
+            $es_protector = "NO";
+            foreach ($info_06 as $data) {
+                if ($data[5272][0] == "A") {
+                    $es_participe = "SI";
+                }
+
+                if ($data[5272][0] == "B") {
+                    $es_protector = "SI";
+                }
+            }
 
             // 					
 
@@ -203,9 +218,9 @@ class Model_061 extends CI_Model {
             $new_list['"CUIT_VINCULADO"'] = $list['CUIT_VINCULADO'];
             $new_list['"RAZON_SOCIAL_VINCULADO"'] = $parner_linked;
             $new_list['"TIPO_RELACION_VINCULACION"'] = $list['TIPO_RELACION_VINCULACION'];
-            $new_list['"PORCENTAJE_ACCIONES"'] = percent_format_custom($list['PORCENTAJE_ACCIONES']*100);
-            $new_list['"PARTICIPE"'] = "";
-            $new_list['"PROTECTOR"'] = "";
+            $new_list['"PORCENTAJE_ACCIONES"'] = percent_format_custom($list['PORCENTAJE_ACCIONES'] * 100);
+            $new_list['"PARTICIPE"'] = $es_participe;
+            $new_list['"PROTECTOR"'] = $es_protector;
 
 
 
