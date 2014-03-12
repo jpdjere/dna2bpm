@@ -50,9 +50,10 @@ class Lib_124_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
                     $code_error = "A.1";
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
 
 
+
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -65,12 +66,17 @@ class Lib_124_data extends MX_Controller {
                             $amount = $info['5218'];
                         }
 
-                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
-                        $return = check_word($check_word, $allow_words);
-                        if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        if (!$warranty_info) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Tipo no permitido" . $check_word);
                             array_push($stack, $result);
                         }
+
+//                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
+//                        $return = check_word($check_word, $allow_words);
+//                        if ($return) {
+//                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Tipo no permitido" . $check_word);
+//                            array_push($stack, $result);
+//                        }
                     }
                 }
 
@@ -160,15 +166,28 @@ class Lib_124_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "D.1";
 
+                    
+
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
-                        if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+
+                        /* Multiplico para usar INT */
+                        $range = range(0, 100);
+                        $float_var = (float) $parameterArr[$i]['fieldValue'];
+                        $float_to_int = (int) $float_var * 100;
+                        $code_error = "D.1";
+                        if ($parameterArr[$i]['fieldValue'] != "") {
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            } else if (!in_array($float_to_int, $range)) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -221,6 +240,7 @@ class Lib_124_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
+    
         $this->data = $stack;
     }
 
