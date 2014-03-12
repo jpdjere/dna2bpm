@@ -31,20 +31,7 @@ class Lib_061_data extends MX_Controller {
         $count_inc = array();
         $partner_shares_arr = array();
         $A_cell_array = array();
-        $A_cell_array_no = array();
-
-
-        /* PRELIMINAR VALIDATION */
-
-        $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
-        foreach ($info_06 as $filenames) {
-            if ($filenames['filename'] != 'SIN MOVIMIENTOS') {
-//                $parameterArr = (array) $parameter;
-//                $code_error= "VG.1";
-//                $result = return_error_array($code_error, "-", "");
-//                array_push($stack, $result);
-            }
-        }
+        $A_cell_array_no = array();        
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /* Validacion Basica */
@@ -367,7 +354,7 @@ class Lib_061_data extends MX_Controller {
             }
         }
 
-        exit();
+        
         $this->data = $stack;
     }
 
