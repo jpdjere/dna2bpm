@@ -44,14 +44,13 @@ class Lib_061_data extends MX_Controller {
                  * Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
-                    $code_error = "A.1";
+                if ($parameterArr[$i]['col'] == 1) {                   
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+                        $code_error = "A.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $A_cell_array[] = $A_cell_value;
 
@@ -310,6 +309,9 @@ class Lib_061_data extends MX_Controller {
                 }
             }
         }
+        
+        
+   
 
         /* CUIT_SOCIO_INCORPORADO
          * Nro A.3
@@ -329,7 +331,7 @@ class Lib_061_data extends MX_Controller {
             $result = return_error_array($code_error, " - ", "No figuran todos los socios incorporados");
             array_push($stack, $result);
         }
-
+        
 
         /* F.3 */
 
@@ -376,7 +378,6 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-
         $this->data = $stack;
     }
 
