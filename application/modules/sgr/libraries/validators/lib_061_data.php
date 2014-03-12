@@ -26,7 +26,7 @@ class Lib_061_data extends MX_Controller {
          */
         $stack = array();
         $original_array = array();
-
+        $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $count_inc = array();
         $partner_shares_arr = array();
@@ -39,10 +39,10 @@ class Lib_061_data extends MX_Controller {
         $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
         foreach ($info_06 as $filenames) {
             if ($filenames['filename'] != 'SIN MOVIMIENTOS') {
-                $parameterArr = (array) $parameter;
-                $code_error= "VG.1";
-                $result = return_error_array($code_error, "-", "");
-                array_push($stack, $result);
+//                $parameterArr = (array) $parameter;
+//                $code_error= "VG.1";
+//                $result = return_error_array($code_error, "-", "");
+//                array_push($stack, $result);
             }
         }
 
