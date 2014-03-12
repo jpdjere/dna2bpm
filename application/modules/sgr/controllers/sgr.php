@@ -313,6 +313,8 @@ class Sgr extends MX_Controller {
                     }
                 }
             }
+            
+            
 
             /* VALIDATIONS */
             if (!$count) {
@@ -356,7 +358,8 @@ class Sgr extends MX_Controller {
             $result_header = $result_header_desc . $result_header;
             $error = 3;
         }
-
+        
+     
 
         if (!$error) {
             $model = "model_" . $anexo;

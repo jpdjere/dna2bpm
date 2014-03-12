@@ -244,15 +244,13 @@ class Model_14 extends CI_Model {
             $this->load->Model($model_12);
 
 
-
-            $get_movement_data = $this->$model_12->get_order_number_print("12585/10", $list['period']);
+            /*"12585/10"*/
+            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
 
             foreach ($get_movement_data as $partner) {
                 $cuit = $partner[5349];
                 $brand_name = $this->padfyj_model->search_name($partner[5349]);
             }
-
-
 
             $new_list = array();
             $new_list['col1'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);

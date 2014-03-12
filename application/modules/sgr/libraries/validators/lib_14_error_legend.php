@@ -84,6 +84,8 @@ class Lib_14_error_legend {
             case "H.3":
                 $result_error = '<strong>Columna H - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que se está importando).';
                 break;
+            case "VG.1":
+                $result_error = '<strong>Validacion General - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En una misma Fila sólo pueden ser informadas las Columnas A, B y una sola de las restantes (C, D,E, F, G, y H).';
         }
         return $result_error;
     }
