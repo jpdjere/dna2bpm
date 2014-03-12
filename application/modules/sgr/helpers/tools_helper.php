@@ -77,7 +77,6 @@ function debug($parameter) {
 }
 
 function check_empty($parameter) {
-    
     if (strlen($parameter)== 0) {
         return true;
     }
