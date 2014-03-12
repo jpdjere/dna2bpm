@@ -552,10 +552,35 @@ class Model_06 extends CI_Model {
 
         return $return_result;
     }
+    
+    function get_partner_print($cuit) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_just_active($anexo);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                1695 => $cuit
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $return_result[] = $new_result;
+        }
+
+        return $return_result;
+    }
 
     /* PARTNERS INFO */
 
-    function get_all_partners($get_period = null) {
+    function get_all_partners_($get_period = null) {
         $rtn = array();
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
