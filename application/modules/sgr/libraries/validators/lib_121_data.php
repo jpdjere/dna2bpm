@@ -230,7 +230,7 @@ class Lib_121_data extends MX_Controller {
             
             if (isset($item[0][5218])) {
                 if ($d2_sum != $item[0][5218]) {
-                    $result = return_error_array($code_error, "-", $d2_sum);
+                    $result = return_error_array($code_error, "-", "Monto: ".$item[0][5218]." / Suma:".$d2_sum);
                     array_push($stack, $result);
                 }
             }
