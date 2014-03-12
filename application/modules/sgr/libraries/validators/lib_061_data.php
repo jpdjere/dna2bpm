@@ -344,10 +344,10 @@ class Lib_061_data extends MX_Controller {
 
         foreach ($A_cell_array_no as $cuit) {
             if (in_array($cuit, $A_cell_array)) {
-                $search_cuit = (array_keys($A_cell_array, $cuit));
+                $search_cuit = (array_keys($A_cell_array_no, $cuit));
                 $counter = count($search_cuit);
-                if ($counter > 1) {
-                   // $code_error = "B.3";
+                if ($counter > 1) {                    
+                    $code_error = "B.3";
                     $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                     array_push($stack, $result);
                 }
