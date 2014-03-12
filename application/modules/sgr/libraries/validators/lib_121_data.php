@@ -228,9 +228,9 @@ class Lib_121_data extends MX_Controller {
             $item = $this->$model_anexo->get_order_number_left($d2_nro);
             $code_error = "D.2";
             
-            if (isset($item[0][5218])) {
-                if ($d2_sum != $item[0][5218]) {
-                    $result = return_error_array($code_error, "-", $d2_sum);
+            if (isset($item[0][5221])) {
+                if ($d2_sum != $item[0][5221]) {
+                    $result = return_error_array($code_error, "-", "Monto: ".$item[0][5221]." / Suma:".$d2_sum);
                     array_push($stack, $result);
                 }
             }
