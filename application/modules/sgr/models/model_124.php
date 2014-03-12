@@ -61,11 +61,11 @@ class Model_124 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-            /*STRING*/
+            /* STRING */
             $insertarr['NRO_GARANTIA'] = (string) $insertarr['NRO_GARANTIA']; //Nro orden
             $insertarr['CUIT'] = (string) $insertarr['CUIT'];
-            
-            /*FLOAT*/
+
+            /* FLOAT */
             $insertarr['SALDO_VIGENTE'] = (float) $insertarr['SALDO_VIGENTE'];
             $insertarr['REAFIANZADO'] = (float) $insertarr['REAFIANZADO'];
         }
@@ -93,7 +93,6 @@ class Model_124 extends CI_Model {
         }
         return $out;
     }
-    
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -140,15 +139,60 @@ class Model_124 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-
-        $headerArr = array("NRO GARANTIA", "FECHA REAFIANZA", "SALDO VIGENTE", "REAFIANZADO", "RAZON SOCIAL", "CUIT");
-        $data = array($headerArr);
+        $tmpl = array(
+            'data' => '<tr><td colspan="13" align="center">GARANTIAS REAFIANZADAS</td></tr><tr><td rowspan="5" align="center">N&ordm; de Orden</td>
+                                <td colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</td>
+                                <td colspan="3" rowspan="3" align="center">De la Garant&iacute;a</td>
+                                
+                                <td colspan="2" rowspan="3" align="center">Del Acreedor</td>
+                                <td colspan="3" rowspan="3" align="center">Del Reafianzamiento</td>
+                                <td colspan="2" rowspan="3" align="center">Institución Reafianzadora</td>
+                            </tr>
+                            <tr></tr>
+                            <tr></tr>
+                            <tr>
+                                <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
+                                <td rowspan="2" align="center">C.U.I.T.</td>
+                                <td rowspan="2" align="center">Fecha de    origen</td>
+                                <td rowspan="2" align="center">Tipo</td>                                
+                                <td rowspan="2" align="center">Importe</td>
+                                <td rowspan="2" align="center">Nombre o Razón Social</td>                                
+                                <td rowspan="2" align="center">C.U.I.T.</td>
+                                <td rowspan="2" align="center">Fecha de<br>entrada en Vigencia</td>
+                                <td rowspan="2" align="center">Saldo Vigente</td>
+                                <td rowspan="2" align="center">Porcentaje Reafianzado</td>
+                                <td rowspan="2" align="center">Razón Social</td>
+                                <td rowspan="2" align="center">C.U.I.T.</td>                                                             
+                            </tr>
+                            <tr>
+                              
+                             
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>
+                                <th>11</th>
+                                <th>12</th>
+                                <th>13</th>                                           
+                            </tr> ',
+        );
+        $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -162,17 +206,46 @@ class Model_124 extends CI_Model {
             /* Vars */
             $cuit = str_replace("-", "", $list['CUIT']);
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
+            $model_12 = 'model_12';
+            $this->load->Model($model_12);
+            $this->load->model('app');
+            $warranty_type = $this->app->get_ops(525);
+
+            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
+            if ($get_movement_data) {
+                foreach ($get_movement_data as $warranty) {
+                    $participate_cuit = $warranty[5349];
+                    $participate = $this->padfyj_model->search_name($participate_cuit);
+                    
+                    $creditor_cuit =$warranty[5351];
+                    $creditor = $this->padfyj_model->search_name($creditor_cuit);
+                     
+                    $reafianzadora_cuit = (string) $list['CUIT'];
+                    $reafianzadora= $this->padfyj_model->search_name($reafianzadora_cuit);
+                    
+                    $origen = $warranty[5215];
+                    $warranty_type = $warranty[5216][0];
+                    $amount = $warranty[5218];
+                }
+            }
+
+            $brand_name_creditor = $this->padfyj_model->search_name($warranty[5349]);
 
 
             $new_list = array();
-            $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['FECHA_REAFIANZA'] = $list['FECHA_REAFIANZA'];
-            $new_list['SALDO_VIGENTE'] = money_format_custom($list['SALDO_VIGENTE']);
-            $new_list['REAFIANZADO'] = $list['REAFIANZADO'] . "%";
-            $new_list['RAZON_SOCIAL'] = $brand_name;
-            $new_list['CUIT'] = $list['CUIT'];
+            $new_list['col1'] = $list['NRO_GARANTIA'];
+            $new_list['col2'] = $participate;
+            $new_list['col3'] = $participate_cuit;
+            $new_list['col4'] = mongodate_to_print($origen);
+            $new_list['col5'] = @$warranty_type[$warranty_type];
+            $new_list['col6'] = money_format_custom($amount);
+            $new_list['col7'] = $creditor;
+            $new_list['col8'] = $creditor_cuit;
+            $new_list['col9'] = $list['FECHA_REAFIANZA'];
+            $new_list['col10'] = money_format_custom($list['SALDO_VIGENTE']);
+            $new_list['col11'] = percent_format_custom($list['REAFIANZADO']);
+            $new_list['RAZON_SOCIAL'] = $reafianzadora;
+            $new_list['CUIT'] = $reafianzadora_cuit;
             $rtn[] = $new_list;
         }
         return $rtn;

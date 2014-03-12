@@ -334,7 +334,7 @@ class Model_12 extends CI_Model {
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];
             $new_list['ORIGEN'] = $list[5215];
-            $new_list['TIPO'] = $list[5216][0];
+            $new_list['TIPO'] = $warranty_type[$list[5216][0]];
             $new_list['PONDERACION'] = $get_weighting['weighted'] * 100;
             $new_list['IMPORTE'] = money_format_custom($list[5218]);
             $new_list['MONEDA'] = $currency[$list[5219][0]];
