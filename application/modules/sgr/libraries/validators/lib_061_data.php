@@ -32,7 +32,6 @@ class Lib_061_data extends MX_Controller {
         $partner_shares_arr = array();
         $A_cell_array = array();
         $A_cell_array_no = array();
-        $A1_check_array = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /* Validacion Basica */
@@ -46,21 +45,22 @@ class Lib_061_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-                    if ($parameterArr[$i]['fieldValue'] != "") {
+                    $code_error = "A.1";
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if ($return) {
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        array_push($stack, $result);
+                    } else {
+
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $A_cell_array[] = $A_cell_value;
+
+                        $return = cuit_checker($A_cell_value);
+                        if (!$return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }
                     }
-                    /*
-                     * Nro A.2
-                     * Detail:
-                     * El CUIT debe estar en el ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL, informado en el período correspondiente como incorporado. 
-                     */
-//                    $code_error = "A.2";
-//                    $partner_data = $this->$model_06->get_partner_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-//                    if ($partner_data[5779][0] != '1') {
-//                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-//                        array_push($stack, $result);
-//                    }
                 }
 
 
@@ -85,7 +85,6 @@ class Lib_061_data extends MX_Controller {
                     } else {
 
                         $B_cell_value = $parameterArr[$i]['fieldValue'];
-                        $A1_check_array[] = $B_cell_value;
 
                         $allow_words = array("SI", "NO");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
@@ -156,10 +155,8 @@ class Lib_061_data extends MX_Controller {
 
                     /**/
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if (!$return) {
+                    if (!$return)
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
-                        $A1_check_array[] = $C_cell_value;
-                    }
                 }
 
                 /* RAZON_SOCIAL_VINCULADO
@@ -188,10 +185,8 @@ class Lib_061_data extends MX_Controller {
 
                     /**/
                     $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if (!$return) {
+                    if (!$return)
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
-                        $A1_check_array[] = $D_cell_value;
-                    }
                 }
             }
 
@@ -252,10 +247,8 @@ class Lib_061_data extends MX_Controller {
                 }
 
                 $return = check_empty($parameterArr[$i]['fieldValue']);
-                if (!$return) {
+                if (!$return)
                     $E_cell_value = $parameterArr[$i]['fieldValue'];
-                    $A1_check_array[] = $E_cell_value;
-                }
             }
 
             /* TIPO_RELACION_VINCULACION
@@ -291,27 +284,8 @@ class Lib_061_data extends MX_Controller {
                 }
 
                 $return = check_empty($parameterArr[$i]['fieldValue']);
-                if (!$return) {
+                if (!$return)
                     $F_cell_value = $parameterArr[$i]['fieldValue'];
-                    $A1_check_array[] = $F_cell_value;
-                }
-
-
-                /* A.1 */
-                if ($A1_check_array && $A_cell_value) {
-                    $code_error = "A.1";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                    array_push($stack, $result);
-                } else {
-                    $return = cuit_checker($A_cell_value);
-                    if (!$return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                        array_push($stack, $result);
-                    }
-                }
-
-
-
 
                 /* Multiplico para usar INT */
                 $range = range(0, 100);
@@ -389,7 +363,7 @@ class Lib_061_data extends MX_Controller {
             }
         }
 
-        
+
 
         if ($b3_arr_error) {
             $b3_arr_error = array_unique($b3_arr_error);
@@ -402,7 +376,6 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-
 
         $this->data = $stack;
     }
