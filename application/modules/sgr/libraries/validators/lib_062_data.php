@@ -54,22 +54,10 @@ class Lib_062_data extends MX_Controller {
                             array_push($stack, $result);
                         } else {
                             $code_error = "A.2";
-                            $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                            if (!$partner_data) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $partner_data = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A");                            
+                            if ($partner_data==0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Saldo " . $partner_data);
                                 array_push($stack, $result);
-                            }
-                            foreach ($partner_data as $partner) {
-                                if ($partner[5272][0] != 'A') {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                    array_push($stack, $result);
-                                } else {
-                                    $balance = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], 'B');
-                                    if ($balance == 0) {
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "NO tiene saldo suficiente " . $balance);
-                                        array_push($stack, $result);
-                                    }
-                                }
                             }
                         }
                     }
@@ -107,10 +95,12 @@ class Lib_062_data extends MX_Controller {
                         $code_error = "B.2";
                         list($y_post, $m_post) = explode("/", $parameterArr[$i]['fieldValue']);
                         list($m_period, $y_period) = explode("-", $this->session->userdata['period']);
-                        $y_post = (int) $y_post;
-                        $y_period = (int) $y_period;
+                        
+                        
+                         $check_date = mktime(0, 0, 0, date($m_post), date(01), date($y_post));
+                         $check_period =mktime(0, 0, 0, date($m_period), date(02), date($y_period));                        
 
-                        if ($y_post > $y_period) {
+                        if ($check_date > $check_period) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -182,8 +172,8 @@ class Lib_062_data extends MX_Controller {
                     }
                 }
             }
-        }
-
+        }      
+      
         $this->data = $stack;
     }
 
