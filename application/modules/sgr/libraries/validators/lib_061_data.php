@@ -199,7 +199,6 @@ class Lib_061_data extends MX_Controller {
                     //Check Empry
                     if ($B_cell_value == "SI") {
                         $code_error = "E.1";
-
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -328,7 +327,7 @@ class Lib_061_data extends MX_Controller {
 
             if ($register_on_06 != $count_on_061) {
                 $stack = array();
-                $code_error = "A.3";
+                $code_error = "VG.4";
                 $result["error_row"] = 1;
                 $result = return_error_array($code_error, " - ", "No figuran todos los socios incorporados");
                 array_push($stack, $result);
