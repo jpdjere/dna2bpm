@@ -135,12 +135,12 @@ class Model_062 extends CI_Model {
     function get_anexo_info($anexo, $parameter) {
         
 
-        $headerArr = array("APELLIDO Y NOMBRE O RAZON SOCIAL",
-            "C.U.I.T",
-            "MES",
-            "AÑO",
-            "FACTURACIÓN",
-            "EMPLEADOS(*)"
+        $headerArr = array("C.U.I.T",
+            "Apellido y Nombre o Razón Social",
+            "Fecha de Cierre del ejercicio<br> (Mes/Año)",
+            "Cantidad de Empleados al último día del ejercicio",
+            "Ingresos",
+            "Origen de los Datos"
             );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
@@ -168,12 +168,12 @@ class Model_062 extends CI_Model {
             list($year,$month) = explode("/", $list['ANIO_MES']);
             
             $new_list = array();
-            $new_list['CUIT'] = $list['CUIT'];
-            $new_list['SOCIO'] = $parner;
-            $new_list['MES'] = $month;
-            $new_list['ANO'] = $year;
-            $new_list['FACTURACION'] = $list['FACTURACION'];
-            $new_list['EMPLEADOS'] = $list['EMPLEADOS'];
+            $new_list['col1'] = $list['CUIT'];
+            $new_list['col2'] = $parner;
+            $new_list['col3'] = $month ."/".$year;
+            $new_list['col4'] = $list['EMPLEADOS'];
+            $new_list['col5'] = $list['FACTURACION'];
+            $new_list['col6'] = $list['TIPO_ORIGEN'];
             $rtn[] = $new_list;
         }
         return $rtn;
