@@ -79,7 +79,7 @@ class Sgr extends MX_Controller {
         $customData['rectified_list'] = $this->get_rectified($this->anexo);
 
         //RECTIFY
-        $error_set_period = $this->set_period();        
+        $error_set_period = $this->set_period();
         $customData['sgr_period'] = $this->period;
 
         $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
@@ -295,21 +295,21 @@ class Sgr extends MX_Controller {
 
         $header = "lib_" . $anexo . "_header";
         $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
-        
+
         /* COLUMN HEADER ERROR */
 
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-                
-                /*CHECK FOR EMPTY ROWS*/
+
+                /* CHECK FOR EMPTY ROWS */
                 $row_count = @implode($data->sheets[0]['cells'][$i]);
                 $row_lenght = strlen($row_count);
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
-                    if ($row_lenght > 1){
-                    $count = $data->rowcount();
-                    $fields = trim($data->sheets[0]['cells'][$i][$j]);
-                    $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
-                    array_push($valuesArr, $stack);
+                    if ($row_lenght > 1) {
+                        $count = $data->rowcount();
+                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
+                        $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
+                        array_push($valuesArr, $stack);
                     }
                 }
             }
@@ -320,26 +320,29 @@ class Sgr extends MX_Controller {
                 $error = 1;
             }
 
-            /* XLS CELL DATA ERROR */
+            /* PRELIMINAR VALIDATION */
+            $VG = $this->pre_general_validation($anexo);
 
+
+            /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
             $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-            foreach ($result_data['data'] as $result_data) { 
-                
-                if (!empty($result_data['error_code'])) {                    
-                    
+            foreach ($result_data['data'] as $result_data) {
+
+                if (!empty($result_data['error_code'])) {
+
                     $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
-                    
-                    if ($result_data['error_input_value'] == "empty") {                        
+
+                    if ($result_data['error_input_value'] == "empty") {
                         list($column_value) = explode(".", $result_data['error_code']);
                         $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
                     } else {
                         $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
                     }
-                    
+
                     $error = 2;
                 }
             }
@@ -362,9 +365,9 @@ class Sgr extends MX_Controller {
             //Check Duplicates ANEXO 06
             for ($i = 2; $i <= $data->rowcount(); $i++) {
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
-                $result_data_ =  $this->$model->check($sanitize_data);               
-                
-                
+                $result_data_ = $this->$model->check($sanitize_data);
+
+
                 if ($result_data_[5779] == 1) {
                     if ($result_data_[1695] != NULL) {
                         $array[] = $result_data_[1695];
@@ -388,13 +391,13 @@ class Sgr extends MX_Controller {
                     if (!empty($data->sheets[0]['cells'][$i][1])) {
                         $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                         $result['filename'] = $new_filename;
-                        $result['sgr_id'] = (int)$this->sgr_id;                      
+                        $result['sgr_id'] = (int) $this->sgr_id;
                         $save = (array) $this->$model->save($result);
                     }
                 }
-                
-                 
-                
+
+
+
                 /* SET PERIOD */
                 if ($save) {
                     $result = array();
@@ -402,8 +405,8 @@ class Sgr extends MX_Controller {
                     $result['sgr_id'] = (int) $this->sgr_id;
                     $result['anexo'] = $this->anexo;
                     $save_period = (array) $this->$model->save_period($result);
-                    
-                    
+
+
                     if ($save_period['status'] == "ok") {
                         /* RENDER */
                         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
@@ -422,8 +425,8 @@ class Sgr extends MX_Controller {
                 }
             }
         }
-        
-      
+
+
         /* ERROR CASE */
         if ($error) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
@@ -432,7 +435,7 @@ class Sgr extends MX_Controller {
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
             $this->render('errors', $customData);
-           unlink($uploadpath);
+            unlink($uploadpath);
         }
 
 
@@ -563,7 +566,7 @@ class Sgr extends MX_Controller {
         $customData['show_table'] = $get_anexo;
         echo $this->parser->parse('print', $customData, true);
     }
-    
+
     function print_xls($parameter = null) {
 
         if (!$parameter) {
@@ -607,15 +610,15 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
-            
-           
+
+
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
 
-            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));          
-             
-             
+            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
+
+
             list($month, $year) = explode("-", $period);
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
@@ -626,7 +629,7 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
             } else {
-                
+
                 if ($limit_month < $set_month) {
                     return 1; // Posterior al mes actual
                 } else {
@@ -764,10 +767,10 @@ class Sgr extends MX_Controller {
                 $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                 $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                 $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                
+
                 $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                $print_xls = ($anexo=='202')?$print_xls_link : "";
-                
+                $print_xls = ($anexo == '202') ? $print_xls_link : "";
+
                 $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
                 $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger'));
                 $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
@@ -1022,6 +1025,19 @@ class Sgr extends MX_Controller {
             return $file_list_html;
         } else {
             return $no_list_html;
+        }
+    }
+
+    function pre_general_validation($anexo) {
+        switch ($anexo) {
+            case '061':
+                $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
+                foreach ($info_06 as $filenames) {
+                    if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
+                        return  "VG.1";
+                    }
+                }
+                break;
         }
     }
 
