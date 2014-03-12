@@ -246,7 +246,7 @@ class Lib_121_data extends MX_Controller {
             
             if (isset($item[0][5221])) {
                 if ($e2_sum != $item[0][5221]) {
-                    $result = return_error_array($code_error, "-", $e2_sum." de ".$item[0][5221]);
+                    $result = return_error_array($code_error, "-", "$code_error //".$e2_sum." de ".$item[0][5221]);
                     array_push($stack, $result);
                 }
             }
