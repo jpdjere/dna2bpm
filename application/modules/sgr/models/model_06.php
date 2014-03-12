@@ -552,7 +552,7 @@ class Model_06 extends CI_Model {
 
         return $return_result;
     }
-    
+
     function get_partner_print($cuit) {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
@@ -788,7 +788,7 @@ class Model_06 extends CI_Model {
                 'filename' => $list['filename'],
                 5272 => 'B'
             );
-            
+
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
                 $sell_result_arr[] = $sell[5597];
@@ -853,6 +853,17 @@ class Model_06 extends CI_Model {
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
         return $balance;
+    }
+
+    /* TIPO DE SOCIO */
+
+    function partner_type($cuit) {
+        $anexo = $this->anexo;
+        $info_06 = $this->get_partner_print($cuit);
+
+        foreach ($info_06 as $data) {
+            return $data[5272][0];
+        }
     }
 
 }
