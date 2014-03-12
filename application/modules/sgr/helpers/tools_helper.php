@@ -77,7 +77,7 @@ function debug($parameter) {
 }
 
 function check_empty($parameter) {
-    if ($parameter == NULL) {
+    if (strlen($parameter)== 0) {
         return true;
     }
 }
@@ -498,6 +498,7 @@ function return_error_array($code, $row, $value) {
 
 function count_shares($data) {
     //agrupar por cuit 
+    $group = array();
     foreach ($data as $i) {
         $catUser = explode(".", $i[0]);
         $user = $catUser[1];
