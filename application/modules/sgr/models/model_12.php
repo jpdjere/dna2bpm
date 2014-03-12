@@ -315,10 +315,8 @@ class Model_12 extends CI_Model {
 
             $this->load->model('padfyj_model');
             $participate = $this->padfyj_model->search_name($list[5349]);
-            $drawer = $this->padfyj_model->search_name($list[5726]);
+            $drawer = $this->padfyj_model->search_name((string)$list[5726]);
             $creditor = $this->padfyj_model->search_name($list[5351]);
-            
-            
 
 
             $this->load->model('app');
