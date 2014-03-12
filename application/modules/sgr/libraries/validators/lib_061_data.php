@@ -347,7 +347,7 @@ class Lib_061_data extends MX_Controller {
                 $search_cuit = (array_keys($A_cell_array, $cuit));
                 $counter = count($search_cuit);
                 if ($counter > 1) {
-                    $code_error = "B.3";
+                   // $code_error = "B.3";
                     $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                     array_push($stack, $result);
                 }
