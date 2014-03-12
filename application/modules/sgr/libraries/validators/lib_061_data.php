@@ -39,7 +39,8 @@ class Lib_061_data extends MX_Controller {
         $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
         foreach ($info_06 as $filenames) {
             if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
-                $this->data = array("error_code" => "VG.1", "error_row" => "-", "error_input_value" => "-");                
+                $this->data = array("error_code" => "VG.1", "error_row" => "-", "error_input_value" => "-");   
+                unset($parameterArr);
             }
         }
 
