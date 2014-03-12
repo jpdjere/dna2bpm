@@ -152,16 +152,16 @@ class Model_061 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("TIPO<br/>DE<br/>SOCIO",
-            "CUIT SOCIO<br/>INCORPORADO",
-            "SOCIO<br/>INCORPORADO",
-            "TIENE<br/>VINCULACION",
-            "CUIT<br/>VINCULADO",
-            "RAZON<br/>SOCIAL<br/>VINCULADO",
-            "TIPO<br/>RELACION<br/>VINCULACION",
-            "PORCENTAJE<br/>ACCIONES",
-            "ES<br/>PARTICIPE",
-            "ES<br/>PROTECTOR"
+        $headerArr = array("Tipo<br/>de<br/>Socio",
+            "C.U.I.T Socio<br/>Incorporado",
+            "Socio<br/>Incorporado",
+            "Tiene<br/>Vinculacion",
+            "C.U.I.T>br/>Vinculado",
+            "Razón<br/>Social<br/>Vinculado",
+            "Tipo<br/>Relación<br/>Vinculación",
+            "Porcentaje<br/>Acciones",
+            "Es<br/>Participe",
+            "Es<br/>Protector"
         );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
@@ -203,7 +203,7 @@ class Model_061 extends CI_Model {
             $new_list['"CUIT_VINCULADO"'] = $list['CUIT_VINCULADO'];
             $new_list['"RAZON_SOCIAL_VINCULADO"'] = $parner_linked;
             $new_list['"TIPO_RELACION_VINCULACION"'] = $list['TIPO_RELACION_VINCULACION'];
-            $new_list['"PORCENTAJE_ACCIONES"'] = $list['PORCENTAJE_ACCIONES'] . "%";
+            $new_list['"PORCENTAJE_ACCIONES"'] = percent_format_custom($list['PORCENTAJE_ACCIONES']*100);
             $new_list['"PARTICIPE"'] = "";
             $new_list['"PROTECTOR"'] = "";
 
