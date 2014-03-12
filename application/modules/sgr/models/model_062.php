@@ -28,7 +28,7 @@ class Model_062 extends CI_Model {
             $this->sgr_nombre = $sgr['1693'];
         }
     }
-    
+
     function sanitize($parameter) {
         /* FIX INFORMATION */
         $parameter = (array) $parameter;
@@ -62,8 +62,8 @@ class Model_062 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-             $insertarr["CUIT"] = (string) $insertarr["CUIT"];
-              /* FLOAT */
+            $insertarr["CUIT"] = (string) $insertarr["CUIT"];
+            /* FLOAT */
             $insertarr["FACTURACION"] = (float) $insertarr["FACTURACION"];
         }
         return $insertarr;
@@ -118,7 +118,7 @@ class Model_062 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -133,7 +133,7 @@ class Model_062 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-        
+
 
         $headerArr = array("C.U.I.T",
             "Apellido y Nombre o Razón Social",
@@ -141,7 +141,7 @@ class Model_062 extends CI_Model {
             "Cantidad de Empleados al último día del ejercicio",
             "Ingresos",
             "Origen de los Datos"
-            );
+        );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -163,14 +163,14 @@ class Model_062 extends CI_Model {
             /* Vars */
             $this->load->model('app');
             $this->load->model('padfyj_model');
-            
+
             $parner = $this->padfyj_model->search_name($list['CUIT']);
-            list($year,$month) = explode("/", $list['ANIO_MES']);
-            
+            list($year, $month) = explode("/", $list['ANIO_MES']);
+
             $new_list = array();
             $new_list['col1'] = $list['CUIT'];
             $new_list['col2'] = $parner;
-            $new_list['col3'] = $month ."/".$year;
+            $new_list['col3'] = $month . "/" . $year;
             $new_list['col4'] = $list['EMPLEADOS'];
             $new_list['col5'] = $list['FACTURACION'];
             $new_list['col6'] = $list['TIPO_ORIGEN'];
@@ -178,7 +178,30 @@ class Model_062 extends CI_Model {
         }
         return $rtn;
     }
-    
-    
+
+    function get_partner_left($cuit) {
+
+
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                'CUIT_SOCIO_INCORPORADO' => $cuit
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $return_result[] = $new_result;
+        }
+        return $return_result;
+    }
 
 }
