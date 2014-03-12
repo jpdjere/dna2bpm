@@ -13,8 +13,8 @@ class Lib_12_data extends MX_Controller {
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
-        $model_061 = 'model_061';
-        $this->load->Model($model_061);
+        $model_062 = 'model_062';
+        $this->load->Model($model_062);
 
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
@@ -120,10 +120,10 @@ class Lib_12_data extends MX_Controller {
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
                     $amount_employees2  = 0;
-                    $partner_data_061 = $this->$model_061->get_partner_left($parameterArr[$i]['fieldValue']);
-                    if ($partner_data_061) {
-                        foreach ($partner_data_061 as $partner_061) {
-                            $amount_employees2 = (int) $partner_061['CANTIDAD_DE_EMPLEADOS'];
+                    $partner_data_062 = $this->$model_062->get_partner_left($parameterArr[$i]['fieldValue']);
+                    if ($partner_data_062) {
+                        foreach ($partner_data_062 as $partner_062) {
+                            $amount_employees2 = (int) $partner_062['EMPLEADOS'];
                         }
                     }
 
