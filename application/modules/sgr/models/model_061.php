@@ -187,24 +187,22 @@ class Model_061 extends CI_Model {
             $brand_name = $list['1693'];
             $this->load->model('app');
             $this->load->model('padfyj_model');
+            $model_anexo = "model_06";
+            $this->load->Model($model_anexo);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
             $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
 
-
-            $model_anexo = "model_06";
-            $this->load->Model($model_anexo);
-            
-            
             $type_partner = $this->$model_anexo->partner_type('CUIT_SOCIO_INCORPORADO');
-            
-            $type_partner_inc = $this->$model_anexo->partner_type('CUIT_SOCIO_INCORPORADO');
 
-            
-            
-            $es_participe = ($type_partner_inc=="A")? "SI":"NO";
-            $es_protector = ($type_partner_inc=="B")? "SI":"NO";;
-            
+            $type_partner_inc = $this->$model_anexo->partner_type('CUIT_VINCULADO');
+
+
+
+            $es_participe = ($type_partner_inc == "A") ? "SI." : "NO.";
+            $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
+            ;
+
 
             // 					
 
