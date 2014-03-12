@@ -9,6 +9,9 @@ class Lib_061_error_legend {
     function return_legend($code, $row, $value) {
 
         switch ($code) {
+            case "VG.1": 
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” ';
+                break;
             case "A.1": 
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.';
                 break;

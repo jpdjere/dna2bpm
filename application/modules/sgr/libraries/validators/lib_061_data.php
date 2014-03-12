@@ -33,6 +33,17 @@ class Lib_061_data extends MX_Controller {
         $A_cell_array = array();
         $A_cell_array_no = array();
 
+
+        /* PRELIMINAR VALIDATION */
+
+        $info_06 = $this->sgr_model->get_just_active("06", false, '10-2013');
+        foreach ($info_06 as $filenames) {
+            if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
+                $this->data = array("error_code" => "VG.1", "error_row" => "-", "error_input_value" => "-");
+                exit();
+            }
+        }
+
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
@@ -122,7 +133,7 @@ class Lib_061_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
 
                     $code_error = "C.1";
-                    /*CHECK EMPTY*/
+                    /* CHECK EMPTY */
                     if ($B_cell_value == "SI") {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -130,7 +141,7 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        /*CUIT CHECKER*/
+                        /* CUIT CHECKER */
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
@@ -139,14 +150,14 @@ class Lib_061_data extends MX_Controller {
                             }
                         }
                     } else {
-                        /*CHECK FOR IS NOT EMPTY ????? */
+                        /* CHECK FOR IS NOT EMPTY ????? */
 //                        $return = check_for_empty($B_cell_value);
 //                        if ($return) {
 //                            $code_error = "B.3";
 //                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
 //                            array_push($stack, $result);
 //                        }
-                   }
+                    }
                 }
 
                 /* RAZON_SOCIAL_VINCULADO
@@ -281,10 +292,10 @@ class Lib_061_data extends MX_Controller {
                     /* Multiplico para usar INT */
                     $range = range(0, 100);
                     $float_var = (float) $parameterArr[$i]['fieldValue'];
-                    $float_to_int =(int) $float_var * 100;
+                    $float_to_int = (int) $float_var * 100;
                     $code_error = "F.2";
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -296,7 +307,7 @@ class Lib_061_data extends MX_Controller {
 
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
-                    if ($E_cell_value == "ASCENDENTE") {                        
+                    if ($E_cell_value == "ASCENDENTE") {
                         array_push($partner_shares_arr, $shares_result);
                     }
                 }
@@ -323,13 +334,13 @@ class Lib_061_data extends MX_Controller {
 
 
             /* F.3 */
-           
+
             $AF3_result = count_shares($partner_shares_arr);
             foreach ($AF3_result as $cell) {
-                $count_shares = $cell['acumulados']['shares']*100;
-                $count_shares = (int)$count_shares;
-               
-                if ($count_shares != 100 && $count_shares!=0) {
+                $count_shares = $cell['acumulados']['shares'] * 100;
+                $count_shares = (int) $count_shares;
+
+                if ($count_shares != 100 && $count_shares != 0) {
                     $code_error = "F.3";
                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . $cell['acumulados']['shares']);
                     array_push($stack, $result);
@@ -342,7 +353,7 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.
          */
-        
+
         foreach ($A_cell_array_no as $cuit) {
             if (in_array($cuit, $A_cell_array)) {
                 $search_cuit = (array_keys($A_cell_array, $cuit));
@@ -356,7 +367,7 @@ class Lib_061_data extends MX_Controller {
         }
 
 
-          //var_dump($stack);  exit();
+        
         $this->data = $stack;
     }
 
