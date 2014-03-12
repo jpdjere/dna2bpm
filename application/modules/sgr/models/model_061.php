@@ -194,24 +194,22 @@ class Model_061 extends CI_Model {
 
             $model_anexo = "model_06";
             $this->load->Model($model_anexo);
-            $info_06 = $this->$model_anexo->get_partner_print($list['CUIT_VINCULADO']);
+            
+            
+            $type_partner = $this->$model_anexo->partner_type('CUIT_SOCIO_INCORPORADO');
+            
+            $type_partner_inc = $this->$model_anexo->partner_type('CUIT_SOCIO_INCORPORADO');
 
-            $es_participe = "NO";
-            $es_protector = "NO";
-            foreach ($info_06 as $data) {
-                if ($data[5272][0] == "A") {
-                    $es_participe = "SI";
-                }
-
-                if ($data[5272][0] == "B") {
-                    $es_protector = "SI";
-                }
-            }
+            
+            
+            $es_participe = ($type_partner_inc=="A")? "SI":"NO";
+            $es_protector = ($type_partner_inc=="B")? "SI":"NO";;
+            
 
             // 					
 
             $new_list = array();
-            $new_list['TIPO_SOCIO'] = "";
+            $new_list['TIPO_SOCIO'] = $type_partner;
             $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];
             $new_list['SOCIO_INCORPORADO'] = $parner_inc;
             $new_list['"TIENE_VINCULACION"'] = $list['TIENE_VINCULACION'];
