@@ -80,8 +80,9 @@ class Model_12 extends CI_Model {
             $insertarr[5214] = (string) $insertarr[5214]; //Nro orden
 
 
-            $insertarr[5349] = (string) $insertarr[5349];
-            $insertarr[5351] = (string) $insertarr[5351];
+            $insertarr[5349] = (string) $insertarr[5349]; //Cuit_participe
+            $insertarr[5726] = (string) $insertarr[5726]; //Librador_cuit           
+            $insertarr[5351] = (string) $insertarr[5351]; //Acreedir
 
             /* FLOAT */
             $insertarr[5218] = (float) $insertarr[5218];
@@ -316,6 +317,8 @@ class Model_12 extends CI_Model {
             $participate = $this->padfyj_model->search_name($list[5349]);
             $drawer = $this->padfyj_model->search_name($list[5726]);
             $creditor = $this->padfyj_model->search_name($list[5351]);
+            
+            
 
 
             $this->load->model('app');
