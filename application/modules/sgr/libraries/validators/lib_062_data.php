@@ -95,10 +95,12 @@ class Lib_062_data extends MX_Controller {
                         $code_error = "B.2";
                         list($y_post, $m_post) = explode("/", $parameterArr[$i]['fieldValue']);
                         list($m_period, $y_period) = explode("-", $this->session->userdata['period']);
-                        $y_post = (int) $y_post;
-                        $y_period = (int) $y_period;
+                        
+                        
+                         $check_date = mktime(0, 0, 0, date($m_post), date(01), date($y_post));
+                         $check_period =mktime(0, 0, 0, date($m_period), date(02), date($y_period));                        
 
-                        if ($y_post > $y_period) {
+                        if ($check_date > $check_period) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -171,6 +173,7 @@ class Lib_062_data extends MX_Controller {
                 }
             }
         }      
+      
         $this->data = $stack;
     }
 
