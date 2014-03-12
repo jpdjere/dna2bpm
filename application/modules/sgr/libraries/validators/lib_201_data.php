@@ -177,8 +177,8 @@ class Lib_201_data extends MX_Controller {
 
                         /* C.3 */
                         $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value + 1))));
-                        
-                        
+
+
                         $balance = $this->$model_06->shares_active_left_until_date($C_cell_value, $lte_date);
                         if ($balance == 0) {
                             $code_error = "C.3";
@@ -443,8 +443,8 @@ class Lib_201_data extends MX_Controller {
 
 
             /* A.2 */
-            
-            
+
+
             if ($get_historic_data['APORTE'] > 0) {
                 $code_error = "A.2";
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $number);
@@ -473,6 +473,13 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "A.4";
                     $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
                     array_push($stack, $result);
+                } else {
+                    /* E.3 */
+                    if ($sum_RETIRO > $sum_APORTE) {
+                        $code_error = "E.3";
+                        $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
+                        array_push($stack, $result);
+                    }
                 }
 
                 /* B.3 */
@@ -516,16 +523,9 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     }
                 }
-
-                /* D.3 */
-                if ($sum_RETIRO > $sum_APORTE) {
-                    $code_error = "E.3";
-                    $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
-                    array_push($stack, $result);
-                }
             }
         }
-       // exit();
+        // exit();
         $this->data = $stack;
     }
 

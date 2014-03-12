@@ -152,16 +152,16 @@ class Model_061 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("TIPO<br/>DE<br/>SOCIO",
-            "CUIT SOCIO<br/>INCORPORADO",
-            "SOCIO<br/>INCORPORADO",
-            "TIENE<br/>VINCULACION",
-            "CUIT<br/>VINCULADO",
-            "RAZON<br/>SOCIAL<br/>VINCULADO",
-            "TIPO<br/>RELACION<br/>VINCULACION",
-            "PORCENTAJE<br/>ACCIONES",
-            "ES<br/>PARTICIPE",
-            "ES<br/>PROTECTOR"
+        $headerArr = array("Tipo<br/>de<br/>Socio",
+            "C.U.I.T Socio<br/>Incorporado",
+            "Socio<br/>Incorporado",
+            "Tiene<br/>Vinculacion",
+            "C.U.I.T<br/>Vinculado",
+            "Razón<br/>Social<br/>Vinculado",
+            "Tipo<br/>Relación<br/>Vinculación",
+            "Porcentaje<br/>Acciones",
+            "Es<br/>Participe",
+            "Es<br/>Protector"
         );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
@@ -187,25 +187,36 @@ class Model_061 extends CI_Model {
             $brand_name = $list['1693'];
             $this->load->model('app');
             $this->load->model('padfyj_model');
+            $model_anexo = "model_06";
+            $this->load->Model($model_anexo);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
             $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
 
+            $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
+      
+            $type_partner_inc = $this->$model_anexo->partner_type($list['CUIT_VINCULADO']);
+
+
+
+            $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
+            $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
+            ;
 
 
             // 					
 
             $new_list = array();
-            $new_list['TIPO_SOCIO'] = "";
+            $new_list['TIPO_SOCIO'] = $type_partner;
             $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];
             $new_list['SOCIO_INCORPORADO'] = $parner_inc;
             $new_list['"TIENE_VINCULACION"'] = $list['TIENE_VINCULACION'];
             $new_list['"CUIT_VINCULADO"'] = $list['CUIT_VINCULADO'];
             $new_list['"RAZON_SOCIAL_VINCULADO"'] = $parner_linked;
             $new_list['"TIPO_RELACION_VINCULACION"'] = $list['TIPO_RELACION_VINCULACION'];
-            $new_list['"PORCENTAJE_ACCIONES"'] = $list['PORCENTAJE_ACCIONES'] . "%";
-            $new_list['"PARTICIPE"'] = "";
-            $new_list['"PROTECTOR"'] = "";
+            $new_list['"PORCENTAJE_ACCIONES"'] = percent_format_custom($list['PORCENTAJE_ACCIONES'] * 100);
+            $new_list['"PARTICIPE"'] = $es_participe;
+            $new_list['"PROTECTOR"'] = $es_protector;
 
 
 

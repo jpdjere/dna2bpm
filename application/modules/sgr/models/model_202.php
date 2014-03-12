@@ -267,6 +267,7 @@ class Model_202 extends CI_Model {
 
             $col4[] = $saldo;
             $col5[] = (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
+            $col6[] = (float) $list['DEUDA_PROPORCIONAL_ASIGNADA'];
             $col7[] = $disponible;
             $col8[] = (float) $list['RENDIMIENTO_ASIGNADO'];
         }

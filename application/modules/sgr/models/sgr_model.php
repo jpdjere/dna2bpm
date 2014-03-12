@@ -355,27 +355,36 @@ class Sgr_model extends CI_Model {
         return $result[amount];
     }
 
-    /* GET ACTIVE ANEXOS */
-    
-     function get_just_active($anexo) {
+    /* GET ACTIVE ANEXOS */    
+     function get_just_active($anexo, $sin_movimiento=true, $period=false) {
         $rtn = array();
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
+        $container = 'container.sgr_periodos';        
 
         $query = array(
-            'anexo' => $anexo,
-            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'anexo' => $anexo,            
             'sgr_id' => (int) $this->sgr_id,
             'status' => 'activo',           
         );
-
-        $result = $this->mongo->sgr->$period->find($query);
+        
+        if($sin_movimiento){
+           $query["filename"] = array('$ne' => 'SIN MOVIMIENTOS');
+        }
+        
+        if($period){
+           $query["period"] = $period;
+        }
+        
+        $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $each) {
+             
             $rtn[] = $each;
         }
         return $rtn;
     }
+    
+    
+    
 
     function get_active($anexo, $exclude_this = false) {
         $rtn = array();
