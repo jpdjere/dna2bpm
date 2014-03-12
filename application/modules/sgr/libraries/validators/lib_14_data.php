@@ -36,6 +36,7 @@ class Lib_14_data extends MX_Controller {
 
 
 
+
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
              * BASIC VALIDATION
@@ -49,6 +50,9 @@ class Lib_14_data extends MX_Controller {
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
+
+
+
                 /* FECHA_MOVIMIENTO
                  * Nro A.1
                  * Detail:
@@ -59,6 +63,9 @@ class Lib_14_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
+
+                    $sum_cdefgh = array();
+
                     $A_cell_value = "";
                     $code_error = "A.1";
                     $insert_tmp = array();
@@ -109,6 +116,10 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "C.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+
+                        $sum_cdefgh[] = 1;
+
+
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -122,12 +133,12 @@ class Lib_14_data extends MX_Controller {
                          * Monto de la Garantía Otorgada informada mediante Anexo 12 registrado en el Sistema. 
                          */
 
-                        /* MONEDA 5219 | IMPORTE 5218 */                   
+                        /* MONEDA 5219 | IMPORTE 5218 */
 
-                        
+
                         foreach ($B_warranty_info as $c_info) {
-                            
-                            if ($c_info['5219'][0] == 1) {                                
+
+                            if ($c_info['5219'][0] == 1) {
                                 if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
                                     $code_error = "C.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
@@ -188,6 +199,9 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "D.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+
+                        $sum_cdefgh[] = 1;
+
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -216,6 +230,9 @@ class Lib_14_data extends MX_Controller {
 
                     $code_error = "E.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+
+                        $sum_cdefgh[] = 1;
+
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -243,6 +260,9 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 6) {
                     $code_error = "F.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+
+                        $sum_cdefgh[] = 1;
+
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -268,6 +288,8 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $sum_cdefgh[] = 1;
+
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -295,6 +317,8 @@ class Lib_14_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 8) {
                     $code_error = "H.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $sum_cdefgh[] = 1;
+
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -307,6 +331,14 @@ class Lib_14_data extends MX_Controller {
 
                         $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
                         $this->$model_anexo->save_tmp($insert_tmp);
+                    }
+
+                    /* VG.1 */
+                    $VG1 = array_sum($sum_cdefgh);
+                    if ($VG1 > 1) {
+                        $code_error = "VG.1";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "");
+                        array_push($stack, $result);
                     }
                 }
             } // END FOR LOOP->
@@ -470,7 +502,7 @@ class Lib_14_data extends MX_Controller {
         }
 
 //        var_dump($stack);
-//        exit();
+ //       exit();
         $this->data = $stack;
     }
 
