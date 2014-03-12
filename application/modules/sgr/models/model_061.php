@@ -224,30 +224,4 @@ class Model_061 extends CI_Model {
         }
         return $rtn;
     }
-    
-    function get_partner_left($cuit) {
-        
-        
-        $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-        $period_value = $this->session->userdata['period'];
-
-        /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo);
-
-        $return_result = array();
-        foreach ($result as $list) {
-            $new_query = array(
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename'],
-                'CUIT_SOCIO_INCORPORADO' => $cuit
-            );
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $return_result[] = $new_result;
-        }        
-        return $return_result;
-    }
-
 }
