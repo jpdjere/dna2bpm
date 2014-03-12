@@ -195,7 +195,7 @@ class Model_122 extends CI_Model {
 
 
 
-            $get_movement_data = $this->$model_12->get_order_number_print("12585/10", $list['period']);
+            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
 
             foreach ($get_movement_data as $warranty) {
                 $cuit = $warranty[5349];
