@@ -234,7 +234,7 @@ class Model_121 extends CI_Model {
             $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];
             $new_list['CUIT'] = $cuit;
             $new_list['RAZON_SOCIAL'] = $brand_name;
-            $new_list['VENCIMIENTO'] = $list['VENCIMIENTO'];
+            $new_list['VENCIMIENTO'] = mongodate_to_print($list['VENCIMIENTO']);
             $new_list['CUOTA_GTA_PESOS'] = money_format_custom($list['CUOTA_GTA_PESOS']);
             $new_list['CUOTA_MENOR_PESOS'] = money_format_custom($list['CUOTA_MENOR_PESOS']);
             $rtn[] = $new_list;
