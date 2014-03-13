@@ -328,7 +328,7 @@ class Lib_061_data extends MX_Controller {
             $stack = array();
             $code_error = "VG.4";
             $result["error_row"] = 1;
-            $result = return_error_array($code_error, " - ", "No figuran todos los socios incorporados");
+            $result = return_error_array($code_error, " - ", "Hay CUIT que no fueron incorporados en el período");
             array_push($stack, $result);
         }
         
