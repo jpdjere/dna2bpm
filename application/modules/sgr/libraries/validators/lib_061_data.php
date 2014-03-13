@@ -44,7 +44,7 @@ class Lib_061_data extends MX_Controller {
                  * Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {                   
+                if ($parameterArr[$i]['col'] == 1) {
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $code_error = "A.1";
@@ -187,131 +187,134 @@ class Lib_061_data extends MX_Controller {
                     if (!$return)
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
                 }
-            }
 
-            /* TIPO_RELACION_VINCULACION
-             * Nro E.1
-             * Detail:
-             * Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y debe contener uno de los siguientes parámetros:
-              ASCENDENTE
-              DESCENDENTE
-             */
-            if ($parameterArr[$i]['col'] == 5) {
-                $E_cell_value = NULL;
-                //Check Empry
-                if ($B_cell_value == "SI") {
-                    $code_error = "E.1";
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
+                /* TIPO_RELACION_VINCULACION
+                 * Nro E.1
+                 * Detail:
+                 * Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y debe contener uno de los siguientes parámetros:
+                  ASCENDENTE
+                  DESCENDENTE
+                 */
+                if ($parameterArr[$i]['col'] == 5) {
+
+                    $E_cell_value = NULL;
+                    //Check Empry
+                    if ($B_cell_value == "SI") {
+                        $code_error = "E.1";
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+
+                        if (isset($parameterArr[$i]['fieldValue'])) {
+                            $allow_words = array("ASCENDENTE", "DESCENDENTE");
+                            $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+
+
+                        /* TIPO_RELACION_VINCULACION
+                         * Nro E.2
+                         * Detail:
+                         * Si el número de CUIT informado en la Columna A empieza con 20, 23 o 27 
+                         * (los tres correspondientes a personas físicas), y se indicó que el Socio SI tiene Relaciones de Vinculación (Columna B), 
+                         * la opción elegida sólo puede ser DESCENDENTE.
+                         */
+                        $code_error = "E.2";
+
+                        $check_cuit = substr($A_cell_value, 0, 2);
+                        $opt_arr = array('20', '23', '27');
+                        $pos = strpos($check_cuit, $findme);
+
+                        if (in_array($check_cuit, $opt_arr)) {
+                            if ($parameterArr[$i]['fieldValue'] != "DESCENDENTE") {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+                    } else {
+                        $return = check_for_empty($B_cell_value);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                            //array_push($stack, $result);
+                        }
                     }
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $allow_words = array("ASCENDENTE", "DESCENDENTE");
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if (!$return)
+                        $E_cell_value = $parameterArr[$i]['fieldValue'];
+                }
+
+                /* TIPO_RELACION_VINCULACION
+                 * Nro F.1
+                 * Detail:
+                  Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.
+                 * Nro F.2
+                 * Detail:
+                  De completarse, debe tener formato numérico y sólo debe tomar valores entre 0 y 1 y aceptar hasta 2 decimales.
+                 * Nro F.3
+                 * Detail:
+                  Para un mismo CUIT informado en la Columna A, los campos que en la Columna E indiquen ASCENDENTE, deben sumar 1, de forma de cerciorarse que estén informando el total de los Accionistas de la empresa.
+                 */
+                if ($parameterArr[$i]['col'] == 6) {
+
+                    $F_cell_value = NULL;
+                    $code_error = "F.1";
+
+                    if ($B_cell_value == "SI") {
+                        //empty field Validation
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    } else {
+                        $return = check_for_empty($B_cell_value);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                            // array_push($stack, $result);
+                        }
+                    }
+
+                    $return = check_empty($parameterArr[$i]['fieldValue']);
+                    if (!$return)
+                        $F_cell_value = $parameterArr[$i]['fieldValue'];
+
+                    /* Multiplico para usar INT */
+                    $range = range(0, 100);
+                    $float_var = (float) $parameterArr[$i]['fieldValue'];
+                    $float_to_int = (int) $float_var * 100;
+                    $code_error = "F.2";
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }
-                    }
-
-
-                    /* TIPO_RELACION_VINCULACION
-                     * Nro E.2
-                     * Detail:
-                     * Si el número de CUIT informado en la Columna A empieza con 20, 23 o 27 
-                     * (los tres correspondientes a personas físicas), y se indicó que el Socio SI tiene Relaciones de Vinculación (Columna B), 
-                     * la opción elegida sólo puede ser DESCENDENTE.
-                     */
-                    $code_error = "E.2";
-
-                    $check_cuit = substr($A_cell_value, 0, 2);
-                    $opt_arr = array('20', '23', '27');
-                    $pos = strpos($check_cuit, $findme);
-
-                    if (in_array($check_cuit, $opt_arr)) {
-                        if ($parameterArr[$i]['fieldValue'] != "DESCENDENTE") {
+                        } else if (!in_array($float_to_int, $range)) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-                } else {
-                    $return = check_for_empty($B_cell_value);
-                    if ($return) {
-                        $code_error = "B.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
-                        //array_push($stack, $result);
+
+                    /* F.3 */
+                    $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
+
+
+                    if ($E_cell_value == "ASCENDENTE") {
+                        array_push($partner_shares_arr, $shares_result);
                     }
-                }
-
-                $return = check_empty($parameterArr[$i]['fieldValue']);
-                if (!$return)
-                    $E_cell_value = $parameterArr[$i]['fieldValue'];
-            }
-
-            /* TIPO_RELACION_VINCULACION
-             * Nro F.1
-             * Detail:
-              Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío.
-             * Nro F.2
-             * Detail:
-              De completarse, debe tener formato numérico y sólo debe tomar valores entre 0 y 1 y aceptar hasta 2 decimales.
-             * Nro F.3
-             * Detail:
-              Para un mismo CUIT informado en la Columna A, los campos que en la Columna E indiquen ASCENDENTE, deben sumar 1, de forma de cerciorarse que estén informando el total de los Accionistas de la empresa.
-             */
-            if ($parameterArr[$i]['col'] == 6) {
-
-                $F_cell_value = NULL;
-                $code_error = "F.1";
-
-                if ($B_cell_value == "SI") {
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
-                } else {
-                    $return = check_for_empty($B_cell_value);
-                    if ($return) {
-                        $code_error = "B.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
-                        // array_push($stack, $result);
-                    }
-                }
-
-                $return = check_empty($parameterArr[$i]['fieldValue']);
-                if (!$return)
-                    $F_cell_value = $parameterArr[$i]['fieldValue'];
-
-                /* Multiplico para usar INT */
-                $range = range(0, 100);
-                $float_var = (float) $parameterArr[$i]['fieldValue'];
-                $float_to_int = (int) $float_var * 100;
-                $code_error = "F.2";
-                if ($parameterArr[$i]['fieldValue'] != "") {
-                    $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
-                    } else if (!in_array($float_to_int, $range)) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
-                    }
-                }
-
-                /* F.3 */
-                $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
-                if ($E_cell_value == "ASCENDENTE") {
-                    array_push($partner_shares_arr, $shares_result);
                 }
             }
         }
-        
-        
-   
+
+
+
 
         /* CUIT_SOCIO_INCORPORADO
          * Nro A.3
@@ -323,10 +326,10 @@ class Lib_061_data extends MX_Controller {
 
         $register_on_06 = count($partners_error_data);
         $count_on_061 = count(array_unique($A_cell_array));
-               
-        if ($register_on_06 != $count_on_061) {            
-            $code_error = ($register_on_06>$count_on_061)?"VG.4":"VG.3";            
-            $stack = array();           
+
+        if ($register_on_06 != $count_on_061) {
+            $code_error = ($register_on_06 > $count_on_061) ? "VG.4" : "VG.3";
+            $stack = array();
             $result["error_row"] = 1;
             $result = return_error_array($code_error, " - ", "No figuran todos los socios incorporados");
             array_push($stack, $result);
@@ -376,7 +379,7 @@ class Lib_061_data extends MX_Controller {
                 $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                 array_push($stack, $result);
             }
-        }       
+        }        
         $this->data = $stack;
     }
 
