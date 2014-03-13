@@ -223,7 +223,8 @@ function check_is_numeric_no_decimal($number, $mayor = null) {
 
     $int_options = ($mayor) ? $int_options : null;
 
-    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
+    if (!filter_var($number, FILTER_VALIDATE_INT, $int_options));
+    return true;
 }
 
 function check_is_alphabetic($parameter) {
