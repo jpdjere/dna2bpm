@@ -214,12 +214,12 @@ function check_is_numeric($number) {
 }
 
 function check_is_numeric_no_decimal($number, $mayor = null) {
-
+    $status = false;
+    
     if ($mayor) {
         $number = (int) $number;
         if ($number < 0) {
-            return true;
-            exit();
+             $status = true;
         }
     }
 
@@ -227,11 +227,13 @@ function check_is_numeric_no_decimal($number, $mayor = null) {
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 0));
         if ($places_count > $decimal) {
-            return true;
+             $status = true;
         }
     } else {
-        return true;
+         $status = true;
     }
+    
+    return $status;
 }
 
 function check_is_alphabetic($parameter) {
