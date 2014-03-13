@@ -323,7 +323,7 @@ class Lib_061_data extends MX_Controller {
 
         $register_on_06 = count($partners_error_data);
         $count_on_061 = count(array_unique($A_cell_array));
-
+       
         if ($register_on_06 != $count_on_061) {
             $stack = array();
             $code_error = "VG.4";
@@ -378,6 +378,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
+        
         $this->data = $stack;
     }
 
