@@ -514,8 +514,8 @@ class Lib_12_data extends MX_Controller {
                  * Debe contener uno de los siguientes parámetros:
                   FIJA
                   LIBOR
-                  BADLAR PU (Badlar Bancos Públicos)
-                  BADLAR PR (Badlar Bancos Privados)
+                  BADLARPU (Badlar Bancos Públicos)
+                  BADLARPR (Badlar Bancos Privados)
                   TEC
                   TEBP
                  */
@@ -531,7 +531,7 @@ class Lib_12_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $N_cell_value = $parameterArr[$i]['fieldValue'];
-                        $allow_words = array("FIJA", "LIBOR", "BADLAR PU", "BADLAR PR", "TEC", "TEBP");
+                        $allow_words = array("FIJA", "LIBOR", "BADLARPU", "BADLARPR", "TEC", "TEBP");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
 

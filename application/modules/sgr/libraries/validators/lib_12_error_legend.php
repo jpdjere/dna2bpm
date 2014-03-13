@@ -72,7 +72,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna M - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS';
                 break;
             case "N.1":
-                $result_error = '<strong>Columna N - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: FIJA/LIBOR/BADLAR PU (Badlar Bancos Públicos)/BADLAR PR (Badlar Bancos Privados)/TEC/TEBP';
+                $result_error = '<strong>Columna N - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: FIJA/LIBOR/BADLARPU (Badlar Bancos Públicos)/BADLARPR (Badlar Bancos Privados)/TEC/TEBP';
                 break;
             case "O.1":
                 $result_error = '<strong>Columna O - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tomar valores entre -20 y -1 o entre 1 y 20 (es decir, no puede tomar valores entre -1 y 1).';
