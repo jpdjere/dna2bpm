@@ -12,6 +12,9 @@ class Lib_061_error_legend {
             case "VG.1": 
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” ';
                 break;
+             case "VG.3": 
+                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Todos los CUIT que figuran en la Columna A de este archivo, debe estar informado en la Columna C del ANEXO 6 del período correspondiente, y deben figurar como “INCORPORADO” en la Columna A de dicho anexo.';
+                break;
             case "VG.4": 
                 $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Debe verificar en el Anexo 6 del período correspondiente que todos los CUIT informados en la Columna C del mismo y que en la Columna A figuran como “INCORPORACION”, deben figurar al menos una vez en esta columna.';
                 break;
