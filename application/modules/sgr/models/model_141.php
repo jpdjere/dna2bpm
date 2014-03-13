@@ -217,41 +217,55 @@ class Model_141 extends CI_Model {
             $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
 
             $new_list = array();
-            $new_list['col1'] = $brand_name;
-            $new_list['col2'] = $list['CUIT_PARTICIPE'];
-            $new_list['col2'] = money_format_custom($list['HIPOTECARIAS']);
-            $new_list['col3'] = money_format_custom($list['PRENDARIAS']);
-            $new_list['col4'] = money_format_custom($list['FIANZA']);
-            $new_list['col5'] = money_format_custom($list['OTRAS']);
-            $new_list['col6'] = money_format_custom($list['REAFIANZA']);
-            $new_list['col7'] = $list['MORA_EN_DIAS'];
-            $new_list['col8'] = $list['CLASIFICACION_DEUDOR'];
+            $new_list['col1'] = $list['CUIT_PARTICIPE'];
+            $new_list['col2'] = $brand_name;
+            $new_list['col3'] = money_format_custom(0);
+            $new_list['col4'] = money_format_custom(0);
+            $new_list['col5'] = money_format_custom($list['HIPOTECARIAS']);
+            $new_list['col6'] = money_format_custom($list['PRENDARIAS']);
+            $new_list['col7'] = money_format_custom($list['FIANZA']);
+            $new_list['col8'] = money_format_custom($list['OTRAS']);
+            $new_list['col9'] = money_format_custom(0);
+            $new_list['col10'] = money_format_custom($list['REAFIANZA']);
+            $new_list['col11'] = money_format_custom(0);
+            $new_list['col12'] = money_format_custom(0);
+            $new_list['col13'] = $list['MORA_EN_DIAS'];
+            $new_list['col14'] = $list['CLASIFICACION_DEUDOR'];
             $rtn[] = $new_list;
         }
         return $rtn;
     }
-    
+
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
+        $col3 = array();
+        $col4 = array();
         $col5 = array();
         $col6 = array();
         $col7 = array();
         $col8 = array();
         $col10 = array();
+        $col11 = array();
+        $col12 = array();
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
         $new_list = array();
         foreach ($result as $list) {
-
-            $col5[] = (float) ($list['CAIDA']);
-            $col6[] = (float) ($list['RECUPERO']);
-            $col7[] = (float) ($list['INCOBRABLES_PERIODO']);
-            $col8[] = (float) ($list['GASTOS_EFECTUADOS_PERIODO']);
-            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
-            $col10[] = (float) ($list['GASTOS_INCOBRABLES_PERIODO']);
+            $col3[] = (float) 0;
+            $col4[] = (float) 0;
+            $col5[] = (float) ($list['HIPOTECARIAS']);
+            $col6[] = (float) ($list['PRENDARIAS']);
+            $col7[] = (float) ($list['FIANZA']);
+            $col8[] = (float) ($list['OTRAS']);
+            $col9[] = (float) 0;
+            $col10[] = (float)0;
+            $col11[] = (float)0;
+            $col12[] = (float)0;
+            $col13[] = (float)0;
+            $col14[] = (float)0;
         }
 
 
@@ -261,12 +275,16 @@ class Model_141 extends CI_Model {
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
-        $new_list['col5'] = money_format_custom($list['CAIDA']);
+        $new_list['col5'] = money_format_custom(array_sum($col5));
         $new_list['col6'] = money_format_custom(array_sum($col6));
         $new_list['col7'] = money_format_custom(array_sum($col7));
         $new_list['col8'] = money_format_custom(array_sum($col8));
         $new_list['col9'] = money_format_custom(array_sum($col9));
         $new_list['col10'] = money_format_custom(array_sum($col10));
+        $new_list['col11'] = money_format_custom(array_sum($col11));
+        $new_list['col12'] = money_format_custom(array_sum($col12));
+        $new_list['col13'] = "-";
+        $new_list['col14'] =  "-";
         $rtn[] = $new_list;
 
 
