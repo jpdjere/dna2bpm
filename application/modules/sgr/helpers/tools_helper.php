@@ -217,7 +217,7 @@ function check_is_numeric_no_decimal($number, $mayor = null) {
     $status = false;
     
     if ($mayor) {
-        $number = (int)$number;
+        $number = isfloat($number);
         
         var_dump($number);
         
