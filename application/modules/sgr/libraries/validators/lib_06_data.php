@@ -543,9 +543,15 @@ class Lib_06_data extends MX_Controller {
                     $subscribed = $this->$model_anexo->shares($partner, $B_cell_value);
                     $integrated = $this->$model_anexo->shares($partner, $B_cell_value, 5598);
 
+                    $subscribed = array_sum(array($subscribed, $AH_cell_value));
+                    $integrated = array_sum(array($integrated, $AI_cell_value));
+                    
+                    
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
                      */
+                    
+                  
                     if ($integrated > $subscribed) {
                         $code_error = "AI.5";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $integrated . " - Suscripto: " . $subscribed);
@@ -1388,8 +1394,7 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-//        var_dump($stack);
-        //exit();
+//        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
