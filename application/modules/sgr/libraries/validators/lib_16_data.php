@@ -69,7 +69,7 @@ class Lib_16_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        exit();
+       
         $this->data = $stack;
     }
 
