@@ -319,8 +319,8 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 //Check Numeric Validation
-                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                                if ($return) {
+                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'],true);
+                                if (!$return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 }
@@ -346,7 +346,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                                if ($return) {
+                                if (!$return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 }
