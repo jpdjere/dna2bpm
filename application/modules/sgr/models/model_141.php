@@ -67,7 +67,7 @@ class Model_141 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             /* STRING */
-            $insertarr["CUIT_PARTICIPE"] = (string) $insertarr["CUIT_PARTICIPE"]; 
+            $insertarr["CUIT_PARTICIPE"] = (string) $insertarr["CUIT_PARTICIPE"];
             /* INTEGERS & FLOAT */
             $insertarr["CANT_GTIAS_VIGENTES"] = (int) $insertarr["CANT_GTIAS_VIGENTES"];
             $insertarr["HIPOTECARIAS"] = (float) $insertarr["HIPOTECARIAS"];
@@ -100,7 +100,7 @@ class Model_141 extends CI_Model {
             $out = array('status' => 'error');
         }
         return $out;
-    }    
+    }
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -147,17 +147,59 @@ class Model_141 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter) {
+    function get_anexo_info($anexo, $parameter, $xls = false) {
+        $tmpl = array(
+            'data' => '<tr>
+        <td align="center" rowspan="2">C.U.I.T</td>
+        <td align="center" rowspan="2">Socio Participe</td>
+        <td colspan="2" align="center">Saldo de Garantias Vigentes<br></td>
+        <td colspan="5" align="center">Contragarantías</td>
+        <td align="center" rowspan="2">Saldos Reafianzados <br></td>
+        <td colspan="4" align="center">Deudores por Garantías Abonadas<br></td>
+    </tr>
+    <tr>
+        <td align="center">Cantidad de Garantias<br></td>
+        <td align="center">Monto</td>
+        <td align="center">Hipotecarias</td>
+        <td align="center">Prendarias</td>
+        <td align="center">Fianzas</td>
+        <td align="center">Otras</td>
+        <td align="center">Total</td>
+        <td align="center">Monto adeudado a la fecha</td>
+        <td align="center">Cantidad de garantías afrontadas <br></td>
+        <td align="center">Días de mora</td>
+        <td align="center">Clasificación del deudor <br></td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+        <td>11</td>
+        <td>12</td>
+        <td>13</td>
+        <td>14</td>        
+    </tr> ',
+        );
 
 
-        $headerArr = array("CUIT_PARTICIPE","CANT_GTIAS_VIGENTES","HIPOTECARIAS","PRENDARIAS","FIANZA","OTRAS","REAFIANZA","MORA_EN_DIAS","CLASIFICACION_DEUDOR");
-        $data = array($headerArr);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+        $data = array($tmpl);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
+        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
+        $anexoValues = array_merge($anexoValues, $anexoValues2);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
+
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -175,14 +217,15 @@ class Model_141 extends CI_Model {
             $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
 
             $new_list = array();
-            $new_list['CANT_GTIAS_VIGENTES'] = $list['CANT_GTIAS_VIGENTES'];
-            $new_list['HIPOTECARIAS'] = money_format_custom($list['HIPOTECARIAS']);
-            $new_list['PRENDARIAS'] = money_format_custom($list['PRENDARIAS']);
-            $new_list['FIANZA'] = money_format_custom($list['FIANZA']);
-            $new_list['OTRAS'] = money_format_custom($list['OTRAS']);
-            $new_list['REAFIANZA'] = money_format_custom($list['REAFIANZA']);
-            $new_list['MORA_EN_DIAS'] = $list['MORA_EN_DIAS'];
-            $new_list['CLASIFICACION_DEUDOR'] = $list['CLASIFICACION_DEUDOR'];
+            $new_list['col1'] = $brand_name;
+            $new_list['col2'] = $list['CUIT_PARTICIPE'];
+            $new_list['col2'] = money_format_custom($list['HIPOTECARIAS']);
+            $new_list['col3'] = money_format_custom($list['PRENDARIAS']);
+            $new_list['col4'] = money_format_custom($list['FIANZA']);
+            $new_list['col5'] = money_format_custom($list['OTRAS']);
+            $new_list['col6'] = money_format_custom($list['REAFIANZA']);
+            $new_list['col7'] = $list['MORA_EN_DIAS'];
+            $new_list['col8'] = $list['CLASIFICACION_DEUDOR'];
             $rtn[] = $new_list;
         }
         return $rtn;
