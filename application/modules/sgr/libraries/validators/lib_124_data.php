@@ -166,7 +166,7 @@ class Lib_124_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "D.1";
 
-                    
+
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -174,73 +174,78 @@ class Lib_124_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
 
-                        /* Multiplico para usar INT */
-                        $range = range(0, 100);
-                        $float_var = (float) $parameterArr[$i]['fieldValue'];
-                        $float_to_int = (int) $float_var * 100;
+
                         $code_error = "D.1";
                         if ($parameterArr[$i]['fieldValue'] != "") {
                             $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
-                            } else if (!in_array($float_to_int, $range)) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
+                            } else {
+                                /* Formato de número. Acepta hasta dos decimales.  Debe ser mayor a cero. */
+
+                                $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;
+
+                                $result = check_is_numeric_range($float_var, 0, 100);
+                                if (!$result) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                    array_push($stack, $result);
+                                }
                             }
                         }
                     }
                 }
+            }
 
-                /* RAZON_SOCIAL
-                 * Nro E.1
-                 * Detail:
-                 * En caso de que el CUIT informado en la Columna E ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
-                 */
-                if ($parameterArr[$i]['col'] == 5) {
-                    //empty field Validation
-                    $code_error = "E.1";
+            /* RAZON_SOCIAL
+             * Nro E.1
+             * Detail:
+             * En caso de que el CUIT informado en la Columna E ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
+             */
+            if ($parameterArr[$i]['col'] == 5) {
+                //empty field Validation
+                $code_error = "E.1";
 
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
+                $return = check_empty($parameterArr[$i]['fieldValue']);
+                if ($return) {
 
 
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                    array_push($stack, $result);
+                }
+            }
+
+            /* CUIT
+             * Nro F.1
+             * Detail:
+             * Debe tener 11 caracteres sin guiones. Debe validar que cumpla con el “ALGORITMO VERIFICADOR”.
+             */
+            if ($parameterArr[$i]['col'] == 6) {
+                //empty field Validation
+                $code_error = "F.1";
+
+                $return = check_empty($parameterArr[$i]['fieldValue']);
+                if ($return) {
+
+
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                    array_push($stack, $result);
+                }
+
+                //cuit checker
+                if (isset($parameterArr[$i]['fieldValue'])) {
+                    $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                    if (!$return) {
+
+
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
                 }
+            }
+        } // END FOR LOOP->
 
-                /* CUIT
-                 * Nro F.1
-                 * Detail:
-                 * Debe tener 11 caracteres sin guiones. Debe validar que cumpla con el “ALGORITMO VERIFICADOR”.
-                 */
-                if ($parameterArr[$i]['col'] == 6) {
-                    //empty field Validation
-                    $code_error = "F.1";
-
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-
-
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
-
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-
-
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-                    }
-                }
-            } // END FOR LOOP->
-        }
-    
+       
         $this->data = $stack;
     }
 

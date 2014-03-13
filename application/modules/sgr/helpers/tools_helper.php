@@ -224,7 +224,16 @@ function check_is_numeric_no_decimal($number, $mayor = null) {
     $int_options = ($mayor) ? $int_options : null;
 
     return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
-    
+}
+
+function check_is_numeric_range($number, $minor, $mayor) {
+
+    $int_options = array("options" =>
+        array(
+            "min_range" => $minor
+            , "max_range" => $mayor
+    ));
+    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
 }
 
 function check_is_alphabetic($parameter) {
@@ -660,4 +669,3 @@ function calc_anexo_201($aporte, $get_historic_data, $number) {
         return $error_text;
     }
 }
-
