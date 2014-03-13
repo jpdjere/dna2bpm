@@ -60,6 +60,7 @@ class Lib_16_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        var_dump($parameterArr[$i]['fieldValue']);
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -69,7 +70,7 @@ class Lib_16_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-       
+       exit();
         $this->data = $stack;
     }
 
