@@ -323,15 +323,14 @@ class Lib_061_data extends MX_Controller {
 
         $register_on_06 = count($partners_error_data);
         $count_on_061 = count(array_unique($A_cell_array));
-       
-        if ($register_on_06 != $count_on_061) {
-            $stack = array();
-            $code_error = "VG.4";
+               
+        if ($register_on_06 != $count_on_061) {            
+            $code_error = ($register_on_06>$count_on_061)?"VG.4":"VG.3";            
+            $stack = array();           
             $result["error_row"] = 1;
             $result = return_error_array($code_error, " - ", "No figuran todos los socios incorporados");
             array_push($stack, $result);
         }
-        
 
         /* F.3 */
 
@@ -377,8 +376,7 @@ class Lib_061_data extends MX_Controller {
                 $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                 array_push($stack, $result);
             }
-        }
-        
+        }       
         $this->data = $stack;
     }
 
