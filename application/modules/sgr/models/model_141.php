@@ -230,5 +230,47 @@ class Model_141 extends CI_Model {
         }
         return $rtn;
     }
+    
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
+
+        $rtn = array();
+        $col5 = array();
+        $col6 = array();
+        $col7 = array();
+        $col8 = array();
+        $col10 = array();
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+
+            $col5[] = (float) ($list['CAIDA']);
+            $col6[] = (float) ($list['RECUPERO']);
+            $col7[] = (float) ($list['INCOBRABLES_PERIODO']);
+            $col8[] = (float) ($list['GASTOS_EFECTUADOS_PERIODO']);
+            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
+            $col10[] = (float) ($list['GASTOS_INCOBRABLES_PERIODO']);
+        }
+
+
+        $new_list = array();
+
+        $new_list['col1'] = "<strong>TOTALES</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = "-";
+        $new_list['col5'] = money_format_custom($list['CAIDA']);
+        $new_list['col6'] = money_format_custom(array_sum($col6));
+        $new_list['col7'] = money_format_custom(array_sum($col7));
+        $new_list['col8'] = money_format_custom(array_sum($col8));
+        $new_list['col9'] = money_format_custom(array_sum($col9));
+        $new_list['col10'] = money_format_custom(array_sum($col10));
+        $rtn[] = $new_list;
+
+
+        return $rtn;
+    }
 
 }
