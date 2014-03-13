@@ -214,29 +214,7 @@ function check_is_numeric($number) {
 }
 
 function check_is_numeric_no_decimal($number, $mayor = null) {
-    $status = false;
-    
-    if ($mayor) {
-        $number = isfloat($number);
-        
-        var_dump($number);
-        
-        if ($number < 0) {
-             $status = true;
-        }
-    }
-
-    $value = isfloat($number);
-    if ($value) {
-        $places_count = strlen(substr(strrchr($number, "."), 0));
-        if ($places_count > $decimal) {
-             $status = true;
-        }
-    } else {
-         $status = true;
-    }
-    
-    return $status;
+    return(ctype_digit(strval($input)));
 }
 
 function check_is_alphabetic($parameter) {
