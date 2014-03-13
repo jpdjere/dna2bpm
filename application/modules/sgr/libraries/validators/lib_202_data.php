@@ -110,8 +110,8 @@ class Lib_202_data extends MX_Controller {
                         }
                     }
 
-                    $return = check_is_numeric_no_decimal($A_cell_value);
-                    if ($return) {
+                    $return = check_is_numeric_no_decimal($A_cell_value,true);
+                    if (!$return) {
                         $code_error = "A.1";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                         array_push($stack, $result);

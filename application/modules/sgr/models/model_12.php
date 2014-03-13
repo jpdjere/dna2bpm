@@ -147,15 +147,15 @@ class Model_12 extends CI_Model {
             /* TASA */
             if (strtoupper($insertarr[5222]) == "LIBOR")
                 $insertarr[5222] = "01";
-            if (strtoupper($insertarr[5222]) == "BADLAR BANCOS PUBLICOS")
+            if (strtoupper($insertarr[5222]) == "BADLARPU")
                 $insertarr[5222] = "02";
-            if (strtoupper($insertarr[5222]) == "BADLAR BANCOS PRIVADOS")
+            if (strtoupper($insertarr[5222]) == "BADLARPR")
                 $insertarr[5222] = "03";
             if (strtoupper($insertarr[5222]) == "FIJA")
                 $insertarr[5222] = "04";
-            if (strtoupper($insertarr[5222]) == "TECBP")
+            if (strtoupper($insertarr[5222]) == "TEBP")
                 $insertarr[5222] = "05";
-            if (strtoupper($insertarr[5222]) == "TCGBNA")
+            if (strtoupper($insertarr[5222]) == "TEC")
                 $insertarr[5222] = "06";
         }
         return $insertarr;

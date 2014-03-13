@@ -9,7 +9,7 @@
  * @name money_format
  *
  * */
-function money_format_custom($parameter, $entero=null) {
+function money_format_custom($parameter, $entero = null) {
 
     if ($parameter == NULL) {
         $parameter = 0;
@@ -32,7 +32,7 @@ function percent_format_custom($parameter) {
     if ($_POST['excel'] == 1) {
         $parameter = @number_format($parameter, 2, ",", ".");
     } else {
-        $parameter = @number_format($parameter, 2, ",", "."). "%";
+        $parameter = @number_format($parameter, 2, ",", ".") . "%";
     }
     return $parameter;
 }
@@ -77,7 +77,7 @@ function debug($parameter) {
 }
 
 function check_empty($parameter) {
-    if (strlen($parameter)== 0) {
+    if (strlen($parameter) == 0) {
         return true;
     }
 }
@@ -215,23 +215,25 @@ function check_is_numeric($number) {
 
 function check_is_numeric_no_decimal($number, $mayor = null) {
 
-    if ($mayor) {
-        $number = (int) $number;
-        if ($number < 0) {
-            return true;
-            exit();
-        }
-    }
+    $int_options = array("options" =>
+        array(
+            "min_range" => 0
+        //, "max_range" => 256
+    ));
 
-    $value = isfloat($number);
-    if ($value) {
-        $places_count = strlen(substr(strrchr($number, "."), 0));
-        if ($places_count > $decimal) {
-            return true;
-        }
-    } else {
-        return true;
-    }
+    $int_options = ($mayor) ? $int_options : null;
+
+    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
+}
+
+function check_is_numeric_range($number, $minor, $mayor) {
+
+    $int_options = array("options" =>
+        array(
+            "min_range" => $minor
+            , "max_range" => $mayor
+    ));
+    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
 }
 
 function check_is_alphabetic($parameter) {
@@ -363,9 +365,9 @@ function ciu($sector) {
 }
 
 //FUNCION VALIDA CUIT
-function cuit_checker($cuit) {    
+function cuit_checker($cuit) {
     if ((int) strlen($cuit) != 11) {
-          return false;
+        return false;
     }
 
     if (ctype_alpha($cuit)) {
@@ -418,6 +420,7 @@ function cuit_checker($cuit) {
  */
 
 /* DATES */
+
 function translate_date($parameter) {
     if ($parameter == "" || $parameter == NULL) {
         exit();
@@ -440,13 +443,9 @@ function translate_period_date($period) {
     return $mongotime;
 }
 
-function mongodate_to_print($date){
-    return date('Y-m-d', $date->sec);    
+function mongodate_to_print($date) {
+    return date('Y-m-d', $date->sec);
 }
-
-
-
-
 
 /**
  * Buscador en array de 2 dimensiones
@@ -670,4 +669,3 @@ function calc_anexo_201($aporte, $get_historic_data, $number) {
         return $error_text;
     }
 }
-

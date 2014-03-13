@@ -63,6 +63,7 @@ class Model_061 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
             $insertarr['CUIT_SOCIO_INCORPORADO'] = (string) $insertarr['CUIT_SOCIO_INCORPORADO'];
+            $insertarr['CUIT_VINCULADO'] = (string) $insertarr['CUIT_VINCULADO'];
 
             /* FLOAT */
             $insertarr['PORCENTAJE_ACCIONES'] = (float) $insertarr['PORCENTAJE_ACCIONES'];
@@ -88,8 +89,39 @@ class Model_061 extends CI_Model {
         }
         return $out;
     }
-
+    
+    
     function save_period($parameter) {
+        /* ADD PERIOD */
+        $container = 'container.sgr_periodos';
+        $period = $this->session->userdata['period'];
+        $id = $this->app->genid_sgr($container);
+        $parameter['period'] = $period;
+        $parameter['period_date'] = translate_period_date($period);
+        $parameter['status'] = 'activo';
+        $parameter['idu'] = $this->idu;
+
+        /*
+         * VERIFICO PENDIENTE           
+         */
+        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $this->update_period($get_period['id'], $get_period['status']);
+
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
+
+        if ($result) {
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
+            $out = array('status' => 'ok');
+        } else {
+            $out = array('status' => 'error');
+        }
+        return $out;
+    }
+
+    function save_period_pending($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
@@ -105,6 +137,10 @@ class Model_061 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        
+        var_dump($get_period);
+        
+        
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
@@ -123,6 +159,9 @@ class Model_061 extends CI_Model {
     }
 
     function update_period($id, $status) {
+        
+      
+        
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -132,7 +171,10 @@ class Model_061 extends CI_Model {
             'others' => $this->session->userdata['others'],
             'reason' => $this->session->userdata['rectify']
         );
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        
+         
+        
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
         return $rs['err'];
     }
 
@@ -191,11 +233,11 @@ class Model_061 extends CI_Model {
             $this->load->Model($model_anexo);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
-            $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
-
+            $parner_linked = $this->padfyj_model->search_name((string)$list['CUIT_VINCULADO']);
+          
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
       
-            $type_partner_inc = $this->$model_anexo->partner_type($list['CUIT_VINCULADO']);
+            $type_partner_inc = $this->$model_anexo->partner_type((string)$list['CUIT_VINCULADO']);
 
 
 
