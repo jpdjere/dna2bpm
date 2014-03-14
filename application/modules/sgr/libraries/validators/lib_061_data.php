@@ -297,6 +297,8 @@ class Lib_061_data extends MX_Controller {
                             /* Formato de número. Acepta hasta dos decimales.  Debe ser mayor a cero. */
 
                             $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;
+                            
+                            var_dump($float_var);
 
                             $result = check_is_numeric_range($float_var, 0, 100);
                             if (!$result) {
@@ -384,6 +386,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
+        exit();
         $this->data = $stack;
     }
 
