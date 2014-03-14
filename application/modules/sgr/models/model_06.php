@@ -642,16 +642,47 @@ class Model_06 extends CI_Model {
                 1695 => array('$in' => $add),
             );
 
-
             $get_error = array();
             $new_result = $this->mongo->sgr->$container_anexo->find($anexo_query);
             foreach ($new_result as $new_list) {
                 $get_error[] = $new_list[1695];
             }
-        }
 
-        if ($get_error)
-            return $get_error;
+            $anexo_query_total = array(
+                'filename' => $filename,
+                "5779" => "1"
+            );
+
+            $get_error_total = array();
+            $new_result_total = $this->mongo->sgr->$container_anexo->find($anexo_query_total);
+            foreach ($new_result_total as $new_list_total) {
+                $get_error_total[] = $new_list_total[1695];
+            }
+        }
+        
+         
+        
+        if ($get_error || $get_error_total) {
+            
+            $count_xls = count($partners_arr);            
+            $register = count($get_error);            
+            $register_total = count($get_error_total);
+            
+           $error_value = false;
+            
+            if($register_total > $count_xls){
+                $error_value = "VG.3";
+            } else if($register > $count_xls){
+                $error_value = "VG.3";
+            } else if($count_xls>$register_total){
+                $error_value = "VG.3";
+            } else if($count_xls>$register){
+                $error_value = "VG.3";
+            }
+            
+            
+            return $error_value;
+        }
     }
 
     /* ACCIONES COMPRA/VENTA X SGR
