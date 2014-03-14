@@ -306,9 +306,6 @@ class Lib_061_data extends MX_Controller {
                             }
                         }
                     }
-                    
-                    $code_error = "x.2";
-                    
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
                     if ($E_cell_value == "ASCENDENTE") {
@@ -346,7 +343,8 @@ class Lib_061_data extends MX_Controller {
         foreach ($AF3_result as $cell) {
             $count_shares = $cell['acumulados']['shares'] * 100;
             $count_shares = (int) $count_shares;
-
+            var_dump($count_shares, $cell['acumulados']['shares']);
+            
             if ($count_shares != 100 && $count_shares != 0) {
                 $code_error = "F.3";
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . $cell['acumulados']['shares']);
