@@ -623,17 +623,26 @@ class Model_06 extends CI_Model {
             'status' => 'activo',
             'period' => $get_period
         );
-        
-        var_dump($query);
-        
-        $period_arr = $this->mongo->sgr->$container_period->findOne($query);        
+
+
+        /* PARTNERS ARRAY */
+        $add = array();
+        foreach ($partners_arr as $each_partner) {
+            $add[] = $each_partner;
+        }
+
+
+        $period_arr = $this->mongo->sgr->$container_period->findOne($query);
         $filename = $period_arr['filename'];
         foreach ($period_arr as $list) {
+
             $anexo_query = array(
-                //1695 => $list,
                 'filename' => $filename,
-                "5779" => "1"
+                "5779" => "1",
+                1695 => array('$in' => $add),
             );
+
+
             $get_error = array();
             $new_result = $this->mongo->sgr->$container_anexo->find($anexo_query);
             foreach ($new_result as $new_list) {
@@ -642,12 +651,8 @@ class Model_06 extends CI_Model {
         }
 
         if ($get_error)
-            
             return $get_error;
     }
-    
-    
-   
 
     /* ACCIONES COMPRA/VENTA X SGR
      * Compra/venta por socio
