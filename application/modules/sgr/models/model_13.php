@@ -132,9 +132,7 @@ class Model_13 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
-        $tmpl = array(
-            'data' => ' <tr>
-        <td rowspan="2" align="center">Tipo de Garantía <br></td>
+        $tmpl = array('data' => ' <tr><td rowspan="2" align="center">Tipo de Garantía</td>
         <td colspan="5" align="center">Saldo según antigüedad</td>
         <td rowspan="2" align="center">Valor de las contragarantías</td>
     </tr>
@@ -153,7 +151,6 @@ class Model_13 extends CI_Model {
         <td>5</td>
         <td>6</td>
         <td>7</td>
-         
     </tr> ',
         );
 
@@ -182,7 +179,7 @@ class Model_13 extends CI_Model {
             /* Vars */
             
             $new_list = array();
-            $sum_totales = array_sum($array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
+            $sum_totales = array_sum(array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
             $new_list['col1'] = $list['TIPO_DE_GARANTIA'];
             $new_list['col2'] = money_format_custom($list['MENOR_90_DIAS']);
             $new_list['col3'] = money_format_custom($list['MENOR_180_DIAS']);
@@ -211,7 +208,7 @@ class Model_13 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
         $new_list = array();
         foreach ($result as $list) {
-            $sum_totales = array_sum($array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
+            $sum_totales = array_sum(array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
             $col2[] = (float) ($list['MENOR_90_DIAS']);
             $col3[] = (float) ($list['MENOR_180_DIAS']);
             $col4[] = (float) ($list['MENOR_365_DIAS']);
