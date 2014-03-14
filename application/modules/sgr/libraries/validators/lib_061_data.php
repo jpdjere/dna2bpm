@@ -341,7 +341,7 @@ class Lib_061_data extends MX_Controller {
 
         $AF3_result = count_shares($partner_shares_arr);
         foreach ($AF3_result as $cell) {
-            $count_shares = $cell['acumulados']['shares'] * 100;
+            $count_shares = $cell['acumulados']['shares'];
             $count_shares = (int) $count_shares;
             var_dump($count_shares, $cell['acumulados']['shares']);
             
