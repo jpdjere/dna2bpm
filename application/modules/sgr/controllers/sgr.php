@@ -325,12 +325,6 @@ class Sgr extends MX_Controller {
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
             
-            if($VG){                
-                $customData['message'] = $VG;
-                $this->render('errors', $customData);
-                unlink($uploadpath);
-                
-            }
             
 
             if (!$VG) {
@@ -395,6 +389,14 @@ class Sgr extends MX_Controller {
             } else {
                 $duplicated = false;
             }
+            
+            if($VG){
+                 $duplicated = true;
+                $customData['message'] = $VG;
+                $this->render('errors', $customData);
+                unlink($uploadpath);
+            }
+            
 
 
             //INSERT UPDATE
