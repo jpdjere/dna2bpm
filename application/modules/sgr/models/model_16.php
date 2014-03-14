@@ -238,7 +238,7 @@ class Model_16 extends CI_Model {
             $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
             $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
             $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
 
             $new_list = array();
             $new_list['col1'] = $list['PROMEDIO_SALDO_MENSUAL'];
