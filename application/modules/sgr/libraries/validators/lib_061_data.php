@@ -328,7 +328,7 @@ class Lib_061_data extends MX_Controller {
 
         $register_on_06 = count($partners_error_data);
         $count_on_061 = count(array_unique($A_cell_array));
-         var_dump($register_on_06 , $count_on_061);
+         var_dump("x", $register_on_06 , $count_on_061);
         if ($register_on_06 != $count_on_061) {
             
            
