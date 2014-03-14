@@ -330,6 +330,9 @@ class Lib_061_data extends MX_Controller {
         $count_on_061 = count(array_unique($A_cell_array));
 
         if ($register_on_06 != $count_on_061) {
+            
+            var_dump($register_on_06 , $count_on_061);
+            
             $code_error = ($register_on_06 > $count_on_061) ? "VG.4" : "VG.3";
             $stack = array();
             $result["error_row"] = 1;
@@ -382,7 +385,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        
+        exit();
         $this->data = $stack;
     }
 
