@@ -325,9 +325,10 @@ class Lib_061_data extends MX_Controller {
          */
         $count_inc = array_unique($A_cell_array);
         $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
+        
         if ($partners_error_data) {
-            $code_error = $partners_error_data ? "VG.4" : "VG.3";
-            $code_error_legend = ($partners_error_data=="VG.4") ? "Hay CUIT que no fueron incorporados en el período" : "Hay CUIT que no fueron incorporados en el Anexo 06";
+            $code_error = $partners_error_data;
+            $code_error_legend = ($code_error=="VG.4") ? "Hay CUIT que no fueron incorporados en el período" : "Hay CUIT que no fueron incorporados en el Anexo 06";
             $stack = array();
             $result["error_row"] = 1;
             $result = return_error_array($code_error, " - ",$code_error_legend);
