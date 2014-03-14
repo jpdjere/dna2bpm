@@ -224,13 +224,13 @@ class Model_13 extends CI_Model {
         $new_list = array();
 
         $new_list['col1'] = "<strong>TOTALES</strong>";
-        for ($i = 2; $i <= 7; $i++) {
-            echo $i;
-            $new_list['col'.$i] = money_format_custom(array_sum($col.$i));
-        }
-
-
-      
+       
+        $new_list['col2'] = money_format_custom(array_sum($col2));
+        $new_list['col3'] = money_format_custom(array_sum($col3));
+        $new_list['col4'] = money_format_custom(array_sum($col4));
+        $new_list['col5'] = money_format_custom(array_sum($col5));
+        $new_list['col6'] = money_format_custom(array_sum($col6));
+        $new_list['col7'] = money_format_custom(array_sum($col7));
 
         $rtn[] = $new_list;
 
