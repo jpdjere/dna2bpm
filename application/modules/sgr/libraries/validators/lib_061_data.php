@@ -291,7 +291,7 @@ class Lib_061_data extends MX_Controller {
                         $code_error = "F.2";
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']. "(".$parameterArr[$i]['fieldValue'].")");
                             array_push($stack, $result);
                         } else {
                             /* Formato de número. Acepta hasta dos decimales.  Debe ser mayor a cero. */
