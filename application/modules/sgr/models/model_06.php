@@ -680,7 +680,7 @@ class Model_06 extends CI_Model {
             
             
             
-            var_dump($count_xls, $register, $register_total);
+            //var_dump($count_xls, $register, $register_total);
             
             return $error_value;
         }
