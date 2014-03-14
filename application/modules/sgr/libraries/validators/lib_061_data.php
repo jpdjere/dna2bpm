@@ -300,7 +300,7 @@ class Lib_061_data extends MX_Controller {
                             $result = check_is_numeric_range($float_var, 0, 100);
                              
                             if (!$result) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']. "(".$parameterArr[$i]['fieldValue'].")");
                                 array_push($stack, $result);
                             }
                         }
