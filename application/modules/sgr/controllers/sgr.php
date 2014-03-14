@@ -1063,14 +1063,14 @@ class Sgr extends MX_Controller {
                     }
                 }
 
-                $info_124 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                $info_124 = $this->sgr_model->get_just_active("124", false, $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
                     if (!$filenames) {
                         $error = $legend;
                     }
                 }
 
-                $info_125 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                $info_125 = $this->sgr_model->get_just_active("125", false, $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
                     if (!$filenames) {
                         $error = $legend;
