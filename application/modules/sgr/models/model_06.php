@@ -659,16 +659,14 @@ class Model_06 extends CI_Model {
                 $get_error_total[] = $new_list_total[1695];
             }
         }
-        
-         
-        
+
         if ($get_error || $get_error_total) {
             
             $count_xls = count($partners_arr);            
             $register = count($get_error);            
             $register_total = count($get_error_total);
             
-           $error_value = false;
+            $error_value = false;
             
             if($register_total > $count_xls){
                 $error_value = "VG.3";
@@ -680,6 +678,9 @@ class Model_06 extends CI_Model {
                 $error_value = "VG.3";
             }
             
+            
+            
+            var_dump($count_xls, $register, $register_total);
             
             return $error_value;
         }
