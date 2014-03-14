@@ -141,7 +141,7 @@ class Model_13 extends CI_Model {
         <td align="center">Menor de 180<br>días</td>
         <td align="center">Menor de 365<br>días</td>
         <td align="center">Mayor de 365<br>días</td>
-        <td align="center">Total<td>
+        <td align="center">Totales</td>
     </tr>
     <tr>
         <td>1</td>
@@ -185,7 +185,7 @@ class Model_13 extends CI_Model {
             $new_list['col3'] = money_format_custom($list['MENOR_180_DIAS']);
             $new_list['col4'] = money_format_custom($list['MENOR_365_DIAS']);
             $new_list['col5'] = money_format_custom($list['MAYOR_365_DIAS']);
-            $new_list['col6'] = $sum_totales;
+            $new_list['col6'] = money_format_custom($sum_totales);
             $new_list['col7'] = money_format_custom($list['VALOR_CONTRAGARANTIAS']);
             $rtn[] = $new_list;
         }
@@ -220,8 +220,7 @@ class Model_13 extends CI_Model {
 
         $new_list = array();
 
-        $new_list['col1'] = "<strong>TOTALES</strong>";
-       
+        $new_list['col1'] = "<strong>TOTALES</strong>";       
         $new_list['col2'] = money_format_custom(array_sum($col2));
         $new_list['col3'] = money_format_custom(array_sum($col3));
         $new_list['col4'] = money_format_custom(array_sum($col4));
