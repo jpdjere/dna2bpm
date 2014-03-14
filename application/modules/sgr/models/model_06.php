@@ -661,27 +661,35 @@ class Model_06 extends CI_Model {
         }
 
         if ($get_error || $get_error_total) {
-            
-            $count_xls = count($partners_arr);            
-            $register = count($get_error);            
+
+            $count_xls = count($partners_arr);
+            $register = count($get_error);
             $register_total = count($get_error_total);
             
-            $error_value = false;
+            $num = array($count_xls, $register, $register_total);
             
-            if($register_total > $count_xls){
-                $error_value = "VG.3";
-            } else if($register > $count_xls){
-                $error_value = "VG.3";
-            } else if($count_xls>$register_total){
-                $error_value = "VG.4";
-            } else if($count_xls>$register){
-                $error_value = "VG.4";
+            if(max($num)==min($num)){
+                exit();
             }
             
+
+            $key = array_search(max($num), $num);
             
             
-            //var_dump($count_xls, $register, $register_total);
+            switch($key){
+                case 0:
+                     $error_value = "VG.3";
+                    break;
+                case 1:
+                    $error_value = "VG.4";
+                    break;
+                case 2:
+                    $error_value = "VG.4";
+                    break;
+            }
             
+            //var_dump($key, $count_xls, $register, $register_total);
+
             return $error_value;
         }
     }
