@@ -323,6 +323,7 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
          */
+        $count_inc = array_unique($A_cell_array);
         $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
         
         var_dump($A_cell_array);
