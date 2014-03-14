@@ -624,6 +624,8 @@ class Model_06 extends CI_Model {
             'period' => $get_period
         );
         
+        var_dump($query);
+        
         $period_arr = $this->mongo->sgr->$container_period->findOne($query);        
         $filename = $period_arr['filename'];
         foreach ($period_arr as $list) {
