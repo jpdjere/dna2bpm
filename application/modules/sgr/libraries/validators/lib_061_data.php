@@ -290,6 +290,8 @@ class Lib_061_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "F.2";
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                         var_dump($parameterArr[$i]['fieldValue'],$result);
+                        
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -301,7 +303,7 @@ class Lib_061_data extends MX_Controller {
                            
 
                             $result = check_is_numeric_range($float_var, 0, 100);
-                             var_dump($float_var,$result);
+                            
                             if (!$result) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
