@@ -286,19 +286,22 @@ class Lib_061_data extends MX_Controller {
                     if (!$return)
                         $F_cell_value = $parameterArr[$i]['fieldValue'];
 
-                    /* Multiplico para usar INT */
-                    $range = range(0, 100);
-                    $float_var = (float) $parameterArr[$i]['fieldValue'];
-                    $float_to_int = (int) $float_var * 100;
-                    $code_error = "F.2";
+                   
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else if (!in_array($float_to_int, $range)) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        } else {
+                            /* Formato de número. Acepta hasta dos decimales.  Debe ser mayor a cero. */
+
+                            $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;
+
+                            $result = check_is_numeric_range($float_var, 0, 100);
+                            if (!$result) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -379,7 +382,7 @@ class Lib_061_data extends MX_Controller {
                 $result = return_error_array($code_error, "-", $cuit . " Total de Veces: " . $counter);
                 array_push($stack, $result);
             }
-        }        
+        }
         $this->data = $stack;
     }
 
