@@ -180,8 +180,8 @@ class Model_13 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
-            
-            $sum_totales = array_sum($array($list['MENOR_90_DIAS'],$list['MENOR_180_DIAS'],$list['MENOR_365_DIAS'],$list['MAYOR_365_DIAS']));
+
+            $sum_totales = array_sum($array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
             $new_list = array();
             $new_list['col1'] = $list['TIPO_DE_GARANTIA'];
             $new_list['col2'] = money_format_custom($list['MENOR_90_DIAS']);
@@ -198,13 +198,12 @@ class Model_13 extends CI_Model {
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
-
+        $col2 = array();
+        $col3 = array();
+        $col4 = array();
         $col5 = array();
         $col6 = array();
         $col7 = array();
-        $col8 = array();
-
-
 
 
         $container = 'container.sgr_anexo_' . $anexo;
@@ -212,23 +211,26 @@ class Model_13 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
         $new_list = array();
         foreach ($result as $list) {
-            $total = array_sum(array($list['SLDO_FINANC'], $list['SLDO_COMER'], $list['SLDO_TEC']));
-            $col5[] = (float) ($list['SLDO_FINANC']);
-            $col6[] = (float) ($list['SLDO_COMER']);
-            $col7[] = (float) ($list['SLDO_TEC']);
-            $col8[] = (float) ($total);
+            $sum_totales = array_sum($array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
+            $col2[] = (float) ($list['MENOR_90_DIAS']);
+            $col3[] = (float) ($list['MENOR_180_DIAS']);
+            $col4[] = (float) ($list['MENOR_365_DIAS']);
+            $col5[] = (float) ($list['MAYOR_365_DIAS']);
+            $col6[] = (float) ($sum_totales);
+            $col5[] = (float) ($list['VALOR_CONTRAGARANTIAS']);
         }
 
 
         $new_list = array();
 
         $new_list['col1'] = "<strong>TOTALES</strong>";
-        $new_list['col2'] = "-";
-        $new_list['col3'] = "-";
-        $new_list['col4'] = "-";
-        $new_list['col5'] = money_format_custom(array_sum($col5));
-        $new_list['col6'] = money_format_custom(array_sum($col6));
-        $new_list['col7'] = money_format_custom(array_sum($col7));
+        for ($i = 2; $i <= 7; $i++) {
+            echo $i;
+            $new_list['col'.$i] = money_format_custom(array_sum($col.$i));
+        }
+
+
+      
 
         $rtn[] = $new_list;
 
