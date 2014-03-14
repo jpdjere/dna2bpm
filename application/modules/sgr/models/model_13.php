@@ -143,7 +143,7 @@ class Model_13 extends CI_Model {
         <td align="center">Menor de 180<br>días</td>
         <td align="center">Menor de 365<br>días</td>
         <td align="center">Mayor de 365<br>días</td>
-        <tdlign="center">Total<td>
+        <td align="center">Total<td>
     </tr>
     <tr>
         <td>1</td>
@@ -180,11 +180,8 @@ class Model_13 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
-            $cuit = str_replace("-", "", $list['CUIT']);
-            $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
-
+            
+            $sum_totales = array_sum($array($list['MENOR_90_DIAS'],$list['MENOR_180_DIAS'],$list['MENOR_365_DIAS'],$list['MAYOR_365_DIAS']));
             $new_list = array();
             $new_list['col1'] = $list['TIPO_DE_GARANTIA'];
             $new_list['col2'] = money_format_custom($list['MENOR_90_DIAS']);
