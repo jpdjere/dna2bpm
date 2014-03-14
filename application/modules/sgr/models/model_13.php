@@ -40,10 +40,10 @@ class Model_13 extends CI_Model {
          * @example .... TIPO_DE_GARANTIA	MENOR_90_DIAS	MENOR_180_DIAS	MENOR_365_DIAS	MAYOR_365_DIAS	VALOR_CONTRAGARANTIAS
          * */
         $defdna = array(
-            1 => 'TIPO_DE_GARANTIA', 
-            2 => 'MENOR_90_DIAS', 
-            3 => 'MENOR_180_DIAS', 
-            4 => 'MENOR_365_DIAS', 
+            1 => 'TIPO_DE_GARANTIA',
+            2 => 'MENOR_90_DIAS',
+            3 => 'MENOR_180_DIAS',
+            4 => 'MENOR_365_DIAS',
             5 => 'MAYOR_365_DIAS',
             6 => 'VALOR_CONTRAGARANTIAS'
         );
@@ -59,24 +59,24 @@ class Model_13 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-        /*FILTER NUMBERS/STRINGS*/
+
+        /* FILTER NUMBERS/STRINGS */
         $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-        /*FIX INFORMATION*/
+        $float_values = array_filter($parameter, 'is_float');
+        $numbers_values = array_merge($int_values, $float_values);
+
+        /* FIX INFORMATION */
         $parameter = array_map('trim', $parameter);
         $parameter = array_map('addSlashes', $parameter);
 
-        /* FIX DATE */        
+        /* FIX DATE */
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
+
         $id = $this->app->genid_sgr($container);
-        
-        /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
+
+        /* MERGE CAST */
+        $parameter = array_merge($parameter, $numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -117,7 +117,7 @@ class Model_13 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -131,17 +131,44 @@ class Model_13 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter) {       
-        
+    function get_anexo_info($anexo, $parameter, $xls = false) {
+        $tmpl = array(
+            'data' => ' <tr>
+        <td rowspan="2" align="center">Tipo de Garantía <br></td>
+        <td colspan="5" align="center">Saldo según antigüedad</td>
+        <td rowspan="2" align="center">Valor de las contragarantías</td>
+    </tr>
+    <tr>
+        <td align="center">Menor de 90<br>días</td>
+        <td align="center">Menor de 180<br>días</td>
+        <td align="center">Menor de 365<br>días</td>
+        <td align="center">Mayor de 365<br>días</td>
+        <tdlign="center">Total<td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+         
+    </tr> ',
+        );
 
-        $headerArr = array("TIPO_DE_GARANTIA","MENOR_90_DIAS","MENOR_180_DIAS","MENOR_365_DIAS","MAYOR_365_DIAS","VALOR_CONTRAGARANTIAS");
-        $data = array($headerArr);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+
+        $data = array($tmpl);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
+        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
+        $anexoValues = array_merge($anexoValues, $anexoValues2);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
+
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -157,16 +184,58 @@ class Model_13 extends CI_Model {
             $this->load->model('padfyj_model');
             $brand_name = $this->padfyj_model->search_name($cuit);
             $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
-            
+
             $new_list = array();
-            $new_list['TIPO_DE_GARANTIA'] = $list['TIPO_DE_GARANTIA'];            
-            $new_list['MENOR_90_DIAS'] = money_format_custom($list['MENOR_90_DIAS']);
-            $new_list['MENOR_180_DIAS'] = money_format_custom($list['MENOR_180_DIAS']);
-            $new_list['MENOR_365_DIAS'] = money_format_custom($list['MENOR_365_DIAS']);
-            $new_list['MAYOR_365_DIAS'] = money_format_custom($list['MAYOR_365_DIAS']);
-            $new_list['VALOR_CONTRAGARANTIAS'] = money_format_custom($list['VALOR_CONTRAGARANTIAS']);
+            $new_list['col1'] = $list['TIPO_DE_GARANTIA'];
+            $new_list['col2'] = money_format_custom($list['MENOR_90_DIAS']);
+            $new_list['col3'] = money_format_custom($list['MENOR_180_DIAS']);
+            $new_list['col4'] = money_format_custom($list['MENOR_365_DIAS']);
+            $new_list['col5'] = money_format_custom($list['MAYOR_365_DIAS']);
+            $new_list['col6'] = $sum_totales;
+            $new_list['col7'] = money_format_custom($list['VALOR_CONTRAGARANTIAS']);
             $rtn[] = $new_list;
         }
+        return $rtn;
+    }
+
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
+
+        $rtn = array();
+
+        $col5 = array();
+        $col6 = array();
+        $col7 = array();
+        $col8 = array();
+
+
+
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $total = array_sum(array($list['SLDO_FINANC'], $list['SLDO_COMER'], $list['SLDO_TEC']));
+            $col5[] = (float) ($list['SLDO_FINANC']);
+            $col6[] = (float) ($list['SLDO_COMER']);
+            $col7[] = (float) ($list['SLDO_TEC']);
+            $col8[] = (float) ($total);
+        }
+
+
+        $new_list = array();
+
+        $new_list['col1'] = "<strong>TOTALES</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = "-";
+        $new_list['col5'] = money_format_custom(array_sum($col5));
+        $new_list['col6'] = money_format_custom(array_sum($col6));
+        $new_list['col7'] = money_format_custom(array_sum($col7));
+
+        $rtn[] = $new_list;
+
+
         return $rtn;
     }
 
