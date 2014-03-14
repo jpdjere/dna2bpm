@@ -313,8 +313,8 @@ class Sgr extends MX_Controller {
                     }
                 }
             }
-            
-            
+
+
 
             /* VALIDATIONS */
             if (!$count) {
@@ -324,28 +324,37 @@ class Sgr extends MX_Controller {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
+            
+            if($VG){                
+                $customData['message'] = $VG;
+                $this->render('errors', $customData);
+                unlink($uploadpath);
+                
+            }
+            
 
+            if (!$VG) {
+                /* XLS CELL DATA ERROR */
+                $data_values = "lib_" . $anexo . "_data";
+                $lib_error = "lib_" . $anexo . "_error_legend";
+                $this->load->library("validators/" . $lib_error);
+                $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-            /* XLS CELL DATA ERROR */
-            $data_values = "lib_" . $anexo . "_data";
-            $lib_error = "lib_" . $anexo . "_error_legend";
-            $this->load->library("validators/" . $lib_error);
-            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
+                foreach ($result_data['data'] as $result_data) {
 
-            foreach ($result_data['data'] as $result_data) {
+                    if (!empty($result_data['error_code'])) {
 
-                if (!empty($result_data['error_code'])) {
+                        $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
 
-                    $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
+                        if ($result_data['error_input_value'] == "empty") {
+                            list($column_value) = explode(".", $result_data['error_code']);
+                            $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
+                        } else {
+                            $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
+                        }
 
-                    if ($result_data['error_input_value'] == "empty") {
-                        list($column_value) = explode(".", $result_data['error_code']);
-                        $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
-                    } else {
-                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
+                        $error = 2;
                     }
-
-                    $error = 2;
                 }
             }
         } else {
@@ -358,8 +367,8 @@ class Sgr extends MX_Controller {
             $result_header = $result_header_desc . $result_header;
             $error = 3;
         }
-        
-     
+
+
 
         if (!$error) {
             $model = "model_" . $anexo;
@@ -1037,9 +1046,36 @@ class Sgr extends MX_Controller {
                 $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
                 foreach ($info_06 as $filenames) {
                     if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
-                        return  "VG.1";
+                        return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
                     }
                 }
+                break;
+
+            case '141':
+                $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
+                $error = false;
+                $info_140 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                foreach ($info_140 as $filenames) {
+                    if (!$filenames) {
+                        $error = $legend;
+                    }
+                }
+
+                $info_124 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                foreach ($info_124 as $filenames) {
+                    if (!$filenames) {
+                        $error = $legend;
+                    }
+                }
+
+                $info_125 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                foreach ($info_124 as $filenames) {
+                    if (!$filenames) {
+                        $error = $legend;
+                    }
+                }
+                return $error;
+
                 break;
         }
     }
