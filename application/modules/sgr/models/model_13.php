@@ -180,9 +180,9 @@ class Model_13 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
-
-            $sum_totales = array_sum($array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
+            
             $new_list = array();
+            $sum_totales = array_sum($array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
             $new_list['col1'] = $list['TIPO_DE_GARANTIA'];
             $new_list['col2'] = money_format_custom($list['MENOR_90_DIAS']);
             $new_list['col3'] = money_format_custom($list['MENOR_180_DIAS']);
