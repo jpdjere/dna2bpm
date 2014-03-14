@@ -305,7 +305,9 @@ class Lib_061_data extends MX_Controller {
                             }
                         }
                     }
-
+                    
+                    $code_error = "x.2";
+                    
                     /* F.3 */
                     $shares_result = array($E_cell_value . '.' . $A_cell_value . '.', $float_var);
 
