@@ -673,9 +673,9 @@ class Model_06 extends CI_Model {
             } else if($register > $count_xls){
                 $error_value = "VG.3";
             } else if($count_xls>$register_total){
-                $error_value = "VG.3";
+                $error_value = "VG.4";
             } else if($count_xls>$register){
-                $error_value = "VG.3";
+                $error_value = "VG.4";
             }
             
             
