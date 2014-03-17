@@ -153,7 +153,6 @@ class Lib_061_data extends MX_Controller {
                             $code_error = "C.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                            var_dump($stack);  
                             }
                         }
                                 
@@ -396,6 +395,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
+        var_dump($stack);
        // exit();
         $this->data = $stack;
     }
