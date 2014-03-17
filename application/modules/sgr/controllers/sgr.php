@@ -51,13 +51,7 @@ class Sgr extends MX_Controller {
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
     }
-
-    function testdb() {
-
-       $result =   $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
-       debug($result);
-    }
-
+   
     function Index() {
 
         $customData = array();
