@@ -46,9 +46,7 @@ class Model_16 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example
-         * PROMEDIO_SALDO_MENSUAL	
-         * SALDO_PROMEDIO_GARANTIAS_VIGENTES	
+         * @example         
          * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
          * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
          * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
@@ -58,17 +56,15 @@ class Model_16 extends CI_Model {
          * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
          * SALDO_PROMEDIO_FDR_CONTINGENTE
          * */
-        $defdna = array(
-            1 => 'PROMEDIO_SALDO_MENSUAL',
-            2 => 'GARANTIAS_VIGENTES',
-            3 => '80_HASTA_FEB_2010',
-            4 => '120_HASTA_FEB_2010',
-            5 => '80_DESDE_FEB_2010',
-            6 => '120_DESDE_FEB_2010',
-            7 => '80_DESDE_ENE_2011',
-            8 => '120_DESDE_ENE_2011',
-            9 => 'FDR_TOTAL_COMPUTABLE',
-            10 => 'FDR_CONTINGENTE'
+        $defdna = array(            
+            1 => '80_HASTA_FEB_2010',
+            2 => '120_HASTA_FEB_2010',
+            3 => '80_DESDE_FEB_2010',
+            4 => '120_DESDE_FEB_2010',
+            5 => '80_DESDE_ENE_2011',
+            6 => '120_DESDE_ENE_2011',
+            7 => 'FDR_TOTAL_COMPUTABLE',
+            8 => 'FDR_CONTINGENTE'
         );
 
 
