@@ -20,8 +20,7 @@ class Sgr extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
-        $this->load->model('sgr/sgr_model');
-        $this->load->model('sgr/mysql_model');
+        $this->load->model('sgr/sgr_model');        
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
