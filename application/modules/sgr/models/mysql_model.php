@@ -22,8 +22,7 @@ class mysql_model extends CI_Model {
             $this->sgr_cuit = $sgr['1695'];
         }
 
-        $dbconnect =  $this->load->database('dna2');
-        
+        $dbconnect = $this->load->database('dna2');
     }
 
     /* ACTIVE PERIODS DNA2 */
@@ -36,19 +35,23 @@ class mysql_model extends CI_Model {
 
         /* TRANSLATE ANEXO NAME */
         $anexo = translate_anexos_dna2($anexo);
+        
+        var_dump($anexo);
 
         $this->db->where('estado', 'activo');
         $this->db->where('anexo', $anexo);
         $this->db->where('sgr_id', $this->sgr_id);
-        $query = $this->db->get('sgr_control_periodos');
+        $query = $this->db->get('forms2.sgr_control_periodos');
+
         
-        var_dump($query);
         $parameter = array();
         foreach ($query->result() as $row) {
+            var_dump($row);
+            
             $parameter[] = $row;
         }
-        
-        
+
+
         foreach ($parameter as $each) {
             $this->save_tmp($each);
             /* ANEXO DATA */
@@ -83,14 +86,13 @@ class mysql_model extends CI_Model {
                 fecha_efectiva'
         );
         $this->db->where('idu', $this->idu);
-        $query = $this->db->get($anexo);
+        $query = $this->db->get("sgr_socios");
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
         }
 
         foreach ($parameter as $each) {
-
             $this->$anexo_field($each);
         }
     }
