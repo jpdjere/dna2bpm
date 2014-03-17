@@ -336,9 +336,12 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
          */
-        $count_inc = array_unique($A_cell_array);
-        $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
         
+        
+        $count_inc = array_unique($A_cell_array);
+         
+        $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
+       
         if ($partners_error_data) {
             $code_error = $partners_error_data;
             $code_error_legend = ($code_error=="VG.4") ? "Hay Socios incorporados en el período para los cuales no se están informando sus RRVV" : "Hay CUIT que no fueron incorporados en el Anexo 06";
@@ -393,8 +396,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-;
-       // exit();
+       
         $this->data = $stack;
     }
 

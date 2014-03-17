@@ -22,10 +22,19 @@ class mysql_model extends CI_Model {
             $this->sgr_cuit = $sgr['1695'];
         }
 
-        $dbconnect =  $this->load->database('dna2');
-        
+        $dbconnect = $this->load->database('dna2');
     }
 
+    function clear_tmp() {
+        $token = $this->idu;
+        $container = 'container.periodos_' . $token . '_tmp';
+        $delete = $this->mongo->sgr->$container->remove();
+        /* 06 */
+        $container = 'container.anexo_06_' . $token . '_tmp';
+        $delete = $this->mongo->sgr->$container->remove();
+    }
+    
+    
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2($anexo, $period) {
@@ -36,19 +45,23 @@ class mysql_model extends CI_Model {
 
         /* TRANSLATE ANEXO NAME */
         $anexo = translate_anexos_dna2($anexo);
+        
+        var_dump($anexo);
 
         $this->db->where('estado', 'activo');
         $this->db->where('anexo', $anexo);
         $this->db->where('sgr_id', $this->sgr_id);
-        $query = $this->db->get('sgr_control_periodos');
+        $query = $this->db->get('forms2.sgr_control_periodos');
+
         
-        var_dump($query);
         $parameter = array();
         foreach ($query->result() as $row) {
+            var_dump($row);
+            
             $parameter[] = $row;
         }
-        
-        
+
+
         foreach ($parameter as $each) {
             $this->save_tmp($each);
             /* ANEXO DATA */
@@ -90,14 +103,13 @@ class mysql_model extends CI_Model {
         }
 
         foreach ($parameter as $each) {
-
             $this->$anexo_field($each);
         }
     }
 
+    
+    /*SAVE FETCHS ANEXO 06 DATA*/
     function save_anexo_06_tmp($parameter) {
-
-
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
@@ -135,18 +147,18 @@ class mysql_model extends CI_Model {
 
         $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_efectiva']);
 
-
-
+        
         unset($parameter['capital_suscripto']);
-        unset($parameter['capital_integrado']);
+        unset($parameter['capital_suscripto']);
+        unset($parameter['cantidad_empleados']);
+        unset($parameter['monto']);
+        unset($parameter['monto2']);
+        unset($parameter['monto3']);
 
 
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
-
-
         if ($result) {
             $out = array('status' => 'ok');
         } else {
@@ -155,15 +167,8 @@ class mysql_model extends CI_Model {
         return $out;
     }
 
-    function clear_tmp() {
-        $token = $this->idu;
-        $container = 'container.periodos_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-        /* 06 */
-        $container = 'container.anexo_06_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-    }
-
+    
+    /*SAVE FETCHS PERIODOS*/
     function save_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
