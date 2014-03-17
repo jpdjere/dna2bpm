@@ -135,14 +135,29 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
+                        // C.2
                         /* CUIT CHECKER */
-                        if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                            if (!$return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
+                        $check_ascendente=false;
+                        if ($parameterArr[$i+2]['fieldValue'] == "ASCENDENTE") { 
+                            // Si E es 11111111111 o tiene el codigo de empresa extranjera anulo el checkeo de cuit                              
+                            $result=$this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
+                            $has_11111111111=$parameterArr[$i]['fieldValue']=="11111111111";
+                            $has_extcuit=!is_null($result);
+                            $check_ascendente=($has_11111111111 || $has_extcuit);
+                        }
+                        $check_cuit = cuit_checker($parameterArr[$i]['fieldValue']);
+                               var_dump($check_cuit);
+                               var_dump($check_ascendente);                  
+                        if(!$check_ascendente ){
+                            if(!$check_cuit){
+                            $code_error = "C.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
                             }
                         }
+                                
+
+
                     } else {
                         /* CHECK FOR IS NOT EMPTY ????? */
 //                        $return = check_for_empty($B_cell_value);
@@ -380,6 +395,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
+        echo "test";
        // exit();
         $this->data = $stack;
     }
