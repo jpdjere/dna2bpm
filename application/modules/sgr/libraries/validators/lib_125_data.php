@@ -145,7 +145,7 @@ class Lib_125_data extends MX_Controller {
                             // otros casos debe ser cero
                             $code_error = "C.2";
                             if ($int_value!=0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
 
@@ -199,7 +199,7 @@ class Lib_125_data extends MX_Controller {
                             // otros casos debe ser cero
                             $code_error = "D.2";
                             if ($int_value!=0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
 
@@ -239,8 +239,8 @@ class Lib_125_data extends MX_Controller {
             } // END FOR LOOP->
         }
     
-//    $result = return_error_array("-", "-", "--Dummy--");
-//    array_push($stack, $result);
+    $result = return_error_array("-", "-", "--Dummy--");
+    array_push($stack, $result);
                             
         $this->data = $stack;
     }
