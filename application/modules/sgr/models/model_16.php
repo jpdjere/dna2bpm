@@ -56,7 +56,7 @@ class Model_16 extends CI_Model {
          * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
          * SALDO_PROMEDIO_FDR_CONTINGENTE
          * */
-        $defdna = array(            
+        $defdna = array(
             1 => '80_HASTA_FEB_2010',
             2 => '120_HASTA_FEB_2010',
             3 => '80_DESDE_FEB_2010',
@@ -79,10 +79,10 @@ class Model_16 extends CI_Model {
         }
         return $insertarr;
     }
-    
+
     function save($parameter) {
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_' . $this->anexo;        
+        $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
@@ -98,7 +98,6 @@ class Model_16 extends CI_Model {
         }
         return $out;
     }
-   
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -224,9 +223,10 @@ class Model_16 extends CI_Model {
             $depositories_name = ($depositories_name) ? $depositories_name['nombre'] : strtoupper($list['ENTIDAD_DESPOSITARIA']);
 
             $this->load->model('app');
-            
-            
-            
+
+
+            $get_month = explode("-", $list['period']);
+            $month_value = translate_month_spanish($get_month[0]);
 
 
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
@@ -237,7 +237,7 @@ class Model_16 extends CI_Model {
             $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
 
             $new_list = array();
-            $new_list['col1'] = $list['PROMEDIO_SALDO_MENSUAL'];
+            $new_list['col1'] = $month_value;
             $new_list['col2'] = money_format_custom($list['GARANTIAS_VIGENTES']);
             $new_list['col3'] = money_format_custom($list['80_HASTA_FEB_2010']);
             $new_list['col4'] = money_format_custom($list['120_HASTA_FEB_2010']);
