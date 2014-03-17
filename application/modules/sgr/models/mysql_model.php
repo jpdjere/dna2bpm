@@ -23,6 +23,7 @@ class mysql_model extends CI_Model {
         }
 
         $dbconnect =  $this->load->database('dna2');
+        
     }
 
     /* ACTIVE PERIODS DNA2 */
@@ -40,11 +41,14 @@ class mysql_model extends CI_Model {
         $this->db->where('anexo', $anexo);
         $this->db->where('sgr_id', $this->sgr_id);
         $query = $this->db->get('sgr_control_periodos');
+        
+        var_dump($query);
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
         }
-
+        
+        
         foreach ($parameter as $each) {
             $this->save_tmp($each);
             /* ANEXO DATA */
