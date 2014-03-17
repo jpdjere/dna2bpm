@@ -145,9 +145,7 @@ class Lib_061_data extends MX_Controller {
                             $has_extcuit=!is_null($result);
                             $check_ascendente=($has_11111111111 || $has_extcuit);
                         }
-                        $check_cuit = cuit_checker($parameterArr[$i]['fieldValue']);
-                               var_dump($check_cuit);
-                               var_dump($check_ascendente);                  
+                        $check_cuit = cuit_checker($parameterArr[$i]['fieldValue']);               
                         if(!$check_ascendente ){
                             if(!$check_cuit){
                             $code_error = "C.2";
@@ -395,7 +393,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        var_dump($stack);
+;
        // exit();
         $this->data = $stack;
     }
