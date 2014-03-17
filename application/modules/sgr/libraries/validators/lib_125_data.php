@@ -122,32 +122,37 @@ class Lib_125_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-
+                        $code_error = "C.1";
                         $greater_than_zero = false;
                         $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2");
-                        foreach ($sharer_info as $info) {
-
+                        foreach ($sharer_info as $info) { 
                             if (in_array($info['5216'][0], $C2_array)) {
                                 $greater_than_zero = true;
                             }
                         }
 
-                        if (!$greater_than_zero) {
-                            $int_value = (int) $parameterArr[$i]['fieldValue'];
-                            if ($int_value > 0) {
-                                $code_error = "C.2";
+                        $int_value = (int) $parameterArr[$i]['fieldValue'];
+                        if ($greater_than_zero) {
+                            // garantia activa campo mayor a cero  
+                            $code_error = "C.1";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
                                 array_push($stack, $result);
                             }
+                            
+                        }else{
+                            // otros casos debe ser cero
+                            $code_error = "C.2";
+                            if ($int_value!=0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                array_push($stack, $result);
+                            }
+
                         }
 
 
-                        $code_error = "C.1";
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, $greater_than_zero);
-                        if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
+
                     }
 
 
@@ -163,26 +168,43 @@ class Lib_125_data extends MX_Controller {
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GC1 o GC2.
                  */
                 if ($parameterArr[$i]['col'] == 4) {
-                    //empty field Validation
+                     //empty field Validation
                     $code_error = "D.1";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    
-                    // Chequeo decimal y positivo
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
-                        if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                    } else {
+                        $code_error = "D.1";
+                        $greater_than_zero = false;
+                        $D2_array = array("GC1", "GC2");
+                        foreach ($sharer_info as $info) { 
+                            if (in_array($info['5216'][0], $D2_array)) {
+                                $greater_than_zero = true;
+                            }
+                        }
+
+                        $int_value = (int) $parameterArr[$i]['fieldValue'];
+                        if ($greater_than_zero) {
+                            // garantia activa campo mayor a cero  
+                            $code_error = "D.1";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                array_push($stack, $result);
+                            }
+                            
+                        }else{
+                            // otros casos debe ser cero
+                            $code_error = "D.2";
+                            if ($int_value!=0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                array_push($stack, $result);
+                            }
+
                         }
                     }
-
-                    $code_error = "D.2";
-                    //Valida contra Mongo
                 }
 
                 /* SLDO_TEC
@@ -216,8 +238,8 @@ class Lib_125_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-//        var_dump($sharer_info);        
-//    $result = return_error_array("-", "-", "-");
+    
+//    $result = return_error_array("-", "-", "--Dummy--");
 //    array_push($stack, $result);
                             
         $this->data = $stack;
