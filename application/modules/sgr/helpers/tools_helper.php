@@ -679,17 +679,21 @@ function calc_anexo_201($aporte, $get_historic_data, $number) {
     }
 }
 
-
-function translate_anexos_dna2($anexo){
-    switch($anexo){
+function translate_anexos_dna2($anexo) {
+    switch ($anexo) {
         case '06':
             return 'sgr_socios';
             break;
-        
+
         case 'sgr_socios':
             return '06';
             break;
-        
     }
-    
+}
+
+function translate_month_spanish($code) {    
+    $replace = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+    $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+
+    return str_replace($search, $replace, $code);
 }
