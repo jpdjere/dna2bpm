@@ -98,8 +98,6 @@ class mysql_model extends CI_Model {
     }
 
     function save_anexo_06_tmp($parameter) {
-
-
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
@@ -137,18 +135,18 @@ class mysql_model extends CI_Model {
 
         $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_efectiva']);
 
-
-
+        
         unset($parameter['capital_suscripto']);
-        unset($parameter['capital_integrado']);
+        unset($parameter['capital_suscripto']);
+        unset($parameter['cantidad_empleados']);
+        unset($parameter['monto']);
+        unset($parameter['monto2']);
+        unset($parameter['monto3']);
 
 
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
-
-
         if ($result) {
             $out = array('status' => 'ok');
         } else {
