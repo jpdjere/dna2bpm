@@ -22,21 +22,9 @@ class mysql_model extends CI_Model {
             $this->sgr_cuit = $sgr['1695'];
         }
 
-        $config['hostname'] = "localhost";
-        $config['username'] = "root";
-        $config['password'] = "root";
-        $config['database'] = "forms2";
-        $config['dbdriver'] = "mysql";
-        $config['dbprefix'] = "";
-        $config['pconnect'] = FALSE;
-        $config['db_debug'] = TRUE;
-        $config['cache_on'] = FALSE;
-        $config['cachedir'] = "";
-        $config['char_set'] = "utf8";
-        $config['dbcollat'] = "utf8_general_ci";
-
-        //$this->load->database($config);
-        $this->load->database('forms2', TRUE);
+        $this->load->database('dna2');
+        
+  
     }
 
     /* ACTIVE PERIODS DNA2 */
