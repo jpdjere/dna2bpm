@@ -22,9 +22,7 @@ class mysql_model extends CI_Model {
             $this->sgr_cuit = $sgr['1695'];
         }
 
-        $this->load->database('dna2');
-        
-  
+        $dbconnect =  $this->load->database('dna2');
     }
 
     /* ACTIVE PERIODS DNA2 */
@@ -140,7 +138,10 @@ class mysql_model extends CI_Model {
 
 
         $id = $this->app->genid_sgr($container);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
+
+
 
         if ($result) {
             $out = array('status' => 'ok');
