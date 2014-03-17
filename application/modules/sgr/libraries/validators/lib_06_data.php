@@ -25,6 +25,7 @@ class Lib_06_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $C_array_value = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -43,7 +44,7 @@ class Lib_06_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-
+                    $A_cell_value = "";
                     $code_error = "A.1";
 
                     //empty field Validation
@@ -51,18 +52,13 @@ class Lib_06_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
-                        $A_cell_value = "";
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            $A_cell_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
                 }
@@ -319,7 +315,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 //Check Numeric Validation
-                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'],true);
+                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                                 if (!$return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
@@ -545,13 +541,11 @@ class Lib_06_data extends MX_Controller {
 
                     $subscribed = array_sum(array($subscribed, $AH_cell_value));
                     $integrated = array_sum(array($integrated, $AI_cell_value));
-                    
-                    
+
+
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
                      */
-                    
-                  
                     if ($integrated > $subscribed) {
                         $code_error = "AI.5";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $integrated . " - Suscripto: " . $subscribed);
@@ -581,7 +575,7 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         } else {
-
+                            $C_array_value[] = $parameterArr[$i]['fieldValue'];
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -1394,7 +1388,14 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-//        var_dump($stack);        exit();
+        if (count(array_unique($C_array_value)) < count($C_array_value)) {
+            $stack = array();
+            $code_error = "VG.1";
+            $result = return_error_array($code_error, "-", "");
+            array_push($stack, $result);
+        }
+
+        
         $this->data = $stack;
     }
 

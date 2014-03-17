@@ -9,6 +9,10 @@ class Lib_06_error_legend {
     function return_legend($code, $row, $value) {
 
         switch ($code) {
+            case "VG.1":
+                $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Se esta intentando INCORPORAR el mismo CUIT mas de una vez dentro de el excel.';
+                break;
+            
             case "A.1":
                 $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Operación: El campo no puede estar vacío y debe contener uno de los siguientes parámetros: INCORPORACION, INCREMENTO TENENCIA ACCIONARIA, DISMINUCION DE CAPITAL SOCIAL, INTEGRACION PENDIENTE';
                 break;
