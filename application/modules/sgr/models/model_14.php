@@ -279,9 +279,9 @@ class Model_14 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
-        $new_list = array();
+        $result = $this->mongo->sgr->$container->find($query);       
         foreach ($result as $list) {
+           
 
             $col5[] = (float) ($list['CAIDA']);
             $col6[] = (float) ($list['RECUPERO']);
@@ -298,7 +298,7 @@ class Model_14 extends CI_Model {
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
-        $new_list['col5'] = money_format_custom($list['CAIDA']);
+        $new_list['col5'] = money_format_custom(array_sum($col5));
         $new_list['col6'] = money_format_custom(array_sum($col6));
         $new_list['col7'] = money_format_custom(array_sum($col7));
         $new_list['col8'] = money_format_custom(array_sum($col8));

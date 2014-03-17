@@ -93,7 +93,7 @@ class Lib_202_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $B_cell_value = false;
-                    
+
 
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -107,25 +107,6 @@ class Lib_202_data extends MX_Controller {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }
-                    }
-
-                    $return = check_is_numeric_no_decimal($A_cell_value,true);
-                    if (!$return) {
-                        $code_error = "A.1";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                        array_push($stack, $result);
-                    } else {
-                        if ($get_input_number < 1 && $B_cell_value != 0) {
-                            $code_error = "A.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $get_input_number . " B:" . $B_cell_value);
-                            array_push($stack, $result);
-                        } else {
-                            if ($parameterArr[$i]['fieldValue'] > $get_input_number) {
-                                $code_error = "B.2";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
-                                array_push($stack, $result);
-                            }
                         }
                     }
                 }
@@ -163,17 +144,38 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
 
-                    if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
-                        $code_error = "A.4";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo " . $get_input_number . " B:" . $B_cell_value . " D:" . $D_cell_value);
+
+                    $return = check_is_numeric_no_decimal($A_cell_value, true);
+                    if (!$return) {
+                        $code_error = "A.1";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                         array_push($stack, $result);
+                    } else {
+
+                        if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
+                            $code_error = "A.4";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo " . $get_input_number . " B:" . $B_cell_value . " D:" . $D_cell_value);
+                            array_push($stack, $result);
+                        }
+
+                        if ($get_input_number < 1 && $B_cell_value != 0) {
+                            $code_error = "A.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $get_input_number . " B:" . $B_cell_value);
+                            array_push($stack, $result);
+                        } else {
+                            if ($B_cell_value > $get_input_number) {
+                                $code_error = "B.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                                array_push($stack, $result);
+                            }
+                        }
                     }
                 }
             } // END FOR LOOP->
@@ -191,7 +193,7 @@ class Lib_202_data extends MX_Controller {
         }
 //
 //        var_dump($stack);
-//        exit();
+    //    exit();
         $this->data = $stack;
     }
 

@@ -623,29 +623,76 @@ class Model_06 extends CI_Model {
             'status' => 'activo',
             'period' => $get_period
         );
-        
-        $period_arr = $this->mongo->sgr->$container_period->findOne($query);        
+
+
+        /* PARTNERS ARRAY */
+        $add = array();
+        foreach ($partners_arr as $each_partner) {
+            $add[] = $each_partner;
+        }
+
+
+        $period_arr = $this->mongo->sgr->$container_period->findOne($query);
         $filename = $period_arr['filename'];
         foreach ($period_arr as $list) {
+
             $anexo_query = array(
-                //1695 => $list,
                 'filename' => $filename,
-                "5779" => "1"
+                "5779" => "1",
+                1695 => array('$in' => $add),
             );
+
             $get_error = array();
             $new_result = $this->mongo->sgr->$container_anexo->find($anexo_query);
             foreach ($new_result as $new_list) {
                 $get_error[] = $new_list[1695];
             }
+
+            $anexo_query_total = array(
+                'filename' => $filename,
+                "5779" => "1"
+            );
+
+            $get_error_total = array();
+            $new_result_total = $this->mongo->sgr->$container_anexo->find($anexo_query_total);
+            foreach ($new_result_total as $new_list_total) {
+                $get_error_total[] = $new_list_total[1695];
+            }
         }
 
-        if ($get_error)
+        if ($get_error || $get_error_total) {
+
+            $count_xls = count($partners_arr);
+            $register = count($get_error);
+            $register_total = count($get_error_total);
             
-            return $get_error;
+            $num = array($count_xls, $register, $register_total);
+            
+            if(max($num)==min($num)){
+                exit();
+            }
+            
+
+            $key = array_search(max($num), $num);
+            
+            
+            switch($key){
+                case 0:
+                     $error_value = "VG.3";
+                    break;
+                case 1:
+                    $error_value = "VG.4";
+                    break;
+                case 2:
+                    $error_value = "VG.4";
+                    break;
+            }
+            
+            //var_dump($key, $count_xls, $register, $register_total);
+
+            return $error_value;
+        }
     }
-    
-    
-   
 
     /* ACCIONES COMPRA/VENTA X SGR
      * Compra/venta por socio

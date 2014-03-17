@@ -28,6 +28,15 @@ class Model_15 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -63,41 +72,36 @@ class Model_15 extends CI_Model {
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
-            $insertarr[$value] = $parameter[$key];           
-           
+            $insertarr[$value] = $parameter[$key];
+            /* STRING */
+            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25']; 
+            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR']; 
+            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];            
+            
+            /*FLOAT*/
+            $insertarr['MONTO'] = (float) $insertarr['MONTO']; 
+            
+
             if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
                 $insertarr["MONEDA"] = "1";
             if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
-                $insertarr["MONEDA"] = "2";            
+                $insertarr["MONEDA"] = "2";
         }
         return $insertarr;
     }
 
     function save($parameter) {
+        
+     
+        
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-        
-       
-        /*FILTER NUMBERS/STRINGS*/
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');        
-        $numbers_values = array_merge($int_values,$float_values);              
-        
-       
-        
-        /*FIX INFORMATION*/
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-        
-       
-        /* FIX DATE */
+
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
-        
+
         $id = $this->app->genid_sgr($container);
-        
-        /*MERGE CAST*/
-        $parameter = array_merge($parameter,$numbers_values);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -138,7 +142,7 @@ class Model_15 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -153,16 +157,46 @@ class Model_15 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-
-
-        $headerArr = array("INCISO_ART_25", "DESCRIPCION", "IDENTIFICACION", "EMISOR", "CUIT_EMISOR", "ENTIDAD_DESPOSITARIA", "CUIT_DEPOSITARIO", "MONEDA", "MONTO");
-        $data = array($headerArr);
+        $tmpl = array(
+            'data' => '<tr>
+                    <td align="center" colspan="3">Fondo de riesgo disponible</td>
+                    <td align="center" rowspan="3">Entidad Emisora</td>
+                    <td align="center" rowspan="3">CUIT Entidad Emisora</td>
+                    <td align="center" rowspan="3">Entidad Depositaria</td>
+                    <td align="center" rowspan="3">CUIT Entidad Depositaria</td>
+                    <td align="center" rowspan="3">Moneda nominativa del Activo</td>
+                    <td align="center" rowspan="3">Monto (En Pesos)</td>
+                    <td align="center" rowspan="3">Proporción en el Fondo de Riesgo (%)</td>
+                </tr>
+                <tr>
+                    <td colspan="3">1. Activos Artículo 25</td></tr>
+                    <tr>
+                        <td>Inciso del Art. 25</td>
+                        <td>Descripción</td>
+                        <td>Identificación</td>
+                    </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>                                              
+                            </tr> ',
+        );
+        $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
+        $this->load->library('table_custom');
+        $newTable =  $this->table_custom->generate($data);
+        
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -175,6 +209,7 @@ class Model_15 extends CI_Model {
         foreach ($result as $list) {
             /* Vars 								
              */
+       
 
             $this->load->model('padfyj_model');
             $transmitter_name = $this->padfyj_model->search_name($list['CUIT_EMISOR']);
@@ -184,7 +219,7 @@ class Model_15 extends CI_Model {
             $depositories_name = ($depositories_name) ? $depositories_name['nombre'] : strtoupper($list['ENTIDAD_DESPOSITARIA']);
 
             $this->load->model('app');
-            $currency = $this->app->get_ops(549);            
+            $currency = $this->app->get_ops(549);
 
             $new_list = array();
             $new_list['INCISO_ART_25'] = $list['INCISO_ART_25'];
@@ -196,6 +231,7 @@ class Model_15 extends CI_Model {
             $new_list['CUIT_DEPOSITARIO'] = $list['CUIT_DEPOSITARIO'];
             $new_list['MONEDA'] = $currency[$list['MONEDA']];
             $new_list['MONTO'] = money_format_custom($list['MONTO']);
+            $new_list['col10'] = 10;
             $rtn[] = $new_list;
         }
         return $rtn;

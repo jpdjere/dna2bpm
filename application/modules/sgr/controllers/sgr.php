@@ -20,7 +20,7 @@ class Sgr extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
-        $this->load->model('sgr/sgr_model');
+        $this->load->model('sgr/sgr_model');        
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
@@ -50,7 +50,7 @@ class Sgr extends MX_Controller {
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
     }
-
+   
     function Index() {
 
         $customData = array();
@@ -313,8 +313,8 @@ class Sgr extends MX_Controller {
                     }
                 }
             }
-            
-            
+
+
 
             /* VALIDATIONS */
             if (!$count) {
@@ -323,7 +323,9 @@ class Sgr extends MX_Controller {
             }
 
             /* PRELIMINAR VALIDATION */
-            $VG = $this->pre_general_validation($anexo);
+            //$VG = $this->pre_general_validation($anexo);
+
+
 
 
             /* XLS CELL DATA ERROR */
@@ -358,73 +360,63 @@ class Sgr extends MX_Controller {
             $result_header = $result_header_desc . $result_header;
             $error = 3;
         }
-        
-     
+
+
 
         if (!$error) {
             $model = "model_" . $anexo;
             $this->load->Model($model);
-            $array = array();
-            //Check Duplicates ANEXO 06
+
             for ($i = 2; $i <= $data->rowcount(); $i++) {
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
                 $result_data_ = $this->$model->check($sanitize_data);
-
-
-                if ($result_data_[5779] == 1) {
-                    if ($result_data_[1695] != NULL) {
-                        $array[] = $result_data_[1695];
-                    }
-                }
             }
 
-            if (count(array_unique($array)) < count($array)) {
+
+
+            if ($VG) {
                 $duplicated = true;
-                $customData['message'] = 'Se esta intentando INCORPORAR el mismo CUIT mas de una vez dentro de el excel.';
+                $customData['message'] = $VG;
                 $this->render('errors', $customData);
                 unlink($uploadpath);
-            } else {
-                $duplicated = false;
             }
 
 
-            //INSERT UPDATE
-            if (!$duplicated) {
-                for ($i = 2; $i <= $data->rowcount(); $i++) {
-                    if (!empty($data->sheets[0]['cells'][$i][1])) {
-                        $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
-                        $result['filename'] = $new_filename;
-                        $result['sgr_id'] = (int) $this->sgr_id;
-                        $save = (array) $this->$model->save($result);
-                    }
-                }
 
-
-
-                /* SET PERIOD */
-                if ($save) {
-                    $result = array();
+            /* INSERT UPDATE */
+            for ($i = 2; $i <= $data->rowcount(); $i++) {
+                if (!empty($data->sheets[0]['cells'][$i][1])) {
+                    $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
-                    $result['anexo'] = $this->anexo;
-                    $save_period = (array) $this->$model->save_period($result);
+                    $save = (array) $this->$model->save($result);
+                }
+            }
 
 
-                    if ($save_period['status'] == "ok") {
-                        /* RENDER */
-                        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
-                        $customData['sgr_period'] = $this->period;
-                        $customData['anexo_list'] = $this->AnexosDB();
-                        $custo_Data['process_filename'] = $new_filename;
-                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
-                        $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
-                        $this->render('success', $customData);
-                        copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
-                        unlink($uploadpath);
-                    } else {
 
-                        $error = 4;
-                    }
+            /* SET PERIOD */
+            if ($save) {
+                $result = array();
+                $result['filename'] = $new_filename;
+                $result['sgr_id'] = (int) $this->sgr_id;
+                $result['anexo'] = $this->anexo;
+                $save_period = (array) $this->$model->save_period($result);
+
+
+                if ($save_period['status'] == "ok") {
+                    /* RENDER */
+                    $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+                    $customData['sgr_period'] = $this->period;
+                    $customData['anexo_list'] = $this->AnexosDB();
+                    $custo_Data['process_filename'] = $new_filename;
+                    $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
+                    $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
+                    $this->render('success', $customData);
+                    copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
+                    unlink($uploadpath);
+                } else {
+                    $error = 4;
                 }
             }
         }
@@ -1034,12 +1026,39 @@ class Sgr extends MX_Controller {
     function pre_general_validation($anexo) {
         switch ($anexo) {
             case '061':
-                $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
+                $info_06 = $this->sgr_model->get_just_active("06", true, $this->session->userdata['period']);
                 foreach ($info_06 as $filenames) {
                     if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
-                        return  "VG.1";
+                        return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
                     }
                 }
+                break;
+
+            case '141':
+                $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
+                $error = false;
+                $info_140 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                foreach ($info_140 as $filenames) {
+                    if (!$filenames) {
+                        $error = $legend;
+                    }
+                }
+
+                $info_124 = $this->sgr_model->get_just_active("124", false, $this->session->userdata['period']);
+                foreach ($info_124 as $filenames) {
+                    if (!$filenames) {
+                        $error = $legend;
+                    }
+                }
+
+                $info_125 = $this->sgr_model->get_just_active("125", false, $this->session->userdata['period']);
+                foreach ($info_124 as $filenames) {
+                    if (!$filenames) {
+                        $error = $legend;
+                    }
+                }
+                return $error;
+
                 break;
         }
     }

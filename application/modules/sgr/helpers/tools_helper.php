@@ -443,6 +443,15 @@ function translate_period_date($period) {
     return $mongotime;
 }
 
+function translate_dna2_period_date($period) {
+    list($period_month, $period_year) = explode("_", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
 function mongodate_to_print($date) {
     return date('Y-m-d', $date->sec);
 }
@@ -668,4 +677,23 @@ function calc_anexo_201($aporte, $get_historic_data, $number) {
         $error_text = "( Nro de Aporte " . $number . " Aporte: " . $sum_CAIDA . " ) " . $sum_RETIRO;
         return $error_text;
     }
+}
+
+function translate_anexos_dna2($anexo) {
+    switch ($anexo) {
+        case '06':
+            return 'sgr_socios';
+            break;
+
+        case 'sgr_socios':
+            return '06';
+            break;
+    }
+}
+
+function translate_month_spanish($code) {    
+    $replace = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+    $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+
+    return str_replace($search, $replace, $code);
 }

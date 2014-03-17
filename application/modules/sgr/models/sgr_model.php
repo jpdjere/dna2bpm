@@ -356,7 +356,7 @@ class Sgr_model extends CI_Model {
     }
 
     /* GET ACTIVE ANEXOS */    
-     function get_just_active($anexo, $sin_movimiento=true, $period=false) {
+     function get_just_active($anexo, $sin_movimiento=false, $period=false) {
         $rtn = array();
         $container = 'container.sgr_periodos';        
 

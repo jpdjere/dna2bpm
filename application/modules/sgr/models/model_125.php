@@ -134,16 +134,47 @@ class Model_125 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter) {
+    function get_anexo_info($anexo, $parameter, $xls = false) {
+        $tmpl = array(
+            'data' => ' <tr>
+        <td colspan="2" align="center">Socio Participe</td>
+        <td colspan="2" align="center">Acreedor <br></td>
+        <td colspan="4" align="center">Saldo de Garantías Vigentes<br></td>
+    </tr>
+    <tr>
+        <td align="center">C.U.I.T.</td>
+        <td align="center">Razón Social</td>
+        <td align="center">C.U.I.T.</td>
+        <td align="center">Razón Social</td>
+        <td align="center">Financiera</td>
+        <td align="center">Comerciales <br></td>
+        <td align="center">Técnicas</td>
+        <td align="center">Total</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>    
+    </tr> ',
+        );
 
-        $headerArr = array("CUIT_PART", "CUIT_ACREEDOR", "SLDO_FINANC", "SLDO_COMER", "SLDO_TEC");
-        $data = array($headerArr);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+
+        $data = array($tmpl);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
+        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
+        $anexoValues = array_merge($anexoValues, $anexoValues2);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
+
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -157,18 +188,64 @@ class Model_125 extends CI_Model {
             /* Vars */
             $cuit = str_replace("-", "", $list['CUIT']);
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
+            $brand_name_participate = $this->padfyj_model->search_name($list['CUIT_PART']);
+            $brand_name_creditor = $this->padfyj_model->search_name($list['CUIT_ACREEDOR']);
 
+            $total = array_sum(array($list['SLDO_FINANC'], $list['SLDO_COMER'], $list['SLDO_TEC']));
 
             $new_list = array();
-            $new_list['CUIT_PART'] = $list['CUIT_PART'];
-            $new_list['CUIT_ACREEDOR'] = $list['CUIT_ACREEDOR'];
-            $new_list['SLDO_FINANC'] = money_format_custom($list['SLDO_FINANC']);
-            $new_list['SLDO_COMER'] = money_format_custom($list['SLDO_COMER']);
-            $new_list['SLDO_TEC'] = money_format_custom($list['SLDO_TEC']);
+            $new_list['col1'] = $list['CUIT_PART'];
+            $new_list['col2'] = $brand_name_participate;
+            $new_list['col3'] = $list['CUIT_ACREEDOR'];
+            $new_list['col4'] = $brand_name_creditor;
+            $new_list['col5'] = money_format_custom($list['SLDO_FINANC']);
+            $new_list['col6'] = money_format_custom($list['SLDO_COMER']);
+            $new_list['col7'] = money_format_custom($list['SLDO_TEC']);
+            $new_list['col8'] = money_format_custom($total);
             $rtn[] = $new_list;
         }
+        return $rtn;
+    }
+
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
+
+        $rtn = array();
+
+        $col5 = array();
+        $col6 = array();
+        $col7 = array();
+        $col8 = array();
+
+
+
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $total = array_sum(array($list['SLDO_FINANC'], $list['SLDO_COMER'], $list['SLDO_TEC']));
+            $col5[] = (float) ($list['SLDO_FINANC']);
+            $col6[] = (float) ($list['SLDO_COMER']);
+            $col7[] = (float) ($list['SLDO_TEC']);
+            $col8[] = (float) ($total);
+        }
+
+
+        $new_list = array();
+
+        $new_list['col1'] = "<strong>TOTALES</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = "-";
+        $new_list['col5'] = money_format_custom(array_sum($col5));
+        $new_list['col6'] = money_format_custom(array_sum($col6));
+        $new_list['col7'] = money_format_custom(array_sum($col7));
+        $new_list['col8'] = money_format_custom(array_sum($col8));
+
+        $rtn[] = $new_list;
+
+
         return $rtn;
     }
 

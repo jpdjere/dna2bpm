@@ -46,9 +46,7 @@ class Model_16 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example
-         * PROMEDIO_SALDO_MENSUAL	
-         * SALDO_PROMEDIO_GARANTIAS_VIGENTES	
+         * @example         
          * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
          * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
          * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
@@ -59,16 +57,14 @@ class Model_16 extends CI_Model {
          * SALDO_PROMEDIO_FDR_CONTINGENTE
          * */
         $defdna = array(
-            1 => 'PROMEDIO_SALDO_MENSUAL',
-            2 => 'GARANTIAS_VIGENTES',
-            3 => '80_HASTA_FEB_2010',
-            4 => '120_HASTA_FEB_2010',
-            5 => '80_DESDE_FEB_2010',
-            6 => '120_DESDE_FEB_2010',
-            7 => '80_DESDE_ENE_2011',
-            8 => '120_DESDE_ENE_2011',
-            9 => 'FDR_TOTAL_COMPUTABLE',
-            10 => 'FDR_CONTINGENTE'
+            1 => '80_HASTA_FEB_2010',
+            2 => '120_HASTA_FEB_2010',
+            3 => '80_DESDE_FEB_2010',
+            4 => '120_DESDE_FEB_2010',
+            5 => '80_DESDE_ENE_2011',
+            6 => '120_DESDE_ENE_2011',
+            7 => 'FDR_TOTAL_COMPUTABLE',
+            8 => 'FDR_CONTINGENTE'
         );
 
 
@@ -83,10 +79,10 @@ class Model_16 extends CI_Model {
         }
         return $insertarr;
     }
-    
+
     function save($parameter) {
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_' . $this->anexo;        
+        $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
@@ -102,7 +98,6 @@ class Model_16 extends CI_Model {
         }
         return $out;
     }
-   
 
     function save_period($parameter) {
         /* ADD PERIOD */
@@ -228,9 +223,10 @@ class Model_16 extends CI_Model {
             $depositories_name = ($depositories_name) ? $depositories_name['nombre'] : strtoupper($list['ENTIDAD_DESPOSITARIA']);
 
             $this->load->model('app');
-            
-            
-            
+
+
+            $get_month = explode("-", $list['period']);
+            $month_value = translate_month_spanish($get_month[0]);
 
 
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
@@ -238,10 +234,10 @@ class Model_16 extends CI_Model {
             $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
             $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
             $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
 
             $new_list = array();
-            $new_list['col1'] = $list['PROMEDIO_SALDO_MENSUAL'];
+            $new_list['col1'] = $month_value;
             $new_list['col2'] = money_format_custom($list['GARANTIAS_VIGENTES']);
             $new_list['col3'] = money_format_custom($list['80_HASTA_FEB_2010']);
             $new_list['col4'] = money_format_custom($list['120_HASTA_FEB_2010']);
