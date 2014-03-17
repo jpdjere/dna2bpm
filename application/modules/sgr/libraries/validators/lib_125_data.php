@@ -178,9 +178,9 @@ class Lib_125_data extends MX_Controller {
                     } else {
                         $code_error = "D.1";
                         $greater_than_zero = false;
-                        $D2_array = array("GC1", "GC2");
+                        $D1_array = array("GC1", "GC2");
                         foreach ($sharer_info as $info) { 
-                            if (in_array($info['5216'][0], $D2_array)) {
+                            if (in_array($info['5216'][0], $D1_array)) {
                                 $greater_than_zero = true;
                             }
                         }
@@ -216,31 +216,49 @@ class Lib_125_data extends MX_Controller {
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GT
                  */
                 if ($parameterArr[$i]['col'] == 5) {
-                    //empty field Validation
-                    $code_error = "E.1";
 
+                    $code_error = "E.1";
+                    //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        $code_error = "E.1";
+                        $greater_than_zero = false;
+                        $E1_array = array("GT");
+                        foreach ($sharer_info as $info) { 
+                            if (in_array($info['5216'][0], $E1_array)) {
+                                $greater_than_zero = true;
+                            }
+                        }
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        $int_value = (int) $parameterArr[$i]['fieldValue'];
+                        if ($greater_than_zero) {
+                            // garantia activa campo mayor a cero  
+                            $code_error = "E.1";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                array_push($stack, $result);
+                            }
+                            
+                        }else{
+                            // otros casos debe ser cero
+                            $code_error = "E.2";
+                            if ($int_value!=0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+
                         }
                     }
-
-                    $code_error = "E.2";
-                    //Valida contra Mongo
                 }
             } // END FOR LOOP->
         }
     
-    $result = return_error_array("-", "-", "--Dummy--");
-    array_push($stack, $result);
+//    $result = return_error_array("-", "-", "--Dummy--");
+//    array_push($stack, $result);
                             
         $this->data = $stack;
     }
