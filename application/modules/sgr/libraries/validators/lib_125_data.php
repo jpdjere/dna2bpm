@@ -9,6 +9,9 @@ class Lib_125_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
         /* Vars 
          * 
          * $parameters =  
@@ -45,29 +48,29 @@ class Lib_125_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
+                    $A_cell_value = "";
                     $code_error = "A.1";
-                    //empty field Validation
+                    $sharer_info = $this->$model_anexo->get_sharer($parameterArr[$i]['fieldValue']);
+
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
 
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        if (!$sharer_info) {
+                            $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "A.2";
-                    //Valida contra Mongo
                 }
 
                 /* CUIT_ACREEDOR
@@ -84,24 +87,22 @@ class Lib_125_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        $code_error = "B.2";
+                        $creditor_info = $this->$model_anexo->get_creditor($A_cell_value, $parameterArr[$i]['fieldValue']);
+                        if (!$creditor_info) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "B.2";
-                    //Valida contra Mongo
                 }
 
                 /* SLDO_FINANC
@@ -118,23 +119,38 @@ class Lib_125_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $greater_than_zero = false;
+                        $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2");
+                        foreach ($sharer_info as $info) {
+
+                            if (in_array($info['5216'][0], $C2_array)) {
+                                $greater_than_zero = true;
+                            }
+                        }
+
+                        if (!$greater_than_zero) {
+                            $int_value = (int) $parameterArr[$i]['fieldValue'];
+                            if ($int_value > 0) {
+                                $code_error = "C.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                array_push($stack, $result);
+                            }
+                        }
+
+
+                        $code_error = "C.1";
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, $greater_than_zero);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
 
-                    $code_error = "C.2";
+
                     //Valida contra Mongo
                 }
 
@@ -152,17 +168,14 @@ class Lib_125_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-
+                    
+                    // Chequeo decimal y positivo
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -186,8 +199,6 @@ class Lib_125_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -195,8 +206,6 @@ class Lib_125_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -204,12 +213,14 @@ class Lib_125_data extends MX_Controller {
 
                     $code_error = "E.2";
                     //Valida contra Mongo
-                }                
+                }
             } // END FOR LOOP->
         }
+//        var_dump($sharer_info);        
+//    $result = return_error_array("-", "-", "-");
+//    array_push($stack, $result);
+                            
         $this->data = $stack;
-        
-       
     }
 
 }

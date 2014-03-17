@@ -33,90 +33,44 @@ class Lib_16_data extends MX_Controller {
              * @author Diego             
              * @example 
              * PROMEDIO_SALDO_MENSUAL	
-             * SALDO_PROMEDIO_GARANTIAS_VIGENTES	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011	
-             * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011	
-             * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
-             * SALDO_PROMEDIO_FDR_CONTINGENTE
+             *  SALDO_PROMEDIO_GARANTIAS_VIGENTES
+              SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010
+              SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010
+              SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010
+              SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010
+              SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011
+              SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011
+              SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE
+              SALDO_PROMEDIO_FDR_CONTINGENTE
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
-
-                /* PROMEDIO_SALDO_MENSUAL
-                 * Nro A.1
-                 * Detail:
-                 * Debe contener alguno de los siguientes parámetros:
-                  ENERO
-                  FEBRERO
-                  MARZO
-                  ABRIL
-                  MAYO
-                  JUNIO
-                  JULIO
-                  AGOSTO
-                  SEPTIEMBRE
-                  OCTUBRE
-                  NOVIEMBRE
-                  DICIEMBRE
-                 */
-                if ($parameterArr[$i]['col'] == 1) {
-                    $code_error = "A.1";
-                    //empty field Validation
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
-                    //Value Validation
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $B_cell_value = "";
-                        $allow_words = array("ENERO",
-                            "FEBRERO",
-                            "MARZO",
-                            "ABRIL",
-                            "MAYO",
-                            "JUNIO",
-                            "JULIO",
-                            "AGOSTO",
-                            "SEPTIEMBRE",
-                            "OCTUBRE",
-                            "NOVIEMBRE",
-                            "DICIEMBRE");
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return) {
-                           
-                            
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-                    }
-                }
 
                 /* DESCRIPCION
                  * Nro BJ.1
                  * Detail:
                  * Debe contener formato numérico sin decimales.
                  */
-                
-                $range = range(2, 10);
+
+                $range = range(1, 9);
                 if (in_array($parameterArr[$i]['col'], $range)) {
                     $code_error = "BJ.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
+                        if (!$return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
-                }                
+                }
             } // END FOR LOOP->
         }
+
         $this->data = $stack;
     }
 

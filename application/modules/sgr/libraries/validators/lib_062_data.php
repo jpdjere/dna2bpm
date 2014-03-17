@@ -8,6 +8,9 @@ class Lib_062_data extends MX_Controller {
         $this->load->library('session');
 
         $this->load->helper('sgr/tools');
+         /* PARTNER INFO */
+        $model_06 = 'model_06';
+        $this->load->Model($model_06);
 
         /* Vars 
          * 
@@ -42,20 +45,20 @@ class Lib_062_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            $code_error = "A.2";
+                            $partner_data = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A");                            
+                            if ($partner_data==0) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Saldo " . $partner_data);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -78,26 +81,26 @@ class Lib_062_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        $code_error = "B.2";
                         $return = check_date($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                            $code_error = "R.2";
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
                         /* PERIOD */
-                        $code_error = "B.2";                                            
-                        $return = check_period_minor($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
-                        if (!$return) {
-                           
-                            
+                        $code_error = "B.2";
+                        list($y_post, $m_post) = explode("/", $parameterArr[$i]['fieldValue']);
+                        list($m_period, $y_period) = explode("-", $this->session->userdata['period']);
+                        
+                        
+                         $check_date = mktime(0, 0, 0, date($m_post), date(01), date($y_post));
+                         $check_period =mktime(0, 0, 0, date($m_period), date(02), date($y_period));                        
+
+                        if ($check_date > $check_period) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -111,14 +114,18 @@ class Lib_062_data extends MX_Controller {
                  * Debe ser formato numérico y aceptar hasta dos decimales.
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.1";
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            $C_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                            if ($C_cell_value < 1) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -129,22 +136,22 @@ class Lib_062_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                     //empty field Validation
-                   $code_error = "D.1";
+                    $code_error = "D.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        
+                    } else {
                         $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        } else {
+                            $D_cell_value = (int) $parameterArr[$i]['fieldValue'];
+                            if ($D_cell_value < 1) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $D_cell_value);
+                                array_push($stack, $result);
+                            }
                         }
                     }
                 }
@@ -159,16 +166,15 @@ class Lib_062_data extends MX_Controller {
                         $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } 
+                        }
                     }
                 }
             }
-        }
-        $this->data = $stack;        
+        }      
+      
+        $this->data = $stack;
     }
 
 }

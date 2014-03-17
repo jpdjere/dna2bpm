@@ -9,14 +9,20 @@ class Lib_061_error_legend {
     function return_legend($code, $row, $value) {
 
         switch ($code) {
+            case "VG.1": 
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” ';
+                break;
+             case "VG.3": 
+                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Todos los CUIT que figuran en la Columna A de este archivo, debe estar informado en la Columna C del ANEXO 6 del período correspondiente, y deben figurar como “INCORPORADO” en la Columna A de dicho anexo.';
+                break;
+            case "VG.4": 
+                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Debe verificar en el Anexo 6 del período correspondiente que todos los CUIT informados en la Columna C del mismo y que en la Columna A figuran como “INCORPORACION”, deben figurar al menos una vez en esta columna.';
+                break;
             case "A.1": 
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.';
                 break;
             case "A.2": 
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El CUIT debe estar informado en la Columna C del ANEXO 6 del período correspondiente, y deber figurar como “INCORPORADO” en la Columna A de dicho anexo.';
-                break;
-            case "A.3": 
-                $result_error = '<strong>Columna A - Código Validación '.$code.'</strong><br/>Debe verificar en el Anexo 6 del período correspondiente que todos los CUIT informados en la Columna C del mismo y que en la Columna A figuran como “INCORPORACION”, deben figurar al menos una vez en esta columna.';
                 break;
              case "B.1": 
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El campo no puede estar vacío y debe contener uno de los siguientes parámetros: SI/NO';
@@ -25,7 +31,7 @@ class Lib_061_error_legend {
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si el CUIT informado en la Columna A comienza con 30 o 33 (Correspondiente a Personas Jurídicas) la opción debe ser “SI”.';
                 break;
             case "B.3": 
-                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo,  y las Columnas C, D, E, y F deben estar vacías.';
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si se indica la opción “NO” el CUIT no puede estar más de una vez en la Columna A de este Anexo.';
                 break;
              case "C.1": 
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.';

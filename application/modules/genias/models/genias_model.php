@@ -732,6 +732,7 @@ class Genias_model extends CI_Model {
         $listado = array();
 
         foreach ($visitas as $visita) {
+
             if (!isset($visita['cuit']))
                 continue;
             if (!array_key_exists($visita['cuit'], $agencias))
@@ -741,7 +742,7 @@ class Genias_model extends CI_Model {
             $temp = (array) $agencia['4897'];
             $prov = $temp[0];
 
-            // Si no hay cuit salgo del loop
+            // xxx Si no hay cuit salgo del loop
 
             $email = (empty($agencia[6196])) ? ('-') : ($agencia[6196]);
             $razon_social = (empty($agencia[4896])) ? ('-') : ($agencia[4896]);
@@ -754,11 +755,11 @@ class Genias_model extends CI_Model {
             }
             $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
 
-            $listado[$prov][$empresa['4896']]['empresa'] = $razon_social;
-            $listado[$prov][$empresa['4896']]['4896'] = $prov;
-            $listado[$prov][$empresa['4896']]['fechas'][] = $myVisita;
-            $listado[$prov][$empresa['4896']]['nombre'] = $username;
-            $listado[$prov][$empresa['4896']]['1703'] = $email;
+            $listado[$prov][$agencia['4896']]['empresa'] = $razon_social;
+            $listado[$prov][$agencia['4896']]['4896'] = $prov;
+            $listado[$prov][$agencia['4896']]['fechas'][] = $myVisita;
+            $listado[$prov][$agencia['4896']]['nombre'] = $username;
+            $listado[$prov][$agencia['4896']]['1703'] = $email;
         }
 
 

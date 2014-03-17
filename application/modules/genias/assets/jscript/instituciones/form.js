@@ -162,16 +162,19 @@ var btnSave = Ext.create('Ext.Action', {
     text: '<i class="icon icon-save"></i> Guardar datos Institucion',
     handler: function() {
         var form = InstitucionForm;
+
         if (!form.isValid()) {
             Ext.Msg.alert('Encenario Pyme', '<h5>Complete los campos correctamente</h5>');
         } else {
             var record = form.getRecord();
+
             if (record) {
                 //----es uno del grid
                 form.getForm().updateRecord(record);
             }
             /*CHECKBOX*/
             var values = form.getValues();
+            
             record.set(values);
             record.set('1716', values["1716"]);
             //---busco por cuit
@@ -179,6 +182,7 @@ var btnSave = Ext.create('Ext.Action', {
                 //---si no estaba lo agrego al online
                 InstitucionStore.add(record);
             }
+
             storeInstitucionOffline.add(record);
             storeInstitucionOffline.sync();
 
@@ -496,18 +500,25 @@ var InstitucionForm = Ext.create('Ext.form.Panel', {
         afterRender: function(form) {
             params = Ext.urlDecode(location.search.substring(1));
             this.params = params;
-            //console.log('Params:', params);
+  //          console.log('Params:', params);
             InstitucionStore.load();
             //---creo un record vacio
             InstitucionForm.loadRecord(Ext.create('InstitucionModel', {}));
-
             //carga la tarea si existe
-            if (InstitucionForm.params['task'] != null)
+            
+            if (params.task != null ){
+               InstitucionForm.params['task'] =params.task;       
+            }
+
+            if (InstitucionForm.params['task'] != null )
                 Ext.getCmp('task').setValue(InstitucionForm.params['task']);
+
+
         },
         dirtychange: function(form) {
             /*Sync Button*/
             countSync();
+            
             if (!InstitucionStore.isLoading())
                 InstitucionForm.setLoading(false);
             if (form.isDirty()) {

@@ -12,8 +12,8 @@ class Model_123 extends CI_Model {
 
         $this->anexo = '123';
         $this->idu = (int) $this->session->userdata('iduser');
-        /*SWITCH TO SGR DB*/
-        $this->load->library('cimongo/cimongo','','sgr_db');
+        /* SWITCH TO SGR DB */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -25,6 +25,16 @@ class Model_123 extends CI_Model {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
+    }
+
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+        $parameter = array_map('floatval', $parameter);
+
+        return $parameter;
     }
 
     function check($parameter) {
@@ -41,18 +51,46 @@ class Model_123 extends CI_Model {
 
          * */
         $defdna = array(
-            1 => 'NRO_GARANTIA', //NRO_GARANTIA
-            2 => 'NUMERO_CUOTA_CUYO_VENC_MODIFICA', //NUMERO_CUOTA_CUYO_VENC_MODIFICA
-            3 => 'FECHA_VENC_CUOTA', //FECHA_VENC_CUOTA
-            4 => 'FECHA_VENC_CUOTA_NUEVA', //FECHA_VENC_CUOTA_NUEVA
-            5 => 'MONTO_CUOTA', //MONTO_CUOTA
-            6 => 'SALDO_AL_VENCIMIENTO', //SALDO_AL_VENCIMIENTO
+            1 => 'NRO_ORDEN',
+            2 => 'DIA1',
+            3 => 'DIA2',
+            4 => 'DIA3',
+            5 => 'DIA4',
+            6 => 'DIA5',
+            7 => 'DIA6',
+            8 => 'DIA7',
+            9 => 'DIA8',
+            10 => 'DIA9',
+            11 => 'DIA10',
+            12 => 'DIA11',
+            13 => 'DIA12',
+            14 => 'DIA13',
+            15 => 'DIA14',
+            16 => 'DIA15',
+            17 => 'DIA16',
+            18 => 'DIA17',
+            19 => 'DIA18',
+            20 => 'DIA19',
+            21 => 'DIA20',
+            22 => 'DIA21',
+            23 => 'DIA22',
+            24 => 'DIA23',
+            25 => 'DIA24',
+            26 => 'DIA25',
+            27 => 'DIA26',
+            28 => 'DIA27',
+            29 => 'DIA28',
+            30 => 'DIA29',
+            31 => 'DIA30',
+            32 => 'DIA31',
         );
 
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            /* STRING */
+            $insertarr['NRO_ORDEN'] = (string) $insertarr['NRO_ORDEN']; //Nro orden          
         }
         return $insertarr;
     }
@@ -61,16 +99,9 @@ class Model_123 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        /* FIX DATE */
-        $parameter['FECHA_VENC_CUOTA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA'], 1900));
-        $parameter['FECHA_VENC_CUOTA_NUEVA'] = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter['FECHA_VENC_CUOTA_NUEVA'], 1900));
-
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -113,7 +144,7 @@ class Model_123 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -129,12 +160,32 @@ class Model_123 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("NRO_ORDEN", "DIA1", "DIA2", "DIA3", "DIA4", "DIA5", "DIA6", "DIA7", "DIA8", "DIA9", "DIA10", "DIA11", "DIA12", "DIA13", "DIA14", "DIA15", "DIA16", "DIA17", "DIA18", "DIA19", "DIA20", "DIA21", "DIA22", "DIA23", "DIA24", "DIA25", "DIA26", "DIA27", "DIA28", "DIA29", "DIA30", "DIA31", "PROMEDIO");
-        $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
+            $period_value = $values['period'];
         }
+
+        $date_header = str_replace("-", "/", "/" . $period_value);
+
+        $headerArr = array();
+        
+        $headerArr[] = "Fecha/N° de Orden de la Garantía";        
+            for ($i = 1; $i <= 31; $i++) {
+                
+                if($i<10)
+                    $i = "0". $i;
+                
+               $headerArr[] = $i . $date_header;
+            }
+         $headerArr[] = "PROMEDIO";    
+        
+        $data = array($headerArr);
+
+        foreach ($anexoValues as $values) {
+            unset($values['period']);
+            $data[] = array_values($values);
+        }        
+
         $this->load->library('table');
         return $this->table->generate($data);
     }
@@ -148,13 +199,28 @@ class Model_123 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
+
+            $array_sum = array();
+            for ($i = 1; $i <= 31; $i++) {
+                if ($list['DIA' . $i] != 0)
+                    $array_sum[] = $list['DIA' . $i];
+            }
+            
+            $average = array_sum($array_sum);
+
+            $result_average = $average / count($array_sum);
             $new_list = array();
-            $new_list['NRO_GARANTIA'] = $list['NRO_GARANTIA'];
-            $new_list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['FECHA_VENC_CUOTA'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['FECHA_VENC_CUOTA_NUEVA'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['MONTO_CUOTA'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['SALDO_AL_VENCIMIENTO'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
+            $new_list['col1'] = $list['NRO_ORDEN'];
+
+            for ($i = 1; $i <= 31; $i++) {
+                $col = $i + 1;
+                $new_list[$col] = money_format_custom($list['DIA' . $i]);
+            }
+
+
+
+            $new_list['promedio'] = money_format_custom($result_average);
+            $new_list['period'] = $list['period'];
             $rtn[] = $new_list;
         }
         return $rtn;

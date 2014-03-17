@@ -28,6 +28,15 @@ class Model_12 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -66,6 +75,88 @@ class Model_12 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+
+            /* STRING */
+            $insertarr[5214] = (string) $insertarr[5214]; //Nro orden
+
+
+            $insertarr[5349] = (string) $insertarr[5349]; //Cuit_participe
+            $insertarr[5726] = (string) $insertarr[5726]; //Librador_cuit           
+            $insertarr[5351] = (string) $insertarr[5351]; //Acreedir
+
+            /* FLOAT */
+            $insertarr[5218] = (float) $insertarr[5218];
+            $insertarr[5221] = (float) $insertarr[5221];
+            $insertarr[5223] = (float) $insertarr[5223];
+
+            /* INTEGER */
+            $insertarr[5224] = (int) $insertarr[5224];
+            $insertarr[5225] = (int) $insertarr[5225];
+
+            /* MONEDA */
+            if (strtoupper(trim($insertarr[5219])) == "PESOS ARGENTINOS")
+                $insertarr[5219] = "1";
+            if (strtoupper(trim($insertarr[5219])) == "DOLARES AMERICANOS")
+                $insertarr[5219] = "2";
+            if (strtoupper(trim($insertarr[5219])) == "EUROS")
+                $insertarr[5219] = "3";
+            if (strtoupper(trim($insertarr[5219])) == "REALES")
+                $insertarr[5219] = "4";
+
+            if (strtoupper($insertarr[5758]) == "PESOS ARGENTINOS")
+                $insertarr[5758] = "1";
+            if (strtoupper($insertarr[5758]) == "DOLARES AMERICANOS")
+                $insertarr[5758] = "2";
+            if (strtoupper($insertarr[5758]) == "EUROS")
+                $insertarr[5758] = "3";
+            if (strtoupper($insertarr[5758]) == "REALES")
+                $insertarr[5758] = "4";
+
+
+
+            /* PERIODICIDAD */
+            if (strtoupper(trim($insertarr[5226])) == "PAGO UNICO")
+                $insertarr[5226] = "1";
+            if (strtoupper(trim($insertarr[5226])) == "MENSUAL")
+                $insertarr[5226] = "30";
+            if (strtoupper(trim($insertarr[5226])) == "BIMESTRAL")
+                $insertarr[5226] = "60";
+            if (strtoupper(trim($insertarr[5226])) == "TRIMESTRAL")
+                $insertarr[5226] = "90";
+            if (strtoupper(trim($insertarr[5226])) == "CUATRIMESTRAL")
+                $insertarr[5226] = "120";
+            if (strtoupper(trim($insertarr[5226])) == "SEMESTRAL")
+                $insertarr[5226] = "180";
+            if (strtoupper(trim($insertarr[5226])) == "ANUAL")
+                $insertarr[5226] = "360";
+            if (strtoupper(trim($insertarr[5226])) == "OTRO")
+                $insertarr[5226] = "04";
+
+            /* SISTEMA */
+            if (strtoupper(trim($insertarr[5227])) == "PAGO UNICO")
+                $insertarr[5227] = "01";
+            if (strtoupper(trim($insertarr[5227])) == "FRANCES")
+                $insertarr[5227] = "02";
+            if (strtoupper(trim($insertarr[5227])) == "ALEMAN")
+                $insertarr[5227] = "03";
+            if (strtoupper(trim($insertarr[5227])) == "OTRO")
+                $insertarr[5227] = "04";
+
+
+
+            /* TASA */
+            if (strtoupper($insertarr[5222]) == "LIBOR")
+                $insertarr[5222] = "01";
+            if (strtoupper($insertarr[5222]) == "BADLARPU")
+                $insertarr[5222] = "02";
+            if (strtoupper($insertarr[5222]) == "BADLARPR")
+                $insertarr[5222] = "03";
+            if (strtoupper($insertarr[5222]) == "FIJA")
+                $insertarr[5222] = "04";
+            if (strtoupper($insertarr[5222]) == "TEBP")
+                $insertarr[5222] = "05";
+            if (strtoupper($insertarr[5222]) == "TEC")
+                $insertarr[5222] = "06";
         }
         return $insertarr;
     }
@@ -74,22 +165,13 @@ class Model_12 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
         /* FIX DATE */
         list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5215], 1900)));
         $parameter[5215] = $arr;
-        
-        
-        if (strtoupper(trim($insertarr[5219])) == "PESOS ARGENTINOS")
-            $insertarr[5219] = "1";
-        if (strtoupper(trim($insertarr[5219])) == "DOLARES AMERICANOS")
-            $insertarr[5219] = "2";
 
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -117,14 +199,13 @@ class Model_12 extends CI_Model {
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
         $this->update_period($get_period['id'], $get_period['status']);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
         if ($result) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
             $this->session->unset_userdata('period');
+
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
@@ -132,7 +213,7 @@ class Model_12 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -147,19 +228,16 @@ class Model_12 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-
-
         $tmpl = array(
-            'data' => '<tr>
-                                <td rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</td>
+            'data' => '<tr><td rowspan="5" align="center">N&ordm; de Orden de la Garant&iacute;a Otorgada</td>
                                 <td colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</td>
                                 <td colspan="5" rowspan="3" align="center">De la Garant&iacute;a</td>
                                 <td colspan="3" rowspan="3" align="center">Operaciones con Cheques de Pago    Diferido</td>
                                 <td colspan="2" rowspan="3" align="center">Del Acreedor</td>
                                 <td colspan="9" rowspan="3" align="center">Del Cr&eacute;dito Garantizado</td>                                
                             </tr>
-                            <tr> </tr>
-                            <tr> </tr>
+                            <tr></tr>
+                            <tr></tr>
                             <tr>
                                 <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
                                 <td rowspan="2" align="center">C.U.I.T.</td>
@@ -213,21 +291,15 @@ class Model_12 extends CI_Model {
                                 <th>22</th>                
                             </tr> ',
         );
-
-       /*DRAW TABLE*/
-        $fix_table = '<thead>
-<tr>
-<th>';
-        
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
-        $this->load->library('table');
-        $newTable = str_replace($fix_table, '<thead>', $this->table->generate($data));
-        return $newTable;
+        $this->load->library('table_custom');
+        $newTable =  $this->table_custom->generate($data);
         
+        return $newTable;
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -239,147 +311,243 @@ class Model_12 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
-            $new_list = array();           
-            
+            $new_list = array();
+
             $this->load->model('padfyj_model');
             $participate = $this->padfyj_model->search_name($list[5349]);
-            $drawer = $this->padfyj_model->search_name($list[5726]);
+            $drawer = $this->padfyj_model->search_name((string)$list[5726]);
             $creditor = $this->padfyj_model->search_name($list[5351]);
 
 
             $this->load->model('app');
             $warranty_type = $this->app->get_ops(525);
+            $currency = $this->app->get_ops(549);
+            $repayment_system = $this->app->get_ops(527);
+            $rate = $this->app->get_ops(526);
+            $periodicity = $this->app->get_ops(548);
+
+            /* PONDERACION */
+            $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
+            $warranty_type_value = ($warranty_type[$list[5216][0]])? $warranty_type[$list[5216][0]] : $list[5216][0];
             
-            /*PONDERACION*/
-            $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);  
-            //$currency = ($list[5219][0]=="")
-            
+           
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];
             $new_list['ORIGEN'] = $list[5215];
-            $new_list['TIPO'] = $list[5216][0];
-            $new_list['PONDERACION'] = $get_weighting['ponderacion']*100;
+            $new_list['TIPO'] = $warranty_type_value;
+            $new_list['PONDERACION'] = $get_weighting['weighted'] * 100;
             $new_list['IMPORTE'] = money_format_custom($list[5218]);
-            $new_list['MONEDA'] = $list[5219][0];
+            $new_list['MONEDA'] = $currency[$list[5219][0]];
             $new_list['LIBRADOR_NOMBRE'] = $drawer;
             $new_list['LIBRADOR_CUIT'] = $list[5726];
             $new_list['NRO_OPERACION_BOLSA'] = $list[5727];
             $new_list['ACREEDOR'] = $creditor;
             $new_list['CUIT_ACREEDOR'] = $list[5351];
             $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
-            $new_list['MONEDA_CRED_GARANT'] = $list[5758];
-            $new_list['TASA'] = $list[5222][0];
+            $new_list['MONEDA_CRED_GARANT'] = $currency[$list[5758][0]];
+            $new_list['TASA'] = $rate[$list[5222][0]];
             $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223];
             $new_list['PLAZO'] = $list[5224];
             $new_list['GRACIA'] = $list[5225];
-            $new_list['PERIODICIDAD'] = $list[5226][0];
-            $new_list['SISTEMA'] = $list[5227][0];
+            $new_list['PERIODICIDAD'] = $periodicity[$list[5226][0]];
+            $new_list['SISTEMA'] = $repayment_system[$list[5227][0]];
             $new_list['DESTINO_CREDITO'] = $list['DESTINO_CREDITO'];
             $rtn[] = $new_list;
         }
         return $rtn;
     }
-    
-    
+
     //container.sgr_cuits_comerciales_y_mv
-    function get_mv_and_comercial_cuits($cuit, $type){       
-        
+    function get_mv_and_comercial_cuits($cuit, $type) {
+
         $container = 'container.sgr_cuits_comerciales_y_mv';
-        $query = array("cuit" => $cuit, "type"=>$type);
+        $query = array("cuit" => $cuit, "type" => $type);
         $result = $this->mongo->sgr->$container->findOne($query);
-        if($result)
+        if ($result)
             return true;
     }
-    
-    
-    /* ACCIONES COMPRA
-     * Compra venta por socio
-     * Integradas
-     */
 
-    function buy_shares($cuit, $partner_type=null, $field = 5597) {
-
-        $period = 'container.sgr_periodos';
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-
-        $nresult_arr = array();
+    /* GET DATA */
+    function get_order_number($nro) {
         $anexo = $this->anexo;
-
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
-        /* FIND ANEXO */
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                1695 => $cuit,
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
-                5272 => $partner_type
+                5214 => $nro
             );
+
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-
-
             if ($new_result) {
-                $nresult_arr[] = $new_result[$field];
+                $return_result[] = $new_result;
             }
         }
-
-        $result = array_sum($nresult_arr);
-        return $result;
+        return $return_result;
     }
-
-    /* ACCIONES VENTA 5248
-     * Compra venta por socio
-     * Integradas 
-     */
-
-    function sell_shares($cuit, $partner_type=null, $field = 5597) {
-
-        $period = 'container.sgr_periodos';
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = (int) $getPeriodMonth - 1;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01 00:00:00"));
-        
-        $nresult_arr = array();
+    
+    /* GET DATA */
+    function get_order_number_left($nro) {
         $anexo = $this->anexo;
-
+        $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array(
-            "period_date" => array(
-                '$lte' => $endDate
-            ),
-            'status' => 'activo',
-            'anexo' => $anexo,
-            'sgr_id' => $this->sgr_id);
-        $result = $this->mongo->sgr->$period->find($query);
 
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);        
+        $return_result = array();
+        foreach ($result as $list) {          
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5214 => $nro
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
+    
+    function get_order_number_print($nro, $period_date) {
+        $anexo = $this->anexo;
+        
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_print($anexo, $period_date);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {           
+            
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5214 => $nro
+            );            
+           $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+                
+            }
+        }
+        return $return_result;
+    }
+    
+    
+    /* GET DATA */
+    function get_warranty_partner_left($cuit) {
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);        
+        $return_result = array();
+        foreach ($result as $list) {          
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5349 => $cuit
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
+    
+    /* GET SHARER PARTNER WARRANTIES */
+
+    function get_sharer($cuit) {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo,$period_value);
+
+        $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                5248 => $cuit,
                 'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']
+                'filename' => $list['filename'],
+                5349 => $cuit
             );
-            
-            if($partner_type){
-               $new_query['5272'] = $partner_type;
-            }
-            
+
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $nresult_arr[] = $new_result[$field];
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
         }
 
-        $result = array_sum($nresult_arr);
-        return $result;
+        return $return_result;
+    }
+    
+    function get_sharer_left($cuit) {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5349 => $cuit
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+
+        return $return_result;
+    }
+    
+    /* GET CREDITOR */
+
+    function get_creditor($sharer, $cuit) {
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5349 => $sharer, 
+                5351 => $cuit
+            );
+
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+
+        return $return_result;
     }
 
 }

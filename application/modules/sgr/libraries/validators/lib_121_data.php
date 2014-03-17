@@ -9,7 +9,8 @@ class Lib_121_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
-
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
 
 
         /* Vars 
@@ -25,7 +26,9 @@ class Lib_121_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-
+        $b1_array = array();
+        $d2_sum = 0;
+        $e2_sum = 0;
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -44,7 +47,9 @@ class Lib_121_data extends MX_Controller {
                 /* NRO_ORDEN
                  * Nro A.1
                  * Detail:
-                 * El Número se debe corresponder con alguna de las Garantías informadas mediante el Anexo 12 del mismo período y apara la cual figura que el Sistema de Amortización o la periodicidad de los pagos fue informado como “OTRO” (Columnas R y S del Anexo 12).
+                 * El Número se debe corresponder con alguna de las Garantías informadas mediante el Anexo 12 del mismo período 
+                 * y apara la cual figura que el Sistema de Amortización o la periodicidad de los pagos fue informado como “OTRO” 
+                 * (Columnas R y S del Anexo 12).
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
@@ -53,23 +58,24 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                    //Valida contra Mongo
-                    $warranty_info = $this->sgr_model->get_warranty_data($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);                    
-                    $warrantyArr = array($warranty_info['5226'][0], $warranty_info['5227'][0]);  
-                    if($warranty_info)
-                    if(!in_array('OTRO', $warranty_info['5226'])){
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                  
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);  
+
+                    if ($warranty_info){
+                        $warrantyArr = array($warranty_info[0]['5227'][0]);
+                        if (!in_array('04', $warrantyArr)) {
+
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }else{
+                        // warranty_info no trae 
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
-                    
                 }
 
                 /* NRO_CUOTA
@@ -83,20 +89,24 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                   
-                    
-                    if ($parameterArr[0]['count']< 3) {
-                       
-                        
+
+
+
+                    if ($parameterArr[0]['count'] < 3) {
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
+                    
+                    $b1_array[]=$parameterArr[$i]['fieldValue'];
+                    
+
                 }
 
                 /* VENCIMIENTO
@@ -109,8 +119,8 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -118,13 +128,26 @@ class Lib_121_data extends MX_Controller {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
                     
+                    //vto. de la cuota sea posterior a la de emisión de la garantía
+                    if (isset($parameterArr[$i-2]['fieldValue'])) {
+                        $nro=$parameterArr[$i-2]['fieldValue'];
+                        $item = $this->$model_anexo->get_order_number_left($nro); 
+
+                        if(isset($item[0][5215])){
+                            $fecha_emision=$item[0][5215];
+                            $fecha_row=translate_date($parameterArr[$i]['fieldValue']);
+                            if($fecha_row<$fecha_emision){
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']."($fecha_row)");
+                                array_push($stack, $result);
+                            }
+                        }
+                    }
+
                     //Valida contra Mongo
                 }
 
@@ -139,19 +162,21 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                    if (isset($parameterArr[$i]['fieldValue'])) {                       
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+
+                    // Decimal check 
+                    if (isset($parameterArr[$i]['fieldValue'])) {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }else{
+                            // D2
+                            $d2_sum+=(float)$parameterArr[$i]['fieldValue'];
+                            $d2_nro=$parameterArr[$i-3]['fieldValue'];
                         }
                     }
                     
@@ -169,29 +194,66 @@ class Lib_121_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    
-                    if (isset($parameterArr[$i]['fieldValue'])) {                       
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    // Check decimal y positivo
+                    if (isset($parameterArr[$i]['fieldValue'])) {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
+                        }else{
+                            // E2
+                            $e2_sum+=(float)$parameterArr[$i]['fieldValue'];
+                            $e2_nro=$parameterArr[$i-4]['fieldValue'];
                         }
                     }
-                    
+
                     //Valida contra Mongo
                 }
-
             } // END FOR LOOP->
         }
+
+        // ============ Validation B.1 ==
+           
+        if(!check_consecutive_values($b1_array)){
+            $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
+            array_push($stack, $result);
+        }
         
-        //var_dump($stack); exit();
+        // ============ Validation D.2 
+        
+        if (!empty($d2_nro)) {
+            $item = $this->$model_anexo->get_order_number_left($d2_nro);
+            $code_error = "D.2";
+            
+            if (isset($item[0][5221])) {
+                if ($d2_sum != $item[0][5221]) {
+                    $result = return_error_array($code_error, "-", "Monto: ".$item[0][5221]." / Suma:".$d2_sum);
+                    array_push($stack, $result);
+                }
+            }
+            
+        }
+        
+        // ============ Validation E.2 
+       
+
+        if (!empty($e2_nro)) {
+            $item = $this->$model_anexo->get_order_number_left($e2_nro);
+            $code_error = "E.2";
+            
+            if (isset($item[0][5221])) {
+                if ($e2_sum != $item[0][5221]) {
+                    $result = return_error_array($code_error, "-", $e2_sum." de ".$item[0][5221]);
+                    array_push($stack, $result);
+                }
+            }
+         
+        }
+        
+        
         $this->data = $stack;
     }
 

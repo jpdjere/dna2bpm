@@ -29,6 +29,15 @@ class Model_061 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -53,6 +62,11 @@ class Model_061 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            $insertarr['CUIT_SOCIO_INCORPORADO'] = (string) $insertarr['CUIT_SOCIO_INCORPORADO'];
+            $insertarr['CUIT_VINCULADO'] = (string) $insertarr['CUIT_VINCULADO'];
+
+            /* FLOAT */
+            $insertarr['PORCENTAJE_ACCIONES'] = (float) $insertarr['PORCENTAJE_ACCIONES'];
         }
         return $insertarr;
     }
@@ -61,12 +75,9 @@ class Model_061 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
         $parameter['period'] = $period;
-
         $parameter['origin'] = 2013;
+
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -78,12 +89,43 @@ class Model_061 extends CI_Model {
         }
         return $out;
     }
-
+    
+    
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
-        
+        $id = $this->app->genid_sgr($container);
+        $parameter['period'] = $period;
+        $parameter['period_date'] = translate_period_date($period);
+        $parameter['status'] = 'activo';
+        $parameter['idu'] = $this->idu;
+
+        /*
+         * VERIFICO PENDIENTE           
+         */
+        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $this->update_period($get_period['id'], $get_period['status']);
+
+        $result = $this->app->put_array_sgr($id, $container, $parameter);
+
+        if ($result) {
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
+            $out = array('status' => 'ok');
+        } else {
+            $out = array('status' => 'error');
+        }
+        return $out;
+    }
+
+    function save_period_pending($parameter) {
+        /* ADD PERIOD */
+        $container = 'container.sgr_periodos';
+        $period = $this->session->userdata['period'];
+
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
@@ -95,18 +137,21 @@ class Model_061 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        
+        var_dump($get_period);
+        
+        
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
-            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);           
-            $this->update_pending($get_period['id'], $get_period['status']);            
-                /* BORRO SESSION RECTIFY */
-                $this->session->unset_userdata('rectify');
-                $this->session->unset_userdata('others');
-                $this->session->unset_userdata('period');
-                $out = array('status' => 'ok');
-            
+            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
+            $this->update_pending($get_period['id'], $get_period['status']);
+            /* BORRO SESSION RECTIFY */
+            $this->session->unset_userdata('rectify');
+            $this->session->unset_userdata('others');
+            $this->session->unset_userdata('period');
+            $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
@@ -114,6 +159,9 @@ class Model_061 extends CI_Model {
     }
 
     function update_period($id, $status) {
+        
+      
+        
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -123,7 +171,10 @@ class Model_061 extends CI_Model {
             'others' => $this->session->userdata['others'],
             'reason' => $this->session->userdata['rectify']
         );
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        
+         
+        
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
         return $rs['err'];
     }
 
@@ -143,16 +194,16 @@ class Model_061 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
-        $headerArr = array("TIPO<br/>DE<br/>SOCIO",
-            "CUIT SOCIO<br/>INCORPORADO",
-            "SOCIO<br/>INCORPORADO",
-            "TIENE<br/>VINCULACION",
-            "CUIT<br/>VINCULADO",
-            "RAZON<br/>SOCIAL<br/>VINCULADO",
-            "TIPO<br/>RELACION<br/>VINCULACION",
-            "PORCENTAJE<br/>ACCIONES",
-            "ES<br/>PARTICIPE",
-            "ES<br/>PROTECTOR"
+        $headerArr = array("Tipo<br/>de<br/>Socio",
+            "C.U.I.T Socio<br/>Incorporado",
+            "Socio<br/>Incorporado",
+            "Tiene<br/>Vinculacion",
+            "C.U.I.T<br/>Vinculado",
+            "Razón<br/>Social<br/>Vinculado",
+            "Tipo<br/>Relación<br/>Vinculación",
+            "Porcentaje<br/>Acciones",
+            "Es<br/>Participe",
+            "Es<br/>Protector"
         );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
@@ -178,25 +229,36 @@ class Model_061 extends CI_Model {
             $brand_name = $list['1693'];
             $this->load->model('app');
             $this->load->model('padfyj_model');
+            $model_anexo = "model_06";
+            $this->load->Model($model_anexo);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
-            $parner_linked = $this->padfyj_model->search_name($list['CUIT_VINCULADO']);
+            $parner_linked = $this->padfyj_model->search_name((string)$list['CUIT_VINCULADO']);
+          
+            $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
+      
+            $type_partner_inc = $this->$model_anexo->partner_type((string)$list['CUIT_VINCULADO']);
 
+
+
+            $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
+            $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
+            ;
 
 
             // 					
 
             $new_list = array();
-            $new_list['TIPO_SOCIO'] = "";
+            $new_list['TIPO_SOCIO'] = $type_partner;
             $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];
             $new_list['SOCIO_INCORPORADO'] = $parner_inc;
             $new_list['"TIENE_VINCULACION"'] = $list['TIENE_VINCULACION'];
             $new_list['"CUIT_VINCULADO"'] = $list['CUIT_VINCULADO'];
             $new_list['"RAZON_SOCIAL_VINCULADO"'] = $parner_linked;
             $new_list['"TIPO_RELACION_VINCULACION"'] = $list['TIPO_RELACION_VINCULACION'];
-            $new_list['"PORCENTAJE_ACCIONES"'] = $list['PORCENTAJE_ACCIONES'] . "%";
-            $new_list['"PARTICIPE"'] = "";
-            $new_list['"PROTECTOR"'] = "";
+            $new_list['"PORCENTAJE_ACCIONES"'] = percent_format_custom($list['PORCENTAJE_ACCIONES'] * 100);
+            $new_list['"PARTICIPE"'] = $es_participe;
+            $new_list['"PROTECTOR"'] = $es_protector;
 
 
 
@@ -204,5 +266,4 @@ class Model_061 extends CI_Model {
         }
         return $rtn;
     }
-
 }
