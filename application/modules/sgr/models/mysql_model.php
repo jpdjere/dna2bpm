@@ -35,7 +35,8 @@ class mysql_model extends CI_Model {
         $config['char_set'] = "utf8";
         $config['dbcollat'] = "utf8_general_ci";
 
-        $this->load->database($config);
+        //$this->load->database($config);
+        $this->load->database('forms2', TRUE);
     }
 
     /* ACTIVE PERIODS DNA2 */
