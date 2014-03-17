@@ -612,6 +612,8 @@ class Model_06 extends CI_Model {
     }
 
     function new_count_partners($partners_arr, $get_period = null) {
+        
+        
         $get_error = false;
         $anexo = $this->anexo;
         $container_period = 'container.sgr_periodos';
@@ -659,8 +661,9 @@ class Model_06 extends CI_Model {
                 $get_error_total[] = $new_list_total[1695];
             }
         }
-
+       
         if ($get_error || $get_error_total) {
+            
 
             $count_xls = count($partners_arr);
             $register = count($get_error);
@@ -669,9 +672,9 @@ class Model_06 extends CI_Model {
             $num = array($count_xls, $register, $register_total);
             
             if(max($num)==min($num)){
-                exit();
+                return false;
             }
-            
+           
 
             $key = array_search(max($num), $num);
             
@@ -688,8 +691,8 @@ class Model_06 extends CI_Model {
                     break;
             }
             
-            //var_dump($key, $count_xls, $register, $register_total);
-
+            var_dump($key, $count_xls, $register, $register_total);
+            
             return $error_value;
         }
     }
