@@ -21,6 +21,7 @@ class Sgr extends MX_Controller {
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
         $this->load->model('sgr/sgr_model');
+        $this->load->model('sgr/mysql_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
@@ -49,6 +50,12 @@ class Sgr extends MX_Controller {
 
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
+    }
+
+    function testdb() {
+
+       $result =   $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
+       debug($result);
     }
 
     function Index() {
@@ -323,32 +330,31 @@ class Sgr extends MX_Controller {
             }
 
             /* PRELIMINAR VALIDATION */
-            $VG = $this->pre_general_validation($anexo);
-            
-            
+            //$VG = $this->pre_general_validation($anexo);
 
-            if (!$VG) {
-                /* XLS CELL DATA ERROR */
-                $data_values = "lib_" . $anexo . "_data";
-                $lib_error = "lib_" . $anexo . "_error_legend";
-                $this->load->library("validators/" . $lib_error);
-                $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-                foreach ($result_data['data'] as $result_data) {
 
-                    if (!empty($result_data['error_code'])) {
 
-                        $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
+            /* XLS CELL DATA ERROR */
+            $data_values = "lib_" . $anexo . "_data";
+            $lib_error = "lib_" . $anexo . "_error_legend";
+            $this->load->library("validators/" . $lib_error);
+            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-                        if ($result_data['error_input_value'] == "empty") {
-                            list($column_value) = explode(".", $result_data['error_code']);
-                            $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
-                        } else {
-                            $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
-                        }
+            foreach ($result_data['data'] as $result_data) {
 
-                        $error = 2;
+                if (!empty($result_data['error_code'])) {
+
+                    $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
+
+                    if ($result_data['error_input_value'] == "empty") {
+                        list($column_value) = explode(".", $result_data['error_code']);
+                        $result .= '<li><strong>Columna ' . $column_value . ' - Fila Nro.' . $result_data['error_row'] . ' - Código Validación ' . $result_data['error_code'] . '</strong><br/>El campo no puede estar vacío.</li>';
+                    } else {
+                        $result .= "<li>" . $this->$lib_error->return_legend($result_data['error_code'], $result_data['error_row'], $result_data['error_input_value']) . $error_input_value . "</li>";
                     }
+
+                    $error = 2;
                 }
             }
         } else {
@@ -367,75 +373,57 @@ class Sgr extends MX_Controller {
         if (!$error) {
             $model = "model_" . $anexo;
             $this->load->Model($model);
-            $array = array();
-            //Check Duplicates ANEXO 06
+
             for ($i = 2; $i <= $data->rowcount(); $i++) {
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
                 $result_data_ = $this->$model->check($sanitize_data);
-
-
-                if ($result_data_[5779] == 1) {
-                    if ($result_data_[1695] != NULL) {
-                        $array[] = $result_data_[1695];
-                    }
-                }
             }
 
-            if (count(array_unique($array)) < count($array)) {
+
+
+            if ($VG) {
                 $duplicated = true;
-                $customData['message'] = 'Se esta intentando INCORPORAR el mismo CUIT mas de una vez dentro de el excel.';
-                $this->render('errors', $customData);
-                unlink($uploadpath);
-            } else {
-                $duplicated = false;
-            }
-            
-            if($VG){
-                 $duplicated = true;
                 $customData['message'] = $VG;
                 $this->render('errors', $customData);
                 unlink($uploadpath);
             }
-            
-
-
-            //INSERT UPDATE
-            if (!$duplicated) {
-                for ($i = 2; $i <= $data->rowcount(); $i++) {
-                    if (!empty($data->sheets[0]['cells'][$i][1])) {
-                        $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
-                        $result['filename'] = $new_filename;
-                        $result['sgr_id'] = (int) $this->sgr_id;
-                        $save = (array) $this->$model->save($result);
-                    }
-                }
 
 
 
-                /* SET PERIOD */
-                if ($save) {
-                    $result = array();
+            /* INSERT UPDATE */
+            for ($i = 2; $i <= $data->rowcount(); $i++) {
+                if (!empty($data->sheets[0]['cells'][$i][1])) {
+                    $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = (int) $this->sgr_id;
-                    $result['anexo'] = $this->anexo;
-                    $save_period = (array) $this->$model->save_period($result);
+                    $save = (array) $this->$model->save($result);
+                }
+            }
 
 
-                    if ($save_period['status'] == "ok") {
-                        /* RENDER */
-                        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
-                        $customData['sgr_period'] = $this->period;
-                        $customData['anexo_list'] = $this->AnexosDB();
-                        $custo_Data['process_filename'] = $new_filename;
-                        $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
-                        $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
-                        $this->render('success', $customData);
-                        copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
-                        unlink($uploadpath);
-                    } else {
 
-                        $error = 4;
-                    }
+            /* SET PERIOD */
+            if ($save) {
+                $result = array();
+                $result['filename'] = $new_filename;
+                $result['sgr_id'] = (int) $this->sgr_id;
+                $result['anexo'] = $this->anexo;
+                $save_period = (array) $this->$model->save_period($result);
+
+
+                if ($save_period['status'] == "ok") {
+                    /* RENDER */
+                    $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+                    $customData['sgr_period'] = $this->period;
+                    $customData['anexo_list'] = $this->AnexosDB();
+                    $custo_Data['process_filename'] = $new_filename;
+                    $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
+                    $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
+                    $this->render('success', $customData);
+                    copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
+                    unlink($uploadpath);
+                } else {
+                    $error = 4;
                 }
             }
         }
