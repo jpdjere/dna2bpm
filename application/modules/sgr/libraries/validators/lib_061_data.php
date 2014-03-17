@@ -395,6 +395,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
+        echo "test";
        // exit();
         $this->data = $stack;
     }
