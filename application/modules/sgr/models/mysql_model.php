@@ -25,6 +25,16 @@ class mysql_model extends CI_Model {
         $dbconnect = $this->load->database('dna2');
     }
 
+    function clear_tmp() {
+        $token = $this->idu;
+        $container = 'container.periodos_' . $token . '_tmp';
+        $delete = $this->mongo->sgr->$container->remove();
+        /* 06 */
+        $container = 'container.anexo_06_' . $token . '_tmp';
+        $delete = $this->mongo->sgr->$container->remove();
+    }
+    
+    
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2($anexo, $period) {
@@ -86,7 +96,7 @@ class mysql_model extends CI_Model {
                 fecha_efectiva'
         );
         $this->db->where('idu', $this->idu);
-        $query = $this->db->get("sgr_socios");
+        $query = $this->db->get($anexo);
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
@@ -97,6 +107,8 @@ class mysql_model extends CI_Model {
         }
     }
 
+    
+    /*SAVE FETCHS ANEXO 06 DATA*/
     function save_anexo_06_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
@@ -155,15 +167,8 @@ class mysql_model extends CI_Model {
         return $out;
     }
 
-    function clear_tmp() {
-        $token = $this->idu;
-        $container = 'container.periodos_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-        /* 06 */
-        $container = 'container.anexo_06_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-    }
-
+    
+    /*SAVE FETCHS PERIODOS*/
     function save_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
