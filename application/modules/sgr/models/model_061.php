@@ -239,11 +239,11 @@ class Model_061 extends CI_Model {
       
             $type_partner_inc = $this->$model_anexo->partner_type((string)$list['CUIT_VINCULADO']);
 
-
+            $type_partner_inc = ($type_partner_inc)?$type_partner_inc : $list['RAZON_SOCIAL_VINCULADO'];
 
             $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
             $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
-            ;
+            
 
 
             // 					
