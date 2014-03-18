@@ -223,7 +223,6 @@ class Model_16 extends CI_Model {
 
             $this->load->model('app');
 
-
             $get_month = explode("-", $list['period']);
             $month_value = translate_month_spanish($get_month[0]);
 
@@ -234,7 +233,7 @@ class Model_16 extends CI_Model {
             $col13 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
             $col14 = $col8 / $list['FDR_TOTAL_COMPUTABLE'];
             $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-
+            
             $new_list = array();
             $new_list['col1'] = $month_value;            
             $new_list['col2'] = money_format_custom($list['80_HASTA_FEB_2010']);
