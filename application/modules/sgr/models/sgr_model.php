@@ -355,36 +355,68 @@ class Sgr_model extends CI_Model {
         return $result[amount];
     }
 
-    /* GET ACTIVE ANEXOS */    
-     function get_just_active($anexo, $sin_movimiento=false, $period=false) {
+    /* GET ACTIVE ANEXOS */
+
+    function get_just_active($anexo, $sin_movimiento = false, $period = false) {
         $rtn = array();
-        $container = 'container.sgr_periodos';        
+        $container = 'container.sgr_periodos';
 
         $query = array(
-            'anexo' => $anexo,            
+            'anexo' => $anexo,
             'sgr_id' => (int) $this->sgr_id,
-            'status' => 'activo',           
+            'status' => 'activo',
         );
-        
-        if($sin_movimiento){
-           $query["filename"] = array('$ne' => 'SIN MOVIMIENTOS');
+
+        if ($sin_movimiento) {
+            $query["filename"] = array('$ne' => 'SIN MOVIMIENTOS');
         }
-        
-        if($period){
-           $query["period"] = $period;
+
+        if ($period) {
+            $query["period"] = $period;
         }
-        
+        var_dump($query);
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $each) {
-             
+
             $rtn[] = $each;
         }
         return $rtn;
     }
-    
-    
-    
+
+    function get_active_tmp($anexo, $exclude_this = false) {
+        $rtn = array();
+        $token = $this->idu;
+        $period = 'container.periodos_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo . '_tmp';
+
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = $getPeriodMonth;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
+
+        $query = array(
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'sgr_id' => (int) $this->sgr_id,
+            'status' => 'activo',
+            'period_date' => array(
+                '$lte' => $endDate
+            ),
+        );
+
+        if ($exclude_this) {
+            $query['period'] = array('$ne' => $exclude_this);
+        }
+
+
+        $result = $this->mongo->sgr->$period->find($query);
+
+        foreach ($result as $each) {
+
+            $rtn[] = $each;
+        }
+        return $rtn;
+    }
 
     function get_active($anexo, $exclude_this = false) {
         $rtn = array();
