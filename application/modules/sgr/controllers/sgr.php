@@ -323,9 +323,7 @@ class Sgr extends MX_Controller {
             }
 
             /* PRELIMINAR VALIDATION */
-            //$VG = $this->pre_general_validation($anexo);
-
-
+            $VG = $this->pre_general_validation($anexo);
 
 
             /* XLS CELL DATA ERROR */
