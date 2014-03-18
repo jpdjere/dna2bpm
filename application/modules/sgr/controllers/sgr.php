@@ -1028,6 +1028,8 @@ class Sgr extends MX_Controller {
         switch ($anexo) {
             case '061':
                 $info_06 = $this->sgr_model->get_just_active("06", true, $this->session->userdata['period']);
+                var_dump($info_06);
+                
                 foreach ($info_06 as $filenames) {
                     if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
                         return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
