@@ -238,6 +238,7 @@ class Model_061 extends CI_Model {
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
       
             $type_partner_inc = $this->$model_anexo->partner_type((string)$list['CUIT_VINCULADO']);
+            var_dump($type_partner_inc);
 
             $type_partner_inc = ($type_partner_inc)?$type_partner_inc : $list['RAZON_SOCIAL_VINCULADO'];
 
