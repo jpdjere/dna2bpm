@@ -325,7 +325,7 @@ class Sgr extends MX_Controller {
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
             
-            var_dump($VG);
+            var_dump($VG, $anexo);
             exit();
 
 
