@@ -325,10 +325,6 @@ class Sgr extends MX_Controller {
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
 
-            var_dump($VG, $anexo);
-            exit();
-
-
             /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
