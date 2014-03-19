@@ -12,10 +12,20 @@ class Lib_12_data extends MX_Controller {
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
+        
+        
+        /* UPDATE MONGO/DNA2 */
+        $mysql_model_06 = "mysql_model_06";
+        $this->load->Model($mysql_model_06);
+        
+        $this->period = $this->session->userdata['period'];
+        $this->$mysql_model_06->active_periods_dna2("06", $this->period);
+        
 
         $model_062 = 'model_062';
         $this->load->Model($model_062);
 
+        /* */
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
 
@@ -115,7 +125,12 @@ class Lib_12_data extends MX_Controller {
                     $amount_employees = 0;
                     $transaction_date = null;
                     $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
-                    foreach ($partner_data as $partner) {                        
+                    
+                    
+                    
+                    foreach ($partner_data as $partner) {    
+                        var_dump($partner_data);
+                        
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
@@ -816,7 +831,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-    
+        exit();
         $this->data = $stack;
     }
 
