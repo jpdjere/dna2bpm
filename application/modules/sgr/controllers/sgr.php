@@ -245,9 +245,9 @@ class Sgr extends MX_Controller {
      */
 
     function Anexo($filename = null) {
-        
-        
-        
+
+
+
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
@@ -1064,6 +1064,8 @@ class Sgr extends MX_Controller {
                 if (!$info_125) {
                     $error = $legend;
                 }
+                var_dump($error);
+                
                 return $error;
                 break;
         }
