@@ -103,23 +103,11 @@ class mysql_model_14 extends CI_Model {
         $anexo_field = "save_anexo_14_tmp";
 
         $this->db->select(
-                'nro_orden,
-                cuit_socio_participe,
-                fecha_alta,
-                tipo_garantia,
-                monto,
-                moneda,
-                librador_cuit,
-                nro_operacion_bolsa,
-                cuit_acreedor,
-                importe_Cred_Garant,
-                moneda_Cred_Garant,
-                tasa,
-                puntos_adicionales,
-                plazo,
-                gracia,
-                periodicidad,
-                sistema'
+                'nro_garantia,
+                fecha_movimiento,
+                cuit_participe,
+                caida,
+                recupero'
         );
 
 
@@ -152,11 +140,13 @@ class mysql_model_14 extends CI_Model {
 
 
         /* STRING */
-        $parameter["NRO_GARANTIA"] = (string) $parameter["nro_garantia"]; 
+        $parameter["NRO_GARANTIA"] = (string) $parameter["nro_garantia"];
         /* INTEGERS & FLOAT */
         $parameter["CAIDA"] = (float) $parameter["caida"];
         $parameter["RECUPERO"] = (float) $parameter["recupero"];
         
+         $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_movimiento']);
+
 
         unset($parameter['nro_garantia']);
         unset($parameter['caida']);
