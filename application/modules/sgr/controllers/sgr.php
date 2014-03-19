@@ -1038,10 +1038,11 @@ class Sgr extends MX_Controller {
             case '141':
                 $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
                 $error = false;
-                $info_140 = $this->sgr_model->get_just_active("140", $this->session->userdata['period']);
-                var_dump($info_140);
+                $info_14 = $this->sgr_model->get_just_active("14", $this->session->userdata['period']);
                 
-                foreach ($info_140 as $filenames) {
+                
+                foreach ($info_14 as $filenames) {
+                    var_dump($filenames);
                     if (!$filenames) {
                         $error = $legend;
                     }
