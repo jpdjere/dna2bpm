@@ -1027,7 +1027,7 @@ class Sgr extends MX_Controller {
     function pre_general_validation($anexo) {
         switch ($anexo) {
             case '061':
-                $info_06 = $this->sgr_model->get_just_active("06", true, $this->session->userdata['period']);
+                $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
                 var_dump($info_06);
                 
                 foreach ($info_06 as $filenames) {
