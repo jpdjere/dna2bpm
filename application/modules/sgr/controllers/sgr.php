@@ -264,7 +264,7 @@ class Sgr extends MX_Controller {
         $VG = $this->pre_general_validation($anexo);
 
         if ($VG) {
-            $duplicated = true;
+            $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
             $customData['message'] = $VG;
             $this->render('errors', $customData);
             unlink($uploadpath);
