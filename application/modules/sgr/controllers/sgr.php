@@ -1027,7 +1027,7 @@ class Sgr extends MX_Controller {
     function pre_general_validation($anexo) {
         switch ($anexo) {
             case '061':
-                $info_06 = $this->sgr_model->get_just_active("06", false, $this->session->userdata['period']);
+                $info_06 = $this->sgr_model->get_just_active("06", $this->session->userdata['period']);
                 var_dump($info_06);
                 
                 foreach ($info_06 as $filenames) {
@@ -1040,21 +1040,21 @@ class Sgr extends MX_Controller {
             case '141':
                 $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
                 $error = false;
-                $info_140 = $this->sgr_model->get_just_active("140", false, $this->session->userdata['period']);
+                $info_140 = $this->sgr_model->get_just_active("140", $this->session->userdata['period']);
                 foreach ($info_140 as $filenames) {
                     if (!$filenames) {
                         $error = $legend;
                     }
                 }
 
-                $info_124 = $this->sgr_model->get_just_active("124", false, $this->session->userdata['period']);
+                $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
                     if (!$filenames) {
                         $error = $legend;
                     }
                 }
 
-                $info_125 = $this->sgr_model->get_just_active("125", false, $this->session->userdata['period']);
+                $info_125 = $this->sgr_model->get_just_active("125", $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
                     if (!$filenames) {
                         $error = $legend;
