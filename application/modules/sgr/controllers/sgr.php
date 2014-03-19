@@ -260,7 +260,7 @@ class Sgr extends MX_Controller {
         if (!$filename) {
             exit();
         }
-        
+
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (int) ($this->idu);
@@ -268,18 +268,16 @@ class Sgr extends MX_Controller {
             var_dump($sgr, $this->sgr_id);
             exit();
         }
-        
+
         /* PRELIMINAR VALIDATION */
         $VG = $this->pre_general_validation($anexo);
-        var_dump($VG, $anexo);
-        exit();
+
         if ($VG) {
             $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
             $customData['message'] = $VG;
             $this->render('errors', $customData);
             unlink($uploadpath);
         } else {
-
             $this->process($filename);
         }
     }
@@ -1072,8 +1070,8 @@ class Sgr extends MX_Controller {
                 if (!$info_125) {
                     $error = $legend;
                 }
-                var_dump($anexo,$error);
-                
+
+
                 return $error;
                 break;
         }
