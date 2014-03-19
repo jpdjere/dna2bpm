@@ -434,6 +434,14 @@ function translate_for_mongo($parameter) {
     return $result;
 }
 
+function translate_mysql_date($date) {    
+    $realtime = date("$date H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+
+
 function translate_period_date($period) {
     list($period_month, $period_year) = explode("-", $period);
 
