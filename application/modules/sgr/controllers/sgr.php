@@ -324,7 +324,11 @@ class Sgr extends MX_Controller {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
-           
+            
+            var_dump($VG, $anexo);
+            exit();
+
+
             /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
@@ -1035,6 +1039,8 @@ class Sgr extends MX_Controller {
                 $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
                 $error = false;
                 $info_140 = $this->sgr_model->get_just_active("140", $this->session->userdata['period']);
+                var_dump($info_140);
+                
                 foreach ($info_140 as $filenames) {
                     if (!$filenames) {
                         $error = $legend;
