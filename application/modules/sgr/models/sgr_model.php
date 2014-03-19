@@ -357,7 +357,7 @@ class Sgr_model extends CI_Model {
 
     /* GET ACTIVE ANEXOS */
 
-    function get_just_active($anexo, $sin_movimiento = false , $period = false) {
+    function get_just_active($anexo, $period = false) {
         $rtn = array();
         $container = 'container.sgr_periodos';
 
@@ -367,14 +367,12 @@ class Sgr_model extends CI_Model {
             'status' => 'activo',
         );
 
-        if ($sin_movimiento) {
-            $query["filename"] = array('$ne' => 'SIN MOVIMIENTOS');
-        }
+      
 
         if ($period) {
             $query["period"] = $period;
         }
-        var_dump($sin_movimiento,$query);
+        
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $each) {
