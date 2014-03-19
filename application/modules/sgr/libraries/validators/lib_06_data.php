@@ -11,6 +11,14 @@ class Lib_06_data extends MX_Controller {
 
         $model_anexo = "model_06";
         $this->load->Model($model_anexo);
+        
+        $mysql_model_06 = "mysql_model_06";
+        $this->load->Model($mysql_model_06);
+        
+
+        /* UPDATE MONGO/DNA2 */
+        $this->period = $this->session->userdata['period'];
+        $this->$mysql_model_06->active_periods_dna2("06", $this->period);
 
         /* Vars 
          * 
@@ -1395,7 +1403,7 @@ class Lib_06_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-        
+
         $this->data = $stack;
     }
 
