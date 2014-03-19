@@ -246,8 +246,7 @@ class Sgr extends MX_Controller {
 
     function Anexo($filename = null) {
         
-        var_dump($filename);
-        exit();
+        
         
         $customData = array();
         $customData['base_url'] = base_url();
@@ -264,7 +263,8 @@ class Sgr extends MX_Controller {
 
         /* PRELIMINAR VALIDATION */
         $VG = $this->pre_general_validation($anexo);
-
+        var_dump($VG);
+        exit();
         if ($VG) {
             $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
             $customData['message'] = $VG;
