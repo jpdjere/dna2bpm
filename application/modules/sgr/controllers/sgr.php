@@ -324,8 +324,13 @@ class Sgr extends MX_Controller {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
-             var_dump($VG);
-            exit();
+
+            if ($VG) {
+                $duplicated = true;
+                $customData['message'] = $VG;
+                $this->render('errors', $customData);
+                unlink($uploadpath);
+            }
 
             /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
@@ -372,14 +377,9 @@ class Sgr extends MX_Controller {
             }
 
 
-           
-            
-            if ($VG) {
-                $duplicated = true;
-                $customData['message'] = $VG;
-                $this->render('errors', $customData);
-                unlink($uploadpath);
-            }
+
+
+
 
 
 
