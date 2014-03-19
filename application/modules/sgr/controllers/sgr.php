@@ -324,6 +324,8 @@ class Sgr extends MX_Controller {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
+             var_dump($VG);
+            exit();
 
             /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
@@ -370,8 +372,7 @@ class Sgr extends MX_Controller {
             }
 
 
-            var_dump($VG);
-            exit();
+           
             
             if ($VG) {
                 $duplicated = true;
