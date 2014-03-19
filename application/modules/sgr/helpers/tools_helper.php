@@ -684,10 +684,36 @@ function translate_anexos_dna2($anexo) {
         case '06':
             return 'sgr_socios';
             break;
-
-        case 'sgr_socios':
+        
+         case 'sgr_socios':
             return '06';
             break;
+        
+         case '062':
+            return 'sgr_socios_4';
+            break;
+        
+        case 'sgr_socios_4':
+            return '062';
+            break;
+        
+         case '12':
+            return 'sgr_garantias';
+            break;
+        
+        case 'sgr_garantias':
+            return '12';
+            break;
+        
+        case '14':
+            return 'sgr_fdr_contingente';
+            break;
+        
+        case 'sgr_fdr_contingente':
+            return '14';
+            break;
+        
+        
     }
 }
 

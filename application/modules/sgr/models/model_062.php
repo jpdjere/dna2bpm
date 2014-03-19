@@ -65,6 +65,8 @@ class Model_062 extends CI_Model {
             $insertarr["CUIT"] = (string) $insertarr["CUIT"];
             /* FLOAT */
             $insertarr["FACTURACION"] = (float) $insertarr["FACTURACION"];
+            /* INT */
+            $insertarr['EMPLEADOS'] = (int) $insertarr['EMPLEADOS'];
         }
         return $insertarr;
     }
@@ -132,6 +134,22 @@ class Model_062 extends CI_Model {
         return $rs['err'];
     }
 
+    function get_anexo_data_tmp($anexo, $parameter) {
+
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $fields = array('CUIT',
+            'EMPLEADOS', 'filename', 'period', 'sgr_id', 'origin');
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+
+        return $rtn;
+    }
+
     function get_anexo_info($anexo, $parameter) {
 
 
@@ -180,22 +198,20 @@ class Model_062 extends CI_Model {
     }
 
     function get_partner_left($cuit) {
-
-
         $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo);
+        $result = $this->sgr_model->get_active_tmp($anexo);
 
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
-                'CUIT_SOCIO_INCORPORADO' => $cuit
+                'CUIT' => $cuit
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)

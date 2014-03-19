@@ -98,6 +98,8 @@ class Model_06 extends CI_Model {
             $insertarr[4654] = (int) $insertarr[4654];
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
+            $insertarr['CANTIDAD_DE_EMPLEADOS'] = (int) $insertarr['CANTIDAD_DE_EMPLEADOS'];
+            
 
 
             /* FLOAT */
@@ -517,8 +519,6 @@ class Model_06 extends CI_Model {
     /* FROM OUTSIDE (ANOTHER ANEXO) */
 
     function get_partner_left($cuit) {
-        
-        
         $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
@@ -536,8 +536,6 @@ class Model_06 extends CI_Model {
             );
 
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            
-            
             
             if ($new_result)
                 $return_result[] = $new_result;

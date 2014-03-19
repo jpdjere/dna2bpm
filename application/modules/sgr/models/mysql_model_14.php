@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class mysql_model_12 extends CI_Model {
+class mysql_model_14 extends CI_Model {
 
-    function mysql_model_12() {
+    function mysql_model_14() {
         parent::__construct();
         // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
@@ -28,10 +28,10 @@ class mysql_model_12 extends CI_Model {
     function clear_tmp() {
         $token = $this->idu;
         $container = 'container.periodos_' . $token . '_tmp';
-        $query = array("anexo" => "12");
+        $query = array("anexo" => "14");
         $delete = $this->mongo->sgr->$container->remove($query);
-        /* 12 */
-        $container = 'container.sgr_anexo_12_' . $token . '_tmp';
+        /* 14 */
+        $container = 'container.sgr_anexo_14_' . $token . '_tmp';
         $delete = $this->mongo->sgr->$container->remove();
     }
 
@@ -68,9 +68,9 @@ class mysql_model_12 extends CI_Model {
 
         foreach ($parameter as $each) {
 
-            /* LOAD MODEL 12 */
-            $model_12 = 'model_12';
-            $this->load->Model($model_12);
+            /* LOAD MODEL 14 */
+            $model_14 = 'model_14';
+            $this->load->Model($model_14);
 
             $this->save_tmp($each);
             /* ANEXO DATA */
@@ -78,7 +78,7 @@ class mysql_model_12 extends CI_Model {
                 $this->anexo_data_tmp($anexo_dna2, $each->archivo);
             } else {
 
-                $get_anexo_data = $this->$model_12->get_anexo_data_tmp($anexo, $each['filename']);
+                $get_anexo_data = $this->$model_14->get_anexo_data_tmp($anexo, $each['filename']);
                 foreach ($get_anexo_data as $each) {
 
                     $token = $this->idu;
@@ -100,7 +100,7 @@ class mysql_model_12 extends CI_Model {
     function anexo_data_tmp($anexo, $filename) {
 
 
-        $anexo_field = "save_anexo_12_tmp";
+        $anexo_field = "save_anexo_14_tmp";
 
         $this->db->select(
                 'nro_orden,
@@ -141,50 +141,26 @@ class mysql_model_12 extends CI_Model {
         }
     }
 
-    /* SAVE FETCHS ANEXO 12 DATA */
+    /* SAVE FETCHS ANEXO 14 DATA */
 
-    function save_anexo_12_tmp($parameter) {
+    function save_anexo_14_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_12_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_14_' . $token . '_tmp';
         /* TRANSLATE ANEXO NAME */
 
+
         /* STRING */
-        $parameter[5214] = (string) $parameter['nro_orden']; //Nro orden
+        $parameter["NRO_GARANTIA"] = (string) $parameter["nro_garantia"]; 
+        /* INTEGERS & FLOAT */
+        $parameter["CAIDA"] = (float) $parameter["caida"];
+        $parameter["RECUPERO"] = (float) $parameter["recupero"];
+        
 
-
-        $parameter[5349] = (string) $parameter['cuit_socio_participe']; //Cuit_participe
-        $parameter[5726] = (string) $parameter['librador_cuit']; //Librador_cuit           
-        $parameter[5351] = (string) $parameter['cuit_acreedor']; //Acreedir
-
-        /* FLOAT */
-        $parameter[5218] = (float) $parameter['monto'];
-        $parameter[5221] = (float) $parameter['importe_Cred_Garant'];
-        $parameter[5223] = (float) $parameter['puntos_adicionales'];
-
-        /* INTEGER */
-        $parameter[5224] = (int) $parameter['plazo'];
-        $parameter[5225] = (int) $parameter['gracia'];
-
-        //var_dump($parameter['fecha_alta']);
-        // $parameter[5215] = translate_dna2_period_date($parameter['fecha_alta']);
-//        list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5215], 1900)));
-//        $parameter[5215] = $arr;
-
-
-
-        unset($parameter['nro_orden']);
-        unset($parameter['cuit_socio_participe']);
-        unset($parameter['librador_cuit']);
-        unset($parameter['cuit_acreedor']);
-        unset($parameter['monto']);
-        unset($parameter['importe_Cred_Garant']);
-
-        unset($parameter['plazo']);
-        unset($parameter['gracia']);
-        unset($parameter['fecha_alta']);
-
+        unset($parameter['nro_garantia']);
+        unset($parameter['caida']);
+        unset($parameter['recupero']);
 
         $id = $this->app->genid_sgr($container);
 
