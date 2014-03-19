@@ -324,11 +324,7 @@ class Sgr extends MX_Controller {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
-            
-            var_dump($VG, $anexo);
-            exit();
-
-
+           
             /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
@@ -1028,8 +1024,6 @@ class Sgr extends MX_Controller {
         switch ($anexo) {
             case '061':
                 $info_06 = $this->sgr_model->get_just_active("06", $this->session->userdata['period']);
-                var_dump($info_06);
-                
                 foreach ($info_06 as $filenames) {
                     if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
                         return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
