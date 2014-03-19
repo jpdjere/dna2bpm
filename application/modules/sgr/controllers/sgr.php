@@ -370,7 +370,9 @@ class Sgr extends MX_Controller {
             }
 
 
-
+            var_dump($VG);
+            exit();
+            
             if ($VG) {
                 $duplicated = true;
                 $customData['message'] = $VG;
