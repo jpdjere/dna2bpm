@@ -1042,7 +1042,7 @@ class Sgr extends MX_Controller {
                 
                 
                 foreach ($info_14 as $filenames) {
-                    var_dump($filenames);
+                   
                     if (!$filenames) {
                         $error = $legend;
                     }
@@ -1061,7 +1061,10 @@ class Sgr extends MX_Controller {
                         $error = $legend;
                     }
                 }
+                 var_dump($error);
+                
                 return $error;
+                
 
                 break;
         }
