@@ -245,8 +245,10 @@ class Sgr extends MX_Controller {
      */
 
     function Anexo($filename = null) {
-
-
+        
+        var_dump($filename);
+        exit();
+        
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
