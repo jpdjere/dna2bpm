@@ -85,9 +85,6 @@ class mysql_model_14 extends CI_Model {
                     $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
                     $id = $this->app->genid_sgr($container);
 
-                    list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $each[5215]);
-                    $each[5215] = $arr;
-
                     unset($each['_id']);
                     $result = $this->app->put_array_sgr($id, $container, $each);
                 }
@@ -98,8 +95,6 @@ class mysql_model_14 extends CI_Model {
     /* SAVE FETCHS ANEXO  DATA */
 
     function anexo_data_tmp($anexo, $filename) {
-
-
         $anexo_field = "save_anexo_14_tmp";
 
         $this->db->select(
@@ -107,7 +102,7 @@ class mysql_model_14 extends CI_Model {
                 fecha_movimiento,
                 cuit_participe,
                 caida,
-                recupero'
+                recupero, filename, idu'
         );
 
 
@@ -145,12 +140,13 @@ class mysql_model_14 extends CI_Model {
         $parameter["CAIDA"] = (float) $parameter["caida"];
         $parameter["RECUPERO"] = (float) $parameter["recupero"];
         
-         $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_movimiento']);
+         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_movimiento']);
 
 
         unset($parameter['nro_garantia']);
         unset($parameter['caida']);
         unset($parameter['recupero']);
+        unset($parameter['fecha_movimiento']);
 
         $id = $this->app->genid_sgr($container);
 

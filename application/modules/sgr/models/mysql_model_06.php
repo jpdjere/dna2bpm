@@ -97,8 +97,7 @@ class mysql_model_06 extends CI_Model {
 
         $anexo_field = "save_anexo_06_tmp";
 
-        $this->db->select(
-                'cuit, 
+        $this->db->select('cuit, 
                         tipo_socio, 
                         tipo_operacion,
                         cedente_cuit,
@@ -109,12 +108,9 @@ class mysql_model_06 extends CI_Model {
                         monto3, 
                         capital_suscripto,
                         capital_integrado,
-                        fecha_efectiva'
-        );
-
-
-
-
+                        fecha_efectiva, 
+                        filename, 
+                        idu');
 
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
@@ -137,7 +133,7 @@ class mysql_model_06 extends CI_Model {
     function save_anexo_06_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
-        $period = $this->session->userdata['period'];       
+        $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_06_' . $token . '_tmp';
         /* TRANSLATE ANEXO NAME */
 
@@ -170,11 +166,9 @@ class mysql_model_06 extends CI_Model {
         $parameter[5597] = (int) str_replace(",", ".", $parameter['capital_suscripto']);
         $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
 
-
-
-
-        $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_efectiva']);
-        //var_dump($parameter['fecha_efectiva'],$parameter['FECHA_DE_TRANSACCION']);
+        $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
+        
+       
 
 
         unset($parameter['capital_suscripto']);

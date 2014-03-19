@@ -167,12 +167,6 @@ class mysql_model_12 extends CI_Model {
         $parameter[5224] = (int) $parameter['plazo'];
         $parameter[5225] = (int) $parameter['gracia'];
 
-        //var_dump($parameter['fecha_alta']);
-        // $parameter[5215] = translate_dna2_period_date($parameter['fecha_alta']);
-//        list($arr['Y'], $arr['m'], $arr['d']) = explode("-", strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $parameter[5215], 1900)));
-//        $parameter[5215] = $arr;
-
-
 
         unset($parameter['nro_orden']);
         unset($parameter['cuit_socio_participe']);
