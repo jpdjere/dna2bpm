@@ -1039,10 +1039,8 @@ class Sgr extends MX_Controller {
                 $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
                 $error = false;
                 $info_14 = $this->sgr_model->get_just_active("14", $this->session->userdata['period']);
-                
-                
                 foreach ($info_14 as $filenames) {
-                   
+                    var_dump("1", $filenames);
                     if (!$filenames) {
                         $error = $legend;
                     }
@@ -1050,6 +1048,7 @@ class Sgr extends MX_Controller {
 
                 $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
+                    var_dump("2", $filenames);
                     if (!$filenames) {
                         $error = $legend;
                     }
@@ -1057,11 +1056,13 @@ class Sgr extends MX_Controller {
 
                 $info_125 = $this->sgr_model->get_just_active("125", $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
+                    
+                    var_dump("3", $filenames);
                     if (!$filenames) {
                         $error = $legend;
                     }
                 }
-                 var_dump($error);
+                 
                 
                 return $error;
                 
