@@ -20,7 +20,7 @@ class Sgr extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
-        $this->load->model('sgr/sgr_model');        
+        $this->load->model('sgr/sgr_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
@@ -50,7 +50,7 @@ class Sgr extends MX_Controller {
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
     }
-   
+
     function Index() {
 
         $customData = array();
@@ -324,7 +324,7 @@ class Sgr extends MX_Controller {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
-            
+
             var_dump($VG, $anexo);
             exit();
 
@@ -1039,11 +1039,8 @@ class Sgr extends MX_Controller {
                 $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
                 $error = false;
                 $info_14 = $this->sgr_model->get_just_active("14", $this->session->userdata['period']);
-                foreach ($info_14 as $filenames) {
-                    var_dump("1", $filenames);
-                    if (!$filenames) {
-                        $error = $legend;
-                    }
+                if (!$info_14) {
+                    $error = $legend;
                 }
 
                 $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
@@ -1056,16 +1053,16 @@ class Sgr extends MX_Controller {
 
                 $info_125 = $this->sgr_model->get_just_active("125", $this->session->userdata['period']);
                 foreach ($info_124 as $filenames) {
-                    
+
                     var_dump("3", $filenames);
                     if (!$filenames) {
                         $error = $legend;
                     }
                 }
-                 
-                
+
+                var_dump($error);
                 return $error;
-                
+
 
                 break;
         }
