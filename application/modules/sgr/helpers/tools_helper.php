@@ -721,6 +721,14 @@ function translate_anexos_dna2($anexo) {
             return '14';
             break;
         
+         case '201':
+            return 'sgr_fdr_integrado';
+            break;
+        
+        case 'sgr_fdr_integrado':
+            return '201';
+            break;
+        
         
     }
 }

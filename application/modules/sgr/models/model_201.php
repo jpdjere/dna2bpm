@@ -256,6 +256,27 @@ class Model_201 extends CI_Model {
         return $newTable;
     }
 
+    function get_anexo_data_tmp($anexo, $parameter) {
+        
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $fields = array('NUMERO_DE_APORTE',
+            'FECHA_MOVIMIENTO',
+            'CUIT_PROTECTOR',
+            'APORTE',
+            'RETIRO',
+            'RETENCION_POR_CONTINGENTE',
+            'RETIRO_DE_RENDIMIENTOS', 'filename', 'period', 'sgr_id', 'origin');
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+
+        return $rtn;
+    }
+
     function get_anexo_data($anexo, $parameter, $xls = false) {
 
 
@@ -382,15 +403,15 @@ class Model_201 extends CI_Model {
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
-           
-            
+
+
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 $rtn[] = $data;
             }
         }
 
-       
+
         return $rtn;
     }
 
@@ -574,10 +595,7 @@ class Model_201 extends CI_Model {
             }
         }
     }
-    
-    
-    
-    
+
     function get_movement_data($nro) {
         $anexo = $this->anexo;
         $period_value = $this->session->userdata['period'];
@@ -620,7 +638,7 @@ class Model_201 extends CI_Model {
         );
         return $return_arr;
     }
-    
+
     function get_movement_recursive($nro) {
         $anexo = $this->anexo;
         $period_value = $this->session->userdata['period'];
