@@ -367,12 +367,10 @@ class Sgr_model extends CI_Model {
             'status' => 'activo',
         );
 
-      
-
         if ($period) {
             $query["period"] = $period;
         }
-        var_dump($query);
+
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $each) {
