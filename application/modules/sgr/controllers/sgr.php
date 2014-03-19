@@ -1044,26 +1044,15 @@ class Sgr extends MX_Controller {
                 }
 
                 $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
-                foreach ($info_124 as $filenames) {
-                    var_dump("2", $filenames);
-                    if (!$filenames) {
-                        $error = $legend;
-                    }
+                if (!$info_124) {
+                    $error = $legend;
                 }
 
                 $info_125 = $this->sgr_model->get_just_active("125", $this->session->userdata['period']);
-                foreach ($info_124 as $filenames) {
-
-                    var_dump("3", $filenames);
-                    if (!$filenames) {
-                        $error = $legend;
-                    }
+                if (!$info_125) {
+                    $error = $legend;
                 }
-
-                var_dump($error);
                 return $error;
-
-
                 break;
         }
     }
