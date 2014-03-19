@@ -245,6 +245,36 @@ class Sgr extends MX_Controller {
      */
 
     function Anexo($filename = null) {
+
+
+        $customData = array();
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_id'] = $this->sgr_id;
+        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+
+        if (!$filename) {
+            exit();
+        }
+
+        /* PRELIMINAR VALIDATION */
+        $VG = $this->pre_general_validation($anexo);
+
+        if ($VG) {
+            $duplicated = true;
+            $customData['message'] = $VG;
+            $this->render('errors', $customData);
+            unlink($uploadpath);
+        } else {
+
+            $this->process($filename);
+        }
+    }
+
+    function Process($filename = null) {
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
@@ -255,9 +285,7 @@ class Sgr extends MX_Controller {
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
 
-        if (!$filename) {
-            exit();
-        }
+
 
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
@@ -314,23 +342,13 @@ class Sgr extends MX_Controller {
                 }
             }
 
-
-
             /* VALIDATIONS */
             if (!$count) {
                 $result_header = $this->empty_xls_advice($this->anexo);
                 $error = 1;
             }
 
-            /* PRELIMINAR VALIDATION */
-            $VG = $this->pre_general_validation($anexo);
 
-            if ($VG) {
-                $duplicated = true;
-                $customData['message'] = $VG;
-                $this->render('errors', $customData);
-                unlink($uploadpath);
-            }
 
             /* XLS CELL DATA ERROR */
             $data_values = "lib_" . $anexo . "_data";
@@ -375,13 +393,6 @@ class Sgr extends MX_Controller {
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
                 $result_data_ = $this->$model->check($sanitize_data);
             }
-
-
-
-
-
-
-
 
             /* INSERT UPDATE */
             for ($i = 2; $i <= $data->rowcount(); $i++) {
