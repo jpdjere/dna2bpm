@@ -67,8 +67,8 @@ class Model_14 extends CI_Model {
 
             /* STRING */
             $insertarr["NRO_GARANTIA"] = (string) $insertarr["NRO_GARANTIA"]; //Nro orden
-            
-            
+
+
             /* INTEGERS & FLOAT */
             $insertarr["CAIDA"] = (float) $insertarr["CAIDA"];
             $insertarr["RECUPERO"] = (float) $insertarr["RECUPERO"];
@@ -312,7 +312,7 @@ class Model_14 extends CI_Model {
     }
 
     function get_anexo_data_tmp($anexo, $parameter) {
-        
+
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $fields = array('FECHA_MOVIMIENTO',
@@ -334,9 +334,10 @@ class Model_14 extends CI_Model {
 
     function get_movement_data($nro) {
         $anexo = $this->anexo;
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
         $period_value = $this->session->userdata['period'];
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
 
         $caida_result_arr = array();
         $recupero_result_arr = array();
@@ -346,7 +347,7 @@ class Model_14 extends CI_Model {
         $gasto_incobrable_periodo_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo, $period_value);
+        $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
