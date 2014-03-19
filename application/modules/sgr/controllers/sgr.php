@@ -1064,7 +1064,7 @@ class Sgr extends MX_Controller {
                 if (!$info_125) {
                     $error = $legend;
                 }
-                var_dump($error);
+                var_dump($anexo,$error);
                 
                 return $error;
                 break;
