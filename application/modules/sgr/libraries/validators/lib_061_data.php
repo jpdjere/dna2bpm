@@ -7,9 +7,7 @@ class Lib_061_data extends MX_Controller {
         parent::__construct();
         $this->load->library('session');
 
-        $this->load->helper('sgr/tools');
-        $model_anexo = "model_061";
-        $this->load->Model($model_anexo);
+        $this->load->helper('sgr/tools');        
 
         /* PARTNER INFO */
         $model_06 = 'model_06';

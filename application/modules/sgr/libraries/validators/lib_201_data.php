@@ -8,13 +8,22 @@ class Lib_201_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
-
+        
+        $this->period = $this->session->userdata['period'];
+        
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
         $model_anexo = 'model_201';
         $this->load->Model($model_anexo);
+        
+        /* UPDATE MONGO/DNA2 */
+        $mysql_model_201 = "mysql_model_201";
+        $this->load->Model($mysql_model_201);
+
+
+        $this->$mysql_model_201->active_periods_dna2("201", $this->period);
 
         /* Vars 
          * 

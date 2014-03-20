@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class mysql_model extends CI_Model {
+class mysql_model_062 extends CI_Model {
 
-    function mysql_model() {
+    function mysql_model_062() {
         parent::__construct();
         // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
@@ -28,9 +28,10 @@ class mysql_model extends CI_Model {
     function clear_tmp() {
         $token = $this->idu;
         $container = 'container.periodos_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-        /* 06 */
-        $container = 'container.anexo_06_' . $token . '_tmp';
+        $query = array("anexo" => "062");
+        $delete = $this->mongo->sgr->$container->remove($query);
+        /* 062 */
+        $container = 'container.sgr_anexo_062_' . $token . '_tmp';
         $delete = $this->mongo->sgr->$container->remove();
     }
 
@@ -38,16 +39,16 @@ class mysql_model extends CI_Model {
 
     function active_periods_dna2($anexo, $period) {
 
-        var_dump($this->sgr_id, $this->idu);
+
+        /* CLEAR TEMP DATA */
         $this->clear_tmp();
 
         /* TRANSLATE ANEXO NAME */
-        $anexo = translate_anexos_dna2($anexo);
-
-
+        $anexo_dna2 = translate_anexos_dna2($anexo);
 
         $this->db->where('estado', 'activo');
-        $this->db->where('anexo', $anexo);
+        $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('anexo', $anexo_dna2);
         $this->db->where('sgr_id', $this->sgr_id);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
@@ -57,21 +58,37 @@ class mysql_model extends CI_Model {
             $parameter[] = $row;
         }
 
-
-        foreach ($parameter as $each) {
-            $this->save_tmp($each);
-            /* ANEXO DATA */
-            $this->anexo_data_tmp($anexo, $each->archivo);
-        }
-
-
         /* UPDATE MONGO BY MONGO */
         $mongo_periods = $this->sgr_model->get_active($anexo);
         foreach ($mongo_periods as $each) {
-           
-            
-           // $this->save_tmp($each, true);            
-            //$this->anexo_data_tmp($anexo, $each->archivo);
+            unset($each['_id']);
+            $parameter[] = $each;
+        }
+
+        foreach ($parameter as $each) {
+            /* LOAD MODEL 062 */
+            $model_062 = 'model_062';
+            $this->load->Model($model_062);
+
+            $this->save_tmp($each);
+
+            /* ANEXO DATA */
+            if ($each->archivo) {
+                $this->anexo_data_tmp($anexo_dna2, $each->archivo);
+            } else {
+
+                $get_anexo_data = $this->$model_062->get_anexo_data_tmp($anexo, $each['filename']);
+                foreach ($get_anexo_data as $each) {
+
+                    $token = $this->idu;
+                    $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+                    $id = $this->app->genid_sgr($container);
+                    /*MONGO X MONGO*/
+                    
+                    unset($each['_id']);
+                    $result = $this->app->put_array_sgr($id, $container, $each);
+                }
+            }
         }
     }
 
@@ -79,28 +96,13 @@ class mysql_model extends CI_Model {
 
     function anexo_data_tmp($anexo, $filename) {
 
-        switch ($anexo) {
-            case "sgr_socios":
-                $anexo_field = "save_anexo_06_tmp";
 
-                $this->db->select(
-                        'cuit, 
-                        tipo_socio, 
-                        tipo_operacion,
-                        cedente_cuit,
-                        codigo_actividad,
-                        cantidad_empleados, 
-                        monto,
-                        monto2,
-                        monto3, 
-                        capital_suscripto,
-                        capital_integrado,
-                        fecha_efectiva'
-                );
+        $anexo_field = "save_anexo_062_tmp";
 
-                break;
-        }
-
+        $this->db->select(
+                'CUIT,
+                EMPLEADOS'
+        );
 
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
@@ -108,6 +110,8 @@ class mysql_model extends CI_Model {
 
         $this->db->where('idu', $this->idu);
         $query = $this->db->get($anexo);
+
+
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
@@ -118,54 +122,20 @@ class mysql_model extends CI_Model {
         }
     }
 
-    /* SAVE FETCHS ANEXO 06 DATA */
+    /* SAVE FETCHS ANEXO 062 DATA */
 
-    function save_anexo_06_tmp($parameter) {
+    function save_anexo_062_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.anexo_06_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_062_' . $token . '_tmp';
         /* TRANSLATE ANEXO NAME */
 
         /* STRING */
-        $parameter[1695] = (string) $parameter['cuit'];
-        $parameter[5272] = (string) $parameter['tipo_socio'];
-        $parameter[5779] = (string) $parameter['tipo_operacion'];
-        $parameter[5248] = (string) $parameter['cedente_cuit'];
+        $parameter['CUIT'] = (string) $parameter['CUIT'];
 
-        /* INTEGERS */
-
-        $parameter[5208] = (int) $parameter['codigo_actividad'];
-
-        $parameter['CANTIDAD_DE_EMPLEADOS'] = (int) $parameter['cantidad_empleados'];
-
-
-        if ($parameter[5779] == "INCORPORACION")
-            $parameter[5779] = "1";
-        if ($parameter[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-            $parameter[5779] = "2";
-        if ($parameter[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-            $parameter[5779] = "3";
-
-
-        /* FLOAT */
-        $parameter[20] = (float) $parameter['monto'];
-        $parameter[23] = (float) $parameter['monto2'];
-        $parameter[26] = (float) $parameter['monto3'];
-
-        $parameter[5597] = (int) str_replace(",", ".", $parameter['capital_suscripto']);
-        $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
-
-        $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_efectiva']);
-
-
-        unset($parameter['capital_suscripto']);
-        unset($parameter['capital_suscripto']);
-        unset($parameter['cantidad_empleados']);
-        unset($parameter['monto']);
-        unset($parameter['monto2']);
-        unset($parameter['monto3']);
-
+        /* INTEGER */
+        $parameter['EMPLEADOS'] = (int) $parameter['EMPLEADOS'];
 
         $id = $this->app->genid_sgr($container);
 
@@ -181,35 +151,34 @@ class mysql_model extends CI_Model {
     /* SAVE FETCHS PERIODOS */
 
     function save_tmp($parameter, $mongo = false) {
-        
-        
-         
-        
+
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
         $container = 'container.periodos_' . $token . '_tmp';
 
         /* TRANSLATE ANEXO NAME */
-        if (!$mongo) {
+        if ($parameter['estado']) {
             $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
             $parameter['filename'] = $parameter['archivo'];
             $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
+
+            unset($parameter['estado']);
         }
-        
+
         $id = $this->app->genid_sgr($container);
-        
+
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-        
+
 
         if ($result) {
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
-        
-        
+
+
         return $out;
     }
 

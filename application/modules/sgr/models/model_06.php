@@ -98,6 +98,8 @@ class Model_06 extends CI_Model {
             $insertarr[4654] = (int) $insertarr[4654];
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
+            $insertarr['CANTIDAD_DE_EMPLEADOS'] = (int) $insertarr['CANTIDAD_DE_EMPLEADOS'];
+            
 
 
             /* FLOAT */
@@ -517,8 +519,6 @@ class Model_06 extends CI_Model {
     /* FROM OUTSIDE (ANOTHER ANEXO) */
 
     function get_partner_left($cuit) {
-        
-        
         $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
@@ -536,8 +536,6 @@ class Model_06 extends CI_Model {
             );
 
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            
-            
             
             if ($new_result)
                 $return_result[] = $new_result;
@@ -727,6 +725,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_tmp($anexo);
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
@@ -755,6 +754,60 @@ class Model_06 extends CI_Model {
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
                 $sell_result_arr[] = $sell[$field];
+            }
+        }
+
+        $buy_sum = array_sum($buy_result_arr);
+        $sell_sum = array_sum($sell_result_arr);
+        $balance = $buy_sum - $sell_sum;
+        return $balance;
+    }
+    
+    
+    function shares_active_left_until_date($cuit, $date) {
+
+         $anexo = $this->anexo;
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $period_value = $this->session->userdata['period'];
+
+        $buy_result_arr = array();
+        $sell_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_tmp($anexo);
+        
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+
+            /* BUY */
+            $new_query = array(
+                1695 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => 'B'
+                , 'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $date
+                )
+            );
+
+
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                $buy_result_arr[] = $buy[5597];
+            }
+
+            /* SELL */
+            $new_query = array(
+                5248 => $cuit,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename'],
+                5272 => 'B'
+            );
+
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($sell_result as $sell) {
+                $sell_result_arr[] = $sell[5597];
             }
         }
 

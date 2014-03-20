@@ -84,6 +84,10 @@ class mysql_model_12 extends CI_Model {
                     $token = $this->idu;
                     $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
                     $id = $this->app->genid_sgr($container);
+
+                    list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $each[5215]);
+                    $each[5215] = $arr;
+
                     unset($each['_id']);
                     $result = $this->app->put_array_sgr($id, $container, $each);
                 }
@@ -99,22 +103,24 @@ class mysql_model_12 extends CI_Model {
         $anexo_field = "save_anexo_12_tmp";
 
         $this->db->select(
-                'cuit, 
-                        tipo_socio, 
-                        tipo_operacion,
-                        cedente_cuit,
-                        codigo_actividad,
-                        cantidad_empleados, 
-                        monto,
-                        monto2,
-                        monto3, 
-                        capital_suscripto,
-                        capital_integrado,
-                        fecha_efectiva'
+                'nro_orden,
+                cuit_socio_participe,
+                fecha_alta,
+                tipo_garantia,
+                monto,
+                moneda,
+                librador_cuit,
+                nro_operacion_bolsa,
+                cuit_acreedor,
+                importe_Cred_Garant,
+                moneda_Cred_Garant,
+                tasa,
+                puntos_adicionales,
+                plazo,
+                gracia,
+                periodicidad,
+                sistema'
         );
-
-
-
 
 
         if ($filename != 'Sin Movimiento')
@@ -123,6 +129,8 @@ class mysql_model_12 extends CI_Model {
 
         $this->db->where('idu', $this->idu);
         $query = $this->db->get($anexo);
+
+
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
@@ -138,52 +146,38 @@ class mysql_model_12 extends CI_Model {
     function save_anexo_12_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
-        $period = $this->session->userdata['period'];       
+        $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_12_' . $token . '_tmp';
         /* TRANSLATE ANEXO NAME */
 
         /* STRING */
-        $parameter[1695] = (string) $parameter['cuit'];
-        $parameter[5272] = (string) $parameter['tipo_socio'];
-        $parameter[5779] = (string) $parameter['tipo_operacion'];
-        $parameter[5248] = (string) $parameter['cedente_cuit'];
-
-        /* INTEGERS */
-
-        $parameter[5208] = (int) $parameter['codigo_actividad'];
-
-        $parameter['CANTIDAD_DE_EMPLEADOS'] = (int) $parameter['cantidad_empleados'];
+        $parameter[5214] = (string) $parameter['nro_orden']; //Nro orden
 
 
-        if ($parameter[5779] == "INCORPORACION")
-            $parameter[5779] = "1";
-        if ($parameter[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-            $parameter[5779] = "2";
-        if ($parameter[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-            $parameter[5779] = "3";
-
+        $parameter[5349] = (string) $parameter['cuit_socio_participe']; //Cuit_participe
+        $parameter[5726] = (string) $parameter['librador_cuit']; //Librador_cuit           
+        $parameter[5351] = (string) $parameter['cuit_acreedor']; //Acreedir
 
         /* FLOAT */
-        $parameter[20] = (float) $parameter['monto'];
-        $parameter[23] = (float) $parameter['monto2'];
-        $parameter[26] = (float) $parameter['monto3'];
+        $parameter[5218] = (float) $parameter['monto'];
+        $parameter[5221] = (float) $parameter['importe_Cred_Garant'];
+        $parameter[5223] = (float) $parameter['puntos_adicionales'];
 
-        $parameter[5597] = (int) str_replace(",", ".", $parameter['capital_suscripto']);
-        $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
-
-
-
-
-        $parameter['FECHA_DE_TRANSACCION'] = translate_dna2_period_date($parameter['fecha_efectiva']);
-        //var_dump($parameter['fecha_efectiva'],$parameter['FECHA_DE_TRANSACCION']);
+        /* INTEGER */
+        $parameter[5224] = (int) $parameter['plazo'];
+        $parameter[5225] = (int) $parameter['gracia'];
 
 
-        unset($parameter['capital_suscripto']);
-        unset($parameter['capital_suscripto']);
-        unset($parameter['cantidad_empleados']);
+        unset($parameter['nro_orden']);
+        unset($parameter['cuit_socio_participe']);
+        unset($parameter['librador_cuit']);
+        unset($parameter['cuit_acreedor']);
         unset($parameter['monto']);
-        unset($parameter['monto2']);
-        unset($parameter['monto3']);
+        unset($parameter['importe_Cred_Garant']);
+
+        unset($parameter['plazo']);
+        unset($parameter['gracia']);
+        unset($parameter['fecha_alta']);
 
 
         $id = $this->app->genid_sgr($container);

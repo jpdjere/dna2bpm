@@ -8,26 +8,27 @@ class Lib_12_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
+        $this->period = $this->session->userdata['period'];
 
-        /* PARTNER INFO */
+        /* PARTNER INFO DATA */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
-        
-        
-        /* UPDATE MONGO/DNA2 */
-        $mysql_model_06 = "mysql_model_06";
-        $this->load->Model($mysql_model_06);
-        
-        $this->period = $this->session->userdata['period'];
-        $this->$mysql_model_06->active_periods_dna2("06", $this->period);
-        
 
-        $model_062 = 'model_062';
-        $this->load->Model($model_062);
 
-        /* */
+        /* ANEXO 12 DATA*/
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
+
+        /* UPDATE MONGO/DNA2 */
+        $mysql_model_12 = "mysql_model_12";
+        $this->load->Model($mysql_model_12);
+
+
+        $this->$mysql_model_12->active_periods_dna2("12", $this->period);
+
+        /*ANEXO 6.2 DATA */
+        $model_062 = 'model_062';
+        $this->load->Model($model_062);
 
 
         /* Vars 
@@ -126,15 +127,12 @@ class Lib_12_data extends MX_Controller {
                     $transaction_date = null;
                     $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
                     
-                    
-                    
-                    foreach ($partner_data as $partner) {    
+                    foreach ($partner_data as $partner) {
 
-                        
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
-                    $amount_employees2  = 0;
+                    $amount_employees2 = 0;
                     $partner_data_062 = $this->$model_062->get_partner_left($parameterArr[$i]['fieldValue']);
                     if ($partner_data_062) {
                         foreach ($partner_data_062 as $partner_062) {
@@ -846,10 +844,7 @@ class Lib_12_data extends MX_Controller {
                 $result = return_error_array($code_error, "Todas", "Nros. de Orden repetidos dentro del mismo Anexo");
                 array_push($stack, $result);
             }
-        }
-//        $result = return_error_array("-", "-","-dummy-");
-//        array_push($stack, $result);
-                            
+        }        
         $this->data = $stack;
     }
 

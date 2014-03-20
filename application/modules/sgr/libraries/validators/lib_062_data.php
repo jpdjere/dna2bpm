@@ -8,9 +8,20 @@ class Lib_062_data extends MX_Controller {
         $this->load->library('session');
 
         $this->load->helper('sgr/tools');
+        
+        $this->period = $this->session->userdata['period'];
+        
          /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
+        
+        /* UPDATE MONGO/DNA2 */
+        $mysql_model_062 = "mysql_model_062";
+        $this->load->Model($mysql_model_062);
+
+        $this->$mysql_model_062->active_periods_dna2("062", $this->period);
+        
+        
 
         /* Vars 
          * 
@@ -172,8 +183,7 @@ class Lib_062_data extends MX_Controller {
                     }
                 }
             }
-        }      
-      
+        }             
         $this->data = $stack;
     }
 

@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class mysql_model_06 extends CI_Model {
+class mysql_model_14 extends CI_Model {
 
-    function mysql_model_06() {
+    function mysql_model_14() {
         parent::__construct();
         // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
@@ -28,9 +28,10 @@ class mysql_model_06 extends CI_Model {
     function clear_tmp() {
         $token = $this->idu;
         $container = 'container.periodos_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-        /* 06 */
-        $container = 'container.sgr_anexo_06_' . $token . '_tmp';
+        $query = array("anexo" => "14");
+        $delete = $this->mongo->sgr->$container->remove($query);
+        /* 14 */
+        $container = 'container.sgr_anexo_14_' . $token . '_tmp';
         $delete = $this->mongo->sgr->$container->remove();
     }
 
@@ -67,9 +68,9 @@ class mysql_model_06 extends CI_Model {
 
         foreach ($parameter as $each) {
 
-            /* LOAD MODEL 06 */
-            $model_06 = 'model_06';
-            $this->load->Model($model_06);
+            /* LOAD MODEL 14 */
+            $model_14 = 'model_14';
+            $this->load->Model($model_14);
 
             $this->save_tmp($each);
             /* ANEXO DATA */
@@ -77,12 +78,13 @@ class mysql_model_06 extends CI_Model {
                 $this->anexo_data_tmp($anexo_dna2, $each->archivo);
             } else {
 
-                $get_anexo_data = $this->$model_06->get_anexo_data_tmp($anexo, $each['filename']);
+                $get_anexo_data = $this->$model_14->get_anexo_data_tmp($anexo, $each['filename']);
                 foreach ($get_anexo_data as $each) {
 
                     $token = $this->idu;
                     $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
                     $id = $this->app->genid_sgr($container);
+
                     unset($each['_id']);
                     $result = $this->app->put_array_sgr($id, $container, $each);
                 }
@@ -93,24 +95,16 @@ class mysql_model_06 extends CI_Model {
     /* SAVE FETCHS ANEXO  DATA */
 
     function anexo_data_tmp($anexo, $filename) {
+        $anexo_field = "save_anexo_14_tmp";
 
+        $this->db->select(
+                'nro_garantia,
+                fecha_movimiento,
+                cuit_participe,
+                caida,
+                recupero, filename, idu'
+        );
 
-        $anexo_field = "save_anexo_06_tmp";
-
-        $this->db->select('cuit, 
-                        tipo_socio, 
-                        tipo_operacion,
-                        cedente_cuit,
-                        codigo_actividad,
-                        cantidad_empleados, 
-                        monto,
-                        monto2,
-                        monto3, 
-                        capital_suscripto,
-                        capital_integrado,
-                        fecha_efectiva, 
-                        filename, 
-                        idu');
 
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
@@ -118,6 +112,8 @@ class mysql_model_06 extends CI_Model {
 
         $this->db->where('idu', $this->idu);
         $query = $this->db->get($anexo);
+
+
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
@@ -128,56 +124,29 @@ class mysql_model_06 extends CI_Model {
         }
     }
 
-    /* SAVE FETCHS ANEXO 06 DATA */
+    /* SAVE FETCHS ANEXO 14 DATA */
 
-    function save_anexo_06_tmp($parameter) {
+    function save_anexo_14_tmp($parameter) {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_06_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_14_' . $token . '_tmp';
         /* TRANSLATE ANEXO NAME */
 
+
         /* STRING */
-        $parameter[1695] = (string) $parameter['cuit'];
-        $parameter[5272] = (string) $parameter['tipo_socio'];
-        $parameter[5779] = (string) $parameter['tipo_operacion'];
-        $parameter[5248] = (string) $parameter['cedente_cuit'];
-
-        /* INTEGERS */
-
-        $parameter[5208] = (int) $parameter['codigo_actividad'];
-
-        $parameter['CANTIDAD_DE_EMPLEADOS'] = (int) $parameter['cantidad_empleados'];
-
-
-        if ($parameter[5779] == "INCORPORACION")
-            $parameter[5779] = "1";
-        if ($parameter[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-            $parameter[5779] = "2";
-        if ($parameter[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-            $parameter[5779] = "3";
-
-
-        /* FLOAT */
-        $parameter[20] = (float) $parameter['monto'];
-        $parameter[23] = (float) $parameter['monto2'];
-        $parameter[26] = (float) $parameter['monto3'];
-
-        $parameter[5597] = (int) str_replace(",", ".", $parameter['capital_suscripto']);
-        $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
-
-        $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
+        $parameter["NRO_GARANTIA"] = (string) $parameter["nro_garantia"];
+        /* INTEGERS & FLOAT */
+        $parameter["CAIDA"] = (float) $parameter["caida"];
+        $parameter["RECUPERO"] = (float) $parameter["recupero"];
         
-       
+         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_movimiento']);
 
 
-        unset($parameter['capital_suscripto']);
-        unset($parameter['capital_suscripto']);
-        unset($parameter['cantidad_empleados']);
-        unset($parameter['monto']);
-        unset($parameter['monto2']);
-        unset($parameter['monto3']);
-
+        unset($parameter['nro_garantia']);
+        unset($parameter['caida']);
+        unset($parameter['recupero']);
+        unset($parameter['fecha_movimiento']);
 
         $id = $this->app->genid_sgr($container);
 
