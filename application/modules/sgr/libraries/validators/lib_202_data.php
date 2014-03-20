@@ -192,8 +192,8 @@ class Lib_202_data extends MX_Controller {
             }
         }
 //
-//        var_dump($stack);
-    //    exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
