@@ -99,7 +99,7 @@ class Model_06 extends CI_Model {
             $insertarr[5208] = (int) $insertarr[5208];
             $insertarr[28] = (int) $insertarr[28];
             $insertarr['CANTIDAD_DE_EMPLEADOS'] = (int) $insertarr['CANTIDAD_DE_EMPLEADOS'];
-            
+
 
 
             /* FLOAT */
@@ -252,6 +252,10 @@ class Model_06 extends CI_Model {
     }
 
     function save_period($parameter) {
+
+
+
+
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
@@ -260,6 +264,14 @@ class Model_06 extends CI_Model {
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = $this->idu;
+
+
+        /*
+         * VERIFICO INCORPORACIONES
+         */
+
+        $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
+
 
         /*
          * VERIFICO PENDIENTE           
@@ -526,7 +538,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_tmp($anexo);
-        
+
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -536,10 +548,10 @@ class Model_06 extends CI_Model {
             );
 
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            
+
             if ($new_result)
                 $return_result[] = $new_result;
-        }        
+        }
         return $return_result;
     }
 
@@ -568,7 +580,7 @@ class Model_06 extends CI_Model {
         return $return_result;
     }
 
-    /* PARTNERS INFO ONLY CURRENT ANEXO*/
+    /* PARTNERS INFO ONLY CURRENT ANEXO */
 
     function new_count_partners($partners_arr, $get_period = null) {
         $get_error = false;
@@ -725,7 +737,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_tmp($anexo);
-        
+
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
@@ -762,11 +774,10 @@ class Model_06 extends CI_Model {
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
-    
-    
+
     function shares_active_left_until_date($cuit, $date) {
 
-         $anexo = $this->anexo;
+        $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
         $period_value = $this->session->userdata['period'];
@@ -776,7 +787,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_tmp($anexo);
-        
+
         /* FIND ANEXO */
         foreach ($result as $list) {
 
@@ -816,7 +827,6 @@ class Model_06 extends CI_Model {
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
-    
 
     /* ACCIONES COMPRA/VENTA todas las otras SGR
      * Compra/venta por socio
