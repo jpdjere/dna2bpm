@@ -209,7 +209,7 @@ class Model_15 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
         foreach ($result as $list) {
 
-            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
+            $col9[] = (float) ($list['MONTO']);
         }
 
         return array_sum($col9);
