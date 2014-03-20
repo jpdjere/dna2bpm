@@ -406,7 +406,6 @@ class Model_12 extends CI_Model {
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
         $period_value = $this->session->userdata['period'];
-        $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
@@ -426,7 +425,34 @@ class Model_12 extends CI_Model {
         }
         return $return_result;
     }
+    
+    
+    function get_period_amount($period_value) {
+        
+        $anexo = $this->anexo;
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_12';
 
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_period_data($anexo, $period_value);        
+
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']              
+            );            
+            $new_result = $this->mongo->sgr->$container->find($new_query);            
+            foreach($new_result as $each){
+                $return_result[] = $each[5218];
+            }
+        }
+        
+        $sum_return = array_sum($return_result);
+        
+        return $sum_return;
+    }
+    
     /* GET DATA */
 
     function get_order_number_left($nro) {
