@@ -217,10 +217,11 @@ class Lib_125_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 5) {
 
-                    $code_error = "E.1";
+                    
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+                        $code_error = "E.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
@@ -257,8 +258,8 @@ class Lib_125_data extends MX_Controller {
             } // END FOR LOOP->
         }
     
-//    $result = return_error_array("-", "-", "--Dummy--");
-//    array_push($stack, $result);
+    $result = return_error_array("-", "-", "--Dummy--");
+    array_push($stack, $result);
                             
         $this->data = $stack;
     }
