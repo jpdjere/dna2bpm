@@ -74,13 +74,13 @@ class Model_15 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
             /* STRING */
-            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25']; 
-            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR']; 
-            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];            
-            
-            /*FLOAT*/
-            $insertarr['MONTO'] = (float) $insertarr['MONTO']; 
-            
+            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25'];
+            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR'];
+            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];
+
+            /* FLOAT */
+            $insertarr['MONTO'] = (float) $insertarr['MONTO'];
+
 
             if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
                 $insertarr["MONEDA"] = "1";
@@ -91,9 +91,9 @@ class Model_15 extends CI_Model {
     }
 
     function save($parameter) {
-        
-     
-        
+
+
+
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -194,9 +194,25 @@ class Model_15 extends CI_Model {
             $data[] = array_values($values);
         }
         $this->load->library('table_custom');
-        $newTable =  $this->table_custom->generate($data);
-        
+        $newTable = $this->table_custom->generate($data);
+
         return $newTable;
+    }
+
+    function get_total($anexo, $parameter) {
+
+        $rtn = array();        
+        $col9 = array();
+        
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        foreach ($result as $list) {
+
+            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
+        }
+
+        return array_sum($col9);
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -209,7 +225,7 @@ class Model_15 extends CI_Model {
         foreach ($result as $list) {
             /* Vars 								
              */
-       
+
 
             $this->load->model('padfyj_model');
             $transmitter_name = $this->padfyj_model->search_name($list['CUIT_EMISOR']);
@@ -220,6 +236,8 @@ class Model_15 extends CI_Model {
 
             $this->load->model('app');
             $currency = $this->app->get_ops(549);
+            
+            $total = $this->get_total($anexo, $parameter);
 
             $new_list = array();
             $new_list['INCISO_ART_25'] = $list['INCISO_ART_25'];
@@ -231,7 +249,7 @@ class Model_15 extends CI_Model {
             $new_list['CUIT_DEPOSITARIO'] = $list['CUIT_DEPOSITARIO'];
             $new_list['MONEDA'] = $currency[$list['MONEDA']];
             $new_list['MONTO'] = money_format_custom($list['MONTO']);
-            $new_list['col10'] = 10;
+            $new_list['col10'] = $total;
             $rtn[] = $new_list;
         }
         return $rtn;
