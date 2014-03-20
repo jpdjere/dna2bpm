@@ -148,7 +148,7 @@ class Model_16 extends CI_Model {
 
         $tmpl = array(
             'data' => '<tr>
-        
+        <td align="center" rowspan="2">Promedio Saldo <br>mensual correspondiente al mes</td>
         <td align="center" rowspan="2">Saldo Promedio <br />Garantias Vigentes</td>
         <td align="center" rowspan="2">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 hasta feb 2010</td>
         <td align="center" rowspan="2">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 hasta feb 2010</td>
@@ -180,14 +180,15 @@ class Model_16 extends CI_Model {
                                 <td align="center">5</td>
                                 <td align="center">6</td>
                                 <td align="center">7</td>
-                                <td align="center">8 (3+5+7)</td>
-                                <td align="center">9 (4+6+8)</td>
-                                <td align="center">10</td>
+                                <td align="center">8</td>
+                                <td align="center">9 (3+5+7)</td>
+                                <td align="center">10 (4+6+8)</td>
                                 <td align="center">11</td>
-                                <td align="center">12 (11-12)</td>
-                                <td align="center">13 (2/11)</td>
-                                <td align="center">14 (9/11)</td>
-                                <td align="center">15 (10/11)</td>
+                                <td align="center">12</td>
+                                <td align="center">13 (11-12)</td>
+                                <td align="center">14 (2/11)</td>
+                                <td align="center">15 (9/11)</td>
+                                <td align="center">16 (10/11)</td>
                             </tr>',
         );
 
@@ -223,33 +224,35 @@ class Model_16 extends CI_Model {
 
             $this->load->model('app');
 
+
             $get_month = explode("-", $list['period']);
             $month_value = translate_month_spanish($get_month[0]);
 
 
-            $col8 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
-            $col9 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
-            $col12 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
-            $col13 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
-            $col14 = $col8 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
+            $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
+            $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
+            $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
             $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-            
+            $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
+
             $new_list = array();
-            $new_list['col1'] = $month_value;            
-            $new_list['col2'] = money_format_custom($list['80_HASTA_FEB_2010']);
-            $new_list['col3'] = money_format_custom($list['120_HASTA_FEB_2010']);
-            $new_list['col4'] = money_format_custom($list['80_DESDE_FEB_2010']);
-            $new_list['col5'] = money_format_custom($list['120_DESDE_FEB_2010']);
-            $new_list['col6'] = money_format_custom($list['80_DESDE_ENE_2011']);
-            $new_list['col7'] = money_format_custom($list['120_DESDE_ENE_2011']);
-            $new_list['col8'] = money_format_custom($col8, true);
+            $new_list['col1'] = $list['PROMEDIO_SALDO_MENSUAL'];
+            $new_list['col2'] = money_format_custom($list['GARANTIAS_VIGENTES']);
+            $new_list['col3'] = money_format_custom($list['80_HASTA_FEB_2010']);
+            $new_list['col4'] = money_format_custom($list['120_HASTA_FEB_2010']);
+            $new_list['col5'] = money_format_custom($list['80_DESDE_FEB_2010']);
+            $new_list['col6'] = money_format_custom($list['120_DESDE_FEB_2010']);
+            $new_list['col7'] = money_format_custom($list['80_DESDE_ENE_2011']);
+            $new_list['col8'] = money_format_custom($list['120_DESDE_ENE_2011']);
             $new_list['col9'] = money_format_custom($col9, true);
-            $new_list['col10'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
-            $new_list['col11'] = money_format_custom($list['FDR_CONTINGENTE']);
-            $new_list['col12'] = money_format_custom($col12, true);
-            $new_list['col13'] = percent_format_custom($col13);
+            $new_list['col10'] = money_format_custom($col10, true);
+            $new_list['col11'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
+            $new_list['col12'] = money_format_custom($list['FDR_CONTINGENTE']);
+            $new_list['col13'] = money_format_custom($col13, true);
             $new_list['col14'] = percent_format_custom($col14);
             $new_list['col15'] = percent_format_custom($col15);
+            $new_list['col16'] = percent_format_custom($col16);
             $rtn[] = $new_list;
         }
         return $rtn;
