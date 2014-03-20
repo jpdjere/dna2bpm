@@ -259,7 +259,6 @@ class Model_15 extends CI_Model {
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
-
         $col9 = array();
 
         $container = 'container.sgr_anexo_' . $anexo;
@@ -269,9 +268,7 @@ class Model_15 extends CI_Model {
             $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
         }
 
-
         $new_list = array();
-
         $new_list['col1'] = "<strong>TOTAL F.D.R.</strong>";
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
