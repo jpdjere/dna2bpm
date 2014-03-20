@@ -447,10 +447,8 @@ class Model_12 extends CI_Model {
                 $return_result[] = $each[5218];
             }
         }
-        
-        $sum_return = array_sum($return_result);
-        
-        return $sum_return;
+        $average = array_sum($return_result) / count($return_result);        
+        return $average;
     }
     
     /* GET DATA */
