@@ -201,9 +201,9 @@ class Model_15 extends CI_Model {
 
     function get_total($anexo, $parameter) {
 
-        $rtn = array();        
+        $rtn = array();
         $col9 = array();
-        
+
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
@@ -236,9 +236,9 @@ class Model_15 extends CI_Model {
 
             $this->load->model('app');
             $currency = $this->app->get_ops(549);
-            
+
             $total = $this->get_total($anexo, $parameter);
-            $percent = ($list['MONTO']*100)/$total;
+            $percent = ($list['MONTO'] * 100) / $total;
 
             $new_list = array();
             $new_list['INCISO_ART_25'] = $list['INCISO_ART_25'];
@@ -253,6 +253,37 @@ class Model_15 extends CI_Model {
             $new_list['col10'] = percent_format_custom($percent);
             $rtn[] = $new_list;
         }
+        return $rtn;
+    }
+
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
+
+        $rtn = array();
+
+        $col9 = array();
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        foreach ($result as $list) {
+            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
+        }
+
+
+        $new_list = array();
+
+        $new_list['col1'] = "<strong>TOTAL F.D.R.</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = "-";
+        $new_list['col5'] = "-";
+        $new_list['col6'] = "-";
+        $new_list['col7'] = "-";
+        $new_list['col8'] = "-";
+        $new_list['col9'] = money_format_custom(array_sum($col9));
+        $new_list['col10'] = percent_format_custom(100);
+        $rtn[] = $new_list;
+
         return $rtn;
     }
 
