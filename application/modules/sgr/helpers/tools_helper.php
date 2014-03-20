@@ -139,7 +139,6 @@ function check_period_minor($parameter, $period) {
 function check_decimal($number, $decimal = 2, $positive = null) {
 
     
-    
     $number = str_replace(",", ".", $number);
     $status = false;
 
@@ -159,7 +158,9 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     } else {
         $status = true;
     }
-    var_dump($status, $number, $decimal, $positive);
+
+    echo "<pre>"; print_r($status, $number, $decimal , $positive); echo "</pre>";
+    
     return $status;
 }
 
