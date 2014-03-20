@@ -371,7 +371,7 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB", "GFVCP");
+                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -379,30 +379,46 @@ class Lib_12_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-
-                        $I2_validate_arr = array("GFCPD", "GFPB");
+                        
+                        // I.2
+                        $I2_validate_arr = array("GFCPD");
+                        $code_error = "I.2";
                         if (in_array($D_cell_value, $I2_validate_arr)) {
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax) {
-                                $code_error = "I.2";
+                            if (!$check_cnv_syntax) {        
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
                                 $return = $this->sgr_model->get_cnv_code($check_cnv_syntax);
                                 if (!$return) {
-                                    $code_error = "I.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 }
                             }
-                        } else {
+                        } 
+                        // I.3
+                       $I3_validate_arr = array("GFON0", "GFON1", "GFON2", "GFON3", "GFVCP");
+                       $code_error = "I.3";
+                       if (in_array($D_cell_value, $I3_validate_arr)) {
                             $check_cnv_syntax_alt = check_cnv_syntax_alt($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax_alt) {
-                                $code_error = "I.3";
+                            if (!$check_cnv_syntax_alt) {        
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
+                        // I.4
+                       $I4_validate_arr = array("GFPB");
+                       $code_error = "I.4";
+                       if (in_array($D_cell_value, $I4_validate_arr)) {
+                           $check_cnv_syntax_i4 = check_cnv_syntax_i4($parameterArr[$i]['fieldValue']);
+                           $check_cnv_code = (!empty($check_cnv_syntax_i4))?($this->sgr_model->get_cnv_code('$'.$check_cnv_syntax_i4)):(null);
+
+                            if (!$check_cnv_syntax_i4 || is_null($check_cnv_code)) {        
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+                        
                     } else {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {

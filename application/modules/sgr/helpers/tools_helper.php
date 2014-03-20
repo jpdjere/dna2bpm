@@ -264,6 +264,16 @@ function check_cnv_syntax_alt($code) {
     }
 }
 
+function check_cnv_syntax_i4($code) {
+    preg_match_all('/^\$([A-Z]{3})(\d{9})/', $code, $match);
+    $text = $match[1][0];
+    $num = $match[2][0];
+    return $text;
+}
+
+                                
+                                
+                                
 /* CHECK MVL CUITS */
 
 function check_mvl_cuit($cuit) {
