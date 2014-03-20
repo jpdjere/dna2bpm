@@ -182,7 +182,6 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando la CAÍDA de una Garantía (Columna C del importador), 
                          * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12). 
                          */
-
                         if (!$B_warranty_info) {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
@@ -513,7 +512,9 @@ class Lib_14_data extends MX_Controller {
         }
 
 //        var_dump($stack);
-        //       exit();
+//        exit();
+
+                    
         $this->data = $stack;
     }
 
