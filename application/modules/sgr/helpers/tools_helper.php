@@ -138,6 +138,8 @@ function check_period_minor($parameter, $period) {
 
 function check_decimal($number, $decimal = 2, $positive = null) {
 
+    var_dump($number, $decimal, $positive);
+    
     $number = str_replace(",", ".", $number);
     $status = false;
 
