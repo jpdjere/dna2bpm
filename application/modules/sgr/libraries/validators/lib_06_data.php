@@ -201,10 +201,8 @@ class Lib_06_data extends MX_Controller {
                         } else {
                             /* VALIDACION R.3 */
                             if (!in_array($check_diff, range(0, 3))) {
-                                $code_error = "R.3";
-
-
-                                $result["error_input_value"] = $check_diff;
+                                $code_error = "R.3";                                
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $check_diff);
                                 array_push($stack, $result);
                             }
                         }
@@ -326,7 +324,7 @@ class Lib_06_data extends MX_Controller {
                                 $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                                 if (!$return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                    array_push($stack, $result);
+                                   array_push($stack, $result);
                                 }
                             }
 
@@ -1402,8 +1400,6 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-
-
         $this->data = $stack;
     }
 
