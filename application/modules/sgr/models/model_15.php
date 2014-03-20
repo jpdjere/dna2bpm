@@ -238,6 +238,7 @@ class Model_15 extends CI_Model {
             $currency = $this->app->get_ops(549);
             
             $total = $this->get_total($anexo, $parameter);
+            $percent = ($list['MONTO']*100)/$total;
 
             $new_list = array();
             $new_list['INCISO_ART_25'] = $list['INCISO_ART_25'];
@@ -249,7 +250,7 @@ class Model_15 extends CI_Model {
             $new_list['CUIT_DEPOSITARIO'] = $list['CUIT_DEPOSITARIO'];
             $new_list['MONEDA'] = $currency[$list['MONEDA']];
             $new_list['MONTO'] = money_format_custom($list['MONTO']);
-            $new_list['col10'] = $total;
+            $new_list['col10'] = percent_format_custom($percent);
             $rtn[] = $new_list;
         }
         return $rtn;
