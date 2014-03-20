@@ -257,7 +257,7 @@ class Model_201 extends CI_Model {
     }
 
     function get_anexo_data_tmp($anexo, $parameter) {
-        
+
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $fields = array('NUMERO_DE_APORTE',
@@ -598,9 +598,9 @@ class Model_201 extends CI_Model {
 
     function get_movement_data($nro) {
         $anexo = $this->anexo;
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
         $period_value = $this->session->userdata['period'];
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
 
 
         $aporte_result_arr = array();
@@ -608,7 +608,7 @@ class Model_201 extends CI_Model {
         $rendimientos_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo, $period_value);
+        $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
