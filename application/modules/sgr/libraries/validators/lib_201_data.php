@@ -185,7 +185,7 @@ class Lib_201_data extends MX_Controller {
                         }
 
                         /* C.3 */
-                        $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value + 1))));
+                        $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value))));
                         $balance = $this->$model_06->shares_active_left_until_date($C_cell_value, $lte_date);
 
                         if ($balance == 0) {
