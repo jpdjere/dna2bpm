@@ -41,7 +41,7 @@ class Lib_201_data extends MX_Controller {
 
         $this->$model_anexo->clear_tmp($insert_tmp);
         $input_num = array();
-
+        $output_num = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -230,13 +230,14 @@ class Lib_201_data extends MX_Controller {
                         
                         
                         /*E.3*/                        
-                        $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
-                        if($get_input_number==0){
-                            $code_error = "E.3";
+                        $get_input_number = $this->$model_anexo->exist_input_number($A_cell_value);                        
+                        if(!$get_input_number){                            
+                            $code_error = "A.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
-                        }
-                         
+                        }  else {
+                            $output_num[] = $A_cell_value;
+                        }  
                         
                         
 
@@ -449,15 +450,16 @@ class Lib_201_data extends MX_Controller {
         }
 
 
-
+      
+        
+        
+        
+        /* INPUT NAMES ************************************************************************************/
         $input_num_unique = array_unique($input_num);
         $get_min =  ($input_num_unique) ? (int)@min($input_num_unique) : "";
 
-
-        foreach ($input_num_unique as $number) {
-            
-            
-            
+        
+        foreach ($input_num_unique as $number) {            
             $number = (int) $number;
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_recursive($number);
@@ -465,6 +467,7 @@ class Lib_201_data extends MX_Controller {
 
             $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
             $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $get_temp_data['RETIRO']));
+          
 
             /* A.2 */
             if ($get_historic_data['APORTE'] > 0) {
@@ -539,6 +542,80 @@ class Lib_201_data extends MX_Controller {
                     array_push($stack, $result);
                 }
 
+                foreach ($get_retiros_tmp as $retiros) {
+                    $aporte = $this->$model_anexo->get_aporte_tmp($number, $retiros);
+                    $return_calc = calc_anexo_201($aporte, $get_historic_data, $number);
+                    if ($return_calc) {
+                        $code_error = "A.4";
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                        array_push($stack, $result);
+                    }
+                }
+            }
+        }
+        
+        
+        /* OUTPUT NAMES ***********************************************************************************/
+        $output_num_unique = array_unique($output_num);
+
+        foreach ($output_num_unique as $number) {   
+            
+            $number = (int) $number;
+            /* MOVEMENT DATA */
+            $get_historic_data = $this->$model_anexo->get_movement_recursive($number);
+            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
+
+            $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
+            $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $get_temp_data['RETIRO']));
+
+
+            /* A.4 */
+            
+            var_dump($get_temp_data['RETIRO']);
+            
+            if ($get_temp_data['RETIRO'] > 0) {
+                if ($sum_APORTE == 0) {
+                    $code_error = "A.4";
+                    $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
+                    array_push($stack, $result);
+                } else {
+                    /* E.3 */
+                    if ($sum_RETIRO > $sum_APORTE) {
+                        $code_error = "E.3";
+                        $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
+                        array_push($stack, $result);
+                    }
+                }
+
+                /* B.3 */
+                $query_param = 'RETIRO';
+                $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
+                $retiros_arr = array();
+                foreach ($get_retiros_tmp as $o) {
+                    $date = $o;
+                    $retiros_arr[] = date('Y-m-d', $date->sec);
+                }
+
+                foreach (repeatedElements($retiros_arr) as $arr) {
+                    $code_error = "B.3";
+                    $result = return_error_array($code_error, "", $arr['value']);
+                    array_push($stack, $result);
+                }
+
+                /* B.4 */
+                $query_param = 'RETIRO_DE_RENDIMIENTOS';
+                $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
+                $retiros_arr = array();
+                foreach ($get_retiros_tmp as $o) {
+                    $date = $o;
+                    $retiros_arr[] = date('Y-m-d', $date->sec);
+                }
+
+                foreach (repeatedElements($retiros_arr) as $arr) {
+                    $code_error = "B.4";
+                    $result = return_error_array($code_error, "", $arr['value']);
+                    array_push($stack, $result);
+                }
 
 
                 foreach ($get_retiros_tmp as $retiros) {
@@ -552,13 +629,12 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
+        
 
         if (!check_consecutive_values($input_num_unique)) {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
             array_push($stack, $result);
-        }
-//        debug($stack);
-//       exit();
+        }     
         $this->data = $stack;
     }
 
