@@ -450,7 +450,6 @@ class Lib_201_data extends MX_Controller {
             $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
             $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $get_temp_data['RETIRO']));
 
-
             /* A.2 */
             if ($get_historic_data['APORTE'] > 0) {
                 $code_error = "A.2";
