@@ -136,14 +136,15 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-function check_decimal($number, $decimal = 2, $positive = null) {    
+
+function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
     $status = false;
 
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
-        if ($places_count > $decimal) {            
+        if ($places_count > $decimal) {
             $status = true;
         }
 
@@ -157,9 +158,31 @@ function check_decimal($number, $decimal = 2, $positive = null) {
         $status = true;
     }
 
-    
-    //echo "<pre>";    var_dump("<-----".$status."---------", $status, $number, $decimal ,  "--------------".$positive."------------>"); echo "</pre>";
-    
+    return $status;
+}
+
+
+function check_decimal($number, $decimal = 2, $positive = null) {
+    $number = str_replace(",", ".", $number);
+    $status = false;
+
+    $value = isfloat($number);
+    if ($value) {
+        $places_count = strlen(substr(strrchr($number, "."), 1));
+        if ($places_count > $decimal) {
+            $status = true;
+        }
+
+        if ($positive) {
+            $number = (int) $number;
+            if ($number < 0) {
+                $status = true;
+            }
+        }
+    } else {
+        $status = true;
+    }
+
     return $status;
 }
 
@@ -274,9 +297,6 @@ function check_cnv_syntax_i4($code) {
     return $text;
 }
 
-                                
-                                
-                                
 /* CHECK MVL CUITS */
 
 function check_mvl_cuit($cuit) {
@@ -447,13 +467,11 @@ function translate_for_mongo($parameter) {
     return $result;
 }
 
-function translate_mysql_date($date) {    
+function translate_mysql_date($date) {
     $realtime = date("$date H:i:s");
     $mongotime = New Mongodate(strtotime($realtime));
     return $mongotime;
 }
-
-
 
 function translate_period_date($period) {
     list($period_month, $period_year) = explode("-", $period);
@@ -705,48 +723,46 @@ function translate_anexos_dna2($anexo) {
         case '06':
             return 'sgr_socios';
             break;
-        
-         case 'sgr_socios':
+
+        case 'sgr_socios':
             return '06';
             break;
-        
-         case '062':
+
+        case '062':
             return 'sgr_socios_4';
             break;
-        
+
         case 'sgr_socios_4':
             return '062';
             break;
-        
-         case '12':
+
+        case '12':
             return 'sgr_garantias';
             break;
-        
+
         case 'sgr_garantias':
             return '12';
             break;
-        
+
         case '14':
             return 'sgr_fdr_contingente';
             break;
-        
+
         case 'sgr_fdr_contingente':
             return '14';
             break;
-        
-         case '201':
+
+        case '201':
             return 'sgr_fdr_integrado';
             break;
-        
+
         case 'sgr_fdr_integrado':
             return '201';
             break;
-        
-        
     }
 }
 
-function translate_month_spanish($code) {    
+function translate_month_spanish($code) {
     $replace = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
     $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
 
