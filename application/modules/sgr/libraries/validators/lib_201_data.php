@@ -633,7 +633,7 @@ class Lib_201_data extends MX_Controller {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
             array_push($stack, $result);
         }    
-        exit();
+        
         $this->data = $stack;
     }
 
