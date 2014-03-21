@@ -651,7 +651,7 @@ class Model_201 extends CI_Model {
         $rendimientos_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_just_active($anexo);
+        $result = $this->sgr_model->get_active_exclude_this($anexo,$period_value);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
