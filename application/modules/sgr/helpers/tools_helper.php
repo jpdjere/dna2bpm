@@ -147,8 +147,6 @@ function check_decimal($number, $decimal = 2, $positive = null) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
         if ($places_count > $decimal) {
             
-            
-            
             $status = true;
         }
 
