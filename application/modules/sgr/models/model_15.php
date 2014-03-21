@@ -188,14 +188,17 @@ class Model_15 extends CI_Model {
                                 <th>10</th>                                              
                             </tr> ',
         );
+
         $data = array($tmpl);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
+        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
+        $anexoValues = array_merge($anexoValues, $anexoValues2);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
+
         $this->load->library('table_custom');
         $newTable = $this->table_custom->generate($data);
-
         return $newTable;
     }
 
@@ -265,11 +268,11 @@ class Model_15 extends CI_Model {
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
         foreach ($result as $list) {
-            $col9[] = (float) ($list['RECUPERO_GASTOS_PERIODO']);
+            $col9[] = (float) ($list['MONTO']);
         }
 
         $new_list = array();
-        $new_list['col1'] = "<strong>TOTAL F.D.R.</strong>";
+        $new_list['col1'] = "<strong>TOTAL</strong>";
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
