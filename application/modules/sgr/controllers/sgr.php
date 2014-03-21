@@ -273,6 +273,8 @@ class Sgr extends MX_Controller {
         $VG = $this->pre_general_validation($anexo);
 
         if ($VG) {
+            $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+            $customData['sgr_period'] = $this->period;
             $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
             $customData['message'] = $VG;
             $this->render('errors', $customData);
