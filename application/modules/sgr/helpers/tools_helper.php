@@ -159,7 +159,7 @@ function check_decimal($number, $decimal = 2, $positive = null) {
         $status = true;
     }
 
-    echo "Status" . $status. " Number " . $number . " Decimal " . $decimal . " Positive " . $positive . "<br>";
+    echo "Status " . $status. " Number " . $number . " Decimal " . $decimal . " Positive " . $positive . "<br>";
     //echo "<pre>";    var_dump("<-----".$status."---------", $status, $number, $decimal ,  "--------------".$positive."------------>"); echo "</pre>";
     
     return $status;
