@@ -100,7 +100,7 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        
+
 
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
@@ -187,7 +187,7 @@ class Lib_201_data extends MX_Controller {
                         /* C.3 */
                         $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value + 1))));
                         $balance = $this->$model_06->shares_active_left_until_date($C_cell_value, $lte_date);
-                        
+
                         if ($balance == 0) {
                             $code_error = "C.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
@@ -416,7 +416,7 @@ class Lib_201_data extends MX_Controller {
                      */
                     $code_error = "A.2";
                     $order_number_array[] = $A_cell_value;
-                    if ($D_cell_value) {                                               
+                    if ($D_cell_value) {
                         $input_num[] = $A_cell_value;
                     }
 
@@ -437,7 +437,10 @@ class Lib_201_data extends MX_Controller {
         }
 
 
+
         $input_num_unique = array_unique($input_num);
+        $get_min = min($input_num_unique);
+
 
         foreach ($input_num_unique as $number) {
 
@@ -458,6 +461,16 @@ class Lib_201_data extends MX_Controller {
 
 
             $get_last_input_number = $this->$model_anexo->get_last_input();
+
+            $check_consecutive_array = array($get_min, $get_last_input_number);
+            $check_consecutive = check_consecutive_values($check_consecutive_array);
+
+            if (!$check_consecutive) {
+                $code_error = "A.2";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. ( ".$get_last_input_number." )");
+                array_push($stack, $result);
+            }
+
             if ($number < $get_last_input_number) {
                 $code_error = "A.2";
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo informado.");
