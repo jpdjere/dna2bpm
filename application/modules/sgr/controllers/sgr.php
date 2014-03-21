@@ -1054,25 +1054,33 @@ class Sgr extends MX_Controller {
                 break;
 
             case '141':
-                $legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar: 12.4, 12.5 y 14.";
+                $base_legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar:";
+                $add_base_legend = "";
                 $error = false;
                 $info_14 = $this->sgr_model->get_just_active("14", $this->session->userdata['period']);
                 if (!$info_14) {
-                    $error = $legend;
+                    $error = true;
+                    $base_legend .= $add_base_legend . "<br>Anexo 14 ";
+                    
                 }
 
                 $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
                 if (!$info_124) {
-                    $error = $legend;
+                    $error = true;
+                    $base_legend .= $add_base_legend . "<br>Anexo 12.4 ";
                 }
 
                 $info_125 = $this->sgr_model->get_just_active("125", $this->session->userdata['period']);
                 if (!$info_125) {
-                    $error = $legend;
+                    $error = true;
+                    $base_legend .= $add_base_legend . "<br>Anexo 12.5 ";
                 }
-
-
-                return $error;
+                
+                if($error){
+                    return $base_legend.$add_base_legend;
+                }
+                
+                
                 break;
         }
     }
