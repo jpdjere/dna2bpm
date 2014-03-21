@@ -161,13 +161,13 @@ class Lib_202_data extends MX_Controller {
 
                         if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
                             $code_error = "A.4";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo " . $get_input_number . " B:" . $B_cell_value . " D:" . $D_cell_value);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         }
 
                         if ($get_input_number < 1 && $B_cell_value != 0) {
                             $code_error = "A.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $get_input_number . " B:" . $B_cell_value);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'],$A_cell_value);
                             array_push($stack, $result);
                         } else {
                             if ($B_cell_value > $get_input_number) {
