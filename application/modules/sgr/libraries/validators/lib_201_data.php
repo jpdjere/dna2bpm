@@ -571,8 +571,6 @@ class Lib_201_data extends MX_Controller {
 
             /* A.4 */
             
-            var_dump($get_temp_data['RETIRO']);
-            
             if ($get_temp_data['RETIRO'] > 0) {
                 if ($sum_APORTE == 0) {
                     $code_error = "A.4";
@@ -634,7 +632,8 @@ class Lib_201_data extends MX_Controller {
         if (!check_consecutive_values($input_num_unique)) {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
             array_push($stack, $result);
-        }     
+        }    
+        exit();
         $this->data = $stack;
     }
 
