@@ -439,7 +439,7 @@ class Lib_201_data extends MX_Controller {
 
 
         $input_num_unique = array_unique($input_num);
-        $get_min = min($input_num_unique);
+        $get_min =  ($input_num_unique) ? (int)@min($input_num_unique) : "";
 
 
         foreach ($input_num_unique as $number) {
@@ -462,20 +462,15 @@ class Lib_201_data extends MX_Controller {
 
             $get_last_input_number = $this->$model_anexo->get_last_input();
 
-            $check_consecutive_array = array($get_min, $get_last_input_number);
+            $check_consecutive_array = array($get_last_input_number, $get_min);
             $check_consecutive = check_consecutive_values($check_consecutive_array);
+            $code_error = "A.2";
 
             if (!$check_consecutive) {
-                $code_error = "A.2";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. ( ".$get_last_input_number." )");
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. ( " . $get_last_input_number . " )");
                 array_push($stack, $result);
             }
 
-            if ($number < $get_last_input_number) {
-                $code_error = "A.2";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo informado.");
-                array_push($stack, $result);
-            }
 
 
             /* A.3 */
@@ -542,7 +537,14 @@ class Lib_201_data extends MX_Controller {
                     }
                 }
             }
-        }      
+        }
+
+        if (!check_consecutive_values($input_num_unique)) {
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
+            array_push($stack, $result);
+        }
+
+       
         $this->data = $stack;
     }
 
