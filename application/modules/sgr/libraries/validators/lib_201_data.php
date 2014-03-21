@@ -227,6 +227,18 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                        
+                        
+                        /*E.3*/                        
+                        $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
+                        if($get_input_number==0){
+                            $code_error = "E.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }
+                         
+                        
+                        
 
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
@@ -443,7 +455,9 @@ class Lib_201_data extends MX_Controller {
 
 
         foreach ($input_num_unique as $number) {
-
+            
+            
+            
             $number = (int) $number;
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_recursive($number);
@@ -543,8 +557,8 @@ class Lib_201_data extends MX_Controller {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
             array_push($stack, $result);
         }
-
-       
+//        debug($stack);
+//       exit();
         $this->data = $stack;
     }
 
