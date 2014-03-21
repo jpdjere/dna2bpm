@@ -186,9 +186,8 @@ class Lib_201_data extends MX_Controller {
 
                         /* C.3 */
                         $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value + 1))));
-
-
                         $balance = $this->$model_06->shares_active_left_until_date($C_cell_value, $lte_date);
+                        
                         if ($balance == 0) {
                             $code_error = "C.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
@@ -530,8 +529,7 @@ class Lib_201_data extends MX_Controller {
                     }
                 }
             }
-        }
-       
+        }      
         $this->data = $stack;
     }
 
