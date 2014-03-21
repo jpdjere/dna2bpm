@@ -379,6 +379,30 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
+    
+    
+    function get_active_exclude_this($anexo, $period) {
+        $rtn = array();
+        $container = 'container.sgr_periodos';
+
+        $query = array(
+            'anexo' => $anexo,
+            'sgr_id' => (int) $this->sgr_id,
+            'status' => 'activo',
+            "period" => array('$ne' => $period),
+        );
+        
+        
+
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $each) {
+
+            $rtn[] = $each;
+        }
+        return $rtn;
+    }
+    
 
     function get_active_tmp($anexo, $exclude_this = false) {
         $rtn = array();
