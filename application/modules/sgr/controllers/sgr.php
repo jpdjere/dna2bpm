@@ -275,6 +275,7 @@ class Sgr extends MX_Controller {
         if ($VG) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
             $customData['sgr_period'] = $this->period;
+            $customData['anexo_list'] = $this->AnexosDB();
             $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
             $customData['message'] = $VG;
             $this->render('errors', $customData);
