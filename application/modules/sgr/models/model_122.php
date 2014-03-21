@@ -221,26 +221,6 @@ class Model_122 extends CI_Model {
         return $rtn;
     }
 
-    function get_anexo_datax($anexo, $parameter) {
-        header('Content-type: text/html; charset=UTF-8');
-        $rtn = array();
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
-
-        foreach ($result as $list) {
-            /* Vars */
-            $new_list = array();
-            $new_list['col1'] = $list['NRO_GARANTIA'];
-            $new_list['col2'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['col3'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['col4'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['col5'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['col6'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
-            $rtn[] = $new_list;
-        }
-        return $rtn;
-    }
 
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
