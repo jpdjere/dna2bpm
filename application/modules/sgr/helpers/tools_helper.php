@@ -146,6 +146,9 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
         if ($places_count > $decimal) {
+            
+            echo "places_count.  " . $places_count. " Number " . $decimal . "<br>";
+            
             $status = true;
         }
 
@@ -159,7 +162,7 @@ function check_decimal($number, $decimal = 2, $positive = null) {
         $status = true;
     }
 
-    echo "Status " . $status. " Number " . $number . " Decimal " . $decimal . " Positive " . $positive . "<br>";
+    
     //echo "<pre>";    var_dump("<-----".$status."---------", $status, $number, $decimal ,  "--------------".$positive."------------>"); echo "</pre>";
     
     return $status;
