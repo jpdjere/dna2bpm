@@ -121,7 +121,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                        
-                        var_dump($parameterArr[$i]['fieldValue']);
+                        
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
