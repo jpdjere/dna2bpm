@@ -156,7 +156,7 @@ function check_decimal($number, $decimal = 2, $positive = null) {
             $number = (int) $number;
              var_dump($number);
             
-            if ($number < 0) {
+            if ($number <= 0) {
                 $status = true;
             }
         }
