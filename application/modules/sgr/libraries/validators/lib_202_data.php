@@ -120,8 +120,6 @@ class Lib_202_data extends MX_Controller {
                     $code_error = "C.1";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                       
-                        
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
