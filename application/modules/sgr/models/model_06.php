@@ -780,7 +780,6 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-        $period_value = $this->session->userdata['period'];
 
         $buy_result_arr = array();
         $sell_result_arr = array();
@@ -802,7 +801,6 @@ class Model_06 extends CI_Model {
                 )
             );
 
-
             $buy_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($buy_result as $buy) {
                 $buy_result_arr[] = $buy[5597];
@@ -814,6 +812,9 @@ class Model_06 extends CI_Model {
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5272 => 'B'
+                , 'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $date
+                )
             );
 
             $sell_result = $this->mongo->sgr->$container->find($new_query);
@@ -821,7 +822,7 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[5597];
             }
         }
-
+        
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
