@@ -415,6 +415,38 @@ class Model_201 extends CI_Model {
         return $rtn;
     }
 
+    function exist_input_number($code) {
+
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $input_result_arr = array();
+        $output_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            /* APORTE */
+            $new_query = array(
+                'NUMERO_DE_APORTE' => (int) $code,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+
+
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {                
+                if ($data) {
+                    return true;
+                }
+            }
+        }
+    }
+
     function get_input_number($code) {
 
         $anexo = $this->anexo;
@@ -440,13 +472,10 @@ class Model_201 extends CI_Model {
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
-
                 if ($data['APORTE']) {
-                    // var_dump($input_result['APORTE']);
                     $input_result_arr[] = (int) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                    // var_dump($input_result['RETIRO']);
                     $output_result_arr[] = (int) $data['RETIRO'];
                 }
             }
@@ -651,7 +680,7 @@ class Model_201 extends CI_Model {
         $rendimientos_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_exclude_this($anexo,$period_value);
+        $result = $this->sgr_model->get_active_exclude_this($anexo, $period_value);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
