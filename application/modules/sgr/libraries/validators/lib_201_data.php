@@ -8,16 +8,16 @@ class Lib_201_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
-        
+
         $this->period = $this->session->userdata['period'];
-        
+
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
         $model_anexo = 'model_201';
         $this->load->Model($model_anexo);
-        
+
         /* UPDATE MONGO/DNA2 */
         $mysql_model_201 = "mysql_model_201";
         $this->load->Model($mysql_model_201);
@@ -100,7 +100,7 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $input_num[] = $A_cell_value;
+                        
 
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
@@ -402,7 +402,7 @@ class Lib_201_data extends MX_Controller {
                         $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
 
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'],true);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if (!$return || $R_cell_value < 1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -417,8 +417,8 @@ class Lib_201_data extends MX_Controller {
                      */
                     $code_error = "A.2";
                     $order_number_array[] = $A_cell_value;
-                    if ($D_cell_value) {
-                        $order_number_array_aporte[] = $A_cell_value;
+                    if ($D_cell_value) {                                               
+                        $input_num[] = $A_cell_value;
                     }
 
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
@@ -452,8 +452,6 @@ class Lib_201_data extends MX_Controller {
 
 
             /* A.2 */
-
-
             if ($get_historic_data['APORTE'] > 0) {
                 $code_error = "A.2";
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $number);
@@ -534,7 +532,7 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-        // exit();
+       
         $this->data = $stack;
     }
 
