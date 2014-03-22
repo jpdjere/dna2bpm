@@ -139,7 +139,8 @@ class mysql_model extends CI_Model {
             
 
             
-            $this->db->like('archivo', trim($files[1]));           
+            $this->db->like('archivo', trim($files[1]));
+            $this->db->limit(1);
             $query = $this->db->get('forms2.sgr_control_periodos');
 
             $parameter = array();
