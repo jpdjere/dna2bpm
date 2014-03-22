@@ -153,7 +153,7 @@ class Mysql extends MX_Controller {
 
             list($anexo, $sgr) = explode("-",$file);
             
-            var_dump($sgr);
+            var_dump(trim($sgr));
             
 //            $this->db->like('archivo', $sgr);
 //            $this->db->where('sgr_id', $this->sgr_id);
