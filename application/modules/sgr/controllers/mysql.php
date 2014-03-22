@@ -53,7 +53,7 @@ class Mysql extends MX_Controller {
     }
 
     function Index() {
-        $result = $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
+        $result = $this->mysql_model_06>active_periods_dna2($this->anexo, $this->period);
         //debug($result);
     }
 
