@@ -147,9 +147,9 @@ class mysql_model extends CI_Model {
                 $parameter[] = $row->sgr_id;
             }
             
-            
+            var_dump(trim($files[1]),$parameter);
         }
-        var_dump(trim($files[1]),$parameter);
+        
 
         exit();
         /* CLEAR TEMP DATA */
