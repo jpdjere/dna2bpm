@@ -153,18 +153,17 @@ class Mysql extends MX_Controller {
 
             list($anexo, $sgr) = explode("-",$file);
             
-            var_dump(trim($sgr));
+           
             
-//            $this->db->like('archivo', $sgr);
-//            $this->db->where('sgr_id', $this->sgr_id);
-//            $query = $this->db->get('forms2.sgr_control_periodos');
-//
-//
-//            $parameter = array();
-//            foreach ($query->result() as $row) {
-//                $parameter[] = $row['sgr_id'];
-//            }
-//            
+            $this->db->like('archivo',trim($sgr));           
+            $query = $this->db->get('forms2.sgr_control_periodos');
+
+
+            $parameter = array();
+            foreach ($query->result() as $row) {
+                $parameter[] = $row['sgr_id'];
+            }
+            
             var_dump($parameter);
         }
 
