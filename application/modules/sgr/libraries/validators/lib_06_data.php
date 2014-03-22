@@ -18,7 +18,7 @@ class Lib_06_data extends MX_Controller {
 
         /* UPDATE MONGO/DNA2 */
         $this->period = $this->session->userdata['period'];
-        //$this->$mysql_model_06->active_periods_dna2("06", $this->period);
+        $this->$mysql_model_06->active_periods_dna2("06", $this->period);
 
         /* Vars 
          * 
