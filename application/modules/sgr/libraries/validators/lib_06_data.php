@@ -18,7 +18,7 @@ class Lib_06_data extends MX_Controller {
 
         /* UPDATE MONGO/DNA2 */
         $this->period = $this->session->userdata['period'];
-        $this->$mysql_model_06->active_periods_dna2("06", $this->period);
+        //$this->$mysql_model_06->active_periods_dna2("06", $this->period);
 
         /* Vars 
          * 
@@ -483,7 +483,8 @@ class Lib_06_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $balance = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value);                        /*
                          * AH.4
-                         * Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Suscripto 
+                         * Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma 
+                         * posea la cantidad de Capital Suscripto 
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
