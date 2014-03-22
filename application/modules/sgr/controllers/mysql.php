@@ -155,7 +155,7 @@ class Mysql extends MX_Controller {
             
            
             
-            $this->db->like('archivo',trim($sgr));           
+            $this->db->where('archivo like',trim($sgr));           
             $query = $this->db->get('forms2.sgr_control_periodos');
 
 
