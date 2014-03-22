@@ -149,11 +149,11 @@ class mysql_model extends CI_Model {
             $each = array();
             $parameter = array();
             foreach ($query->result() as $row) {
-                $each[] = $row;
+                $this->save_tmp($row);
             }
         }
         
-        $this->save_tmp($each);
+        
 
         exit();
         /* CLEAR TEMP DATA */
@@ -318,6 +318,7 @@ class mysql_model extends CI_Model {
         $container = 'container.sgr_periodos_test';
 
         /* TRANSLATE ANEXO NAME */
+        
 
         $parameter['anexo'] = '06';
         $parameter['period'] = '01-2011';
