@@ -141,7 +141,7 @@ class mysql_model extends CI_Model {
             $files = explode("-", $files);
 
 
-
+            $this->db->select('idu, archivo,anexo');
             $this->db->like('archivo', trim($files[1]));
             $this->db->join('forms2.idsent', 'forms2.idsent.id = forms2.sgr_control_periodos.sgr_id', 'inner');
             $this->db->limit(1);
