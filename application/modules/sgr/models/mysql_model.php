@@ -151,11 +151,10 @@ class mysql_model extends CI_Model {
             foreach ($query->result() as $row) {
                 $each[] = $row;
             }
-            
-            var_dump($each);
-            
-            //$this->save_tmp($each);
-           
+
+
+
+            $this->save_tmp($each);
         }
 
 
@@ -319,16 +318,15 @@ class mysql_model extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.periodos_' . $token . '_tmp';
+        $container = 'container.sgr_periodos_test';
 
         /* TRANSLATE ANEXO NAME */
-        if ($parameter['estado']) {
-            $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
-            $parameter['filename'] = $parameter['archivo'];
-            $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
 
-            unset($parameter['estado']);
-        }
+        $parameter['anexo'] = '06';
+        $parameter['period'] = '01-2011';
+        $parameter['status'] = 'activo';
+        $parameter['filename'] = $parameter['archivo'];
+        $parameter['period_date'] = translate_dna2_period_date('01-2011');
 
         $id = $this->app->genid_sgr($container);
 
