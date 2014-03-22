@@ -148,7 +148,7 @@ class mysql_model extends CI_Model {
 
             $parameter = array();
             foreach ($query->result() as $row) {
-                var_dump($row);
+                var_dump($row->idu);
                 
             }
 
