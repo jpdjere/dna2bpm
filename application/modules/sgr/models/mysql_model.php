@@ -149,6 +149,7 @@ class mysql_model extends CI_Model {
             $each = array();
             $parameter = array();
             foreach ($query->result() as $row) {
+                var_dump($row);
                 $this->save_tmp($row);
             }
         }
