@@ -48,8 +48,7 @@ class mysql_model_06 extends CI_Model {
 
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);
-        $this->db->where('sgr_id', $this->sgr_id);
+        $this->db->where('anexo', '06');
         $query = $this->db->get('forms2.sgr_control_periodos');
 
 
@@ -59,11 +58,11 @@ class mysql_model_06 extends CI_Model {
         }
 
         /* UPDATE MONGO BY MONGO */
-        $mongo_periods = $this->sgr_model->get_active($anexo);
-        foreach ($mongo_periods as $each) {
-            unset($each['_id']);
-            $parameter[] = $each;
-        }
+//        $mongo_periods = $this->sgr_model->get_active($anexo);
+//        foreach ($mongo_periods as $each) {
+//            unset($each['_id']);
+//            $parameter[] = $each;
+//        }
 
         foreach ($parameter as $each) {
 
@@ -77,15 +76,15 @@ class mysql_model_06 extends CI_Model {
                 $this->anexo_data_tmp($anexo_dna2, $each->archivo);
             } else {
 
-                $get_anexo_data = $this->$model_06->get_anexo_data_tmp($anexo, $each['filename']);
-                foreach ($get_anexo_data as $each) {
-
-                    $token = $this->idu;
-                    $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-                    $id = $this->app->genid_sgr($container);
-                    unset($each['_id']);
-                    $result = $this->app->put_array_sgr($id, $container, $each);
-                }
+//                $get_anexo_data = $this->$model_06->get_anexo_data_tmp($anexo, $each['filename']);
+//                foreach ($get_anexo_data as $each) {
+//
+//                    $token = $this->idu;
+//                    $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+//                    $id = $this->app->genid_sgr($container);
+//                    unset($each['_id']);
+//                    $result = $this->app->put_array_sgr($id, $container, $each);
+//                }
             }
         }
     }
@@ -109,7 +108,7 @@ class mysql_model_06 extends CI_Model {
                         capital_suscripto,
                         capital_integrado,
                         fecha_efectiva, 
-                        filename, 
+                        filename, cedente_cuit
                         idu');
 
         if ($filename != 'Sin Movimiento')
@@ -134,7 +133,7 @@ class mysql_model_06 extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_06_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
 
         /* STRING */
@@ -167,9 +166,6 @@ class mysql_model_06 extends CI_Model {
         $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
 
         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
-        
-       
-
 
         unset($parameter['capital_suscripto']);
         unset($parameter['capital_suscripto']);
@@ -197,7 +193,7 @@ class mysql_model_06 extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.periodos_' . $token . '_tmp';
+        $container = 'container.sgr_periodos';
 
         /* TRANSLATE ANEXO NAME */
         if ($parameter['estado']) {
