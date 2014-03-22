@@ -144,9 +144,10 @@ class Sgr_model extends CI_Model {
         $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
         $result = $this->mongo->db->$container->find($query, $fields);
         
-        var_dump($idu, $result);
+        
 
         foreach ($result as $empresa) {
+            var_dump($idu, $empresa);
             unset($empresa['_id']);
             $rtn[] = $empresa;
         }
