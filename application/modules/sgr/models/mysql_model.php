@@ -147,17 +147,18 @@ class mysql_model extends CI_Model {
 
             $parameter = array();
             foreach ($query->result() as $row) {
-              
+
                 /* DATOS SGR */
-                $sgrArr = $this->sgr_model->get_sgr_custom($row->sgr_id);
-                foreach ($sgrArr as $sgr) {
-                    $sgr_id = $sgr['id'];
+                $this->db->like('id', $row->sgr_id);
+                $query2 = $this->db->get('forms2.idsent');
+                foreach ($query->result() as $entity) {
+                    echo $entity->idu;
                 }
             }
 
 
 
-           // var_dump(trim($files[1]),$sgr_id);
+            // var_dump(trim($files[1]),$sgr_id);
         }
 
 
