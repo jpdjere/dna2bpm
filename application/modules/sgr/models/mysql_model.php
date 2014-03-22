@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class mysql_model_06 extends CI_Model {
+class mysql_model extends CI_Model {
 
-    function mysql_model_06() {
+    function mysql_model() {
         parent::__construct();
         // IDU : Chequeo de sesion
         $this->idu = (int) $this->session->userdata('iduser');
