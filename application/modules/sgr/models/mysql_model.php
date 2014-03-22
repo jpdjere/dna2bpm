@@ -149,7 +149,19 @@ class mysql_model extends CI_Model {
             $each = array();
             $parameter = array();
             foreach ($query->result() as $row) {
-                $this->save_tmp($row->idu, $filename);
+                //$this->save_tmp($row->idu, $filename);
+
+                $data = array();
+
+                $data['sgr_id'] = $row->sgr_id;
+                $data['anexo'] = 'sgr_socios';
+                $data['periodo'] = '01-2011';
+                $data['estado'] = 'activo';
+                $data['archivo'] = $filename;
+                $data['fecha'] = "2011-01-01 01:01:01";
+
+
+                $this->db->insert('sgr_control_periodos_TEST', $data);
             }
         }
 
@@ -333,7 +345,6 @@ class mysql_model extends CI_Model {
             $out = array('status' => 'ok');
             /* fetch socios */
             $this->anexo_data_tmp($filename);
-            
         } else {
             $out = array('status' => 'error');
         }
