@@ -39,6 +39,8 @@ class mysql_model extends CI_Model {
     function active_periods_dna2() {
 
 
+
+
         $files_arr = array('CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 01:19:01.xls',
             'CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 03:05:32.xls',
             'CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-04-06 04:47:42.xls',
@@ -136,9 +138,9 @@ class mysql_model extends CI_Model {
 
         foreach ($files_arr as $files) {
             $files = explode("-", $files);
-            
 
-            
+
+
             $this->db->like('archivo', trim($files[1]));
             $this->db->limit(1);
             $query = $this->db->get('forms2.sgr_control_periodos');
@@ -147,10 +149,17 @@ class mysql_model extends CI_Model {
             foreach ($query->result() as $row) {
                 $parameter[] = $row->sgr_id;
             }
-            
-            var_dump(trim($files[1]),$parameter);
+
+            /* DATOS SGR */
+            $sgrArr = $this->sgr_model->get_sgr_custom($row->sgr_id);
+            foreach ($sgrArr as $sgr) {
+                $sgr_id = $sgr['id'];
+                
+            }
+
+            var_dump(trim($files[1]), $sgr_id);
         }
-        
+
 
         exit();
         /* CLEAR TEMP DATA */
