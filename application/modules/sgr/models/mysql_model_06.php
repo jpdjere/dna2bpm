@@ -44,17 +44,15 @@ class mysql_model_06 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
 
-
-
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', '06');
+        $this->db->where('anexo', 'sgr_socios');
         $query = $this->db->get('forms2.sgr_control_periodos');
 
         
         $parameter = array();
         foreach ($query->result() as $row) {
-            var_dump($row);
+           
             $parameter[] = $row;
         }
 
