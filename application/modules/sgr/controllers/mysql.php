@@ -153,7 +153,7 @@ class Mysql extends MX_Controller {
 
             list($anexo, $sgr) = explode("-",$file);
             
-            $this->db->where('archivo like ', $sgr. "%");
+            $this->db->like('archivo', $sgr);
             $this->db->where('sgr_id', $this->sgr_id);
             $query = $this->db->get('forms2.sgr_control_periodos');
 
