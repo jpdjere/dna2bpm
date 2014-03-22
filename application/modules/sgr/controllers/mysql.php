@@ -20,7 +20,7 @@ class Mysql extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
-        $this->load->model('sgr/sgr_model_06');
+        $this->load->model('sgr/sgr_model');
         $this->load->model('sgr/mysql_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
@@ -53,7 +53,9 @@ class Mysql extends MX_Controller {
     }
 
     function Index() {
-        $result = $this->mysql_model_06>active_periods_dna2($this->anexo, $this->period);
+         $mysql_model_06 = "mysql_model_06";
+        $this->load->Model($mysql_model_06);
+        $result = $this->$mysql_model_06->active_periods_dna2($this->anexo, $this->period);
         //debug($result);
     }
 
