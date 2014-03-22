@@ -161,7 +161,7 @@ class mysql_model extends CI_Model {
                 $data['fecha'] = "2011-01-01 01:01:01";
                
 
-               $result = $this->db->insert('forms2.sgr_control_periodos_TEST', $data);
+               $result = $this->db->insert('forms2.sgr_control_periodos', $data);
                var_dump($result);
             }
         }
