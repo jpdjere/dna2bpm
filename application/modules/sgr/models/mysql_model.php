@@ -146,13 +146,16 @@ class mysql_model extends CI_Model {
             $this->db->join('forms2.idsent', 'forms2.idsent.id = forms2.sgr_control_periodos.sgr_id', 'inner');
             $this->db->limit(1);
             $query = $this->db->get('forms2.sgr_control_periodos');
-
+            $each = array();
             $parameter = array();
             foreach ($query->result() as $row) {
-                $sgr_id = $row->idu;
+                $each = $row->idu;
             }
-
-            echo $sgr_id. "->" . $filename. "<br>"; 
+            
+            var_dump($each);
+            
+            //$this->save_tmp($each);
+           
         }
 
 
