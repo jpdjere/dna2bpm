@@ -108,7 +108,7 @@ class mysql_model_06 extends CI_Model {
                         capital_suscripto,
                         capital_integrado,
                         fecha_efectiva, 
-                        filename, cedente_cuit
+                        filename, cedente_cuit,
                         idu');
 
         if ($filename != 'Sin Movimiento')
