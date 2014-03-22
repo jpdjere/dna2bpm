@@ -148,9 +148,8 @@ class mysql_model extends CI_Model {
             $query = $this->db->get('forms2.sgr_control_periodos');
             $each = array();
             $parameter = array();
-            foreach ($query->result() as $row) {
-                var_dump($row);
-                $this->save_tmp($row);
+            foreach ($query->result() as $row) {                
+                $this->save_tmp($row->idu, $filename);
             }
         }
         
@@ -311,20 +310,20 @@ class mysql_model extends CI_Model {
 
     /* SAVE FETCHS PERIODOS */
 
-    function save_tmp($parameter, $mongo = false) {
+    function save_tmp($idu, $filename) {
 
-        $parameter = (array) $parameter;
+        $parameter = array();
         $token = $this->idu;
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_periodos_test';
 
         /* TRANSLATE ANEXO NAME */
         
-
+        $parameter['idu'] = $idu;
         $parameter['anexo'] = '06';
         $parameter['period'] = '01-2011';
         $parameter['status'] = 'activo';
-        $parameter['filename'] = $parameter['archivo'];
+        $parameter['filename'] = $filename;
         $parameter['period_date'] = translate_dna2_period_date('01-2011');
 
         $id = $this->app->genid_sgr($container);
