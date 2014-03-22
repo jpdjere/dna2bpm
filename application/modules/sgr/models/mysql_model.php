@@ -149,7 +149,7 @@ class mysql_model extends CI_Model {
             $each = array();
             $parameter = array();
             foreach ($query->result() as $row) {
-                $each = $row->idu;
+                $each[] = $row;
             }
             
             var_dump($each);
