@@ -533,11 +533,12 @@ class Model_06 extends CI_Model {
     function get_partner_left($cuit) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
+        
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
 
         $return_result = array();
         foreach ($result as $list) {
@@ -674,14 +675,14 @@ class Model_06 extends CI_Model {
 
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         $buy_result_arr = array();
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
+        $result = $this->sgr_model->get_active($anexo, $period_value);
 
 
         /* FIND ANEXO */
@@ -729,14 +730,14 @@ class Model_06 extends CI_Model {
 
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         $buy_result_arr = array();
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
@@ -779,13 +780,13 @@ class Model_06 extends CI_Model {
 
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
 
         $buy_result_arr = array();
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
