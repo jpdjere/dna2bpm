@@ -144,10 +144,9 @@ class mysql_model extends CI_Model {
 
             $parameter = array();
             foreach ($query->result() as $row) {
+                 var_dump($row['sgr_id']);
                 $parameter[] = $row['sgr_id'];
             }
-            
-            var_dump($parameter);
         }
 
 
