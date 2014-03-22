@@ -151,12 +151,9 @@ class mysql_model extends CI_Model {
             foreach ($query->result() as $row) {
                 $each[] = $row;
             }
-
-
-
-            $this->save_tmp($each);
         }
-
+        
+        $this->save_tmp($each);
 
         exit();
         /* CLEAR TEMP DATA */
