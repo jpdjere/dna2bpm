@@ -51,9 +51,10 @@ class mysql_model_06 extends CI_Model {
         $this->db->where('anexo', '06');
         $query = $this->db->get('forms2.sgr_control_periodos');
 
-        var_dump($query);
+        
         $parameter = array();
         foreach ($query->result() as $row) {
+            var_dump($row);
             $parameter[] = $row;
         }
 
