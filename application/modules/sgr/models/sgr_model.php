@@ -131,6 +131,24 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
+    
+    function get_sgr_custom($idu) {
+        $rtn = array();
+        $idu = (int) $idu;
+        $data = array();
+        // Listado de empresas
+        $container = 'container.empresas';
+        $fields = array('id', '1695', '4651', '1693', '1703');
+        $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
+        $result = $this->mongo->db->$container->find($query, $fields);
+
+        foreach ($result as $empresa) {
+            unset($empresa['_id']);
+            $rtn[] = $empresa;
+        }
+        return $rtn;
+    }
+    
 
     /* RETURN EMPRESAS */
 
