@@ -148,16 +148,16 @@ class mysql_model extends CI_Model {
             $parameter = array();
             foreach ($query->result() as $row) {
                 $parameter[] = $row->sgr_id;
+                /* DATOS SGR */
+                $sgrArr = $this->sgr_model->get_sgr_custom($row->sgr_id);
+                foreach ($sgrArr as $sgr) {
+                    $sgr_id = $sgr['id'];
+                }
             }
 
-            /* DATOS SGR */
-            $sgrArr = $this->sgr_model->get_sgr_custom($row->sgr_id);
-            foreach ($sgrArr as $sgr) {
-                $sgr_id = $sgr['id'];
-                
-            }
 
-            var_dump(trim($files[1]), $sgr_id);
+
+            var_dump(trim($files[1]),$sgr_id);
         }
 
 
