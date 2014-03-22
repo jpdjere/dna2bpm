@@ -238,7 +238,7 @@ class mysql_model extends CI_Model {
 
 
         $this->db->where('idu', $this->idu);
-        $query = $this->db->get($anexo);
+        $query = $this->db->get('sgr_socios');
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
