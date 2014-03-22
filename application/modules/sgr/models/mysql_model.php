@@ -137,6 +137,7 @@ class mysql_model extends CI_Model {
 
 
         foreach ($files_arr as $files) {
+            $filename = $files;
             $files = explode("-", $files);
 
 
@@ -148,13 +149,10 @@ class mysql_model extends CI_Model {
 
             $parameter = array();
             foreach ($query->result() as $row) {
-                var_dump($row->idu);
-                
+                $sgr_id = $row->idu;
             }
 
-
-
-            // var_dump(trim($files[1]),$sgr_id);
+            echo $sgr_id. "->" . $filename. "<br>"; 
         }
 
 
