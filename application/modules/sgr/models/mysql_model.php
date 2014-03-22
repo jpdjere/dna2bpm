@@ -37,8 +37,8 @@ class mysql_model extends CI_Model {
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2() {
-        
-        
+
+
         $files_arr = array('CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 01:19:01.xls',
             'CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 03:05:32.xls',
             'CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-04-06 04:47:42.xls',
@@ -132,14 +132,28 @@ class mysql_model extends CI_Model {
             'CAPITAL SOCIAL - VINCULOS S.G.R. - 2011-03-28 04:17:37.xls',
             'CAPITAL SOCIAL - VINCULOS S.G.R. - 2011-03-28 04:33:45.xls',
         );
-    
-        
-        foreach ($files_arr as $files){
-            $files = explode("-",$files);
-            var_dump($files[1]);
+
+
+        foreach ($files_arr as $files) {
+            $files = explode("-", $files);
+            
+
+            
+            $this->db->like('archivo', trim($files[1]));
+            $this->db->where('anexo', $anexo_dna2);
+            $this->db->where('sgr_id', $this->sgr_id);
+            $query = $this->db->get('forms2.sgr_control_periodos');
+
+
+            $parameter = array();
+            foreach ($query->result() as $row) {
+                $parameter[] = $row['sgr_id'];
+            }
+            
+            var_dump($parameter);
         }
-        
-        
+
+
         exit();
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
@@ -270,8 +284,8 @@ class mysql_model extends CI_Model {
         $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
 
         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
-        
-       
+
+
 
 
         unset($parameter['capital_suscripto']);
