@@ -148,14 +148,12 @@ class mysql_model extends CI_Model {
             $query = $this->db->get('forms2.sgr_control_periodos');
             $each = array();
             $parameter = array();
-            foreach ($query->result() as $row) {                
+            foreach ($query->result() as $row) {
                 $this->save_tmp($row->idu, $filename);
-                /*fetch socios*/
-                $this->anexo_data_tmp($anexo_dna2, $filename);               
             }
         }
-        
-        
+
+
 
         exit();
         /* CLEAR TEMP DATA */
@@ -212,7 +210,7 @@ class mysql_model extends CI_Model {
 
     /* SAVE FETCHS ANEXO  DATA */
 
-    function anexo_data_tmp($anexo, $filename) {
+    function anexo_data_tmp($filename) {
 
 
         $anexo_field = "save_anexo_06_tmp";
@@ -319,8 +317,8 @@ class mysql_model extends CI_Model {
         $container = 'container.sgr_periodos_test';
 
         /* TRANSLATE ANEXO NAME */
-        
-        $parameter['idu'] = (int)$idu;
+
+        $parameter['idu'] = (int) $idu;
         $parameter['anexo'] = '06';
         $parameter['period'] = '01-2011';
         $parameter['status'] = 'activo';
@@ -333,6 +331,9 @@ class mysql_model extends CI_Model {
 
         if ($result) {
             $out = array('status' => 'ok');
+            /* fetch socios */
+            $this->anexo_data_tmp($filename);
+            
         } else {
             $out = array('status' => 'error');
         }
