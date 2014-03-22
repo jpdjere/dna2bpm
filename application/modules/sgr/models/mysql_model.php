@@ -142,18 +142,14 @@ class mysql_model extends CI_Model {
 
 
             $this->db->like('archivo', trim($files[1]));
+            $this->db->join('forms2.idsent', 'forms2.idsent.id = forms2.sgr_control_periodos.sgr_id', 'inner');
             $this->db->limit(1);
             $query = $this->db->get('forms2.sgr_control_periodos');
 
             $parameter = array();
             foreach ($query->result() as $row) {
-
-                /* DATOS SGR */
-                $this->db->like('id', $row->sgr_id);
-                $query2 = $this->db->get('forms2.idsent');
-                foreach ($query->result() as $entity) {
-                    echo $entity->idu;
-                }
+                var_dump($row);
+                
             }
 
 
