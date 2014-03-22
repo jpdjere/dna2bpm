@@ -319,16 +319,14 @@ class mysql_model extends CI_Model {
 
         /* TRANSLATE ANEXO NAME */
         
-        $parameter['idu'] = $idu;
+        $parameter['idu'] = (int)$idu;
         $parameter['anexo'] = '06';
         $parameter['period'] = '01-2011';
         $parameter['status'] = 'activo';
         $parameter['filename'] = $filename;
-        $parameter['period_date'] = translate_dna2_period_date('01-2011');
+        $parameter['period_date'] = translate_dna2_period_date('01_2011');
 
         $id = $this->app->genid_sgr($container);
-
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
 
