@@ -143,7 +143,7 @@ class mysql_model extends CI_Model {
             $this->db->where('anexo', $anexo_dna2);
             $this->db->where('sgr_id', $this->sgr_id);
             $query = $this->db->get('forms2.sgr_control_periodos');
-
+            var_dump($query);
 
             $parameter = array();
             foreach ($query->result() as $row) {
