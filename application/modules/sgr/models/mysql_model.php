@@ -159,9 +159,9 @@ class mysql_model extends CI_Model {
                 $data['estado'] = 'activo';
                 $data['archivo'] = $filename;
                 $data['fecha'] = "2011-01-01 01:01:01";
+                var_dump($row->sgr_id);
 
-
-               $result = $this->db->insert('forms2.sgr_control_periodos_TEST', $data);
+               //$result = $this->db->insert('forms2.sgr_control_periodos_TEST', $data);
                var_dump($result);
             }
         }
