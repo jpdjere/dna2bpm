@@ -150,6 +150,8 @@ class mysql_model extends CI_Model {
             $parameter = array();
             foreach ($query->result() as $row) {                
                 $this->save_tmp($row->idu, $filename);
+                /*fetch socios*/
+                $this->anexo_data_tmp($anexo_dna2, $filename);               
             }
         }
         
@@ -227,7 +229,8 @@ class mysql_model extends CI_Model {
                         capital_suscripto,
                         capital_integrado,
                         fecha_efectiva, 
-                        filename, 
+                        filename,
+                        cedente_cuit,
                         idu');
 
         if ($filename != 'Sin Movimiento')
@@ -252,7 +255,7 @@ class mysql_model extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_06_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_06_test_tmp';
         /* TRANSLATE ANEXO NAME */
 
         /* STRING */
@@ -285,8 +288,6 @@ class mysql_model extends CI_Model {
         $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
 
         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
-
-
 
 
         unset($parameter['capital_suscripto']);
