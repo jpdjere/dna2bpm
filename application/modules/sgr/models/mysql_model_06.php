@@ -174,7 +174,7 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_periodos';
 
         /* TRANSLATE ANEXO NAME */
-        $sgr_id  = (int)$parameter['sgr_id'];
+        $sgr_id  = (float)$parameter['sgr_id'];
         var_dump($parameter['sgr_id'],$sgr_id);
         
         $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
