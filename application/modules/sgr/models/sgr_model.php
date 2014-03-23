@@ -131,10 +131,10 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-    
+
     function get_sgr_custom($idu) {
-        
-        
+
+
         $rtn = array();
         $idu = (int) $idu;
         $data = array();
@@ -143,7 +143,7 @@ class Sgr_model extends CI_Model {
         $fields = array('id', '1695', '4651', '1693', '1703');
         $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
         $result = $this->mongo->db->$container->find($query, $fields);
-        
+
         var_dump($idu, $query);
 
         foreach ($result as $empresa) {
@@ -152,7 +152,6 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-    
 
     /* RETURN EMPRESAS */
 
@@ -401,8 +400,7 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-    
-    
+
     function get_active_exclude_this($anexo, $period) {
         $rtn = array();
         $container = 'container.sgr_periodos';
@@ -413,8 +411,8 @@ class Sgr_model extends CI_Model {
             'status' => 'activo',
             "period" => array('$ne' => $period),
         );
-        
-        
+
+
 
         $result = $this->mongo->sgr->$container->find($query);
 
@@ -424,7 +422,6 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-    
 
     function get_active_tmp($anexo, $exclude_this = false) {
         $rtn = array();
@@ -468,16 +465,17 @@ class Sgr_model extends CI_Model {
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
-
+        
+        var_dump($this->sgr_id);
+        
         $query = array(
             'sgr_id' => (int) $this->sgr_id,
-//            'anexo' => $anexo,
-//            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
-//            
-//            'status' => 'activo',
-//            'period_date' => array(
-//                '$lte' => $endDate
-//            ),
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'status' => 'activo',
+            'period_date' => array(
+                '$lte' => $endDate
+            ),
         );
 
         if ($exclude_this) {
@@ -486,8 +484,8 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
-            var_dump($each);
-            
+
+
             $rtn[] = $each;
         }
         return $rtn;
@@ -520,13 +518,13 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
-    
+
     function get_period_data($anexo, $period_date) {
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-       
+
 
         $query = array(
             'anexo' => $anexo,
@@ -534,16 +532,14 @@ class Sgr_model extends CI_Model {
             'sgr_id' => (int) $this->sgr_id,
             'status' => 'activo',
             'period' => $period_date,
-            
         );
-        
+
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
             $rtn[] = $each;
         }
         return $rtn;
     }
-    
 
     function get_active_last_rec($anexo, $exclude_this = false) {
         $rtn = array();
