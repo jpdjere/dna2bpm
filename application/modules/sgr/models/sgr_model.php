@@ -25,7 +25,7 @@ class Sgr_model extends CI_Model {
         /* DATOS SGR */
         $sgrArr = $this->get_sgr();
         
-        var_dump($sgrArr);
+       
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
