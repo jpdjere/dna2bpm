@@ -72,7 +72,7 @@ class mysql_model_06 extends CI_Model {
             $this->save_tmp($each);
             /* ANEXO DATA */
             if ($each->archivo) {
-                echo $each->archivo . "<br>";
+                echo $each->archivo . "...<br>";
                 $this->anexo_data_tmp($anexo_dna2, $each->archivo);
             } else {
 
