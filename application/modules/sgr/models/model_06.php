@@ -534,7 +534,7 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
-        
+
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
@@ -672,8 +672,8 @@ class Model_06 extends CI_Model {
      */
 
     function shares($cuit, $partner_type = null, $field = 5597) {
-        
-        
+
+
 
         $anexo = $this->anexo;
         $token = $this->idu;
@@ -689,6 +689,11 @@ class Model_06 extends CI_Model {
 
         /* FIND ANEXO */
         foreach ($result as $list) {
+
+            if ($cuit == '27283821205') {
+                var_dump($buy_result_arr, $list['filename']);
+            }
+
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
@@ -717,9 +722,7 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[$field];
             }
         }
-        if($cuit=='27283821205'){
-            var_dump($buy_result_arr,$list['filename']);
-        }
+
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
@@ -827,7 +830,7 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[5597];
             }
         }
-        
+
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
