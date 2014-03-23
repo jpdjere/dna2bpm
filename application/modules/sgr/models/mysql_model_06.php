@@ -200,8 +200,10 @@ class mysql_model_06 extends CI_Model {
             $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
             $parameter['filename'] = $parameter['archivo'];
             $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
+            $parameter['sgr_id'] = (int)$parameter['sgr_id'];
 
             unset($parameter['estado']);
+            unset($parameter['archivo']);
         }
 
         $id = $this->app->genid_sgr($container);
