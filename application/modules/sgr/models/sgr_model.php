@@ -470,21 +470,19 @@ class Sgr_model extends CI_Model {
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
 
         $query = array(
-            'anexo' => $anexo,
-            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'sgr_id' => (int) $this->sgr_id,
-            'status' => 'activo',
-            'period_date' => array(
-                '$lte' => $endDate
-            ),
+//            'anexo' => $anexo,
+//            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+//            
+//            'status' => 'activo',
+//            'period_date' => array(
+//                '$lte' => $endDate
+//            ),
         );
 
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
         }
-        
-        
-        
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
