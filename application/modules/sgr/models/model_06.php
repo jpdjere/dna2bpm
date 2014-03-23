@@ -690,10 +690,6 @@ class Model_06 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
 
-            if ($cuit == '27283821205') {
-                var_dump($buy_result_arr, $list['filename']);
-            }
-
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
