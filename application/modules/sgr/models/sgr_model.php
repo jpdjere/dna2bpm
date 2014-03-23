@@ -24,8 +24,6 @@ class Sgr_model extends CI_Model {
 
         /* DATOS SGR */
         $sgrArr = $this->get_sgr();
-        
-       
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
@@ -468,7 +466,7 @@ class Sgr_model extends CI_Model {
         $getPeriodMonth = $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
         
-        var_dump($this->sgr_id);
+       
         
         $query = array(
             'sgr_id' => (int) $this->sgr_id,
@@ -479,10 +477,13 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
-
+        var_dump($query);
+        
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
         }
+        
+        
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
