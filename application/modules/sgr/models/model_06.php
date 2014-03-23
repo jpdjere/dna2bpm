@@ -673,7 +673,7 @@ class Model_06 extends CI_Model {
 
     function shares($cuit, $partner_type = null, $field = 5597) {
         
-        var_dump($cuit, $partner_type, $field);
+        
 
         $anexo = $this->anexo;
         $token = $this->idu;
@@ -717,7 +717,9 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[$field];
             }
         }
-
+        if($cuit=='27283821205'){
+            var_dump($buy_result_arr);
+        }
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
