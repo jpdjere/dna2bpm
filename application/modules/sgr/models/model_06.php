@@ -718,7 +718,7 @@ class Model_06 extends CI_Model {
             }
         }
         if($cuit=='27283821205'){
-            var_dump($buy_result_arr);
+            var_dump($buy_result_arr,$list['filename']);
         }
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
