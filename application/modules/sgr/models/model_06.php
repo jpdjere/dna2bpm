@@ -688,8 +688,6 @@ class Model_06 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             
-            var_dump($list['filename']);
-            
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
@@ -718,6 +716,8 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[$field];
             }
         }
+        
+        var_dump($buy_result_arr, $sell_result_arr);
 
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
