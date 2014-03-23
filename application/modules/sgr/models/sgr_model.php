@@ -469,7 +469,7 @@ class Sgr_model extends CI_Model {
        
         
         $query = array(
-            'sgr_id' => (int) $this->sgr_id,
+            'sgr_id' => (float) $this->sgr_id,
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'status' => 'activo',
