@@ -672,6 +672,8 @@ class Model_06 extends CI_Model {
      */
 
     function shares($cuit, $partner_type = null, $field = 5597) {
+        
+        var_dump($cuit, $partner_type, $field);
 
         $anexo = $this->anexo;
         $token = $this->idu;
