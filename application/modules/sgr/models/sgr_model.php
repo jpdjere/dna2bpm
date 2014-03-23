@@ -477,7 +477,7 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
-        var_dump($query);
+       
         
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
@@ -487,7 +487,7 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
-
+             var_dump($each);
 
             $rtn[] = $each;
         }
