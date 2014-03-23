@@ -483,9 +483,6 @@ class Sgr_model extends CI_Model {
             $query['period'] = array('$ne' => $exclude_this);
         }
         
-        var_dump("xxx", $query);
-        
-        
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
