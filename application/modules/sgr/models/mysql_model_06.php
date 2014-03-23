@@ -181,6 +181,7 @@ class mysql_model_06 extends CI_Model {
         $parameter['filename'] = $parameter['archivo'];
         $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
         $parameter['sgr_id'] = $sgr_id;
+        $parameter['status'] = 'activo';
         
          
 
