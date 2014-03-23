@@ -49,20 +49,10 @@ class mysql_model_06 extends CI_Model {
         $this->db->where('anexo', 'sgr_socios');
         $query = $this->db->get('forms2.sgr_control_periodos');
 
-        
         $parameter = array();
         foreach ($query->result() as $row) {
-           
             $parameter[] = $row;
         }
-
-        /* UPDATE MONGO BY MONGO */
-//        $mongo_periods = $this->sgr_model->get_active($anexo);
-//        foreach ($mongo_periods as $each) {
-//            unset($each['_id']);
-//            $parameter[] = $each;
-//        }
-
         foreach ($parameter as $each) {
 
             /* LOAD MODEL 06 */
@@ -74,17 +64,6 @@ class mysql_model_06 extends CI_Model {
             if ($each->archivo) {
                 echo $each->archivo . "...<br>";
                 $this->anexo_data_tmp($anexo_dna2, $each->archivo);
-            } else {
-
-//                $get_anexo_data = $this->$model_06->get_anexo_data_tmp($anexo, $each['filename']);
-//                foreach ($get_anexo_data as $each) {
-//
-//                    $token = $this->idu;
-//                    $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-//                    $id = $this->app->genid_sgr($container);
-//                    unset($each['_id']);
-//                    $result = $this->app->put_array_sgr($id, $container, $each);
-//                }
             }
         }
     }
@@ -188,27 +167,24 @@ class mysql_model_06 extends CI_Model {
 
     /* SAVE FETCHS PERIODOS */
 
-    function save_tmp($parameter, $mongo = false) {
-
+    function save_tmp($parameter) {
+        var_dump($parameter);
+        
         $parameter = (array) $parameter;
-        $token = $this->idu;
-        $period = $this->session->userdata['period'];
         $container = 'container.sgr_periodos';
 
         /* TRANSLATE ANEXO NAME */
-        if ($parameter['estado']) {
-            $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
-            $parameter['filename'] = $parameter['archivo'];
-            $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
-            $parameter['sgr_id'] = (int)$parameter['sgr_id'];
 
-            unset($parameter['estado']);
-            unset($parameter['archivo']);
-        }
+        $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
+        $parameter['filename'] = $parameter['archivo'];
+        $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
+        $parameter['sgr_id'] = (int) $parameter['sgr_id'];
+
+        unset($parameter['estado']);
+        unset($parameter['archivo']);
+
 
         $id = $this->app->genid_sgr($container);
-
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
 
