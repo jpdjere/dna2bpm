@@ -174,13 +174,13 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_periodos';
 
         /* TRANSLATE ANEXO NAME */
-        
-        var_dump($parameter['sgr_id'],(int)$parameter['sgr_id']);
+        $sgr_id  = (int)$parameter['sgr_id'];
+        var_dump($parameter['sgr_id'],$sgr_id);
         
         $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
         $parameter['filename'] = $parameter['archivo'];
         $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
-        $parameter['sgr_id'] = (int)$parameter['sgr_id'];
+        $parameter['sgr_id'] = $sgr_id;
         
          
 
