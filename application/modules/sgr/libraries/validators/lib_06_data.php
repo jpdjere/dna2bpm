@@ -1401,7 +1401,7 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-        
+        debug($stack);
         exit();
         $this->data = $stack;
     }
