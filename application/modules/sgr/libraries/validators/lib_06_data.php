@@ -587,7 +587,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 /* VALIDO EN TODAS LAS */
-                                $balance = 1; //$this->$model_anexo->shares_others_sgrs($C_cell_value, $B_cell_value);
+                                $balance = 0; //$this->$model_anexo->shares_others_sgrs($C_cell_value, $B_cell_value);
                                 if ($balance != 0) {
                                     $code_error = "B.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
