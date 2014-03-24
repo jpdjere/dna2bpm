@@ -54,11 +54,11 @@ class Mysql extends MX_Controller {
 
     function Index() {
 
-
-        $mysql_model = "mysql_model_12";
+        $anexo = '12';
+        $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_dna2($this->anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
 
