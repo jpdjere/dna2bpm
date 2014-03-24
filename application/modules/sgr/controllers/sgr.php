@@ -765,8 +765,6 @@ class Sgr extends MX_Controller {
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             
-              var_dump($this->sgr_id);
-
             foreach ($processed as $file) {
 
                 $print_filename = substr($file['filename'], 0, -25);
