@@ -41,7 +41,7 @@ class Sgr extends MX_Controller {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = $sgr['id'];
+            $this->sgr_id = (float)$sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
         }
@@ -407,7 +407,7 @@ class Sgr extends MX_Controller {
                 if (!empty($data->sheets[0]['cells'][$i][1])) {
                     $result = (array) $this->$model->check($data->sheets[0]['cells'][$i]);
                     $result['filename'] = $new_filename;
-                    $result['sgr_id'] = (int) $this->sgr_id;
+                    $result['sgr_id'] = $this->sgr_id;
                     $save = (array) $this->$model->save($result);
                 }
             }
@@ -418,7 +418,7 @@ class Sgr extends MX_Controller {
             if ($save) {
                 $result = array();
                 $result['filename'] = $new_filename;
-                $result['sgr_id'] = (int) $this->sgr_id;
+                $result['sgr_id'] =  $this->sgr_id;
                 $result['anexo'] = $this->anexo;
                 $save_period = (array) $this->$model->save_period($result);
 
@@ -711,7 +711,7 @@ class Sgr extends MX_Controller {
             $result = array();
             $result['period'] = $period;
             $result['filename'] = "SIN MOVIMIENTOS";
-            $result['sgr_id'] = (int) $this->sgr_id;
+            $result['sgr_id'] = $this->sgr_id;
             $result['anexo'] = $anexo;
             $save_period = (array) $this->$model->save_period($result);
             echo "ok";
