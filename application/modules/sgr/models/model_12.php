@@ -11,7 +11,7 @@ class Model_12 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '12';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -192,7 +192,7 @@ class Model_12 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float)$this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -403,7 +403,6 @@ class Model_12 extends CI_Model {
 
     function get_order_number($nro) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -429,7 +428,6 @@ class Model_12 extends CI_Model {
     function get_period_amount($period_value) {
         
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_12';
 
         /* GET ACTIVE ANEXOS */
@@ -454,7 +452,6 @@ class Model_12 extends CI_Model {
 
     function get_order_number_left($nro) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -501,7 +498,6 @@ class Model_12 extends CI_Model {
 
     function get_warranty_partner_left($cuit) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -525,7 +521,6 @@ class Model_12 extends CI_Model {
 
     function get_sharer($cuit) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -550,7 +545,6 @@ class Model_12 extends CI_Model {
 
     function get_sharer_left($cuit) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -577,7 +571,6 @@ class Model_12 extends CI_Model {
 
     function get_creditor($sharer, $cuit) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
