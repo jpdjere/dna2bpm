@@ -729,9 +729,6 @@ class Model_06 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             
-            var_dump($list['filename']);
-            
-            
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
