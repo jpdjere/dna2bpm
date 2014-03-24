@@ -693,7 +693,6 @@ class Model_06 extends CI_Model {
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
             if ($partner_type)
@@ -707,7 +706,6 @@ class Model_06 extends CI_Model {
             /* SELL */
             $new_query = array(
                 5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
             if ($partner_type)
