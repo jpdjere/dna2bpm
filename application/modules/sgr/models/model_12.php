@@ -404,11 +404,11 @@ class Model_12 extends CI_Model {
     function get_order_number($nro) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
+        $result = $this->sgr_model->get_active($anexo, $period_value);
 
         $return_result = array();
         foreach ($result as $list) {
@@ -456,11 +456,11 @@ class Model_12 extends CI_Model {
     function get_order_number_left($nro) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -506,11 +506,11 @@ class Model_12 extends CI_Model {
     function get_warranty_partner_left($cuit) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -531,12 +531,11 @@ class Model_12 extends CI_Model {
     function get_sharer($cuit) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-        $period_value = $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
+        $result = $this->sgr_model->get_active($anexo, $period_value);
 
         $return_result = array();
         foreach ($result as $list) {
@@ -558,11 +557,11 @@ class Model_12 extends CI_Model {
     function get_sharer_left($cuit) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
 
         $return_result = array();
         foreach ($result as $list) {
@@ -586,11 +585,11 @@ class Model_12 extends CI_Model {
     function get_creditor($sharer, $cuit) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
 
         $return_result = array();
         foreach ($result as $list) {
