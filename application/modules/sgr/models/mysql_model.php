@@ -48,7 +48,7 @@ class mysql_model extends CI_Model {
         $each = array();
         $parameter = array();
         foreach ($query->result() as $row) {
-            $files_arr[] = $row['filename'];
+            $files_arr[] = $row->filename;
         }
 
 
