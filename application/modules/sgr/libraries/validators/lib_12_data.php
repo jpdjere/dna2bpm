@@ -19,13 +19,7 @@ class Lib_12_data extends MX_Controller {
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
 
-        /* UPDATE MONGO/DNA2 */
-        $mysql_model_12 = "mysql_model_12";
-        $this->load->Model($mysql_model_12);
-
-
-        $this->$mysql_model_12->active_periods_dna2("12", $this->period);
-
+       
         /*ANEXO 6.2 DATA */
         $model_062 = 'model_062';
         $this->load->Model($model_062);
