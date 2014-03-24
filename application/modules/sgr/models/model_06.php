@@ -11,7 +11,7 @@ class Model_06 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '06';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -253,9 +253,6 @@ class Model_06 extends CI_Model {
 
     function save_period($parameter) {
 
-
-
-
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
         $period = $this->session->userdata['period'];
@@ -263,7 +260,7 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] =  (float) $this->idu;
 
 
         /*
@@ -271,8 +268,6 @@ class Model_06 extends CI_Model {
          */
 
         $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
-
-
         /*
          * VERIFICO PENDIENTE           
          */
@@ -302,7 +297,7 @@ class Model_06 extends CI_Model {
         $parameter['period_date'] = new MongoDate(strtotime(translate_period_date($period)));
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
         /* TEMPORAL */
         $parameter['activated_on'] = date('Y-m-d h:i:s');
         $parameter['status'] = 'activo';
@@ -335,7 +330,7 @@ class Model_06 extends CI_Model {
                 $parameter061['filename'] = "SIN MOVIMIENTOS";
                 $parameter061['period'] = $period;
                 $parameter061['status'] = 'activo';
-                $parameter061['idu'] = $this->idu;
+                $parameter061['idu'] = (float)$this->idu;
                 $parameter061['sgr_id'] = $this->sgr_id;
 
 
@@ -532,7 +527,6 @@ class Model_06 extends CI_Model {
 
     function get_partner_left($cuit) {
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
 
         $period_value = $this->session->userdata['period'];
@@ -670,11 +664,7 @@ class Model_06 extends CI_Model {
      */
 
     function shares($cuit, $partner_type = null, $field = 5597) {
-
-
-
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -726,7 +716,6 @@ class Model_06 extends CI_Model {
     function shares_active_left($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -776,7 +765,6 @@ class Model_06 extends CI_Model {
     function shares_active_left_until_date($cuit, $date) {
 
         $anexo = $this->anexo;
-        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
 
         $buy_result_arr = array();
