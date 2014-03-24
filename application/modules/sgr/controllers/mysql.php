@@ -57,6 +57,7 @@ class Mysql extends MX_Controller {
             $this->load->Model($mysql_model_06);
             
             $result = $this->sgr_model->get_active('06', $this->period);
+            var_dump($result);
             
             
             
