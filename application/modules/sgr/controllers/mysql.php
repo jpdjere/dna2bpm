@@ -57,8 +57,8 @@ class Mysql extends MX_Controller {
            $model_anexo = "model_06";
         $this->load->Model($model_anexo);
 
-        $balance = $this->$model_anexo->shares('27283821205', 'B');
-        $balance_integrated = $this->$model_anexo->shares('27283821205', 'B', 5598);
+        $balance = $this->$model_anexo->shares('27283821205', 'A');
+        $balance_integrated = $this->$model_anexo->shares('27283821205', 'A', 5598);
 
         $subscribed = $balance + $AH_cell_value;
         $integrated = $balance_integrated + $AI_cell_value;
