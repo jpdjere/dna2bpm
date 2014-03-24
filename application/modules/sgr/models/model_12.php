@@ -413,7 +413,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5214 => $nro
             );
@@ -464,7 +463,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5214 => $nro
             );
@@ -487,9 +485,7 @@ class Model_12 extends CI_Model {
 
         /* FIND ANEXO */
         foreach ($result as $list) {
-
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5214 => $nro
             );
@@ -514,7 +510,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5349 => $cuit
             );
@@ -540,7 +535,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5349 => $cuit
             );
@@ -566,7 +560,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5349 => $cuit
             );
@@ -594,7 +587,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5349 => $sharer,
                 5351 => $cuit
