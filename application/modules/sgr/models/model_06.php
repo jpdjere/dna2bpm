@@ -23,7 +23,7 @@ class Model_06 extends CI_Model {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = $sgr['id'];
+            $this->sgr_id = (float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
     }
@@ -260,7 +260,7 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] =  (float) $this->idu;
+        $parameter['idu'] = $this->idu;
 
 
         /*
@@ -297,9 +297,10 @@ class Model_06 extends CI_Model {
         $parameter['period_date'] = new MongoDate(strtotime(translate_period_date($period)));
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['idu'] = (float) $this->idu;
+        $parameter['idu'] = $this->idu;
         /* TEMPORAL */
         $parameter['activated_on'] = date('Y-m-d h:i:s');
+        $parameter['status'] = 'activo';
         $parameter['status'] = 'activo';
 
         /*
@@ -330,7 +331,7 @@ class Model_06 extends CI_Model {
                 $parameter061['filename'] = "SIN MOVIMIENTOS";
                 $parameter061['period'] = $period;
                 $parameter061['status'] = 'activo';
-                $parameter061['idu'] = (float)$this->idu;
+                $parameter061['idu'] = (float) $this->idu;
                 $parameter061['sgr_id'] = $this->sgr_id;
 
 
@@ -675,7 +676,7 @@ class Model_06 extends CI_Model {
         $result = $this->sgr_model->get_active($anexo, $period_value);
         /* FIND ANEXO */
         foreach ($result as $list) {
-            
+
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
@@ -702,7 +703,7 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[$field];
             }
         }
-        
+
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
@@ -730,7 +731,6 @@ class Model_06 extends CI_Model {
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
             if ($partner_type)
@@ -744,7 +744,6 @@ class Model_06 extends CI_Model {
             /* SELL */
             $new_query = array(
                 5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
             if ($partner_type)
@@ -835,7 +834,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
             /* BUY */
             $new_query = array(
-                1695 => $cuit,                
+                1695 => $cuit,
                 'filename' => $list['filename'],
                 5272 => $partner_type
             );
