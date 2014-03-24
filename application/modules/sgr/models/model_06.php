@@ -543,7 +543,6 @@ class Model_06 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
@@ -568,7 +567,6 @@ class Model_06 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 1695 => $cuit
             );
@@ -793,7 +791,6 @@ class Model_06 extends CI_Model {
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5272 => 'B'
                 , 'FECHA_DE_TRANSACCION' => array(
@@ -809,7 +806,6 @@ class Model_06 extends CI_Model {
             /* SELL */
             $new_query = array(
                 5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5272 => 'B'
                 , 'FECHA_DE_TRANSACCION' => array(
@@ -851,8 +847,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
             /* BUY */
             $new_query = array(
-                1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
+                1695 => $cuit,                
                 'filename' => $list['filename'],
                 5272 => $partner_type
             );
@@ -865,7 +860,6 @@ class Model_06 extends CI_Model {
             /* SELL */
             $new_query = array(
                 5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 5272 => $partner_type
             );
