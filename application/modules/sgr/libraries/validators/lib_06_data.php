@@ -110,7 +110,7 @@ class Lib_06_data extends MX_Controller {
                         $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
                         $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
                         
-                        echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
+                        //echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
                         
                     }
                 }
