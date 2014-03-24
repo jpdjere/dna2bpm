@@ -32,7 +32,7 @@ class Sgr extends MX_Controller {
 
 
         // IDU : Chequeo de sesion
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -263,7 +263,7 @@ class Sgr extends MX_Controller {
         $process_filename = $filename;
         $filename = $process_filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
-        $user_id = (int) ($this->idu);
+        $user_id = (float) ($this->idu);
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -297,7 +297,7 @@ class Sgr extends MX_Controller {
 
         $filename = $filename . ".xls";
         list($sgr, $anexo, $date) = explode("_", $filename);
-        $user_id = (int) ($this->idu);
+        $user_id = (float) ($this->idu);
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
