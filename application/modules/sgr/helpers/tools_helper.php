@@ -89,10 +89,8 @@ function check_for_empty($parameter) {
 }
 
 function check_word($parameter, $allow_words) {
-    
-    var_dump(strtoupper($parameter), $allow_words);
-    
-    if (!in_array(strtoupper($parameter), $allow_words)) {
+    $rst = strcmp($parameter, $allow_words);
+    if ($rst != 0) {
         return true;
     }
 }
@@ -139,7 +137,6 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-
 function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
     $status = false;
@@ -163,7 +160,6 @@ function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
 
     return $status;
 }
-
 
 function check_decimal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
