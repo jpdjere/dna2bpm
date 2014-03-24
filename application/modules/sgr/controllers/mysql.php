@@ -53,18 +53,26 @@ class Mysql extends MX_Controller {
     }
 
     function Index() {
-            $mysql_model_06 = "mysql_model_06";
-            $this->load->Model($mysql_model_06);
-            
-            $result = $this->sgr_model->get_active('06', $this->period);
-            var_dump("x", $result);
-            
-            
-            
-           // $result = $this->$mysql_model_06->active_periods_dna2($this->anexo, $this->period);
+
+        $balance = $this->$model_anexo->shares('27283821205', 'A');
+        $balance_integrated = $this->$model_anexo->shares('27283821205', 'A', 5598);
+
+        $subscribed = $balance + $AH_cell_value;
+        $integrated = $balance_integrated + $AI_cell_value;
+
+        var_dump($subscribed, $integrated);
+
+        exit();
+
+        $mysql_model_06 = "mysql_model_06";
+        $this->load->Model($mysql_model_06);
+
+
+
+        // $result = $this->$mysql_model_06->active_periods_dna2($this->anexo, $this->period);
         //debug($result);
     }
-    
+
     function Periodos() {
         //$result = $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
         //debug($result);
