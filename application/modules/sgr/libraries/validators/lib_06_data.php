@@ -433,7 +433,7 @@ class Lib_06_data extends MX_Controller {
                         $saldo = array_sum(array($subscribed, $integrated));
                         if ($saldo != 0) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo: " . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
                             array_push($stack, $result);
                         }
 
