@@ -688,36 +688,38 @@ class Model_06 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             
+            var_dump($list['filename']);
+            
             /* BUY */
-            $new_query = array(
-                1695 => $cuit,
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']
-            );
-            if ($partner_type)
-                $new_query[5272] = $partner_type;
-
-            $buy_result = $this->mongo->sgr->$container->find($new_query);
-            foreach ($buy_result as $buy) {
-                $buy_result_arr[] = $buy[$field];
-            }
-
-            /* SELL */
-            $new_query = array(
-                5248 => $cuit,
-                'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']
-            );
-            if ($partner_type)
-                $new_query[5272] = $partner_type;
-
-            $sell_result = $this->mongo->sgr->$container->find($new_query);
-            foreach ($sell_result as $sell) {
-                $sell_result_arr[] = $sell[$field];
-            }
+//            $new_query = array(
+//                1695 => $cuit,
+//                'sgr_id' => $list['sgr_id'],
+//                'filename' => $list['filename']
+//            );
+//            if ($partner_type)
+//                $new_query[5272] = $partner_type;
+//
+//            $buy_result = $this->mongo->sgr->$container->find($new_query);
+//            foreach ($buy_result as $buy) {
+//                $buy_result_arr[] = $buy[$field];
+//            }
+//
+//            /* SELL */
+//            $new_query = array(
+//                5248 => $cuit,
+//                'sgr_id' => $list['sgr_id'],
+//                'filename' => $list['filename']
+//            );
+//            if ($partner_type)
+//                $new_query[5272] = $partner_type;
+//
+//            $sell_result = $this->mongo->sgr->$container->find($new_query);
+//            foreach ($sell_result as $sell) {
+//                $sell_result_arr[] = $sell[$field];
+//            }
         }
         
-        var_dump($buy_result_arr, $sell_result_arr);
+        
 
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
