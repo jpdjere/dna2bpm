@@ -838,7 +838,9 @@ class Lib_12_data extends MX_Controller {
                 $result = return_error_array($code_error, "Todas", "Nros. de Orden repetidos dentro del mismo Anexo");
                 array_push($stack, $result);
             }
-        }        
+        }
+        debug($stack);
+        exit();
         $this->data = $stack;
     }
 
