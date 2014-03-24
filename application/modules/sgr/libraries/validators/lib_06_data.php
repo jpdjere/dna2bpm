@@ -109,9 +109,8 @@ class Lib_06_data extends MX_Controller {
                     if ($C_cell_value) {
                         $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
                         $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
-                        
+
                         //echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
-                        
                     }
                 }
 
@@ -392,6 +391,12 @@ class Lib_06_data extends MX_Controller {
 
 
                     $AL_cell_value = $parameterArr[$i]['fieldValue'];
+
+                    if ($AL_cell_value) {
+                        $grantor_subscribed = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value);
+                        $grantor_integrated = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
+                    }
+
                     if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                         //CHECK FOR EMPTY
                         $code_error = "AJ.1";
@@ -399,10 +404,6 @@ class Lib_06_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-
-                            $grantor_subscribed = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value);
-                            $grantor_integrated = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
                         }
                     }
 
@@ -487,7 +488,7 @@ class Lib_06_data extends MX_Controller {
                      */
 
 
-                    if ($parameterArr[$i]['fieldValue'] != "") {                    
+                    if ($parameterArr[$i]['fieldValue'] != "") {
                         /*
                          * AH.4
                          * Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma 
@@ -499,7 +500,7 @@ class Lib_06_data extends MX_Controller {
 
                         if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "Transfiere " .$AH_cell_value . ", Tiene " . $grantor_subscribed);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Transfiere:" . $AH_cell_value . ", Dispone de:" . $grantor_subscribed);
                             array_push($stack, $result);
                         }
 
@@ -521,7 +522,7 @@ class Lib_06_data extends MX_Controller {
                          * y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación.
                          */
 
-                        if ($grantor_integrated  < $AI_cell_value) {
+                        if ($grantor_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $balance_integrated . ")");
                             array_push($stack, $result);
@@ -546,7 +547,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                   
+
 
                     $subscribed = array_sum(array($grantor_subscribed, $AH_cell_value));
                     $integrated = array_sum(array($grantor_integrated, $AI_cell_value));
