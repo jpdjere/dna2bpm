@@ -49,23 +49,13 @@ class mysql_model_12 extends CI_Model {
 
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);
-        $this->db->where('sgr_id', $this->sgr_id);
+        $this->db->where('anexo', 'sgr_garantias');
         $query = $this->db->get('forms2.sgr_control_periodos');
-
 
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
         }
-
-        /* UPDATE MONGO BY MONGO */
-        $mongo_periods = $this->sgr_model->get_active($anexo);
-        foreach ($mongo_periods as $each) {
-            unset($each['_id']);
-            $parameter[] = $each;
-        }
-
         foreach ($parameter as $each) {
 
             /* LOAD MODEL 12 */
@@ -75,25 +65,11 @@ class mysql_model_12 extends CI_Model {
             $this->save_tmp($each);
             /* ANEXO DATA */
             if ($each->archivo) {
+                echo $each->archivo . "...<br>";
                 $this->anexo_data_tmp($anexo_dna2, $each->archivo);
-            } else {
-
-                $get_anexo_data = $this->$model_12->get_anexo_data_tmp($anexo, $each['filename']);
-                foreach ($get_anexo_data as $each) {
-
-                    $token = $this->idu;
-                    $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-                    $id = $this->app->genid_sgr($container);
-
-                    list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $each[5215]);
-                    $each[5215] = $arr;
-
-                    unset($each['_id']);
-                    $result = $this->app->put_array_sgr($id, $container, $each);
                 }
             }
         }
-    }
 
     /* SAVE FETCHS ANEXO  DATA */
 
@@ -119,9 +95,8 @@ class mysql_model_12 extends CI_Model {
                 plazo,
                 gracia,
                 periodicidad,
-                sistema'
+                sistema,filename,idu'
         );
-
 
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
@@ -129,8 +104,6 @@ class mysql_model_12 extends CI_Model {
 
         $this->db->where('idu', $this->idu);
         $query = $this->db->get($anexo);
-
-
         $parameter = array();
         foreach ($query->result() as $row) {
             $parameter[] = $row;
@@ -147,7 +120,7 @@ class mysql_model_12 extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_12_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_12';
         /* TRANSLATE ANEXO NAME */
 
         /* STRING */
@@ -179,7 +152,6 @@ class mysql_model_12 extends CI_Model {
         unset($parameter['gracia']);
         unset($parameter['fecha_alta']);
 
-
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -193,25 +165,26 @@ class mysql_model_12 extends CI_Model {
 
     /* SAVE FETCHS PERIODOS */
 
-    function save_tmp($parameter, $mongo = false) {
+    function save_tmp($parameter) {
 
+        
         $parameter = (array) $parameter;
-        $token = $this->idu;
-        $period = $this->session->userdata['period'];
-        $container = 'container.periodos_' . $token . '_tmp';
+        $container = 'container.sgr_periodos';
 
         /* TRANSLATE ANEXO NAME */
-        if ($parameter['estado']) {
+        $sgr_id  = (float)$parameter['sgr_id'];
+        var_dump($parameter['sgr_id'],$sgr_id);
+        
             $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
             $parameter['filename'] = $parameter['archivo'];
             $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
+        $parameter['sgr_id'] = $sgr_id;
+        $parameter['status'] = 'activo';
 
             unset($parameter['estado']);
-        }
+        unset($parameter['archivo']);
 
         $id = $this->app->genid_sgr($container);
-
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
 
