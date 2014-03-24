@@ -499,7 +499,7 @@ class Lib_06_data extends MX_Controller {
 
                         if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "Transfiere " .$AH_cell_value . ", Tiene " . $grantor_subscribed);
                             array_push($stack, $result);
                         }
 
