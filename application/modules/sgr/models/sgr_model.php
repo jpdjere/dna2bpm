@@ -465,9 +465,7 @@ class Sgr_model extends CI_Model {
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"));
-        
-       
-        
+              
         $query = array(
             'sgr_id' => (float) $this->sgr_id,
             'anexo' => $anexo,
@@ -477,7 +475,6 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
-       
         
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
@@ -487,8 +484,6 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
-             var_dump($each);
-
             $rtn[] = $each;
         }
         return $rtn;
