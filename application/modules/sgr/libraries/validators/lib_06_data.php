@@ -393,8 +393,8 @@ class Lib_06_data extends MX_Controller {
                     $AL_cell_value = $parameterArr[$i]['fieldValue'];
 
                     if ($AL_cell_value) {
-                        $grantor_subscribed = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value);
-                        $grantor_integrated = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
+                        $grantor_subscribed = $this->$model_anexo->shares($AL_cell_value, $B_cell_value);
+                        $grantor_integrated = $this->$model_anexo->shares($AL_cell_value, $B_cell_value, 5598);
                     }
 
                     if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
