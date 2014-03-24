@@ -38,8 +38,8 @@ class mysql_model extends CI_Model {
 
     function active_periods_dna2() {
 
-        $table_to_export = 'export_sgr_garantias';
-        $anexo_to_export = 'sgr_garantias';
+        $table_to_export = 'export_sgr_socios_4';
+        $anexo_to_export = 'sgr_socios_4';
 
         $files_arr = array();
 
@@ -85,6 +85,29 @@ class mysql_model extends CI_Model {
 
 
         exit();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
 
