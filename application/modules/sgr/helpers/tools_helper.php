@@ -89,6 +89,9 @@ function check_for_empty($parameter) {
 }
 
 function check_word($parameter, $allow_words) {
+    
+    var_dump($parameter, $allow_words);
+    
     if (!in_array(strtoupper($parameter), $allow_words)) {
         return true;
     }
