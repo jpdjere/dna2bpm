@@ -776,6 +776,8 @@ class Sgr extends MX_Controller {
                     $print_filename = $file['filename'];
                 }
                 /* RECTIFY COUNT */
+                var_dump($this->sgr_id);
+                
                 $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
 
                 $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
