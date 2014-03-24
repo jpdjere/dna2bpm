@@ -362,8 +362,8 @@ class Lib_06_data extends MX_Controller {
                                 if ($A_cell_value == "INTEGRACION PENDIENTE") {
 
 
-                                    $subscribed = $balance + $AH_cell_value;
-                                    $integrated = $balance_integrated + $AI_cell_value;
+                                    $sum_subscribed = $subscribed + $AH_cell_value;
+                                    $sum_integrated = $integrated + $AI_cell_value;
 
                                     if ($parameterArr[$i]['fieldValue'] < 0) {
                                         $code_error = "AI.8";
@@ -372,11 +372,11 @@ class Lib_06_data extends MX_Controller {
                                     }
 
 
-                                    $diff_int_sus = $integrated - $subscribed;
+                                    $diff_int_sus = $sum_integrated - $sum_subscribed;
 
                                     if ($diff_int_sus < (int) $parameterArr[$i]['fieldValue']) {
                                         $code_error = "AI.8";
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $sum_integrated . " - Saldo Suscripto: " . $sum_subscribed);
                                         array_push($stack, $result);
                                     }
                                 }
