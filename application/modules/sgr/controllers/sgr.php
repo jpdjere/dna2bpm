@@ -1014,7 +1014,7 @@ class Sgr extends MX_Controller {
                     $disabled_link = ($this->session->userdata['period']) ? '' : ' disabled_link';
                     $disabled_link = ($this->session->userdata['rectify']) ? '' : $disabled_link;
 
-                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('class' => 'btn btn-success' . $disabled_link));
+                    $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('id' => 'procesar', 'class' => 'btn btn-success' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link fa-spin" alt="Procesar">PROCESAR</i>';
                     $download = anchor('sgr/xls_asset/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success'));
 
