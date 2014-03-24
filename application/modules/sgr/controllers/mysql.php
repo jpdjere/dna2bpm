@@ -77,7 +77,8 @@ class Mysql extends MX_Controller {
     }
 
     function Periodos() {
-        $result = $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
+        /*UPDATE DB FORMS2 PERIODOS*/
+        //$result = $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
         //debug($result);
     }
 
