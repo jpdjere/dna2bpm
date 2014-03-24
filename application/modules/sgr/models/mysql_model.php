@@ -71,7 +71,7 @@ class mysql_model extends CI_Model {
 
                 $data['sgr_id'] = $row->sgr_id;
                 $data['anexo'] = $anexo_to_export;
-                $data['periodo'] = '01_2011';
+                $data['periodo'] = '12_2010';
                 $data['estado'] = 'activo';
                 $data['archivo'] = $filename;
                 $data['fecha'] = "2011-01-01 01:01:01";
