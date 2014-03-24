@@ -764,7 +764,8 @@ class Sgr extends MX_Controller {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
-
+            
+              var_dump($this->sgr_id);
 
             foreach ($processed as $file) {
 
@@ -776,7 +777,7 @@ class Sgr extends MX_Controller {
                     $print_filename = $file['filename'];
                 }
                 /* RECTIFY COUNT */
-                var_dump($this->sgr_id);
+              
                 
                 $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
 
