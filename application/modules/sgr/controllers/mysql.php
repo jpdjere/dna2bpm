@@ -53,6 +53,9 @@ class Mysql extends MX_Controller {
     }
 
     function Index() {
+        
+           $model_anexo = "model_06";
+        $this->load->Model($model_anexo);
 
         $balance = $this->$model_anexo->shares('27283821205', 'A');
         $balance_integrated = $this->$model_anexo->shares('27283821205', 'A', 5598);
