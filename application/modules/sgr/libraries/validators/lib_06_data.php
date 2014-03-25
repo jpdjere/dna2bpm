@@ -556,7 +556,7 @@ class Lib_06_data extends MX_Controller {
                      */
                     if ($integrated > $subscribed) {
                         $code_error = "AI.5";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $integrated . " - Suscripto: " . $subscribed);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $AL_cell_value . " | Integrado: " . $integrated . " - Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }
