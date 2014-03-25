@@ -148,9 +148,7 @@ class mysql_model_06 extends CI_Model {
 
 
         $id = $this->app->genid_sgr($container);
-        if ($parameter['filename'] == "CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 03:05:32.xls") {
-            var_dump($parameter);
-        }
+        
 
 
         unset($parameter['cuit']);
@@ -164,7 +162,9 @@ class mysql_model_06 extends CI_Model {
         unset($parameter['monto2']);
         unset($parameter['monto3']);
 
-
+        if ($parameter['filename'] == "CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 03:05:32.xls") {
+            var_dump($parameter);
+        }
 
 
         //$result = $this->app->put_array_sgr($id, $container, $parameter);
