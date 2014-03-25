@@ -464,7 +464,7 @@ class Model_06 extends CI_Model {
             $inner_table .= '</table>';
 
             $new_list = array();
-            $new_list['TIPO_OPERACION'] = $operation_type[$list['"5779"'][0]];
+            $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
             $new_list['SOCIO'] = "(" . $list['5272'][0] . ") " . $partner_type[$list['5272'][0]] . "</br>" . $cuit . "</br>" . $brand_name;
             $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
             $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
