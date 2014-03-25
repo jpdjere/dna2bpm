@@ -123,6 +123,10 @@ class mysql_model_12 extends CI_Model {
 
         /* STRING */
         $parameter[5214] = (string) $parameter['nro_orden']; //Nro orden
+        $parameter[5216] = (string) $parameter['tipo_garantia'];
+        $parameter[5222] = (string) $parameter['tasa'];
+        
+        
 
 
         $parameter[5349] = (string) $parameter['cuit_socio_participe']; //Cuit_participe
@@ -137,6 +141,72 @@ class mysql_model_12 extends CI_Model {
         /* INTEGER */
         $parameter[5224] = (int) $parameter['plazo'];
         $parameter[5225] = (int) $parameter['gracia'];
+        
+        
+        if (strtoupper(trim($parameter[5219])) == "PESOS ARGENTINOS")
+                $parameter[5219] = "1";
+            if (strtoupper(trim($parameter[5219])) == "DOLARES AMERICANOS")
+                $parameter[5219] = "2";
+            if (strtoupper(trim($parameter[5219])) == "EUROS")
+                $parameter[5219] = "3";
+            if (strtoupper(trim($parameter[5219])) == "REALES")
+                $parameter[5219] = "4";
+
+            if (strtoupper($parameter[5758]) == "PESOS ARGENTINOS")
+                $parameter[5758] = "1";
+            if (strtoupper($parameter[5758]) == "DOLARES AMERICANOS")
+                $parameter[5758] = "2";
+            if (strtoupper($parameter[5758]) == "EUROS")
+                $parameter[5758] = "3";
+            if (strtoupper($parameter[5758]) == "REALES")
+                $parameter[5758] = "4";
+
+
+
+            /* PERIODICIDAD */
+            if (strtoupper(trim($parameter[5226])) == "PAGO UNICO")
+                $parameter[5226] = "1";
+            if (strtoupper(trim($parameter[5226])) == "MENSUAL")
+                $parameter[5226] = "30";
+            if (strtoupper(trim($parameter[5226])) == "BIMESTRAL")
+                $parameter[5226] = "60";
+            if (strtoupper(trim($parameter[5226])) == "TRIMESTRAL")
+                $parameter[5226] = "90";
+            if (strtoupper(trim($parameter[5226])) == "CUATRIMESTRAL")
+                $parameter[5226] = "120";
+            if (strtoupper(trim($parameter[5226])) == "SEMESTRAL")
+                $parameter[5226] = "180";
+            if (strtoupper(trim($parameter[5226])) == "ANUAL")
+                $parameter[5226] = "360";
+            if (strtoupper(trim($parameter[5226])) == "OTRO")
+                $parameter[5226] = "04";
+
+            /* SISTEMA */
+            if (strtoupper(trim($parameter[5227])) == "PAGO UNICO")
+                $parameter[5227] = "01";
+            if (strtoupper(trim($parameter[5227])) == "FRANCES")
+                $parameter[5227] = "02";
+            if (strtoupper(trim($parameter[5227])) == "ALEMAN")
+                $parameter[5227] = "03";
+            if (strtoupper(trim($parameter[5227])) == "OTRO")
+                $parameter[5227] = "04";
+
+
+
+            /* TASA */
+            if (strtoupper($parameter[5222]) == "LIBOR")
+                $parameter[5222] = "01";
+            if (strtoupper($parameter[5222]) == "BADLARPU")
+                $parameter[5222] = "02";
+            if (strtoupper($parameter[5222]) == "BADLARPR")
+                $parameter[5222] = "03";
+            if (strtoupper($parameter[5222]) == "FIJA")
+                $parameter[5222] = "04";
+            if (strtoupper($parameter[5222]) == "TEBP")
+                $parameter[5222] = "05";
+            if (strtoupper($parameter[5222]) == "TEC")
+                $parameter[5222] = "06";
+        
 
 
         unset($parameter['nro_orden']);
@@ -149,6 +219,18 @@ class mysql_model_12 extends CI_Model {
         unset($parameter['plazo']);
         unset($parameter['gracia']);
         unset($parameter['fecha_alta']);
+        unset($parameter['tipo_garantia']);
+        unset($parameter['puntos_adicionales']);
+        unset($parameter['tasa']);
+        unset($parameter['sistema']);
+        unset($parameter['periodicidad']);   
+        
+        unset($parameter['moneda']);
+        unset($parameter['moneda_Cred_Garant']);   
+        
+        
+        
+        
 
         $id = $this->app->genid_sgr($container);
 
