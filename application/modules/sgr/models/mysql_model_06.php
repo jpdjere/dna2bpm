@@ -146,15 +146,26 @@ class mysql_model_06 extends CI_Model {
 
         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
 
+
+        $id = $this->app->genid_sgr($container);
+        
+
+
+        unset($parameter['cuit']);
+        unset($parameter['cedente_cuit']);
+        unset($parameter['fecha_efectiva']);
+        unset($parameter['codigo_actividad']);
         unset($parameter['capital_suscripto']);
-        unset($parameter['capital_suscripto']);
+        unset($parameter['capital_integrado']);
         unset($parameter['cantidad_empleados']);
         unset($parameter['monto']);
         unset($parameter['monto2']);
         unset($parameter['monto3']);
 
+        if ($parameter['filename'] == "CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 03:05:32.xls") {
+            var_dump($parameter);
+        }
 
-        $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
@@ -168,22 +179,22 @@ class mysql_model_06 extends CI_Model {
     /* SAVE FETCHS PERIODOS */
 
     function save_tmp($parameter) {
-       
-        
+
+
         $parameter = (array) $parameter;
         $container = 'container.sgr_periodos';
 
         /* TRANSLATE ANEXO NAME */
-        $sgr_id  = (float)$parameter['sgr_id'];
-        var_dump($parameter['sgr_id'],$sgr_id);
-        
+        $sgr_id = (float) $parameter['sgr_id'];
+        var_dump($parameter['sgr_id'], $sgr_id);
+
         $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
         $parameter['filename'] = $parameter['archivo'];
         $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
         $parameter['sgr_id'] = $sgr_id;
         $parameter['status'] = 'activo';
-        
-         
+
+
 
         unset($parameter['estado']);
         unset($parameter['archivo']);
