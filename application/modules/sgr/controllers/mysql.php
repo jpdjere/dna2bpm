@@ -54,7 +54,7 @@ class Mysql extends MX_Controller {
 
     function Index() {
 
-        $anexo = '06';
+        $anexo = '12';
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
