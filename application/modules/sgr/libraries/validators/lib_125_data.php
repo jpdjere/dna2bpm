@@ -259,8 +259,8 @@ class Lib_125_data extends MX_Controller {
             } // END FOR LOOP->
         }
     
-    $result = return_error_array("-", "-", "--Dummy--");
-    array_push($stack, $result);
+//    $result = return_error_array("-", "-", "--Dummy--");
+//    array_push($stack, $result);
                             
         $this->data = $stack;
     }
