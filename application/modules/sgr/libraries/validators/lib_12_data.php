@@ -288,7 +288,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF3
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
                     $code_error = "G.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -315,7 +315,7 @@ class Lib_12_data extends MX_Controller {
                   GFCPD
                  */
                 if ($parameterArr[$i]['col'] == 8) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
 
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -365,7 +365,7 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB", "GFVCP");
+                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB0","GFPB1","GFPB2", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
