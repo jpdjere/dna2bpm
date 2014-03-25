@@ -125,6 +125,7 @@ class mysql_model_12 extends CI_Model {
         $parameter[5214] = (string) $parameter['nro_orden']; //Nro orden
         $parameter[5216] = (string) $parameter['tipo_garantia'];
         $parameter[5222] = (string) $parameter['tasa'];
+        $parameter[5727] = (string) $parameter['nro_operacion_bolsa'];
         
         
 
