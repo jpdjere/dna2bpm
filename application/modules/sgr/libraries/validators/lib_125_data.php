@@ -169,42 +169,43 @@ class Lib_125_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                      //empty field Validation
-                    $code_error = "D.1";
 
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    } else {
-                        $code_error = "D.1";
-                        $greater_than_zero = false;
+                        $haygarantia = false;
                         $D1_array = array("GC1", "GC2");
                         foreach ($sharer_info as $info) { 
                             if (in_array($info['5216'][0], $D1_array)) {
-                                $greater_than_zero = true;
+                                $haygarantia = true;
                             }
                         }
 
                         $int_value = (int) $parameterArr[$i]['fieldValue'];
-                        if ($greater_than_zero) {
-                            // garantia activa campo mayor a cero  
-                            $code_error = "D.1";
-                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                        if ($haygarantia) {
+                            // garantia activa           
+                            $return = check_empty($parameterArr[$i]['fieldValue']);                     
                             if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                // Check empty
+                                $code_error = "D.1";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
-                            }
-                            
+                            }else{
+                                // check D.2
+                                $code_error = "D.2";
+                                $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                                if ($return) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
+                                    array_push($stack, $result);
+                                }
+                            }                           
                         }else{
-                            // otros casos debe ser cero
-                            $code_error = "D.2";
+                            // Garantia no activa
+                            $code_error = "D.1";
                             if ($int_value!=0) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
 
                         }
-                    }
+                    
                 }
 
                 /* SLDO_TEC
