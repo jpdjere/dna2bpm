@@ -288,7 +288,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF3
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB");
                     $code_error = "G.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -315,7 +315,7 @@ class Lib_12_data extends MX_Controller {
                   GFCPD
                  */
                 if ($parameterArr[$i]['col'] == 8) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB");
 
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
