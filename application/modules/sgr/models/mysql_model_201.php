@@ -93,7 +93,7 @@ class mysql_model_201 extends CI_Model {
 
 
         $this->db->select(
-                'sgr_fdr_integrado_numeracion.ID as nro_control,
+                'sgr_fdr_integrado.ID as nro_control,
                 nro_control,
                 fecha_movimiento,
                 aporte,
@@ -114,7 +114,7 @@ class mysql_model_201 extends CI_Model {
         foreach ($query->result() as $row) {
 
             $parameter = array();
-            debug($row);
+            
 
             /* STRING */
 
@@ -122,7 +122,7 @@ class mysql_model_201 extends CI_Model {
 
             /* INTEGERS  & FLOATS */
             $parameter["APORTE"] = (float) $row->aporte;
-            $parameter["RETIRO"] = (float) $row->aporte;
+            $parameter["RETIRO"] = (float) $row->retiro;
             $parameter["RETENCION_POR_CONTINGENTE"] = (float) $row->retencion_por_contingente;
             $parameter["RETIRO_DE_RENDIMIENTOS"] = (float) $row->retiro_de_rendimientos;
 
@@ -137,8 +137,8 @@ class mysql_model_201 extends CI_Model {
             $parameter['id'] = (float) $row->nro_control;
             $parameter['origen'] = 'forms2';
 
+            debug($parameter);
             
-
             $this->save_anexo_201_tmp($parameter, $anexo);
         }
     }
