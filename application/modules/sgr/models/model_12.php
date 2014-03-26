@@ -351,11 +351,15 @@ class Model_12 extends CI_Model {
             $this->load->model('padfyj_model');
             $participate = $this->padfyj_model->search_name($list[5349]);
             $drawer = $this->padfyj_model->search_name((string) $list[5726]);
-          
 
             
-             $creditor = $this->get_mv_and_comercial_name($list[5351]);
+
+            
+             $creditor_mv = $this->get_mv_and_comercial_name($list[5351]);
+             $creditor_padfyj = $this->padfyj_model->search_name($list[5351]);
              
+             
+             $creditor = ($creditor_mv)?$creditor_mv:$creditor_padfyj;
 
 
             $this->load->model('app');
