@@ -350,6 +350,8 @@ class Model_12 extends CI_Model {
 
             $arr_tipos = array("GFEF0", "GFEF1", "GFEF2", "GFEF3");
 
+            var_dump($list[5351]);
+            
             if (in_array($list[5216][0], $arr_tipos)) {
                 $creditor = $this->padfyj_model->get_mv_and_comercial_cuits($list[5351]);
             } else {
