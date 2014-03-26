@@ -25,148 +25,60 @@ class mysql_model_06 extends CI_Model {
         $dbconnect = $this->load->database('dna2');
     }
 
-    function clear_tmp() {
-        $token = $this->idu;
-        $container = 'container.periodos_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-        /* 06 */
-        $container = 'container.sgr_anexo_06_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-    }
-
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2($anexo, $period) {
 
-        /* CLEAR TEMP DATA */
-        $this->clear_tmp();
+
 
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
-
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', 'sgr_socios');
+        $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
-        $parameter = array();
+
+
+
         foreach ($query->result() as $row) {
-            $parameter[] = $row;
-        }
-        foreach ($parameter as $each) {
 
-            /* LOAD MODEL 06 */
-            $model_06 = 'model_06';
-            $this->load->Model($model_06);
 
-            $this->save_tmp($each);
-            /* ANEXO DATA */
-            if ($each->archivo) {
-                echo $each->archivo . "...<br>";
-                $this->anexo_data_tmp($anexo_dna2, $each->archivo);
+
+            $already_period = $this->already_period($row->archivo);
+            if (!$already_period) {
+
+                $parameter = array();
+
+                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+                $parameter['filename'] = $row->archivo;
+                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+                $parameter['sgr_id'] = (float) $row->sgr_id;
+                $parameter['status'] = 'activo';
+                $parameter['origen'] = 'forms2';
+                $parameter['period'] = $row->periodo;
+
+
+                /* UPDATE CTRL PERIOD */
+                $this->save_tmp($parameter);
+
+                /* UPDATE ANEXO */
+                if ($row->archivo) {
+                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                    if (!$already_update)
+                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                }
             }
         }
     }
 
-    /* SAVE FETCHS ANEXO  DATA */
-
-    function anexo_data_tmp($anexo, $filename) {
+    function save_tmp($parameter) {
 
 
-        $anexo_field = "save_anexo_06_tmp";
-
-        $this->db->select('cuit, 
-                        tipo_socio, 
-                        tipo_operacion,
-                        cedente_cuit,
-                        codigo_actividad,
-                        cantidad_empleados, 
-                        monto,
-                        monto2,
-                        monto3, 
-                        capital_suscripto,
-                        capital_integrado,
-                        fecha_efectiva, 
-                        filename, cedente_cuit,
-                        idu');
-
-        if ($filename != 'Sin Movimiento')
-            $this->db->where('filename', $filename);
-
-
-        $this->db->where('idu', $this->idu);
-        $query = $this->db->get($anexo);
-        $parameter = array();
-        foreach ($query->result() as $row) {
-            $parameter[] = $row;
-        }
-
-        foreach ($parameter as $each) {
-            $this->$anexo_field($each);
-        }
-    }
-
-    /* SAVE FETCHS ANEXO 06 DATA */
-
-    function save_anexo_06_tmp($parameter) {
         $parameter = (array) $parameter;
-        $token = $this->idu;
-        $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_06';
-        /* TRANSLATE ANEXO NAME */
-
-        /* STRING */
-        $parameter[1695] = (string) $parameter['cuit'];
-        $parameter[5272] = (string) $parameter['tipo_socio'];
-        $parameter[5779] = (string) $parameter['tipo_operacion'];
-        $parameter[5248] = (string) $parameter['cedente_cuit'];
-
-        /* INTEGERS */
-
-        $parameter[5208] = (int) $parameter['codigo_actividad'];
-
-        $parameter['CANTIDAD_DE_EMPLEADOS'] = (int) $parameter['cantidad_empleados'];
-
-
-        if ($parameter[5779] == "INCORPORACION")
-            $parameter[5779] = "1";
-        if ($parameter[5779] == "INCREMENTO DE TENENCIA ACCIONARIA")
-            $parameter[5779] = "2";
-        if ($parameter[5779] == "DISMINUCION DE CAPITAL SOCIAL")
-            $parameter[5779] = "3";
-
-
-        /* FLOAT */
-        $parameter[20] = (float) $parameter['monto'];
-        $parameter[23] = (float) $parameter['monto2'];
-        $parameter[26] = (float) $parameter['monto3'];
-
-        $parameter[5597] = (int) str_replace(",", ".", $parameter['capital_suscripto']);
-        $parameter[5598] = (int) str_replace(",", ".", $parameter['capital_integrado']);
-
-        $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_efectiva']);
-
+        $container = 'container.sgr_periodos';
 
         $id = $this->app->genid_sgr($container);
-        
-
-
-        unset($parameter['cuit']);
-        unset($parameter['cedente_cuit']);
-        unset($parameter['fecha_efectiva']);
-        unset($parameter['codigo_actividad']);
-        unset($parameter['capital_suscripto']);
-        unset($parameter['capital_integrado']);
-        unset($parameter['cantidad_empleados']);
-        unset($parameter['monto']);
-        unset($parameter['monto2']);
-        unset($parameter['monto3']);
-
-        if ($parameter['filename'] == "CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-03-28 03:05:32.xls") {
-            var_dump($parameter);
-        }
-
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             $out = array('status' => 'ok');
@@ -176,41 +88,125 @@ class mysql_model_06 extends CI_Model {
         return $out;
     }
 
-    /* SAVE FETCHS PERIODOS */
+    /* SAVE FETCHS ANEXO  DATA */
 
-    function save_tmp($parameter) {
+    function anexo_data_tmp($anexo, $filename) {
 
 
-        $parameter = (array) $parameter;
+
+
+        $this->db->select(
+                'id,
+                cuit, 
+                tipo_socio, 
+                tipo_operacion,
+                cedente_cuit,
+                codigo_actividad,
+                cantidad_empleados, 
+                monto,
+                monto2,
+                monto3, 
+                capital_suscripto,
+                capital_integrado,
+                fecha_efectiva, 
+                filename, cedente_cuit, modalidad,
+                idu'
+        );
+
+        if ($filename != 'Sin Movimiento')
+            $this->db->where('filename', $filename);
+
+
+
+        $query = $this->db->get($anexo);
+        $parameter = array();
+        foreach ($query->result() as $row) {
+
+            $parameter = array();
+
+            /* STRING */
+            $parameter[1695] = (string) $row->cuit;
+            $parameter[5272] = (string) $row->tipo_socio;
+            $parameter[5248] = (string) $row->cedente_cuit;
+
+            /* INTEGERS */
+
+            $parameter[5208] = (int) $row->codigo_actividad;
+            $parameter['CANTIDAD_DE_EMPLEADOS'] = (int) $row->cantidad_empleados;
+
+            /* FLOAT */
+            $parameter[20] = (float) $row->monto;
+            $parameter[23] = (float) $row->monto2;
+            $parameter[26] = (float) $row->monto3;
+
+            $parameter[5597] = (float) str_replace(",", ".", $row->capital_suscripto);
+            $parameter[5598] = (float) str_replace(",", ".", $row->capital_integrado);
+
+            $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_efectiva);
+
+
+            if (strtoupper(trim($row->tipo_operacion)) == "INCORPORACION")
+                $parameter[5779] = "1";
+            if (strtoupper(trim($row->tipo_operacion)) == "INCREMENTO DE TENENCIA ACCIONARIA")
+                $parameter[5779] = "2";
+            if (strtoupper(trim($row->tipo_operacion)) == "DISMINUCION DE CAPITAL SOCIAL")
+                $parameter[5779] = "3";
+
+
+            if (strtoupper(trim($row->modalidad)) == "TRANSFERENCIA")
+                $parameter[5252] = "1";
+            if (strtoupper(trim($row->modalidad)) == "SUSCRIPCION")
+                $parameter[5252] = "2";
+
+
+
+
+            $parameter['idu'] = (float) $row->idu;
+            $parameter['filename'] = (string) $row->filename;
+            $parameter['id'] = (float) $row->id;
+            $parameter['origen'] = 'forms2';
+
+            debug($parameter);
+
+            $this->save_anexo_06_tmp($parameter, $anexo);
+        }
+    }
+
+    /* SAVE FETCHS ANEXO 06 DATA */
+
+    function already_period($filename) {
+
         $container = 'container.sgr_periodos';
+        $query = array("filename" => $filename);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return true;
+    }
 
+    function already_updated($anexo, $nro_orden, $filename) {
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $filename, "nro_orden" => $nro_orden);
+        $result = $this->mongo->sgr->$container->findOne($query);
+
+        if ($result)
+            return true;
+    }
+
+    function save_anexo_06_tmp($parameter, $anexo) {
+        $parameter = (array) $parameter;
+        $token = $this->idu;
+        $period = $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
-        $sgr_id = (float) $parameter['sgr_id'];
-        var_dump($parameter['sgr_id'], $sgr_id);
-
-        $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
-        $parameter['filename'] = $parameter['archivo'];
-        $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
-        $parameter['sgr_id'] = $sgr_id;
-        $parameter['status'] = 'activo';
-
-
-
-        unset($parameter['estado']);
-        unset($parameter['archivo']);
-
 
         $id = $this->app->genid_sgr($container);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
-
         if ($result) {
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
-
-
         return $out;
     }
 
