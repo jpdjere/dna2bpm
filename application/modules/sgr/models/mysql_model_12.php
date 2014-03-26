@@ -135,7 +135,7 @@ class mysql_model_12 extends CI_Model {
             $parameter[5216] = (string) $row->tipo_garantia;
             $parameter[5222] = (string) $row->tasa;
             $parameter[5727] = (string) $row->nro_operacion_bolsa;
-            $parameter['filename'] = (string) $row->filename;
+            
 
             list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $row->fecha_alta);
             $parameter[5215] = $arr;
@@ -220,7 +220,7 @@ class mysql_model_12 extends CI_Model {
 
 
             $parameter['idu'] = (float) $row->idu;
-
+            $parameter['filename'] = (string) $row->filename;
             $this->save_anexo_12_tmp($parameter, $anexo);
         }
     }
