@@ -553,9 +553,9 @@ class Model_12 extends CI_Model {
                 5349 => $cuit
             );
 
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $return_result[] = $new_result;
+            $new_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($new_result as $list2) {
+                $return_result[]=$list2;
             }
         }
 
@@ -577,9 +577,9 @@ class Model_12 extends CI_Model {
                 5349 => $cuit
             );
 
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $return_result[] = $new_result;
+            $new_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($new_result as $list2) {
+                $return_result[]=$list2;
             }
         }
 

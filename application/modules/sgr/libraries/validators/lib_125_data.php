@@ -50,8 +50,8 @@ class Lib_125_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
                     $code_error = "A.1";
-                    $sharer_info = $this->$model_anexo->get_sharer($parameterArr[$i]['fieldValue']);
-
+                    $sharer_info = $this->$model_anexo->get_sharer_left($parameterArr[$i]['fieldValue']);
+                          //  var_dump($sharer_info);
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -261,9 +261,9 @@ class Lib_125_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-    
-//    $result = return_error_array("-", "-", "--Dummy--");
-//    array_push($stack, $result);
+
+    $result = return_error_array("-", "-", "--Dummy--");
+    array_push($stack, $result);
                             
         $this->data = $stack;
     }
