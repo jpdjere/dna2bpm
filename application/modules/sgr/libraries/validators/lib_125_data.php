@@ -181,7 +181,7 @@ class Lib_125_data extends MX_Controller {
                                 $haygarantia = true;
                             }
                         }
-
+var_dump($sharer_info);
                         $int_value = (int) $parameterArr[$i]['fieldValue'];
                         if ($haygarantia) {
                             // garantia activa           
