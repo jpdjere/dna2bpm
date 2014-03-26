@@ -102,10 +102,7 @@ class Model_201 extends CI_Model {
             $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
             $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
 
-            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
-                $insertarr["MONEDA"] = "1";
-            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
-                $insertarr["MONEDA"] = "2";
+           
         }
         return $insertarr;
     }
