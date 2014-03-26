@@ -72,6 +72,16 @@ class Mysql extends MX_Controller {
         debug($result);
     }
     
+    function Anexo201() {
+
+        $anexo = '201';
+        $mysql_model = "mysql_model_" . $anexo;
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+        debug($result);
+    }
+    
 
     function Periodos() {
         /* UPDATE DB FORMS2 PERIODOS */
