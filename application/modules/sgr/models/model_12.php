@@ -339,6 +339,10 @@ class Model_12 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
+        
+         $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
 
         foreach ($result as $list) {
             /* Vars */
@@ -350,10 +354,10 @@ class Model_12 extends CI_Model {
 
             $arr_tipos = array("GFEF0", "GFEF1", "GFEF2", "GFEF3");
 
-            var_dump($list[5351]);
-            
+           
+
             if (in_array($list[5216][0], $arr_tipos)) {
-                $creditor = $this->padfyj_model->get_mv_and_comercial_cuits($list[5351]);
+                $creditor = $this->$model_anexo->get_mv_and_comercial_cuits($list[5351], "COMERCIAL");
             } else {
                 $creditor = $this->padfyj_model->search_name($list[5351]);
             }
