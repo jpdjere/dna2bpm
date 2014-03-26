@@ -128,6 +128,8 @@ class mysql_model_14 extends CI_Model {
 
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
+            $parameter['id'] = (float) $row->id;
+            $parameter['origen'] = 'forms2';
             
             debug($parameter);
             
