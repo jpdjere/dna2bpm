@@ -25,131 +25,60 @@ class mysql_model_14 extends CI_Model {
         $dbconnect = $this->load->database('dna2');
     }
 
-    function clear_tmp() {
-        $token = $this->idu;
-        $container = 'container.periodos_' . $token . '_tmp';
-        $query = array("anexo" => "14");
-        $delete = $this->mongo->sgr->$container->remove($query);
-        /* 14 */
-        $container = 'container.sgr_anexo_14_' . $token . '_tmp';
-        $delete = $this->mongo->sgr->$container->remove();
-    }
-
     /* ACTIVE PERIODS DNA2 */
 
-    function active_periods_dna2($anexo, $period) {
+    function active_periods_dna2($anexo, $period) {        
 
-        /* CLEAR TEMP DATA */
-        $this->clear_tmp();
-
+      
+        
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
-
-
-
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
         $this->db->where('anexo', $anexo_dna2);
-        $this->db->where('sgr_id', $this->sgr_id);
         $query = $this->db->get('forms2.sgr_control_periodos');
-
-
-        $parameter = array();
+        
+         
+        
+        
         foreach ($query->result() as $row) {
-            $parameter[] = $row;
-        }
+            
+             
+            
+            $already_period = $this->already_period($row->archivo);
+            if (!$already_period) {
+                
+                $parameter = array();
 
-        /* UPDATE MONGO BY MONGO */
-        $mongo_periods = $this->sgr_model->get_active($anexo);
-        foreach ($mongo_periods as $each) {
-            unset($each['_id']);
-            $parameter[] = $each;
-        }
+                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+                $parameter['filename'] = $row->archivo;
+                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+                $parameter['sgr_id'] = (float) $row->sgr_id;
+                $parameter['status'] = 'activo';
+                $parameter['origen'] = 'forms2';
+                $parameter['period'] = $row->periodo;
 
-        foreach ($parameter as $each) {
+                
+                /* UPDATE CTRL PERIOD */
+                $this->save_tmp($parameter);
 
-            /* LOAD MODEL 14 */
-            $model_14 = 'model_14';
-            $this->load->Model($model_14);
-
-            $this->save_tmp($each);
-            /* ANEXO DATA */
-            if ($each->archivo) {
-                $this->anexo_data_tmp($anexo_dna2, $each->archivo);
-            } else {
-
-                $get_anexo_data = $this->$model_14->get_anexo_data_tmp($anexo, $each['filename']);
-                foreach ($get_anexo_data as $each) {
-
-                    $token = $this->idu;
-                    $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-                    $id = $this->app->genid_sgr($container);
-
-                    unset($each['_id']);
-                    $result = $this->app->put_array_sgr($id, $container, $each);
+                /* UPDATE ANEXO */
+                if ($row->archivo) {
+                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                    if (!$already_update)
+                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
                 }
             }
         }
     }
 
-    /* SAVE FETCHS ANEXO  DATA */
-
-    function anexo_data_tmp($anexo, $filename) {
-        $anexo_field = "save_anexo_14_tmp";
-
-        $this->db->select(
-                'nro_garantia,
-                fecha_movimiento,
-                cuit_participe,
-                caida,
-                recupero, filename, idu'
-        );
+    function save_tmp($parameter) {
 
 
-        if ($filename != 'Sin Movimiento')
-            $this->db->where('filename', $filename);
-
-
-        $this->db->where('idu', $this->idu);
-        $query = $this->db->get($anexo);
-
-
-        $parameter = array();
-        foreach ($query->result() as $row) {
-            $parameter[] = $row;
-        }
-
-        foreach ($parameter as $each) {
-            $this->$anexo_field($each);
-        }
-    }
-
-    /* SAVE FETCHS ANEXO 14 DATA */
-
-    function save_anexo_14_tmp($parameter) {
         $parameter = (array) $parameter;
-        $token = $this->idu;
-        $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_14_' . $token . '_tmp';
-        /* TRANSLATE ANEXO NAME */
-
-
-        /* STRING */
-        $parameter["NRO_GARANTIA"] = (string) $parameter["nro_garantia"];
-        /* INTEGERS & FLOAT */
-        $parameter["CAIDA"] = (float) $parameter["caida"];
-        $parameter["RECUPERO"] = (float) $parameter["recupero"];
-        
-         $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($parameter['fecha_movimiento']);
-
-
-        unset($parameter['nro_garantia']);
-        unset($parameter['caida']);
-        unset($parameter['recupero']);
-        unset($parameter['fecha_movimiento']);
+        $container = 'container.sgr_periodos';
 
         $id = $this->app->genid_sgr($container);
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             $out = array('status' => 'ok');
@@ -159,37 +88,90 @@ class mysql_model_14 extends CI_Model {
         return $out;
     }
 
-    /* SAVE FETCHS PERIODOS */
+    /* SAVE FETCHS ANEXO  DATA */
 
-    function save_tmp($parameter, $mongo = false) {
+    function anexo_data_tmp($anexo, $filename) {
 
+        
+        
+        
+        $this->db->select(
+                'id,
+                nro_garantia,
+                fecha_movimiento,
+                caida,
+                recupero,
+                filename,
+                idu'
+        );
+
+        if ($filename != 'Sin Movimiento')
+            $this->db->where('filename', $filename);
+
+
+
+        $query = $this->db->get($anexo);
+        $parameter = array();
+        foreach ($query->result() as $row) {
+
+            $parameter = array();
+            
+                
+
+            $parameter["NRO_GARANTIA"] = (string) $row->nro_garantia;
+            
+            /* INTEGERS & FLOAT */
+            $parameter["CAIDA"] = (float) $row->caida;
+            $parameter["RECUPERO"] = (float) $row->recupero;  
+            
+            $parameter['FECHA_MOVIMIENTO'] = translate_mysql_date($row->fecha_movimiento);
+
+            $parameter['idu'] = (float) $row->idu;
+            $parameter['filename'] = (string) $row->filename;
+            $parameter['id'] = (float) $row->id;
+            $parameter['origen'] = 'forms2';
+            
+            debug($parameter);
+            
+            $this->save_anexo_14_tmp($parameter, $anexo);
+        }
+    }
+
+    /* SAVE FETCHS ANEXO 14 DATA */
+
+    function already_period($filename) {
+
+        $container = 'container.sgr_periodos';
+        $query = array("filename" => $filename);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return true;
+    }
+
+    function already_updated($anexo, $nro_orden, $filename) {
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $filename, "nro_orden" => $nro_orden);
+        $result = $this->mongo->sgr->$container->findOne($query);
+
+        if ($result)
+            return true;
+    }
+
+    function save_anexo_14_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.periodos_' . $token . '_tmp';
-
+        $container = 'container.sgr_anexo_14';
         /* TRANSLATE ANEXO NAME */
-        if ($parameter['estado']) {
-            $parameter['anexo'] = translate_anexos_dna2($parameter['anexo']);
-            $parameter['filename'] = $parameter['archivo'];
-            $parameter['period_date'] = translate_dna2_period_date($parameter['periodo']);
-
-            unset($parameter['estado']);
-        }
 
         $id = $this->app->genid_sgr($container);
-
-
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-
-
         if ($result) {
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
         }
-
-
         return $out;
     }
 
