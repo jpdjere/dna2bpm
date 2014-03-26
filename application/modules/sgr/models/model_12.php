@@ -351,17 +351,11 @@ class Model_12 extends CI_Model {
             $this->load->model('padfyj_model');
             $participate = $this->padfyj_model->search_name($list[5349]);
             $drawer = $this->padfyj_model->search_name((string) $list[5726]);
+          
 
-            $arr_tipos = array("GFEF0", "GFEF1", "GFEF2", "GFEF3");
-
-           
-
-            if (in_array($list[5216][0], $arr_tipos)) {
-                $creditor = $this->$model_anexo->get_mv_and_comercial_cuits($list[5351], "COMERCIAL");
-            } else {
-                $creditor = $this->padfyj_model->search_name($list[5351]);
-            }
-
+            
+             $creditor = $this->get_mv_and_comercial_name($list[5351]);
+             
 
 
             $this->load->model('app');
@@ -404,6 +398,16 @@ class Model_12 extends CI_Model {
     }
 
     //container.sgr_cuits_comerciales_y_mv
+    function get_mv_and_comercial_name($cuit) {
+
+        $container = 'container.sgr_cuits_comerciales_y_mv';
+        $query = array("cuit" => $cuit);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return $result['name'];
+    }
+    
+    
     function get_mv_and_comercial_cuits($cuit, $type) {
 
         $container = 'container.sgr_cuits_comerciales_y_mv';
