@@ -192,7 +192,7 @@ class Model_12 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = (float)$this->idu;
+        $parameter['idu'] = (float) $this->idu;
 
         /*
          * VERIFICO PENDIENTE           
@@ -347,7 +347,15 @@ class Model_12 extends CI_Model {
             $this->load->model('padfyj_model');
             $participate = $this->padfyj_model->search_name($list[5349]);
             $drawer = $this->padfyj_model->search_name((string) $list[5726]);
-            $creditor = $this->padfyj_model->search_name($list[5351]);
+
+            $arr_tipos = array("GFEF0", "GFEF1", "GFEF2", "GFEF3");
+
+            if (in_array($list[5216][0], $arr_tipos)) {
+                $creditor = $this->padfyj_model->get_mv_and_comercial_cuits($list[5351]);
+            } else {
+                $creditor = $this->padfyj_model->search_name($list[5351]);
+            }
+
 
 
             $this->load->model('app');
@@ -423,31 +431,30 @@ class Model_12 extends CI_Model {
         }
         return $return_result;
     }
-    
-    
+
     function get_period_amount($period_value) {
-        
+
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_12';
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_period_data($anexo, $period_value);        
+        $result = $this->sgr_model->get_period_data($anexo, $period_value);
 
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
                 'sgr_id' => $list['sgr_id'],
-                'filename' => $list['filename']              
-            );            
-            $new_result = $this->mongo->sgr->$container->find($new_query);            
-            foreach($new_result as $each){
+                'filename' => $list['filename']
+            );
+            $new_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($new_result as $each) {
                 $return_result[] = $each[5218];
             }
         }
-        $average = array_sum($return_result) / count($return_result);        
+        $average = array_sum($return_result) / count($return_result);
         return $average;
     }
-    
+
     /* GET DATA */
 
     function get_order_number_left($nro) {
