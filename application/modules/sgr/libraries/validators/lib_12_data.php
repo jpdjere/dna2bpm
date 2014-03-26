@@ -401,7 +401,7 @@ class Lib_12_data extends MX_Controller {
                             }
                         }
                         // I.4
-                       $I4_validate_arr = array("GFPB");
+                       $I4_validate_arr = array("GFPB0","GFPB1","GFPB2");
                        $code_error = "I.4";
                        if (in_array($D_cell_value, $I4_validate_arr)) {
                            $check_cnv_syntax_i4 = check_cnv_syntax_i4($parameterArr[$i]['fieldValue']);
