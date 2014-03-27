@@ -70,6 +70,26 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
+    //dd.jj
+    function get_ready($sgr_id, $year = null) {
+        $rtn = array();
+        $regex = new MongoRegex('/' . $year . '/');
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename');        
+        $query = array(
+            'anexo' => array("12","06"),
+            'status' => $list['activo'],
+        );
+
+        $result = $this->mongo->sgr->$container->findOne($query, $fields);
+        var_dump($result);
+
+
+
+        
+        return $rtn;
+    }
+
     //processes
     function get_processed($anexo, $sgr_id, $year = null) {
         $rtn = array();
@@ -465,7 +485,7 @@ class Sgr_model extends CI_Model {
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01"));
-              
+
         $query = array(
             'sgr_id' => (float) $this->sgr_id,
             'anexo' => $anexo,
@@ -475,12 +495,12 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
-        
+
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
         }
-        
-        
+
+
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
