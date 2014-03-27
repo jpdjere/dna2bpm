@@ -455,7 +455,6 @@ class Model_12 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
             $new_result = $this->mongo->sgr->$container->find($new_query);

@@ -335,8 +335,7 @@ class Model_14 extends CI_Model {
     function get_movement_data($nro) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
-        $period_value = $this->session->userdata['period'];
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         $caida_result_arr = array();
@@ -347,12 +346,11 @@ class Model_14 extends CI_Model {
         $gasto_incobrable_periodo_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo, $period_value);
+        $result = $this->sgr_model->get_active($anexo, $period_value);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 'NRO_GARANTIA' => $nro
             );

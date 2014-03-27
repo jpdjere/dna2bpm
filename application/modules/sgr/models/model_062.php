@@ -200,16 +200,15 @@ class Model_062 extends CI_Model {
     function get_partner_left($cuit) {
         $anexo = $this->anexo;
         $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo . '_' . $token . '_tmp';
+        $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_tmp($anexo);
+        $result = $this->sgr_model->get_active($anexo);
 
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 'CUIT' => $cuit
             );
