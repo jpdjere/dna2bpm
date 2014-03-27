@@ -38,8 +38,8 @@ class mysql_model extends CI_Model {
 
     function active_periods_dna2() {
 
-        $table_to_export = 'export_sgr_socios_4';
-        $anexo_to_export = 'sgr_socios_4';
+        $table_to_export = 'export_sgr_fdr_integrado';
+        $anexo_to_export = 'sgr_fdr_integrado';
 
         $files_arr = array();
 
