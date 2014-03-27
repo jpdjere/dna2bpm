@@ -408,7 +408,7 @@ class Lib_12_data extends MX_Controller {
                            $check_cnv_code = (!empty($check_cnv_syntax_i4))?($this->sgr_model->get_cnv_code('$'.$check_cnv_syntax_i4)):(null);
 
                             if (!$check_cnv_syntax_i4 || is_null($check_cnv_code)) {        
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']." .. y coincidir con el código asignado para cada SG");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
