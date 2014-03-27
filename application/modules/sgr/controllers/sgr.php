@@ -41,7 +41,7 @@ class Sgr extends MX_Controller {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = (float)$sgr['id'];
+            $this->sgr_id = (float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
         }
@@ -54,69 +54,122 @@ class Sgr extends MX_Controller {
     function Index() {
 
         $customData = array();
-        $customData['sgr_nombre'] = $this->sgr_nombre;
-        $customData['sgr_id'] = $this->sgr_id;
-        $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
-        $customData['base_url'] = base_url();
-        $customData['module_url'] = base_url() . 'sgr/';
-        $customData['titulo'] = "";
-        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
-        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        $default_dashboard = 'dashboard';
 
-        $customData['anexo'] = $this->anexo;
-        $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
-        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
-        $customData['anexo_list'] = $this->AnexosDB();
-        $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
-
-
-        /* TABS */
-        $customData['processed_tab'] = $this->get_processed_tab($this->anexo);
-        $customData['processed_list'] = $this->get_processed($this->anexo);
-
-        // RECTIFY LIST
-        $customData['rectified_tab'] = $this->get_rectified_tab($this->anexo);
-        $customData['rectified_list'] = $this->get_rectified($this->anexo);
-
-        //RECTIFY
-        $error_set_period = $this->set_period();
-        $customData['sgr_period'] = $this->period;
-
-        $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
-        $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
-        $rectify_merge = array_merge($rectify_status, $translate_error);
-        foreach ($rectify_merge as $key => $each) {
+        /* HEADERS */
+        $header_merge = array_merge($customData, $this->headers());
+        foreach ($header_merge as $key => $each) {
             $customData[$key] = $each;
         }
 
 
-        // PENDING LIST        
-        $customData['pending_list'] = $this->get_pending($this->anexo);
+        /* DD.JJ PRESENTATION */
+        if ($this->anexo == "17") {
+            $default_dashboard = 'dashboard_17';
+            $anexo_17 = $this->anexo_17();
 
-        // UPLOAD ANEXO
-        $upload = $this->upload_file();
-        $translate_upload = ($this->translate_upload($upload)) ? $this->translate_upload($upload) : array();
-        $upload_status = ($this->upload_status($upload)) ? $this->upload_status($upload) : array();
-        $upload_merge = array_merge($translate_upload, $upload_status);
-        foreach ($upload_merge as $key => $each) {
-            $customData[$key] = $each;
+
+            $anexo_merge = array_merge($customData, $this->anexo_17());
+            foreach ($anexo_merge as $key => $each) {
+                $customData[$key] = $each;
+            }
+        } else {
+
+            /* DEFAULT ANEXOS */
+            $anexo_merge = array_merge($customData, $this->anexos_default());
+            foreach ($anexo_merge as $key => $each) {
+                $customData[$key] = $each;
+            }
+
+            $error_set_period = $this->set_period();
+            $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
+            $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
+            $rectify_merge = array_merge($rectify_status, $translate_error);
+            foreach ($rectify_merge as $key => $each) {
+                $customData[$key] = $each;
+            }
+
+            // UPLOAD ANEXO
+            $upload = $this->upload_file();
+            $translate_upload = ($this->translate_upload($upload)) ? $this->translate_upload($upload) : array();
+            $upload_status = ($this->upload_status($upload)) ? $this->upload_status($upload) : array();
+            $upload_merge = array_merge($translate_upload, $upload_status);
+            foreach ($upload_merge as $key => $each) {
+                $customData[$key] = $each;
+            }
+            // FILE BROWSER
+            $fileBrowserData = $this->file_browser();
+
+            //FILE UPLOAD FORM TEMPLATE
+            $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
+
+            //FORM TEMPLATE
+            $customData['form_template'] = $this->parser->parse('form', $customData, true);
         }
-        // FILE BROWSER
-        $fileBrowserData = $this->file_browser();
-
-        //FILE UPLOAD FORM TEMPLATE
-        $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
-
-        //FORM TEMPLATE
-        $customData['form_template'] = $this->parser->parse('form', $customData, true);
 
         //RENDER
         if (!empty($fileBrowserData)) {
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
-            $this->render('dashboard', $resultRender);
+            $this->render($default_dashboard, $resultRender);
         } else {
-            $this->render('dashboard', $customData);
+            $this->render($default_dashboard, $customData);
         }
+    }
+
+    /* ASSETS HEADERS */
+
+    function headers() {
+        $rtn = array();
+
+        $rtn['sgr_nombre'] = $this->sgr_nombre;
+        $rtn['sgr_id'] = $this->sgr_id;
+        $rtn['sgr_id_encode'] = base64_encode($this->sgr_id);
+        $rtn['base_url'] = base_url();
+        $rtn['module_url'] = base_url() . 'sgr/';
+        $rtn['titulo'] = "";
+        $rtn['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $rtn['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+
+        $rtn['anexo'] = $this->anexo;
+        $rtn['anexo_title'] = $this->oneAnexoDB($this->anexo);
+        $rtn['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+        $rtn['anexo_list'] = $this->AnexosDB();
+        $rtn['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
+
+        return $rtn;
+    }
+
+    /* RECTIFY FNs */
+
+    function anexos_default() {
+
+        $rtn = array();
+
+        /* TABS */
+        $rtn['processed_tab'] = $this->get_processed_tab($this->anexo);
+        $rtn['processed_list'] = $this->get_processed($this->anexo);
+
+        // RECTIFY LIST
+        $rtn['rectified_tab'] = $this->get_rectified_tab($this->anexo);
+        $rtn['rectified_list'] = $this->get_rectified($this->anexo);
+
+        //RECTIFY
+        $rtn['sgr_period'] = $this->period;
+
+        // PENDING LIST        
+        $rtn['pending_list'] = $this->get_pending($this->anexo);
+
+
+        return $rtn;
+    }
+
+    function anexo_17() {
+        $rtn = array();
+
+        $rtn['processed_tab'] = $this->get_processed_17_tab($this->anexo);
+        $rtn['processed_list'] = $this->get_processed_17($this->anexo);
+
+        return $rtn;
     }
 
     /* RECTIFY FNs */
@@ -418,7 +471,7 @@ class Sgr extends MX_Controller {
             if ($save) {
                 $result = array();
                 $result['filename'] = $new_filename;
-                $result['sgr_id'] =  $this->sgr_id;
+                $result['sgr_id'] = $this->sgr_id;
                 $result['anexo'] = $this->anexo;
                 $save_period = (array) $this->$model->save_period($result);
 
@@ -766,7 +819,7 @@ class Sgr extends MX_Controller {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
-            
+
             foreach ($processed as $file) {
 
                 $print_filename = substr($file['filename'], 0, -25);
@@ -777,8 +830,8 @@ class Sgr extends MX_Controller {
                     $print_filename = $file['filename'];
                 }
                 /* RECTIFY COUNT */
-              
-                
+
+
                 $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
 
                 $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
@@ -1007,7 +1060,7 @@ class Sgr extends MX_Controller {
         }
 
         if (!empty($customData['files'])) {
-            $countfiles=0;
+            $countfiles = 0;
             foreach ($customData['files'] as $file) {
                 list($sgr, $anexo, $filedate, $filetime) = explode("_", $file['name']);
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
@@ -1063,7 +1116,6 @@ class Sgr extends MX_Controller {
                 if (!$info_14) {
                     $error = true;
                     $base_legend .= $add_base_legend . "<br>Anexo 14 ";
-                    
                 }
 
                 $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
@@ -1077,12 +1129,12 @@ class Sgr extends MX_Controller {
                     $error = true;
                     $base_legend .= $add_base_legend . "<br>Anexo 12.5 ";
                 }
-                
-                if($error){
-                    return $base_legend.$add_base_legend;
+
+                if ($error) {
+                    return $base_legend . $add_base_legend;
                 }
-                
-                
+
+
                 break;
         }
     }
