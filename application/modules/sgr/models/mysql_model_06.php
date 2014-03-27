@@ -39,8 +39,6 @@ class mysql_model_06 extends CI_Model {
         $query = $this->db->get('forms2.sgr_control_periodos');
 
 
-
-
         foreach ($query->result() as $row) {
 
 
@@ -186,7 +184,7 @@ class mysql_model_06 extends CI_Model {
     function already_updated($anexo, $nro_orden, $filename) {
 
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("filename" => $filename, "nro_orden" => $nro_orden);
+        $query = array("filename" => $filename);
         $result = $this->mongo->sgr->$container->findOne($query);
 
         if ($result)
