@@ -55,8 +55,12 @@ class Mysql extends MX_Controller {
     function Index() {
         //
     }
-    
-    
+
+    function update_periods() {
+        $result = $this->mysql_model->active_periods_dna2();
+        debug($result);
+    }
+
     function Anexo06() {
 
         $anexo = '06';
@@ -66,7 +70,7 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
+
     function Anexo12() {
 
         $anexo = '12';
@@ -76,7 +80,7 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
+
     function Anexo14() {
 
         $anexo = '14';
@@ -86,7 +90,7 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
+
     function Anexo201() {
 
         $anexo = '201';
@@ -96,7 +100,6 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
 
     function Periodos() {
         /* UPDATE DB FORMS2 PERIODOS */
