@@ -57,13 +57,31 @@ class Mysql extends MX_Controller {
     }
 
     function update_periods() {
-        $result = $this->mysql_model->active_periods_dna2();
+
+        /*
+          INSERT INTO export_sgr_fdr_contingente (filename)
+          SELECT D2.filename
+          FROM sgr_fdr_contingente D2 LEFT JOIN sgr_control_periodos D1 ON D2.filename = D1.archivo
+          WHERE D1.id IS NULL
+         */
+
+        //$result = $this->mysql_model->active_periods_dna2();
         debug($result);
     }
 
     function Anexo06() {
 
         $anexo = '06';
+        $mysql_model = "mysql_model_" . $anexo;
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+        debug($result);
+    }
+
+    function Anexo062() {
+
+        $anexo = '062';
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 

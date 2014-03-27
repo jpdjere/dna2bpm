@@ -151,7 +151,7 @@ class mysql_model_14 extends CI_Model {
     function already_updated($anexo, $nro_orden, $filename) {
 
         $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("filename" => $filename, "nro_orden" => $nro_orden);
+        $query = array("filename" => $filename);
         $result = $this->mongo->sgr->$container->findOne($query);
 
         if ($result)

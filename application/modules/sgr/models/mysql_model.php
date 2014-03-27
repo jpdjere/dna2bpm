@@ -37,18 +37,22 @@ class mysql_model extends CI_Model {
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2() {
+        
+        $anexo_to_export = 'sgr_fdr_contingente';
+        $table_to_export = 'export_' .$anexo_to_export;
 
-        $table_to_export = 'export_sgr_fdr_integrado';
-        $anexo_to_export = 'sgr_fdr_integrado';
 
         $files_arr = array();
 
 
         $query = $this->db->get($table_to_export);
+
+
+
         $each = array();
         $parameter = array();
         foreach ($query->result() as $row) {
-            
+
             echo $row->filename;
             $files_arr[] = $row->filename;
         }
@@ -85,29 +89,29 @@ class mysql_model extends CI_Model {
 
 
         exit();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
 
