@@ -57,7 +57,7 @@ class Mysql extends MX_Controller {
     }
 
     function update_periods() {
-        $result = $this->mysql_model->active_periods_dna2();
+        //$result = $this->mysql_model->active_periods_dna2();
         debug($result);
     }
 
