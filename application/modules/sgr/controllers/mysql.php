@@ -57,6 +57,14 @@ class Mysql extends MX_Controller {
     }
 
     function update_periods() {
+
+        /*
+          INSERT INTO export_sgr_fdr_contingente (filename)
+          SELECT D2.filename
+          FROM sgr_fdr_contingente D2 LEFT JOIN sgr_control_periodos D1 ON D2.filename = D1.archivo
+          WHERE D1.id IS NULL
+         */
+
         //$result = $this->mysql_model->active_periods_dna2();
         debug($result);
     }
@@ -70,7 +78,7 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
+
     function Anexo062() {
 
         $anexo = '062';
