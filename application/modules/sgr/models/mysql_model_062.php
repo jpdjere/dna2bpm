@@ -54,7 +54,7 @@ class mysql_model_062 extends CI_Model {
                 $parameter['sgr_id'] = (float) $row->sgr_id;
                 $parameter['status'] = 'activo';
                 $parameter['origen'] = 'forms2';
-                $parameter['period'] = $row->periodo;
+                $parameter['period'] = str_replace("_", "-", $row->periodo);
 
 
                 /* UPDATE CTRL PERIOD */
