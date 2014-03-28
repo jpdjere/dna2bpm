@@ -783,11 +783,11 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_value);
-        var_dump($result,$anexo, $period_value);
+        
         
         /* FIND ANEXO */
         foreach ($result as $list) {
-
+var_dump($list,$anexo, $period_value);
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
