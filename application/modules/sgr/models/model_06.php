@@ -452,11 +452,10 @@ class Model_06 extends CI_Model {
 
 
             /* CARACTER CEDENTE */
-            if($list['5248']){
-            $subscribed = $this->shares($C_cell_value, $list['5272'][0]);
-            $integrated = $this->shares($C_cell_value, $list['5272'][0], 5598);
-            $grantor_balance =  $subscribed.".".$integrated;
-            
+            if ($list['5248']) {
+                $subscribed = $this->shares_print($C_cell_value, $list['5272'][0], 5597, $list['period']);
+                $integrated = $this->shares_print($C_cell_value, $list['5272'][0], 5598, $list['period']);
+                $grantor_balance = $subscribed . "." . $integrated;
             }
 
             $inner_table = '<table width="100%">';
@@ -484,7 +483,7 @@ class Model_06 extends CI_Model {
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . mongodate_to_print($list['FECHA_DE_TRANSACCION']);
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]] ."" . $grantor_balance;
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]] . "" . $grantor_balance;
 
             $rtn[] = $new_list;
         }
@@ -682,8 +681,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-        var_dump($result);
-        
+
         /* FIND ANEXO */
         foreach ($result as $list) {
 
@@ -736,6 +734,55 @@ class Model_06 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
 
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+
+            /* BUY */
+            $new_query = array(
+                1695 => $cuit,
+                'filename' => $list['filename']
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                $buy_result_arr[] = $buy[$field];
+            }
+
+            /* SELL */
+            $new_query = array(
+                5248 => $cuit,
+                'filename' => $list['filename']
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($sell_result as $sell) {
+                $sell_result_arr[] = $sell[$field];
+            }
+        }
+
+        $buy_sum = array_sum($buy_result_arr);
+        $sell_sum = array_sum($sell_result_arr);
+        $balance = $buy_sum - $sell_sum;
+        return $balance;
+    }
+
+    function shares_print($cuit, $partner_type = null, $field = 5597, $period_value) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $buy_result_arr = array();
+        $sell_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+        debug($result);
+        
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
 
