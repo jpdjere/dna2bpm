@@ -484,8 +484,8 @@ class Sgr extends MX_Controller {
                     $custo_Data['process_filename'] = $new_filename;
                     $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
                     $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
-                    //$this->render('success', $customData);
-                    $this->parser->parse('success2', $customData);
+                    $this->render('success', $customData);
+                    //$this->parser->parse('success2', $customData);
                     copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
                     unlink($uploadpath);
                 } else {
@@ -502,8 +502,8 @@ class Sgr extends MX_Controller {
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
             $customData['message'] = $result;
-            //$this->render('errors', $customData);
-            $this->parser->parse('errors2', $customData);
+            $this->render('errors', $customData);
+            //$this->parser->parse('errors2', $customData);
             unlink($uploadpath);
         }
 
