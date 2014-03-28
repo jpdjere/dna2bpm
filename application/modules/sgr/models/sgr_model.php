@@ -551,6 +551,8 @@ class Sgr_model extends CI_Model {
             );
             $result = $this->mongo->sgr->$period->find($query);
             foreach ($result as $each) {
+                var_dump($each);
+                
                 $rtn[] = $each;
             }
             return $rtn;
