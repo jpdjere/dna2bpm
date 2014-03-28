@@ -671,6 +671,42 @@ class Sgr extends MX_Controller {
         $customData['show_table'] = $get_anexo;
         echo $this->parser->parse('print_to_xls', $customData, true);
     }
+    
+    function print_ddjj($parameter = null) {
+
+        if (!$parameter) {
+            exit();
+        }
+        $parameter = urldecode($parameter);
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+
+        $customData = array();
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_cuit'] = $this->sgr_cuit;
+        $customData['sgr_id'] = $this->sgr_id;
+        $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
+        $customData['parameter'] = urldecode($parameter);
+        $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
+
+        $customData['anexo'] = $this->anexo;
+        $customData['anexo_title'] = $this->oneAnexoDB($this->anexo);
+        $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+
+        /* PERIOD INFO */
+        $get_period_info = $this->sgr_model->get_period_filename($parameter);
+
+        $user = $this->user->get_user($get_period_info['idu']);
+
+        $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
+        $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
+        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
+        $customData['show_table'] = $get_anexo;
+        echo $this->parser->parse('print_ddjj', $customData, true);
+    }
 
     function set_period() {
         $rectify = $this->input->post("rectify");
