@@ -787,7 +787,7 @@ class Model_06 extends CI_Model {
         
         /* FIND ANEXO */
         foreach ($result as $list) {
-var_dump($list,$anexo, $period_value);
+
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
