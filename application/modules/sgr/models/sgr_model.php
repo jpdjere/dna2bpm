@@ -513,6 +513,7 @@ class Sgr_model extends CI_Model {
                     '$lte' => $endDate
                 ),
             );
+            var_dump($query);
 
             if ($exclude_this) {
                 $query['period'] = array('$ne' => $exclude_this);
