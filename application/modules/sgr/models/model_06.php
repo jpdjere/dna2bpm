@@ -455,7 +455,7 @@ class Model_06 extends CI_Model {
             if($list['5248']){
             $subscribed = $this->shares($C_cell_value, $list['5272'][0]);
             $integrated = $this->shares($C_cell_value, $list['5272'][0], 5598);
-            $grantor_balance =  $subscribed-$integrated;
+            $grantor_balance =  $subscribed.".".$integrated;
             
             }
 
