@@ -453,8 +453,8 @@ class Model_06 extends CI_Model {
 
             /* CARACTER CEDENTE */
             if($list['5248']){
-            $subscribed = $this->shares_active_left($C_cell_value, $list['5272'][0]);
-            $integrated = $this->shares_active_left($C_cell_value, $list['5272'][0], 5598);
+            $subscribed = $this->shares($C_cell_value, $list['5272'][0]);
+            $integrated = $this->shares($C_cell_value, $list['5272'][0], 5598);
             $grantor_balance =  $subscribed.".".$integrated;
             
             }
@@ -682,6 +682,8 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
+        var_dump($result);
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
 
