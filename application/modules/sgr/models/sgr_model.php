@@ -101,7 +101,7 @@ class Sgr_model extends CI_Model {
                     $success[] = $period;
             }
 
-            if (count($success) == 6) //count($anexos_arr)
+            if (count($success) == 4) //count($anexos_arr)
                 $rtn[] = $success;
             }
 
