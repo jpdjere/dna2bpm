@@ -135,10 +135,8 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
-
-
                     if ($sum_amount_employees == 0) {
-                        $code_error = "B.1";
+                        $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
