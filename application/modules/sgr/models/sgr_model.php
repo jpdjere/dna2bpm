@@ -13,7 +13,7 @@ class Sgr_model extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -155,7 +155,7 @@ class Sgr_model extends CI_Model {
 
     function get_sgr() {
         $rtn = array();
-        $idu = (int) $this->idu;
+        $idu = (float) $this->idu;
         $data = array();
         // Listado de empresas
         $container = 'container.empresas';
@@ -174,7 +174,7 @@ class Sgr_model extends CI_Model {
 
 
         $rtn = array();
-        $idu = (int) $idu;
+        $idu = (float) $idu;
         $data = array();
         // Listado de empresas
         $container = 'container.empresas';

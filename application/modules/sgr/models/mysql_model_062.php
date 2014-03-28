@@ -8,7 +8,7 @@ class mysql_model_062 extends CI_Model {
     function mysql_model_062() {
         parent::__construct();
         // IDU : Chequeo de sesion
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
