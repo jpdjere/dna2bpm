@@ -453,8 +453,8 @@ class Model_06 extends CI_Model {
 
             /* CARACTER CEDENTE */
             if($list['5248']){
-            $subscribed = $this->$model_anexo->shares($C_cell_value, $list['5272'][0]);
-            $integrated = $this->$model_anexo->shares($C_cell_value, $list['5272'][0], 5598);
+            $subscribed = $this->shares($C_cell_value, $list['5272'][0]);
+            $integrated = $this->shares($C_cell_value, $list['5272'][0], 5598);
             $grantor_balance =  $subscribed-$integrated;
             
             }
