@@ -452,7 +452,6 @@ class Model_06 extends CI_Model {
 
 
             /* CARACTER CEDENTE */
-            var_dump($list['period']);
             
             if ($list['5248']) {
                 $subscribed = $this->shares_print($C_cell_value, $list['5272'][0], 5597, $list['period']);
@@ -775,6 +774,8 @@ class Model_06 extends CI_Model {
     function shares_print($cuit, $partner_type = null, $field = 5597, $period_value) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
+        
+        
 
 
         $buy_result_arr = array();
@@ -782,7 +783,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-        debug($anexo, $period_value);
+        var_dump($cuit, $partner_type, $field , $period_value);
         
         
         /* FIND ANEXO */
