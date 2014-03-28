@@ -74,15 +74,16 @@ class Sgr_model extends CI_Model {
     function get_ready($sgr_id, $year = null) {
 
         $container = 'container.sgr_periodos';
-        
+
         $anexos_arr = array("06", "061", "12", "121", "122", "123", "124", "125", "13", "14", "141", "15", "16", "201", "202");
         $rtn_period = array();
         $rtn = array();
 
         $regex = new MongoRegex('/' . $year . '/');
         $fields = array('period');
+        $sort = array('period_date' => -1);
         $query = array("status" => 'activo', "sgr_id" => $sgr_id, 'period' => $regex);
-        $result = $this->mongo->sgr->$container->find($query, $fields);
+        $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
 
         foreach ($result as $list) {
             $rtn_period[] = $list['period'];
@@ -102,10 +103,10 @@ class Sgr_model extends CI_Model {
             }
             $result = array_diff($success, $anexos_arr);
 
-            
+
 
             if (count($success) == 4) {
-                
+
                 $rtn[] = $success;
             }
         }
