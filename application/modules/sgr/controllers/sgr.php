@@ -782,6 +782,62 @@ class Sgr extends MX_Controller {
         $this->render('offline', $customData);
     }
 
+    /* DD.JJ. */
+
+    function get_processed_17_tab() {
+        $list_files = "<li class=processed><b>PERIODOS INFORMADOS</b></li>";
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
+            $processed = array_unique($processed);
+            $processed = array($processed);
+            foreach ($processed as $file) {
+
+                if ($file)
+                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $i . '</a></li>';
+            }
+        }
+        return $list_files;
+    }
+
+    function get_processed_17() {
+        $list_files = '';
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
+            <div class="" id="' . $i . '"><ul>';
+            $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
+
+            foreach ($processed as $file) {
+                $file = array_unique($file);
+                foreach ($file as $data)
+                    $print_file = anchor('/sgr/print_ddjj/' . $data, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. ', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                $list_files .= "<li>" . $print_file . " [" . $i . "  -> " . $data . "] </li>";
+            }
+            $list_files .= '</ul></div>
+        </div>';
+        }
+        if ($file)
+            return $list_files;
+    }
+
+    function get_processed_17_($anexo) {
+        $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
+            <div class="" id="' . $i . '"><ul>';
+        for ($i = 2011; $i <= date(Y); $i++) {
+            $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
+
+            foreach ($processed as $file) {
+                $file = array_unique($file);
+                foreach ($file as $data)
+                    $print_file = anchor('/sgr/print_ddjj/' . $data, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. ', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                $list_files .= "<li>" . $print_file . " [" . $i . "  -> " . $data . "] </li>";
+            }
+        }
+
+        $list_files .= '</ul></div>
+        </div>';
+        return $list_files;
+    }
+
     function get_processed_tab($anexo) {
         $list_files = "<li class=processed><b>ANEXOS PROCESADOS</b></li>";
         for ($i = 2011; $i <= date(Y); $i++) {
