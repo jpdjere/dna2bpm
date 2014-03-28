@@ -452,6 +452,8 @@ class Model_06 extends CI_Model {
 
 
             /* CARACTER CEDENTE */
+            var_dump($list['period']);
+            
             if ($list['5248']) {
                 $subscribed = $this->shares_print($C_cell_value, $list['5272'][0], 5597, $list['period']);
                 $integrated = $this->shares_print($C_cell_value, $list['5272'][0], 5598, $list['period']);
