@@ -260,7 +260,7 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] =  $this->idu;
+        $parameter['idu'] = $this->idu;
 
 
         /*
@@ -451,6 +451,14 @@ class Model_06 extends CI_Model {
             $company_type = ($isPyme) ? "PyME" : "";
 
 
+            /* CARACTER CEDENTE */
+            if($list['5248']){
+            $subscribed = $this->$model_anexo->shares($C_cell_value, $list['5272'][0]);
+            $integrated = $this->$model_anexo->shares($C_cell_value, $list['5272'][0], 5598);
+            $grantor_balance =  $subscribed-$integrated;
+            
+            }
+
             $inner_table = '<table width="100%">';
             if ($list['19']) {
                 $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . money_format_custom($list['20']) . '</td><td>' . $list['21'] . '</td><tr>';
@@ -476,7 +484,7 @@ class Model_06 extends CI_Model {
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . mongodate_to_print($list['FECHA_DE_TRANSACCION']);
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Acciones Suscriptas: " . $list['5250'] . "<br/>Capital Integrado: " . $list['5598'] . "<br/>Acciones Integradas:" . $list['5251'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]];
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]] ."" . $grantor_balance;
 
             $rtn[] = $new_list;
         }
@@ -728,7 +736,7 @@ class Model_06 extends CI_Model {
 
         /* FIND ANEXO */
         foreach ($result as $list) {
-            
+
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
