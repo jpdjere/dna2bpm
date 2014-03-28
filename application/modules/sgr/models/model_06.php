@@ -783,7 +783,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-        var_dump($cuit, $partner_type, $field , $period_value);
+        var_dump($result);
         
         
         /* FIND ANEXO */
