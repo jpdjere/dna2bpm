@@ -72,17 +72,44 @@ class Sgr_model extends CI_Model {
 
     //dd.jj
     function get_ready($sgr_id, $year = null) {
-        $rtn = array();
-        $regex = new MongoRegex('/' . $year . '/');
+
         $container = 'container.sgr_periodos';
-        $fields = array('anexo', 'period', 'status', 'filename');
-        $sort = array('period_date' => -1);
+        
+        $anexos_arr = array("06", "061", "12", "121", "122", "123", "124", "125", "13", "14", "141", "15", "16", "201", "202");
+        $rtn_period = array();
+        $rtn = array();
+
+        $regex = new MongoRegex('/' . $year . '/');
+        $fields = array('period');
         $query = array("status" => 'activo', "sgr_id" => $sgr_id, 'period' => $regex);
-        $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
 
         foreach ($result as $list) {
-            $rtn[] = $list;
+            $rtn_period[] = $list['period'];
         }
+
+        $arr_periods = array_unique($rtn_period);
+
+        foreach ($arr_periods as $period) {
+            $success = array();
+
+            foreach ($anexos_arr as $anexo) {
+                $query = array("period" => $period, 'anexo' => $anexo);
+                $new_result = $this->mongo->sgr->$container->findOne($query);
+                if ($new_result) {
+                    $success[] = $period;
+                }
+            }
+            $result = array_diff($success, $anexos_arr);
+
+            
+
+            if (count($success) == 4) {
+                
+                $rtn[] = $success;
+            }
+        }
+
         return $rtn;
     }
 
