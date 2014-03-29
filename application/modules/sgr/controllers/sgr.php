@@ -671,7 +671,7 @@ class Sgr extends MX_Controller {
         $customData['show_table'] = $get_anexo;
         echo $this->parser->parse('print_to_xls', $customData, true);
     }
-    
+
     function print_ddjj($parameter = null) {
 
         if (!$parameter) {
@@ -1020,6 +1020,7 @@ class Sgr extends MX_Controller {
             case 06:
                 $legend_msg = "6.1, 6.2, 20.1";
                 break;
+
             case 12:
                 $legend_msg = "12.1 ,12.2 ,12.3 ,12.4 ,12.5";
                 break;
@@ -1033,11 +1034,10 @@ class Sgr extends MX_Controller {
             case 202:
                 $legend_msg = "13, 20.2";
                 break;
-            default:
-                $legend_msg = "6.1, 6.2, 20.1";
-                break;
         }
-        return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
+        if ($legend_msg)
+            return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
+        
     }
 
     /* FILE BROWSER
