@@ -1009,7 +1009,7 @@ class Sgr extends MX_Controller {
                 $print_filename = $file['filename'];
             }
             $pending_on = $file['pending_on'];
-            $list_files .= '<li><small>[' . $file['period'] . '] ' . $print_filename . ' (' . $pending_on . ') </small> </li>';
+            $list_files .= '<li>[' . $file['period'] . '] ' . $print_filename . ' (' . $pending_on . ')  </li>';
         }
         return $list_files;
     }
