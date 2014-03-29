@@ -49,7 +49,12 @@ class Sgr_model extends CI_Model {
     function get_period_info($anexo, $sgr_id, $period) {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
-        $query = array("status" => 'activo', "anexo" => $anexo, "sgr_id" => $sgr_id, "period" => $period);
+        $query = array(
+            'anexo' => $anexo,
+            'sgr_id' => (float) $this->sgr_id,
+            'period' => $period,
+            "status" => array('$ne' => 'rectificado'),
+        );
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
