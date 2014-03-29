@@ -778,7 +778,7 @@ class Model_06 extends CI_Model {
     function shares_print($cuit, $partner_type = null, $field = 5597, $period_value, $transaction_date) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
-        $endDate = new MongoDate(strtotime("2013-01-01"));
+        $endDate = new MongoDate(strtotime($transaction_date));
 
         $buy_result_arr = array();
         $sell_result_arr = array();
@@ -817,7 +817,7 @@ class Model_06 extends CI_Model {
            
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
-                var_dump($sell['FECHA_DE_TRANSACCION']);
+                var_dump($sell['FECHA_DE_TRANSACCION'], $endDate);
                 $sell_result_arr[] = $sell[$field];
             }
         }
