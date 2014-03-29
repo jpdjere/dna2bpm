@@ -111,9 +111,9 @@ class Model_061 extends CI_Model {
         if ($result) {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
             $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
-            $this->update_pending($get_period['id'], 'activo');
+            $this->update_pending($get_period['id']);
             
-            var_dump($get_pending);
+            var_dump($get_period['id']);
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -195,7 +195,7 @@ class Model_061 extends CI_Model {
         
         
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
-        var_dump($query,$rs);
+        var_dump($id);
         return $rs['err'];
     }
 
