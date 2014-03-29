@@ -454,7 +454,7 @@ class Model_06 extends CI_Model {
             /* CARACTER CEDENTE */
             
             if ($list['5248']) {
-                $grantor_type_text = "Caracter del Cedente:";
+                $grantor_type_text = "Caracter del Cedente:</br>";
                 
                 $subscribed = $this->shares_print($list['5248'], $list['5272'][0], 5597, $list['period']);
                 $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period']);
