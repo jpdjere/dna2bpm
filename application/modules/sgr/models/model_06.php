@@ -462,7 +462,7 @@ class Model_06 extends CI_Model {
                 $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date) ;
                 $grantor_balance = $subscribed - $integrated;
                 $grantor_type = ($grantor_balance == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
-                $grantor_type = $grantor_type_text . $subscribed ."-". $integrated;
+                $grantor_type = $grantor_type_text;
             }
 
             $inner_table = '<table width="100%">';
@@ -780,7 +780,7 @@ class Model_06 extends CI_Model {
     function shares_print($cuit, $partner_type = null, $field = 5597, $period_value, $transaction_date) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
-        $endDate = new MongoDate(strtotime("2013-01-04"));
+        $endDate = new MongoDate(strtotime($transaction_date));
 
         $buy_result_arr = array();
         $sell_result_arr = array();
