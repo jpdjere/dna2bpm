@@ -168,7 +168,7 @@ class Model_061 extends CI_Model {
 
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
