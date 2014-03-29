@@ -835,7 +835,9 @@ class Sgr extends MX_Controller {
 
     function get_processed_17() {
         $list_files = '';
-        for ($i = 2011; $i <= date(Y); $i++) {
+       // for ($i = 2011; $i <= date(Y); $i++) {
+        for ($i=date(Y); $i>2011; $i--){ 
+            
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
@@ -874,7 +876,8 @@ class Sgr extends MX_Controller {
 
     function get_processed_tab($anexo) {
         $list_files = "<li class=processed><b>ANEXOS PROCESADOS</b></li>";
-        for ($i = 2011; $i <= date(Y); $i++) {
+      //  for ($i = 2011; $i <= date(Y); $i++) {
+         for ($i=date(Y); $i>2011; $i--){     
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
