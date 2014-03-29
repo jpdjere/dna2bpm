@@ -779,6 +779,8 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
         $endDate = new MongoDate(strtotime($transaction_date));
+        
+        var_dump($endDate,$transaction_date);
 
         $buy_result_arr = array();
         $sell_result_arr = array();
