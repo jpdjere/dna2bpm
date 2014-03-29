@@ -778,6 +778,7 @@ class Model_06 extends CI_Model {
     function shares_print($cuit, $partner_type = null, $field = 5597, $period_value, $transaction_date) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
+        $endDate = new MongoDate(strtotime($transaction_date));
 
         $buy_result_arr = array();
         $sell_result_arr = array();
@@ -792,7 +793,7 @@ class Model_06 extends CI_Model {
                 1695 => $cuit,
                 'filename' => $list['filename'],
                 'FECHA_DE_TRANSACCION' => array(
-                    '$lte' => $transaction_date
+                    '$lte' => $endDate
                 ),
             );
             if ($partner_type)
@@ -811,7 +812,7 @@ class Model_06 extends CI_Model {
                 5248 => $cuit,
                 'filename' => $list['filename'],
                 'FECHA_DE_TRANSACCION' => array(
-                    '$lte' => $transaction_date
+                    '$lte' => $endDate
                 ),
             );
             if ($partner_type)
