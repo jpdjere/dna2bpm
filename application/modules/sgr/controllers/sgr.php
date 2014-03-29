@@ -715,8 +715,6 @@ class Sgr extends MX_Controller {
         $anexo = $this->input->post("anexo");
 
         if ($period) {
-
-
             $this->session->unset_userdata('period');
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
