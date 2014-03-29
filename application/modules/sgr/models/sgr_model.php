@@ -537,7 +537,7 @@ class Sgr_model extends CI_Model {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $period_date);
         $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01"));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
 
         $query = array(
             'anexo' => $anexo,
