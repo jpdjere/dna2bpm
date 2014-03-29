@@ -860,7 +860,6 @@ class Sgr extends MX_Controller {
             <div class="" id="' . $i . '"><ul>';
         for ($i = date(Y); $i > 2011; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
-
             foreach ($processed as $file) {
                 $file = array_unique($file);
                 foreach ($file as $data)
@@ -921,6 +920,12 @@ class Sgr extends MX_Controller {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
                 }
+                
+                if ($file['origen'] == "forms2") {
+                    $disabled_link = ' disabled_link';
+                    $print_filename = $file['filename']." ".$file['origen'];
+                }
+                
                 /* RECTIFY COUNT */
 
 
