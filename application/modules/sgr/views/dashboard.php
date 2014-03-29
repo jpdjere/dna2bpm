@@ -58,7 +58,7 @@
     {if pending_list}
     <div class="well">
         <!-- PENDING ANEXOS-->
-        <div id="show_anexos" class="perfil">
+        <div id="show_anexos" class="alert alert-error">
             
             <ul>
                 {pending_list}
