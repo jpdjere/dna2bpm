@@ -460,7 +460,7 @@ class Model_06 extends CI_Model {
                 $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $list['FECHA_DE_TRANSACCION']);
                 $grantor_balance = $subscribed - $integrated;
                 $grantor_type = ($grantor_balance == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
-                $grantor_type = $grantor_type_text . $grantor_type;
+                $grantor_type = $grantor_type_text . $subscribed ."-". $integrated;
             }
 
             $inner_table = '<table width="100%">';
