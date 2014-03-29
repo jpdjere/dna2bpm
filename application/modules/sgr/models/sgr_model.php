@@ -550,8 +550,6 @@ class Sgr_model extends CI_Model {
         );
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
-            var_dump($endDate, $each);
-            
             $rtn[] = $each;
         }
         return $rtn;
