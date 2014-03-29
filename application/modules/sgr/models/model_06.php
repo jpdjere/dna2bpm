@@ -239,7 +239,7 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
-        $id = $this->app->genid_sgr($container);
+        $id = (float)$this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
@@ -636,7 +636,6 @@ class Model_06 extends CI_Model {
         foreach ($partners_arr as $each_partner) {
             $add[] = $each_partner;
         }
-
 
         $period_arr = $this->mongo->sgr->$container_period->findOne($query);
         $filename = $period_arr['filename'];
