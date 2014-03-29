@@ -818,8 +818,8 @@ class Model_06 extends CI_Model {
                 $new_query[5272] = $partner_type;
            
             $sell_result = $this->mongo->sgr->$container->find($new_query);
-            foreach ($sell_result as $sell) {
-                var_dump($id);
+            foreach ($sell_result as $sell) { 
+                var_dump($sell);
                 $sell_result_arr[] = $sell[$field];
             }
         }
@@ -829,7 +829,7 @@ class Model_06 extends CI_Model {
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         
-        var_dump($buy_sum."*".$sell_sum, $endDate);
+       
         
         $balance = $buy_sum - $sell_sum;
          
