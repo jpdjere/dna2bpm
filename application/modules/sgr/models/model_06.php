@@ -450,6 +450,8 @@ class Model_06 extends CI_Model {
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
             $company_type = ($isPyme) ? "PyME" : "";
             $transaction_date = mongodate_to_print($list['FECHA_DE_TRANSACCION']);
+            
+            var_dump($list['FECHA_DE_TRANSACCION']);
 
             /* CARACTER CEDENTE */
 
