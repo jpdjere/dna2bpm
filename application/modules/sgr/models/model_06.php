@@ -452,15 +452,15 @@ class Model_06 extends CI_Model {
 
 
             /* CARACTER CEDENTE */
-            
+
             if ($list['5248']) {
                 $grantor_type_text = "Caracter del Cedente:</br>";
-                
-                $subscribed = $this->shares_print($list['5248'], $list['5272'][0], 5597, $list['period']);
-                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period']);
-                $grantor_balance = $subscribed-$integrated;
-                $grantor_type = ($grantor_balance==0)?  "DESVINCULACION":"DISMINUCION DE TENENCIA ACCIONARIA";
-                $grantor_type = $grantor_type_text.$grantor_type;
+
+                $subscribed = $this->shares_print($list['5248'], $list['5272'][0], 5597, $list['period'], $list['FECHA_DE_TRANSACCION']);
+                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $list['FECHA_DE_TRANSACCION']);
+                $grantor_balance = $subscribed - $integrated;
+                $grantor_type = ($grantor_balance == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
+                $grantor_type = $grantor_type_text . $grantor_type;
             }
 
             $inner_table = '<table width="100%">';
@@ -775,22 +775,25 @@ class Model_06 extends CI_Model {
         return $balance;
     }
 
-    function shares_print($cuit, $partner_type = null, $field = 5597, $period_value) {
+    function shares_print($cuit, $partner_type = null, $field = 5597, $period_value, $transaction_date) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
-        
+
         $buy_result_arr = array();
         $sell_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_value);
-       // return true;
+        // return true;
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
             $new_query = array(
                 1695 => $cuit,
-                'filename' => $list['filename']
+                'filename' => $list['filename'],
+                'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $transaction_date
+                ),
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
@@ -803,7 +806,10 @@ class Model_06 extends CI_Model {
             /* SELL */
             $new_query = array(
                 5248 => $cuit,
-                'filename' => $list['filename']
+                'filename' => $list['filename'],
+                'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $transaction_date
+                ),
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
