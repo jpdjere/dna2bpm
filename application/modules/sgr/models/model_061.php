@@ -184,7 +184,7 @@ class Model_061 extends CI_Model {
 
     /* UPDATE ANEXO 06 */
 
-    function update_pending($id, $status) {
+    function update_pending($id) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (integer) $id);
@@ -192,7 +192,10 @@ class Model_061 extends CI_Model {
             'status' => 'activo',
             'activated_on' => date('Y-m-d h:i:s')
         );
+        
+        
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        var_dump($query,$rs);
         return $rs['err'];
     }
 
