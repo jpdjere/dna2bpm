@@ -456,7 +456,8 @@ class Model_06 extends CI_Model {
             if ($list['5248']) {
                 $subscribed = $this->shares_print($list['5248'], $list['5272'][0], 5597, $list['period']);
                 $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period']);
-                $grantor_balance = $subscribed . "." . $integrated;
+                $grantor_balance = $subscribed-$integrated;
+                $grantor_type = ($grantor_balance==0)? "DESVINCULACION":"DISMINUCION DE TENENCIA ACCIONARIA";
             }
 
             $inner_table = '<table width="100%">';
