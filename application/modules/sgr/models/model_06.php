@@ -454,10 +454,13 @@ class Model_06 extends CI_Model {
             /* CARACTER CEDENTE */
             
             if ($list['5248']) {
+                $grantor_type_text = "Caracter del Cedente:";
+                
                 $subscribed = $this->shares_print($list['5248'], $list['5272'][0], 5597, $list['period']);
                 $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period']);
                 $grantor_balance = $subscribed-$integrated;
-                $grantor_type = ($grantor_balance==0)? "DESVINCULACION":"DISMINUCION DE TENENCIA ACCIONARIA";
+                $grantor_type = ($grantor_balance==0)?  "DESVINCULACION":"DISMINUCION DE TENENCIA ACCIONARIA";
+                $grantor_type = $grantor_type_text.$grantor_type;
             }
 
             $inner_table = '<table width="100%">';
