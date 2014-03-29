@@ -60,6 +60,7 @@
         <!-- PENDING ANEXOS-->
         <div id="show_anexos" class="perfil">       
             <h6>ANEXOS PENDIENTES</h6> 
+            
             <ul>
                 {pending_list}
             </ul>
