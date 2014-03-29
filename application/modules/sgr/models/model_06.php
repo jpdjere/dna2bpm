@@ -457,12 +457,9 @@ class Model_06 extends CI_Model {
 
             if ($list['5248']) {
                 $grantor_type_text = "Caracter del Cedente:</br>";
-
-                $subscribed = $this->shares_print($list['5248'], $list['5272'][0], 5597, $list['period'], $transaction_date) ;
-                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date) ;
-                $grantor_balance = $subscribed - $integrated;
-                $grantor_type = ($grantor_balance == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
-                $grantor_type = $grantor_type_text . $subscribed ."-". $integrated;
+                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date);
+                $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
+                $grantor_type = $grantor_type_text;
             }
 
             $inner_table = '<table width="100%">';
@@ -824,13 +821,9 @@ class Model_06 extends CI_Model {
             }
         }
         
-        
-        
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
-        var_dump($field."->".$buy_sum."x".$sell_sum);
-        
         return $balance;
     }
 
