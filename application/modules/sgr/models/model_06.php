@@ -828,9 +828,10 @@ class Model_06 extends CI_Model {
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         
-         var_dump($endDate,$transaction_date, $buy_sum, $sell_sum , "<hr>");
+        
         
         $balance = $buy_sum - $sell_sum;
+         var_dump($endDate,$transaction_date, $buy_sum, $sell_sum , $balance, "<hr>");
         return $balance;
     }
 
