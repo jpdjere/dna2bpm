@@ -58,13 +58,13 @@
     {if pending_list}
     <div class="well">
         <!-- PENDING ANEXOS-->
-        <div id="show_anexos" class="perfil">       
-            <h6>ANEXOS PENDIENTES</h6> 
+        <div id="show_anexos" class="perfil">
             
             <ul>
                 {pending_list}
             </ul>
             <p>Una vez que el archivo se importó correctamente debe aparecer automáticamente la pantalla para importar el ANEXO 6.1 – RELACIONES DE VINCULACIÓN. De forma que este se cargue obligatoriamente. De no cargarse, se cancelará toda la importación del ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL.</p>
+            <p><a href="anexo_code/061">Continuar</a></p>
         </div>
 
     </div>
