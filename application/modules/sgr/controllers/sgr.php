@@ -923,7 +923,7 @@ class Sgr extends MX_Controller {
 
                 if ($file['origen'] == "forms2") {
                     $disabled_link = ' disabled_link';
-                    $print_filename = $file['filename'];
+                    $print_filename = "...." . $file['filename'];
 
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
