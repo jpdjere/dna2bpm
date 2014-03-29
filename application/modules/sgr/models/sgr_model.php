@@ -550,6 +550,8 @@ class Sgr_model extends CI_Model {
         );
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
+            var_dump($each['filenames']);
+            
             $rtn[] = $each;
         }
         return $rtn;
@@ -559,9 +561,6 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-
-
-
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
