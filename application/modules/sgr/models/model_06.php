@@ -802,6 +802,9 @@ class Model_06 extends CI_Model {
             foreach ($buy_result as $buy) {
                 $buy_result_arr[] = $buy[$field];
             }
+            
+            
+            
 
             /* SELL */
             $new_query = array(
@@ -813,7 +816,7 @@ class Model_06 extends CI_Model {
             );
             if ($partner_type)
                 $new_query[5272] = $partner_type;
-
+            var_dump($new_query);
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
                 $sell_result_arr[] = $sell[$field];
