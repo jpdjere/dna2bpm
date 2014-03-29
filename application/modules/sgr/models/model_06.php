@@ -780,40 +780,40 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_value);
-        return true;
+       // return true;
         /* FIND ANEXO */
-//        foreach ($result as $list) {
-//            /* BUY */
-//            $new_query = array(
-//                1695 => $cuit,
-//                'filename' => $list['filename']
-//            );
-//            if ($partner_type)
-//                $new_query[5272] = $partner_type;
-//
-//            $buy_result = $this->mongo->sgr->$container->find($new_query);
-//            foreach ($buy_result as $buy) {
-//                $buy_result_arr[] = $buy[$field];
-//            }
-//
-//            /* SELL */
-//            $new_query = array(
-//                5248 => $cuit,
-//                'filename' => $list['filename']
-//            );
-//            if ($partner_type)
-//                $new_query[5272] = $partner_type;
-//
-//            $sell_result = $this->mongo->sgr->$container->find($new_query);
-//            foreach ($sell_result as $sell) {
-//                $sell_result_arr[] = $sell[$field];
-//            }
-//        }
-//
-//        $buy_sum = array_sum($buy_result_arr);
-//        $sell_sum = array_sum($sell_result_arr);
-//        $balance = $buy_sum - $sell_sum;
-//        return $balance;
+        foreach ($result as $list) {
+            /* BUY */
+            $new_query = array(
+                1695 => $cuit,
+                'filename' => $list['filename']
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                $buy_result_arr[] = $buy[$field];
+            }
+
+            /* SELL */
+            $new_query = array(
+                5248 => $cuit,
+                'filename' => $list['filename']
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($sell_result as $sell) {
+                $sell_result_arr[] = $sell[$field];
+            }
+        }
+
+        $buy_sum = array_sum($buy_result_arr);
+        $sell_sum = array_sum($sell_result_arr);
+        $balance = $buy_sum - $sell_sum;
+        return $balance;
     }
 
     function shares_active_left_until_date($cuit, $date) {
