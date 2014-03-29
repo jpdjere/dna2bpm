@@ -780,7 +780,7 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $endDate = new MongoDate(strtotime($transaction_date));
         
-        var_dump($endDate,$transaction_date);
+       
 
         $buy_result_arr = array();
         $sell_result_arr = array();
@@ -822,9 +822,14 @@ class Model_06 extends CI_Model {
                 $sell_result_arr[] = $sell[$field];
             }
         }
-
+        
+        
+        
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
+        
+         var_dump($endDate,$transaction_date, $buy_sum, $sell_sum , "<hr>");
+        
         $balance = $buy_sum - $sell_sum;
         return $balance;
     }
