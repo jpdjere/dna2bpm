@@ -539,7 +539,6 @@ class Sgr_model extends CI_Model {
         $getPeriodMonth = $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01"));
 
-
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
@@ -551,8 +550,6 @@ class Sgr_model extends CI_Model {
         );
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
-            var_dump($each);
-
             $rtn[] = $each;
         }
         return $rtn;
