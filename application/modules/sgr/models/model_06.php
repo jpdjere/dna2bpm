@@ -459,7 +459,7 @@ class Model_06 extends CI_Model {
                 $grantor_type_text = "Caracter del Cedente:</br>";
                 $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date);
                 $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
-                $grantor_type = $grantor_type_text;
+                $grantor_type = $grantor_type_text.$grantor_type;
             }
 
             $inner_table = '<table width="100%">';
