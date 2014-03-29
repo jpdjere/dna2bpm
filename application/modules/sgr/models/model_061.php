@@ -112,6 +112,8 @@ class Model_061 extends CI_Model {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
             $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
             $this->update_pending($get_period['id'], 'activo');
+            
+            var_dump($get_pending);
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
