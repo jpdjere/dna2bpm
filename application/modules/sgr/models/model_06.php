@@ -817,6 +817,7 @@ class Model_06 extends CI_Model {
            
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
+                var_dump($sell['FECHA_DE_TRANSACCION']);
                 $sell_result_arr[] = $sell[$field];
             }
         }
@@ -829,7 +830,7 @@ class Model_06 extends CI_Model {
         
         
         $balance = $buy_sum - $sell_sum;
-         var_dump($endDate,$transaction_date, $buy_sum, $sell_sum , $balance, "<hr>");
+         
         return $balance;
     }
 
