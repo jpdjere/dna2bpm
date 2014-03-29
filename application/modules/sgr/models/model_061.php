@@ -113,7 +113,7 @@ class Model_061 extends CI_Model {
             $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
             $this->update_pending($get_period['id']);
             
-            var_dump($get_period['id']);
+            var_dump($get_period);
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
