@@ -787,7 +787,7 @@ class Model_06 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_value);
-        // return true;
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
@@ -819,7 +819,7 @@ class Model_06 extends CI_Model {
            
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) { 
-                var_dump($sell);
+                
                 $sell_result_arr[] = $sell[$field];
             }
         }
