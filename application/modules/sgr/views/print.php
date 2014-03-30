@@ -28,7 +28,7 @@
 
             </div>
             {if show_footer}
-            <ul><li><small>{show_footer}</small></li></ul>
+            <ul><li>NOTA:<small>{show_footer}</small></li></ul>
             {/if}
         </div>
     </body>
