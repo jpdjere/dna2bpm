@@ -27,7 +27,7 @@
                 {show_table}
 
             </div>
-            <ul><li>{show_footer}</li></ul>
+            <ul><li><small>{show_footer}</small></li></ul>
         </div>
     </body>
 </html>
