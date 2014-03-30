@@ -285,8 +285,6 @@ class Model_201 extends CI_Model {
 
 
         foreach ($result as $list) {
-            var_dump($list);
-            
             /*
              * Vars 								
              */
