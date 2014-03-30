@@ -25,6 +25,7 @@
                         </span></p>
                 </div>
                 {show_table}
+                {show_footer}
             </div>
         </div>
     </body>
