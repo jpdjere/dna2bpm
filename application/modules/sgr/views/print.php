@@ -25,8 +25,9 @@
                         </span></p>
                 </div>
                 {show_table}
-                {show_footer}
+
             </div>
+            <ul><li>{show_footer}</li></ul>
         </div>
     </body>
 </html>
