@@ -406,7 +406,7 @@ class Model_06 extends CI_Model {
     function get_anexo_footer($anexo, $parameter) {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
-        $field = array(5208);
+        $field = array('5208');
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query, $field);
 
