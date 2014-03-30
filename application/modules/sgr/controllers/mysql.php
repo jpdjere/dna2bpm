@@ -57,6 +57,15 @@ class Mysql extends MX_Controller {
     }
 
     function update_periods() {
+        
+        $anexo = '06';
+        $mysql_model = "mysql_model_periods";
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+        debug($result);
+        
+        
 
         /*
           INSERT INTO export_sgr_fdr_contingente (filename)
