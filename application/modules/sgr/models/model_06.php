@@ -402,7 +402,20 @@ class Model_06 extends CI_Model {
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
-
+    
+    
+    
+    function get_anexo_footer($anexo, $parameter) {
+      
+        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+        foreach ($anexoValues as $values) {
+            $data[] = array_values($values);
+        }
+        
+        return $data;
+    }
+    
+    
     function get_anexo_info($anexo, $parameter) {
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
