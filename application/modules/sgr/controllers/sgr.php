@@ -631,8 +631,8 @@ class Sgr extends MX_Controller {
 
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
-        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
-        $customData['show_table'] = $get_anexo;
+        $customData['show_table'] = $this->$model->get_anexo_info($this->anexo, $parameter);
+        $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
         echo $this->parser->parse('print', $customData, true);
     }
 
@@ -929,7 +929,7 @@ class Sgr extends MX_Controller {
                     $print_file = anchor('http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/SGR_socios/printVista.php?file=' . base64_encode($file['filename']), ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                   
+
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $file['period'] . "]  </li>";
                 } else {
