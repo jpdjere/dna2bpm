@@ -254,7 +254,7 @@ class Model_202 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
         $new_list = array();
         foreach ($result as $list) {
 
