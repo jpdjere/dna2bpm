@@ -210,7 +210,7 @@ class Model_122 extends CI_Model {
             $new_list['col2'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
             $new_list['col3'] = $brand_name;
             $new_list['col4'] = $cuit;
-            $new_list['col5'] = mongodate_to_print($origen);
+            $new_list['col5'] = $origen;
             $new_list['col6'] = mongodate_to_print($list['FECHA_VENC_CUOTA']);
             $new_list['col7'] = mongodate_to_print($list['FECHA_VENC_CUOTA_NUEVA']);
             $new_list['col8'] = money_format_custom($list['MONTO_CUOTA']);
