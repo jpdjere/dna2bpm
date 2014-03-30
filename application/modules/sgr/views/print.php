@@ -27,7 +27,7 @@
                 {show_table}
 
             </div>
-            <ul><li><small>{show_footer}</small></li></ul>
+            <ul><li><small>NOTA:{show_footer}</small></li></ul>
         </div>
     </body>
 </html>
