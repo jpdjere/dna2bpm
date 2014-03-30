@@ -411,12 +411,14 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query, $field);
 
         foreach ($result as $list) {
-            var_dump($list);
              //$sector_value = $this->sgr_model->clae2013($list['5208']);
-            $data[] = array_values($list[5208]);
+            //$data[] = $list[5208];
+            $sector_value = $this->sgr_model->clae2013_forbidden("649220");
+            var_dump($sector_value);
+            /*649220*/
         }
         
-        return $data;
+        
     }
 
     function get_anexo_info($anexo, $parameter) {
