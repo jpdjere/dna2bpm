@@ -632,7 +632,9 @@ class Sgr extends MX_Controller {
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $customData['show_table'] = $this->$model->get_anexo_info($this->anexo, $parameter);
-        $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
+        if ($anexo == '06') {
+            $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
+        }
         echo $this->parser->parse('print', $customData, true);
     }
 
