@@ -411,14 +411,16 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query, $field);
 
         foreach ($result as $list) {
-             //$sector_value = $this->sgr_model->clae2013($list['5208']);
-            //$data[] = $list[5208];
-            $sector_value = $this->sgr_model->clae2013_forbidden($list[5208]);
-            var_dump($sector_value);
-            /*649220*/
+
+
+            $sector_value = $this->sgr_model->clae2013_forbidden("649220");
+
+
+            if ($sector_value) {
+                return "Se declara bajo juramento que los Socios Partícipes cuyas actividades son prohibidas por el Artículo 12 del Anexo de la Resolución SEPyMEyDR Nº 212/2013, cumplen con las excepciones allí establecidas";
+            }
+            /* 649220 $list[5208] */
         }
-        
-        
     }
 
     function get_anexo_info($anexo, $parameter) {
