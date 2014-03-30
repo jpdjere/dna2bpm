@@ -238,6 +238,7 @@ class Model_061 extends CI_Model {
             $this->load->model('padfyj_model');
             $model_anexo = "model_06";
             $this->load->Model($model_anexo);
+            
             $partner_type = $this->app->get_ops(532);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
