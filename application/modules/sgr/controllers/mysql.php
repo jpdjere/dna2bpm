@@ -58,7 +58,7 @@ class Mysql extends MX_Controller {
 
     function update_periods() {
         
-        $anexo = '06';
+        $anexo = '061';
         $mysql_model = "mysql_model_periods";
         $this->load->Model($mysql_model);
 
