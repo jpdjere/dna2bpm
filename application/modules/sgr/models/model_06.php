@@ -409,9 +409,10 @@ class Model_06 extends CI_Model {
       
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
+            
             $data[] = array_values($values);
         }
-        
+        var_dump($data);
         return $data;
     }
     
