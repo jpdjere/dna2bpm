@@ -337,6 +337,20 @@ class Sgr_model extends CI_Model {
             return $result['sector'];
         }
     }
+    
+    function clae2013_forbidden($code) {
+        $container = 'container.sgr_clae2013_forbidden';
+        $query = array("code" => $code);
+        $fields = array("code");
+        $result = $this->mongo->sgr->$container->findOne($query, $fields);
+        if ($result) {
+            return $result['code'];
+        } else {
+            $query = array("code" => "0" . $code);
+            $result = $this->mongo->sgr->$container->findOne($query, $fields);
+            return $result['code'];
+        }
+    }
 
     function get_company_size($sector, $average) {
         $sector = (string) $sector;
