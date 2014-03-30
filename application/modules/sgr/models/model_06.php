@@ -239,7 +239,7 @@ class Model_06 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['origin'] = 2013;
 
-        $id = (float)$this->app->genid_sgr($container);
+        $id = (float) $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
@@ -402,21 +402,19 @@ class Model_06 extends CI_Model {
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
-    
-    
-    
+
     function get_anexo_footer($anexo, $parameter) {
-      
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
-        foreach ($anexoValues as $values) {
-            
-            $data[] = array_values($values);
+        $data = array();
+        $result = $this->mongo->sgr->$container->find($query);
+
+        foreach ($result as $list) {
+
+            $data[] = array_values($list);
         }
         var_dump($data);
         return $data;
     }
-    
-    
+
     function get_anexo_info($anexo, $parameter) {
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
