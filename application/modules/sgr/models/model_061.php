@@ -258,7 +258,7 @@ class Model_061 extends CI_Model {
             // 					
 
             $new_list = array();
-            $new_list['TIPO_SOCIO'] = $type_partner;
+            $new_list['TIPO_SOCIO'] = $partner_type[$type_partner];
             $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];
             $new_list['SOCIO_INCORPORADO'] = $parner_inc;
             $new_list['"TIENE_VINCULACION"'] = $list['TIENE_VINCULACION'];
