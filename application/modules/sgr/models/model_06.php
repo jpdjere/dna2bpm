@@ -411,10 +411,11 @@ class Model_06 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query, $field);
 
         foreach ($result as $list) {
+            var_dump($list);
              //$sector_value = $this->sgr_model->clae2013($list['5208']);
             $data[] = array_values($list[5208]);
         }
-        var_dump($data);
+        
         return $data;
     }
 
