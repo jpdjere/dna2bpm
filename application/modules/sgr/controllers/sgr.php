@@ -299,8 +299,6 @@ class Sgr extends MX_Controller {
 
     function Anexo($filename = null) {
 
-
-
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
@@ -415,9 +413,9 @@ class Sgr extends MX_Controller {
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
-            $result_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
+            $get_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
-            foreach ($result_data['data'] as $result_data) {
+            foreach ($get_data['data'] as $result_data) {
 
                 if (!empty($result_data['error_code'])) {
 
