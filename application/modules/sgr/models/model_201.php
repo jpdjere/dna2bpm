@@ -502,9 +502,14 @@ class Model_201 extends CI_Model {
                 'NUMERO_DE_APORTE' => (int) $code,                
                 'filename' => $list['filename']
             );
-
+            
+            
+            
+            
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
+                
+                var_dump($data['filename']);
 
                 if ($data['APORTE']) {
                     // var_dump($code, $input_result['APORTE']);
