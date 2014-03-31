@@ -159,7 +159,7 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         
-                        var_dump($get_input_number);
+                      //  var_dump($get_input_number);
                         
                         if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
                             $code_error = "A.4";
