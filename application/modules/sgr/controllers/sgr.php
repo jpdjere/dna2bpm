@@ -28,11 +28,15 @@ class Sgr extends MX_Controller {
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
         //----LOAD LANGUAGE
-        $this->lang->load('library', $this->config->item('language'));
-
+        $this->lang->load('library', $this->config->item('language'));        
 
         // IDU : Chequeo de sesion
         $this->idu = (float) $this->session->userdata('iduser');
+        
+        /*bypass session*/
+        session_start();
+        $_SESSION['idu'] = $this->idu;
+        
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -415,10 +419,12 @@ class Sgr extends MX_Controller {
             $this->load->library("validators/" . $lib_error);
             $get_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
+
+
+
             foreach ($get_data['data'] as $result_data) {
 
                 if (!empty($result_data['error_code'])) {
-
                     $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
 
                     if ($result_data['error_input_value'] == "empty") {
