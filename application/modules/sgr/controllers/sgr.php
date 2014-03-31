@@ -496,7 +496,7 @@ class Sgr extends MX_Controller {
         /* ERROR CASE */
         if ($error) {
             
-            debug($result);
+            echo $result;
             exit();
             
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
