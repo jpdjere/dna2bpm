@@ -470,10 +470,10 @@ class Model_201 extends CI_Model {
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 if ($data['APORTE']) {
-                    $input_result_arr[] = (int) $data['APORTE'];
+                    $input_result_arr[] = (float) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                    $output_result_arr[] = (int) $data['RETIRO'];
+                    $output_result_arr[] = (float) $data['RETIRO'];
                 }
             }
         }
@@ -507,12 +507,12 @@ class Model_201 extends CI_Model {
             foreach ($io_result as $data) {
 
                 if ($data['APORTE']) {
-                     var_dump($input_result['APORTE']);
-                    $input_result_arr[] = (int) $data['APORTE'];
+                     var_dump($code, $input_result['APORTE']);
+                    $input_result_arr[] = (float) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                     var_dump($input_result['RETIRO']);
-                    $output_result_arr[] = (int) $data['RETIRO'];
+                     var_dump($code, $input_result['RETIRO']);
+                    $output_result_arr[] = (float) $data['RETIRO'];
                 }
             }
         }
