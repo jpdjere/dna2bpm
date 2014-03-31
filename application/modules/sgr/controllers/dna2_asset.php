@@ -27,7 +27,7 @@ class dna2_asset extends CI_Controller {
         $_SESSION['idu'] = $this->idu;
 
         $actual_link = 'http://' . $_SERVER[HTTP_HOST] . '/dna2/' . implode('/', $this->uri->segments);
-        $actual_link = str_replace("dna2_asset/", "", $actual_link);
+        $actual_link = str_replace("sgr/dna2_asset/", "", $actual_link);
         $actual_link = str_replace("printVista.php/", "printVista.php?file=", $actual_link);
 
         var_dump($actual_link);
