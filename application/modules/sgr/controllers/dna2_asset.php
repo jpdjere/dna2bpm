@@ -11,6 +11,7 @@ if (!defined('BASEPATH'))
  * 
  * @version 	1.0 (2012-05-27)
  * 'http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/SGR_socios/printVista.php?file=' . base64_encode($file['filename']), '
+ * http://www.accionpyme.mecon.gob.ar/dna2/sgr/XML-Import/SGR_socios/?filename=Q0FQSVRBTCBTT0NJQUwgLSBBQ0lOREFSIFBZTUVTIFMuRy5SLiAtIDIwMTMtMDEtMTQgMDM6MzI6MDMueGxz
  */
 
 class dna2_asset extends CI_Controller {
@@ -27,7 +28,7 @@ class dna2_asset extends CI_Controller {
 
         $actual_link = 'http://' . $_SERVER[HTTP_HOST] . '/dna2/' . implode('/', $this->uri->segments);
         $actual_link = str_replace("dna2_asset/", "", $actual_link);
-        $actual_link = str_replace("printVista.php/", "?filename=", $actual_link);
+        $actual_link = str_replace("printVista.php/", "printVista.php?file=", $actual_link);
 
         var_dump($actual_link);
         
