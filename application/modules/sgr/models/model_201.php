@@ -504,12 +504,8 @@ class Model_201 extends CI_Model {
             );
             
             
-            
-            
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
-                
-                var_dump($data['filename']);
 
                 if ($data['APORTE']) {
                     // var_dump($code, $input_result['APORTE']);
@@ -525,7 +521,7 @@ class Model_201 extends CI_Model {
         $input_sum = array_sum($input_result_arr);
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
-        echo "<br>" . $code . "->". $input_sum . " -" . $output_sum . " = " . $balance;
+       // echo "<br>" . $code . "->". $input_sum . " -" . $output_sum . " = " . $balance;
         
         return $balance;
     }
