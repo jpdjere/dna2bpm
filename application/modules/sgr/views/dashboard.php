@@ -76,7 +76,7 @@
             <ul class="nav nav-tabs" id="dashboard_tab1">       
                 {processed_tab}
             </ul>
-            <div class="tab-content perfil">
+            <div class="tab-content perfil" id="processed_list">
                 {processed_list}
             </div>
         </div>
@@ -97,7 +97,7 @@
             <ul class="nav nav-tabs" id="dashboard_rec_tab1">       
                 {rectified_tab}
             </ul>
-            <div class="tab-content perfil">
+            <div class="tab-content perfil" id="dashboard_rec_list">
                 {rectified_list}
             </div>
         </div>
