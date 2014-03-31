@@ -935,7 +935,7 @@ class Sgr extends MX_Controller {
                     
 
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/'. $translate_anexo .'/printVista.php?file=' . base64_encode($file['filename']), ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                    $print_file = anchor('../dna2/XML-Import/SGR_socios/printVista.php?file=' . base64_encode($file['filename']), ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
