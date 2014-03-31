@@ -932,6 +932,7 @@ class Sgr extends MX_Controller {
                     $print_filename = $file['filename'];
                     
                     $translate_url_anexo = str_replace("sgr", "SGR", translate_anexos_dna2($anexo));
+                    $translate_url_anexo = str_replace("fdr", "FDR", $translate_url_anexo);
                     
 
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
