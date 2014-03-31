@@ -17,6 +17,6 @@
         {/if}
         <hr>
         <p><i class="fa fa-download"></i> <a href=>Descargar Modelo</a> | <i class="fa fa-download"></i> <a href=>Descargar Manual</a>        
-        | <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir Pantalla</a></p>
+        | <!--<i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> |--> <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir Pantalla</a></p>
     </div>
 </div>

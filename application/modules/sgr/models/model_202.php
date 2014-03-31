@@ -11,7 +11,7 @@ class Model_202 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '202';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -123,7 +123,7 @@ class Model_202 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -197,7 +197,7 @@ class Model_202 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
 
         foreach ($result as $list) {
             /*
@@ -254,7 +254,7 @@ class Model_202 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
         $new_list = array();
         foreach ($result as $list) {
 

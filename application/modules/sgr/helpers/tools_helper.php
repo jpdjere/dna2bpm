@@ -727,6 +727,14 @@ function translate_anexos_dna2($anexo) {
         case 'sgr_socios':
             return '06';
             break;
+        
+        case '061':
+            return 'sgr_anexo17_2';
+            break;
+
+        case 'sgr_anexo17_2':
+            return '061';
+            break;
 
         case '062':
             return 'sgr_socios_4';

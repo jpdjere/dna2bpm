@@ -108,7 +108,7 @@ $(document).ready(function() {
         });
     });
 
-// Process Anexo by Ajax 
+//// Process Anexo by Ajax 
 //$('.procesar').click(function(e) {
 //    var url=$(this).attr('href');
 //    var procesar=$(this);
@@ -116,19 +116,8 @@ $(document).ready(function() {
 //    procesar.html('<i class="fa fa-spinner fa-spin"></i> PROCESANDO');
 //    $.post(url,{},function(data){
 //        procesar.parent().html(data);
-//        // processed tab update
-//        $.post(globals.module_url + 'get_processed_tab/'+globals.anexo,{},function(data){
-//            $('#dashboard_tab1').html(data);
-//
-//        });
-//        // processed update
-//        $.post(globals.module_url + 'get_processed/'+globals.anexo,{},function(data){
-//            $('#processed_list').html("xxxx");
-//        });
 //    });
 //});
-
-
     $('#dashboard_tab1 a:first').tab('show');
 });
 function onUpdateReady() {

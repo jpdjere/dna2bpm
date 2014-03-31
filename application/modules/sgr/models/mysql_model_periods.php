@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class mysql_model_062 extends CI_Model {
+class mysql_model_periods extends CI_Model {
 
-    function mysql_model_062() {
+    function mysql_model_06() {
         parent::__construct();
         // IDU : Chequeo de sesion
         $this->idu = (float) $this->session->userdata('iduser');
@@ -60,12 +60,7 @@ class mysql_model_062 extends CI_Model {
                 /* UPDATE CTRL PERIOD */
                 $this->save_tmp($parameter);
 
-                /* UPDATE ANEXO */
-                if ($row->archivo) {
-                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                    if (!$already_update)
-                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
-                }
+                
             }
         }
     }
@@ -86,52 +81,9 @@ class mysql_model_062 extends CI_Model {
         return $out;
     }
 
-    /* SAVE FETCHS ANEXO  DATA */
+    
 
-    function anexo_data_tmp($anexo, $filename) {
-
-
-
-
-        $this->db->select(
-                'id,
-                cuit, 
-                facturacion, empleados,  
-                filename, 
-                idu'
-        );
-
-        if ($filename != 'Sin Movimiento')
-            $this->db->where('filename', $filename);
-
-
-
-        $query = $this->db->get($anexo);
-        $parameter = array();
-        foreach ($query->result() as $row) {
-
-            $parameter = array();
-
-            /* STRING */
-             $parameter["CUIT"] = (string) $row->cuit;
-            /* FLOAT */
-            $parameter["FACTURACION"] = (float) $row->facturacion;
-            /* INT */
-            $parameter['EMPLEADOS'] = (int) $row->empleados;
-
-
-            $parameter['idu'] = (float) $row->idu;
-            $parameter['filename'] = (string) $row->filename;
-            $parameter['id'] = (float) $row->id;
-            $parameter['origen'] = 'forms2';
-
-            debug($parameter);
-
-            $this->save_anexo_062_tmp($parameter, $anexo);
-        }
-    }
-
-    /* SAVE FETCHS ANEXO 062 DATA */
+    /* SAVE FETCHS ANEXO 06 DATA */
 
     function already_period($filename) {
 
@@ -152,21 +104,6 @@ class mysql_model_062 extends CI_Model {
             return true;
     }
 
-    function save_anexo_062_tmp($parameter, $anexo) {
-        $parameter = (array) $parameter;
-        $token = $this->idu;
-        $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_062';
-        /* TRANSLATE ANEXO NAME */
-
-        $id = $this->app->genid_sgr($container);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
-        if ($result) {
-            $out = array('status' => 'ok');
-        } else {
-            $out = array('status' => 'error');
-        }
-        return $out;
-    }
+    
 
 }

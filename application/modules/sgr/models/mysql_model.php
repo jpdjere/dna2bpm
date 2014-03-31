@@ -8,7 +8,7 @@ class mysql_model extends CI_Model {
     function mysql_model() {
         parent::__construct();
         // IDU : Chequeo de sesion
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -274,7 +274,7 @@ class mysql_model extends CI_Model {
 
         /* TRANSLATE ANEXO NAME */
 
-        $parameter['idu'] = (int) $idu;
+        $parameter['idu'] = (float) $idu;
         $parameter['anexo'] = '06';
         $parameter['period'] = '01-2011';
         $parameter['status'] = 'activo';

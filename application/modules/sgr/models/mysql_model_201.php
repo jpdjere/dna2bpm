@@ -8,7 +8,7 @@ class mysql_model_201 extends CI_Model {
     function mysql_model_201() {
         parent::__construct();
         // IDU : Chequeo de sesion
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -53,7 +53,7 @@ class mysql_model_201 extends CI_Model {
                 $parameter['sgr_id'] = (float) $row->sgr_id;
                 $parameter['status'] = 'activo';
                 $parameter['origen'] = 'forms2';
-                $parameter['period'] = $row->periodo;
+                $parameter['period'] = str_replace("_", "-", $row->periodo);
 
 
                 /* UPDATE CTRL PERIOD */
