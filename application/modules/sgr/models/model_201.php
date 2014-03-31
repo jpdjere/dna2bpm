@@ -507,11 +507,11 @@ class Model_201 extends CI_Model {
             foreach ($io_result as $data) {
 
                 if ($data['APORTE']) {
-                     var_dump($code, $input_result['APORTE']);
+                    // var_dump($code, $input_result['APORTE']);
                     $input_result_arr[] = (float) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                     var_dump($code, $input_result['RETIRO']);
+                     //var_dump($code, $input_result['RETIRO']);
                     $output_result_arr[] = (float) $data['RETIRO'];
                 }
             }
@@ -520,6 +520,8 @@ class Model_201 extends CI_Model {
         $input_sum = array_sum($input_result_arr);
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
+        echo "<br>" . $code . "->". $input_sum . " -" . $output_sum . " = " . $balance;
+        
         return $balance;
     }
 
