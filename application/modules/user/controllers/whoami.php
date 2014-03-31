@@ -2,7 +2,9 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
+/*
+* un comment
+*/
 class Whoami extends MX_Controller {
 
     public function __construct() {
