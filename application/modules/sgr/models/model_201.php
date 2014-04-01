@@ -11,7 +11,7 @@ class Model_201 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '201';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -102,10 +102,7 @@ class Model_201 extends CI_Model {
             $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
             $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
 
-            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
-                $insertarr["MONEDA"] = "1";
-            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
-                $insertarr["MONEDA"] = "2";
+           
         }
         return $insertarr;
     }
@@ -164,7 +161,7 @@ class Model_201 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -254,6 +251,27 @@ class Model_201 extends CI_Model {
         $this->load->library('table_custom');
         $newTable = $this->table_custom->generate($data);
         return $newTable;
+    }
+
+    function get_anexo_data_tmp($anexo, $parameter) {
+
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $fields = array('NUMERO_DE_APORTE',
+            'FECHA_MOVIMIENTO',
+            'CUIT_PROTECTOR',
+            'APORTE',
+            'RETIRO',
+            'RETENCION_POR_CONTINGENTE',
+            'RETIRO_DE_RENDIMIENTOS', 'filename', 'period', 'sgr_id', 'origin');
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+
+        return $rtn;
     }
 
     function get_anexo_data($anexo, $parameter, $xls = false) {
@@ -382,16 +400,48 @@ class Model_201 extends CI_Model {
                 'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
-           
-            
+
+
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 $rtn[] = $data;
             }
         }
 
-       
+
         return $rtn;
+    }
+
+    function exist_input_number($code) {
+
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $input_result_arr = array();
+        $output_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            /* APORTE */
+            $new_query = array(
+                'NUMERO_DE_APORTE' => (int) $code,
+                'sgr_id' => $list['sgr_id'],
+                'filename' => $list['filename']
+            );
+
+
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {                
+                if ($data) {
+                    return true;
+                }
+            }
+        }
     }
 
     function get_input_number($code) {
@@ -419,14 +469,11 @@ class Model_201 extends CI_Model {
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
-
                 if ($data['APORTE']) {
-                    // var_dump($input_result['APORTE']);
-                    $input_result_arr[] = (int) $data['APORTE'];
+                    $input_result_arr[] = (float) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                    // var_dump($input_result['RETIRO']);
-                    $output_result_arr[] = (int) $data['RETIRO'];
+                    $output_result_arr[] = (float) $data['RETIRO'];
                 }
             }
         }
@@ -452,22 +499,21 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-                'NUMERO_DE_APORTE' => (int) $code,
-                'sgr_id' => $list['sgr_id'],
+                'NUMERO_DE_APORTE' => (int) $code,                
                 'filename' => $list['filename']
             );
-
-
+            
+            
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
 
                 if ($data['APORTE']) {
-                    // var_dump($input_result['APORTE']);
-                    $input_result_arr[] = (int) $data['APORTE'];
+                    // var_dump($code, $input_result['APORTE']);
+                    $input_result_arr[] = (float) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                    // var_dump($input_result['RETIRO']);
-                    $output_result_arr[] = (int) $data['RETIRO'];
+                     //var_dump($code, $input_result['RETIRO']);
+                    $output_result_arr[] = (float) $data['RETIRO'];
                 }
             }
         }
@@ -475,6 +521,8 @@ class Model_201 extends CI_Model {
         $input_sum = array_sum($input_result_arr);
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
+       // echo "<br>" . $code . "->". $input_sum . " -" . $output_sum . " = " . $balance;
+        
         return $balance;
     }
 
@@ -574,15 +622,12 @@ class Model_201 extends CI_Model {
             }
         }
     }
-    
-    
-    
-    
+
     function get_movement_data($nro) {
         $anexo = $this->anexo;
-        $period_value = $this->session->userdata['period'];
-        $period = 'container.sgr_periodos';
+        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
 
 
         $aporte_result_arr = array();
@@ -620,7 +665,7 @@ class Model_201 extends CI_Model {
         );
         return $return_arr;
     }
-    
+
     function get_movement_recursive($nro) {
         $anexo = $this->anexo;
         $period_value = $this->session->userdata['period'];
@@ -633,7 +678,7 @@ class Model_201 extends CI_Model {
         $rendimientos_result_arr = array();
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_just_active($anexo);
+        $result = $this->sgr_model->get_active_exclude_this($anexo, $period_value);
 
         /* FIND ANEXO */
         foreach ($result as $list) {

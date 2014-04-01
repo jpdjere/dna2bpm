@@ -9,6 +9,9 @@ class Lib_202_error_legend {
     function return_legend($code, $row, $value) {
 
         switch ($code) {
+            case "VG.2":
+                $result_error = '<strong>Columna VG - Fila Nro.'-' - Código Validación '.$code.'</strong><br/>Desde que una SGR informó el 1º aporte al fondo de Riesgo, este anexo no puede estar en ningún período SIN MOVIMIENTOS, siempre tienen que informar los saldos. SALVO QUE, todos los aportes tengan saldo cero, el Anexo 14 tenga saldo cero y el Anexo 15 tenga saldo cero.';
+                break;
             case "A.1":
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico sin decimales.';
                 break;

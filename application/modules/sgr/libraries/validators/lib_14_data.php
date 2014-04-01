@@ -9,11 +9,22 @@ class Lib_14_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
-        $model_anexo = "model_14";
-        $this->load->Model($model_anexo);
+        $this->period = $this->session->userdata['period'];
 
         $model_12 = 'model_12';
         $this->load->Model($model_12);
+
+        $model_anexo = "model_14";
+        $this->load->Model($model_anexo);
+
+        /* UPDATE MONGO/DNA2 */
+        $mysql_model_14 = "mysql_model_14";
+        $this->load->Model($mysql_model_14);
+
+
+        $this->$mysql_model_14->active_periods_dna2("14", $this->period);
+
+
 
 
         /* Vars 
@@ -171,7 +182,6 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando la CAÍDA de una Garantía (Columna C del importador), 
                          * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12). 
                          */
-
                         if (!$B_warranty_info) {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
@@ -272,6 +282,7 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                        $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
 
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
@@ -283,7 +294,11 @@ class Lib_14_data extends MX_Controller {
                   G.2 = B.5
                   Debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
                   G.3
-                  Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que se está importando).
+                  Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e 
+                 * INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema 
+                 * (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los 
+                 * GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que 
+                 * se está importando).
                  */
                 if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
@@ -364,7 +379,9 @@ class Lib_14_data extends MX_Controller {
             $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $get_temp_data['RECUPERO_GASTOS_PERIODO']));
             $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
-
+            
+            
+            
 
 
             /* Nro B.2/D.2
@@ -454,6 +471,7 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */
+                
                 if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
                     $code_error = "G.3";
                     $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO'] . "/" . $get_temp_data['RECUPERO_GASTOS_PERIODO'] . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO'] . "/" . $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
@@ -500,9 +518,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-
-//        var_dump($stack);
- //       exit();
+        //var_dump($stack);      exit();                    
         $this->data = $stack;
     }
 

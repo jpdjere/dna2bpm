@@ -53,6 +53,9 @@ class Lib_12_error_legend {
             case "I.3":
                 $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones:GFON0/GFON1/GFON2/GFON3/GFVCP. deberá tener el siguiente formato: 3 Letras, un Numero, una letra. Ej. OAH1P';
                 break;
+            case "I.4":
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si la Columna D se completó con alguna de las siguientes Opciones:GGFPB. deberá tener el siguiente formato: $, 3 Letras, 9 Números. Ej. $CUA000000001 y coincidir con el código asignado para cada SGR';
+                break;
             case "J.1":
                 $result_error = '<strong>Columna J - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones.';
                 break;

@@ -8,16 +8,21 @@ class Lib_12_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
+        $this->period = $this->session->userdata['period'];
 
-        /* PARTNER INFO */
+        /* PARTNER INFO DATA */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
-        $model_062 = 'model_062';
-        $this->load->Model($model_062);
 
+        /* ANEXO 12 DATA*/
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
+
+       
+        /*ANEXO 6.2 DATA */
+        $model_062 = 'model_062';
+        $this->load->Model($model_062);
 
 
         /* Vars 
@@ -115,11 +120,13 @@ class Lib_12_data extends MX_Controller {
                     $amount_employees = 0;
                     $transaction_date = null;
                     $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
-                    foreach ($partner_data as $partner) {                        
+                    
+                    foreach ($partner_data as $partner) {
+
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
-                    $amount_employees2  = 0;
+                    $amount_employees2 = 0;
                     $partner_data_062 = $this->$model_062->get_partner_left($parameterArr[$i]['fieldValue']);
                     if ($partner_data_062) {
                         foreach ($partner_data_062 as $partner_062) {
@@ -128,10 +135,8 @@ class Lib_12_data extends MX_Controller {
                     }
 
                     $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
-
-
                     if ($sum_amount_employees == 0) {
-                        $code_error = "B.1";
+                        $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
@@ -151,7 +156,7 @@ class Lib_12_data extends MX_Controller {
 
                     if ($integrated != $subscribed) {
                         $code_error = "B.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " - Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }
@@ -281,7 +286,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF3
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
                     $code_error = "G.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -308,7 +313,7 @@ class Lib_12_data extends MX_Controller {
                   GFCPD
                  */
                 if ($parameterArr[$i]['col'] == 8) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
 
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -358,7 +363,7 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB", "GFVCP");
+                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB0","GFPB1","GFPB2", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -366,30 +371,46 @@ class Lib_12_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-
-                        $I2_validate_arr = array("GFCPD", "GFPB");
+                        
+                        // I.2
+                        $I2_validate_arr = array("GFCPD");
+                        $code_error = "I.2";
                         if (in_array($D_cell_value, $I2_validate_arr)) {
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax) {
-                                $code_error = "I.2";
+                            if (!$check_cnv_syntax) {        
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
                                 $return = $this->sgr_model->get_cnv_code($check_cnv_syntax);
                                 if (!$return) {
-                                    $code_error = "I.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 }
                             }
-                        } else {
+                        } 
+                        // I.3
+                       $I3_validate_arr = array("GFON0", "GFON1", "GFON2", "GFON3", "GFVCP");
+                       $code_error = "I.3";
+                       if (in_array($D_cell_value, $I3_validate_arr)) {
                             $check_cnv_syntax_alt = check_cnv_syntax_alt($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax_alt) {
-                                $code_error = "I.3";
+                            if (!$check_cnv_syntax_alt) {        
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
+                        // I.4
+                       $I4_validate_arr = array("GFPB0","GFPB1","GFPB2");
+                       $code_error = "I.4";
+                       if (in_array($D_cell_value, $I4_validate_arr)) {
+                           $check_cnv_syntax_i4 = check_cnv_syntax_i4($parameterArr[$i]['fieldValue']);
+                           $check_cnv_code = (!empty($check_cnv_syntax_i4))?($this->sgr_model->get_cnv_code('$'.$check_cnv_syntax_i4)):(null);
+
+                            if (!$check_cnv_syntax_i4 || is_null($check_cnv_code)) {        
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+                        
                     } else {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -816,7 +837,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-    
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 

@@ -17,18 +17,18 @@
 </div>
 
 
-    <!-- MESSAGES -->
-    {if period_message}
-        <div class="alert alert-{success}" id="{success}">   
-            {period_message}
-        </div>
-    {else}
-        {if message}
-        <div class="alert alert-{success}" id="{success}">   
-            {message}
-        </div>
-        {/if}
-    {/if}
+<!-- MESSAGES -->
+{if period_message}
+<div class="alert alert-{success}" id="{success}">   
+    {period_message}
+</div>
+{else}
+{if message}
+<div class="alert alert-{success}" id="{success}">   
+    {message}
+</div>
+{/if}
+{/if}
 
 
 <!-- ==== Contenido ==== -->
@@ -58,10 +58,16 @@
     {if pending_list}
     <div class="well">
         <!-- PENDING ANEXOS-->
-        <div id="show_anexos" class="perfil">       
-            <h6>ANEXOS PENDIENTES</h6>            
-            {pending_list}
+        <div id="show_anexos" class="alert alert-error">
+
+            <ul>
+                {pending_list}
+                <li>Para finalizar deberá importar el ANEXO 6.1 – RELACIONES DE VINCULACIÓN. De no cargarse, se cancelará toda la importación del ANEXO 6 – MOVIMIENTOS DE CAPITAL SOCIAL.</li>
+                <li><a href="sgr/anexo_code/061">Continuar</a></li>
+            </ul>
+
         </div>
+
     </div>
     <hr>
     {/if}        

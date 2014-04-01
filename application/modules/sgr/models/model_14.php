@@ -11,7 +11,7 @@ class Model_14 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '14';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -67,6 +67,8 @@ class Model_14 extends CI_Model {
 
             /* STRING */
             $insertarr["NRO_GARANTIA"] = (string) $insertarr["NRO_GARANTIA"]; //Nro orden
+
+
             /* INTEGERS & FLOAT */
             $insertarr["CAIDA"] = (float) $insertarr["CAIDA"];
             $insertarr["RECUPERO"] = (float) $insertarr["RECUPERO"];
@@ -159,7 +161,7 @@ class Model_14 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -244,7 +246,7 @@ class Model_14 extends CI_Model {
             $this->load->Model($model_12);
 
 
-            /*"12585/10"*/
+            /* "12585/10" */
             $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
 
             foreach ($get_movement_data as $partner) {
@@ -280,8 +282,8 @@ class Model_14 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
-        $new_list = array();
         foreach ($result as $list) {
+
 
             $col5[] = (float) ($list['CAIDA']);
             $col6[] = (float) ($list['RECUPERO']);
@@ -298,7 +300,7 @@ class Model_14 extends CI_Model {
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
-        $new_list['col5'] = money_format_custom($list['CAIDA']);
+        $new_list['col5'] = money_format_custom(array_sum($col5));
         $new_list['col6'] = money_format_custom(array_sum($col6));
         $new_list['col7'] = money_format_custom(array_sum($col7));
         $new_list['col8'] = money_format_custom(array_sum($col8));
@@ -306,15 +308,35 @@ class Model_14 extends CI_Model {
         $new_list['col10'] = money_format_custom(array_sum($col10));
         $rtn[] = $new_list;
 
+        return $rtn;
+    }
+
+    function get_anexo_data_tmp($anexo, $parameter) {
+
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $fields = array('FECHA_MOVIMIENTO',
+            'NRO_GARANTIA',
+            'RECUPERO',
+            'INCOBRABLES_PERIODO',
+            'GASTOS_EFECTUADOS_PERIODO',
+            'RECUPERO_GASTOS_PERIODO',
+            'GASTOS_INCOBRABLES_PERIODO', 'filename', 'period', 'sgr_id', 'origin');
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
 
         return $rtn;
     }
 
     function get_movement_data($nro) {
         $anexo = $this->anexo;
-        $period_value = $this->session->userdata['period'];
-        $period = 'container.sgr_periodos';
+        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
 
         $caida_result_arr = array();
         $recupero_result_arr = array();
@@ -329,7 +351,6 @@ class Model_14 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 'NRO_GARANTIA' => $nro
             );

@@ -3,14 +3,14 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_125 extends CI_Model {
+class Model_17 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '125';
+        $this->anexo = '15';
         $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
@@ -46,14 +46,27 @@ class Model_125 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... CUIT_PART	CUIT_ACREEDOR	SLDO_FINANC	SLDO_COMER	SLDO_TEC
+         * @example
+         * INCISO_ART_25	
+         * DESCRIPCION	
+         * IDENTIFICACION	
+         * EMISOR	
+         * CUIT_EMISOR	
+         * ENTIDAD_DESPOSITARIA	
+         * CUIT_DEPOSITARIO	
+         * MONEDA	
+         * MONTO
          * */
         $defdna = array(
-            1 => 'CUIT_PART',
-            2 => 'CUIT_ACREEDOR',
-            3 => 'SLDO_FINANC',
-            4 => 'SLDO_COMER',
-            5 => 'SLDO_TEC'
+            1 => 'INCISO_ART_25',
+            2 => 'DESCRIPCION',
+            3 => 'IDENTIFICACION',
+            4 => 'EMISOR',
+            5 => 'CUIT_EMISOR',
+            6 => 'ENTIDAD_DESPOSITARIA',
+            7 => 'CUIT_DEPOSITARIO',
+            8 => 'MONEDA',
+            9 => 'MONTO'
         );
 
 
@@ -61,17 +74,26 @@ class Model_125 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
             /* STRING */
-            $insertarr['CUIT_PART'] = (string) $insertarr['CUIT_PART'];
-            $insertarr['CUIT_ACREEDOR'] = (string) $insertarr['CUIT_ACREEDOR'];
+            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25'];
+            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR'];
+            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];
+
             /* FLOAT */
-            $insertarr['SLDO_FINANC'] = (float) $insertarr['SLDO_FINANC'];
-            $insertarr['SLDO_COMER'] = (float) $insertarr['SLDO_COMER'];
-            $insertarr['SLDO_TEC'] = (float) $insertarr['SLDO_TEC'];
+            $insertarr['MONTO'] = (float) $insertarr['MONTO'];
+
+
+            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
+                $insertarr["MONEDA"] = "1";
+            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
+                $insertarr["MONEDA"] = "2";
         }
         return $insertarr;
     }
 
     function save($parameter) {
+
+
+
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -134,35 +156,38 @@ class Model_125 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter, $xls = false) {
+    function get_anexo_info($anexo, $parameter) {
         $tmpl = array(
-            'data' => ' <tr>
-        <td colspan="2" align="center">Socio Participe</td>
-        <td colspan="2" align="center">Acreedor <br></td>
-        <td colspan="4" align="center">Saldo de Garantías Vigentes<br></td>
-    </tr>
-    <tr>
-        <td align="center">C.U.I.T.</td>
-        <td align="center">Razón Social</td>
-        <td align="center">C.U.I.T.</td>
-        <td align="center">Razón Social</td>
-        <td align="center">Financiera</td>
-        <td align="center">Comerciales <br></td>
-        <td align="center">Técnicas</td>
-        <td align="center">Total</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>    
-    </tr> ',
+            'data' => '<tr>
+                    <td align="center" colspan="3">Fondo de riesgo disponible</td>
+                    <td align="center" rowspan="3">Entidad Emisora</td>
+                    <td align="center" rowspan="3">CUIT Entidad Emisora</td>
+                    <td align="center" rowspan="3">Entidad Depositaria</td>
+                    <td align="center" rowspan="3">CUIT Entidad Depositaria</td>
+                    <td align="center" rowspan="3">Moneda nominativa del Activo</td>
+                    <td align="center" rowspan="3">Monto (En Pesos)</td>
+                    <td align="center" rowspan="3">Proporción en el Fondo de Riesgo (%)</td>
+                </tr>
+                <tr>
+                    <td colspan="3">1. Activos Artículo 25</td></tr>
+                    <tr>
+                        <td>Inciso del Art. 25</td>
+                        <td>Descripción</td>
+                        <td>Identificación</td>
+                    </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>                                              
+                            </tr> ',
         );
-
 
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
@@ -177,6 +202,22 @@ class Model_125 extends CI_Model {
         return $newTable;
     }
 
+    function get_total($anexo, $parameter) {
+
+        $rtn = array();
+        $col9 = array();
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        foreach ($result as $list) {
+
+            $col9[] = (float) ($list['MONTO']);
+        }
+
+        return array_sum($col9);
+    }
+
     function get_anexo_data($anexo, $parameter) {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
@@ -185,23 +226,34 @@ class Model_125 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-            /* Vars */
-            $cuit = str_replace("-", "", $list['CUIT']);
-            $this->load->model('padfyj_model');
-            $brand_name_participate = $this->padfyj_model->search_name($list['CUIT_PART']);
-            $brand_name_creditor = $this->padfyj_model->search_name($list['CUIT_ACREEDOR']);
+            /* Vars 								
+             */
 
-            $total = array_sum(array($list['SLDO_FINANC'], $list['SLDO_COMER'], $list['SLDO_TEC']));
+
+            $this->load->model('padfyj_model');
+            $transmitter_name = $this->padfyj_model->search_name($list['CUIT_EMISOR']);
+            $transmitter_name = ($transmitter_name) ? $transmitter_name : strtoupper($list['EMISOR']);
+
+            $depositories_name = $this->sgr_model->get_depositories($list['CUIT_DEPOSITARIO']);
+            $depositories_name = ($depositories_name) ? $depositories_name['nombre'] : strtoupper($list['ENTIDAD_DESPOSITARIA']);
+
+            $this->load->model('app');
+            $currency = $this->app->get_ops(549);
+
+            $total = $this->get_total($anexo, $parameter);
+            $percent = ($list['MONTO'] * 100) / $total;
 
             $new_list = array();
-            $new_list['col1'] = $list['CUIT_PART'];
-            $new_list['col2'] = $brand_name_participate;
-            $new_list['col3'] = $list['CUIT_ACREEDOR'];
-            $new_list['col4'] = $brand_name_creditor;
-            $new_list['col5'] = money_format_custom($list['SLDO_FINANC']);
-            $new_list['col6'] = money_format_custom($list['SLDO_COMER']);
-            $new_list['col7'] = money_format_custom($list['SLDO_TEC']);
-            $new_list['col8'] = money_format_custom($total);
+            $new_list['INCISO_ART_25'] = $list['INCISO_ART_25'];
+            $new_list['DESCRIPCION'] = $list['DESCRIPCION'];
+            $new_list['IDENTIFICACION'] = $list['IDENTIFICACION'];
+            $new_list['EMISOR'] = $transmitter_name;
+            $new_list['CUIT_EMISOR'] = $list['CUIT_EMISOR'];
+            $new_list['ENTIDAD_DESPOSITARIA'] = $depositories_name;
+            $new_list['CUIT_DEPOSITARIO'] = $list['CUIT_DEPOSITARIO'];
+            $new_list['MONEDA'] = $currency[$list['MONEDA']];
+            $new_list['MONTO'] = money_format_custom($list['MONTO']);
+            $new_list['col10'] = percent_format_custom($percent);
             $rtn[] = $new_list;
         }
         return $rtn;
@@ -210,41 +262,27 @@ class Model_125 extends CI_Model {
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
-
-        $col5 = array();
-        $col6 = array();
-        $col7 = array();
-        $col8 = array();
-
-
-
+        $col9 = array();
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
-        $new_list = array();
         foreach ($result as $list) {
-            $total = array_sum(array($list['SLDO_FINANC'], $list['SLDO_COMER'], $list['SLDO_TEC']));
-            $col5[] = (float) ($list['SLDO_FINANC']);
-            $col6[] = (float) ($list['SLDO_COMER']);
-            $col7[] = (float) ($list['SLDO_TEC']);
-            $col8[] = (float) ($total);
+            $col9[] = (float) ($list['MONTO']);
         }
 
-
         $new_list = array();
-
-        $new_list['col1'] = "<strong>TOTALES</strong>";
+        $new_list['col1'] = "<strong>TOTAL</strong>";
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
-        $new_list['col5'] = money_format_custom(array_sum($col5));
-        $new_list['col6'] = money_format_custom(array_sum($col6));
-        $new_list['col7'] = money_format_custom(array_sum($col7));
-        $new_list['col8'] = money_format_custom(array_sum($col8));
-
+        $new_list['col5'] = "-";
+        $new_list['col6'] = "-";
+        $new_list['col7'] = "-";
+        $new_list['col8'] = "-";
+        $new_list['col9'] = money_format_custom(array_sum($col9));
+        $new_list['col10'] = percent_format_custom(100);
         $rtn[] = $new_list;
-
 
         return $rtn;
     }

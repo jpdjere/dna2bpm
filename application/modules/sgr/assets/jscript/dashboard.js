@@ -108,7 +108,16 @@ $(document).ready(function() {
         });
     });
 
-
+//// Process Anexo by Ajax 
+//$('.procesar').click(function(e) {
+//    var url=$(this).attr('href');
+//    var procesar=$(this);
+//    e.preventDefault(); 
+//    procesar.html('<i class="fa fa-spinner fa-spin"></i> PROCESANDO');
+//    $.post(url,{},function(data){
+//        procesar.parent().html(data);
+//    });
+//});
     $('#dashboard_tab1 a:first').tab('show');
 });
 function onUpdateReady() {

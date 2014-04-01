@@ -11,7 +11,7 @@ class Model_062 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '062';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -65,6 +65,8 @@ class Model_062 extends CI_Model {
             $insertarr["CUIT"] = (string) $insertarr["CUIT"];
             /* FLOAT */
             $insertarr["FACTURACION"] = (float) $insertarr["FACTURACION"];
+            /* INT */
+            $insertarr['EMPLEADOS'] = (int) $insertarr['EMPLEADOS'];
         }
         return $insertarr;
     }
@@ -121,7 +123,7 @@ class Model_062 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -130,6 +132,22 @@ class Model_062 extends CI_Model {
         );
         $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
+    }
+
+    function get_anexo_data_tmp($anexo, $parameter) {
+
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $fields = array('CUIT',
+            'EMPLEADOS', 'filename', 'period', 'sgr_id', 'origin');
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+
+        return $rtn;
     }
 
     function get_anexo_info($anexo, $parameter) {
@@ -180,10 +198,8 @@ class Model_062 extends CI_Model {
     }
 
     function get_partner_left($cuit) {
-
-
         $anexo = $this->anexo;
-        $period = 'container.sgr_periodos';
+        $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
@@ -193,9 +209,8 @@ class Model_062 extends CI_Model {
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
-                'CUIT_SOCIO_INCORPORADO' => $cuit
+                'CUIT' => $cuit
             );
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result)

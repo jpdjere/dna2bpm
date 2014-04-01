@@ -9,12 +9,21 @@ class Lib_201_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $this->period = $this->session->userdata['period'];
+
         /* PARTNER INFO */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
         $model_anexo = 'model_201';
         $this->load->Model($model_anexo);
+
+        /* UPDATE MONGO/DNA2 */
+        $mysql_model_201 = "mysql_model_201";
+        $this->load->Model($mysql_model_201);
+
+
+        $this->$mysql_model_201->active_periods_dna2("201", $this->period);
 
         /* Vars 
          * 
@@ -32,7 +41,7 @@ class Lib_201_data extends MX_Controller {
 
         $this->$model_anexo->clear_tmp($insert_tmp);
         $input_num = array();
-
+        $output_num = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -91,7 +100,7 @@ class Lib_201_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $input_num[] = $A_cell_value;
+
 
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
@@ -176,10 +185,9 @@ class Lib_201_data extends MX_Controller {
                         }
 
                         /* C.3 */
-                        $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value + 1))));
-
-
+                        $lte_date = new MongoDate(strtotime(translate_for_mongo(($B_cell_value))));
                         $balance = $this->$model_06->shares_active_left_until_date($C_cell_value, $lte_date);
+
                         if ($balance == 0) {
                             $code_error = "C.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
@@ -219,6 +227,19 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
+                        
+                        
+                        /*E.3*/                        
+                        $get_input_number = $this->$model_anexo->exist_input_number($A_cell_value);                        
+                        if(!$get_input_number){                            
+                            $code_error = "A.4";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }  else {
+                            $output_num[] = $A_cell_value;
+                        }  
+                        
+                        
 
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
@@ -393,7 +414,7 @@ class Lib_201_data extends MX_Controller {
                         $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
 
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'],true);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if (!$return || $R_cell_value < 1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -409,7 +430,7 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "A.2";
                     $order_number_array[] = $A_cell_value;
                     if ($D_cell_value) {
-                        $order_number_array_aporte[] = $A_cell_value;
+                        $input_num[] = $A_cell_value;
                     }
 
                     /* En una misma fila no pueden estar completas a la vez los campos de las columnas D, E y G, sólo se debe permitir que esté completo uno de esos tres campos. */
@@ -429,10 +450,16 @@ class Lib_201_data extends MX_Controller {
         }
 
 
+      
+        
+        
+        
+        /* INPUT NAMES ************************************************************************************/
         $input_num_unique = array_unique($input_num);
+        $get_min =  ($input_num_unique) ? (int)@min($input_num_unique) : "";
 
-        foreach ($input_num_unique as $number) {
-
+        
+        foreach ($input_num_unique as $number) {            
             $number = (int) $number;
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_recursive($number);
@@ -440,11 +467,9 @@ class Lib_201_data extends MX_Controller {
 
             $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
             $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $get_temp_data['RETIRO']));
-
+          
 
             /* A.2 */
-
-
             if ($get_historic_data['APORTE'] > 0) {
                 $code_error = "A.2";
                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $number);
@@ -453,11 +478,16 @@ class Lib_201_data extends MX_Controller {
 
 
             $get_last_input_number = $this->$model_anexo->get_last_input();
-            if ($number < $get_last_input_number) {
-                $code_error = "A.2";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo informado.");
+
+            $check_consecutive_array = array($get_last_input_number, $get_min);
+            $check_consecutive = check_consecutive_values($check_consecutive_array);
+            $code_error = "A.2";
+
+            if (!$check_consecutive) {
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. ( " . $get_last_input_number . " )");
                 array_push($stack, $result);
             }
+
 
 
             /* A.3 */
@@ -512,6 +542,78 @@ class Lib_201_data extends MX_Controller {
                     array_push($stack, $result);
                 }
 
+                foreach ($get_retiros_tmp as $retiros) {
+                    $aporte = $this->$model_anexo->get_aporte_tmp($number, $retiros);
+                    $return_calc = calc_anexo_201($aporte, $get_historic_data, $number);
+                    if ($return_calc) {
+                        $code_error = "A.4";
+                        $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                        array_push($stack, $result);
+                    }
+                }
+            }
+        }
+        
+        
+        /* OUTPUT NAMES ***********************************************************************************/
+        $output_num_unique = array_unique($output_num);
+
+        foreach ($output_num_unique as $number) {   
+            
+            $number = (int) $number;
+            /* MOVEMENT DATA */
+            $get_historic_data = $this->$model_anexo->get_movement_recursive($number);
+            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
+
+            $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $get_temp_data['APORTE']));
+            $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $get_temp_data['RETIRO']));
+
+
+            /* A.4 */
+            
+            if ($get_temp_data['RETIRO'] > 0) {
+                if ($sum_APORTE == 0) {
+                    $code_error = "A.4";
+                    $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
+                    array_push($stack, $result);
+                } else {
+                    /* E.3 */
+                    if ($sum_RETIRO > $sum_APORTE) {
+                        $code_error = "E.3";
+                        $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
+                        array_push($stack, $result);
+                    }
+                }
+
+                /* B.3 */
+                $query_param = 'RETIRO';
+                $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
+                $retiros_arr = array();
+                foreach ($get_retiros_tmp as $o) {
+                    $date = $o;
+                    $retiros_arr[] = date('Y-m-d', $date->sec);
+                }
+
+                foreach (repeatedElements($retiros_arr) as $arr) {
+                    $code_error = "B.3";
+                    $result = return_error_array($code_error, "", $arr['value']);
+                    array_push($stack, $result);
+                }
+
+                /* B.4 */
+                $query_param = 'RETIRO_DE_RENDIMIENTOS';
+                $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
+                $retiros_arr = array();
+                foreach ($get_retiros_tmp as $o) {
+                    $date = $o;
+                    $retiros_arr[] = date('Y-m-d', $date->sec);
+                }
+
+                foreach (repeatedElements($retiros_arr) as $arr) {
+                    $code_error = "B.4";
+                    $result = return_error_array($code_error, "", $arr['value']);
+                    array_push($stack, $result);
+                }
 
 
                 foreach ($get_retiros_tmp as $retiros) {
@@ -525,7 +627,13 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-        // exit();
+        
+
+        if (!check_consecutive_values($input_num_unique)) {
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
+            array_push($stack, $result);
+        }    
+        
         $this->data = $stack;
     }
 
