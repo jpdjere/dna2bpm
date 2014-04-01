@@ -368,8 +368,6 @@ class Sgr extends MX_Controller {
         $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
         $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $new_filename;
 
-
-
         $this->load->library('excel_reader2');
         $data = new Excel_reader2($uploadpath);
 
@@ -505,7 +503,10 @@ class Sgr extends MX_Controller {
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
-            $customData['message'] = $result;
+            $result = substr($result, 0, 500);            
+            $customData['message'] = $result . "...";
+            
+            
             $this->render('errors', $customData);
             //$this->parser->parse('errors2', $customData);
             unlink($uploadpath);
