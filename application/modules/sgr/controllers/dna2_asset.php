@@ -32,8 +32,9 @@ class dna2_asset extends CI_Controller {
         $actual_link = 'http://' . $_SERVER[HTTP_HOST] . '/dna2/' . implode('/', $this->uri->segments);
         $actual_link = str_replace("sgr/dna2_asset/", "", $actual_link);
         $actual_link = str_replace($cript_file, base64_encode($cript_file), $actual_link);
-        header('Location: ' . $actual_link . "?filename=" . base64_encode($cript_file));
-
+       // header('Location: ' . $actual_link . "?filename=" . base64_encode($cript_file));
+       var_dump($actual_link . "?filename=" . base64_encode($cript_file));
+        
 
         exit;
     }
