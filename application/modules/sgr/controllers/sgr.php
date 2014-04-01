@@ -890,7 +890,7 @@ class Sgr extends MX_Controller {
             foreach ($processed as $file) {
                 if ($file)
                     $show_period = ($i != 2010) ? $i : "ADMINISTRADOR";
-                $list_files .= '<li><a href="#tab_processed' . $show_period . '" data-toggle="tab">' . $show_period . '</a></li>';
+                $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $i . '</a></li>';
             }
         }
         return $list_files;
