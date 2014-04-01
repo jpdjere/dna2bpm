@@ -504,12 +504,12 @@ class Sgr extends MX_Controller {
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
 
-            
+
             if (strlen($result) > 100000)
                 $result = substr($result, 0, 100000) . "...";
-            
+
             $customData['message'] = $result;
-            
+
             $this->render('errors', $customData);
             unlink($uploadpath);
         }
@@ -889,7 +889,8 @@ class Sgr extends MX_Controller {
             $processed = array($processed);
             foreach ($processed as $file) {
                 if ($file)
-                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $i . '</a></li>';
+                    $show_period = ($i != 2010) ? $i : "ADMINISTRADOR";
+                $list_files .= '<li><a href="#tab_processed' . $show_period . '" data-toggle="tab">' . $show_period . '</a></li>';
             }
         }
         return $list_files;
@@ -933,8 +934,8 @@ class Sgr extends MX_Controller {
                 if ($file['origen'] == "forms2") {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
-                    
-                    $show_period = ($i!=2010)? $file['period'] : "ADMINISTRADOR";
+
+                    $show_period = ($i != 2010) ? $file['period'] : "ADMINISTRADOR";
 
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
@@ -943,8 +944,6 @@ class Sgr extends MX_Controller {
 
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
-                
-                    
                 } else {
 
                     /* RECTIFY COUNT */
@@ -956,7 +955,7 @@ class Sgr extends MX_Controller {
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_xls = ($anexo == '202') ? $print_xls_link : "";
-                    
+
                     $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger'));
                     $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
