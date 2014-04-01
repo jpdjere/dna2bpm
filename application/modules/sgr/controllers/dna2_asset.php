@@ -40,7 +40,7 @@ class dna2_asset extends CI_Controller {
        
 
       //  header('Location: ' . $actual_link."?filename=".$cript_file);
-        var_dump( $actual_link."?filename=".$cript_file);
+        var_dump( $actual_link."?filename=".base64_encode($cript_file));
 
         exit;
     }
