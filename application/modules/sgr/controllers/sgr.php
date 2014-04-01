@@ -933,8 +933,8 @@ class Sgr extends MX_Controller {
                    
 
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('sgr/dna2_asset/XML-Import/'.translate_anexos_dna2_urls($anexo).'/printVista.php/' . base64_encode($file['filename']), ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
-
+                    $print_file = anchor('sgr/dna2_asset/XML-Import/'.translate_anexos_dna2_urls($anexo).'/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                    
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
