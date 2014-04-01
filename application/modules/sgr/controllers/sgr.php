@@ -28,15 +28,15 @@ class Sgr extends MX_Controller {
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
         //----LOAD LANGUAGE
-        $this->lang->load('library', $this->config->item('language'));        
+        $this->lang->load('library', $this->config->item('language'));
 
         // IDU : Chequeo de sesion
         $this->idu = (float) $this->session->userdata('iduser');
-        
-        /*bypass session*/
+
+        /* bypass session */
         session_start();
         $_SESSION['idu'] = $this->idu;
-        
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -503,12 +503,14 @@ class Sgr extends MX_Controller {
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
-            $result = substr($result, 0, 500);            
-            $customData['message'] = $result . "...";
+
             
+            if (strlen($result) > 100000)
+                $result = substr($result, 0, 100000) . "...";
+            
+            $customData['message'] = $result;
             
             $this->render('errors', $customData);
-            //$this->parser->parse('errors2', $customData);
             unlink($uploadpath);
         }
 
@@ -827,7 +829,7 @@ class Sgr extends MX_Controller {
 
     function get_processed_17_tab() {
         $list_files = "<li class=processed><b>PERIODOS INFORMADOS</b></li>";
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
             $processed = array_unique($processed);
             $processed = array($processed);
@@ -843,7 +845,7 @@ class Sgr extends MX_Controller {
     function get_processed_17() {
         $list_files = '';
         // for ($i = date(Y); $i > 2011; $i--) {
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
 
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
@@ -865,7 +867,7 @@ class Sgr extends MX_Controller {
     function get_processed_17_($anexo) {
         $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
             foreach ($processed as $file) {
                 $file = array_unique($file);
@@ -882,7 +884,7 @@ class Sgr extends MX_Controller {
 
     function get_processed_tab($anexo) {
         $list_files = "<li class=processed><b>ANEXOS PROCESADOS</b></li>";
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
@@ -895,7 +897,7 @@ class Sgr extends MX_Controller {
 
     function get_rectified_tab($anexo) {
         $list_files = "<li class=rectified><b>ANEXOS RECTIFICADOS</b></li>";
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
@@ -913,7 +915,7 @@ class Sgr extends MX_Controller {
 
     function get_processed($anexo) {
         $list_files = '';
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
@@ -931,11 +933,11 @@ class Sgr extends MX_Controller {
                 if ($file['origen'] == "forms2") {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
-                   
+
 
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('sgr/dna2_asset/XML-Import/'.translate_anexos_dna2_urls($anexo).'/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
-                    
+                    $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
+
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
@@ -971,7 +973,7 @@ class Sgr extends MX_Controller {
 
     function get_rectified($anexo) {
         $list_files = '';
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
             <div id="' . $i . '"><ul>';
             $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
