@@ -26,14 +26,20 @@ class dna2_asset extends CI_Controller {
         session_start();
         $_SESSION['idu'] = $this->idu;
 
-        
-        
-        
+
+        $cript_file = array_pop($this->uri->segments);
+
         $actual_link = 'http://' . $_SERVER[HTTP_HOST] . '/dna2/' . implode('/', $this->uri->segments);
         $actual_link = str_replace("sgr/dna2_asset/", "", $actual_link);
-        $actual_link = str_replace("printVista.php/", "printVista.php?file=", $actual_link);
+        //$actual_link = str_replace("printVista.php/", "printVista.php?file=", $actual_link);
         
-        header('Location: ' . $actual_link);
+        
+        
+        $actual_link = str_replace($cript_file, base64_encode($cript_file), $actual_link);
+
+       
+
+        header('Location: ' . $actual_link."?filename=".$cript_file);
 
         exit;
     }
