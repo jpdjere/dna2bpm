@@ -888,8 +888,11 @@ class Sgr extends MX_Controller {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
+                
+                $show_period = ($i != 2010) ? $i : "ADMINISTRADOR";
+                
                 if ($file)
-                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $i . '</a></li>';
+                    $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $show_period . '</a></li>';
             }
         }
         return $list_files;
