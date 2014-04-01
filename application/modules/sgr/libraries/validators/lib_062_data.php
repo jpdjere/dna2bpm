@@ -11,8 +11,7 @@ class Lib_062_data extends MX_Controller {
         
          /* PARTNER INFO */
         $model_06 = 'model_06';
-        $this->load->Model($model_06);
-        
+        $this->load->Model($model_06);      
    
         
         
