@@ -30,9 +30,13 @@ class Sgr extends MX_Controller {
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
-
         // IDU : Chequeo de sesion
         $this->idu = (float) $this->session->userdata('iduser');
+
+        /* bypass session */
+        session_start();
+        $_SESSION['idu'] = $this->idu;
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -364,8 +368,6 @@ class Sgr extends MX_Controller {
         $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
         $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $new_filename;
 
-
-
         $this->load->library('excel_reader2');
         $data = new Excel_reader2($uploadpath);
 
@@ -415,10 +417,12 @@ class Sgr extends MX_Controller {
             $this->load->library("validators/" . $lib_error);
             $get_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
 
+
+
+
             foreach ($get_data['data'] as $result_data) {
 
                 if (!empty($result_data['error_code'])) {
-
                     $error_input_value = ($result_data['error_input_value'] != "") ? " <br>Valor Ingresado:<strong>“" . $result_data['error_input_value'] . "”</strong>" : "";
 
                     if ($result_data['error_input_value'] == "empty") {
@@ -499,9 +503,14 @@ class Sgr extends MX_Controller {
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
             $customData['message_header'] = $result_header;
+
+            
+            if (strlen($result) > 100000)
+                $result = substr($result, 0, 100000) . "...";
+            
             $customData['message'] = $result;
+            
             $this->render('errors', $customData);
-            //$this->parser->parse('errors2', $customData);
             unlink($uploadpath);
         }
 
@@ -820,7 +829,7 @@ class Sgr extends MX_Controller {
 
     function get_processed_17_tab() {
         $list_files = "<li class=processed><b>PERIODOS INFORMADOS</b></li>";
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
             $processed = array_unique($processed);
             $processed = array($processed);
@@ -836,7 +845,7 @@ class Sgr extends MX_Controller {
     function get_processed_17() {
         $list_files = '';
         // for ($i = date(Y); $i > 2011; $i--) {
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
 
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
@@ -858,7 +867,7 @@ class Sgr extends MX_Controller {
     function get_processed_17_($anexo) {
         $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
             foreach ($processed as $file) {
                 $file = array_unique($file);
@@ -875,7 +884,7 @@ class Sgr extends MX_Controller {
 
     function get_processed_tab($anexo) {
         $list_files = "<li class=processed><b>ANEXOS PROCESADOS</b></li>";
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
@@ -888,7 +897,7 @@ class Sgr extends MX_Controller {
 
     function get_rectified_tab($anexo) {
         $list_files = "<li class=rectified><b>ANEXOS RECTIFICADOS</b></li>";
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
@@ -906,7 +915,7 @@ class Sgr extends MX_Controller {
 
     function get_processed($anexo) {
         $list_files = '';
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
@@ -925,8 +934,9 @@ class Sgr extends MX_Controller {
                     $disabled_link = ' disabled_link';
                     $print_filename = $file['filename'];
 
+
                     $download = anchor('sgr/xls_asset/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/SGR_socios/printVista.php?file=' . base64_encode($file['filename']), ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                    $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
@@ -963,7 +973,7 @@ class Sgr extends MX_Controller {
 
     function get_rectified($anexo) {
         $list_files = '';
-        for ($i = date(Y); $i > 2011; $i--) {
+        for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
             <div id="' . $i . '"><ul>';
             $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);

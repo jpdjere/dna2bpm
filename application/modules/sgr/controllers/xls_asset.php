@@ -20,7 +20,6 @@ class xls_asset extends CI_Controller {
         //$this->user->authorize();
         //---get working directory and map it to your module
         $var = array_shift($this->uri->segments);
-        $var = array_shift($this->uri->segments);
         $file = getcwd() . '/anexos_sgr/' . implode('/', $this->uri->segments);
         $file = str_replace("%20", " ", $file);
         //----get path parts form extension

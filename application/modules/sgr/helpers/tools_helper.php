@@ -770,6 +770,40 @@ function translate_anexos_dna2($anexo) {
     }
 }
 
+function translate_anexos_dna2_urls($anexo) {
+    switch ($anexo) {
+        case '06':
+            return 'SGR_socios';
+            break;
+        
+        case '061':
+            return 'SGR_anexo_17_2';
+            break;
+    
+        case '062':
+            return 'sgr_socios_4';
+            break;
+
+        case 'sgr_socios_4':
+            return '062';
+            break;
+
+        case '12':
+            return 'SGR_anexo_12';
+            break;
+
+        case '14':
+            return 'SGR_FDR_contingente';
+            break;
+       
+
+        case '201':
+            return 'SGR_FDR_integrado';
+            break;
+        
+    }
+}
+
 function translate_month_spanish($code) {
     $replace = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
     $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
