@@ -2,7 +2,6 @@
 <!-- ==== Contenido ==== -->
 
 <div class="container" > 
-
     <div class="row-fluid test" id="barra_user" > 
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
             <li class="pull-right perfil"><a  href="{base_url}user/logout">
