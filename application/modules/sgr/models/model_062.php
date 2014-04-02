@@ -76,7 +76,7 @@ class Model_062 extends CI_Model {
         $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origin'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -98,7 +98,8 @@ class Model_062 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           

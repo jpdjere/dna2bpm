@@ -237,7 +237,7 @@ class Model_06 extends CI_Model {
         $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origin'] = "2013";
 
         $id = (float) $this->app->genid_sgr($container);
 
@@ -261,6 +261,7 @@ class Model_06 extends CI_Model {
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO INCORPORACIONES
@@ -286,6 +287,7 @@ class Model_06 extends CI_Model {
                 $parameter061['status'] = 'activo';
                 $parameter061['idu'] = (float) $this->idu;
                 $parameter061['sgr_id'] = $this->sgr_id;
+                $parameter['origen'] = "2013";
 
 
                 $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
@@ -324,11 +326,11 @@ class Model_06 extends CI_Model {
         $parameter['period_date'] = new MongoDate(strtotime(translate_period_date($period)));
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float)$this->idu;
         /* TEMPORAL */
         $parameter['activated_on'] = date('Y-m-d h:i:s');
         $parameter['status'] = 'activo';
-        $parameter['status'] = 'activo';
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO INCORPORACIONES
@@ -339,8 +341,6 @@ class Model_06 extends CI_Model {
         var_dump($this->anexo, $parameter['filename']);
 
         foreach ($anexoValues as $values) {
-
-
 
             /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
             if (in_array('1', $values["5779"])) {
@@ -360,6 +360,7 @@ class Model_06 extends CI_Model {
                 $parameter061['status'] = 'activo';
                 $parameter061['idu'] = (float) $this->idu;
                 $parameter061['sgr_id'] = $this->sgr_id;
+                $parameter['origen'] = "2013";
 
 
                 $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
