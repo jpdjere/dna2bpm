@@ -287,12 +287,12 @@ class Model_06 extends CI_Model {
                 $parameter061['status'] = 'activo';
                 $parameter061['idu'] = (float) $this->idu;
                 $parameter061['sgr_id'] = $this->sgr_id;
-                $parameter['origen'] = "2013";
+                $parameter061['origen'] = "2013";
 
 
-                $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
-                if ($get_period['id']) {
-                    $this->update_period($get_period['id'], $get_period['status']);
+                $get_period_061 = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
+                if ($get_period_061['id']) {
+                    $this->update_period($get_period_061['id'], $get_period['status']);
                 }
                 $result = $this->app->put_array_sgr($id061, $container, $parameter061);
             }
@@ -316,79 +316,6 @@ class Model_06 extends CI_Model {
         return $out;
     }
 
-    /* REVISAR */
-
-    function save_period_check($parameter) {
-        /* ADD PERIOD */
-        $container = 'container.sgr_periodos';
-        $period = $this->session->userdata['period'];
-
-        $parameter['period_date'] = new MongoDate(strtotime(translate_period_date($period)));
-        $id = $this->app->genid_sgr($container);
-        $parameter['period'] = $period;
-        $parameter['idu'] = (float)$this->idu;
-        /* TEMPORAL */
-        $parameter['activated_on'] = date('Y-m-d h:i:s');
-        $parameter['status'] = 'activo';
-        $parameter['origen'] = "2013";
-
-        /*
-         * VERIFICO INCORPORACIONES
-         */
-
-        $anexoValues = $this->get_insert_data($this->anexo, $parameter['filename']);
-
-        var_dump($this->anexo, $parameter['filename']);
-
-        foreach ($anexoValues as $values) {
-
-            /* Si es una incorporacion solo se activa al aprobar el Anexo 6.1 */
-            if (in_array('1', $values["5779"])) {
-                $parameter['status'] = 'activo';
-                $parameter['pending_on'] = date('Y-m-d h:i:s');
-            } else {
-                $parameter['activated_on'] = date('Y-m-d h:i:s');
-                $parameter['status'] = 'activo';
-                /*
-                 * ACTUALIZO EL ANEXO 61 "SIN MOVIMIENTOS" POR NO TENER INCORPORACIONES
-                 */
-                $parameter061 = array();
-                $id061 = $this->app->genid_sgr($container);
-                $parameter061['anexo'] = "061";
-                $parameter061['filename'] = "SIN MOVIMIENTOS";
-                $parameter061['period'] = $period;
-                $parameter061['status'] = 'activo';
-                $parameter061['idu'] = (float) $this->idu;
-                $parameter061['sgr_id'] = $this->sgr_id;
-                $parameter['origen'] = "2013";
-
-
-                $get_period = $this->sgr_model->get_period_info('061', $this->sgr_id, $period);
-                if ($get_period['id']) {
-                    $this->update_period($get_period['id'], $get_period['status']);
-                }
-                $result = $this->app->put_array_sgr($id061, $container, $parameter061);
-            }
-        }
-
-        /*
-         * VERIFICO PENDIENTE           
-         */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
-        if ($get_period['id']) {
-            $this->update_period($get_period['id'], $get_period['status']);
-        }
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
-        $out = array('status' => 'error');
-        if ($result) {
-            /* BORRO SESSION RECTIFY */
-            $this->session->unset_userdata('rectify');
-            $this->session->unset_userdata('others');
-            $this->session->unset_userdata('period');
-            $out = array('status' => 'ok');
-        }
-        return $out;
-    }
 
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
