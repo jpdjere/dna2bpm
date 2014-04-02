@@ -19,8 +19,8 @@
         <div id="header-logos"></div>
     </div>
 
+     <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>
 
-<div class="container" > 
     <h1 class="error">Errores en la importación del Anexo</h1>
     <div class="alert alert-error" id="{_id}">       
           </p> 
