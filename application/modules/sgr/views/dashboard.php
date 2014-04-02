@@ -1,39 +1,43 @@
-<div class="row-fluid test" id="barra_user" > 
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-
-        <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
-            <i class="fa fa-plus"></i>  Seleccionar Archivos a Procesar
-        </button> 
-        {if sgr_period}        
-        <button type="button" id="no_movement" class="no_movement btn btn-info" value="{sgr_period}">
-            <i class="fa fa-spinner fa-spin"></i>  Asociar el periodo {sgr_period} a "Sin Movimientos"
-        </button>
-        {/if}        
-        <li class="pull-right perfil">
-            SGR: {sgr_nombre}  <span id="status"> <i class="{rol_icono}"></i> {username} [Grupo: {rol}]</span>
-        </li>        
-        <li class="pull-right perfil"><a  href="../dna2/" target="_blank"><i class="fa fa-link"></i> Acceso Versión Anterior | </a></li>
-    </ul>
-</div>
 
 
-<!-- MESSAGES -->
-{if period_message}
-<div class="alert alert-{success}" id="{success}">   
-    {period_message}
-</div>
-{else}
-{if message}
-<div class="alert alert-{success}" id="{success}">   
-    {message}
-</div>
-{/if}
-{/if}
+
+
 
 
 <!-- ==== Contenido ==== -->
 <div class="container" > 
+
+    
+
+
     <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>  
+
+    <div class="row-fluid test" id="barra_user" > 
+        <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
+
+            <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
+                <i class="fa fa-plus"></i>  Seleccionar Archivos a Procesar
+            </button> 
+            {if sgr_period}        
+            <button type="button" id="no_movement" class="no_movement btn btn-info" value="{sgr_period}">
+                <i class="fa fa-spinner fa-spin"></i>  Asociar el periodo {sgr_period} a "Sin Movimientos"
+            </button>
+            {/if}        
+
+        </ul>
+    </div>
+    <!-- MESSAGES -->
+    {if period_message}
+    <div class="alert alert-{success}" id="{success}">   
+        {period_message}
+    </div>
+    {else}
+    {if message}
+    <div class="alert alert-{success}" id="{success}">   
+        {message}
+    </div>
+    {/if}
+    {/if}
 
     <!-- RECTIFICATION ALERT-->
     {rectify_message_template}
