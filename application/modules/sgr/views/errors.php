@@ -33,7 +33,7 @@
             <ol>{message}</ol>
         {/if}
         <hr>
-        <p><i class="fa fa-download"></i> <a href=>Descargar Modelo</a> | <i class="fa fa-download"></i> <a href=>Descargar Manual</a>        
+        <p><i class="fa fa-download"></i> <a href="{module_url}assets/download/modelos.rar" target="_self">Descargar Modelo</a> | <i class="fa fa-download"></i> <a href="{module_url}assets/download/modelos.rar" target="_self">Descargar Manual</a>        
         | <i class="fa fa-backward"></i><a href="../../sgr/"> Volver</a> | <i class="fa fa-print"></i> <a href="javascript:window.print()">Imprimir</a></p>
     </div>
 </div>
