@@ -298,6 +298,7 @@ class Model_201 extends CI_Model {
 
             $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
+            debug($partener_info);
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
                 $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
