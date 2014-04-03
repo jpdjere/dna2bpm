@@ -298,7 +298,7 @@ class Model_201 extends CI_Model {
 
             $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
-           
+            
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
                 $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
@@ -311,7 +311,7 @@ class Model_201 extends CI_Model {
             $new_list['CUIT_PROTECTOR'] = $cuit;
             $new_list['APORTE'] = money_format_custom($list['APORTE']);
             $new_list['RETIRO'] = money_format_custom($list['RETIRO']);
-                $new_list['FECHA_APORTE_ORIGINAL'] = $get_movement_data['FECHA_MOVIMIENTO'];//mongodate_to_print($get_movement_data['FECHA_MOVIMIENTO']);
+                $new_list['FECHA_APORTE_ORIGINAL'] = $list['FECHA_MOVIMIENTO']. "|". mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['APORTE_ORIGINAL'] = money_format_custom($get_movement_data['APORTE']);
 
             $new_list['RETENCION_POR_CONTINGENTE'] = $get_movement_data['RETENCION_POR_CONTINGENTE'];
