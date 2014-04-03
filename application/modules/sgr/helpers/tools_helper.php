@@ -89,8 +89,15 @@ function check_for_empty($parameter) {
 }
 
 function check_word($parameter, $allow_words) {
-    if (!in_array(strtoupper($parameter), $allow_words)) {
-        return true;
+
+    $var = md5(strtoupper($parameter));
+    $new_arr = array();
+    foreach ($allow_words as $each) {
+        $new_arr[] = md5($each);
+    }
+
+    if (!in_array($var, $new_arr)) {
+        return $var;
     }
 }
 
@@ -136,7 +143,6 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-
 function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
     $status = false;
@@ -160,7 +166,6 @@ function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
 
     return $status;
 }
-
 
 function check_decimal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
@@ -226,9 +231,13 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
-    $parameter = "http://" . $parameter;
-    if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+    if (is_numeric($element)) {
         return true;
+    } else {
+        $parameter = "http://" . $parameter;
+        if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+            return true;
+        }
     }
 }
 
@@ -727,7 +736,7 @@ function translate_anexos_dna2($anexo) {
         case 'sgr_socios':
             return '06';
             break;
-        
+
         case '061':
             return 'sgr_anexo17_2';
             break;
@@ -775,11 +784,11 @@ function translate_anexos_dna2_urls($anexo) {
         case '06':
             return 'SGR_socios';
             break;
-        
+
         case '061':
             return 'SGR_anexo_17_2';
             break;
-    
+
         case '062':
             return 'sgr_socios_4';
             break;
@@ -795,12 +804,11 @@ function translate_anexos_dna2_urls($anexo) {
         case '14':
             return 'SGR_FDR_contingente';
             break;
-       
+
 
         case '201':
             return 'SGR_FDR_integrado';
             break;
-        
     }
 }
 

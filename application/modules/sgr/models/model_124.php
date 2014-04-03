@@ -80,7 +80,7 @@ class Model_124 extends CI_Model {
         $parameter['FECHA_REAFIANZA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_REAFIANZA'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -102,7 +102,8 @@ class Model_124 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           

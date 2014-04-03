@@ -170,7 +170,7 @@ class Model_12 extends CI_Model {
         $parameter[5215] = $arr;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -193,6 +193,7 @@ class Model_12 extends CI_Model {
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
         $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
