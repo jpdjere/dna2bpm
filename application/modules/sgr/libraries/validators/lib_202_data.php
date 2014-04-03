@@ -68,8 +68,7 @@ class Lib_202_data extends MX_Controller {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $A_array_value[] = (int) $A_cell_value;
                         $get_input_number = $this->$model_201->get_input_number_left($A_cell_value);
-
-                       
+                        
                         $get_anexo_data_left = $this->$model_201->get_anexo_data_left($A_cell_value);
                         $A3_array = array();
                         foreach ($get_anexo_data_left as $aportes) {
@@ -137,7 +136,7 @@ class Lib_202_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty.");
                         array_push($stack, $result);
                     } else {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
