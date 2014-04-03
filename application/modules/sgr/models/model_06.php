@@ -576,11 +576,11 @@ class Model_06 extends CI_Model {
         foreach ($partners_arr as $each_partner) {
             $add[] = $each_partner;
         }
-
-        $period_arr = $this->mongo->sgr->$container_period->findOne($query);
-        $filename = $period_arr['filename'];
+       
+        $period_arr = $this->mongo->sgr->$container_period->find($query);
+        
         foreach ($period_arr as $list) {
-
+            $filename = $period_arr->filename;
             $anexo_query = array(
                 'filename' => $filename,
                 "5779" => "1",
