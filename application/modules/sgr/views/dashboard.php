@@ -63,7 +63,7 @@
             </button> 
             {if sgr_period}        
             <button type="button" id="no_movement" class="no_movement btn btn-info" value="{sgr_period}">
-                <i class="fa fa-spinner fa-spin"></i>  Asociar el periodo {sgr_period} a "Sin Movimientos"
+                 Asociar el periodo {sgr_period} a "Sin Movimientos"
             </button>
             {/if}        
 
