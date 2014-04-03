@@ -114,7 +114,7 @@ class Model_061 extends CI_Model {
             $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
             $this->update_pending($get_pending['id']);
             
-            var_dump($get_pending);
+           
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -144,9 +144,6 @@ class Model_061 extends CI_Model {
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
 
-        var_dump($get_period);
-
-
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
@@ -165,9 +162,6 @@ class Model_061 extends CI_Model {
     }
 
     function update_period($id, $status) {
-
-
-
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -195,9 +189,7 @@ class Model_061 extends CI_Model {
             'activated_on' => date('Y-m-d h:i:s')
         );
         
-        
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
-        var_dump($id);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
         return $rs['err'];
     }
 
