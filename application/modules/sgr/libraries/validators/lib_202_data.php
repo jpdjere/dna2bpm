@@ -69,10 +69,7 @@ class Lib_202_data extends MX_Controller {
                         $A_array_value[] = (int) $A_cell_value;
                         $get_input_number = $this->$model_201->get_input_number_left($A_cell_value);
 
-
-
-
-                        $code_error = "A.3";
+                       
                         $get_anexo_data_left = $this->$model_201->get_anexo_data_left($A_cell_value);
                         $A3_array = array();
                         foreach ($get_anexo_data_left as $aportes) {
