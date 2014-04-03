@@ -231,9 +231,13 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
-    $parameter = "http://" . $parameter;
-    if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+    if (is_numeric($element)) {
         return true;
+    } else {
+        $parameter = "http://" . $parameter;
+        if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+            return true;
+        }
     }
 }
 
