@@ -62,7 +62,7 @@ class Lib_202_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty1");
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
@@ -94,7 +94,7 @@ class Lib_202_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty2");
                         array_push($stack, $result);
                     } else {
                         $B_cell_value = $parameterArr[$i]['fieldValue'];
@@ -136,7 +136,7 @@ class Lib_202_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty.");
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty3");
                         array_push($stack, $result);
                     } else {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
