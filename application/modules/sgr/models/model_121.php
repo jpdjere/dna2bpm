@@ -79,7 +79,7 @@ class Model_121 extends CI_Model {
         $parameter['VENCIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['VENCIMIENTO'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -109,7 +109,7 @@ class Model_121 extends CI_Model {
 
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
         $id = $this->app->genid_sgr($container);
 
         /* MERGE CAST */

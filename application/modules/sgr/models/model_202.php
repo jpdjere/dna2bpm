@@ -78,7 +78,7 @@ class Model_202 extends CI_Model {
         $id = $this->app->genid_sgr($container);
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 

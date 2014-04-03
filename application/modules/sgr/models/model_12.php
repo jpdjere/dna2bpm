@@ -170,7 +170,7 @@ class Model_12 extends CI_Model {
         $parameter[5215] = $arr;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 

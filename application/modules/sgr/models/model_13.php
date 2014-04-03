@@ -71,7 +71,7 @@ class Model_13 extends CI_Model {
 
         /* FIX DATE */
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 

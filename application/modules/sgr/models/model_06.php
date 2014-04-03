@@ -237,7 +237,7 @@ class Model_06 extends CI_Model {
         $parameter['FECHA_DE_TRANSACCION'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_DE_TRANSACCION'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $id = (float) $this->app->genid_sgr($container);
 

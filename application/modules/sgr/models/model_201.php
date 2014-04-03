@@ -117,7 +117,7 @@ class Model_201 extends CI_Model {
         $parameter['FECHA_ACTA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_ACTA'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 

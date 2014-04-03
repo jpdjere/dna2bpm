@@ -76,7 +76,7 @@ class Model_125 extends CI_Model {
         $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = "2013";
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
