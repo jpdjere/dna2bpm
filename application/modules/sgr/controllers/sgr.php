@@ -11,7 +11,7 @@ class Sgr extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        //----habilita acceso a todo los metodos de este controlador
+//----habilita acceso a todo los metodos de este controlador
         $this->user->authorize('modules/sgr/controllers/sgr');
         $this->load->config('config');
         $this->load->library('parser');
@@ -24,13 +24,13 @@ class Sgr extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
-        //---base variables
+//---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
-        //----LOAD LANGUAGE
+//----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
-        // IDU : Chequeo de sesion
+// IDU : Chequeo de sesion
         $this->idu = (float) $this->session->userdata('iduser');
 
         /* bypass session */
@@ -93,7 +93,7 @@ class Sgr extends MX_Controller {
                 $customData[$key] = $each;
             }
 
-            // UPLOAD ANEXO
+// UPLOAD ANEXO
             $upload = $this->upload_file();
             $translate_upload = ($this->translate_upload($upload)) ? $this->translate_upload($upload) : array();
             $upload_status = ($this->upload_status($upload)) ? $this->upload_status($upload) : array();
@@ -101,17 +101,17 @@ class Sgr extends MX_Controller {
             foreach ($upload_merge as $key => $each) {
                 $customData[$key] = $each;
             }
-            // FILE BROWSER
+// FILE BROWSER
             $fileBrowserData = $this->file_browser();
 
-            //FILE UPLOAD FORM TEMPLATE
+//FILE UPLOAD FORM TEMPLATE
             $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
 
-            //FORM TEMPLATE
+//FORM TEMPLATE
             $customData['form_template'] = $this->parser->parse('form', $customData, true);
         }
 
-        //RENDER
+//RENDER
         if (!empty($fileBrowserData)) {
             $resultRender = array_replace_recursive($customData, $fileBrowserData);
             $this->render($default_dashboard, $resultRender);
@@ -153,14 +153,14 @@ class Sgr extends MX_Controller {
         $rtn['processed_tab'] = $this->get_processed_tab($this->anexo);
         $rtn['processed_list'] = $this->get_processed($this->anexo);
 
-        // RECTIFY LIST
+// RECTIFY LIST
         $rtn['rectified_tab'] = $this->get_rectified_tab($this->anexo);
         $rtn['rectified_list'] = $this->get_rectified($this->anexo);
 
-        //RECTIFY
+//RECTIFY
         $rtn['sgr_period'] = $this->period;
 
-        // PENDING LIST        
+// PENDING LIST        
         $rtn['pending_list'] = $this->get_pending($this->anexo);
 
 
@@ -358,7 +358,7 @@ class Sgr extends MX_Controller {
             exit();
         }
 
-        //echo dirname(__FILE__); //$this->module_url;
+//echo dirname(__FILE__); //$this->module_url;
 
         $original = array($this->sgr_id . '_', $this->anexo . '_', '_');
         $replaced = array("Anexo " . $this->oneAnexoDB_short($this->anexo) . ' - ', strtoupper($this->sgr_nombre) . ' - ', ' ');
@@ -436,7 +436,7 @@ class Sgr extends MX_Controller {
                 }
             }
         } else {
-            //ERROR    
+//ERROR    
             $result_header_desc = "<h3>El modelo de Anexo es incorrecto, restan las siguientes columnas</h3>";
             foreach ($result_head['result'] as $error_head) {
                 $result_header .= "<li>" . $error_head . "</li>";
@@ -487,7 +487,7 @@ class Sgr extends MX_Controller {
                     $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
                     $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                     $this->render('success', $customData);
-                    //$this->parser->parse('success2', $customData);
+//$this->parser->parse('success2', $customData);
                     copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
                     unlink($uploadpath);
                 } else {
@@ -580,9 +580,15 @@ class Sgr extends MX_Controller {
 
     function translate_error_period($error_set_period) {
         if ($error_set_period) {
+            
             switch ($error_set_period) {
-                case 1:
-                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo seleccionado es Invalido';
+                case "1":                                    
+                    $error_legend = ($this->anexo == "06") ? " El Periodo seleccionado es Invalido o tiene un Anexo pendiente." : "El Periodo seleccionado es Invalido.";
+                    $error_msg = '<i class="fa fa-info-circle"></i> ' . $error_legend;
+                    break;
+                
+                case "2":
+                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo a informar no puede ser anterior a 01/2014';
                     break;
 
                 default:
@@ -730,10 +736,11 @@ class Sgr extends MX_Controller {
 
             $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
 
-
             list($month, $year) = explode("-", $period);
-            $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_month = strtotime(date($year . '-' . $month . '-01'));
+            
+            $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));            
+            $set_start_month = strtotime(date('2013-12-30')); 
 
             if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
@@ -741,9 +748,10 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
             } else {
-
-                if ($limit_month < $set_month) {
-                    return 1; // Posterior al mes actual
+                if ($limit_month < $set_month) {                     
+                    return "1"; // Posterior al mes actual
+                } else if ($set_start_month > $set_month) {
+                    return "2"; // Anterior al mes Inicial
                 } else {
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
                     if ($get_period) {
@@ -786,7 +794,7 @@ class Sgr extends MX_Controller {
 
                 return $result;
             }
-            //to render ->
+//to render ->
         } catch (Exception $err) {
             log_message("error", $err->getMessage());
             return show_error($err->getMessage());
@@ -816,9 +824,9 @@ class Sgr extends MX_Controller {
         }
     }
 
-    // OFFLINE FALLBACK
+// OFFLINE FALLBACK
     function offline() {
-        // testeo reemplazo appcache
+// testeo reemplazo appcache
         $customData = array();
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
@@ -844,7 +852,7 @@ class Sgr extends MX_Controller {
 
     function get_processed_17() {
         $list_files = '';
-        // for ($i = date(Y); $i > 2011; $i--) {
+// for ($i = date(Y); $i > 2011; $i--) {
         for ($i = date(Y); $i > 2009; $i--) {
 
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
@@ -888,9 +896,9 @@ class Sgr extends MX_Controller {
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
-                
+
                 $show_period = ($i != 2010) ? $i : "ADMINISTRADOR";
-                
+
                 if ($file)
                     $list_files .= '<li><a href="#tab_processed' . $i . '" data-toggle="tab">' . $show_period . '</a></li>';
             }
@@ -1075,11 +1083,11 @@ class Sgr extends MX_Controller {
     function file_browser() {
         $segment_array = $this->uri->segment_array();
 
-        // first and second segments are the controller and method
+// first and second segments are the controller and method
         $controller = array_shift($segment_array);
         $method = array_shift($segment_array);
 
-        // absolute path using additional segments
+// absolute path using additional segments
         $path_in_url = 'anexos_sgr';
         foreach ($segment_array as $segment)
             $path_in_url.= $segment . '/';
@@ -1089,12 +1097,12 @@ class Sgr extends MX_Controller {
 
         if (is_dir($absolute_path)) {
 
-            // link generation helper
+// link generation helper
             $this->load->helper('url');
 
             $dirs = array();
             $files = array();
-            // fetching directory
+// fetching directory
             if ($handle = @opendir($absolute_path)) {
                 while (false !== ($file = readdir($handle))) {
                     if (( $file != "." AND $file != "..")) {
@@ -1109,12 +1117,12 @@ class Sgr extends MX_Controller {
                 sort($dirs);
                 sort($files);
             }
-            // parent folder
-            // ensure it exists and is the first in array
+// parent folder
+// ensure it exists and is the first in array
             if ($path_in_url != '')
                 array_unshift($dirs, array('name' => ' '));
 
-            // view data
+// view data
             $fileData = array(
                 'controller' => $controller,
                 'method' => $method,
@@ -1123,8 +1131,8 @@ class Sgr extends MX_Controller {
                 'dirs' => $dirs,
                 'files' => $files,
             );
-            //$this->render('dashboard', $customData);
-            //           
+//$this->render('dashboard', $customData);
+//           
 
             /* CALL RENDER */
             $files_list = $this->render_file_browser($fileData);
@@ -1132,9 +1140,9 @@ class Sgr extends MX_Controller {
             return $customData;
         }
         else {
-            // is it a file?
+// is it a file?
             if (is_file($absolute_path)) {
-                // open it
+// open it
                 header('Cache-Control: no-store, no-cache, must-revalidate');
                 header('Cache-Control: pre-check=0, post-check=0, max-age=0');
                 header('Pragma: no-cache');
@@ -1143,7 +1151,7 @@ class Sgr extends MX_Controller {
                     'xls'
                 );
                 $ext = explode('.', $absolute_path);
-                // download necessary ?
+// download necessary ?
                 if (in_array($ext[count($ext) - 1], $text_types)) {
                     header('Content-Type: text/plain');
                 } else {
@@ -1154,7 +1162,7 @@ class Sgr extends MX_Controller {
 
                 @readfile($absolute_path);
             } else {
-                //@show_404();
+//@show_404();
                 return "";
             }
         }
@@ -1171,8 +1179,8 @@ class Sgr extends MX_Controller {
         $prefix = $customData['controller'] . '/' . $customData['method'] . '/' . $customData['path_in_url'];
         if (!empty($customData['dirs'])) {
             foreach ($customData['dirs'] as $dir) {
-                //PRINT DIRECTORIES
-                //$files_list .= anchor($prefix . $dir['name'], $dir['name']) . '<br>';
+//PRINT DIRECTORIES
+//$files_list .= anchor($prefix . $dir['name'], $dir['name']) . '<br>';
             }
         }
 
@@ -1277,8 +1285,8 @@ class Sgr extends MX_Controller {
         $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
         $cpData['usermail'] = $user->email;
-        // Profile 
-        //$cpData['profile_img'] = get_gravatar($user->email);
+// Profile 
+//$cpData['profile_img'] = get_gravatar($user->email);
 
         $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
         $cpData['rol'] = "Usuarios";
@@ -1290,7 +1298,7 @@ class Sgr extends MX_Controller {
         $mymgs = $this->msg->get_msgs($this->idu);
         $cpData['inbox_count'] = $mymgs->count();
 
-        // offline mark
+// offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
 
         $this->ui->compose($file, 'layout.php', $cpData);
