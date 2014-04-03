@@ -771,7 +771,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
