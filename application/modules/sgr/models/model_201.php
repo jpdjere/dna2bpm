@@ -297,7 +297,6 @@ class Model_201 extends CI_Model {
 
 
             $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
-            var_dump($get_movement_data,$list['NUMERO_DE_APORTE'], $list['period']);
             
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
             
@@ -401,7 +400,7 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename']
             );
 
@@ -434,7 +433,7 @@ class Model_201 extends CI_Model {
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename']
             );
 
@@ -466,7 +465,7 @@ class Model_201 extends CI_Model {
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename']
             );
 
@@ -565,7 +564,7 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename']
             );
 
@@ -617,7 +616,7 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename']
             );
             $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
@@ -644,7 +643,7 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
@@ -687,7 +686,7 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
@@ -730,7 +729,7 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-                'sgr_id' => $list['sgr_id'],
+               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
@@ -771,6 +770,7 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
+               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
