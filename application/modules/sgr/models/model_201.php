@@ -540,7 +540,6 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
-                'sgr_id' => $list['sgr_id'],
                 'filename' => $list['filename']
             );
             $io_result = $this->mongo->sgr->$container->find($new_query);
