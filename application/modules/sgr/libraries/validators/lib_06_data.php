@@ -438,7 +438,7 @@ class Lib_06_data extends MX_Controller {
                             $average_amount = $sumaMontos / $calcPromedio;
                         }
                         if (!$sector) {
-                            $code_error = "Q.2";
+                            $code_error = "Q.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "Código  errorneo (" . $ciu . ")");
                             array_push($stack, $result);
                         } else {
