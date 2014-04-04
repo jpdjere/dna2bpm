@@ -105,6 +105,8 @@ class Sgr extends MX_Controller {
             $fileBrowserData = $this->file_browser();
 
 //FILE UPLOAD FORM TEMPLATE
+            $customData['upload_form_btn'] = ($this->anexo=='09')? "Subir Archivo PDF" : "Subir Archivo XLS";
+            
             $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
 
 //FORM TEMPLATE
