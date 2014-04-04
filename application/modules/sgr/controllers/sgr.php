@@ -37,6 +37,7 @@ class Sgr extends MX_Controller {
         session_start();
         $_SESSION['idu'] = $this->idu;
 
+
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -105,8 +106,8 @@ class Sgr extends MX_Controller {
             $fileBrowserData = $this->file_browser();
 
 //FILE UPLOAD FORM TEMPLATE
-            $customData['upload_form_btn'] = ($this->anexo=='09')? "Subir Archivo PDF" : "Subir Archivo XLS";
-            
+            $customData['upload_form_btn'] = ($this->anexo == '09') ? "Subir Archivo PDF" : "Subir Archivo XLS";
+
             $customData['upload_form_template'] = $this->parser->parse('file_upload_form', $customData, true);
 
 //FORM TEMPLATE
@@ -318,10 +319,10 @@ class Sgr extends MX_Controller {
             exit();
         }
         $process_filename = $filename;
-        
-        
-        $filename_ext = ($this->anexo=='09')? ".pdf" : ".xls";
-        
+
+
+        $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
+
         $filename = $process_filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (float) ($this->idu);
@@ -355,10 +356,10 @@ class Sgr extends MX_Controller {
         $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-        
-        
-        $filename_ext = ($this->anexo=='09')? ".pdf" : ".xls";
-        $filename = $filename .$filename_ext;
+
+
+        $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
+        $filename = $filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (float) ($this->idu);
         if ($sgr != $this->sgr_id) {
@@ -588,13 +589,13 @@ class Sgr extends MX_Controller {
 
     function translate_error_period($error_set_period) {
         if ($error_set_period) {
-            
+
             switch ($error_set_period) {
-                case "1":                                    
+                case "1":
                     $error_legend = ($this->anexo == "06") ? " El Periodo seleccionado es Invalido o tiene un Anexo pendiente." : "El Periodo seleccionado es Invalido.";
                     $error_msg = '<i class="fa fa-info-circle"></i> ' . $error_legend;
                     break;
-                
+
                 case "2":
                     $error_msg = '<i class="fa fa-info-circle"></i> El Periodo a informar no puede ser anterior a 01/2014';
                     break;
@@ -746,9 +747,12 @@ class Sgr extends MX_Controller {
 
             list($month, $year) = explode("-", $period);
             $set_month = strtotime(date($year . '-' . $month . '-01'));
+
+            $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
+            $set_start_month = strtotime(date('2013-12-30'));
             
-            $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));            
-            $set_start_month = strtotime(date('2013-12-30')); 
+            if ($this->idu ==-342725103)
+                $set_start_month = strtotime(date('2010-12-30'));
 
             if ($rectify) {
                 $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
@@ -756,10 +760,10 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
                 redirect('/sgr');
             } else {
-                if ($limit_month < $set_month) {                     
+                if ($limit_month < $set_month) {
                     return "1"; // Posterior al mes actual
-                } else if ($set_start_month > $set_month) {
-                    return "2"; // Anterior al mes Inicial
+                } else if ($set_start_month > $set_month) {                    
+                        return "2"; // Anterior al mes Inicial
                 } else {
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
                     if ($get_period) {
