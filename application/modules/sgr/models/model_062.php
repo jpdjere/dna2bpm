@@ -206,9 +206,11 @@ class Model_062 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
-
+        
         $return_result = array();
         foreach ($result as $list) {
+            var_dump($list['filename']);
+            
             $new_query = array(
                 'filename' => $list['filename'],
                 'CUIT' => $cuit
