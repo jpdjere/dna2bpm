@@ -209,8 +209,6 @@ class Model_062 extends CI_Model {
         
         $return_result = array();
         foreach ($result as $list) {
-            var_dump($list['filename']);
-            
             $new_query = array(
                 'filename' => $list['filename'],
                 'CUIT' => $cuit
