@@ -95,7 +95,7 @@ class mysql_model_09 extends CI_Model {
 
         $this->db->select(
                 'id,
-                filename, cuit_sgr
+                filename, cuit_sgr,
                 idu'
         );
 
