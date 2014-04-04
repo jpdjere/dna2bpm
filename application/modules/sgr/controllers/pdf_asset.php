@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
  * 
  */
 
-class xls_asset extends CI_Controller {
+class pdf_asset extends CI_Controller {
 
     function __construct() {
         parent::__construct();
@@ -28,7 +28,7 @@ class xls_asset extends CI_Controller {
         //---set the type for the headers
         $file_type=  strtolower($path_parts['extension']);        
         if (is_file($file)) {
-            header('Content-type: application/vnd.ms-excel'); 
+            header('Content-type: application/pdf'); 
             readfile($file);
         } else {
             echo "file" .$file;

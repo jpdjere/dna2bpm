@@ -76,7 +76,7 @@ class Model_061 extends CI_Model {
         $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -98,7 +98,8 @@ class Model_061 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
@@ -113,7 +114,7 @@ class Model_061 extends CI_Model {
             $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
             $this->update_pending($get_pending['id']);
             
-            var_dump($get_pending);
+           
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -134,16 +135,14 @@ class Model_061 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float)$this->idu;
         $parameter['activated_on'] = date('Y-m-d h:i:s');
+        
 
         /*
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
-
-        var_dump($get_period);
-
 
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -163,9 +162,6 @@ class Model_061 extends CI_Model {
     }
 
     function update_period($id, $status) {
-
-
-
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -193,9 +189,7 @@ class Model_061 extends CI_Model {
             'activated_on' => date('Y-m-d h:i:s')
         );
         
-        
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
-        var_dump($id);
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
         return $rs['err'];
     }
 

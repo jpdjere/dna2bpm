@@ -9,23 +9,13 @@ class Lib_14_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
-        $this->period = $this->session->userdata['period'];
-
         $model_12 = 'model_12';
         $this->load->Model($model_12);
 
         $model_anexo = "model_14";
         $this->load->Model($model_anexo);
 
-        /* UPDATE MONGO/DNA2 */
-        $mysql_model_14 = "mysql_model_14";
-        $this->load->Model($mysql_model_14);
-
-
-        $this->$mysql_model_14->active_periods_dna2("14", $this->period);
-
-
-
+   
 
         /* Vars 
          * 

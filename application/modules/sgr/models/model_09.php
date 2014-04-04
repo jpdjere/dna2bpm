@@ -3,15 +3,14 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Model_16 extends CI_Model {
+class Model_09 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
-        $this->load->Model('sgr/model_12');
 
-        $this->anexo = '16';
+        $this->anexo = '09';
         $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
@@ -48,35 +47,16 @@ class Model_16 extends CI_Model {
          * @author Diego
          *
          * @example         
-         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010	
-         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010	
-         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010	
-         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_FEB_2010	
-         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_ENE_2011	
-         * SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_DESDE_ENE_2011	
-         * SALDO_PROMEDIO_FDR_TOTAL_COMPUTABLE	
-         * SALDO_PROMEDIO_FDR_CONTINGENTE
+         * FILENAME
          * */
-        $defdna = array(
-            1 => '80_HASTA_FEB_2010',
-            2 => '120_HASTA_FEB_2010',
-            3 => '80_DESDE_FEB_2010',
-            4 => '120_DESDE_FEB_2010',
-            5 => '80_DESDE_ENE_2011',
-            6 => '120_DESDE_ENE_2011',
-            7 => 'FDR_TOTAL_COMPUTABLE',
-            8 => 'FDR_CONTINGENTE'
-        );
+        $defdna = array();
 
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
 
-            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
-                $insertarr["MONEDA"] = "1";
-            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
-                $insertarr["MONEDA"] = "2";
+            
         }
         return $insertarr;
     }
@@ -87,7 +67,6 @@ class Model_16 extends CI_Model {
 
         $parameter['period'] = $period;
         $parameter['origen'] = "2013";
-        //$parameter['PROMEDIO_SALDO_MENSUAL'] = $period;
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);

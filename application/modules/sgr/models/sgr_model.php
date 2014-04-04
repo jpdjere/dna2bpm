@@ -488,7 +488,7 @@ class Sgr_model extends CI_Model {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01"));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
 
         $query = array(
             'anexo' => $anexo,
@@ -521,7 +521,7 @@ class Sgr_model extends CI_Model {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01"));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
 
         $query = array(
             'sgr_id' => (float) $this->sgr_id,
@@ -600,7 +600,7 @@ class Sgr_model extends CI_Model {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-01"));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
 
         $query = array(
             'anexo' => $anexo,

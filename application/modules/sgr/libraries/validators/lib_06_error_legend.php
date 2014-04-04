@@ -219,7 +219,7 @@ EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
                 break;
             case "AB.1": $result_error = '<strong>Columna AB - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.';
                 break;
-            case "Q.3": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código de Actividad: DEBE ESTAR VACÍA.';
+            case "Q.3": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Para los Socios (Partícipes o Protectores) incorporados a partir de Noviembre de 2013 inclusive, debe validar que se corresponda con alguno de los códigos del FORMULARIO AFIP F. Nº 883/2013';
                 break;
             case "R.4": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Año/Mes 1: DEBE ESTAR VACÍA.';
                 break;

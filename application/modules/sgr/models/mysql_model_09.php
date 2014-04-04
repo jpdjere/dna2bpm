@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class mysql_model_201 extends CI_Model {
+class mysql_model_09 extends CI_Model {
 
-    function mysql_model_201() {
+    function mysql_model_09() {
         parent::__construct();
         // IDU : Chequeo de sesion
         $this->idu = (float) $this->session->userdata('iduser');
@@ -37,6 +37,7 @@ class mysql_model_201 extends CI_Model {
         $this->db->where('archivo !=', 'Sin Movimiento');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
+
 
         foreach ($query->result() as $row) {
 
@@ -93,15 +94,8 @@ class mysql_model_201 extends CI_Model {
 
 
         $this->db->select(
-                'sgr_fdr_integrado.ID as nro_control,
-                nro_control,
-                cuit_protector,
-                fecha_movimiento,
-                aporte,
-                retiro,
-                retiro_de_rendimientos,
-                retencion_por_contingente,               
-                filename,
+                'id,
+                filename, cuit_sgr,
                 idu'
         );
 
@@ -109,42 +103,29 @@ class mysql_model_201 extends CI_Model {
             $this->db->where('filename', $filename);
 
 
-        $this->db->join('sgr_fdr_integrado_numeracion', 'sgr_fdr_integrado_numeracion.ID = sgr_fdr_integrado.ID');
+
         $query = $this->db->get($anexo);
         $parameter = array();
         foreach ($query->result() as $row) {
 
             $parameter = array();
-            
 
             /* STRING */
-
-            $parameter["CUIT_PROTECTOR"] = (string) str_replace("-", "", $row->cuit_protector);
-
-            /* INTEGERS  & FLOATS */
-            $parameter["APORTE"] = (float) $row->aporte;
-            $parameter["RETIRO"] = (float) $row->retiro;
-            $parameter["RETENCION_POR_CONTINGENTE"] = (float) $row->retencion_por_contingente;
-            $parameter["RETIRO_DE_RENDIMIENTOS"] = (float) $row->retiro_de_rendimientos;
-
-            $parameter["NRO_ACTA"] = (int) $row->NRO_ACTA;
-            $parameter["NUMERO_DE_APORTE"] = (int) $row->nro_control;
-
-
-            $parameter['FECHA_MOVIMIENTO'] = translate_mysql_date($row->fecha_movimiento);
+            $parameter['CUIT_SGR'] = (string) $row->cuit_sgr;
+            
 
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
-            $parameter['id'] = (float) $row->nro_control;
+            $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
             debug($parameter);
-            
-            $this->save_anexo_201_tmp($parameter, $anexo);
+
+            $this->save_anexo_09_tmp($parameter, $anexo);
         }
     }
 
-    /* SAVE FETCHS ANEXO 201 DATA */
+    /* SAVE FETCHS ANEXO 09 DATA */
 
     function already_period($filename) {
 
@@ -165,11 +146,11 @@ class mysql_model_201 extends CI_Model {
             return true;
     }
 
-    function save_anexo_201_tmp($parameter, $anexo) {
+    function save_anexo_09_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_201';
+        $container = 'container.sgr_anexo_09';
         /* TRANSLATE ANEXO NAME */
 
         $id = $this->app->genid_sgr($container);

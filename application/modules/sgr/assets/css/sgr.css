@@ -14,7 +14,11 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: Arial,Helvetica,sans-serif !important;
+
 }
+
+
 
 /* HEADERS */
 h1{font-size:18px;color:#989898;}
@@ -27,7 +31,7 @@ h3 i{color:#B94A48}
 
 
 h6 {
-   
+
     line-height: 0;
     margin: 0;
     text-rendering: optimizelegibility;
@@ -38,12 +42,12 @@ h6 {
 .processed{
     padding:0px 4px 4px 4px;
     margin-top:11px;
-    
+
 }
 .rectified{
     padding:0px 4px 4px 4px;
     margin-top:11px;
-    
+
 }
 
 .observaciones{
@@ -71,7 +75,7 @@ h1
 
 #status{margin-right:10px;}
 #status.online{
-    color:#2B8D2B;
+    color:#00B1AB;
 }
 
 #status.offline{
@@ -217,3 +221,57 @@ li{
     padding: 2px;
 }
 
+/* MODIFY*/
+#header {
+    background: none no-repeat scroll 0 0 #FFFFFF;
+    height: 100px;
+    position: relative;
+}
+#header-dna {
+    background: url('../images/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    width: 580px;
+}
+#header-logos {
+    background: url('../images/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 210px;
+}
+
+.navbar {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    
+}
+
+a{
+    color: #01B5AC;
+    text-decoration: none;
+
+}
+
+a:hover{
+    color: #006964;
+
+}
+
+.btn-primary {
+    background-color: #00A5A7;
+    background-image: linear-gradient(to bottom, #00A4A4, #009191);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #009595;
+    color: #FFFFFF;
+}
+
+.user_class{
+    color: #01B5AC;
+}

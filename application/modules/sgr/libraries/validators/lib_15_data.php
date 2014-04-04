@@ -244,7 +244,7 @@ class Lib_15_data extends MX_Controller {
 
                         $I_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],false,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
