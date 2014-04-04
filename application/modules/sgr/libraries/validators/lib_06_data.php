@@ -203,13 +203,6 @@ class Lib_06_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            /* VALIDACION R.3 */
-                            if (!in_array($check_diff, range(0, 3))) {
-                                $code_error = "R.3";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $check_diff);
-                                array_push($stack, $result);
-                            }
                         }
                         /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
@@ -858,7 +851,13 @@ class Lib_06_data extends MX_Controller {
 
                                         list($first_year_to_check) = explode("/", $R2_cell_value);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff = (int) $period_to_check - (int) $first_year_to_check;
+                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check-3);                                        
+                                        /* VALIDACION R.3 */
+                                        if (!in_array($check_diff, range(0, 3))) {
+                                            $code_error = "R.3";
+                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $check_diff);
+                                            array_push($stack, $result);
+                                        }
                                     }
                                 }
 
@@ -996,22 +995,20 @@ class Lib_06_data extends MX_Controller {
                                 $X_cell_value = $parameterArr[$i]['fieldValue'];
                                 $X2_cell_value = "";
                                 $code_error = "X.2";
+
                                 if ($parameterArr[$i]['fieldValue'] != "") {
+
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
-
-
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-
                                         list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff3 = (int) $second_year_to_check + 1;
+
+                                        $check_diff3 = ($second_year_to_check) ? (int) $second_year_to_check + 1 : $last_year_to_check;
 
                                         if ($check_diff3 != $last_year_to_check) {
-
-
                                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                             array_push($stack, $result);
                                         } else {
@@ -1403,7 +1400,7 @@ class Lib_06_data extends MX_Controller {
             array_push($stack, $result);
         }
         //$stack = array();
-        //debug($stack); exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
