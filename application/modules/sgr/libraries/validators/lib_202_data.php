@@ -149,7 +149,6 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
 
-                        //  var_dump($get_input_number);
 
                         if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
                             $code_error = "A.4";
@@ -157,11 +156,13 @@ class Lib_202_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($get_input_number < 1 && $B_cell_value != 0) {
+                        if (!$get_input_number) {
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         } else {
+
+                            /* ESTA EN EL SISTEMA */
                             if ($B_cell_value > $get_input_number) {
                                 $code_error = "B.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
@@ -183,7 +184,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);        exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
