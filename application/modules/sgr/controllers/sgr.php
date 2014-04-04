@@ -318,7 +318,11 @@ class Sgr extends MX_Controller {
             exit();
         }
         $process_filename = $filename;
-        $filename = $process_filename . ".xls";
+        
+        
+        $filename_ext = ($this->anexo=='09')? ".pdf" : ".xls";
+        
+        $filename = $process_filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (float) ($this->idu);
         if ($sgr != $this->sgr_id) {
@@ -351,8 +355,10 @@ class Sgr extends MX_Controller {
         $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-
-        $filename = $filename . ".xls";
+        
+        
+        $filename_ext = ($this->anexo=='09')? ".pdf" : ".xls";
+        $filename = $filename .$filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
         $user_id = (float) ($this->idu);
         if ($sgr != $this->sgr_id) {
