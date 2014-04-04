@@ -138,7 +138,7 @@ class Lib_12_data extends MX_Controller {
                     $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
                     if ($sum_amount_employees == 0) {
                         $code_error = "B.2";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] .".1");
                         array_push($stack, $result);
                     } else {
                         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
@@ -146,7 +146,7 @@ class Lib_12_data extends MX_Controller {
                         $result_dates = (int) $year_period - (int) $transaction_year[0];
                         if ($result_dates < 1) {
                             $code_error = "B.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'].".2");
                             array_push($stack, $result);
                         }
                     }
@@ -838,7 +838,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //debug($stack);        exit();
+        debug($stack);        exit();
         $this->data = $stack;
     }
 
