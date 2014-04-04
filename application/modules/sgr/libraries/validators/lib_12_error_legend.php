@@ -81,7 +81,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna O - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tomar valores entre -20 y -1 o entre 1 y 20 (es decir, no puede tomar valores entre -1 y 1).';
                 break;
             case "O.2":
-                $result_error = '<strong>Columna O - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna N se indicó que la tasa es “FIJA”, debe tomar un valor entre 1 y 50, con dos decimales.';
+                $result_error = '<strong>Columna O - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la Columna N se indicó que la tasa es “FIJA”, debe tomar un valor entre -25 y 50, con dos decimales.';
                 break;
             case "P.1":
                 $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser un campo numérico, sin decimales, y mayor a cero.';
