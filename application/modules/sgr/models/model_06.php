@@ -353,7 +353,7 @@ class Model_06 extends CI_Model {
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
-        var_dump($anexoValues, $anexo, $parameter);
+      
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
@@ -368,7 +368,6 @@ class Model_06 extends CI_Model {
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
-        var_dump($anexoValues, $anexo, $parameter);
         
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
