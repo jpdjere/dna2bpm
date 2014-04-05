@@ -364,6 +364,8 @@ class Model_06 extends CI_Model {
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
+        var_dump($anexoValues);
+
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
@@ -410,18 +412,23 @@ class Model_06 extends CI_Model {
         );
         $period_result = $this->mongo->sgr->$period_container->find($query);
         $result_arr = array();
+        $new_rtn = array();
         foreach ($period_result as $results) {
-            var_dump($results['filename']);
+
             $container = 'container.sgr_anexo_' . $anexo;
             $new_query = array("filename" => $results['filename']);
             $result_arr = $this->mongo->sgr->$container->find($new_query);
+            $new_rtn[] = $this->ui_table($result_arr);
         }
         /* TABLE DATA */
-        return $this->ui_table($result_arr);
+        return $new_rtn;
     }
 
     function ui_table($result) {
+
         foreach ($result as $list) {
+
+
             /* Vars */
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
