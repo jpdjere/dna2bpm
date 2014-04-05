@@ -359,8 +359,6 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_report($anexo, $parameter) {
-
-
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
@@ -407,17 +405,19 @@ class Model_06 extends CI_Model {
         $period_container = 'container.sgr_periodos';
         $query = array(
             'anexo' => $anexo,
-            'sgr_id' => $parameter['sgr']
+            'sgr_id' => (float) $parameter['sgr_id'],
+            'status' => "activo"
         );
-        $period_result = $this->mongo->sgr->$period_container->find($query)->limit(10);
+        $period_result = $this->mongo->sgr->$period_container->find($query);
+        $result_arr = array();
         foreach ($period_result as $results) {
+            var_dump($results['filename']);
             $container = 'container.sgr_anexo_' . $anexo;
             $new_query = array("filename" => $results['filename']);
-            $result = $this->mongo->sgr->$container->find($new_query)->limit(10);
-
-            /* TABLE DATA */
-            return $this->ui_table($result);
+            $result_arr = $this->mongo->sgr->$container->find($new_query);
         }
+        /* TABLE DATA */
+        return $this->ui_table($result_arr);
     }
 
     function ui_table($result) {
