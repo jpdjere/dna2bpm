@@ -175,6 +175,40 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+    function get_sgrs_users() {
+        $rtn = array();
+
+        $container = 'users';
+        $query = array("group" => 58);
+        $result = $this->mongo->db->$container->find($query);
+        foreach ($result as $users) {
+
+            $rtn[] = $users;
+        }
+        return $rtn;
+    }
+
+    function get_sgrs() {
+        $rtn = array();
+        $users_list = $this->get_sgrs_users();
+        foreach ($users_list as $user) {
+            // Listado de empresas
+            $sort = array(1693 => -1);
+            $container = 'container.empresas';
+            $fields = array('id', '1695', '4651', '1693', '1703');
+            $query = array("6026" => '30', "status" => 'activa', "owner" => $user['idu']);
+            $result = $this->mongo->db->$container->find($query, $fields);
+            $result->sort($sort);
+            foreach ($result as $empresa) {
+                $rtn[] = $empresa;
+            }
+        }
+        
+        
+        
+        return $rtn;
+    }
+
     function get_sgr_custom($idu) {
 
 
@@ -337,7 +371,7 @@ class Sgr_model extends CI_Model {
             return $result['sector'];
         }
     }
-    
+
     function clae2013_forbidden($code) {
         $container = 'container.sgr_clae2013_forbidden';
         $query = array("code" => $code);
