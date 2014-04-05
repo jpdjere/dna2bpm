@@ -61,6 +61,9 @@ class Reports extends MX_Controller {
 
         $customData = array();
         $default_dashboard = 'reports';
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
 
         /* HEADERS */
         $header_merge = array_merge($customData, $this->headers());
@@ -72,19 +75,21 @@ class Reports extends MX_Controller {
         $enables = array('06');
 
         if (in_array($this->anexo, $enables))
-            $customData['form_template'] = $this->parser->parse('reports/form_' . $this->anexo, $customData, true);
+            $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
         else
             $customData['form_template'] = "";
+
+
+
+         
+
+        //$customData['sgr_options'] = $this->get_sgrs();
+        /* POST */
         
-        
-        
-        
-        
-        $customData['sgr_options'] = $this->get_sgrs();
-        /*POST*/
         $process = $this->process_06();
-        var_dump($this->input->post["rectify"]);
-        
+        /*PRINT RESULT*/
+        $customData['show_table'] = $this->$model->get_anexo_report($anexo, $process);
+
 
         /* RENDER */
         $this->render($default_dashboard, $customData);
@@ -146,25 +151,39 @@ class Reports extends MX_Controller {
         $this->session->set_userdata($newdata);
         redirect('/sgr/reports');
     }
-    
-    /* SGRS*/
-    function get_sgrs(){
+
+    /* SGRS */
+
+    function get_sgrs() {
         $sgrArr = $this->sgr_model->get_sgrs();
         $rtn;
-        
+
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
-            
-            $rtn .= "<option value=".$sgr['id'].">".$sgr['1693']."</option>";
+
+            $rtn .= "<option value=" . $sgr['id'] . ">" . $sgr['1693'] . "</option>";
         }
         return $rtn;
     }
-    
-    /*PROCESS*/
-    function process_06(){
+
+    /* PROCESS */
+
+    function process_06() {
+        $input_period_from = $this->translate_post('input_period_from');
+        $input_period_to = $this->translate_post('input_period_to');
+        $sgr = $this->translate_post('sgr');
         
+        
+        
+        
+        
+    }
+
+    function translate_post($input) {
+        $return_input = ($this->input->post($input)) ? $this->input->post($input) : $_POST[$input];
+        return $return_input;
     }
 
     /* RENDER */
