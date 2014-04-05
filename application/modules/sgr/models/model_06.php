@@ -422,7 +422,7 @@ class Model_06 extends CI_Model {
             $new_query['$in'][] = array("filename" => $results['filename']);
         }
         $result_arr = $this->mongo->sgr->$container->find($new_query);
-        
+        debug($new_query);
         /* TABLE DATA */
         return $this->ui_table($result_arr);
     }
