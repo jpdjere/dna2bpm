@@ -195,8 +195,8 @@ class Sgr_model extends CI_Model {
             // Listado de empresas
             $sort = array(1693 => -1);
             $container = 'container.empresas';
-            $fields = array('id', '1695', '4651', '1693', '1703');
-            $query = array("6026" => '30', "status" => 'activa', "owner" => $user['idu']);
+            $fields = array();
+            $query = array(6026 => '30',  "owner" => $user['idu']);
             $result = $this->mongo->db->$container->find($query, $fields);
             $result->sort($sort);
             foreach ($result as $empresa) {
