@@ -409,7 +409,7 @@ class Model_06 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => $parameter['sgr']
         );
-        $period_result = $this->mongo->sgr->$container->find($query)->limit(10);
+        $period_result = $this->mongo->sgr->$period_container->find($query)->limit(10);
         foreach ($period_result as $results) {
             $container = 'container.sgr_anexo_' . $anexo;
             $new_query = array("filename" => $results['filename']);
