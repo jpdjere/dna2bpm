@@ -419,7 +419,7 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $new_query = array();
         foreach ($period_result as $results) {
-            $new_query['$in'][] = array("filename" => $results['filename']);
+            $new_query['$or'][] = array("filename" => $results['filename']);
         }
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         debug($new_query);
