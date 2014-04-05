@@ -78,9 +78,6 @@ class Reports extends MX_Controller {
             $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
         else
             $customData['form_template'] = "";
-
-
-
          
 
         //$customData['sgr_options'] = $this->get_sgrs();
