@@ -367,7 +367,7 @@ class Model_06 extends CI_Model {
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
         var_dump($anexoValues, $anexo, $parameter);
         
         foreach ($anexoValues as $values) {
