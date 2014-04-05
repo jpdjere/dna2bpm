@@ -203,7 +203,7 @@ class Reports extends MX_Controller {
         $user = $this->user->get_user($this->idu);
 
         $cpData['user'] = (array) $user;
-        $cpData['isAdmin'] = $this->user->isAdmin($user);
+        //$cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
         $cpData['usermail'] = $user->email;
 // Profile 
