@@ -82,10 +82,8 @@ class Reports extends MX_Controller {
 
         //$customData['sgr_options'] = $this->get_sgrs();
         /* POST */
-        
-        $process = $this->process_06();
         /*PRINT RESULT*/
-        $customData['show_table'] = $this->$model->get_anexo_report($anexo, $process);
+        $customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
 
 
         /* RENDER */
@@ -168,13 +166,12 @@ class Reports extends MX_Controller {
     /* PROCESS */
 
     function process_06() {
-        $input_period_from = $this->translate_post('input_period_from');
-        $input_period_to = $this->translate_post('input_period_to');
-        $sgr = $this->translate_post('sgr');
+        $rtn = array();
+        $rtn['input_period_from'] = $this->translate_post('input_period_from');
+        $rtn['input_period_to'] = $this->translate_post('input_period_to');
+        $rtn['sgr_id'] = $this->translate_post('sgr');
         
-        
-        
-        
+        return $rtn;
         
     }
 
