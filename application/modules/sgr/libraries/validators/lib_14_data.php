@@ -157,6 +157,7 @@ class Lib_14_data extends MX_Controller {
                             if ($c_info['5219'][0] == 2) {
                                 
                                 
+                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 
                                 
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
