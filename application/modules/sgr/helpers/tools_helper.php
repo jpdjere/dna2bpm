@@ -500,6 +500,11 @@ function translate_dna2_period_date($period) {
     return $mongotime;
 }
 
+function translate_date_xls($date){
+    $new_date = unixtojd(strtotime($date)) - gregoriantojd(1, 1, 1900);
+    return $new_date; 
+}
+
 function last_month_date($period) {
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
     $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
