@@ -473,10 +473,7 @@ class Sgr_model extends CI_Model {
 
     function get_dollar_quotation_period($currency = "dolar americano") {
         
-        
         $endDate = last_month_date($this->session->userdata['period']);
-     
-        var_dump(mongodate_to_print($endDate));
         
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = new MongoDate(strtotime($quotation_date));
@@ -542,10 +539,8 @@ class Sgr_model extends CI_Model {
         $token = $this->idu;
         $period = 'container.periodos_' . $token . '_tmp';
         $container = 'container.sgr_anexo_' . $anexo . '_tmp';
-
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'anexo' => $anexo,
@@ -576,9 +571,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'sgr_id' => (float) $this->sgr_id,
@@ -611,9 +604,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $period_date);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'anexo' => $anexo,
@@ -655,9 +646,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'anexo' => $anexo,
