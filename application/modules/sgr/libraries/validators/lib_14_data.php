@@ -157,10 +157,9 @@ class Lib_14_data extends MX_Controller {
 
                             if ($c_info['5219'][0] == 2) {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($c_info['5215']));
-                                var_dump(translate_date_xls($c_info['5215']), $dollar_quotation_origin);
                                 
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
-                                $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
+                                $dollar_value = ($parameterArr[$i]['fieldValue'] / $dollar_quotation_origin)*$dollar_quotation;
                              
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
@@ -170,7 +169,7 @@ class Lib_14_data extends MX_Controller {
                                 
                                 
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                                $new_dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation_period;
+                                $new_dollar_value =  ($parameterArr[$i]['fieldValue'] / $dollar_quotation_origin)*$dollar_quotation_period;
                              
                                 if ($new_dollar_value > $c_info[5218]) {
                                     $code_error = "C.2.B";
