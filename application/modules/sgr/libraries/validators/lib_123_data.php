@@ -130,7 +130,7 @@ class Lib_123_data extends MX_Controller {
                 $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
                 
                 
-                var_dump($dollar_quotation_period);
+                var_dump($new_dollar_value,$amount);
 
                 if ($new_dollar_value > $amount) {
                     $code_error = "B.1.B";
