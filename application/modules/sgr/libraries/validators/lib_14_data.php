@@ -156,11 +156,6 @@ class Lib_14_data extends MX_Controller {
 
                             if ($c_info['5219'][0] == 2) {
                                 
-                                
-                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                                
-                                var_dump($dollar_quotation_period);
-                                
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
                              
@@ -169,6 +164,19 @@ class Lib_14_data extends MX_Controller {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
+                                
+                                
+                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                                $new_dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation_period;
+                             
+                                if ($new_dollar_value > $c_info[5218]) {
+                                    $code_error = "C.2.B";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    array_push($stack, $result);
+                                }
+                               
+                                
+                                
                             }
                         }
 
