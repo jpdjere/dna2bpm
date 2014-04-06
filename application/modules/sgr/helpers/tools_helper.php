@@ -501,7 +501,7 @@ function translate_dna2_period_date($period) {
 }
 
 function last_month_date($period) {
-    list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
     $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
     $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
     
