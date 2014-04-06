@@ -130,7 +130,7 @@ class Lib_123_data extends MX_Controller {
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                 $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
 
-                var_dump($currency);
+
 
                 if ($currency == 2) {
                     if ($new_dollar_value > $amount) {
@@ -156,8 +156,7 @@ class Lib_123_data extends MX_Controller {
             }
         }
 
-        var_dump($stack);
-        exit();
+        //   var_dump($stack);        exit();
         $this->data = $stack;
     }
 
