@@ -463,7 +463,7 @@ class Sgr_model extends CI_Model {
         $quotation_date = new MongoDate(strtotime($quotation_date));
         $start = new MongoDate(strtotime("2013-10-05 00:00:00"));
         $query = array('date' => array(
-                '$lte' => $start
+                '$lte' => $quotation_date
         ));
         $result = $this->mongo->sgr->$container->findOne($query);
         var_dump($query, $quotation_date);
