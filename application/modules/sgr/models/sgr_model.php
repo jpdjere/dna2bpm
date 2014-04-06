@@ -196,16 +196,16 @@ class Sgr_model extends CI_Model {
             $sort = array(1693 => -1);
             $container = 'container.empresas';
             $fields = array();
-            $query = array(6026 => '30',  "owner" => $user['idu']);
+            $query = array(6026 => '30', "owner" => $user['idu']);
             $result = $this->mongo->db->$container->find($query, $fields);
             $result->sort($sort);
             foreach ($result as $empresa) {
                 $rtn[] = $empresa;
             }
         }
-        
-        
-        
+
+
+
         return $rtn;
     }
 
@@ -460,10 +460,12 @@ class Sgr_model extends CI_Model {
     function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
         $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
         $container = 'container.sgr_cotizacion_dolar';
-        $quotation_date = $quotation_date;
+        $quotation_date = $endDate = new MongoDate(strtotime($quotation_date));
         $query = array("date" => $quotation_date, 'currency' => $currency
         );
         $result = $this->mongo->sgr->$container->findOne($query);
+        var_dump($result);
+        
         return $result[amount];
     }
 
