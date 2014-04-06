@@ -463,7 +463,7 @@ class Sgr_model extends CI_Model {
         $quotation_date = $endDate = new MongoDate(strtotime($quotation_date));
         $query = array("date" => $quotation_date);
         $result = $this->mongo->sgr->$container->findOne($query);
-        var_dump($query);
+        var_dump($query, $quotation_date);
         
         return $result[amount];
     }
