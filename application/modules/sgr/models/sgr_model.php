@@ -464,7 +464,7 @@ class Sgr_model extends CI_Model {
         $query = array("date" => $quotation_date, 'currency' => $currency
         );
         $result = $this->mongo->sgr->$container->findOne($query);
-        var_dump($result);
+        var_dump($query);
         
         return $result[amount];
     }
