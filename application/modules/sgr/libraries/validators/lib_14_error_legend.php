@@ -36,8 +36,11 @@ class Lib_14_error_legend {
             case "C.1":
                 $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe ser un valor numérico y aceptar hasta 2 decimales.';
                 break;
-            case "C.2":
+            case "C.2.A":
                 $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que la garantía haya sido otorgada en PESOS, debe validar que el importe sea menor o igual al Monto de la Garantía Otorgada informada mediante Anexo 12 registrado en el Sistema.';
+                break;
+             case "C.2.B":
+                $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>GARANTÍAS EN DÓLARES: En caso de que la garantía haya sido otorgada en dólares, los montos informados deben ser menores o iguales al monto en pesos informado para esa misma garantía en la columna E del anexo 12, dividido el Tipo de Cambio de la fecha de otorgamiento, multiplicado por el Tipo de Cambio vigente al último día del período que se está informando.';
                 break;
             case "C.3":
                 $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En  caso de que la garantía haya sido otorgada en DÓLARES debe validar que el importe aquí informado sea menor o igual al Monto de la Garantía Otorgada informado mediante Anexo 12 registrado en el Sistema, dividido por el TIPO DE CAMBIO DEL día anterior al que fue otorgada la garantía y multiplicado por el TIPO DE CAMBIO del día anterior al que se está informando que se cayó la garantía.';
