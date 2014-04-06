@@ -461,12 +461,12 @@ class Sgr_model extends CI_Model {
         $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = new MongoDate(strtotime($quotation_date));
-        $start = new MongoDate(strtotime("2013-10-05 00:00:00"));
+        $field = array("amount");
         $query = array('date' => array(
                 '$lte' => $quotation_date
         ));
         $result = $this->mongo->sgr->$container->findOne($query);
-        var_dump($result);
+
 
         return $result[amount];
     }
