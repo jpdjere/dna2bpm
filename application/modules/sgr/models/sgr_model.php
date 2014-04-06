@@ -474,8 +474,7 @@ class Sgr_model extends CI_Model {
     function get_dollar_quotation_period($currency = "dolar americano") {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-t"));
+        $endDate = new MongoDate(strtotime(date('m-t-Y')));
         
         var_dump(date('m-t-Y'), mongodate_to_print($endDate), $endDate);
         
