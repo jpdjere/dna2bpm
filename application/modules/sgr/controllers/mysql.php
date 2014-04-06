@@ -57,15 +57,15 @@ class Mysql extends MX_Controller {
     }
 
     function update_periods() {
-        
+
         $anexo = '061';
         $mysql_model = "mysql_model_periods";
         $this->load->Model($mysql_model);
 
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
-        
-        
+
+
 
         /*
           INSERT INTO export_sgr_fdr_contingente (filename)
@@ -77,16 +77,15 @@ class Mysql extends MX_Controller {
         //$result = $this->mysql_model->active_periods_dna2();
         debug($result);
     }
-    
+
     function Dollar() {
 
-        $anexo = '06';
         $mysql_model = "mysql_model_dollar";
         $this->load->Model($mysql_model);
         $result = $this->$mysql_model->active_periods_dna2();
         debug($result);
     }
-    
+
     function Anexo06() {
 
         $anexo = '06';
@@ -106,7 +105,7 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
+
     function Anexo09() {
 
         $anexo = '09';
