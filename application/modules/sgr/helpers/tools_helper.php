@@ -500,6 +500,14 @@ function translate_dna2_period_date($period) {
     return $mongotime;
 }
 
+function last_month_date($period) {
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+    $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
+    $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+    
+    return $endDate;
+}
+
 function mongodate_to_print($date) {
     return date('Y-m-d', $date->sec);
 }
@@ -752,7 +760,7 @@ function translate_anexos_dna2($anexo) {
         case 'sgr_socios_4':
             return '062';
             break;
-        
+
         case '09':
             return 'sgr_pdf';
             break;
