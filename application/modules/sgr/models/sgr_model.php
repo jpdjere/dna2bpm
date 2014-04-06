@@ -460,7 +460,7 @@ class Sgr_model extends CI_Model {
     function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
         $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
         $container = 'container.sgr_cotizacion_dolar';
-        $quotation_date = $endDate = new MongoDate(strtotime($quotation_date));
+        $quotation_date =  new MongoDate(strtotime($quotation_date));
         $query = array("date" => $quotation_date);
         $result = $this->mongo->sgr->$container->findOne($query);
         var_dump($query, $quotation_date);
