@@ -111,6 +111,7 @@ class Lib_123_data extends MX_Controller {
                     $check_word = $info['5216'][0];
                     $amount = $info['5218'];
                     $origin = $info['5215'];
+                    $currency = $info['5219'][0];
                 }
 
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
@@ -128,22 +129,22 @@ class Lib_123_data extends MX_Controller {
                 /* DOLLAR */
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                 $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
-                
-                
-                var_dump($new_dollar_value,$amount);
-
-                if ($new_dollar_value > $amount) {
-                    $code_error = "B.1.B";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $value . '). Monto disponible para el Nro. Orden ' . $nro_orden . ' = $' . $amount);
-                    array_push($stack, $result);
-                }
 
 
 
-                if ($value > $nro_orden) {
-                    $code_error = "B.1.A";
-                    $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
-                    array_push($stack, $result);
+                if ($currency == 2) {
+                    if ($new_dollar_value > $amount) {
+                        $code_error = "B.1.B";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $value . '). Monto disponible para el Nro. Orden ' . $nro_orden . ' = $' . $amount);
+                        array_push($stack, $result);
+                    }
+                } else {
+
+                    if ($value > $amount) {
+                        $code_error = "B.1.A";
+                        $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
+                        array_push($stack, $result);
+                    }
                 }
 
                 $return = check_decimal($value, 2, true);
