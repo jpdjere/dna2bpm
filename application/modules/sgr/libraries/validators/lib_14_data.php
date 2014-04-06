@@ -128,7 +128,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
 
-                        /* Nro C.2
+                        /* Nro C.2.A
                          * Detail:
                          * En caso de que la garantía haya sido otorgada en PESOS, debe validar que el importe sea menor o igual al 
                          * Monto de la Garantía Otorgada informada mediante Anexo 12 registrado en el Sistema. 
@@ -141,7 +141,7 @@ class Lib_14_data extends MX_Controller {
 
                             if ($c_info['5219'][0] == 1) {
                                 if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
-                                    $code_error = "C.2";
+                                    $code_error = "C.2.A";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
@@ -155,6 +155,10 @@ class Lib_14_data extends MX_Controller {
                              * anterior al que se está informando que se cayó la garantía. */
 
                             if ($c_info['5219'][0] == 2) {
+                                
+                                
+                                
+                                
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
                              
@@ -508,7 +512,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-       // var_dump($stack);      exit();                    
+        var_dump($stack);      exit();                    
         $this->data = $stack;
     }
 
