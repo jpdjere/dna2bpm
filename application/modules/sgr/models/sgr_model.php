@@ -477,7 +477,7 @@ class Sgr_model extends CI_Model {
         $getPeriodMonth = $getPeriodMonth;
         $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "t"));
         
-        var_dump(strtotime($getPeriodYear . "-" . $getPeriodMonth . "t"), $endDate);
+        var_dump(strtotime($getPeriodYear . "-" . $getPeriodMonth . "30"), $endDate);
         
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = new MongoDate(strtotime($quotation_date));
