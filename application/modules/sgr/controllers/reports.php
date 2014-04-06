@@ -78,11 +78,11 @@ class Reports extends MX_Controller {
             $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
         else
             $customData['form_template'] = "";
-         
+
 
         //$customData['sgr_options'] = $this->get_sgrs();
         /* POST */
-        /*PRINT RESULT*/
+        /* PRINT RESULT */
         $customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
 
 
@@ -171,8 +171,9 @@ class Reports extends MX_Controller {
         $rtn['input_period_to'] = $this->translate_post('input_period_to');
         $rtn['sgr_id'] = $this->translate_post('sgr');
         
-        return $rtn;
-        
+        var_dump($rtn);
+        if ($this->translate_post('sgr'))
+            return $rtn;
     }
 
     function translate_post($input) {
