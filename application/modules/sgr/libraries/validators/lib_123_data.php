@@ -117,8 +117,12 @@ class Lib_123_data extends MX_Controller {
                 $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
                 array_push($stack, $result);
             } else {
+                
+                /*DOLLAR*/
+                var_dump($value,$amount);
+                
                 if ($value > $amount) {
-                    $code_error = "B.1";
+                    $code_error = "B.1.A";
                     $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
                     array_push($stack, $result);
                 }
@@ -131,7 +135,7 @@ class Lib_123_data extends MX_Controller {
             }
         }
 
-        //var_dump($stack);   exit();
+        var_dump($stack);   exit();
         $this->data = $stack;
     }
 
