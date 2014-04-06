@@ -411,7 +411,10 @@ class Model_06 extends CI_Model {
         $query = array(
             'anexo' => $anexo,
             'sgr_id' => (float) $parameter['sgr_id'],
-            'status' => "activo"
+            'status' => "activo",
+            'period_date' => array(
+                '$gte' => $endDate, '$lte' => $endDate
+            ),
         );
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
@@ -428,8 +431,6 @@ class Model_06 extends CI_Model {
 
     function ui_table($result) {
         foreach ($result as $list) {
-           
-            debug($list);
             /* Vars */
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
