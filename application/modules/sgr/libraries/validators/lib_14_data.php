@@ -138,6 +138,7 @@ class Lib_14_data extends MX_Controller {
 
 
                         foreach ($B_warranty_info as $c_info) {
+                            //ORIGEN  $c_info['5215'];
 
                             if ($c_info['5219'][0] == 1) {
                                 if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
@@ -155,6 +156,8 @@ class Lib_14_data extends MX_Controller {
                              * anterior al que se está informando que se cayó la garantía. */
 
                             if ($c_info['5219'][0] == 2) {
+                                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($c_info['5215']));
+                                var_dump(translate_date_xls($c_info['5215']), $dollar_quotation_origin);
                                 
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
@@ -522,7 +525,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);      exit();                    
+        var_dump($stack);      exit();                    
         $this->data = $stack;
     }
 
