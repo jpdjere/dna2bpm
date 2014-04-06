@@ -127,14 +127,14 @@ class Lib_123_data extends MX_Controller {
 
                 /* DOLLAR */
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                $new_dollar_value = ($parameterArr[$i]['fieldValue'] / $dollar_quotation_origin) * $dollar_quotation_period;
+                $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
                 
                 
                 var_dump($nro_orden, $new_dollar_value,$amount);
 
                 if ($new_dollar_value > $amount) {
-                    $code_error = "C.2.B";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                    $code_error = "B.1.B";
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $value . '). Monto disponible para el Nro. Orden ' . $nro_orden . ' = $' . $amount);
                     array_push($stack, $result);
                 }
 
