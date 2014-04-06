@@ -158,7 +158,7 @@ class Lib_14_data extends MX_Controller {
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
                                 
-                                var_dump($dollar_value, $dollar_quotation);
+                                var_dump($dollar_value, $c_info[5218]);
 
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
