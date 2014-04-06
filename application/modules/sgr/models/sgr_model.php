@@ -475,7 +475,7 @@ class Sgr_model extends CI_Model {
 
         list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
         $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-t"));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "t"));
         
         var_dump(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-30"), $endDate);
         
