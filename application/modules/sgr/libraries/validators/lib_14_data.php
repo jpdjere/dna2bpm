@@ -159,6 +159,7 @@ class Lib_14_data extends MX_Controller {
                                 
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 
+                                var_dump($dollar_quotation_period);
                                 
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
