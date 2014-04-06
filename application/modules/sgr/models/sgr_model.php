@@ -471,6 +471,26 @@ class Sgr_model extends CI_Model {
         return $result[amount];
     }
 
+    function get_dollar_quotation_period($currency = "dolar americano") {
+
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
+        $getPeriodMonth = $getPeriodMonth;
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "t"));
+        
+        var_dump(strtotime($getPeriodYear . "-" . $getPeriodMonth . "t"), $endDate);
+        
+        $container = 'container.sgr_cotizacion_dolar';
+        $quotation_date = new MongoDate(strtotime($quotation_date));
+        $field = array("amount");
+        $query = array('date' => array(
+                '$lte' => $endDate
+        ));
+        $result = $this->mongo->sgr->$container->findOne($query);
+
+
+        return $result[amount];
+    }
+
     /* GET ACTIVE ANEXOS */
 
     function get_just_active($anexo, $period = false) {
