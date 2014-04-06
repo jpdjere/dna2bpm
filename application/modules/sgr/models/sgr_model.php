@@ -466,7 +466,7 @@ class Sgr_model extends CI_Model {
                 '$lte' => $quotation_date
         ));
         $result = $this->mongo->sgr->$container->findOne($query);
-        var_dump($query, $quotation_date);
+        var_dump($result);
 
         return $result[amount];
     }
