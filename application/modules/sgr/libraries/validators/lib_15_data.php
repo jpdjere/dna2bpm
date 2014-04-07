@@ -190,17 +190,15 @@ class Lib_15_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                   
-                    $get_value = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
-                    $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
-                    
-                   
 
-                    if (!$get_value || !$get_value2) {
-                        if (!$get_value2) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
+                    $get_depositories = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
+                    $get_cuit_ext_company = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
+
+                    $get_value = ($get_depositories)?$get_depositories:$get_cuit_ext_company;
+
+                    if (!$get_value) {
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        array_push($stack, $result);
                     }
                 }
 
@@ -262,7 +260,8 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        var_dump($stack);         exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
