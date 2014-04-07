@@ -228,6 +228,7 @@ class Lib_121_data extends MX_Controller {
             $currency = $item['5219'][0];
 
             if ($currency == 2) {
+                $code_error = "D.2.B";
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                 $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
@@ -238,6 +239,7 @@ class Lib_121_data extends MX_Controller {
                 }
             } else {
                 if (isset($item[5218])) {
+                    $code_error = "D.2.A";
                     if ($d2_sum != $item[5218]) {
                         $result = return_error_array($code_error, "-", "Monto: " . $item[5218] . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
@@ -261,7 +263,7 @@ class Lib_121_data extends MX_Controller {
             }
         }
 
-
+           debug($stack);        exit();
         $this->data = $stack;
     }
 
