@@ -851,7 +851,7 @@ class Lib_06_data extends MX_Controller {
 
                                         list($first_year_to_check) = explode("/", $R2_cell_value);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check-3);                                        
+                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);                                        
                                         /* VALIDACION R.3 */
                                         if (!in_array($check_diff, range(0, 3))) {
                                             $code_error = "R.3";
