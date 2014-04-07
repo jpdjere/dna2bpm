@@ -61,17 +61,17 @@ class Lib_121_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                  
-                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);  
 
-                    if ($warranty_info){
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);
+
+                    if ($warranty_info) {
                         $warrantyArr = array($warranty_info[0]['5227'][0]);
                         if (!in_array('04', $warrantyArr)) {
 
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                    }else{
+                    } else {
                         // warranty_info no trae 
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -103,10 +103,8 @@ class Lib_121_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
-                    
-                    $b1_array[]=$parameterArr[$i]['fieldValue'];
-                    
 
+                    $b1_array[] = $parameterArr[$i]['fieldValue'];
                 }
 
                 /* VENCIMIENTO
@@ -132,17 +130,17 @@ class Lib_121_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
-                    
-                    //vto. de la cuota sea posterior a la de emisión de la garantía
-                    if (isset($parameterArr[$i-2]['fieldValue'])) {
-                        $nro=$parameterArr[$i-2]['fieldValue'];
-                        $item = $this->$model_anexo->get_order_number_left($nro); 
 
-                        if(isset($item[0][5215])){
-                            $fecha_emision=$item[0][5215];
-                            $fecha_row=translate_date($parameterArr[$i]['fieldValue']);
-                            if($fecha_row<$fecha_emision){
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']."($fecha_row)");
+                    //vto. de la cuota sea posterior a la de emisión de la garantía
+                    if (isset($parameterArr[$i - 2]['fieldValue'])) {
+                        $nro = $parameterArr[$i - 2]['fieldValue'];
+                        $item = $this->$model_anexo->get_order_number_left($nro);
+
+                        if (isset($item[0][5215])) {
+                            $fecha_emision = $item[0][5215];
+                            $fecha_row = translate_date($parameterArr[$i]['fieldValue']);
+                            if ($fecha_row < $fecha_emision) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "($fecha_row)");
                                 array_push($stack, $result);
                             }
                         }
@@ -169,17 +167,17 @@ class Lib_121_data extends MX_Controller {
 
                     // Decimal check 
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }else{
+                        } else {
                             // D2
-                            $d2_sum+=(float)$parameterArr[$i]['fieldValue'];
-                            $d2_nro=$parameterArr[$i-3]['fieldValue'];
+                            $d2_sum+=(float) $parameterArr[$i]['fieldValue'];
+                            $d2_nro = $parameterArr[$i - 3]['fieldValue'];
                         }
                     }
-                    
+
                     //Valida contra Mongo
                 }
 
@@ -199,14 +197,14 @@ class Lib_121_data extends MX_Controller {
                     }
                     // Check decimal y positivo
                     if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        }else{
+                        } else {
                             // E2
-                            $e2_sum+=(float)$parameterArr[$i]['fieldValue'];
-                            $e2_nro=$parameterArr[$i-4]['fieldValue'];
+                            $e2_sum+=(float) $parameterArr[$i]['fieldValue'];
+                            $e2_nro = $parameterArr[$i - 4]['fieldValue'];
                         }
                     }
 
@@ -216,44 +214,54 @@ class Lib_121_data extends MX_Controller {
         }
 
         // ============ Validation B.1 ==
-           
-        if(!check_consecutive_values($b1_array)){
+
+        if (!check_consecutive_values($b1_array)) {
             $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
             array_push($stack, $result);
         }
-        
-        // ============ Validation D.2 
-        
+
+        // ============ Validation D.2.A 
+
         if (!empty($d2_nro)) {
             $item = $this->$model_anexo->get_order_number_left($d2_nro);
-            $code_error = "D.2";
-            
-            if (isset($item[0][5221])) {
-                if ($d2_sum != $item[0][5221]) {
-                    $result = return_error_array($code_error, "-", "Monto: ".$item[0][5221]." / Suma:".$d2_sum);
+
+            $currency = $item['5219'][0];
+
+            if ($currency == 2) {
+                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
+
+                if ($d2_sum != $new_dollar_value) {
+                    $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $d2_sum);
                     array_push($stack, $result);
                 }
+            } else {
+                if (isset($item[5218])) {
+                    if ($d2_sum != $item[5218]) {
+                        $result = return_error_array($code_error, "-", "Monto: " . $item[5218] . " / Suma:" . $d2_sum);
+                        array_push($stack, $result);
+                    }
+                }
             }
-            
         }
-        
+
         // ============ Validation E.2 
-       
+
 
         if (!empty($e2_nro)) {
             $item = $this->$model_anexo->get_order_number_left($e2_nro);
             $code_error = "E.2";
-            
-            if (isset($item[0][5221])) {
-                if ($e2_sum != $item[0][5221]) {
-                    $result = return_error_array($code_error, "-", $e2_sum." de ".$item[0][5221]);
+
+            if (isset($item[5218])) {
+                if ($e2_sum != $item[5218]) {
+                    $result = return_error_array($code_error, "-", $e2_sum . " de " . $item[5218]);
                     array_push($stack, $result);
                 }
             }
-         
         }
-        
-        
+
+
         $this->data = $stack;
     }
 
