@@ -46,13 +46,13 @@ class mysql_model_12 extends CI_Model {
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);        
+        $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
         foreach ($query->result() as $row) {
-            $already_period = $this->already_period($row->archivo);            
+            $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
-                
+
                 $parameter = array();
 
                 $parameter['anexo'] = translate_anexos_dna2($row->anexo);
@@ -135,7 +135,7 @@ class mysql_model_12 extends CI_Model {
             $parameter[5216] = (string) $row->tipo_garantia;
             $parameter[5222] = (string) $row->tasa;
             $parameter[5727] = (string) $row->nro_operacion_bolsa;
-            
+
 
             list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $row->fecha_alta);
             $parameter[5215] = $arr;
@@ -152,14 +152,14 @@ class mysql_model_12 extends CI_Model {
             /* INTEGER */
             $parameter[5224] = (int) $row->plazo;
             $parameter[5225] = (int) $row->gracia;
-            
-            $parameter[5219] = (string)$row->moneda;
-            $parameter[5758] = (string)$row->moneda_Cred_Garant;
-            
-            $parameter[5226] = (string)$row->periodicidad;
-            $parameter[5227] = (string)$row->sistema;
-            
-            $parameter[5222] = (string)$row->tasa;
+
+            $parameter[5219] = (string) $row->moneda;
+            $parameter[5758] = (string) $row->moneda_Cred_Garant;
+
+            $parameter[5226] = (string) $row->periodicidad;
+            $parameter[5227] = (string) $row->sistema;
+
+            $parameter[5222] = (string) $row->tasa;
 
 
             $parameter['idu'] = (float) $row->idu;
@@ -174,9 +174,9 @@ class mysql_model_12 extends CI_Model {
 
         $container = 'container.sgr_periodos';
         $query = array("filename" => $filename);
-        $result = $this->mongo->sgr->$container->findOne($query);            
-        if ($result)            
-            return true;       
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return true;
     }
 
     function already_updated($anexo, $nro_orden, $filename) {
@@ -204,6 +204,23 @@ class mysql_model_12 extends CI_Model {
             $out = array('status' => 'error');
         }
         return $out;
+    }
+
+    function update() {
+
+        $array = array(131475,
+            127594,
+            704257
+        );
+
+        foreach ($array as $each) {
+            $data = array();
+            $data['5219'] = "2";
+            $options = array('upsert' => true, 'safe' => true);
+            $container = 'container.sgr_anexo_12';
+            $query = array('id' => $each);
+            return $this->mongo->db->$container->update($query, $data, $options);
+        }
     }
 
 }
