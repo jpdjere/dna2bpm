@@ -691,5 +691,26 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+        function fojo_update() {
+        $this->load->helper('file');
+        $myfile=read_file('./application/modules/sgr/assets/sgr_garantias.csv');
+        $lista=explode("\n",$myfile);
+
+         $container = 'container.sgr_anexo_12';
+         $options = array('safe' => true);
+         $data=array('5219'=>array("2"));
+         $i=0;
+         foreach($lista as $id){
+             $i++;
+             $myid=trim($id,'"');
+             echo $myid."/";
+             $query=array("id"=>$myid);
+             $rs = $this->mongo->sgr->$container->update($query, array('$set'=>$data), $options);
+             //if($i==1)break;
+         }
+             
+
+    }
+    
 }
 
