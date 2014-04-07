@@ -152,71 +152,14 @@ class mysql_model_12 extends CI_Model {
             /* INTEGER */
             $parameter[5224] = (int) $row->plazo;
             $parameter[5225] = (int) $row->gracia;
-
-
-            if (strtoupper(trim($row->moneda)) == "PESOS ARGENTINOS")
-                $parameter[5219] = "1";
-            if (strtoupper(trim($row->moneda)) == "DOLARES AMERICANOS")
-                $parameter[5219] = "2";
-            if (strtoupper(trim($row->moneda)) == "EUROS")
-                $parameter[5219] = "3";
-            if (strtoupper(trim($row->moneda)) == "REALES")
-                $parameter[5219] = "4";
-
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "PESOS ARGENTINOS")
-                $parameter[5758] = "1";
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "DOLARES AMERICANOS")
-                $parameter[5758] = "2";
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "EUROS")
-                $parameter[5758] = "3";
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "REALES")
-                $parameter[5758] = "4";
-
-
-
-            /* PERIODICIDAD */
-            if (strtoupper(trim($row->periodicidad)) == "PAGO UNICO")
-                $parameter[5226] = "1";
-            if (strtoupper(trim($row->periodicidad)) == "MENSUAL")
-                $parameter[5226] = "30";
-            if (strtoupper(trim($row->periodicidad)) == "BIMESTRAL")
-                $parameter[5226] = "60";
-            if (strtoupper(trim($row->periodicidad)) == "TRIMESTRAL")
-                $parameter[5226] = "90";
-            if (strtoupper(trim($row->periodicidad)) == "CUATRIMESTRAL")
-                $parameter[5226] = "120";
-            if (strtoupper(trim($row->periodicidad)) == "SEMESTRAL")
-                $parameter[5226] = "180";
-            if (strtoupper(trim($row->periodicidad)) == "ANUAL")
-                $parameter[5226] = "360";
-            if (strtoupper(trim($row->periodicidad)) == "OTRO")
-                $parameter[5226] = "04";
-
-            /* SISTEMA */
-            if (strtoupper(trim($row->sistema)) == "PAGO UNICO")
-                $parameter[5227] = "01";
-            if (strtoupper(trim($row->sistema)) == "FRANCES")
-                $parameter[5227] = "02";
-            if (strtoupper(trim($row->sistema)) == "ALEMAN")
-                $parameter[5227] = "03";
-            if (strtoupper(trim($row->sistema)) == "OTRO")
-                $parameter[5227] = "04";
-
-
-
-            /* TASA */
-            if (strtoupper(trim($row->tasa)) == "LIBOR")
-                $parameter[5222] = "01";
-            if (strtoupper(trim($row->tasa)) == "BADLARPU")
-                $parameter[5222] = "02";
-            if (strtoupper(trim($row->tasa)) == "BADLARPR")
-                $parameter[5222] = "03";
-            if (strtoupper(trim($row->tasa)) == "FIJA")
-                $parameter[5222] = "04";
-            if (strtoupper(trim($row->tasa)) == "TEBP")
-                $parameter[5222] = "05";
-            if (strtoupper(trim($row->tasa)) == "TEC")
-                $parameter[5222] = "06";
+            
+            $parameter[5219] = (string)$row->moneda;
+            $parameter[5758] = (string)$row->moneda_Cred_Garant;
+            
+            $parameter[5226] = (string)$row->periodicidad;
+            $parameter[5227] = (string)$row->sistema;
+            
+            $parameter[5222] = (string)$row->tasa;
 
 
             $parameter['idu'] = (float) $row->idu;
