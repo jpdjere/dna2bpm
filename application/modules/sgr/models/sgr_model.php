@@ -200,7 +200,7 @@ class Sgr_model extends CI_Model {
             $query = array(6026 => '30', "owner" => $user['idu']);
             $result = $this->mongo->db->$container->find($query, $fields);
             $result->sort($sort);
-             debug($query);
+ 
             foreach ($result as $sgrs) {
                 $rtn[] = $sgrs;
             }
