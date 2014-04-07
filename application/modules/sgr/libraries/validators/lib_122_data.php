@@ -217,7 +217,7 @@ class Lib_122_data extends MX_Controller {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($F_cell_value / $dollar_quotation_origin) * $dollar_quotation_period;
-                                if ($new_dollar_value > $amount) {
+                                if ($new_dollar_value > $amount_warranty) {
                                     $code_error = "F.2.B";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $order_number[5218] . ' = $' . $amount_warranty);
                                     array_push($stack, $result);
