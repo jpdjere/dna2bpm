@@ -51,6 +51,27 @@ class Sgr extends MX_Controller {
         $this->period = $this->session->userdata['period'];
     }
 
+    // ==== Dashboard ====
+    function Dashboard() {
+        $customData = array();
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_id'] = $this->sgr_id;
+        $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
+        $customData['titulo'] = "Dashboard";
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        $customData['layout']="main_layout"; 
+        
+        $sections=array();
+        $sections['Anexos']=array();
+        $customData['anexo_list'] = $this->AnexosDB();
+        
+        $this->render('main_dashboard', $customData);
+    }
+    
+    // ==== Anexos ====
     function Index() {
 
         $customData = array();
@@ -1118,8 +1139,8 @@ class Sgr extends MX_Controller {
 
         // offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
-
-        $this->ui->compose($file, 'layout.php', $cpData);
+        $layout=(isset($customData['layout']))?($customData['layout']):('layout.php');
+        $this->ui->compose($file, $layout, $cpData);
     }
 
 }
