@@ -195,9 +195,11 @@ class Lib_15_data extends MX_Controller {
                     $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
 
 
-                    if (!$get_value || $get_value2) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
+                    if (!$get_value) {
+                        if (!$get_value2) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
