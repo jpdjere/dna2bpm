@@ -515,6 +515,8 @@ function first_month_date($period) {
 
 
 function last_month_date($period) {
+    
+    var_dump($period);
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
     $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
     $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
