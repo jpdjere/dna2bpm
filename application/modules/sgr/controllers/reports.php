@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  * sgr
  *
  */
-class Sgr extends MX_Controller {
+class reports extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -83,7 +83,8 @@ class Sgr extends MX_Controller {
         //$customData['sgr_options'] = $this->get_sgrs();
         /* POST */
         /* PRINT RESULT */
-        //$customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
+        
+        $customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
 
 
         /* RENDER */
@@ -114,21 +115,34 @@ class Sgr extends MX_Controller {
     }
 
     /* PROCESS */
+   
+
+    /* PROCESS */
 
     function process_06() {
         $rtn = array();
-        $rtn['input_period_from'] = $this->translate_post('input_period_from');
-        $rtn['input_period_to'] = $this->translate_post('input_period_to');
-        $rtn['sgr_id'] = $this->translate_post('sgr');
-
-        var_dump($rtn);
-        if ($this->translate_post('sgr'))
+        $rtn['input_period_from'] = $this->input->post('input_period_from');
+        $rtn['input_period_to'] = $this->input->post('input_period_to');
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr'))
             return $rtn;
     }
+    
+    
+     /* SGRS */
 
-    function translate_post($input) {
-        $return_input = ($this->input->post($input)) ? $this->input->post($input) : $_POST[$input];
-        return $return_input;
+    function get_sgrs() {
+        $sgrArr = $this->sgr_model->get_sgrs();
+        $rtn;
+
+        foreach ($sgrArr as $sgr) {
+            $this->sgr_id = (float) $sgr['id'];
+            $this->sgr_nombre = $sgr['1693'];
+            $this->sgr_cuit = $sgr['1695'];
+
+            $rtn .= "<option value=" . $sgr['id'] . ">" . $sgr['1693'] . "</option>";
+        }
+        return $rtn;
     }
 
     /* RECTIFY FNs */
