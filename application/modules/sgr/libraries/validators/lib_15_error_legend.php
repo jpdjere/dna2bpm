@@ -28,6 +28,9 @@ class Lib_15_error_legend {
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres numéricos sin guiones. Se le debe aplicar el Algoritmo Verificador de CUIT de forma de verificar que sea un CUIT existente.';
                 break;
             case "E.2":
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Adicional al algoritmo verificador de CUIT, en caso de que el Emisor del Instrumento sea una entidad extranjera, deberá validar que el CUIT ingresado exista en el anexo de “CUIT por Países” publicado por AFIP y existente en sistema.';
+                break;
+            case "E.3":
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío.';
                 break;
             case "F.1":
