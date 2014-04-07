@@ -195,8 +195,8 @@ class Lib_15_data extends MX_Controller {
                     $get_cuit_ext_company = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
                     
                     $get_value = ($get_depositories)?$get_depositories:$get_cuit_ext_company;
-                    var_dump($get_value);
-                    if (!$get_value) {
+                   
+                    if (empty($get_value)) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
