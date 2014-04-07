@@ -84,7 +84,9 @@ class reports extends MX_Controller {
         /* POST */
         /* PRINT RESULT */
         
-        $customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
+        $rtn_report = $this->$model->get_anexo_report($anexo, $this->process_06());
+        
+        $customData['show_table'] = ($rtn_report)?$rtn_report:"No hay datos disponibles para la consulta";
 
 
         /* RENDER */
