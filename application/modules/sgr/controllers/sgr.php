@@ -1317,7 +1317,8 @@ class Sgr extends MX_Controller {
     }
     
     function fojo_update(){
-        $this->sgr_model->fojo_update();
+        echo "111";
+        //$this->sgr_model->fojo_update();
     }
 
 }
