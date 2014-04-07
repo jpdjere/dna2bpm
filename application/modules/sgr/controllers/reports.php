@@ -80,10 +80,10 @@ class Reports extends MX_Controller {
             $customData['form_template'] = "";
 
 
-        //$customData['sgr_options'] = $this->get_sgrs();
+        $customData['sgr_options'] = $this->get_sgrs();
         /* POST */
         /* PRINT RESULT */
-        $customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
+        //$customData['show_table'] = $this->$model->get_anexo_report($anexo, $this->process_06());
 
 
         /* RENDER */
