@@ -143,7 +143,7 @@ class Lib_14_data extends MX_Controller {
                             //ORIGEN  $c_info['5215'];
                             var_dump($parameterArr[$i]['fieldValue'],$c_info[5218]);
                             if ($c_info['5219'][0] == 1) {
-                                if ($C_cell_value < $c_info[5218]) {
+                                if ($C_cell_value > $c_info[5218]) {
                                     $code_error = "C.2.A";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
@@ -163,7 +163,7 @@ class Lib_14_data extends MX_Controller {
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = ($C_cell_value / $dollar_quotation_origin)*$dollar_quotation;
                              
-                                if ($dollar_value < $c_info[5218]) {
+                                if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
