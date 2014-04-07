@@ -211,6 +211,7 @@ class Lib_122_data extends MX_Controller {
                             $amount_warranty = (float) $order_number[5218];
                             $currency = $order_number['5219'][0];
                             $origin = $order_number['5215'];
+                            $amount = $info['5218'];
 
                             if ($currency == 2) {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
