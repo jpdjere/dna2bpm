@@ -370,11 +370,17 @@ class Model_06 extends CI_Model {
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
 
-        foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
+        if (!$anexoValues) {
+            return false;
+        } else {
+            
+            var_dump($anexoValues);
+            foreach ($anexoValues as $values) {
+                $data[] = array_values($values);
+            }
+            $this->load->library('table');
+            return $this->table->generate($data);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
     }
 
     function get_anexo_data_tmp($anexo, $parameter) {
@@ -408,7 +414,7 @@ class Model_06 extends CI_Model {
     function get_anexo_data_report($anexo, $parameter) {
 
         if (!$parameter) {
-            return "nada";
+            return false;
             exit();
         }
 
@@ -436,10 +442,6 @@ class Model_06 extends CI_Model {
             $new_query['$or'][] = array("filename" => $results['filename']);
         }
         $result_arr = $this->mongo->sgr->$container->find($new_query);
-        foreach ($result_arr as $list) {
-            debug($list);
-        }
-
         /* TABLE DATA */
         return $this->ui_table($result_arr);
     }
