@@ -196,8 +196,9 @@ class Lib_15_data extends MX_Controller {
                     
                     $get_value = ($get_depositories)?$get_depositories:$get_cuit_ext_company;
                    
-                    if (empty($get_value)) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "...".$parameterArr[$i]['fieldValue']);
+                    if (empty($get_value)) {             
+                        var_dump($get_value);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
                 }
