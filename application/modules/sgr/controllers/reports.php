@@ -123,8 +123,8 @@ class reports extends MX_Controller {
 
     function process_06() {
         $rtn = array();
-        $rtn['input_period_from'] = $this->input->post('input_period_from');
-        $rtn['input_period_to'] = $this->input->post('input_period_to');
+        $rtn['input_period_from'] = ($this->input->post('input_period_from'))?$this->input->post('input_period_from'):'01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to'))? $this->input->post('input_period_to'):'01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr'))
             return $rtn;
