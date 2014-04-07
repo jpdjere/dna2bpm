@@ -171,7 +171,7 @@ EXCENTO,INSCRIPTO,MONOTRIBUTISTA".';
                 break;
             case "R.2": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>De ser informado debe tener el siguiente formato:  xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12..';
                 break;
-            case "R.3": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>  : De ser informado, el año debe ser no más de dos o tres años anterior al del período de incorporación que se está informando..';
+            case "R.3": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>De ser informado, el año debe ser no más de dos o tres años anterior al del período de incorporación que se está informando..';
                 break;
             case "S.1": $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 1: OPCIONAL. Si las COLUMNAS R o T tienen datos, esta debe tener datos..';
                 break;
