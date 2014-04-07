@@ -114,7 +114,7 @@ class Lib_123_data extends MX_Controller {
                     $currency = $info['5219'][0];
                 }
 
-                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+
 
                 $allow_words = array("GFMFO", "GC1", "GC2", "GT");
                 $return = check_word($check_word, $allow_words);
@@ -125,14 +125,11 @@ class Lib_123_data extends MX_Controller {
                 }
 
 
-
-                /* DOLLAR */
-                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
-
-
-
                 if ($currency == 2) {
+                    /* DOLLAR */
+                    $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                    $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                    $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
                     if ($new_dollar_value > $amount) {
                         $code_error = "B.1.B";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $value . '). Monto disponible para el Nro. Orden ' . $nro_orden . ' = $' . $amount);
