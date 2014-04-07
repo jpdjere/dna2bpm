@@ -193,7 +193,8 @@ class Lib_15_data extends MX_Controller {
                     $A_cell_value = $parameterArr[$i]['fieldValue'];
                     $get_value = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
                     $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
-
+                    
+                    var_dump($get_value, $get_value2);
 
                     if (!$get_value) {
                         if (!$get_value2) {
@@ -261,7 +262,7 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack);         exit();
+        var_dump($stack);         exit();
         $this->data = $stack;
     }
 
