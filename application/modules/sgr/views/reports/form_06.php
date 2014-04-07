@@ -15,8 +15,8 @@
                     <div>
                         <label>Seleccione la SGR</label>
                         <select name="sgr" id="sgr" class="input-block-level required">
-                            <!-- {sgr_options}-->
-                            <option value="2478671474">ACINDAR PYMES S.G.R.</option>
+                            {sgr_options}
+                            
                         </select>
                     </div>                       
 
