@@ -202,8 +202,6 @@ class Sgr_model extends CI_Model {
             $result->sort($sort);
              debug($query);
             foreach ($result as $sgrs) {
-                
-            
                 $rtn[] = $sgrs;
             }
         }
