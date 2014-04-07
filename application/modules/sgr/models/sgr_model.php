@@ -201,7 +201,7 @@ class Sgr_model extends CI_Model {
             $result = $this->mongo->db->$container->find($query, $fields);
             $result->sort($sort);
             foreach ($result as $sgrs) {
-                 debug($sgrs);
+             
             
                 $rtn[] = $sgrs;
             }
