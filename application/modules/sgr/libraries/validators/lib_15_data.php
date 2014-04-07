@@ -143,10 +143,7 @@ class Lib_15_data extends MX_Controller {
                     } else {
                         $code_error = "E.1";
 
-                        $return = check_empty($parameterArr[$i]['fieldValue']);
 
-                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                        $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
 
 
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -154,7 +151,12 @@ class Lib_15_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         } else {
+
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                            $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
                             $get_value = ($return) ? $return : $get_value2;
+
+
                             if (!$get_value) {
                                 $code_error = "E.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
