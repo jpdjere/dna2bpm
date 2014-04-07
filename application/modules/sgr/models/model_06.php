@@ -373,8 +373,6 @@ class Model_06 extends CI_Model {
         if (!$anexoValues) {
             return false;
         } else {
-            
-            var_dump($anexoValues);
             foreach ($anexoValues as $values) {
                 $data[] = array_values($values);
             }
@@ -421,18 +419,22 @@ class Model_06 extends CI_Model {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
 
+
+        $start_date = first_month_date($parameter['input_period_from']);
+        $end_date = last_month_date($parameter['input_period_to']);
+
         /* GET PERIOD */
         $period_container = 'container.sgr_periodos';
         $query = array(
             'anexo' => $anexo,
             'sgr_id' => (float) $parameter['sgr_id'],
             'status' => "activo",
-//            'period_date' => array(
-//                '$gte' => $endDate, '$lte' => $endDate
-//            ),
+            'period_date' => array(
+                '$gte' => $start_date, '$lte' => $end_date
+            ),
         );
 
-        
+
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
         $files_arr = array();
