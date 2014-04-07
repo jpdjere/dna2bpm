@@ -218,7 +218,7 @@ class mysql_model_12 extends CI_Model {
             $data['5219'] = "2";
             $options = array('upsert' => true, 'safe' => true);
             $container = 'container.sgr_anexo_12';
-            $query = array('id' => (int)$each);
+            $query = array('id' => 127594);
             return $this->mongo->db->$container->update($query, $data, $options);
         }
     }
