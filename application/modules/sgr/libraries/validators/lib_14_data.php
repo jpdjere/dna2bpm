@@ -139,7 +139,7 @@ class Lib_14_data extends MX_Controller {
 
                         foreach ($B_warranty_info as $c_info) {
                             //ORIGEN  $c_info['5215'];
-
+                            var_dump($parameterArr[$i]['fieldValue'],$c_info[5218]);
                             if ($c_info['5219'][0] == 1) {
                                 if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
                                     $code_error = "C.2.A";
@@ -524,7 +524,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);      exit();                    
+        var_dump($stack);      exit();                    
         $this->data = $stack;
     }
 
