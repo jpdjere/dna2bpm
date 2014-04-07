@@ -427,12 +427,12 @@ class Model_06 extends CI_Model {
             'anexo' => $anexo,
             'sgr_id' => (float) $parameter['sgr_id'],
             'status' => "activo",
-            'period_date' => array(
-                '$gte' => $endDate, '$lte' => $endDate
-            ),
+//            'period_date' => array(
+//                '$gte' => $endDate, '$lte' => $endDate
+//            ),
         );
 
-
+        
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
         $files_arr = array();
