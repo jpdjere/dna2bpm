@@ -192,18 +192,19 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         $users_list = $this->get_sgrs_users();
         foreach ($users_list as $user) {
-            debug($user['idu']);
-            
+           
             // Listado de empresas
-//            $sort = array(1693 => -1);
-//            $container = 'container.empresas';
-//            $fields = array();
-//            $query = array(6026 => '30', "owner" => $user['idu']);
-//            $result = $this->mongo->db->$container->find($query, $fields);
-//            $result->sort($sort);
-//            foreach ($result as $sgrs) {
-//                $rtn[] = $sgrs;
-//            }
+            $sort = array(1693 => -1);
+            $container = 'container.empresas';
+            $fields = array();
+            $query = array(6026 => '30', "owner" => $user['idu']);
+            $result = $this->mongo->db->$container->find($query, $fields);
+            $result->sort($sort);
+            foreach ($result as $sgrs) {
+                 debug($sgrs);
+            
+                $rtn[] = $sgrs;
+            }
         }
 
         return $rtn;
