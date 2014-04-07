@@ -398,8 +398,6 @@ class Model_06 extends CI_Model {
 
     function get_anexo_data($anexo, $parameter) {
 
-
-
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
