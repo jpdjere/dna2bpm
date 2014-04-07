@@ -15,7 +15,7 @@ class Lib_14_data extends MX_Controller {
         $model_anexo = "model_14";
         $this->load->Model($model_anexo);
 
-   
+
 
         /* Vars 
          * 
@@ -138,17 +138,8 @@ class Lib_14_data extends MX_Controller {
 
 
                         foreach ($B_warranty_info as $c_info) {
-                            
-                            $C_cell_value = (float)$parameterArr[$i]['fieldValue'];
-                            //ORIGEN  $c_info['5215'];
-                            var_dump($parameterArr[$i]['fieldValue'],$c_info[5218]);
-                            if ($c_info['5219'][0] == 1) {
-                                if ($C_cell_value > $c_info[5218]) {
-                                    $code_error = "C.2.A";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
-                                    array_push($stack, $result);
-                                }
-                            }
+
+                            $C_cell_value = (float) $parameterArr[$i]['fieldValue'];                          
 
                             /* Nro C.3
                              * Detail:
@@ -159,28 +150,31 @@ class Lib_14_data extends MX_Controller {
 
                             if ($c_info['5219'][0] == 2) {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($c_info['5215']));
-                                
+
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
-                                $dollar_value = ($C_cell_value / $dollar_quotation_origin)*$dollar_quotation;
-                             
+                                $dollar_value = ($C_cell_value / $dollar_quotation_origin) * $dollar_quotation;
+
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
-                                
-                                
+
+
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                                $new_dollar_value =  ($C_cell_value / $dollar_quotation_origin)*$dollar_quotation_period;
-                             
+                                $new_dollar_value = ($C_cell_value / $dollar_quotation_origin) * $dollar_quotation_period;
+
                                 if ($new_dollar_value > $c_info[5218]) {
                                     $code_error = "C.2.B";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
-                               
-                                
-                                
+                            } else {
+                                if ($C_cell_value > $c_info[5218]) {
+                                    $code_error = "C.2.A";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    array_push($stack, $result);
+                                }
                             }
                         }
 
@@ -302,7 +296,7 @@ class Lib_14_data extends MX_Controller {
                   G.2 = B.5
                   Debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
                   G.3
-                  Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e 
+                  Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e
                  * INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema 
                  * (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los 
                  * GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que 
@@ -387,9 +381,9 @@ class Lib_14_data extends MX_Controller {
             $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $get_temp_data['RECUPERO_GASTOS_PERIODO']));
             $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
-            
-            
-            
+
+
+
 
 
             /* Nro B.2/D.2
@@ -479,7 +473,7 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */
-                
+
                 if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
                     $code_error = "G.3";
                     $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO'] . "/" . $get_temp_data['RECUPERO_GASTOS_PERIODO'] . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO'] . "/" . $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
@@ -526,7 +520,8 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        var_dump($stack);      exit();                    
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
