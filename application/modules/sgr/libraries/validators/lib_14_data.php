@@ -156,7 +156,7 @@ class Lib_14_data extends MX_Controller {
 
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s . ' . $C_cell_value .'/'. $dollar_quotation_origin .'*'. $dollar_quotation . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
 
@@ -166,13 +166,13 @@ class Lib_14_data extends MX_Controller {
 
                                 if ($new_dollar_value > $c_info[5218]) {
                                     $code_error = "C.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s. ' . $C_cell_value .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
                             } else {
                                 if ($C_cell_value > $c_info[5218]) {
                                     $code_error = "C.2.A";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $C_cell_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
                             }
