@@ -192,7 +192,7 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         $users_list = $this->get_sgrs_users();
         foreach ($users_list as $user) {
-            var_dump($user['idu']);
+            debug($user['idu']);
             
             // Listado de empresas
 //            $sort = array(1693 => -1);
