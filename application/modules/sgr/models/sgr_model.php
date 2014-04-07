@@ -706,7 +706,7 @@ class Sgr_model extends CI_Model {
              echo $myid."/";
              $query=array("id"=>$myid);
              $rs = $this->mongo->sgr->$container->update($query, array('$set'=>$data), $options);
-             if($i==1)break;
+             //if($i==1)break;
          }
              
 
