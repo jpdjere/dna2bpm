@@ -218,8 +218,6 @@ class Lib_122_data extends MX_Controller {
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($F_cell_value / $dollar_quotation_origin) * $dollar_quotation_period;
                                 
-                                var_dump($F_cell_value, $dollar_quotation_origin, $dollar_quotation_period);
-                                
                                 if ($F_cell_value > $new_dollar_value) {
                                     $code_error = "F.2.B";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $order_number[5218] . ' = $' . $F_cell_value);
@@ -248,8 +246,7 @@ class Lib_122_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-        debug($stack);
-        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
