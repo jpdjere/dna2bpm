@@ -156,7 +156,7 @@ class Lib_14_data extends MX_Controller {
 
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s . ' . $dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
 
@@ -166,7 +166,7 @@ class Lib_14_data extends MX_Controller {
 
                                 if ($new_dollar_value > $c_info[5218]) {
                                     $code_error = "C.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s. ' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
                             } else {
