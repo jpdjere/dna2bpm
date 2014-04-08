@@ -364,9 +364,7 @@ class Model_06 extends CI_Model {
     function get_anexo_report($anexo, $parameter) {
 
 
-        $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
-            , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
-            , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
+        $headerArr = array("SGR", "PERIODO", "ID", "TIPO OPERACION", "TIPO SOCIO", "CUIT", "NOMBRE", "CODIGO ACTIVIDAD", "SECTOR", "ANIO", "MONTO", "TIPO ORIGEN", "ANIO2", "MONTO2", "TIPO ORIGEN2", "ANIO3", "MONTO3", "TIPO ORIGEN3", "PROMEDIO", "TIPO EMPRESA", "REGIMEN IVA", "CANTIDAD EMPLEADOS", "MODALIDAD", "CAPITAL SUSCRIPTO", "CAPITAL INTEGRADO", "CEDENTE CUIT", "CEDENTE NOMBRE", "CEDENTE CARACTERISTICA", "FILENAME");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
 
@@ -437,13 +435,15 @@ class Model_06 extends CI_Model {
         $period_result = $this->mongo->sgr->$period_container->find($query);
         $files_arr = array();
         $container = 'container.sgr_anexo_' . $anexo;
+
         $new_query = array();
         foreach ($period_result as $results) {
+            $period = $results['period'];
             $new_query['$or'][] = array("filename" => $results['filename']);
         }
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
-        return $this->ui_table($result_arr);
+        return $this->ui_table_xls($result_arr);
     }
 
     function ui_table($result) {
@@ -524,6 +524,99 @@ class Model_06 extends CI_Model {
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $transaction_date;
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Capital Integrado: " . $list['5598'];
             $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]] . "" . $grantor_type;
+
+            $rtn[] = $new_list;
+        }
+
+        return $rtn;
+    }
+
+    function ui_table_xls($result) {
+        foreach ($result as $list) {
+            /* Vars */
+            $cuit = str_replace("-", "", $list['1695']);
+            $this->load->model('padfyj_model');
+            $brand_name = $this->padfyj_model->search_name($cuit);
+            $brand_name = ($brand_name) ? $brand_name : $list['1693'];
+            $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
+
+            $this->load->model('app');
+            $operation_type = $this->app->get_ops(589);
+            $inscripcion_iva = $this->app->get_ops(571);
+            $acta_type = $this->app->get_ops(531);
+            $partner_type = $this->app->get_ops(532);
+            $transaction_type = $this->app->get_ops(530);
+            $partido = $this->app->get_ops(58);
+            $provincia = $this->app->get_ops(39);
+            $transfer_characteristic = $this->app->get_ops(571);
+            $afip_condition = $this->app->get_ops(570);
+
+            $calc_average = "";
+            $promedio = "";
+            $sector = "";
+            $company_type = "";
+
+            $calc_average = ($list[20] != "") ? 1 : 0;
+            $calc_average += ($list[23] != "") ? 1 : 0;
+            $calc_average += ($list[26] != "") ? 1 : 0;
+            if ($calc_average != 0) {
+
+                $montosArr = array($list[20], $list[23], $list[26]);
+                $sumaMontos = array_sum($montosArr);
+
+                $promedio = ($sumaMontos / $calc_average);
+            }
+
+            $sector_value = $this->sgr_model->clae2013($list['5208']);
+            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+            $company_type = ($isPyme) ? "PyME" : "";
+            $transaction_date = mongodate_to_print($list['FECHA_DE_TRANSACCION']);
+
+
+
+            /* CARACTER CEDENTE */
+
+            if ($list['5248']) {
+                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date);
+                $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
+                $grantor_type = $grantor_type;
+            }
+
+
+            $new_list = array();
+
+
+            $new_list['col1'] = "SGR";
+            $new_list['col2'] = $period;
+            $new_list['col3'] = $list['id'];
+            $new_list['col4'] = $operation_type[$list['5779'][0]];
+            $new_list['col5'] = $list['5272'][0];
+            $new_list['col6'] = $cuit;
+            $new_list['col7'] = $brand_name;
+            $new_list['col8'] = $list['5208'];
+            $new_list['col9'] = $sector_opt[$sector_value];
+            $new_list['col10'] = $list['19'];
+            $new_list['col11'] = $list['20'];
+            $new_list['col12'] = $list['21'];
+            $new_list['col13'] = $list['22'];
+            $new_list['col14'] = $list['23'];
+            $new_list['col15'] = $list['24'];
+            $new_list['col16'] = $list['25'];
+            $new_list['col17'] = $list['26'];
+            $new_list['col18'] = $list['27'];
+            $new_list['col19'] = $promedio;
+            $new_list['col20'] = $company_type;
+            $new_list['col21'] = $afip_condition[$list['5596'][0]];
+            $new_list['col22'] = $list['CANTIDAD_DE_EMPLEADOS'];
+            $new_list['col23'] = $transaction_type[$list['5252'][0]];
+            $new_list['col24'] = $list['5597'];
+            $new_list['col25'] = $list['5598'];
+
+            $new_list['col26'] = $list['5248'];
+            $new_list['col27'] = $grantor_brand_name;
+            $new_list['col28'] = $grantor_type;
+            $new_list['col29'] = $list['filename'];
+       
 
             $rtn[] = $new_list;
         }

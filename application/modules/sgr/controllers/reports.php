@@ -46,7 +46,7 @@ class reports extends MX_Controller {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
-            $this->sgr_id = (float) $sgr['id'];
+            $this->sgr_id = 10; //(float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
         }
@@ -57,7 +57,6 @@ class reports extends MX_Controller {
     }
 
     function Index() {
-
 
         $customData = array();
         $default_dashboard = 'reports';
@@ -80,13 +79,37 @@ class reports extends MX_Controller {
             $customData['form_template'] = "";
 
 
-        //$customData['sgr_options'] = $this->get_sgrs();
-        /* POST */
-        /* PRINT RESULT */
-        
+
+        /* RENDER */
+        $this->render($default_dashboard, $customData);
+    }
+
+    function post() {
+        $customData = array();
+        $default_dashboard = 'reports_result';
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $model = "model_" . $anexo;
+        $this->load->model($model);
+
+        /* HEADERS */
+        $header_merge = array_merge($customData, $this->headers());
+        foreach ($header_merge as $key => $each) {
+            $customData[$key] = $each;
+        }
+
         $rtn_report = $this->$model->get_anexo_report($anexo, $this->process_06());
-        
-        $customData['show_table'] = ($rtn_report)?$rtn_report:"No hay datos disponibles para la consulta";
+        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
+
+        $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo . '_result', $customData, true);
+        $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
+//
+//        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
+//        //Generate  file
+//        header("Content-Description: File Transfer");
+//        header("Content-type: application/x-msexcel");
+//        header("Content-Type: application/force-download");
+//        header("Content-Disposition: attachment; filename=SGR_reporteAnexo06_" . $fileName . ".xls");
+//        header("Content-Description: PHP Generated XLS Data");
 
 
         /* RENDER */
@@ -117,21 +140,21 @@ class reports extends MX_Controller {
     }
 
     /* PROCESS */
-   
+
 
     /* PROCESS */
 
     function process_06() {
+
         $rtn = array();
-        $rtn['input_period_from'] = ($this->input->post('input_period_from'))?$this->input->post('input_period_from'):'01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to'))? $this->input->post('input_period_to'):'01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr'))
             return $rtn;
     }
-    
-    
-     /* SGRS */
+
+    /* SGRS */
 
     function get_sgrs() {
         $sgrArr = $this->sgr_model->get_sgrs();
@@ -1295,7 +1318,7 @@ class reports extends MX_Controller {
         $user = $this->user->get_user($this->idu);
 
         $cpData['user'] = (array) $user;
-        $cpData['isAdmin'] = $this->user->isAdmin($user);
+        // $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
         $cpData['usermail'] = $user->email;
 // Profile 
