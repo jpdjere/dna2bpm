@@ -98,6 +98,11 @@ class Dna2 extends MX_Controller {
             redirect('/sgr/');
         }
         
+        //---hook para SGR ADMINS
+        if (in_array(49, $user->group)){
+            redirect('/sgr/reports');
+        }
+        
         //---hook para inventory
         if (array_intersect(array(
                     62, //---1.3 Gestión
