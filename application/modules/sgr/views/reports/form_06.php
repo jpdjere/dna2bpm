@@ -1,7 +1,7 @@
 
 <div class="row-fluid">
     <div id="meta_div_2">
-        <form  method="post" class="well" id="form">
+        <form  method="post" class="well" id="form" target="_blank" action="reports/post/">
             <div  class="row-fluid " >
                 <div class="span6">                        
                     <div>
@@ -156,12 +156,10 @@
             <div  class="row-fluid">
                 <div class="span12">
                     <input type="hidden" name="anexo" value="{anexo}" />
+                    <!--<input type="text" name="sgr" value="10" />-->
                     <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="fa fa-search"></i> Buscar</button>  
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-{show_table}
-
