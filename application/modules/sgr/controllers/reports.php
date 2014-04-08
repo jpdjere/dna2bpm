@@ -130,7 +130,7 @@ class reports extends MX_Controller {
         $this->render($default_dashboard, $customData);
     }
 
-    function post_() {
+    function action_form() {
         $customData = array();
         $default_dashboard = 'reports_result';
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
@@ -143,7 +143,7 @@ class reports extends MX_Controller {
             $customData[$key] = $each;
         }
 
-        $rtn_report = $this->process_06(); //$this->$model->get_anexo_report($anexo, $this->process_06());
+        $rtn_report = $this->process(); //$this->$model->get_anexo_report($anexo, $this->process_06());
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
         $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo . '_result', $customData, true);
@@ -189,13 +189,19 @@ class reports extends MX_Controller {
 
 
     /* PROCESS */
+     function process() {
+         $anexo = $this->input->post('anexo');
+         switch($anexo){
+             case '06':
+                 return $this->process_06($anexo);
+                 break;
+         }
+     }
 
-    function process_06() {
-
-
+    function process_06($anexo) {
 
         $rtn = array();
-        $anexo = $this->input->post('anexo');
+        
         $report_name = $this->input->post('report_name');
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
