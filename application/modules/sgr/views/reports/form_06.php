@@ -1,4 +1,3 @@
-
 <div class="row-fluid">
     <div id="meta_div_2">
         <form  method="post" class="well" id="form" target="_blank" action="reports/action_form/">
