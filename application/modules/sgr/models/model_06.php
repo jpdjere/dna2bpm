@@ -363,8 +363,7 @@ class Model_06 extends CI_Model {
 
     function get_anexo_report($anexo, $parameter) {
 
-
-        $headerArr = array("SGR", "PERIODO", "ID", "TIPO OPERACION", "TIPO SOCIO", "CUIT", "NOMBRE", "CODIGO ACTIVIDAD", "SECTOR", "ANIO", "MONTO", "TIPO ORIGEN", "ANIO2", "MONTO2", "TIPO ORIGEN2", "ANIO3", "MONTO3", "TIPO ORIGEN3", "PROMEDIO", "TIPO EMPRESA", "REGIMEN IVA", "CANTIDAD EMPLEADOS", "MODALIDAD", "CAPITAL SUSCRIPTO", "CAPITAL INTEGRADO", "CEDENTE CUIT", "CEDENTE NOMBRE", "CEDENTE CARACTERISTICA", "FILENAME");
+        $headerArr = array("ID", "Apellido y nombre o Razón Social", "Sector de Actividad", "Promedio", "Tipo de Empresa", "Apellido y nombre o Razón Social", "Carácter del Cedente");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
 
@@ -422,17 +421,17 @@ class Model_06 extends CI_Model {
         /* GET PERIOD */
         $period_container = 'container.sgr_periodos';
         $query = array(
-            'anexo' => $anexo,
-            'sgr_id' => (float) $parameter['sgr_id'],
+            'anexo' => $anexo,           
             'status' => "activo",
             'period_date' => array(
                 '$gte' => $start_date, '$lte' => $end_date
-            ),
+            )
         );
 
-
-
+        if ($parameter['sgr_id'] != 666)
+            $query["sgr_id"] = (float) $parameter['sgr_id'];
         $period_result = $this->mongo->sgr->$period_container->find($query);
+        
         $files_arr = array();
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -586,37 +585,13 @@ class Model_06 extends CI_Model {
             $new_list = array();
 
 
-            $new_list['col1'] = "SGR";
-            $new_list['col2'] = $period;
-            $new_list['col3'] = $list['id'];
-            $new_list['col4'] = $operation_type[$list['5779'][0]];
-            $new_list['col5'] = $list['5272'][0];
-            $new_list['col6'] = $cuit;
-            $new_list['col7'] = $brand_name;
-            $new_list['col8'] = $list['5208'];
-            $new_list['col9'] = $sector_opt[$sector_value];
-            $new_list['col10'] = $list['19'];
-            $new_list['col11'] = $list['20'];
-            $new_list['col12'] = $list['21'];
-            $new_list['col13'] = $list['22'];
-            $new_list['col14'] = $list['23'];
-            $new_list['col15'] = $list['24'];
-            $new_list['col16'] = $list['25'];
-            $new_list['col17'] = $list['26'];
-            $new_list['col18'] = $list['27'];
-            $new_list['col19'] = $promedio;
-            $new_list['col20'] = $company_type;
-            $new_list['col21'] = $afip_condition[$list['5596'][0]];
-            $new_list['col22'] = $list['CANTIDAD_DE_EMPLEADOS'];
-            $new_list['col23'] = $transaction_type[$list['5252'][0]];
-            $new_list['col24'] = $list['5597'];
-            $new_list['col25'] = $list['5598'];
-
-            $new_list['col26'] = $list['5248'];
-            $new_list['col27'] = $grantor_brand_name;
-            $new_list['col28'] = $grantor_type;
-            $new_list['col29'] = $list['filename'];
-       
+            $new_list['col1'] = $list['id'];
+            $new_list['col2'] = $brand_name;
+            $new_list['col3'] = $list['5208'];
+            $new_list['col4'] = $promedio;
+            $new_list['col5'] = $company_type;
+            $new_list['col6'] = $grantor_brand_name;
+            $new_list['col7'] = $grantor_type;
 
             $rtn[] = $new_list;
         }
