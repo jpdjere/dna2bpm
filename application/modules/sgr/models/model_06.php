@@ -346,14 +346,14 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-        
-        
+
+
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
-      
+
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
@@ -362,18 +362,23 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_report($anexo, $parameter) {
-        
+
+
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
-        
-        foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
+
+        if (!$anexoValues) {
+            return false;
+        } else {
+            foreach ($anexoValues as $values) {
+                $data[] = array_values($values);
+            }
+            $this->load->library('table');
+            return $this->table->generate($data);
         }
-        $this->load->library('table');
-        return $this->table->generate($data);
     }
 
     function get_anexo_data_tmp($anexo, $parameter) {
@@ -392,6 +397,7 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_data($anexo, $parameter) {
+
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
@@ -403,8 +409,17 @@ class Model_06 extends CI_Model {
 
     function get_anexo_data_report($anexo, $parameter) {
 
+        if (!$parameter) {
+            return false;
+            exit();
+        }
+
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
+
+
+        $start_date = first_month_date($parameter['input_period_from']);
+        $end_date = last_month_date($parameter['input_period_to']);
 
         /* GET PERIOD */
         $period_container = 'container.sgr_periodos';
@@ -413,9 +428,11 @@ class Model_06 extends CI_Model {
             'sgr_id' => (float) $parameter['sgr_id'],
             'status' => "activo",
             'period_date' => array(
-                '$gte' => $endDate, '$lte' => $endDate
+                '$gte' => $start_date, '$lte' => $end_date
             ),
         );
+
+
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
         $files_arr = array();
