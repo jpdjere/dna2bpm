@@ -1316,8 +1316,6 @@ class Sgr extends MX_Controller {
         $this->ui->compose($file, 'layout.php', $cpData);
     }
     
-    function fojo_update(){
-        $this->sgr_model->fojo_update();
-    }
+
 
 }
