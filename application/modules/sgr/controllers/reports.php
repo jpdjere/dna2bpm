@@ -149,7 +149,7 @@ class reports extends MX_Controller {
         $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo . '_result', $customData, true);
         $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
 
-        $fileName = $anexo ."_reporte_al_" . date("j-n-Y"); //Get today
+        $fileName = $anexo ."_al_" . date("j-n-Y"); //Get today
         //Generate  file
         header("Content-Description: File Transfer");
         header("Content-type: application/x-msexcel");
