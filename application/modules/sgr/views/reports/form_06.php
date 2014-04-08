@@ -37,8 +37,8 @@
                         <label>Reporte </label>
                         <select name="report_name" id="sgr" class="input-block-level required">
                             <option value="A">A.- MOVIMIENTOS CAPITAL SOCIAL</option>
-                            <option value="B">B.- CUENTA CORRIENTE CAPITAL SOCIAL(No Disponible)</option>
-                            <option value="C">C.- SALDOS CAPITAL SOCIAL(No Disponible)</option>
+                            <option value="B" disabled="disabled">B.- CUENTA CORRIENTE CAPITAL SOCIAL(No Disponible)</option>
+                            <option value="C" disabled="disabled">C.- SALDOS CAPITAL SOCIAL(No Disponible)</option>
                         </select>
                     </div>
 
