@@ -124,7 +124,7 @@ class reports extends MX_Controller {
 
         $custom_sgr = ' <option value="' . $this->sgr_id . '">' . $this->sgr_nombre . '</option>';
         $customData['sgr_options'] = ($this->sgr_cuit) ? $custom_sgr : $default_sgrs; //$this->get_sgrs();
-       
+
 
         /* RENDER */
         $this->render($default_dashboard, $customData);
@@ -148,14 +148,14 @@ class reports extends MX_Controller {
 
         $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo . '_result', $customData, true);
         $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
-//
-//        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
-//        //Generate  file
-//        header("Content-Description: File Transfer");
-//        header("Content-type: application/x-msexcel");
-//        header("Content-Type: application/force-download");
-//        header("Content-Disposition: attachment; filename=SGR_reporteAnexo06_" . $fileName . ".xls");
-//        header("Content-Description: PHP Generated XLS Data");
+
+        $fileName = $anexo ."_reporte_al_" . date("j-n-Y"); //Get today
+        //Generate  file
+        header("Content-Description: File Transfer");
+        header("Content-type: application/x-msexcel");
+        header("Content-Type: application/force-download");
+        header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
+        header("Content-Description: PHP Generated XLS Data");
 
 
         /* RENDER */
@@ -189,19 +189,20 @@ class reports extends MX_Controller {
 
 
     /* PROCESS */
-     function process() {
-         $anexo = $this->input->post('anexo');
-         switch($anexo){
-             case '06':
-                 return $this->process_06($anexo);
-                 break;
-         }
-     }
+
+    function process() {
+        $anexo = $this->input->post('anexo');
+        switch ($anexo) {
+            case '06':
+                return $this->process_06($anexo);
+                break;
+        }
+    }
 
     function process_06($anexo) {
 
         $rtn = array();
-        
+
         $report_name = $this->input->post('report_name');
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
