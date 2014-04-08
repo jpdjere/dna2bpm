@@ -147,7 +147,7 @@ class reports extends MX_Controller {
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
         $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo . '_result', $customData, true);
-        $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
+        $customData['show_table'] = ($rtn_report) ? $rtn_report : "";        
 
         $fileName = $anexo ."_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -156,8 +156,6 @@ class reports extends MX_Controller {
         header("Content-Type: application/force-download");
         header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
         header("Content-Description: PHP Generated XLS Data");
-
-
         /* RENDER */
         $this->render($default_dashboard, $customData);
     }
