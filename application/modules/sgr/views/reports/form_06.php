@@ -1,7 +1,7 @@
 
 <div class="row-fluid">
     <div id="meta_div_2">
-        <form  method="post" class="well" id="form" target="_blank" action="reports/post/">
+        <form  method="post" class="well" id="form" target="_blank" action="reports/action_form/">
             <div  class="row-fluid " >
                 <div class="span6">                        
                     <div>
@@ -37,8 +37,8 @@
                         <label>Reporte </label>
                         <select name="report_name" id="sgr" class="input-block-level required">
                             <option value="A">A.- MOVIMIENTOS CAPITAL SOCIAL</option>
-                            <option value="B">B.- CUENTA CORRIENTE CAPITAL SOCIAL</option>
-                            <option value="C">C.- SALDOS CAPITAL SOCIAL</option>
+                            <option value="B">B.- CUENTA CORRIENTE CAPITAL SOCIAL(No Disponible)</option>
+                            <option value="C">C.- SALDOS CAPITAL SOCIAL(No Disponible)</option>
                         </select>
                     </div>
 
