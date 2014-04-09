@@ -147,9 +147,9 @@ class reports extends MX_Controller {
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
         $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);
-        $customData['show_table'] = ($rtn_report) ? $rtn_report : "";        
+        $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
 
-        $fileName = $anexo ."_al_" . date("j-n-Y"); //Get today
+        $fileName = $anexo . "_al_" . date("j-n-Y"); //Get today
         //Generate  file
 //        header("Content-Description: File Transfer");
 //        header("Content-type: application/x-msexcel");
@@ -194,7 +194,7 @@ class reports extends MX_Controller {
             case '06':
                 return $this->process_06($anexo);
                 break;
-            
+
             case '12':
                 return $this->process_12($anexo);
                 break;
@@ -223,12 +223,13 @@ class reports extends MX_Controller {
             return $result;
         }
     }
-    
+
     function process_12($anexo) {
 
         $rtn = array();
-
-        $rtn['cuit_sharer'] = $this->input->post('cuit_sharer');
+        
+        if ($this->input->post('input_period_from'))
+            $rtn['cuit_sharer'] = $this->input->post('cuit_sharer');
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
