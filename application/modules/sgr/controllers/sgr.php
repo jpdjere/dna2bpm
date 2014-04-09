@@ -62,7 +62,7 @@ class Sgr extends MX_Controller {
         $customData['titulo'] = "Dashboard";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-        $customData['layout']="main_layout"; 
+        $customData['layout']="layout.php"; 
         
         $sections=array();
         $sections['Anexos']=array();

@@ -12,6 +12,10 @@
 
 {anexo_list}
 <!-- Anexos -->
+
+
+</div>
+
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -56,11 +60,3 @@
     </div>
   </div>
 </div>
-
-</div>
-
-<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
-  simple collapsible
-</button>
-
-<div id="demo" class="collapse in">...</div>
