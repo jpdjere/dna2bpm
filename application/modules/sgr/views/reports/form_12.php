@@ -33,22 +33,27 @@
 
                 <div class="span6">
                     <div>
-                        <label>Reporte </label>
-                        <select name="report_name" id="sgr" class="input-block-level required">
-                            <option value="A">A.- MOVIMIENTOS CAPITAL SOCIAL</option>
-                            <option value="B" disabled="disabled">B.- CUENTA CORRIENTE CAPITAL SOCIAL (No Disponible)</option>
-                            <option value="C" disabled="disabled">C.- SALDOS CAPITAL SOCIAL (No Disponible)</option>
-                        </select>
+                        <label>C.U.I.T. participe </label>
+                        <input type="text" name="cuit_sharer" placeholder="XXXXXXXXXXX" />
                     </div>
 
                 </div>
-            </div>
-            <div  class="row-fluid">
-                <div class="span12">
-                    <input type="hidden" name="anexo" value="{anexo}" />
-                    <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="fa fa-search"></i> Buscar</button>  
+
+                <div class="span6">
+                    <div>
+                        <label>Nro de Orden </label>
+                        <input type="text" name="order_number" placeholder="XXXXXX/XX" />
+                    </div>
+
                 </div>
-            </div>
+
+
+                <div  class="row-fluid">
+                    <div class="span12">
+                        <input type="hidden" name="anexo" value="{anexo}" />
+                        <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="fa fa-search"></i> Buscar</button>  
+                    </div>
+                </div>
         </form>
     </div>
 </div>

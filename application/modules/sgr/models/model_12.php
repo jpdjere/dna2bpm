@@ -340,8 +340,8 @@ class Model_12 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
-        
-         $model_anexo = "model_12";
+
+        $model_anexo = "model_12";
         $this->load->Model($model_anexo);
 
 
@@ -353,12 +353,12 @@ class Model_12 extends CI_Model {
             $participate = $this->padfyj_model->search_name($list[5349]);
             $drawer = $this->padfyj_model->search_name((string) $list[5726]);
 
-            
+
 
             /*  CREDITOR NAME */
-             $creditor_mv = $this->get_mv_and_comercial_name($list[5351]);
-             $creditor_padfyj = $this->padfyj_model->search_name($list[5351]);             
-             $creditor = ($creditor_mv)?$creditor_mv:$creditor_padfyj;
+            $creditor_mv = $this->get_mv_and_comercial_name($list[5351]);
+            $creditor_padfyj = $this->padfyj_model->search_name($list[5351]);
+            $creditor = ($creditor_mv) ? $creditor_mv : $creditor_padfyj;
 
 
             $this->load->model('app');
@@ -409,8 +409,7 @@ class Model_12 extends CI_Model {
         if ($result)
             return $result['name'];
     }
-    
-    
+
     function get_mv_and_comercial_cuits($cuit, $type) {
 
         $container = 'container.sgr_cuits_comerciales_y_mv';
@@ -555,7 +554,7 @@ class Model_12 extends CI_Model {
 
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list2) {
-                $return_result[]=$list2;
+                $return_result[] = $list2;
             }
         }
 
@@ -579,7 +578,7 @@ class Model_12 extends CI_Model {
 
             $new_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($new_result as $list2) {
-                $return_result[]=$list2;
+                $return_result[] = $list2;
             }
         }
 
@@ -611,6 +610,153 @@ class Model_12 extends CI_Model {
         }
 
         return $return_result;
+    }
+
+    /* REPORTS */
+
+    function get_anexo_report($anexo, $parameter) {
+
+        $headerArr = array('NRO'
+            , 'PARTICIPE'
+            , 'CUIT_PARTICIPE'
+            , 'ORIGEN'
+            , 'TIPO'
+            , 'PONDERACION'
+            , 'IMPORTE'
+            , 'MONEDA'
+            , 'LIBRADOR_NOMBRE'
+            , 'LIBRADOR_CUIT'
+            , 'NRO_OPERACION_BOLSA'
+            , 'ACREEDOR'
+            , 'CUIT_ACREEDOR'
+            , 'IMPORTE_CRED_GARANT'
+            , 'MONEDA_CRED_GARANT'
+            , 'TASA'
+            , 'PUNTOS_ADIC_CRED_GARANT'
+            , 'PLAZO'
+            , 'GRACIA'
+            , 'PERIODICIDAD'
+            , 'SISTEMA'
+            , 'DESTINO_CREDITO');
+        $data = array($headerArr);
+        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
+
+        if (!$anexoValues) {
+            return false;
+        } else {
+            foreach ($anexoValues as $values) {
+                $data[] = array_values($values);
+            }
+            $this->load->library('table');
+            return $this->table->generate($data);
+        }
+    }
+
+    function get_anexo_data_report($anexo, $parameter) {
+
+        if (!$parameter) {
+            return false;
+            exit();
+        }
+
+        header('Content-type: text/html; charset=UTF-8');
+        $rtn = array();
+
+        $order_number = $parameter['order_number'];
+        $cuit_sharer = $parameter['cuit_sharer'];
+        $start_date = first_month_date($parameter['input_period_from']);
+        $end_date = last_month_date($parameter['input_period_to']);
+
+        /* GET PERIOD */
+        $period_container = 'container.sgr_periodos';
+        $query = array(
+            'anexo' => $anexo,
+            'status' => "activo",
+            'period_date' => array(
+                '$gte' => $start_date, '$lte' => $end_date
+            )
+        );
+
+        if ($parameter['sgr_id'] != 666)
+            $query["sgr_id"] = (float) $parameter['sgr_id'];
+        $period_result = $this->mongo->sgr->$period_container->find($query);
+
+        $files_arr = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $new_query = array();
+        foreach ($period_result as $results) {
+            $period = $results['period'];
+            $new_query['$or'][] = array("filename" => $results['filename']);
+        }
+        if ($cuit_sharer)
+            $new_query["5349"] = $cuit_sharer;
+        
+        if ($order_number)
+            $new_query["5214"] = $order_number;
+        
+        
+       
+        $result_arr = $this->mongo->sgr->$container->find($new_query);
+        /* TABLE DATA */
+        return $this->ui_table_xls($result_arr);
+    }
+
+    function ui_table_xls($result) {
+        foreach ($result as $list) {
+            /* Vars */
+            $new_list = array();
+
+            $this->load->model('padfyj_model');
+            $participate = $this->padfyj_model->search_name($list[5349]);
+            $drawer = $this->padfyj_model->search_name((string) $list[5726]);
+
+
+
+            /*  CREDITOR NAME */
+            $creditor_mv = $this->get_mv_and_comercial_name($list[5351]);
+            $creditor_padfyj = $this->padfyj_model->search_name($list[5351]);
+            $creditor = ($creditor_mv) ? $creditor_mv : $creditor_padfyj;
+
+
+            $this->load->model('app');
+            $warranty_type = $this->app->get_ops(525);
+            $currency = $this->app->get_ops(549);
+            $repayment_system = $this->app->get_ops(527);
+            $rate = $this->app->get_ops(526);
+            $periodicity = $this->app->get_ops(548);
+
+            /* PONDERACION */
+            $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
+            $warranty_type_value = ($warranty_type[$list[5216][0]]) ? $warranty_type[$list[5216][0]] : $list[5216][0];
+
+
+            $new_list['NRO'] = $list[5214];
+            $new_list['PARTICIPE'] = $participate;
+            $new_list['CUIT_PARTICIPE'] = $list[5349];
+            $new_list['ORIGEN'] = $list[5215];
+            $new_list['TIPO'] = $warranty_type_value;
+            $new_list['PONDERACION'] = $get_weighting['weighted'] * 100;
+            $new_list['IMPORTE'] = $list[5218];
+            $new_list['MONEDA'] = $currency[$list[5219][0]];
+            $new_list['LIBRADOR_NOMBRE'] = $drawer;
+            $new_list['LIBRADOR_CUIT'] = $list[5726];
+            $new_list['NRO_OPERACION_BOLSA'] = $list[5727];
+            $new_list['ACREEDOR'] = $creditor;
+            $new_list['CUIT_ACREEDOR'] = $list[5351];
+            $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
+            $new_list['MONEDA_CRED_GARANT'] = $list[5758][0];
+            $new_list['TASA'] = $rate[$list[5222][0]];
+            $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223];
+            $new_list['PLAZO'] = $list[5224];
+            $new_list['GRACIA'] = $list[5225];
+            $new_list['PERIODICIDAD'] = $periodicity[$list[5226][0]];
+            $new_list['SISTEMA'] = $repayment_system[$list[5227][0]];
+            $new_list['DESTINO_CREDITO'] = $list['DESTINO_CREDITO'];
+            $rtn[] = $new_list;
+        }
+
+        return $rtn;
     }
 
 }

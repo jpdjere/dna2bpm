@@ -192,6 +192,7 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         $users_list = $this->get_sgrs_users();
         foreach ($users_list as $user) {
+           
             // Listado de empresas
             $sort = array(1693 => -1);
             $container = 'container.empresas';
@@ -199,12 +200,11 @@ class Sgr_model extends CI_Model {
             $query = array(6026 => '30', "owner" => $user['idu']);
             $result = $this->mongo->db->$container->find($query, $fields);
             $result->sort($sort);
-            foreach ($result as $empresa) {
-                $rtn[] = $empresa;
+ 
+            foreach ($result as $sgrs) {
+                $rtn[] = $sgrs;
             }
         }
-
-
 
         return $rtn;
     }
@@ -691,5 +691,26 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+//        function fojo_update() {
+//        $this->load->helper('file');
+//        $myfile=read_file('./application/modules/sgr/assets/sgr_garantias.csv');
+//        $lista=explode("\n",$myfile);
+//
+//         $container = 'container.sgr_anexo_12';
+//         $options = array('safe' => true);
+//         $data=array('5219'=>array("2"));
+//         $i=0;
+//         foreach($lista as $id){
+//             $i++;
+//             $myid=trim($id,'"');
+//             echo $myid."/";
+//             $query=array("id"=>$myid);
+//             $rs = $this->mongo->sgr->$container->update($query, array('$set'=>$data), $options);
+//             //if($i==1)break;
+//         }
+//             
+//
+//    }
+    
 }
 

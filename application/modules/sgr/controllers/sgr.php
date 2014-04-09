@@ -1315,5 +1315,7 @@ class Sgr extends MX_Controller {
 
         $this->ui->compose($file, 'layout.php', $cpData);
     }
+    
+
 
 }
