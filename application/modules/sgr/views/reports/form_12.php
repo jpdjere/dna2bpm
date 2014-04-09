@@ -38,6 +38,14 @@
                     </div>
 
                 </div>
+                
+                 <div class="span6">
+                    <div>
+                        <label>Nro de Orden </label>
+                        <input type="text" name="order_number" placeholder="XXXXXX/XX" />
+                    </div>
+
+                </div>
             </div>
             <div  class="row-fluid">
                 <div class="span12">
