@@ -230,6 +230,9 @@ class reports extends MX_Controller {
         
         if ($this->input->post('cuit_sharer'))
             $rtn['cuit_sharer'] = $this->input->post('cuit_sharer');
+        
+        if ($this->input->post('order_number'))
+            $rtn['order_number'] = $this->input->post('order_number');
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
