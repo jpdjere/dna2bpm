@@ -51,13 +51,12 @@ class Lib_123_data extends MX_Controller {
                   GC2
                   GT
                  */
+                //debug($parameterArr);
 
                 if ($parameterArr[$i]['col'] == 1) {
 
                     $A_cell_value = "";
                     $code_error = "A.1";
-
-
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -67,7 +66,10 @@ class Lib_123_data extends MX_Controller {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                     }
                 }
-
+                
+                
+                
+                
                 /* DIA
                  * Nro B.1
                  * Detail:
@@ -76,86 +78,73 @@ class Lib_123_data extends MX_Controller {
                  * Detail:
                  * Si algún día el saldo estuvo en Cero, deben informar “0”. Ningún campo puede estar vacío. 
                  */
+                if ($parameterArr[$i]['col'] != 1) {
 
-//                if ($parameterArr[$i]['col'] == 2) {
-//                    $code_error = "B.1";
-//                    //empty field Validation
-//                    $return = check_empty($parameterArr[$i]['fieldValue']);
-//                    if ($return) {
-//                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-//                        array_push($stack, $result);
-//                    }
-//                }
+                    $value = $parameterArr[$i]['fieldValue'];
+                    $key = $parameterArr[$i]['col'];
+                    
+                    if ($value == "") {
+                        $code_error = "B.2";
+                        $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
+                        array_push($stack, $result);
+                    } else {
 
-                $range = range(1, 31);
-                if (in_array($parameterArr[$i]['col'], $range)) {
-                    foreach ($range as $cell) {
-                        $cell_values[$cell] = $parameterArr[$cell]['fieldValue'] . "*" . $A_cell_value . "*" . $parameterArr[$i]['row'];
+
+                        $warranty_info = $this->$model_anexo->get_order_number_left($A_cell_value);
+                        
+                        foreach ($warranty_info as $info) {
+                            
+                            $check_word = $info['5216'][0];
+                            $amount = $info['5218'];
+                            $origin = $info['5215'];
+                            $currency = $info['5219'][0];
+                        }
+
+
+
+                        $allow_words = array("GFMFO", "GC1", "GC2", "GT");
+                        $return = check_word($check_word, $allow_words);
+                        if ($return) {
+                            $code_error = "A.1";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+
+                        if ($currency == 2) {
+                            /* DOLLAR */
+                            $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                            $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                            $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
+
+                            // var_dump($new_dollar_value .">". $amount, $value);
+
+                            if ($new_dollar_value > $amount) {
+                                $code_error = "B.1.B";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s ' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $A_cell_value);
+                                array_push($stack, $result);
+                            }
+                        } else {
+                            
+                            if ($value > $amount) {
+                                $code_error = "B.1.A";
+                                $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
+                                array_push($stack, $result);
+                            }
+                        }
+
+                        $return = check_decimal($value, 2, true);
+                        if ($return) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
+                            array_push($stack, $result);
+                        }
                     }
-                }
+                }               
             } // END FOR LOOP->
         }
-
-        foreach ($cell_values as $key => $cell) {
-            list($value, $nro_orden, $row) = explode("*", $cell);
-
-            if ($value == "") {
-                $code_error = "B.2";
-                $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
-                array_push($stack, $result);
-            } else {
-
-
-                $warranty_info = $this->$model_anexo->get_order_number_left($nro_orden);
-                foreach ($warranty_info as $info) {
-                    $check_word = $info['5216'][0];
-                    $amount = $info['5218'];
-                    $origin = $info['5215'];
-                    $currency = $info['5219'][0];
-                }
-
-
-
-                $allow_words = array("GFMFO", "GC1", "GC2", "GT");
-                $return = check_word($check_word, $allow_words);
-                if ($return) {
-                    $code_error = "A.1";
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                    array_push($stack, $result);
-                }
-
-
-                if ($currency == 2) {
-                    /* DOLLAR */
-                    $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
-                    $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                    $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
-                    if ($new_dollar_value > $amount) {
-                        $code_error = "B.1.B";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $value . '). Monto disponible para el Nro. Orden ' . $nro_orden . ' = $' . $amount);
-                        array_push($stack, $result);
-                    }
-                } else {
-
-                    if ($value > $amount) {
-                        $code_error = "B.1.A";
-                        $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
-                        array_push($stack, $result);
-                    }
-                }
-
-                $return = check_decimal($value, 2, true);
-                if ($return) {
-                    $code_error = "B.3";
-                    $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
-                    array_push($stack, $result);
-                }
-            }
-        }
-
-        //   var_dump($stack);        exit();
+        
         $this->data = $stack;
     }
 
 }
-
