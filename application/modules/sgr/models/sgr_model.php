@@ -604,7 +604,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        $endDate = last_month_date($this->session->userdata['period']);
+        $endDate = last_month_date($period_date);
 
         $query = array(
             'anexo' => $anexo,
@@ -615,8 +615,14 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
+        
+        
+        
+        
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
+            
+            
             $rtn[] = $each;
         }
         return $rtn;
