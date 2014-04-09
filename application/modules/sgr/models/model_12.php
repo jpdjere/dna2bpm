@@ -688,7 +688,9 @@ class Model_12 extends CI_Model {
             $period = $results['period'];
             $new_query['$or'][] = array("filename" => $results['filename']);
         }
-        $new_query["5349"] = $cuit_sharer;
+        if ($cuit_sharer)
+            $new_query["5349"] = $cuit_sharer;
+        
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr);
