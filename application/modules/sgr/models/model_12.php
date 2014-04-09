@@ -693,7 +693,7 @@ class Model_12 extends CI_Model {
             $new_query["5349"] = $cuit_sharer;
         
         if ($order_number)
-            $new_query["5214"] = $cuit_sharer;
+            $new_query["5214"] = $order_number;
         
         
        
