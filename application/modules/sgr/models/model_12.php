@@ -662,7 +662,7 @@ class Model_12 extends CI_Model {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
 
-        $cuit_sharer = first_month_date($parameter['cuit_sharer']);
+        $cuit_sharer = $parameter['cuit_sharer'];
         $start_date = first_month_date($parameter['input_period_from']);
         $end_date = last_month_date($parameter['input_period_to']);
 
@@ -692,7 +692,7 @@ class Model_12 extends CI_Model {
             $new_query["5349"] = $cuit_sharer;
         
         
-        var_dump($cuit_sharer);
+       
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr);
