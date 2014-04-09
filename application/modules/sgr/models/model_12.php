@@ -662,6 +662,7 @@ class Model_12 extends CI_Model {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
 
+        $order_number = $parameter['order_number'];
         $cuit_sharer = $parameter['cuit_sharer'];
         $start_date = first_month_date($parameter['input_period_from']);
         $end_date = last_month_date($parameter['input_period_to']);
@@ -690,6 +691,9 @@ class Model_12 extends CI_Model {
         }
         if ($cuit_sharer)
             $new_query["5349"] = $cuit_sharer;
+        
+        if ($order_number)
+            $new_query["5214"] = $cuit_sharer;
         
         
        
@@ -733,7 +737,7 @@ class Model_12 extends CI_Model {
             $new_list['ORIGEN'] = $list[5215];
             $new_list['TIPO'] = $warranty_type_value;
             $new_list['PONDERACION'] = $get_weighting['weighted'] * 100;
-            $new_list['IMPORTE'] = money_format_custom($list[5218]);
+            $new_list['IMPORTE'] = $list[5218];
             $new_list['MONEDA'] = $currency[$list[5219][0]];
             $new_list['LIBRADOR_NOMBRE'] = $drawer;
             $new_list['LIBRADOR_CUIT'] = $list[5726];
@@ -741,7 +745,7 @@ class Model_12 extends CI_Model {
             $new_list['ACREEDOR'] = $creditor;
             $new_list['CUIT_ACREEDOR'] = $list[5351];
             $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
-            $new_list['MONEDA_CRED_GARANT'] = $currency[$list[5758][0]];
+            $new_list['MONEDA_CRED_GARANT'] = $list[5758][0];
             $new_list['TASA'] = $rate[$list[5222][0]];
             $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223];
             $new_list['PLAZO'] = $list[5224];
