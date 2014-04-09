@@ -34,7 +34,7 @@
                 <div class="span6">
                     <div>
                         <label>C.U.I.T. participe </label>
-                        <input type="" name="sharer" placeholder="XXXXXXXXXXX" />
+                        <input type="text" name="cuit_sharer" placeholder="XXXXXXXXXXX" />
                     </div>
 
                 </div>
