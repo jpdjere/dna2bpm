@@ -512,9 +512,9 @@ class Lib_14_data extends MX_Controller {
              * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un 
              * GASTO POR GESTIÓN DE RECUPERO. 
              */
-            if ($get_temp_data['GASTOS_INCOBRABLES_PERIODO'] > 0) {
+            if ($get_temp_data['RECUPERO_GASTOS_PERIODO'] > 0) {
                 if ($sum_RECUPERO_GASTOS_PERIODO == 0) {
-                    $code_error = "B.5";
+                    $code_error = "B.6";
                     $result = return_error_array($code_error, "", $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
                     array_push($stack, $result);
                 }
