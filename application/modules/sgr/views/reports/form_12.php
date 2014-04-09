@@ -38,21 +38,22 @@
                     </div>
 
                 </div>
-                
-                 <div class="span6">
+
+                <div class="span6">
                     <div>
                         <label>Nro de Orden </label>
                         <input type="text" name="order_number" placeholder="XXXXXX/XX" />
                     </div>
 
                 </div>
-            </div>
-            <div  class="row-fluid">
-                <div class="span12">
-                    <input type="hidden" name="anexo" value="{anexo}" />
-                    <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="fa fa-search"></i> Buscar</button>  
+
+
+                <div  class="row-fluid">
+                    <div class="span12">
+                        <input type="hidden" name="anexo" value="{anexo}" />
+                        <button name="submit_period" class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save_{sgr_period}"><i class="fa fa-search"></i> Buscar</button>  
+                    </div>
                 </div>
-            </div>
         </form>
     </div>
 </div>
