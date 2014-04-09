@@ -691,6 +691,8 @@ class Model_12 extends CI_Model {
         if ($cuit_sharer)
             $new_query["5349"] = $cuit_sharer;
         
+        
+        var_dump($new_query);
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr);
