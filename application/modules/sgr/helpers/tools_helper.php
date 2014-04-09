@@ -563,7 +563,8 @@ function three_fields($fields_arr) {
     var_dump(count($fields_arr));
 }
 
-function Bisiesto($year) {
+function Bisiesto($period) {    
+    list($month, $year) = explode("-", $period);    
     return date('L', mktime(1, 1, 1, 1, 1, $year));
 }
 
