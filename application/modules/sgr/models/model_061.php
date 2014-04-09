@@ -11,7 +11,7 @@ class Model_061 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '061';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -76,7 +76,7 @@ class Model_061 extends CI_Model {
         $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -89,8 +89,7 @@ class Model_061 extends CI_Model {
         }
         return $out;
     }
-    
-    
+
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
@@ -99,7 +98,8 @@ class Model_061 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
@@ -110,6 +110,11 @@ class Model_061 extends CI_Model {
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
+            /* ACTUALIZO PENDIND DEL ANEXO 06 */
+            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
+            $this->update_pending($get_pending['id']);
+            
+           
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -130,17 +135,15 @@ class Model_061 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float)$this->idu;
         $parameter['activated_on'] = date('Y-m-d h:i:s');
+        
 
         /*
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
-        
-        var_dump($get_period);
-        
-        
+
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
@@ -159,36 +162,34 @@ class Model_061 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-      
-        
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
             'others' => $this->session->userdata['others'],
             'reason' => $this->session->userdata['rectify']
         );
-        
-         
-        
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
+
+
+
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
     /* UPDATE ANEXO 06 */
 
-    function update_pending($id, $status) {
+    function update_pending($id) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => $id);
         $parameter = array(
             'status' => 'activo',
             'activated_on' => date('Y-m-d h:i:s')
         );
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
         return $rs['err'];
     }
 
@@ -231,20 +232,22 @@ class Model_061 extends CI_Model {
             $this->load->model('padfyj_model');
             $model_anexo = "model_06";
             $this->load->Model($model_anexo);
+            
+            $partner_type = $this->app->get_ops(532);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
-            $parner_linked = $this->padfyj_model->search_name((string)$list['CUIT_VINCULADO']);
-          
+            $parner_linked = $this->padfyj_model->search_name((string) $list['CUIT_VINCULADO']);
+
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
-      
-            $type_partner_inc = $this->$model_anexo->partner_type((string)$list['CUIT_VINCULADO']);
 
+            $type_partner_inc = $this->$model_anexo->partner_type((string) $list['CUIT_VINCULADO']);
 
+            $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
 
             $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
             $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
-            ;
 
+            
 
             // 					
 
@@ -266,4 +269,5 @@ class Model_061 extends CI_Model {
         }
         return $rtn;
     }
+
 }

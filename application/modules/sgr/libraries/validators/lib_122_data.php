@@ -51,7 +51,7 @@ class Lib_122_data extends MX_Controller {
 
                     $code_error = "A.1";
                     $A_cell_value = $parameterArr[$i]['fieldValue'];
-                    
+
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -60,7 +60,7 @@ class Lib_122_data extends MX_Controller {
                     }
 
                     //Valida contra Mongo
-                    $warranty_info = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                    $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);
                     if (!$warranty_info) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
@@ -85,7 +85,7 @@ class Lib_122_data extends MX_Controller {
                         $cuota_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
                         $B_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'],true);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if (!$return || $B_cell_value < 1) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -176,7 +176,7 @@ class Lib_122_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'],2,true);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -209,10 +209,26 @@ class Lib_122_data extends MX_Controller {
                         /* F.2 */
                         foreach ($warranty_info as $order_number) {
                             $amount_warranty = (float) $order_number[5218];
-                            if ($F_cell_value > $amount_warranty) {
-                                $code_error = "F.2";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $order_number[5218] . ")");
-                                array_push($stack, $result);
+                            $currency = $order_number['5219'][0];
+                            $origin = $order_number['5215'];
+                            
+
+                            if ($currency == 2) {
+                                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                                $new_dollar_value = ($F_cell_value / $dollar_quotation_origin) * $dollar_quotation_period;
+                                
+                                if ($F_cell_value > $new_dollar_value) {
+                                    $code_error = "F.2.B";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $order_number[5218] . ' = $' . $F_cell_value);
+                                    array_push($stack, $result);
+                                }
+                            } else {
+                                if ($F_cell_value > $amount_warranty) {
+                                    $code_error = "F.2.A";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $order_number[5218] . ")");
+                                    array_push($stack, $result);
+                                }
                             }
                         }
                     }
@@ -230,8 +246,7 @@ class Lib_122_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-
-        //exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 

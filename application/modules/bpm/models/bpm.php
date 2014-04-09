@@ -28,7 +28,8 @@ class Bpm extends CI_Model {
         if ($result) {
             $wf = $result[0];
         } else {
-            show_error("Model: '$idwf' not found<br>Contact your system Administrator");
+            return false;
+            //show_error("Model: '$idwf' not found<br>Contact your system Administrator");
         }
 
         if ($wf) {

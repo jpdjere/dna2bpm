@@ -12,6 +12,14 @@ class Lib_06_data extends MX_Controller {
         $model_anexo = "model_06";
         $this->load->Model($model_anexo);
 
+//        $mysql_model_06 = "mysql_model_06";
+//        $this->load->Model($mysql_model_06);
+//        
+//
+//        /* UPDATE MONGO/DNA2 */
+//        $this->period = $this->session->userdata['period'];
+//        $this->$mysql_model_06->active_periods_dna2("06", $this->period);
+
         /* Vars 
          * 
          * $parameters =  
@@ -25,6 +33,7 @@ class Lib_06_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $C_array_value = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -43,7 +52,7 @@ class Lib_06_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
-
+                    $A_cell_value = "";
                     $code_error = "A.1";
 
                     //empty field Validation
@@ -51,18 +60,13 @@ class Lib_06_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    //Value Validation
-                    if ($parameterArr[$i]['fieldValue'] != "") {
-                        $A_cell_value = "";
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            $A_cell_value = $parameterArr[$i]['fieldValue'];
                         }
                     }
                 }
@@ -102,6 +106,11 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 3) {
 
                     $C_cell_value = $parameterArr[$i]['fieldValue'];
+                    if ($C_cell_value) {
+                        $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
+                        $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
+                        //echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
+                    }
                 }
 
 
@@ -194,15 +203,6 @@ class Lib_06_data extends MX_Controller {
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            /* VALIDACION R.3 */
-                            if (!in_array($check_diff, range(0, 3))) {
-                                $code_error = "R.3";
-
-
-                                $result["error_input_value"] = $check_diff;
-                                array_push($stack, $result);
-                            }
                         }
                         /* PERIOD */
                         $return = check_period($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
@@ -319,7 +319,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 //Check Numeric Validation
-                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'],true);
+                                $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                                 if (!$return) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
@@ -354,11 +354,8 @@ class Lib_06_data extends MX_Controller {
                                 if ($A_cell_value == "INTEGRACION PENDIENTE") {
 
 
-                                    $balance = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
-                                    $balance_integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
-
-                                    $subscribed = $balance + $AH_cell_value;
-                                    $integrated = $balance_integrated + $AI_cell_value;
+                                    $sum_subscribed = $subscribed + $AH_cell_value;
+                                    $sum_integrated = $integrated + $AI_cell_value;
 
                                     if ($parameterArr[$i]['fieldValue'] < 0) {
                                         $code_error = "AI.8";
@@ -367,11 +364,11 @@ class Lib_06_data extends MX_Controller {
                                     }
 
 
-                                    $diff_int_sus = $integrated - $subscribed;
+                                    $diff_int_sus = $sum_integrated - $sum_subscribed;
 
                                     if ($diff_int_sus < (int) $parameterArr[$i]['fieldValue']) {
                                         $code_error = "AI.8";
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $sum_integrated . " - Saldo Suscripto: " . $sum_subscribed);
                                         array_push($stack, $result);
                                     }
                                 }
@@ -380,8 +377,18 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
 
+
+                /* CEDENTE */
                 if ($parameterArr[$i]['col'] == 36) {
+
+
                     $AL_cell_value = $parameterArr[$i]['fieldValue'];
+
+                    if ($AL_cell_value) {
+                        $grantor_subscribed = $this->$model_anexo->shares($AL_cell_value, $B_cell_value);
+                        $grantor_integrated = $this->$model_anexo->shares($AL_cell_value, $B_cell_value, 5598);
+                    }
+
                     if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
                         //CHECK FOR EMPTY
                         $code_error = "AJ.1";
@@ -414,16 +421,11 @@ class Lib_06_data extends MX_Controller {
                     /* CALC AVERAGE */
                     $sector = $this->sgr_model->clae2013($ciu);
                     if ($A_cell_value == "INCORPORACION") {
-
-
-
                         /* C.2 */
-                        $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
-                        $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
                         $saldo = array_sum(array($subscribed, $integrated));
                         if ($saldo != 0) {
                             $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo: " . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
                             array_push($stack, $result);
                         }
 
@@ -436,7 +438,7 @@ class Lib_06_data extends MX_Controller {
                             $average_amount = $sumaMontos / $calcPromedio;
                         }
                         if (!$sector) {
-                            $code_error = "Q.2";
+                            $code_error = "Q.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "Código  errorneo (" . $ciu . ")");
                             array_push($stack, $result);
                         } else {
@@ -452,8 +454,8 @@ class Lib_06_data extends MX_Controller {
                     /* "INCREMENTO DE TENENCIA ACCIONARIA" */
                     if ($A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
                         /* B.3 */
-                        $balance = $balance = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
-                        if ($balance == 0) {
+
+                        if ($subscribed == 0) {
                             $code_error = "B.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -479,17 +481,18 @@ class Lib_06_data extends MX_Controller {
 
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $balance = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value);                        /*
+                        /*
                          * AH.4
-                         * Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma posea la cantidad de Capital Suscripto 
+                         * Si la columna AJ está completa, se debe verificar que el Socio Cedente informado en la misma 
+                         * posea la cantidad de Capital Suscripto 
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
                         //  echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
 
-                        if ($balance < $AH_cell_value) {
+                        if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Transfiere:" . $AH_cell_value . ", Dispone de:" . $grantor_subscribed);
                             array_push($stack, $result);
                         }
 
@@ -511,10 +514,7 @@ class Lib_06_data extends MX_Controller {
                          * y que corresponda al tipo de Acción que posea, “A” o “B”. De no poseerlo, se debe rechazar la importación.
                          */
 
-
-                        $balance_integrated = $this->$model_anexo->shares($parameterArr[$i]['fieldValue'], $B_cell_value, 5598);
-
-                        if ($balance_integrated < $AI_cell_value) {
+                        if ($grantor_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $balance_integrated . ")");
                             array_push($stack, $result);
@@ -539,22 +539,17 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    $partner = $parameterArr[$i]['fieldValue'];
-                    $subscribed = $this->$model_anexo->shares($partner, $B_cell_value);
-                    $integrated = $this->$model_anexo->shares($partner, $B_cell_value, 5598);
 
-                    $subscribed = array_sum(array($subscribed, $AH_cell_value));
-                    $integrated = array_sum(array($integrated, $AI_cell_value));
-                    
-                    
+
+                    $subscribed = array_sum(array($grantor_subscribed, $AH_cell_value));
+                    $integrated = array_sum(array($grantor_integrated, $AI_cell_value));
+
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
                      */
-                    
-                  
                     if ($integrated > $subscribed) {
                         $code_error = "AI.5";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Integrado: " . $integrated . " - Suscripto: " . $subscribed);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $AL_cell_value . " | Integrado: " . $integrated . " - Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }
@@ -581,14 +576,14 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         } else {
-
+                            $C_array_value[] = $parameterArr[$i]['fieldValue'];
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             if (!$return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
                                 /* VALIDO EN TODAS LAS */
-                                $balance = $this->$model_anexo->shares_others_sgrs($C_cell_value, $B_cell_value);
+                                $balance = 0; //$this->$model_anexo->shares_others_sgrs($C_cell_value, $B_cell_value);
                                 if ($balance != 0) {
                                     $code_error = "B.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -856,7 +851,13 @@ class Lib_06_data extends MX_Controller {
 
                                         list($first_year_to_check) = explode("/", $R2_cell_value);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff = (int) $period_to_check - (int) $first_year_to_check;
+                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);                                        
+                                        /* VALIDACION R.3 */
+                                        if (!in_array($check_diff, range(0, 3))) {
+                                            $code_error = "R.3";
+                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $check_diff);
+                                            array_push($stack, $result);
+                                        }
                                     }
                                 }
 
@@ -994,22 +995,20 @@ class Lib_06_data extends MX_Controller {
                                 $X_cell_value = $parameterArr[$i]['fieldValue'];
                                 $X2_cell_value = "";
                                 $code_error = "X.2";
+
                                 if ($parameterArr[$i]['fieldValue'] != "") {
+
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
-
-
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-
                                         list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff3 = (int) $second_year_to_check + 1;
+
+                                        $check_diff3 = ($second_year_to_check) ? (int) $second_year_to_check + 1 : $last_year_to_check;
 
                                         if ($check_diff3 != $last_year_to_check) {
-
-
                                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                             array_push($stack, $result);
                                         } else {
@@ -1394,7 +1393,14 @@ class Lib_06_data extends MX_Controller {
                 }
             }
         }
-//        var_dump($stack);        exit();
+        if (count(array_unique($C_array_value)) < count($C_array_value)) {
+            $stack = array();
+            $code_error = "VG.1";
+            $result = return_error_array($code_error, "-", "");
+            array_push($stack, $result);
+        }
+        //$stack = array();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 

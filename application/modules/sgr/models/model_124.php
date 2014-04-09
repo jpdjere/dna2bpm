@@ -11,7 +11,7 @@ class Model_124 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '124';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -80,7 +80,7 @@ class Model_124 extends CI_Model {
         $parameter['FECHA_REAFIANZA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_REAFIANZA'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -102,7 +102,8 @@ class Model_124 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
@@ -127,7 +128,7 @@ class Model_124 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -236,7 +237,7 @@ class Model_124 extends CI_Model {
             $new_list['col1'] = $list['NRO_GARANTIA'];
             $new_list['col2'] = $participate;
             $new_list['col3'] = $participate_cuit;
-            $new_list['col4'] = mongodate_to_print($origen);
+            $new_list['col4'] = $origen;
             $new_list['col5'] = @$warranty_type[$warranty_type];
             $new_list['col6'] = money_format_custom($amount);
             $new_list['col7'] = $creditor;

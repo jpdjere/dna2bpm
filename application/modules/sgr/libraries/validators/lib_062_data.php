@@ -7,10 +7,14 @@ class Lib_062_data extends MX_Controller {
         parent::__construct();
         $this->load->library('session');
 
-        $this->load->helper('sgr/tools');
+        $this->load->helper('sgr/tools');        
+        
          /* PARTNER INFO */
         $model_06 = 'model_06';
-        $this->load->Model($model_06);
+        $this->load->Model($model_06);      
+   
+        
+        
 
         /* Vars 
          * 
@@ -84,7 +88,7 @@ class Lib_062_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $code_error = "B.2";
+                        $code_error = "B.1";
                         $return = check_date($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -172,8 +176,7 @@ class Lib_062_data extends MX_Controller {
                     }
                 }
             }
-        }      
-      
+        }             
         $this->data = $stack;
     }
 

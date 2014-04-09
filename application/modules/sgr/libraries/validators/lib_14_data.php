@@ -9,11 +9,12 @@ class Lib_14_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_12 = 'model_12';
+        $this->load->Model($model_12);
+
         $model_anexo = "model_14";
         $this->load->Model($model_anexo);
 
-        $model_12 = 'model_12';
-        $this->load->Model($model_12);
 
 
         /* Vars 
@@ -127,7 +128,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
 
-                        /* Nro C.2
+                        /* Nro C.2.A
                          * Detail:
                          * En caso de que la garantía haya sido otorgada en PESOS, debe validar que el importe sea menor o igual al 
                          * Monto de la Garantía Otorgada informada mediante Anexo 12 registrado en el Sistema. 
@@ -138,13 +139,7 @@ class Lib_14_data extends MX_Controller {
 
                         foreach ($B_warranty_info as $c_info) {
 
-                            if ($c_info['5219'][0] == 1) {
-                                if ($parameterArr[$i]['fieldValue'] > $c_info[5218]) {
-                                    $code_error = "C.2";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
-                                    array_push($stack, $result);
-                                }
-                            }
+                            $C_cell_value = (float) $parameterArr[$i]['fieldValue'];                          
 
                             /* Nro C.3
                              * Detail:
@@ -154,12 +149,30 @@ class Lib_14_data extends MX_Controller {
                              * anterior al que se está informando que se cayó la garantía. */
 
                             if ($c_info['5219'][0] == 2) {
+                                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($c_info['5215']));
+
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
-                                $dollar_value = $parameterArr[$i]['fieldValue'] / $dollar_quotation;
+                                $dollar_value = ($C_cell_value / $dollar_quotation_origin) * $dollar_quotation;
 
                                 if ($dollar_value > $c_info[5218]) {
                                     $code_error = "C.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s' . $parameterArr[$i]['fieldValue'] . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s . ' . $C_cell_value .'/'. $dollar_quotation_origin .'*'. $dollar_quotation . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    array_push($stack, $result);
+                                }
+
+
+                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                                $new_dollar_value = ($C_cell_value / $dollar_quotation_origin) * $dollar_quotation_period;
+
+                                if ($new_dollar_value > $c_info[5218]) {
+                                    $code_error = "C.2.B";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s. ' . $C_cell_value .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    array_push($stack, $result);
+                                }
+                            } else {
+                                if ($C_cell_value > $c_info[5218]) {
+                                    $code_error = "C.2.A";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
                                     array_push($stack, $result);
                                 }
                             }
@@ -171,7 +184,6 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando la CAÍDA de una Garantía (Columna C del importador), 
                          * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12). 
                          */
-
                         if (!$B_warranty_info) {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
@@ -272,6 +284,7 @@ class Lib_14_data extends MX_Controller {
                         /* INSERT */
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
+                        $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
 
                         $this->$model_anexo->save_tmp($insert_tmp);
                     }
@@ -283,7 +296,11 @@ class Lib_14_data extends MX_Controller {
                   G.2 = B.5
                   Debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) un GASTO POR GESTIÓN DE RECUPERO.
                   G.3
-                  Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que se está importando).
+                  Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e
+                 * INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema 
+                 * (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los 
+                 * GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que 
+                 * se está importando).
                  */
                 if ($parameterArr[$i]['col'] == 7) {
                     $code_error = "G.1";
@@ -364,6 +381,8 @@ class Lib_14_data extends MX_Controller {
             $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $get_temp_data['RECUPERO_GASTOS_PERIODO']));
             $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
+
+
 
 
 
@@ -454,6 +473,7 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */
+
                 if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
                     $code_error = "G.3";
                     $result = return_error_array($code_error, "", "( Nro de Orden " . $number . " Gastos: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO'] . "/" . $get_temp_data['RECUPERO_GASTOS_PERIODO'] . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO'] . "/" . $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
@@ -500,9 +520,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-
-//        var_dump($stack);
- //       exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 

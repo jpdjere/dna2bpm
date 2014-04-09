@@ -11,7 +11,7 @@ class Model_122 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '122';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -83,7 +83,7 @@ class Model_122 extends CI_Model {
         $parameter['FECHA_VENC_CUOTA_NUEVA'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_VENC_CUOTA_NUEVA'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -105,7 +105,8 @@ class Model_122 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
@@ -130,7 +131,7 @@ class Model_122 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -210,7 +211,7 @@ class Model_122 extends CI_Model {
             $new_list['col2'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
             $new_list['col3'] = $brand_name;
             $new_list['col4'] = $cuit;
-            $new_list['col5'] = mongodate_to_print($origen);
+            $new_list['col5'] = $origen;
             $new_list['col6'] = mongodate_to_print($list['FECHA_VENC_CUOTA']);
             $new_list['col7'] = mongodate_to_print($list['FECHA_VENC_CUOTA_NUEVA']);
             $new_list['col8'] = money_format_custom($list['MONTO_CUOTA']);
@@ -221,26 +222,6 @@ class Model_122 extends CI_Model {
         return $rtn;
     }
 
-    function get_anexo_datax($anexo, $parameter) {
-        header('Content-type: text/html; charset=UTF-8');
-        $rtn = array();
-        $container = 'container.sgr_anexo_' . $anexo;
-        $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
-
-        foreach ($result as $list) {
-            /* Vars */
-            $new_list = array();
-            $new_list['col1'] = $list['NRO_GARANTIA'];
-            $new_list['col2'] = $list['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
-            $new_list['col3'] = $list['FECHA_VENC_CUOTA'];
-            $new_list['col4'] = $list['FECHA_VENC_CUOTA_NUEVA'];
-            $new_list['col5'] = money_format_custom($list['MONTO_CUOTA']);
-            $new_list['col6'] = money_format_custom($list['SALDO_AL_VENCIMIENTO']);
-            $rtn[] = $new_list;
-        }
-        return $rtn;
-    }
 
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 

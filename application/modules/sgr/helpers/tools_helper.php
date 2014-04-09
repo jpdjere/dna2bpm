@@ -89,8 +89,15 @@ function check_for_empty($parameter) {
 }
 
 function check_word($parameter, $allow_words) {
-    if (!in_array(strtoupper($parameter), $allow_words)) {
-        return true;
+
+    $var = md5(strtoupper($parameter));
+    $new_arr = array();
+    foreach ($allow_words as $each) {
+        $new_arr[] = md5($each);
+    }
+
+    if (!in_array($var, $new_arr)) {
+        return $var;
     }
 }
 
@@ -136,8 +143,31 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-function check_decimal($number, $decimal = 2, $positive = null) {
+function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
+    $number = str_replace(",", ".", $number);
+    $status = false;
 
+    $value = isfloat($number);
+    if ($value) {
+        $places_count = strlen(substr(strrchr($number, "."), 1));
+        if ($places_count > $decimal) {
+            $status = true;
+        }
+
+        if ($positive) {
+            $number = (int) $number;
+            if ($number <= 0) {
+                $status = true;
+            }
+        }
+    } else {
+        $status = true;
+    }
+
+    return $status;
+}
+
+function check_decimal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
     $status = false;
 
@@ -157,6 +187,7 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     } else {
         $status = true;
     }
+
     return $status;
 }
 
@@ -200,9 +231,13 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
-    $parameter = "http://" . $parameter;
-    if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+    if (is_numeric($element)) {
         return true;
+    } else {
+        $parameter = "http://" . $parameter;
+        if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+            return true;
+        }
     }
 }
 
@@ -262,6 +297,13 @@ function check_cnv_syntax_alt($code) {
     if (strlen($text) == 3 && strlen($num) == 1) {
         return $text;
     }
+}
+
+function check_cnv_syntax_i4($code) {
+    preg_match_all('/^\$([A-Z]{3})(\d{9})/', $code, $match);
+    $text = $match[1][0];
+    $num = $match[2][0];
+    return $text;
 }
 
 /* CHECK MVL CUITS */
@@ -434,6 +476,12 @@ function translate_for_mongo($parameter) {
     return $result;
 }
 
+function translate_mysql_date($date) {
+    $realtime = date("$date H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
 function translate_period_date($period) {
     list($period_month, $period_year) = explode("-", $period);
 
@@ -441,6 +489,39 @@ function translate_period_date($period) {
     $realtime = date("$period_year-$period_month-$period_day H:i:s");
     $mongotime = New Mongodate(strtotime($realtime));
     return $mongotime;
+}
+
+function translate_dna2_period_date($period) {
+    list($period_month, $period_year) = explode("_", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+function translate_date_xls($date) {
+    $new_date = unixtojd(strtotime($date)) - gregoriantojd(1, 1, 1900);
+    return $new_date;
+}
+
+function first_month_date($period) {
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+    $month_date = "01";
+    $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+
+    return $endDate;
+}
+
+function last_month_date($period) {
+
+    if ($period) {
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+        $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+
+        return $endDate;
+    }
 }
 
 function mongodate_to_print($date) {
@@ -668,4 +749,104 @@ function calc_anexo_201($aporte, $get_historic_data, $number) {
         $error_text = "( Nro de Aporte " . $number . " Aporte: " . $sum_CAIDA . " ) " . $sum_RETIRO;
         return $error_text;
     }
+}
+
+function translate_anexos_dna2($anexo) {
+    switch ($anexo) {
+        case '06':
+            return 'sgr_socios';
+            break;
+
+        case 'sgr_socios':
+            return '06';
+            break;
+
+        case '061':
+            return 'sgr_anexo17_2';
+            break;
+
+        case 'sgr_anexo17_2':
+            return '061';
+            break;
+
+        case '062':
+            return 'sgr_socios_4';
+            break;
+
+        case 'sgr_socios_4':
+            return '062';
+            break;
+
+        case '09':
+            return 'sgr_pdf';
+            break;
+
+        case 'sgr_pdf':
+            return '09';
+            break;
+
+        case '12':
+            return 'sgr_garantias';
+            break;
+
+        case 'sgr_garantias':
+            return '12';
+            break;
+
+        case '14':
+            return 'sgr_fdr_contingente';
+            break;
+
+        case 'sgr_fdr_contingente':
+            return '14';
+            break;
+
+        case '201':
+            return 'sgr_fdr_integrado';
+            break;
+
+        case 'sgr_fdr_integrado':
+            return '201';
+            break;
+    }
+}
+
+function translate_anexos_dna2_urls($anexo) {
+    switch ($anexo) {
+        case '06':
+            return 'SGR_socios';
+            break;
+
+        case '061':
+            return 'SGR_anexo_17_2';
+            break;
+
+        case '062':
+            return 'sgr_socios_4';
+            break;
+
+        case 'sgr_socios_4':
+            return '062';
+            break;
+
+        case '12':
+            return 'SGR_anexo_12';
+            break;
+
+        case '14':
+            return 'SGR_FDR_contingente';
+            break;
+
+
+        case '201':
+            return 'SGR_FDR_integrado';
+            break;
+    }
+}
+
+function translate_month_spanish($code) {
+    $replace = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+    $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+
+    return str_replace($search, $replace, $code);
 }
