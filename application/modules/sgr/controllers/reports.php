@@ -151,11 +151,11 @@ class reports extends MX_Controller {
 
         $fileName = $anexo ."_al_" . date("j-n-Y"); //Get today
         //Generate  file
-        header("Content-Description: File Transfer");
-        header("Content-type: application/x-msexcel");
-        header("Content-Type: application/force-download");
-        header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
-        header("Content-Description: PHP Generated XLS Data");
+//        header("Content-Description: File Transfer");
+//        header("Content-type: application/x-msexcel");
+//        header("Content-Type: application/force-download");
+//        header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
+//        header("Content-Description: PHP Generated XLS Data");
         /* RENDER */
         $this->render($default_dashboard, $customData);
     }
