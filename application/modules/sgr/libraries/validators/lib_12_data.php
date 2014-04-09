@@ -9,6 +9,9 @@ class Lib_12_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
         $this->period = $this->session->userdata['period'];
+        
+        
+        
 
         /* PARTNER INFO DATA */
         $model_06 = 'model_06';
@@ -663,7 +666,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFCPD") {
                         $code_error = "P.2";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                        $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
 
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -675,7 +678,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                        $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -684,15 +687,21 @@ class Lib_12_data extends MX_Controller {
 
 
                     $return = $this->sgr_model->get_warranty_type($D_cell_value);
-                    $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                    
+                    
+                    
+                    $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
 
                     $ctyMayor = $return['mayor'] * $yearCtyDays;
                     $ctyMinor = $return['minor'] * $yearCtyDays;
                     $ctyDays = $P_cell_value;
 
                     $range = range($ctyMinor, $ctyMayor);
-
+                    
                     if (!in_array($ctyDays, $range)) {
+                        
+                       debug($ctyDays, $range);
+                        
                         $code_error = "P.4";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $P_cell_value);
                         array_push($stack, $result);
@@ -838,7 +847,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //debug($stack);        exit();
+        debug($stack);        exit();
         $this->data = $stack;
     }
 
