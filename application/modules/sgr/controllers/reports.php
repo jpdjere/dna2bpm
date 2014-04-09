@@ -194,6 +194,10 @@ class reports extends MX_Controller {
             case '06':
                 return $this->process_06($anexo);
                 break;
+            
+            case '12':
+                return $this->process_12($anexo);
+                break;
         }
     }
 
@@ -215,6 +219,25 @@ class reports extends MX_Controller {
                     $result = $this->$model->get_anexo_report($anexo, $rtn);
                     break;
             }
+
+            return $result;
+        }
+    }
+    
+    function process_12($anexo) {
+
+        $rtn = array();
+
+        $rtn['cuit_sharer'] = $this->input->post('cuit_sharer');
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+            $result = $this->$model->get_anexo_report($anexo, $rtn);
 
             return $result;
         }
