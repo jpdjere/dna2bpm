@@ -457,18 +457,21 @@ class Sgr_model extends CI_Model {
 
     /* COTIZACION */
 
-    function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
-        $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
+    function get_dollar_quotation($period, $currency = "dolar americano") {        
+        $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($period - 1), 1900));        
+        
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = new MongoDate(strtotime($quotation_date));
         $field = array("amount");
         $query = array('date' => array(
                 '$lte' => $quotation_date
         ));
-        $result = $this->mongo->sgr->$container->findOne($query);
-
-
-        return $result[amount];
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('date' => -1))->limit(1);    
+        
+        foreach ($result as $each){            
+            return $each[amount];
+        }   
+        
     }
 
     function get_dollar_quotation_period($currency = "dolar americano") {
@@ -481,10 +484,11 @@ class Sgr_model extends CI_Model {
         $query = array('date' => array(
                 '$lte' => $endDate
         ));
-        $result = $this->mongo->sgr->$container->findOne($query);
-
-
-        return $result[amount];
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('date' => -1))->limit(1);    
+        
+        foreach ($result as $each){            
+            return $each[amount];
+        }   
     }
 
     /* GET ACTIVE ANEXOS */
