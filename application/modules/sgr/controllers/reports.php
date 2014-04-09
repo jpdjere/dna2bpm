@@ -71,7 +71,7 @@ class reports extends MX_Controller {
         }
 
         /* FORM TEMPLATE */
-        $enables = array('06');
+        $enables = array('06', '12');
 
         if (in_array($this->anexo, $enables))
             $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
@@ -146,7 +146,7 @@ class reports extends MX_Controller {
         $rtn_report = $this->process(); //$this->$model->get_anexo_report($anexo, $this->process_06());
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
-        $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo . '_result', $customData, true);
+        $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);
         $customData['show_table'] = ($rtn_report) ? $rtn_report : "";        
 
         $fileName = $anexo ."_al_" . date("j-n-Y"); //Get today
