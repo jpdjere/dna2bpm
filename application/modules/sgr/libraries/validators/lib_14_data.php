@@ -153,10 +153,10 @@ class Lib_14_data extends MX_Controller {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($c_info['5215']));
                                 
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
-                                $dollar_value = ($C_cell_value / $dollar_quotation_origin) * $dollar_quotation;
+                                $dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation;
                                 
 
-                                if ($dollar_value > $c_info[5218]) {
+                                if ($dollar_value > $C_cell_value) {
                                     $code_error = "C.3";                                    
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  = '. $B_cell_value.'  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation . ' = '.$dollar_value.' )');
                                     array_push($stack, $result);
@@ -166,9 +166,9 @@ class Lib_14_data extends MX_Controller {
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
                                 
-                                //“($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1479335.7933”
+                                //“($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
                                 
-                                if ($new_dollar_value > $c_info[5218]) {
+                                if ($new_dollar_value > $C_cell_value) {
                                     $code_error = "C.2.B";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
                                     array_push($stack, $result);
