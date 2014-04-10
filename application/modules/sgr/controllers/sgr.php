@@ -366,6 +366,11 @@ class Sgr extends MX_Controller {
             var_dump($sgr, $this->sgr_id);
             exit();
         }
+        
+        if($filename_ext==".pdf"){
+            var_dump($filename_ext);
+            exit();
+        }
 
 //echo dirname(__FILE__); //$this->module_url;
 
@@ -405,7 +410,7 @@ class Sgr extends MX_Controller {
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
                     if ($row_lenght > 1) {
                         $count = $data->rowcount();
-                        $fields = trim($data->sheets[0]['cellsInfo'][$i][$j]['raw']);
+                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
                         $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
                         array_push($valuesArr, $stack);
                     }
