@@ -26,6 +26,7 @@ class Lib_125_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
 
+
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
              * BASIC VALIDATION
@@ -49,9 +50,12 @@ class Lib_125_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
+                    $vg2_arr = array();
+                    
+                    
                     $code_error = "A.1";
                     $sharer_info = $this->$model_anexo->get_sharer_left($parameterArr[$i]['fieldValue']);
-                          //  var_dump($sharer_info);
+                    //  var_dump($sharer_info);
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -90,6 +94,9 @@ class Lib_125_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+
+                        $vg2_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
+
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -118,46 +125,45 @@ class Lib_125_data extends MX_Controller {
                     $code_error = "C.1";
 
 
-                    
-                        $haygarantia = false;
-                        $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2");
-                        foreach ($sharer_info as $info) { 
-                            if (in_array($info['5216'][0], $C2_array)) {
-                                $haygarantia = true;
-                            }
-                        }
 
-                        $int_value = (int) $parameterArr[$i]['fieldValue'];
-                        if ($haygarantia) {
-                            // garantia activa campo mayor a cero  
-                            $code_error = "C.1";
-                                // Empty
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                                    array_push($stack, $result);
-                                }else{
-                                    // Check positive
-                                    $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
-                                    $code_error = "C.2";
-                                    if ($return) {
-                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
-                                        array_push($stack, $result);
-                                    }
-                                }       
-                        }else{
-                            // sin garantia
-                            $code_error = "C.1";
-                            if ($int_value!=0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                    $haygarantia = false;
+                    $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2");
+                    foreach ($sharer_info as $info) {
+                        if (in_array($info['5216'][0], $C2_array)) {
+                            $haygarantia = true;
+                        }
+                    }
+
+                    $int_value = (int) $parameterArr[$i]['fieldValue'];
+                    if ($haygarantia) {
+                        // garantia activa campo mayor a cero  
+                        $code_error = "C.1";
+                        // Empty
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        } else {
+                            // Check positive
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            $code_error = "C.2";
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
                                 array_push($stack, $result);
                             }
-
                         }
+                    } else {
+                        // sin garantia
+                        $code_error = "C.1";
+                        if ($int_value != 0) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
 
 
 
-                    
+
 
 
                     //Valida contra Mongo
@@ -172,44 +178,42 @@ class Lib_125_data extends MX_Controller {
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GC1 o GC2.
                  */
                 if ($parameterArr[$i]['col'] == 4) {
-                     //empty field Validation
+                    //empty field Validation
 
-                        $haygarantia = false;
-                        $D1_array = array("GC1", "GC2");
-                        foreach ($sharer_info as $info) { 
-                            if (in_array($info['5216'][0], $D1_array)) {
-                                $haygarantia = true;
-                            }
+                    $haygarantia = false;
+                    $D1_array = array("GC1", "GC2");
+                    foreach ($sharer_info as $info) {
+                        if (in_array($info['5216'][0], $D1_array)) {
+                            $haygarantia = true;
                         }
+                    }
 
-                        $int_value = (int) $parameterArr[$i]['fieldValue'];
-                        if ($haygarantia) {
-                            // garantia activa           
-                            $return = check_empty($parameterArr[$i]['fieldValue']);                     
-                            if ($return) {
-                                // Check empty
-                                $code_error = "D.1";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }else{
-                                // check D.2
-                                $code_error = "D.2";
-                                $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
-                                if ($return) {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
-                                    array_push($stack, $result);
-                                }
-                            }                           
-                        }else{
-                            // Garantia no activa
+                    $int_value = (int) $parameterArr[$i]['fieldValue'];
+                    if ($haygarantia) {
+                        // garantia activa           
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            // Check empty
                             $code_error = "D.1";
-                            if ($int_value!=0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        } else {
+                            // check D.2
+                            $code_error = "D.2";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
                                 array_push($stack, $result);
                             }
-
                         }
-                    
+                    } else {
+                        // Garantia no activa
+                        $code_error = "D.1";
+                        if ($int_value != 0) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
                 }
 
                 /* SLDO_TEC
@@ -224,7 +228,7 @@ class Lib_125_data extends MX_Controller {
 
                     $haygarantia = false;
                     $E1_array = array("GT");
-                    foreach ($sharer_info as $info) { 
+                    foreach ($sharer_info as $info) {
                         if (in_array($info['5216'][0], $E1_array)) {
                             $haygarantia = true;
                         }
@@ -233,38 +237,43 @@ class Lib_125_data extends MX_Controller {
                     $int_value = (int) $parameterArr[$i]['fieldValue'];
                     if ($haygarantia) {
                         // garantia activa campo mayor a cero  
-                            //empty field Validation
-                            $return = check_empty($parameterArr[$i]['fieldValue']);
+                        //empty field Validation
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "E.1";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        } else {
+                            // Check positivo
+                            $code_error = "E.2";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                             if ($return) {
-                                $code_error = "E.1";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
                                 array_push($stack, $result);
-                            } else{
-                                // Check positivo
-                                $code_error = "E.2";
-                                $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
-                                if ($return) {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (".$info['5216'][0].")");
-                                    array_push($stack, $result);
-                                }
-                            }    
-                    }else{
+                            }
+                        }
+                    } else {
                         // sin garantia
                         $code_error = "E.1";
-                        if ($int_value!=0) {
+                        if ($int_value != 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-
                     }
-                    
                 }
             } // END FOR LOOP->
         }
-//
-//    $result = return_error_array("-", "-", "--Dummy--");
-//    array_push($stack, $result);
-                            
+
+        /* EXTRA VALIDATION VG.2 */
+        foreach (repeatedElements($vg2_arr) as $arr) {
+            $stack = array();
+            $code_error = "VG.2";
+            list($sharer, $creditor) = explode('*', $arr['value']);
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "CUIT Participe: " . $sharer . ",  Acreedor: " . $creditor);
+            array_push($stack, $result);
+        }
+
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
