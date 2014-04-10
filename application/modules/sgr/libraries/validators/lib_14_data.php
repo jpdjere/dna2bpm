@@ -162,11 +162,10 @@ class Lib_14_data extends MX_Controller {
                                     array_push($stack, $result);
                                 }
 
-
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
                                 
-                                //“($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
+                                //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
                                 
                                 if ($new_dollar_value > $C_cell_value) {
                                     $code_error = "C.2.B";
