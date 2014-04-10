@@ -826,8 +826,9 @@ function translate_anexos_dna2_urls($anexo) {
             return 'sgr_socios_4';
             break;
 
-        case 'sgr_socios_4':
-            return '062';
+        
+        case '09':
+            return 'SGR_PDF';
             break;
 
         case '12':
