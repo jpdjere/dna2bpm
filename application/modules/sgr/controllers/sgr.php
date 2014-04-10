@@ -416,7 +416,7 @@ class Sgr extends MX_Controller {
                     $customData['sgr_period'] = $this->period;
                     $customData['anexo_list'] = $this->AnexosDB();
                     $custo_Data['process_filename'] = $new_filename;
-                    $customData['print_file'] = anchor('/sgr/pdf_asset/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir PDF </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
+                    $customData['print_file'] = anchor('/sgr/pdf_asset/09/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir PDF </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
                     $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                     $this->render('success', $customData);
 //$this->parser->parse('success2', $customData);
