@@ -115,13 +115,13 @@ class Lib_123_data extends MX_Controller {
                             /* DOLLAR */
                             $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                             $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                            $new_dollar_value = ($value / $dollar_quotation_origin) * $dollar_quotation_period;
+                            $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
 
                             // var_dump($new_dollar_value .">". $amount, $value);
 
                             if ($new_dollar_value > $amount) {
                                 $code_error = "B.1.B";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s ' . $new_dollar_value . '). Monto disponible para el Nro. Orden ' . $A_cell_value);
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$value.' Monto disponible para el Nro. Orden  = '. $A_cell_value.'  (' . $amount .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
                                 array_push($stack, $result);
                             }
                         } else {
