@@ -331,7 +331,7 @@ class Sgr extends MX_Controller {
             exit();
         }
         /* XLS */
-        if ($this->anexo == '09') {
+        if ($this->anexo != '09') {
 
             /* PRELIMINAR VALIDATION */
             $VG = $this->pre_general_validation($anexo);
@@ -347,10 +347,14 @@ class Sgr extends MX_Controller {
             } else {
                 $this->process($process_filename);
             }
+        } else {
+            /* PDF */
+            $this->pdf($process_filename);
         }
 
 
-        /* PDF */
+        
+        
     }
 
     function Pdf($filename) {
@@ -445,10 +449,6 @@ class Sgr extends MX_Controller {
             exit();
         }
 
-        if ($filename_ext == ".pdf") {
-            var_dump($filename_ext);
-            exit();
-        }
 
 //echo dirname(__FILE__); //$this->module_url;
 
