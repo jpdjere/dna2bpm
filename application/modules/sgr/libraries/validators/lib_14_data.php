@@ -167,6 +167,8 @@ class Lib_14_data extends MX_Controller {
                                 
                                 //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
                                 
+                                var_dump($new_dollar_value .">". $C_cell_value);
+                                
                                 if ($new_dollar_value > $C_cell_value) {
                                     $code_error = "C.2.B";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
@@ -523,7 +525,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);        exit();
+        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
