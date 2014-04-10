@@ -279,7 +279,7 @@ class Lib_125_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-        debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
