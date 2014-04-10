@@ -263,12 +263,14 @@ class Lib_125_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-
+        
+         var_dump($vg2_arr);
+            
+        
         /* EXTRA VALIDATION VG.2 */
         foreach (repeatedElements($vg2_arr) as $arr) {
             
-            var_dump($vg2_arr);
-            
+           
             $stack = array();
             $code_error = "VG.2";
             list($sharer, $creditor) = explode('*', $arr['value']);
