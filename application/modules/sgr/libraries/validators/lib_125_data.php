@@ -267,7 +267,7 @@ class Lib_125_data extends MX_Controller {
         /* EXTRA VALIDATION VG.2 */
         foreach (repeatedElements($vg2_arr) as $arr) {
             
-            var_dump($arr);
+            var_dump($vg2_arr);
             
             $stack = array();
             $code_error = "VG.2";
