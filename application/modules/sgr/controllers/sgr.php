@@ -330,20 +330,98 @@ class Sgr extends MX_Controller {
             var_dump($sgr, $this->sgr_id);
             exit();
         }
+        /* XLS */
+        if ($this->anexo == '09') {
 
-        /* PRELIMINAR VALIDATION */
-        $VG = $this->pre_general_validation($anexo);
+            /* PRELIMINAR VALIDATION */
+            $VG = $this->pre_general_validation($anexo);
 
-        if ($VG) {
-            $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
-            $customData['sgr_period'] = $this->period;
-            $customData['anexo_list'] = $this->AnexosDB();
-            $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
-            $customData['message'] = $VG;
-            $this->render('errors', $customData);
-            unlink($uploadpath);
-        } else {
-            $this->process($process_filename);
+            if ($VG) {
+                $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+                $customData['sgr_period'] = $this->period;
+                $customData['anexo_list'] = $this->AnexosDB();
+                $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
+                $customData['message'] = $VG;
+                $this->render('errors', $customData);
+                unlink($uploadpath);
+            } else {
+                $this->process($process_filename);
+            }
+        }
+
+
+        /* PDF */
+    }
+
+    function Pdf($filename) {
+        $customData = array();
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_id'] = $this->sgr_id;
+        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+
+
+        $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
+        $filename = $filename . $filename_ext;
+        list($sgr, $anexo, $date) = explode("_", $filename);
+        $user_id = (float) ($this->idu);
+        if ($sgr != $this->sgr_id) {
+            var_dump($sgr, $this->sgr_id);
+            exit();
+        }
+
+
+
+        $original = array($this->sgr_id . '_', $this->anexo . '_', '_');
+        $replaced = array("Anexo " . $this->oneAnexoDB_short($this->anexo) . ' - ', strtoupper($this->sgr_nombre) . ' - ', ' ');
+        $new_filename = str_replace($original, $replaced, $filename);
+
+
+        $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
+        $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $new_filename;
+
+
+
+
+
+        if (!$error) {
+            $model = "model_" . $anexo;
+            $this->load->Model($model);
+
+            /* INSERT UPDATE */
+            $result = array();
+            $result['filename'] = $new_filename;
+            $result['sgr_id'] = $this->sgr_id;
+            $save = (array) $this->$model->save($result);
+
+            /* SET PERIOD */
+            if ($save) {
+                $result = array();
+                $result['filename'] = $new_filename;
+                $result['sgr_id'] = $this->sgr_id;
+                $result['anexo'] = $this->anexo;
+                $save_period = (array) $this->$model->save_period($result);
+
+
+                if ($save_period['status'] == "ok") {
+                    /* RENDER */
+                    $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
+                    $customData['sgr_period'] = $this->period;
+                    $customData['anexo_list'] = $this->AnexosDB();
+                    $custo_Data['process_filename'] = $new_filename;
+                    $customData['print_file'] = anchor('/sgr/print_anexo/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir Anexo </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
+                    $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
+                    $this->render('success', $customData);
+//$this->parser->parse('success2', $customData);
+                    copy($uploadpath, $movepath) or die("Unable to copy $uploadpath to $movepath.");
+                    unlink($uploadpath);
+                } else {
+                    $error = 4;
+                }
+            }
         }
     }
 
@@ -366,8 +444,8 @@ class Sgr extends MX_Controller {
             var_dump($sgr, $this->sgr_id);
             exit();
         }
-        
-        if($filename_ext==".pdf"){
+
+        if ($filename_ext == ".pdf") {
             var_dump($filename_ext);
             exit();
         }
@@ -755,8 +833,8 @@ class Sgr extends MX_Controller {
 
             $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
             $set_start_month = strtotime(date('2013-12-30'));
-            
-            if ($this->idu ==-342725103)
+
+            if ($this->idu == -342725103)
                 $set_start_month = strtotime(date('2010-12-30'));
 
             if ($rectify) {
@@ -767,8 +845,8 @@ class Sgr extends MX_Controller {
             } else {
                 if ($limit_month < $set_month) {
                     return "1"; // Posterior al mes actual
-                } else if ($set_start_month > $set_month) {                    
-                        return "2"; // Anterior al mes Inicial
+                } else if ($set_start_month > $set_month) {
+                    return "2"; // Anterior al mes Inicial
                 } else {
                     $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
                     if ($get_period) {
@@ -1320,7 +1398,5 @@ class Sgr extends MX_Controller {
 
         $this->ui->compose($file, 'layout.php', $cpData);
     }
-    
-
 
 }
