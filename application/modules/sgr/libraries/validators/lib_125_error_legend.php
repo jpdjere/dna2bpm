@@ -9,6 +9,9 @@ class Lib_125_error_legend {
     function return_legend($code, $row, $value) {
 
         switch ($code) {
+              case "VG.2":
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Solo puede haber una combinación de CUIT PARTICIPE + CUIT ACREEDOR por archivo';
+                break;
             case "A.1":
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener 11 caracteres sin guiones. Debe ser una CUIT válida.';
                 break;
