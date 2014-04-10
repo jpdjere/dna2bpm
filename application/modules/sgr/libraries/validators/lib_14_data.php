@@ -157,8 +157,8 @@ class Lib_14_data extends MX_Controller {
                                 
 
                                 if ($dollar_value > $c_info[5218]) {
-                                    $code_error = "C.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(u$s . ' . $C_cell_value .'/'. $dollar_quotation_origin .'*'. $dollar_quotation . '= '.$dollar_value.'). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $code_error = "C.3";                                    
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  =  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation . ' = '.$dollar_value.' )');
                                     array_push($stack, $result);
                                 }
 
@@ -170,7 +170,7 @@ class Lib_14_data extends MX_Controller {
                                 
                                 if ($new_dollar_value > $c_info[5218]) {
                                     $code_error = "C.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden ' . $c_info[5218] . ' =  (' . $C_cell_value .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  =  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
                                     array_push($stack, $result);
                                 }
                             } else {
