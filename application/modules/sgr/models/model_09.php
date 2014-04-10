@@ -28,38 +28,7 @@ class Model_09 extends CI_Model {
         }
     }
 
-    function sanitize($parameter) {
-        /* FIX INFORMATION */
-        $parameter = (array) $parameter;
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        return $parameter;
-    }
-
-    function check($parameter) {
-        /**
-         *   Funcion ...
-         * 
-         * @param 
-         * @type PHP
-         * @name ...
-         * @author Diego
-         *
-         * @example         
-         * FILENAME
-         * */
-        $defdna = array();
-
-
-        $insertarr = array();
-        foreach ($defdna as $key => $value) {
-            $insertarr[$value] = $parameter[$key];
-
-            
-        }
-        return $insertarr;
-    }
+   
 
     function save($parameter) {
         $period = $this->session->userdata['period'];
