@@ -405,7 +405,7 @@ class Sgr extends MX_Controller {
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
                     if ($row_lenght > 1) {
                         $count = $data->rowcount();
-                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
+                        $fields = trim($data->sheets[0]['cells'][$i][$j]['raw']);
                         $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
                         array_push($valuesArr, $stack);
                     }
