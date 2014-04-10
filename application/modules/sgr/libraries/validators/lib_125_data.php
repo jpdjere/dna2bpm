@@ -25,6 +25,7 @@ class Lib_125_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $vg2_arr = array();
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -50,7 +51,7 @@ class Lib_125_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
-                    $vg2_arr = array();
+                    
                     
                     
                     $code_error = "A.1";
