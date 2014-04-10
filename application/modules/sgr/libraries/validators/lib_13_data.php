@@ -168,6 +168,8 @@ class Lib_13_data extends MX_Controller {
                     }
                 } // END FOR LOOP->
             }
+            
+            exit();
             $this->data = $stack;
         }
     }
