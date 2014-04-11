@@ -119,7 +119,7 @@ class Lib_123_data extends MX_Controller {
 
                             // var_dump($new_dollar_value .">". $amount, $value);
 
-                            if ($new_dollar_value > $amount) {
+                            if ($new_dollar_value > $value) {
                                 $code_error = "B.1.B";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], 'El Día ' . $key . ' $' .$value.' Monto disponible para el Nro. Orden  = '. $A_cell_value.'  (' . $amount .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
                                 array_push($stack, $result);
