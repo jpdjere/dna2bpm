@@ -271,7 +271,7 @@ class Lib_125_data extends MX_Controller {
            
             $stack = array();
             $code_error = "VG.2";
-            list($sharer, $creditor) = explode('*', $arr['value']);
+            list($creditor,$sharer) = explode('*', $arr['value']);
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "CUIT Participe: " . $sharer . ",  Acreedor: " . $creditor);
             array_push($stack, $result);
         }
