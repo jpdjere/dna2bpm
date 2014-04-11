@@ -109,9 +109,9 @@ class Model_141 extends CI_Model {
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
+        $parameter['status'] = 'activo';
         $parameter['idu'] = (float) $this->idu;
         $parameter['origen'] = "2013";
-
 
         /*
          * VERIFICO PENDIENTE           
@@ -148,6 +148,7 @@ class Model_141 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
+
         $tmpl = array(
             'data' => '<tr>
         <td align="center" rowspan="2">C.U.I.T</td>
@@ -171,7 +172,25 @@ class Model_141 extends CI_Model {
         <td align="center">Clasificación del deudor <br></td>
     </tr>
     <tr>
-        <td>1</td>
+        <td>C.U.I.T</td>
+        <td>Socio Participe</td>
+        <td>Cantidad de Garantias</td>
+        <td>Monto</td>
+        <td>Hipotecarias</td>
+        <td>Prendarias</td>
+        <td>Fianzas</td>
+        <td>Otras</td>
+        <td>Total</td>
+        <td>Saldos Reafianzados </td>
+        <td>Monto adeudado a la fecha</td>
+        <td>Cantidad de garantías afrontadas</td>
+        <td>Días de mora</td>
+        <td>Clasificación del deudor</td>        
+    </tr> ',
+        );
+
+        $tmpl_xls = array(
+            'data' => '<tr><td>1</td>
         <td>2</td>
         <td>3</td>
         <td>4</td>
@@ -184,12 +203,18 @@ class Model_141 extends CI_Model {
         <td>11</td>
         <td>12</td>
         <td>13</td>
-        <td>14</td>        
-    </tr> ',
+        <td>14</td>
+                            </tr>',
         );
 
+        /* DRAW TABLE */
+        $fix_table = '<thead>
+<tr>
+<th>';
 
-        $data = array($tmpl);
+
+        $template = ($xls) ? $tmpl_xls : $tmpl;
+        $data = array($template);
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
@@ -198,37 +223,66 @@ class Model_141 extends CI_Model {
         }
 
         $this->load->library('table_custom');
-        $newTable = $this->table_custom->generate($data);
+        $newTable = str_replace($fix_table, '<thead>', $this->table_custom->generate($data));
         return $newTable;
     }
 
-    function get_anexo_data($anexo, $parameter) {
+    function get_anexo_data($anexo, $parameter, $xls = false) {
+
+
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
 
         foreach ($result as $list) {
-            /* Vars */
-            $cuit = str_replace("-", "", $list['CUIT_PARTICIPE']);
+            /*
+             * Vars 								
+             */
             $this->load->model('padfyj_model');
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name : strtoupper($list['RAZON_SOCIAL']);
+
+
+            $model_201 = 'model_201';
+            $this->load->Model($model_201);
+
+
+            $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
+            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
+            foreach ($partener_info as $partner) {
+                $cuit = $partner["CUIT_PROTECTOR"];
+                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
+            }
+            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
+            $saldo = $get_movement_data['APORTE'] - $retiros;
+            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
 
             $new_list = array();
             $new_list['col1'] = $list['CUIT_PARTICIPE'];
             $new_list['col2'] = $brand_name;
-            $new_list['col3'] = money_format_custom(0);
-            $new_list['col4'] = money_format_custom(0);
-            $new_list['col5'] = money_format_custom($list['HIPOTECARIAS']);
-            $new_list['col6'] = money_format_custom($list['PRENDARIAS']);
-            $new_list['col7'] = money_format_custom($list['FIANZA']);
-            $new_list['col8'] = money_format_custom($list['OTRAS']);
-            $new_list['col9'] = money_format_custom(0);
-            $new_list['col10'] = money_format_custom($list['REAFIANZA']);
-            $new_list['col11'] = money_format_custom(0);
-            $new_list['col12'] = money_format_custom(0);
+            if ($xls) {
+                $new_list['col3'] = (float) (0);
+                $new_list['col4'] = (float) (0);
+                $new_list['col5'] = (float) ($list['HIPOTECARIAS']);
+                $new_list['col6'] = (float) ($list['PRENDARIAS']);
+                $new_list['col7'] = (float) ($list['FIANZA']);
+                $new_list['col8'] = (float) ($list['OTRAS']);
+                $new_list['col9'] = (float) (0);
+                $new_list['col10'] = (float) ($list['REAFIANZA']);
+                $new_list['col11'] = (float) (0);
+                $new_list['col12'] = (float) (0);
+            } else {
+                $new_list['col3'] = money_format_custom(0);
+                $new_list['col4'] = money_format_custom(0);
+                $new_list['col5'] = money_format_custom($list['HIPOTECARIAS']);
+                $new_list['col6'] = money_format_custom($list['PRENDARIAS']);
+                $new_list['col7'] = money_format_custom($list['FIANZA']);
+                $new_list['col8'] = money_format_custom($list['OTRAS']);
+                $new_list['col9'] = money_format_custom(0);
+                $new_list['col10'] = money_format_custom($list['REAFIANZA']);
+                $new_list['col11'] = money_format_custom(0);
+                $new_list['col12'] = money_format_custom(0);
+            }
             $new_list['col13'] = $list['MORA_EN_DIAS'];
             $new_list['col14'] = $list['CLASIFICACION_DEUDOR'];
             $rtn[] = $new_list;
@@ -261,11 +315,11 @@ class Model_141 extends CI_Model {
             $col7[] = (float) ($list['FIANZA']);
             $col8[] = (float) ($list['OTRAS']);
             $col9[] = (float) 0;
-            $col10[] = (float)0;
-            $col11[] = (float)0;
-            $col12[] = (float)0;
-            $col13[] = (float)0;
-            $col14[] = (float)0;
+            $col10[] = (float) 0;
+            $col11[] = (float) 0;
+            $col12[] = (float) 0;
+            $col13[] = (float) 0;
+            $col14[] = (float) 0;
         }
 
 
@@ -275,16 +329,29 @@ class Model_141 extends CI_Model {
         $new_list['col2'] = "-";
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
-        $new_list['col5'] = money_format_custom(array_sum($col5));
-        $new_list['col6'] = money_format_custom(array_sum($col6));
-        $new_list['col7'] = money_format_custom(array_sum($col7));
-        $new_list['col8'] = money_format_custom(array_sum($col8));
-        $new_list['col9'] = money_format_custom(array_sum($col9));
-        $new_list['col10'] = money_format_custom(array_sum($col10));
-        $new_list['col11'] = money_format_custom(array_sum($col11));
-        $new_list['col12'] = money_format_custom(array_sum($col12));
+        if ($xls) {
+            $new_list['col5'] = (float)(array_sum($col5));
+            $new_list['col6'] = (float)(array_sum($col6));
+            $new_list['col7'] = (float)(array_sum($col7));
+            $new_list['col8'] = (float)(array_sum($col8));
+            $new_list['col9'] = (float)(array_sum($col9));
+            $new_list['col10'] = (float)(array_sum($col10));
+            $new_list['col11'] = (float)(array_sum($col11));
+            $new_list['col12'] = (float)(array_sum($col12));
+        } else {
+            $new_list['col5'] = money_format_custom(array_sum($col5));
+            $new_list['col6'] = money_format_custom(array_sum($col6));
+            $new_list['col7'] = money_format_custom(array_sum($col7));
+            $new_list['col8'] = money_format_custom(array_sum($col8));
+            $new_list['col9'] = money_format_custom(array_sum($col9));
+            $new_list['col10'] = money_format_custom(array_sum($col10));
+            $new_list['col11'] = money_format_custom(array_sum($col11));
+            $new_list['col12'] = money_format_custom(array_sum($col12));
+        }
+
+
         $new_list['col13'] = "-";
-        $new_list['col14'] =  "-";
+        $new_list['col14'] = "-";
         $rtn[] = $new_list;
 
 
