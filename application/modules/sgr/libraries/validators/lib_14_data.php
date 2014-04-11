@@ -155,10 +155,12 @@ class Lib_14_data extends MX_Controller {
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation;
                                 
-
-                                if ($dollar_value > $C_cell_value) {
+                                
+                                 /*FIX */
+                                $fix_ten_cents = fix_ten_cents($dollar_value, $C_cell_value);
+                                if ($fix_ten_cents) {
                                     $code_error = "C.3";                                    
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  = '. $B_cell_value.'  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation . ' = '.$dollar_value.' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value).' Monto disponible para el Nro. Orden  = '. $B_cell_value.'  (' . money_format_custom($c_info[5218]) .'/'. money_format_custom($dollar_quotation_origin) .'*'. money_format_custom($dollar_quotation) . ' = '.money_format_custom($dollar_value).' )');
                                     array_push($stack, $result);
                                 }
 
@@ -167,15 +169,17 @@ class Lib_14_data extends MX_Controller {
                                 
                                 //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
                                 
-                                if ($new_dollar_value < $C_cell_value) {
+                                /*FIX */
+                                $fix_ten_cents = fix_ten_cents($new_dollar_value, $C_cell_value);
+                                if ($fix_ten_cents) {
                                     $code_error = "C.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '$'.$C_cell_value.' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . $c_info[5218] .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'],  money_format_custom($C_cell_value).' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . money_format_custom($c_info[5218]) .'/'. money_format_custom($dollar_quotation_origin) .'*'. money_format_custom($dollar_quotation_period) . ' = '.money_format_custom($new_dollar_value).')');
                                     array_push($stack, $result);
                                 }
                             } else {
                                 if ($C_cell_value < $c_info[5218]) {
                                     $code_error = "C.2.A";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '($' . $dollar_value . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = $' . $c_info[5218]);
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '(' . money_format_custom($dollar_value) . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = ' . money_format_custom($c_info[5218]));
                                     array_push($stack, $result);
                                 }
                             }
@@ -523,7 +527,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-      //  var_dump($stack);        exit();
+      // var_dump($stack);        exit();
         $this->data = $stack;
     }
 
