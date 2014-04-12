@@ -153,13 +153,13 @@ class Model_141 extends CI_Model {
             'data' => '<tr>
         <td align="center" rowspan="2">C.U.I.T</td>
         <td align="center" rowspan="2">Socio Participe</td>
-        <td colspan="2" align="center">Saldo de Garantias Vigentes<br></td>
+        <td colspan="2" align="center">Saldo de Garantías Vigentes<br></td>
         <td colspan="5" align="center">Contragarantías</td>
         <td align="center" rowspan="2">Saldos Reafianzados <br></td>
         <td colspan="4" align="center">Deudores por Garantías Abonadas<br></td>
     </tr>
     <tr>
-        <td align="center">Cantidad de Garantias<br></td>
+        <td align="center">Cantidad de Garantías<br></td>
         <td align="center">Monto</td>
         <td align="center">Hipotecarias</td>
         <td align="center">Prendarias</td>
@@ -167,7 +167,7 @@ class Model_141 extends CI_Model {
         <td align="center">Otras</td>
         <td align="center">Total</td>
         <td align="center">Monto adeudado a la fecha</td>
-        <td align="center">Cantidad de garantÃ­as afrontadas <br></td>
+        <td align="center">Cantidad de garantías afrontadas <br></td>
         <td align="center">Días de mora</td>
         <td align="center">Clasificación del deudor <br></td>
     </tr>
@@ -201,9 +201,9 @@ class Model_141 extends CI_Model {
         <td>Total</td>
         <td>Saldos Reafianzados </td>
         <td>Monto adeudado a la fecha</td>
-        <td>Cantidad de garantÃ­as afrontadas</td>
+        <td>Cantidad de garantias afrontadas</td>
         <td>Días de mora</td>
-        <td>Clasificación del deudor</td>  
+        <td>Clasificacion del deudor</td>  
                             </tr>',
         );
 
