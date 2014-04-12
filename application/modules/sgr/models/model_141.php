@@ -202,7 +202,7 @@ class Model_141 extends CI_Model {
         <td>Saldos Reafianzados </td>
         <td>Monto adeudado a la fecha</td>
         <td>Cantidad de garantias afrontadas</td>
-        <td>Días de mora</td>
+        <td>Dias de mora</td>
         <td>Clasificacion del deudor</td>  
                             </tr>',
         );
