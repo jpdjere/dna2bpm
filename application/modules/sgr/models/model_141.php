@@ -154,9 +154,9 @@ class Model_141 extends CI_Model {
         <td align="center" rowspan="2">C.U.I.T</td>
         <td align="center" rowspan="2">Socio Participe</td>
         <td colspan="2" align="center">Saldo de Garantias Vigentes<br></td>
-        <td colspan="5" align="center">Contragarantías</td>
+        <td colspan="5" align="center">ContragarantÃ­as</td>
         <td align="center" rowspan="2">Saldos Reafianzados <br></td>
-        <td colspan="4" align="center">Deudores por Garantías Abonadas<br></td>
+        <td colspan="4" align="center">Deudores por GarantÃ­as Abonadas<br></td>
     </tr>
     <tr>
         <td align="center">Cantidad de Garantias<br></td>
@@ -167,9 +167,9 @@ class Model_141 extends CI_Model {
         <td align="center">Otras</td>
         <td align="center">Total</td>
         <td align="center">Monto adeudado a la fecha</td>
-        <td align="center">Cantidad de garantías afrontadas <br></td>
-        <td align="center">Días de mora</td>
-        <td align="center">Clasificación del deudor <br></td>
+        <td align="center">Cantidad de garantÃ­as afrontadas <br></td>
+        <td align="center">DÃ­as de mora</td>
+        <td align="center">ClasificaciÃ³n del deudor <br></td>
     </tr>
     <tr>
         <td>C.U.I.T</td>
@@ -183,9 +183,9 @@ class Model_141 extends CI_Model {
         <td>Total</td>
         <td>Saldos Reafianzados </td>
         <td>Monto adeudado a la fecha</td>
-        <td>Cantidad de garantías afrontadas</td>
-        <td>Días de mora</td>
-        <td>Clasificación del deudor</td>        
+        <td>Cantidad de garantÃ­as afrontadas</td>
+        <td>DÃ­as de mora</td>
+        <td>ClasificaciÃ³n del deudor</td>        
     </tr> ',
         );
 
