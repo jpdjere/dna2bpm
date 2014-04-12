@@ -154,9 +154,9 @@ class Model_141 extends CI_Model {
         <td align="center" rowspan="2">C.U.I.T</td>
         <td align="center" rowspan="2">Socio Participe</td>
         <td colspan="2" align="center">Saldo de Garantias Vigentes<br></td>
-        <td colspan="5" align="center">ContragarantÃ­as</td>
+        <td colspan="5" align="center">Contragarantías</td>
         <td align="center" rowspan="2">Saldos Reafianzados <br></td>
-        <td colspan="4" align="center">Deudores por GarantÃ­as Abonadas<br></td>
+        <td colspan="4" align="center">Deudores por Garantías Abonadas<br></td>
     </tr>
     <tr>
         <td align="center">Cantidad de Garantias<br></td>
@@ -168,29 +168,11 @@ class Model_141 extends CI_Model {
         <td align="center">Total</td>
         <td align="center">Monto adeudado a la fecha</td>
         <td align="center">Cantidad de garantÃ­as afrontadas <br></td>
-        <td align="center">DÃ­as de mora</td>
-        <td align="center">ClasificaciÃ³n del deudor <br></td>
+        <td align="center">Días de mora</td>
+        <td align="center">Clasificación del deudor <br></td>
     </tr>
     <tr>
-        <td>C.U.I.T</td>
-        <td>Socio Participe</td>
-        <td>Cantidad de Garantias</td>
-        <td>Monto</td>
-        <td>Hipotecarias</td>
-        <td>Prendarias</td>
-        <td>Fianzas</td>
-        <td>Otras</td>
-        <td>Total</td>
-        <td>Saldos Reafianzados </td>
-        <td>Monto adeudado a la fecha</td>
-        <td>Cantidad de garantÃ­as afrontadas</td>
-        <td>DÃ­as de mora</td>
-        <td>ClasificaciÃ³n del deudor</td>        
-    </tr> ',
-        );
-
-        $tmpl_xls = array(
-            'data' => '<tr><td>1</td>
+        <td>1</td>
         <td>2</td>
         <td>3</td>
         <td>4</td>
@@ -203,7 +185,25 @@ class Model_141 extends CI_Model {
         <td>11</td>
         <td>12</td>
         <td>13</td>
-        <td>14</td>
+        <td>14</td>              
+    </tr> ',
+        );
+
+        $tmpl_xls = array(
+            'data' => '<tr><td>C.U.I.T</td>
+        <td>Socio Participe</td>
+        <td>Cantidad de Garantias</td>
+        <td>Monto</td>
+        <td>Hipotecarias</td>
+        <td>Prendarias</td>
+        <td>Fianzas</td>
+        <td>Otras</td>
+        <td>Total</td>
+        <td>Saldos Reafianzados </td>
+        <td>Monto adeudado a la fecha</td>
+        <td>Cantidad de garantÃ­as afrontadas</td>
+        <td>Días de mora</td>
+        <td>Clasificación del deudor</td>  
                             </tr>',
         );
 
@@ -330,14 +330,14 @@ class Model_141 extends CI_Model {
         $new_list['col3'] = "-";
         $new_list['col4'] = "-";
         if ($xls) {
-            $new_list['col5'] = (float)(array_sum($col5));
-            $new_list['col6'] = (float)(array_sum($col6));
-            $new_list['col7'] = (float)(array_sum($col7));
-            $new_list['col8'] = (float)(array_sum($col8));
-            $new_list['col9'] = (float)(array_sum($col9));
-            $new_list['col10'] = (float)(array_sum($col10));
-            $new_list['col11'] = (float)(array_sum($col11));
-            $new_list['col12'] = (float)(array_sum($col12));
+            $new_list['col5'] = (float) (array_sum($col5));
+            $new_list['col6'] = (float) (array_sum($col6));
+            $new_list['col7'] = (float) (array_sum($col7));
+            $new_list['col8'] = (float) (array_sum($col8));
+            $new_list['col9'] = (float) (array_sum($col9));
+            $new_list['col10'] = (float) (array_sum($col10));
+            $new_list['col11'] = (float) (array_sum($col11));
+            $new_list['col12'] = (float) (array_sum($col12));
         } else {
             $new_list['col5'] = money_format_custom(array_sum($col5));
             $new_list['col6'] = money_format_custom(array_sum($col6));
