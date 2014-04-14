@@ -421,7 +421,7 @@ class Model_06 extends CI_Model {
         /* GET PERIOD */
         $period_container = 'container.sgr_periodos';
         $query = array(
-            'anexo' => $anexo,           
+            'anexo' => $anexo,
             'status' => "activo",
             'period_date' => array(
                 '$gte' => $start_date, '$lte' => $end_date
@@ -431,7 +431,7 @@ class Model_06 extends CI_Model {
         if ($parameter['sgr_id'] != 666)
             $query["sgr_id"] = (float) $parameter['sgr_id'];
         $period_result = $this->mongo->sgr->$period_container->find($query);
-        
+
         $files_arr = array();
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -1043,6 +1043,99 @@ class Model_06 extends CI_Model {
         foreach ($info_06 as $data) {
             return $data[5272][0];
         }
+    }
+
+    /* INCORPORACION */
+
+    function incorporacionFn($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        /*
+          $SQL = "SELECT count(*) as valor  FROM `" . $filesDbTable . "` WHERE `tipo_operacion` ='INCORPORACION'  AND `tipo_socio` = '" . $tipoSocio . "'  AND `filename` = '" . $periodoFileValue . "'  AND `cuit_sgr` = '" . $cuitSGR . "'";
+          $inc = $forms2->Execute($SQL);
+          return $inc->Fields('valor');
+         * 
+         */
+
+        $anexo = $this->anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_period_data($anexo, $period);
+    }
+
+    /* DESVINCULADO */
+
+    function desvinculadoFn($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        /*
+          $SQL = "SELECT count(*) as valor  FROM `" . $filesDbTable . "` as cedente
+          INNER JOIN " . $filesDbTable . " as socio ON `cedente`.`cedente_cuit`=`socio`.`cuit`
+          WHERE `cedente`.`cedente_caracteristica` ='DESVINCULACION'
+          AND `socio`.`tipo_socio` = '" . $tipoSocio . "'
+          AND `cedente`.`filename` = '" . $periodoFileValue . "'
+          AND `cedente`.`cuit_sgr` = '" . $cuitSGR . "'
+          AND `socio`.`cuit_sgr` = '" . $cuitSGR . "'";
+          $desv = $forms2->Execute($SQL);
+          return $desv->Fields('valor'); */
+    }
+
+    /* ACCIONES COMPRA */
+
+    function accionesCompraFn($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        /*  global $forms2;
+          $SQL = "SELECT SUM(capital_integrado) AS valor  FROM `" . $filesDbTable . "`
+          WHERE `tipo_socio` = '" . $tipoSocio . "' AND `filename` = '" . $periodoFileValue . "'
+          AND `cuit_sgr` = '" . $cuitSGR . "'
+          AND `tipo_operacion` != 'DISMINUCION DE CAPITAL SOCIAL'";
+
+          $acciones = $forms2->Execute($SQL);
+          $accionesValue = ($acciones->Fields('valor') == NULL) ? 0 : $acciones->Fields('valor');
+          return $accionesValue; */
+    }
+
+    /* ACCIONES VENTA */
+
+    function accionesVentaFn($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        /* global $forms2;
+          $addQry = ($tipoSocio == 'B') ? "AND `tipo_operacion` != 'DISMINUCION DE CAPITAL SOCIAL'" : "";
+
+
+          $SQL = "SELECT SUM(capital_integrado) AS valor  FROM `" . $filesDbTable . "`
+          WHERE `tipo_socio` = '" . $tipoSocio . "' AND `filename` = '" . $periodoFileValue . "'
+          AND `tipo_operacion` != 'DISMINUCION DE CAPITAL SOCIAL'
+          AND `cuit_sgr` = '" . $cuitSGR . "'    AND `cedente_caracteristica` IN ('DESVINCULACION','DISMINUCION DE TENENCIA ACCIONARIA')
+          $addQry";
+          $acciones = $forms2->Execute($SQL);
+
+
+
+          return ($acciones->Fields('valor') == NULL) ? 0 : $acciones->Fields('valor'); */
+    }
+
+    /* VENTAS CAPITAL */
+
+    function ventasCapital($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        /*  global $forms2;
+          $SQL = "SELECT SUM(capital_integrado) AS valor  FROM `" . $filesDbTable . "`
+          WHERE  `tipo_socio` = '" . $tipoSocio . "'
+          AND `filename` = '" . $periodoFileValue . "' AND  `cuit_sgr` = '" . $cuitSGR . "'
+          AND `tipo_operacion` = 'DISMINUCION DE CAPITAL SOCIAL'";
+          $acciones = $forms2->Execute($SQL);
+          return ($acciones->Fields('valor') == NULL) ? 0 : $acciones->Fields('valor'); */
+    }
+
+    /* VENTAS DISMINUCION DE CAPITAL SOCIAL */
+
+    function ventasDisminucion($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        /*
+          global $forms2;
+          $SQL = "SELECT SUM(capital_integrado) AS valor
+          FROM `" . $filesDbTable . "` WHERE  `tipo_socio` = '" . $tipoSocio . "'
+          AND `filename` = '" . $periodoFileValue . "'
+          AND  `cuit_sgr` = '" . $cuitSGR . "'
+          AND `tipo_operacion` = 'DISMINUCION DE CAPITAL SOCIAL'  ";
+          $acciones = $forms2->Execute($SQL);
+          if ($_SESSION['idu'] == 10)
+          echo "ventasDisminucion " . $SQL;
+
+          return ($acciones->Fields('valor') == NULL) ? 0 : $acciones->Fields('valor'); */
     }
 
 }
