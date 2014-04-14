@@ -128,7 +128,7 @@ class Model_123 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
