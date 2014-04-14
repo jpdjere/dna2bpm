@@ -67,11 +67,11 @@ class Sgr extends MX_Controller {
         $customData['titulo'] = "Dashboard";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-        $customData['layout']="layout.php"; 
+        //$customData['layout']="layout.php"; 
         
         $sections=array();
         $sections['Anexos']=array();
-        $customData['anexo_list'] = $this->AnexosDB();
+        $customData['anexo_list'] = $this->AnexosDB('_blank');
         
         $this->render('main_dashboard', $customData);
     }
@@ -240,7 +240,7 @@ class Sgr extends MX_Controller {
             }
         } else {
             $customData['message'] = $upload['message'];
-            $customData['success'] = "error";
+            $customData['success'] = "danger";
         }
 
         return $customData;
@@ -260,12 +260,12 @@ class Sgr extends MX_Controller {
         redirect('/sgr');
     }
 
-    function AnexosDB() {
+    function AnexosDB($target='_self') {
         $module_url = base_url() . 'sgr/';
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
+            $result .= '<li><a target="'.$target.'" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
         return $result;
     }
@@ -635,7 +635,7 @@ class Sgr extends MX_Controller {
                     break;
             }
             $customData['period_message'] = $error_msg;
-            $customData['success'] = "error";
+            $customData['success'] = "danger";
 
             return $customData;
         } else {
@@ -1243,7 +1243,7 @@ class Sgr extends MX_Controller {
         </ol>
     </div>';
 
-        $no_list_html = '<div class="alert alert-error" id="{_id}">
+        $no_list_html = '<div class="alert alert-danger" id="{_id}">
         No hay Archivos Pendientes |
         <i class="fa fa-plus"></i> <a data-target="#file_div" data-toggle="collapse"> Seleccionar Archivos a Procesar</a>
     </div>';
@@ -1323,7 +1323,7 @@ class Sgr extends MX_Controller {
 
         $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
         $cpData['rol'] = "Usuarios";
-        $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
+        $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('fa fa-users') : ('fa fa-user');
 
         $cpData = array_replace_recursive($customData, $cpData);
 
@@ -1334,7 +1334,7 @@ class Sgr extends MX_Controller {
 // offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
         $layout=(isset($customData['layout']))?($customData['layout']):('layout.php');
-        $this->ui->compose($file, $layout, $cpData);
+        $this->ui->compose($file, 'layout.php', $cpData);
     }
     
 

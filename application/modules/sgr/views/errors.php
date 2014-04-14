@@ -2,7 +2,7 @@
 <!-- ==== Contenido ==== -->
 
 <div class="container" > 
-    <div class="row-fluid test" id="barra_user" > 
+    <div class="row test" id="barra_user" > 
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
             <li class="pull-right perfil"><a  href="{base_url}user/logout">
                     SALIR</a></li>
@@ -19,10 +19,10 @@
         <div id="header-logos"></div>
     </div>
 
-     <h2><i class="fa fa-bars"></i> Errores en la importación de {anexo_title_cap}</h2>
+     <h2><i class="fa fa-bars"></i> Errores en la importación de {anexo_title_cap} </h2>
 
     
-    <div class="alert alert-error" id="{_id}">       
+    <div class="alert alert-danger" id="{_id}">       
           </p> 
         <h2>Verifique la lista de errores.</h2>
         {if message_header}
