@@ -30,3 +30,30 @@ caption { font-size: larger; margin: 1em auto; }
 th, td { padding: .65em; }
 th, thead { background: #000; color: #fff; border: 1px solid #000; font-weight:bold; }
 td { border: 1px solid #777; }
+
+
+.no_border_table table { font-size:11px; }
+.no_border_table td { border: none;}
+.custom_border_table th {
+    background: none repeat scroll 0 0 #FFF;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-right:1px solid #777777;
+    color: #111;
+    font-weight: bold;
+}
+
+.border_table td { border: 1px solid #777; }
+.table_partners th {
+    border: 1px solid #777;
+}
+.table_partners {margin:40px;  text-transform:uppercase; width: 94%; }
+.sign{
+    
+    border-top: 1px dotted #777;
+    margin:50px;
+    position:absolute;
+    right:100px;
+}
+
