@@ -224,7 +224,7 @@ class Model_13 extends CI_Model {
             $col4[] = (float) ($list['MENOR_365_DIAS']);
             $col5[] = (float) ($list['MAYOR_365_DIAS']);
             $col6[] = (float) ($sum_totales);
-            $col5[] = (float) ($list['VALOR_CONTRAGARANTIAS']);
+            $col7[] = (float) ($list['VALOR_CONTRAGARANTIAS']);
         }
 
 

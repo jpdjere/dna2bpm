@@ -563,7 +563,8 @@ function three_fields($fields_arr) {
     var_dump(count($fields_arr));
 }
 
-function Bisiesto($year) {
+function Bisiesto($period) {
+    list($month, $year) = explode("-", $period);
     return date('L', mktime(1, 1, 1, 1, 1, $year));
 }
 
@@ -825,8 +826,9 @@ function translate_anexos_dna2_urls($anexo) {
             return 'sgr_socios_4';
             break;
 
-        case 'sgr_socios_4':
-            return '062';
+
+        case '09':
+            return 'SGR_PDF';
             break;
 
         case '12':
@@ -849,4 +851,17 @@ function translate_month_spanish($code) {
     $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
 
     return str_replace($search, $replace, $code);
+}
+
+/* Fix 10 cents for dollar quotation */
+function fix_ten_cents($value, $value2) {
+    $new_value = $value;
+    $new_value2 = $value2;
+    
+    /*TEST 50*/
+    $range = range(-50,50);
+    $diff = $value-$value2;    
+    
+    if (!in_array($diff, $range))
+        return true;
 }
