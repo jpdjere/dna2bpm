@@ -805,9 +805,18 @@ class Sgr extends MX_Controller {
         $user = $this->user->get_user($get_period_info['idu']);
 
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
-        $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
-        $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
-        $customData['show_table'] = $get_anexo;
+        $customData['print_period'] = $parameter;
+        //$get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
+        //$customData['show_table'] = $get_anexo;
+        /* FILENAMES */
+        $filenames_arr = array("12", "121", "122", "123", "124", "125", "13", "15", "16");
+        foreach ($filenames_arr as $each) {
+            $get_anexo = $this->sgr_model->get_period_data($each, $parameter, true);
+            $customData['f_' . $each] = $get_anexo[0]['filename'];
+        }
+
+
+
         echo $this->parser->parse('print_ddjj', $customData, true);
     }
 
@@ -930,7 +939,6 @@ class Sgr extends MX_Controller {
         $list_files = "<li class=processed><b>PERIODOS INFORMADOS</b></li>";
         for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
-            $processed = array_unique($processed);
             $processed = array($processed);
             foreach ($processed as $file) {
 
@@ -942,42 +950,28 @@ class Sgr extends MX_Controller {
     }
 
     function get_processed_17() {
-        $list_files = '';
-// for ($i = date(Y); $i > 2011; $i--) {
-        for ($i = date(Y); $i > 2009; $i--) {
 
+        $list_files = '';
+        for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
-            $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
 
-            foreach ($processed as $file) {
-                $file = array_unique($file);
-                foreach ($file as $data)
-                    $print_file = anchor('/sgr/print_ddjj/' . $data, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. ', array('target' => '_blank', 'class' => 'btn btn-primary'));
-                $list_files .= "<li>" . $print_file . " [" . $i . "  -> " . $data . "] </li>";
+
+            for ($j = 12; $j > 0; $j--) {
+
+                $j = sprintf('%02s', $j);
+                $new_query = $j . "-" . $i;
+
+                $processed = $this->sgr_model->get_ready_anexo($this->sgr_id, $new_query);
+                $print_file = anchor('/sgr/print_ddjj/' . $new_query, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. ', array('target' => '_blank', 'class' => 'btn btn-primary'));
+
+                if ($processed)
+                    $list_files .= "<li>" . $print_file . " [" . $i . "  -> " . $new_query . "] </li>";
             }
             $list_files .= '</ul></div>
         </div>';
         }
-        if ($file)
-            return $list_files;
-    }
 
-    function get_processed_17_($anexo) {
-        $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
-            <div class="" id="' . $i . '"><ul>';
-        for ($i = date(Y); $i > 2009; $i--) {
-            $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
-            foreach ($processed as $file) {
-                $file = array_unique($file);
-                foreach ($file as $data)
-                    $print_file = anchor('/sgr/print_ddjj/' . $data, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. ', array('target' => '_blank', 'class' => 'btn btn-primary'));
-                $list_files .= "<li>" . $print_file . " [" . $i . "  -> " . $data . "] </li>";
-            }
-        }
-
-        $list_files .= '</ul></div>
-        </div>';
         return $list_files;
     }
 
@@ -1024,7 +1018,7 @@ class Sgr extends MX_Controller {
 
             foreach ($processed as $file) {
                 $asset = ($anexo == "09") ? "pdf_asset" : "xls_asset";
-               
+
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
 
@@ -1049,13 +1043,13 @@ class Sgr extends MX_Controller {
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
                 } else {
 
-                    
+
                     /* RECTIFY COUNT */
                     $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
-                    $new_disabled_link = ($anexo == "09")? ' disabled_link':$disabled_link;
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('target'=> '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
+                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
