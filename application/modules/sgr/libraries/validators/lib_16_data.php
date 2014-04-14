@@ -31,9 +31,7 @@ class Lib_16_data extends MX_Controller {
              * @type PHP
              * @name ...
              * @author Diego             
-             * @example 
-             * PROMEDIO_SALDO_MENSUAL	
-             *  SALDO_PROMEDIO_GARANTIAS_VIGENTES
+             * @example             
               SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_HASTA_FEB_2010
               SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_120_HASTA_FEB_2010
               SALDO_PROMEDIO_PONDERADO_GARANTIAS_VIGENTES_80_DESDE_FEB_2010
@@ -51,7 +49,7 @@ class Lib_16_data extends MX_Controller {
                  * Debe contener formato numérico sin decimales.
                  */
 
-                $range = range(1, 9);
+                $range = range(1, 8);
                 if (in_array($parameterArr[$i]['col'], $range)) {
                     $code_error = "BJ.1";
                     //empty field Validation                    

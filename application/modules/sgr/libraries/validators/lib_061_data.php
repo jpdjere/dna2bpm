@@ -7,9 +7,7 @@ class Lib_061_data extends MX_Controller {
         parent::__construct();
         $this->load->library('session');
 
-        $this->load->helper('sgr/tools');
-        $model_anexo = "model_061";
-        $this->load->Model($model_anexo);
+        $this->load->helper('sgr/tools');        
 
         /* PARTNER INFO */
         $model_06 = 'model_06';
@@ -135,14 +133,27 @@ class Lib_061_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
+                        // C.2
                         /* CUIT CHECKER */
-                        if ($parameterArr[$i]['fieldValue'] != "") {
-                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                            if (!$return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
+                        $check_ascendente=false;
+                        if ($parameterArr[$i+2]['fieldValue'] == "ASCENDENTE") { 
+                            // Si E es 11111111111 o tiene el codigo de empresa extranjera anulo el checkeo de cuit                              
+                            $result=$this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
+                            $has_11111111111=$parameterArr[$i]['fieldValue']=="11111111111";
+                            $has_extcuit=!is_null($result);
+                            $check_ascendente=($has_11111111111 || $has_extcuit);
+                        }
+                        $check_cuit = cuit_checker($parameterArr[$i]['fieldValue']);               
+                        if(!$check_ascendente ){
+                            if(!$check_cuit){
+                            $code_error = "C.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
                             }
                         }
+                                
+
+
                     } else {
                         /* CHECK FOR IS NOT EMPTY ????? */
 //                        $return = check_for_empty($B_cell_value);
@@ -323,9 +334,12 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
          */
-        $count_inc = array_unique($A_cell_array);
-        $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
         
+        
+        $count_inc = array_unique($A_cell_array);
+         
+        $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
+       
         if ($partners_error_data) {
             $code_error = $partners_error_data;
             $code_error_legend = ($code_error=="VG.4") ? "Hay Socios incorporados en el período para los cuales no se están informando sus RRVV" : "Hay CUIT que no fueron incorporados en el Anexo 06";
@@ -380,7 +394,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-       // exit();
+       
         $this->data = $stack;
     }
 

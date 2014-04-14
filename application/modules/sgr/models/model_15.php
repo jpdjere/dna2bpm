@@ -11,7 +11,7 @@ class Model_15 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '15';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -74,13 +74,13 @@ class Model_15 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
             /* STRING */
-            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25']; 
-            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR']; 
-            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];            
-            
-            /*FLOAT*/
-            $insertarr['MONTO'] = (float) $insertarr['MONTO']; 
-            
+            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25'];
+            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR'];
+            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];
+
+            /* FLOAT */
+            $insertarr['MONTO'] = (float) $insertarr['MONTO'];
+
 
             if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
                 $insertarr["MONEDA"] = "1";
@@ -91,14 +91,14 @@ class Model_15 extends CI_Model {
     }
 
     function save($parameter) {
-        
-     
-        
+
+
+
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -120,7 +120,8 @@ class Model_15 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
@@ -145,7 +146,7 @@ class Model_15 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -188,15 +189,34 @@ class Model_15 extends CI_Model {
                                 <th>10</th>                                              
                             </tr> ',
         );
+
         $data = array($tmpl);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
+        $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
+        $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
+        $anexoValues = array_merge($anexoValues, $anexoValues2);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
+
         $this->load->library('table_custom');
-        $newTable =  $this->table_custom->generate($data);
-        
+        $newTable = $this->table_custom->generate($data);
         return $newTable;
+    }
+
+    function get_total($anexo, $parameter) {
+
+        $rtn = array();
+        $col9 = array();
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        foreach ($result as $list) {
+
+            $col9[] = (float) ($list['MONTO']);
+        }
+
+        return array_sum($col9);
     }
 
     function get_anexo_data($anexo, $parameter) {
@@ -209,7 +229,7 @@ class Model_15 extends CI_Model {
         foreach ($result as $list) {
             /* Vars 								
              */
-       
+
 
             $this->load->model('padfyj_model');
             $transmitter_name = $this->padfyj_model->search_name($list['CUIT_EMISOR']);
@@ -221,6 +241,9 @@ class Model_15 extends CI_Model {
             $this->load->model('app');
             $currency = $this->app->get_ops(549);
 
+            $total = $this->get_total($anexo, $parameter);
+            $percent = ($list['MONTO'] * 100) / $total;
+
             $new_list = array();
             $new_list['INCISO_ART_25'] = $list['INCISO_ART_25'];
             $new_list['DESCRIPCION'] = $list['DESCRIPCION'];
@@ -231,9 +254,37 @@ class Model_15 extends CI_Model {
             $new_list['CUIT_DEPOSITARIO'] = $list['CUIT_DEPOSITARIO'];
             $new_list['MONEDA'] = $currency[$list['MONEDA']];
             $new_list['MONTO'] = money_format_custom($list['MONTO']);
-            $new_list['col10'] = 10;
+            $new_list['col10'] = percent_format_custom($percent);
             $rtn[] = $new_list;
         }
+        return $rtn;
+    }
+
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
+
+        $rtn = array();
+        $col9 = array();
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query);
+        foreach ($result as $list) {
+            $col9[] = (float) ($list['MONTO']);
+        }
+
+        $new_list = array();
+        $new_list['col1'] = "<strong>TOTAL</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = "-";
+        $new_list['col5'] = "-";
+        $new_list['col6'] = "-";
+        $new_list['col7'] = "-";
+        $new_list['col8'] = "-";
+        $new_list['col9'] = money_format_custom(array_sum($col9));
+        $new_list['col10'] = percent_format_custom(100);
+        $rtn[] = $new_list;
+
         return $rtn;
     }
 

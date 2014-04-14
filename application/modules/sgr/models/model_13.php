@@ -9,9 +9,10 @@ class Model_13 extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->helper('sgr/tools');
+        $this->load->Model('sgr/model_12');
 
         $this->anexo = '13';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -28,6 +29,15 @@ class Model_13 extends CI_Model {
         }
     }
 
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
+    }
+
     function check($parameter) {
         /**
          *   Funcion ...
@@ -37,7 +47,7 @@ class Model_13 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... TIPO_DE_GARANTIA	MENOR_90_DIAS	MENOR_180_DIAS	MENOR_365_DIAS	MAYOR_365_DIAS	VALOR_CONTRAGARANTIAS
+        * @example .... TIPO_DE_GARANTIA	MENOR_90_DIAS	MENOR_180_DIAS	MENOR_365_DIAS	MAYOR_365_DIAS	VALOR_CONTRAGARANTIAS
          * */
         $defdna = array(
             1 => 'TIPO_DE_GARANTIA',
@@ -52,6 +62,18 @@ class Model_13 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+                
+            /* STRING */
+            $insertarr['TIPO_DE_GARANTIA'] = (string) $insertarr['TIPO_DE_GARANTIA'];
+            
+            /* FLOAT */
+            $insertarr['MENOR_90_DIAS'] = (float) $insertarr['MENOR_90_DIAS'];
+            $insertarr['MENOR_180_DIAS'] = (float) $insertarr['MENOR_180_DIAS'];
+            $insertarr['MENOR_365_DIAS'] = (float) $insertarr['MENOR_365_DIAS'];
+            $insertarr['MAYOR_365_DIAS'] = (float) $insertarr['MAYOR_365_DIAS'];
+            $insertarr['VALOR_CONTRAGARANTIAS'] = (float) $insertarr['VALOR_CONTRAGARANTIAS'];
+            
+           
         }
         return $insertarr;
     }
@@ -60,23 +82,10 @@ class Model_13 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        /* FILTER NUMBERS/STRINGS */
-        $int_values = array_filter($parameter, 'is_int');
-        $float_values = array_filter($parameter, 'is_float');
-        $numbers_values = array_merge($int_values, $float_values);
-
-        /* FIX INFORMATION */
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        /* FIX DATE */
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
-
+        $parameter['origen'] = "2013";
         $id = $this->app->genid_sgr($container);
 
-        /* MERGE CAST */
-        $parameter = array_merge($parameter, $numbers_values);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
@@ -95,7 +104,8 @@ class Model_13 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
@@ -120,7 +130,7 @@ class Model_13 extends CI_Model {
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -131,7 +141,7 @@ class Model_13 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter, $xls = false) {
+   function get_anexo_info($anexo, $parameter, $xls = false) {
         $tmpl = array('data' => ' <tr><td rowspan="2" align="center">Tipo de Garantía</td>
         <td colspan="5" align="center">Saldo según antigüedad</td>
         <td rowspan="2" align="center">Valor de las contragarantías</td>

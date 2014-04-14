@@ -50,6 +50,19 @@ $(document).ready(function() {
 
     $('.dp').datepicker();
     $('[id^="others_"]').hide();
+    
+    // Dashboard Accordion
+    $('a.togglepanel').on('click',function(){
+        $(this).closest('.panel').find('.panel-body').toggleClass('hidden');
+        if($(this).closest('.panel').find('.panel-body').hasClass('hidden')){
+            $(this).html('<i class="fa fa-chevron-down"></i>');
+        }else{
+            $(this).html('<i class="fa fa-chevron-up"></i>');
+        }
+        
+    })
+    
+    
     /*RECTIFICAR*/
     $('[id^="rectify_"]').change(function() {
         var option_value = $(this).val();
@@ -108,7 +121,16 @@ $(document).ready(function() {
         });
     });
 
-
+//// Process Anexo by Ajax 
+//$('.procesar').click(function(e) {
+//    var url=$(this).attr('href');
+//    var procesar=$(this);
+//    e.preventDefault(); 
+//    procesar.html('<i class="fa fa-spinner fa-spin"></i> PROCESANDO');
+//    $.post(url,{},function(data){
+//        procesar.parent().html(data);
+//    });
+//});
     $('#dashboard_tab1 a:first').tab('show');
 });
 function onUpdateReady() {
