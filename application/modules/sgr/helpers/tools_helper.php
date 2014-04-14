@@ -853,12 +853,15 @@ function translate_month_spanish($code) {
     return str_replace($search, $replace, $code);
 }
 
-/* Fix 10 cents for dollar quotation*/
+/* Fix 10 cents for dollar quotation */
 function fix_ten_cents($value, $value2) {
-    $new_value = $value + 0.5;
-    $new_value2 = $value2 - 0.5;
+    $new_value = $value;
+    $new_value2 = $value2;
     
-    if ($new_value < $new_value2) {
+    /*TEST 50*/
+    $range = range(-50,50);
+    $diff = $value-$value2;    
+    
+    if (!in_array($diff, $range))
         return true;
-    }
 }
