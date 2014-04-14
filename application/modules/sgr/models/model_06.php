@@ -316,7 +316,6 @@ class Model_06 extends CI_Model {
         return $out;
     }
 
-
     function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
@@ -347,16 +346,36 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
+
+
         $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
             , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
             , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
+
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
         }
         $this->load->library('table');
         return $this->table->generate($data);
+    }
+
+    function get_anexo_report($anexo, $parameter) {
+
+        $headerArr = array("ID", "Apellido y nombre o Razón Social", "Sector de Actividad", "Promedio", "Tipo de Empresa", "Apellido y nombre o Razón Social", "Carácter del Cedente");
+        $data = array($headerArr);
+        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
+
+        if (!$anexoValues) {
+            return false;
+        } else {
+            foreach ($anexoValues as $values) {
+                $data[] = array_values($values);
+            }
+            $this->load->library('table');
+            return $this->table->generate($data);
+        }
     }
 
     function get_anexo_data_tmp($anexo, $parameter) {
@@ -375,12 +394,58 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_data($anexo, $parameter) {
+
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
         $result = $this->mongo->sgr->$container->find($query);
+        /* TABLE DATA */
+        return $this->ui_table($result);
+    }
 
+    function get_anexo_data_report($anexo, $parameter) {
+
+        if (!$parameter) {
+            return false;
+            exit();
+        }
+
+        header('Content-type: text/html; charset=UTF-8');
+        $rtn = array();
+
+
+        $start_date = first_month_date($parameter['input_period_from']);
+        $end_date = last_month_date($parameter['input_period_to']);
+
+        /* GET PERIOD */
+        $period_container = 'container.sgr_periodos';
+        $query = array(
+            'anexo' => $anexo,           
+            'status' => "activo",
+            'period_date' => array(
+                '$gte' => $start_date, '$lte' => $end_date
+            )
+        );
+
+        if ($parameter['sgr_id'] != 666)
+            $query["sgr_id"] = (float) $parameter['sgr_id'];
+        $period_result = $this->mongo->sgr->$period_container->find($query);
+        
+        $files_arr = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $new_query = array();
+        foreach ($period_result as $results) {
+            $period = $results['period'];
+            $new_query['$or'][] = array("filename" => $results['filename']);
+        }
+        $result_arr = $this->mongo->sgr->$container->find($new_query);
+        /* TABLE DATA */
+        return $this->ui_table_xls($result_arr);
+    }
+
+    function ui_table($result) {
         foreach ($result as $list) {
             /* Vars */
             $cuit = str_replace("-", "", $list['1695']);
@@ -461,6 +526,76 @@ class Model_06 extends CI_Model {
 
             $rtn[] = $new_list;
         }
+
+        return $rtn;
+    }
+
+    function ui_table_xls($result) {
+        foreach ($result as $list) {
+            /* Vars */
+            $cuit = str_replace("-", "", $list['1695']);
+            $this->load->model('padfyj_model');
+            $brand_name = $this->padfyj_model->search_name($cuit);
+            $brand_name = ($brand_name) ? $brand_name : $list['1693'];
+            $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
+
+            $this->load->model('app');
+            $operation_type = $this->app->get_ops(589);
+            $inscripcion_iva = $this->app->get_ops(571);
+            $acta_type = $this->app->get_ops(531);
+            $partner_type = $this->app->get_ops(532);
+            $transaction_type = $this->app->get_ops(530);
+            $partido = $this->app->get_ops(58);
+            $provincia = $this->app->get_ops(39);
+            $transfer_characteristic = $this->app->get_ops(571);
+            $afip_condition = $this->app->get_ops(570);
+
+            $calc_average = "";
+            $promedio = "";
+            $sector = "";
+            $company_type = "";
+
+            $calc_average = ($list[20] != "") ? 1 : 0;
+            $calc_average += ($list[23] != "") ? 1 : 0;
+            $calc_average += ($list[26] != "") ? 1 : 0;
+            if ($calc_average != 0) {
+
+                $montosArr = array($list[20], $list[23], $list[26]);
+                $sumaMontos = array_sum($montosArr);
+
+                $promedio = ($sumaMontos / $calc_average);
+            }
+
+            $sector_value = $this->sgr_model->clae2013($list['5208']);
+            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+            $company_type = ($isPyme) ? "PyME" : "";
+            $transaction_date = mongodate_to_print($list['FECHA_DE_TRANSACCION']);
+
+
+
+            /* CARACTER CEDENTE */
+
+            if ($list['5248']) {
+                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date);
+                $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
+                $grantor_type = $grantor_type;
+            }
+
+
+            $new_list = array();
+
+
+            $new_list['col1'] = $list['id'];
+            $new_list['col2'] = $brand_name;
+            $new_list['col3'] = $list['5208'];
+            $new_list['col4'] = $promedio;
+            $new_list['col5'] = $company_type;
+            $new_list['col6'] = $grantor_brand_name;
+            $new_list['col7'] = $grantor_type;
+
+            $rtn[] = $new_list;
+        }
+
         return $rtn;
     }
 
@@ -576,9 +711,9 @@ class Model_06 extends CI_Model {
         foreach ($partners_arr as $each_partner) {
             $add[] = $each_partner;
         }
-       
+
         $period_arr = $this->mongo->sgr->$container_period->find($query);
-        
+
         foreach ($period_arr as $list) {
             $filename = $period_arr->filename;
             $anexo_query = array(

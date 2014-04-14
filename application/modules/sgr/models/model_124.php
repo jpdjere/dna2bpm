@@ -237,7 +237,7 @@ class Model_124 extends CI_Model {
             $new_list['col1'] = $list['NRO_GARANTIA'];
             $new_list['col2'] = $participate;
             $new_list['col3'] = $participate_cuit;
-            $new_list['col4'] = mongodate_to_print($origen);
+            $new_list['col4'] = $origen;
             $new_list['col5'] = @$warranty_type[$warranty_type];
             $new_list['col6'] = money_format_custom($amount);
             $new_list['col7'] = $creditor;

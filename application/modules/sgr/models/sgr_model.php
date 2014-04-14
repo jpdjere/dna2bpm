@@ -175,6 +175,40 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+    function get_sgrs_users() {
+        $rtn = array();
+
+        $container = 'users';
+        $query = array("group" => 58);
+        $result = $this->mongo->db->$container->find($query);
+        foreach ($result as $users) {
+
+            $rtn[] = $users;
+        }
+        return $rtn;
+    }
+
+    function get_sgrs() {
+        $rtn = array();
+        $users_list = $this->get_sgrs_users();
+        foreach ($users_list as $user) {
+           
+            // Listado de empresas
+            $sort = array(1693 => -1);
+            $container = 'container.empresas';
+            $fields = array();
+            $query = array(6026 => '30', "owner" => $user['idu']);
+            $result = $this->mongo->db->$container->find($query, $fields);
+            $result->sort($sort);
+ 
+            foreach ($result as $sgrs) {
+                $rtn[] = $sgrs;
+            }
+        }
+
+        return $rtn;
+    }
+
     function get_sgr_custom($idu) {
 
 
@@ -337,7 +371,7 @@ class Sgr_model extends CI_Model {
             return $result['sector'];
         }
     }
-    
+
     function clae2013_forbidden($code) {
         $container = 'container.sgr_clae2013_forbidden';
         $query = array("code" => $code);
@@ -426,10 +460,30 @@ class Sgr_model extends CI_Model {
     function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
         $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
         $container = 'container.sgr_cotizacion_dolar';
-        $quotation_date = $quotation_date;
-        $query = array("date" => $quotation_date, 'currency' => $currency
-        );
+        $quotation_date = new MongoDate(strtotime($quotation_date));
+        $field = array("amount");
+        $query = array('date' => array(
+                '$lte' => $quotation_date
+        ));
         $result = $this->mongo->sgr->$container->findOne($query);
+
+
+        return $result[amount];
+    }
+
+    function get_dollar_quotation_period($currency = "dolar americano") {
+        
+        $endDate = last_month_date($this->session->userdata['period']);
+        
+        $container = 'container.sgr_cotizacion_dolar';
+        $quotation_date = new MongoDate(strtotime($quotation_date));
+        $field = array("amount");
+        $query = array('date' => array(
+                '$lte' => $endDate
+        ));
+        $result = $this->mongo->sgr->$container->findOne($query);
+
+
         return $result[amount];
     }
 
@@ -485,10 +539,8 @@ class Sgr_model extends CI_Model {
         $token = $this->idu;
         $period = 'container.periodos_' . $token . '_tmp';
         $container = 'container.sgr_anexo_' . $anexo . '_tmp';
-
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'anexo' => $anexo,
@@ -519,9 +571,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'sgr_id' => (float) $this->sgr_id,
@@ -554,9 +604,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $period_date);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        $endDate = last_month_date($period_date);
 
         $query = array(
             'anexo' => $anexo,
@@ -567,8 +615,14 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
+        
+        
+        
+        
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
+            
+            
             $rtn[] = $each;
         }
         return $rtn;
@@ -598,9 +652,7 @@ class Sgr_model extends CI_Model {
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $this->session->userdata['period']);
-        $getPeriodMonth = $getPeriodMonth;
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-28"));
+        $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'anexo' => $anexo,
@@ -645,5 +697,26 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+//        function fojo_update() {
+//        $this->load->helper('file');
+//        $myfile=read_file('./application/modules/sgr/assets/sgr_garantias.csv');
+//        $lista=explode("\n",$myfile);
+//
+//         $container = 'container.sgr_anexo_12';
+//         $options = array('safe' => true);
+//         $data=array('5219'=>array("2"));
+//         $i=0;
+//         foreach($lista as $id){
+//             $i++;
+//             $myid=trim($id,'"');
+//             echo $myid."/";
+//             $query=array("id"=>$myid);
+//             $rs = $this->mongo->sgr->$container->update($query, array('$set'=>$data), $options);
+//             //if($i==1)break;
+//         }
+//             
+//
+//    }
+    
 }
 

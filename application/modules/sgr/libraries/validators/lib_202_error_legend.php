@@ -25,7 +25,7 @@ class Lib_202_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna B sea Cero y que la Columna D tenga un monto informado.';
                 break;
             case "B.1":
-                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Valor con formato numérico positivo,  que acepte hasta dos decimales.';
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Valor con formato numérico positivo,  acepta hasta dos decimales.';
                 break;
             case "B.2":
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser menor o igual que el saldo del aporte calculado por el Sistema en función de los movimientos históricos informados mediante Anexo 20.1.';
@@ -34,7 +34,7 @@ class Lib_202_error_legend {
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>OPCIONAL. Valor con formato numérico positivo,  que acepte hasta dos decimales.';
                 break;
             case "D.1":
-                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Valor con formato numérico,  que acepte hasta dos decimales.';
+                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Valor con formato numérico,  acepta hasta dos decimales.';
                 break;
         }
         return $result_error;
