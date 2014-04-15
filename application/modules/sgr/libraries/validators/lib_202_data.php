@@ -70,8 +70,6 @@ class Lib_202_data extends MX_Controller {
 
                         $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
                         
-                        debug($get_input_number_check);
-
                         $A3_array = array();
                         if ($get_input_number_check > 0) {
                             $A3_array[] = $A_cell_value;
