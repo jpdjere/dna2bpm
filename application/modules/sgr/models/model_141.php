@@ -116,7 +116,7 @@ class Model_141 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -242,6 +242,8 @@ class Model_141 extends CI_Model {
              */
             $this->load->model('padfyj_model');
 
+            $model_125 = 'model_125';
+            $this->load->Model($model_125);
 
             $model_201 = 'model_201';
             $this->load->Model($model_201);
@@ -250,19 +252,29 @@ class Model_141 extends CI_Model {
             $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
             foreach ($partener_info as $partner) {
-                $cuit = $partner["CUIT_PARTICIPE"];
-                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PARTICIPE"]);
+                var_dump($partner);
             }
+            /* PARTNER DATA */
+            $cuit = $list["CUIT_PARTICIPE"];
+            $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
+
             $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
             $saldo = $get_movement_data['APORTE'] - $retiros;
             $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
 
+
+            $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $list['period']);
+
+            $col3 = ($partner_balance['count'])?$partner_balance['count']:0;
+            $col4 = ($partner_balance['balance'])?$partner_balance['balance']:0;
+
+
             $new_list = array();
-            $new_list['col1'] = $list['CUIT_PARTICIPE'];
+            $new_list['col1'] = $cuit;
             $new_list['col2'] = $brand_name;
             if ($xls) {
-                $new_list['col3'] = (float) (0);
-                $new_list['col4'] = (float) (0);
+                $new_list['col3'] = $col3;
+                $new_list['col4'] = $col4;
                 $new_list['col5'] = (float) ($list['HIPOTECARIAS']);
                 $new_list['col6'] = (float) ($list['PRENDARIAS']);
                 $new_list['col7'] = (float) ($list['FIANZA']);
@@ -272,8 +284,8 @@ class Model_141 extends CI_Model {
                 $new_list['col11'] = (float) (0);
                 $new_list['col12'] = (float) (0);
             } else {
-                $new_list['col3'] = 0;
-                $new_list['col4'] = money_format_custom(0);
+                $new_list['col3'] = $col3;
+                $new_list['col4'] = money_format_custom($col4);
                 $new_list['col5'] = money_format_custom($list['HIPOTECARIAS']);
                 $new_list['col6'] = money_format_custom($list['PRENDARIAS']);
                 $new_list['col7'] = money_format_custom($list['FIANZA']);
