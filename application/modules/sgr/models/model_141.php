@@ -250,8 +250,8 @@ class Model_141 extends CI_Model {
             $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
             foreach ($partener_info as $partner) {
-                $cuit = $partner["CUIT_PROTECTOR"];
-                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
+                $cuit = $partner["CUIT_PARTICIPE"];
+                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PARTICIPE"]);
             }
             $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
             $saldo = $get_movement_data['APORTE'] - $retiros;
@@ -272,7 +272,7 @@ class Model_141 extends CI_Model {
                 $new_list['col11'] = (float) (0);
                 $new_list['col12'] = (float) (0);
             } else {
-                $new_list['col3'] = money_format_custom(0);
+                $new_list['col3'] = 0;
                 $new_list['col4'] = money_format_custom(0);
                 $new_list['col5'] = money_format_custom($list['HIPOTECARIAS']);
                 $new_list['col6'] = money_format_custom($list['PRENDARIAS']);
