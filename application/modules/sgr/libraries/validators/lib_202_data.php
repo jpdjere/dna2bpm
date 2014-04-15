@@ -70,7 +70,7 @@ class Lib_202_data extends MX_Controller {
 
                         $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
                         
-                        var_dump($get_input_number_check);
+                        var_dump($A_cell_value, $get_input_number_check);
 //                        $A3_array = array();
 //                        foreach ($get_anexo_data_left as $aportes) {
 //                            
