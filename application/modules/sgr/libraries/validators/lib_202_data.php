@@ -68,10 +68,12 @@ class Lib_202_data extends MX_Controller {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $A_array_value[] = (int) $A_cell_value;                      
 
-                        $get_anexo_data_left = $this->$model_201->get_anexo_data_left($A_cell_value);
+                        $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
+                        
+                        var_dump($get_input_number_check);
 //                        $A3_array = array();
 //                        foreach ($get_anexo_data_left as $aportes) {
-//                            $get_input_number_check = $this->$model_201->get_input_number_left($aportes['NUMERO_DE_APORTE']);
+//                            
 //                            if ($get_input_number_check > 0) {
 //                                $A3_array[] = $aportes['NUMERO_DE_APORTE'];
 //                            }
