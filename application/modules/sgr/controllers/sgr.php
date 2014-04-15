@@ -866,8 +866,8 @@ class Sgr extends MX_Controller {
 
                 /* CANTIDAD SOCIOS */
                 $prev_period = '12_2013';
-                $t1_1 = $this->$model->incorporated_count($prev_period, "A")- $this->$model->detached_count($prev_period, "A");
-                $t1_13 = $this->$model->incorporated_count($prev_period, "B")-$this->$model->detached_count($prev_period, "B");   
+                $t1_1 = $this->$model->incorporated_count($prev_period, "A") - $this->$model->detached_count($prev_period, "A");
+                $t1_13 = $this->$model->incorporated_count($prev_period, "B") - $this->$model->detached_count($prev_period, "B");
 
                 $t1_25 = $t1_1 + $t1_13;
 
@@ -936,16 +936,16 @@ class Sgr extends MX_Controller {
                 $rtn['t1_32'] = $t1_32;
 
                 /* MONTO ACCIONES */
-                $t1_9 = $comisions*0;
-                $t1_21 = $comisions*0;
+                $t1_9 = $comisions * 0;
+                $t1_21 = $comisions * 0;
 
                 $t1_33 = $t1_9 + $t1_21;
 
-                $t1_10 = $comisions*$this->$model->buys_shares($period_req, "A");
-                $t1_22 = $comisions*$this->$model->buys_shares($period_req, "B");
+                $t1_10 = $comisions * $this->$model->buys_shares($period_req, "A");
+                $t1_22 = $comisions * $this->$model->buys_shares($period_req, "B");
 
-                $t1_11 = $comisions*$this->$model->sells_shares($period_req, "A");
-                $t1_23 = $comisions*$this->$model->sells_shares($period_req, "B");
+                $t1_11 = $comisions * $this->$model->sells_shares($period_req, "A");
+                $t1_23 = $comisions * $this->$model->sells_shares($period_req, "B");
 
                 $t1_12 = ($t1_9 + $t1_10) - $t1_11;
                 $t1_24 = ($t1_21 + $t1_22) - $t1_23;
@@ -1190,12 +1190,13 @@ class Sgr extends MX_Controller {
 
 
                     $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
+                    
                 } else {
 
 
