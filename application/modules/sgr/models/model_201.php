@@ -518,7 +518,7 @@ class Model_201 extends CI_Model {
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
 
-        if ($input_result_arr)
+        if (!empty($input_result_arr) && !empty($output_result_arr))
             return $balance;
     }
 
