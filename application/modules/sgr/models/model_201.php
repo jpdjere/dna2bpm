@@ -400,11 +400,8 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-               
                 'filename' => $list['filename']
             );
-
-
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 $rtn[] = $data;
