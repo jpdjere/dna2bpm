@@ -502,7 +502,9 @@ class Model_201 extends CI_Model {
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
-
+                
+                var_dump($data);
+                
                 if ($data['APORTE']) {
                     // var_dump($code, $input_result['APORTE']);
                     $input_result_arr[] = (float) $data['APORTE'];
@@ -518,8 +520,7 @@ class Model_201 extends CI_Model {
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
 
-        if (!empty($input_result_arr) && !empty($output_result_arr))
-            return $balance;
+        return $balance;
     }
 
     function get_input_number_print($code, $period_date) {
