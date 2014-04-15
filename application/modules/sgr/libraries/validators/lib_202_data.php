@@ -66,17 +66,16 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $A_array_value[] = (int) $A_cell_value;
-                        $get_input_number = $this->$model_201->get_input_number_left($A_cell_value);
+                        $A_array_value[] = (int) $A_cell_value;                      
 
                         $get_anexo_data_left = $this->$model_201->get_anexo_data_left($A_cell_value);
-                        $A3_array = array();
-                        foreach ($get_anexo_data_left as $aportes) {
-                            $get_input_number_check = $this->$model_201->get_input_number_left($aportes['NUMERO_DE_APORTE']);
-                            if ($get_input_number_check > 0) {
-                                $A3_array[] = $aportes['NUMERO_DE_APORTE'];
-                            }
-                        }
+//                        $A3_array = array();
+//                        foreach ($get_anexo_data_left as $aportes) {
+//                            $get_input_number_check = $this->$model_201->get_input_number_left($aportes['NUMERO_DE_APORTE']);
+//                            if ($get_input_number_check > 0) {
+//                                $A3_array[] = $aportes['NUMERO_DE_APORTE'];
+//                            }
+//                        }
                     }
                 }
 
@@ -184,7 +183,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //var_dump($stack);        exit();
+        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
