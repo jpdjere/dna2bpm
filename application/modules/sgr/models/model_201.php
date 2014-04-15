@@ -522,7 +522,7 @@ class Model_201 extends CI_Model {
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
        // echo "<br>" . $code . "->". $input_sum . " -" . $output_sum . " = " . $balance;
-       var_dump($input_result_arr, $output_result_arr);
+       var_dump($code, $input_result_arr, $output_result_arr);
         
         return $balance;
     }
