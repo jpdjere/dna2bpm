@@ -297,7 +297,7 @@
                     </table>
                 </div>
 
-                <p>OBSERVACIONES:</p>
+                <p>OBSERVACIONES: {observations}</p>
                 <p><small>(*) El presente Anexo será generado automáticamente por el Sistema una vez finalizada la carga de los Anexos 12, 13, 14, 15 y 16 y a pedido del usuario. Al solicitar su generación, se le abrirán dos pantallas, en la primera deberá indicar el monto de las comisiones por otorgamiento de garantías devengado durante el período informado, en la segunda podrá realizar las observaciones particulares que considere pertinentes respecto de la información presentada correspondiente al período que se está informando.</small></p>
                 <div class="sign"><p>Firma y Aclaración del Presidente o Apoderado de la Sociedad de Garantía 		Recíproca</p></div>
                 <!--{show_table}-->

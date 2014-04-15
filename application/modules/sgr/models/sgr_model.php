@@ -46,7 +46,7 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_period_info($anexo, $sgr_id, $period) {
+    function get_current_period_info($anexo, $period) {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
         $query = array(
@@ -59,10 +59,10 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_period_count($anexo, $sgr_id, $period) {
+    function get_period_count($anexo, $period) {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
-        $query = array('status' => 'rectificado', 'anexo' => $anexo, 'sgr_id' => $sgr_id, 'period' => $period);
+        $query = array('status' => 'rectificado', 'anexo' => $anexo, 'sgr_id' => (float) $this->sgr_id, 'period' => $period);
         $result = $this->mongo->sgr->$container->find($query, $fields);
         return $result->count();
     }
