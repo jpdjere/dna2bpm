@@ -25,9 +25,9 @@ $(document).ready(function() {
         $("#no_session").hide();
     });
 
-
-    $('[class^="rectifica-warning_"]').click(function(event) {    
-
+    
+    /*fixed*/
+    $('[class^="rectifica-warning_"]').click(function(event) {
         var get_period = $("#sgr_period").html();
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
