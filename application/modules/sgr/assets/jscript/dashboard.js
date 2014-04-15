@@ -14,8 +14,8 @@ $(document).ready(function() {
          $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
-        var input_period = arr[2];
-        var anexo = arr[3];
+        var input_period = arr[4];
+        var anexo = arr[5];
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
         $("input[name$='input_period']").val(input_period);
