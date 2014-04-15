@@ -2,7 +2,7 @@
 <div class="alert alert-warning alert-dismissable">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   <h1 class="error">Errores en la importación del Anexo</h1>
-    <div class="alert alert-error" id="{_id}">       
+    <div class="alert alert-danger" id="{_id}">       
           </p> 
         <h2>Verifique la lista de errores.</h2>
         {if message_header}

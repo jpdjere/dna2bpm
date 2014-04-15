@@ -50,6 +50,19 @@ $(document).ready(function() {
 
     $('.dp').datepicker();
     $('[id^="others_"]').hide();
+    
+    // Dashboard Accordion
+    $('a.togglepanel').on('click',function(){
+        $(this).closest('.panel').find('.panel-body').toggleClass('hidden');
+        if($(this).closest('.panel').find('.panel-body').hasClass('hidden')){
+            $(this).html('<i class="fa fa-chevron-down"></i>');
+        }else{
+            $(this).html('<i class="fa fa-chevron-up"></i>');
+        }
+        
+    })
+    
+    
     /*RECTIFICAR*/
     $('[id^="rectify_"]').change(function() {
         var option_value = $(this).val();
