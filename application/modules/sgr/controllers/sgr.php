@@ -68,14 +68,14 @@ class Sgr extends MX_Controller {
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
         //$customData['layout']="layout.php"; 
-        
-        $sections=array();
-        $sections['Anexos']=array();
+
+        $sections = array();
+        $sections['Anexos'] = array();
         $customData['anexo_list'] = $this->AnexosDB('_blank');
-        
+
         $this->render('main_dashboard', $customData);
     }
-    
+
     // ==== Anexos ====
     function Index() {
 
@@ -260,12 +260,12 @@ class Sgr extends MX_Controller {
         redirect('/sgr');
     }
 
-    function AnexosDB($target='_self') {
+    function AnexosDB($target = '_self') {
         $module_url = base_url() . 'sgr/';
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a target="'.$target.'" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
+            $result .= '<li><a target="' . $target . '" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
         return $result;
     }
@@ -702,7 +702,7 @@ class Sgr extends MX_Controller {
 
                 default:
                     $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
-                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $error_set_period);
                     $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
@@ -827,18 +827,152 @@ class Sgr extends MX_Controller {
 
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = $parameter;
-        //$get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter);
-        //$customData['show_table'] = $get_anexo;
+
+        /* POST */
+        $customData['comisions'] = $this->input->post("comisions");
+        $customData['observations'] = $this->input->post("observations");
+        $period_req = $this->input->post("period");
+
         /* FILENAMES */
+        $anexos_arr = array("06");
         $filenames_arr = array("12", "121", "122", "123", "124", "125", "13", "15", "16");
         foreach ($filenames_arr as $each) {
             $get_anexo = $this->sgr_model->get_period_data($each, $parameter, true);
             $customData['f_' . $each] = $get_anexo[0]['filename'];
         }
 
+        /* DD.JJ DATA */
+        foreach ($anexos_arr as $anexo_req)
+            $get_ddjj_data = $this->ddjj_data($anexo_req, $period_req);
+
+        foreach ($get_ddjj_data as $key => $each) {
+            $customData[$key] = $each;
+        }
+
+        if ($period_req)
+            echo $this->parser->parse('print_ddjj', $customData, true);
+        else
+            echo $this->parser->parse('print_ddjj_form', $customData, true);
+    }
+
+    function ddjj_data($anexo_req, $period_req) {
+
+        $model = "model_" . $anexo_req;
+        $this->load->Model($model);
+
+        $comisions = $this->input->post("comisions");
+        switch ($anexo_req) {
+            case '06':
+
+                /* CANTIDAD SOCIOS */
+                $prev_period = '12_2013';
+                $t1_1 = $this->$model->incorporated_count($prev_period, "A")- $this->$model->detached_count($prev_period, "A");
+                $t1_13 = $this->$model->incorporated_count($prev_period, "B")-$this->$model->detached_count($prev_period, "B");   
+
+                $t1_25 = $t1_1 + $t1_13;
+
+                $t1_2 = $this->$model->incorporated_count($period_req, "A");
+                $t1_3 = $this->$model->detached_count($period_req, "A");
+
+                $t1_14 = $this->$model->incorporated_count($period_req, "B");
+                $t1_15 = $this->$model->detached_count($period_req, "B");
+
+                $t1_4 = ($t1_1 + $t1_2) - $t1_3;
+                $t1_16 = ($t1_13 + $t1_14) - $t1_15;
+
+                $t1_26 = $t1_2 + $t1_14;
+                $t1_27 = $t1_3 + $t1_15;
+
+                $t1_28 = $t1_25 + $t1_26 + $t1_27;
+
+                $rtn = array();
+                $rtn['t1_1'] = $t1_1;
+                $rtn['t1_2'] = $t1_2;
+                $rtn['t1_3'] = $t1_3;
+                $rtn['t1_4'] = $t1_4;
+
+                $rtn['t1_13'] = $t1_13;
+                $rtn['t1_14'] = $t1_14;
+                $rtn['t1_15'] = $t1_15;
+                $rtn['t1_16'] = $t1_16;
+
+                $rtn['t1_25'] = $t1_25;
+                $rtn['t1_26'] = $t1_26;
+                $rtn['t1_27'] = $t1_27;
+                $rtn['t1_28'] = $t1_28;
+
+                /* CANTIDAD ACCIONES */
+                $t1_5 = 0;
+                $t1_17 = 0;
+
+                $t1_29 = $t1_5 + $t1_17;
+
+                $t1_6 = $this->$model->buys_shares($period_req, "A");
+                $t1_18 = $this->$model->buys_shares($period_req, "B");
+
+                $t1_7 = $this->$model->sells_shares($period_req, "A");
+                $t1_19 = $this->$model->sells_shares($period_req, "B");
+
+                $t1_8 = ($t1_5 + $t1_6) - $t1_7;
+                $t1_20 = ($t1_17 + $t1_18) - $t1_19;
 
 
-        echo $this->parser->parse('print_ddjj', $customData, true);
+                $t1_30 = $t1_6 + $t1_18;
+                $t1_31 = $t1_7 + $t1_19;
+
+                $t1_32 = $t1_29 + $t1_30 + $t1_31;
+
+                $rtn['t1_5'] = $t1_5;
+                $rtn['t1_6'] = $t1_6;
+                $rtn['t1_7'] = $t1_7;
+                $rtn['t1_8'] = $t1_8;
+                $rtn['t1_17'] = $t1_17;
+                $rtn['t1_18'] = $t1_18;
+                $rtn['t1_19'] = $t1_19;
+                $rtn['t1_20'] = $t1_20;
+                $rtn['t1_29'] = $t1_29;
+                $rtn['t1_30'] = $t1_30;
+                $rtn['t1_31'] = $t1_31;
+                $rtn['t1_32'] = $t1_32;
+
+                /* MONTO ACCIONES */
+                $t1_9 = $comisions*0;
+                $t1_21 = $comisions*0;
+
+                $t1_33 = $t1_9 + $t1_21;
+
+                $t1_10 = $comisions*$this->$model->buys_shares($period_req, "A");
+                $t1_22 = $comisions*$this->$model->buys_shares($period_req, "B");
+
+                $t1_11 = $comisions*$this->$model->sells_shares($period_req, "A");
+                $t1_23 = $comisions*$this->$model->sells_shares($period_req, "B");
+
+                $t1_12 = ($t1_9 + $t1_10) - $t1_11;
+                $t1_24 = ($t1_21 + $t1_22) - $t1_23;
+
+
+                $t1_34 = $t1_10 + $t1_22;
+                $t1_35 = $t1_11 + $t1_23;
+
+                $t1_36 = $t1_33 + $t1_34 + $t1_35;
+
+                $rtn['t1_9'] = $t1_9;
+                $rtn['t1_10'] = $t1_10;
+                $rtn['t1_11'] = $t1_11;
+                $rtn['t1_12'] = $t1_12;
+                $rtn['t1_21'] = $t1_21;
+                $rtn['t1_22'] = $t1_22;
+                $rtn['t1_23'] = $t1_23;
+                $rtn['t1_24'] = $t1_24;
+                $rtn['t1_33'] = $t1_33;
+                $rtn['t1_34'] = $t1_34;
+                $rtn['t1_35'] = $t1_35;
+                $rtn['t1_36'] = $t1_36;
+
+                return $rtn;
+
+                break;
+        }
     }
 
     function set_period() {
@@ -874,7 +1008,7 @@ class Sgr extends MX_Controller {
                 } else if ($set_start_month > $set_month) {
                     return "2"; // Anterior al mes Inicial
                 } else {
-                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
@@ -930,7 +1064,7 @@ class Sgr extends MX_Controller {
         $this->load->model($model);
 
         if (!$this->session->userdata['rectify']) {
-            $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+            $get_period = $this->sgr_model->get_current_period_info($anexo, $period);
         }
 
 
@@ -1066,7 +1200,7 @@ class Sgr extends MX_Controller {
 
 
                     /* RECTIFY COUNT */
-                    $count = $this->sgr_model->get_period_count($anexo, $this->sgr_id, $file['period']);
+                    $count = $this->sgr_model->get_period_count($anexo, $file['period']);
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                     $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
@@ -1410,7 +1544,7 @@ class Sgr extends MX_Controller {
 
 // offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
-        $layout=(isset($customData['layout']))?($customData['layout']):('layout.php');
+        $layout = (isset($customData['layout'])) ? ($customData['layout']) : ('layout.php');
         $this->ui->compose($file, 'layout.php', $cpData);
     }
 

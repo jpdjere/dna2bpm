@@ -104,14 +104,14 @@ class Model_061 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
-            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
+            $get_pending = $this->sgr_model->get_current_period_info("06", $period);
             $this->update_pending($get_pending['id']);
             
            
@@ -142,13 +142,13 @@ class Model_061 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
 
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
-            $get_pending = $this->sgr_model->get_period_info("06", $this->sgr_id, $period);
+            $get_pending = $this->sgr_model->get_current_period_info("06", $period);
             $this->update_pending($get_period['id'], $get_period['status']);
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
