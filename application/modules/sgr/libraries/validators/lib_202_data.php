@@ -146,11 +146,13 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         
-
+                        debug($get_input_number_check);
                         if (!$get_input_number_check) {
+                            
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
+                            
                         } else {
 
                             /* ESTA EN EL SISTEMA */
@@ -183,7 +185,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //var_dump($stack);        exit();
+        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
