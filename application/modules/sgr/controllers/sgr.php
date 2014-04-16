@@ -8,7 +8,11 @@ if (!defined('BASEPATH'))
  *
  */
 class Sgr extends MX_Controller {
-
+/*
+ * 
+ * @var User
+ */
+	public $user;
     function __construct() {
         parent::__construct();
 //----habilita acceso a todo los metodos de este controlador
@@ -23,7 +27,7 @@ class Sgr extends MX_Controller {
         $this->load->model('sgr/sgr_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
-
+$this->user->
 //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
@@ -72,8 +76,8 @@ class Sgr extends MX_Controller {
         $sections = array();
         $sections['Anexos'] = array();
         $customData['anexo_list'] = $this->AnexosDB('_blank');
-
-        $this->render('main_dashboard', $customData);
+       echo  var_dump($this->user->get_user_array($this->idu));
+       // $this->render('main_dashboard', $customData);
     }
 
     // ==== Anexos ====
