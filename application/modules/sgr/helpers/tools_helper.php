@@ -524,6 +524,13 @@ function last_month_date($period) {
     }
 }
 
+function period_before($period) {
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period_req);
+    $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-31');
+    $endDate = strtotime('-1 month', strtotime($fecha));
+    return date("m-Y", $endDate);
+}
+
 function mongodate_to_print($date) {
     return date('Y-m-d', $date->sec);
 }
@@ -854,14 +861,15 @@ function translate_month_spanish($code) {
 }
 
 /* Fix 10 cents for dollar quotation */
+
 function fix_ten_cents($value, $value2) {
     $new_value = $value;
     $new_value2 = $value2;
-    
-    /*TEST 50*/
-    $range = range(-50,50);
-    $diff = $value-$value2;    
-    
+
+    /* TEST 50 */
+    $range = range(-50, 50);
+    $diff = $value - $value2;
+
     if (!in_array($diff, $range))
         return true;
 }
