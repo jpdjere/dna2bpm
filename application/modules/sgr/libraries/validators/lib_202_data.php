@@ -157,7 +157,7 @@ class Lib_202_data extends MX_Controller {
                             
                            
                             
-                            if ($get_input_number_check == 0 && ($B_cell_value != 0 || !$D_cell_value)) {                                
+                            if ($get_input_number_check == 0 && ($C_cell_value != 0 || !$D_cell_value)) {                                
                                 $code_error = "A.4";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                                 array_push($stack, $result);
