@@ -67,15 +67,12 @@ class Lib_202_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $A_array_value[] = (int) $A_cell_value;
-                        $get_input_number = $this->$model_201->get_input_number_left($A_cell_value);
 
-                        $get_anexo_data_left = $this->$model_201->get_anexo_data_left($A_cell_value);
+                        $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
+
                         $A3_array = array();
-                        foreach ($get_anexo_data_left as $aportes) {
-                            $get_input_number_check = $this->$model_201->get_input_number_left($aportes['NUMERO_DE_APORTE']);
-                            if ($get_input_number_check > 0) {
-                                $A3_array[] = $aportes['NUMERO_DE_APORTE'];
-                            }
+                        if ($get_input_number_check > 0) {
+                            $A3_array[] = $A_cell_value;
                         }
                     }
                 }
@@ -148,22 +145,24 @@ class Lib_202_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                         array_push($stack, $result);
                     } else {
+                        
 
-
-                        if ($get_input_number == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
-                            $code_error = "A.4";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                            array_push($stack, $result);
-                        }
-
-                        if (!$get_input_number) {
+                        if (!$get_input_number_check) {
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         } else {
 
                             /* ESTA EN EL SISTEMA */
-                            if ($B_cell_value > $get_input_number) {
+                            if ($get_input_number_check == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
+                                $code_error = "A.4";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                                array_push($stack, $result);
+                            }
+
+
+
+                            if ($B_cell_value > $get_input_number_check) {
                                 $code_error = "B.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
                                 array_push($stack, $result);

@@ -101,8 +101,6 @@ class Model_201 extends CI_Model {
 
             $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
             $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
-
-           
         }
         return $insertarr;
     }
@@ -142,7 +140,7 @@ class Model_201 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -297,9 +295,9 @@ class Model_201 extends CI_Model {
 
 
             $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
-            
+
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
-            
+
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
                 $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
@@ -312,7 +310,7 @@ class Model_201 extends CI_Model {
             $new_list['CUIT_PROTECTOR'] = $cuit;
             $new_list['APORTE'] = money_format_custom($list['APORTE']);
             $new_list['RETIRO'] = money_format_custom($list['RETIRO']);
-                $new_list['FECHA_APORTE_ORIGINAL'] = mongodate_to_print($get_movement_data['FECHA_MOVIMIENTO']);
+            $new_list['FECHA_APORTE_ORIGINAL'] = mongodate_to_print($get_movement_data['FECHA_MOVIMIENTO']);
             $new_list['APORTE_ORIGINAL'] = money_format_custom($get_movement_data['APORTE']);
 
             $new_list['RETENCION_POR_CONTINGENTE'] = $get_movement_data['RETENCION_POR_CONTINGENTE'];
@@ -400,11 +398,8 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-               
                 'filename' => $list['filename']
             );
-
-
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 $rtn[] = $data;
@@ -433,13 +428,12 @@ class Model_201 extends CI_Model {
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
-               
                 'filename' => $list['filename']
             );
 
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
-            foreach ($io_result as $data) {                
+            foreach ($io_result as $data) {
                 if ($data) {
                     return true;
                 }
@@ -465,7 +459,6 @@ class Model_201 extends CI_Model {
             /* APORTE */
             $new_query = array(
                 'NUMERO_DE_APORTE' => (int) $code,
-               
                 'filename' => $list['filename']
             );
 
@@ -502,20 +495,22 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-                'NUMERO_DE_APORTE' => (int) $code,                
+                'NUMERO_DE_APORTE' => (int) $code,
                 'filename' => $list['filename']
             );
-            
-            
+
+
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
+
+                $nro_aporte = $data['NUMERO_DE_APORTE'];
 
                 if ($data['APORTE']) {
                     // var_dump($code, $input_result['APORTE']);
                     $input_result_arr[] = (float) $data['APORTE'];
                 }
                 if ($data['RETIRO']) {
-                     //var_dump($code, $input_result['RETIRO']);
+                    //var_dump($code, $input_result['RETIRO']);
                     $output_result_arr[] = (float) $data['RETIRO'];
                 }
             }
@@ -524,9 +519,10 @@ class Model_201 extends CI_Model {
         $input_sum = array_sum($input_result_arr);
         $output_sum = array_sum($output_result_arr);
         $balance = $input_sum - $output_sum;
-       // echo "<br>" . $code . "->". $input_sum . " -" . $output_sum . " = " . $balance;
-        
-        return $balance;
+
+        $rtn = ($nro_aporte) ? $balance : false;
+
+        return $rtn;
     }
 
     function get_input_number_print($code, $period_date) {
@@ -564,7 +560,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-               
                 'filename' => $list['filename']
             );
 
@@ -616,7 +611,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-               
                 'filename' => $list['filename']
             );
             $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
@@ -643,7 +637,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
@@ -686,7 +679,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
@@ -729,7 +721,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
@@ -770,7 +761,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
-               
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
