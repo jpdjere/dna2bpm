@@ -242,9 +242,9 @@ class Model_124 extends CI_Model {
             $new_list['col6'] = money_format_custom($amount);
             $new_list['col7'] = $creditor;
             $new_list['col8'] = $creditor_cuit;
-            $new_list['col9'] = $list['FECHA_REAFIANZA'];
+            $new_list['col9'] = mongodate_to_print($list['FECHA_REAFIANZA']);
             $new_list['col10'] = money_format_custom($list['SALDO_VIGENTE']);
-            $new_list['col11'] = percent_format_custom($list['REAFIANZADO']);
+            $new_list['col11'] = percent_format_custom($list['REAFIANZADO']*100);
             $new_list['RAZON_SOCIAL'] = $reafianzadora;
             $new_list['CUIT'] = $reafianzadora_cuit;
             $rtn[] = $new_list;
