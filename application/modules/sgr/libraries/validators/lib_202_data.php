@@ -155,9 +155,6 @@ class Lib_202_data extends MX_Controller {
 
                         if ($nro_aporte) {
                             /* ESTA EN EL SISTEMA */
-                            
-                            echo $C_cell_value."->".$D_cell_value."<br>";
-                            
                             if ($get_input_number_check == 0 && ($C_cell_value != 0 || !$D_cell_value)) {
                                 
                                 
@@ -195,8 +192,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        var_dump($stack);
-        exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
