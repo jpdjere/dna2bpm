@@ -889,6 +889,8 @@ class Model_06 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_value);
 
+
+
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* BUY */
@@ -1047,7 +1049,7 @@ class Model_06 extends CI_Model {
 
     /* INCORPORACION */
 
-    function incorporated_count($period, $partner_type) {
+    function incorporated_count($period, $partner_type, $periods_before = false) {
 
         $anexo = $this->anexo;
 
@@ -1055,16 +1057,23 @@ class Model_06 extends CI_Model {
         $container_period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        $result = $this->sgr_model->get_current_period_info('06', $period);
+        if ($periods_before) {
+            $result = $this->sgr_model->get_active_print('06', $period); //exclude actual
 
-        $new_query = array(
-            'filename' => $result['filename'], 5272 => $partner_type, 5779 => '1'
-        );
-        
-        var_dump($new_query);
-
-        $partners = $this->mongo->sgr->$container->find($new_query);
-        return $partners->count();
+            foreach ($result as $each) {
+                $new_query = array(
+                    'filename' => $each['filename'], 5272 => $partner_type, 5779 => '1'
+                );
+            }
+        } else {
+            $result = $this->sgr_model->get_current_period_info('06', $period);
+            $new_query = array(
+                'filename' => $result['filename'], 5272 => $partner_type, 5779 => '1'
+            );
+            
+            $partners = $this->mongo->sgr->$container->find($new_query);
+            return $partners->count();
+        }
     }
 
     /* DESVINCULADO  */
@@ -1080,9 +1089,9 @@ class Model_06 extends CI_Model {
         $new_query = array(
             'filename' => $result['filename'], 5272 => $partner_type, 5248 => array('$ne' => NULL)
         );
-        
-       
-        
+
+
+
         $count = array();
         $partners = $this->mongo->sgr->$container->find($new_query);
         foreach ($partners as $each) {
@@ -1109,8 +1118,8 @@ class Model_06 extends CI_Model {
 
         $result = $this->sgr_model->get_current_period_info('06', $period);
         $new_query = array(
-            'filename' => $result['filename'], 
-            5272 => $partner_type, 
+            'filename' => $result['filename'],
+            5272 => $partner_type,
             5779 => array('$ne' => '3')
         );
         $count = array();
@@ -1121,10 +1130,10 @@ class Model_06 extends CI_Model {
     }
 
     /* ACCIONES VENTA */
-    
+
     function sells_shares($period, $partner_type) {
-        
-         /* global $forms2;
+
+        /* global $forms2;
           $addQry = ($tipoSocio == 'B') ? "AND `tipo_operacion` != 'DISMINUCION DE CAPITAL SOCIAL'" : "";
 
 
@@ -1138,7 +1147,7 @@ class Model_06 extends CI_Model {
 
 
           return ($acciones->Fields('valor') == NULL) ? 0 : $acciones->Fields('valor'); */
-        
+
         $anexo = $this->anexo;
 
         /* GET ACTIVE ANEXOS */
@@ -1147,9 +1156,9 @@ class Model_06 extends CI_Model {
 
         $result = $this->sgr_model->get_current_period_info('06', $period);
         $new_query = array(
-            'filename' => $result['filename'], 
-            5272 => $partner_type, 
-            5779 => '3', 
+            'filename' => $result['filename'],
+            5272 => $partner_type,
+            5779 => '3',
             5252 => '1'
         );
         $count = array();
@@ -1159,7 +1168,8 @@ class Model_06 extends CI_Model {
         return array_sum($count);
     }
 
-    function accionesVentaFn($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {       
+    function accionesVentaFn($filesDbTable, $periodoFileValue, $cuitSGR, $tipoSocio) {
+        
     }
 
     /* VENTAS CAPITAL */
