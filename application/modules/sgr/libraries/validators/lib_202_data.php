@@ -155,18 +155,13 @@ class Lib_202_data extends MX_Controller {
                         if ($nro_aporte) {
                             /* ESTA EN EL SISTEMA */
                             
-                            var_dump($nro_aporte, $get_input_number_check, $C_cell_value,$D_cell_value);
+                           
                             
-                            if ($get_input_number_check == 0 && ($B_cell_value != 0 || !$D_cell_value)) {
-                                
-                                
-                                
+                            if ($get_input_number_check == 0 && ($B_cell_value != 0 || !$D_cell_value)) {                                
                                 $code_error = "A.4";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                                 array_push($stack, $result);
                             }
-
-
 
                             if ($B_cell_value > $get_input_number_check) {
                                 $code_error = "B.2";
