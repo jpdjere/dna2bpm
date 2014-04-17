@@ -46,13 +46,13 @@ class mysql_model_12 extends CI_Model {
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);        
+        $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
         foreach ($query->result() as $row) {
-            $already_period = $this->already_period($row->archivo);            
+            $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
-                
+
                 $parameter = array();
 
                 $parameter['anexo'] = translate_anexos_dna2($row->anexo);
@@ -135,7 +135,7 @@ class mysql_model_12 extends CI_Model {
             $parameter[5216] = (string) $row->tipo_garantia;
             $parameter[5222] = (string) $row->tasa;
             $parameter[5727] = (string) $row->nro_operacion_bolsa;
-            
+
 
             list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $row->fecha_alta);
             $parameter[5215] = $arr;
@@ -153,70 +153,13 @@ class mysql_model_12 extends CI_Model {
             $parameter[5224] = (int) $row->plazo;
             $parameter[5225] = (int) $row->gracia;
 
+            $parameter[5219] = (string) $row->moneda;
+            $parameter[5758] = (string) $row->moneda_Cred_Garant;
 
-            if (strtoupper(trim($row->moneda)) == "PESOS ARGENTINOS")
-                $parameter[5219] = "1";
-            if (strtoupper(trim($row->moneda)) == "DOLARES AMERICANOS")
-                $parameter[5219] = "2";
-            if (strtoupper(trim($row->moneda)) == "EUROS")
-                $parameter[5219] = "3";
-            if (strtoupper(trim($row->moneda)) == "REALES")
-                $parameter[5219] = "4";
+            $parameter[5226] = (string) $row->periodicidad;
+            $parameter[5227] = (string) $row->sistema;
 
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "PESOS ARGENTINOS")
-                $parameter[5758] = "1";
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "DOLARES AMERICANOS")
-                $parameter[5758] = "2";
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "EUROS")
-                $parameter[5758] = "3";
-            if (strtoupper(trim($row->moneda_Cred_Garant)) == "REALES")
-                $parameter[5758] = "4";
-
-
-
-            /* PERIODICIDAD */
-            if (strtoupper(trim($row->periodicidad)) == "PAGO UNICO")
-                $parameter[5226] = "1";
-            if (strtoupper(trim($row->periodicidad)) == "MENSUAL")
-                $parameter[5226] = "30";
-            if (strtoupper(trim($row->periodicidad)) == "BIMESTRAL")
-                $parameter[5226] = "60";
-            if (strtoupper(trim($row->periodicidad)) == "TRIMESTRAL")
-                $parameter[5226] = "90";
-            if (strtoupper(trim($row->periodicidad)) == "CUATRIMESTRAL")
-                $parameter[5226] = "120";
-            if (strtoupper(trim($row->periodicidad)) == "SEMESTRAL")
-                $parameter[5226] = "180";
-            if (strtoupper(trim($row->periodicidad)) == "ANUAL")
-                $parameter[5226] = "360";
-            if (strtoupper(trim($row->periodicidad)) == "OTRO")
-                $parameter[5226] = "04";
-
-            /* SISTEMA */
-            if (strtoupper(trim($row->sistema)) == "PAGO UNICO")
-                $parameter[5227] = "01";
-            if (strtoupper(trim($row->sistema)) == "FRANCES")
-                $parameter[5227] = "02";
-            if (strtoupper(trim($row->sistema)) == "ALEMAN")
-                $parameter[5227] = "03";
-            if (strtoupper(trim($row->sistema)) == "OTRO")
-                $parameter[5227] = "04";
-
-
-
-            /* TASA */
-            if (strtoupper(trim($row->tasa)) == "LIBOR")
-                $parameter[5222] = "01";
-            if (strtoupper(trim($row->tasa)) == "BADLARPU")
-                $parameter[5222] = "02";
-            if (strtoupper(trim($row->tasa)) == "BADLARPR")
-                $parameter[5222] = "03";
-            if (strtoupper(trim($row->tasa)) == "FIJA")
-                $parameter[5222] = "04";
-            if (strtoupper(trim($row->tasa)) == "TEBP")
-                $parameter[5222] = "05";
-            if (strtoupper(trim($row->tasa)) == "TEC")
-                $parameter[5222] = "06";
+            $parameter[5222] = (string) $row->tasa;
 
 
             $parameter['idu'] = (float) $row->idu;
@@ -231,9 +174,9 @@ class mysql_model_12 extends CI_Model {
 
         $container = 'container.sgr_periodos';
         $query = array("filename" => $filename);
-        $result = $this->mongo->sgr->$container->findOne($query);            
-        if ($result)            
-            return true;       
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return true;
     }
 
     function already_updated($anexo, $nro_orden, $filename) {
@@ -261,6 +204,23 @@ class mysql_model_12 extends CI_Model {
             $out = array('status' => 'error');
         }
         return $out;
+    }
+
+    function update() {
+
+        $array = array(131475,
+            127594,
+            704257
+        );
+
+        foreach ($array as $each) {
+            $data = array();
+            $data['5219'] = "2";
+            $options = array('upsert' => true, 'safe' => true);
+            $container = 'container.sgr_anexo_12';
+            $query = array('id' => 127594);
+            return $this->mongo->db->$container->update($query, $data, $options);
+        }
     }
 
 }

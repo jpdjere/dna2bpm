@@ -16,7 +16,7 @@ class Lib_062_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe corresponder con algún Socio Partícipe de la SGR que tenga saldo de acciones mayor a Cero.';
                 break;
             case "B.1": 
-                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener el siguiente formato: xxxx/xx, correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12.';
+                $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener el siguiente formato: "xxxx/xx", correspondientes al formato AÑO/MES; que los dígitos del mes estén entre 01 y 12 (Ej. "2013/12").';
                 break;
              case "B.2": 
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El período ingresado en el archivo debe ser igual o menor al del período en que se está informando.';
@@ -25,10 +25,10 @@ class Lib_062_error_legend {
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser formato numérico';
                 break;
             case "D.1": 
-                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Numero entero mayor a cero.';
+                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/> Debe ser un número entero mayor a cero.';
                 break;
             case "E.1": 
-                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: BALANCES/CERTIFICACION DE INGRESOS/DDJJ IMPUESTOS';
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: "BALANCES", "CERTIFICACION DE INGRESOS" , "DDJJ IMPUESTOS".';
                 break;
         }
 

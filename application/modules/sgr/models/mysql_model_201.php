@@ -95,6 +95,7 @@ class mysql_model_201 extends CI_Model {
         $this->db->select(
                 'sgr_fdr_integrado.ID as nro_control,
                 nro_control,
+                cuit_protector,
                 fecha_movimiento,
                 aporte,
                 retiro,

@@ -87,7 +87,7 @@ class Model_14 extends CI_Model {
         $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
 
         $parameter['period'] = $period;
-        $parameter['origin'] = 2013;
+        $parameter['origen'] = "2013";
 
         $id = $this->app->genid_sgr($container);
 
@@ -135,7 +135,8 @@ class Model_14 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
 
         /*
@@ -249,9 +250,12 @@ class Model_14 extends CI_Model {
             /* "12585/10" */
             $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
 
-            foreach ($get_movement_data as $partner) {
-                $cuit = $partner[5349];
-                $brand_name = $this->padfyj_model->search_name($partner[5349]);
+
+            if (!empty($get_movement_data)) {
+                foreach ($get_movement_data as $partner) {
+                    $cuit = $partner[5349];
+                    $brand_name = $this->padfyj_model->search_name($partner[5349]);
+                }
             }
 
             $new_list = array();
