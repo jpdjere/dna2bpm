@@ -52,7 +52,7 @@ $(document).ready(function() {
     $('.dp').datepicker();
     $('[id^="others_"]').hide();
     
-    // Dashboard Accordion
+    // Dashboard Accordion ||
     $('[data-toggle="collapse"]').on('click',function(){
     	var is_open=$(this).parents('div').next().hasClass('in');
     	if(is_open){
