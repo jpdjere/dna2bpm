@@ -23,11 +23,12 @@
 
 
 <div class="panel-group" id="accordion">
-<!-- ======= ANEXOS - Grupo 58 Only ======= -->
+<!-- =======Grupo 58 Only ======= -->
 {if {is_sgr_sociedades}==1}
 <div class="panel panel-default">
+  <!--  Panel Anexos -->
     <div class="panel-heading">
-      <h4 class="panel-title">Anexos
+      <h4 class="panel-title"><i class="fa fa-table"></i> Anexos
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="pull-right">
            <i class="fa fa-chevron-up"></i></a>
         </a>
@@ -39,19 +40,34 @@
       </div>
     </div>
  </div>
- {/if}
- <!--  Panel Listados -->
+ <!--  Panel Herramientas -->
  <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">Listados
+      <h4 class="panel-title"><i class="fa fa-wrench"></i> Herramientas
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="pull-right">
-          <i class="fa fa-chevron-up"></i>
+          <i class="fa fa-chevron-down"></i>
         </a>
       </h4>
     </div>
-    <div id="collapse2" class="panel-collapse collapse in">
+    <div id="collapse2" class="panel-collapse collapse ">
       <div class="panel-body">
-        xxxxxxxx Proximamente xxxxxxxx
+        xxxxxxxx Próximamente xxxxxxxx
+      </div>
+    </div>
+ </div>
+ {/if}
+ <!--  Panel Reportes -->
+ <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title"><i class="fa fa-copy"></i> Reportes
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="pull-right">
+          <i class="fa fa-chevron-down"></i>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse ">
+      <div class="panel-body">
+        xxxxxxxx Próximamente xxxxxxxx
       </div>
     </div>
  </div>
