@@ -22,7 +22,7 @@ class Lib_202_error_legend {
                 $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe validar que, al menos, se encuentren listados todos los números de aportes que, tengan SALDOS DE APORTE mayores a Cero.';
                 break;
             case "A.4":
-                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna C sea Cero y que la Columna D tenga un monto informado.';
+                $result_error = '<strong>Columna A - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si para un determinado Número de Aporte el SALDO DE APORTE es cero y aún así es informado, debe validar que la Columna C o la Columna D, o ambas, tengan un monto informado mayor a cero y hasta con dos decimales.';
                 break;
             case "B.1":
                 $result_error = '<strong>Columna B - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Valor con formato numérico positivo,  acepta hasta dos decimales.';

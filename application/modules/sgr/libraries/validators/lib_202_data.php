@@ -60,26 +60,27 @@ class Lib_202_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
 
                     //empty field Validation  
-                    $nro_aporte = false;
+                    $get_anexo_data = false;
+                    $get_input_number_check = 0;
+                    
+                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $A_array_value[] = (int) $A_cell_value;
-
-                        $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
-                        $get_anexo_data = $this->$model_201->get_anexo_data_left($A_cell_value);
-                        foreach ($get_anexo_data as $anexo_data) {
-                            $nro_aporte = $anexo_data['NUMERO_DE_APORTE'];
-                        }
-
+                        
+                        
+                        $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
+                        if ($get_anexo_data)
+                            $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
 
                         $A3_array = array();
-                        if ($get_input_number_check > 0) {
+                        if ($get_input_number_check > 0)
                             $A3_array[] = $A_cell_value;
-                        }
                     }
                 }
 
@@ -152,19 +153,18 @@ class Lib_202_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                         array_push($stack, $result);
                     } else {
-
-                        if ($nro_aporte) {
+                        if ($get_anexo_data) {
                             /* ESTA EN EL SISTEMA */
-                            if ($get_input_number_check == 0 && ($C_cell_value != 0 || !$D_cell_value)) {
-                                
-                                
-                                
+                            $a4_check_array = array($C_cell_value, $D_cell_value);
+                            $a4_check = array_sum($a4_check_array);
+
+
+
+                            if ($get_input_number_check == 0 && $a4_check == 0) {
                                 $code_error = "A.4";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                                 array_push($stack, $result);
                             }
-
-
 
                             if ($B_cell_value > $get_input_number_check) {
                                 $code_error = "B.2";
@@ -172,7 +172,7 @@ class Lib_202_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         } else {
-                            
+
                             $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
