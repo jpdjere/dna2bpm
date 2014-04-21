@@ -1,7 +1,12 @@
 /nbproject/
+/images/
+/application/config/
 /tmp/
 /update-git.log
 /application/modules/qr/cache/
 /application/modules/qr/log/php_errors.log
-!/application/config/config.php
 /application/config/
+/tests/
+/.buildpath
+/.project
+/.settings/
