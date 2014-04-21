@@ -28,7 +28,7 @@
  */
 class CI_Table {
 
-	var $rows				= array();
+	var $rows                       = array();
 	var $heading			= array();
 	var $auto_heading		= TRUE;
 	var $caption			= NULL;
@@ -503,7 +503,7 @@ class CI_Table {
 
 						'heading_row_start'		=> '<tr>',
 						'heading_row_end'		=> '</tr>',
-						'heading_cell_start'	=> '<th>',
+ 						'heading_cell_start'	=> '<th>',
 						'heading_cell_end'		=> '</th>',
 
 						'tbody_open'			=> '<tbody>',

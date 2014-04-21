@@ -187,6 +187,7 @@ var btnSave = Ext.create('Ext.Action', {
     text: '<i class="icon icon-save"></i> Guardar datos Empresa',
     handler: function() {
         var form = EmpresaForm;
+
         if (!form.isValid()) {
             Ext.Msg.alert('Encenario Pyme', '<h5>Complete los campos correctamente</h5>');
         } else {
@@ -197,6 +198,7 @@ var btnSave = Ext.create('Ext.Action', {
             }
             /*CHECKBOX*/
             var values = form.getValues();
+
             record.set(values);
             record.set('1716', values["1716"]);
             //---busco por cuit

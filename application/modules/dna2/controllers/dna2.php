@@ -98,6 +98,11 @@ class Dna2 extends MX_Controller {
             redirect('/sgr/');
         }
         
+        //---hook para SGR ADMINS
+        if (in_array(49, $user->group)){
+            redirect('/sgr/reports');
+        }
+        
         //---hook para inventory
         if (array_intersect(array(
                     62, //---1.3 Gestión
@@ -122,7 +127,7 @@ class Dna2 extends MX_Controller {
         $customData['cases_widget'] = $this->parser->parse('cases', $customData, true);
 
         //Inbox Msgs
-        $mymgs = $this->msg->get_msgs($this->idu);
+        $mymgs = $this->msg->get_msgs($this->idu,'inbox');
         $customData['inbox_count'] = $mymgs->count();
 
         $customData['show_task_detail'] = true;
@@ -242,7 +247,7 @@ class Dna2 extends MX_Controller {
             
         }
         /* Inbox Count MSgs */
-        $mymgs = $this->msg->get_msgs($this->idu);
+        $mymgs = $this->msg->get_msgs($this->idu,'inbox');
         $cpData['inbox_count'] = $mymgs->count();
 
 

@@ -25,7 +25,11 @@
                         </span></p>
                 </div>
                 {show_table}
+
             </div>
+            {if show_footer}
+            <ul><li>NOTA:<small>{show_footer}</small></li></ul>
+            {/if}
         </div>
     </body>
 </html>

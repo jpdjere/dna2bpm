@@ -1223,6 +1223,7 @@ class Genias extends MX_Controller {
         }
         $periodo = $m . "[\/].*[\/]" . $y;
         $visitas = $this->genias_model->get_resumen_visitas_instituciones($periodo);
+
         echo '<ul class="ultree">';
         foreach ($visitas as $k => $provincias) {
 

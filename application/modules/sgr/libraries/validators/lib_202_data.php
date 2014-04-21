@@ -9,6 +9,9 @@ class Lib_202_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_201 = 'model_201';
+        $this->load->Model($model_201);
+
         /* Vars 
          * 
          * $parameters =  
@@ -22,6 +25,7 @@ class Lib_202_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $A_array_value = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -54,31 +58,29 @@ class Lib_202_data extends MX_Controller {
                   Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna B sea Cero y que la Columna D tenga un monto informado.
                  */
                 if ($parameterArr[$i]['col'] == 1) {
-                    $code_error = "A.1";
-                    //empty field Validation                    
+
+                    //empty field Validation  
+                    $get_anexo_data = false;
+                    $get_input_number_check = 0;
+                    
+                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $A_array_value[] = (int) $A_cell_value;
+                        
+                        
+                        $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
+                        if ($get_anexo_data)
+                            $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return) {
-                           
-                            
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-                        $code_error = "A.2";
-                        //Valida contra Mongo
-
-                        $code_error = "A.3";
-                        //Valida contra Mongo
+                        $A3_array = array();
+                        if ($get_input_number_check > 0)
+                            $A3_array[] = $A_cell_value;
                     }
                 }
 
@@ -89,30 +91,16 @@ class Lib_202_data extends MX_Controller {
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                
                  */
                 if ($parameterArr[$i]['col'] == 2) {
+
+                    $B_cell_value = false;
                     $code_error = "B.1";
-                    //empty field Validation                    
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
-                    }
-                    if (isset($parameterArr[$i]['fieldValue'])) {
 
-
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    if ($parameterArr[$i]['fieldValue'] != "") {
+                        $B_cell_value = $parameterArr[$i]['fieldValue'];
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {                            if ($parameterArr[$i]['fieldValue'] < 1) {
-                               
-                                
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
                         }
                     }
                 }
@@ -126,10 +114,9 @@ class Lib_202_data extends MX_Controller {
                     $code_error = "C.1";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $C_cell_value = $parameterArr[$i]['fieldValue'];
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -148,23 +135,64 @@ class Lib_202_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $D_cell_value = $parameterArr[$i]['fieldValue'];
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
+
+
+                    $return = check_is_numeric_no_decimal($A_cell_value, true);
+                    if (!$return) {
+                        $code_error = "A.1";
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                        array_push($stack, $result);
+                    } else {
+                        if ($get_anexo_data) {
+                            /* ESTA EN EL SISTEMA */
+                            $a4_check_array = array($C_cell_value, $D_cell_value);
+                            $a4_check = array_sum($a4_check_array);
+
+
+
+                            if ($get_input_number_check == 0 && $a4_check == 0) {
+                                $code_error = "A.4";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                                array_push($stack, $result);
+                            }
+
+                            if ($B_cell_value > $get_input_number_check) {
+                                $code_error = "B.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                                array_push($stack, $result);
+                            }
+                        } else {
+
+                            $code_error = "A.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         }
                     }
                 }
             } // END FOR LOOP->
         }
+
+
+        /* A.3 */
+        $A3_result = array_diff(array_unique($A3_array), array_unique($A_array_value));
+        if ($A3_result) {
+            foreach ($A3_result as $A3) {
+                $code_error = "A.3";
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], "Resta el Nro de Aporte: " . $A3);
+                array_push($stack, $result);
+            }
+        }
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 

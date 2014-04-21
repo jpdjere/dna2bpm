@@ -9,6 +9,9 @@ class Lib_125_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
         /* Vars 
          * 
          * $parameters =  
@@ -22,6 +25,8 @@ class Lib_125_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $vg2_arr = array();
+
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -45,29 +50,32 @@ class Lib_125_data extends MX_Controller {
                  */
 
                 if ($parameterArr[$i]['col'] == 1) {
+                    $A_cell_value = "";
+                    
+                    
+                    
                     $code_error = "A.1";
-                    //empty field Validation
+                    $sharer_info = $this->$model_anexo->get_sharer_left($parameterArr[$i]['fieldValue']);
+                    //  var_dump($sharer_info);
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
 
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        if (!$sharer_info) {
+                            $code_error = "A.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "A.2";
-                    //Valida contra Mongo
                 }
 
                 /* CUIT_ACREEDOR
@@ -84,24 +92,25 @@ class Lib_125_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    //cuit checker
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                    } else {
+
+                        $vg2_arr[] = $parameterArr[$i]['fieldValue'] . "*" . $A_cell_value;
+
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        $code_error = "B.2";
+                        $creditor_info = $this->$model_anexo->get_creditor($A_cell_value, $parameterArr[$i]['fieldValue']);
+                        if (!$creditor_info) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "B.2";
-                    //Valida contra Mongo
                 }
 
                 /* SLDO_FINANC
@@ -116,25 +125,48 @@ class Lib_125_data extends MX_Controller {
                     //empty field Validation
                     $code_error = "C.1";
 
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
+
+
+                    $haygarantia = false;
+                    $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2");
+                    foreach ($sharer_info as $info) {
+                        if (in_array($info['5216'][0], $C2_array)) {
+                            $haygarantia = true;
+                        }
                     }
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    $int_value = (int) $parameterArr[$i]['fieldValue'];
+                    if ($haygarantia) {
+                        // garantia activa campo mayor a cero  
+                        $code_error = "C.1";
+                        // Empty
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        } else {
+                            // Check positive
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            $code_error = "C.2";
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
+                                array_push($stack, $result);
+                            }
+                        }
+                    } else {
+                        // sin garantia
+                        $code_error = "C.1";
+                        if ($int_value != 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
 
-                    $code_error = "C.2";
+
+
+
+
+
                     //Valida contra Mongo
                 }
 
@@ -148,28 +180,41 @@ class Lib_125_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 4) {
                     //empty field Validation
-                    $code_error = "D.1";
 
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
+                    $haygarantia = false;
+                    $D1_array = array("GC1", "GC2");
+                    foreach ($sharer_info as $info) {
+                        if (in_array($info['5216'][0], $D1_array)) {
+                            $haygarantia = true;
+                        }
                     }
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    $int_value = (int) $parameterArr[$i]['fieldValue'];
+                    if ($haygarantia) {
+                        // garantia activa           
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            // Check empty
+                            $code_error = "D.1";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        } else {
+                            // check D.2
+                            $code_error = "D.2";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
+                                array_push($stack, $result);
+                            }
+                        }
+                    } else {
+                        // Garantia no activa
+                        $code_error = "D.1";
+                        if ($int_value != 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "D.2";
-                    //Valida contra Mongo
                 }
 
                 /* SLDO_TEC
@@ -181,35 +226,59 @@ class Lib_125_data extends MX_Controller {
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GT
                  */
                 if ($parameterArr[$i]['col'] == 5) {
-                    //empty field Validation
-                    $code_error = "E.1";
 
-                    $return = check_empty($parameterArr[$i]['fieldValue']);
-                    if ($return) {
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                        array_push($stack, $result);
+                    $haygarantia = false;
+                    $E1_array = array("GT");
+                    foreach ($sharer_info as $info) {
+                        if (in_array($info['5216'][0], $E1_array)) {
+                            $haygarantia = true;
+                        }
                     }
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    $int_value = (int) $parameterArr[$i]['fieldValue'];
+                    if ($haygarantia) {
+                        // garantia activa campo mayor a cero  
+                        //empty field Validation
+                        $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
+                            $code_error = "E.1";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        } else {
+                            // Check positivo
+                            $code_error = "E.2";
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
+                                array_push($stack, $result);
+                            }
+                        }
+                    } else {
+                        // sin garantia
+                        $code_error = "E.1";
+                        if ($int_value != 0) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
-
-                    $code_error = "E.2";
-                    //Valida contra Mongo
-                }                
+                }
             } // END FOR LOOP->
         }
-        $this->data = $stack;
         
-       
+        /* EXTRA VALIDATION VG.2 */
+        foreach (repeatedElements($vg2_arr) as $arr) {
+            
+           
+            $stack = array();
+            $code_error = "VG.2";
+            list($creditor,$sharer) = explode('*', $arr['value']);
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "CUIT Participe: " . $sharer . ",  Acreedor: " . $creditor);
+            array_push($stack, $result);
+        }
+
+        //debug($stack);        exit();
+        
+        $this->data = $stack;
     }
 
 }

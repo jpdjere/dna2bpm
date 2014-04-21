@@ -29,7 +29,8 @@ class Empresas_remote extends MX_Controller {
 
         $input = json_decode(file_get_contents('php://input'));
 
-        foreach ($input as $thisform) {            
+        foreach ($input as $thisform) { 
+
             //$form=array_filter((array)$thisform);
             $form= get_object_vars($thisform);
 //            var_dump('FORM',$form,'THIS-FORM',$thisform);
@@ -56,6 +57,7 @@ class Empresas_remote extends MX_Controller {
 
             /* IDENTIFICO TAREA */
             $getTask =(isset($form['task'])) ? (int) $form['task']:null;
+
             /* Lo paso como Objeto */
             $form = (array) $form;
             /* solo pongo idu si es nuevo */
@@ -104,7 +106,7 @@ class Empresas_remote extends MX_Controller {
         }
     }
     
-    public function touch($cuit="20-21976565-8"){
+    public function touch($cuit="00-00000000-0"){
         $this->genias_model->touch($cuit);
     }
 

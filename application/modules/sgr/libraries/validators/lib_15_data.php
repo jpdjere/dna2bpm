@@ -54,20 +54,15 @@ class Lib_15_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-                    $A_cell_value = $parameterArr[$i]['fieldValue'];
-                    $options = $this->sgr_model->get_investment_options($parameterArr[$i]['fieldValue']);
-                    
-                    
-                    if (!$options) {
-                       
-                        
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        array_push($stack, $result);
+                    } else {
+                        $A_cell_value = $parameterArr[$i]['fieldValue'];
+                        $options = $this->sgr_model->get_investment_options($parameterArr[$i]['fieldValue']);
+                        if (!$options) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -81,8 +76,8 @@ class Lib_15_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -98,8 +93,8 @@ class Lib_15_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
+
+
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -118,11 +113,9 @@ class Lib_15_data extends MX_Controller {
                     $code_error = "D.2";
                     $A1_arr = array("D", "J", "K");
                     if (in_array($A_cell_value, $A1_arr)) {
-                        $return = check_empty($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-                           
-                            
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
@@ -137,35 +130,35 @@ class Lib_15_data extends MX_Controller {
                  * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío. 
                  */
                 if ($parameterArr[$i]['col'] == 5) {
-                    //empty field Validation
-                    $code_error = "E.1";
 
-                    $code_error = "E.2";
+
+                    $code_error = "E.3";
                     $A1_arr = array("D", "J", "K");
                     if (in_array($A_cell_value, $A1_arr)) {
-                        $return = check_empty($parameterArr[$i]['fieldValue']);
-                        if (!$return) {
-                           
-                            
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     } else {
                         $code_error = "E.1";
-                        //empty field Validation                    
+
+
+
+
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
-                        }
+                        } else {
 
-                        if (isset($parameterArr[$i]['fieldValue'])) {
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
-                            if (!$return) {
-                               
-                                
+                            $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
+                            $get_value = ($return) ? $return : $get_value2;
+
+
+                            if (!$get_value) {
+                                $code_error = "E.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -184,8 +177,6 @@ class Lib_15_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -201,18 +192,16 @@ class Lib_15_data extends MX_Controller {
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
-                    $A_cell_value = $parameterArr[$i]['fieldValue'];
-                    $get_value = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
-                    
-                    
+
+                    $get_depositories = $this->sgr_model->get_depositories($parameterArr[$i]['fieldValue']);
+                    $get_cuit_ext_company = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
+
+                    $get_value = ($get_depositories) ? $get_depositories : $get_cuit_ext_company;
+
                     if (!$get_value) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -230,8 +219,6 @@ class Lib_15_data extends MX_Controller {
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -240,8 +227,6 @@ class Lib_15_data extends MX_Controller {
                         $allow_words = array("PESOS ARGENTINOS", "DOLARES AMERICANOS");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -262,29 +247,25 @@ class Lib_15_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                       
-                        
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
+                    } else {
 
-                    if (isset($parameterArr[$i]['fieldValue'])) {
+                        $I_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-                           
-                            
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
+
                         $code_error = "I.2";
                         //Valida contra Mongo
                     }
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack); exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 

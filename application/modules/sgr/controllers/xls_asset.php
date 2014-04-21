@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  * ASSETS Controller
  * This file allows you to  access assets from within your modules directory
  * 
- * @author Borda Juan Ignacio
+ * @author Diego
  * 
  * @version 	1.0 (2012-05-27)
  * 

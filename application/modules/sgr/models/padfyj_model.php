@@ -10,13 +10,13 @@ class Padfyj_model extends CI_Model {
         $this->idu = (float) $this->session->userdata('iduser');
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
-        $this->db->switch_db('sgr');
+        $this->db->switch_db('padfyj');
     }
 
     function save($array) {
         //---rpimero busco si existe
         $query = array('CUIT' => $array['CUIT']);
-        $details=array();
+        $details = array();
         //---Comentar para la primera pasada.
         //$details = $this->db->get_where('padfyj', $query)->result_array();
         if ($details[0]) {
@@ -37,28 +37,26 @@ class Padfyj_model extends CI_Model {
         }
         return $result;
     }
-    
-    function info(){
-        
-       /* $container = 'padfyj';
-        $query['CUIT'] = '23233265519';
-        $result = $this->mongo->db->$container->find($query);
-        return $result;*/
-        
+
+    function info() {
+
+        /* $container = 'padfyj';
+          $query['CUIT'] = '23233265519';
+          $result = $this->mongo->db->$container->find($query);
+          return $result; */
+
         $container = $this->containerEmpresas;
         $query = array('7406' => (int) ($this->idu));
         $resultData = $this->mongo->db->$container->find($query);
         return $resultData;
-        
     }
-    
-    function search_name($cuit){        
-        $container = 'padfyj';
-        $query = array("CUIT"=>$cuit);
-        $fields = array("DENOMINACION");
-        $resultData = $this->mongo->db->$container->findOne($query);
-        return $resultData["DENOMINACION"];
+
+    function search_name($cuit) {
         
+        $container = 'padfyj';
+        $query = array("CUIT" => $cuit);
+        $resultData = $this->mongo->padfyj->$container->findOne($query);
+        return $resultData["DENOMINACION"];
     }
 
 }

@@ -8,13 +8,24 @@ class Lib_12_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
+        $this->period = $this->session->userdata['period'];
+        
+        
+        
 
-        /* PARTNER INFO */
+        /* PARTNER INFO DATA */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
+
+        /* ANEXO 12 DATA*/
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
+
+       
+        /*ANEXO 6.2 DATA */
+        $model_062 = 'model_062';
+        $this->load->Model($model_062);
 
 
         /* Vars 
@@ -45,8 +56,9 @@ class Lib_12_data extends MX_Controller {
              *
              * @example 
              * */
-            for ($i = 0; $i <= count($parameterArr); $i++) {
-
+            for ($i = 0; $i <= count($parameterArr); $i++) {               
+                
+                
                 /* NRO
                  * Nro A.1
                  * Detail:
@@ -63,8 +75,13 @@ class Lib_12_data extends MX_Controller {
                     if ($return) {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
+                    } else {
+                        $is_order_num = $this->$model_anexo->get_order_number($parameterArr[$i]['fieldValue']);
+                        if ($is_order_num) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El nro de Orden " . $parameterArr[$i]['fieldValue'] . " ya está en el sistema.");
+                            array_push($stack, $result);
+                        }
                     }
-                    //Valida contra Mongo
                 }
 
 
@@ -97,55 +114,53 @@ class Lib_12_data extends MX_Controller {
 
                     /* Nro B.2
                      * Detail:
-                     * Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando. 
+                     * Debe verificar que para cada CUIT informado se cuente con información de Facturación y Cantidad de Empleados informados 
+                     * mediante ANEXOS 6 o 6.2 correspondiente al año anterior al período que se está informando. 
                      * Ej. Si se están informando las garantías otorgadas en Enero de 2013, 
                      * deben haber informado previamente la información de Facturación y Cantidad de Empleados del año 2012. 
                      * Debe validar sólo el año, ya que ambos datos se piden al cierre de cada ejercicio, y los cierres de ejercicios 
                      * pueden realizarse en cualquier mes del año.
                      */
-
-                    $partner_data = $this->$model_06->get_partner($parameterArr[$i]['fieldValue']);
-
-
+                    $amount_employees = 0;
+                    $transaction_date = null;
+                    $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
+                    
                     foreach ($partner_data as $partner) {
+
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
+                    $amount_employees2 = 0;
+                    $partner_data_062 = $this->$model_062->get_partner_left($parameterArr[$i]['fieldValue']);
+                    if ($partner_data_062) {
+                        foreach ($partner_data_062 as $partner_062) {
+                            $amount_employees2 = (int) $partner_062['EMPLEADOS'];
+                        }
+                    }
 
-                    if ($amount_employees == 0) {
+                    $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
+                    if ($sum_amount_employees == 0) {
                         $code_error = "B.2";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] .".1");
                         array_push($stack, $result);
                     } else {
-
-
                         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
                         $transaction_year = explode("-", $transaction_date);
                         $result_dates = (int) $year_period - (int) $transaction_year[0];
-
-                        //var_dump($amount_employees , $result_dates, $year_period,$transaction_year[0]);
-
                         if ($result_dates < 1) {
                             $code_error = "B.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'].".2");
                             array_push($stack, $result);
                         }
                     }
 
                     /* B.3 */
-                    $buy = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue']);
-                    $sell = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue']);
+                    $subscribed = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A");
+                    $integrated = $this->$model_06->shares_active_left($parameterArr[$i]['fieldValue'], "A", 5598);
 
-                    $buy_integrado = $this->$model_anexo->buy_shares($parameterArr[$i]['fieldValue'], 5598);
-                    $sell_integrado = $this->$model_anexo->sell_shares($parameterArr[$i]['fieldValue'], 5598);
-
-
-                    $suscripto = $buy - $sell;
-                    $integrado = $buy_integrado - $sell_integrado;
-                    //var_dump($suscripto,$integrado);
-                    if ($integrado != $suscripto) {
+                    if ($integrated != $subscribed) {
                         $code_error = "B.3";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo Integrado: " . $integrado . " - Saldo Suscripto: " . $suscripto);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " - Saldo Integrado: " . $integrated . " - Saldo Suscripto: " . $subscribed);
                         array_push($stack, $result);
                     }
                 }
@@ -191,7 +206,7 @@ class Lib_12_data extends MX_Controller {
                     $this->load->model('app');
                     $warranty_type = $this->app->get_ops(525);
 
-                    $D_cell_value = $parameterArr[$i]['fieldValue'];
+                    $D_cell_value = strtoupper($parameterArr[$i]['fieldValue']);
 
                     $code_error = "D.1";
 
@@ -225,7 +240,7 @@ class Lib_12_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -257,7 +272,7 @@ class Lib_12_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            if ($D_cell_value == "GFCPD" && $parameterArr[$i]['fieldValue'] != "PESOS ARGENTINOS") {
+                            if ($D_cell_value == "GFCPD" && strtoupper($parameterArr[$i]['fieldValue']) != "PESOS ARGENTINOS") {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -275,7 +290,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF3
                  */
                 if ($parameterArr[$i]['col'] == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
                     $code_error = "G.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -302,7 +317,7 @@ class Lib_12_data extends MX_Controller {
                   GFCPD
                  */
                 if ($parameterArr[$i]['col'] == 8) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
 
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -352,7 +367,7 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($parameterArr[$i]['col'] == 9) {
-                    $codes_arr = array("GFCPD", "GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB", "GFVCP");
+                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB0","GFPB1","GFPB2", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -360,30 +375,46 @@ class Lib_12_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-
-                        $I2_validate_arr = array("GFCPD", "GFPB");
+                        
+                        // I.2
+                        $I2_validate_arr = array("GFCPD");
+                        $code_error = "I.2";
                         if (in_array($D_cell_value, $I2_validate_arr)) {
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax) {
-                                $code_error = "I.2";
+                            if (!$check_cnv_syntax) {        
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
                                 $return = $this->sgr_model->get_cnv_code($check_cnv_syntax);
                                 if (!$return) {
-                                    $code_error = "I.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 }
                             }
-                        } else {
+                        } 
+                        // I.3
+                       $I3_validate_arr = array("GFON0", "GFON1", "GFON2", "GFON3", "GFVCP");
+                       $code_error = "I.3";
+                       if (in_array($D_cell_value, $I3_validate_arr)) {
                             $check_cnv_syntax_alt = check_cnv_syntax_alt($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax_alt) {
-                                $code_error = "I.3";
+                            if (!$check_cnv_syntax_alt) {        
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
+                        // I.4
+                       $I4_validate_arr = array("GFPB0","GFPB1","GFPB2");
+                       $code_error = "I.4";
+                       if (in_array($D_cell_value, $I4_validate_arr)) {
+                           $check_cnv_syntax_i4 = check_cnv_syntax_i4($parameterArr[$i]['fieldValue']);
+                           $check_cnv_code = (!empty($check_cnv_syntax_i4))?($this->sgr_model->get_cnv_code('$'.$check_cnv_syntax_i4)):(null);
+
+                            if (!$check_cnv_syntax_i4 || is_null($check_cnv_code)) {        
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        }
+                        
                     } else {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -406,7 +437,7 @@ class Lib_12_data extends MX_Controller {
                  * Nro K.3
                  * Detail:
                  * Si el Tipo de Garantía informado en la Columna D es alguno de los siguientes:
-                  GFEF1, GFEF2, GFEF3
+                  GFEF0, GFEF1, GFEF2, GFEF3
                   Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.
                  */
                 if ($parameterArr[$i]['col'] == 11) {
@@ -437,7 +468,7 @@ class Lib_12_data extends MX_Controller {
                         }
 
                         $code_error = "K.3";
-                        $k3_check_arr = array("GFEF1", "GFEF2", "GFEF3");
+                        $k3_check_arr = array("GFEF0", "GFEF1", "GFEF2", "GFEF3");
                         if (in_array($D_cell_value, $k3_check_arr)) {
                             $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($parameterArr[$i]['fieldValue'], "COMERCIAL");
                             if (!$is_cuit) {
@@ -459,18 +490,11 @@ class Lib_12_data extends MX_Controller {
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
-                    }
-
-                    if (isset($parameterArr[$i]['fieldValue'])) {
-
-                        $return = check_decimal($parameterArr[$i]['fieldValue']);
+                    } else {
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
-
-
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -501,7 +525,7 @@ class Lib_12_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            if ($D_cell_value == "GFCPD" && $parameterArr[$i]['fieldValue'] != "PESOS ARGENTINOS") {
+                            if ($D_cell_value == "GFCPD" && strtoupper($parameterArr[$i]['fieldValue']) != "PESOS ARGENTINOS") {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
@@ -515,8 +539,8 @@ class Lib_12_data extends MX_Controller {
                  * Debe contener uno de los siguientes parámetros:
                   FIJA
                   LIBOR
-                  BADLAR PU (Badlar Bancos Públicos)
-                  BADLAR PR (Badlar Bancos Privados)
+                  BADLARPU (Badlar Bancos Públicos)
+                  BADLARPR (Badlar Bancos Privados)
                   TEC
                   TEBP
                  */
@@ -531,8 +555,8 @@ class Lib_12_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $N_cell_value = $parameterArr[$i]['fieldValue'];
-                        $allow_words = array("FIJA", "LIBOR", "BADLAR PU", "BADLAR PR", "TEC", "TEBP");
+                        $N_cell_value = strtoupper($parameterArr[$i]['fieldValue']);
+                        $allow_words = array("FIJA", "LIBOR", "BADLARPU", "BADLARPR", "TEC", "TEBP");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
 
@@ -555,8 +579,8 @@ class Lib_12_data extends MX_Controller {
                     $in_value = (int) $parameterArr[$i]['fieldValue'];
                     $range1 = range(-20, -1);
                     $range2 = range(1, 20);
-                    $range3 = range(1, 50);
-                    /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 1 y 50.   */
+                    $range3 = range(-25, 50);
+                    /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 0 y 50.   */
                     if ($N_cell_value == "FIJA") {
                         if (!in_array($in_value, $range3)) {
                             $code_error = "O.2";
@@ -598,8 +622,8 @@ class Lib_12_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return) {
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
+                        if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -629,15 +653,10 @@ class Lib_12_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         //Check Numeric Validation
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
-                        if ($return) {
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
+                        if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
-                        } else {
-                            if ((int) $parameterArr[$i]['fieldValue'] < 0) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
                         }
                     }
 
@@ -647,7 +666,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFCPD") {
                         $code_error = "P.2";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                        $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
 
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -659,7 +678,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                        $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -668,15 +687,21 @@ class Lib_12_data extends MX_Controller {
 
 
                     $return = $this->sgr_model->get_warranty_type($D_cell_value);
-                    $yearCtyDays = (Bisiesto(2012)) ? 366 : 365;
+                    
+                    
+                    
+                    $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
 
                     $ctyMayor = $return['mayor'] * $yearCtyDays;
                     $ctyMinor = $return['minor'] * $yearCtyDays;
                     $ctyDays = $P_cell_value;
 
                     $range = range($ctyMinor, $ctyMayor);
-
+                    
                     if (!in_array($ctyDays, $range)) {
+                        
+                       debug($ctyDays, $range);
+                        
                         $code_error = "P.4";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $P_cell_value);
                         array_push($stack, $result);
@@ -701,7 +726,7 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 18) {
 
-                    $R_cell_value = $parameterArr[$i]['fieldValue'];
+                    $R_cell_value = strtoupper($parameterArr[$i]['fieldValue']);
 
                     $code_error = "R.1";
                     //empty field Validation
@@ -721,14 +746,14 @@ class Lib_12_data extends MX_Controller {
                         $code_error = "R.2";
                         $types_arr = array("GFCPD", "GFVCP");
                         if (in_array($D_cell_value, $types_arr)) {
-                            if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
+                            if (strtoupper($parameterArr[$i]['fieldValue']) != "PAGO UNICO") {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
 
                         $code_error = "Q.2";
-                        if ($parameterArr[$i]['fieldValue'] == "PAGO UNICO") {
+                        if (strtoupper($parameterArr[$i]['fieldValue']) == "PAGO UNICO") {
                             if ($P_cell_value != $Q_cell_value) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
@@ -772,7 +797,7 @@ class Lib_12_data extends MX_Controller {
                     $code_error = "S.2";
                     $types_arr = array("GFCPD", "GFVCP");
                     if (in_array($D_cell_value, $types_arr)) {
-                        if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
+                        if (strtoupper($parameterArr[$i]['fieldValue']) != "PAGO UNICO") {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -780,7 +805,7 @@ class Lib_12_data extends MX_Controller {
 
                     $code_error = "S.3";
                     if ($R_cell_value == "PAGO UNICO") {
-                        if ($parameterArr[$i]['fieldValue'] != "PAGO UNICO") {
+                        if (strtoupper($parameterArr[$i]['fieldValue']) != "PAGO UNICO") {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
@@ -822,7 +847,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-//        var_dump($stack);exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 

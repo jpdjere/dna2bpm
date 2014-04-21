@@ -11,7 +11,7 @@ class Model_062 extends CI_Model {
         $this->load->helper('sgr/tools');
 
         $this->anexo = '062';
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = (float) $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -27,6 +27,15 @@ class Model_062 extends CI_Model {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
+    }
+
+    function sanitize($parameter) {
+        /* FIX INFORMATION */
+        $parameter = (array) $parameter;
+        $parameter = array_map('trim', $parameter);
+        $parameter = array_map('addSlashes', $parameter);
+
+        return $parameter;
     }
 
     function check($parameter) {
@@ -53,6 +62,11 @@ class Model_062 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
+            $insertarr["CUIT"] = (string) $insertarr["CUIT"];
+            /* FLOAT */
+            $insertarr["FACTURACION"] = (float) $insertarr["FACTURACION"];
+            /* INT */
+            $insertarr['EMPLEADOS'] = (int) $insertarr['EMPLEADOS'];
         }
         return $insertarr;
     }
@@ -61,12 +75,9 @@ class Model_062 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
         $parameter['period'] = $period;
+        $parameter['origen'] = "2013";
 
-        $parameter['origin'] = 2013;
         $id = $this->app->genid_sgr($container);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -87,12 +98,13 @@ class Model_062 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = $this->idu;
+        $parameter['idu'] = (float) $this->idu;
+        $parameter['origen'] = "2013";
 
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -109,10 +121,10 @@ class Model_062 extends CI_Model {
         return $out;
     }
 
-     function update_period($id, $status) {
+    function update_period($id, $status) {
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
-        $query = array('id' => (integer) $id);
+        $query = array('id' => (float) $id);
         $parameter = array(
             'status' => 'rectificado',
             'rectified_on' => date('Y-m-d h:i:s'),
@@ -123,16 +135,32 @@ class Model_062 extends CI_Model {
         return $rs['err'];
     }
 
-    function get_anexo_info($anexo, $parameter) {
-        
+    function get_anexo_data_tmp($anexo, $parameter) {
 
-        $headerArr = array("APELLIDO Y NOMBRE O RAZON SOCIAL",
-            "C.U.I.T",
-            "MES",
-            "AÑO",
-            "FACTURACIÓN",
-            "EMPLEADOS(*)"
-            );
+        $rtn = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+        $fields = array('CUIT',
+            'EMPLEADOS', 'filename', 'period', 'sgr_id', 'origin');
+        $query = array("filename" => $parameter);
+        $result = $this->mongo->sgr->$container->find($query, $fields);
+
+        foreach ($result as $list) {
+            $rtn[] = $list;
+        }
+
+        return $rtn;
+    }
+
+    function get_anexo_info($anexo, $parameter) {
+
+
+        $headerArr = array("C.U.I.T",
+            "Apellido y Nombre o Razón Social",
+            "Fecha de Cierre del ejercicio<br> (Mes/Año)",
+            "Cantidad de Empleados al último día del ejercicio",
+            "Ingresos",
+            "Origen de los Datos"
+        );
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -154,20 +182,42 @@ class Model_062 extends CI_Model {
             /* Vars */
             $this->load->model('app');
             $this->load->model('padfyj_model');
-            
+
             $parner = $this->padfyj_model->search_name($list['CUIT']);
-            list($year,$month) = explode("/", $list['ANIO_MES']);
-            
+            list($year, $month) = explode("/", $list['ANIO_MES']);
+
             $new_list = array();
-            $new_list['CUIT'] = $list['CUIT'];
-            $new_list['SOCIO'] = $parner;
-            $new_list['MES'] = $month;
-            $new_list['ANO'] = $year;
-            $new_list['FACTURACION'] = $list['FACTURACION'];
-            $new_list['EMPLEADOS'] = $list['EMPLEADOS'];
+            $new_list['col1'] = $list['CUIT'];
+            $new_list['col2'] = $parner;
+            $new_list['col3'] = $month . "/" . $year;
+            $new_list['col4'] = $list['EMPLEADOS'];
+            $new_list['col5'] = $list['FACTURACION'];
+            $new_list['col6'] = $list['TIPO_ORIGEN'];
             $rtn[] = $new_list;
         }
         return $rtn;
+    }
+
+    function get_partner_left($cuit) {
+        $anexo = $this->anexo;
+        $token = $this->idu;
+        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $this->session->userdata['period'];
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
+        
+        $return_result = array();
+        foreach ($result as $list) {
+            $new_query = array(
+                'filename' => $list['filename'],
+                'CUIT' => $cuit
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result)
+                $return_result[] = $new_result;
+        }
+        return $return_result;
     }
 
 }

@@ -9,13 +9,30 @@
  * @name money_format
  *
  * */
-function money_format_custom($parameter) {
+function money_format_custom($parameter, $entero = null) {
 
+    if ($parameter == NULL) {
+        $parameter = 0;
+    }
+
+    if ($entero) {
+        $parameter = "$" . @number_format($parameter, 0, ",", ".");
+    } else {
+        $parameter = "$" . @number_format($parameter, 2, ",", ".");
+    }
+    return $parameter;
+}
+
+function percent_format_custom($parameter) {
+
+    if ($parameter == NULL) {
+        $parameter = 0;
+    }
 
     if ($_POST['excel'] == 1) {
-        $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
+        $parameter = @number_format($parameter, 2, ",", ".");
     } else {
-        $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
+        $parameter = @number_format($parameter, 2, ",", ".") . "%";
     }
     return $parameter;
 }
@@ -60,7 +77,7 @@ function debug($parameter) {
 }
 
 function check_empty($parameter) {
-    if ($parameter == NULL) {
+    if (strlen($parameter) == 0) {
         return true;
     }
 }
@@ -72,8 +89,15 @@ function check_for_empty($parameter) {
 }
 
 function check_word($parameter, $allow_words) {
-    if (!in_array(strtoupper($parameter), $allow_words)) {
-        return true;
+
+    $var = md5(strtoupper($parameter));
+    $new_arr = array();
+    foreach ($allow_words as $each) {
+        $new_arr[] = md5($each);
+    }
+
+    if (!in_array($var, $new_arr)) {
+        return $var;
     }
 }
 
@@ -119,19 +143,52 @@ function check_period_minor($parameter, $period) {
     }
 }
 
-function check_decimal($number, $decimal = 2) {
-
+function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
+    $status = false;
 
     $value = isfloat($number);
     if ($value) {
         $places_count = strlen(substr(strrchr($number, "."), 1));
         if ($places_count > $decimal) {
-            return true;
+            $status = true;
+        }
+
+        if ($positive) {
+            $number = (int) $number;
+            if ($number <= 0) {
+                $status = true;
+            }
         }
     } else {
-        return true;
+        $status = true;
     }
+
+    return $status;
+}
+
+function check_decimal($number, $decimal = 2, $positive = null) {
+    $number = str_replace(",", ".", $number);
+    $status = false;
+
+    $value = isfloat($number);
+    if ($value) {
+        $places_count = strlen(substr(strrchr($number, "."), 1));
+        if ($places_count > $decimal) {
+            $status = true;
+        }
+
+        if ($positive) {
+            $number = (int) $number;
+            if ($number < 0) {
+                $status = true;
+            }
+        }
+    } else {
+        $status = true;
+    }
+
+    return $status;
 }
 
 function isfloat($f) {
@@ -174,9 +231,13 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
-    $parameter = "http://" . $parameter;
-    if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+    if (is_numeric($element)) {
         return true;
+    } else {
+        $parameter = "http://" . $parameter;
+        if (!filter_var($parameter, FILTER_VALIDATE_URL)) {
+            return true;
+        }
     }
 }
 
@@ -187,16 +248,27 @@ function check_is_numeric($number) {
     }
 }
 
-function check_is_numeric_no_decimal($number) {
-    $value = isfloat($number);
-    if ($value) {
-        $places_count = strlen(substr(strrchr($number, "."), 0));
-        if ($places_count > $decimal) {
-            return true;
-        }
-    } else {
-        return true;
-    }
+function check_is_numeric_no_decimal($number, $mayor = null) {
+
+    $int_options = array("options" =>
+        array(
+            "min_range" => 0
+        //, "max_range" => 256
+    ));
+
+    $int_options = ($mayor) ? $int_options : null;
+
+    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
+}
+
+function check_is_numeric_range($number, $minor, $mayor) {
+
+    $int_options = array("options" =>
+        array(
+            "min_range" => $minor
+            , "max_range" => $mayor
+    ));
+    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
 }
 
 function check_is_alphabetic($parameter) {
@@ -225,6 +297,13 @@ function check_cnv_syntax_alt($code) {
     if (strlen($text) == 3 && strlen($num) == 1) {
         return $text;
     }
+}
+
+function check_cnv_syntax_i4($code) {
+    preg_match_all('/^\$([A-Z]{3})(\d{9})/', $code, $match);
+    $text = $match[1][0];
+    $num = $match[2][0];
+    return $text;
 }
 
 /* CHECK MVL CUITS */
@@ -329,10 +408,12 @@ function ciu($sector) {
 
 //FUNCION VALIDA CUIT
 function cuit_checker($cuit) {
+    if ((int) strlen($cuit) != 11) {
+        return false;
+    }
 
     if (ctype_alpha($cuit)) {
         return false;
-        exit();
     }
 
     if (strstr($cuit, '-')) {
@@ -380,31 +461,78 @@ function cuit_checker($cuit) {
  * PROCESS FNS
  */
 
+/* DATES */
+
 function translate_date($parameter) {
     if ($parameter == "" || $parameter == NULL) {
         exit();
     }
     $parameter = mktime(0, 0, 0, 1, -1 + $parameter, 1900);
-    return strftime("%Y/%m/%d", $parameter);
+    return strftime("%Y-%m-%d", $parameter);
 }
 
-/**
- * Convierte en formato de moneda
- *
- * @param Boolean (true) en el caso de Null genera - para definir el dato vacio (false) imprime al dato el formato de moneda.
- * @type php
- * @author Diego
- * @name money_format
- *
- * */
-function _money_format($parameter) {
+function translate_for_mongo($parameter) {
+    $result = strftime("%Y-%m-%d %H:%M:%S", mktime(0, 0, 0, 1, -1 + $parameter, 1900));
+    return $result;
+}
 
-    if ($_POST['excel'] == 1) {
-        $parameter = ($parameter != NULL) ? @number_format($parameter, 2, ",", ".") : "";
-    } else {
-        $parameter = ($parameter != NULL) ? "$" . @number_format($parameter, 2, ",", ".") : "   ";
+function translate_mysql_date($date) {
+    $realtime = date("$date H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+function translate_period_date($period) {
+    list($period_month, $period_year) = explode("-", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+function translate_dna2_period_date($period) {
+    list($period_month, $period_year) = explode("_", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+function translate_date_xls($date) {
+    $new_date = unixtojd(strtotime($date)) - gregoriantojd(1, 1, 1900);
+    return $new_date;
+}
+
+function first_month_date($period) {
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+    $month_date = "01";
+    $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+
+    return $endDate;
+}
+
+function last_month_date($period) {
+
+    if ($period) {
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+        $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+
+        return $endDate;
     }
-    return $parameter;
+}
+
+function period_before($period) {
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period_req);
+    $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-31');
+    $endDate = strtotime('-1 month', strtotime($fecha));
+    return date("m-Y", $endDate);
+}
+
+function mongodate_to_print($date) {
+    return date('Y-m-d', $date->sec);
 }
 
 /**
@@ -422,12 +550,6 @@ function array_search2d($needle, $haystack) {
             return $i;
     }
     return false;
-}
-
-function translate_period_date($period) {
-    list($period_month, $period_year) = explode("-", $period);
-    $isdate = date($period_year . '-' . $period_month . '-01');
-    return $isdate;
 }
 
 /*
@@ -448,7 +570,8 @@ function three_fields($fields_arr) {
     var_dump(count($fields_arr));
 }
 
-function Bisiesto($year) {
+function Bisiesto($period) {
+    list($month, $year) = explode("-", $period);
     return date('L', mktime(1, 1, 1, 1, 1, $year));
 }
 
@@ -463,6 +586,7 @@ function return_error_array($code, $row, $value) {
 
 function count_shares($data) {
     //agrupar por cuit 
+    $group = array();
     foreach ($data as $i) {
         $catUser = explode(".", $i[0]);
         $user = $catUser[1];
@@ -490,66 +614,262 @@ function count_shares($data) {
     return $group;
 }
 
-/*FIND REPEATED*/
-function repeatedElements($array, $returnWithNonRepeatedItems = false)
-{
+/* FIND REPEATED */
+
+function repeatedElements($array, $returnWithNonRepeatedItems = false) {
     $repeated = array();
- 
-    foreach( (array)$array as $value )
-    {
+
+    foreach ((array) $array as $value) {
         $inArray = false;
- 
-        foreach( $repeated as $i => $rItem )
-        {
-            if( $rItem['value'] === $value )
-            {
+
+        foreach ($repeated as $i => $rItem) {
+            if ($rItem['value'] === $value) {
                 $inArray = true;
                 ++$repeated[$i]['count'];
             }
         }
- 
-        if( false === $inArray )
-        {
+
+        if (false === $inArray) {
             $i = count($repeated);
             $repeated[$i] = array();
             $repeated[$i]['value'] = $value;
             $repeated[$i]['count'] = 1;
         }
     }
- 
-    if( ! $returnWithNonRepeatedItems )
-    {
-        foreach( $repeated as $i => $rItem )
-        {
-            if($rItem['count'] === 1)
-            {
+
+    if (!$returnWithNonRepeatedItems) {
+        foreach ($repeated as $i => $rItem) {
+            if ($rItem['count'] === 1) {
                 unset($repeated[$i]);
             }
         }
     }
- 
+
     sort($repeated);
- 
+
     return $repeated;
 }
 
 /* CONSECUTIVE */
-function consecutive($array){
-        $numAnt = array();
-        foreach($array as $pos => $num){
-            $return_arr = array();
-            if($pos>0){
-                // se compara desde el segundo elemento de la matris
-                // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
-                // actual guardamos una varible indicando que el numero es consecutivo
-                $resto = $pos-1; 
-                if((@$numAnt[$resto]+1)==$num){                   
-                }else{
-                    $return_arr[] = $num;
-                    
-                }  
+
+function consecutive($array) {
+    $numAnt = array();
+    foreach ($array as $pos => $num) {
+        $return_arr = array();
+//        echo "$pos $num /";
+        if ($pos > 0) {
+            // se compara desde el segundo elemento de la matris
+            // ahora para saber si es un numero consecutivo le sumamos uno al numero anterior si es igual al numero
+            // actual guardamos una varible indicando que el numero es consecutivo
+            $resto = $pos - 1;
+            if ((@$numAnt[$resto] + 1) == $num) {
+                
+            } else {
+                $return_arr[] = $num;
             }
-            $numAnt[$pos]=$num;    
         }
-        return $return_arr;
+        $numAnt[$pos] = $num;
     }
+    return $return_arr;
+}
+
+/* === Consecutives bis === */
+
+function check_consecutive_values($array) {
+
+    for ($i = 0; $i < count($array); $i++) {
+
+        // we need at leaset 2 items to compare
+        if (count($array) < 2)
+            return false;
+        // check if there is one more item to compare..        
+        if (isset($array[$i + 1])) {
+            if (($array[$i] + 1) != $array[$i + 1])
+                return false;
+        }
+    }
+    return true;
+}
+
+function array_mesh() {
+    // Combine multiple associative arrays and sum the values for any common keys
+    // The function can accept any number of arrays as arguments
+    // The values must be numeric or the summed value will be 0
+    // Get the number of arguments being passed
+    $numargs = func_num_args();
+
+    // Save the arguments to an array
+    $arg_list = func_get_args();
+
+    // Create an array to hold the combined data
+    $out = array();
+
+    // Loop through each of the arguments
+    for ($i = 0; $i < $numargs; $i++) {
+        $in = $arg_list[$i]; // This will be equal to each array passed as an argument
+        // Loop through each of the arrays passed as arguments
+        foreach ($in as $key => $value) {
+            // If the same key exists in the $out array
+            if (array_key_exists($key, $out)) {
+                // Sum the values of the common key
+                $sum = $in[$key] + $out[$key];
+                // Add the key => value pair to array $out
+                $out[$key] = $sum;
+            } else {
+                // Add to $out any key => value pairs in the $in array that did not have a match in $out
+                $out[$key] = $in[$key];
+            }
+        }
+    }
+
+    return $out;
+}
+
+function calc_anexo_14($caidas, $get_historic_data, $number) {
+    $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $caidas['CAIDA']));
+    $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $caidas['RECUPERO']));
+    $sum_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['INCOBRABLES_PERIODO'], $caidas['INCOBRABLES_PERIODO']));
+    $sum_RECUPEROS = array_sum(array($sum_RECUPERO, $sum_INCOBRABLES_PERIODO));
+
+    if ($sum_RECUPEROS > $sum_CAIDA) {
+        $error_text = "( Nro de Orden " . $number . " Caidas: " . $sum_CAIDA . " ) " . $sum_RECUPEROS . "/" . $sum_INCOBRABLES_PERIODO;
+        return $error_text;
+    }
+}
+
+function calc_anexo_14_gastos($gastos, $get_historic_data, $number) {
+    $sum_GASTOS_EFECTUADOS_PERIODO = array_sum(array($get_historic_data['GASTOS_EFECTUADOS_PERIODO'], $gastos['GASTOS_EFECTUADOS_PERIODO']));
+    $sum_RECUPERO_GASTOS_PERIODO = array_sum(array($get_historic_data['RECUPERO_GASTOS_PERIODO'], $gastos['RECUPERO_GASTOS_PERIODO']));
+    $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $gastos['GASTOS_INCOBRABLES_PERIODO']));
+    $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
+
+    if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
+        $error_text = "( Nro de Orden " . $number . " Gastos por Gestión de Recuperos : " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $sum_RECUPERO_GASTOS_PERIODO . "/" . $sum_GASTOS_INCOBRABLES_PERIODO;
+        return $error_text;
+    }
+}
+
+function calc_anexo_201($aporte, $get_historic_data, $number) {
+    $sum_APORTE = array_sum(array($get_historic_data['APORTE'], $caidas['APORTE']));
+    $sum_RETIRO = array_sum(array($get_historic_data['RETIRO'], $caidas['RETIRO']));
+
+    if ($sum_RETIRO > $sum_APORTE) {
+        $error_text = "( Nro de Aporte " . $number . " Aporte: " . $sum_CAIDA . " ) " . $sum_RETIRO;
+        return $error_text;
+    }
+}
+
+function translate_anexos_dna2($anexo) {
+    switch ($anexo) {
+        case '06':
+            return 'sgr_socios';
+            break;
+
+        case 'sgr_socios':
+            return '06';
+            break;
+
+        case '061':
+            return 'sgr_anexo17_2';
+            break;
+
+        case 'sgr_anexo17_2':
+            return '061';
+            break;
+
+        case '062':
+            return 'sgr_socios_4';
+            break;
+
+        case 'sgr_socios_4':
+            return '062';
+            break;
+
+        case '09':
+            return 'sgr_pdf';
+            break;
+
+        case 'sgr_pdf':
+            return '09';
+            break;
+
+        case '12':
+            return 'sgr_garantias';
+            break;
+
+        case 'sgr_garantias':
+            return '12';
+            break;
+
+        case '14':
+            return 'sgr_fdr_contingente';
+            break;
+
+        case 'sgr_fdr_contingente':
+            return '14';
+            break;
+
+        case '201':
+            return 'sgr_fdr_integrado';
+            break;
+
+        case 'sgr_fdr_integrado':
+            return '201';
+            break;
+    }
+}
+
+function translate_anexos_dna2_urls($anexo) {
+    switch ($anexo) {
+        case '06':
+            return 'SGR_socios';
+            break;
+
+        case '061':
+            return 'SGR_anexo_17_2';
+            break;
+
+        case '062':
+            return 'SGR_socios_4';
+            break;
+
+
+        case '09':
+            return 'SGR_PDF';
+            break;
+
+        case '12':
+            return 'SGR_anexo_12';
+            break;
+
+        case '14':
+            return 'SGR_FDR_contingente';
+            break;
+
+
+        case '201':
+            return 'SGR_FDR_integrado';
+            break;
+    }
+}
+
+function translate_month_spanish($code) {
+    $replace = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+    $search = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+
+    return str_replace($search, $replace, $code);
+}
+
+/* Fix 10 cents for dollar quotation */
+
+function fix_ten_cents($value, $value2) {
+    $new_value = $value;
+    $new_value2 = $value2;
+
+    /* TEST 50 */
+    $range = range(-50, 50);
+    $diff = $value - $value2;
+
+    if (!in_array($diff, $range))
+        return true;
+}

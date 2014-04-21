@@ -22,7 +22,7 @@ class Uploader {
             'upload_path' => $sgrDIR,
             'file_name' => $this->sgr ."_".$this->anexo ."_".$this->today,
             'upload_url' => base_url(),
-            'allowed_types' => "xls",
+            'allowed_types' => "xls|pdf",
             'overwrite' => true,
         );
     }
