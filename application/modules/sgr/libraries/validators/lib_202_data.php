@@ -168,7 +168,7 @@ class Lib_202_data extends MX_Controller {
 
                             if ($B_cell_value > $get_input_number_check) {
                                 $code_error = "B.2";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value. " <br>Valor del Sistema: " . $get_input_number_check);
                                 array_push($stack, $result);
                             }
                         } else {
