@@ -72,12 +72,10 @@ class Sgr extends MX_Controller {
 
         $sections = array();
         $sections['Anexos'] = array();
-        $customData['anexo_list'] = $this->AnexosDB('_blank');
+        $customData['anexo_list'] = $this->AnexosDB('_blank');      
+        $customData['is_sgr_sociedades']=$this->user->has('root/modules/sgr/controllers/sgr/anexo');
         
-       $myuser=$this->user->get_user($this->idu);
-
-
-       // $this->render('main_dashboard', $customData);
+        $this->render('main_dashboard', $customData);
     }
 
     // ==== Anexos ====

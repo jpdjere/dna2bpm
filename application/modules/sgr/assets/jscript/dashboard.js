@@ -53,13 +53,16 @@ $(document).ready(function() {
     $('[id^="others_"]').hide();
     
     // Dashboard Accordion
-    $('a.togglepanel').on('click',function(){
-        $(this).closest('.panel').find('.panel-body').toggleClass('hidden');
-        if($(this).closest('.panel').find('.panel-body').hasClass('hidden')){
-            $(this).html('<i class="fa fa-chevron-down"></i>');
-        }else{
-            $(this).html('<i class="fa fa-chevron-up"></i>');
-        }
+    $('[data-toggle="collapse"]').on('click',function(){
+    	var is_open=$(this).parents('div').next().hasClass('in');
+    	if(is_open){
+    		$('i',this).removeClass('fa-chevron-up');
+    		$('i',this).addClass('fa-chevron-down');
+    	}else{
+    		$('i',this).removeClass('fa-chevron-down');
+    		$('i',this).addClass('fa-chevron-up');
+    	}
+
         
     })
     

@@ -19,16 +19,45 @@
     </div>
 
 
-<!-- ======= ANEXOS ======= -->
+<!-- ======= ANEXOS - Grupo 58 Only ======= -->
 
+
+<div class="panel-group" id="accordion">
+<!-- ======= ANEXOS - Grupo 58 Only ======= -->
+{if {is_sgr_sociedades}==1}
 <div class="panel panel-default">
     <div class="panel-heading">
-    <h3 class="panel-title">Anexos <a href="#" class="pull-right togglepanel"><i class="fa fa-chevron-up"></i></a></h3>
+      <h4 class="panel-title">Anexos
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="pull-right">
+           <i class="fa fa-chevron-up"></i></a>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse in">
+      <div class="panel-body">
+        {anexo_list}
+      </div>
+    </div>
+ </div>
+ {/if}
+ <!--  Panel Listados -->
+ <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Listados
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="pull-right">
+          <i class="fa fa-chevron-up"></i>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse in">
+      <div class="panel-body">
+        xxxxxxxx Proximamente xxxxxxxx
+      </div>
+    </div>
+ </div>
 </div>
-  <div class="panel-body">
-    {anexo_list}
-  </div>
-</div>
+  
+  
 
 
 
