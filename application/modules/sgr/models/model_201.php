@@ -383,7 +383,10 @@ class Model_201 extends CI_Model {
 
         return $rtn;
     }
-
+    
+    
+    
+    
     function get_anexo_data_left($period) {
 
         $anexo = $this->anexo;
@@ -422,6 +425,37 @@ class Model_201 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            /* APORTE */
+            $new_query = array(
+                'NUMERO_DE_APORTE' => (int) $code,
+                'filename' => $list['filename']
+            );
+
+
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {
+                if ($data) {
+                    return true;
+                }
+            }
+        }
+    }
+    
+    function exist_input_number_left($code) {
+
+        $anexo = $this->anexo;
+        $period_value = $this->session->userdata['period'];
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $input_result_arr = array();
+        $output_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active($anexo);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
