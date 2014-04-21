@@ -58,25 +58,21 @@ class Model_16 extends CI_Model {
          * SALDO_PROMEDIO_FDR_CONTINGENTE
          * */
         $defdna = array(
-            1 => '80_HASTA_FEB_2010',
-            2 => '120_HASTA_FEB_2010',
-            3 => '80_DESDE_FEB_2010',
-            4 => '120_DESDE_FEB_2010',
-            5 => '80_DESDE_ENE_2011',
-            6 => '120_DESDE_ENE_2011',
-            7 => 'FDR_TOTAL_COMPUTABLE',
-            8 => 'FDR_CONTINGENTE'
+            1 => 'GARANTIAS_VIGENTES',
+            2 => '80_HASTA_FEB_2010',
+            3 => '120_HASTA_FEB_2010',
+            4 => '80_DESDE_FEB_2010',
+            5 => '120_DESDE_FEB_2010',
+            6 => '80_DESDE_ENE_2011',
+            7 => '120_DESDE_ENE_2011',
+            8 => 'FDR_TOTAL_COMPUTABLE',
+            9 => 'FDR_CONTINGENTE'
         );
 
 
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-
-            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
-                $insertarr["MONEDA"] = "1";
-            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
-                $insertarr["MONEDA"] = "2";
         }
         return $insertarr;
     }
@@ -114,7 +110,7 @@ class Model_16 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -225,15 +221,8 @@ class Model_16 extends CI_Model {
             $depositories_name = ($depositories_name) ? $depositories_name['nombre'] : strtoupper($list['ENTIDAD_DESPOSITARIA']);
 
             $this->load->model('app');
-
-
             $get_month = explode("-", $list['period']);
             $month_value = translate_month_spanish($get_month[0]);
-            
-           
-            
-            $warranty_sum = $this->model_12->get_period_amount($list['period']);
-            
 
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
             $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
@@ -244,7 +233,7 @@ class Model_16 extends CI_Model {
 
             $new_list = array();
             $new_list['col1'] = $month_value;
-            $new_list['col2'] = money_format_custom($warranty_sum);
+            $new_list['col2'] = money_format_custom($list['GARANTIAS_VIGENTES']);
             $new_list['col3'] = money_format_custom($list['80_HASTA_FEB_2010']);
             $new_list['col4'] = money_format_custom($list['120_HASTA_FEB_2010']);
             $new_list['col5'] = money_format_custom($list['80_DESDE_FEB_2010']);

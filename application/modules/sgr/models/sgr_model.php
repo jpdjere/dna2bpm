@@ -46,7 +46,8 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_period_info($anexo, $sgr_id, $period) {
+    function get_current_period_info($anexo, $period) {        
+       
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
         $query = array(
@@ -59,10 +60,10 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_period_count($anexo, $sgr_id, $period) {
+    function get_period_count($anexo, $period) {
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
-        $query = array('status' => 'rectificado', 'anexo' => $anexo, 'sgr_id' => $sgr_id, 'period' => $period);
+        $query = array('status' => 'rectificado', 'anexo' => $anexo, 'sgr_id' => (float) $this->sgr_id, 'period' => $period);
         $result = $this->mongo->sgr->$container->find($query, $fields);
         return $result->count();
     }
@@ -76,7 +77,46 @@ class Sgr_model extends CI_Model {
     }
 
     //dd.jj
+    //processes
     function get_ready($sgr_id, $year = null) {
+        $rtn = array();
+        $rtn_anexo = array();
+        $regex = new MongoRegex('/' . $year . '/');
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename', 'origen');
+        $sort = array('period_date' => -1);
+        $query = array("status" => 'activo', "sgr_id" => $sgr_id, 'period' => $regex);
+        $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
+
+        foreach ($result as $list) {
+            $rtn_anexo[] = $list['anexo'];
+            $rtn[] = $list['period'];
+        }
+
+        if (count($rtn_anexo) > 1)
+            return array_unique($rtn);
+    }
+
+    function get_ready_anexo($sgr_id, $period) {
+        $rtn = array();
+        $rtn_anexo = array();
+
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename', 'origen');
+        $sort = array('period_date' => -1);
+        $query = array("status" => 'activo', "sgr_id" => $sgr_id, 'period' => $period);
+        $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
+
+        foreach ($result as $list) {
+            $rtn_anexo[] = $list['anexo'];
+            $rtn[] = true;
+        }
+
+        if (count($rtn_anexo) > 4)
+            return array_unique($rtn);
+    }
+
+    function get_ready_($sgr_id, $year = null) {
 
         $container = 'container.sgr_periodos';
 
@@ -192,7 +232,7 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         $users_list = $this->get_sgrs_users();
         foreach ($users_list as $user) {
-           
+
             // Listado de empresas
             $sort = array(1693 => -1);
             $container = 'container.empresas';
@@ -200,7 +240,7 @@ class Sgr_model extends CI_Model {
             $query = array(6026 => '30', "owner" => $user['idu']);
             $result = $this->mongo->db->$container->find($query, $fields);
             $result->sort($sort);
- 
+
             foreach ($result as $sgrs) {
                 $rtn[] = $sgrs;
             }
@@ -457,34 +497,37 @@ class Sgr_model extends CI_Model {
 
     /* COTIZACION */
 
-    function get_dollar_quotation($quotation_date, $currency = "dolar americano") {
-        $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($quotation_date - 1), 1900));
+    function get_dollar_quotation($period, $currency = "dolar americano") {
+        $quotation_date = date("Y-m-d", mktime(0, 0, 0, 1, -1 + ($period - 1), 1900));
+
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = new MongoDate(strtotime($quotation_date));
         $field = array("amount");
         $query = array('date' => array(
                 '$lte' => $quotation_date
         ));
-        $result = $this->mongo->sgr->$container->findOne($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('date' => -1))->limit(1);
 
-
-        return $result[amount];
+        foreach ($result as $each) {
+            return $each[amount];
+        }
     }
 
     function get_dollar_quotation_period($currency = "dolar americano") {
-        
+
         $endDate = last_month_date($this->session->userdata['period']);
-        
+
         $container = 'container.sgr_cotizacion_dolar';
         $quotation_date = new MongoDate(strtotime($quotation_date));
         $field = array("amount");
         $query = array('date' => array(
                 '$lte' => $endDate
         ));
-        $result = $this->mongo->sgr->$container->findOne($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('date' => -1))->limit(1);
 
-
-        return $result[amount];
+        foreach ($result as $each) {
+            return $each[amount];
+        }
     }
 
     /* GET ACTIVE ANEXOS */
@@ -539,7 +582,7 @@ class Sgr_model extends CI_Model {
         $token = $this->idu;
         $period = 'container.periodos_' . $token . '_tmp';
         $container = 'container.sgr_anexo_' . $anexo . '_tmp';
-        
+
         $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
@@ -600,12 +643,13 @@ class Sgr_model extends CI_Model {
     /* GET ACTIVE for PRINT ANEXOS */
 
     function get_active_print($anexo, $period_date) {
+        
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-
-        $endDate = last_month_date($period_date);
-
+        
+        $endDate = last_month_date($period_date);       
+        
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
@@ -616,30 +660,33 @@ class Sgr_model extends CI_Model {
             ),
         );
         
-        
-        
-        
+         
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
             
-            
+           
             $rtn[] = $each;
         }
+         
         return $rtn;
     }
 
-    function get_period_data($anexo, $period_date) {
+    function get_period_data($anexo, $period_date, $exclude_sm = false) {
+        
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array(
             'anexo' => $anexo,
-            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'sgr_id' => (float) $this->sgr_id,
             'status' => 'activo',
             'period' => $period_date,
         );
 
+        if (!$exclude_sm) {
+            $query['filename'] = array('$ne' => 'SIN MOVIMIENTOS');
+        }
+      
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
             $rtn[] = $each;
@@ -717,6 +764,5 @@ class Sgr_model extends CI_Model {
 //             
 //
 //    }
-    
 }
 

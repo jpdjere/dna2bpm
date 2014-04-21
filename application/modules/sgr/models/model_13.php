@@ -110,7 +110,7 @@ class Model_13 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -224,7 +224,7 @@ class Model_13 extends CI_Model {
             $col4[] = (float) ($list['MENOR_365_DIAS']);
             $col5[] = (float) ($list['MAYOR_365_DIAS']);
             $col6[] = (float) ($sum_totales);
-            $col5[] = (float) ($list['VALOR_CONTRAGARANTIAS']);
+            $col7[] = (float) ($list['VALOR_CONTRAGARANTIAS']);
         }
 
 

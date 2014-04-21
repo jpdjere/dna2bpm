@@ -521,7 +521,7 @@ class Test extends MX_Controller {
 
                 default:
                     $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
-                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $error_set_period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $error_set_period);
                     $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
@@ -607,7 +607,7 @@ class Test extends MX_Controller {
                 if ($limit_month < $set_month) {
                     return 1; // Posterior al mes actual
                 } else {
-                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
@@ -663,7 +663,7 @@ class Test extends MX_Controller {
         $this->load->model($model);
 
         if (!$this->session->userdata['rectify']) {
-            $get_period = $this->sgr_model->get_period_info($anexo, $this->sgr_id, $period);
+            $get_period = $this->sgr_model->get_current_period_info($anexo,$period);
         }
 
 

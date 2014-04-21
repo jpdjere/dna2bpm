@@ -104,7 +104,7 @@ class Model_125 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -246,6 +246,31 @@ class Model_125 extends CI_Model {
 
         $rtn[] = $new_list;
 
+
+        return $rtn;
+    }
+
+    function get_balance_by_partner($cuit, $period) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* PERIOD FILE */
+        $result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+
+        $rtn = array();
+
+        $query = array("filename" => $result['filename'], "CUIT_PART" => $cuit);
+        $new_result = $this->mongo->sgr->$container->find($query);       
+        $new_arr = array();
+
+        foreach ($new_result as $each) {
+            $balance = array($each['SLDO_FINANC'], $each['SLDO_COMER'], $each['SLDO_TEC']);
+            $new_arr[] = array_sum($balance);
+        }
+
+        $rtn['count'] = $new_result->count();
+        $rtn['balance'] = array_sum($new_arr);
 
         return $rtn;
     }

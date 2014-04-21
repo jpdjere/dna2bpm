@@ -206,13 +206,13 @@ class Lib_141_data extends MX_Controller {
                  * Detail:
                  * De estar completo, debe tomar alguno de los siguientes parámetros:1,2,3,4
                  */
-                if ($parameterArr[$i]['col'] == 8) {
-                    $code_error = "H.1";
+                if ($parameterArr[$i]['col'] == 9) {
+                    $code_error = "I.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         
                         $nums = array("1", "2", "3", "4");
                         if (!in_array($parameterArr[$i]['fieldValue'], $nums)) {
-                             $code_error = "H.2";
+                             $code_error = "I.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }

@@ -14,8 +14,8 @@ $(document).ready(function() {
          $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
-        var input_period = arr[2];
-        var anexo = arr[3];
+        var input_period = arr[4];
+        var anexo = arr[5];
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
         $("input[name$='input_period']").val(input_period);
@@ -25,13 +25,14 @@ $(document).ready(function() {
         $("#no_session").hide();
     });
 
-
-    $('[class^="rectifica-warning_"]').click(function(event) {        
+    
+    /*fixed*/
+    $('[class^="rectifica-warning_"]').click(function(event) {
         var get_period = $("#sgr_period").html();
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
-        var input_period = arr[2];
-        var anexo = arr[3];
+        var input_period = arr[4];
+        var anexo = arr[5];
         event.preventDefault();
         $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
@@ -40,7 +41,7 @@ $(document).ready(function() {
                 $("#sgr_period").html("Rectifica");
                 $("#no_movement").hide();
                 $("#is_session").show();
-                $("#no_session").hide();                
+                $("#no_session").hide();        
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
             }
@@ -52,13 +53,16 @@ $(document).ready(function() {
     $('[id^="others_"]').hide();
     
     // Dashboard Accordion
-    $('a.togglepanel').on('click',function(){
-        $(this).closest('.panel').find('.panel-body').toggleClass('hidden');
-        if($(this).closest('.panel').find('.panel-body').hasClass('hidden')){
-            $(this).html('<i class="fa fa-chevron-down"></i>');
-        }else{
-            $(this).html('<i class="fa fa-chevron-up"></i>');
-        }
+    $('[data-toggle="collapse"]').on('click',function(){
+    	var is_open=$(this).parents('div').next().hasClass('in');
+    	if(is_open){
+    		$('i',this).removeClass('fa-chevron-up');
+    		$('i',this).addClass('fa-chevron-down');
+    	}else{
+    		$('i',this).removeClass('fa-chevron-down');
+    		$('i',this).addClass('fa-chevron-up');
+    	}
+
         
     })
     

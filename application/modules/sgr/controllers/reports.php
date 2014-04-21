@@ -330,7 +330,7 @@ class reports extends MX_Controller {
                 } else if ($set_start_month > $set_month) {
                     return "2"; // Anterior al mes Inicial
                 } else {
-                    $get_period = $this->sgr_model->get_period_info($this->anexo, $this->sgr_id, $period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
