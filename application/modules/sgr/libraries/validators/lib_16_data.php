@@ -60,8 +60,7 @@ class Lib_16_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         
-                        $return = (string)check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);                     
-                        
+                        $return = (string)check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);  
                         if ($return==null) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
