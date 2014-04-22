@@ -165,7 +165,9 @@ class Lib_202_data extends MX_Controller {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                                 array_push($stack, $result);
                             }
-
+                            
+                            var_dump($B_cell_value, $get_input_number_check);
+                            
                             if ($B_cell_value > $get_input_number_check) {
                                 $code_error = "B.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value. " <br>Valor del Sistema: " . $get_input_number_check);
