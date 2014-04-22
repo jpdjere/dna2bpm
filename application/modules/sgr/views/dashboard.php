@@ -87,6 +87,7 @@
     {/if}
 
     <!-- RECTIFICATION ALERT-->
+
     {rectify_message_template}
 
 
@@ -102,6 +103,7 @@
 
     <!-- FORM PERIOD--> 
     {form_template}
+
     <!-- UPLOADED FILES LIST-->
     {files_list}   
 
