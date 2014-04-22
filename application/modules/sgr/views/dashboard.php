@@ -19,46 +19,47 @@
     </div>
     
 <!-- ====== NAVIGATION ====== -->
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container">
+    
+      <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+    <div class="navbar-header visible-xs">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2> 
+      <a class="navbar-brand" href="#">Brand</a>
     </div>
 
-   
-      <ul class="nav navbar-nav navbar-right">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<!-- Izquierda -->
+      <ul class="nav navbar-nav">
         {if sgr_period}
-        <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="icon-calendar"></i> Período: <span id="sgr_period"> {sgr_period}</span></a></li>    
+        <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="fa fa-calendar"></i> Período <span id="sgr_period"> {sgr_period}</span></a></li>    
         {/if}
-        <li class="dropdown" id="menu-messages">
-            <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-                <i class="fa fa-file-text">
-                </i> <span class="text"> Anexos:</span> <span class=""> {anexo_title_cap} </span> <b class="caret">
-                </b>
-            </a>
+      </ul>
+<!-- Derecha -->
+      <ul class="nav navbar-nav navbar-right">
+
+        <li class="dropdown">
+             <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
+                <i class="fa fa-file-text"> </i> <span class="text"> Anexos:</span> <span class=""> {anexo_title_cap} </span> <b class="caret"></b>
+            </a> 
             <ul class="dropdown-menu">
                 {anexo_list}
             </ul>
         </li>
-        <li></li>
       </ul>
+    </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-   
-  
 
+<!-- ====== Archivos a procesar ====== -->
 
-     
-
-    <div class="row test" id="barra_user" > 
-        <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
+<div class="row gap"  id="barra_user" > 
 
             <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
                 <i class="fa fa-plus"></i>  Seleccionar Archivos a Procesar
@@ -67,10 +68,11 @@
             <button type="button" id="no_movement" class="no_movement btn btn-info" value="{sgr_period}">
                  Asociar el periodo {sgr_period} a "Sin Movimientos"
             </button>
-            {/if}        
+            {/if} 
 
-        </ul>
-    </div>
+</div>
+
+
     <!-- MESSAGES -->
     {if period_message}
     <div class="alert alert-{success}" id="{success}">   
@@ -107,7 +109,7 @@
     {if pending_list}
     <div class="well">
         <!-- PENDING ANEXOS-->
-        <div id="show_anexos" class="alert alert-error">
+        <div id="show_anexos" class="alert alert-danger">
 
             <ul>
                 {pending_list}
@@ -137,7 +139,7 @@
         </div>
     </div>
     {else}
-    <div id="{_id}" class="alert alert-error">
+    <div id="{_id}" class="alert alert-danger">
         No hay Archivos Procesados para este anexo. 
 
     </div>
