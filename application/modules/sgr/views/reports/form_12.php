@@ -2,7 +2,7 @@
 		<form method="post" class="well" id="form" target="_blank" action="reports/action_form/">
 
 			<div class="row ">
-				<!--  ========================== row 4  ========================== -->
+				<!--  ========================== row 4  .========================== -->
 				<div class="col-md-4" >
 						<!--  Desde  -->
 						<div class="row ">
