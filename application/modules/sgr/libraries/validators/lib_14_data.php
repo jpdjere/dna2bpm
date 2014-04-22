@@ -169,8 +169,10 @@ class Lib_14_data extends MX_Controller {
                                 
                                 //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
                                 
-                                /*FIX */
-                                $fix_ten_cents = fix_ten_cents($new_dollar_value, $C_cell_value);
+                                /*FIX */                               
+                                
+                                $fix_ten_cents = fix_ten_cents($new_dollar_value, $C_cell_value);                                
+                                
                                 if ($fix_ten_cents) {
                                     $code_error = "C.2.B";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'],  money_format_custom($C_cell_value).' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . money_format_custom($c_info[5218]) .'/'. money_format_custom($dollar_quotation_origin) .'*'. money_format_custom($dollar_quotation_period) . ' = '.money_format_custom($new_dollar_value).')');
@@ -526,7 +528,8 @@ class Lib_14_data extends MX_Controller {
                     array_push($stack, $result);
                 }
             }
-        }       
+        }     
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
