@@ -860,12 +860,14 @@ function translate_month_spanish($code) {
     return str_replace($search, $replace, $code);
 }
 
-/* Fix 10 cents for dollar quotation */
+/* Fix 10% for dollar quotation */
 
 function fix_ten_cents($value, $value2) {
 
-    /* TEST 50 */
-    $range = range(-50, 50);
+    $percent = $value * 0.01;
+    $percent_negative = $value * -0.01;
+
+    $range = range($percent_negative, $percent);
     $diff = $value - $value2;
     $diff = (int) $diff;
 

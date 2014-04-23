@@ -93,7 +93,7 @@ class Lib_201_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
-                        $exist_input_number = $this->$model_anexo->exist_input_number($A_cell_value);
+                        $exist_input_number = $this->$model_anexo->exist_input_number($A_cell_value);                        
 
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if (!$return) {
@@ -221,7 +221,7 @@ class Lib_201_data extends MX_Controller {
                         }
 
 
-                        /* E.3 */                        
+                        /* A.4 */                        
                         if (!$exist_input_number) {
                             $code_error = "A.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
@@ -327,6 +327,13 @@ class Lib_201_data extends MX_Controller {
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                        
+                        
+                         if (!$exist_input_number) {
+                            $code_error = "A.5";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
                         }
 
@@ -542,7 +549,7 @@ class Lib_201_data extends MX_Controller {
                     $aporte = $this->$model_anexo->get_aporte_tmp($number, $retiros);
                     $return_calc = calc_anexo_201($aporte, $get_historic_data, $number);
                     if ($return_calc) {
-                        $code_error = "A.4";
+                        $code_error = "A.5";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
@@ -616,7 +623,7 @@ class Lib_201_data extends MX_Controller {
                     $aporte = $this->$model_anexo->get_aporte_tmp($number, $retiros);
                     $return_calc = calc_anexo_201($aporte, $get_historic_data, $number);
                     if ($return_calc) {
-                        $code_error = "A.4";
+                        $code_error = "A.5";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
