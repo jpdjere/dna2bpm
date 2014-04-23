@@ -20,7 +20,7 @@
 
                     <h2>{sgr_nombre}</h2>
                     <h4>Declaración Jurada sobre la Presentación de los Anexos 12, 13, 14, 15 y 16</h4>
-                    <h5>PER&Iacute;ODO: {print_period}</h5>
+                    <h3>PER&Iacute;ODO: {print_period}</h3>
                 </div>
 
                 <p>Por medio de la presente y en carácter de Declaración Jurada, manifiesto que la información contenida en los archivos detallados a continuación reflejan fielmente la actividad desarrollada por la Sociedad durante el periodo de referencia. </p>

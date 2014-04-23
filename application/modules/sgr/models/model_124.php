@@ -195,7 +195,47 @@ class Model_124 extends CI_Model {
 
         return $newTable;
     }
+    
+    
+    
+    function get_warranty_qty($period) {
 
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+        
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $rtn[] = $list["NRO_GARANTIA"];
+        }
+
+
+        return count(array_unique($rtn));
+    }
+    
+    
+      function get_warranty_amount($period) {
+
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $rtn[] = $list['SALDO_VIGENTE'];
+        }
+        return array_sum($rtn);
+    }
+
+    
     function get_anexo_data($anexo, $parameter) {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
