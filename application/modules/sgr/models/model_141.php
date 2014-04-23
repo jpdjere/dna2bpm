@@ -267,7 +267,10 @@ class Model_141 extends CI_Model {
 
             $col3 = ($partner_balance['count'])?$partner_balance['count']:0;
             $col4 = ($partner_balance['balance'])?$partner_balance['balance']:0;
-
+            
+            $col9 = 0;
+            $col11 = 0;
+            $col12 = 0;
 
             $new_list = array();
             $new_list['col1'] = $cuit;
@@ -279,10 +282,10 @@ class Model_141 extends CI_Model {
                 $new_list['col6'] = (float) ($list['PRENDARIAS']);
                 $new_list['col7'] = (float) ($list['FIANZA']);
                 $new_list['col8'] = (float) ($list['OTRAS']);
-                $new_list['col9'] = (float) (0);
+                $new_list['col9'] = (float) ($col9);
                 $new_list['col10'] = (float) ($list['REAFIANZA']);
-                $new_list['col11'] = (float) (0);
-                $new_list['col12'] = (float) (0);
+                $new_list['col11'] = (float) ($col11);
+                $new_list['col12'] = (float) ($col12);
             } else {
                 $new_list['col3'] = $col3;
                 $new_list['col4'] = money_format_custom($col4);
@@ -290,10 +293,10 @@ class Model_141 extends CI_Model {
                 $new_list['col6'] = money_format_custom($list['PRENDARIAS']);
                 $new_list['col7'] = money_format_custom($list['FIANZA']);
                 $new_list['col8'] = money_format_custom($list['OTRAS']);
-                $new_list['col9'] = money_format_custom(0);
+                $new_list['col9'] = money_format_custom($col9);
                 $new_list['col10'] = money_format_custom($list['REAFIANZA']);
-                $new_list['col11'] = money_format_custom(0);
-                $new_list['col12'] = money_format_custom(0);
+                $new_list['col11'] = money_format_custom($col11);
+                $new_list['col12'] = money_format_custom($col12);
             }
             $new_list['col13'] = $list['MORA_EN_DIAS'];
             $new_list['col14'] = $list['CLASIFICACION_DEUDOR'];

@@ -56,6 +56,9 @@ class Sgr_model extends CI_Model {
             'period' => $period,
             "status" => array('$ne' => 'rectificado'),
         );
+        
+      
+        
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
