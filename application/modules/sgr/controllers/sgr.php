@@ -9,7 +9,6 @@ if (!defined('BASEPATH'))
  */
 class Sgr extends MX_Controller {
 
-
     function __construct() {
         parent::__construct();
 //----habilita acceso a todo los metodos de este controlador
@@ -72,9 +71,9 @@ class Sgr extends MX_Controller {
 
         $sections = array();
         $sections['Anexos'] = array();
-        $customData['anexo_list'] = $this->AnexosDB('_blank');      
-        $customData['is_sgr_sociedades']=$this->user->has('root/modules/sgr/controllers/sgr/anexo');
-        
+        $customData['anexo_list'] = $this->AnexosDB('_blank');
+        $customData['is_sgr_sociedades'] = $this->user->has('root/modules/sgr/controllers/sgr/anexo');
+
         $this->render('main_dashboard', $customData);
     }
 
@@ -836,7 +835,7 @@ class Sgr extends MX_Controller {
         $period_req = $this->input->post("period");
 
         /* FILENAMES */
-        $anexos_arr = array("06");
+        $anexos_arr = array("12", "06", "13", "16");
         $filenames_arr = array("12", "121", "122", "123", "124", "125", "13", "15", "16");
         foreach ($filenames_arr as $each) {
             $get_anexo = $this->sgr_model->get_period_data($each, $parameter, true);
@@ -844,11 +843,12 @@ class Sgr extends MX_Controller {
         }
 
         /* DD.JJ DATA */
-        foreach ($anexos_arr as $anexo_req)
+        foreach ($anexos_arr as $anexo_req) {
             $get_ddjj_data = $this->ddjj_data($anexo_req, $period_req);
 
-        foreach ($get_ddjj_data as $key => $each) {
-            $customData[$key] = $each;
+            foreach ($get_ddjj_data as $key => $each) {
+                $customData[$key] = $each;
+            }
         }
 
         if ($period_req)
@@ -862,14 +862,91 @@ class Sgr extends MX_Controller {
         $model = "model_" . $anexo_req;
         $this->load->Model($model);
 
+        $model124 = "model_124";
+        $this->load->Model($model124);
+
         $comisions = $this->input->post("comisions");
         switch ($anexo_req) {
+
+            case '16':
+                $result_16 = $this->$model->get_anexo_ddjj($period_req);
+
+                $t5_1 = $result_16[0]['col2'];
+                $t5_2 = $result_16[0]['col9'];
+                $t5_3 = $result_16[0]['col10'];
+                $t5_4 = $result_16[0]['col11'];
+                $t5_5 = $result_16[0]['col12'];
+                $t5_6 = $result_16[0]['col13'];
+                $t5_7 = $result_16[0]['col14'];
+                $t5_8 = $result_16[0]['col15'];
+                $t5_9 = $result_16[0]['col16'];
+
+                $rtn['t5_1'] = $t5_1;
+                $rtn['t5_2'] = $t5_2;
+                $rtn['t5_3'] = $t5_3;
+                $rtn['t5_4'] = $t5_4;
+                $rtn['t5_5'] = $t5_5;
+                $rtn['t5_6'] = $t5_6;
+                $rtn['t5_7'] = $t5_7;
+                $rtn['t5_8'] = $t5_8;
+                $rtn['t5_9'] = $t5_9;
+                
+                return $rtn;
+                
+                break;
+
+            case '13':
+
+                $t3_1 = $this->$model->get_amount_total($period_req, "MENOR_90_DIAS");
+                $t3_2 = $this->$model->get_amount_total($period_req, "MENOR_180_DIAS");
+                $t3_3 = $this->$model->get_amount_total($period_req, "MENOR_365_DIAS");
+                $t3_4 = $this->$model->get_amount_total($period_req, "MAYOR_365_DIAS");
+
+                $sum_totales = array_sum(array($t3_1, $t3_2, $t3_3, $t3_4));
+
+                $t3_5 = $sum_totales;
+                $t3_6 = $this->$model->get_amount_total($period_req, "VALOR_CONTRAGARANTIAS");
+
+                $rtn['t3_1'] = money_format_custom($t3_1);
+                $rtn['t3_2'] = money_format_custom($t3_2);
+                $rtn['t3_3'] = money_format_custom($t3_3);
+                $rtn['t3_4'] = money_format_custom($t3_4);
+                $rtn['t3_5'] = money_format_custom($t3_5);
+                $rtn['t3_6'] = money_format_custom($t3_6);
+
+                return $rtn;
+                break;
+
+            case '12':
+                $t2_1 = $this->$model->get_assisted_pymes($period_req);
+                $t2_2 = $this->$model->get_amount_granted_qty($period_req);
+                $t2_3 = $this->$model->get_amount_granted($period_req);
+
+
+                $t2_8 = $this->$model124->get_warranty_qty($period_req);
+                $t2_9 = $this->$model124->get_warranty_amount($period_req);
+
+
+                $rtn['t2_1'] = $t2_1;
+                $rtn['t2_2'] = $t2_2;
+                $rtn['t2_3'] = money_format_custom($t2_3);
+                $rtn['t2_4'] = $comisions;
+                $rtn['t2_5'] = 0;
+                $rtn['t2_6'] = 0;
+                $rtn['t2_7'] = 0;
+                $rtn['t2_8'] = $t2_8;
+                $rtn['t2_9'] = money_format_custom($t2_9);
+
+
+                return $rtn;
+
+                break;
+
             case '06':
 
                 /* CANTIDAD SOCIOS */
-                $prev_period = '12_2013';
-                $t1_1 = $this->$model->incorporated_count($prev_period, "A") - $this->$model->detached_count($prev_period, "A");
-                $t1_13 = $this->$model->incorporated_count($prev_period, "B") - $this->$model->detached_count($prev_period, "B");
+                $t1_1 = $this->$model->incorporated_count_before($period_req, "A") - $this->$model->detached_count_before($period_req, "A");
+                $t1_13 = $this->$model->incorporated_count_before($period_req, "B") - $this->$model->detached_count_before($period_req, "B");
 
                 $t1_25 = $t1_1 + $t1_13;
 
@@ -904,8 +981,8 @@ class Sgr extends MX_Controller {
                 $rtn['t1_28'] = $t1_28;
 
                 /* CANTIDAD ACCIONES */
-                $t1_5 = 0;
-                $t1_17 = 0;
+                $t1_5 = $this->$model->buys_shares_before($period_req, "A") - $this->$model->sells_shares_before($period_req, "A");
+                $t1_17 = $this->$model->buys_shares_before($period_req, "B") - $this->$model->sells_shares_before($period_req, "B");
 
                 $t1_29 = $t1_5 + $t1_17;
 
@@ -938,16 +1015,16 @@ class Sgr extends MX_Controller {
                 $rtn['t1_32'] = $t1_32;
 
                 /* MONTO ACCIONES */
-                $t1_9 = $comisions * 0;
-                $t1_21 = $comisions * 0;
+                $t1_9 = $comisions * $t1_5;
+                $t1_21 = $comisions * $t1_17;
 
                 $t1_33 = $t1_9 + $t1_21;
 
-                $t1_10 = $comisions * $this->$model->buys_shares($period_req, "A");
-                $t1_22 = $comisions * $this->$model->buys_shares($period_req, "B");
+                $t1_10 = $comisions * $t1_6;
+                $t1_22 = $comisions * $t1_18;
 
-                $t1_11 = $comisions * $this->$model->sells_shares($period_req, "A");
-                $t1_23 = $comisions * $this->$model->sells_shares($period_req, "B");
+                $t1_11 = $comisions * $t1_7;
+                $t1_23 = $comisions * $t1_19;
 
                 $t1_12 = ($t1_9 + $t1_10) - $t1_11;
                 $t1_24 = ($t1_21 + $t1_22) - $t1_23;
@@ -1198,7 +1275,6 @@ class Sgr extends MX_Controller {
 
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
-                    
                 } else {
 
 
