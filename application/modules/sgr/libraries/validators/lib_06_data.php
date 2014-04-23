@@ -1006,14 +1006,26 @@ class Lib_06_data extends MX_Controller {
                                         list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-                                        $check_diff3 = ($second_year_to_check) ? (int) $second_year_to_check + 1 : $last_year_to_check;
+                                        if($second_year_to_check){
+                                        // Columna U con data	
+	                                        if((int)$second_year_to_check+1!=(int)$last_year_to_check){
+	                                        	// El año debe de X debe ser U+1
 
-                                        if ($check_diff3 != $last_year_to_check) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $X2_cell_value = $return;
+												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+												array_push($stack, $result);
+	                                        }
+                                        }else{
+										// Columna U vacia
+                                        	if(!($last_year_to_check==$period_to_check || (int)$last_year_to_check==(int)$period_to_check-1)){
+												// X debe ser mismo año que periodo o uno antes
+												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+												array_push($stack, $result);
+                                        	}else{
+                                        		$X2_cell_value = $return;
+                                        	}
+                                        	
                                         }
+
                                     }
                                 }
 
@@ -1399,9 +1411,9 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-        //$stack = array();
-        //debug($stack);        exit();
-        $this->data = $stack;
+/*         $stack = array(); */
+//         debug($stack);        exit();
+         $this->data = $stack;
     }
 
 }
