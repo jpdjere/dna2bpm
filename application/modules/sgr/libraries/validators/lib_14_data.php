@@ -430,11 +430,14 @@ class Lib_14_data extends MX_Controller {
 
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
+                var_dump($get_recuperos_tmp);
+                
+                
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
                     $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
-                        $code_error = "D.3";
+                        $code_error = "E.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
                         array_push($stack, $result);
                     }
@@ -529,7 +532,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }     
-        //var_dump($stack);        exit();
+        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
