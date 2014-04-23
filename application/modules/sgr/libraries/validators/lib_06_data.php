@@ -1425,8 +1425,8 @@ class Lib_06_data extends MX_Controller {
             array_push($stack, $result);
         }
 /*         $stack = array(); */
-         debug($stack);        exit();
-   //      $this->data = $stack;
+//          debug($stack);        exit();
+         $this->data = $stack;
     }
 
 }
