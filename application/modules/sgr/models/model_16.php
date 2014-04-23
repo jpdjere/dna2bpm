@@ -217,9 +217,9 @@ class Model_16 extends CI_Model {
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
             $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
             $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
-            $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-            $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col14 = ($list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col15 = ($col9 / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col16 = ($col10 / $list['FDR_TOTAL_COMPUTABLE'])*100;
 
             $new_list = array();
             $new_list['col1'] = $month_value;
@@ -268,9 +268,9 @@ class Model_16 extends CI_Model {
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
             $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
             $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
-            $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-            $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col14 = ($list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col15 = ($col9 / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col16 = ($col10 / $list['FDR_TOTAL_COMPUTABLE'])*100;
 
             $new_list = array();
             $new_list['col1'] = $month_value;
