@@ -20,7 +20,7 @@
 
                     <h2>{sgr_nombre}</h2>
                     <h4>Declaración Jurada sobre la Presentación de los Anexos 12, 13, 14, 15 y 16</h4>
-                    <h5>PER&Iacute;ODO: {print_period}</h5>
+                    <h3>PER&Iacute;ODO: {print_period}</h3>
                 </div>
 
                 <div class="row-fluid">
@@ -29,8 +29,9 @@
                             <div  class="row-fluid " >
                                 <div class="span6">                        
 
-                                    <label>COMISIONES DEVENGADAS EN EL PERÍODO POR OTORGAMIENTO DE GARANTÍAS </label>
-                                    <input type="text" name="comisions" class="input-block-level">                                       
+                                    <label>COMISIONES DEVENGADAS EN EL PERÍODO </label>
+                                    <input type="text" name="comisions" placeholder="Ingrese la cantidad" class="input-block-level">  
+                                    <h5>POR OTORGAMIENTO DE GARANTÍAS</h5>
                                 </div>
 
                                 <div class="span6">
