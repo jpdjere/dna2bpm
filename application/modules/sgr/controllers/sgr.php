@@ -1170,7 +1170,7 @@ class Sgr extends MX_Controller {
     /* DD.JJ. */
 
     function get_processed_17_tab() {
-        $list_files = "<li class=processed><b>PERIODOS INFORMADOS</b></li>";
+        $list_files = "<li class=processed><b>Presentación Regimen Informativo DD.JJ.</b></li>";
         for ($i = date(Y); $i > 2009; $i--) {
             $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
             $processed = array($processed);
@@ -1194,13 +1194,15 @@ class Sgr extends MX_Controller {
             for ($j = 12; $j > 0; $j--) {
 
                 $j = sprintf('%02s', $j);
-                $new_query = $j . "-" . $i;
+                $new_query = $j . "-" . $i;                
+                $disabled_link = ($i<2014)? ' disabled_link':"";
+                
 
                 $processed = $this->sgr_model->get_ready_anexo($this->sgr_id, $new_query);
-                $print_file = anchor('/sgr/print_ddjj/' . $new_query, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. ', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                $print_file = anchor('/sgr/print_ddjj/' . $new_query, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. Para ' . $new_query, array('target' => '_blank', 'class' => 'btn btn-primary'.$disabled_link ));
 
                 if ($processed)
-                    $list_files .= "<li>" . $print_file . " [" . $i . "  -> " . $new_query . "] </li>";
+                    $list_files .= "<li>" . $print_file . "</li>";
             }
             $list_files .= '</ul></div>
         </div>';
