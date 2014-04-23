@@ -1,7 +1,7 @@
 <!-- ==== Contenido ==== -->
 <div class="container" > 
 
-    <div class="row-fluid test" id="barra_user" > 
+    <div class="row test" id="barra_user" > 
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
             <li class="pull-right perfil"><a  href="{base_url}user/logout">
                     SALIR</a></li>
@@ -18,45 +18,46 @@
         <div id="header-logos"></div>
     </div>
 
+    <!-- ====== NAVIGATION ====== -->
 
-    <!--/ NAVIGATION -->
-    <div class="navbar">
-        <div class="navbar-inner barra_sgr">
-            <div class="container">
-
-                <a class="brand" href="{module_url}">SOCIEDADES DE GARANTIAS RECIPROCAS</a>
-
-
-                <div class="nav-collapse collapse">
-                    <ul class="nav pull-right inline">
-                        {if sgr_period}
-                        <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="icon-calendar"></i> Período: <span id="sgr_period"> {sgr_period}</span></a></li>    
-                        {/if}
-                        <li class="dropdown" id="menu-messages">
-                            <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-                                <i class="fa fa-file-text">
-                                </i> <span class="text"> Anexos:</span> <span class=""> {anexo_title_cap} </span> <b class="caret">
-                                </b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                {anexo_list}
-                            </ul>
-                        </li>
-                        <li></li>                            
-                    </ul>
-                </div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header visible-xs">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Brand</a>
             </div>
 
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- Izquierda -->
+                <ul class="nav navbar-nav">
+                    {if sgr_period}
+                    <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="fa fa-calendar"></i> Período <span id="sgr_period"> {sgr_period}</span></a></li>    
+                    {/if}
+                </ul>
+                <!-- Derecha -->
+                <ul class="nav navbar-nav navbar-right">
 
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
+                            <i class="fa fa-file-text"> </i> <span class="text"> Anexos:</span> <span class=""> {anexo_title_cap} </span> <b class="caret"></b>
+                        </a> 
+                        <ul class="dropdown-menu">
+                            {anexo_list}
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
 
-        </div>
-    </div>
- 
-    <h2><i class="fa fa-bars"></i> {anexo_short} {anexo_title_cap}</h2>  
-    <div class="row-fluid">       
-    </div>
-
-
+    
     {if processed_list}
     <div class="well">
         <!-- PROCESSED ANEXOS-->
@@ -77,4 +78,6 @@
 
     </div>
     {/if}    
+
+
 </div>
