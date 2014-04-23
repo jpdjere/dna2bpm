@@ -251,13 +251,13 @@ class Model_125 extends CI_Model {
     }
 
     function get_balance_by_partner($cuit, $period) {
+        
+        
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
 
         /* PERIOD FILE */
-        $result = $this->sgr_model->get_current_period_info($anexo, $period);
-
-
+        $result = $this->sgr_model->get_current_period_info($anexo, $period);        
         $rtn = array();
 
         $query = array("filename" => $result['filename'], "CUIT_PART" => $cuit);
@@ -265,6 +265,7 @@ class Model_125 extends CI_Model {
         $new_arr = array();
 
         foreach ($new_result as $each) {
+            
             $balance = array($each['SLDO_FINANC'], $each['SLDO_COMER'], $each['SLDO_TEC']);
             $new_arr[] = array_sum($balance);
         }
