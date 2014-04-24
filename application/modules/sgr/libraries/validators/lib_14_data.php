@@ -139,7 +139,7 @@ class Lib_14_data extends MX_Controller {
 
                         foreach ($B_warranty_info as $c_info) {
 
-                            $C_cell_value = (float)$parameterArr[$i]['fieldValue'];                          
+                            $C_cell_value = (float) $parameterArr[$i]['fieldValue'];
 
                             /* Nro C.3
                              * Detail:
@@ -149,37 +149,42 @@ class Lib_14_data extends MX_Controller {
                              * anterior al que se está informando que se cayó la garantía. */
 
                             if ($c_info['5219'][0] == 2) {
-                                
+
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($c_info['5215']));
-                                
+
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation;
-                                
-                                
-                                 /*FIX */
+
+
+                                /* FIX */
                                 $fix_ten_cents = fix_ten_cents($dollar_value, $C_cell_value);
                                 if ($fix_ten_cents) {
-                                    $code_error = "C.3";                                    
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value).' Monto disponible para el Nro. Orden  = '. $B_cell_value.'  (' . money_format_custom($c_info[5218]) .'/'. money_format_custom($dollar_quotation_origin) .'*'. money_format_custom($dollar_quotation) . ' = '.money_format_custom($dollar_value).' )');
+                                    $code_error = "C.3";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $B_cell_value . '  (' . money_format_custom($c_info[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation) . ' = ' . money_format_custom($dollar_value) . ' )');
                                     array_push($stack, $result);
                                 }
 
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
-                                
+
                                 //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
-                                
-                                /*FIX */                               
-                                
-                                $fix_ten_cents = fix_ten_cents($new_dollar_value, $C_cell_value);                                
-                                
+
+                                /* FIX */
+
+
+
+                                $a = (int) $new_dollar_value;
+                                $b = (int) $C_cell_value;
+
+                                $fix_ten_cents = fix_ten_cents($a, $b);
+
                                 if ($fix_ten_cents) {
                                     $code_error = "C.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'],  money_format_custom($C_cell_value).' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . money_format_custom($c_info[5218]) .'/'. money_format_custom($dollar_quotation_origin) .'*'. money_format_custom($dollar_quotation_period) . ' = '.money_format_custom($new_dollar_value).')');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value) . ' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . money_format_custom($c_info[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                                     array_push($stack, $result);
                                 }
-                            } else {                                
-                                if ($C_cell_value > $c_info[5218]) {                                    
+                            } else {
+                                if ($C_cell_value > $c_info[5218]) {
                                     $code_error = "C.2.A";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], '(' . money_format_custom($C_cell_value) . '). Monto disponible para el Nro. Orden ' . $B_cell_value . ' = ' . money_format_custom($c_info[5218]));
                                     array_push($stack, $result);
@@ -430,8 +435,8 @@ class Lib_14_data extends MX_Controller {
 
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
-                
-                
+
+
                 foreach ($get_recuperos_tmp as $recuperos) {
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
                     $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
@@ -530,7 +535,7 @@ class Lib_14_data extends MX_Controller {
                     array_push($stack, $result);
                 }
             }
-        }     
+        }
         //var_dump($stack);        exit();
         $this->data = $stack;
     }
