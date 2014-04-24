@@ -56,7 +56,10 @@ class Model_202 extends CI_Model {
             1 => 'NUMERO_DE_APORTE',
             2 => 'CONTINGENTE_PROPORCIONAL_ASIGNADO',
             3 => 'DEUDA_PROPORCIONAL_ASIGNADA',
-            4 => 'RENDIMIENTO_ASIGNADO'
+            4 => 'RENDIMIENTO_ASIGNADO',
+            5 => 'CUIT_PROTECTOR',
+            6 => 'SALDO',
+            7 => 'DISPONIBLE'
         );
 
         $insertarr = array();
@@ -68,6 +71,26 @@ class Model_202 extends CI_Model {
             $insertarr["CONTINGENTE_PROPORCIONAL_ASIGNADO"] = (float) $insertarr["CONTINGENTE_PROPORCIONAL_ASIGNADO"];
             $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"] = (float) $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"];
             $insertarr["RENDIMIENTO_ASIGNADO"] = (float) $insertarr["RENDIMIENTO_ASIGNADO"];
+
+            
+            /* DYNAMIC INFO*/
+            $model_201 = 'model_201';
+            $this->load->Model($model_201);
+
+            
+            $get_movement_data = $this->$model_201->get_movement_data_print($insertarr['NUMERO_DE_APORTE'], $this->session->userdata['period']);
+            $partener_info = $this->$model_201->get_input_number_print($insertarr['NUMERO_DE_APORTE'], $this->session->userdata['period']);
+            foreach ($partener_info as $partner) {
+                $cuit = $partner["CUIT_PROTECTOR"];
+            }
+            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
+            $saldo = $get_movement_data['APORTE'] - $retiros;
+            $disponible = $saldo - (float) $insertarr['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
+            /* */
+            
+            $insertarr["CUIT_PROTECTOR"] = $cuit;
+            $insertarr["SALDO"] = $saldo;
+            $insertarr["DISPONIBLE"] = $disponible;
         }
         return $insertarr;
     }
@@ -104,7 +127,7 @@ class Model_202 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -158,7 +181,7 @@ class Model_202 extends CI_Model {
                                 <th>8</th>                                                
                             </tr> ',
         );
-        
+
         $tmpl_xls = array(
             'data' => '<tr><td>Numero de Aporte</td>
                                 <td align="center">Nombre o Razon Social del Socio Protector</td>
@@ -175,9 +198,9 @@ class Model_202 extends CI_Model {
         $fix_table = '<thead>
 <tr>
 <th>';
-        
-        
-        $template = ($xls)? $tmpl_xls : $tmpl;
+
+
+        $template = ($xls) ? $tmpl_xls : $tmpl;
         $data = array($template);
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
@@ -210,32 +233,31 @@ class Model_202 extends CI_Model {
             $model_201 = 'model_201';
             $this->load->Model($model_201);
 
-            
+
             $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
-                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
+                
             }
-            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
-            $saldo = $get_movement_data['APORTE'] - $retiros;
-            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
+            $brand_name = $this->padfyj_model->search_name($list["CUIT_PROTECTOR"]);
+           
 
             $new_list = array();
             $new_list['NUMERO_DE_APORTE'] = $list['NUMERO_DE_APORTE']; //$list['NUMERO_DE_APORTE'];
             $new_list['RAZON_SOCIAL'] = $brand_name;
-            $new_list['CUIT'] = $cuit;
+            $new_list['CUIT'] = $list["CUIT_PROTECTOR"];
             if ($xls) {
-                $new_list['SALDO_APORTE'] = $saldo;
+                $new_list['SALDO_APORTE'] = (float) $list['SALDO'];
                 $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
                 $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = (float) $list['DEUDA_PROPORCIONAL_ASIGNADA'];
-                $new_list['SALDO_APORTE_DISPONIBLE'] = $disponible;
+                $new_list['SALDO_APORTE_DISPONIBLE'] = (float) $list['DISPONIBLE'];
                 $new_list['RENDIMIENTO_ASIGNADO'] = (float) $list['RENDIMIENTO_ASIGNADO'];
             } else {
-                $new_list['SALDO_APORTE'] = money_format_custom($saldo);
+                $new_list['SALDO_APORTE'] = money_format_custom($list['SALDO']);
                 $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = money_format_custom((float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO']);
                 $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = money_format_custom((float) $list['DEUDA_PROPORCIONAL_ASIGNADA']);
-                $new_list['SALDO_APORTE_DISPONIBLE'] = money_format_custom($disponible);
+                $new_list['SALDO_APORTE_DISPONIBLE'] = money_format_custom($list['DISPONIBLE']);
                 $new_list['RENDIMIENTO_ASIGNADO'] = money_format_custom((float) $list['RENDIMIENTO_ASIGNADO']);
             }
             $rtn[] = $new_list;
@@ -243,8 +265,7 @@ class Model_202 extends CI_Model {
         return $rtn;
     }
 
-
-    function get_anexo_data_clean($anexo, $parameter, $xls=false) {
+    function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
         $col4 = array();
@@ -258,18 +279,12 @@ class Model_202 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
         $new_list = array();
         foreach ($result as $list) {
+           
 
-            $model_201 = 'model_201';
-            $this->load->Model($model_201);
-            $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
-            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
-            $saldo = $get_movement_data['APORTE'] - $retiros;
-            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
-
-            $col4[] = $saldo;
+            $col4[] = (float) $list['SALDO'];
             $col5[] = (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
             $col6[] = (float) $list['DEUDA_PROPORCIONAL_ASIGNADA'];
-            $col7[] = $disponible;
+            $col7[] = (float) $list['DISPONIBLE'];
             $col8[] = (float) $list['RENDIMIENTO_ASIGNADO'];
         }
 
@@ -278,7 +293,7 @@ class Model_202 extends CI_Model {
         $new_list['NUMERO_DE_APORTE'] = "<strong>TOTALES</strong>"; //$list['NUMERO_DE_APORTE'];
         $new_list['RAZON_SOCIAL'] = "-";
         $new_list['CUIT'] = "-";
-        if ($xls) {          
+        if ($xls) {
             $new_list['SALDO_APORTE'] = (array_sum($col4));
             $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = (array_sum($col5));
             $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = (array_sum($col6));
