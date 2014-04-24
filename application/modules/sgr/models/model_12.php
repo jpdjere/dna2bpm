@@ -534,6 +534,33 @@ class Model_12 extends CI_Model {
         }
         return $return_result;
     }
+    
+    function get_warranty_partner_print($cuit, $period) {
+        
+        
+        
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $period;
+
+        /* GET ACTIVE ANEXOS */
+       // $result = $this->sgr_model->get_current_period_info($anexo, $period);
+        $result = $this->sgr_model->get_active_print($anexo, $period);
+        
+        
+        $return_result = array();
+        foreach ($result as $list) {            
+            $new_query = array(
+                'filename' => $list['filename'],
+                5349 => $cuit
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
 
     /* GET SHARER PARTNER WARRANTIES */
 
