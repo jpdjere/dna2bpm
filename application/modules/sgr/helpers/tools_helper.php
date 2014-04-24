@@ -876,13 +876,13 @@ function translate_month_spanish($code) {
 
 function fix_ten_cents($value, $value2) {
 
-    $percent = $value * 0.01;
-    $percent_negative = $value * -0.01;
+    $percent = (int) ($value * 0.01);
+    $percent_negative = (int)($value * -0.01);
 
     $range = range($percent_negative, $percent);
     $diff = $value - $value2;
     $diff = (int) $diff;
-
+    
     if (!in_array($diff, $range))
         return true;
 }
