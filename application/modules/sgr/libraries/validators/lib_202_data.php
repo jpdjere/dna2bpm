@@ -97,7 +97,8 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $B_cell_value = (float) $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                        
+                        $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -115,7 +116,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -139,7 +140,7 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
+                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -197,7 +198,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-
+        //exit();
         $this->data = $stack;
     }
 
