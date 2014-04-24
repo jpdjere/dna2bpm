@@ -191,6 +191,16 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     return $status;
 }
 
+function validate_two_decimals($number) {
+
+    $patron = '^[0-9]+\.[0-9]{2}$';
+
+    if (preg_match('/' . $patron . '/', $number))
+        return false;
+    else
+        return true;
+}
+
 function isfloat($f) {
     $value = ($f == (string) (float) $f);
     return $value;
@@ -524,12 +534,12 @@ function last_month_date($period) {
     }
 }
 
-function period_before($period) {    
-    
+function period_before($period) {
+
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
     $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-31');
     $endDate = strtotime('-1 month', strtotime($fecha));
-    
+
     return date("m-Y", $endDate);
 }
 
