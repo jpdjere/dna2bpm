@@ -337,6 +337,9 @@ class Model_14 extends CI_Model {
     }
 
     function get_movement_data($nro) {
+        
+        
+        
         $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
@@ -352,6 +355,62 @@ class Model_14 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
 
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'filename' => $list['filename'],
+                'NRO_GARANTIA' => $nro
+            );
+
+            $movement_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($movement_result as $movement) {
+                $caida_result_arr[] = $movement['CAIDA'];
+                $recupero_result_arr[] = $movement['RECUPERO'];
+                $inc_periodo_arr[] = $movement['INCOBRABLES_PERIODO'];
+                $gasto_efectuado_periodo_arr[] = $movement['GASTOS_EFECTUADOS_PERIODO'];
+                $recupero_gasto_periodo_arr[] = $movement['RECUPERO_GASTOS_PERIODO'];
+                $gasto_incobrable_periodo_arr[] = $movement['GASTOS_INCOBRABLES_PERIODO'];
+            }
+        }
+
+
+        $caida_sum = array_sum($caida_result_arr);
+        $recupero_sum = array_sum($recupero_result_arr);
+        $inc_periodo_sum = array_sum($inc_periodo_arr);
+        $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
+        $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
+        $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
+
+
+
+        $return_arr = array(
+            'CAIDA' => $caida_sum,
+            'RECUPERO' => $recupero_sum,
+            'INCOBRABLES_PERIODO' => $inc_periodo_sum,
+            'GASTOS_EFECTUADOS_PERIODO' => $gasto_efectuado_periodo_sum,
+            'RECUPERO_GASTOS_PERIODO' => $recupero_gasto_periodo_sum,
+            'GASTOS_INCOBRABLES_PERIODO' => $gasto_incobrable_periodo_sum
+        );
+        return $return_arr;
+    }
+    
+    function get_movement_data_print($nro,$period) {     
+        
+        
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $caida_result_arr = array();
+        $recupero_result_arr = array();
+        $inc_periodo_arr = array();
+        $gasto_efectuado_periodo_arr = array();
+        $recupero_gasto_periodo_arr = array();
+        $gasto_incobrable_periodo_arr = array();
+
+        /* GET ACTIVE ANEXOS */        
+        $result = $this->sgr_model->get_active_print($anexo, $period);
+        
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(

@@ -914,6 +914,7 @@ class Lib_06_data extends MX_Controller {
                             case 21: //ANIO_MES2                              
                                 $U_cell_value = "";
                                 $U2_cell_value = "";
+                                $error=false;
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
@@ -921,20 +922,32 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-
-                                        list($second_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
+                                    	$code_error = "U.3";                       	
+                                        list($U_year) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff2 = (int) $first_year_to_check + 1;
 
+										if($R_cell_value){
+											// Existe R
+											list($R_year) = explode("/", $R_cell_value);
+											if((int)$R_year+1!=(int)$U_year){
+												$error=true;
+											}
+										}else{
+											// No existe R, U puede ser de uno a dos años menor que periodo actual
+											$dif=(int)$period_to_check-(int)$U_year;
+											if($dif!=1 && $dif!=2){
+												$error=true;
+											}
+										}
+										// 
+										if ($error) {
+											$result = return_error_array ( $code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue'] );
+											array_push ( $stack, $result );
+										} else {
+											$U_cell_value = $parameterArr [$i] ['fieldValue'];
+											$U2_cell_value = $return;
+										}
 
-                                        if ($check_diff2 != $second_year_to_check) {
-                                            $code_error = "U.3";
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $U_cell_value = $parameterArr[$i]['fieldValue'];
-                                            $U2_cell_value = $return;
-                                        }
                                     }
                                 }
 
@@ -1412,7 +1425,7 @@ class Lib_06_data extends MX_Controller {
             array_push($stack, $result);
         }
 /*         $stack = array(); */
-//         debug($stack);        exit();
+//          debug($stack);        exit();
          $this->data = $stack;
     }
 
