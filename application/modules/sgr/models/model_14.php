@@ -142,7 +142,7 @@ class Model_14 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -337,9 +337,9 @@ class Model_14 extends CI_Model {
     }
 
     function get_movement_data($nro) {
-        
-        
-        
+
+
+
         $anexo = $this->anexo;
         $token = $this->idu;
         $container = 'container.sgr_anexo_' . $anexo;
@@ -393,10 +393,10 @@ class Model_14 extends CI_Model {
         );
         return $return_arr;
     }
-    
-    function get_movement_data_print($nro,$period) {     
-        
-        
+
+    function get_movement_data_print($nro, $period) {
+
+
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -407,10 +407,10 @@ class Model_14 extends CI_Model {
         $recupero_gasto_periodo_arr = array();
         $gasto_incobrable_periodo_arr = array();
 
-        /* GET ACTIVE ANEXOS */        
+        /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period);
-        
-        
+
+
         /* FIND ANEXO */
         foreach ($result as $list) {
             $new_query = array(
@@ -594,6 +594,44 @@ class Model_14 extends CI_Model {
             'INCOBRABLES_PERIODO' => $inc_periodo_sum
         );
         return $return_arr;
+    }
+
+    function partners_debtors_to_top($period) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $result = $this->sgr_model->get_active_print($anexo, period_before($period)); //exclude actual
+        $rtn = array();
+        foreach ($result as $each) {
+            $new_query = array(
+                'filename' => $each['filename']
+            );
+
+
+            $partners = $this->mongo->sgr->$container->find($new_query);
+
+            foreach ($partners as $partner) {
+
+                //var_dump($partner['NRO_GARANTIA'], $partner['period']);
+                $model_12 = 'model_12';
+                $this->load->Model($model_12);
+
+                $get_movement_data = $this->$model_12->get_order_number_print($partner['NRO_GARANTIA'], $partner['period']);
+                if (!empty($get_movement_data)) {
+                    foreach ($get_movement_data as $each) {
+                        $cuit = $each[5349];
+                        $rtn[] = $cuit;
+                    }
+                }
+            }
+        }
+
+       // debug(array_unique($rtn));
+
+        return (count(array_unique($rtn)));
     }
 
 }

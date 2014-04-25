@@ -319,7 +319,7 @@
                             <td>{t5_36}</td>
                         </tr>
                         <tr>
-                            <td colspan="3"></td>
+                            <td colspan="3">Totales</td>
                             <td>{t5_37}</td>
                             <td>{t5_38}</td>
                         </tr>

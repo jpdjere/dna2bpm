@@ -258,7 +258,7 @@ class Model_15 extends CI_Model {
         return $rtn;
     }
 
-    function get_anexo_ddjj($period) {
+    function get_anexo_ddjj($period, $subsection) {
 
         $rtn = array();
         $anexo = $this->anexo;
@@ -266,29 +266,38 @@ class Model_15 extends CI_Model {
 
         $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
 
-        $query = array("filename" => $get_result['filename']);
+        $query = array("filename" => $get_result['filename'], 'INCISO_ART_25' => $subsection);
         $result = $this->mongo->sgr->$container->find($query)->sort(array('INCISO_ART_25' => 1));
         $new_list = array();
         foreach ($result as $list) {
-           
+
             $total = $this->get_total($anexo, $get_result['filename']);
+
             $percent = ($list['MONTO'] * 100) / $total;
 
             $new_list = array();
-            $new_list['col1'] = $list['INCISO_ART_25'];
-            $col2 = ($list['MONEDA'] == 1) ? ($list['MONTO']) : "-";
-            $col3 = ($list['MONEDA'] == 2) ? ($list['MONTO']) : "-";
+            $new_list['col'] = $list['INCISO_ART_25'];
 
+
+            $col1 = ($list['MONEDA'] == 1) ? ($list['MONTO']) : "-";
+            $col2 = ($list['MONEDA'] == 2) ? ($list['MONTO']) : "-";
+            $col3 = $list['MONTO'];
+            $col4 = $percent;
+           
+
+            $new_list['col1'] = $col1;
             $new_list['col2'] = $col2;
             $new_list['col3'] = $col3;
-            $new_list['col4'] = ($total);
-            $new_list['col5'] = ($percent);
+            $new_list['col4'] = $col4;
+           
+
             $rtn[] = $new_list;
         }
         return $rtn;
     }
+
     function get_anexo_data_clean_ddjj($period) {
-        
+
         $col9 = array();
 
         $rtn = array();
@@ -314,7 +323,7 @@ class Model_15 extends CI_Model {
 
         return $rtn;
     }
-    
+
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();

@@ -274,8 +274,6 @@ class Model_141 extends CI_Model {
             $col3 = ($partner_balance['count']) ? $partner_balance['count'] : 0;
             $col4 = ($partner_balance['balance']) ? $partner_balance['balance'] : 0;
 
-
-
             /* GET ALL WARRANTIES BY PARTNER */
             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $list['period']);
 
@@ -524,6 +522,36 @@ class Model_141 extends CI_Model {
 
 
         return $rtn;
+    }
+    
+    
+    function partners_debtors_to_top($period) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+         $result = $this->sgr_model->get_active_one($anexo, period_before($period)); //exclude actual
+        
+        
+        $rtn = array();
+        foreach ($result as $each) {
+            
+            $new_query = array(
+                'filename' => $each['filename']
+            );
+
+
+            $partners = $this->mongo->sgr->$container->find($new_query);
+
+            foreach ($partners as $partner) {
+                if($partner['MORA_EN_DIAS'])
+                    
+                $rtn[] = $partner['CUIT_PARTICIPE'];
+            }
+        }
+        return (count(array_unique($rtn)));
     }
 
 }
