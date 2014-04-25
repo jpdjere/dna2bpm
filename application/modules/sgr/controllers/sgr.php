@@ -875,7 +875,7 @@ class Sgr extends MX_Controller {
             case '15':
                 $result_15 = $this->$model->get_anexo_ddjj($period_req);
                 foreach ($result_15 as $r15) {
-                    debug($r15['col1']);
+                    //debug($r15['col1']);
 
                     switch ($r15['col1']) {
                         case "A":
