@@ -56,7 +56,7 @@ class Sgr extends MX_Controller {
         $this->period = $this->session->userdata['period'];
     }
 
-    // ==== Dashboard ====
+// ==== Dashboard ====
     function Dashboard() {
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -67,7 +67,7 @@ class Sgr extends MX_Controller {
         $customData['titulo'] = "Dashboard";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
-        //$customData['layout']="layout.php"; 
+//$customData['layout']="layout.php"; 
 
         $sections = array();
         $sections['Anexos'] = array();
@@ -77,7 +77,7 @@ class Sgr extends MX_Controller {
         $this->render('main_dashboard', $customData);
     }
 
-    // ==== Anexos ====
+// ==== Anexos ====
     function Index() {
 
         $customData = array();
@@ -835,8 +835,8 @@ class Sgr extends MX_Controller {
         $period_req = $this->input->post("period");
 
         /* FILENAMES */
-        $anexos_arr = array("12", "06", "13", "16");
-        $filenames_arr = array("12", "121", "122", "123", "124", "125", "13", "15", "16");
+        $anexos_arr = array("12", "06", "13", "16", "15", "14");
+        $filenames_arr = array("12", "121", "122", "123", "124", "125", "13", "14", "141", "15", "16");
         foreach ($filenames_arr as $each) {
             $get_anexo = $this->sgr_model->get_period_data($each, $parameter, true);
             $customData['f_' . $each] = $get_anexo[0]['filename'];
@@ -847,6 +847,13 @@ class Sgr extends MX_Controller {
             $get_ddjj_data = $this->ddjj_data($anexo_req, $period_req);
 
             foreach ($get_ddjj_data as $key => $each) {
+
+                if ($each == "")
+                    $each = "-";
+                
+                if ($each == "$")
+                    $each = "$0.00";
+
                 $customData[$key] = $each;
             }
         }
@@ -864,35 +871,202 @@ class Sgr extends MX_Controller {
 
         $model124 = "model_124";
         $this->load->Model($model124);
+        
+        $model141 = "model_141";
+        $this->load->Model($model141);
+
 
         $comisions = $this->input->post("comisions");
         switch ($anexo_req) {
+            
+            case '14':                
+                $t4_1 = $this->$model141->partners_debtors_to_top($period_req);
+                
+                $rtn['t4_1'] = $t4_1;
+                return $rtn;
+                
+                break;
+
+            case '15':
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "A");
+                $total = 0;
+
+                foreach ($result_15 as $r15) {
+                    $t5_1 = $r15['col1'];
+                    $t5_2 = $r15['col2'];
+                    $t5_3 = $r15['col3'];
+                    $t5_4 = $r15['col4'];
+
+                    $total += $r15['col3'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "B");
+                foreach ($result_15 as $r15) {
+                    $total += $r15['col3'];
+
+                    $t5_5 = $r15['col1'];
+                    $t5_6 = $r15['col2'];
+                    $t5_7 = $total;
+                    $t5_8 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "C");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_9 = $r15['col1'];
+                    $t5_10 = $r15['col2'];
+                    $t5_11 = $total;
+                    $t5_12 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "D");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_13 = $r15['col1'];
+                    $t5_14 = $r15['col2'];
+                    $t5_15 = $total;
+                    $t5_16 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "E");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_17 = $r15['col1'];
+                    $t5_18 = $r15['col2'];
+                    $t5_19 = $total;
+                    $t5_20 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "F");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_21 = $r15['col1'];
+                    $t5_22 = $r15['col2'];
+                    $t5_23 = $total;
+                    $t5_24 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "G");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_25 = $r15['col1'];
+                    $t5_26 = $r15['col2'];
+                    $t5_27 = $total;
+                    $t5_28 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "H");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_29 = $r15['col1'];
+                    $t5_30 = $r15['col2'];
+                    $t5_31 = $total;
+                    $t5_32 = $r15['col4'];
+                }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "I");
+                foreach ($result_15 as $r15) {
+
+                    $total += $r15['col3'];
+
+                    $t5_33 = $r15['col1'];
+                    $t5_34 = $r15['col2'];
+                    $t5_35 = $total;
+                    $t5_36 = $r15['col4'];
+                }
+
+
+                $rtn['t5_1'] = money_format_custom($t5_1);
+                $rtn['t5_2'] = money_format_custom($t5_2);
+                $rtn['t5_3'] = money_format_custom($t5_3);
+                $rtn['t5_4'] = percent_format_custom($t5_4);
+
+                $rtn['t5_5'] = money_format_custom($t5_5);
+                $rtn['t5_6'] = money_format_custom($t5_6);
+                $rtn['t5_7'] = money_format_custom($t5_7);
+                $rtn['t5_8'] = percent_format_custom($t5_8);
+
+                $rtn['t5_9'] = money_format_custom($t5_9);
+                $rtn['t5_10'] = money_format_custom($t5_10);
+                $rtn['t5_11'] = money_format_custom($t5_11);
+                $rtn['t5_12'] = percent_format_custom($t5_12);
+
+                $rtn['t5_13'] = money_format_custom($t5_13);
+                $rtn['t5_14'] = money_format_custom($t5_14);
+                $rtn['t5_15'] = money_format_custom($t5_15);
+                $rtn['t5_16'] = percent_format_custom($t5_16);
+
+                $rtn['t5_17'] = money_format_custom($t5_17);
+                $rtn['t5_18'] = money_format_custom($t5_18);
+                $rtn['t5_19'] = money_format_custom($t5_19);
+                $rtn['t5_20'] = percent_format_custom($t5_20);
+
+                $rtn['t5_21'] = money_format_custom($t5_21);
+                $rtn['t5_22'] = money_format_custom($t5_22);
+                $rtn['t5_23'] = money_format_custom($t5_23);
+                $rtn['t5_24'] = percent_format_custom($t5_24);
+
+                $rtn['t5_25'] = money_format_custom($t5_25);
+                $rtn['t5_26'] = money_format_custom($t5_26);
+                $rtn['t5_27'] = money_format_custom($t5_27);
+                $rtn['t5_28'] = percent_format_custom($t5_28);
+
+                $rtn['t5_29'] = money_format_custom($t5_29);
+                $rtn['t5_30'] = money_format_custom($t5_30);
+                $rtn['t5_31'] = money_format_custom($t5_31);
+                $rtn['t5_32'] = percent_format_custom($t5_32);
+
+                $rtn['t5_33'] = money_format_custom($t5_33);
+                $rtn['t5_34'] = money_format_custom($t5_34);
+                $rtn['t5_35'] = money_format_custom($t5_35);
+                $rtn['t5_36'] = percent_format_custom($t5_36);
+
+                $rtn['t5_37'] = money_format_custom($total);
+                $rtn['t5_38'] = percent_format_custom(100);
+
+
+
+
+                return $rtn;
+                break;
 
             case '16':
                 $result_16 = $this->$model->get_anexo_ddjj($period_req);
 
-                $t5_1 = $result_16[0]['col2'];
-                $t5_2 = $result_16[0]['col9'];
-                $t5_3 = $result_16[0]['col10'];
-                $t5_4 = $result_16[0]['col11'];
-                $t5_5 = $result_16[0]['col12'];
-                $t5_6 = $result_16[0]['col13'];
-                $t5_7 = $result_16[0]['col14'];
-                $t5_8 = $result_16[0]['col15'];
-                $t5_9 = $result_16[0]['col16'];
+                $t6_1 = $result_16[0]['col2'];
+                $t6_2 = $result_16[0]['col9'];
+                $t6_3 = $result_16[0]['col10'];
+                $t6_4 = $result_16[0]['col11'];
+                $t6_5 = $result_16[0]['col12'];
+                $t6_6 = $result_16[0]['col13'];
+                $t6_7 = $result_16[0]['col14'];
+                $t6_8 = $result_16[0]['col15'];
+                $t6_9 = $result_16[0]['col16'];
 
-                $rtn['t5_1'] = $t5_1;
-                $rtn['t5_2'] = $t5_2;
-                $rtn['t5_3'] = $t5_3;
-                $rtn['t5_4'] = $t5_4;
-                $rtn['t5_5'] = $t5_5;
-                $rtn['t5_6'] = $t5_6;
-                $rtn['t5_7'] = $t5_7;
-                $rtn['t5_8'] = $t5_8;
-                $rtn['t5_9'] = $t5_9;
-                
+                $rtn['t6_1'] = $t6_1;
+                $rtn['t6_2'] = $t6_2;
+                $rtn['t6_3'] = $t6_3;
+                $rtn['t6_4'] = $t6_4;
+                $rtn['t6_5'] = $t6_5;
+                $rtn['t6_6'] = $t6_6;
+                $rtn['t6_7'] = $t6_7;
+                $rtn['t6_8'] = $t6_8;
+                $rtn['t6_9'] = $t6_9;
+
                 return $rtn;
-                
+
                 break;
 
             case '13':
@@ -1194,12 +1368,12 @@ class Sgr extends MX_Controller {
             for ($j = 12; $j > 0; $j--) {
 
                 $j = sprintf('%02s', $j);
-                $new_query = $j . "-" . $i;                
-                $disabled_link = ($i<2014)? ' disabled_link':"";
-                
+                $new_query = $j . "-" . $i;
+                $disabled_link = ($i < 2014) ? ' disabled_link' : "";
+
 
                 $processed = $this->sgr_model->get_ready_anexo($this->sgr_id, $new_query);
-                $print_file = anchor('/sgr/print_ddjj/' . $new_query, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. Para ' . $new_query, array('target' => '_blank', 'class' => 'btn btn-primary'.$disabled_link ));
+                $print_file = anchor('/sgr/print_ddjj/' . $new_query, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. Para ' . $new_query, array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
                 if ($processed)
                     $list_files .= "<li>" . $print_file . "</li>";
