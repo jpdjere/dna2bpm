@@ -175,10 +175,75 @@
                 </div>
 
                 <ul>
+                    <li>Anexo 14 - Fondo de Riesgo Contingente</li>
+                    Archivo Importado: <u>{f_14}</u>
+                </ul>
+                
+                <ul>
+                    <li>Anexo 14.1 - SGR Situación consolidada por Socio Partícipe</li>
+                    Archivo Importado: <u>{f_141}</u>
+                </ul>
+                <div id="T4" class="table_partners">
+                    <table>
+                        <tr>
+                            <th colspan="16">evolucion del fondo de riesgo contingente <br></th>
+                        </tr>
+                        <tr>
+                            <th rowspan="3">cantidad de soc. part. deudores al inicio del periodo <br></th>
+                            <th rowspan="3">saldo inicial <br></th>
+                            <th colspan="6">garantias afrontadas<br></th>
+                            <th colspan="6">gastos por gestion de recuperos<br></th>
+                            <th rowspan="3">saldo final<br></th>
+                            <th rowspan="3">cantidad de soc. part. deudores al final del periodo <br></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2">caidas</th>
+                            <th colspan="2">recuperos</th>
+                            <th colspan="2">incobrables</th>
+                            <th colspan="2">caidas <br></th>
+                            <th colspan="2">recuperos</th>
+                            <th colspan="2">incobrables</th>
+                        </tr>
+                        <tr>
+                            <th>cantidad</th>
+                            <th>monto <br></th>
+                            <th>cantidad</th>
+                            <th>monto </th>
+                            <th>cantidad</th>
+                            <th>monto </th>
+                            <th>cantidad</th>
+                            <th>monto </th>
+                            <th>cantidad</th>
+                            <th>monto </th>
+                            <th>cantidad</th>
+                            <th>monto <br></th>
+                        </tr>
+                        <tr>
+                            <td>{t4_1}</td>
+                            <td>{t4_2}</td>
+                            <td>{t4_3}</td>
+                            <td>{t4_4}</td>
+                            <td>{t4_5}</td>
+                            <td>{t4_6}</td>
+                            <td>{t4_7}</td>
+                            <td>{t4_8}</td>
+                            <td>{t4_9}</td>
+                            <td>{t4_10}</td>
+                            <td>{t4_11}</td>
+                            <td>{t4_12}</td>
+                            <td>{t4_13}</td>
+                            <td>{t4_14}</td>
+                            <td>{t4_15}</td>
+                            <td>{t4_16}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <ul>
                     <li>Anexo 15 - Inversión del Fondo de Riesgo</li>
                     Archivo Importado: <u>{f_15}</u>
                 </ul>
-                <div id="T4" class="table_partners">
+                <div id="T5" class="table_partners">
                     <table>
                         <tr>
                             <th colspan="5">inversiones</th>
@@ -192,71 +257,71 @@
                         </tr>
                         <tr>
                             <td>a</td>
-                            <td>{t4_1}</td>
-                            <td>{t4_2}</td>
-                            <td>{t4_3}</td>
-                            <td>{t4_4}</td>
+                            <td>{t5_1}</td>
+                            <td>{t5_2}</td>
+                            <td>{t5_3}</td>
+                            <td>{t5_4}</td>
                         </tr>
                         <tr>
                             <td>b</td>
-                            <td>{t4_5}</td>
-                            <td>{t4_6}</td>
-                            <td>{t4_7}</td>
-                            <td>{t4_8}</td>
+                            <td>{t5_5}</td>
+                            <td>{t5_6}</td>
+                            <td>{t5_7}</td>
+                            <td>{t5_8}</td>
                         </tr>
                         <tr>
                             <td>c</td>
-                            <td>{t4_9}</td>
-                            <td>{t4_10}</td>
-                            <td>{t4_11}</td>
-                            <td>{t4_12}</td>
+                            <td>{t5_9}</td>
+                            <td>{t5_10}</td>
+                            <td>{t5_11}</td>
+                            <td>{t5_12}</td>
                         </tr>
                         <tr>
                             <td>d</td>
-                            <td>{t4_13}</td>
-                            <td>{t4_14}</td>
-                            <td>{t4_15}</td>
-                            <td>{t4_16}</td>
+                            <td>{t5_13}</td>
+                            <td>{t5_14}</td>
+                            <td>{t5_15}</td>
+                            <td>{t5_16}</td>
                         </tr>
                         <tr>
                             <td>e</td>
-                            <td>{t4_17}</td>
-                            <td>{t4_18}</td>
-                            <td>{t4_19}</td>
-                            <td>{t4_20}</td>
+                            <td>{t5_17}</td>
+                            <td>{t5_18}</td>
+                            <td>{t5_19}</td>
+                            <td>{t5_20}</td>
                         </tr>
                         <tr>
                             <td>f</td>
-                            <td>{t4_21}</td>
-                            <td>{t4_22}</td>
-                            <td>{t4_23}</td>
-                            <td>{t4_24}</td>
+                            <td>{t5_21}</td>
+                            <td>{t5_22}</td>
+                            <td>{t5_23}</td>
+                            <td>{t5_24}</td>
                         </tr>
                         <tr>
                             <td>g</td>
-                            <td>{t4_25}</td>
-                            <td>{t4_26}</td>
-                            <td>{t4_27}</td>
-                            <td>{t4_28}</td>
+                            <td>{t5_25}</td>
+                            <td>{t5_26}</td>
+                            <td>{t5_27}</td>
+                            <td>{t5_28}</td>
                         </tr>
                         <tr>
                             <td>h</td>
-                            <td>{t4_29}</td>
-                            <td>{t4_30}</td>
-                            <td>{t4_31}</td>
-                            <td>{t4_32}</td>
+                            <td>{t5_29}</td>
+                            <td>{t5_30}</td>
+                            <td>{t5_31}</td>
+                            <td>{t5_32}</td>
                         </tr>
                         <tr>
                             <td>i</td>
-                            <td>{t4_33}</td>
-                            <td>{t4_34}</td>
-                            <td>{t4_35}</td>
-                            <td>{t4_36}</td>
+                            <td>{t5_33}</td>
+                            <td>{t5_34}</td>
+                            <td>{t5_35}</td>
+                            <td>{t5_36}</td>
                         </tr>
                         <tr>
                             <td colspan="3"></td>
-                            <td>{t4_37}</td>
-                            <td>{t4_38}</td>
+                            <td>{t5_37}</td>
+                            <td>{t5_38}</td>
                         </tr>
                     </table>
                 </div>
@@ -266,7 +331,7 @@
                     Archivo Importado: <u>{f_16}</u>
                 </ul>
 
-                <div id="T5" class="table_partners">
+                <div id="T6" class="table_partners">
                     <table>
                         <tr>
                             <th colspan="6">saldos promedios mensuales</th>
@@ -284,15 +349,15 @@
                             <th>120% </th>
                         </tr>
                         <tr>
-                            <td>{t5_1}</td>
-                            <td>{t5_2}</td>
-                            <td>{t5_3}</td>
-                            <td>{t5_4}</td>
-                            <td>{t5_5}</td>
-                            <td>{t5_6}</td>
-                            <td>{t5_7}</td>
-                            <td>{t5_8}</td>
-                            <td>{t5_9}</td>
+                            <td>{t6_1}</td>
+                            <td>{t6_2}</td>
+                            <td>{t6_3}</td>
+                            <td>{t6_4}</td>
+                            <td>{t6_5}</td>
+                            <td>{t6_6}</td>
+                            <td>{t6_7}</td>
+                            <td>{t6_8}</td>
+                            <td>{t6_9}</td>
                         </tr>
                     </table>
                 </div>
