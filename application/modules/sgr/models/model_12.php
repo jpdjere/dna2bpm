@@ -626,11 +626,11 @@ class Model_12 extends CI_Model {
         foreach ($result as $list) {
             $new_query = array(
                 'filename' => $list['filename'],
-                5349 => $cuit,
-                5351 => $sharer
+                5351 => $cuit,
+                5349 => $sharer
             );
             
-            var_dump($new_query);
+           
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result) {
                 $return_result[] = $new_result;
