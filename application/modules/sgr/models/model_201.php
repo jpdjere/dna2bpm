@@ -466,7 +466,8 @@ class Model_201 extends CI_Model {
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 if ($data) {
-                    return true;
+                    debug($data);
+                    //return true;
                 }
             }
         }
