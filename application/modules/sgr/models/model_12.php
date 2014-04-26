@@ -473,8 +473,12 @@ class Model_12 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
+        
+        
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
+        
+        debug($result);
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
