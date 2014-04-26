@@ -239,7 +239,6 @@ class Lib_121_data extends MX_Controller {
                 $fix_ten_cents = fix_ten_cents($a, $b);
 
                 if ($fix_ten_cents) {
-                    $code_error = "D.2.B";
                     $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $d2_sum);
                     array_push($stack, $result);
                 }
