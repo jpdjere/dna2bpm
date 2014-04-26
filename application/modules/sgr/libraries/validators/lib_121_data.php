@@ -63,7 +63,7 @@ class Lib_121_data extends MX_Controller {
                     }
 
                     $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);
-
+                    var_dump($warranty_info);
                     if ($warranty_info) {
                         $warrantyArr = array($warranty_info[0]['5227'][0]);
                         if (!in_array('04', $warrantyArr)) {
@@ -216,6 +216,7 @@ class Lib_121_data extends MX_Controller {
         // ============ Validation B.1 ==
 
         if (!check_consecutive_values($b1_array)) {
+            $code_error = "B.1";
             $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
             array_push($stack, $result);
         }
@@ -268,7 +269,7 @@ class Lib_121_data extends MX_Controller {
             }
         }
 
-        //  debug($stack);        exit();
+         debug($stack);        exit();
         $this->data = $stack;
     }
 
