@@ -400,9 +400,9 @@ class Lib_14_data extends MX_Controller {
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
 
             if ($number == 38)
-                debug($sum_RECUPEROS);
+                debug($get_temp_data['INCOBRABLES_PERIODO']);
 
-
+           
 
 
             /* Nro B.2/D.2
@@ -442,7 +442,9 @@ class Lib_14_data extends MX_Controller {
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
 
-
+                
+               //  if($sum_CAIDA<$sum_RECUPEROS)
+                
                 var_dump($get_recuperos_tmp, $recuperos);
 
                 foreach ($get_recuperos_tmp as $recuperos) {
