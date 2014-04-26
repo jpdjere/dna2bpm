@@ -37,7 +37,7 @@ class Lib_202_data extends MX_Controller {
                 $get_input_number_check = $this->$model_201->get_input_number_left($each);
 
             if ($get_input_number_check > 0)
-                $A3_array[] = $A_cell_value;
+                $A3_array[] = $each;
         }
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
