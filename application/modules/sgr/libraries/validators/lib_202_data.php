@@ -196,6 +196,7 @@ class Lib_202_data extends MX_Controller {
         /* A.3 */
 
         debug($A3_array);
+        debug($A_array_value);
 
         $A3_result = array_diff(array_unique($A3_array), array_unique($A_array_value));
         if ($A3_result) {
