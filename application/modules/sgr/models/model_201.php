@@ -471,7 +471,7 @@ class Model_201 extends CI_Model {
                 }
             }
         }
-        debug($rtn);
+       
         return $rtn;
     }
 
