@@ -456,20 +456,12 @@ class Model_201 extends CI_Model {
 
 
         foreach ($result as $each) {
-            
+
             /* APORTE */
             $new_query = array(
                 'APORTE' => array('$ne' => null),
-                'filename' => $list['filename']
+                'filename' => $each['filename']
             );
-            
-            debug( $new_query );
-        }
-
-        /* FIND ANEXO */
-        foreach ($result as $list) {
-
-
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
@@ -478,9 +470,10 @@ class Model_201 extends CI_Model {
                     $rtn[] = $data['NUMERO_DE_APORTE'];
                 }
             }
-
-            return $rtn;
         }
+        
+        return $rtn;
+
     }
 
     function exist_input_number_left($code) {
