@@ -631,12 +631,9 @@ class Model_12 extends CI_Model {
             );
             $get_new_result = $this->mongo->sgr->$container->find($new_query);
             foreach($get_new_result as $new_result) {
-                $return_result[] = $new_result;
+                $return_result[] = $new_result['5214'];
             }
         }
-        
-        var_dump($return_result);
-        
         return $return_result;
     }
 
