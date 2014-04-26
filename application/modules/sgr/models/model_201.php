@@ -458,7 +458,7 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-                'NUMERO_DE_APORTE' => array('$ne' => null),
+                'APORTE' => array('$ne' => null),
                 'filename' => $list['filename']
             );
            
