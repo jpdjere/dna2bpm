@@ -170,9 +170,6 @@ class Lib_14_data extends MX_Controller {
                                 //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
 
                                 /* FIX */
-
-
-
                                 $a = (int) $new_dollar_value;
                                 $b = (int) $C_cell_value;
 
@@ -552,8 +549,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        var_dump($stack);
-        exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
