@@ -400,7 +400,7 @@ class Lib_14_data extends MX_Controller {
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
 
             if ($number == 38)
-                debug($sum_CAIDA);
+                debug($sum_RECUPEROS);
 
 
 
