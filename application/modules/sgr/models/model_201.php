@@ -461,7 +461,8 @@ class Model_201 extends CI_Model {
                 'APORTE' => array('$ne' => NULL),
                 'filename' => $list['filename']
             );
-           debug($new_query);
+           
+            debug($list['filename']);
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
