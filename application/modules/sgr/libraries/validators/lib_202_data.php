@@ -29,7 +29,15 @@ class Lib_202_data extends MX_Controller {
         $A3_array = array();
         $exist_input_all = array_unique($this->$model_201->exist_input_all());
 
+        foreach ($exist_input_all as $each) {
 
+            $get_anexo_data = $this->$model_201->exist_input_number_left($each);
+            if ($get_anexo_data)
+                $get_input_number_check = $this->$model_201->get_input_number_left($each);
+
+            if ($get_input_number_check > 0)
+                $A3_array[] = $A_cell_value;
+        }
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -75,16 +83,6 @@ class Lib_202_data extends MX_Controller {
                     } else {
 
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-
-                        foreach ($exist_input_all as $each) {
-
-                            $get_anexo_data = $this->$model_201->exist_input_number_left($each);
-                            if ($get_anexo_data)
-                                $get_input_number_check = $this->$model_201->get_input_number_left($each);
-
-                            if ($get_input_number_check > 0)
-                                $A3_array[] = $A_cell_value;
-                        }
 
                         $A_array_value[] = (int) $A_cell_value;
                     }
