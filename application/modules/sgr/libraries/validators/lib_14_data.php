@@ -435,9 +435,14 @@ class Lib_14_data extends MX_Controller {
 
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
-
+                
+                
+                var_dump($get_recuperos_tmp,$recuperos);
 
                 foreach ($get_recuperos_tmp as $recuperos) {
+                    
+                    
+                    
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
                     $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
@@ -536,7 +541,7 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);        exit();
+        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
