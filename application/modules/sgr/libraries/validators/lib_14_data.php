@@ -405,6 +405,8 @@ class Lib_14_data extends MX_Controller {
              * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
              * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
              */
+            debug($get_temp_data['RECUPERO']);
+            
             if ($get_temp_data['RECUPERO'] > 0) {
                 if ($sum_CAIDA == 0) {
                     $code_error = "B.2";
