@@ -25,7 +25,7 @@ class Lib_202_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-        $A_array_value = $this->$model_201->exist_input_all();
+        $A_array_value = array_unique($this->$model_201->exist_input_all());
         $A3_array = array();
 
 
