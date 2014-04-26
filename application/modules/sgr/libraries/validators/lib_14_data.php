@@ -399,10 +399,9 @@ class Lib_14_data extends MX_Controller {
             $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
 
-            if ($number == 38)
-                debug($get_temp_data['INCOBRABLES_PERIODO']);
 
-           
+
+
 
 
             /* Nro B.2/D.2
@@ -410,6 +409,14 @@ class Lib_14_data extends MX_Controller {
              * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
              * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
              */
+
+            if ($get_temp_data['INCOBRABLES_PERIODO']) {
+                if ($sum_CAIDA < $sum_RECUPEROS) {
+                    $code_error = "E.3";
+                    $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                    array_push($stack, $result);
+                }
+            }
 
             if ($get_temp_data['RECUPERO'] > 0) {
                 if ($sum_CAIDA == 0) {
@@ -442,15 +449,10 @@ class Lib_14_data extends MX_Controller {
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
 
-                
-               //  if($sum_CAIDA<$sum_RECUPEROS)
-                
-                var_dump($get_recuperos_tmp, $recuperos);
+
+
 
                 foreach ($get_recuperos_tmp as $recuperos) {
-
-
-
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
                     $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
