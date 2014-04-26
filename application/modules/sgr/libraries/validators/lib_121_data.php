@@ -262,13 +262,32 @@ class Lib_121_data extends MX_Controller {
 
 
         if (!empty($e2_nro)) {
-            $item = $this->$model_anexo->get_order_number_left($e2_nro);
-            $code_error = "E.2";
 
-            if (isset($item[5218])) {
-                if ($e2_sum != $item[5218]) {
-                    $result = return_error_array($code_error, "-", $e2_sum . " de " . $item[5218]);
+            if ($currency == 2) {
+                $code_error = "E.2.B";
+
+                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
+
+                $a = (int) $new_dollar_value;
+                $b = (int) $e2_sum;
+
+                $fix_ten_cents = fix_ten_cents($a, $b);
+
+                if ($fix_ten_cents) {
+                    $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $e2_sum);
                     array_push($stack, $result);
+                }
+            } else {
+                $item = $this->$model_anexo->get_order_number_left($e2_nro);
+                $code_error = "E.2.A";
+
+                if (isset($item[5218])) {
+                    if ($e2_sum != $item[5218]) {
+                        $result = return_error_array($code_error, "-", $e2_sum . " de " . $item[5218]);
+                        array_push($stack, $result);
+                    }
                 }
             }
         }
