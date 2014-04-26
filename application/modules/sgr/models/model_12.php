@@ -630,6 +630,7 @@ class Model_12 extends CI_Model {
                 5349 => $sharer
             );
             
+            var_dump($query);
            
             $new_result = $this->mongo->sgr->$container->findOne($new_query);
             if ($new_result) {
