@@ -382,6 +382,9 @@ class Lib_14_data extends MX_Controller {
 
         foreach ($order_num_unique as $number) {
 
+
+
+
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
@@ -396,6 +399,8 @@ class Lib_14_data extends MX_Controller {
             $sum_GASTOS_INCOBRABLES_PERIODO = array_sum(array($get_historic_data['GASTOS_INCOBRABLES_PERIODO'], $get_temp_data['GASTOS_INCOBRABLES_PERIODO']));
             $sum_GASTOS = array_sum(array($sum_RECUPERO_GASTOS_PERIODO, $sum_GASTOS_INCOBRABLES_PERIODO));
 
+            if ($number == 38)
+                debug($sum_CAIDA);
 
 
 
@@ -405,8 +410,7 @@ class Lib_14_data extends MX_Controller {
              * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
              * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
              */
-            debug($get_temp_data['RECUPERO']);
-            
+
             if ($get_temp_data['RECUPERO'] > 0) {
                 if ($sum_CAIDA == 0) {
                     $code_error = "B.2";
@@ -437,14 +441,14 @@ class Lib_14_data extends MX_Controller {
 
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
-                
-                
-                var_dump($get_recuperos_tmp,$recuperos);
+
+
+                var_dump($get_recuperos_tmp, $recuperos);
 
                 foreach ($get_recuperos_tmp as $recuperos) {
-                    
-                    
-                    
+
+
+
                     $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
                     $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
@@ -543,7 +547,8 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        var_dump($stack);        exit();
+        var_dump($stack);
+        exit();
         $this->data = $stack;
     }
 
