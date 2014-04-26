@@ -51,9 +51,9 @@ class Lib_125_data extends MX_Controller {
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
-                    
-                    
-                    
+
+
+
                     $code_error = "A.1";
                     $sharer_info = $this->$model_anexo->get_sharer_left($parameterArr[$i]['fieldValue']);
                     //  var_dump($sharer_info);
@@ -128,7 +128,8 @@ class Lib_125_data extends MX_Controller {
 
 
                     $haygarantia = false;
-                    $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2");
+                    $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2",
+                        "I.1.1", "I.1.2", "I.1.3", "I.1.4", "I.2.1", "I.2.2", "I.2.3", "I.2.4", "I.3.1", "I.3.2", "I.3.3", "I.3.4", "I.4.1", "I.4.2", "I.4.3", "I.5.1", "I.5.2", "I.5.3", "I.5.4", "I.6.1", "I.6.2", "I.7.1", "I.7.2", "I.8", "FINACIERA");
                     foreach ($sharer_info as $info) {
                         if (in_array($info['5216'][0], $C2_array)) {
                             $haygarantia = true;
@@ -182,7 +183,8 @@ class Lib_125_data extends MX_Controller {
                     //empty field Validation
 
                     $haygarantia = false;
-                    $D1_array = array("GC1", "GC2");
+                    $D1_array = array("GC1", "GC2",
+                        "II.1.1", "II.1.2", "II.1.3a", "II.1.3b", "II.1.4", "II.2.1", "II.2.2", "II.2.3a", "II.2.3b", "II.2.4", "COMERCIAL");
                     foreach ($sharer_info as $info) {
                         if (in_array($info['5216'][0], $D1_array)) {
                             $haygarantia = true;
@@ -228,7 +230,8 @@ class Lib_125_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 5) {
 
                     $haygarantia = false;
-                    $E1_array = array("GT");
+                    $E1_array = array("GT",
+                        "III.1.1", "III.1.2", "III.1.3", "III.2.1", "III.2.2", "III.2.3", "III.2.4", "III.3", "TECNICA");
                     foreach ($sharer_info as $info) {
                         if (in_array($info['5216'][0], $E1_array)) {
                             $haygarantia = true;
@@ -264,20 +267,20 @@ class Lib_125_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        
+
         /* EXTRA VALIDATION VG.2 */
         foreach (repeatedElements($vg2_arr) as $arr) {
-            
-           
+
+
             $stack = array();
             $code_error = "VG.2";
-            list($creditor,$sharer) = explode('*', $arr['value']);
+            list($creditor, $sharer) = explode('*', $arr['value']);
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "CUIT Participe: " . $sharer . ",  Acreedor: " . $creditor);
             array_push($stack, $result);
         }
 
         //debug($stack);        exit();
-        
+
         $this->data = $stack;
     }
 
