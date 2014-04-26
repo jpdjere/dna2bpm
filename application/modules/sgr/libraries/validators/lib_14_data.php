@@ -411,12 +411,10 @@ class Lib_14_data extends MX_Controller {
              */
 
             if ($get_temp_data['INCOBRABLES_PERIODO']) {
-                
-                debug($get_temp_data['INCOBRABLES_PERIODO']);
-                
+               
                 if ($sum_CAIDA < $sum_RECUPEROS) {
                     $code_error = "E.3";
-                    $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
+                    $result = return_error_array($code_error, "", "[" . $get_temp_data['INCOBRABLES_PERIODO'] . "] " . $sum_CAIDA);
                     array_push($stack, $result);
                 }
             }
