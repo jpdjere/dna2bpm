@@ -634,7 +634,9 @@ class Model_12 extends CI_Model {
                 $return_result[] = $new_result;
             }
         }
-
+        
+        var_dump($return_result);
+        
         return $return_result;
     }
 
