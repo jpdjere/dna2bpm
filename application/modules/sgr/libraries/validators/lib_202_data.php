@@ -26,6 +26,7 @@ class Lib_202_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $A_array_value = array();
+        $A3_array = array();
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -78,7 +79,10 @@ class Lib_202_data extends MX_Controller {
                         if ($get_anexo_data)
                             $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
 
-                        $A3_array = array();
+
+
+
+
                         if ($get_input_number_check > 0)
                             $A3_array[] = $A_cell_value;
                     }
@@ -97,7 +101,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $B_cell_value = (float) $parameterArr[$i]['fieldValue'];
-                        
+
                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -116,7 +120,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
-                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
+                        $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -140,7 +144,7 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
-                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
+                        $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -198,7 +202,8 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //exit();
+        debug($stack);
+        exit();
         $this->data = $stack;
     }
 
