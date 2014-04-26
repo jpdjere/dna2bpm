@@ -30,7 +30,8 @@ class Lib_202_data extends MX_Controller {
         $exist_input_all = array_unique($this->$model_201->exist_input_all());
 
         foreach ($exist_input_all as $each) {
-
+            debug($each);
+            
             $get_anexo_data = $this->$model_201->exist_input_number_left($each);
             if ($get_anexo_data)
                 $get_input_number_check = $this->$model_201->get_input_number_left($each);
