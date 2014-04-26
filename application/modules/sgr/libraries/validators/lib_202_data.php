@@ -25,8 +25,9 @@ class Lib_202_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-        $A_array_value = array_unique($this->$model_201->exist_input_all());
+        $A_array_value = array();
         $A3_array = array();
+        $exist_input_all = array_unique($this->$model_201->exist_input_all());
 
 
 
@@ -74,17 +75,18 @@ class Lib_202_data extends MX_Controller {
                     } else {
 
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        //$A_array_value[] = (int) $A_cell_value;
 
+                        foreach ($exist_input_all as $each) {
 
-                        $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
-                        if ($get_anexo_data)
-                            $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
+                            $get_anexo_data = $this->$model_201->exist_input_number_left($each);
+                            if ($get_anexo_data)
+                                $get_input_number_check = $this->$model_201->get_input_number_left($each);
 
+                            if ($get_input_number_check > 0)
+                                $A3_array[] = $A_cell_value;
+                        }
 
-
-                        if ($get_input_number_check > 0)
-                            $A3_array[] = $A_cell_value;
+                        $A_array_value[] = (int) $A_cell_value;
                     }
                 }
 
