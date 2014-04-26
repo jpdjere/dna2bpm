@@ -453,16 +453,15 @@ class Model_201 extends CI_Model {
          $rtn = array();
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-      
+        debug($result);
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* APORTE */
             $new_query = array(
-                'APORTE' => array('$ne' => NULL),
+                'APORTE' => array('$ne' => null),
                 'filename' => $list['filename']
             );
            
-            debug($list['filename']);
 
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
