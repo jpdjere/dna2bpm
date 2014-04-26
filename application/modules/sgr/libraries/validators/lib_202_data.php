@@ -92,6 +92,12 @@ class Lib_202_data extends MX_Controller {
                             $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
 
                         $A_array_value[] = (int) $A_cell_value;
+
+                        if (!$get_anexo_data) {
+                            $code_error = "A.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -186,11 +192,6 @@ class Lib_202_data extends MX_Controller {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value . " <br>Valor del Sistema: " . $get_input_number_check);
                                 array_push($stack, $result);
                             }
-                        } else {
-
-                            $code_error = "A.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                            array_push($stack, $result);
                         }
                     }
                 }
