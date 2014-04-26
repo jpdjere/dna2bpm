@@ -74,7 +74,7 @@ class Lib_202_data extends MX_Controller {
                     } else {
 
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $A_array_value[] = (int) $A_cell_value;
+                        //$A_array_value[] = (int) $A_cell_value;
 
 
                         $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
