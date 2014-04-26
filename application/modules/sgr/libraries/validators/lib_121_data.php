@@ -55,24 +55,27 @@ class Lib_121_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
 
                     $code_error = "A.1";
+                    $A_cell_value = $parameterArr[$i]['fieldValue'];
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+                        $A_cell_value = false;
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
 
                     $warranty_info = $this->$model_anexo->get_order_number_left($parameterArr[$i]['fieldValue']);
-                   
+
                     if ($warranty_info) {
                         $warrantyArr = array($warranty_info[0]['5227'][0]);
                         if (!in_array('04', $warrantyArr)) {
-
+                            $A_cell_value = false;
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     } else {
                         // warranty_info no trae 
+                        $A_cell_value = false;
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -214,11 +217,12 @@ class Lib_121_data extends MX_Controller {
         }
 
         // ============ Validation B.1 ==
-
-        if (!check_consecutive_values($b1_array)) {
-            $code_error = "B.1";
-            $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
-            array_push($stack, $result);
+        if ($A_cell_value) {
+            if (!check_consecutive_values($b1_array)) {
+                $code_error = "B.1";
+                $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
+                array_push($stack, $result);
+            }
         }
 
         // ============ Validation D.2.A 
@@ -269,7 +273,8 @@ class Lib_121_data extends MX_Controller {
             }
         }
 
-         debug($stack);        exit();
+        debug($stack);
+        exit();
         $this->data = $stack;
     }
 
