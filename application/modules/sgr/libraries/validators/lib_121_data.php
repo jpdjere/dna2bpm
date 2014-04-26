@@ -233,7 +233,13 @@ class Lib_121_data extends MX_Controller {
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                 $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
 
-                if ($d2_sum != $new_dollar_value) {
+                $a = (int) $new_dollar_value;
+                $b = (int) $d2_sum;
+
+                $fix_ten_cents = fix_ten_cents($a, $b);
+
+                if ($fix_ten_cents) {
+                    $code_error = "D.2.B";
                     $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $d2_sum);
                     array_push($stack, $result);
                 }
@@ -263,7 +269,7 @@ class Lib_121_data extends MX_Controller {
             }
         }
 
-         //  debug($stack);        exit();
+        //  debug($stack);        exit();
         $this->data = $stack;
     }
 
