@@ -78,10 +78,8 @@ class Lib_202_data extends MX_Controller {
                         $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
                         if ($get_anexo_data)
                             $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
-
-
-
-
+                        
+                        debug($get_input_number_check);
 
                         if ($get_input_number_check > 0)
                             $A3_array[] = $A_cell_value;
