@@ -629,11 +629,8 @@ class Model_12 extends CI_Model {
                 5351 => $cuit,
                 5349 => $sharer
             );
-            
-            var_dump($new_query);
-           
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result) {
+            $get_new_result = $this->mongo->sgr->$container->find($new_query);
+            foreach($get_new_result as $new_result) {
                 $return_result[] = $new_result;
             }
         }
