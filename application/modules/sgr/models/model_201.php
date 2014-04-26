@@ -453,7 +453,12 @@ class Model_201 extends CI_Model {
          $rtn = array();
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-        debug($result);
+        
+        
+        foreach ($result as $each){
+            debug($each['filename']);
+        }
+        
         /* FIND ANEXO */
         foreach ($result as $list) {
             /* APORTE */
