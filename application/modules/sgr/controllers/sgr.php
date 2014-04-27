@@ -405,7 +405,7 @@ class Sgr extends MX_Controller {
         $uploadpath = getcwd() . '/anexos_sgr/' . $filename;
         $movepath = getcwd() . '/anexos_sgr/' . $anexo . '/' . $new_filename;
 
-
+        
 
 
 
@@ -419,8 +419,7 @@ class Sgr extends MX_Controller {
             $result['sgr_id'] = $this->sgr_id;
             $save = (array) $this->$model->save($result);
             
-            exit();
-
+          
             /* SET PERIOD */
             if ($save) {
                 $result = array();
@@ -578,7 +577,7 @@ class Sgr extends MX_Controller {
                     $save = (array) $this->$model->save($result);
                 }
             }
-
+            exit();
 
 
             /* SET PERIOD */
