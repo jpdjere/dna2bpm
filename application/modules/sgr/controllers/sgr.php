@@ -418,6 +418,8 @@ class Sgr extends MX_Controller {
             $result['filename'] = $new_filename;
             $result['sgr_id'] = $this->sgr_id;
             $save = (array) $this->$model->save($result);
+            
+            exit();
 
             /* SET PERIOD */
             if ($save) {
