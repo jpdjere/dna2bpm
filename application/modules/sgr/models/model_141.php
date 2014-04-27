@@ -293,21 +293,6 @@ class Model_141 extends CI_Model {
             $model_201 = 'model_201';
             $this->load->Model($model_201);
 
-
-            $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
-            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
-            foreach ($partener_info as $partner) {
-                var_dump($partner);
-            }
-            /* PARTNER DATA */
-            $cuit = $list["CUIT_PARTICIPE"];
-            $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
-
-            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
-            $saldo = $get_movement_data['APORTE'] - $retiros;
-            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
-
-
             $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $list['period']);
 
             $col3 = ($partner_balance['count']) ? $partner_balance['count'] : 0;
