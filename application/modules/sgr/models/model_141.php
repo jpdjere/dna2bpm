@@ -109,7 +109,7 @@ class Model_141 extends CI_Model {
             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
 
              
-            
+            var_dump("pepe");
             
             $col12_arr = array();
 
@@ -123,7 +123,7 @@ class Model_141 extends CI_Model {
             foreach ($get_warranty_partner as $each) {
                 
                 var_dump($each);
-                exit();
+                
                 
                 $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $list['period']);
 
