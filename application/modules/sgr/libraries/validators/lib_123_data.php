@@ -121,9 +121,12 @@ class Lib_123_data extends MX_Controller {
                             $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                             $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
 
-                            // var_dump($new_dollar_value .">". $amount, $value);
+                            $a = (int) $new_dollar_value;
+                            $b = (int) $value;
 
-                            if ($new_dollar_value < $value) {
+                            $fix_ten_cents = fix_ten_cents($a, $b);
+
+                            if ($fix_ten_cents) {
                                 $code_error = "B.1.B";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], 'El Día ' . $key . ' $' . $value . ' Monto disponible para el Nro. Orden  = ' . $A_cell_value . '  (' . $amount . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . $new_dollar_value . ' )');
                                 array_push($stack, $result);
