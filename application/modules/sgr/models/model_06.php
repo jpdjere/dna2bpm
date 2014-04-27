@@ -364,156 +364,27 @@ class Model_06 extends CI_Model {
 
     function get_anexo_report($anexo, $parameter) {
 
+        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+
         $tmpl = array(
-            'data' => '<tr>
+        'data' => '<tr>
 		<td>'.$this->sgr_nombre.'</td>
 	</tr>
 	<tr>
-		<td HEIGHT="22"></td>
 		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		
 	</tr>
 	<tr>
-		<td HEIGHT="49">MOVIMIENTOS DE CAPITAL SOCIAL</td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>MOVIMIENTOS DE CAPITAL SOCIAL</td>
+		
 	</tr>
 	<tr>
-		<td HEIGHT="49"></td>
 		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		
 	</tr>
 	<tr>
-		<td HEIGHT="49">PER&Iacute;ODO/S: incluir rango de per&iacute;odos incluidos en el reporte</td>
+		<td>PER&Iacute;ODO/S: '.$input_period_from.' a '.$input_period_to.'</td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -678,13 +549,13 @@ class Model_06 extends CI_Model {
 
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
-        
-       
-        
-        $input_period_from = ($parameter['input_period_from'])? $parameter['input_period_from']:'01_1990';
-        $input_period_to = ($parameter['input_period_to'])?$parameter['input_period_to']:'12_'. date("Y");
-        
-       
+
+
+
+        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+
+
         $start_date = first_month_date($input_period_from);
         $end_date = last_month_date($input_period_to);
 
@@ -715,7 +586,7 @@ class Model_06 extends CI_Model {
         }
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
-        return $this->ui_table_xls($result_arr);
+        return $this->ui_table_xls($result_arr, $anexo);
     }
 
     function ui_table($result) {
@@ -803,7 +674,7 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
-    function ui_table_xls($result) {
+    function ui_table_xls($result, $anexo=null) {
         foreach ($result as $list) {
 
             /* Vars */
@@ -854,13 +725,14 @@ class Model_06 extends CI_Model {
                 $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
                 $grantor_type = $grantor_type;
             }
-
-
+            
+            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
+        
             $new_list = array();
             $new_list['col1'] = $this->sgr_nombre;
             $new_list['col2'] = $this->sgr_cuit;
             $new_list['col3'] = $list['id'];
-            $new_list['col4'] = $list['period'];
+            $new_list['col4'] = $get_period_filename['period'];
             $new_list['col5'] = $operation_type[$list['5779'][0]];
             $new_list['col6'] = $list['5272'][0];
             $new_list['col7'] = $cuit;
