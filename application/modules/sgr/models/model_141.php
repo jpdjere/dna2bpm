@@ -293,6 +293,15 @@ class Model_141 extends CI_Model {
             $model_201 = 'model_201';
             $this->load->Model($model_201);
 
+
+           
+            /* PARTNER DATA */
+            $cuit = $list["CUIT_PARTICIPE"];
+            $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
+
+           
+
+
             $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $list['period']);
 
             $col3 = ($partner_balance['count']) ? $partner_balance['count'] : 0;
