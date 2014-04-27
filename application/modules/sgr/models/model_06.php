@@ -678,9 +678,15 @@ class Model_06 extends CI_Model {
 
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
-
-        $start_date = first_month_date($parameter['input_period_from']);
-        $end_date = last_month_date($parameter['input_period_to']);
+        
+       
+        
+        $input_period_from = ($parameter['input_period_from'])? $parameter['input_period_from']:'01_1990';
+        $input_period_to = ($parameter['input_period_to'])?$parameter['input_period_to']:'12_'. date("Y");
+        
+       
+        $start_date = first_month_date($input_period_from);
+        $end_date = last_month_date($input_period_to);
 
         /* GET PERIOD */
         $period_container = 'container.sgr_periodos';
