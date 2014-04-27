@@ -77,6 +77,43 @@ class Model_141 extends CI_Model {
             $insertarr["REAFIANZA"] = (float) $insertarr["REAFIANZA"];
             $insertarr["MORA_EN_DIAS"] = (int) $insertarr["MORA_EN_DIAS"];
             $insertarr["CLASIFICACION_DEUDOR"] = (int) $insertarr["CLASIFICACION_DEUDOR"];
+
+            /* DYNAMIC INFO */
+
+            $model_125 = 'model_125';
+            $this->load->Model($model_125);
+
+            $model_12 = 'model_12';
+            $this->load->Model($model_12);
+
+            $model_14 = 'model_14';
+            $this->load->Model($model_14);
+
+            $model_201 = 'model_201';
+            $this->load->Model($model_201);
+
+
+            $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $this->session->userdata['period']);
+            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $this->session->userdata['period']);
+            foreach ($partener_info as $partner) {
+                var_dump($partner);
+            }
+            /* PARTNER DATA */
+            $cuit = $list["CUIT_PARTICIPE"];
+
+
+            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
+            $saldo = $get_movement_data['APORTE'] - $retiros;
+            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
+
+
+            $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $list['period']);
+
+            $partner_balance_qty = ($partner_balance['count']) ? $partner_balance['count'] : 0;
+            $partner_balance = ($partner_balance['balance']) ? $partner_balance['balance'] : 0;
+
+            $insertarr["CANTIDAD_GARANTIAS"] = (int) $partner_balance_qty;
+            $insertarr["MONTO_GARANTIAS"] = (float) $partner_balance_amount;
         }
         return $insertarr;
     }
@@ -237,6 +274,8 @@ class Model_141 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
 
         foreach ($result as $list) {
+            
+            var_dump($list['NUMERO_DE_APORTE']);
             /*
              * Vars 								
              */
@@ -490,7 +529,7 @@ class Model_141 extends CI_Model {
         $new_list = array();
 
         $new_list['col1'] = "<strong>TOTALES</strong>";
-        $new_list['col2'] = "-";        
+        $new_list['col2'] = "-";
         if ($xls) {
             $new_list['col3'] = array_sum($col3);
             $new_list['col4'] = (float) (array_sum($col4));
@@ -523,8 +562,7 @@ class Model_141 extends CI_Model {
 
         return $rtn;
     }
-    
-    
+
     function partners_debtors_to_top($period) {
         $anexo = $this->anexo;
         /* GET ACTIVE ANEXOS */
@@ -532,12 +570,12 @@ class Model_141 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
 
 
-         $result = $this->sgr_model->get_active_one($anexo, period_before($period)); //exclude actual
-        
-        
+        $result = $this->sgr_model->get_active_one($anexo, period_before($period)); //exclude actual
+
+
         $rtn = array();
         foreach ($result as $each) {
-            
+
             $new_query = array(
                 'filename' => $each['filename']
             );
@@ -546,9 +584,8 @@ class Model_141 extends CI_Model {
             $partners = $this->mongo->sgr->$container->find($new_query);
 
             foreach ($partners as $partner) {
-                if($partner['MORA_EN_DIAS'])
-                    
-                $rtn[] = $partner['CUIT_PARTICIPE'];
+                if ($partner['MORA_EN_DIAS'])
+                    $rtn[] = $partner['CUIT_PARTICIPE'];
             }
         }
         return (count(array_unique($rtn)));
