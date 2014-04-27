@@ -678,6 +678,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
 
             /* Vars */
+            $cuit_sgr = str_replace("-", "", $this->sgr_cuit);
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
             $brand_name = $this->padfyj_model->search_name($cuit);
@@ -730,7 +731,7 @@ class Model_06 extends CI_Model {
         
             $new_list = array();
             $new_list['col1'] = $this->sgr_nombre;
-            $new_list['col2'] = $this->sgr_cuit;
+            $new_list['col2'] = $cuit_sgr;
             $new_list['col3'] = $list['id'];
             $new_list['col4'] = $get_period_filename['period'];
             $new_list['col5'] = $operation_type[$list['5779'][0]];
