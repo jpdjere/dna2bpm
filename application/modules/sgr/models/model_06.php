@@ -687,9 +687,9 @@ class Model_06 extends CI_Model {
         $query = array(
             'anexo' => $anexo,
             'status' => "activo",
-//            'period_date' => array(
-//                '$gte' => $start_date, '$lte' => $end_date
-//            )
+            'period_date' => array(
+                '$gte' => $start_date, '$lte' => $end_date
+            )
         );
 
         if ($parameter['sgr_id'] != 666)
