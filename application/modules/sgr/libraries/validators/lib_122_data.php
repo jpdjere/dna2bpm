@@ -225,7 +225,7 @@ class Lib_122_data extends MX_Controller {
 
                                 if ($fix_ten_cents) {
                                     $code_error = "F.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($F_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $order_number[5218] . '  (' . $amount_warranty . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($F_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $order_number[5214] . '  (' . $amount_warranty . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
                                     array_push($stack, $result);
                                 }
                             } else {
