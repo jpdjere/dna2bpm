@@ -108,7 +108,9 @@ class Model_141 extends CI_Model {
             /* GET ALL WARRANTIES BY PARTNER */
             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
 
-
+             
+            
+            
             $col12_arr = array();
 
             $caida_result_arr = array();
@@ -119,6 +121,9 @@ class Model_141 extends CI_Model {
             $gasto_incobrable_periodo_arr = array();
 
             foreach ($get_warranty_partner as $each) {
+                
+                var_dump($each);
+                
                 $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $list['period']);
 
                 $caida_result_arr[] = $get_movement_data['CAIDA'];
@@ -171,8 +176,6 @@ class Model_141 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-        $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
 
         $parameter['period'] = $period;
         $parameter['origen'] = "2013";
