@@ -126,7 +126,7 @@ class Lib_123_data extends MX_Controller {
 
                                 if ($fix_ten_cents) {
                                     $code_error = "B.1.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], 'El Día ' . $key . ' $' . $value . ' Monto disponible para el Nro. Orden  = ' . $A_cell_value . '  (' . $amount . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . $new_dollar_value . ' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], 'El Día ' . $key . ' ' . money_format_custom($value) . ' Monto disponible para el Nro. Orden  = ' . $A_cell_value . '  (' . $amount . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
                                     array_push($stack, $result);
                                 }
                             } else {
