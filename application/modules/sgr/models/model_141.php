@@ -122,9 +122,6 @@ class Model_141 extends CI_Model {
 
             foreach ($get_warranty_partner as $each) {
                 
-                var_dump($each);
-                
-                
                 $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
 
                 $caida_result_arr[] = $get_movement_data['CAIDA'];
