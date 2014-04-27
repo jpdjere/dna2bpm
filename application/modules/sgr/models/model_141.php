@@ -96,8 +96,8 @@ class Model_141 extends CI_Model {
 
 
             /* PARTNER DATA */
-            $cuit = $list["CUIT_PARTICIPE"];
-            $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
+            $cuit = $insertarr["CUIT_PARTICIPE"];
+            $brand_name = $this->padfyj_model->search_name($cuit);
 
 
             $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $this->session->userdata['period']);
@@ -109,7 +109,7 @@ class Model_141 extends CI_Model {
             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
 
              
-            var_dump("pepe");
+          
             
             $col12_arr = array();
 
@@ -125,7 +125,7 @@ class Model_141 extends CI_Model {
                 var_dump($each);
                 
                 
-                $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $list['period']);
+                $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
 
                 $caida_result_arr[] = $get_movement_data['CAIDA'];
                 $recupero_result_arr[] = $get_movement_data['RECUPERO'];
