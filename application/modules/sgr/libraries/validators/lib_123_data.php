@@ -133,7 +133,7 @@ class Lib_123_data extends MX_Controller {
 
                                 if ($value > $amount) {
                                     $code_error = "B.1.A";
-                                    $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Día " . $key . " (" . $value . ")");
                                     array_push($stack, $result);
                                 }
                             }
@@ -142,7 +142,7 @@ class Lib_123_data extends MX_Controller {
                         $return = check_decimal($value, 2, true);
                         if ($return) {
                             $code_error = "B.3";
-                            $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Día" . $key . " (" . $value . ")");
                             array_push($stack, $result);
                         }
                     }
