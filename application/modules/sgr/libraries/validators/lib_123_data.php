@@ -81,14 +81,13 @@ class Lib_123_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] != 1) {
 
                     $value = $parameterArr[$i]['fieldValue'];
-                    $key = $parameterArr[$i]['col'];
-
+                    $key = ($parameterArr[$i]['col'] - 1);                    
                     if ($value == "") {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
 
-                        if ($key)
-                            array_push($stack, $result);
+//                        if ($key)
+//                            array_push($stack, $result);
                     } else {
 
                         $warranty_info = $this->$model_anexo->get_order_number_left($A_cell_value);
@@ -112,7 +111,7 @@ class Lib_123_data extends MX_Controller {
                         }
 
 
-                        if ((int)$value != 0) {
+                        if ((int) $value != 0) {
                             if ($currency == 2) {
                                 /* DOLLAR */
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
@@ -125,9 +124,12 @@ class Lib_123_data extends MX_Controller {
                                 $fix_ten_cents = fix_ten_cents($a, $b);
 
                                 if ($fix_ten_cents) {
-                                    $code_error = "B.1.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], 'El Día ' . $key . ' ' . money_format_custom($value) . ' Monto disponible para el Nro. Orden  = ' . $A_cell_value . '  (' . $amount . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
-                                    array_push($stack, $result);
+
+                                    if ($a < $b) {
+                                        $code_error = "B.1.B";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'],' El Día ' . $key . ' ' . money_format_custom($value) . ' Monto disponible para el Nro. Orden  = ' . $A_cell_value . '  (' . $amount . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
+                                        array_push($stack, $result);
+                                    }
                                 }
                             } else {
 
