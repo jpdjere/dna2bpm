@@ -230,9 +230,11 @@ class Lib_121_data extends MX_Controller {
         if (!empty($d2_nro)) {
             $item = $this->$model_anexo->get_order_number_left($d2_nro);
 
-            $currency = $item['5219'][0];
-
-            if ($currency == 2) {
+            foreach ($item as $itm)
+                $currency = $itm[5219][0];
+          
+            if ($currency == "2") {
+                 
                 $code_error = "D.2.B";
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
@@ -263,7 +265,7 @@ class Lib_121_data extends MX_Controller {
 
         if (!empty($e2_nro)) {
 
-            if ($currency == 2) {
+            if ($currency == "2") {
                 $code_error = "E.2.B";
 
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
@@ -274,6 +276,8 @@ class Lib_121_data extends MX_Controller {
                 $b = (int) $e2_sum;
 
                 $fix_ten_cents = fix_ten_cents($a, $b);
+
+                var_dump($a, $b);
 
                 if ($fix_ten_cents) {
                     $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $e2_sum);
@@ -297,4 +301,3 @@ class Lib_121_data extends MX_Controller {
     }
 
 }
-
