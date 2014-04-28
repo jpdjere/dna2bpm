@@ -79,8 +79,7 @@ class Model_141 extends CI_Model {
             $insertarr["CLASIFICACION_DEUDOR"] = (int) $insertarr["CLASIFICACION_DEUDOR"];
 
             /* DYNAMIC INFO */
-            $this->load->model('padfyj_model');
-
+            
             $model_125 = 'model_125';
             $this->load->Model($model_125);
 
@@ -97,9 +96,7 @@ class Model_141 extends CI_Model {
 
             /* PARTNER DATA */
             $cuit = $insertarr["CUIT_PARTICIPE"];
-            $brand_name = $this->padfyj_model->search_name($cuit);
-
-
+           
             $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $this->session->userdata['period']);
 
             $partner_balance_qty = ($partner_balance['count']) ? $partner_balance['count'] : 0;
@@ -107,9 +104,6 @@ class Model_141 extends CI_Model {
 
             /* GET ALL WARRANTIES BY PARTNER */
             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
-
-             
-          
             
             $col12_arr = array();
 
@@ -157,8 +151,7 @@ class Model_141 extends CI_Model {
             $col6 = (float) $insertarr['PRENDARIAS'];
             $col7 = (float) $insertarr['FIANZA'];
             $col8 = (float) $insertarr['OTRAS'];
-            $col9 = array_sum(array($col5, $col6, $col7, $col8));
-
+          
             $total = array_sum(array($col5, $col6, $col7, $col8));
 
             $insertarr["MONTO_ADEUDADO"] = $sum_total;
