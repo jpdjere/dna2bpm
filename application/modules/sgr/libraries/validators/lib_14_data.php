@@ -175,11 +175,11 @@ class Lib_14_data extends MX_Controller {
 
                                 $fix_ten_cents = fix_ten_cents($a, $b);
 
-                                if ($fix_ten_cents) {
-                                    $code_error = "C.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value) . ' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . money_format_custom($c_info[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
-                                    array_push($stack, $result);
-                                }
+//                                if ($fix_ten_cents) {
+//                                    $code_error = "C.2.B";
+//                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value) . ' Monto disponible para el Nro. Orden  ' . $B_cell_value . ' =  (' . money_format_custom($c_info[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
+//                                    array_push($stack, $result);
+//                                }
                             } else {
                                 if ($C_cell_value > $c_info[5218]) {
                                     $code_error = "C.2.A";
