@@ -621,7 +621,8 @@ class Model_14 extends CI_Model {
         }
         return (count(array_unique($rtn)));
     }
-    function amount_guarantees_faced($period, $col ) {
+
+    function amount_guarantees_faced($period, $col) {
         $anexo = $this->anexo;
         /* GET ACTIVE ANEXOS */
         $container_period = 'container.sgr_periodos';
@@ -646,9 +647,168 @@ class Model_14 extends CI_Model {
                     $rtn[] = $warrant[$col];
             }
         }
-        
+
         $sum = array_sum($rtn);
         return $sum;
+    }
+
+    function get_anexo_report($anexo, $parameter) {
+
+        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+
+        $tmpl = array(
+            'data' => '<tr>
+		<td>' . $this->sgr_nombre . '</td>
+	</tr>
+	<tr>
+		<td></td>
+		
+	</tr>
+	<tr>
+		<td>MOVIMIENTOS DE CAPITAL SOCIAL</td>
+		
+	</tr>
+	<tr>
+		<td></td>
+		
+	</tr>
+	<tr>
+		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
+		
+	</tr><tr>
+            <td align="center" rowspan="2">SGR</td>
+            <td align="center" rowspan="2">CUIT SGR</td>
+            <td align="center" rowspan="2">ID</td>
+            <td align="center" rowspan="2">Per&iacute;odo</td>
+            <td align="center" rowspan="2">Fecha</td>
+                                <td align="center" rowspan="2">N° de Orden de la Garantía Otorgada</td>
+                                <td align="center" rowspan="2">Socio Participe</td>
+                                <td align="center" rowspan="2">C.U.I.T</td>                                
+                                <td align="center" colspan="3">GARANTIAS AFRONTADAS</td>
+                                <td align="center" colspan="3">Gastos por Gestión de Recuperos</td>
+    <tr>
+        <td>Deuda Originada en el Período</td>
+        <td>Cobranza o Recupero del Período</td>
+        <td>Incobrables declarados en el Período</td>
+        <td>Gastos efectuados en el Período</td>
+        <td>Recuperos del Período</td>
+        <td>Incobrables declarados en el Período</td>       
+    </tr>
+	
+',
+        );
+        $data = array($tmpl);
+        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
+        foreach ($anexoValues as $values) {
+            $data[] = array_values($values);
+        }
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+
+        return $newTable;
+    }
+
+    function get_anexo_data_report($anexo, $parameter) {
+
+        if (!$parameter) {
+            return false;
+            exit();
+        }
+
+        header('Content-type: text/html; charset=UTF-8');
+        $rtn = array();
+
+
+
+        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+
+
+        $start_date = first_month_date($input_period_from);
+        $end_date = last_month_date($input_period_to);
+
+        /* GET PERIOD */
+        $period_container = 'container.sgr_periodos';
+        $query = array(
+            'anexo' => $anexo,
+            'status' => "activo",
+            'period_date' => array(
+                '$gte' => $start_date, '$lte' => $end_date
+            )
+        );
+        
+      
+
+
+        if ($parameter['sgr_id'] != 666)
+            $query["sgr_id"] = (float) $parameter['sgr_id'];
+
+        $period_result = $this->mongo->sgr->$period_container->find($query);
+
+
+       
+
+        $files_arr = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $new_query = array();
+        foreach ($period_result as $results) {
+            $period = $results['period'];
+            $new_query['$or'][] = array("filename" => $results['filename']);
+        }
+
+
+        $result_arr = $this->mongo->sgr->$container->find($new_query);
+        /* TABLE DATA */
+        return $this->ui_table_xls($result_arr, $anexo);
+    }
+
+    function ui_table_xls($result, $anexo = null) {
+
+        foreach ($result as $list) {
+
+            /* Vars */
+            $cuit = str_replace("-", "", $list['CUIT']);
+            $this->load->model('padfyj_model');
+            $model_12 = 'model_12';
+            $this->load->Model($model_12);
+
+
+            /* "12585/10" */
+            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $this->session->userdata['period']);
+
+
+            if (!empty($get_movement_data)) {
+                foreach ($get_movement_data as $warrant) {
+                    $cuit = $warrant[5349];
+                    $brand_name = $this->padfyj_model->search_name($warrant[5349]);
+                }
+            }
+
+
+            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
+
+            $new_list = array();
+            $new_list['col1'] = $this->sgr_nombre;
+            $new_list['col2'] = $cuit_sgr;
+            $new_list['col3'] = $list['id'];
+            $new_list['col4'] = $get_period_filename['period'];
+            $new_list['col5'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
+            $new_list['col6'] = $list['NRO_GARANTIA'];
+            $new_list['col7'] = $brand_name;
+            $new_list['col8'] = $cuit;
+            $new_list['col9'] = money_format_custom($list['CAIDA']);
+            $new_list['col10'] = money_format_custom($list['RECUPERO']);
+            $new_list['col11'] = money_format_custom($list['INCOBRABLES_PERIODO']);
+            $new_list['col12'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
+            $new_list['col13'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
+            $new_list['col14'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
+            $rtn[] = $new_list;
+        }
+
+        return $rtn;
     }
 
 }
