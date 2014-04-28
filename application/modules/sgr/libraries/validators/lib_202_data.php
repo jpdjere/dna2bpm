@@ -186,10 +186,10 @@ class Lib_202_data extends MX_Controller {
                             /* ????????????????????????????????? Support #11501 */
 //                            $a = (int) $B_cell_value;
 //                            $b = (int) $get_input_number_check;
-                            
-                            $result_comp =  bccomp($B_cell_value, $get_input_number_check, 2); // 0                            
 
-                            if ($result_comp) {
+                            $result_comp = bccomp($B_cell_value, $get_input_number_check, 2); // 0                            
+
+                            if ($result_comp > 0) {
                                 $code_error = "B.2";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value . " <br>Valor del Sistema: " . $get_input_number_check);
                                 array_push($stack, $result);
