@@ -210,7 +210,7 @@ class Lib_141_data extends MX_Controller {
                     $code_error = "I.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         
-                        $nums = array("1", "2", "3", "4". "5");
+                        $nums = array("1", "2", "3", "4","5");
                         if (!in_array($parameterArr[$i]['fieldValue'], $nums)) {
                              $code_error = "I.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
