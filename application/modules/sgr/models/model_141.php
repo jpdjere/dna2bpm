@@ -114,8 +114,7 @@ class Model_141 extends CI_Model {
             $recupero_gasto_periodo_arr = array();
             $gasto_incobrable_periodo_arr = array();
 
-            foreach ($get_warranty_partner as $each) {
-                
+            foreach ($get_warranty_partner as $each) {                
                 $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
 
                 $caida_result_arr[] = $get_movement_data['CAIDA'];
@@ -315,7 +314,7 @@ class Model_141 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
+        $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
 
@@ -324,19 +323,10 @@ class Model_141 extends CI_Model {
              */
             $this->load->model('padfyj_model');
 
-
             /* PARTNER DATA */
             $cuit = $list["CUIT_PARTICIPE"];
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
-
-
-            $insertarr["MONTO_ADEUDADO"] = $sum_total;
-            $insertarr["CANTIDAD_GARANTIAS_AFRONTADAS"] = count($col12_arr);
-
-            $insertarr["CANTIDAD_GARANTIAS"] = (int) $partner_balance_qty;
-            $insertarr["MONTO_GARANTIAS"] = (float) $partner_balance_amount;
             
-            $insertarr["TOTAL"] = (float) $total;
             
             $col3 = $list['CANTIDAD_GARANTIAS'];
             $col4 = $list['MONTO_GARANTIAS'];
@@ -401,101 +391,19 @@ class Model_141 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
         $new_list = array();
         foreach ($result as $list) {
-
-            /*
-             * Vars 								
-             */
-            $this->load->model('padfyj_model');
-
-            $model_125 = 'model_125';
-            $this->load->Model($model_125);
-
-            $model_12 = 'model_12';
-            $this->load->Model($model_12);
-
-            $model_14 = 'model_14';
-            $this->load->Model($model_14);
-
-            $model_201 = 'model_201';
-            $this->load->Model($model_201);
-
-
-            $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
-            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
-            foreach ($partener_info as $partner) {
-                var_dump($partner);
-            }
-
-
-
-            /* PARTNER DATA */
-            $cuit = $list["CUIT_PARTICIPE"];
-            $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
-
-            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
-            $saldo = $get_movement_data['APORTE'] - $retiros;
-            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
-
-
-            $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $list['period']);
-            $col3_val = ($partner_balance['count']) ? $partner_balance['count'] : 0;
-            $col4_val = ($partner_balance['balance']) ? $partner_balance['balance'] : 0;
-
-            /* GET ALL WARRANTIES BY PARTNER */
-            $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $list['period']);
-
-
-            $col12_arr = array();
-
-            $caida_result_arr = array();
-            $recupero_result_arr = array();
-            $inc_periodo_arr = array();
-            $gasto_efectuado_periodo_arr = array();
-            $recupero_gasto_periodo_arr = array();
-            $gasto_incobrable_periodo_arr = array();
-
-            foreach ($get_warranty_partner as $each) {
-                $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $list['period']);
-
-                $caida_result_arr[] = $get_movement_data['CAIDA'];
-                $recupero_result_arr[] = $get_movement_data['RECUPERO'];
-                $inc_periodo_arr[] = $get_movement_data['INCOBRABLES_PERIODO'];
-                $gasto_efectuado_periodo_arr[] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
-                $recupero_gasto_periodo_arr[] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
-                $gasto_incobrable_periodo_arr[] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
-
-                /* CALC COL12 */
-                $caida_sum_tmp = array_sum($caida_result_arr);
-                $recupero_sum_tmp = array_sum($recupero_result_arr);
-                $inc_periodo_sum_tmp = array_sum($inc_periodo_arr);
-                $sum_tmp = ($caida_sum_tmp - $recupero_sum_tmp) - $inc_periodo_sum_tmp;
-                if ($sum_tmp != 0)
-                    $col12_arr[] = $each[5214];
-            }
-
-            $caida_sum = array_sum($caida_result_arr);
-            $recupero_sum = array_sum($recupero_result_arr);
-            $inc_periodo_sum = array_sum($inc_periodo_arr);
-            $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
-            $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
-            $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
-
-
-            $sum_1 = ($caida_sum - $recupero_sum) - $inc_periodo_sum;
-            $sum_2 = ($gasto_efectuado_periodo_sum - $recupero_gasto_periodo_sum) - $gasto_incobrable_periodo_sum;
-            $sum_total = array_sum(array($sum_1, $sum_2));
-
+            
+            $col3_val = $list['CANTIDAD_GARANTIAS'];
+            $col4_val = $list['MONTO_GARANTIAS'];
 
             $col5_val = $list['HIPOTECARIAS'];
             $col6_val = $list['PRENDARIAS'];
             $col7_val = $list['FIANZA'];
             $col8_val = $list['OTRAS'];
-
-            $col9_val = array_sum(array($col5, $col6, $col7, $col8));
-            $col11_val = $sum_total;
-
-            $col12_val = count($col12_arr);
-
+            $col9_val = $list['TOTAL'];
+            $col10_val = $list['REAFIANZA'];
+            $col11_val =  $list['MONTO_ADEUDADO'];
+            $col12_val = $list['CANTIDAD_GARANTIAS_AFRONTADAS'];
+            
             $col3[] = (float) $col3_val;
             $col4[] = (float) $col4_val;
             $col5[] = (float) $col5_val;
