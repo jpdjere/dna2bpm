@@ -252,9 +252,9 @@ class Model_14 extends CI_Model {
 
 
             if (!empty($get_movement_data)) {
-                foreach ($get_movement_data as $partner) {
-                    $cuit = $partner[5349];
-                    $brand_name = $this->padfyj_model->search_name($partner[5349]);
+                foreach ($get_movement_data as $warrant) {
+                    $cuit = $warrant[5349];
+                    $brand_name = $this->padfyj_model->search_name($warrant[5349]);
                 }
             }
 
@@ -337,8 +337,6 @@ class Model_14 extends CI_Model {
     }
 
     function get_movement_data($nro) {
-
-
 
         $anexo = $this->anexo;
         $token = $this->idu;
@@ -596,42 +594,61 @@ class Model_14 extends CI_Model {
         return $return_arr;
     }
 
-    function partners_debtors_to_top($period) {
+    function nums_guarantees_faced($period, $col) {
         $anexo = $this->anexo;
         /* GET ACTIVE ANEXOS */
         $container_period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
 
-        $result = $this->sgr_model->get_active_print($anexo, period_before($period)); //exclude actual
+        $result = $this->sgr_model->get_active_one($anexo, $period); //exclude actual
+
+
         $rtn = array();
         foreach ($result as $each) {
+
             $new_query = array(
                 'filename' => $each['filename']
             );
 
 
-            $partners = $this->mongo->sgr->$container->find($new_query);
+            $warrants = $this->mongo->sgr->$container->find($new_query);
 
-            foreach ($partners as $partner) {
-
-                //var_dump($partner['NRO_GARANTIA'], $partner['period']);
-                $model_12 = 'model_12';
-                $this->load->Model($model_12);
-
-                $get_movement_data = $this->$model_12->get_order_number_print($partner['NRO_GARANTIA'], $partner['period']);
-                if (!empty($get_movement_data)) {
-                    foreach ($get_movement_data as $each) {
-                        $cuit = $each[5349];
-                        $rtn[] = $cuit;
-                    }
-                }
+            foreach ($warrants as $warrant) {
+                if ($warrant[$col])
+                    $rtn[] = $warrant['NRO_GARANTIA'];
             }
         }
-
-       // debug(array_unique($rtn));
-
         return (count(array_unique($rtn)));
+    }
+    function amount_guarantees_faced($period, $col ) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $result = $this->sgr_model->get_active_one($anexo, $period); //exclude actual
+
+
+        $rtn = array();
+        foreach ($result as $each) {
+
+            $new_query = array(
+                'filename' => $each['filename']
+            );
+
+
+            $warrants = $this->mongo->sgr->$container->find($new_query);
+
+            foreach ($warrants as $warrant) {
+                if ($warrant[$col])
+                    $rtn[] = $warrant[$col];
+            }
+        }
+        
+        $sum = array_sum($rtn);
+        return $sum;
     }
 
 }
