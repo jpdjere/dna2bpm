@@ -411,7 +411,7 @@ class Lib_14_data extends MX_Controller {
                
                 if ($sum_CAIDA < $sum_RECUPEROS) {
                     $code_error = "E.3";
-                    $result = return_error_array($code_error, "", "[" . $get_temp_data['INCOBRABLES_PERIODO'] . "] " . $sum_CAIDA);
+                    $result = return_error_array($code_error, "", "[" . $get_temp_data['INCOBRABLES_PERIODO'] . "] saldo de caidas " . $sum_CAIDA);
                     array_push($stack, $result);
                 }
             }
