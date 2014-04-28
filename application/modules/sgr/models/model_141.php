@@ -573,5 +573,33 @@ class Model_141 extends CI_Model {
         }
         return (count(array_unique($rtn)));
     }
+    
+    function partners_debtors_to_end($period) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $result = $this->sgr_model->get_active_one($anexo, $period); //exclude actual
+
+
+        $rtn = array();
+        foreach ($result as $each) {
+
+            $new_query = array(
+                'filename' => $each['filename']
+            );
+
+
+            $partners = $this->mongo->sgr->$container->find($new_query);
+
+            foreach ($partners as $partner) {
+                if ($partner['MORA_EN_DIAS'])
+                    $rtn[] = $partner['CUIT_PARTICIPE'];
+            }
+        }
+        return (count(array_unique($rtn)));
+    }
 
 }
