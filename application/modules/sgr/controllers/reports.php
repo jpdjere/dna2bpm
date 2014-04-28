@@ -71,7 +71,7 @@ class reports extends MX_Controller {
         }
 
         /* FORM TEMPLATE */
-        $enables = array('06', '12');
+        $enables = array('06', '12', '14');
 
         if (in_array($this->anexo, $enables))
             $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
@@ -199,6 +199,10 @@ class reports extends MX_Controller {
             case '12':
                 return $this->process_12($anexo);
                 break;
+            
+            case '14':
+                return $this->process_14($anexo);
+                break;
         }
     }
 
@@ -226,6 +230,49 @@ class reports extends MX_Controller {
             return $result;
         }
     }
+    
+    function process_20($anexo) {
+
+        $rtn = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+            switch ($report_name) {
+                case "A":
+                    $result = $this->$model->get_anexo_report($anexo, $rtn);
+                    break;
+            }
+
+            return $result;
+        }
+    }
+
+    function process_14($anexo) {
+       
+        $rtn = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+            $result = $this->$model->get_anexo_report($anexo, $rtn);
+
+            return $result;
+        }
+    }
+
 
     function process_12($anexo) {
 
