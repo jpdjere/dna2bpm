@@ -204,13 +204,13 @@ class Lib_141_data extends MX_Controller {
                  * OPCIONAL. Debe validar que si en el proceso de importación detecta que el CUIT informado en la Columna A tiene saldos de deuda positivos (Saldo Calculado por el Sistema sobre la información histórica de los movimientos del FDR Contingente informados mediante ANEXO 14), esta columna deberá estar completa.
                  * I.2
                  * Detail:
-                 * De estar completo, debe tomar alguno de los siguientes parámetros:1,2,3,4
+                 * De estar completo, debe tomar alguno de los siguientes parámetros:1,2,3,4,5
                  */
                 if ($parameterArr[$i]['col'] == 9) {
                     $code_error = "I.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         
-                        $nums = array("1", "2", "3", "4");
+                        $nums = array("1", "2", "3", "4","5");
                         if (!in_array($parameterArr[$i]['fieldValue'], $nums)) {
                              $code_error = "I.2";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
