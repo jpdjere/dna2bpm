@@ -54,6 +54,9 @@ class Sgr extends MX_Controller {
 
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
+        
+        /*TIME LIMIT*/
+        set_time_limit(28800);
     }
 
 // ==== Dashboard ====
