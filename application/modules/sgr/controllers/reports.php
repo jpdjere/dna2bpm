@@ -189,6 +189,7 @@ class reports extends MX_Controller {
     /* PROCESS */
 
     function process() {
+        
         $anexo = $this->input->post('anexo');
         switch ($anexo) {
             case '06':
@@ -206,6 +207,9 @@ class reports extends MX_Controller {
         $rtn = array();             
         $report_name = $this->input->post('report_name');
 
+        
+       
+        
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');

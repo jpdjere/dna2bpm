@@ -473,8 +473,11 @@ class Model_12 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
+        
+        
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
+      
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -626,16 +629,14 @@ class Model_12 extends CI_Model {
         foreach ($result as $list) {
             $new_query = array(
                 'filename' => $list['filename'],
-                5349 => $sharer,
-                5351 => $cuit
+                5351 => $cuit,
+                5349 => $sharer
             );
-
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $return_result[] = $new_result;
+            $get_new_result = $this->mongo->sgr->$container->find($new_query);
+            foreach($get_new_result as $new_result) {
+                $return_result[] = $new_result['5214'];
             }
         }
-
         return $return_result;
     }
 

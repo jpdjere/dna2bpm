@@ -7,7 +7,7 @@
             </div>
            <div class="modal-body">
             <div class="alert alert-danger">                
-                <div well-small"><i class="fa fa-info-circle"></i> Para continuar con la rectificación del Anexo seleccionado deberá asociar el perido {rectify_message} a un nuevo Archivo o a la opción "SIN MOVIMIENTO2."</div>
+                <div well-small"><i class="fa fa-info-circle"></i> Para continuar con la rectificación del Anexo seleccionado deberá asociar el perido {rectify_message} a un nuevo Archivo o a la opción "SIN MOVIMIENTOS."</div>
             </div>
             <div class="alert alert-warning">
                 Al seleccionar un nuevo periódo se cancelará la operación.                

@@ -211,16 +211,21 @@ class Lib_122_data extends MX_Controller {
                             $amount_warranty = (float) $order_number[5218];
                             $currency = $order_number['5219'][0];
                             $origin = $order_number['5215'];
-                            
+
 
                             if ($currency == 2) {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($amount_warranty / $dollar_quotation_origin) * $dollar_quotation_period;
-                                
-                                if ($new_dollar_value < $F_cell_value) {
+
+                                $a = (int) $new_dollar_value;
+                                $b = (int) $F_cell_value;
+
+                                $fix_ten_cents = fix_ten_cents($a, $b);
+
+                                if ($fix_ten_cents) {
                                     $code_error = "F.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], '$' .$F_cell_value.' Monto disponible para el Nro. Orden  = '. $order_number[5218].'  (' . $amount_warranty .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($F_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $order_number[5214] . '  (' . $amount_warranty . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
                                     array_push($stack, $result);
                                 }
                             } else {

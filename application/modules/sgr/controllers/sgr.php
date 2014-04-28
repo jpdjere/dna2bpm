@@ -419,6 +419,7 @@ class Sgr extends MX_Controller {
             $result['sgr_id'] = $this->sgr_id;
             $save = (array) $this->$model->save($result);
 
+
             /* SET PERIOD */
             if ($save) {
                 $result = array();
@@ -576,7 +577,6 @@ class Sgr extends MX_Controller {
                     $save = (array) $this->$model->save($result);
                 }
             }
-
 
 
             /* SET PERIOD */
@@ -850,7 +850,7 @@ class Sgr extends MX_Controller {
 
                 if ($each == "")
                     $each = "-";
-                
+
                 if ($each == "$")
                     $each = "$0.00";
 
@@ -871,20 +871,56 @@ class Sgr extends MX_Controller {
 
         $model124 = "model_124";
         $this->load->Model($model124);
-        
+
         $model141 = "model_141";
         $this->load->Model($model141);
 
 
         $comisions = $this->input->post("comisions");
         switch ($anexo_req) {
-            
-            case '14':                
+
+            case '14':
                 $t4_1 = $this->$model141->partners_debtors_to_top($period_req);
-                
+
+                $t4_3 = $this->$model->nums_guarantees_faced($period_req, "CAIDA");
+                $t4_4 = $this->$model->amount_guarantees_faced($period_req, "CAIDA");
+                $t4_5 = $this->$model->nums_guarantees_faced($period_req, "RECUPERO");
+                $t4_6 = $this->$model->amount_guarantees_faced($period_req, "RECUPERO");
+                $t4_7 = $this->$model->nums_guarantees_faced($period_req, "INCOBRABLES_PERIODO");
+                $t4_8 = $this->$model->amount_guarantees_faced($period_req, "INCOBRABLES_PERIODO");
+
+                $t4_9 = $this->$model->nums_guarantees_faced($period_req, "GASTOS_EFECTUADOS_PERIODO");
+                $t4_10 = $this->$model->amount_guarantees_faced($period_req, "GASTOS_EFECTUADOS_PERIODO");
+                $t4_11 = $this->$model->nums_guarantees_faced($period_req, "RECUPERO_GASTOS_PERIODO");
+                $t4_12 = $this->$model->amount_guarantees_faced($period_req, "RECUPERO_GASTOS_PERIODO");
+                $t4_13 = $this->$model->nums_guarantees_faced($period_req, "GASTOS_INCOBRABLES_PERIODO");
+                $t4_14 = $this->$model->amount_guarantees_faced($period_req, "GASTOS_INCOBRABLES_PERIODO");
+
+                $t4_16 = $this->$model141->partners_debtors_to_end($period_req);
+
                 $rtn['t4_1'] = $t4_1;
+                $rtn['t4_2'] = money_format_custom(0);
+
+                $rtn['t4_3'] = $t4_3;
+                $rtn['t4_4'] = money_format_custom($t4_4);
+                $rtn['t4_5'] = $t4_5;
+                $rtn['t4_6'] = money_format_custom($t4_6);
+                $rtn['t4_7'] = $t4_7;
+                $rtn['t4_8'] = money_format_custom($t4_8);
+                $rtn['t4_9'] = $t4_9;
+                $rtn['t4_10'] = money_format_custom($t4_10);
+
+                $rtn['t4_11'] = $t4_11;
+                $rtn['t4_12'] = money_format_custom($t4_12);
+                $rtn['t4_13'] = $t4_13;
+                $rtn['t4_14'] = money_format_custom($t4_14);
+
+                $rtn['t4_15'] = money_format_custom(0);
+                $rtn['t4_16'] = $t4_16;
+
+
                 return $rtn;
-                
+
                 break;
 
             case '15':

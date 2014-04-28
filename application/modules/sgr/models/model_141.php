@@ -77,6 +77,89 @@ class Model_141 extends CI_Model {
             $insertarr["REAFIANZA"] = (float) $insertarr["REAFIANZA"];
             $insertarr["MORA_EN_DIAS"] = (int) $insertarr["MORA_EN_DIAS"];
             $insertarr["CLASIFICACION_DEUDOR"] = (int) $insertarr["CLASIFICACION_DEUDOR"];
+
+            /* DYNAMIC INFO */
+            
+            $model_125 = 'model_125';
+            $this->load->Model($model_125);
+
+            $model_12 = 'model_12';
+            $this->load->Model($model_12);
+
+            $model_14 = 'model_14';
+            $this->load->Model($model_14);
+
+            $model_201 = 'model_201';
+            $this->load->Model($model_201);
+
+
+
+            /* PARTNER DATA */
+            $cuit = $insertarr["CUIT_PARTICIPE"];
+           
+            $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $this->session->userdata['period']);
+
+            $partner_balance_qty = ($partner_balance['count']) ? $partner_balance['count'] : 0;
+            $partner_balance_amount = ($partner_balance['balance']) ? $partner_balance['balance'] : 0;
+
+            /* GET ALL WARRANTIES BY PARTNER */
+            $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
+            
+            $col12_arr = array();
+
+            $caida_result_arr = array();
+            $recupero_result_arr = array();
+            $inc_periodo_arr = array();
+            $gasto_efectuado_periodo_arr = array();
+            $recupero_gasto_periodo_arr = array();
+            $gasto_incobrable_periodo_arr = array();
+
+            foreach ($get_warranty_partner as $each) {
+                
+                $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
+
+                $caida_result_arr[] = $get_movement_data['CAIDA'];
+                $recupero_result_arr[] = $get_movement_data['RECUPERO'];
+                $inc_periodo_arr[] = $get_movement_data['INCOBRABLES_PERIODO'];
+                $gasto_efectuado_periodo_arr[] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
+                $recupero_gasto_periodo_arr[] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
+                $gasto_incobrable_periodo_arr[] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
+
+                /* CALC COL12 */
+                $caida_sum_tmp = array_sum($caida_result_arr);
+                $recupero_sum_tmp = array_sum($recupero_result_arr);
+                $inc_periodo_sum_tmp = array_sum($inc_periodo_arr);
+                $sum_tmp = ($caida_sum_tmp - $recupero_sum_tmp) - $inc_periodo_sum_tmp;
+                if ($sum_tmp != 0)
+                    $col12_arr[] = $each[5214];
+            }
+
+            $caida_sum = array_sum($caida_result_arr);
+            $recupero_sum = array_sum($recupero_result_arr);
+            $inc_periodo_sum = array_sum($inc_periodo_arr);
+            $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
+            $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
+            $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
+
+
+            $sum_1 = ($caida_sum - $recupero_sum) - $inc_periodo_sum;
+            $sum_2 = ($gasto_efectuado_periodo_sum - $recupero_gasto_periodo_sum) - $gasto_incobrable_periodo_sum;
+            $sum_total = array_sum(array($sum_1, $sum_2));
+
+
+            $col5 = (float) $insertarr['HIPOTECARIAS'];
+            $col6 = (float) $insertarr['PRENDARIAS'];
+            $col7 = (float) $insertarr['FIANZA'];
+            $col8 = (float) $insertarr['OTRAS'];
+          
+            $total = array_sum(array($col5, $col6, $col7, $col8));
+
+            $insertarr["MONTO_ADEUDADO"] = $sum_total;
+            $insertarr["CANTIDAD_GARANTIAS_AFRONTADAS"] = count($col12_arr);
+
+            $insertarr["CANTIDAD_GARANTIAS"] = (int) $partner_balance_qty;
+            $insertarr["MONTO_GARANTIAS"] = (float) $partner_balance_amount;
+            $insertarr["TOTAL"] = (float) $total;
         }
         return $insertarr;
     }
@@ -84,8 +167,6 @@ class Model_141 extends CI_Model {
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
-
-        $parameter['FECHA_MOVIMIENTO'] = new MongoDate(strtotime(translate_for_mongo($parameter['FECHA_MOVIMIENTO'])));
 
         $parameter['period'] = $period;
         $parameter['origen'] = "2013";
@@ -237,96 +318,37 @@ class Model_141 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
 
         foreach ($result as $list) {
+
             /*
              * Vars 								
              */
             $this->load->model('padfyj_model');
 
-            $model_125 = 'model_125';
-            $this->load->Model($model_125);
 
-            $model_12 = 'model_12';
-            $this->load->Model($model_12);
-
-            $model_14 = 'model_14';
-            $this->load->Model($model_14);
-
-            $model_201 = 'model_201';
-            $this->load->Model($model_201);
-
-
-            $get_movement_data = $this->$model_201->get_movement_data_print($list['NUMERO_DE_APORTE'], $list['period']);
-            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
-            foreach ($partener_info as $partner) {
-                var_dump($partner);
-            }
             /* PARTNER DATA */
             $cuit = $list["CUIT_PARTICIPE"];
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
 
-            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
-            $saldo = $get_movement_data['APORTE'] - $retiros;
-            $disponible = $saldo - (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
 
+            $insertarr["MONTO_ADEUDADO"] = $sum_total;
+            $insertarr["CANTIDAD_GARANTIAS_AFRONTADAS"] = count($col12_arr);
 
-            $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $list['period']);
-
-            $col3 = ($partner_balance['count']) ? $partner_balance['count'] : 0;
-            $col4 = ($partner_balance['balance']) ? $partner_balance['balance'] : 0;
-
-            /* GET ALL WARRANTIES BY PARTNER */
-            $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $list['period']);
-
-
-            $col12_arr = array();
-
-            $caida_result_arr = array();
-            $recupero_result_arr = array();
-            $inc_periodo_arr = array();
-            $gasto_efectuado_periodo_arr = array();
-            $recupero_gasto_periodo_arr = array();
-            $gasto_incobrable_periodo_arr = array();
-
-            foreach ($get_warranty_partner as $each) {
-                $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $list['period']);
-
-                $caida_result_arr[] = $get_movement_data['CAIDA'];
-                $recupero_result_arr[] = $get_movement_data['RECUPERO'];
-                $inc_periodo_arr[] = $get_movement_data['INCOBRABLES_PERIODO'];
-                $gasto_efectuado_periodo_arr[] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
-                $recupero_gasto_periodo_arr[] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
-                $gasto_incobrable_periodo_arr[] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
-
-                /* CALC COL12 */
-                $caida_sum_tmp = array_sum($caida_result_arr);
-                $recupero_sum_tmp = array_sum($recupero_result_arr);
-                $inc_periodo_sum_tmp = array_sum($inc_periodo_arr);
-                $sum_tmp = ($caida_sum_tmp - $recupero_sum_tmp) - $inc_periodo_sum_tmp;
-                if ($sum_tmp != 0)
-                    $col12_arr[] = $each[5214];
-            }
-
-            $caida_sum = array_sum($caida_result_arr);
-            $recupero_sum = array_sum($recupero_result_arr);
-            $inc_periodo_sum = array_sum($inc_periodo_arr);
-            $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
-            $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
-            $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
-
-
-            $sum_1 = ($caida_sum - $recupero_sum) - $inc_periodo_sum;
-            $sum_2 = ($gasto_efectuado_periodo_sum - $recupero_gasto_periodo_sum) - $gasto_incobrable_periodo_sum;
-            $sum_total = array_sum(array($sum_1, $sum_2));
-
+            $insertarr["CANTIDAD_GARANTIAS"] = (int) $partner_balance_qty;
+            $insertarr["MONTO_GARANTIAS"] = (float) $partner_balance_amount;
+            
+            $insertarr["TOTAL"] = (float) $total;
+            
+            $col3 = $list['CANTIDAD_GARANTIAS'];
+            $col4 = $list['MONTO_GARANTIAS'];
 
             $col5 = $list['HIPOTECARIAS'];
             $col6 = $list['PRENDARIAS'];
             $col7 = $list['FIANZA'];
             $col8 = $list['OTRAS'];
-            $col9 = array_sum(array($col5, $col6, $col7, $col8));
+            $col9 = $list['TOTAL'];
             $col10 = $list['REAFIANZA'];
-            $col11 = $sum_total;
-            $col12 = count($col12_arr);
+            $col11 =  $list['MONTO_ADEUDADO'];
+            $col12 = $list['CANTIDAD_GARANTIAS_AFRONTADAS'];
 
             $new_list = array();
             $new_list['col1'] = $cuit;
@@ -490,7 +512,7 @@ class Model_141 extends CI_Model {
         $new_list = array();
 
         $new_list['col1'] = "<strong>TOTALES</strong>";
-        $new_list['col2'] = "-";        
+        $new_list['col2'] = "-";
         if ($xls) {
             $new_list['col3'] = array_sum($col3);
             $new_list['col4'] = (float) (array_sum($col4));
@@ -523,8 +545,7 @@ class Model_141 extends CI_Model {
 
         return $rtn;
     }
-    
-    
+
     function partners_debtors_to_top($period) {
         $anexo = $this->anexo;
         /* GET ACTIVE ANEXOS */
@@ -532,12 +553,12 @@ class Model_141 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
 
 
-         $result = $this->sgr_model->get_active_one($anexo, period_before($period)); //exclude actual
-        
-        
+        $result = $this->sgr_model->get_active_one($anexo, period_before($period)); //exclude actual
+
+
         $rtn = array();
         foreach ($result as $each) {
-            
+
             $new_query = array(
                 'filename' => $each['filename']
             );
@@ -546,9 +567,36 @@ class Model_141 extends CI_Model {
             $partners = $this->mongo->sgr->$container->find($new_query);
 
             foreach ($partners as $partner) {
-                if($partner['MORA_EN_DIAS'])
-                    
-                $rtn[] = $partner['CUIT_PARTICIPE'];
+                if ($partner['MORA_EN_DIAS'])
+                    $rtn[] = $partner['CUIT_PARTICIPE'];
+            }
+        }
+        return (count(array_unique($rtn)));
+    }
+    
+    function partners_debtors_to_end($period) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $result = $this->sgr_model->get_active_one($anexo, $period); //exclude actual
+
+
+        $rtn = array();
+        foreach ($result as $each) {
+
+            $new_query = array(
+                'filename' => $each['filename']
+            );
+
+
+            $partners = $this->mongo->sgr->$container->find($new_query);
+
+            foreach ($partners as $partner) {
+                if ($partner['MORA_EN_DIAS'])
+                    $rtn[] = $partner['CUIT_PARTICIPE'];
             }
         }
         return (count(array_unique($rtn)));

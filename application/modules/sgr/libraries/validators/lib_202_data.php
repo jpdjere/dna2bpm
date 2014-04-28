@@ -26,6 +26,21 @@ class Lib_202_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $A_array_value = array();
+        $A3_array = array();
+        $A4_array = array();
+        $exist_input_all = array_unique($this->$model_201->exist_input_all());
+
+        foreach ($exist_input_all as $each) {
+            $exist_input_number_left = $this->$model_201->exist_input_number_left($each);
+            if ($exist_input_number_left)
+                $get_input_number_left = $this->$model_201->get_input_number_left($each);
+
+            if ($get_input_number_left > 0)
+                $A3_array[] = $each;
+
+            if ($get_input_number_left == 0)
+                $A4_array[] = $each;
+        }
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
             /**
@@ -71,16 +86,18 @@ class Lib_202_data extends MX_Controller {
                     } else {
 
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $A_array_value[] = (int) $A_cell_value;
-
 
                         $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
                         if ($get_anexo_data)
                             $get_input_number_check = $this->$model_201->get_input_number_left($A_cell_value);
 
-                        $A3_array = array();
-                        if ($get_input_number_check > 0)
-                            $A3_array[] = $A_cell_value;
+                        $A_array_value[] = (int) $A_cell_value;
+
+                        if (!$get_anexo_data) {
+                            $code_error = "A.2";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                            array_push($stack, $result);
+                        }
                     }
                 }
 
@@ -97,7 +114,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $B_cell_value = (float) $parameterArr[$i]['fieldValue'];
-                        
+
                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -116,7 +133,7 @@ class Lib_202_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
-                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
+                        $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -140,7 +157,7 @@ class Lib_202_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $D_cell_value = $parameterArr[$i]['fieldValue'];
-                         $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
+                        $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -154,14 +171,12 @@ class Lib_202_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                         array_push($stack, $result);
                     } else {
-                        if ($get_anexo_data) {
+                        if (in_array($A_cell_value, $A4_array)) {
                             /* ESTA EN EL SISTEMA */
                             $a4_check_array = array($C_cell_value, $D_cell_value);
                             $a4_check = array_sum($a4_check_array);
 
-
-
-                            if ($get_input_number_check == 0 && $a4_check == 0) {
+                            if ($a4_check == 0) {
                                 $code_error = "A.4";
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                                 array_push($stack, $result);
@@ -177,11 +192,6 @@ class Lib_202_data extends MX_Controller {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value . " <br>Valor del Sistema: " . $get_input_number_check);
                                 array_push($stack, $result);
                             }
-                        } else {
-
-                            $code_error = "A.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
-                            array_push($stack, $result);
                         }
                     }
                 }
@@ -198,7 +208,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 

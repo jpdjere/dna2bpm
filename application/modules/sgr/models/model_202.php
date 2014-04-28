@@ -83,7 +83,7 @@ class Model_202 extends CI_Model {
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
             }
-            $retiros = array_sum(array($get_movement_data['RETIRO'], $get_movement_data['RETIRO_DE_RENDIMIENTOS']));
+            $retiros = array_sum(array($get_movement_data['RETIRO']));
             $saldo = $get_movement_data['APORTE'] - $retiros;
             $disponible = $saldo - (float) $insertarr['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
             /* */

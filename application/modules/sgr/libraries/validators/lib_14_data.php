@@ -170,9 +170,6 @@ class Lib_14_data extends MX_Controller {
                                 //Ejemplo “($ 100.000.000). Monto disponible para el Nro. Orden 49720 = $900000/4.878*8.018 =1.479.335.7933”
 
                                 /* FIX */
-
-
-
                                 $a = (int) $new_dollar_value;
                                 $b = (int) $C_cell_value;
 
@@ -382,6 +379,9 @@ class Lib_14_data extends MX_Controller {
 
         foreach ($order_num_unique as $number) {
 
+
+
+
             /* MOVEMENT DATA */
             $get_historic_data = $this->$model_anexo->get_movement_data($number);
             $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
@@ -400,11 +400,22 @@ class Lib_14_data extends MX_Controller {
 
 
 
+
             /* Nro B.2/D.2
              * Detail:
              * Si se está informando un RECUPERO (Columna D del importador), debe validar que el número de garantía registre 
              * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
              */
+
+            if ($get_temp_data['INCOBRABLES_PERIODO']) {
+               
+                if ($sum_CAIDA < $sum_RECUPEROS) {
+                    $code_error = "E.3";
+                    $result = return_error_array($code_error, "", "[" . $get_temp_data['INCOBRABLES_PERIODO'] . "] " . $sum_CAIDA);
+                    array_push($stack, $result);
+                }
+            }
+
             if ($get_temp_data['RECUPERO'] > 0) {
                 if ($sum_CAIDA == 0) {
                     $code_error = "B.2";
@@ -435,6 +446,8 @@ class Lib_14_data extends MX_Controller {
 
                 $query_param = 'INCOBRABLES_PERIODO';
                 $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
+
+
 
 
                 foreach ($get_recuperos_tmp as $recuperos) {
