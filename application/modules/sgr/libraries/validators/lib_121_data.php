@@ -245,8 +245,8 @@ class Lib_121_data extends MX_Controller {
 
                 $fix_ten_cents = fix_ten_cents($a, $b);
 
-                if ($fix_ten_cents) {
-                    $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $d2_sum);
+                if ($fix_ten_cents) {                    
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($d2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($item[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
                 }
             } else {
@@ -276,11 +276,9 @@ class Lib_121_data extends MX_Controller {
                 $b = (int) $e2_sum;
 
                 $fix_ten_cents = fix_ten_cents($a, $b);
-
-                var_dump($a, $b);
-
-                if ($fix_ten_cents) {
-                    $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $e2_sum);
+              
+                if ($fix_ten_cents) {                   
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($e2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($item[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
                 }
             } else {
