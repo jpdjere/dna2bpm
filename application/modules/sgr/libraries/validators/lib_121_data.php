@@ -230,30 +230,37 @@ class Lib_121_data extends MX_Controller {
         if (!empty($d2_nro)) {
             $item = $this->$model_anexo->get_order_number_left($d2_nro);
 
-            foreach ($item as $itm)
+
+            foreach ($item as $itm) {
                 $currency = $itm[5219][0];
-          
+                $amount = $itm[5218];
+            }
+
             if ($currency == "2") {
-                 
+
+
                 $code_error = "D.2.B";
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
+                $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
 
                 $a = (int) $new_dollar_value;
                 $b = (int) $d2_sum;
 
                 $fix_ten_cents = fix_ten_cents($a, $b);
 
-                if ($fix_ten_cents) {                    
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($d2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($item[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
+                if ($fix_ten_cents) {
+
+               
+
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($d2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($amount) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
                 }
             } else {
-                if (isset($item[5218])) {
+                if (isset($amount)) {
                     $code_error = "D.2.A";
-                    if ($d2_sum != $item[5218]) {
-                        $result = return_error_array($code_error, "-", "Monto: " . $item[5218] . " / Suma:" . $d2_sum);
+                    if ($d2_sum != $amount) {
+                        $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
                     }
                 }
@@ -270,24 +277,24 @@ class Lib_121_data extends MX_Controller {
 
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
+                $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
 
                 $a = (int) $new_dollar_value;
                 $b = (int) $e2_sum;
 
                 $fix_ten_cents = fix_ten_cents($a, $b);
-              
-                if ($fix_ten_cents) {                   
-                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($e2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($item[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
+
+                if ($fix_ten_cents) {
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($e2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($amount) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
                 }
             } else {
                 $item = $this->$model_anexo->get_order_number_left($e2_nro);
                 $code_error = "E.2.A";
 
-                if (isset($item[5218])) {
-                    if ($e2_sum != $item[5218]) {
-                        $result = return_error_array($code_error, "-", $e2_sum . " de " . $item[5218]);
+                if (isset($amount)) {
+                    if ($e2_sum != $amount) {
+                        $result = return_error_array($code_error, "-", $e2_sum . " de " . $amount);
                         array_push($stack, $result);
                     }
                 }
