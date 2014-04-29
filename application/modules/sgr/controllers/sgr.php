@@ -54,8 +54,8 @@ class Sgr extends MX_Controller {
 
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
-        
-        /*TIME LIMIT*/
+
+        /* TIME LIMIT */
         set_time_limit(28800);
     }
 
@@ -928,101 +928,85 @@ class Sgr extends MX_Controller {
 
             case '15':
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "A");
-                $total = 0;
 
                 foreach ($result_15 as $r15) {
                     $t5_1 = $r15['col1'];
                     $t5_2 = $r15['col2'];
-                    $t5_3 = $r15['col3'];
+                    $t5_3 = array_sum(array($t5_1, $t5_2));
                     $t5_4 = $r15['col4'];
-
-                    $total += $r15['col3'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "B");
                 foreach ($result_15 as $r15) {
-                    $total += $r15['col3'];
 
                     $t5_5 = $r15['col1'];
                     $t5_6 = $r15['col2'];
-                    $t5_7 = $total;
+                    $t5_7 = array_sum(array($t5_5, $t5_6));
                     $t5_8 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "C");
                 foreach ($result_15 as $r15) {
 
-                    $total += $r15['col3'];
-
                     $t5_9 = $r15['col1'];
                     $t5_10 = $r15['col2'];
-                    $t5_11 = $total;
+                    $t5_11 = array_sum(array($t5_9, $t5_10));
                     $t5_12 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "D");
                 foreach ($result_15 as $r15) {
 
-                    $total += $r15['col3'];
-
                     $t5_13 = $r15['col1'];
                     $t5_14 = $r15['col2'];
-                    $t5_15 = $total;
+                    $t5_15 = array_sum(array($t5_13, $t5_14));
                     $t5_16 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "E");
                 foreach ($result_15 as $r15) {
-
-                    $total += $r15['col3'];
-
                     $t5_17 = $r15['col1'];
                     $t5_18 = $r15['col2'];
-                    $t5_19 = $total;
+                    $t5_19 = array_sum(array($t5_17, $t5_18));
                     $t5_20 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "F");
                 foreach ($result_15 as $r15) {
 
-                    $total += $r15['col3'];
+
 
                     $t5_21 = $r15['col1'];
                     $t5_22 = $r15['col2'];
-                    $t5_23 = $total;
+                    $t5_23 = array_sum(array($t5_21, $t5_22));
                     $t5_24 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "G");
                 foreach ($result_15 as $r15) {
 
-                    $total += $r15['col3'];
-
                     $t5_25 = $r15['col1'];
                     $t5_26 = $r15['col2'];
-                    $t5_27 = $total;
+                    $t5_27 = array_sum(array($t5_25, $t5_26));
                     $t5_28 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "H");
                 foreach ($result_15 as $r15) {
 
-                    $total += $r15['col3'];
 
                     $t5_29 = $r15['col1'];
                     $t5_30 = $r15['col2'];
-                    $t5_31 = $total;
+                    $t5_31 = array_sum(array($t5_29, $t5_30));
                     $t5_32 = $r15['col4'];
                 }
 
                 $result_15 = $this->$model->get_anexo_ddjj($period_req, "I");
                 foreach ($result_15 as $r15) {
 
-                    $total += $r15['col3'];
-
                     $t5_33 = $r15['col1'];
                     $t5_34 = $r15['col2'];
-                    $t5_35 = $total;
+                    $t5_35 = array_sum(array($t5_33, $t5_34));
                     $t5_36 = $r15['col4'];
                 }
 
@@ -1072,10 +1056,10 @@ class Sgr extends MX_Controller {
                 $rtn['t5_35'] = money_format_custom($t5_35);
                 $rtn['t5_36'] = percent_format_custom($t5_36);
 
+                $total = array_sum(array($t5_3, $t5_7, $t5_11, $t5_15, $t5_19, $t5_23, $t5_27, $t5_31, $t5_35, $t5_37));
+
                 $rtn['t5_37'] = money_format_custom($total);
                 $rtn['t5_38'] = percent_format_custom(100);
-
-
 
 
                 return $rtn;
