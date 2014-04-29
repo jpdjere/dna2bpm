@@ -159,7 +159,7 @@ class Lib_125_data extends MX_Controller {
                         // sin garantia
                         $code_error = "C.1";
                         if ($int_value != 0) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "(". $info['5216'][0] .") - ".$parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "(". $info['5216'] .") - ".$parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     }
