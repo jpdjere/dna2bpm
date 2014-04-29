@@ -132,7 +132,7 @@ class Lib_125_data extends MX_Controller {
                     $C2_array = array("GFEF0", "GFEF1", "GFEF2", "GFEF3", "GFOI0", "GFOI1", "GFOI2", "GFOI3", "GFP0", "GFP1", "GFP2", "GFP3", "GFCPD", "GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFON0", "GFON1", "GFON2", "FON3", "GFVCP", "GFMFO", "GFL0", "GFL1", "GFL2", "GFL3", "GFPB0", "GFPB1", "GFPB2",
                         "I.1.1", "I.1.2", "I.1.3", "I.1.4", "I.2.1", "I.2.2", "I.2.3", "I.2.4", "I.3.1", "I.3.2", "I.3.3", "I.3.4", "I.4.1", "I.4.2", "I.4.3", "I.5.1", "I.5.2", "I.5.3", "I.5.4", "I.6.1", "I.6.2", "I.7.1", "I.7.2", "I.8", "FINACIERA");
                     foreach ($sharer_info as $info) {                        
-                        if (in_array($info['5216'][0], $C2_array)) {                           
+                        if (in_array($info['5216'], $C2_array)) {                           
                             $haygarantia = true;
                         }
                     }
@@ -151,7 +151,7 @@ class Lib_125_data extends MX_Controller {
                             $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                             $code_error = "C.2";
                             if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'] . ")");
                                 array_push($stack, $result);
                             }
                         }
@@ -187,7 +187,7 @@ class Lib_125_data extends MX_Controller {
                     $D1_array = array("GC1", "GC2",
                         "II.1.1", "II.1.2", "II.1.3a", "II.1.3b", "II.1.4", "II.2.1", "II.2.2", "II.2.3a", "II.2.3b", "II.2.4", "COMERCIAL");
                     foreach ($sharer_info as $info) {
-                        if (in_array($info['5216'][0], $D1_array)) {
+                        if (in_array($info['5216'], $D1_array)) {
                             $haygarantia = true;
                         }
                     }
@@ -206,7 +206,7 @@ class Lib_125_data extends MX_Controller {
                             $code_error = "D.2";
                             $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                             if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'][0] . ")");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " (" . $info['5216'] . ")");
                                 array_push($stack, $result);
                             }
                         }
@@ -234,7 +234,7 @@ class Lib_125_data extends MX_Controller {
                     $E1_array = array("GT",
                         "III.1.1", "III.1.2", "III.1.3", "III.2.1", "III.2.2", "III.2.3", "III.2.4", "III.3", "TECNICA");
                     foreach ($sharer_info as $info) {
-                        if (in_array($info['5216'][0], $E1_array)) {
+                        if (in_array($info['5216'], $E1_array)) {
                             $haygarantia = true;
                         }
                     }
