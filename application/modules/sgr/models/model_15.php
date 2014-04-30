@@ -298,8 +298,6 @@ class Model_15 extends CI_Model {
         $new_list['col3'] = $sum_total;
         $new_list['col4'] = $percent;
         
-        var_dump($new_list);
-        
         $rtn[] = $new_list;
         
         
