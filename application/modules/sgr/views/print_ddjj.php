@@ -318,6 +318,20 @@
                             <td>{t5_35}</td>
                             <td>{t5_36}</td>
                         </tr>
+                         <tr>
+                            <td>j</td>
+                            <td>{t5_37}</td>
+                            <td>{t5_38}</td>
+                            <td>{t5_39}</td>
+                            <td>{t5_40}</td>
+                        </tr>
+                         <tr>
+                            <td>k</td>
+                            <td>{t5_41}</td>
+                            <td>{t5_42}</td>
+                            <td>{t5_43}</td>
+                            <td>{t5_44}</td>
+                        </tr>
                         <tr>
                             <td colspan="3">Totales</td>
                             <td>{t5_37}</td>
