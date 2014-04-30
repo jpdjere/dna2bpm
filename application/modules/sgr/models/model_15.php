@@ -273,34 +273,33 @@ class Model_15 extends CI_Model {
 
         $pesos_arr = array();
         $dolar_arr = array();
-        
+
         foreach ($result as $list) {
-           
+
 
             if ($list['MONEDA'] == 1)
-                
                 $pesos_arr[] = $list['MONTO'];
             else
                 $dolar_arr[] = $list['MONTO'];
-                
         }
-        
-        
-       
+
+
+
         $sum_pesos = array_sum($pesos_arr);
         $sum_dolar = array_sum($dolar_arr);
-        $sum_total = array_sum(array($sum_pesos,$sum_dolar));
+        $sum_total = array_sum(array($sum_pesos, $sum_dolar));
         $total = $this->get_total($anexo, $get_result['filename']);
-        $percent = ($sum_total * 100) / $total;
-        
+        if ($total)
+            $percent = ($sum_total * 100) / $total;
+
         $new_list['col1'] = $sum_pesos;
         $new_list['col2'] = $sum_dolar;
         $new_list['col3'] = $sum_total;
         $new_list['col4'] = $percent;
-        
+
         $rtn[] = $new_list;
-        
-        
+
+
 
         return $rtn;
     }
