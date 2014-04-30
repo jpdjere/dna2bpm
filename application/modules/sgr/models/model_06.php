@@ -94,6 +94,7 @@ class Model_06 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             $insertarr[1695] = (string) $insertarr[1695];
+            $insertarr[5248] = (string) $insertarr[5248];
 
             /* INTEGERS */
             $insertarr[4654] = (int) $insertarr[4654];
@@ -217,15 +218,23 @@ class Model_06 extends CI_Model {
                 $insertarr[5252] = "2";
 
             //Formatos numricos para importes
-            $insertarr[5597] = (int) str_replace(",", ".", $insertarr[5597]);
-            $insertarr[5598] = (int) str_replace(",", ".", $insertarr[5598]);
+            $insertarr[5597] = (int) $insertarr[5597];
+            $insertarr[5598] = (int) $insertarr[5598];
 
-            //  Arreglamo la caracteristica
-            if ($insertarr[5292] == "DISMINUCION DE TENENCIA ACCIONARIA")
-                $insertarr[5292] = "1";
-            if ($insertarr[5292] == "DESVINCULACION")
-                $insertarr[5292] = "2";
+
+            if ($insertarr[5248]) {
+                /*
+                  1  	Disminución de tenencia accionaria 	null
+                  2  	Desvinculación 	null
+                 */
+                $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_DE_TRANSACCION'], 1900));
+                $integrated = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $this->session->userdata['period'], $transaction_date);
+                $integrated = $integrated-$insertarr[5598];
+                $grantor_type = ($integrated == 0) ? "2" : "1";
+            }
+            $insertarr[5292] = $grantor_type;           
         }
+       
         return $insertarr;
     }
 
@@ -368,8 +377,8 @@ class Model_06 extends CI_Model {
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
 
         $tmpl = array(
-        'data' => '<tr>
-		<td>'.$this->sgr_nombre.'</td>
+            'data' => '<tr>
+		<td>' . $this->sgr_nombre . '</td>
 	</tr>
 	<tr>
 		<td></td>
@@ -384,7 +393,7 @@ class Model_06 extends CI_Model {
 		
 	</tr>
 	<tr>
-		<td>PER&Iacute;ODO/S: '.$input_period_from.' a '.$input_period_to.'</td>
+		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -608,6 +617,8 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
+            
+            
 
             $calc_average = "";
             $promedio = "";
@@ -628,17 +639,13 @@ class Model_06 extends CI_Model {
             $sector_value = $this->sgr_model->clae2013($list['5208']);
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
             $company_type = ($isPyme) ? "PyME" : "";
-            $transaction_date = mongodate_to_print($list['FECHA_DE_TRANSACCION']);
-
-
+            
 
             /* CARACTER CEDENTE */
 
             if ($list['5248']) {
-                $grantor_type_text = "Caracter del Cedente:</br>";
-                $integrated = $this->shares_print($list['5248'], $list['5272'][0], 5598, $list['period'], $transaction_date);
-                $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
-                $grantor_type = $grantor_type_text . $grantor_type;
+                $grantor_type_text = "Caracter del Cedente:</br>"; 
+                $grantor_type = $grantor_type_text . $transfer_characteristic[$list['5292'][0]];
             }
 
             $inner_table = '<table width="100%">';
@@ -666,7 +673,7 @@ class Model_06 extends CI_Model {
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $transaction_date;
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Capital Integrado: " . $list['5598'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $transfer_characteristic[$list['5292'][0]] . "" . $grantor_type;
+            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 
             $rtn[] = $new_list;
         }
@@ -674,7 +681,7 @@ class Model_06 extends CI_Model {
         return $rtn;
     }
 
-    function ui_table_xls($result, $anexo=null) {
+    function ui_table_xls($result, $anexo = null) {
         foreach ($result as $list) {
 
             /* Vars */
@@ -726,9 +733,9 @@ class Model_06 extends CI_Model {
                 $grantor_type = ($integrated == 0) ? "DESVINCULACION" : "DISMINUCION DE TENENCIA ACCIONARIA";
                 $grantor_type = $grantor_type;
             }
-            
+
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
-        
+
             $new_list = array();
             $new_list['col1'] = $this->sgr_nombre;
             $new_list['col2'] = $cuit_sgr;
@@ -1079,7 +1086,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
             /* BUY */
             $new_query = array(
-                1695 => $cuit,
+                1695 => (string) $cuit,
                 'filename' => $list['filename'],
                 'FECHA_DE_TRANSACCION' => array(
                     '$lte' => $endDate
@@ -1088,6 +1095,7 @@ class Model_06 extends CI_Model {
             if ($partner_type)
                 $new_query[5272] = $partner_type;
 
+
             $buy_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($buy_result as $buy) {
                 $buy_result_arr[] = $buy[$field];
@@ -1095,7 +1103,7 @@ class Model_06 extends CI_Model {
 
             /* SELL */
             $new_query = array(
-                5248 => $cuit,
+                5248 => (string) $cuit,
                 'filename' => $list['filename'],
                 'FECHA_DE_TRANSACCION' => array(
                     '$lte' => $endDate
@@ -1133,7 +1141,7 @@ class Model_06 extends CI_Model {
 
             /* BUY */
             $new_query = array(
-                1695 => $cuit,
+                1695 => (string) $cuit,
                 'filename' => $list['filename'],
                 5272 => 'B'
                 , 'FECHA_DE_TRANSACCION' => array(
@@ -1190,7 +1198,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
             /* BUY */
             $new_query = array(
-                1695 => $cuit,
+                1695 => (string) $cuit,
                 'filename' => $list['filename'],
                 5272 => $partner_type
             );
