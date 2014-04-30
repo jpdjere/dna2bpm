@@ -251,7 +251,7 @@
                         <tr>
                             <th>inciso del art. 25</th>
                             <th>en pesos</th>
-                            <th>en moneda extangera(*)</th>
+                            <th>en moneda extanjera</th>
                             <th>total</th>
                             <th>%</th>
                         </tr>
