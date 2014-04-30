@@ -6,7 +6,8 @@
 <link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
 <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
-<link rel="stylesheet" media="screen" href="{module_url}assets/css/print.css" />
+<link rel="stylesheet"  href="{module_url}assets/css/print.css" />
+
 </head>
 <body>
 	<div class="container">

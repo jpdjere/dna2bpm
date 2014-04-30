@@ -53,7 +53,13 @@ td { border: 1px solid #777; }
     
     border-top: 1px dotted #777;
     margin:50px;
-    position:absolute;
+/*     position:absolute; */
     right:100px;
 }
+
+@media (print) {
+	
+}
+
+
 
