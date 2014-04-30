@@ -30,9 +30,12 @@ class Lib_121_error_legend {
             case "E.1": 
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico. Acepta hasta dos decimales.';
                 break;  
-            case "E.2": 
-                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>La suma de las cuotas de una misma garantía debe ser igual al monto informado para esa misa garantía en la Columna "L" del Anexo 12.';
-                break; 
+            case "E.2.A": 
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>GARANTÍAS EN PESOS: La suma de las cuotas de una misma garantía debe ser igual al monto informado para esa misma garantía en la Columna L del Anexo 12.';
+                break;
+            case "E.2.B": 
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>GARANTÍAS EN DÓLARES: La suma de las cuotas de una misma garantía debe ser igual al monto en pesos informado para esa misma garantía en la columna L del anexo 12, dividido el Tipo de Cambio de la fecha de otorgamiento, multiplicado por el Tipo de Cambio vigente al último día del período que se está informando.';
+                break;
         }
         return $result_error;
     }

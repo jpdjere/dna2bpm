@@ -55,9 +55,11 @@ class Lib_121_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 1) {
 
                     $code_error = "A.1";
+                    $A_cell_value = $parameterArr[$i]['fieldValue'];
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
+                        $A_cell_value = false;
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     }
@@ -67,12 +69,13 @@ class Lib_121_data extends MX_Controller {
                     if ($warranty_info) {
                         $warrantyArr = array($warranty_info[0]['5227'][0]);
                         if (!in_array('04', $warrantyArr)) {
-
+                            $A_cell_value = false;
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
                     } else {
                         // warranty_info no trae 
+                        $A_cell_value = false;
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
@@ -214,10 +217,12 @@ class Lib_121_data extends MX_Controller {
         }
 
         // ============ Validation B.1 ==
-
-        if (!check_consecutive_values($b1_array)) {
-            $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
-            array_push($stack, $result);
+        if ($A_cell_value) {
+            if (!check_consecutive_values($b1_array)) {
+                $code_error = "B.1";
+                $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
+                array_push($stack, $result);
+            }
         }
 
         // ============ Validation D.2.A 
@@ -225,23 +230,37 @@ class Lib_121_data extends MX_Controller {
         if (!empty($d2_nro)) {
             $item = $this->$model_anexo->get_order_number_left($d2_nro);
 
-            $currency = $item['5219'][0];
 
-            if ($currency == 2) {
+            foreach ($item as $itm) {
+                $currency = $itm[5219][0];
+                $amount = $itm[5218];
+            }
+
+            if ($currency == "2") {
+
+
                 $code_error = "D.2.B";
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                $new_dollar_value = ($item[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
+                $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
 
-                if ($d2_sum != $new_dollar_value) {
-                    $result = return_error_array($code_error, "-", "Monto : " . $new_dollar_value . " / Suma:" . $d2_sum);
+                $a = (int) $new_dollar_value;
+                $b = (int) $d2_sum;
+
+                $fix_ten_cents = fix_ten_cents($a, $b);
+
+                if ($fix_ten_cents) {
+
+               
+
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($d2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($amount) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
                 }
             } else {
-                if (isset($item[5218])) {
+                if (isset($amount)) {
                     $code_error = "D.2.A";
-                    if ($d2_sum != $item[5218]) {
-                        $result = return_error_array($code_error, "-", "Monto: " . $item[5218] . " / Suma:" . $d2_sum);
+                    if ($d2_sum != $amount) {
+                        $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
                     }
                 }
@@ -252,20 +271,38 @@ class Lib_121_data extends MX_Controller {
 
 
         if (!empty($e2_nro)) {
-            $item = $this->$model_anexo->get_order_number_left($e2_nro);
-            $code_error = "E.2";
 
-            if (isset($item[5218])) {
-                if ($e2_sum != $item[5218]) {
-                    $result = return_error_array($code_error, "-", $e2_sum . " de " . $item[5218]);
+            if ($currency == "2") {
+                $code_error = "E.2.B";
+
+                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
+
+                $a = (int) $new_dollar_value;
+                $b = (int) $e2_sum;
+
+                $fix_ten_cents = fix_ten_cents($a, $b);
+
+                if ($fix_ten_cents) {
+                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($e2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($amount) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
+                }
+            } else {
+                $item = $this->$model_anexo->get_order_number_left($e2_nro);
+                $code_error = "E.2.A";
+
+                if (isset($amount)) {
+                    if ($e2_sum != $amount) {
+                        $result = return_error_array($code_error, "-", $e2_sum . " de " . $amount);
+                        array_push($stack, $result);
+                    }
                 }
             }
         }
 
-         //  debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
 }
-

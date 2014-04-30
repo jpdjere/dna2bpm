@@ -126,7 +126,7 @@ class Model_15 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -224,13 +224,11 @@ class Model_15 extends CI_Model {
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("filename" => $parameter);
-        $result = $this->mongo->sgr->$container->find($query);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('INCISO_ART_25' => 1));
 
         foreach ($result as $list) {
             /* Vars 								
              */
-
-
             $this->load->model('padfyj_model');
             $transmitter_name = $this->padfyj_model->search_name($list['CUIT_EMISOR']);
             $transmitter_name = ($transmitter_name) ? $transmitter_name : strtoupper($list['EMISOR']);
@@ -257,6 +255,80 @@ class Model_15 extends CI_Model {
             $new_list['col10'] = percent_format_custom($percent);
             $rtn[] = $new_list;
         }
+        return $rtn;
+    }
+
+    function get_anexo_ddjj($period, $subsection) {
+
+        $rtn = array();
+        $new_list = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename'], 'INCISO_ART_25' => $subsection);
+        $result = $this->mongo->sgr->$container->find($query)->sort(array('INCISO_ART_25' => 1));
+        $new_list = array();
+
+        $pesos_arr = array();
+        $dolar_arr = array();
+
+        foreach ($result as $list) {
+
+
+            if ($list['MONEDA'] == 1)
+                $pesos_arr[] = $list['MONTO'];
+            else
+                $dolar_arr[] = $list['MONTO'];
+        }
+
+
+
+        $sum_pesos = array_sum($pesos_arr);
+        $sum_dolar = array_sum($dolar_arr);
+        $sum_total = array_sum(array($sum_pesos, $sum_dolar));
+        $total = $this->get_total($anexo, $get_result['filename']);
+        if ($total)
+            $percent = ($sum_total * 100) / $total;
+
+        $new_list['col1'] = $sum_pesos;
+        $new_list['col2'] = $sum_dolar;
+        $new_list['col3'] = $sum_total;
+        $new_list['col4'] = $percent;
+
+        $rtn[] = $new_list;
+
+
+
+        return $rtn;
+    }
+
+    function get_anexo_data_clean_ddjj($period) {
+
+        $col9 = array();
+
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $col9[] = (float) ($list['MONTO']);
+        }
+
+        $new_list = array();
+        $new_list['col1'] = "<strong>TOTAL</strong>";
+        $new_list['col2'] = "-";
+        $new_list['col3'] = "-";
+        $new_list['col4'] = money_format_custom(array_sum($col9));
+        $new_list['col5'] = percent_format_custom(100);
+        $rtn[] = $new_list;
+
         return $rtn;
     }
 

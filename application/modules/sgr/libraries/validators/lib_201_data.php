@@ -93,7 +93,7 @@ class Lib_201_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
-                        $exist_input_number = $this->$model_anexo->exist_input_number($A_cell_value);                        
+                        $exist_input_number = $this->$model_anexo->exist_input_number($A_cell_value);
 
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if (!$return) {
@@ -202,8 +202,11 @@ class Lib_201_data extends MX_Controller {
                  * Formato Numérico. Debe aceptar hasta 2 decimales.                  
                  */
                 if ($parameterArr[$i]['col'] == 5) {
+
+                    $C2_is_true = false;
                     $E_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $C2_is_true = true;
                         $code_error = "E.2";
                         $E_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $b3_array[] = $A_cell_value . '*' . $B_cell_value;
@@ -221,7 +224,7 @@ class Lib_201_data extends MX_Controller {
                         }
 
 
-                        /* A.4 */                        
+                        /* A.4 */
                         if (!$exist_input_number) {
                             $code_error = "A.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
@@ -319,7 +322,7 @@ class Lib_201_data extends MX_Controller {
                     $code_error = "G.1";
                     $G_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
-
+                        $C2_is_true = true;
                         $G_cell_value = (int) $parameterArr[$i]['fieldValue'];
                         $b4_array[] = $A_cell_value . '*' . $B_cell_value;
 
@@ -329,9 +332,9 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
-                        
-                         if (!$exist_input_number) {
+
+
+                        if (!$exist_input_number) {
                             $code_error = "A.5";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
                             array_push($stack, $result);
@@ -355,15 +358,23 @@ class Lib_201_data extends MX_Controller {
                      * el campo DEBE ESTAR VACÍO y el Sistema tomará el CUIT registrado previamente en el mismo para el número de aporte informado. 
                      */
                     $code_error = "C.2";
-                    if ($C_cell_value && ($E_cell_value || $G_cell_value)) {
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
-                        array_push($stack, $result);
-                    } else {                        
-                        if (!$exist_input_number) {
+
+                    if ($C_cell_value) {
+                        if ($C2_is_true) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
                             array_push($stack, $result);
                         }
                     }
+
+
+//                    if ($C_cell_value && $C2_is_true) {
+//                      
+//                    } else {
+//                        if (!$exist_input_number) {
+//                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
+//                            array_push($stack, $result);
+//                        }
+//                    }
                 }
 
                 /* ESPECIE
@@ -487,7 +498,7 @@ class Lib_201_data extends MX_Controller {
             $code_error = "A.2";
 
             if (!$check_consecutive) {
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. ( " . $get_last_input_number . " )");
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado.");
                 array_push($stack, $result);
             }
 
@@ -636,7 +647,7 @@ class Lib_201_data extends MX_Controller {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
             array_push($stack, $result);
         }
-        
+
         //debug($stack);        exit();
         $this->data = $stack;
     }

@@ -243,5 +243,22 @@ class Model_13 extends CI_Model {
 
         return $rtn;
     }
+    
+    function get_amount_total($period, $col) {
+
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $rtn[] = $list[$col];
+        }
+        return array_sum($rtn);
+    }
 
 }

@@ -66,10 +66,10 @@ class Lib_123_data extends MX_Controller {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                     }
                 }
-                
-                
-                
-                
+
+
+
+
                 /* DIA
                  * Nro B.1
                  * Detail:
@@ -81,19 +81,19 @@ class Lib_123_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] != 1) {
 
                     $value = $parameterArr[$i]['fieldValue'];
-                    $key = $parameterArr[$i]['col'];
-                    
+                    $key = ($parameterArr[$i]['col'] - 1);                    
                     if ($value == "") {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
-                        array_push($stack, $result);
+
+//                        if ($key)
+//                            array_push($stack, $result);
                     } else {
 
-
                         $warranty_info = $this->$model_anexo->get_order_number_left($A_cell_value);
-                        
+
                         foreach ($warranty_info as $info) {
-                            
+
                             $check_word = $info['5216'][0];
                             $amount = $info['5218'];
                             $origin = $info['5215'];
@@ -111,39 +111,47 @@ class Lib_123_data extends MX_Controller {
                         }
 
 
-                        if ($currency == 2) {
-                            /* DOLLAR */
-                            $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
-                            $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                            $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
+                        if ((int) $value != 0) {
+                            if ($currency == 2) {
+                                /* DOLLAR */
+                                $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
+                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                                $new_dollar_value = ($amount / $dollar_quotation_origin) * $dollar_quotation_period;
 
-                            // var_dump($new_dollar_value .">". $amount, $value);
+                                $a = (int) $new_dollar_value;
+                                $b = (int) $value;
 
-                            if ($new_dollar_value < $value) {
-                                $code_error = "B.1.B";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], 'El Día ' . $key . ' $' .$value.' Monto disponible para el Nro. Orden  = '. $A_cell_value.'  (' . $amount .'/'. $dollar_quotation_origin .'*'. $dollar_quotation_period . ' = '.$new_dollar_value.' )');
-                                array_push($stack, $result);
-                            }
-                        } else {
-                            
-                            if ($value > $amount) {
-                                $code_error = "B.1.A";
-                                $result = return_error_array($code_error, $row, "El Día " . $key . " (" . $value . ")");
-                                array_push($stack, $result);
+                                $fix_ten_cents = fix_ten_cents($a, $b);
+
+                                if ($fix_ten_cents) {
+
+                                    if ($a < $b) {
+                                        $code_error = "B.1.B";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'],' El Día ' . $key . ' ' . money_format_custom($value) . ' Monto disponible para el Nro. Orden  = ' . $A_cell_value . '  (' . $amount . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
+                                        array_push($stack, $result);
+                                    }
+                                }
+                            } else {
+
+                                if ($value > $amount) {
+                                    $code_error = "B.1.A";
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Día " . $key . " (" . $value . ")");
+                                    array_push($stack, $result);
+                                }
                             }
                         }
 
                         $return = check_decimal($value, 2, true);
                         if ($return) {
                             $code_error = "B.3";
-                            $result = return_error_array($code_error, $row, "El Día" . $key . " (" . $value . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "El Día" . $key . " (" . $value . ")");
                             array_push($stack, $result);
                         }
                     }
-                }               
+                }
             } // END FOR LOOP->
         }
-        
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 

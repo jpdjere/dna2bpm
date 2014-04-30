@@ -198,7 +198,7 @@ class Model_12 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
@@ -473,8 +473,11 @@ class Model_12 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
         $period_value = $this->session->userdata['period'];
 
+        
+        
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo);
+      
         $return_result = array();
         foreach ($result as $list) {
             $new_query = array(
@@ -523,6 +526,33 @@ class Model_12 extends CI_Model {
         $result = $this->sgr_model->get_active($anexo);
         $return_result = array();
         foreach ($result as $list) {
+            $new_query = array(
+                'filename' => $list['filename'],
+                5349 => $cuit
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
+    
+    function get_warranty_partner_print($cuit, $period) {
+        
+        
+        
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+        $period_value = $period;
+
+        /* GET ACTIVE ANEXOS */
+       // $result = $this->sgr_model->get_current_period_info($anexo, $period);
+        $result = $this->sgr_model->get_active_print($anexo, $period);
+        
+        
+        $return_result = array();
+        foreach ($result as $list) {            
             $new_query = array(
                 'filename' => $list['filename'],
                 5349 => $cuit
@@ -599,16 +629,14 @@ class Model_12 extends CI_Model {
         foreach ($result as $list) {
             $new_query = array(
                 'filename' => $list['filename'],
-                5349 => $sharer,
-                5351 => $cuit
+                5351 => $cuit,
+                5349 => $sharer
             );
-
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $return_result[] = $new_result;
+            $get_new_result = $this->mongo->sgr->$container->find($new_query);
+            foreach($get_new_result as $new_result) {
+                $return_result[] = $new_result['5214'];
             }
         }
-
         return $return_result;
     }
 
@@ -652,6 +680,65 @@ class Model_12 extends CI_Model {
         }
     }
 
+    function get_assisted_pymes($period) {
+
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $model_anexo = "model_12";
+        $this->load->Model($model_anexo);
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $rtn[] = $list[5349];
+        }
+
+
+        return count(array_unique($rtn));
+    }
+
+    function get_amount_granted_qty($period) {
+
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $rtn[] = $list[5214];
+        }
+
+
+        return count(array_unique($rtn));
+    }
+
+    function get_amount_granted($period) {
+
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $rtn[] = $list[5218];
+        }
+        return array_sum($rtn);
+    }
+
     function get_anexo_data_report($anexo, $parameter) {
 
         if (!$parameter) {
@@ -691,12 +778,12 @@ class Model_12 extends CI_Model {
         }
         if ($cuit_sharer)
             $new_query["5349"] = $cuit_sharer;
-        
+
         if ($order_number)
             $new_query["5214"] = $order_number;
-        
-        
-       
+
+
+
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr);

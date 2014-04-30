@@ -49,7 +49,7 @@ class Lib_141_error_legend {
                 $result_error = '<strong>Columna H - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>OPCIONAL. Debe validar que si en el proceso de importación detecta que el CUIT informado en la Columna A tiene saldos de deuda positivos (Saldo Calculado por el Sistema sobre la información histórica de los movimientos del FDR Contingente informados mediante ANEXO 14), esta columna deberá estar completa.';
                 break;
             case "I.2":
-                $result_error = '<strong>Columna H - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>De estar completo, debe tomar alguno de los siguientes parámetros:"1","2","3","4".';
+                $result_error = '<strong>Columna H - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>De estar completo, debe tomar alguno de los siguientes parámetros:"1","2","3","4","5".';
                 break;
         }
         return $result_error;

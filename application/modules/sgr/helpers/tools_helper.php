@@ -191,6 +191,16 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     return $status;
 }
 
+function validate_two_decimals($number) {
+
+    $patron = '^[0-9]+\.[0-9]{2}$';
+
+    if (preg_match('/' . $patron . '/', $number))
+        return false;
+    else
+        return true;
+}
+
 function isfloat($f) {
     $value = ($f == (string) (float) $f);
     return $value;
@@ -525,9 +535,11 @@ function last_month_date($period) {
 }
 
 function period_before($period) {
-    list($getPeriodMonth, $getPeriodYear) = explode("-", $period_req);
+
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
     $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-31');
     $endDate = strtotime('-1 month', strtotime($fecha));
+
     return date("m-Y", $endDate);
 }
 
@@ -864,13 +876,22 @@ function translate_month_spanish($code) {
 
 function fix_ten_cents($value, $value2) {
 
-    $percent = $value * 0.01;
-    $percent_negative = $value * -0.01;
+    $percent = (int) ($value * 0.01);
+    $percent_negative = (int)($value * -0.01);
 
     $range = range($percent_negative, $percent);
     $diff = $value - $value2;
     $diff = (int) $diff;
-
+    
     if (!in_array($diff, $range))
         return true;
+}
+
+function sum_values($value1, $value2){
+    $value1 = (float)$value1;
+    $value2 = (float)$value2;
+    
+    $result = array_sum(array($value1, $value2));
+    
+    return $result;
 }

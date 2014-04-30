@@ -201,7 +201,48 @@ class Model_16 extends CI_Model {
         $newTable = $this->table_custom->generate($data);
         return $newTable;
     }
+    
+    function get_anexo_ddjj($period) {
 
+        $rtn = array();
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+        $new_list = array();
+        foreach ($result as $list) {
+            $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
+            $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
+            $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
+            $col14 = ($list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col15 = ($col9 / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col16 = ($col10 / $list['FDR_TOTAL_COMPUTABLE'])*100;
+
+            $new_list = array();
+            $new_list['col1'] = $month_value;
+            $new_list['col2'] = money_format_custom($list['GARANTIAS_VIGENTES']);
+            $new_list['col3'] = money_format_custom($list['80_HASTA_FEB_2010']);
+            $new_list['col4'] = money_format_custom($list['120_HASTA_FEB_2010']);
+            $new_list['col5'] = money_format_custom($list['80_DESDE_FEB_2010']);
+            $new_list['col6'] = money_format_custom($list['120_DESDE_FEB_2010']);
+            $new_list['col7'] = money_format_custom($list['80_DESDE_ENE_2011']);
+            $new_list['col8'] = money_format_custom($list['120_DESDE_ENE_2011']);
+            $new_list['col9'] = money_format_custom($col9, true);
+            $new_list['col10'] = money_format_custom($col10, true);
+            $new_list['col11'] = money_format_custom($list['FDR_TOTAL_COMPUTABLE']);
+            $new_list['col12'] = money_format_custom($list['FDR_CONTINGENTE']);
+            $new_list['col13'] = money_format_custom($col13, true);
+            $new_list['col14'] = percent_format_custom($col14);
+            $new_list['col15'] = percent_format_custom($col15);
+            $new_list['col16'] = percent_format_custom($col16);
+            $rtn[] = $new_list;
+        }
+         return $rtn;
+    }
+    
     function get_anexo_data($anexo, $parameter) {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
@@ -227,9 +268,9 @@ class Model_16 extends CI_Model {
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
             $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));
             $col13 = $list['FDR_TOTAL_COMPUTABLE'] - $list['FDR_CONTINGENTE'];
-            $col14 = $list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'];
-            $col15 = $col9 / $list['FDR_TOTAL_COMPUTABLE'];
-            $col16 = $col10 / $list['FDR_TOTAL_COMPUTABLE'];
+            $col14 = ($list['GARANTIAS_VIGENTES'] / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col15 = ($col9 / $list['FDR_TOTAL_COMPUTABLE'])*100;
+            $col16 = ($col10 / $list['FDR_TOTAL_COMPUTABLE'])*100;
 
             $new_list = array();
             $new_list['col1'] = $month_value;

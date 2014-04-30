@@ -56,6 +56,9 @@ class Sgr_model extends CI_Model {
             'period' => $period,
             "status" => array('$ne' => 'rectificado'),
         );
+        
+      
+        
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
@@ -642,6 +645,33 @@ class Sgr_model extends CI_Model {
 
     /* GET ACTIVE for PRINT ANEXOS */
 
+    function get_active_one($anexo, $get_period) {
+        
+        
+        
+        $rtn = array();
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+              
+        
+        $query = array(
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'sgr_id' => (float) $this->sgr_id,
+            'status' => 'activo',
+            'period' => $get_period
+        );
+       
+        $result = $this->mongo->sgr->$period->find($query);
+        foreach ($result as $each) {
+            
+           
+            $rtn[] = $each;
+        }
+         
+        return $rtn;
+    }
+    
     function get_active_print($anexo, $period_date) {
         
         $rtn = array();
