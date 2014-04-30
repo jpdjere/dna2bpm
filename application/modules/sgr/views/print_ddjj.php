@@ -170,7 +170,7 @@
 		</ul>
 </div>
 
-<!--  TABLE 3 -->	
+<!--  TABLE 3 /// -->	
 <div class="row">
 <div id="T3" class="table_partners">
 			<table>
