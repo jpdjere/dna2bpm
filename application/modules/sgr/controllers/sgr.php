@@ -932,7 +932,7 @@ class Sgr extends MX_Controller {
                 foreach ($result_15 as $r15) {
                     $t5_1 = $r15['col1'];
                     $t5_2 = $r15['col2'];
-                    $t5_3 = array_sum(array($t5_1, $t5_2));
+                    $t5_3 = $r15['col3'];
                     $t5_4 = $r15['col4'];
                 }
 
@@ -941,7 +941,7 @@ class Sgr extends MX_Controller {
 
                     $t5_5 = $r15['col1'];
                     $t5_6 = $r15['col2'];
-                    $t5_7 = array_sum(array($t5_5, $t5_6));
+                    $t5_7 = $r15['col3'];
                     $t5_8 = $r15['col4'];
                 }
 
@@ -950,7 +950,7 @@ class Sgr extends MX_Controller {
 
                     $t5_9 = $r15['col1'];
                     $t5_10 = $r15['col2'];
-                    $t5_11 = array_sum(array($t5_9, $t5_10));
+                    $t5_11 = $r15['col3'];
                     $t5_12 = $r15['col4'];
                 }
 
@@ -959,7 +959,7 @@ class Sgr extends MX_Controller {
 
                     $t5_13 = $r15['col1'];
                     $t5_14 = $r15['col2'];
-                    $t5_15 = array_sum(array($t5_13, $t5_14));
+                    $t5_15 = $r15['col3'];
                     $t5_16 = $r15['col4'];
                 }
 
@@ -967,7 +967,7 @@ class Sgr extends MX_Controller {
                 foreach ($result_15 as $r15) {
                     $t5_17 = $r15['col1'];
                     $t5_18 = $r15['col2'];
-                    $t5_19 = array_sum(array($t5_17, $t5_18));
+                    $t5_19 = $r15['col3'];
                     $t5_20 = $r15['col4'];
                 }
 
@@ -978,7 +978,7 @@ class Sgr extends MX_Controller {
 
                     $t5_21 = $r15['col1'];
                     $t5_22 = $r15['col2'];
-                    $t5_23 = array_sum(array($t5_21, $t5_22));
+                    $t5_23 = $r15['col3'];
                     $t5_24 = $r15['col4'];
                 }
 
@@ -987,7 +987,7 @@ class Sgr extends MX_Controller {
 
                     $t5_25 = $r15['col1'];
                     $t5_26 = $r15['col2'];
-                    $t5_27 = array_sum(array($t5_25, $t5_26));
+                    $t5_27 = $r15['col3'];
                     $t5_28 = $r15['col4'];
                 }
 
@@ -997,7 +997,7 @@ class Sgr extends MX_Controller {
 
                     $t5_29 = $r15['col1'];
                     $t5_30 = $r15['col2'];
-                    $t5_31 = array_sum(array($t5_29, $t5_30));
+                    $t5_31 = $r15['col3'];
                     $t5_32 = $r15['col4'];
                 }
 
@@ -1006,9 +1006,27 @@ class Sgr extends MX_Controller {
 
                     $t5_33 = $r15['col1'];
                     $t5_34 = $r15['col2'];
-                    $t5_35 = array_sum(array($t5_33, $t5_34));
+                    $t5_35 = $r15['col3'];
                     $t5_36 = $r15['col4'];
                 }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "J");
+                foreach ($result_15 as $r15) {
+
+                    $t5_37 = $r15['col1'];
+                    $t5_38 = $r15['col2'];
+                    $t5_39 = $r15['col3'];
+                    $t5_40 = $r15['col4'];
+                }
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "K");
+                foreach ($result_15 as $r15) {
+
+                    $t5_41 = $r15['col1'];
+                    $t5_42 = $r15['col2'];
+                    $t5_43 = $r15['col3'];
+                    $t5_44 = $r15['col4'];
+                }
+
 
 
                 $rtn['t5_1'] = money_format_custom($t5_1);
@@ -1056,7 +1074,16 @@ class Sgr extends MX_Controller {
                 $rtn['t5_35'] = money_format_custom($t5_35);
                 $rtn['t5_36'] = percent_format_custom($t5_36);
 
-                $total = array_sum(array($t5_3, $t5_7, $t5_11, $t5_15, $t5_19, $t5_23, $t5_27, $t5_31, $t5_35, $t5_37));
+                $rtn['t5_37'] = money_format_custom($t5_37);
+                $rtn['t5_38'] = money_format_custom($t5_38);
+                $rtn['t5_39'] = money_format_custom($t5_39);
+                $rtn['t5_40'] = percent_format_custom($t5_40);
+
+                $rtn['t5_41'] = money_format_custom($t5_41);
+                $rtn['t5_42'] = money_format_custom($t5_42);
+                $rtn['t5_43'] = money_format_custom($t5_43);
+                $rtn['t5_44'] = percent_format_custom($t5_44);
+                $total = array_sum(array($t5_3, $t5_7, $t5_11, $t5_15, $t5_19, $t5_23, $t5_27, $t5_31, $t5_35, $t5_39, $t5_43));
 
                 $rtn['t5_37'] = money_format_custom($total);
                 $rtn['t5_38'] = percent_format_custom(100);
