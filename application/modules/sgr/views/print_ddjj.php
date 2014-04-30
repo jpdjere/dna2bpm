@@ -18,7 +18,7 @@
 		</div>
 		
 <!--  PERIOD -->
-		<div class=row >
+	<div class=row" align="center">
 			<h2>{sgr_nombre}</h2>
 			<h4 >Declaración Jurada sobre la Presentación de los Anexos 12, 13, 14, 15 y 16</h4>
 			<h3>PER&Iacute;ODO: {print_period}</h3>
@@ -170,7 +170,7 @@
 		</ul>
 </div>
 
-<!--  TABLE 3 -->	
+<!--  TABLE 3 /// -->	
 <div class="row">
 <div id="T3" class="table_partners">
 			<table>
@@ -446,7 +446,7 @@
 		
 <!--sign-->	
 <div class="row">
-		<div class="sign">
+		<div class="sign pull-right">
 			<p>Firma y Aclaración del Presidente o Apoderado de la Sociedad de
 				Garantía Recíproca</p>
 		</div>
