@@ -333,9 +333,9 @@
                             <td>{t5_44}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">Totales</td>
-                            <td>{t5_37}</td>
-                            <td>{t5_38}</td>
+                            <td colspan="3"><strong>Totales</strong></td>
+                            <td><strong>{t5_37}</strong></td>
+                            <td><strong>{t5_38}</strong></td>
                         </tr>
                     </table>
                 </div>
