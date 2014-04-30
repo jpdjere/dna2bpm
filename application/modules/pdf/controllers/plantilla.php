@@ -32,7 +32,7 @@ class Plantilla extends MX_Controller {
         $this->load->library('pdf');
         $this->pdf->parse('pdf/plantilla_institucional', $cpData);
         $this->pdf->render();
-        $this->pdf->stream("recibo_sueldo.pdf");
+        $this->pdf->stream("plantilla.pdf");
     }
 
     function html($file = null) {
