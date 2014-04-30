@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-<title>Ministerio de la Producción, Ciencia y Tecnología</title>
+<title>Plantilla Institucional</title>
 <style type="text/css">
 
 @page {
@@ -54,7 +54,7 @@ hr {
 <img src="{base_url}/pdf/assets/top_mpcyt.png" alt="" width="460" height="46"/> </div>
 
 <div id="footer">
-  <div class="page-number"><p>Ministerio de la Producción, Ciencia y Tecnología</p></div>
+  <div class="page-number"><p>Sectretaría de la Pequeña Mediana Empresa y Desarrollo Regional</p></div>
 </div>
 <h2>Section 1</h2>
 <p>
