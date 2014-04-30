@@ -581,7 +581,6 @@ class Sgr extends MX_Controller {
                 }
             }
 
-
             /* SET PERIOD */
             if ($save) {
                 $result = array();
