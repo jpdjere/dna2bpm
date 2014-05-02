@@ -255,8 +255,7 @@ class Lib_121_data extends MX_Controller {
                 if (isset($amount)) {
                     $code_error = "D.2.A";
                    
-                    $result_comp = bccomp($d2_sum,$amount, 2); // 0   
-                    
+                    $result_comp = bccomp($d2_sum,$amount, 2); // 0
                     if ($result_comp != 0) {
                         $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
@@ -291,7 +290,8 @@ class Lib_121_data extends MX_Controller {
                 $code_error = "E.2.A";
 
                 if (isset($amount)) {
-                    if ($e2_sum != $amount) {
+                    $result_comp = bccomp($e2_sum,$amount, 2); // 0
+                    if ($result_comp != 0) {
                         $result = return_error_array($code_error, "-", $e2_sum . " de " . $amount);
                         array_push($stack, $result);
                     }
@@ -299,7 +299,7 @@ class Lib_121_data extends MX_Controller {
             }
         }
 
-        debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
