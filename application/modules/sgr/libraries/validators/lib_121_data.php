@@ -257,7 +257,7 @@ class Lib_121_data extends MX_Controller {
                     
                     var_dump($d2_sum,$amount );
                     
-                    if ($d2_sum != $amount) {
+                    if ($d2_sum !== $amount) {
                         $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
                     }
