@@ -254,10 +254,10 @@ class Lib_121_data extends MX_Controller {
             } else {
                 if (isset($amount)) {
                     $code_error = "D.2.A";
+                   
+                    $result_comp = bccomp($d2_sum,$amount, 2); // 0   
                     
-                    var_dump($d2_sum,$amount );
-                    
-                    if ($d2_sum != $amount) {
+                    if ($result_comp != 0) {
                         $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
                     }
