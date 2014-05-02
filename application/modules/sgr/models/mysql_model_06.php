@@ -90,9 +90,6 @@ class mysql_model_06 extends CI_Model {
 
     function anexo_data_tmp($anexo, $filename) {
 
-
-
-
         $this->db->select(
                 'id,
                 cuit, 
