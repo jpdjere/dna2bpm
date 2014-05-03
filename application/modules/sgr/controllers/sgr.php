@@ -1082,11 +1082,14 @@ class Sgr extends MX_Controller {
                 $rtn['t5_42'] = money_format_custom($t5_42);
                 $rtn['t5_43'] = money_format_custom($t5_43);
                 $rtn['t5_44'] = percent_format_custom($t5_44);
+                $total_pesos = array_sum(array($t5_1, $t5_5, $t5_9, $t5_13, $t5_17, $t5_21, $t5_25, $t5_29, $t5_33, $t5_37, $t5_41));
+                $total_dolar = array_sum(array($t5_2, $t5_6, $t5_10, $t5_14, $t5_18, $t5_22, $t5_26, $t5_30, $t5_34, $t5_38, $t5_42));
                 $total = array_sum(array($t5_3, $t5_7, $t5_11, $t5_15, $t5_19, $t5_23, $t5_27, $t5_31, $t5_35, $t5_39, $t5_43));
 
-                $rtn['t5_37'] = money_format_custom($total);
-                $rtn['t5_38'] = percent_format_custom(100);
-
+                $rtn['t5_45'] = money_format_custom($total_pesos);
+                $rtn['t5_46'] = money_format_custom($total_dolar);
+                $rtn['t5_47'] = money_format_custom($total);
+                $rtn['t5_48'] = percent_format_custom(100);
 
                 return $rtn;
                 break;
