@@ -229,12 +229,12 @@ class Model_06 extends CI_Model {
                  */
                 $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_DE_TRANSACCION'], 1900));
                 $integrated = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $this->session->userdata['period'], $transaction_date);
-                $integrated = $integrated-$insertarr[5598];
+                $integrated = $integrated - $insertarr[5598];
                 $grantor_type = ($integrated == 0) ? "2" : "1";
             }
-            $insertarr[5292] = $grantor_type;           
+            $insertarr[5292] = $grantor_type;
         }
-       
+
         return $insertarr;
     }
 
@@ -617,8 +617,8 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
-            
-            
+
+
 
             $calc_average = "";
             $promedio = "";
@@ -639,12 +639,12 @@ class Model_06 extends CI_Model {
             $sector_value = $this->sgr_model->clae2013($list['5208']);
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
             $company_type = ($isPyme) ? "PyME" : "";
-            
+
 
             /* CARACTER CEDENTE */
 
             if ($list['5248']) {
-                $grantor_type_text = "Caracter del Cedente:</br>"; 
+                $grantor_type_text = "Caracter del Cedente:</br>";
                 $grantor_type = $grantor_type_text . $transfer_characteristic[$list['5292'][0]];
             }
 
@@ -1239,6 +1239,43 @@ class Model_06 extends CI_Model {
         }
     }
 
+    function balance_count_before($period, $partner_type) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $result = $this->sgr_model->get_active_print($anexo, period_before($period)); //exclude actual
+
+        $input_arr = array();
+        $datached_arr = array();
+        foreach ($result as $each) {
+            /* INPUT */
+            $input_query = array(
+                'filename' => $each['filename'], 5272 => $partner_type, 5779 => '1'
+            );
+
+            $input_partners = $this->mongo->sgr->$container->find($input_query);
+            foreach ($input_partners as $inputs)
+                $input_arr[] = $inputs[1695];
+
+            /* DATACHED */
+            $datached_query = array(
+                'filename' => $each['filename'], 5272 => $partner_type, 5292 => '2'
+            );
+
+            $datached_partners = $this->mongo->sgr->$container->find($datached_query);
+            foreach ($datached_partners as $datacheds)
+                $datached_arr[] = $datacheds[5248];
+        }
+
+        $total_inputs = count(array_unique($input_arr));
+        $total_datacheds = count(array_unique($datached_arr));
+
+        $diff = $total_inputs - $total_datacheds;
+
+        return $diff;
+    }
+
     /* INCORPORACION */
 
     function incorporated_count($period, $partner_type) {
@@ -1250,38 +1287,13 @@ class Model_06 extends CI_Model {
         $container = 'container.sgr_anexo_' . $anexo;
 
 
-        $result = $this->sgr_model->get_current_period_info('06', $period);
+        $result = $this->sgr_model->get_current_period_info($anexo, $period);
         $new_query = array(
             'filename' => $result['filename'], 5272 => $partner_type, 5779 => '1'
         );
-
-
-
         $partners = $this->mongo->sgr->$container->find($new_query);
         return $partners->count();
     }
-
-    function incorporated_count_before($period, $partner_type) {
-        $anexo = $this->anexo;
-        /* GET ACTIVE ANEXOS */
-        $container_period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-
-
-        $result = $this->sgr_model->get_active_print('06', period_before($period)); //exclude actual
-        $rtn = array();
-        foreach ($result as $each) {
-            $new_query = array(
-                'filename' => $each['filename'], 5272 => $partner_type, 5779 => '1'
-            );
-
-            $partners = $this->mongo->sgr->$container->find($new_query);
-            $rtn[] = $partners->count();
-        }
-        return (array_sum($rtn));
-    }
-
-    /* DESVINCULADO  */
 
     function detached_count($period, $partner_type) {
         $anexo = $this->anexo;
@@ -1290,57 +1302,13 @@ class Model_06 extends CI_Model {
         $container_period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        $result = $this->sgr_model->get_current_period_info('06', $period);
+
+        $result = $this->sgr_model->get_current_period_info($anexo, $period);
         $new_query = array(
-            'filename' => $result['filename'], 5272 => $partner_type, 5248 => array('$ne' => NULL)
+            'filename' => $each['filename'], 5272 => $partner_type, 5292 => '2'
         );
-
-        $count = array();
         $partners = $this->mongo->sgr->$container->find($new_query);
-        foreach ($partners as $each) {
-            if ($each['5248']) {
-                $transaction_date = mongodate_to_print($each['FECHA_DE_TRANSACCION']);
-
-                $integrated = $this->shares_print($each['5248'], $each['5272'][0], 5598, $each['period'], $transaction_date);
-                if ($integrated == 0)
-                    $count[] = 1;
-            }
-        }
-
-        return array_sum($count);
-    }
-
-    function detached_count_before($period, $partner_type) {
-        $anexo = $this->anexo;
-
-        /* GET ACTIVE ANEXOS */
-        $container_period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-        $rtn = array();
-        $stack = array();
-        $count = array();
-        $i = 1;
-        $get_result = $this->sgr_model->get_active_print('06', period_before($period)); //exclude actual
-        foreach ($get_result as $result) {
-
-            $new_query = array(
-                'filename' => $result['filename'], 5272 => $partner_type, 5248 => array('$ne' => NULL)
-            );
-
-            $partners = $this->mongo->sgr->$container->find($new_query);
-
-            foreach ($partners as $each) {
-                if ($each['5248']) {
-                    $transaction_date = mongodate_to_print($each['FECHA_DE_TRANSACCION']);
-
-                    $integrated = $this->shares_print($each['5248'], $each['5272'][0], 5598, $each['period'], $transaction_date);
-
-                    if ($integrated == 0)
-                        $count[] = $each['1695'];
-                }
-            }
-        }
-        return(count(array_unique($count)));
+        return $partners->count();
     }
 
     /* ACCIONES COMPRA */
@@ -1352,7 +1320,7 @@ class Model_06 extends CI_Model {
         $container_period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        $result = $this->sgr_model->get_current_period_info('06', $period);
+        $result = $this->sgr_model->get_current_period_info($anexo, $period);
         $new_query = array(
             'filename' => $result['filename'],
             5272 => $partner_type,
@@ -1398,7 +1366,7 @@ class Model_06 extends CI_Model {
         $container_period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
 
-        $result = $this->sgr_model->get_current_period_info('06', $period);
+        $result = $this->sgr_model->get_current_period_info($anexo, $period);
         $new_query = array(
             'filename' => $result['filename'],
             5272 => $partner_type,
