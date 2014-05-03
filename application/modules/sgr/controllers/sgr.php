@@ -1171,9 +1171,8 @@ class Sgr extends MX_Controller {
             case '06':
 
                 /* CANTIDAD SOCIOS */
-                $t1_1 = $this->$model->incorporated_count_before($period_req, "A") - $this->$model->detached_count_before($period_req, "A");
-                $t1_13 = $this->$model->incorporated_count_before($period_req, "B") - $this->$model->detached_count_before($period_req, "B");
-
+                $t1_1 = $this->$model->balance_count_before($period_req, "A");
+                $t1_13 = $this->$model->balance_count_before($period_req, "B");
                 $t1_25 = $t1_1 + $t1_13;
 
                 $t1_2 = $this->$model->incorporated_count($period_req, "A");
