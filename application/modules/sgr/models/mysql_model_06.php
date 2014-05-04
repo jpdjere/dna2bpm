@@ -126,6 +126,8 @@ class mysql_model_06 extends CI_Model {
             $parameter[1695] = (string) $row->cuit;
             $parameter[5272] = (string) $row->tipo_socio;
             $parameter[5248] = (string) $row->cedente_cuit;
+            
+            
 
             /* INTEGERS */
 
@@ -156,12 +158,10 @@ class mysql_model_06 extends CI_Model {
             if (strtoupper(trim($row->modalidad)) == "SUSCRIPCION")
                 $parameter[5252] = "2";
             
-             if (strtoupper(trim($row->modalidad)) == "DESVINCULACION")
+             if (strtoupper(trim($row->cedente_caracteristica)) == "DESVINCULACION")
                 $parameter[5292] = "2";
-            if (strtoupper(trim($row->modalidad)) == "DISMINUCION DE TENENCIA ACCIONARIA")
+            if (strtoupper(trim($row->cedente_caracteristica)) == "DISMINUCION DE TENENCIA ACCIONARIA")
                 $parameter[5292] = "1";
-
-
 
 
             $parameter['idu'] = (float) $row->idu;
