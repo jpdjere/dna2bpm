@@ -1299,21 +1299,16 @@ class Model_06 extends CI_Model {
                 $input_arr[] = $inputs[5598];
 
             /* DATACHED */
-             $new_query_or['$or'][] = array(5292 => "1");
             
             $datached_query = array(
-                'filename' => $each['filename'], 5272 => $partner_type,5292 => "2"
+                'filename' => $each['filename'], 5272 => $partner_type, 5292 => array('$ne' => null)
             );
-            
-          //  $datached_query['$or'][] = array(5292 => "1",5292 => "2");
-            //debug($datached_query);
-
+         
             $datached_partners = $this->mongo->sgr->$container->find($datached_query);
             foreach ($datached_partners as $datacheds)
                 $datached_arr[] = $datacheds[5598];
         }
         
-        var_dump(array_sum($input_arr),array_sum($datached_arr));
         
         $total_inputs = array_sum($input_arr);
         $total_datacheds = array_sum($datached_arr);
