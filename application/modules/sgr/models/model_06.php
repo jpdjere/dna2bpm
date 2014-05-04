@@ -116,7 +116,9 @@ class Model_06 extends CI_Model {
                 $insertarr["5779"] = "2";
             if ($insertarr["5779"] == "DISMINUCION DE CAPITAL SOCIAL")
                 $insertarr["5779"] = "3";
-
+            if ($insertarr["5779"] == "INTEGRACION PENDIENTE")
+                $insertarr["5779"] = "4";
+            
 
 
             //---Parseamos el tipo (hay que sacarlo del nombre)
@@ -1248,6 +1250,7 @@ class Model_06 extends CI_Model {
 
         $input_arr = array();
         $datached_arr = array();
+        
         foreach ($result as $each) {
             /* INPUT */
             $input_query = array(
@@ -1275,9 +1278,52 @@ class Model_06 extends CI_Model {
 
         return $diff;
     }
+    
+    function balance_amount_count_before($period, $partner_type) {
+        $anexo = $this->anexo;
+        /* GET ACTIVE ANEXOS */
+        $container_period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $result = $this->sgr_model->get_active_print($anexo, period_before($period)); //exclude actual
+
+        $input_arr = array();
+        $datached_arr = array();
+        foreach ($result as $each) {
+            /* INPUT */
+            $input_query = array(
+                'filename' => $each['filename'], 5272 => $partner_type, 5779 => array('$ne' => '3')
+            );
+
+            $input_partners = $this->mongo->sgr->$container->find($input_query);
+            foreach ($input_partners as $inputs)
+                $input_arr[] = $inputs[5598];
+
+            /* DATACHED */
+             $new_query_or['$or'][] = array(5292 => "1");
+            
+            $datached_query = array(
+                'filename' => $each['filename'], 5272 => $partner_type,5292 => "2"
+            );
+            
+          //  $datached_query['$or'][] = array(5292 => "1",5292 => "2");
+            //debug($datached_query);
+
+            $datached_partners = $this->mongo->sgr->$container->find($datached_query);
+            foreach ($datached_partners as $datacheds)
+                $datached_arr[] = $datacheds[5598];
+        }
+        
+        var_dump(array_sum($input_arr),array_sum($datached_arr));
+        
+        $total_inputs = array_sum($input_arr);
+        $total_datacheds = array_sum($datached_arr);
+
+        $diff = $total_inputs - $total_datacheds;
+
+        return $diff;
+    }
 
     /* INCORPORACION */
-
     function incorporated_count($period, $partner_type) {
 
         $anexo = $this->anexo;
