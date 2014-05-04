@@ -1206,8 +1206,8 @@ class Sgr extends MX_Controller {
                 $rtn['t1_28'] = $t1_28;
 
                 /* CANTIDAD ACCIONES */
-                $t1_5 = $this->$model->buys_shares_before($period_req, "A") - $this->$model->sells_shares_before($period_req, "A");
-                $t1_17 = $this->$model->buys_shares_before($period_req, "B") - $this->$model->sells_shares_before($period_req, "B");
+                $t1_5 = $this->$model->balance_amount_count_before($period_req, "A");
+                $t1_17 = $this->$model->balance_amount_count_before($period_req, "B");
 
                 $t1_29 = $t1_5 + $t1_17;
 
