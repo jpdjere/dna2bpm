@@ -213,8 +213,7 @@ class Sgr_model extends CI_Model {
         $container = 'container.empresas';
         $fields = array('id', '1695', '4651', '1693', '1703');
         $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
-        $result = $this->mongo->db->$container->find($query, $fields);
-        debug($query);
+        $result = $this->mongo->db->$container->find($query, $fields);        
         
         foreach ($result as $empresa) {
             unset($empresa['_id']);
