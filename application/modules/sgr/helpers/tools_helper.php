@@ -900,12 +900,19 @@ function switch_users($iduser) {
 
 
     switch ($iduser) {
+        /* GARANTIZAR */
         case -4357375:
         case -1464904928:
         case 1540219296:
-
-
             $iduser = 253029915;
+            break;
+
+        case -1716989292:
+            $iduser = -1113969851;
+            break;
+
+        case 875267711:
+            $iduser = -2040780000;
             break;
     }
 
