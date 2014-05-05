@@ -32,7 +32,7 @@ class Sgr extends MX_Controller {
 
 // IDU : Chequeo de sesion
         $iduser = $this->session->userdata('iduser');
-
+        
         switch ($iduser) {
             case -4357375:
             case -1464904928:
@@ -58,6 +58,9 @@ class Sgr extends MX_Controller {
         /* DATOS SGR */
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
+            if($iduser == 253029915)
+                debug($sgr);
+            
             $this->sgr_id = (float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
