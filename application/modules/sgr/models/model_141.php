@@ -79,7 +79,7 @@ class Model_141 extends CI_Model {
             $insertarr["CLASIFICACION_DEUDOR"] = (int) $insertarr["CLASIFICACION_DEUDOR"];
 
             /* DYNAMIC INFO */
-            
+
             $model_125 = 'model_125';
             $this->load->Model($model_125);
 
@@ -96,15 +96,14 @@ class Model_141 extends CI_Model {
 
             /* PARTNER DATA */
             $cuit = $insertarr["CUIT_PARTICIPE"];
-           
+
             $partner_balance = $this->$model_125->get_balance_by_partner($cuit, $this->session->userdata['period']);
 
             $partner_balance_qty = ($partner_balance['count']) ? $partner_balance['count'] : 0;
             $partner_balance_amount = ($partner_balance['balance']) ? $partner_balance['balance'] : 0;
 
-            /* GET ALL WARRANTIES BY PARTNER */
-            $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
-            
+
+
             $col12_arr = array();
 
             $caida_result_arr = array();
@@ -114,7 +113,10 @@ class Model_141 extends CI_Model {
             $recupero_gasto_periodo_arr = array();
             $gasto_incobrable_periodo_arr = array();
 
-            foreach ($get_warranty_partner as $each) {                
+            /* GET ALL WARRANTIES BY PARTNER */
+            $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
+
+            foreach ($get_warranty_partner as $each) {
                 $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
 
                 $caida_result_arr[] = $get_movement_data['CAIDA'];
@@ -150,7 +152,7 @@ class Model_141 extends CI_Model {
             $col6 = (float) $insertarr['PRENDARIAS'];
             $col7 = (float) $insertarr['FIANZA'];
             $col8 = (float) $insertarr['OTRAS'];
-          
+
             $total = array_sum(array($col5, $col6, $col7, $col8));
 
             $insertarr["MONTO_ADEUDADO"] = $sum_total;
@@ -326,8 +328,8 @@ class Model_141 extends CI_Model {
             /* PARTNER DATA */
             $cuit = $list["CUIT_PARTICIPE"];
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
-            
-            
+           
+
             $col3 = $list['CANTIDAD_GARANTIAS'];
             $col4 = $list['MONTO_GARANTIAS'];
 
@@ -337,7 +339,7 @@ class Model_141 extends CI_Model {
             $col8 = $list['OTRAS'];
             $col9 = $list['TOTAL'];
             $col10 = $list['REAFIANZA'];
-            $col11 =  $list['MONTO_ADEUDADO'];
+            $col11 = $list['MONTO_ADEUDADO'];
             $col12 = $list['CANTIDAD_GARANTIAS_AFRONTADAS'];
 
             $new_list = array();
@@ -391,7 +393,7 @@ class Model_141 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
         $new_list = array();
         foreach ($result as $list) {
-            
+
             $col3_val = $list['CANTIDAD_GARANTIAS'];
             $col4_val = $list['MONTO_GARANTIAS'];
 
@@ -401,9 +403,9 @@ class Model_141 extends CI_Model {
             $col8_val = $list['OTRAS'];
             $col9_val = $list['TOTAL'];
             $col10_val = $list['REAFIANZA'];
-            $col11_val =  $list['MONTO_ADEUDADO'];
+            $col11_val = $list['MONTO_ADEUDADO'];
             $col12_val = $list['CANTIDAD_GARANTIAS_AFRONTADAS'];
-            
+
             $col3[] = (float) $col3_val;
             $col4[] = (float) $col4_val;
             $col5[] = (float) $col5_val;
@@ -481,7 +483,7 @@ class Model_141 extends CI_Model {
         }
         return (count(array_unique($rtn)));
     }
-    
+
     function partners_debtors_to_end($period) {
         $anexo = $this->anexo;
         /* GET ACTIVE ANEXOS */
