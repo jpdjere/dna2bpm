@@ -105,7 +105,6 @@ class Model_141 extends CI_Model {
             /* GET ALL WARRANTIES BY PARTNER */
             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
             
-            debug($get_warranty_partner);
             
             
             $col12_arr = array();
@@ -330,6 +329,9 @@ class Model_141 extends CI_Model {
             $cuit = $list["CUIT_PARTICIPE"];
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
             
+            
+             $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $list['period']);
+             debug($get_warranty_partner);
             
             $col3 = $list['CANTIDAD_GARANTIAS'];
             $col4 = $list['MONTO_GARANTIAS'];
