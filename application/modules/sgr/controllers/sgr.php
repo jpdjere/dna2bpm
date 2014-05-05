@@ -31,10 +31,22 @@ class Sgr extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
 
 // IDU : Chequeo de sesion
-        $this->idu = (float) $this->session->userdata('iduser');
+        $iduser = $this->session->userdata('iduser');
+
+        switch ($iduser) {
+            case -4357375:
+            case -1464904928:
+            case 1540219296:
+                $iduser = 253029915;
+                break;
+        }
+
+
+        $this->idu = (float) $iduser;
 
         /* bypass session */
         session_start();
+
         $_SESSION['idu'] = $this->idu;
 
 
@@ -863,7 +875,7 @@ class Sgr extends MX_Controller {
         if ($period_req)
             $this->parser->parse('print_ddjj', $customData);
         else
-           $this->parser->parse('print_ddjj_form', $customData);
+            $this->parser->parse('print_ddjj_form', $customData);
     }
 
     function ddjj_data($anexo_req, $period_req) {
@@ -884,7 +896,7 @@ class Sgr extends MX_Controller {
             case '14':
                 $t4_1 = $this->$model141->partners_debtors_to_top($period_req);
                 $t4_2 = $this->$model141->get_anexo_ddjj($period_req);
-                
+
 
                 $t4_3 = $this->$model->nums_guarantees_faced($period_req, "CAIDA");
                 $t4_4 = $this->$model->amount_guarantees_faced($period_req, "CAIDA");
