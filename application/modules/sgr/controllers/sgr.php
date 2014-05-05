@@ -808,7 +808,8 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-
+		//----Load pdf lib
+        $this->load->library('pdf/pdf');
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
@@ -859,11 +860,17 @@ class Sgr extends MX_Controller {
                 $customData[$key] = $each;
             }
         }
-
-        if ($period_req)
-            echo $this->parser->parse('print_ddjj', $customData, true);
-        else
-            echo $this->parser->parse('print_ddjj_form', $customData, true);
+		$this->pdf->set_paper('A4','landscape');
+        if ($period_req){
+            $this->pdf->parse('print_ddjj', $customData);
+//         	echo $this->parser->parse('print_ddjj', $customData,true);
+//         	exit;
+        } else {
+           echo  $this->parser->parse('print_ddjj_form', $customData,true);
+        }
+        
+        $this->pdf->render();
+        $this->pdf->stream("$parameter.pdf");
     }
 
     function ddjj_data($anexo_req, $period_req) {
