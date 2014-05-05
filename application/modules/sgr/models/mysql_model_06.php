@@ -107,7 +107,7 @@ class mysql_model_06 extends CI_Model {
                 capital_suscripto,
                 capital_integrado,
                 fecha_efectiva, 
-                filename, cedente_cuit, modalidad,
+                filename, cedente_cuit, cedente_caracteristica, modalidad,
                 idu'
         );
 
@@ -155,6 +155,11 @@ class mysql_model_06 extends CI_Model {
                 $parameter[5252] = "1";
             if (strtoupper(trim($row->modalidad)) == "SUSCRIPCION")
                 $parameter[5252] = "2";
+            
+             if (strtoupper(trim($row->modalidad)) == "DESVINCULACION")
+                $parameter[5292] = "2";
+            if (strtoupper(trim($row->modalidad)) == "DISMINUCION DE TENENCIA ACCIONARIA")
+                $parameter[5292] = "1";
 
 
 

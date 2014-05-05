@@ -237,8 +237,6 @@ class Lib_121_data extends MX_Controller {
             }
 
             if ($currency == "2") {
-
-
                 $code_error = "D.2.B";
                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
@@ -250,16 +248,16 @@ class Lib_121_data extends MX_Controller {
                 $fix_ten_cents = fix_ten_cents($a, $b);
 
                 if ($fix_ten_cents) {
-
-               
-
                     $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($d2_sum) . ' Monto disponible para el Nro. Orden  ' . $A_cell_value . ' =  (' . money_format_custom($amount) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation_period) . ' = ' . money_format_custom($new_dollar_value) . ')');
                     array_push($stack, $result);
                 }
             } else {
                 if (isset($amount)) {
                     $code_error = "D.2.A";
-                    if ($d2_sum != $amount) {
+                    
+                    var_dump($d2_sum,$amount );
+                    
+                    if ($d2_sum !== $amount) {
                         $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
                     }
@@ -301,7 +299,7 @@ class Lib_121_data extends MX_Controller {
             }
         }
 
-        //debug($stack);        exit();
+        debug($stack);        exit();
         $this->data = $stack;
     }
 
