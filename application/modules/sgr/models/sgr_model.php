@@ -46,8 +46,8 @@ class Sgr_model extends CI_Model {
         return $result;
     }
 
-    function get_current_period_info($anexo, $period) {        
-       
+    function get_current_period_info($anexo, $period) {
+
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
         $query = array(
@@ -56,9 +56,9 @@ class Sgr_model extends CI_Model {
             'period' => $period,
             "status" => array('$ne' => 'rectificado'),
         );
-        
-      
-        
+
+
+
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
@@ -115,7 +115,8 @@ class Sgr_model extends CI_Model {
             $rtn[] = true;
         }
 
-        if (count($rtn_anexo) > 4)
+        /* 1. Una vez que el usuario finalizó la carga de los Anexos 6, 6.1, 12, 12.1, 12.2, 12.3, 12.4, 12.5, 13, 14, 14.1, 15, 16, 20.1 y 20.2, debe acceder a este Anexo y pedir la GENERCIÓN del Anexo 17 para el período que seleccione. */
+        if (count($rtn_anexo) > 15)
             return array_unique($rtn);
     }
 
@@ -646,14 +647,14 @@ class Sgr_model extends CI_Model {
     /* GET ACTIVE for PRINT ANEXOS */
 
     function get_active_one($anexo, $get_period) {
-        
-        
-        
+
+
+
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-              
-        
+
+
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
@@ -661,25 +662,25 @@ class Sgr_model extends CI_Model {
             'status' => 'activo',
             'period' => $get_period
         );
-       
+
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
-            
-           
+
+
             $rtn[] = $each;
         }
-         
+
         return $rtn;
     }
-    
+
     function get_active_print($anexo, $period_date) {
-        
+
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        
-        $endDate = last_month_date($period_date);       
-        
+
+        $endDate = last_month_date($period_date);
+
         $query = array(
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
@@ -689,20 +690,20 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
-        
-         
+
+
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
-            
-           
+
+
             $rtn[] = $each;
         }
-         
+
         return $rtn;
     }
 
     function get_period_data($anexo, $period_date, $exclude_sm = false) {
-        
+
         $rtn = array();
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
@@ -716,7 +717,7 @@ class Sgr_model extends CI_Model {
         if (!$exclude_sm) {
             $query['filename'] = array('$ne' => 'SIN MOVIMIENTOS');
         }
-      
+
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
             $rtn[] = $each;
@@ -795,4 +796,3 @@ class Sgr_model extends CI_Model {
 //
 //    }
 }
-
