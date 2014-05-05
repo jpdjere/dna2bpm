@@ -118,7 +118,7 @@ class Model_06 extends CI_Model {
                 $insertarr["5779"] = "3";
             if ($insertarr["5779"] == "INTEGRACION PENDIENTE")
                 $insertarr["5779"] = "4";
-            
+
 
 
             //---Parseamos el tipo (hay que sacarlo del nombre)
@@ -1250,7 +1250,7 @@ class Model_06 extends CI_Model {
 
         $input_arr = array();
         $datached_arr = array();
-        
+
         foreach ($result as $each) {
             /* INPUT */
             $input_query = array(
@@ -1271,14 +1271,17 @@ class Model_06 extends CI_Model {
                 $datached_arr[] = $datacheds[5248];
         }
 
-        $total_inputs = count(array_unique($input_arr));
+
+            $total_inputs = count(array_unique($input_arr));
         $total_datacheds = count(array_unique($datached_arr));
+
+       
 
         $diff = $total_inputs - $total_datacheds;
 
         return $diff;
     }
-    
+
     function balance_amount_count_before($period, $partner_type) {
         $anexo = $this->anexo;
         /* GET ACTIVE ANEXOS */
@@ -1299,17 +1302,17 @@ class Model_06 extends CI_Model {
                 $input_arr[] = $inputs[5598];
 
             /* DATACHED */
-            
+
             $datached_query = array(
                 'filename' => $each['filename'], 5272 => $partner_type, 5292 => array('$ne' => null)
             );
-         
+
             $datached_partners = $this->mongo->sgr->$container->find($datached_query);
             foreach ($datached_partners as $datacheds)
                 $datached_arr[] = $datacheds[5598];
         }
-        
-        
+
+
         $total_inputs = array_sum($input_arr);
         $total_datacheds = array_sum($datached_arr);
 
@@ -1319,6 +1322,7 @@ class Model_06 extends CI_Model {
     }
 
     /* INCORPORACION */
+
     function incorporated_count($period, $partner_type) {
 
         $anexo = $this->anexo;
