@@ -31,7 +31,7 @@ class reports extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
 
 // IDU : Chequeo de sesion
-        $this->idu = (float) $this->session->userdata('iduser');
+        $this->idu = (float) switch_users($this->session->userdata('iduser'));
 
         /* bypass session */
         session_start();

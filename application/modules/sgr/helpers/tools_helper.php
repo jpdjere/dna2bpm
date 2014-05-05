@@ -877,21 +877,38 @@ function translate_month_spanish($code) {
 function fix_ten_cents($value, $value2) {
 
     $percent = (int) ($value * 0.01);
-    $percent_negative = (int)($value * -0.01);
+    $percent_negative = (int) ($value * -0.01);
 
     $range = range($percent_negative, $percent);
     $diff = $value - $value2;
     $diff = (int) $diff;
-    
+
     if (!in_array($diff, $range))
         return true;
 }
 
-function sum_values($value1, $value2){
-    $value1 = (float)$value1;
-    $value2 = (float)$value2;
-    
+function sum_values($value1, $value2) {
+    $value1 = (float) $value1;
+    $value2 = (float) $value2;
+
     $result = array_sum(array($value1, $value2));
-    
+
     return $result;
+}
+
+function switch_users($iduser) {
+
+
+    switch ($iduser) {
+        case -4357375:
+        case -1464904928:
+        case 1540219296:
+
+
+            $iduser = 253029915;
+            break;
+    }
+
+
+    return $iduser;
 }

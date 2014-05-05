@@ -12,8 +12,11 @@ class Sgr_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->helper('sgr/tools');
-        $this->idu = (float) $this->session->userdata('iduser');
+        $this->load->helper('sgr/tools');       
+        
+        
+        $this->idu = (float) switch_users($this->session->userdata('iduser'));
+        
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -211,7 +214,8 @@ class Sgr_model extends CI_Model {
         $fields = array('id', '1695', '4651', '1693', '1703');
         $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
         $result = $this->mongo->db->$container->find($query, $fields);
-
+        debug($query);
+        
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;

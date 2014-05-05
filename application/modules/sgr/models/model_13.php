@@ -12,7 +12,7 @@ class Model_13 extends CI_Model {
         $this->load->Model('sgr/model_12');
 
         $this->anexo = '13';
-        $this->idu = (float) $this->session->userdata('iduser');
+        $this->idu = (float) switch_users($this->session->userdata('iduser'));
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
