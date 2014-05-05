@@ -373,6 +373,30 @@ class Model_141 extends CI_Model {
         return $rtn;
     }
 
+    function get_anexo_ddjj($period) {
+
+
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
+
+        $query = array("filename" => $get_result['filename']);
+        $result = $this->mongo->sgr->$container->find($query);
+
+        $partners_arr = array();
+
+        foreach ($result as $list) {
+
+            if ($list['CANT_GTIAS_VIGENTES'])
+                $partners_arr[] = $list['CUIT_PARTICIPE'];
+        }
+
+
+        //debug(count(($partners_arr)));
+        return $rtn;
+    }
+
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
