@@ -21,7 +21,7 @@ class dna2_asset extends CI_Controller {
         parent::__construct();
         $this->load->model('user/user');
         // IDU : Chequeo de sesion
-        $this->idu = (float) $this->session->userdata('iduser');
+        $this->idu = (float) switch_users($this->session->userdata('iduser'));
 
         /* bypass session */
         session_start();

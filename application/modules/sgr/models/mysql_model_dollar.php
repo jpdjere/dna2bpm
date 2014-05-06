@@ -8,7 +8,7 @@ class mysql_model_dollar extends CI_Model {
     function mysql_model_06() {
         parent::__construct();
         // IDU : Chequeo de sesion
-        $this->idu = (float) $this->session->userdata('iduser');
+        $this->idu = (float) switch_users($this->session->userdata('iduser'));
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();

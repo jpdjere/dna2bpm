@@ -30,11 +30,14 @@ class Sgr extends MX_Controller {
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
-// IDU : Chequeo de sesion
-        $this->idu = (float) $this->session->userdata('iduser');
+// IDU : Chequeo de sesion        
+
+
+        $this->idu = (float) switch_users($this->session->userdata('iduser'));
 
         /* bypass session */
         session_start();
+
         $_SESSION['idu'] = $this->idu;
 
 
@@ -581,7 +584,6 @@ class Sgr extends MX_Controller {
                 }
             }
 
-
             /* SET PERIOD */
             if ($save) {
                 $result = array();
@@ -862,9 +864,9 @@ class Sgr extends MX_Controller {
         }
 
         if ($period_req)
-            echo $this->parser->parse('print_ddjj', $customData, true);
+            $this->parser->parse('print_ddjj', $customData);
         else
-            echo $this->parser->parse('print_ddjj_form', $customData, true);
+            $this->parser->parse('print_ddjj_form', $customData);
     }
 
     function ddjj_data($anexo_req, $period_req) {
@@ -884,6 +886,8 @@ class Sgr extends MX_Controller {
 
             case '14':
                 $t4_1 = $this->$model141->partners_debtors_to_top($period_req);
+                $t4_2 = $this->$model141->get_anexo_ddjj($period_req);
+
 
                 $t4_3 = $this->$model->nums_guarantees_faced($period_req, "CAIDA");
                 $t4_4 = $this->$model->amount_guarantees_faced($period_req, "CAIDA");
@@ -932,7 +936,7 @@ class Sgr extends MX_Controller {
                 foreach ($result_15 as $r15) {
                     $t5_1 = $r15['col1'];
                     $t5_2 = $r15['col2'];
-                    $t5_3 = array_sum(array($t5_1, $t5_2));
+                    $t5_3 = $r15['col3'];
                     $t5_4 = $r15['col4'];
                 }
 
@@ -941,7 +945,7 @@ class Sgr extends MX_Controller {
 
                     $t5_5 = $r15['col1'];
                     $t5_6 = $r15['col2'];
-                    $t5_7 = array_sum(array($t5_5, $t5_6));
+                    $t5_7 = $r15['col3'];
                     $t5_8 = $r15['col4'];
                 }
 
@@ -950,7 +954,7 @@ class Sgr extends MX_Controller {
 
                     $t5_9 = $r15['col1'];
                     $t5_10 = $r15['col2'];
-                    $t5_11 = array_sum(array($t5_9, $t5_10));
+                    $t5_11 = $r15['col3'];
                     $t5_12 = $r15['col4'];
                 }
 
@@ -959,7 +963,7 @@ class Sgr extends MX_Controller {
 
                     $t5_13 = $r15['col1'];
                     $t5_14 = $r15['col2'];
-                    $t5_15 = array_sum(array($t5_13, $t5_14));
+                    $t5_15 = $r15['col3'];
                     $t5_16 = $r15['col4'];
                 }
 
@@ -967,7 +971,7 @@ class Sgr extends MX_Controller {
                 foreach ($result_15 as $r15) {
                     $t5_17 = $r15['col1'];
                     $t5_18 = $r15['col2'];
-                    $t5_19 = array_sum(array($t5_17, $t5_18));
+                    $t5_19 = $r15['col3'];
                     $t5_20 = $r15['col4'];
                 }
 
@@ -978,7 +982,7 @@ class Sgr extends MX_Controller {
 
                     $t5_21 = $r15['col1'];
                     $t5_22 = $r15['col2'];
-                    $t5_23 = array_sum(array($t5_21, $t5_22));
+                    $t5_23 = $r15['col3'];
                     $t5_24 = $r15['col4'];
                 }
 
@@ -987,7 +991,7 @@ class Sgr extends MX_Controller {
 
                     $t5_25 = $r15['col1'];
                     $t5_26 = $r15['col2'];
-                    $t5_27 = array_sum(array($t5_25, $t5_26));
+                    $t5_27 = $r15['col3'];
                     $t5_28 = $r15['col4'];
                 }
 
@@ -997,7 +1001,7 @@ class Sgr extends MX_Controller {
 
                     $t5_29 = $r15['col1'];
                     $t5_30 = $r15['col2'];
-                    $t5_31 = array_sum(array($t5_29, $t5_30));
+                    $t5_31 = $r15['col3'];
                     $t5_32 = $r15['col4'];
                 }
 
@@ -1006,9 +1010,27 @@ class Sgr extends MX_Controller {
 
                     $t5_33 = $r15['col1'];
                     $t5_34 = $r15['col2'];
-                    $t5_35 = array_sum(array($t5_33, $t5_34));
+                    $t5_35 = $r15['col3'];
                     $t5_36 = $r15['col4'];
                 }
+
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "J");
+                foreach ($result_15 as $r15) {
+
+                    $t5_37 = $r15['col1'];
+                    $t5_38 = $r15['col2'];
+                    $t5_39 = $r15['col3'];
+                    $t5_40 = $r15['col4'];
+                }
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "K");
+                foreach ($result_15 as $r15) {
+
+                    $t5_41 = $r15['col1'];
+                    $t5_42 = $r15['col2'];
+                    $t5_43 = $r15['col3'];
+                    $t5_44 = $r15['col4'];
+                }
+
 
 
                 $rtn['t5_1'] = money_format_custom($t5_1);
@@ -1056,11 +1078,23 @@ class Sgr extends MX_Controller {
                 $rtn['t5_35'] = money_format_custom($t5_35);
                 $rtn['t5_36'] = percent_format_custom($t5_36);
 
-                $total = array_sum(array($t5_3, $t5_7, $t5_11, $t5_15, $t5_19, $t5_23, $t5_27, $t5_31, $t5_35, $t5_37));
+                $rtn['t5_37'] = money_format_custom($t5_37);
+                $rtn['t5_38'] = money_format_custom($t5_38);
+                $rtn['t5_39'] = money_format_custom($t5_39);
+                $rtn['t5_40'] = percent_format_custom($t5_40);
 
-                $rtn['t5_37'] = money_format_custom($total);
-                $rtn['t5_38'] = percent_format_custom(100);
+                $rtn['t5_41'] = money_format_custom($t5_41);
+                $rtn['t5_42'] = money_format_custom($t5_42);
+                $rtn['t5_43'] = money_format_custom($t5_43);
+                $rtn['t5_44'] = percent_format_custom($t5_44);
+                $total_pesos = array_sum(array($t5_1, $t5_5, $t5_9, $t5_13, $t5_17, $t5_21, $t5_25, $t5_29, $t5_33, $t5_37, $t5_41));
+                $total_dolar = array_sum(array($t5_2, $t5_6, $t5_10, $t5_14, $t5_18, $t5_22, $t5_26, $t5_30, $t5_34, $t5_38, $t5_42));
+                $total = array_sum(array($t5_3, $t5_7, $t5_11, $t5_15, $t5_19, $t5_23, $t5_27, $t5_31, $t5_35, $t5_39, $t5_43));
 
+                $rtn['t5_45'] = money_format_custom($total_pesos);
+                $rtn['t5_46'] = money_format_custom($total_dolar);
+                $rtn['t5_47'] = money_format_custom($total);
+                $rtn['t5_48'] = percent_format_custom(100);
 
                 return $rtn;
                 break;
@@ -1142,9 +1176,8 @@ class Sgr extends MX_Controller {
             case '06':
 
                 /* CANTIDAD SOCIOS */
-                $t1_1 = $this->$model->incorporated_count_before($period_req, "A") - $this->$model->detached_count_before($period_req, "A");
-                $t1_13 = $this->$model->incorporated_count_before($period_req, "B") - $this->$model->detached_count_before($period_req, "B");
-
+                $t1_1 = $this->$model->balance_count_before($period_req, "A");
+                $t1_13 = $this->$model->balance_count_before($period_req, "B");
                 $t1_25 = $t1_1 + $t1_13;
 
                 $t1_2 = $this->$model->incorporated_count($period_req, "A");
@@ -1178,8 +1211,8 @@ class Sgr extends MX_Controller {
                 $rtn['t1_28'] = $t1_28;
 
                 /* CANTIDAD ACCIONES */
-                $t1_5 = $this->$model->buys_shares_before($period_req, "A") - $this->$model->sells_shares_before($period_req, "A");
-                $t1_17 = $this->$model->buys_shares_before($period_req, "B") - $this->$model->sells_shares_before($period_req, "B");
+                $t1_5 = $this->$model->balance_amount_count_before($period_req, "A");
+                $t1_17 = $this->$model->balance_amount_count_before($period_req, "B");
 
                 $t1_29 = $t1_5 + $t1_17;
 
