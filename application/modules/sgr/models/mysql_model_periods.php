@@ -58,7 +58,7 @@ class mysql_model_periods extends CI_Model {
 
 
                     if ($get_period['id']) {
-                        var_dump($get_period, str_replace("_", "-", $row->periodo), translate_anexos_dna2($row->anexo));
+                        var_dump($get_period['id']);
                         $this->update_period($get_period['id'], $get_period['status']);
                     }
 
