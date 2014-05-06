@@ -56,7 +56,7 @@ class mysql_model_periods extends CI_Model {
                     if (translate_anexos_dna2($row->anexo))
                         $get_period = $this->sgr_model->get_current_period_info(translate_anexos_dna2($row->anexo), str_replace("_", "-", $row->periodo));
                     
-                        debug($get_period);
+                        var_dump(str_replace("_", "-", $row->periodo), translate_anexos_dna2($row->anexo));
 
 //                    /* UPDATE CTRL PERIOD */
 //                    $this->save_tmp($parameter);
