@@ -53,7 +53,7 @@ class mysql_model_06 extends CI_Model {
 
                 $is_2014 = strpos('2014', $row->periodo);
 
-                if (!$is_2014) {
+                if ($is_2014===false) {
                     debug($is_2014);
                     /* UPDATE CTRL PERIOD */
 //                    $this->save_tmp($parameter);
