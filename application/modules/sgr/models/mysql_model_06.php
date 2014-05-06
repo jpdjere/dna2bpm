@@ -51,10 +51,11 @@ class mysql_model_06 extends CI_Model {
                 $parameter['period'] = str_replace("_", "-", $row->periodo);
 
 
-                $is_2014 = strpos('2014', $row->periodo);
+                $is_2014 = explode("_", $row->periodo);
+                debug($is_2014[1]);
 
                 if ($is_2014===false) {
-                    debug($is_2014);
+                    
                     /* UPDATE CTRL PERIOD */
 //                    $this->save_tmp($parameter);
 //
