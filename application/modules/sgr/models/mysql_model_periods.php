@@ -55,12 +55,12 @@ class mysql_model_periods extends CI_Model {
 
                     if (translate_anexos_dna2($row->anexo))
                         $get_period = $this->sgr_model->get_rectified_period_info(translate_anexos_dna2($row->anexo), str_replace("_", "-", $row->periodo));
-                    
-                       
-                        if($get_period['id']){
-                             var_dump($get_period,str_replace("_", "-", $row->periodo), translate_anexos_dna2($row->anexo));
-                            $this->update_period($get_period['id'], 'rectificado');
-                        }
+
+
+                    if ($get_period['id']) {
+                        var_dump($get_period, str_replace("_", "-", $row->periodo), translate_anexos_dna2($row->anexo));
+                        $this->update_period($get_period['id'], $get_period['status']);
+                    }
 
 //                    /* UPDATE CTRL PERIOD */
 //                    $this->save_tmp($parameter);
@@ -74,6 +74,19 @@ class mysql_model_periods extends CI_Model {
                 }
             }
         }
+    }
+
+    function update_period($id, $status) {
+        $options = array('upsert' => true, 'safe' => true);
+        $container = 'container.sgr_periodos';
+        $query = array('id' => (float) $id);
+        $parameter = array(
+            'status' => 'rectificado',
+            'rectified_on' => date('Y-m-d h:i:s'),            
+            'reason' => "rectificado Origen forms2"
+        );
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        return $rs['err'];
     }
 
     function save_tmp($parameter) {
