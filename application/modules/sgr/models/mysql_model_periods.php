@@ -36,40 +36,42 @@ class mysql_model_periods extends CI_Model {
 
 
         foreach ($query->result() as $row) {
-            $already_period = $this->already_period($row->archivo);
-            if (!$already_period) {
 
-                $parameter = array();
+            $parameter = array();
 
-                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
-                $parameter['filename'] = $row->archivo;
-                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
-                $parameter['sgr_id'] = (float) $row->sgr_id;
-                $parameter['status'] = 'activo';
-                $parameter['origen'] = 'forms2';
-                $parameter['period'] = str_replace("_", "-", $row->periodo);
+            $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+            $parameter['filename'] = $row->archivo;
+            $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+            $parameter['sgr_id'] = (float) $row->sgr_id;
+            $parameter['status'] = 'activo';
+            $parameter['origen'] = 'forms2';
+            $parameter['period'] = str_replace("_", "-", $row->periodo);
 
 
-                $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1] != "2014") {
+            $is_2014 = explode("_", $row->periodo);
+            if ($is_2014[1] != "2014") {
+                if (translate_anexos_dna2($row->anexo))
+                    $get_period = $this->sgr_model->get_if_is_rectified($row->archivo);
 
-                    if (translate_anexos_dna2($row->anexo))
-                        $get_period = $this->sgr_model->get_rectified_period_info(translate_anexos_dna2($row->anexo), str_replace("_", "-", $row->periodo));
-                    
-                        var_dump(str_replace($get_period, "_", "-", $row->periodo), translate_anexos_dna2($row->anexo));
+                if ($get_period['id']) {
 
-//                    /* UPDATE CTRL PERIOD */
-//                    $this->save_tmp($parameter);
-//
-//                    /* UPDATE ANEXO */
-//                    if ($row->archivo) {
-//                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-//                        if (!$already_update)
-//                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
-//                    }
+                    $this->update_period($get_period['id'], $get_period['status']);
                 }
             }
         }
+    }
+
+    function update_period($id, $status) {
+        $options = array('upsert' => true, 'safe' => true);
+        $container = 'container.sgr_periodos';
+        $query = array('id' => (float) $id);
+        $parameter = array(
+            'status' => 'rectificado',
+            'rectified_on' => date('Y-m-d h:i:s'),
+            'reason' => "rectificado Origen forms2"
+        );
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        return $rs['err'];
     }
 
     function save_tmp($parameter) {
