@@ -28,9 +28,6 @@ class mysql_model_06 extends CI_Model {
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2($anexo, $period) {
-
-
-
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
@@ -40,9 +37,6 @@ class mysql_model_06 extends CI_Model {
 
 
         foreach ($query->result() as $row) {
-
-
-
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
 
@@ -57,15 +51,20 @@ class mysql_model_06 extends CI_Model {
                 $parameter['period'] = str_replace("_", "-", $row->periodo);
 
 
-                /* UPDATE CTRL PERIOD */
-                $this->save_tmp($parameter);
+                $is_2014 = strpos('2014', $row->periodo);
 
-                /* UPDATE ANEXO */
-                if ($row->archivo) {
-                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                    if (!$already_update)
-                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                if (!$is_2014) {
+                    /* UPDATE CTRL PERIOD */
+                    $this->save_tmp($parameter);
+
+                    /* UPDATE ANEXO */
+                    if ($row->archivo) {
+                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                        if (!$already_update)
+                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                    }
                 }
+                
             }
         }
     }
@@ -126,8 +125,8 @@ class mysql_model_06 extends CI_Model {
             $parameter[1695] = (string) $row->cuit;
             $parameter[5272] = (string) $row->tipo_socio;
             $parameter[5248] = (string) $row->cedente_cuit;
-            
-            
+
+
 
             /* INTEGERS */
 
@@ -157,8 +156,8 @@ class mysql_model_06 extends CI_Model {
                 $parameter[5252] = "1";
             if (strtoupper(trim($row->modalidad)) == "SUSCRIPCION")
                 $parameter[5252] = "2";
-            
-             if (strtoupper(trim($row->cedente_caracteristica)) == "DESVINCULACION")
+
+            if (strtoupper(trim($row->cedente_caracteristica)) == "DESVINCULACION")
                 $parameter[5292] = "2";
             if (strtoupper(trim($row->cedente_caracteristica)) == "DISMINUCION DE TENENCIA ACCIONARIA")
                 $parameter[5292] = "1";
