@@ -54,16 +54,16 @@ class mysql_model_06 extends CI_Model {
                 $is_2014 = strpos('2014', $row->periodo);
 
                 if (!$is_2014) {
-                    debug($parameter);
+                    debug($row->periodo );
                     /* UPDATE CTRL PERIOD */
-                    $this->save_tmp($parameter);
-
-                    /* UPDATE ANEXO */
-                    if ($row->archivo) {
-                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                        if (!$already_update)
-                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
-                    }
+//                    $this->save_tmp($parameter);
+//
+//                    /* UPDATE ANEXO */
+//                    if ($row->archivo) {
+//                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+//                        if (!$already_update)
+//                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+//                    }
                 }
                 
             }
