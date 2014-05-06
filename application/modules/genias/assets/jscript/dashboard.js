@@ -12,7 +12,7 @@ $('.aprobar').click(function(){
 
  //$('#dp3').datepicker(); 
  $('.dp').datepicker();
-  
+$('.tooltip2').tooltip();
 
 //== VALIDATE == //
 //

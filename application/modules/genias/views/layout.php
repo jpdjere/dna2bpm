@@ -10,8 +10,8 @@ header($ExpStr);
         <meta charset="UTF-8" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{base_url}jscript/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="{base_url}jscript/bootstrap/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="{module_url}assets/jscript/bootstrap/css/bootstrap.min.css" />
+<!--         <link rel="stylesheet" href="{base_url}assetsjscript/bootstrap/css/bootstrap-responsive.min.css" / -->
 
 
         <link rel="stylesheet" href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
@@ -93,7 +93,7 @@ header($ExpStr);
         <!-- CONTAINER -->
 
         <script src="{module_url}assets/jscript/jquery.min.js"></script>
-        <script src="{base_url}jscript/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{module_url}assets/jscript/bootstrap/js/bootstrap.min.js"></script>
         <script src="{module_url}assets/jscript/bootbox.min.js"></script>
         <script src="{module_url}assets/jscript/datepicker/js/bootstrap-datepicker.js"></script>
         <script src="{module_url}assets/jscript/modernizr.custom.22198.js"></script>

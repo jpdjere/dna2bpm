@@ -134,9 +134,9 @@ class Genias extends MX_Controller {
         if ($ratio >= ($customData['goal_cantidad_total'] * .7))
             $customData['resumen_class'] = 'alert-success';
         if ($ratio >= ($customData['goal_cantidad_total'] * .3) and $ratio <= ($customData['goal_cantidad_total'] * .7))
-            $customData['resumen_class'] = 'alert-block';
+            $customData['resumen_class'] = 'alert-info';
         if ($ratio <= ($customData['goal_cantidad_total'] * .3))
-            $customData['resumen_class'] = 'alert-error';
+            $customData['resumen_class'] = 'alert-danger';
 
         // Cargo Resumen de las visitas solo para coordinadores
 
@@ -1197,7 +1197,7 @@ class Genias extends MX_Controller {
                     } else {
                         $fecha_visita = date('d/m/Y', $timestamp);
                     }
-                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
+                    echo "<li ><a href='#' title='{$fecha['nota']}'  ><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</a></li>";
                 }
                 echo "</ul>";
 //
@@ -1207,6 +1207,8 @@ class Genias extends MX_Controller {
             echo "</li>";
         }
         echo "</ul>";
+        
+        echo '<a href="#" data-toggle="tooltip" title="first tooltip">hover over me</a>';
     }
     
        /* ==== RESUMEN DE VISITAS ==== */

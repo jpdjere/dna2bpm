@@ -6,4 +6,13 @@
     display:none;
 }*/
 
- $('#myTab a:last').tab('show');
+
+
+ 
+ /* ======== METAS */
+ .metas_cantidad{
+ color:#2A6496;
+ font-weight:bold;
+ font-size:18px;
+ 
+ }
