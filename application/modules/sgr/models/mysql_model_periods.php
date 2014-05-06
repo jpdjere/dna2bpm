@@ -52,13 +52,15 @@ class mysql_model_periods extends CI_Model {
 
                 $is_2014 = explode("_", $row->periodo);
                 if ($is_2014[1] != "2014") {
+                    
+                    var_dump($row->archivo);
 
                     if (translate_anexos_dna2($row->anexo))
                         $get_period = $this->sgr_model->get_if_is_rectified($row->archivo);
 
 
                     if ($get_period['id']) {
-                            var_dump($get_period);
+                            
                         $this->update_period($get_period['id'], $get_period['status']);
                     }
 
