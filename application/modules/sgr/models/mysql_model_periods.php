@@ -54,7 +54,7 @@ class mysql_model_periods extends CI_Model {
                 if ($is_2014[1] != "2014") {
 
                     if (translate_anexos_dna2($row->anexo))
-                        $get_period = $this->sgr_model->get_current_period_info(translate_anexos_dna2($row->anexo), str_replace("_", "-", $row->periodo));
+                        $get_period = $this->sgr_model->get_if_is_rectified($row->archivo);
 
 
                     if ($get_period['id']) {
