@@ -31,8 +31,7 @@ class mysql_model_periods extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'rectificado');
-        $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);
+        $this->db->where('archivo !=', 'Sin Movimiento');        
         $query = $this->db->get('forms2.sgr_control_periodos');
 
 
