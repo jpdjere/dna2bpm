@@ -85,7 +85,17 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2();
         debug($result);
     }
+    
+    function Periods() {
 
+        
+        $mysql_model = "mysql_model_periods";
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+        debug($result);
+    }
+    
     function Anexo06() {
 
         $anexo = '06';
