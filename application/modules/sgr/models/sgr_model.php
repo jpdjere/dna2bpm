@@ -66,20 +66,15 @@ class Sgr_model extends CI_Model {
         return $result;
     }
     
-    function get_rectified_period_info($anexo, $period) {
+    function get_if_is_rectified($filename) {
 
-        $container = 'container.sgr_periodos';
-        $fields = array('anexo', 'period', 'status', 'filename', 'id');
-        $query = array(
-            'anexo' => $anexo,
-            'sgr_id' => (float) $this->sgr_id,
-            'period' => $period,
-            "status" => 'rectificado',
+        $container = 'container.sgr_periodos'; 
+        $fields = array('id');
+        $query = array(            
+            'filename' => $filename,            
+            "status" => array('$ne' => 'rectificado'),
         );
-
-
-
-        $result = $this->mongo->sgr->$container->findOne($query, $fields);
+        $result = $this->mongo->sgr->$container->findOne($query,$fields);
         return $result;
     }
     
