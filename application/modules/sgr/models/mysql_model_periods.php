@@ -31,7 +31,7 @@ class mysql_model_periods extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'rectificado');
-        $this->db->where('archivo !=', 'Sin Movimiento');        
+        $this->db->where('archivo !=', 'Sin Movimiento');
         $query = $this->db->get('forms2.sgr_control_periodos');
 
 
@@ -51,10 +51,13 @@ class mysql_model_periods extends CI_Model {
 
 
                 $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1]!="2014") {
+                if ($is_2014[1] != "2014") {
+
+                    if (translate_anexos_dna2($row->anexo))
+                        $get_period = $this->sgr_model->get_current_period_info(translate_anexos_dna2($row->anexo), str_replace("_", "-", $row->periodo));
                     
-                    debug($parameter);
-                    
+                        debug($get_period);
+
 //                    /* UPDATE CTRL PERIOD */
 //                    $this->save_tmp($parameter);
 //
@@ -65,7 +68,6 @@ class mysql_model_periods extends CI_Model {
 //                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
 //                    }
                 }
-                
             }
         }
     }
