@@ -306,7 +306,7 @@ class Model_06 extends CI_Model {
                 if ($get_period_061['id']) {
                     $this->update_period($get_period_061['id'], $get_period['status']);
                 }
-                $result = $this->app->put_array_sgr($id061, $container, $parameter061);
+                //VER $result = $this->app->put_array_sgr($id061, $container, $parameter061);
             }
         }
         /*
