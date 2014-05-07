@@ -24,10 +24,11 @@ class Sgr extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
-        /* update db */       
-        $mysql_model_periods = "mysql_model_periods";
-        $this->load->Model(mysql_model_periods);
-        $this->mysql_model_periods->active_periods_dna2();
+        /* update db ONLY 4 PRODUCTION       
+          $mysql_model_periods = "mysql_model_periods";
+          $this->load->Model(mysql_model_periods);
+          $this->mysql_model_periods->active_periods_dna2();
+         */
 
 //---base variables
         $this->base_url = base_url();
@@ -816,7 +817,7 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-		//----Load pdf lib
+        //----Load pdf lib
         $this->load->library('pdf/pdf');
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -868,18 +869,16 @@ class Sgr extends MX_Controller {
                 $customData[$key] = $each;
             }
         }
-		$this->pdf->set_paper('A4','landscape');
-        if ($period_req){
+        $this->pdf->set_paper('A4', 'landscape');
+        if ($period_req) {
             $this->pdf->parse('print_ddjj', $customData);
             $this->pdf->render();
             $this->pdf->stream("$parameter.pdf");
 //         	echo $this->parser->parse('print_ddjj', $customData,true);
 //         	exit;
         } else {
-           echo  $this->parser->parse('print_ddjj_form', $customData,true);
+            echo $this->parser->parse('print_ddjj_form', $customData, true);
         }
-        
-
     }
 
     function ddjj_data($anexo_req, $period_req) {
