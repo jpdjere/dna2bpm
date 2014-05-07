@@ -62,7 +62,7 @@ class Lib_06_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
-                        $allow_words = array("INCORPORACION", "INCREMENTO DE TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE");
+                        $allow_words = array("INCORPORACION", "INCREMENTO TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -389,7 +389,7 @@ class Lib_06_data extends MX_Controller {
                         $grantor_integrated = $this->$model_anexo->shares($AL_cell_value, $B_cell_value, 5598);
                     }
 
-                    if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA")) {
+                    if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO TENENCIA ACCIONARIA")) {
                         //CHECK FOR EMPTY
                         $code_error = "AJ.1";
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
@@ -451,8 +451,8 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    /* "INCREMENTO DE TENENCIA ACCIONARIA" */
-                    if ($A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                    /* "INCREMENTO TENENCIA ACCIONARIA" */
+                    if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
                         /* B.3 */
 
                         if ($subscribed == 0) {
@@ -497,7 +497,7 @@ class Lib_06_data extends MX_Controller {
                         }
 
                         /* AH.2
-                          Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO DE TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.
+                          Sin en la Columna A se completó la opción “INCORPORACION”, INCREMENTO TENENCIA ACCIONARIA”, o “DISMINUSIÓN DE CAPITAL SOCIAL”, debe tomar valor mayor a cero.
                          * */
 
                         if ($A_cell_value != "INTEGRACION PENDIENTE") {
@@ -1191,10 +1191,10 @@ class Lib_06_data extends MX_Controller {
                 /////////////////////////////////////////
                 /*
                  * 2. VALIDADORES PARTICULARES
-                 * 2.2. COLUMNA A - TIPO DE OPERACIÓN: “INCREMENTO DE TENENCIA ACCIONARIA”
+                 * 2.2. COLUMNA A - TIPO DE OPERACIÓN: “INCREMENTO TENENCIA ACCIONARIA”
                  */
 
-                if ($A_cell_value == "INCREMENTO DE TENENCIA ACCIONARIA") {
+                if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
 
                     $range = range(5, 28);
                     if (in_array($parameterArr[$i]['col'], $range)) {
