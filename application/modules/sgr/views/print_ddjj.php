@@ -6,16 +6,17 @@
 <link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
 <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
-<link rel="stylesheet"  href="{module_url}assets/css/print.css" />
+<link rel="stylesheet"  href="{module_url}assets/css/print.css">
 
 </head>
 <body>
 	<div class="container">
 <!--  HEADER -->
-		<div id="header">
+<!-- 		<div id="header">
 			<div id="header-dna"></div>
 			<div id="header-logos"></div>
-		</div>
+		</div> -->
+		<img src="{module_url}assets/images/orgullo.jpg" >
 		
 <!--  PERIOD -->
 	<div class=row" align="center">
@@ -26,18 +27,20 @@
 			continuación reflejan fielmente la actividad desarrollada por la Sociedad durante el periodo de referencia.</p>
 		</div>
 
-
+		
+			
 <!--  TABLE PARTNERS -->
 		<div class=row >
 		<div class="table_partners" id="T1">
 			<table>
+			<thead>
 				<tr class="no_border_table">
-					<td rowspan="2"></td>
-					<td colspan="4">cantidad socios</td>
-					<td rowspan="5"></td>
-					<td colspan="4">cantidad acciones</td>
-					<td rowspan="5"></td>
-					<td colspan="4">monto de acciones</td>
+					<th rowspan="2"></th>
+					<th colspan="4">cantidad socios</th>
+					<th rowspan="5"></th>
+					<th colspan="4">cantidad acciones</th>
+					<th rowspan="5"></th>
+					<th colspan="4">monto de acciones</th>
 				</tr>
 				<tr>
 					<th>al inicio del periodo</th>
@@ -53,7 +56,9 @@
 					<th>ventas</th>
 					<th>al final del periodo</th>
 				</tr>
-				<tr class="custom_border_table">
+				</thead>
+				<tbody >
+				<tr class="">
 					<th>participes</th>
 					<td>{t1_1}</td>
 					<td>{t1_2}</td>
@@ -68,7 +73,7 @@
 					<td>{t1_11}</td>
 					<td>{t1_12}</td>
 				</tr>
-				<tr class="custom_border_table">
+				<tr class="">
 					<th>protectores</th>
 					<td>{t1_13}</td>
 					<td>{t1_14}</td>
@@ -83,7 +88,7 @@
 					<td>{t1_23}</td>
 					<td>{t1_24}</td>
 				</tr>
-				<tr class="custom_border_table">
+				<tr class="">
 					<th>total</th>
 					<td>{t1_25}</td>
 					<td>{t1_26}</td>
@@ -98,6 +103,7 @@
 					<td>{t1_35}</td>
 					<td>{t1_36}</td>
 				</tr>
+				</tbody>
 			</table>
 		</div>
 		</div>
@@ -126,8 +132,9 @@
 		
 <!--  TABLE 2 -->	
 <div class="row">
-<div id="T2" class="table_partners">
-			<table>
+<div id="T2" >
+			<table class="table_partners" >
+			<thead >
 				<tr>
 					<th rowspan="2">cantidad de pymes asistidas en el periodo</th>
 					<th colspan="2">garantias otorgadas</th>
@@ -144,6 +151,8 @@
 					<th>cantidad</th>
 					<th>monto</th>
 				</tr>
+				</thead>
+				<tbody>
 				<tr>
 					<td>{t2_1}</td>
 					<td>{t2_2}</td>
@@ -155,6 +164,7 @@
 					<td>{t2_8}</td>
 					<td>{t2_9}</td>
 				</tr>
+				</tbody>
 			</table>
 
 		</div>
