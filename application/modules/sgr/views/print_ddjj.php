@@ -6,8 +6,14 @@
 <link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
 <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
-<link rel="stylesheet"  href="{module_url}assets/css/print.css">
+<!-- <link rel="stylesheet"  href="{module_url}assets/css/print.css"> -->
+<style>
+th, td { padding: .65em; }
+th, thead { background: #000; color: #fff; border: 1px solid #000; font-weight:bold; }  
+td { border: 1px solid #777; }
 
+table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center; width:100%;}
+</style>
 </head>
 <body>
 	<div class="container">
