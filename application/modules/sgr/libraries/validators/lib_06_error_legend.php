@@ -53,7 +53,7 @@ class Lib_06_error_legend {
                 break;
 
             case "AH.2":
-                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>                AH - Sin en la Columna A se completó la opción “INCORPORACION”, “INCREMENTO DE TENENCIA ACCIONARIA” o “DISMINUCIÓN DE CAPITAL SOCIAL”, debe ingresarse un valor mayor a cero.';
+                $result_error = '<strong>Columna AH - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>                AH - Sin en la Columna A se completó la opción “INCORPORACION”, “INCREMENTO TENENCIA ACCIONARIA” o “DISMINUCIÓN DE CAPITAL SOCIAL”, debe ingresarse un valor mayor a cero.';
                 break;
 
             case "AI.2":
@@ -61,7 +61,7 @@ class Lib_06_error_legend {
                 break;
             
             case "AJ.1":
-                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AJ - En caso de que en la columna “A” se completen las opciones “INCORPORACIÓN” o “INCREMENTO DE TENENCIA ACCIONARIA” y en la columna AG se complete la modalidad "SUSCRIPCION", esta columna DEBE QUEDAR VACÍA.';
+                $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AJ - En caso de que en la columna “A” se completen las opciones “INCORPORACIÓN” o “INCREMENTO TENENCIA ACCIONARIA” y en la columna AG se complete la modalidad "SUSCRIPCION", esta columna DEBE QUEDAR VACÍA.';
                 break;
             
             case "AJ.2":
@@ -75,7 +75,7 @@ class Lib_06_error_legend {
                 break;
 
             case "AL.1":
-                $result_error = '<strong>Columna AL - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AL - CUIT del Cedente: En caso de que en la columna "A" se completen las opciones "INCORPORACIÓN" o "INCREMENTO DE TENENCIA ACCIONARIA" y en la columna "AG" se complete la modalidad SUSCRIPCION, esta columna debe estar vacía.';
+                $result_error = '<strong>Columna AL - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AL - CUIT del Cedente: En caso de que en la columna "A" se completen las opciones "INCORPORACIÓN" o "INCREMENTO TENENCIA ACCIONARIA" y en la columna "AG" se complete la modalidad SUSCRIPCION, esta columna debe estar vacía.';
                 break;
 
             case "AL.2":
@@ -86,7 +86,7 @@ class Lib_06_error_legend {
                 break;
 
             case "AM.1":
-                $result_error = '<strong>Columna AM - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AM - Carácter de la Cesión: En caso de que en la columna "A" se completen las opciones "INCORPORACION" o "INCREMENTO DE TENENCIA ACCIONARIA" y en la columna "AG" se complete la modalidad "SUSCRIPCION", esta columna debe estar vacía.';
+                $result_error = '<strong>Columna AM - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AM - Carácter de la Cesión: En caso de que en la columna "A" se completen las opciones "INCORPORACION" o "INCREMENTO TENENCIA ACCIONARIA" y en la columna "AG" se complete la modalidad "SUSCRIPCION", esta columna debe estar vacía.';
                 break;
 
             case "AM.2":
