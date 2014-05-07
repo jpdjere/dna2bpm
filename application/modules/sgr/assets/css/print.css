@@ -4,6 +4,7 @@
     Author     : Diego
     Description:
         Purpose of the stylesheet follows.
+        
 */
 
 
@@ -25,10 +26,12 @@
     top: 0;
     width: 210px;
 }
-table { border-collapse: collapse;font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center; width:100%;}
+table { font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center; width:100%;}
 caption { font-size: larger; margin: 1em auto; } 
 th, td { padding: .65em; }
-th, thead { background: #000; color: #fff; border: 1px solid #000; font-weight:bold; }
+th, thead { background: #000; color: #fff; border: 1px solid #000; font-weight:bold; }  
+
+  
 td { border: 1px solid #777; }
 
 
@@ -48,7 +51,7 @@ td { border: 1px solid #777; }
 .table_partners th {
     border: 1px solid #777;
 }
-.table_partners {margin:40px;  text-transform:uppercase; width: 94%; }
+  .table_partners {margin:40px;  text-transform:uppercase; width: 94%; }  
 .sign{
     
     border-top: 1px dotted #777;
@@ -58,7 +61,7 @@ td { border: 1px solid #777; }
 }
 
 @media (print) {
-	
+/* 	th, thead { background: #fff; color: #000; border: 1px solid #000; font-weight:bold; }  */
 }
 
 
