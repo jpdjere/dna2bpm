@@ -575,8 +575,8 @@ class Model_06 extends CI_Model {
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
             $sector_opt = $this->app->get_ops(494);
-
-
+            
+            $transaction_date = ($list['FECHA_DE_TRANSACCION'])? mongodate_to_print($list['FECHA_DE_TRANSACCION']): "N/A";
 
             $calc_average = "";
             $promedio = "";
@@ -593,7 +593,8 @@ class Model_06 extends CI_Model {
 
                 $promedio = money_format_custom($sumaMontos / $calc_average);
             }
-
+            
+            
             $sector_value = $this->sgr_model->clae2013($list['5208']);
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
             $company_type = ($isPyme) ? "PyME" : "";
@@ -629,7 +630,7 @@ class Model_06 extends CI_Model {
             $new_list['"ANIO"'] = $inner_table;
             $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type . "<br/>" . $afip_condition[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
-            $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" .mongodate_to_print($list['FECHA_DE_TRANSACCION']);
+            $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $transaction_date;
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Capital Integrado: " . $list['5598'];
             $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 

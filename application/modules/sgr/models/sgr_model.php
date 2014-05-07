@@ -12,11 +12,11 @@ class Sgr_model extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->helper('sgr/tools');       
-        
-        
+        $this->load->helper('sgr/tools');
+
+
         $this->idu = (float) switch_users($this->session->userdata('iduser'));
-        
+
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -65,19 +65,18 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
-    
+
     function get_if_is_rectified($filename) {
 
-        $container = 'container.sgr_periodos'; 
+        $container = 'container.sgr_periodos';
         $fields = array('id');
-        $query = array(            
-            'filename' => $filename,            
+        $query = array(
+            'filename' => $filename,
             "status" => array('$ne' => 'rectificado'),
         );
-        $result = $this->mongo->sgr->$container->findOne($query,$fields);
+        $result = $this->mongo->sgr->$container->findOne($query, $fields);
         return $result;
     }
-    
 
     function get_period_count($anexo, $period) {
         $container = 'container.sgr_periodos';
@@ -226,8 +225,8 @@ class Sgr_model extends CI_Model {
         $container = 'container.empresas';
         $fields = array('id', '1695', '4651', '1693', '1703');
         $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
-        $result = $this->mongo->db->$container->find($query, $fields);        
-        
+        $result = $this->mongo->db->$container->find($query, $fields);
+
         foreach ($result as $empresa) {
             unset($empresa['_id']);
             $rtn[] = $empresa;
@@ -418,23 +417,27 @@ class Sgr_model extends CI_Model {
 
     function clae2013($code) {
         $sector = "";
-        
+
+        $code = (string) $code;
+
         //$code = (strlen($code) == 5) ? "0" . $code : $code;        
         //$regex = new MongoRegex('/' . $code . '/i');
         $container = 'container.sgr_clae2013';
         $query = array("code" => $code);
         $fields = array("sector", "code");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
-        if ($result) {            
+
+        if ($result) {
             $sector = $result['sector'];
         } else {
             $fields = array("sector", "code");
-            $query = array("code" => "0" . $code);            
+            $query = array("code" => "0" . $code);
             $result = $this->mongo->sgr->$container->findOne($query, $fields);
+
             $sector = $result['sector'];
         }
+
         return $sector;
-        
     }
 
     function clae2013_forbidden($code) {

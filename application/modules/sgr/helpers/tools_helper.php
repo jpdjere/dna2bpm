@@ -544,7 +544,9 @@ function period_before($period) {
 }
 
 function mongodate_to_print($date) {
-    return date('Y-m-d', $date->sec);
+    $check_year = (int) date('Y', $date->sec);
+    if ($check_year > 1970)
+        return date('Y-m-d', $date->sec);
 }
 
 /**
