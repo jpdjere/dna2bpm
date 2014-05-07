@@ -870,15 +870,17 @@ class Sgr extends MX_Controller {
         }
 		$this->pdf->set_paper('A4','landscape');
         if ($period_req){
-            $this->pdf->parse('print_ddjj', $customData);
-            $this->pdf->render();
-            $this->pdf->stream("$parameter.pdf");
-//         	echo $this->parser->parse('print_ddjj', $customData,true);
+        	
+          	$this->pdf->parse('print_ddjj', $customData);
+        	$this->pdf->render();
+            $this->pdf->stream("$parameter.pdf") ;    
+            
+        // echo $this->parser->parse('print_ddjj', $customData,true); 
 //         	exit;
         } else {
            echo  $this->parser->parse('print_ddjj_form', $customData,true);
         }
-        
+
 
     }
 
