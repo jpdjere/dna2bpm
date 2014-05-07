@@ -104,7 +104,7 @@ class mysql_model_14 extends CI_Model {
                 nro_garantia,
                 fecha_movimiento,
                 caida,
-                recupero,
+                recupero,incobrables_periodo,
                 filename,
                 idu'
         );
@@ -127,6 +127,7 @@ class mysql_model_14 extends CI_Model {
             /* INTEGERS & FLOAT */
             $parameter["CAIDA"] = (float) $row->caida;
             $parameter["RECUPERO"] = (float) $row->recupero;  
+            $parameter["INCOBRABLES_PERIODO"] = (float) $row->incobrables_periodo;
             
             $parameter['FECHA_MOVIMIENTO'] = translate_mysql_date($row->fecha_movimiento);
 

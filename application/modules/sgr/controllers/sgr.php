@@ -25,7 +25,9 @@ class Sgr extends MX_Controller {
         $this->load->library('session');
 
         /* update db */       
-        $this->load->Model("mysql_model_periods");
+        $mysql_model_periods = "mysql_model_periods";
+        $this->load->Model(mysql_model_periods);
+        $this->mysql_model_periods->active_periods_dna2();
 
 //---base variables
         $this->base_url = base_url();
@@ -869,14 +871,15 @@ class Sgr extends MX_Controller {
 		$this->pdf->set_paper('A4','landscape');
         if ($period_req){
             $this->pdf->parse('print_ddjj', $customData);
+            $this->pdf->render();
+            $this->pdf->stream("$parameter.pdf");
 //         	echo $this->parser->parse('print_ddjj', $customData,true);
 //         	exit;
         } else {
            echo  $this->parser->parse('print_ddjj_form', $customData,true);
         }
         
-        $this->pdf->render();
-        $this->pdf->stream("$parameter.pdf");
+
     }
 
     function ddjj_data($anexo_req, $period_req) {
