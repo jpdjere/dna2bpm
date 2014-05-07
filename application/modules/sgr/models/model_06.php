@@ -112,7 +112,7 @@ class Model_06 extends CI_Model {
             //--- Tipo de Operacion           
             if ($insertarr["5779"] == "INCORPORACION")
                 $insertarr["5779"] = "1";
-            if ($insertarr["5779"] == "INCREMENTO DE TENENCIA ACCIONARIA")
+            if ($insertarr["5779"] == "INCREMENTO TENENCIA ACCIONARIA")
                 $insertarr["5779"] = "2";
             if ($insertarr["5779"] == "DISMINUCION DE CAPITAL SOCIAL")
                 $insertarr["5779"] = "3";
@@ -396,51 +396,6 @@ class Model_06 extends CI_Model {
 	</tr>
 	<tr>
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
 	</tr>
 	<tr>
 		<td rowspan=4>SGR</td>
@@ -619,6 +574,7 @@ class Model_06 extends CI_Model {
             $provincia = $this->app->get_ops(39);
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
+            $sector_opt = $this->app->get_ops(494);
 
 
 
@@ -673,7 +629,7 @@ class Model_06 extends CI_Model {
             $new_list['"ANIO"'] = $inner_table;
             $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type . "<br/>" . $afip_condition[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
-            $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $transaction_date;
+            $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" .mongodate_to_print($list['FECHA_DE_TRANSACCION']);
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Capital Integrado: " . $list['5598'];
             $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 
