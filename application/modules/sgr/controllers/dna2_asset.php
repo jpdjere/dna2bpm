@@ -20,6 +20,7 @@ class dna2_asset extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('user/user');
+        $this->load->helper('sgr/tools');
         // IDU : Chequeo de sesion
         $this->idu = (float) switch_users($this->session->userdata('iduser'));
 
