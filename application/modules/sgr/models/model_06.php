@@ -112,7 +112,7 @@ class Model_06 extends CI_Model {
             //--- Tipo de Operacion           
             if ($insertarr["5779"] == "INCORPORACION")
                 $insertarr["5779"] = "1";
-            if ($insertarr["5779"] == "INCREMENTO DE TENENCIA ACCIONARIA")
+            if ($insertarr["5779"] == "INCREMENTO TENENCIA ACCIONARIA")
                 $insertarr["5779"] = "2";
             if ($insertarr["5779"] == "DISMINUCION DE CAPITAL SOCIAL")
                 $insertarr["5779"] = "3";
