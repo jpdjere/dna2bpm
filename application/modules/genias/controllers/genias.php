@@ -1188,7 +1188,18 @@ class Genias extends MX_Controller {
                 $i++;
                 $stripe = ($i % 2 == 0) ? ('par') : ('impar');
                 $visitas = count($empresa['fechas']);
-                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+                $empresadata_raw=$this->genias_model->get_empresas(array(1695=>$k));
+                //var_dump($empresadata_raw);
+
+         $empresadata=<<<BLOCK
+
+Nombre: {$empresadata_raw[0][1693]}<br>
+Provincia: {$empresadata_raw[0][4651][0]}<br>
+Partido: {$empresadata_raw[0][1699][0]}<br>
+Productos: {$empresadata_raw[0][1715]}<br>
+BLOCK;
+         
+                echo "<li class='$stripe'><a  class='to_modal' data-content='$empresadata'><i class='fa fa-question'></i></a> {$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
                 echo "<ul style='display:none'>";
                 foreach ($empresa['fechas'] as $k => $fecha) {
