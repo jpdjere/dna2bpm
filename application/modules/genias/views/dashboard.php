@@ -254,3 +254,4 @@ echo "</div>";
 <iframe src="{module_url}splash" width="1" height="1">
   <p>Your browser does not support iframes.</p>
 </iframe>
+
