@@ -5,6 +5,15 @@
 
 $( document ).ready(function() {
 
+$('.to_modal').live('click',function(){
+	var content=$(this).attr('data-content');
+	$('#myModal h3').html('Datos empresa	');
+	$('#myModal .modal-body').html(content);
+	$('#myModal').modal('show');
+});
+
+	
+	
 //$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
 $('.aprobar').click(function(){
    window.location=$(this).attr('url');
