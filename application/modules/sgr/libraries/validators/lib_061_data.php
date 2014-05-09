@@ -7,7 +7,7 @@ class Lib_061_data extends MX_Controller {
         parent::__construct();
         $this->load->library('session');
 
-        $this->load->helper('sgr/tools');        
+        $this->load->helper('sgr/tools');
 
         /* PARTNER INFO */
         $model_06 = 'model_06';
@@ -135,25 +135,22 @@ class Lib_061_data extends MX_Controller {
 
                         // C.2
                         /* CUIT CHECKER */
-                        $check_ascendente=false;
-                        if ($parameterArr[$i+2]['fieldValue'] == "ASCENDENTE") { 
+                        $check_ascendente = false;
+                        if ($parameterArr[$i + 2]['fieldValue'] == "ASCENDENTE") {
                             // Si E es 11111111111 o tiene el codigo de empresa extranjera anulo el checkeo de cuit                              
-                            $result=$this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
-                            $has_11111111111=$parameterArr[$i]['fieldValue']=="11111111111";
-                            $has_extcuit=!is_null($result);
-                            $check_ascendente=($has_11111111111 || $has_extcuit);
+                            $result = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
+                            $has_11111111111 = $parameterArr[$i]['fieldValue'] == "11111111111";
+                            $has_extcuit = !is_null($result);
+                            $check_ascendente = ($has_11111111111 || $has_extcuit);
                         }
-                        $check_cuit = cuit_checker($parameterArr[$i]['fieldValue']);               
-                        if(!$check_ascendente ){
-                            if(!$check_cuit){
-                            $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        $check_cuit = cuit_checker($parameterArr[$i]['fieldValue']);
+                        if (!$check_ascendente) {
+                            if (!$check_cuit) {
+                                $code_error = "C.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
                             }
                         }
-                                
-
-
                     } else {
                         /* CHECK FOR IS NOT EMPTY ????? */
 //                        $return = check_for_empty($B_cell_value);
@@ -298,21 +295,21 @@ class Lib_061_data extends MX_Controller {
                     if (!$return)
                         $F_cell_value = $parameterArr[$i]['fieldValue'];
 
-                   
+
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "F.2";
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
                         if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']. "(".$parameterArr[$i]['fieldValue'].")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $parameterArr[$i]['fieldValue'] . ")");
                             array_push($stack, $result);
                         } else {
                             /* Formato de número. Acepta hasta dos decimales.  Debe ser mayor a cero. */
 
                             $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;
                             $result = check_is_numeric_range($float_var, 0, 100);
-                             
+
                             if (!$result) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']. "(".$parameterArr[$i]['fieldValue'].")");
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $parameterArr[$i]['fieldValue'] . ")");
                                 array_push($stack, $result);
                             }
                         }
@@ -334,18 +331,18 @@ class Lib_061_data extends MX_Controller {
          * Detail:
          * Todos los Socios que fueron informados como Incorporados en el Anexo 6 – Movimientos de Capital Social, deben figurar en esta columna.
          */
-        
-        
+
+
         $count_inc = array_unique($A_cell_array);
-         
+
         $partners_error_data = $this->$model_06->new_count_partners($count_inc, $this->session->userdata['period']);
-       
+
         if ($partners_error_data) {
             $code_error = $partners_error_data;
-            $code_error_legend = ($code_error=="VG.4") ? "Hay Socios incorporados en el período para los cuales no se están informando sus RRVV" : "Hay CUIT que no fueron incorporados en el Anexo 06";
+            $code_error_legend = ($code_error == "VG.4") ? "Hay Socios incorporados en el período para los cuales no se están informando sus RRVV" : "Hay CUIT que no fueron incorporados en el Anexo 06";
             $stack = array();
             $result["error_row"] = 1;
-            $result = return_error_array($code_error, " - ",$code_error_legend);
+            $result = return_error_array($code_error, " - ", $code_error_legend);
             array_push($stack, $result);
         }
 
@@ -355,10 +352,12 @@ class Lib_061_data extends MX_Controller {
         foreach ($AF3_result as $cell) {
             $count_shares = $cell['acumulados']['shares'];
             $count_shares = (int) $count_shares;
-            
-            if ($count_shares != 100 && $count_shares != 0) {
+
+            $f3_arr = array(0, 100, 99);
+
+            if (!in_array($count_shares, $f3_arr)) {               
                 $code_error = "F.3";
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . ($cell['acumulados']['shares']/100));
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $cell[0]["gridGroupName"] . " Total Acciones: " . ($cell['acumulados']['shares'] / 100));
                 array_push($stack, $result);
             }
         }
@@ -394,7 +393,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-       
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
