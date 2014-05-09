@@ -577,8 +577,8 @@ class Lib_12_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 15) {
                     $in_value = (int) $parameterArr[$i]['fieldValue'];
-                    $range1 = range(-20, -1);
-                    $range2 = range(1, 20);
+                    $range1 = range(-50, -1);
+                    $range2 = range(1, 50);
                     $range3 = range(-25, 50);
                     /* Si en la Columna N se indicó que la tasa es “FIJA”,  Para Tasa FIJA, debe tomar un valor entre 0 y 50.   */
                     if ($N_cell_value == "FIJA") {
@@ -588,7 +588,11 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-                        /* Debe tomar un valor entre -20 y -1 o entre 1 y 20. */
+                       
+                        /* Support #12131: Anexo 12 - validador O.1 
+                         * Modificamos los valores topes de este validador que dice:Debe tomar valores 
+                         * entre -20 y -1 o entre 1 y 20 (es decir, no puede tomar valores entre -1 y 1). 
+                         * Hay q pasarlo de -20 a -50 y 20 a 50.*/
                         if (!in_array($in_value, $range1) && !in_array($in_value, $range2)) {
                             $code_error = "O.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
