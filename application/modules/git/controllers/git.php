@@ -30,7 +30,7 @@ class Git extends MX_Controller {
         //$this->output->enable_profiler(TRUE);
     }
 
-    function update_git() {
+    function update() {
         echo "<h1>Update from GIT server V1.14.log</h1>";
 
 //----log to file
@@ -43,7 +43,7 @@ class Git extends MX_Controller {
         $request_body = json_decode($this->input->post('payload'));
         $who = 'nobody';
         $result = 'Unauthorized access';
-        if ($this->input->post('payload')) {
+        if ($this->input->post('payload')|| true) {
             $who = $request_body->pushed_by;
             if ($who) {
                 $result = shell_exec('git pull 2>&1');
