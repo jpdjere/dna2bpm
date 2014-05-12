@@ -104,7 +104,7 @@ class Model_061 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -113,8 +113,8 @@ class Model_061 extends CI_Model {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
             $get_pending = $this->sgr_model->get_current_period_info("06", $period);
             $this->update_pending($get_pending['id']);
-            
-           
+
+
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -135,14 +135,14 @@ class Model_061 extends CI_Model {
         $parameter['period'] = $period;
         $parameter['period_date'] = translate_period_date($period);
         $parameter['status'] = 'activo';
-        $parameter['idu'] = (float)$this->idu;
+        $parameter['idu'] = (float) $this->idu;
         $parameter['activated_on'] = date('Y-m-d h:i:s');
-        
+
 
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
 
         $this->update_period($get_period['id'], $get_period['status']);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
@@ -188,8 +188,8 @@ class Model_061 extends CI_Model {
             'status' => 'activo',
             'activated_on' => date('Y-m-d h:i:s')
         );
-        
-        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);        
+
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
         return $rs['err'];
     }
 
@@ -232,7 +232,7 @@ class Model_061 extends CI_Model {
             $this->load->model('padfyj_model');
             $model_anexo = "model_06";
             $this->load->Model($model_anexo);
-            
+
             $partner_type = $this->app->get_ops(532);
 
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
@@ -244,12 +244,15 @@ class Model_061 extends CI_Model {
 
             $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
 
-            $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
-            $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
+            $es_participe = "NO";
+            $es_protector = "NO";
 
-            
 
-            // 					
+            if ($list['CUIT_VINCULADO']) {
+                $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
+                $es_protector = ($type_partner_inc == "B") ? "SI" : "NO";
+            }
+
 
             $new_list = array();
             $new_list['TIPO_SOCIO'] = $type_partner;
