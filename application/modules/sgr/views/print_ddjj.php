@@ -3,16 +3,17 @@
 <head>
 <title>DNA&sup2; | SGR | {sgr_nombre}</title>
 <meta charset="UTF-8" />
-<link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" />
+<!-- <link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" /> -->
 <link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
 <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
-<!-- <link rel="stylesheet"  href="{module_url}assets/css/print.css"> -->
+<!-- <link rel="stylesheet"  href="{module_url}assets/css/print.css"> --> 
 <style>
-th, td { padding: .65em; }
-th, thead { background: #000; color: #fff; border: 1px solid #000; font-weight:bold; }  
-td { border: 1px solid #777; }
 
-table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center; width:100%;}
+th, td { padding: .65em; }
+ th, thead { background: #fff; color: #000; border: 1px solid #777; font-weight:bold; }  
+ td { border: 1px solid #777;  }
+
+table {border:1px solid #ccc;font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center; width:100%;}
 </style>
 </head>
 <body>
@@ -38,7 +39,7 @@ table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center
 			
 <!--  TABLE PARTNERS -->
 		<div class=row >
-		<div class="table_partners" id="T1">
+		<div class="" id="T1" width="100%">
 			<table>
 			<thead>
 				<tr class="no_border_table">
@@ -139,8 +140,8 @@ table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center
 		
 <!--  TABLE 2 -->	
 <div class="row">
-<div id="T2" >
-			<table class="table_partners" >
+<div id="T2" width="100%">
+			<table class="" >
 			<thead >
 				<tr>
 					<th rowspan="2">cantidad de pymes asistidas en el periodo</th>
@@ -189,7 +190,7 @@ table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center
 
 <!--  TABLE 3 /// -->	
 <div class="row">
-<div id="T3" class="table_partners">
+<div id="T3"width="100%">
 			<table>
 				<tr class="no_border_table">
 					<td></td>
@@ -232,7 +233,7 @@ table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center
 
 <!--  table 4 -->	
 <div class="row">
-<div id="T4" class="table_partners">
+<div id="T4"  width="100%">
 			<table>
 				<tr>
 					<th colspan="16">evolucion del fondo de riesgo contingente <br></th>
@@ -304,7 +305,7 @@ table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center
 	
 <!--  table 5-->	
 <div class="row">
-<div id="T5" class="table_partners">
+<div id="T5"  width="100%">
 			<table>
 				<tr>
 					<th colspan="5">inversiones</th>
@@ -415,7 +416,7 @@ table {font-family: Futura, Arial, sans-serif; font-size:9px; text-align: center
 </div>
 <!--  TABLE6-->	
 <div class="row">	
-<div id="T6" class="table_partners">
+<div id="T6"  width="100%">
 			<table>
 				<tr>
 					<th colspan="6">saldos promedios mensuales</th>
