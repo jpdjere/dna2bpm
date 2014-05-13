@@ -48,6 +48,21 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
+    
+    
+    function get_processed_info() {
+
+        $container = 'container.sgr_periodos';
+        $fields = array('anexo', 'period', 'status', 'filename', 'id');
+        $query = array(            
+            "status" => array('$ne' => 'rectificado'),"origen"=> "2013","status"=>"activo" 
+        );
+
+        $sort = array('sgr_id' => -1, 'anexo' => -1);    
+        $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
+        return $result;
+    }
+
 
     function get_current_period_info($anexo, $period) {
 
