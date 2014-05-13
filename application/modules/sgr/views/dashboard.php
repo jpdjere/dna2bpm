@@ -8,9 +8,7 @@
             <li class="pull-right perfil"><a  href="javascript:window.close()">CERRAR</a></li>
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
-            </li>                   
-            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
-
+            </li>                    
         </ul>
     </div>
 
