@@ -62,7 +62,7 @@ class Lib_124_data extends MX_Controller {
                     } else {
                         $A_cell_value = $parameterArr[$i]['fieldValue'];
                         foreach ($warranty_info as $info) {
-                            $check_word = $info['5216'][0];
+                            $check_word = clean_spaces($info['5216'][0]);
                             $amount = $info['5218'];
                         }
 
