@@ -898,6 +898,12 @@ function sum_values($value1, $value2) {
     return $result;
 }
 
+
+function clean_spaces($string){
+    $string = preg_replace( "([ ]+)", "", $string );
+    return $string;
+}
+
 function switch_users($iduser) {
 
 
