@@ -94,7 +94,7 @@ class Lib_123_data extends MX_Controller {
 
                         foreach ($warranty_info as $info) {
 
-                            $check_word = $info['5216'][0];
+                            $check_word = clean_spaces($info['5216'][0]);
                             $amount = $info['5218'];
                             $origin = $info['5215'];
                             $currency = $info['5219'][0];
@@ -106,7 +106,7 @@ class Lib_123_data extends MX_Controller {
                         $return = check_word($check_word, $allow_words);
                         if ($return) {
                             $code_error = "A.1";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "(".$check_word.") " . $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
 
