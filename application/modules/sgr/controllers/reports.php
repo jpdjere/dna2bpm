@@ -298,6 +298,12 @@ class reports extends MX_Controller {
     }
 
     /* SGRS */
+    
+    function get_processed() {
+        $sgrArr = $this->sgr_model->get_processed_info();
+        foreach ($sgrArr as $data)
+            echo "<p>Anexo ".$data['anexo']." | Periodo ".$data['period']." Archivo: ".$data['filename']."</p>";
+    }
 
     function get_sgrs() {
         $sgrArr = $this->sgr_model->get_sgrs();
