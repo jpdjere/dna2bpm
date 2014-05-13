@@ -83,6 +83,9 @@ class Model_12 extends CI_Model {
             $insertarr[5349] = (string) $insertarr[5349]; //Cuit_participe
             $insertarr[5726] = (string) $insertarr[5726]; //Librador_cuit           
             $insertarr[5351] = (string) $insertarr[5351]; //Acreedir
+            
+            $insertarr[5216] = (string) trim($insertarr[5216]); //Tipo           
+            
 
             /* FLOAT */
             $insertarr[5218] = (float) $insertarr[5218];
