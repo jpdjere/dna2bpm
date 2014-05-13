@@ -851,7 +851,6 @@ class Model_06 extends CI_Model {
         if ($new_result)
             $return_result[] = $new_result;
 
-
         return $return_result;
     }
 
