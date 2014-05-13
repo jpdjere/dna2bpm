@@ -7,9 +7,7 @@
                     SALIR</a></li>
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
-            </li>        
-            <!--<li class="pull-right perfil"><a  href="../dna2/" target="_blank"><i class="fa fa-link"></i> Acceso Versión Anterior | </a></li>-->
-
+            </li>                    
         </ul>
     </div>
 
