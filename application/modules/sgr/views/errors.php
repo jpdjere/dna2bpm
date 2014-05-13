@@ -4,13 +4,12 @@
 <div class="container" > 
     <div class="row test" id="barra_user" > 
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-            <li class="pull-right perfil"><a  href="{base_url}user/logout">
-                    SALIR</a></li>
+            <li class="pull-right perfil"><a  href="../../sgr/">
+                    VOLVER</a></li>
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
             </li>        
-            <!--<li class="pull-right perfil"><a  href="../dna2/" target="_blank"><i class="fa fa-link"></i> Acceso Versión Anterior | </a></li>-->
-
+            
         </ul>
     </div>
 
