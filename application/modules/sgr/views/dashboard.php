@@ -5,7 +5,7 @@
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
             
             
-            <li class="pull-right perfil"><a  href="javascript:window.close()">
+            <li class="pull-right perfil"><a  href="javascript:window.close()">CERRAR</a>
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
             </li>  
