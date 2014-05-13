@@ -575,8 +575,8 @@ class Model_06 extends CI_Model {
             $transfer_characteristic = $this->app->get_ops(571);
             $afip_condition = $this->app->get_ops(570);
             $sector_opt = $this->app->get_ops(494);
-            
-            $transaction_date = ($list['FECHA_DE_TRANSACCION'])? mongodate_to_print($list['FECHA_DE_TRANSACCION']): "N/A";
+
+            $transaction_date = ($list['FECHA_DE_TRANSACCION']) ? mongodate_to_print($list['FECHA_DE_TRANSACCION']) : "N/A";
 
             $calc_average = "";
             $promedio = "";
@@ -593,8 +593,8 @@ class Model_06 extends CI_Model {
 
                 $promedio = money_format_custom($sumaMontos / $calc_average);
             }
-            
-            
+
+
             $sector_value = $this->sgr_model->clae2013($list['5208']);
             $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
             $company_type = ($isPyme) ? "PyME" : "";
@@ -836,6 +836,21 @@ class Model_06 extends CI_Model {
             if ($new_result)
                 $return_result[] = $new_result;
         }
+
+        return $return_result;
+    }
+
+    function partner_type_linked($cuit) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+        $new_query = array(
+            1695 => $cuit
+        );
+
+        $new_result = $this->mongo->sgr->$container->findOne($new_query);
+        if ($new_result)
+            $return_result[] = $new_result;
+
 
         return $return_result;
     }
@@ -1229,10 +1244,10 @@ class Model_06 extends CI_Model {
         }
 
 
-            $total_inputs = count(array_unique($input_arr));
+        $total_inputs = count(array_unique($input_arr));
         $total_datacheds = count(array_unique($datached_arr));
 
-       
+
 
         $diff = $total_inputs - $total_datacheds;
 
