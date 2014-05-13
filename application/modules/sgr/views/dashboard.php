@@ -5,10 +5,11 @@
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
             
             
-            <li class="pull-right perfil"><a  href="javascript:window.close()">CERRAR</a></li>
+            <li class="pull-right perfil"><a  href="javascript:window.close()">
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
-            </li>                    
+            </li>  
+            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
         </ul>
     </div>
 
