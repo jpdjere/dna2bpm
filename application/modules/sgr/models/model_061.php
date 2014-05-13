@@ -240,13 +240,13 @@ class Model_061 extends CI_Model {
 
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
 
-            $type_partner_inc = $this->$model_anexo->partner_type((string) $list['CUIT_VINCULADO']);
+            $type_partner_inc = $this->$model_anexo->partner_type_linked((string) $list['CUIT_VINCULADO']);
 
             $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
 
-            $es_participe = "NO";
-            $es_protector = "NO";
-
+            $es_participe = "-";
+            $es_protector = "-";
+            
 
             if ($list['CUIT_VINCULADO']) {
                 $es_participe = ($type_partner_inc == "A") ? "SI" : "NO";
