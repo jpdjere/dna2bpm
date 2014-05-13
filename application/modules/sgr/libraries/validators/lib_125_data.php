@@ -133,7 +133,7 @@ class Lib_125_data extends MX_Controller {
                         "I.1.1", "I.1.2", "I.1.3", "I.1.4", "I.2.1", "I.2.2", "I.2.3", "I.2.4", "I.3.1", "I.3.2", "I.3.3", "I.3.4", "I.4.1", "I.4.2", "I.4.3", "I.5.1", "I.5.2", "I.5.3", "I.5.4", "I.6.1", "I.6.2", "I.7.1", "I.7.2", "I.8", "FINACIERA");
                     foreach ($sharer_info as $info) {
                         
-                        $warranty_type = (array)$info['5216'];                           
+                        $warranty_type = (array)clean_spaces($info['5216']);                           
                         
                         if (in_array($warranty_type[0], $C2_array)) {                           
                             $haygarantia = true;
@@ -190,7 +190,7 @@ class Lib_125_data extends MX_Controller {
                     $D1_array = array("GC1", "GC2",
                         "II.1.1", "II.1.2", "II.1.3a", "II.1.3b", "II.1.4", "II.2.1", "II.2.2", "II.2.3a", "II.2.3b", "II.2.4", "COMERCIAL");
                     foreach ($sharer_info as $info) {
-                        $warranty_type = (array)$info['5216'];
+                        $warranty_type = (array) clean_spaces($info['5216']);
                         if (in_array($warranty_type[0], $D1_array)) {
                             $haygarantia = true;
                         }
@@ -235,10 +235,9 @@ class Lib_125_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 5) {
 
                     $haygarantia = false;
-                    $E1_array = array("GT",
-                        "III.1.1", "III.1.2", "III.1.3", "III.2.1", "III.2.2", "III.2.3", "III.2.4", "III.3", "TECNICA");
+                    $E1_array = array("GT","III.1.1", "III.1.2", "III.1.3", "III.2.1", "III.2.2", "III.2.3", "III.2.4", "III.3", "TECNICA");
                     foreach ($sharer_info as $info) {
-                        $warranty_type = (array)$info['5216'];
+                        $warranty_type = (array) clean_spaces($info['5216']);
                         if (in_array($warranty_type[0], $E1_array)) {
                             $haygarantia = true;
                         }
