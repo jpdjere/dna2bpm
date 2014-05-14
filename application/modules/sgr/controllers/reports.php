@@ -12,7 +12,7 @@ class reports extends MX_Controller {
     function __construct() {
         parent::__construct();
 //----habilita acceso a todo los metodos de este controlador
-        $this->user->authorize('modules/sgr/controllers/sgr');
+        $this->user->authorize();
         $this->load->config('config');
         $this->load->library('parser');
         $this->load->library('ui');
