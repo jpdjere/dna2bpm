@@ -12,7 +12,7 @@ class Sgr extends MX_Controller {
     function __construct() {
         parent::__construct();
 //----habilita acceso a todo los metodos de este controlador
-        $this->user->authorize();
+        $this->user->authorize('modules/sgr/controllers/sgr');
         $this->load->config('config');
         $this->load->library('parser');
         $this->load->library('ui');
