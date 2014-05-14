@@ -5,13 +5,13 @@
 
 $( document ).ready(function() {
 
-//$( ".datepicker" ).datepicker({dateFormat: "dd-mm-yy"});
+
 $('.aprobar').click(function(){
    window.location=$(this).attr('url');
 });
 
- //$('#dp3').datepicker(); 
- $('.dp').datepicker();
+
+$('.dp').datepicker();
 $('.tooltip2').tooltip();
 
 //== VALIDATE == //
@@ -95,7 +95,20 @@ if(result){
   }); 
 }
 }); 
- 
+});
+
+//==== METAS Open/Close 
+$('.meta_open').on('click',function(e){
+e.preventDefault();
+var icon=$(this).html();
+
+if(icon=='<i class="fa fa-chevron-circle-down"></i>'){
+	$(this).html('<i class="fa fa-chevron-circle-up"></i>');
+}else{
+	$(this).html('<i class="fa fa-chevron-circle-down"></i>');
+}
+$(this).parent().next('.meta_body').slideToggle('fast');
+
 
 });
 
@@ -163,16 +176,14 @@ $( document ).on( "click", ".ul_collapse", function() {
  // Cargo visitas institucional
  $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones'); 
  
-// cambio el mes
-$('#dp4').datepicker().on('changeDate',function(ev){
+// cambio el mes 
+$('#dp_metas').datepicker().on('changeDate',function(ev){
     var mes=ev.date.toISOString();
     $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas',{'mes':mes}); 
-}); 
-
-$('#datepicker_instituciones').datepicker().on('changeDate',function(ev){
-    var mes=ev.date.toISOString();
     $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes}); 
 }); 
+
+ 
 
 
 

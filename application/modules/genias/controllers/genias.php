@@ -129,21 +129,43 @@ class Genias extends MX_Controller {
 
             $mygoals[] = $goal;
         }
+        
+        // ==== Clases para Alerts
+        foreach($customData['goal_cantidad_2'] as $genia=>$cant)
+        	$customData['goal_cantidad_2_alert'][$genia]=$this->dashboard_get_class($customData['goal_cumplidas_2'][$genia],$cant);   
 
-        $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
-        if ($ratio >= ($customData['goal_cantidad_total'] * .7))
-            $customData['resumen_class'] = 'alert-success';
-        if ($ratio >= ($customData['goal_cantidad_total'] * .3) and $ratio <= ($customData['goal_cantidad_total'] * .7))
-            $customData['resumen_class'] = 'alert-info';
-        if ($ratio <= ($customData['goal_cantidad_total'] * .3))
-            $customData['resumen_class'] = 'alert-danger';
+        // Alerts cumplidas Institucional
+         foreach($customData['goal_cantidad_4'] as $genia=>$cant)
+         	$customData['goal_cantidad_4_alert'][$genia]=$this->dashboard_get_class($customData['goal_cumplidas_4'][$genia],$cant);
+            
+        // Alert Boxes PYME
+       $customData['goal_cantidad_total_2_alert']=$this->dashboard_get_class($customData['goal_cumplidas_total_2'],$customData['goal_cantidad_total_2']);
+       $customData['goal_cantidad_total_4_alert']=$this->dashboard_get_class($customData['goal_cumplidas_total_4'],$customData['goal_cantidad_total_2']);
 
-        // Cargo Resumen de las visitas solo para coordinadores
+
+
+        // ==== Cargo Resumen de las visitas solo para coordinadores
 
         $customData['metas'] = $mygoals;
-//var_dump($customData['goal_cantidad']);
+		//var_dump($customData['goal_cantidad']);
         $this->render('dashboard', $customData);
     }
+    
+    // ================ funcion que determina la clase de los alerts para el index
+    
+    private function dashboard_get_class($cumplidas,$cantidad){
+    	$ratio =($cantidad!=0)?($cumplidas*100/ $cantidad):(0);
+
+    	if ($ratio >= 90){
+    		return 'alert-success';
+    	}elseif ($ratio >= 50 && $ratio<90){
+    		return 'alert-warning';
+    	}else{
+    		return 'alert-danger';
+    	}
+
+    }
+    
 
     // Carga el Manifiesto y va a dashboard
     function splash() {
@@ -1188,7 +1210,7 @@ class Genias extends MX_Controller {
                 $i++;
                 $stripe = ($i % 2 == 0) ? ('par') : ('impar');
                 $visitas = count($empresa['fechas']);
-                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
                 echo "<ul style='display:none'>";
                 foreach ($empresa['fechas'] as $k => $fecha) {
@@ -1208,7 +1230,6 @@ class Genias extends MX_Controller {
         }
         echo "</ul>";
         
-        echo '<a href="#" data-toggle="tooltip" title="first tooltip">hover over me</a>';
     }
     
        /* ==== RESUMEN DE VISITAS ==== */
@@ -1265,6 +1286,11 @@ class Genias extends MX_Controller {
       $this->genias_model->estadisticas();
 
     }
+    
+    
+
+    
+    
 
 }
 
