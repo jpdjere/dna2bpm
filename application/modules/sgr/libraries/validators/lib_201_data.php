@@ -498,7 +498,7 @@ class Lib_201_data extends MX_Controller {
             $code_error = "A.2";
 
             if (!$check_consecutive) {
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado.");
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. (.".$get_last_input_number.".)");
                 array_push($stack, $result);
             }
 
