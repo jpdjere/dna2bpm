@@ -304,11 +304,10 @@ class Lib_061_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $parameterArr[$i]['fieldValue'] . ")");
                             array_push($stack, $result);
                         } else {
-                            /* Formato de número. Acepta hasta 4 decimales.  Debe ser mayor a cero. */
-
-                            $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;                           
-                           
-                            $result = check_is_numeric_range($float_var, 0, 100);                
+                            /* Formato de número. Acepta hasta 4 decimales.  Debe ser mayor a cero. */                            
+                            
+                            $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;
+                            $result = check_is_numeric_range($float_var, 0, 100);                             
                             
                             if (!$result) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $parameterArr[$i]['fieldValue'] . ")");
@@ -395,7 +394,7 @@ class Lib_061_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-       // debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
