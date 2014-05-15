@@ -278,9 +278,12 @@ function check_is_numeric_range($number, $minor, $mayor) {
         array(
             "min_range" => $minor
             , "max_range" => $mayor
-    ));
+    ));    
     
-    return (filter_var((int)$number, FILTER_VALIDATE_INT, $int_options));
+    $int_number = (int)$number;
+    $check_num = ($int_number==0)?1:$int_number;
+    
+    return (filter_var($check_num, FILTER_VALIDATE_INT, $int_options));
 }
 
 function check_is_alphabetic($parameter) {
