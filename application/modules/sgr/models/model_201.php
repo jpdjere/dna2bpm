@@ -620,10 +620,12 @@ class Model_201 extends CI_Model {
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_last_rec($anexo, $period_value);
+        $result = $this->sgr_model->get_active_last_rec($anexo, $period_value);        
+       
 
         /* FIND ANEXO */
         foreach ($result as $list) {
+            
             $new_query = array(
                 'filename' => $list['filename']
             );
@@ -669,20 +671,25 @@ class Model_201 extends CI_Model {
         $period_value = $this->session->userdata['period'];
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-
+        $rtn = array();
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-
-        /* FIND ANEXO */
-        foreach ($result as $list) {
+       
+        /* FIND ANEXO */       
+        
+        foreach($result as $list) {
             $new_query = array(
                 'filename' => $list['filename']
             );
             $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
+            
+            
             foreach ($new_result as $new_list) {
-                return $new_list['NUMERO_DE_APORTE'];
-            }
+                $rtn[] = $new_list['NUMERO_DE_APORTE'];
+            }            
         }
+        
+        return max($rtn);
     }
 
     function get_movement_data($nro) {
