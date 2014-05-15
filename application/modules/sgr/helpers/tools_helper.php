@@ -144,6 +144,7 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
+    
     $number = str_replace(",", ".", $number);
     $status = false;
 
@@ -278,7 +279,8 @@ function check_is_numeric_range($number, $minor, $mayor) {
             "min_range" => $minor
             , "max_range" => $mayor
     ));
-    return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
+    
+    return (filter_var((int)$number, FILTER_VALIDATE_INT, $int_options));
 }
 
 function check_is_alphabetic($parameter) {
