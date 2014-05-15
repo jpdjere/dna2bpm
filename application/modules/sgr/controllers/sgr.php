@@ -36,7 +36,8 @@ class Sgr extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
 
 // IDU : Chequeo de sesion        
-
+        
+        
 
         $this->idu = (float) switch_users($this->session->userdata('iduser'));
 
@@ -1847,6 +1848,8 @@ class Sgr extends MX_Controller {
             'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
+        
+     
 
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
