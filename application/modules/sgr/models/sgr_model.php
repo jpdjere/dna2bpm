@@ -48,21 +48,19 @@ class Sgr_model extends CI_Model {
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }
-    
-    
+
     function get_processed_info() {
 
         $container = 'container.sgr_periodos';
         $fields = array('anexo', 'period', 'status', 'filename', 'id');
-        $query = array(            
-            "status" => array('$ne' => 'rectificado'),"origen"=> "2013","status"=>"activo" 
+        $query = array(
+            "status" => array('$ne' => 'rectificado'), "origen" => "2013", "status" => "activo"
         );
 
-        $sort = array('sgr_id' => -1, 'anexo' => -1);    
+        $sort = array('sgr_id' => -1, 'anexo' => -1);
         $result = $this->mongo->sgr->$container->find($query, $fields)->sort($sort);
         return $result;
     }
-
 
     function get_current_period_info($anexo, $period) {
 
@@ -239,7 +237,7 @@ class Sgr_model extends CI_Model {
         // Listado de empresas
         $container = 'container.empresas';
         $fields = array('id', '1695', '4651', '1693', '1703');
-        $query = array("owner" => $idu, 6026 => '30', "status" => 'activa',  5281 => 'C' );
+        $query = array("owner" => $idu, 6026 => '30', "status" => 'activa', 5281 => 'C');
         $result = $this->mongo->db->$container->find($query, $fields);
 
         foreach ($result as $empresa) {
@@ -264,43 +262,18 @@ class Sgr_model extends CI_Model {
 
     function get_sgrs() {
         $rtn = array();
-        $users_list = $this->get_sgrs_users();
-        foreach ($users_list as $user) {
 
-            // Listado de empresas
-            $sort = array(1693 => -1);
-            $container = 'container.empresas';
-            $fields = array();
-            $query = array(6026 => '30', "owner" => $user['idu']);
-            $result = $this->mongo->db->$container->find($query, $fields);
-            $result->sort($sort);
-
-            foreach ($result as $sgrs) {
-                $rtn[] = $sgrs;
-            }
-        }
-
-        return $rtn;
-    }
-
-    function get_sgr_custom($idu) {
-
-
-        $rtn = array();
-        $idu = (float) $idu;
-        $data = array();
         // Listado de empresas
+        $sort = array(1693 => 1);
         $container = 'container.empresas';
-        $fields = array('id', '1695', '4651', '1693', '1703');
-        $query = array("owner" => $idu, "6026" => '30', "status" => 'activa');
-        $result = $this->mongo->db->$container->find($query, $fields);
+        $query = array(6026 => '30', "status" => 'activa', 5281 => 'C');
+        $result = $this->mongo->db->$container->find($query);
+        $result->sort($sort);
 
-        var_dump($idu, $query);
-
-        foreach ($result as $empresa) {
-            unset($empresa['_id']);
-            $rtn[] = $empresa;
+        foreach ($result as $sgrs) {
+            $rtn[] = $sgrs;
         }
+
         return $rtn;
     }
 
