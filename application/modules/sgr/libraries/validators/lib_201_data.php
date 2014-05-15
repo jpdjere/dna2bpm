@@ -491,14 +491,15 @@ class Lib_201_data extends MX_Controller {
             }
 
 
-            $get_last_input_number = $this->$model_anexo->get_last_input();
+            $get_last_input_number = $this->$model_anexo->get_last_input();            
+            
 
             $check_consecutive_array = array($get_last_input_number, $get_min);
             $check_consecutive = check_consecutive_values($check_consecutive_array);
             $code_error = "A.2";
 
             if (!$check_consecutive) {
-                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado. (.".$get_last_input_number.".)");
+                $result = return_error_array($code_error, $parameterArr[$i]['row'], $number . " No es correlativo al ultimo registrado.");
                 array_push($stack, $result);
             }
 
