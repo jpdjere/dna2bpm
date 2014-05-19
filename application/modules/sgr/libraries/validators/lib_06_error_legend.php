@@ -126,7 +126,7 @@ class Lib_06_error_legend {
                 break;
 
             case "H.1":
-                $result_error = '<strong>Columna H - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código Postal: El campo no puede estar vacío. Debe contener 8 dígitos y cumplir con el CPA (Código Postal Argentino) : El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos.';
+                $result_error = '<strong>Columna H - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Código Postal: El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos, o debe contener 4 dígitos, todos numéricos.';
                 break;
 
             case "I.1":
