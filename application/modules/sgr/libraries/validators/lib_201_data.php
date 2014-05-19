@@ -491,7 +491,8 @@ class Lib_201_data extends MX_Controller {
             }
 
 
-            $get_last_input_number = $this->$model_anexo->get_last_input();
+            $get_last_input_number = $this->$model_anexo->get_last_input();            
+            
 
             $check_consecutive_array = array($get_last_input_number, $get_min);
             $check_consecutive = check_consecutive_values($check_consecutive_array);

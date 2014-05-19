@@ -12,7 +12,7 @@ class Management extends MX_Controller {
     function __construct() {
         parent::__construct();
 //----habilita acceso a todo los metodos de este controlador
-        $this->user->authorize('modules/sgr/controllers/sgr');
+        //$this->user->authorize('modules/sgr/controllers/sgr');
         $this->load->config('config');
         $this->load->library('parser');
         $this->load->library('ui');
@@ -24,23 +24,24 @@ class Management extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
-        /* update db */
-
-//---base variables
+        //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
+
+
+        /* ROL CHECKER */
+        if (!$this->rol_user()) {
+            exit();
+        }
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
 // IDU : Chequeo de sesion                
-        debug($this->session->userdata['iduser']);
-
         $original_user = (float) $this->session->userdata['iduser'];
         $taken_user = (float) $this->session->userdata['sgr_impersonate'];
 
         $this->idu = ($taken_user) ? $taken_user : $original_user;
 
-        debug($this->idu);
 
         /* bypass session */
         session_start();
@@ -109,11 +110,7 @@ class Management extends MX_Controller {
         if ($this->session->userdata['sgr_impersonate'])
             $customData['menu_management'] = true;
 
-
-
-
-
-        $this->render('sgr_pick_template', $customData);
+        $this->render('management_template', $customData);
     }
 
     /* INDEX */
@@ -132,7 +129,6 @@ class Management extends MX_Controller {
     }
 
     function Set_sgr() {
-
         $send_sgr = $this->input->post("send_sgr");
         if (send_sgr) {
             $newdata = array('sgr_impersonate' => (float) $send_sgr);
@@ -190,22 +186,7 @@ class Management extends MX_Controller {
                 $customData[$key] = $each;
             }
 
-            $error_set_period = $this->set_period();
-            $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
-            $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
-            $rectify_merge = array_merge($rectify_status, $translate_error);
-            foreach ($rectify_merge as $key => $each) {
-                $customData[$key] = $each;
-            }
 
-// UPLOAD ANEXO
-            $upload = $this->upload_file();
-            $translate_upload = ($this->translate_upload($upload)) ? $this->translate_upload($upload) : array();
-            $upload_status = ($this->upload_status($upload)) ? $this->upload_status($upload) : array();
-            $upload_merge = array_merge($translate_upload, $upload_status);
-            foreach ($upload_merge as $key => $each) {
-                $customData[$key] = $each;
-            }
 // FILE BROWSER
             $fileBrowserData = $this->file_browser();
 
@@ -299,34 +280,11 @@ class Management extends MX_Controller {
     /* UPLOAD FN */
 
     function upload_status($upload) {
-        $customData = array();
-        if (!$upload) {
-            if (!$this->session->userdata['period']) {
-                $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar.';
-                $customData['select_period'] = true;
-            }
-        }
-        return $customData;
+        //
     }
 
     function translate_upload($upload) {
-        $customData = array();
-
-        if ($upload['success']) {
-            $customData['message'] = $upload['message'];
-            $customData['success'] = "success";
-            $customData['rectify_message_template'] = "";
-
-            if (!$this->session->userdata['period']) {
-                $customData['message'] = $upload['message'] . ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar..';
-                $customData['select_period'] = true;
-            }
-        } else {
-            $customData['message'] = $upload['message'];
-            $customData['success'] = "danger";
-        }
-
-        return $customData;
+        //
     }
 
     /* ANEXOS FNs */
@@ -340,11 +298,11 @@ class Management extends MX_Controller {
 
         $newdata = array('anexo_code' => $parameter);
         $this->session->set_userdata($newdata);
-        redirect('/sgr');
+        redirect('/sgr/management');
     }
 
     function AnexosDB($target = '_self') {
-        $module_url = base_url() . 'sgr/';
+        $module_url = base_url() . 'sgr/management/';
         $anexosArr = $this->management_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
@@ -750,58 +708,6 @@ class Management extends MX_Controller {
           }
           echo $sql . rtrim($valuesSql, ", ") . " ) <br>";
           } */
-    }
-
-    function empty_xls_advice($anexo) {
-        switch ($anexo) {
-            case 06:
-                $msg = "El campo no puede estar vacío, y debe contener alguno de los siguientes parámetros : INCORPORACION, INCREMENTO TENENCIA ACCIONARIA o DISMINUCION DE CAPITAL SOCIAL";
-                break;
-            case 061:
-                $msg = "El campo no puede estar vacío y debe tener 11 caracteres sin guiones.";
-                break;
-            case 062:
-                $msg = "Debe tener 11 caracteres numéricos sin guiones.";
-                break;
-        }
-
-        $legend = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li><li>' . $msg . '</li>';
-        return $legend;
-    }
-
-    function translate_error_period($error_set_period) {
-        if ($error_set_period) {
-
-            switch ($error_set_period) {
-                case "1":
-                    $error_legend = ($this->anexo == "06") ? " El Periodo seleccionado es Invalido o tiene un Anexo pendiente." : "El Periodo seleccionado es Invalido.";
-                    $error_msg = '<i class="fa fa-info-circle"></i> ' . $error_legend;
-                    break;
-
-                case "2":
-                    $error_msg = '<i class="fa fa-info-circle"></i> El Periodo a informar no puede ser anterior a 01/2014';
-                    break;
-
-                default:
-                    $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
-                    $get_period = $this->management_model->get_current_period_info($this->anexo, $error_set_period);
-                    $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
-                    $customData['post_period'] = $error_set_period;
-                    $customData['rectifica'] = true;
-                    $customData['js'] = $link_arr = array($this->module_url . "assets/jscript/rectify.js" => 'Rectify JS');
-
-                    if (!in_array($link_arr, $customData)) {
-                        array_push($customData['js'], $link_arr);
-                    }
-                    break;
-            }
-            $customData['period_message'] = $error_msg;
-            $customData['success'] = "danger";
-
-            return $customData;
-        } else {
-            return false;
-        }
     }
 
     function print_anexo($parameter = null) {
@@ -1367,110 +1273,6 @@ class Management extends MX_Controller {
         }
     }
 
-    function set_period() {
-        $rectify = $this->input->post("rectify");
-        $period = $this->input->post("input_period");
-        $others = $this->input->post("others");
-        $anexo = $this->input->post("anexo");
-
-        if ($period) {
-            $this->session->unset_userdata('period');
-            $this->session->unset_userdata('rectify');
-            $this->session->unset_userdata('others');
-
-            $date_string = date('Y-m', strtotime('-1 month', strtotime(date('Y-m-01'))));
-
-            list($month, $year) = explode("-", $period);
-            $set_month = strtotime(date($year . '-' . $month . '-01'));
-
-            $limit_month = strtotime('-1 month', strtotime(date('Y-m-01')));
-            $set_start_month = strtotime(date('2013-12-30'));
-
-            if ($this->idu == -342725103)
-                $set_start_month = strtotime(date('2010-12-30'));
-
-            if ($rectify) {
-                $newdata = array('period' => $period, 'rectify' => $rectify, 'others' => $others);
-                /* PERIOD SESSION */
-                $this->session->set_userdata($newdata);
-                redirect('/sgr');
-            } else {
-                if ($limit_month < $set_month) {
-                    return "1"; // Posterior al mes actual
-                } else if ($set_start_month > $set_month) {
-                    return "2"; // Anterior al mes Inicial
-                } else {
-                    $get_period = $this->management_model->get_current_period_info($this->anexo, $period);
-                    if ($get_period) {
-                        return $this->input->post("input_period"); //Ya fue informado                    
-                    } else {
-                        $newdata = array('period' => $period);
-                        $this->session->set_userdata($newdata);
-                        redirect('/sgr');
-                    }
-                }
-            }
-        }
-    }
-
-    function unset_period() {
-
-        $this->session->unset_userdata('rectify');
-        $this->session->unset_userdata('others');
-        $this->session->unset_userdata('period');
-        redirect('/sgr');
-    }
-
-    function unset_period_active() {
-        $this->session->unset_userdata('rectify');
-        $this->session->unset_userdata('others');
-        $this->session->unset_userdata('period');
-    }
-
-    function check_session_period() {
-        if ($this->session->userdata['period']) {
-            echo $this->session->userdata['period'];
-        }
-    }
-
-    function upload_file() {
-        try {
-            if ($this->input->post("submit")) {
-                $this->load->library("app/uploader");
-                $result = (array) $this->uploader->do_upload();
-
-                return $result;
-            }
-//to render ->
-        } catch (Exception $err) {
-            log_message("error", $err->getMessage());
-            return show_error($err->getMessage());
-        }
-    }
-
-    function set_no_movement() {
-        $data = $this->input->post('data');
-        $period = $data['no_movement'];
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
-        $model = "model_" . $anexo;
-        $this->load->model($model);
-
-        if (!$this->session->userdata['rectify']) {
-            $get_period = $this->management_model->get_current_period_info($anexo, $period);
-        }
-
-
-        if (!$get_period) {
-            $result = array();
-            $result['period'] = $period;
-            $result['filename'] = "SIN MOVIMIENTOS";
-            $result['sgr_id'] = $this->sgr_id;
-            $result['anexo'] = $anexo;
-            $save_period = (array) $this->$model->save_period($result);
-            echo "ok";
-        }
-    }
-
 // OFFLINE FALLBACK
     function offline() {
 // testeo reemplazo appcache
@@ -1588,8 +1390,8 @@ class Management extends MX_Controller {
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
-                    $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
-                    $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
+
+                    $list_files .= "<li>" . $download . " " . $print_file . " " . $print_filename . "  [" . $show_period . "]  </li>";
                 } else {
 
 
@@ -1605,8 +1407,8 @@ class Management extends MX_Controller {
                     $print_xls = ($anexo == '202' || $anexo == '141') ? $print_xls_link : "";
 
                     $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
-                    $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger'));
-                    $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
+
+                    $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
                 }
             }
             $list_files .= '</ul></div>
@@ -1686,31 +1488,6 @@ class Management extends MX_Controller {
             $list_files .= '<li><strong>Anexos Pendientes:  ' . $print_filename . ' (' . $pending_on . ') [' . $file['period'] . '] </strong></li>';
         }
         return $list_files;
-    }
-
-    function get_rectified_legend($anexo) {
-
-        switch ($anexo) {
-            case 06:
-                $legend_msg = "6.1, 6.2, 20.1";
-                break;
-
-            case 12:
-                $legend_msg = "12.1 ,12.2 ,12.3 ,12.4 ,12.5";
-                break;
-            case 13:
-            case 14:
-                $legend_msg = "14.1";
-                break;
-            case 201:
-                $legend_msg = "20.2";
-                break;
-            case 202:
-                $legend_msg = "13, 20.2";
-                break;
-        }
-        if ($legend_msg)
-            return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
     }
 
     /* FILE BROWSER
@@ -1848,10 +1625,6 @@ class Management extends MX_Controller {
         </ol>
     </div>';
 
-        $no_list_html = '<div class="alert alert-danger" id="{_id}">
-        No hay Archivos Pendientes |
-        <i class="fa fa-plus"></i> <a data-target="#file_div" data-toggle="collapse"> Seleccionar Archivos a Procesar</a>
-    </div>';
 
         if ($files_list != "") {
             return $file_list_html;
@@ -1860,46 +1633,18 @@ class Management extends MX_Controller {
         }
     }
 
-    function pre_general_validation($anexo) {
-        switch ($anexo) {
-            case '061':
-                $info_06 = $this->management_model->get_just_active("06", $this->session->userdata['period']);
-                foreach ($info_06 as $filenames) {
-                    if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
-                        return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
-                    }
-                }
-                break;
+    function rol_user() {
+        $granted = false;
+        $user = $this->user->get_user($this->session->userdata['iduser']);
 
-            case '141':
-                $base_legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar:";
-                $add_base_legend = "";
-                $error = false;
-                $info_14 = $this->management_model->get_just_active("14", $this->session->userdata['period']);
-                if (!$info_14) {
-                    $error = true;
-                    $base_legend .= $add_base_legend . "<br>Anexo 14 ";
-                }
+        $rol = (array) $user->group;
+        if (in_array(49, $rol))
+            $granted = 1;
 
-                $info_124 = $this->management_model->get_just_active("124", $this->session->userdata['period']);
-                if (!$info_124) {
-                    $error = true;
-                    $base_legend .= $add_base_legend . "<br>Anexo 12.4 ";
-                }
+        if ($this->user->isAdmin($user))
+            $granted = 2;
 
-                $info_125 = $this->management_model->get_just_active("125", $this->session->userdata['period']);
-                if (!$info_125) {
-                    $error = true;
-                    $base_legend .= $add_base_legend . "<br>Anexo 12.5 ";
-                }
-
-                if ($error) {
-                    return $base_legend . $add_base_legend;
-                }
-
-
-                break;
-        }
+        return $granted;
     }
 
     function render($file, $customData) {
@@ -1918,13 +1663,16 @@ class Management extends MX_Controller {
             'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
-
-
-
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
         $cpData['usermail'] = $user->email;
+
+
+        $admin = $this->user->get_user($this->session->userdata['iduser']);
+        $cpData['sgr_admin'] = (array) $admin;
+        $cpData['admin_username'] = strtoupper($admin->lastname . ", " . $admin->name);
+
 // Profile 
 //$cpData['profile_img'] = get_gravatar($user->email);
 

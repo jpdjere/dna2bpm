@@ -5,21 +5,17 @@
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
             <li class="pull-right perfil"><a  href="javascript:window.close()">
                     CERRAR</a></li>
-                    
-             {if menu_management}       
+            {if menu_management}       
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
             </li>              
-            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
-            {else}
-            <li class="pull-right perfil">
-                <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
-            </li>  
-            <li class="pull-right perfil">Admin {menu_management}</li>
-            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">Terminar </a></li>
-            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
+            <li class="pull-right perfil"><a  href="{base_url}sgr/management/unset_sgr">INICIO</a></li>
+            {else}            
+            <li class="pull-right perfil">Admin <strong>{admin_username}</strong> / </li>
+            <li class="pull-right perfil"><a  href="{base_url}sgr/management/unset_sgr">Terminar Session <strong> {sgr_nombre} </strong></a> </li>
+            <li class="pull-right perfil"><a  href="{base_url}sgr/management/unset_sgr">INICIO</a></li>
             {/if}
-            
+
         </ul>
     </div>
 
@@ -27,78 +23,42 @@
         <div id="header-dna"></div>
         <div id="header-logos"></div>
     </div>
+
+    <!-- ====== NAVIGATION ====== -->
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header visible-xs">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!-- Izquierda -->                
+                <!-- Derecha -->
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
+                            <i class="fa fa-file-text"> </i> <span class="text"> Anexos:</span> <span class=""> {anexo_title_cap} </span> <b class="caret"></b>
+                        </a> 
+                        <ul class="dropdown-menu">
+                            {anexo_list}
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
     
-<!-- ====== NAVIGATION ====== -->
-    
-      <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header visible-xs">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<!-- Izquierda -->
-      <ul class="nav navbar-nav">
-        {if sgr_period}
-        <li><a href="{base_url}sgr/unset_period" id="icon-calendar"><i class="fa fa-calendar"></i> Período <span id="sgr_period"> {sgr_period}</span></a></li>    
-        {/if}
-      </ul>
-<!-- Derecha -->
-      <ul class="nav navbar-nav navbar-right">
-
-        <li class="dropdown">
-             <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
-                <i class="fa fa-file-text"> </i> <span class="text"> Anexos:</span> <span class=""> {anexo_title_cap} </span> <b class="caret"></b>
-            </a> 
-            <ul class="dropdown-menu">
-                {anexo_list}
-            </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<!-- ====== Archivos a procesar ====== -->
-
-<div class="row gap"  id="barra_user" > 
-
-            <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#file_div">
-                <i class="fa fa-plus"></i>  Seleccionar Archivos a Procesar
-            </button> 
-            {if sgr_period}        
-            <button type="button" id="no_movement" class="no_movement btn btn-info" value="{sgr_period}">
-                 Asociar el periodo {sgr_period} a "Sin Movimientos"
-            </button>
-            {/if} 
-
-</div>
-
-
-    <!-- MESSAGES -->
-    {if period_message}
-    <div class="alert alert-{success}" id="{success}">   
-        {period_message}
-    </div>
-    {else}
-    {if message}
-    <div class="alert alert-{success}" id="{success}">   
-        {message}
-    </div>
-    {/if}
-    {/if}
-
-    <!-- RECTIFICATION ALERT-->
-
-    {rectify_message_template}
 
 
 
@@ -111,8 +71,7 @@
     </div>
 
 
-    <!-- FORM PERIOD--> 
-    {form_template}
+
 
     <!-- UPLOADED FILES LIST-->
     {files_list}   

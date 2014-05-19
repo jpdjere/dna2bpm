@@ -298,16 +298,17 @@ class Lib_061_data extends MX_Controller {
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "F.2";
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
+                        $return = check_decimal($parameterArr[$i]['fieldValue'], 4);
+                        
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $parameterArr[$i]['fieldValue'] . ")");
                             array_push($stack, $result);
                         } else {
-                            /* Formato de número. Acepta hasta dos decimales.  Debe ser mayor a cero. */
-
+                            /* Formato de número. Acepta hasta 4 decimales.  Debe ser mayor a cero. */                            
+                            
                             $float_var = ((float) $parameterArr[$i]['fieldValue']) * 100;
-                            $result = check_is_numeric_range($float_var, 0, 100);
-
+                            $result = check_is_numeric_range($float_var, 0, 100);                             
+                            
                             if (!$result) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $parameterArr[$i]['fieldValue'] . ")");
                                 array_push($stack, $result);
