@@ -3,13 +3,22 @@
 
     <div class="row test" id="barra_user" > 
         <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-            
-            
-            <li class="pull-right perfil"><a  href="javascript:window.close()">CERRAR</a>
+            <li class="pull-right perfil"><a  href="javascript:window.close()">
+                    CERRAR</a></li>
+                    
+             {if menu_management}       
             <li class="pull-right perfil">
                 <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
             </li>              
             <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
+            {else}
+            <li class="pull-right perfil">
+                <i class="{rol_icono}"></i> <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
+            </li>  
+            <li class="pull-right perfil">Admin {menu_management}</li>
+            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">Terminar </a></li>
+            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
+            {/if}
             
         </ul>
     </div>

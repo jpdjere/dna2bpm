@@ -7,7 +7,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Sgr_model extends CI_Model {
+class Management_model extends CI_Model {
 
     function __construct() {
         // Call the Model constructor
@@ -15,7 +15,10 @@ class Sgr_model extends CI_Model {
         $this->load->helper('sgr/tools');
 
 
-        $this->idu = (float) switch_users($this->session->userdata('iduser'));
+        $original_user = (float) $this->session->userdata['iduser'];
+        $taken_user = (float) $this->session->userdata['sgr_impersonate'];
+
+        $this->idu = ($taken_user) ? $taken_user : $original_user;
 
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
@@ -646,17 +649,13 @@ class Sgr_model extends CI_Model {
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
         }
-        
-        
-        
+
 
         $result = $this->mongo->sgr->$period->find($query);
 
         foreach ($result as $each) {
-           
             $rtn[] = $each;
         }
-        
         return $rtn;
     }
 

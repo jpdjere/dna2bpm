@@ -4,10 +4,10 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /**
- * sgr
+ * MANAGEMENT
  *
  */
-class Sgr extends MX_Controller {
+class Management extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -20,14 +20,11 @@ class Sgr extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
-        $this->load->model('sgr/sgr_model');
+        $this->load->model('sgr/management_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
         /* update db */
-        $mysql_model_periods = "mysql_model_periods";
-        $this->load->Model(mysql_model_periods);
-        $this->mysql_model_periods->active_periods_dna2();
 
 //---base variables
         $this->base_url = base_url();
@@ -35,17 +32,20 @@ class Sgr extends MX_Controller {
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
-// IDU : Chequeo de sesion        
-        
-        
+// IDU : Chequeo de sesion                
+        debug($this->session->userdata['iduser']);
 
-        $this->idu = (float) switch_users($this->session->userdata('iduser'));
+        $original_user = (float) $this->session->userdata['iduser'];
+        $taken_user = (float) $this->session->userdata['sgr_impersonate'];
+
+        $this->idu = ($taken_user) ? $taken_user : $original_user;
+
+        debug($this->idu);
 
         /* bypass session */
         session_start();
 
         $_SESSION['idu'] = $this->idu;
-
 
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -53,7 +53,7 @@ class Sgr extends MX_Controller {
         }
 
         /* DATOS SGR */
-        $sgrArr = $this->sgr_model->get_sgr();
+        $sgrArr = $this->management_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
@@ -89,11 +89,81 @@ class Sgr extends MX_Controller {
         $this->render('main_dashboard', $customData);
     }
 
-// ==== Anexos ====
-    function Index() {
-
+    function Sgr_pick() {
         $customData = array();
-        $default_dashboard = 'dashboard';
+        $customData['sgr_nombre'] = $this->sgr_nombre;
+        $customData['sgr_id'] = $this->sgr_id;
+        $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
+        $customData['base_url'] = base_url();
+        $customData['module_url'] = base_url() . 'sgr/';
+        $customData['titulo'] = "Dashboard";
+        $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        //$customData['layout']="layout.php"; 
+
+        $sections = array();
+        $sections['Anexos'] = array();
+        $customData['anexo_list'] = $this->AnexosDB('_blank');
+        $customData['sgr_options'] = $this->get_sgrs();
+
+        if ($this->session->userdata['sgr_impersonate'])
+            $customData['menu_management'] = true;
+
+
+
+
+
+        $this->render('sgr_pick_template', $customData);
+    }
+
+    /* INDEX */
+
+    function Index() {
+        if (!$this->session->userdata['sgr_impersonate'])
+            $this->Sgr_pick();
+        else
+            $this->Main_loader();
+    }
+
+    function Unset_sgr() {
+
+        $this->session->unset_userdata('sgr_impersonate');
+        redirect('/sgr/management/');
+    }
+
+    function Set_sgr() {
+
+        $send_sgr = $this->input->post("send_sgr");
+        if (send_sgr) {
+            $newdata = array('sgr_impersonate' => (float) $send_sgr);
+            $this->session->set_userdata($newdata);
+
+            redirect('/sgr/management/');
+        }
+    }
+
+    function get_sgrs() {
+        $sgrArr = $this->management_model->get_sgrs();
+        $sgrArr = (array) $sgrArr;
+
+        $rtn;
+
+        foreach ($sgrArr as $sgr) {
+
+            $this->sgr_id = (float) $sgr['id'];
+            $this->sgr_nombre = $sgr['1693'];
+            $this->sgr_cuit = $sgr['1695'];
+
+            $rtn .= "<option value=" . $sgr['owner'] . ">" . $sgr['1693'] . "</option>";
+        }
+
+
+        return $rtn;
+    }
+
+    function Main_loader() {
+        $customData = array();
+        $default_dashboard = 'management';
 
         /* HEADERS */
         $header_merge = array_merge($customData, $this->headers());
@@ -275,7 +345,7 @@ class Sgr extends MX_Controller {
 
     function AnexosDB($target = '_self') {
         $module_url = base_url() . 'sgr/';
-        $anexosArr = $this->sgr_model->get_anexos();
+        $anexosArr = $this->management_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
             $result .= '<li><a target="' . $target . '" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
@@ -284,12 +354,12 @@ class Sgr extends MX_Controller {
     }
 
     function oneAnexoDB() {
-        $anexoValues = $this->sgr_model->get_anexo($this->anexo);
+        $anexoValues = $this->management_model->get_anexo($this->anexo);
         return $anexoValues['title'];
     }
 
     function oneAnexoDB_short() {
-        $anexoValues = $this->sgr_model->get_anexo($this->anexo);
+        $anexoValues = $this->management_model->get_anexo($this->anexo);
         return $anexoValues['short'];
     }
 
@@ -345,7 +415,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $get_period = $this->management_model->get_processed($this->anexo, $this->sgr_id);
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -393,7 +463,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $get_period = $this->management_model->get_processed($this->anexo, $this->sgr_id);
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -466,7 +536,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $get_period = $this->management_model->get_processed($this->anexo, $this->sgr_id);
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -714,7 +784,7 @@ class Sgr extends MX_Controller {
 
                 default:
                     $new_period = anchor('sgr', 'Volver <i class="fa fa-external-link" alt="Volver"></i>');
-                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $error_set_period);
+                    $get_period = $this->management_model->get_current_period_info($this->anexo, $error_set_period);
                     $error_msg = '<i class="fa fa-info-circle"></i> El periodo del ' . str_replace('-', '/', $error_set_period) . ' ya fue informado [ ' . $get_period['filename'] . ' ] | ' . $new_period;
                     $customData['post_period'] = $error_set_period;
                     $customData['rectifica'] = true;
@@ -759,7 +829,7 @@ class Sgr extends MX_Controller {
         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
         /* PERIOD INFO */
-        $get_period_info = $this->sgr_model->get_period_filename($parameter);
+        $get_period_info = $this->management_model->get_period_filename($parameter);
 
         $user = $this->user->get_user($get_period_info['idu']);
 
@@ -797,7 +867,7 @@ class Sgr extends MX_Controller {
         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
         /* PERIOD INFO */
-        $get_period_info = $this->sgr_model->get_period_filename($parameter);
+        $get_period_info = $this->management_model->get_period_filename($parameter);
 
         $user = $this->user->get_user($get_period_info['idu']);
 
@@ -834,7 +904,7 @@ class Sgr extends MX_Controller {
         $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
 
         /* PERIOD INFO */
-        $get_period_info = $this->sgr_model->get_period_filename($parameter);
+        $get_period_info = $this->management_model->get_period_filename($parameter);
 
         $user = $this->user->get_user($get_period_info['idu']);
 
@@ -850,7 +920,7 @@ class Sgr extends MX_Controller {
         $anexos_arr = array("12", "06", "13", "16", "15", "14");
         $filenames_arr = array("12", "121", "122", "123", "124", "125", "13", "14", "141", "15", "16");
         foreach ($filenames_arr as $each) {
-            $get_anexo = $this->sgr_model->get_period_data($each, $parameter, true);
+            $get_anexo = $this->management_model->get_period_data($each, $parameter, true);
             $customData['f_' . $each] = $get_anexo[0]['filename'];
         }
 
@@ -1330,7 +1400,7 @@ class Sgr extends MX_Controller {
                 } else if ($set_start_month > $set_month) {
                     return "2"; // Anterior al mes Inicial
                 } else {
-                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+                    $get_period = $this->management_model->get_current_period_info($this->anexo, $period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
@@ -1386,7 +1456,7 @@ class Sgr extends MX_Controller {
         $this->load->model($model);
 
         if (!$this->session->userdata['rectify']) {
-            $get_period = $this->sgr_model->get_current_period_info($anexo, $period);
+            $get_period = $this->management_model->get_current_period_info($anexo, $period);
         }
 
 
@@ -1415,7 +1485,7 @@ class Sgr extends MX_Controller {
     function get_processed_17_tab() {
         $list_files = "<li class=processed><b>Presentación Regimen Informativo DD.JJ.</b></li>";
         for ($i = date(Y); $i > 2009; $i--) {
-            $processed = $this->sgr_model->get_ready($this->sgr_id, $i);
+            $processed = $this->management_model->get_ready($this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
 
@@ -1441,7 +1511,7 @@ class Sgr extends MX_Controller {
                 $disabled_link = ($i < 2014) ? ' disabled_link' : "";
 
 
-                $processed = $this->sgr_model->get_ready_anexo($this->sgr_id, $new_query);
+                $processed = $this->management_model->get_ready_anexo($this->sgr_id, $new_query);
                 $print_file = anchor('/sgr/print_ddjj/' . $new_query, ' <i class="fa fa-print" alt="Imprimir"></i> Generar DD.JJ. Para ' . $new_query, array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
                 if ($processed)
@@ -1457,7 +1527,7 @@ class Sgr extends MX_Controller {
     function get_processed_tab($anexo) {
         $list_files = "<li class=processed><b>ANEXOS PROCESADOS</b></li>";
         for ($i = date(Y); $i > 2009; $i--) {
-            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            $processed = $this->management_model->get_processed($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
 
@@ -1473,7 +1543,7 @@ class Sgr extends MX_Controller {
     function get_rectified_tab($anexo) {
         $list_files = "<li class=rectified><b>ANEXOS RECTIFICADOS</b></li>";
         for ($i = date(Y); $i > 2009; $i--) {
-            $processed = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
+            $processed = $this->management_model->get_rectified($anexo, $this->sgr_id, $i);
             $processed = array($processed);
             foreach ($processed as $file) {
                 if ($file)
@@ -1493,7 +1563,7 @@ class Sgr extends MX_Controller {
         for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
-            $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            $processed = $this->management_model->get_processed($anexo, $this->sgr_id, $i);
 
             foreach ($processed as $file) {
                 $asset = ($anexo == "09") ? "pdf_asset" : "xls_asset";
@@ -1524,7 +1594,7 @@ class Sgr extends MX_Controller {
 
 
                     /* RECTIFY COUNT */
-                    $count = $this->sgr_model->get_period_count($anexo, $file['period']);
+                    $count = $this->management_model->get_period_count($anexo, $file['period']);
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                     $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
@@ -1556,7 +1626,7 @@ class Sgr extends MX_Controller {
         for ($i = date(Y); $i > 2009; $i--) {
             $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
             <div id="' . $i . '"><ul>';
-            $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
+            $rectified = $this->management_model->get_rectified($anexo, $this->sgr_id, $i);
             foreach ($rectified as $file) {
                 $print_filename = substr($file['filename'], 0, -25);
                 $disabled_link = '';
@@ -1597,7 +1667,7 @@ class Sgr extends MX_Controller {
 
     function get_pending($anexo) {
 
-        $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
+        $pending = $this->management_model->get_pending($anexo, $this->sgr_id);
         foreach ($pending as $file) {
 
             if (!$file) {
@@ -1793,7 +1863,7 @@ class Sgr extends MX_Controller {
     function pre_general_validation($anexo) {
         switch ($anexo) {
             case '061':
-                $info_06 = $this->sgr_model->get_just_active("06", $this->session->userdata['period']);
+                $info_06 = $this->management_model->get_just_active("06", $this->session->userdata['period']);
                 foreach ($info_06 as $filenames) {
                     if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
                         return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
@@ -1805,19 +1875,19 @@ class Sgr extends MX_Controller {
                 $base_legend = "Debe validar que previamente hayan sido informados los siguientes Anexos correspondientes al mismo período que se está queriendo importar:";
                 $add_base_legend = "";
                 $error = false;
-                $info_14 = $this->sgr_model->get_just_active("14", $this->session->userdata['period']);
+                $info_14 = $this->management_model->get_just_active("14", $this->session->userdata['period']);
                 if (!$info_14) {
                     $error = true;
                     $base_legend .= $add_base_legend . "<br>Anexo 14 ";
                 }
 
-                $info_124 = $this->sgr_model->get_just_active("124", $this->session->userdata['period']);
+                $info_124 = $this->management_model->get_just_active("124", $this->session->userdata['period']);
                 if (!$info_124) {
                     $error = true;
                     $base_legend .= $add_base_legend . "<br>Anexo 12.4 ";
                 }
 
-                $info_125 = $this->sgr_model->get_just_active("125", $this->session->userdata['period']);
+                $info_125 = $this->management_model->get_just_active("125", $this->session->userdata['period']);
                 if (!$info_125) {
                     $error = true;
                     $base_legend .= $add_base_legend . "<br>Anexo 12.5 ";
@@ -1848,8 +1918,8 @@ class Sgr extends MX_Controller {
             'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
-        
-     
+
+
 
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
