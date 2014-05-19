@@ -100,7 +100,9 @@
         <div id="collapse3" class="panel-collapse collapse ">
             <div class="panel-body">
                 <li><a href="reports/anexo_code/06" target="_blank">Reporte Anexo 06</a></li>
-                <li><a href="/reports/anexo_code/12" target="_blank">Reporte Anexo 12</a></li>
+                <li><a href="reports/anexo_code/12" target="_blank">Reporte Anexo 12</a></li>
+                <li><a href="reports/anexo_code/14" target="_blank">Reporte Anexo 14</a></li>
+                <li><a href="reports/anexo_code/201" target="_blank">Reporte Anexo 20.1</a></li>
             </div>
         </div>
     </div>
