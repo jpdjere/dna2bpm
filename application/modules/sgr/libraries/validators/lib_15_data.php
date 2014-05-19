@@ -130,8 +130,6 @@ class Lib_15_data extends MX_Controller {
                  * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío. 
                  */
                 if ($parameterArr[$i]['col'] == 5) {
-
-
                     $code_error = "E.3";
                     $A1_arr = array("D", "J", "K");
                     if (in_array($A_cell_value, $A1_arr)) {
@@ -142,10 +140,6 @@ class Lib_15_data extends MX_Controller {
                         }
                     } else {
                         $code_error = "E.1";
-
-
-
-
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -155,7 +149,7 @@ class Lib_15_data extends MX_Controller {
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
                             $get_value = ($return) ? $return : $get_value2;
-
+                            var_dump($return, $parameterArr[$i]['fieldValue']);
 
                             if (!$get_value) {
                                 $code_error = "E.2";
@@ -265,7 +259,7 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        //var_dump($stack);        exit();
+        var_dump($stack);        exit();
         $this->data = $stack;
     }
 
