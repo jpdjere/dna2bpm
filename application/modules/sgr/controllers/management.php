@@ -37,9 +37,8 @@ class Management extends MX_Controller {
         $taken_user = (float) $this->session->userdata['sgr_impersonate'];
 
         $this->idu = ($taken_user) ? $taken_user : $original_user;
-
        
-
+        
         /* bypass session */
         session_start();
 
