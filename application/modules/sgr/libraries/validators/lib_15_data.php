@@ -149,7 +149,6 @@ class Lib_15_data extends MX_Controller {
                             $return = cuit_checker($parameterArr[$i]['fieldValue']);
                             $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
                             $get_value = ($return) ? $return : $get_value2;
-                            var_dump($return, $parameterArr[$i]['fieldValue']);
 
                             if (!$get_value) {
                                 $code_error = "E.2";
@@ -259,7 +258,7 @@ class Lib_15_data extends MX_Controller {
                 }
             } // END FOR LOOP->
         }
-        var_dump($stack);        exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
