@@ -661,6 +661,9 @@ class Lib_06_data extends MX_Controller {
                     /*
                      * CODIGO_POSTAL
                      * El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos.
+                     * Fix #12454
+                      Anexo 6 - Modificación Validador H.1
+                     * "H.1. El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos, o debe contener 4 dígitos, todos numéricos."
                      */
                     if ($parameterArr[$i]['col'] == 8) {
                         $code_error = "H.1";
@@ -673,7 +676,7 @@ class Lib_06_data extends MX_Controller {
                             $return = check_zip_code($parameterArr[$i]['fieldValue']);
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
+                                //array_push($stack, $result);
                             }
                         }
                     }
