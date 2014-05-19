@@ -12,7 +12,7 @@ class Management extends MX_Controller {
     function __construct() {
         parent::__construct();
 //----habilita acceso a todo los metodos de este controlador
-        $this->user->authorize('modules/sgr/controllers/sgr');
+        //$this->user->authorize('modules/sgr/controllers/sgr');
         $this->load->config('config');
         $this->load->library('parser');
         $this->load->library('ui');
@@ -24,11 +24,15 @@ class Management extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
-        /* update db */
-
-//---base variables
+        //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
+
+
+        /* ROL CHECKER */
+        if (!$this->rol_user()) {
+            exit();
+        }
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
@@ -37,8 +41,8 @@ class Management extends MX_Controller {
         $taken_user = (float) $this->session->userdata['sgr_impersonate'];
 
         $this->idu = ($taken_user) ? $taken_user : $original_user;
-       
-        
+
+
         /* bypass session */
         session_start();
 
@@ -124,7 +128,7 @@ class Management extends MX_Controller {
         redirect('/sgr/management/');
     }
 
-    function Set_sgr() {        
+    function Set_sgr() {
         $send_sgr = $this->input->post("send_sgr");
         if (send_sgr) {
             $newdata = array('sgr_impersonate' => (float) $send_sgr);
@@ -181,7 +185,7 @@ class Management extends MX_Controller {
             foreach ($anexo_merge as $key => $each) {
                 $customData[$key] = $each;
             }
-           
+
 
 // FILE BROWSER
             $fileBrowserData = $this->file_browser();
@@ -705,25 +709,6 @@ class Management extends MX_Controller {
           echo $sql . rtrim($valuesSql, ", ") . " ) <br>";
           } */
     }
-
-    function empty_xls_advice($anexo) {
-        switch ($anexo) {
-            case 06:
-                $msg = "El campo no puede estar vacío, y debe contener alguno de los siguientes parámetros : INCORPORACION, INCREMENTO TENENCIA ACCIONARIA o DISMINUCION DE CAPITAL SOCIAL";
-                break;
-            case 061:
-                $msg = "El campo no puede estar vacío y debe tener 11 caracteres sin guiones.";
-                break;
-            case 062:
-                $msg = "Debe tener 11 caracteres numéricos sin guiones.";
-                break;
-        }
-
-        $legend = '<li><i class="fa fa-info-circle"></i> Error archivo no tiene la informacion necesaria</li><li>' . $msg . '</li>';
-        return $legend;
-    }
-
-   
 
     function print_anexo($parameter = null) {
 
@@ -1288,11 +1273,6 @@ class Management extends MX_Controller {
         }
     }
 
-   
-
-    
-
-
 // OFFLINE FALLBACK
     function offline() {
 // testeo reemplazo appcache
@@ -1410,7 +1390,7 @@ class Management extends MX_Controller {
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
-                    
+
                     $list_files .= "<li>" . $download . " " . $print_file . " " . $print_filename . "  [" . $show_period . "]  </li>";
                 } else {
 
@@ -1427,7 +1407,7 @@ class Management extends MX_Controller {
                     $print_xls = ($anexo == '202' || $anexo == '141') ? $print_xls_link : "";
 
                     $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
-                    
+
                     $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
                 }
             }
@@ -1508,31 +1488,6 @@ class Management extends MX_Controller {
             $list_files .= '<li><strong>Anexos Pendientes:  ' . $print_filename . ' (' . $pending_on . ') [' . $file['period'] . '] </strong></li>';
         }
         return $list_files;
-    }
-
-    function get_rectified_legend($anexo) {
-
-        switch ($anexo) {
-            case 06:
-                $legend_msg = "6.1, 6.2, 20.1";
-                break;
-
-            case 12:
-                $legend_msg = "12.1 ,12.2 ,12.3 ,12.4 ,12.5";
-                break;
-            case 13:
-            case 14:
-                $legend_msg = "14.1";
-                break;
-            case 201:
-                $legend_msg = "20.2";
-                break;
-            case 202:
-                $legend_msg = "13, 20.2";
-                break;
-        }
-        if ($legend_msg)
-            return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
     }
 
     /* FILE BROWSER
@@ -1670,14 +1625,27 @@ class Management extends MX_Controller {
         </ol>
     </div>';
 
-        
+
         if ($files_list != "") {
             return $file_list_html;
         } else {
             return $no_list_html;
         }
     }
-    
+
+    function rol_user() {
+        $granted = false;
+        $user = $this->user->get_user($this->session->userdata['iduser']);
+
+        $rol = (array) $user->group;
+        if (in_array(49, $rol))
+            $granted = 1;
+
+        if ($this->user->isAdmin($user))
+            $granted = 2;
+
+        return $granted;
+    }
 
     function render($file, $customData) {
         $this->load->model('user/user');
@@ -1699,12 +1667,12 @@ class Management extends MX_Controller {
         $cpData['isAdmin'] = $this->user->isAdmin($user);
         $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
         $cpData['usermail'] = $user->email;
-        
-        
+
+
         $admin = $this->user->get_user($this->session->userdata['iduser']);
         $cpData['sgr_admin'] = (array) $admin;
         $cpData['admin_username'] = strtoupper($admin->lastname . ", " . $admin->name);
-        
+
 // Profile 
 //$cpData['profile_img'] = get_gravatar($user->email);
 
