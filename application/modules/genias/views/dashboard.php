@@ -124,7 +124,7 @@
 				</div>
 				</div>
 				
-				<!-- ========  RESUMEN ESCENARIO POLITICO ======== -->
+<!-- ========  RESUMEN ESCENARIO POLITICO ======== -->
                 <div class="row">
                      <div class="col-md-12">
                          <h1><i class="fa fa-bookmark"></i> Escenario Político</h1>
@@ -136,7 +136,7 @@
                 <strong>Sus genias tienen {goal_cumplidas_total_4} de {goal_cantidad_total_4} objetivos cumplidos.</strong> 
                 </div> 
 
-                <!-- ================= VISITAS  -->
+ <!-- ================= VISITAS  -->
 
 <div class='row' id="filtro_visitas_instituciones">
 <div class='col-md-12' id="wrapper_visitas_instituciones">
@@ -170,14 +170,11 @@ echo "</div>";
         
 
     
-
-
-
-
-    <!-- ==== METAS ==== -->
+<!-- ======== METAS ================ -->
 
    <h1><i class="fa fa-bookmark"></i> Metas</h1>
 
+    <div class="container-fluid">
     <div class="row">
 
         {metas}        
@@ -191,7 +188,7 @@ echo "</div>";
                		 <span class="label label-info"><i class="fa fa-calendar"></i> {desde_raw}</span>		     
 				      {if {status} == 'open'}<span class="label label-warning"><i class="fa fa-eye" title="Estado" ></i>  Pendiente</span>{/if}
 				      {if {status} == 'closed'}<span class="label label-success"> <i class="fa fa-eye" title="Estado" ></i> Aprobado</span>{/if}
-					 {proyecto_name}				 
+					 <span class="text-warning"><i class="fa fa-bookmark"></i> {proyecto_name}</span>		 
 	                 <a class='pull-right ul_collapse meta_open' href="#"><i class='fa fa-chevron-circle-down'></i></a>
 	                 <span class="metas_cantidad pull-right" style="margin-right:6px">{cumplidas_count} / {cantidad}</span>
                 </div>                                  
@@ -216,9 +213,7 @@ echo "</div>";
 						  <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
 						  <input type="text" name="desde" readonly="" value="{desde_raw}"  class="form-control" >
 						  </div>
-					  </div>
-	                 {else}
-	                 	{desde}  
+					  </div>  
 	                 {/if}
 					</div>
 				</div>
@@ -231,16 +226,9 @@ echo "</div>";
 					  
                 <div class="row"> 
                 <div class="col-md-12"> 
-                    <ul class="list-unstyled list-inline">
+                    <ul class="list-unstyled list-inline text-warning">
 						<!-- === STATUS === -->
                         <li>
-                            <i class="fa fa-eye" title="Estado" ></i> 
-                                {if {status} == 'open'}
-                                 <span class="label label-warning">Pendiente de revisión</span>
-                                {/if}
-                                {if {status} == 'closed'}
-                                 <span class="label label-success">Aprobado</span>
-                                {/if}
                                              
                                 {if {rol}=='coordinador'}
                                    {if {status} == 'open'}
@@ -254,7 +242,7 @@ echo "</div>";
                         <!-- === AUTHOR === -->
                             <i class="fa fa-user" title="Autor"></i> {owner}
                         </li>
-                        <li>
+                        <li >
                         <!-- === GENIA === -->
                             <i class="fa fa-flag" title="Genia" ></i> {genia_nombre}
                         </li>
@@ -275,6 +263,7 @@ echo "</div>";
         </div>
         
         {/metas}
+    </div>
     </div>
     <!-- ============= metas  ============= -->
 </div>

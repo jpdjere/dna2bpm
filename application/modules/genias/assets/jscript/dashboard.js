@@ -143,22 +143,16 @@ $('.nav-tabs li a').click(function(e){
 
     var code=$(this).attr('href').split('-');
     if($(this).attr('href')=="#tab_resumen"){
-        //$('.meta').hide();
-        $('.ultree').show();
-        $('#filtro_visitas').show();
+    	$('[data-genia]').show();
     }else{
-        
-        $('.ultree').hide();
-        $('#filtro_visitas').hide();
       $('[data-genia]').each(function(index){
-       var genia=$(this).attr('data-genia');
-       if(genia!=code[1]){
-           $(this).hide();
-       }else{
-           $(this).show();
-       } 
-        //  alert(genia+"/"+code[1]);
-        });
+	       var genia=$(this).attr('data-genia');
+	       if(genia!=code[1]){
+	           $(this).hide();
+	       }else{
+	           $(this).show();
+	       } 
+       });
     }
 
 

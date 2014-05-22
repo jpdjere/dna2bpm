@@ -71,25 +71,24 @@ dayNamesShort:['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
 dayNames:['Domingo', 'Lunes', 'Marzo', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
 buttonText:{month:'mes',week:'semana',day:'dia',today:'hoy'},
     eventClick: function(calEvent, jsEvent, view) {
-
-        $('#detalle input[name="id"]').val(calEvent.id);
-        $('#detalle input[name="title"]').val(calEvent.title);      
-        $('#detalle input[name="dia"]').val(calEvent.dia);
-        $('#detalle select[name="hora"]').val(calEvent.hora);
-        $('#detalle select[name="minutos"]').val(calEvent.minutos);
-        $('#detalle select[name="proyecto"]').val(calEvent.proyecto);
-        $('#detalle textarea[name="detail"]').val(calEvent.detail);
+        $('form input[name="id"]').val(calEvent.id);
+        $('form input[name="title"]').val(calEvent.title);      
+        $('form input[name="dia"]').val(calEvent.dia);
+        $('form select[name="hora"]').val(calEvent.hora);
+        $('form select[name="minutos"]').val(calEvent.minutos);
+        $('form select[name="proyecto"]').val(calEvent.proyecto);
+        $('form textarea[name="detail"]').val(calEvent.detail);
 
         if(calEvent.finalizada==1){
-          $('#detalle input[name="finalizada"]').attr("checked","checked");  
+          $('form input[name="finalizada"]').attr("checked","checked");  
         }else{
-          $('#detalle input[name="finalizada"]').removeAttr("checked");  
+          $('form input[name="finalizada"]').removeAttr("checked");  
         }    
         if(navigator.onLine){
             $('#bt_delete').removeClass('disabled');
             $('#bt_form').removeClass('disabled');
         }
-        
+        $('#myModal').modal('show')
         
     },
     header: {
@@ -117,7 +116,9 @@ dia: "Debe elegir una fecha",
 proyecto: "Debe elegir un proyecto"
 },
 submitHandler: function(form) {
-    var form =$('#detalle form').serializeArray();
+	
+    var form =$('form').serializeArray();
+
     if(!navigator.onLine)return;
         
     $.ajax(
@@ -130,6 +131,7 @@ submitHandler: function(form) {
       url: globals.module_url+'add_task',
       data:{'data':form},
       success:function(resp){
+    	  console.log(resp);
       }
    });
 
@@ -142,7 +144,7 @@ submitHandler: function(form) {
 
 $('#bt_clear').click(function(){
 
-        $('#detalle input[name="id"]').val('');
+        $('form input[name="id"]').val('');
         $('form')[0].reset();
         $('#bt_form').addClass('disabled');
         $('#bt_delete').addClass('disabled');
@@ -154,9 +156,10 @@ $('#bt_clear').click(function(){
  */
 
 $('#bt_delete').click(function(){
+
     if($(this).hasClass('disabled'))return;
         if(!navigator.onLine)return;
-    var id=$('#detalle input[name="id"]').val();
+    var id=$('form input[name="id"]').val();
     $('form')[0].reset();
         $.ajax(
    {
@@ -181,8 +184,8 @@ $('#bt_delete').click(function(){
  */
  
 $('#bt_form').click(function(){
-    var id=$('#detalle input[name="id"]').val();
-    var proy=$('#detalle select[name="proyecto"]').val();
+    var id=$('form input[name="id"]').val();
+    var proy=$('form select[name="proyecto"]').val();
 
     if($(this).hasClass('disabled'))return;
     $.each(globals.proyectos, function( index, value ) {

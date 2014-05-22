@@ -368,7 +368,9 @@ class Genias extends MX_Controller {
         define('DURACION', 60);
 
         $serialized = $this->input->post('data');
+
         $mydata = compact_serialized($serialized);
+
         list($d, $m, $y) = explode("-", $mydata['dia']);
         $mydata['dia'] = iso_encode($mydata['dia']);
         $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
@@ -459,7 +461,7 @@ class Genias extends MX_Controller {
             $fecha = date('Y-m');
         }
         $tasks = $this->get_tasks($proyecto, $fecha);
-        echo '<ul class="accordion-inner unstyled task_list ">';
+        echo '<ul class="list-unstyled ">';
         foreach ($tasks as $task) {
             if ($task['finalizada'] == 0) {
                 echo "<li ><i class='fa fa-calendar' style='color:#0088CC'></i> {$task['dia']} <i class='fa fa-clock-o' style='color:#0088CC'></i> {$task['hora']}:{$task['minutos']} <i class='fa fa-user' style='color:#0088CC'></i> {$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
