@@ -45,6 +45,9 @@ class Lib_15_error_legend {
              case "I.1":
                 $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe tener formato numérico y aceptar hasta dos decimales. Debe ser mayor que cero.';
                 break;
+            case "I.B.1":
+                $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Si en la columna A ingresaron la opción D o K, debe permitir valores entre -1000 y 99999999999, con formato numérico y aceptar hasta dos decimales.';
+                break;
             case "I.2":
                 $result_error = '<strong>Columna I - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>La suma total de las inversiones debe ser igual al Saldo de la Columna 7 – Saldo del Aporte Disponible, de la Impresión del Anexo 20.2 más el saldo de la Columna D del importador de dicho Anexo.';
                 break;            
