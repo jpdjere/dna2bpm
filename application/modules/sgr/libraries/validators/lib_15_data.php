@@ -246,10 +246,30 @@ class Lib_15_data extends MX_Controller {
 
                         $I_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
-                        $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
-                        if ($return) {
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
+                        $A_cell_value_arr = array('D', 'K');
+                        if (!in_array($A_cell_value, $A_cell_value_arr)) {
+                            $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                        } else {
+                            $code_error = "I.B.1";
+                            $range = range(-1000, 999999999, 1000);
+
+                            //LO PASAMOS A MIL PARA PODER HACER EL STEP DEL RANGE Y QUE NO SE ROMPA EL SISTEMA
+                            $new_I_cell_value = (int) round($I_cell_value / 1000) * 1000;
+
+                            if (!in_array($new_I_cell_value, $range)) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            } else {
+                                $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
+                                if ($return) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                    array_push($stack, $result);
+                                }
+                            }
                         }
 
                         $code_error = "I.2";
