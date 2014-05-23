@@ -263,7 +263,7 @@ class reports extends MX_Controller {
 
     function get_sgrs() {
         $sgrArr = $this->sgr_model->get_sgrs();
-        $rtn;
+        $rtn = "<option value=666>TODAS</option>";
 
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
