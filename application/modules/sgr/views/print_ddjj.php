@@ -146,7 +146,7 @@ table {border:1px solid #ccc;font-family: Futura, Arial, sans-serif; font-size:9
 				<tr>
 					<th rowspan="2">cantidad de pymes asistidas en el periodo</th>
 					<th colspan="2">garantias otorgadas</th>
-					<th rowspan="2">comisiones devengadas por garantias otorgadas</th>
+					<th rowspan="2">Comisiones Devengadas en el periodo por Garantias Otorgadas</th>
 					<th colspan="3">garantias vigentes al ultimo dia del periodo</th>
 					<th colspan="2">garantias refianzadas</th>
 				</tr>
