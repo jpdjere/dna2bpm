@@ -36,8 +36,8 @@ class Sgr extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
 
 // IDU : Chequeo de sesion        
-        
-        
+
+
 
         $this->idu = (float) switch_users($this->session->userdata('iduser'));
 
@@ -736,10 +736,14 @@ class Sgr extends MX_Controller {
 
     function print_anexo($parameter = null) {
 
-        if (!$parameter) {
+        if (!$parameter)
             exit();
-        }
-        $parameter = urldecode($parameter);
+
+        $parameter = urldecode($parameter);        
+        
+        if ($parameter == 'SIN MOVIMIENTOS')
+            redirect('/sgr');
+        
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
@@ -1845,8 +1849,8 @@ class Sgr extends MX_Controller {
             'idu' => $this->idu
         );
         $user = $this->user->get_user($this->idu);
-        
-     
+
+
 
         $cpData['user'] = (array) $user;
         $cpData['isAdmin'] = $this->user->isAdmin($user);
