@@ -42,7 +42,7 @@ class Genias extends MX_Controller {
     function test() {
         $customData['base_url'] = $this->base_url;
         $customData['module_url'] = $this->module_url;
-        $this->parser->parse('manifest', $customData);
+        $this->parser->parse('test', $customData);
     }
 
     function Index() {
@@ -1221,7 +1221,8 @@ class Genias extends MX_Controller {
                     } else {
                         $fecha_visita = date('d/m/Y', $timestamp);
                     }
-                    echo "<li ><a href='#' title='{$fecha['nota']}'  ><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</a></li>";
+                    echo "<li ><i class='fa fa-calendar'></i> $fecha_visita &nbsp;<i class='fa fa-user'></i> {$fecha['idu']} &nbsp;<a href='#' class='mypopover'  data-toggle='popover' data-container='false'  data-placement='right' data-content=' {$fecha['nota']}'><i class='fa fa-comment-o'></i> </a></li>";
+                    
                 }
                 echo "</ul>";
 //
@@ -1260,7 +1261,8 @@ class Genias extends MX_Controller {
                 $i++;
                 $stripe = ($i % 2 == 0) ? ('par') : ('impar');
                 $visitas = count($empresa['fechas']);
-                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+  
+                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
                 echo "<ul style='display:none'>";
                 foreach ($empresa['fechas'] as $k => $fecha) {
@@ -1269,7 +1271,7 @@ class Genias extends MX_Controller {
                     } else {
                         $fecha_visita = date('d/m/Y', $timestamp);
                     }
-                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
+					echo "<li ><i class='fa fa-calendar'></i> $fecha_visita &nbsp;<i class='fa fa-user'></i> {$fecha['idu']} &nbsp;<a href='#' class='mypopover' data-container='body' data-toggle='popover' data-placement='right' data-content=' {$fecha['nota']}'><i class='fa fa-comment-o'></i> </a></li>";
                 }
                 echo "</ul>";
 //
@@ -1279,6 +1281,7 @@ class Genias extends MX_Controller {
             echo "</li>";
         }
         echo "</ul>";
+
     }
     
     
@@ -1288,8 +1291,7 @@ class Genias extends MX_Controller {
       $this->genias_model->estadisticas();
 
     }
-    
-    
+
 
     
     

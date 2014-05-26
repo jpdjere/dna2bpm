@@ -700,15 +700,16 @@ class Genias_model extends CI_Model {
         $cuits = $this->mongo->db->$container->distinct('cuit',array('proyecto'=>4));
         // Todos los idus cargados en visitas
         $idus = $this->mongo->db->$container->distinct('idu',array('proyecto'=>4));
+        
 
         // Listado de empresas
         $container = 'container.agencias';
         $fields = array('4896', '4897','6196');
         $query = array("4896" => array('$in' => $cuits), "4897" => array('$in' => $provincias));
         $mongo_agencias = $this->mongo->db->$container->find($query, $fields);
+
         foreach ($mongo_agencias as $agencia) {
             $agencias[$agencia['4896']] = $agencia;
-
         }
 
         // Usuarios

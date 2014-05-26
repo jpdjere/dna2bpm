@@ -12,7 +12,7 @@ $('.aprobar').click(function(){
 
 
 $('.dp').datepicker();
-$('.tooltip2').tooltip();
+
 
 //== VALIDATE == //
 //
@@ -165,16 +165,37 @@ $( document ).on( "click", ".ul_collapse", function() {
 });
 
 // Cargo visitas politico
- $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas'); 
- 
+ $.post(globals.module_url+'get_resumen_visitas','',function(data){
+	 $('#wrapper_visitas').html(data);
+     $('.mypopover').popover();
+ });
+
+
  // Cargo visitas institucional
- $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones'); 
+ $.post(globals.module_url+'get_resumen_visitas_instituciones','',function(data){
+	 $('#wrapper_visitas_instituciones').html(data);
+     $('.mypopover').popover();
+ });
+ 
  
 // cambio el mes 
 $('#dp_metas').datepicker().on('changeDate',function(ev){
     var mes=ev.date.toISOString();
-    $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas',{'mes':mes}); 
-    $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes}); 
+    $('.mypopover').popover('hide');
+    // Pyme
+    $.post(globals.module_url+'get_resumen_visitas',{'mes':mes},function(data){
+   	 $('#wrapper_visitas').html(data);
+        $('.mypopover').popover();
+    });
+    // Institucional
+    $.post(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes},function(data){
+   	 $('#wrapper_visitas_instituciones').html(data);
+        $('.mypopover').popover();
+    });
+    
+    
+   // $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes}); 
+
 }); 
 
  
@@ -184,6 +205,7 @@ $('#dp_metas').datepicker().on('changeDate',function(ev){
 
 // Fin ready
 });
+
 
 
 function onUpdateReady() {

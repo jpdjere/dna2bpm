@@ -16,7 +16,9 @@
 		</div>				
 	 </div> 
  </div> 
-
+<button type="button" class="btn btn-default mypopover" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on right
+</button>
 <!-- ================= CREAR META   ================= -->
  
 <div class="container" > 
