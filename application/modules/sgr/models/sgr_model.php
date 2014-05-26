@@ -230,9 +230,9 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
-    function get_sgr() {
+    function get_sgr($sent_idu=false) {
         $rtn = array();
-        $idu = (float) $this->idu;
+        $idu = ($sent_idu)? (float)$sent_idu : (float)$this->idu;
         $data = array();
         // Listado de empresas
         $container = 'container.empresas';

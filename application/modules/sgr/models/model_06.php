@@ -374,6 +374,8 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_report($anexo, $parameter) {
+        
+        $sgr_nombre_to_print = ($this->sgr_nombre)? $this->sgr_nombre : 'TODAS';
 
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
@@ -643,6 +645,8 @@ class Model_06 extends CI_Model {
     function ui_table_xls($result, $anexo = null) {
         foreach ($result as $list) {
 
+
+
             /* Vars */
             $cuit_sgr = str_replace("-", "", $this->sgr_cuit);
             $cuit = str_replace("-", "", $list['1695']);
@@ -695,9 +699,18 @@ class Model_06 extends CI_Model {
 
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
+
+            $sgrArr_data = $this->sgr_model->get_sgr($list['idu']);
+            foreach ($sgrArr_data as $sgr) {
+                $sgr_id = (float) $sgr['id'];
+                $sgr_nombre = $sgr['1693'];
+                $sgr_cuit = $sgr['1695'];
+            }
+
+
             $new_list = array();
-            $new_list['col1'] = $this->sgr_nombre;
-            $new_list['col2'] = $cuit_sgr;
+            $new_list['col1'] = $sgr_nombre;
+            $new_list['col2'] = $sgr_cuit;
             $new_list['col3'] = $list['id'];
             $new_list['col4'] = $get_period_filename['period'];
             $new_list['col5'] = $operation_type[$list['5779'][0]];
