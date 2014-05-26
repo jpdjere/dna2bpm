@@ -328,7 +328,7 @@ class Model_141 extends CI_Model {
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PARTICIPE"]);
 
 
-            $col3 = $list['CANTIDAD_GARANTIAS'];
+            $col3 = $list['CANT_GTIAS_VIGENTES'];
             $col4 = $list['MONTO_GARANTIAS'];
 
             $col5 = $list['HIPOTECARIAS'];
@@ -416,7 +416,7 @@ class Model_141 extends CI_Model {
         $new_list = array();
         foreach ($result as $list) {
 
-            $col3_val = $list['CANTIDAD_GARANTIAS'];
+            $col3_val = $list['CANT_GTIAS_VIGENTES'];
             $col4_val = $list['MONTO_GARANTIAS'];
 
             $col5_val = $list['HIPOTECARIAS'];
