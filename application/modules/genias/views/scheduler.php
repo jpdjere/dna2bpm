@@ -1,19 +1,11 @@
 <!-- ================= SUB BARRA   ================= -->
 <div class="container-fluid" style="padding-bottom:15px" > 
     <div class="row-fluid">
-    <div class="col-md-9">
+    <div class="col-md-12">
 		<ul class="nav nav-pills" style="margin-bottom: 8px">
 		 <li > <button type="button" id="bt_clear" class="btn btn-primary btn-sm hide_offline" data-toggle="modal" data-target="#myModal" ><i class="fa fa-plus-circle"></i> Nueva tarea</button></li>	
 		</ul>
-	</div>
-		<div class="col-md-3">
-			<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right dp" id="dp_metas" >
-				<div class="input-group">
-				  <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
-				  <input type="text" placeholder="Período" name="desde" readonly="" value=""  class="form-control" >
-				</div>
-			</div> 
-		</div>				
+	</div>			
 	 </div> 
  </div>
  
