@@ -255,12 +255,8 @@ class Lib_15_data extends MX_Controller {
                             }
                         } else {
                             $code_error = "I.B.1";
-                            $range = range(-1000, 999999999, 1000);
 
-                            //LO PASAMOS A MIL PARA PODER HACER EL STEP DEL RANGE Y QUE NO SE ROMPA EL SISTEMA
-                            $new_I_cell_value = (int) round($I_cell_value / 1000) * 1000;
-
-                            if (!in_array($new_I_cell_value, $range)) {
+                            if ($I_cell_value < -1000) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
