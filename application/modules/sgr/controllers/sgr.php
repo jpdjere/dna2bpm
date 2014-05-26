@@ -782,6 +782,10 @@ class Sgr extends MX_Controller {
             exit();
         }
         $parameter = urldecode($parameter);
+        
+        if ($parameter == 'SIN MOVIMIENTOS')
+            redirect('/sgr');
+        
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
