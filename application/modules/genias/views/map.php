@@ -1,50 +1,31 @@
-<!-- Submenu / Breadcrumbs -->
-<div class="row-fluid " id="barra_user" >
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-         <li ></li> 
-          <li class="pull-right perfil">
-              <span id="status"></span>
-              <a title="{usermail}">{username}</a> <i class="fa fa-angle-right"></i> <i class="{rol_icono}"></i> {rol}
-          </li>
-    </ul>
+<!-- ================= SUB BARRA   ================= -->
+<div class="container-fluid" style="padding-bottom:15px" > 
+    <div class="row-fluid">
+    <div class="col-md-2">
+		<ul class="nav nav-pills" style="margin-bottom: 8px">
+		 <li ><button type="button" id="mapClear" class="btn btn-primary btn-sm " ><i class="fa fa-plus-circle"></i> Limpiar mapa</button></li>	
+		</ul>
+	</div>	
+	<div class="col-md-10 form-inline">
+			  <div class="form-group">
+			    
+			    <input type="checkbox" class="form-control" value="genia2" checked="checked">
+			    <label style="font-weight:normal">Empresas Genias</label>
+			  </div>
+			    <div class="form-group">
+			   
+			    <input type="checkbox" class="form-control" value="genia4" checked="checked">
+			     <label style="font-weight:normal">Instituciones</label>
+			  </div>
 
-</div>
+	</div>		
+	 </div> 
+ </div>
 <!-- / Contenido -->
 <div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span2">
-            <!--Sidebar content-->
-            <h4>
-                Menu Mapa
-            </h4>
+    <div class="row">
 
-            <ul class="nav nav-list general-sidenav">
-                <!-- Mapa de Genias -->
-                <li>
-                    <label class="checkbox">
-                        <input type="checkbox" value="genia2" checked="checked">
-                        Empresas Genias
-                    </label>
-                </li>
-                <!-- Mapa Instituciones-->
-                <li>
-                    <label class="checkbox">
-                        <input type="checkbox" value="genia4" checked="checked">
-                        Instituciones
-                    </label>
-
-                </li>
-                <!-- Mapa de Empresas Dna� -->
-                <li>
-
-                    <a href="#" id="mapClear">
-                        Limpiar Mapa
-                    </a>
-                </li>
-            </ul>
-
-        </div>
-        <div class="span10">
+        <div class="col-md-12">
             <!--Body content-->
             <div id="container" class="img-polaroid">    
                 <div id="map_canvas" class="map"></div>
@@ -52,7 +33,5 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; Genias 2013</p>
-    </footer>
+
 </div>

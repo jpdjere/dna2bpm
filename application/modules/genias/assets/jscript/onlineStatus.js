@@ -13,13 +13,13 @@ function updateOnlineStatus(msg) {
         Ext.getCmp('btnSync').hide();
     }
 
-
     if (status)
         status.innerHTML = '<i class="icon ' + icon + '"></i> ' + condition;
 
 }
 
 function loaded() {
+
     updateOnlineStatus("load");
     document.body.addEventListener("offline", function() {
         updateOnlineStatus("offline")

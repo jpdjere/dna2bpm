@@ -660,7 +660,7 @@ class Genias_model extends CI_Model {
             } else {
                 $username = "-";
             }
-            $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
+            $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username,'nota'=>$visita['nota']);
 
             $listado[$prov][$empresa['1695']]['empresa'] = $razon_social;
             $listado[$prov][$empresa['1695']]['4651'] = $prov;

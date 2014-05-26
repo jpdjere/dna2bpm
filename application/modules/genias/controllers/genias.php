@@ -129,21 +129,43 @@ class Genias extends MX_Controller {
 
             $mygoals[] = $goal;
         }
+        
+        // ==== Clases para Alerts
+        foreach($customData['goal_cantidad_2'] as $genia=>$cant)
+        	$customData['goal_cantidad_2_alert'][$genia]=$this->dashboard_get_class($customData['goal_cumplidas_2'][$genia],$cant);   
 
-        $ratio = $customData['goal_cantidad_total'] - $customData['goal_cumplidas_total'];
-        if ($ratio >= ($customData['goal_cantidad_total'] * .7))
-            $customData['resumen_class'] = 'alert-success';
-        if ($ratio >= ($customData['goal_cantidad_total'] * .3) and $ratio <= ($customData['goal_cantidad_total'] * .7))
-            $customData['resumen_class'] = 'alert-block';
-        if ($ratio <= ($customData['goal_cantidad_total'] * .3))
-            $customData['resumen_class'] = 'alert-error';
+        // Alerts cumplidas Institucional
+         foreach($customData['goal_cantidad_4'] as $genia=>$cant)
+         	$customData['goal_cantidad_4_alert'][$genia]=$this->dashboard_get_class($customData['goal_cumplidas_4'][$genia],$cant);
+            
+        // Alert Boxes PYME
+       $customData['goal_cantidad_total_2_alert']=$this->dashboard_get_class($customData['goal_cumplidas_total_2'],$customData['goal_cantidad_total_2']);
+       $customData['goal_cantidad_total_4_alert']=$this->dashboard_get_class($customData['goal_cumplidas_total_4'],$customData['goal_cantidad_total_2']);
 
-        // Cargo Resumen de las visitas solo para coordinadores
+
+
+        // ==== Cargo Resumen de las visitas solo para coordinadores
 
         $customData['metas'] = $mygoals;
-//var_dump($customData['goal_cantidad']);
+		//var_dump($customData['goal_cantidad']);
         $this->render('dashboard', $customData);
     }
+    
+    // ================ funcion que determina la clase de los alerts para el index
+    
+    private function dashboard_get_class($cumplidas,$cantidad){
+    	$ratio =($cantidad!=0)?($cumplidas*100/ $cantidad):(0);
+
+    	if ($ratio >= 90){
+    		return 'alert-success';
+    	}elseif ($ratio >= 50 && $ratio<90){
+    		return 'alert-warning';
+    	}else{
+    		return 'alert-danger';
+    	}
+
+    }
+    
 
     // Carga el Manifiesto y va a dashboard
     function splash() {
@@ -346,7 +368,9 @@ class Genias extends MX_Controller {
         define('DURACION', 60);
 
         $serialized = $this->input->post('data');
+
         $mydata = compact_serialized($serialized);
+
         list($d, $m, $y) = explode("-", $mydata['dia']);
         $mydata['dia'] = iso_encode($mydata['dia']);
         $mydata['start'] = mktime($mydata['hora'], $mydata['minutos'], '00', $m, $d, $y);
@@ -437,7 +461,7 @@ class Genias extends MX_Controller {
             $fecha = date('Y-m');
         }
         $tasks = $this->get_tasks($proyecto, $fecha);
-        echo '<ul class="accordion-inner unstyled task_list ">';
+        echo '<ul class="list-unstyled ">';
         foreach ($tasks as $task) {
             if ($task['finalizada'] == 0) {
                 echo "<li ><i class='fa fa-calendar' style='color:#0088CC'></i> {$task['dia']} <i class='fa fa-clock-o' style='color:#0088CC'></i> {$task['hora']}:{$task['minutos']} <i class='fa fa-user' style='color:#0088CC'></i> {$task['autor']} <a href='{module_url}form/{$task["id"]}'>{$task['title']}</a>{$task['detail']}</li>";
@@ -1188,18 +1212,7 @@ class Genias extends MX_Controller {
                 $i++;
                 $stripe = ($i % 2 == 0) ? ('par') : ('impar');
                 $visitas = count($empresa['fechas']);
-                $empresadata_raw=$this->genias_model->get_empresas(array(1695=>$k));
-                //var_dump($empresadata_raw);
-
-         $empresadata=<<<BLOCK
-
-Nombre: {$empresadata_raw[0][1693]}<br>
-Provincia: {$empresadata_raw[0][4651][0]}<br>
-Partido: {$empresadata_raw[0][1699][0]}<br>
-Productos: {$empresadata_raw[0][1715]}<br>
-BLOCK;
-         
-                echo "<li class='$stripe'><a  class='to_modal' data-content='$empresadata'><i class='fa fa-question'></i></a> {$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='icon-chevron-down icon-large'></i></a>"; //CUIT + NOMBRE
+                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
                 echo "<ul style='display:none'>";
                 foreach ($empresa['fechas'] as $k => $fecha) {
@@ -1208,7 +1221,7 @@ BLOCK;
                     } else {
                         $fecha_visita = date('d/m/Y', $timestamp);
                     }
-                    echo "<li><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</li>";
+                    echo "<li ><a href='#' title='{$fecha['nota']}'  ><i class='icon-calendar'></i> $fecha_visita <i class='icon-user'></i> {$fecha['idu']}</a></li>";
                 }
                 echo "</ul>";
 //
@@ -1218,6 +1231,7 @@ BLOCK;
             echo "</li>";
         }
         echo "</ul>";
+        
     }
     
        /* ==== RESUMEN DE VISITAS ==== */
@@ -1274,6 +1288,11 @@ BLOCK;
       $this->genias_model->estadisticas();
 
     }
+    
+    
+
+    
+    
 
 }
 

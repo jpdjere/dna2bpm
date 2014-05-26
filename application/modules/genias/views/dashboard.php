@@ -1,66 +1,89 @@
-<div class="row-fluid test" id="barra_user" >
-    <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-    <button type="button" class="btn hide_offline" data-toggle="collapse" data-target="#meta_div">
-        <i class="icon-plus"></i> Nueva meta
-    </button>
-          <li class="pull-right perfil">
-              <span id="status"></span>
-              <a title="{usermail}">{username}</a> <i class="fa fa-angle-right"></i> <i class="{rol_icono}"></i> {rol}
-          </li>
-    </ul>
-</div>
-<!-- ==== Contenido ==== -->
-<div class="container" > 
-    
+<!-- ================= SUB BARRA   ================= -->
+<div class="container-fluid" style="padding-bottom:15px" > 
     <div class="row-fluid">
-        <!-- xxxxxxxxxxxxxxxx CREAR META  xxxxxxxxxxxxxxxx -->
+    <div class="col-md-9">
+		<ul class="nav nav-pills" style="margin-bottom: 8px">
+		  <li class="active"> <button type="button" class="btn btn-primary btn-sm hide_offline" data-toggle="collapse" data-target="#meta_div"><i class="fa fa-plus"></i> Nueva meta</button></li>
+		</ul>
+	</div>
+		<div class="col-md-3">
+			<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right dp" id="dp_metas" >
+				<div class="input-group">
+				  <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+				  <input type="text" placeholder="Período" name="desde" readonly="" value=""  class="form-control" >
+				</div>
+			</div> 
+		</div>				
+	 </div> 
+ </div> 
+
+<!-- ================= CREAR META   ================= -->
+ 
+<div class="container" > 
+    <div class="row">    
         <div id="meta_div" class="collapse out no-transition">
-            <form id="form_goals" method="post" class="well">
-                <div  class="row-fluid">
-                    <div class="span6">
-                        <label>Proyecto</label>
-                        <select name="proyecto" class="input-block-level">
+            <form id="form_goals" method="post" class="well form-horizontal">
+                <div  class="row">
+                 <!--  ========== LEFT -->
+                    <div class="col-md-6" >
+                    <!--  Proyecto -->
+                      <div class="form-group">
+					    <label class="col-md-3">Proyecto</label>
+					    <div class="col-md-9">
+                        <select name="proyecto" class="form-control " >
                             {projects}
                             <option value="{id}">{name}</option>
                             {/projects}
                         </select>
-                        <label>Genia</label>
-                        <select name="genia" class="input-block-level">
+                        </div>
+					  </div>
+                      <!--  Proyecto -->
+                      <div class="form-group">
+					    <label class="col-md-3">Genia</label>
+					    <div class="col-md-9">
+                        <select name="genia" class="form-control">
                             {genias}
                             <option value="{_id}">{nombre}</option>
                             {/genias}
                         </select>
-                        <div class="">
-                            <label>Cantidad</label>
-                            <input type="number" name="cantidad" placeholder="Cantidad"   class="input-block-level"/>
-                        </div>
+                         </div>
+					  </div>
+  
+                      <!--  Cantidad -->
+                      <div class="form-group">
+					    <label class="col-md-3">Cantidad</label>
+					    <div class="col-md-9">
+ 						<input type="number" name="cantidad" placeholder="Cantidad"   class="form-control">	
+ 						</div>
+					  </div>
+
                     </div>
-                    <div class="span6">
-                        <div class="">
-                            <label>Período</label>
-
-                            <!--<div class="input-append">
-                            <input type="text" name="desde" placeholder="Período"   class="input-block-level "/>
-                            </div>
-                            -->
-                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date="" id="dp3" class="input-append date dp">
-                                <input type="text" name="desde" readonly="" value=""  class="input-block-level">
-                                <span class="add-on"><i class="icon-calendar"></i></span>
-                            </div>
-                        </div>
-
-                        <label>Observaciones</label>
-                        <textarea name="observaciones" placeholder="Observaciones"  class="input-block-level" ></textarea>
+                    <!--  ========== RIGHT -->
+                    <div class="col-md-6" >
+                   		 <!--  Periodo -->
+                   		 <div class="form-group">
+							<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right dp" >
+							<div class="input-group">
+							  <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+							  <input type="text" placeholder="Período" name="desde" readonly="" value=""  class="form-control" >
+							</div>
+							</div> 
+						</div> 
+							
+                      <!--  Observaciones -->
+                      <div class="form-group">
+ 						 <textarea name="observaciones" placeholder="Observaciones"  class="form-control" ></textarea>
+					  </div>
+					  
+                      <!--  ButON -->
+                      <div class="form-group">
+ 						 <button class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
+      
+					  </div>
 
                     </div>
                 </div>
-                <div  class="row-fluid">
-                    <div class="span12">
 
-                        <button class="btn btn-block btn-primary hide_offline" type="submit" id="bt_save"><i class="icon-save"></i>  Agregar</button>  
-                    </div> 
-
-                </div> 
 
             </form>  
 
@@ -70,8 +93,7 @@
     </div> 
  
 
-<!-- ==== RESUMEN COORDINADOR ==== -->
-
+<!-- =================  TABS ================= -->
 
         <ul class="nav nav-tabs" id="dashboard_tab1">
         <li class="active"><a href="#tab_resumen" data-toggle="tab">Resumen</a></li>
@@ -81,71 +103,62 @@
         </ul>
         
         <div class="tab-content">
+        	<!-- ========  RESUMEN ESCENARIO PYME ======== -->
             <div class="tab-pane active" id="tab_resumen">
-<!-- =================  ESCENARIO PYME ================= -->
-                <div class="row-fluid">
-                     <div class="span12">
+                <div class="row">
+                     <div class="col-md-12">
                          <h1><i class="fa fa-bookmark"></i> Escenario PYME</h1>
                      </div>
                 </div>
-                
-                <div class="alert {resumen_class}" id="{_id}">
+                <!--  Alerts Escenario Pyme -->
+                <div class="alert {goal_cantidad_total_2_alert}" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Sus genias tienen {goal_cumplidas_total_2} de {goal_cantidad_total_2} objetivos cumplidos.</strong> 
                 </div> 
                 
-                <!-- ================= VISITAS  -->
-<div class='row' id="filtro_visitas">
-<div class='span3' >
-<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right " id="dp4">
-    <span class="add-on"><i class="fa fa-calendar"></i></span>
-    <input type="text" name="visitas_desde" readonly="" value=""  class="" >
-</div> 
-</div>
-<div class='span9' id="wrapper_visitas">
-<!-- dummy visitas -->
-</div>
-</div>
-<!-- =================  ESCENARIO POLITICO ================= -->
-                        <div class="row-fluid">
-                     <div class="span12">
+                <!--  Visitas Escenario Pyme -->
+                
+				<div class='row' id="filtro_visitas">
+				<div class='col-md-12' id="wrapper_visitas">
+				<!-- dummy visitas -->
+				</div>
+				</div>
+				
+<!-- ========  RESUMEN ESCENARIO POLITICO ======== -->
+                <div class="row">
+                     <div class="col-md-12">
                          <h1><i class="fa fa-bookmark"></i> Escenario Político</h1>
                      </div>
                 </div>
-                
-                <div class="alert {resumen_class}" id="{_id}">
+                <!--  Alerts Escenario pOLITICO -->
+                <div class="alert {goal_cantidad_total_4_alert}" id="{_id}">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Sus genias tienen {goal_cumplidas_total_4} de {goal_cantidad_total_4} objetivos cumplidos.</strong> 
                 </div> 
 
-                <!-- ================= VISITAS  -->
+ <!-- ================= VISITAS  -->
 
 <div class='row' id="filtro_visitas_instituciones">
-<div class='span3' >
-<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-prepend date pull-right " id="datepicker_instituciones">
-    <span class="add-on"><i class="fa fa-calendar"></i></span>
-    <input type="text" name="visitas_desde" readonly="" value=""  class="" >
-</div> 
-</div>
-<div class='span9' id="wrapper_visitas_instituciones">
+<div class='col-md-12' id="wrapper_visitas_instituciones">
 <!-- dummy visitas -->
 </div>
 </div>                        
-            </div>
+</div>
 <?php
 // ==== TABS DE LAS GENIAS
 foreach($genias as $genia){ 
 echo "<div class='tab-pane' id='tab-{$genia['_id']}'>";
 // Escenario Politico
+
 echo <<<BLOC
-        <div class="alert">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <div class="alert {$goal_cantidad_2_alert[(string)$genia['_id']]}">
+        <button type="button" class="close" data-dismiss="alert ">&times;</button>
         <strong>Escenario Político: {$goal_cumplidas_2[(string)$genia['_id']]} de {$goal_cantidad_2[(string)$genia['_id']]} objetivos cumplidos.</strong> 
         </div>
 BLOC;
 // Escenario Institucional
 echo <<<BLOC
-        <div class="alert">
+        <div class="alert {$goal_cantidad_4_alert[(string)$genia['_id']]}">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Escenario Institucional: {$goal_cumplidas_4[(string)$genia['_id']]} de {$goal_cantidad_4[(string)$genia['_id']]} objetivos cumplidos.</strong> 
         </div>
@@ -157,97 +170,100 @@ echo "</div>";
         
 
     
+<!-- ======== METAS ================ -->
 
+   <h1><i class="fa fa-bookmark"></i> Metas</h1>
 
-
-
-    <!-- ==== METAS ==== -->
-
-        <h1><i class="fa fa-bookmark"></i> Metas</h1>
-
+    <div class="container-fluid">
     <div class="row">
 
-        {metas}
-        <!-- test  -->
-        <!-- <div class="span6 {status_class}">  -->
-        <div class="span6 meta" data-genia="{genia}" style="display:block"> 
+        {metas}        
+
+        <div class="col-md-6 meta" data-genia="{genia}" > 
             <input type="hidden" name="metaid" value="{_id}"/>
             <div class="well">
-                <!-- Nombre Proyecto -->
-                <div class="row-fluid"> 
-                    {if {rol}=='coordinador'}
-                    <div class="span6">  
-                    <select name="metas_proyecto">  
-                        {select_project}
-                    </select>
-                     </div>
-                    <div class="span6"> 
-                        <h1><span class="pull-right">{cumplidas_count}/ {cantidad}</span></h1>
-                    </div>
-                    {else}
-                    <div class="span12"> 
-                    <h1>{proyecto_name}<span class="pull-right">{cumplidas_count}/{cantidad}</span></h1>
-                    </div> 
-                    {/if}
-                </div>
 
-                <div> 
-                    <ul class="unstyled">
-                        <li>
-                            <i class="fa fa-calendar" ></i> Período:
-                            {if {rol}=='coordinador'}                                     
-                            <div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class="input-append date dp" >
-                                <input type="text" name="desde" readonly="" value="{desde_raw}"  class="span1">
-                                <span class="add-on"><i class="fa fa-calendar"></i></span>
-                            </div>
-                            {else}
-                                {desde}  
-                            {/if}
-                        </li>
-                        <li>
-                            <i class="icon-eye-open" ></i> Estado: 
-                                {if {status} == 'open'}
-                                 <span class="label label-important">Pendiente de revisión</span>
-                                {/if}
-                                {if {status} == 'closed'}
-                                 <span class="label label-success">Aprobado</span>
-                                {/if}
+                 <!-- === COPETE === -->
+                <div class="form-inline meta_copete"> 
+               		 <span class="label label-info"><i class="fa fa-calendar"></i> {desde_raw}</span>		     
+				      {if {status} == 'open'}<span class="label label-warning"><i class="fa fa-eye" title="Estado" ></i>  Pendiente</span>{/if}
+				      {if {status} == 'closed'}<span class="label label-success"> <i class="fa fa-eye" title="Estado" ></i> Aprobado</span>{/if}
+					 <span class="text-warning"><i class="fa fa-bookmark"></i> {proyecto_name}</span>		 
+	                 <a class='pull-right ul_collapse meta_open' href="#"><i class='fa fa-chevron-circle-down'></i></a>
+	                 <span class="metas_cantidad pull-right" style="margin-right:6px">{cumplidas_count} / {cantidad}</span>
+                </div>                                  
                                 
-                         
+            
+                 <!-- === PROYECTO === --> 
+                 <div class="meta_body" style="display:none">
+                 <div class="form-group" >
+                 {if {rol}=='coordinador'}
+					<select name="metas_proyecto" class="form-control">  
+					{select_project}
+					</select>
+		         {/if}
+                 </div>
+                 
+                <!-- === PERIODO === -->
+				<div class="row "> 
+					<div class="col-md-12 form-group" >  		
+					{if {rol}=='coordinador'} 			
+						<div data-date-viewMode="months" data-date-minViewMode="months" data-date-format="mm-yyyy" data-date=""  class=" input-append date dp" >
+						 <div class="input-group">
+						  <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+						  <input type="text" name="desde" readonly="" value="{desde_raw}"  class="form-control" >
+						  </div>
+					  </div>  
+	                 {/if}
+					</div>
+				</div>
+				<!-- === TEXTAREA === -->
+				<div class="row"> 
+				<div class="col-md-12 form-group"> 	
+					<textarea rows="3" class="form-control" name="observaciones">{observaciones} </textarea>
+				 </div>	  
+			 	 </div>	
+					  
+                <div class="row"> 
+                <div class="col-md-12"> 
+                    <ul class="list-unstyled list-inline text-warning">
+						<!-- === STATUS === -->
+                        <li>
+                                             
                                 {if {rol}=='coordinador'}
                                    {if {status} == 'open'}
-                                        <button class="aprobar btn btn-mini btn-success hide_offline" url="{url_case}" type="button">
+                                        <button class="aprobar btn btn-xs btn-success hide_offline" url="{url_case}" type="button">
                                                <i class="fa fa-thumbs-o-up"></i> Aprobar
                                        </button>
                                     {/if}
                                 {/if}
                         </li>
                         <li>
-                            <i class="icon-user" ></i> Autor: {owner}
+                        <!-- === AUTHOR === -->
+                            <i class="fa fa-user" title="Autor"></i> {owner}
                         </li>
-                        <li>
-                            <i class="icon-flag" ></i> Genia: {genia_nombre}
+                        <li >
+                        <!-- === GENIA === -->
+                            <i class="fa fa-flag" title="Genia" ></i> {genia_nombre}
                         </li>
                     </ul>
                 </div>
-
-                <div>
-                    <textarea rows="3" class="input-block-level" name="observaciones">{observaciones} </textarea>
-                </div>
+				</div>
                 {if {rol}=='coordinador'}
-                    <button class="guardar btn btn-mini btn-success hide_offline" url="#" type="button">
+                    <button class="guardar btn btn-xs btn-success hide_offline" url="#" type="button">
                             <i class="fa fa-thumbs-up"></i> Guardar
                     </button>
-                   <a class="bt_delete btn btn-mini btn-danger hide_offline"  type="button">
+                   <a class="bt_delete btn btn-xs btn-danger hide_offline"  type="button">
                             <i class="fa fa-trash-o"></i> Eliminar
                     </a>
                 {/if}
-                
-  
+             </div>
+            <!-- meta_body  -->
             </div>
         </div>
         
         {/metas}
+    </div>
     </div>
     <!-- ============= metas  ============= -->
 </div>

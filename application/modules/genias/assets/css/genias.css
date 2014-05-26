@@ -21,8 +21,11 @@ h1{font-size:18px;color:#989898;}
 h2{font-size:16px;color:#616161}
 h3{font-size:14px;color:#616161}
 h4{font-size:12px;color:#616161}
-h1 i{color:#B94A48}
+h1 i{color:#428BCA}
 
+.dropdown-menu{
+	z-index:1055 !important;
+}
 
 .observaciones{
   padding:0px 4px 4px 4px;
@@ -180,6 +183,14 @@ UL.ultree .cantidad{
     margin-left:4px;
 }
 
-/*UL.ultree LI Ul LI{
-    display: none;
-}*/
+/* ======== DASH METAS ======== */
+
+#dashboard_tab1{
+	margin-bottom:10px;
+}
+
+
+
+
+
+
