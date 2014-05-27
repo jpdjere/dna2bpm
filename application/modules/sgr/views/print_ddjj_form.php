@@ -29,9 +29,9 @@
                             <div  class="row-fluid " >
                                 <div class="span6">                        
 
-                                    <label>COMISIONES DEVENGADAS EN EL PERÍODO </label>
+                                    <label>COMISIONES DEVENGADAS EN EL PERÍODO</label>
                                     <input type="text" name="comisions" placeholder="Ingrese la cantidad" class="input-block-level">  
-                                    <h5>POR OTORGAMIENTO DE GARANTÍAS</h5>
+                                    <h5>POR GARANTIAS OTORGADAS</h5>
                                 </div>
 
                                 <div class="span6">
