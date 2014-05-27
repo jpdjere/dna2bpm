@@ -747,7 +747,8 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-
+        $this->load->library('pdf/pdf');
+        
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
@@ -773,7 +774,15 @@ class Sgr extends MX_Controller {
         if ($anexo == '06') {
             $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
         }
-        echo $this->parser->parse('print', $customData, true);
+        
+        $this->pdf->set_paper('a4', 'landscape');
+        $this->pdf->parse('print', $customData);
+        $this->pdf->render();
+        $this->pdf->stream("$parameter.pdf");
+
+    //     echo $this->parser->parse('print', $customData, true);
+
+        
     }
 
     function print_xls($parameter = null) {
@@ -790,6 +799,7 @@ class Sgr extends MX_Controller {
         $model = "model_" . $anexo;
         $this->load->model($model);
 
+        
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
@@ -813,7 +823,10 @@ class Sgr extends MX_Controller {
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter, true);
         $customData['show_table'] = $get_anexo;
+
         echo $this->parser->parse('print_to_xls', $customData, true);
+
+        
     }
 
     function print_ddjj($parameter = null) {
