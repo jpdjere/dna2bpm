@@ -466,9 +466,12 @@ class Sgr_model extends CI_Model {
 
     /* CÓDIGOS EMPRESAS EXTRANJERAS */
 
-    function get_cuit_ext_company($cuit) {
-        $container = 'container.sgr_code_empresa_ext';
-        $query = array("cuit" => $cuit);
+    function get_cuit_ext_company($cuit) {  
+        
+        $cuit = (int)$cuit;
+        
+        $container = 'container.sgr_code_empresa_ext';        
+        $query = array("cuit" =>trim($cuit));
         $result = $this->mongo->sgr->$container->findOne($query);
         return $result;
     }

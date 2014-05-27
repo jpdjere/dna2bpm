@@ -145,8 +145,7 @@ class Lib_15_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         } else {
-
-                            $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                            $return = cuit_checker($parameterArr[$i]['fieldValue']);                            
                             $get_value2 = $this->sgr_model->get_cuit_ext_company($parameterArr[$i]['fieldValue']);
                             $get_value = ($return) ? $return : $get_value2;
 
