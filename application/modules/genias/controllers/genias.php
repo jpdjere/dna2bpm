@@ -1209,10 +1209,12 @@ class Genias extends MX_Controller {
             echo "<ul style='display:none'>";
             $i = 0;
             foreach ($provincias as $k => $empresa) {
+        $data_empresa=htmlspecialchars("Razón social:{$empresa['empresa']}<br>Provincia:{$empresa['4651']}<br>Web:{$empresa['empresa_web']}");
+       		     	
                 $i++;
                 $stripe = ($i % 2 == 0) ? ('par') : ('impar');
                 $visitas = count($empresa['fechas']);
-                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
+                echo "<li class='$stripe'><a class='ul_collapse bt_info_empresa' data-info='$data_empresa'><i class='fa fa-question-circle'></i> </a>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
                 echo "<ul style='display:none'>";
                 foreach ($empresa['fechas'] as $k => $fecha) {
@@ -1221,7 +1223,7 @@ class Genias extends MX_Controller {
                     } else {
                         $fecha_visita = date('d/m/Y', $timestamp);
                     }
-                    echo "<li ><i class='fa fa-calendar'></i> $fecha_visita &nbsp;<i class='fa fa-user'></i> {$fecha['idu']} &nbsp;<a href='#' class='mypopover'  data-toggle='popover' data-container='false'  data-placement='right' data-content=' {$fecha['nota']}'><i class='fa fa-comment-o'></i> </a></li>";
+                    echo "<li ><i class='fa fa-calendar'></i> $fecha_visita &nbsp;<i class='fa fa-user'></i> {$fecha['idu']} &nbsp;<a href='#' class='bt_info' data-info='{$fecha['nota']}'><i class='fa fa-comment-o'></i> </a></li>";
                     
                 }
                 echo "</ul>";
@@ -1261,8 +1263,8 @@ class Genias extends MX_Controller {
                 $i++;
                 $stripe = ($i % 2 == 0) ? ('par') : ('impar');
                 $visitas = count($empresa['fechas']);
-  
-                echo "<li class='$stripe'>{$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
+  				$data_empresa=htmlspecialchars("Razón social:{$empresa['empresa']}<br>Provincia:{$empresa['4896']}<br>Web:{$empresa['empresa_web']}");
+                echo "<li class='$stripe'><a class='ul_collapse bt_info_empresa' data-info='$data_empresa'><i class='fa fa-question-circle'></i> </a> {$empresa['empresa']} | {$empresa['1703']} <span class='cuit'>($k)</span><span class='cantidad'>($visitas)</span><a class='pull-right ul_collapse'><i class='fa fa-chevron-down'></i></a>"; //CUIT + NOMBRE
 //             /*==== Visitas====*/
                 echo "<ul style='display:none'>";
                 foreach ($empresa['fechas'] as $k => $fecha) {
@@ -1271,7 +1273,7 @@ class Genias extends MX_Controller {
                     } else {
                         $fecha_visita = date('d/m/Y', $timestamp);
                     }
-					echo "<li ><i class='fa fa-calendar'></i> $fecha_visita &nbsp;<i class='fa fa-user'></i> {$fecha['idu']} &nbsp;<a href='#' class='mypopover' data-container='body' data-toggle='popover' data-placement='right' data-content=' {$fecha['nota']}'><i class='fa fa-comment-o'></i> </a></li>";
+					echo "<li ><i class='fa fa-calendar'></i> $fecha_visita &nbsp;<i class='fa fa-user'></i> {$fecha['idu']} &nbsp;<a href='#' class='bt_info' data-info='{$fecha['nota']}'><i class='fa fa-comment-o'></i> </a></li>";
                 }
                 echo "</ul>";
 //

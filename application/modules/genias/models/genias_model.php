@@ -661,7 +661,10 @@ class Genias_model extends CI_Model {
                 $username = "-";
             }
             $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username,'nota'=>$visita['nota']);
-
+            $listado[$prov][$empresa['1695']]['empresa_partido'] = (empty($agencia[1699])) ? ('-') : ($agencia[1699]);
+            $listado[$prov][$empresa['1695']]['empresa_tipo'] = (empty($agencia[1694])) ? ('-') : ($agencia[1694]);
+            $listado[$prov][$empresa['1695']]['empresa_web'] = (empty($agencia[1704])) ? ('-') : ($agencia[1704]);
+            
             $listado[$prov][$empresa['1695']]['empresa'] = $razon_social;
             $listado[$prov][$empresa['1695']]['4651'] = $prov;
             $listado[$prov][$empresa['1695']]['fechas'][] = $myVisita;
@@ -745,18 +748,21 @@ class Genias_model extends CI_Model {
 
             // xxx Si no hay cuit salgo del loop
 
-            $email = (empty($agencia[6196])) ? ('-') : ($agencia[6196]);
-            $razon_social = (empty($agencia[4896])) ? ('-') : ($agencia[4896]);
-
 
             if ($visita['idu'] != 0 && array_key_exists((int) $visita['idu'], $usuarios)) {
                 $username = "{$usuarios[$visita['idu']]['name']} {$usuarios[$visita['idu']]['lastname']}";
             } else {
                 $username = "-";
             }
-            $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username);
+            $myVisita = array('fecha' => $visita['fecha'], 'idu' => $username,'nota'=>$visita['nota']);
 
-            $listado[$prov][$agencia['4896']]['empresa'] = $razon_social;
+            $listado[$prov][$agencia['4896']]['empresa'] = (empty($agencia[4896])) ? ('-') : ($agencia[4896]);
+            
+            $listado[$prov][$agencia['4896']]['empresa_partido'] = (empty($agencia[8102])) ? ('-') : ($agencia[8102]);
+            $listado[$prov][$agencia['4896']]['empresa_localidad'] = (empty($agencia[8103])) ? ('-') : ($agencia[8103]);
+            $listado[$prov][$agencia['4896']]['empresa_tipo'] = (empty($agencia[8104])) ? ('-') : ($agencia[8104]);
+            $listado[$prov][$agencia['4896']]['empresa_web'] = (empty($agencia[8111])) ? ('-') : ($agencia[8111]);
+            
             $listado[$prov][$agencia['4896']]['4896'] = $prov;
             $listado[$prov][$agencia['4896']]['fechas'][] = $myVisita;
             $listado[$prov][$agencia['4896']]['nombre'] = $username;

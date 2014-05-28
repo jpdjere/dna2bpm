@@ -16,9 +16,7 @@
 		</div>				
 	 </div> 
  </div> 
-<button type="button" class="btn btn-default mypopover" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on right
-</button>
+
 <!-- ================= CREAR META   ================= -->
  
 <div class="container" > 
@@ -272,3 +270,26 @@ echo "</div>";
 <iframe src="{module_url}splash" width="1" height="1">
   <p>Your browser does not support iframes.</p>
 </iframe>
+<!-- ============= modal  ============= -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Detalle de visita	</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
