@@ -1,5 +1,5 @@
 
-	 <h3>PERIODOS INFORMADOS POR SGR</h3>	
+	 <h3>PERIODOS INFORMADOS POR SGR.</h3>	
 <form method="post" class="well" id="form" target="_blank" action="tools/action_form">
    
 
