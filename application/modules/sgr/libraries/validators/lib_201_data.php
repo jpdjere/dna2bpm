@@ -606,11 +606,7 @@ class Lib_201_data extends MX_Controller {
                 $query_param = 'RETIRO';
                 $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
                 $retiros_arr = array();
-                foreach ($get_retiros_tmp as $o) {
-                    
-                    debug($o);
-                      
-                    
+                foreach ($get_retiros_tmp as $o) {                    
                     $date = $o;
                     $retiros_arr[] = date('Y-m-d', $date->sec);
                 }
