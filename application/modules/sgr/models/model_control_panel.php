@@ -72,13 +72,12 @@ class Model_control_panel extends CI_Model {
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 	</tr>
 	<tr>
-		<td rowspan=4>SGR</td>
-		<td rowspan=4>ANEXO</td>
-		<td rowspan=4>PERIODO</td>
-		<td rowspan=4>ARCHIVO</td>
-		<td rowspan=4>ESTADO</td>
-	</tr>
-	',
+		<td>SGR</td>
+		<td>ANEXO</td>
+		<td>PERIODO</td>
+		<td>ARCHIVO</td>
+		<td>ESTADO</td>
+	</tr>',
         );
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data_report($parameter);
