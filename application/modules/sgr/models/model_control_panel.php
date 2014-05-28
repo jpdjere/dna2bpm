@@ -29,21 +29,7 @@ class Model_control_panel extends CI_Model {
         }
     }
 
-    function get_anexo_info($anexo, $parameter) {
-
-
-        $headerArr = array("TIPO<br/>OPERACION", "SOCIO", "LOCALIDAD<br/>PARTIDO", "DIRECCION", "TELEFONO", "EMAIL WEB"
-            , "CODIGO ACTIVIDAD/SECTOR", "A&Ntilde;O/MONTO/TIPO ORIGEN", "PROMEDIO<br/>TIPO EMPRESA", "EMPLEADOS"
-            , "ACTA", "MODALIDAD/CAPITAL/ACCIONES", "CEDENTE");
-        $data = array($headerArr);
-        $anexoValues = $this->get_anexo_data($anexo, $parameter);
-
-        foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
-        }
-        $this->load->library('table');
-        return $this->table->generate($data);
-    }
+ 
 
     function get_anexo_report($parameter) {
 
@@ -72,13 +58,12 @@ class Model_control_panel extends CI_Model {
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 	</tr>
 	<tr>
-		<td rowspan=4>SGR</td>
-		<td rowspan=4>ANEXO</td>
-		<td rowspan=4>PERIODO</td>
-		<td rowspan=4>ARCHIVO</td>
-		<td rowspan=4>ESTADO</td>
-	</tr>
-	',
+                <td>SGR</td>
+		<td>ANEXO</td>
+		<td>PERIODO</td>
+		<td>ARCHIVO</td>
+		<td>ESTADO</td>
+	</tr>',
         );
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data_report($parameter);
@@ -114,12 +99,12 @@ class Model_control_panel extends CI_Model {
 
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
-   
+
         $input_origin = false;
-        
-        if($parameter['input_origin']!="0")
-        $input_origin = ($parameter['input_origin']=="1")?"forms2":"2013";
-        
+
+        if ($parameter['input_origin'] != "0")
+            $input_origin = ($parameter['input_origin'] == "1") ? "forms2" : "2013";
+
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
 
@@ -137,14 +122,14 @@ class Model_control_panel extends CI_Model {
 
         if ($parameter['sgr_id'] != 666)
             $query["sgr_id"] = (float) $parameter['sgr_id'];
-        
+
         //if ($input_origin)
-           // $query["origen"] = $input_origin;
+        // $query["origen"] = $input_origin;
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
         $period_result->sort(array('sgr_id' => 1, 'anexo' => 1));
 
-     
+
         foreach ($period_result as $each)
             $rtn[] = $each;
 
@@ -159,7 +144,7 @@ class Model_control_panel extends CI_Model {
 
 
             $sgrArr_data = $this->sgr_model->get_sgr_by_id($list['sgr_id']);
-            foreach ($sgrArr_data as $sgr) {               
+            foreach ($sgrArr_data as $sgr) {
                 $sgr_nombre = $sgr['1693'];
                 $sgr_cuit = $sgr['1695'];
             }
@@ -178,13 +163,10 @@ class Model_control_panel extends CI_Model {
         return $rtn;
     }
 
-    
-
     /*
      * CLEAN ANEXO DATA
      */
 
-    
     function get_partner_period($cuit, $get_period) {
 
         $anexo = $this->anexo;
@@ -272,6 +254,5 @@ class Model_control_panel extends CI_Model {
 
         return $return_result;
     }
-
 
 }
