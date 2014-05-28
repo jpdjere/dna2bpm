@@ -3,16 +3,17 @@
  * and open the template in the editor.
  */
 
+
 $( document ).ready(function() {
+
 
 
 $('.aprobar').click(function(){
    window.location=$(this).attr('url');
 });
 
- //$('#dp3').datepicker(); 
 $('.dp').datepicker();
-$('.tooltip2').tooltip();
+
 
 //== VALIDATE == //
 //
@@ -113,30 +114,6 @@ $(this).parent().next('.meta_body').slideToggle('fast');
 });
 
 
-
-
-//$(".detalle").click(function(){
-//   $(this).next('.observaciones').slideToggle();
-//});
-
-// localStorage guardo datos usuario
-//var userdata={idu:1,genia:1};
-//localStorage['userdata']="";
-
-// Desabilito los anchos que etan desabled 
-//$('a[disabled]').one('click', function(e){
-//e.preventDefault();
-//});
-
-// ==== TABS ==== //
-//$('.nav-tabs li a').click(function(e){
-//    var id=$(this).attr('href');
-//    $('.tab').hide();
-//    $(id).show('fast');
-//    
-//    e.preventDefault();
-//});
-
 $('#dashboard_tab1 a:first').tab('show');
 
 $('.nav-tabs li a').click(function(e){
@@ -160,30 +137,67 @@ $('.nav-tabs li a').click(function(e){
 
 //==== VISITAS ==== //
 
+// evita el scroll molesto
+//$( document ).on( "click", ".mypopover", function(e) {
+//e.preventDefault();
+//});
+
+// Oculto los popover cuando cierro el accordion
 $( document ).on( "click", ".ul_collapse", function() {
   $(this).next('UL').slideToggle();
 });
 
 // Cargo visitas politico
- $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas'); 
- 
+ $.post(globals.module_url+'get_resumen_visitas','',function(data){
+	 $('#wrapper_visitas').html(data);
+ });
+
+
  // Cargo visitas institucional
- $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones'); 
+ $.post(globals.module_url+'get_resumen_visitas_instituciones','',function(data){
+	 $('#wrapper_visitas_instituciones').html(data);
+ });
+ 
  
 // cambio el mes 
 $('#dp_metas').datepicker().on('changeDate',function(ev){
+
     var mes=ev.date.toISOString();
-    $('#wrapper_visitas').load(globals.module_url+'get_resumen_visitas',{'mes':mes}); 
-    $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes}); 
+    
+    // Pyme
+    $.post(globals.module_url+'get_resumen_visitas',{'mes':mes},function(data){
+   	 $('#wrapper_visitas').html(data);
+    });
+    // Institucional
+    $.post(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes},function(data){
+   	 $('#wrapper_visitas_instituciones').html(data);
+    });
+
+    
+   // $('#wrapper_visitas_instituciones').load(globals.module_url+'get_resumen_visitas_instituciones',{'mes':mes}); 
+
 }); 
 
- 
+// Visitas info
+$(document).on('click','.bt_info',function(){
+	var info=$(this).attr('data-info');
+	$('#myModal').find('.modal-header').html('Detalle visita');
+	$('#myModal').find('.modal-body').html(info);
+	$('#myModal').modal('show');
+});
 
-
-
+// Empresa info
+$(document).on('click','.bt_info_empresa',function(){
+	var info=$(this).attr('data-info');
+	$('#myModal').find('.modal-header').html('Detalle empresa');
+	$('#myModal').find('.modal-body').html(info);
+	$('#myModal').modal('show');
+});
 
 // Fin ready
 });
+
+
 
 
 function onUpdateReady() {

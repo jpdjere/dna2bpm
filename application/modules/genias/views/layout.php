@@ -10,20 +10,14 @@ header($ExpStr);
 <meta charset="UTF-8" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet"
-	href="{module_url}assets/jscript/bootstrap/css/bootstrap.min.css" />
-<!--         <link rel="stylesheet" href="{base_url}assetsjscript/bootstrap/css/bootstrap-responsive.min.css" / -->
+<link rel="stylesheet" href="{module_url}assets/jscript/bootstrap/css/bootstrap.min.css" />
 
 
-<link rel="stylesheet"
-	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
-<link rel="stylesheet"
-	href="{module_url}assets/jscript/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" />
+<link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
+<link rel="stylesheet"	href="{module_url}assets/jscript/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" />
 <link rel="stylesheet" href="{module_url}assets/css/extra-icons.css" />
-<link rel="stylesheet"
-	href="{module_url}assets/jscript/fullcalendar/fullcalendar.css" />
-<link rel="stylesheet"
-	href="{module_url}assets/jscript/datepicker/css/datepicker.css" />
+<link rel="stylesheet"	href="{module_url}assets/jscript/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet"	href="{module_url}assets/jscript/datepicker/css/datepicker.css" />
 <link rel="stylesheet" href="{module_url}assets/css/genias.css" />
 
 
@@ -66,13 +60,13 @@ header($ExpStr);
 			<!--  ========== RIGHT ========== -->
 				<ul class="nav navbar-nav navbar-right">
 					
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-					<span class="text">{lang messages} </span><span class="label label-info"><i class="fa fa-comment"></i> {inbox_count}</span> <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a class="sInbox" title="" href="{module_url}inbox/">{lang inbox}</a></li>
-							<li><a class="sOutbox" title="" href="#">{lang outbox}</a></li>
-							<li><a class="sTrash" title="" href="#">{lang trash}</a></li>
-						</ul></li>
+<!-- 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">  -->
+<!-- 					<span class="text">{lang messages} </span><span class="label label-info"><i class="fa fa-comment"></i> {inbox_count}</span> <b class="caret"></b></a> -->
+<!-- 						<ul class="dropdown-menu"> -->
+<!-- 							<li><a class="sInbox" title="" href="{module_url}inbox/">{lang inbox}</a></li> -->
+<!-- 							<li><a class="sOutbox" title="" href="#">{lang outbox}</a></li> -->
+<!-- 							<li><a class="sTrash" title="" href="#">{lang trash}</a></li> -->
+<!-- 						</ul></li> -->
 											
 					<li><a href="{base_url}user/logout"><i class="fa fa-power-off"></i> Salir</a></li>
 					<li class="hidden-xs"><a id="status"><i class="fa fa-globe"></i></a></li>
@@ -95,12 +89,12 @@ header($ExpStr);
 
 	<!-- CONTAINER -->
 
-	<script src="{module_url}assets/jscript/jquery.min.js"></script>
-	<script src="{module_url}assets/jscript/bootstrap/js/bootstrap.min.js"></script>
-	<script src="{module_url}assets/jscript/bootbox.min.js"></script>
-	<script
-		src="{module_url}assets/jscript/datepicker/js/bootstrap-datepicker.js"></script>
-	<script src="{module_url}assets/jscript/modernizr.custom.22198.js"></script>
+<script src="{module_url}assets/jscript/jquery.min.js"></script>
+
+<script src="{module_url}assets/jscript/bootstrap/js/bootstrap.min.js"></script>
+<script src="{module_url}assets/jscript/bootbox.min.js"></script>
+<script src="{module_url}assets/jscript/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="{module_url}assets/jscript/modernizr.custom.22198.js"></script>
 	<!-- Custom JS -->
 	<script type="text/javascript">
             //-----declare global vars
@@ -118,10 +112,11 @@ header($ExpStr);
                 }
             });
             
-
+            $('.mypopover').popover();
 
         </script>
 	{js}
+
 
 
 </body>

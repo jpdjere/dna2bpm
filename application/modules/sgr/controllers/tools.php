@@ -105,8 +105,7 @@ class Tools extends MX_Controller {
         header("Content-Type: application/force-download");
         header("Content-Disposition: attachment; filename=SGR_Tools" . $fileName . ".xls");
         header("Content-Description: PHP Generated XLS Data");
-        /* RENDER */
-        
+        /* RENDER */        
         $this->render($default_dashboard, $customData);
     }
 
