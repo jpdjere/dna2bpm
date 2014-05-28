@@ -60,13 +60,13 @@ header($ExpStr);
 			<!--  ========== RIGHT ========== -->
 				<ul class="nav navbar-nav navbar-right">
 					
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-					<span class="text">{lang messages} </span><span class="label label-info"><i class="fa fa-comment"></i> {inbox_count}</span> <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a class="sInbox" title="" href="{module_url}inbox/">{lang inbox}</a></li>
-							<li><a class="sOutbox" title="" href="#">{lang outbox}</a></li>
-							<li><a class="sTrash" title="" href="#">{lang trash}</a></li>
-						</ul></li>
+<!-- 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">  -->
+<!-- 					<span class="text">{lang messages} </span><span class="label label-info"><i class="fa fa-comment"></i> {inbox_count}</span> <b class="caret"></b></a> -->
+<!-- 						<ul class="dropdown-menu"> -->
+<!-- 							<li><a class="sInbox" title="" href="{module_url}inbox/">{lang inbox}</a></li> -->
+<!-- 							<li><a class="sOutbox" title="" href="#">{lang outbox}</a></li> -->
+<!-- 							<li><a class="sTrash" title="" href="#">{lang trash}</a></li> -->
+<!-- 						</ul></li> -->
 											
 					<li><a href="{base_url}user/logout"><i class="fa fa-power-off"></i> Salir</a></li>
 					<li class="hidden-xs"><a id="status"><i class="fa fa-globe"></i></a></li>
