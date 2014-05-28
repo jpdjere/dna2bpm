@@ -238,6 +238,8 @@ class Model_061 extends CI_Model {
             $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
             $parner_linked = $this->padfyj_model->search_name((string) $list['CUIT_VINCULADO']);
 
+            $type_partner_inc_value = false;
+            
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
 
             $type_partner_inc = $this->$model_anexo->partner_type_linked((string) $list['CUIT_VINCULADO']);
