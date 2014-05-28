@@ -239,22 +239,23 @@ class Model_061 extends CI_Model {
             $parner_linked = $this->padfyj_model->search_name((string) $list['CUIT_VINCULADO']);
 
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
-            
-            
-            $type_partner_inc = array();
+
+
+
             $type_partner_inc = $this->$model_anexo->partner_type_linked((string) $list['CUIT_VINCULADO']);
-            
-            
-            foreach ($type_partner_inc as $partner_inc) 
-                $type_partner_inc_value = $partner_inc[5272];
-            
-           
+
+            if ($type_partner_inc) {
+                foreach ($type_partner_inc as $partner_inc)
+                    $type_partner_inc_value = $partner_inc[5272];
+            }
+
+
 
             $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
 
             $es_participe = "-";
             $es_protector = "-";
-            
+
 
             if ($list['CUIT_VINCULADO']) {
                 $es_participe = ($type_partner_inc_value == "A") ? "SI" : "NO";
