@@ -82,7 +82,7 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 1) {
-                    $insert_tmp = array();
+                    
                     $code_error = "A.1";
                     $A_cell_value = "";
                     $get_input_number = "";
@@ -186,6 +186,7 @@ class Lib_201_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
+                        $insert_tmp = array();
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
                         $insert_tmp['APORTE'] = $parameterArr[$i]['fieldValue'];
@@ -234,7 +235,7 @@ class Lib_201_data extends MX_Controller {
                         }
 
 
-
+                        $insert_tmp = array();
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
                         $insert_tmp['RETIRO'] = $parameterArr[$i]['fieldValue'];
@@ -345,7 +346,8 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-
+                        
+                        $insert_tmp = array();
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
                         $insert_tmp['RETIRO_DE_RENDIMIENTOS'] = $parameterArr[$i]['fieldValue'];
@@ -538,7 +540,7 @@ class Lib_201_data extends MX_Controller {
 
                 foreach (repeatedElements($retiros_arr) as $arr) {
                     $code_error = "B.3";
-                    $result = return_error_array($code_error, "", $arr['value']);
+                    $result = return_error_array($code_error, "--", $arr['value']);
                     array_push($stack, $result);
                 }
 
@@ -605,13 +607,20 @@ class Lib_201_data extends MX_Controller {
                 $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
                 $retiros_arr = array();
                 foreach ($get_retiros_tmp as $o) {
+                    
+                    debug($o);
+                      
+                    
                     $date = $o;
                     $retiros_arr[] = date('Y-m-d', $date->sec);
                 }
+                
+                
+               
 
                 foreach (repeatedElements($retiros_arr) as $arr) {
                     $code_error = "B.3";
-                    $result = return_error_array($code_error, "", $arr['value']);
+                    $result = return_error_array($code_error, "-", $arr['value']);
                     array_push($stack, $result);
                 }
 
@@ -649,7 +658,7 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-        //debug($stack);        exit();
+        debug($stack);        exit();
         $this->data = $stack;
     }
 
