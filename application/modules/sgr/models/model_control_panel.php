@@ -58,7 +58,7 @@ class Model_control_panel extends CI_Model {
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 	</tr>
 	<tr>
-                <td>SGR</td>
+		<td>SGR</td>
 		<td>ANEXO</td>
 		<td>PERIODO</td>
 		<td>ARCHIVO</td>

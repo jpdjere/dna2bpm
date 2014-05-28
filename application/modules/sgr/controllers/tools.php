@@ -98,7 +98,7 @@ class Tools extends MX_Controller {
         $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);
         $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
 
-        $fileName = $anexo . "_al_" . date("j-n-Y"); //Get today
+        $fileName = "_al_" . date("j-n-Y"); //Get today
         //Generate  file
         header("Content-Description: File Transfer");
         header("Content-type: application/x-msexcel");
