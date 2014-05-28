@@ -246,6 +246,22 @@ class Sgr_model extends CI_Model {
         }
         return $rtn;
     }
+    
+    function get_sgr_by_id($sgr_id) {
+        $rtn = array();        
+        $data = array();
+        // Listado de empresas
+        $container = 'container.empresas';
+        $fields = array('id', '1695', '4651', '1693', '1703');
+        $query = array("id" => $sgr_id, 6026 => '30', "status" => 'activa', 5281 => 'C');
+        $result = $this->mongo->db->$container->find($query, $fields);
+
+        foreach ($result as $empresa) {
+            unset($empresa['_id']);
+            $rtn[] = $empresa;
+        }
+        return $rtn;
+    }
 
     function get_sgrs_users() {
         $rtn = array();

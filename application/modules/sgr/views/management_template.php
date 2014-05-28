@@ -83,7 +83,7 @@
         </div>
         <div id="collapse2" class="panel-collapse collapse ">
             <div class="panel-body">
-                xxxxxxxx Próximamente xxxxxxxx
+                 <li><a href="tools" target="_blank">Periodos Informados por SGR</a></li>
             </div>
         </div>
     </div>
