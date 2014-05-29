@@ -25,7 +25,7 @@ class Lib_122_error_legend {
                 $result_error = '<strong>Columna C - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Fecha debe ser posterior a la fecha de emisión de la garantía que fue indicada en la columna “A”.';
                 break;
             case "D.1": 
-                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico de cinco dígitos sin decimales. La fecha debe encontrarse dentro del período que se está informando. - Ej. Para la fecha "01/10/2013" debe ingresarse "41548".';
+                $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico de cinco dígitos sin decimales. La fecha debe encontrarse dentro del período que se está informando o ser posterior al mismo.';
                 break;
             case "E.1": 
                 $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Formato numérico, mayor que cero. Acepta hasta dos decimales.';
