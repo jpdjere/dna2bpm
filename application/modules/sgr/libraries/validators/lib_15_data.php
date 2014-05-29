@@ -255,7 +255,7 @@ class Lib_15_data extends MX_Controller {
                         } else {
                             $code_error = "I.B.1";
 
-                            if ($I_cell_value < -1000) {
+                            if ($I_cell_value < -2000) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
