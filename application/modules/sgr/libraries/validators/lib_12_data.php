@@ -138,8 +138,6 @@ class Lib_12_data extends MX_Controller {
                         }
                     }
                     
-                    var_dump($parameterArr[$i]['fieldValue'], $amount_employees2);
-                    
                     
                     $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
                     if ($sum_amount_employees == 0) {
@@ -854,7 +852,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
