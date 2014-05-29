@@ -97,7 +97,7 @@ class mysql_model_201 extends CI_Model {
 
 
         $this->db->select(
-                'sgr_fdr_integrado.ID as nro_control,
+                'sgr_fdr_integrado.ID as get_ID,
                 nro_control,
                 cuit_protector,
                 fecha_movimiento,
@@ -139,7 +139,7 @@ class mysql_model_201 extends CI_Model {
 
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
-            $parameter['id'] = (float) $row->nro_control;
+            $parameter['id'] = (float) $row->get_ID;
             $parameter['origen'] = 'forms2';
 
             debug($parameter);
