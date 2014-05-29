@@ -131,6 +131,20 @@ function check_period($var, $period) {
     }
 }
 
+function check_period_and_later($var, $period) {
+
+    $valida_fecha = translate_date($var);
+    list($getPeriodMonth, $getPeriodYear ) = explode("-", $period);
+
+    $datetime1 = new DateTime($valida_fecha);
+    $datetime2 = new DateTime($getPeriodYear . '-' . $getPeriodMonth . '-01');
+    $interval = $datetime1->diff($datetime2);
+    
+    if ($interval->invert == 0) {
+        return true;
+    }
+}
+
 function check_period_minor($parameter, $period) {
 
     list($getYear, $getMonth) = explode("/", $parameter);
@@ -144,7 +158,7 @@ function check_period_minor($parameter, $period) {
 }
 
 function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
-    
+
     $number = str_replace(",", ".", $number);
     $status = false;
 
@@ -278,11 +292,11 @@ function check_is_numeric_range($number, $minor, $mayor) {
         array(
             "min_range" => $minor
             , "max_range" => $mayor
-    ));    
-    
-    $int_number = (int)$number;
-    $check_num = ($int_number==0)?1:$int_number;
-    
+    ));
+
+    $int_number = (int) $number;
+    $check_num = ($int_number == 0) ? 1 : $int_number;
+
     return (filter_var($check_num, FILTER_VALIDATE_INT, $int_options));
 }
 
@@ -907,7 +921,6 @@ function clean_spaces($string) {
     $string = preg_replace("([ ]+)", "", $string);
     return $string;
 }
-
 
 function switch_users($iduser) {
 
