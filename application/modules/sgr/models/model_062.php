@@ -213,11 +213,13 @@ class Model_062 extends CI_Model {
                 'filename' => $list['filename'],
                 'CUIT' => $cuit
             );
-            $new_result = $this->mongo->sgr->$container->findOne($new_query);
-            if ($new_result)
-                $return_result[] = $new_result;
-        }
-        return $return_result;
+            $new_result = $this->mongo->sgr->$container->find($new_query);                        
+            foreach ($new_result as $each)                 
+                $return_result[] = $each['EMPLEADOS'];
+        }        
+        
+        return array_sum($return_result);
+        
     }
 
 }
