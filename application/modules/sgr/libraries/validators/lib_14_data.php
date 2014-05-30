@@ -69,7 +69,7 @@ class Lib_14_data extends MX_Controller {
 
                     $A_cell_value = "";
                     $code_error = "A.1";
-                    $insert_tmp = array();
+                    
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -202,6 +202,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         /* INSERT */
+                        $insert_tmp = array();
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
                         $insert_tmp['CAIDA'] = $parameterArr[$i]['fieldValue'];
@@ -232,6 +233,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         /* INSERT */
+                        $insert_tmp = array();
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
@@ -263,6 +265,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         /* INSERT */
+                        $insert_tmp = array();
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
@@ -293,6 +296,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         /* INSERT */
+                        $insert_tmp = array();
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
                         $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
@@ -325,6 +329,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         /* INSERT */
+                        $insert_tmp = array();
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
@@ -354,6 +359,7 @@ class Lib_14_data extends MX_Controller {
                         }
 
                         /* INSERT */
+                        $insert_tmp = array();
                         $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
