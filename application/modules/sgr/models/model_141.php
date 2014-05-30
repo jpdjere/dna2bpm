@@ -111,27 +111,7 @@ class Model_141 extends CI_Model {
             $recupero_gasto_periodo_arr = array();
             $gasto_incobrable_periodo_arr = array();
 
-            /* GET ALL WARRANTIES BY PARTNER */
-            $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
 
-            foreach ($get_warranty_partner as $each) {
-                $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
-
-                $caida_result_arr[] = $get_movement_data['CAIDA'];
-                $recupero_result_arr[] = $get_movement_data['RECUPERO'];
-                $inc_periodo_arr[] = $get_movement_data['INCOBRABLES_PERIODO'];
-                $gasto_efectuado_periodo_arr[] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
-                $recupero_gasto_periodo_arr[] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
-                $gasto_incobrable_periodo_arr[] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
-
-                /* CALC COL12 */
-                $caida_sum_tmp = array_sum($caida_result_arr);
-                $recupero_sum_tmp = array_sum($recupero_result_arr);
-                $inc_periodo_sum_tmp = array_sum($inc_periodo_arr);
-                $sum_tmp = ($caida_sum_tmp - $recupero_sum_tmp) - $inc_periodo_sum_tmp;
-                if ($sum_tmp != 0)
-                    $col12_arr[] = $each[5214];
-            }
 
             $caida_sum = array_sum($caida_result_arr);
             $recupero_sum = array_sum($recupero_result_arr);
@@ -154,12 +134,50 @@ class Model_141 extends CI_Model {
             $total = array_sum(array($col5, $col6, $col7, $col8));
 
             $insertarr["MONTO_ADEUDADO"] = $sum_total;
-            $insertarr["CANTIDAD_GARANTIAS_AFRONTADAS"] = count($col12_arr);
+
 
             $insertarr["CANTIDAD_GARANTIAS"] = (int) $partner_balance_qty;
             $insertarr["MONTO_GARANTIAS"] = (float) $partner_balance_amount;
             $insertarr["TOTAL"] = (float) $total;
         }
+
+        /* GET ALL WARRANTIES BY PARTNER */
+
+        $get_warranty_partner = $this->$model_12->get_warranty_partner_print($cuit, $this->session->userdata['period']);
+
+        foreach ($get_warranty_partner as $each) {
+            $get_movement_data = $this->$model_14->get_movement_data_print($each[5214], $this->session->userdata['period']);
+            
+            $sum_tmp = 0;
+             $caida_result_arr = array();
+            $recupero_result_arr = array();
+            $inc_periodo_arr = array();
+            $gasto_efectuado_periodo_arr = array();
+            $recupero_gasto_periodo_arr = array();
+            $gasto_incobrable_periodo_arr = array();
+            
+            $caida_result_arr[] = $get_movement_data['CAIDA'];
+            $recupero_result_arr[] = $get_movement_data['RECUPERO'];
+            $inc_periodo_arr[] = $get_movement_data['INCOBRABLES_PERIODO'];
+            $gasto_efectuado_periodo_arr[] = $get_movement_data['GASTOS_EFECTUADOS_PERIODO'];
+            $recupero_gasto_periodo_arr[] = $get_movement_data['RECUPERO_GASTOS_PERIODO'];
+            $gasto_incobrable_periodo_arr[] = $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
+
+            /* CALC COL12 */
+            $caida_sum_tmp = array_sum($caida_result_arr);
+            $recupero_sum_tmp = array_sum($recupero_result_arr);
+            $inc_periodo_sum_tmp = array_sum($inc_periodo_arr);
+
+            $sum_tmp = ($caida_sum_tmp - $recupero_sum_tmp) - $inc_periodo_sum_tmp;
+            
+           
+            if ($sum_tmp != 0)
+                $col12_arr[] = $each[5214];
+        }
+
+
+        $insertarr["CANTIDAD_GARANTIAS_AFRONTADAS"] = count($col12_arr);        
+
         return $insertarr;
     }
 
