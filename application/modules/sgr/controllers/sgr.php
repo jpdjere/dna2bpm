@@ -901,7 +901,7 @@ class Sgr extends MX_Controller {
             $this->pdf->render();
             $this->pdf->stream("$parameter.pdf");
         } else {
-            $this->parser->parse('print_ddjj_form', $customData, true);
+            echo $this->parser->parse('print_ddjj_form', $customData, true);
         }
     }
 
