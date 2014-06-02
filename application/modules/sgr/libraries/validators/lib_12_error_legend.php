@@ -27,7 +27,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna D - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los códigos asignados a un tipo de garantía válida (Ej. "GFCPD", "GFEF0", "GFMFO"). ';
                 break;
             case "E.1":
-                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El número ingresado aceptará hasta dos decimales.';
+                $result_error = '<strong>Columna E - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El monto ingresado debe contener dos decimales. Ej: 1000,00';
                 break;
             case "F.1":
                 $result_error = '<strong>Columna F - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe contener uno de los siguientes parámetros: "Pesos Argentinos" o "Dolares Americanos". Si la Columna "D" se completó con la opción GFCPD, la moneda de origen sólo podrá ser "Pesos Argentinos".';
