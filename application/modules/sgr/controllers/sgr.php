@@ -830,10 +830,15 @@ class Sgr extends MX_Controller {
     }
 
     function print_ddjj($parameter = null) {
+        
+        
 
         if (!$parameter) {
             exit();
         }
+        
+        
+        
         $parameter = urldecode($parameter);
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
