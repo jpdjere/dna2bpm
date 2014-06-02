@@ -647,14 +647,14 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-
-
+        
+        
         if (!check_consecutive_values($input_num_unique)) {
-            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No es correlativos entre si.");
+            $result = return_error_array($code_error, $parameterArr[$i]['row'], "No son correlativos entre si.");
             array_push($stack, $result);
         }
 
-       // debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 

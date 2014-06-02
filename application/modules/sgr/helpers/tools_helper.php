@@ -708,13 +708,13 @@ function consecutive($array) {
 
 /* === Consecutives bis === */
 
-function check_consecutive_values($array) {
+function check_consecutive_values($array) {    
 
     for ($i = 0; $i < count($array); $i++) {
 
-        // we need at leaset 2 items to compare
+        // we need at leaset 2 items to compare return true
         if (count($array) < 2)
-            return false;
+            return true;
         // check if there is one more item to compare..        
         if (isset($array[$i + 1])) {
             if (($array[$i] + 1) != $array[$i + 1])
