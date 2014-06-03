@@ -54,6 +54,10 @@ class reports extends MX_Controller {
 
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
+
+
+        /* TIME LIMIT */
+        set_time_limit(28800);
     }
 
     function Index() {
@@ -145,7 +149,7 @@ class reports extends MX_Controller {
     /* PROCESS */
 
     function process() {
-        
+
         $anexo = $this->input->post('anexo');
         switch ($anexo) {
             case '06':
@@ -155,7 +159,7 @@ class reports extends MX_Controller {
             case '12':
                 return $this->process_12($anexo);
                 break;
-            
+
             case '14':
                 return $this->process_14($anexo);
                 break;
@@ -164,12 +168,12 @@ class reports extends MX_Controller {
 
     function process_06($anexo) {
 
-        $rtn = array();             
+        $rtn = array();
         $report_name = $this->input->post('report_name');
 
-        
-       
-        
+
+
+
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
@@ -186,7 +190,7 @@ class reports extends MX_Controller {
             return $result;
         }
     }
-    
+
     function process_20($anexo) {
 
         $rtn = array();
@@ -211,7 +215,7 @@ class reports extends MX_Controller {
     }
 
     function process_14($anexo) {
-       
+
         $rtn = array();
         $report_name = $this->input->post('report_name');
 
@@ -229,14 +233,13 @@ class reports extends MX_Controller {
         }
     }
 
-
     function process_12($anexo) {
 
         $rtn = array();
-        
+
         if ($this->input->post('cuit_sharer'))
             $rtn['cuit_sharer'] = $this->input->post('cuit_sharer');
-        
+
         if ($this->input->post('order_number'))
             $rtn['order_number'] = $this->input->post('order_number');
 
@@ -254,11 +257,11 @@ class reports extends MX_Controller {
     }
 
     /* SGRS */
-    
+
     function get_processed() {
         $sgrArr = $this->sgr_model->get_processed_info();
         foreach ($sgrArr as $data)
-            echo "<p>Anexo ".$data['anexo']." | Periodo ".$data['period']." Archivo: ".$data['filename']."</p>";
+            echo "<p>Anexo " . $data['anexo'] . " | Periodo " . $data['period'] . " Archivo: " . $data['filename'] . "</p>";
     }
 
     function get_sgrs() {
@@ -342,7 +345,7 @@ class reports extends MX_Controller {
                 } else if ($set_start_month > $set_month) {
                     return "2"; // Anterior al mes Inicial
                 } else {
-                    $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
