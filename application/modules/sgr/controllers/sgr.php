@@ -758,7 +758,7 @@ class Sgr extends MX_Controller {
         
         
         $customData['module_url'] = base_url() . 'sgr/';
-        $customData['logo'] = $this->module_url."/assets/images/orgullo.jpg";
+        $customData['logo'] = $this->module_url."assets/images/orgullo.jpg";
         $customData['parameter'] = urldecode($parameter);
         $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 

@@ -2,9 +2,7 @@
 <html>
     <head>
         <title>DNA&sup2; | SGR | {sgr_nombre}</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
+        <meta charset="UTF-8" />        
         <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
         <!-- <link rel="stylesheet"  href="{module_url}assets/css/print.css"> --> 
         <style>
@@ -20,7 +18,7 @@
     <body>
         <div class=row" align="center">
             <img src="{logo}">
-            <h2>{sgr_nombre} | C.U.I.T.: <span class="text-info">{sgr_cuit}</span></h2>
+            <h2>{sgr_nombre} C.U.I.T.: <span class="text-info">{sgr_cuit}</span></h2>
             <p>[Anexo {anexo_short}] SGR {anexo_title} - Importado por: [{user_print}]</p>
             <p><small>Archivo Procesado: {parameter}</small></p>                               
             <p><span class="">
