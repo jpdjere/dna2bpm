@@ -18,7 +18,7 @@
     <body>
         <div class=row" align="center">
             <img src="{logo}">
-            <h2>{sgr_nombre} | C.U.I.T.: <span class="text-info">{sgr_cuit}</span></h2>
+            <h2>{sgr_nombre} C.U.I.T.: <span class="text-info">{sgr_cuit}</span></h2>
             <p>[Anexo {anexo_short}] SGR {anexo_title} - Importado por: [{user_print}]</p>
             <p><small>Archivo Procesado: {parameter}</small></p>                               
             <p><span class="">
