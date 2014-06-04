@@ -9,7 +9,7 @@
         <!-- <link rel="stylesheet"  href="{module_url}assets/css/print.css"> --> 
         <style>
 
-            th, td { padding: .65em; }
+            th, td { padding: .1em; }
             th, thead { background: #fff; color: #000; border: 1px solid #777; font-weight:bold; }  
             td { border: 1px solid #777;  }
 
