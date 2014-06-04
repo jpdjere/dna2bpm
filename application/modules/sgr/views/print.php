@@ -13,13 +13,13 @@
             th, thead { background: #fff; color: #000; border: 1px solid #777; font-weight:bold; }  
             td { border: 1px solid #777;  }
 
-            table {border:1px solid #ccc;font-family: Futura, Arial, sans-serif; font-size:8px; text-align: center; width:100%;}
+            table {border:1px solid #ccc;font-family: Futura, Arial, sans-serif; font-size:7px; text-align: center; width:100%;}
         </style>
     </head>
     <body>
     <body>
         <div class=row" align="center">
-            <img src="{module_url}assets/images/orgullo.jpg" >
+            <img src="{logo}">
             <h2>{sgr_nombre} | C.U.I.T.: <span class="text-info">{sgr_cuit}</span></h2>
             <p>[Anexo {anexo_short}] SGR {anexo_title} - Importado por: [{user_print}]</p>
             <p><small>Archivo Procesado: {parameter}</small></p>                               
