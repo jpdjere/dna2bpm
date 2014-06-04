@@ -2,9 +2,7 @@
 <html>
     <head>
         <title>DNA&sup2; | SGR | {sgr_nombre}</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" 	href="{module_url}jscript/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet"	href="{module_url}assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
+        <meta charset="UTF-8" />        
         <link rel="stylesheet" href="{module_url}assets/css/sgr.css" />
         <!-- <link rel="stylesheet"  href="{module_url}assets/css/print.css"> --> 
         <style>
