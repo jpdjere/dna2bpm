@@ -152,7 +152,7 @@ class Lib_122_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        /* PERIOD */
+                        /* PERIOD */                       
                         $return = check_period_and_later($parameterArr[$i]['fieldValue'], $this->session->userdata['period']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
