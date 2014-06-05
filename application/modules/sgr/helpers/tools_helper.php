@@ -139,10 +139,9 @@ function check_period_and_later($var, $period) {
     $datetime1 = new DateTime($valida_fecha);
     $datetime2 = new DateTime($getPeriodYear . '-' . $getPeriodMonth . '-01');
     $interval = $datetime1->diff($datetime2);
-    
-    if ($interval->invert == 0) {
+
+    if ($interval->invert == 0 && $interval->days != 0)
         return true;
-    }
 }
 
 function check_period_minor($parameter, $period) {
@@ -708,7 +707,7 @@ function consecutive($array) {
 
 /* === Consecutives bis === */
 
-function check_consecutive_values($array) {    
+function check_consecutive_values($array) {
 
     for ($i = 0; $i < count($array); $i++) {
 
