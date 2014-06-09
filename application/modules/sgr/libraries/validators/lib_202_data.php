@@ -211,9 +211,6 @@ class Lib_202_data extends MX_Controller {
         
         $A3_result = array_diff(array_unique($A3_array), array_unique($A_array_value));
         
-        
-        var_dump($A3_result, $A3_array,$A_array_value);
-        
         if ($A3_result) {
             foreach ($A3_result as $A3) {
                 $code_error = "A.3";
@@ -221,7 +218,7 @@ class Lib_202_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        debug($stack);        exit();
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
