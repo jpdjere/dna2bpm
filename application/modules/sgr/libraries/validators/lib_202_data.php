@@ -31,9 +31,15 @@ class Lib_202_data extends MX_Controller {
         $exist_input_all = array_unique($this->$model_201->exist_input_all());
 
         foreach ($exist_input_all as $each) {
-            $exist_input_number_left = $this->$model_201->exist_input_number_left($each);
+            
+            
+            
+            $exist_input_number_left = $this->$model_201->exist_input_number_left($each);          
+            
+            
             if ($exist_input_number_left)
-                $get_input_number_left = $this->$model_201->get_input_number_left($each);
+                $get_input_number_left = (int)$this->$model_201->get_input_number_left($each);
+            
 
             if ($get_input_number_left > 0)
                 $A3_array[] = $each;
@@ -202,7 +208,9 @@ class Lib_202_data extends MX_Controller {
 
 
         /* A.3 */
+        
         $A3_result = array_diff(array_unique($A3_array), array_unique($A_array_value));
+        
         if ($A3_result) {
             foreach ($A3_result as $A3) {
                 $code_error = "A.3";
