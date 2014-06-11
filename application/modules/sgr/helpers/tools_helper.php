@@ -938,7 +938,7 @@ function switch_users($iduser) {
 
         case -2040780000:
         case -1933410388:
-        case 875267711;   
+        case 875267711:   
             $iduser = 1841376084;
             break;
     }
