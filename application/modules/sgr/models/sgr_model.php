@@ -419,27 +419,21 @@ class Sgr_model extends CI_Model {
         return $array;
     }
 
-    function clae2013($code) {
-        $sector = "";
+      function clae2013($code) {
+        
+        
+        $sector = false;
 
-        $code = (string) $code;
+        $code = (string) ((int) $code);
 
-        //$code = (strlen($code) == 5) ? "0" . $code : $code;        
-        //$regex = new MongoRegex('/' . $code . '/i');
+        $regex = new MongoRegex('/' . $code . '/');
         $container = 'container.sgr_clae2013';
-        $query = array("code" => $code);
+        $query = array("code" => $regex);
         $fields = array("sector", "code");
         $result = $this->mongo->sgr->$container->findOne($query, $fields);
 
-        if ($result) {
+        if ($result)
             $sector = $result['sector'];
-        } else {
-            $fields = array("sector", "code");
-            $query = array("code" => "0" . $code);
-            $result = $this->mongo->sgr->$container->findOne($query, $fields);
-
-            $sector = $result['sector'];
-        }
 
         return $sector;
     }
