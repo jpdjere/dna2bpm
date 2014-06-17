@@ -358,7 +358,6 @@ class Model_15 extends CI_Model {
 		
 	</tr><tr>
             <td align="center" >SGR</td>
-            <td align="center" >CUIT SGR</td>
             <td align="center" >ID</td>
             <td align="center" >Per&iacute;odo</td>
             <td align="center" >CUIT_DEPOSITARIO</td>
@@ -457,20 +456,19 @@ class Model_15 extends CI_Model {
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
             $new_list = array();
-            $new_list['col1'] = $sgr_nombre;
-            $new_list['col2'] = $cuit_sgr;
-            $new_list['col3'] = $list['id'];
-            $new_list['col4'] = $get_period_filename['period'];
-            $new_list['col5'] = $list['CUIT_DEPOSITARIO'];
-            $new_list['col6'] = $list['CUIT_EMISOR'];
-            $new_list['col7'] = $list['DESCRIPCION'];
-            $new_list['col8'] = $list['EMISOR'];
-            $new_list['col9'] = $list['ENTIDAD_DESPOSITARIA'];
-            $new_list['col10'] = $list['IDENTIFICACION'];
-            $new_list['col11'] = $list['INCISO_ART_25'];
-            $new_list['col12'] = $list['MONEDA'];
-            $new_list['col13'] = money_format_custom($list['MONTO']);
-            $new_list['col14'] = $list['filename'];
+            $new_list['col1'] = $sgr_nombre;            
+            $new_list['col2'] = $list['id'];
+            $new_list['col3'] = $get_period_filename['period'];
+            $new_list['col4'] = $list['CUIT_DEPOSITARIO'];
+            $new_list['col5'] = $list['CUIT_EMISOR'];
+            $new_list['col6'] = $list['DESCRIPCION'];
+            $new_list['col7'] = $list['EMISOR'];
+            $new_list['col8'] = $list['ENTIDAD_DESPOSITARIA'];
+            $new_list['col9'] = $list['IDENTIFICACION'];
+            $new_list['col10'] = $list['INCISO_ART_25'];
+            $new_list['col11'] = $list['MONEDA'];
+            $new_list['col12'] = money_format_custom($list['MONTO']);
+            $new_list['col13'] = $list['filename'];
             $rtn[] = $new_list;
         }
 
