@@ -160,7 +160,7 @@ class Model_15 extends CI_Model {
     function get_anexo_info($anexo, $parameter) {
         $tmpl = array(
             'data' => '<tr>
-                    <td align="center" colspan="3">Fondo de riesgo disponible</td>
+                    <td align="center" >Fondo de riesgo disponible</td>
                     <td align="center" rowspan="3">Entidad Emisora</td>
                     <td align="center" rowspan="3">CUIT Entidad Emisora</td>
                     <td align="center" rowspan="3">Entidad Depositaria</td>
@@ -170,7 +170,7 @@ class Model_15 extends CI_Model {
                     <td align="center" rowspan="3">Proporción en el Fondo de Riesgo (%)</td>
                 </tr>
                 <tr>
-                    <td colspan="3">1. Activos Artículo 25</td></tr>
+                    <td >1. Activos Artículo 25</td></tr>
                     <tr>
                         <td>Inciso del Art. 25</td>
                         <td>Descripción</td>
@@ -328,6 +328,151 @@ class Model_15 extends CI_Model {
         $new_list['col4'] = money_format_custom(array_sum($col9));
         $new_list['col5'] = percent_format_custom(100);
         $rtn[] = $new_list;
+
+        return $rtn;
+    }
+    
+    function get_anexo_report($anexo, $parameter) {
+
+        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+
+        $tmpl = array(
+            'data' => '<tr>
+		<td>' . $this->sgr_nombre . '</td>
+	</tr>
+	<tr>
+		<td></td>
+		
+	</tr>
+	<tr>
+		<td>MOVIMIENTOS DE CAPITAL SOCIAL</td>
+		
+	</tr>
+	<tr>
+		<td></td>
+		
+	</tr>
+	<tr>
+		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
+		
+	</tr><tr>
+            <td align="center" >SGR</td>
+            <td align="center" >CUIT SGR</td>
+            <td align="center" >ID</td>
+            <td align="center" >Per&iacute;odo</td>
+            <td align="center" >CUIT_DEPOSITARIO</td>
+            <td align="center" >CUIT_EMISOR</td>
+            <td align="center" >DESCRIPCION</td>
+            <td align="center" >EMISOR</td>                                
+            <td align="center" >ENTIDAD_DESPOSITARIA</td>
+            <td align="center" >IDENTIFICACION</td>
+            <td align="center" >INCISO_ART_25</td>
+            <td align="center" >MONEDA</td>
+            <td align="center" >MONTO</td>
+            <td align="center" >ARCHIVO</td>
+    </tr>
+	
+',
+        );
+        $data = array($tmpl);
+        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
+        foreach ($anexoValues as $values) {
+            $data[] = array_values($values);
+        }
+        $this->load->library('table_custom');
+        $newTable = $this->table_custom->generate($data);
+
+        return $newTable;
+    }
+    
+    function get_anexo_data_report($anexo, $parameter) {
+
+        if (!$parameter) {
+            return false;
+            exit();
+        }
+
+        header('Content-type: text/html; charset=UTF-8');
+        $rtn = array();
+
+
+
+        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+
+
+        $start_date = first_month_date($input_period_from);
+        $end_date = last_month_date($input_period_to);
+
+        /* GET PERIOD */
+        $period_container = 'container.sgr_periodos';
+        $query = array(
+            'anexo' => $anexo,
+            'status' => "activo",
+            'period_date' => array(
+                '$gte' => $start_date, '$lte' => $end_date
+            )
+        );
+        
+      
+
+
+        if ($parameter['sgr_id'] != 666)
+            $query["sgr_id"] = (float) $parameter['sgr_id'];
+
+        $period_result = $this->mongo->sgr->$period_container->find($query);
+
+
+       
+
+        $files_arr = array();
+        $container = 'container.sgr_anexo_' . $anexo;
+
+
+        $new_query = array();
+        foreach ($period_result as $results) {
+            $period = $results['period'];
+            $new_query['$or'][] = array("filename" => $results['filename']);
+        }
+
+
+        $result_arr = $this->mongo->sgr->$container->find($new_query);
+        /* TABLE DATA */
+        return $this->ui_table_xls($result_arr, $anexo);
+    }
+    
+    function ui_table_xls($result, $anexo = null) {
+
+        foreach ($result as $list) {           
+            
+            
+            $sgrArr_data = $this->sgr_model->get_sgr_by_id($list['sgr_id']);
+            foreach ($sgrArr_data as $sgr) {
+                $sgr_id = (float) $sgr['id'];
+                $sgr_nombre = $sgr['1693'];
+                $sgr_cuit = $sgr['1695'];
+            }
+
+            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
+
+            $new_list = array();
+            $new_list['col1'] = $sgr_nombre;
+            $new_list['col2'] = $cuit_sgr;
+            $new_list['col3'] = $list['id'];
+            $new_list['col4'] = $get_period_filename['period'];
+            $new_list['col5'] = $list['CUIT_DEPOSITARIO'];
+            $new_list['col6'] = $list['CUIT_EMISOR'];
+            $new_list['col7'] = $list['DESCRIPCION'];
+            $new_list['col8'] = $list['EMISOR'];
+            $new_list['col9'] = $list['ENTIDAD_DESPOSITARIA'];
+            $new_list['col10'] = $list['IDENTIFICACION'];
+            $new_list['col11'] = $list['INCISO_ART_25'];
+            $new_list['col12'] = $list['MONEDA'];
+            $new_list['col13'] = money_format_custom($list['MONTO']);
+            $new_list['col14'] = $list['filename'];
+            $rtn[] = $new_list;
+        }
 
         return $rtn;
     }
