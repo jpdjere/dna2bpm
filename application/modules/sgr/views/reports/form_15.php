@@ -41,21 +41,8 @@
 						</div>	
 						</div>
 					</div>
-				<!--  Reporte  -->
-					<div class="row ">
-					<div class="form-group col-md-12">
-						<label>Reporte</label> 
-						<div class="input-group ">
-						<select name="report_name" id="sgr" class="form-control required">
-							<option value="A">A.- MOVIMIENTOS CAPITAL SOCIAL</option>
-							<option value="B" disabled="disabled">B.- CUENTA CORRIENTE
-								CAPITAL SOCIAL (No Disponible)</option>
-							<option value="C" disabled="disabled">C.- SALDOS CAPITAL SOCIAL
-								(No Disponible)</option>
-						</select>
-						</div>
-						</div>
-					</div>
+				
+					
 					
 
 				</div><!-- row8 -->
