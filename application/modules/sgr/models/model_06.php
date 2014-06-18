@@ -95,6 +95,7 @@ class Model_06 extends CI_Model {
 
             $insertarr[1695] = (string) $insertarr[1695];
             $insertarr[5248] = (string) $insertarr[5248];
+            $insertarr[5272] = strtoupper($insertarr[5248]);
 
             /* INTEGERS */
             $insertarr[4654] = (int) $insertarr[4654];

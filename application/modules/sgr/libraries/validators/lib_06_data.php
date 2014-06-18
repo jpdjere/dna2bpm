@@ -98,7 +98,7 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         } else {
-                            $B_cell_value = $parameterArr[$i]['fieldValue'];
+                            $B_cell_value = strtoupper($parameterArr[$i]['fieldValue']);
                         }
                     }
                 }
@@ -488,8 +488,9 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
-                        //  echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
-
+                          //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
+                        
+                          
                         if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Transfiere:" . $AH_cell_value . ", Dispone de:" . $grantor_subscribed);
@@ -1428,7 +1429,7 @@ class Lib_06_data extends MX_Controller {
             array_push($stack, $result);
         }
 /*         $stack = array(); */
-//          debug($stack);        exit();
+        //debug($stack);        exit();
          $this->data = $stack;
     }
 
