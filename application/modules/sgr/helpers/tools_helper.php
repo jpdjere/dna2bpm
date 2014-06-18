@@ -205,8 +205,11 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     return $status;
 }
 
-function validate_two_decimals($number) {
+/* VALIDATE POSTIVE/NEGATIVE */
 
+function validate_two_decimals($number) {
+    /* Change to positive */
+    $number = ($number < 0) ? abs($number) : $number;
     $patron = '^[0-9]+\.[0-9]{2}$';
 
     if (preg_match('/' . $patron . '/', $number))
@@ -938,7 +941,7 @@ function switch_users($iduser) {
 
         case -2040780000:
         case -1933410388:
-        case 875267711:   
+        case 875267711:
             $iduser = 1841376084;
             break;
     }
