@@ -385,9 +385,6 @@ class Lib_06_data extends MX_Controller {
                     $AL_cell_value = $parameterArr[$i]['fieldValue'];
 
                     if ($AL_cell_value) {
-                        
-                        var_dump($AL_cell_value, $B_cell_value);
-                        
                         $grantor_subscribed = $this->$model_anexo->shares($AL_cell_value, $B_cell_value);
                         $grantor_integrated = $this->$model_anexo->shares($AL_cell_value, $B_cell_value, 5598);
                     }
