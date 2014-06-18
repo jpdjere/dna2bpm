@@ -804,7 +804,7 @@ class Lib_06_data extends MX_Controller {
                     /*
                      * CONDICION_INSCRIPCION_AFIP
                      * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
-                      EXCENTO
+                      EXENTO
                       INSCRIPTO
                       MONOTRIBUTISTA
                      */
@@ -817,7 +817,7 @@ class Lib_06_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         } else {
-                            $allow_words = array("EXCENTO", "INSCRIPTO", "MONOTRIBUTISTA");
+                            $allow_words = array("EXENTO", "INSCRIPTO", "MONOTRIBUTISTA");
                             $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                             if ($return) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
