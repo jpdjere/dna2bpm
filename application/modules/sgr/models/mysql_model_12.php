@@ -113,6 +113,10 @@ class mysql_model_12 extends CI_Model {
     
     
     function active_periods_dna2_one($filename) {
+        
+        
+        
+        
 
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
@@ -120,12 +124,10 @@ class mysql_model_12 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
-        $this->db->where('archivo', $filename);
+        $this->db->where('archivo', urldecode($filename));
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
         
-        
-
         foreach ($query->result() as $row) {
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
