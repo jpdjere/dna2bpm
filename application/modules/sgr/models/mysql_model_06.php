@@ -31,14 +31,14 @@ class mysql_model_06 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
-        //$this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('archivo', 'Sin Movimiento');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
 
         foreach ($query->result() as $row) {
             $already_period = $this->already_period($row->archivo);
-            if (!$already_period) {
+           // if (!$already_period) {
 
                 $parameter = array();
 
@@ -65,7 +65,7 @@ class mysql_model_06 extends CI_Model {
 //                    }
                 }
                 
-            }
+            //}
         }
     }
 
