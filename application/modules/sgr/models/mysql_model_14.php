@@ -75,6 +75,37 @@ class mysql_model_14 extends CI_Model {
             }
         }
     }
+    
+        /* UPDATE SIN MOVIMIENTO */
+
+    function active_periods_sm_dna2($anexo, $period) {
+        /* TRANSLATE ANEXO NAME */
+        $anexo_dna2 = translate_anexos_dna2($anexo);
+        $this->db->where('estado', 'activo');
+        $this->db->where('archivo', 'Sin Movimiento');
+        $this->db->where('anexo', $anexo_dna2);
+        $query = $this->db->get('forms2.sgr_control_periodos');
+
+        foreach ($query->result() as $row) {
+            $already_period = $this->already_period($row->archivo);
+            $parameter = array();
+
+            $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+            $parameter['filename'] = $row->archivo;
+            $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+            $parameter['sgr_id'] = (float) $row->sgr_id;
+            $parameter['status'] = 'activo';
+            $parameter['origen'] = 'forms2';
+            $parameter['period'] = str_replace("_", "-", $row->periodo);
+
+
+            $is_2014 = explode("_", $row->periodo);
+            if ($is_2014[1] != "2014") {
+                /* UPDATE CTRL PERIOD */
+                $this->save_tmp($parameter);
+            }
+        }
+    }
 
     function save_tmp($parameter) {
 
