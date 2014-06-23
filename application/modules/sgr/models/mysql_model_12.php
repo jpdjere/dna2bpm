@@ -131,6 +131,8 @@ class mysql_model_12 extends CI_Model {
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
         
+        debug($query->result());
+        
         foreach ($query->result() as $row) {
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
