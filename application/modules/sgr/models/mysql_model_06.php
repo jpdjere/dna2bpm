@@ -58,11 +58,11 @@ class mysql_model_06 extends CI_Model {
                     $this->save_tmp($parameter);
 
                     /* UPDATE ANEXO */
-                    if ($row->archivo) {
-                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                        if (!$already_update)
-                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
-                    }
+//                    if ($row->archivo) {
+//                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+//                        if (!$already_update)
+//                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+//                    }
                 }
                 
             }
