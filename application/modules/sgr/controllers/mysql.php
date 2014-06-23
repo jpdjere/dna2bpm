@@ -62,7 +62,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_periods";
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
 
 
@@ -74,7 +74,7 @@ class Mysql extends MX_Controller {
           WHERE D1.id IS NULL
          */
 
-        //$result = $this->mysql_model->active_periods_sm_dna2();
+        //$result = $this->mysql_model->active_periods_dna2();
         debug($result);
     }
 
@@ -82,7 +82,7 @@ class Mysql extends MX_Controller {
 
         $mysql_model = "mysql_model_dollar";
         $this->load->Model($mysql_model);
-        $result = $this->$mysql_model->active_periods_sm_dna2();
+        $result = $this->$mysql_model->active_periods_dna2();
         debug($result);
     }
     
@@ -92,7 +92,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_periods";
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
     
@@ -102,7 +102,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
 
@@ -112,7 +112,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
 
@@ -122,7 +122,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
 
@@ -132,7 +132,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         //$result = $this->$mysql_model->update();
         debug($result);
     }
@@ -143,7 +143,7 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
 
@@ -153,13 +153,13 @@ class Mysql extends MX_Controller {
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
-        $result = $this->$mysql_model->active_periods_sm_dna2($anexo, $this->period);
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
 
     function Periodos() {
         /* UPDATE DB FORMS2 PERIODOS */
-        //$result = $this->mysql_model->active_periods_sm_dna2($this->anexo, $this->period);
+        //$result = $this->mysql_model->active_periods_dna2($this->anexo, $this->period);
         //debug($result);
     }
 
