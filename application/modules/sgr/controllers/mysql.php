@@ -136,6 +136,16 @@ class Mysql extends MX_Controller {
         //$result = $this->$mysql_model->update();
         debug($result);
     }
+    
+    function Anexo12_one($filename) {
+
+        $anexo = '12';
+        $mysql_model = "mysql_model_" . $anexo;
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2_one($filename);
+        debug($result);
+    }
 
     function Anexo14() {
 
