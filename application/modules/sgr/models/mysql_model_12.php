@@ -51,7 +51,7 @@ class mysql_model_12 extends CI_Model {
 
         foreach ($query->result() as $row) {
             
-            debug($row);
+          
             
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
@@ -132,6 +132,9 @@ class mysql_model_12 extends CI_Model {
         $query = $this->db->get('forms2.sgr_control_periodos');
         
         foreach ($query->result() as $row) {
+            
+              debug($row);
+            
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
                 $parameter = array();
