@@ -208,8 +208,11 @@ class Model_123 extends CI_Model {
             }
             
             $average = array_sum($array_sum);
-
-            $result_average = $average / count($array_sum);
+            
+            $count_arr_sum = (count($array_sum)==0)?1: count($array_sum);
+                   
+            
+            $result_average = $average / $count_arr_sum;
             $new_list = array();
             $new_list['col1'] = $list['NRO_ORDEN'];
 
