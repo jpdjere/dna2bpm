@@ -45,9 +45,9 @@ class mysql_model_12 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
-        $this->db->where('archivo', 'ANEXO 12 - SOLIDUM S.G.R. - 2013-12-30 11:20:23.xls');
+        //$this->db->where('archivo', 'ANEXO 12 - SOLIDUM S.G.R. - 2013-12-30 11:20:23.xls');
         $this->db->where('anexo', $anexo_dna2);
-       // $this->db->where('sgr_id', 702780368);
+       $this->db->where('sgr_id', 1285076677);
         
         $query = $this->db->get('forms2.sgr_control_periodos');
 
