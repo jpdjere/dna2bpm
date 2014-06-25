@@ -47,7 +47,7 @@ class mysql_model_12 extends CI_Model {
         $this->db->where('estado', 'activo');
         //$this->db->where('archivo', 'ANEXO 12 - SOLIDUM S.G.R. - 2013-12-30 11:20:23.xls');
         $this->db->where('anexo', $anexo_dna2);
-       $this->db->where('sgr_id', 2267515782);
+       $this->db->where('sgr_id', 2207746538);
         
         $query = $this->db->get('forms2.sgr_control_periodos');
 
