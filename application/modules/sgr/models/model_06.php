@@ -375,8 +375,8 @@ class Model_06 extends CI_Model {
     }
 
     function get_anexo_report($anexo, $parameter) {
-        
-        $sgr_nombre_to_print = ($this->sgr_nombre)? $this->sgr_nombre : 'TODAS';
+
+        $sgr_nombre_to_print = ($this->sgr_nombre) ? $this->sgr_nombre : 'TODAS';
 
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
@@ -621,6 +621,11 @@ class Model_06 extends CI_Model {
                 $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . money_format_custom($list['26']) . '</td><td>' . $list['27'] . '</td></tr>';
             }
             $inner_table .= '</table>';
+            
+            $cuit_grantor = "";
+            
+            if ($list['5248'])
+                $cuit_grantor = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
@@ -635,7 +640,7 @@ class Model_06 extends CI_Model {
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $transaction_date;
             $new_list['MODALIDAD'] = "Modalidad " . $transaction_type[$list['5252'][0]] . "<br/>Capital Suscripto:" . $list['5597'] . "<br/>Capital Integrado: " . $list['5598'];
-            $new_list['CEDENTE_CUIT'] = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
+            $new_list['CEDENTE_CUIT'] = $cuit_grantor;
 
             $rtn[] = $new_list;
         }
