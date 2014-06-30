@@ -471,7 +471,7 @@ class Model_201 extends CI_Model {
                 }
             }
         }
-       
+
         return $rtn;
     }
 
@@ -620,12 +620,12 @@ class Model_201 extends CI_Model {
         $period_value = $this->session->userdata['period'];
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_last_rec($anexo, $period_value);        
-       
+        $result = $this->sgr_model->get_active_last_rec($anexo, $period_value);
+
 
         /* FIND ANEXO */
         foreach ($result as $list) {
-            
+
             $new_query = array(
                 'filename' => $list['filename']
             );
@@ -674,21 +674,21 @@ class Model_201 extends CI_Model {
         $rtn = array();
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
-       
-        /* FIND ANEXO */       
-        
-        foreach($result as $list) {
+
+        /* FIND ANEXO */
+
+        foreach ($result as $list) {
             $new_query = array(
                 'filename' => $list['filename']
             );
             $new_result = $this->mongo->sgr->$container->find($new_query)->sort(array('NUMERO_DE_APORTE' => -1))->limit(1);
-            
-            
+
+
             foreach ($new_result as $new_list) {
                 $rtn[] = $new_list['NUMERO_DE_APORTE'];
-            }            
+            }
         }
-        
+
         return max($rtn);
     }
 
@@ -706,8 +706,13 @@ class Model_201 extends CI_Model {
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active($anexo, $period_value);
 
+
+
         /* FIND ANEXO */
         foreach ($result as $list) {
+
+
+
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
@@ -791,20 +796,20 @@ class Model_201 extends CI_Model {
         $result = $this->sgr_model->get_active_print($anexo, $period_date);
 
         /* FIND ANEXO */
+        $new_query = array();
         foreach ($result as $list) {
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
 
-            $movement_result = $this->mongo->sgr->$container->find($new_query);
-            foreach ($movement_result as $movement) {
+            $movement = $this->mongo->sgr->$container->findOne($new_query);
+            if ($movement) {
                 $aporte_result_arr[] = $movement['APORTE'];
                 $retiro_result_arr[] = $movement['RETIRO'];
                 $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
             }
         }
-
 
         $aporte_sum = array_sum($aporte_result_arr);
         $retiro_sum = array_sum($retiro_result_arr);
