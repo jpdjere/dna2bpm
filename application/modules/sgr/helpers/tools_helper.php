@@ -949,3 +949,11 @@ function switch_users($iduser) {
 
     return $iduser;
 }
+
+function deleteFromArray(&$array, $deleteIt, $useOldKeys = FALSE) {
+    $key = array_search($deleteIt, $array, TRUE);
+    if ($key === FALSE)
+        return FALSE; unset($array[$key]);
+    if (!$useOldKeys)
+        $array = array_values($array); return TRUE;
+}
