@@ -46,78 +46,109 @@ class mysql_model_12 extends CI_Model {
         $files_arr = array();
         $fields = array('filename');
 
-        $result = $this->mongo->sgr->$anexo_12->find();
+
+        $anexo_query = array(
+            'anexo' => '12',
+            "status" => "activo",
+            "origen" => "forms2",
+        );
+
+        $result = $this->mongo->sgr->$period->find($anexo_query);
         foreach ($result as $file) {
             $files_arr[] = $file['filename'];
         }
-        $files_arr = array_unique($files_arr);
-        $check = $files_arr;
 
+        debug($files_arr);
+
+        $ids_arr = array();
 
         foreach ($files_arr as $eachFile) {
-            $anexo_query = array(
-                'filename' => $eachFile,
-                'anexo' => '12',
-                "status" => "activo",
-                "origen" => "forms2",
-            );
-
-            $result2 = $this->mongo->sgr->$period->find($anexo_query);
+            $query = array("filename" => $eachFile);
+            $result2 = $this->mongo->sgr->$anexo_12->find($query);
+            //debug($result2.count());
             foreach ($result2 as $each) {
-                deleteFromArray($check, $each['filename'], false);
+                $ids_arr[] = $each['id'];
             }
         }
 
-        var_dump(count($check), count($files_arr));
+        $eachid = "";
 
-        
+        foreach ($ids_arr as $eachid) {
+            $count_arr = array();
+            $id_query = array('id' => (int) $eachid);
+            $id_query_one = array('id' => (int) $eachid, "justOne" => true);
+
+            $result3 = $this->mongo->sgr->$anexo_12->find($id_query);
+
+            foreach ($result3 as $count)
+                $count_arr[] = $count['id'];
+
+            $count_result = count($count_arr);
+            if ($count_result == 2){
+                $result4= $this->mongo->sgr->$anexo_12->findOne($id_query);
+                debug($result4['_id']);
+                
+                
+                $delete_qry = array('_id', new MongoId($result4[$id]));
+               $x = $this->mongo->sgr->$anexo_12->remove(array('_id' => new MongoId($result4['_id'])));   
+               var_dump($x, $result4['_id']);
+                
+            }
+                
+        }
+
+        //var_dump(count($check), count($files_arr));
+        echo "fin";
+        exit();
+
 
 
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
 
-        foreach ($check as $file_name){
+        foreach ($check as $file_name) {
             /* TRANSLATE ANEXO NAME */
-        $anexo_dna2 = translate_anexos_dna2($anexo);
-        $this->db->where('estado', 'activo');
-        $this->db->where('archivo', $file_name);
-        $this->db->where('anexo', $anexo_dna2);
-        //$this->db->where('sgr_id', 1676213769);
-
-        $query = $this->db->get('forms2.sgr_control_periodos');
-
-        foreach ($query->result() as $row) {
-
-            debug($row);
-
-            $already_period = $this->already_period($row->archivo);
-            if (!$already_period) {
-                $parameter = array();
-
-                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
-                $parameter['filename'] = $row->archivo;
-                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
-                $parameter['sgr_id'] = (float) $row->sgr_id;
-                $parameter['status'] = 'activo';
-                $parameter['origen'] = 'forms2';
-                $parameter['period'] = str_replace("_", "-", $row->periodo);
+            $anexo_dna2 = translate_anexos_dna2($anexo);
+            $this->db->where('estado', 'activo');
+            $this->db->where('archivo', $file_name);
+            $this->db->where('anexo', $anexo_dna2);
+            //$this->db->where('sgr_id', 1676213769);
 
 
-                $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1] != "2014") {
+            $query = $this->db->get('forms2.sgr_control_periodos');
 
-                    /* UPDATE CTRL PERIOD */
-                    $this->save_tmp($parameter);
+            foreach ($query->result() as $row) {
 
-                    /* UPDATE ANEXO */
+                debug($row);
+
+                $already_period = $this->already_period($row->archivo);
+                if (!$already_period) {
+                    $parameter = array();
+
+                    $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+                    $parameter['filename'] = $row->archivo;
+                    $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+                    $parameter['sgr_id'] = (float) $row->sgr_id;
+                    $parameter['status'] = 'activo';
+                    $parameter['origen'] = 'forms2';
+                    $parameter['period'] = str_replace("_", "-", $row->periodo);
+
+
+                    $is_2014 = explode("_", $row->periodo);
+                    if ($is_2014[1] != "2014") {
+
+                        /* UPDATE CTRL PERIOD */
+                        $this->save_tmp($parameter);
+
+                        /* UPDATE ANEXO */
 //                    if ($row->archivo) {
 //                        $already_update = $this->already_updated($row->anexo, $nro_orden, $row->archivo);
 //                        if (!$already_update)
 //                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
 //                    }
+                    }
                 }
             }
-        }
         }
     }
 
