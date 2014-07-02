@@ -68,7 +68,7 @@ class mysql_model_12 extends CI_Model {
             }
         }
 
-        var_dump(count($check), count($files_arr));
+        //var_dump(count($check), count($files_arr));
 
         
 
@@ -82,20 +82,14 @@ class mysql_model_12 extends CI_Model {
         $this->db->where('estado', 'activo');
         $this->db->where('archivo', $file_name);
         $this->db->where('anexo', $anexo_dna2);
-        $this->db->where('sgr_id', 1676213769);
+        //$this->db->where('sgr_id', 1607152997);
 
         $query = $this->db->get('forms2.sgr_control_periodos');
 
         foreach ($query->result() as $row) {
-<<<<<<< HEAD
-            
-          
-            
-=======
 
             debug($row);
 
->>>>>>> hotfix/Hotfix-find_orphans_12
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
                 $parameter = array();
@@ -177,9 +171,6 @@ class mysql_model_12 extends CI_Model {
         debug($query->result());
 
         foreach ($query->result() as $row) {
-            
-              debug($row);
-            
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
                 $parameter = array();
