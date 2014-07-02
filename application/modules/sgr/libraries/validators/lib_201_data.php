@@ -147,7 +147,8 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 3) {
-
+                    $C_cell_value = "";
+                    
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.1";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
