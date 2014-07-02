@@ -39,22 +39,57 @@ class mysql_model_12 extends CI_Model {
 
     function active_periods_dna2($anexo, $period) {
 
+
+        $period = 'container.sgr_periodos';
+        $anexo_12 = 'container.sgr_anexo_12';
+
+        $files_arr = array();
+        $fields = array('filename');
+
+        $result = $this->mongo->sgr->$anexo_12->find();
+        foreach ($result as $file) {
+            $files_arr[] = $file['filename'];
+        }
+        $files_arr = array_unique($files_arr);
+        $check = $files_arr;
+
+
+        foreach ($files_arr as $eachFile) {
+            $anexo_query = array(
+                'filename' => $eachFile,
+                'anexo' => '12',
+                "status" => "activo",
+                "origen" => "forms2",
+            );
+
+            $result2 = $this->mongo->sgr->$period->find($anexo_query);
+            foreach ($result2 as $each) {
+                deleteFromArray($check, $each['filename'], false);
+            }
+        }
+
+        var_dump(count($check), count($files_arr));
+
+        
+
+
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
 
-        /* TRANSLATE ANEXO NAME */
+        foreach ($check as $file_name){
+            /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
-       // $this->db->where('archivo', 'ANEXO 12 - DON MARIO S.G.R. - 2014-06-26 10:57:29.xls');
+        $this->db->where('archivo', $file_name);
         $this->db->where('anexo', $anexo_dna2);
-       $this->db->where('sgr_id', 1607152997);
-        
+        $this->db->where('sgr_id', 1676213769);
+
         $query = $this->db->get('forms2.sgr_control_periodos');
 
         foreach ($query->result() as $row) {
-            
+
             debug($row);
-            
+
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
                 $parameter = array();
@@ -69,23 +104,24 @@ class mysql_model_12 extends CI_Model {
 
 
                 $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1]!="2014") {
-                    
+                if ($is_2014[1] != "2014") {
+
                     /* UPDATE CTRL PERIOD */
                     $this->save_tmp($parameter);
 
                     /* UPDATE ANEXO */
-                    if ($row->archivo) {
-                        $already_update = $this->already_updated($row->anexo, $nro_orden,$row->archivo);
-                        if (!$already_update)
-                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
-                    }
+//                    if ($row->archivo) {
+//                        $already_update = $this->already_updated($row->anexo, $nro_orden, $row->archivo);
+//                        if (!$already_update)
+//                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+//                    }
                 }
             }
         }
+        }
     }
 
-        /* UPDATE SIN MOVIMIENTO */
+    /* UPDATE SIN MOVIMIENTO */
 
     function active_periods_sm_dna2($anexo, $period) {
         /* TRANSLATE ANEXO NAME */
@@ -115,13 +151,12 @@ class mysql_model_12 extends CI_Model {
             }
         }
     }
-    
-    
+
     function active_periods_dna2_one($filename) {
-        
-        
-        
-        
+
+
+
+
 
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
@@ -132,9 +167,9 @@ class mysql_model_12 extends CI_Model {
         $this->db->where('archivo', urldecode($filename));
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
-        
+
         debug($query->result());
-        
+
         foreach ($query->result() as $row) {
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
@@ -150,8 +185,8 @@ class mysql_model_12 extends CI_Model {
 
 
                 $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1]!="2014") {
-                    
+                if ($is_2014[1] != "2014") {
+
                     /* UPDATE CTRL PERIOD */
                     $this->save_tmp($parameter);
 
@@ -165,7 +200,7 @@ class mysql_model_12 extends CI_Model {
             }
         }
     }
-    
+
     function save_tmp($parameter) {
 
 
