@@ -82,7 +82,11 @@ class mysql_model_12 extends CI_Model {
         $this->db->where('estado', 'activo');
         $this->db->where('archivo', $file_name);
         $this->db->where('anexo', $anexo_dna2);
+<<<<<<< HEAD
         //$this->db->where('sgr_id', 1607152997);
+=======
+        //$this->db->where('sgr_id', 1676213769);
+>>>>>>> hotfix/Hotfix-fix_12_orphans_all_period
 
         $query = $this->db->get('forms2.sgr_control_periodos');
 
