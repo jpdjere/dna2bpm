@@ -63,7 +63,7 @@ class mysql_model_12 extends CI_Model {
           Sin Movimiento                                                1676213769
           Sin Movimiento                                                2111570369
           ANEXO 12 - CUYO AVAL S.G.R. - 2011-06-28 02:01:48.... 	2129915769
-          CAPITAL SOCIAL - AFFIDAVIT S.G.R. - 2011-06-16 02:... 	2175135318
+          CAPITAL SOCIAL - AFFIDAVIT S.G.R. - 2011-06-16 02:... 	
           CAPITAL SOCIAL - VINCULOS S.G.R. - 2011-06-17 09:4... 	
           CAPITAL SOCIAL - CAMPO AVAL S.G.R. - 2011-06-10 10... 	
           FRI - PUENTE HNOS. S.G.R. - 2011-07-08 05:14:16.XL... 	
@@ -73,7 +73,7 @@ class mysql_model_12 extends CI_Model {
           CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	 
          */
         
-        $var= 2207746538;
+        $var= 2175135318;
         
         echo $var;
         $anexo_query = array(
