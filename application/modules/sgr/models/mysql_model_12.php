@@ -46,11 +46,37 @@ class mysql_model_12 extends CI_Model {
         $files_arr = array();
         $fields = array('filename');
 
-
+        /* 
+          ANEXO 15 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	
+          ANEXO 13 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	462574988
+          ANEXO XX 3 - CONFEDERAR NEA S.G.R. - 2013-06-28 11... 	627335384
+          ANEXO 15 - PROPYME S.G.R. - 2011-12-14 02:08:20.xl... 	687239304
+          Sin Movimiento                                                702780368
+          ANEXO 15 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO C... 	1045524969
+          CAPITAL SOCIAL - AFIANZAR S.G.R. - 2011-06-27 07:4... 	1106520165
+          ANEXO 13 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	1186345001
+          ANEXO 12 - LOS GROBO S.G.R. - 2011-03-21 02:30:47.... 	1285076677
+          Sin Movimiento                                                1383403561
+          CAPITAL SOCIAL - GARANTIA DE VALORES S.G.R. - 2011... 	1462524917
+          CAPITAL SOCIAL - AGROAVAL S.G.R. - 2011-07-08 03:0... 	1476431157
+          PDFS - AMERICANA DE AVALES S.G.R. - 2013-06-26 01:... 	1607152997
+          Sin Movimiento                                                1676213769
+          Sin Movimiento                                                2111570369
+          ANEXO 12 - CUYO AVAL S.G.R. - 2011-06-28 02:01:48.... 	2129915769
+          CAPITAL SOCIAL - AFFIDAVIT S.G.R. - 2011-06-16 02:... 	2175135318
+          CAPITAL SOCIAL - VINCULOS S.G.R. - 2011-06-17 09:4... 	2207746538
+          CAPITAL SOCIAL - CAMPO AVAL S.G.R. - 2011-06-10 10... 	2257679366
+          FRI - PUENTE HNOS. S.G.R. - 2011-07-08 05:14:16.XL... 	2267515782
+          CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-06-28... 	2478671474
+          CAPITAL SOCIAL - MACROAVAL S.G.R. - 2011-06-17 09:... 	2519972722
+          ANEXO 12 - FIDUS S.G.R. - 2011-06-29 10:39:58.xls             2840662334
+          CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	3121601518 
+         */
         $anexo_query = array(
             'anexo' => '12',
             "status" => "activo",
             "origen" => "forms2",
+            "sgr_id" => 128688736
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
@@ -84,17 +110,15 @@ class mysql_model_12 extends CI_Model {
                 $count_arr[] = $count['id'];
 
             $count_result = count($count_arr);
-            if ($count_result == 2){
-                $result4= $this->mongo->sgr->$anexo_12->findOne($id_query);
+            if ($count_result == 2) {
+                $result4 = $this->mongo->sgr->$anexo_12->findOne($id_query);
                 debug($result4['_id']);
-                
-                
+
+
                 $delete_qry = array('_id', new MongoId($result4[$id]));
-               $x = $this->mongo->sgr->$anexo_12->remove(array('_id' => new MongoId($result4['_id'])));   
-               var_dump($x, $result4['_id']);
-                
+                $x = $this->mongo->sgr->$anexo_12->remove(array('_id' => new MongoId($result4['_id'])));
+                var_dump($x, $result4['_id']);
             }
-                
         }
 
         //var_dump(count($check), count($files_arr));
