@@ -59,7 +59,7 @@ class mysql_model_12 extends CI_Model {
           Sin Movimiento                                                1383403561
           CAPITAL SOCIAL - GARANTIA DE VALORES S.G.R. - 2011... 	
           CAPITAL SOCIAL - AGROAVAL S.G.R. - 2011-07-08 03:0... 	
-          PDFS - AMERICANA DE AVALES S.G.R. - 2013-06-26 01:... 	1607152997
+          PDFS - AMERICANA DE AVALES S.G.R. - 2013-06-26 01:... 	
           Sin Movimiento                                                1676213769
           Sin Movimiento                                                2111570369
           ANEXO 12 - CUYO AVAL S.G.R. - 2011-06-28 02:01:48.... 	2129915769
@@ -73,7 +73,7 @@ class mysql_model_12 extends CI_Model {
           CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	 
          */
         
-        $var= 1476431157;
+        $var= 1607152997;
         
         echo $var;
         $anexo_query = array(
