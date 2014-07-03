@@ -50,7 +50,7 @@ class mysql_model_12 extends CI_Model {
           ANEXO 15 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	
           ANEXO 13 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	
           ANEXO XX 3 - CONFEDERAR NEA S.G.R. - 2013-06-28 11... 	
-          ANEXO 15 - PROPYME S.G.R. - 2011-12-14 02:08:20.xl... 	687239304
+          ANEXO 15 - PROPYME S.G.R. - 2011-12-14 02:08:20.xl... 	
           Sin Movimiento                                                702780368
           ANEXO 15 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO C... 	1045524969
           CAPITAL SOCIAL - AFIANZAR S.G.R. - 2011-06-27 07:4... 	
@@ -76,7 +76,7 @@ class mysql_model_12 extends CI_Model {
             'anexo' => '12',
             "status" => "activo",
             "origen" => "forms2",
-            "sgr_id" => 627335384
+            "sgr_id" => 687239304
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
