@@ -53,7 +53,7 @@ class mysql_model_12 extends CI_Model {
           ANEXO 15 - PROPYME S.G.R. - 2011-12-14 02:08:20.xl... 	687239304
           Sin Movimiento                                                702780368
           ANEXO 15 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO C... 	1045524969
-          CAPITAL SOCIAL - AFIANZAR S.G.R. - 2011-06-27 07:4... 	1106520165
+          CAPITAL SOCIAL - AFIANZAR S.G.R. - 2011-06-27 07:4... 	
           ANEXO 13 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	1186345001
           ANEXO 12 - LOS GROBO S.G.R. - 2011-03-21 02:30:47.... 	1285076677
           Sin Movimiento                                                1383403561
@@ -76,7 +76,7 @@ class mysql_model_12 extends CI_Model {
             'anexo' => '12',
             "status" => "activo",
             "origen" => "forms2",
-            "sgr_id" => 462574988
+            "sgr_id" => 1106520165
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
