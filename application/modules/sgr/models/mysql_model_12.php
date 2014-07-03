@@ -72,11 +72,15 @@ class mysql_model_12 extends CI_Model {
           ANEXO 12 - FIDUS S.G.R. - 2011-06-29 10:39:58.xls             
           CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	 
          */
+        
+        $var= 2840662334;
+        
+        echo $var;
         $anexo_query = array(
             'anexo' => '12',
             "status" => "activo",
             "origen" => "forms2",
-            "sgr_id" => 2840662334
+            "sgr_id" => $var
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
