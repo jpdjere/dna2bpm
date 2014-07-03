@@ -57,7 +57,7 @@ class mysql_model_12 extends CI_Model {
           ANEXO 13 - FONDO ESPECIFICO DE RIESGO FIDUCIARIO P... 	1186345001
           ANEXO 12 - LOS GROBO S.G.R. - 2011-03-21 02:30:47.... 	
           Sin Movimiento                                                1383403561
-          CAPITAL SOCIAL - GARANTIA DE VALORES S.G.R. - 2011... 	1462524917
+          CAPITAL SOCIAL - GARANTIA DE VALORES S.G.R. - 2011... 	
           CAPITAL SOCIAL - AGROAVAL S.G.R. - 2011-07-08 03:0... 	1476431157
           PDFS - AMERICANA DE AVALES S.G.R. - 2013-06-26 01:... 	1607152997
           Sin Movimiento                                                1676213769
@@ -73,7 +73,7 @@ class mysql_model_12 extends CI_Model {
           CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	 
          */
         
-        $var= 1285076677;
+        $var= 1462524917;
         
         echo $var;
         $anexo_query = array(
