@@ -70,13 +70,13 @@ class mysql_model_12 extends CI_Model {
           CAPITAL SOCIAL - ACINDAR PYMES S.G.R. - 2011-06-28... 	2478671474
           CAPITAL SOCIAL - MACROAVAL S.G.R. - 2011-06-17 09:... 	2519972722
           ANEXO 12 - FIDUS S.G.R. - 2011-06-29 10:39:58.xls             2840662334
-          CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	3121601518 
+          CAPITAL SOCIAL - AVAL RURAL S.G.R. - 2011-06-13 08... 	 
          */
         $anexo_query = array(
             'anexo' => '12',
             "status" => "activo",
             "origen" => "forms2",
-            "sgr_id" => 687239304
+            "sgr_id" => 3121601518
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
