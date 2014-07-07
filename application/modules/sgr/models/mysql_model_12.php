@@ -39,6 +39,52 @@ class mysql_model_12 extends CI_Model {
 
     function active_periods_dna2($anexo, $period) {
 
+        /* CLEAR TEMP DATA */
+        $this->clear_tmp();
+
+        /* TRANSLATE ANEXO NAME */
+        $anexo_dna2 = translate_anexos_dna2($anexo);
+        $this->db->where('estado', 'activo');
+        $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('anexo', $anexo_dna2);
+        $query = $this->db->get('forms2.sgr_control_periodos');
+
+        foreach ($query->result() as $row) {
+            $already_period = $this->already_period($row->archivo);
+            if (!$already_period) {
+
+                $parameter = array();
+
+                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+                $parameter['filename'] = $row->archivo;
+                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+                $parameter['sgr_id'] = (float) $row->sgr_id;
+                $parameter['status'] = 'activo';
+                $parameter['origen'] = 'forms2';
+                $parameter['period'] = str_replace("_", "-", $row->periodo);
+
+
+                $is_2014 = explode("_", $row->periodo);
+                if ($is_2014[1]!="2014") {
+                    
+                    /* UPDATE CTRL PERIOD */
+                    $this->save_tmp($parameter);
+
+                    /* UPDATE ANEXO */
+                    if ($row->archivo) {
+                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                        if (!$already_update)
+                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                    }
+                }
+            }
+        }
+    }
+    
+      /* ACTIVE PERIODS DNA2 */
+
+    function active_periods_dna2_custom($anexo, $period) {
+
 
         $period = 'container.sgr_periodos';
         $anexo_12 = 'container.sgr_anexo_12';
@@ -52,7 +98,7 @@ class mysql_model_12 extends CI_Model {
         $anexo_query = array(
             'anexo' => '12',
             "status" => "activo",
-            "origen" => "forms2"
+            "origen" => "forms2"|1111111
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
@@ -146,86 +192,6 @@ class mysql_model_12 extends CI_Model {
 //                        if (!$already_update)
 //                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
 //                    }
-                    }
-                }
-            }
-        }
-    }
-
-    /* UPDATE SIN MOVIMIENTO */
-
-    function active_periods_sm_dna2($anexo, $period) {
-        /* TRANSLATE ANEXO NAME */
-        $anexo_dna2 = translate_anexos_dna2($anexo);
-        $this->db->where('estado', 'activo');
-        $this->db->where('archivo', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);
-        $query = $this->db->get('forms2.sgr_control_periodos');
-
-        foreach ($query->result() as $row) {
-            $already_period = $this->already_period($row->archivo);
-            $parameter = array();
-
-            $parameter['anexo'] = translate_anexos_dna2($row->anexo);
-            $parameter['filename'] = $row->archivo;
-            $parameter['period_date'] = translate_dna2_period_date($row->periodo);
-            $parameter['sgr_id'] = (float) $row->sgr_id;
-            $parameter['status'] = 'activo';
-            $parameter['origen'] = 'forms2';
-            $parameter['period'] = str_replace("_", "-", $row->periodo);
-
-
-            $is_2014 = explode("_", $row->periodo);
-            if ($is_2014[1] != "2014") {
-                /* UPDATE CTRL PERIOD */
-                $this->save_tmp($parameter);
-            }
-        }
-    }
-
-    function active_periods_dna2_one($filename) {
-
-
-
-
-
-        /* CLEAR TEMP DATA */
-        $this->clear_tmp();
-
-        /* TRANSLATE ANEXO NAME */
-        $anexo_dna2 = translate_anexos_dna2($anexo);
-        $this->db->where('estado', 'activo');
-        $this->db->where('archivo', urldecode($filename));
-        $this->db->where('anexo', $anexo_dna2);
-        $query = $this->db->get('forms2.sgr_control_periodos');
-
-        debug($query->result());
-
-        foreach ($query->result() as $row) {
-            $already_period = $this->already_period($row->archivo);
-            if (!$already_period) {
-                $parameter = array();
-
-                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
-                $parameter['filename'] = $row->archivo;
-                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
-                $parameter['sgr_id'] = (float) $row->sgr_id;
-                $parameter['status'] = 'activo';
-                $parameter['origen'] = 'forms2';
-                $parameter['period'] = str_replace("_", "-", $row->periodo);
-
-
-                $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1] != "2014") {
-
-                    /* UPDATE CTRL PERIOD */
-                    $this->save_tmp($parameter);
-
-                    /* UPDATE ANEXO */
-                    if ($row->archivo) {
-                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                        if (!$already_update)
-                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
                     }
                 }
             }
