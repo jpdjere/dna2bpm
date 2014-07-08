@@ -10,7 +10,7 @@ class Model_17 extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '15';
+        $this->anexo = '17';
         $this->idu = (float) switch_users($this->session->userdata('iduser'));
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
@@ -28,71 +28,12 @@ class Model_17 extends CI_Model {
         }
     }
 
-    function sanitize($parameter) {
-        /* FIX INFORMATION */
-        $parameter = (array) $parameter;
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
+    
 
-        return $parameter;
-    }
-
-    function check($parameter) {
-        /**
-         *   Funcion ...
-         * 
-         * @param 
-         * @type PHP
-         * @name ...
-         * @author Diego
-         *
-         * @example
-         * INCISO_ART_25	
-         * DESCRIPCION	
-         * IDENTIFICACION	
-         * EMISOR	
-         * CUIT_EMISOR	
-         * ENTIDAD_DESPOSITARIA	
-         * CUIT_DEPOSITARIO	
-         * MONEDA	
-         * MONTO
-         * */
-        $defdna = array(
-            1 => 'INCISO_ART_25',
-            2 => 'DESCRIPCION',
-            3 => 'IDENTIFICACION',
-            4 => 'EMISOR',
-            5 => 'CUIT_EMISOR',
-            6 => 'ENTIDAD_DESPOSITARIA',
-            7 => 'CUIT_DEPOSITARIO',
-            8 => 'MONEDA',
-            9 => 'MONTO'
-        );
-
-
-        $insertarr = array();
-        foreach ($defdna as $key => $value) {
-            $insertarr[$value] = $parameter[$key];
-            /* STRING */
-            $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25'];
-            $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR'];
-            $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];
-
-            /* FLOAT */
-            $insertarr['MONTO'] = (float) $insertarr['MONTO'];
-
-
-            if (strtoupper(trim($insertarr["MONEDA"])) == "PESOS ARGENTINOS")
-                $insertarr["MONEDA"] = "1";
-            if (strtoupper(trim($insertarr["MONEDA"])) == "DOLARES AMERICANOS")
-                $insertarr["MONEDA"] = "2";
-        }
-        return $insertarr;
-    }
+    
 
     function save($parameter) {
-
-
+        
 
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
@@ -105,20 +46,21 @@ class Model_17 extends CI_Model {
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
-            $out = array('status' => 'ok');
+            $out = array('status' => $id);
         } else {
             $out = array('status' => 'error');
         }
+        
         return $out;
     }
 
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
-        $period = $this->session->userdata['period'];
+        
         $id = $this->app->genid_sgr($container);
-        $parameter['period'] = $period;
-        $parameter['period_date'] = translate_period_date($period);
+        $parameter['period'] = $parameter['period'];
+        $parameter['period_date'] = translate_period_date($parameter['period']);
         $parameter['status'] = 'activo';
         $parameter['idu'] = (float) $this->idu;
         $parameter['origen'] = "2013";
@@ -132,10 +74,6 @@ class Model_17 extends CI_Model {
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if ($result) {
-            /* BORRO SESSION RECTIFY */
-            $this->session->unset_userdata('rectify');
-            $this->session->unset_userdata('others');
-            $this->session->unset_userdata('period');
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
