@@ -739,26 +739,26 @@ class Sgr extends MX_Controller {
         if (!$parameter)
             exit();
 
-        $parameter = urldecode($parameter);        
-        
+        $parameter = urldecode($parameter);
+
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
-        
+
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
         $this->load->library('pdf/pdf');
-        
+
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
         $customData['sgr_id'] = $this->sgr_id;
         $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
         $customData['base_url'] = base_url();
-        
-        
+
+
         $customData['module_url'] = base_url() . 'sgr/';
-        $customData['logo'] = "http://www.accionpyme.mecon.gob.ar/dna2bpm/sgr/assets/images/orgullo.jpg";//$this->module_url."/assets/images/orgullo.jpg";
+        $customData['logo'] = "http://www.accionpyme.mecon.gob.ar/dna2bpm/sgr/assets/images/orgullo.jpg"; //$this->module_url."/assets/images/orgullo.jpg";
         $customData['parameter'] = urldecode($parameter);
         $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
@@ -777,15 +777,13 @@ class Sgr extends MX_Controller {
         if ($anexo == '06') {
             $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
         }
-        
+
         $this->pdf->set_paper('a4', 'landscape');
         $this->pdf->parse('print', $customData);
         $this->pdf->render();
         $this->pdf->stream("$parameter.pdf");
 
         //echo $this->parser->parse('print', $customData, true);
-
-        
     }
 
     function print_xls($parameter = null) {
@@ -794,15 +792,15 @@ class Sgr extends MX_Controller {
             exit();
         }
         $parameter = urldecode($parameter);
-        
+
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
-        
+
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
-        
+
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
@@ -828,20 +826,16 @@ class Sgr extends MX_Controller {
         $customData['show_table'] = $get_anexo;
 
         echo $this->parser->parse('print_to_xls', $customData, true);
-
-        
     }
 
     function print_ddjj($parameter = null) {
-        
-        
+
 
         if (!$parameter) {
             exit();
         }
-        
-        
-        
+
+
         $parameter = urldecode($parameter);
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
@@ -900,11 +894,33 @@ class Sgr extends MX_Controller {
         }
         $this->pdf->set_paper('A4', 'landscape');
         if ($period_req) {
+
+            /* SAVE DD.JJ */
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+            
+            $save = (array) $this->$model->save($customData);
+            
+            
+            $result = array();
+            $result['period'] = $parameter;
+            $result['filename'] = $save['status'];
+            $result['sgr_id'] = $this->sgr_id;
+            $result['anexo'] = $anexo;
+            
+            
+            $save_period = (array) $this->$model->save_period($result);
+
+
+            /* PRINT DD.JJ PDF MODE */
             $this->pdf->parse('print_ddjj', $customData);
             $this->pdf->render();
             $this->pdf->stream("$parameter.pdf");
+            
         } else {
-            //echo $this->parser->parse('print_ddjj_form', $customData, true);
+
+            /* PRINT DD.JJ FORM */
+            echo $this->parser->parse('print_ddjj_form', $customData, true);
         }
     }
 
