@@ -29,13 +29,16 @@ class mysql_model_periods extends CI_Model {
 
     function active_periods_dna2() {
         /* TRANSLATE ANEXO NAME */
-       
+
         $this->db->where('estado', 'rectificado');
         $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('sgr_id', $this->sgr_id);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
 
+
         foreach ($query->result() as $row) {
+           
 
             $parameter = array();
 
@@ -50,12 +53,14 @@ class mysql_model_periods extends CI_Model {
 
             $is_2014 = explode("_", $row->periodo);
             if ($is_2014[1] != "2014") {
+
+                /* ANEXOS */
                 if (translate_anexos_dna2($row->anexo))
                     $get_period = $this->sgr_model->get_if_is_rectified($row->archivo);
 
-                if ($get_period['id']) {
+                if ($get_period['id'])
                     $this->update_period($get_period['id'], $get_period['status']);
-                }
+               
             }
         }
     }
