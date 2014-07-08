@@ -334,7 +334,8 @@ class Model_201 extends CI_Model {
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
-
+        
+        $col5 = array();
         $col6 = array();
         $col8 = array();
         $col10 = array();
@@ -349,6 +350,7 @@ class Model_201 extends CI_Model {
             $this->load->Model($model_201);
             $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
 
+            $col5[] = (float) $list['APORTE'];
             $col6[] = (float) $list['RETIRO'];
             $col8[] = (float) $get_movement_data['APORTE'];
             $col10[] = (float) $list['RETIRO_DE_RENDIMIENTOS'];
@@ -360,7 +362,7 @@ class Model_201 extends CI_Model {
         $new_list['FECHA_MOVIMIENTO'] = "-";
         $new_list['RAZON_SOCIAL'] = "-";
         $new_list['CUIT_PROTECTOR'] = "-";
-        $new_list['APORTE'] = "-";
+        $new_list['APORTE'] = money_format_custom(array_sum($col5));
         $new_list['RETIRO'] = money_format_custom(array_sum($col6));
         $new_list['APORTE_ORIGINAL'] = "-";
         $new_list['FECHA_APORTE_ORIGINAL'] = money_format_custom(array_sum($col8));
