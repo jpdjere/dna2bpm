@@ -334,7 +334,7 @@ class Model_201 extends CI_Model {
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
         $rtn = array();
-        
+
         $col5 = array();
         $col6 = array();
         $col8 = array();
@@ -805,19 +805,13 @@ class Model_201 extends CI_Model {
                 'NUMERO_DE_APORTE' => $nro
             );
 
-            
-            
+
+
             $movement = $this->mongo->sgr->$container->findOne($new_query);
-            if($movement) {
-                
-                if ($this->sgr_id == 2207746538) {                
-                debug($movement);
-                
-            }
-                
-                $aporte_result_arr[] = $movement['APORTE'];
-                $retiro_result_arr[] = $movement['RETIRO'];
-                $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
+            foreach ($movement as $x) {
+                $aporte_result_arr[] = $x['APORTE'];
+                $retiro_result_arr[] = $x['RETIRO'];
+                $rendimientos_result_arr[] = $x['RETIRO_DE_RENDIMIENTOS'];
             }
         }
 
