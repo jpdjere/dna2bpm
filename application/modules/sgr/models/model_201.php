@@ -810,7 +810,7 @@ class Model_201 extends CI_Model {
 
 
 
-            $movement = $this->mongo->sgr->$container->findOne($new_query);
+            $movement = $this->mongo->sgr->$container->find($new_query);
             foreach ($movement as $x) {
                 $aporte_result_arr[] = $x['APORTE'];
                 $retiro_result_arr[] = $x['RETIRO'];
