@@ -72,21 +72,13 @@ class Model_202 extends CI_Model {
             $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"] = (float) $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"];
             $insertarr["RENDIMIENTO_ASIGNADO"] = (float) $insertarr["RENDIMIENTO_ASIGNADO"];
 
-
-            /* DYNAMIC INFO */
+            
+            /* DYNAMIC INFO*/
             $model_201 = 'model_201';
             $this->load->Model($model_201);
 
-
-
+            
             $get_movement_data = $this->$model_201->get_movement_data_print($insertarr['NUMERO_DE_APORTE'], $this->session->userdata['period']);
-
-            if ($this->sgr_id == 2207746538) {
-                debug($this->sgr_id);
-                debug($get_movement_data);
-                exit();
-            }
-
             $partener_info = $this->$model_201->get_input_number_print($insertarr['NUMERO_DE_APORTE'], $this->session->userdata['period']);
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
@@ -95,7 +87,7 @@ class Model_202 extends CI_Model {
             $saldo = $get_movement_data['APORTE'] - $retiros;
             $disponible = $saldo - (float) $insertarr['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
             /* */
-
+            
             $insertarr["CUIT_PROTECTOR"] = $cuit;
             $insertarr["SALDO"] = $saldo;
             $insertarr["DISPONIBLE"] = $disponible;
@@ -246,9 +238,10 @@ class Model_202 extends CI_Model {
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
+                
             }
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PROTECTOR"]);
-
+           
 
             $new_list = array();
             $new_list['NUMERO_DE_APORTE'] = $list['NUMERO_DE_APORTE']; //$list['NUMERO_DE_APORTE'];
@@ -286,7 +279,7 @@ class Model_202 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
         $new_list = array();
         foreach ($result as $list) {
-
+           
 
             $col4[] = (float) $list['SALDO'];
             $col5[] = (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
