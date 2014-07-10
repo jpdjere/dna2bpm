@@ -807,17 +807,17 @@ class Model_201 extends CI_Model {
 
             
             
-            $movement = $this->mongo->sgr->$container->find($new_query);
-            foreach($movement as $x) {
+            $movement = $this->mongo->sgr->$container->findOne($new_query);
+            if($movement) {
                 
                 if ($this->sgr_id == 2207746538) {                
-                debug($x);
+                debug($movement);
                 
             }
                 
-                $aporte_result_arr[] = $x['APORTE'];
-                $retiro_result_arr[] = $x['RETIRO'];
-                $rendimientos_result_arr[] = $x['RETIRO_DE_RENDIMIENTOS'];
+                $aporte_result_arr[] = $movement['APORTE'];
+                $retiro_result_arr[] = $movement['RETIRO'];
+                $rendimientos_result_arr[] = $movement['RETIRO_DE_RENDIMIENTOS'];
             }
         }
 
