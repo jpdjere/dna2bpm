@@ -85,8 +85,6 @@ class Model_202 extends CI_Model {
             }
             
             
-            
-            
             $retiros = array_sum(array($get_movement_data['RETIRO']));
             $saldo = $get_movement_data['APORTE'] - $retiros;
             $disponible = $saldo - (float) $insertarr['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
@@ -95,13 +93,7 @@ class Model_202 extends CI_Model {
             $insertarr["CUIT_PROTECTOR"] = $cuit;
             $insertarr["SALDO"] = $saldo;
             $insertarr["DISPONIBLE"] = $disponible;
-            
-            
-            if ($this->sgr_id == 2207746538) {
-                debug($this->sgr_id);
-                debug($get_movement_data);
-                exit();
-            }
+          
             
             
         }
