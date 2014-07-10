@@ -817,7 +817,7 @@ class Model_201 extends CI_Model {
         }
 
         
-           if ($this->sgr_id == 2207746538) {
+           if ($nro == 8) {
                 
                 debug($retiro_result_arr);
                 
