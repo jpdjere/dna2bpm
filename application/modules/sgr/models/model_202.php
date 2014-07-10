@@ -85,8 +85,6 @@ class Model_202 extends CI_Model {
             }
             
             
-            
-            
             $retiros = array_sum(array($get_movement_data['RETIRO']));
             $saldo = $get_movement_data['APORTE'] - $retiros;
             $disponible = $saldo - (float) $insertarr['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
