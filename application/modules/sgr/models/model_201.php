@@ -804,6 +804,9 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
+            
+            
+            
 
             $movement = $this->mongo->sgr->$container->findOne($new_query);
             if ($movement) {
@@ -813,6 +816,13 @@ class Model_201 extends CI_Model {
             }
         }
 
+        
+           if ($this->sgr_id == 2207746538) {
+                
+                debug($retiro_result_arr);
+                
+            }
+        
         $aporte_sum = array_sum($aporte_result_arr);
         $retiro_sum = array_sum($retiro_result_arr);
         $rendimientos_sum = array_sum($rendimientos_result_arr);
