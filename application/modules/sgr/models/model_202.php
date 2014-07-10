@@ -98,6 +98,7 @@ class Model_202 extends CI_Model {
             
             
             if ($this->sgr_id == 2207746538) {
+                echo "update";
                 debug($this->sgr_id);
                 debug($get_movement_data);
                 exit();
