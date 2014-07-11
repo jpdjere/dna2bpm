@@ -37,7 +37,7 @@ class mysql_model_12 extends CI_Model {
 
     /* ACTIVE PERIODS DNA2 */
 
-    function active_periods_dna2_modif($anexo, $period) {
+    function active_periods_dna2($anexo, $period) {
 
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
@@ -45,7 +45,7 @@ class mysql_model_12 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
-        $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('archivo', 'ANEXO 12 - ACINDAR PYMES S.G.R. - 2013-07-05 06:11:37.xls');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
@@ -77,7 +77,7 @@ class mysql_model_12 extends CI_Model {
         }
     }
 
-    function active_periods_dna2($anexo, $period) {
+    function active_periods_dna2_custom($anexo, $period) {
 
 
         $period = 'container.sgr_periodos';
