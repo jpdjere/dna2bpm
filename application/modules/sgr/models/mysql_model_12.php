@@ -93,7 +93,7 @@ class mysql_model_12 extends CI_Model {
             'anexo' => '12',
             "status" => "activo",
             "origen" => "forms2",
-            "filename" => "ANEXO 12 - ACINDAR PYMES S.G.R. - 2013-07-05 06:11:37.xls"
+            "filename" => "ANEXO 12 - ACINDAR PYMES S.G.R. - 2013-07-29 04:16:31.xls"
         );
 
         $result = $this->mongo->sgr->$period->find($anexo_query);
