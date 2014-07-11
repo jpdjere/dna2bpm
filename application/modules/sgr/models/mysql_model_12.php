@@ -37,7 +37,7 @@ class mysql_model_12 extends CI_Model {
 
     /* ACTIVE PERIODS DNA2 */
 
-    function active_periods_dna2($anexo, $period) {
+    function active_periods_dna2_modif($anexo, $period) {
 
         /* CLEAR TEMP DATA */
         $this->clear_tmp();
@@ -77,7 +77,7 @@ class mysql_model_12 extends CI_Model {
         }
     }
 
-    function active_periods_dna2_custom($anexo, $period) {
+    function active_periods_dna2($anexo, $period) {
 
 
         $period = 'container.sgr_periodos';
