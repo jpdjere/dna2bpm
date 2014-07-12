@@ -246,6 +246,8 @@ class mysql_model_06 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
 
         $already_id = $this->already_id($row->anexo, $parameter['id'] );
+        debug($already_id);
+        
         if($already_id){
             echo "repetido";
         }
