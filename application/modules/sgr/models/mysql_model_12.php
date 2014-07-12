@@ -385,19 +385,37 @@ class mysql_model_12 extends CI_Model {
             return true;
     }
 
+    function already_id($anexo, $idvalue) {
+        $idvalue = (float) $idvalue;
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("id" => $idvalue);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return true;
+    }
+
     function save_anexo_12_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_12';
         /* TRANSLATE ANEXO NAME */
+        $already_id = $this->already_id("12", $parameter['id']);
 
-        $id = $this->app->genid_sgr($container);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
-        if ($result) {
-            $out = array('status' => 'ok');
+
+
+        if ($already_id) {
+            echo "duplicado" . $parameter['id'];
         } else {
-            $out = array('status' => 'error');
+
+            $id = $this->app->genid_sgr($container);
+            $result = $this->app->put_array_sgr($id, $container, $parameter);
+            if ($result) {
+                $out = array('status' => 'ok');
+            } else {
+                $out = array('status' => 'error');
+            }
         }
         return $out;
     }
