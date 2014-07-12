@@ -224,7 +224,20 @@ class mysql_model_06 extends CI_Model {
         if ($result)
             return true;
     }
+    
+    
+     function already_id($anexo, $idvalue) {
+        $idvalue = (float)$idvalue;
+        
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("id" => $idvalue);
+        $result = $this->mongo->sgr->$container->findOne($query);
 
+        if ($result)
+            return true;
+    }
+	
+    
     function save_anexo_06_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
@@ -232,9 +245,12 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
 
-        debug($parameter);
+        $already_id = $this->already_id($row->anexo, $parameter['id'] );
+        if($already_id){
+            echo "repetido";
+        }
+        debug($parameter['id']);
         exit();
-        
         
         $id = $this->app->genid_sgr($container);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
