@@ -233,7 +233,7 @@ class mysql_model_06 extends CI_Model {
         $query = array("id" => $idvalue);
         $result = $this->mongo->sgr->$container->findOne($query);
         
-        debug($query);
+       
         
         if ($result)
             return true;
@@ -248,12 +248,13 @@ class mysql_model_06 extends CI_Model {
         /* TRANSLATE ANEXO NAME */
 
         $already_id = $this->already_id($row->anexo, $parameter['id'] );
-        debug($already_id);
+        
+        var_dump("ai", $already_id);
         
         if($already_id){
             echo "repetido";
         }
-        debug($parameter['id']);
+        var_dump($parameter['id']);
         exit();
         
         $id = $this->app->genid_sgr($container);
