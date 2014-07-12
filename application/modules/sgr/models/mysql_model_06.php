@@ -230,9 +230,6 @@ class mysql_model_06 extends CI_Model {
 
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("id" => $idvalue);
-        
-        debug($query);
-        
         $result = $this->mongo->sgr->$container->findOne($query);
         if ($result)
             return true;
@@ -245,10 +242,11 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
 
-
         $already_id = $this->already_id("06", $parameter['id']);
 
-        if (!$already_id) {
+
+
+        if ($already_id) {
             $id = $this->app->genid_sgr($container);
             $result = $this->app->put_array_sgr($id, $container, $parameter);
             if ($result) {
@@ -256,7 +254,6 @@ class mysql_model_06 extends CI_Model {
             } else {
                 $out = array('status' => 'error');
             }
-
         }
 
 
