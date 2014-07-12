@@ -235,9 +235,6 @@ class mysql_model_06 extends CI_Model {
         debug($query);
         
         $result = $this->mongo->sgr->$container->findOne($query);
-        
-       
-        
         if ($result)
             return true;
     }
@@ -249,6 +246,7 @@ class mysql_model_06 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
+
 
         if($already_id){
             echo "repetido";
