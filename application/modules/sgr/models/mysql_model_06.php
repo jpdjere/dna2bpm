@@ -224,19 +224,17 @@ class mysql_model_06 extends CI_Model {
         if ($result)
             return true;
     }
-    
-    
-     function already_id($anexo, $idvalue) {
-        $idvalue = (float)$idvalue;
-        
+
+    function already_id($anexo, $idvalue) {
+        $idvalue = (float) $idvalue;
+
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("id" => $idvalue);
         $result = $this->mongo->sgr->$container->findOne($query);
         if ($result)
             return true;
     }
-	
-    
+
     function save_anexo_06_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
@@ -244,23 +242,22 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
 
-        $already_id = $this->already_id("06", $parameter['id'] );
-        
-        var_dump("ai", $already_id);
-        
-        if($already_id){
-            echo "repetido";
+        $already_id = $this->already_id("06", $parameter['id']);
+
+
+
+        if (!$already_id) {
+            $id = $this->app->genid_sgr($container);
+            $result = $this->app->put_array_sgr($id, $container, $parameter);
+            if ($result) {
+                $out = array('status' => 'ok');
+            } else {
+                $out = array('status' => 'error');
+            }
         }
-        var_dump($parameter['id']);
-        exit();
-        
-        $id = $this->app->genid_sgr($container);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
-        if ($result) {
-            $out = array('status' => 'ok');
-        } else {
-            $out = array('status' => 'error');
-        }
+
+
+
         return $out;
     }
 
