@@ -231,6 +231,9 @@ class mysql_model_06 extends CI_Model {
         
         $container = 'container.sgr_anexo_' . $anexo;
         $query = array("id" => $idvalue);
+        
+        debug($query);
+        
         $result = $this->mongo->sgr->$container->findOne($query);
 
         if ($result)
@@ -245,7 +248,7 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
 
-        $already_id = $this->already_id($row->anexo, $parameter['id'] );
+        $already_id = $this->already_id($row->anexo, $parameter['id']);
         debug($already_id);
         
         if($already_id){
