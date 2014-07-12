@@ -232,6 +232,10 @@ class mysql_model_06 extends CI_Model {
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
 
+        debug($parameter);
+        exit();
+        
+        
         $id = $this->app->genid_sgr($container);
         $result = $this->app->put_array_sgr($id, $container, $parameter);
         if ($result) {
