@@ -235,6 +235,8 @@ class Model_06 extends CI_Model {
                 $integrated = $integrated - $insertarr[5598];
                 $grantor_type = ($integrated == 0) ? "2" : "1";
             }
+            var_dump($integrated, $insertarr[5598]);
+            
             $insertarr[5292] = $grantor_type;
         }
 
