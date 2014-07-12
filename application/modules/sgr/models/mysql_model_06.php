@@ -246,7 +246,7 @@ class mysql_model_06 extends CI_Model {
 
 
 
-        if (!$already_id) {
+        if ($already_id) {
             $id = $this->app->genid_sgr($container);
             $result = $this->app->put_array_sgr($id, $container, $parameter);
             if ($result) {
