@@ -235,7 +235,9 @@ class mysql_model_06 extends CI_Model {
         debug($query);
         
         $result = $this->mongo->sgr->$container->findOne($query);
-
+        
+        debug($query);
+        
         if ($result)
             return true;
     }
