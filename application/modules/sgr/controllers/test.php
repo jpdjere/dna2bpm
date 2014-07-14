@@ -56,8 +56,20 @@ class Test extends MX_Controller {
     }
 
     function Index() {
-       // 8/10/2013 = 41496
-        
+        // 8/10/2013 = 41496
+        $model = 'model_06';
+        $this->load->Model($model);
+       
+
+        $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + 41709, 1900));
+        $integrated = $this->shares_print("30645852865", "A", 5598, "03-2014", $transaction_date);
+        $integrated = $integrated - 1000;
+                $grantor_type = ($integrated == 0) ? "2" : "1";
+debug($grantor_type);        
+//$integrated = $integrated - $insertarr[5598];
+
+        exit();
+
         echo '<table> <tr>
                                 <th rowspan="2" align="center">PROMEDIO SALDO <br />MENSUAL CORRESPONDIENTE AL MES DE </th>
                                 <th align="center">SALDO PROMEDIO <br />GARANTIAS VIGENTES</th>
@@ -91,14 +103,14 @@ class Test extends MX_Controller {
                                 <td align="center">A/C</td>
                                 <td align="center">B/D</td>
                             </tr>';
-        
-        
+
+
 
         $model = 'model_12';
         $this->load->Model($model);
         $B_warranty_info = $this->$model->get_warranty_partner_left("30554183170");
         var_dump($B_warranty_info);
-        
+
         exit();
 
 
@@ -143,6 +155,62 @@ class Test extends MX_Controller {
     }
 
     /* RECTIFY FNs */
+    
+    function shares_print($cuit, $partner_type = null, $field = 5597, $period_value, $transaction_date) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+        $endDate = new MongoDate(strtotime($transaction_date));
+
+        $buy_result_arr = array();
+        $sell_result_arr = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_print($anexo, $period_value);
+
+
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            /* BUY */
+            $new_query = array(
+                1695 => (string) $cuit,
+                'filename' => $list['filename'],
+                'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $endDate
+                ),
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+
+            $buy_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($buy_result as $buy) {
+                $buy_result_arr[] = $buy[$field];
+            }
+
+            /* SELL */
+            $new_query = array(
+                5248 => (string) $cuit,
+                'filename' => $list['filename'],
+                'FECHA_DE_TRANSACCION' => array(
+                    '$lte' => $endDate
+                ),
+            );
+            if ($partner_type)
+                $new_query[5272] = $partner_type;
+
+            $sell_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($sell_result as $sell) {
+
+                $sell_result_arr[] = $sell[$field];
+            }
+        }
+
+        $buy_sum = array_sum($buy_result_arr);
+        $sell_sum = array_sum($sell_result_arr);
+        $balance = $buy_sum - $sell_sum;
+        return $balance;
+    }
 
     function rectify_status() {
         $customData = array();
@@ -607,7 +675,7 @@ class Test extends MX_Controller {
                 if ($limit_month < $set_month) {
                     return 1; // Posterior al mes actual
                 } else {
-                    $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
+                    $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
                     if ($get_period) {
                         return $this->input->post("input_period"); //Ya fue informado                    
                     } else {
@@ -663,7 +731,7 @@ class Test extends MX_Controller {
         $this->load->model($model);
 
         if (!$this->session->userdata['rectify']) {
-            $get_period = $this->sgr_model->get_current_period_info($anexo,$period);
+            $get_period = $this->sgr_model->get_current_period_info($anexo, $period);
         }
 
 
@@ -1039,4 +1107,3 @@ class Test extends MX_Controller {
     }
 
 }
-
