@@ -31,6 +31,18 @@ class Case_manager extends MX_Controller {
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
     }
 
+    function Archive($model, $idwf, $idcase = null) {
+        $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        if ($debug)
+            echo '<h2>' . __FUNCTION__ . '</h2>';
+        $case = $this->bpm->get_case($idcase);
+        $this->bpm->archive_case($case);
+        echo "Moving case $idcase  to Archive...<br/>";
+        $this->bpm->delete_case($idwf, $idcase);
+        echo "Done";
+        
+        
+    }
     function Browse($model, $idwf, $case = null, $action = '') {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
         if ($debug)
@@ -153,45 +165,15 @@ class Case_manager extends MX_Controller {
         }
     }
 
-    function Tokens($action, $idwf, $idcase) {
+    function Tokens($action, $idwf, $idcase, $output = 'json') {
         $segments = $this->uri->segment_array();
         $debug = (in_array('debug', $segments)) ? true : false;
         $out = array();
         //----if selected all tokens status
         if ($idcase == 'all') {
-            $tokens = array();
-            $all_tokens = array();
+            $tokens = array();            
             $filter['idwf'] = $idwf;
-            $allcases = $this->bpm->get_cases_byFilter($filter, array('id','token_status'));
-//            $mywf = $this->bpm->load($idwf);
-//
-//            $wf = bindArrayToObject($mywf['data']);
-            $cases = array();
-            foreach ($allcases as $case) {
-                $tokens = (isset($case['token_status'])) ? $case['token_status'] : null;
-                //var_dump($case,$tokens);exit;
-                if ($tokens) {
-                    foreach ($tokens as $resourceId) {
-                        if (isset($all_tokens[$resourceId])) {
-                            $all_tokens[$resourceId]['run'] ++;
-                        } else {
-                            $token = $this->bpm->get_token($idwf, $case['id'], $resourceId);
-                            //var_dump($token);exit;
-                            //$data = $this->bpm->get_shape($resourceId, $wf);
-
-                            $all_tokens[$resourceId] = array(
-                                'idwf' => $idwf,
-                                'resourceId' => $resourceId,
-                                'title' => (isset($token['title'])) ? $token['title'] : '',
-                                'type' => $token['type'],
-                                'run' => 1,
-                                'icon' => "<img src='" . $this->base_url . $this->bpm->get_icon($token['type']) . "' />"
-                            );
-                        }
-                    }
-                }
-            }//---end foreach cases
-            $tokens=array();
+            $all_tokens=$this->bpm->get_cases_stats($filter);
             foreach ($all_tokens as $token)
                 $tokens[] = $token;
             $out['rows'] = $tokens;
@@ -229,11 +211,17 @@ class Case_manager extends MX_Controller {
             }
         }
         $out['totalcount'] = count($tokens);
-        if (!$debug) {
-            header('Content-type: application/json;charset=UTF-8');
-            echo json_encode($out);
-        } else {
-            var_dump($out);
+        switch ($output) {
+            case 'json':
+                if (!$debug) {
+                    header('Content-type: application/json;charset=UTF-8');
+                    echo json_encode($out);
+                } else {
+                    var_dump($out);
+                }
+                break;
+            default:
+                return $out;
         }
     }
 

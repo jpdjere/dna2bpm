@@ -64,10 +64,12 @@ class App extends CI_Model {
         }
     }
 
-    function put_object($object) {
-        $options = array('upsert' => true, 'safe' => true);
-        $result = $this->mongo->db->forms->save($object, $options);
+    function put_object($object) {        
+        $options = array('upsert' => true, 'w' => true);        
+        $result = $this->mongo->db->forms->save($object, $options);    
         return $result;
+         
+        
     }
 
     function get_apps() {
@@ -235,7 +237,7 @@ class App extends CI_Model {
 
     function put_code($object, $context, $language, $code) {
         $data = $this->app->get_code($object, $context, $language);
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         //---TODO backup to another base
 
         $data['object'] = $object;
@@ -266,14 +268,14 @@ class App extends CI_Model {
 
     function put_frame_extra($idform, $idframe, $extra) {
 
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         $form = $this->app->get_object($idform);
         $form['frames'][$idframe] = $extra;
         return $this->mongo->db->forms->save($form, $options);
     }
 
     function put_frame($idframe, $new_frame) {
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
 
         $idframe = (int) $idframe;
         //--1st get old frame if exists;
@@ -287,7 +289,7 @@ class App extends CI_Model {
     }
 
     function put_form_data($idform, $form_data) {
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         $idform = (int) $idform;
         //--1st get old frame if exists;
         //--overwrites values with newones
@@ -297,13 +299,13 @@ class App extends CI_Model {
     }
 
     function put_app($idapp, $new_app) {
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         $new_app['idapp'] = (int) $new_app['idapp'];
         return $this->mongo->db->apps->save($new_app, $options);
     }
 
     function put_form($idform, $new_form) {
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         $idform = (int) $idform;
         //--1st get old frame if exists;
         $form = $this->get_form($idform);
@@ -335,8 +337,8 @@ class App extends CI_Model {
 
         $criteria = array('id' => $id);
         $update = array('$set' => $thisArr);
-        $options = array('upsert' => true, 'safe' => true);
-
+        $options = array('upsert' => true, 'w' => true);
+        
         //var_dump($container, json_encode($criteria), json_encode($update));
         $result = $this->mongo->db->selectCollection($container)->update($criteria, $update, $options);
         $thisArr['id'] = $id;
@@ -583,7 +585,7 @@ class App extends CI_Model {
     }
 
     function gen_inc($container, $fieldname) {
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         $query = array();
         $fields = array($fieldname);
         $sort = array($fieldname => -1);

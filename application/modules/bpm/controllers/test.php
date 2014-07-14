@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  * @date   Apr 12, 2013
  */
-class test extends CI_Controller {
+class test extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -34,7 +34,7 @@ class test extends CI_Controller {
     }
 
     function Index() {
-        
+       var_dump(Modules::run('bpm/bpmui/tile',null));
     }
 
     function get_shape_byname() {
@@ -47,7 +47,15 @@ class test extends CI_Controller {
     }
 
     function get_tasks() {
-        $tasks=$this->bpm->get_tasks(1);
+        $tasks = $this->bpm->get_tasks(1);
+    }
+
+    function usercall() {
+     call_user_func_array (array($this,'user_callable'),array('aaaa','bbbb'));
+    }
+
+    function user_callable($a, $b) {
+        var_dump($a, $b);
     }
 
 }
