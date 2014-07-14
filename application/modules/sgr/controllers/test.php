@@ -63,6 +63,9 @@ class Test extends MX_Controller {
 
         $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + 41709, 1900));
         $integrated = $this->shares_print("30645852865", "A", 5598, "03-2014", $transaction_date);
+        
+        var_dump($integrated);
+        
         $integrated = $integrated - 1000;
                 $grantor_type = ($integrated == 0) ? "2" : "1";
 debug($grantor_type);        
@@ -171,6 +174,9 @@ debug($grantor_type);
 
         /* FIND ANEXO */
         foreach ($result as $list) {
+            
+            
+            
             /* BUY */
             $new_query = array(
                 1695 => (string) $cuit,
@@ -183,8 +189,13 @@ debug($grantor_type);
                 $new_query[5272] = $partner_type;
 
 
+            
+            
             $buy_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($buy_result as $buy) {
+                
+                var_dump("compra",$buy['id']);
+                
                 $buy_result_arr[] = $buy[$field];
             }
 
@@ -201,6 +212,8 @@ debug($grantor_type);
 
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
+                
+                 var_dump("vende", $sell[$field]);
 
                 $sell_result_arr[] = $sell[$field];
             }
@@ -209,6 +222,9 @@ debug($grantor_type);
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = $buy_sum - $sell_sum;
+        
+        debug($balance);
+        
         return $balance;
     }
 
