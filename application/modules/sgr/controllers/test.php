@@ -216,7 +216,7 @@ debug($grantor_type);
             $sell_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($sell_result as $sell) {
                 
-                 var_dump("vende", $sell[$field]);
+                 var_dump("vende", $sell['id']);
 
                 $sell_result_arr[] = $sell[$field];
             }
