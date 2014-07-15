@@ -64,9 +64,12 @@ class Test extends MX_Controller {
         $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + 41709, 1900));
         $integrated = $this->shares_print("30645852865", "A", 5598, "03-2014", $transaction_date);
         
-        var_dump($integrated);
+        
         
         $integrated = $integrated - 1000;
+        
+        var_dump($integrated);
+        echo "<hr>";
                 $grantor_type = ($integrated == 0) ? "2" : "1";
 debug($grantor_type);        
 //$integrated = $integrated - $insertarr[5598];
