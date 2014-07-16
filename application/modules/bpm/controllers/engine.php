@@ -376,7 +376,7 @@ class Engine extends MX_Controller {
 //$debug=true;
 //----prepare renderData
         $renderData = array();
-        $renderData = $this->lang->language;
+        $renderData['lang'] = $this->lang->language;
         $renderData['theme'] = $this->config->item('theme');
         $renderData['base_url'] = $this->base_url;
         $renderData['idwf'] = $idwf;
@@ -437,7 +437,7 @@ class Engine extends MX_Controller {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
 //----prepare renderData
         $renderData = array();
-        $renderData = $this->lang->language;
+        $renderData['lang'] = $this->lang->language;
         $renderData['theme'] = $this->config->item('theme');
         $renderData['base_url'] = $this->base_url;
         $renderData['idwf'] = $idwf;
@@ -531,7 +531,7 @@ class Engine extends MX_Controller {
         foreach ($dataStores as $shape) {
 //echo $shape->properties->name;
 //---LOAD DATA CONNECTORS
-            $modelname = 'bpm/connectors/' . $shape->properties->name . '_connector';
+            $modelname = 'bpm/connectors/' . $shape->properties->connector . '_connector';
             $this->load->model($modelname);
 //---END LOAD DATA CONNECTORS
             $strStor = $shape->properties->name;
