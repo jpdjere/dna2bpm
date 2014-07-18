@@ -30,14 +30,15 @@ class Fondyf extends MX_Controller {
     }
     
     function Proyecto(){
-        Modules::run('dashboard/dashboard','fondyf_empresas');
+        Modules::run('dashboard/dashboard','fondyf/json/fondyf_proyectos.json');
     }
     
     function Evaluador(){
-        
+        Modules::run('dashboard/dashboard','fondyf/json/fondyf_evaluador.json');
     }
     
     function Admin(){
+        Modules::run('dashboard/dashboard','fondyf/json/fondyf_admin.json');
         
     }
 }
