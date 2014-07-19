@@ -1,0 +1,25 @@
+{
+
+    "icon": "ion-filing",
+    "title": "Proyectos Presentados",
+    "desc": "Cantidad de Proyectos presentados para Evaluación",
+    "help": "",
+    "type": "count_cases",
+    "idkpi": 7,
+    "idwf": "fondyfpp",
+    "idu": 1,
+    "hidden": false,
+    "locked": false,
+    "filter": "user",
+    "filter_extra": "{}",
+    "resourceId": "oryx_23AAE779-347B-49B2-BC80-8D6E04A6EA37",
+    "widget_type": "tiles",
+    "widget": "tile-red",
+    "group": 0,
+    "list_fields": "{\"CUIT\":\"Empresas 1695\",\"Nombre\":\"Empresas 1693\"}",
+    "list_detail": "",
+    "list_template": "",
+    "list_detail_template": "",
+    "list_records": 0
+
+}

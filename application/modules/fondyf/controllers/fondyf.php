@@ -41,6 +41,11 @@ class Fondyf extends MX_Controller {
         Modules::run('dashboard/dashboard','fondyf/json/fondyf_admin.json');
         
     }
+    function tile_proyectos(){
+        //----portable indicators are stored as json files
+        $kpi=json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
+        echo Modules::run('bpm/kpi/tile_kpi',$kpi);
+    }
 }
 
 /* End of file fondyf */

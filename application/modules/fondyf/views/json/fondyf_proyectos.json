@@ -9,9 +9,9 @@
             "tiles": [
                 {
                     "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks"
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_proyectos"
                 },
                 {
                     "title": "Tile01",
