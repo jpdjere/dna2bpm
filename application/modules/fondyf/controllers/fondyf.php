@@ -28,24 +28,25 @@ class Fondyf extends MX_Controller {
     function Index() {
         $this->proyecto();
     }
-    
-    function Proyecto(){
-        Modules::run('dashboard/dashboard','fondyf/json/fondyf_proyectos.json');
+
+    function Proyecto() {
+        Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_proyectos.json');
     }
-    
-    function Evaluador(){
-        Modules::run('dashboard/dashboard','fondyf/json/fondyf_evaluador.json');
+
+    function Evaluador() {
+        Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_evaluador.json');
     }
-    
-    function Admin(){
-        Modules::run('dashboard/dashboard','fondyf/json/fondyf_admin.json');
-        
+
+    function Admin() {
+        Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_admin.json');
     }
-    function tile_proyectos(){
+
+    function tile_proyectos() {
         //----portable indicators are stored as json files
-        $kpi=json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
-        echo Modules::run('bpm/kpi/tile_kpi',$kpi);
+        $kpi = json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
+        echo Modules::run('bpm/kpi/tile_kpi', $kpi);
     }
+
 }
 
 /* End of file fondyf */
