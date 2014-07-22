@@ -55,6 +55,10 @@ class Fondyf extends MX_Controller {
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green',$data);
         
     }
+    function tile_buscar() {
+       $data=array();
+       return  $this->parser->parse('fondyf/buscar_proyecto',$data,true);
+    }
 
 }
 

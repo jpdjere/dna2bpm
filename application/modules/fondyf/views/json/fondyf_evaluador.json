@@ -1,25 +1,41 @@
 {
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
-    "title": "FonDyF Evaluador",
+    "title": "FonDyF Proyectos",
     "view": "layout_2cols",
     "icon": "fa-tasks",
     "private": true,
     "zones": [
         {
+            "tiles_after": [
+                {
+                    "title": "Buscar",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_buscar"
+                }
+            ]
+        },
+        {
             "tiles": [
                 {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks"
+                    "title": "Buscar",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_buscar",
+                    "span": 4
                 },
                 {
                     "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks_done"
-                }
-                ,
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_proyectos"
+                },
+                {
+                    "title": "TileSolicitud",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_solicitud"
+                },
                 {
                     "title": "Tile01",
                     "module": "bpm",
