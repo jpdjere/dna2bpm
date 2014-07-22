@@ -46,6 +46,15 @@ class Fondyf extends MX_Controller {
         $kpi = json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
         echo Modules::run('bpm/kpi/tile_kpi', $kpi);
     }
+    function tile_solicitud() {
+        $data['number']='Solicitud';
+        $data['title']='Crea una nueva solicitud';
+        $data['icon']='ion-play';
+        $data['more_info_text']='Comenzar';
+        $data['more_info_link']=$this->base_url.'bpm/engine/newcase/model/fondyfpp';
+        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green',$data);
+        
+    }
 
 }
 

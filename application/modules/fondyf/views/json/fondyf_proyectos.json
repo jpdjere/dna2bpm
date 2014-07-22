@@ -7,19 +7,19 @@
     "zones": [
         {
             "tiles": [
+                 {
+                    "title": "TileSolicitud",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_solicitud"
+                },
                 {
                     "title": "Tile01",
                     "module": "fondyf",
                     "controller": "fondyf",
                     "function": "tile_proyectos"
                 },
-                {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks_done"
-                }
-                ,
+               
                 {
                     "title": "Tile01",
                     "module": "bpm",
