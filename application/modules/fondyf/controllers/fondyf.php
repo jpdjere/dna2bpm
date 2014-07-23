@@ -65,6 +65,7 @@ class Fondyf extends MX_Controller {
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
         $filter = array(
+            'idwf' => 'fondyfpp',
             'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
             'data.1693' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i'))
         );
