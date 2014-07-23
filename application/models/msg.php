@@ -116,6 +116,15 @@ class Msg extends CI_Model {
     $rs=$this->mongo->db->msg->update($criteria, $query);
     }
     
+    // Set Tag?
+    function set_tag($tag,$id) {
+    $mongoid=new MongoId($id);
+    $query=array('$set' =>array('tag'=>$tag));
+    $criteria = array('_id' => $mongoid);
+
+    $rs=$this->mongo->db->msg->update($criteria, $query);
+
+    }
 
 
 }//

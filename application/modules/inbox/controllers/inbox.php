@@ -33,7 +33,8 @@ class Inbox extends MX_Controller {
      			$this->base_url . "jscript/select2-3.4.5/select2.min.js"=>'Select JS',
      			$this->module_url . "assets/jscript/inbox.js"=>'Inbox JS'    			
      	);
-     			
+
+     	
      	$customData['css'] = array(
      			$this->module_url . "assets/css/inbox.css" => 'Dashboard CSS',
      			$this->base_url . "jscript/select2-3.4.5/select2.css" => 'Select CSS',
@@ -103,6 +104,16 @@ class Inbox extends MX_Controller {
 	    foreach($id as $myid){
 	    	$this->msg->set_read($state,$myid);
 	    }
+    }
+    
+    // save star value
+    function set_tag(){
+     	$tag=$this->input->post('tag');
+     	$id=$this->input->post('msgid');
+
+     	foreach($id as $myid){
+     		$this->msg->set_tag($tag,$myid);
+     	}
     }
     
     function send(){
