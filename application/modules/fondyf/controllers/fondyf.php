@@ -46,18 +46,38 @@ class Fondyf extends MX_Controller {
         $kpi = json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
         echo Modules::run('bpm/kpi/tile_kpi', $kpi);
     }
+
     function tile_solicitud() {
-        $data['number']='Solicitud';
-        $data['title']='Crea una nueva solicitud';
-        $data['icon']='ion-play';
-        $data['more_info_text']='Comenzar';
-        $data['more_info_link']=$this->base_url.'bpm/engine/newcase/model/fondyfpp';
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green',$data);
-        
+        $data['number'] = 'Solicitud';
+        $data['title'] = 'Crea una nueva solicitud';
+        $data['icon'] = 'ion-document-text';
+        $data['more_info_text'] = 'Comenzar';
+        $data['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondyfpp';
+        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
+
     function tile_buscar() {
-       $data=array();
-       return  $this->parser->parse('fondyf/buscar_proyecto',$data,true);
+        $data = array();
+        return $this->parser->parse('fondyf/buscar_proyecto', $data, true);
+    }
+
+    function buscar($type = null) {
+        $this->load->model('bpm/bpm');
+        $this->load->library('parser');
+        $filter = array(
+            'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
+            'data.1693' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i'))
+        );
+        echo json_encode($filter) . '<br>';
+        $tokens = $this->bpm->get_tokens_byFilter($filter,array('data','checkdate'),  array('checkdate'=>false));
+        $data['empresas'] = array_map(function ($token) {
+            return array(
+         'nombre'=>$token['data']['1693'],
+         'cuit'=>$token['data']['1695'],
+         'fechaent'=>date('d/m/Y',  strtotime($token['checkdate'])),
+                    );
+        }, $tokens);
+        $this->parser->parse('fondyf/listar_empresas',$data);
     }
 
 }

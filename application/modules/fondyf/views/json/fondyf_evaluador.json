@@ -6,16 +6,6 @@
     "private": true,
     "zones": [
         {
-            "tiles_after": [
-                {
-                    "title": "Buscar",
-                    "module": "fondyf",
-                    "controller": "fondyf",
-                    "function": "tile_buscar"
-                }
-            ]
-        },
-        {
             "tiles": [
                 {
                     "title": "Buscar",
