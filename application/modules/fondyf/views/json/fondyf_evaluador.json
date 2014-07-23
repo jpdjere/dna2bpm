@@ -2,7 +2,7 @@
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
     "title": "FonDyF Proyectos",
     "view": "layout_2cols",
-    "icon": "fa-tasks",
+    "icon": "ion-briefcase",
     "private": true,
     "zones": [
         {
@@ -43,42 +43,10 @@
         },
         {
             "col1": [
-                {
-                    "title": "2do",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "widget_2do"
-                    ,
-                    "span": 12
-                },
-                {
-                    "title": "2do",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "widget_tasks_done"
-                    ,
-                    "span": 12
-                }
             ]
         },
         {
             "col2": [
-                {
-                    "title": "Cases",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "widget_cases"
-                    ,
-                    "span": 12
-                },
-                {
-                    "title": "Cases Closed",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "widget_cases_closed"
-                    ,
-                    "span": 12
-                }
             ]
         }
     ]

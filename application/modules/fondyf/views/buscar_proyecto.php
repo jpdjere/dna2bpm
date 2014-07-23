@@ -5,7 +5,7 @@
 
             <div class="col-lg-9 input-group input-group-sm">
                 <span class="input-group-addon">#PP</span>
-                <input type="text"  class="form-control" name="query"/>
+                <input type="text"  class="form-control" name="query" placeholder="ej: 003/1014 ó nombre empresa ó cuit:30-11634893-7" />
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-info btn-flat btn-search">Buscar</button>
                 </span>

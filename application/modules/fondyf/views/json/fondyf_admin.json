@@ -2,7 +2,7 @@
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
     "title": "FonDyF Administrador",
     "view": "layout_2cols",
-    "icon": "fa-tasks",
+    "icon": "ion-briefcase",
     "private": true,
     "zones": [
         {
