@@ -96,7 +96,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>El plazo informado debe encontrarse dentro de los límites para cada una de las Garantías (Establecido mediante el anexo correspondiente).';
                 break;
             case "P.5":
-                $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Para las garantías cuyo acreedor sea "FONAPYME", el plazo máximo no podrá exceder de 2557 días.';
+                $result_error = '<strong>Columna P - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Para las garantías cuyo acreedor sea "FONAPYME", el plazo máximo no podrá exceder de 2555 días.';
                 break;
             case "Q.1":
                 $result_error = '<strong>Columna Q - Fila Nro.'. $row .' - Código Validación '.$code.'</strong><br/>Debe ser un campo numérico, sin decimales, y mayor a cero.';
