@@ -402,12 +402,12 @@ class mysql_model_12 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_12';
         /* TRANSLATE ANEXO NAME */
-        $already_id = $this->already_id("12", $parameter['id']);
+        $already_id = $this->already_id($anexo, $parameter['id']);
 
 
 
         if ($already_id) {
-            echo "duplicado" . $parameter['id'];
+            //echo "duplicado" . $parameter['id'];
         } else {
 
             $id = $this->app->genid_sgr($container);
