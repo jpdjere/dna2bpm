@@ -27,27 +27,20 @@ class mysql_model_14 extends CI_Model {
 
     /* ACTIVE PERIODS DNA2 */
 
-    function active_periods_dna2($anexo, $period) {        
+    function active_periods_dna2($anexo, $period) {
 
-      
-        
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('periodo NOT LIKE', '%2014');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
-        
-         
-        
-        
+
         foreach ($query->result() as $row) {
-            
-             
-            
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
-                
+
                 $parameter = array();
 
                 $parameter['anexo'] = translate_anexos_dna2($row->anexo);
@@ -58,10 +51,55 @@ class mysql_model_14 extends CI_Model {
                 $parameter['origen'] = 'forms2';
                 $parameter['period'] = str_replace("_", "-", $row->periodo);
 
-                
+
+                /* UPDATE CTRL PERIOD */
+                $this->save_tmp($parameter);
+
+                /* UPDATE ANEXO */
+                if ($row->archivo) {
+                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                    if (!$already_update)
+                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                }
+            }
+        }
+    }
+
+    function active_periods_dna2_ori($anexo, $period) {
+
+
+
+        /* TRANSLATE ANEXO NAME */
+        $anexo_dna2 = translate_anexos_dna2($anexo);
+        $this->db->where('estado', 'activo');
+        $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('anexo', $anexo_dna2);
+        $query = $this->db->get('forms2.sgr_control_periodos');
+
+
+
+
+        foreach ($query->result() as $row) {
+
+
+
+            $already_period = $this->already_period($row->archivo);
+            if (!$already_period) {
+
+                $parameter = array();
+
+                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+                $parameter['filename'] = $row->archivo;
+                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+                $parameter['sgr_id'] = (float) $row->sgr_id;
+                $parameter['status'] = 'activo';
+                $parameter['origen'] = 'forms2';
+                $parameter['period'] = str_replace("_", "-", $row->periodo);
+
+
                 $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1]!="2014") {
-                    
+                if ($is_2014[1] != "2014") {
+
                     /* UPDATE CTRL PERIOD */
                     $this->save_tmp($parameter);
 
@@ -75,8 +113,8 @@ class mysql_model_14 extends CI_Model {
             }
         }
     }
-    
-        /* UPDATE SIN MOVIMIENTO */
+
+    /* UPDATE SIN MOVIMIENTO */
 
     function active_periods_sm_dna2($anexo, $period) {
         /* TRANSLATE ANEXO NAME */
@@ -127,9 +165,9 @@ class mysql_model_14 extends CI_Model {
 
     function anexo_data_tmp($anexo, $filename) {
 
-        
-        
-        
+
+
+
         $this->db->select(
                 'id,
                 nro_garantia,
@@ -150,25 +188,25 @@ class mysql_model_14 extends CI_Model {
         foreach ($query->result() as $row) {
 
             $parameter = array();
-            
-                
+
+
 
             $parameter["NRO_GARANTIA"] = (string) $row->nro_garantia;
-            
+
             /* INTEGERS & FLOAT */
             $parameter["CAIDA"] = (float) $row->caida;
-            $parameter["RECUPERO"] = (float) $row->recupero;  
+            $parameter["RECUPERO"] = (float) $row->recupero;
             $parameter["INCOBRABLES_PERIODO"] = (float) $row->incobrables_periodo;
-            
+
             $parameter['FECHA_MOVIMIENTO'] = translate_mysql_date($row->fecha_movimiento);
 
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
-            
+
             debug($parameter);
-            
+
             $this->save_anexo_14_tmp($parameter, $anexo);
         }
     }
@@ -193,7 +231,7 @@ class mysql_model_14 extends CI_Model {
         if ($result)
             return true;
     }
-    
+
     function already_id($anexo, $idvalue) {
         $idvalue = (float) $idvalue;
 
