@@ -64,6 +64,7 @@ class Fondyf extends MX_Controller {
     function buscar($type = null) {
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
+        $template='fondyf/listar_proyectos';
         $filter = array(
             'idwf' => 'fondyfpp',
             'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
@@ -77,6 +78,7 @@ class Fondyf extends MX_Controller {
         $filter['$or'][]=array('data.8339' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //echo json_encode($filter) . '<br>';
         $tokens = $this->bpm->get_tokens_byFilter($filter,array('case', 'data','checkdate'),  array('checkdate'=>false));
+        
         $data['empresas'] = array_map(function ($token) {
          $url='../dna2/RenderView/printvista.php?idvista=3555&idap=284&id='.$token['data']['id'];
             return array(
@@ -90,7 +92,7 @@ class Fondyf extends MX_Controller {
                 
                     );
         }, $tokens);
-        $this->parser->parse('fondyf/listar_proyectos',$data);
+        $this->parser->parse($template,$data);
     }
 
 }
