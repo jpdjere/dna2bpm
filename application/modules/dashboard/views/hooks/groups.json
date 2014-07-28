@@ -11,12 +11,12 @@
             "redir": "sgr"
         },
         {
-            "name": "Hook Genias",
+            "name": "Hook Sgr Reoprtes",
             "group": [49],
             "redir": "sgr/reportes"
         },
         {
-            "name": "Hook Genias",
+            "name": "Hook Inventario",
             "group": [62,64,66,82,83], 
             "redir": "inventory"
         }
