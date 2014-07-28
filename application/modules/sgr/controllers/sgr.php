@@ -736,6 +736,8 @@ class Sgr extends MX_Controller {
 
     function print_anexo($parameter = null) {
 
+        
+        
         if (!$parameter)
             exit();
 
@@ -758,7 +760,7 @@ class Sgr extends MX_Controller {
 
 
         $customData['module_url'] = base_url() . 'sgr/';
-        $customData['logo'] = "http://www.accionpyme.mecon.gob.ar/dna2bpm/sgr/assets/images/orgullo.jpg"; //$this->module_url."/assets/images/orgullo.jpg";
+        $customData['logo'] = "http://".$_SERVER['HTTP_HOST']."/dna2bpm/sgr/assets/images/orgullo.jpg"; //$this->module_url."/assets/images/orgullo.jpg";
         $customData['parameter'] = urldecode($parameter);
         $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 

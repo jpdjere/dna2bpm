@@ -555,10 +555,11 @@ function last_month_date($period) {
     }
 }
 
-function period_before($period) {
+function period_before($period) {   
+    
 
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
-    $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-31');
+    $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-28');
     $endDate = strtotime('-1 month', strtotime($fecha));
 
     return date("m-Y", $endDate);
