@@ -612,7 +612,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Para los demás tipos de garantías el plazo informado debe encontrarse dentro de los límites.
                  * Nro P.5
-                 * Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2557 días)
+                 * Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2555 días)
                  */
                 if ($parameterArr[$i]['col'] == 16) {
                     $P_cell_value = (int) $parameterArr[$i]['fieldValue'];
@@ -629,7 +629,7 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        if ($k_cell_value == '30708258691' && $P_cell_value > 2557) {
+                        if ($k_cell_value == '30708258691' && $P_cell_value > 2555) {
                             $code_error = "P.5";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
