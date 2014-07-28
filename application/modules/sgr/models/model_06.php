@@ -95,7 +95,7 @@ class Model_06 extends CI_Model {
 
             $insertarr[1695] = (string) $insertarr[1695];
             $insertarr[5248] = (string) $insertarr[5248];
-            $insertarr[5272] = strtoupper($insertarr[5248]);
+            $insertarr[5272] = strtoupper($insertarr[5272]);
 
             /* INTEGERS */
             $insertarr[4654] = (int) $insertarr[4654];
@@ -225,25 +225,34 @@ class Model_06 extends CI_Model {
             $insertarr[5598] = (int) $insertarr[5598];
 
 
-            if ($insertarr[5248]) {
+            
+        }
+        
+        if ($insertarr[5248]) {
                 /*
                   1  	Disminución de tenencia accionaria 	null
                   2  	Desvinculación 	null
                  */
+                $query_period = period_before($this->session->userdata['period']); //period -1
                 $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_DE_TRANSACCION'], 1900));
-                $integrated = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $this->session->userdata['period'], $transaction_date);
-                $integrated = $integrated - $insertarr[5598];
-                $grantor_type = ($integrated == 0) ? "2" : "1";
-            }
-            
+                $integrated_calc = $this->shares_print($insertarr[5248], $insertarr[5272], 5598,$query_period, $transaction_date);
+                                 
+                
+                $integrated_total = abs((int)$integrated_calc - $insertarr[5598]);
+                
+                $grantor_type = ($integrated_total == 0) ? "2" : "1";
+            }            
+           
             
             $insertarr[5292] = $grantor_type;
-        }
-
+            
+            
+        
         return $insertarr;
     }
 
-    function save($parameter) {
+    function save($parameter) {        
+        
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -1115,7 +1124,8 @@ class Model_06 extends CI_Model {
 
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
-        $balance = $buy_sum - $sell_sum;
+        $balance = abs($buy_sum - $sell_sum);
+        
         return $balance;
     }
 
