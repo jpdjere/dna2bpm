@@ -27,10 +27,7 @@ class mysql_model_201 extends CI_Model {
 
     /* ACTIVE PERIODS DNA2 */
 
-    function active_periods_dna2($anexo, $period) {
-
-        /* CLEAR TEMP DATA */
-        $this->clear_tmp();
+    function active_periods_dna2($anexo, $period) {       
 
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
