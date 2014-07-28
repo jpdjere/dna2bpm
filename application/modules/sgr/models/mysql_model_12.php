@@ -46,6 +46,7 @@ class mysql_model_12 extends CI_Model {
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('periodo NOT LIKE', '%2014'); 
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
 
@@ -401,12 +402,12 @@ class mysql_model_12 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_12';
         /* TRANSLATE ANEXO NAME */
-        $already_id = $this->already_id("12", $parameter['id']);
+        $already_id = $this->already_id($anexo, $parameter['id']);
 
 
 
         if ($already_id) {
-            echo "duplicado" . $parameter['id'];
+            //echo "duplicado" . $parameter['id'];
         } else {
 
             $id = $this->app->genid_sgr($container);

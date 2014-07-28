@@ -27,7 +27,45 @@ class mysql_model_201 extends CI_Model {
 
     /* ACTIVE PERIODS DNA2 */
 
-    function active_periods_dna2($anexo, $period) {
+    function active_periods_dna2($anexo, $period) {       
+
+        /* TRANSLATE ANEXO NAME */
+        $anexo_dna2 = translate_anexos_dna2($anexo);
+        $this->db->where('estado', 'activo');
+        $this->db->where('archivo !=', 'Sin Movimiento');
+        $this->db->where('periodo NOT LIKE', '%2014'); 
+        $this->db->where('anexo', $anexo_dna2);
+        $query = $this->db->get('forms2.sgr_control_periodos');
+
+        foreach ($query->result() as $row) {
+            $already_period = $this->already_period($row->archivo);
+            if (!$already_period) {
+
+                $parameter = array();
+
+                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
+                $parameter['filename'] = $row->archivo;
+                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
+                $parameter['sgr_id'] = (float) $row->sgr_id;
+                $parameter['status'] = 'activo';
+                $parameter['origen'] = 'forms2';
+                $parameter['period'] = str_replace("_", "-", $row->periodo);
+
+
+                /* UPDATE CTRL PERIOD */
+                $this->save_tmp($parameter);
+
+                /* UPDATE ANEXO */
+                if ($row->archivo) {
+                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                    if (!$already_update)
+                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                }
+            }
+        }
+    }
+    
+    function active_periods_dna2_ori($anexo, $period) {
 
 
 
@@ -199,6 +237,16 @@ class mysql_model_201 extends CI_Model {
         if ($result)
             return true;
     }
+    
+    function already_id($anexo, $idvalue) {
+        $idvalue = (float) $idvalue;
+
+        $container = 'container.sgr_anexo_' . $anexo;
+        $query = array("id" => $idvalue);
+        $result = $this->mongo->sgr->$container->findOne($query);
+        if ($result)
+            return true;
+    }
 
     function save_anexo_201_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
@@ -206,13 +254,19 @@ class mysql_model_201 extends CI_Model {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_201';
         /* TRANSLATE ANEXO NAME */
+        $already_id = $this->already_id($anexo, $parameter['id']);
 
-        $id = $this->app->genid_sgr($container);
-        $result = $this->app->put_array_sgr($id, $container, $parameter);
-        if ($result) {
-            $out = array('status' => 'ok');
+        if ($already_id) {
+            //echo "duplicado" . $parameter['id'];
         } else {
-            $out = array('status' => 'error');
+
+            $id = $this->app->genid_sgr($container);
+            $result = $this->app->put_array_sgr($id, $container, $parameter);
+            if ($result) {
+                $out = array('status' => 'ok');
+            } else {
+                $out = array('status' => 'error');
+            }
         }
         return $out;
     }
