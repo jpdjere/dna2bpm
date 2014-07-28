@@ -8,6 +8,13 @@
         {
             "tiles": [
                 {
+                    "title": "Buscar",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_buscar",
+                    "span": 4
+                },
+                {
                     "title": "Tile01",
                     "module": "bpm",
                     "controller": "bpmui",
