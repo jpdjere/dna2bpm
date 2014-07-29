@@ -843,7 +843,9 @@ class Model_201 extends CI_Model {
         foreach ($result as $list) {
             $new_query = array(
                 'filename' => $list['filename'],
-                'NUMERO_DE_APORTE' => $nro
+                'NUMERO_DE_APORTE' => $nro,
+                'APORTE' => array('$ne' => 0),
+                    
             );
 
             $movement_result = $this->mongo->sgr->$container->findOne($new_query);
