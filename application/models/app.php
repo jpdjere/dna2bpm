@@ -8,6 +8,13 @@ class App extends CI_Model {
     function __construct() {
         parent::__construct();
         $this->idu = (int) $this->session->userdata('iduser');
+
+        /*
+         * SGR PATCH
+         * SWITCH TO SGR DB
+         */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->sgr_db->switch_db('sgr');
     }
 
     /*
@@ -57,10 +64,12 @@ class App extends CI_Model {
         }
     }
 
-    function put_object($object) {
-        $options = array('upsert' => true, 'w' => true);
-        $result = $this->mongo->db->forms->save($object, $options);
+    function put_object($object) {        
+        $options = array('upsert' => true, 'w' => true);        
+        $result = $this->mongo->db->forms->save($object, $options);    
         return $result;
+         
+        
     }
 
     function get_apps() {
@@ -329,7 +338,7 @@ class App extends CI_Model {
         $criteria = array('id' => $id);
         $update = array('$set' => $thisArr);
         $options = array('upsert' => true, 'w' => true);
-
+        
         //var_dump($container, json_encode($criteria), json_encode($update));
         $result = $this->mongo->db->selectCollection($container)->update($criteria, $update, $options);
         $thisArr['id'] = $id;
@@ -337,31 +346,13 @@ class App extends CI_Model {
     }
 
     /* SGR PATCH */
-
     function put_array_sgr($id, $container, $val_arr = array()) {
-
-        /*
-         * SGR PATCH
-         * SWITCH TO SGR DB
-         */
-        $this->load->library('cimongo/cimongo', '', 'sgr_db');
-        $this->sgr_db->switch_db('sgr');
-
-
         $thisArr = array();
 
         foreach ($val_arr as $idframe => $value) {
-            /* bug xls */
-            if (mb_detect_encoding($value) == "UTF-8")
-                $value = htmlentities(utf8_encode($value));
-
-            $thisFrame = $this->get_frame($idframe, array('type', 'container'));
+            $thisFrame = $this->get_frame($idframe, array('type', 'container'));            
             $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
-            var_dump($value, $thisFrame['type']);
         }
-
-
-
 
         //----check 4 id
         if (!is_numeric($id)) {
@@ -374,16 +365,15 @@ class App extends CI_Model {
         //var_dump($container, json_encode($criteria), json_encode($update));        
         $result = $this->mongo->sgr->selectCollection($container)->update($criteria, $update, $options);
         $thisArr['id'] = $id;
-
+        
         return $thisArr;
     }
 
     function cast_type($input, $type) {
-        $retval = '';
-
-        /* PARCHE */
-        if (is_string($input))
-            $input = (htmlentities($input, ENT_QUOTES, 'UTF-8'));
+        $retval = '';       
+        
+        /*PARCHE*/
+       if(is_string($input))  $input = (htmlentities($input, ENT_QUOTES,'UTF-8'));
 
         switch ($type) {
             case 'checklist':
