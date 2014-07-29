@@ -339,7 +339,7 @@ class App extends CI_Model {
     /* SGR PATCH */
 
     function put_array_sgr($id, $container, $val_arr = array()) {
-        
+
         /*
          * SGR PATCH
          * SWITCH TO SGR DB
@@ -352,8 +352,12 @@ class App extends CI_Model {
         foreach ($val_arr as $idframe => $value) {
 
             /* bug xls */
-            if (mb_detect_encoding($value) == "UTF-8")
-                $value = htmlentities(utf8_encode($value));
+            if (isset($value)) {
+                
+                if (mb_detect_encoding($value) == "UTF-8"){
+                    $value = htmlentities(utf8_encode($value));
+                }
+            }
 
             $thisFrame = $this->get_frame($idframe, array('type', 'container'));
             $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
