@@ -61,8 +61,10 @@ class Sgr extends MX_Controller {
         }
 
 
-        $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
-        $this->period = $this->session->userdata['period'];
+        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
+
+        if (isset($this->session->userdata['period']))
+            $this->period = $this->session->userdata['period'];
 
         /* TIME LIMIT */
         set_time_limit(28800);
@@ -219,7 +221,7 @@ class Sgr extends MX_Controller {
         $customData = array();
         $customData['rectify_message_template'] = "";
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
-        $customData['rectify_message'] = $this->session->userdata['period'];
+        $customData['rectify_message'] = $this->period;
         if ($this->session->userdata['rectify']) {
             $customData['rectify_message_template'] = $this->parser->parse('rectify', $customData, true);
         }
@@ -736,8 +738,8 @@ class Sgr extends MX_Controller {
 
     function print_anexo($parameter = null) {
 
-        
-        
+
+
         if (!$parameter)
             exit();
 
@@ -760,7 +762,7 @@ class Sgr extends MX_Controller {
 
 
         $customData['module_url'] = base_url() . 'sgr/';
-        $customData['logo'] = "http://".$_SERVER['HTTP_HOST']."/dna2bpm/sgr/assets/images/orgullo.jpg"; //$this->module_url."/assets/images/orgullo.jpg";
+        $customData['logo'] = "http://" . $_SERVER['HTTP_HOST'] . "/dna2bpm/sgr/assets/images/orgullo.jpg"; //$this->module_url."/assets/images/orgullo.jpg";
         $customData['parameter'] = urldecode($parameter);
         $customData['anexo_short'] = $this->oneAnexoDB_short($this->anexo);
 
@@ -900,17 +902,17 @@ class Sgr extends MX_Controller {
             /* SAVE DD.JJ */
             $model = "model_" . $anexo;
             $this->load->model($model);
-            
+
             $save = (array) $this->$model->save($customData);
-            
-            
+
+
             $result = array();
             $result['period'] = $parameter;
             $result['filename'] = $save['status'];
             $result['sgr_id'] = $this->sgr_id;
             $result['anexo'] = $anexo;
-            
-            
+
+
             $save_period = (array) $this->$model->save_period($result);
 
 
@@ -918,7 +920,6 @@ class Sgr extends MX_Controller {
             $this->pdf->parse('print_ddjj', $customData);
             $this->pdf->render();
             $this->pdf->stream("$parameter.pdf");
-            
         } else {
 
             /* PRINT DD.JJ FORM */
@@ -1578,7 +1579,7 @@ class Sgr extends MX_Controller {
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_xls = ($anexo == '202' || $anexo == '141') ? $print_xls_link : "";
 
-                    $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
+                    $rectifica_link_class = ($this->period) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger'));
                     $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $rectify . " " . $print_filename . "  [" . $file['period'] . "] " . $rectify_count_each . " </li>";
                 }
@@ -1803,7 +1804,7 @@ class Sgr extends MX_Controller {
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
                     list($filename, $extension) = explode(".", $file['name']);
                     /* Vars */
-                    $disabled_link = ($this->session->userdata['period']) ? '' : ' disabled_link';
+                    $disabled_link = ($this->period) ? '' : ' disabled_link';
                     $disabled_link = ($this->session->userdata['rectify']) ? '' : $disabled_link;
 
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('id' => 'procesar', 'class' => 'btn btn-success procesar' . $disabled_link));
@@ -1837,7 +1838,7 @@ class Sgr extends MX_Controller {
     function pre_general_validation($anexo) {
         switch ($anexo) {
             case '061':
-                $info_06 = $this->sgr_model->get_just_active("06", $this->session->userdata['period']);
+                $info_06 = $this->sgr_model->get_just_active("06", $this->period);
                 foreach ($info_06 as $filenames) {
                     if ($filenames['filename'] == 'SIN MOVIMIENTOS') {
                         return "Si el Anexo 6 de un período fue informado “SIN MOVIMIENTOS”, para ese mismo período este anexo debe ser indicado como “SIN MOVIMIENTOS” automáticamente.";
