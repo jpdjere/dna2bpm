@@ -341,7 +341,7 @@ class App extends CI_Model {
     /* SGR PATCH */
 
     function put_array_sgr($id, $container, $val_arr = array()) {
-        
+
         /*
          * SGR PATCH
          * SWITCH TO SGR DB
@@ -349,6 +349,8 @@ class App extends CI_Model {
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
         
+        
+
         $thisArr = array();
 
         foreach ($val_arr as $idframe => $value) {
