@@ -346,7 +346,7 @@ class App extends CI_Model {
          */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
-        
+
         $thisArr = array();
 
         foreach ($val_arr as $idframe => $value) {
