@@ -341,7 +341,7 @@ class App extends CI_Model {
     /* SGR PATCH */
 
     function put_array_sgr($id, $container, $val_arr = array()) {
-
+        
         /*
          * SGR PATCH
          * SWITCH TO SGR DB
