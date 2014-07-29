@@ -77,6 +77,7 @@ class Model_15 extends CI_Model {
             $insertarr['INCISO_ART_25'] = (string) $insertarr['INCISO_ART_25'];
             $insertarr['CUIT_EMISOR'] = (string) $insertarr['CUIT_EMISOR'];
             $insertarr['CUIT_DEPOSITARIO'] = (string) $insertarr['CUIT_DEPOSITARIO'];
+            $insertarr['DESCRIPCION'] = (string) $insertarr['DESCRIPCION'];
 
             /* FLOAT */
             $insertarr['MONTO'] = (float) $insertarr['MONTO'];
