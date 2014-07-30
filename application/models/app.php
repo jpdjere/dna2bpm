@@ -356,9 +356,8 @@ class App extends CI_Model {
         foreach ($val_arr as $idframe => $value) {
 
             /* bug xls */
-            if (isset($value)) {
-                
-                if (mb_detect_encoding($value) == "UTF-8"){
+            if (!is_array($value)) {
+                if (mb_detect_encoding($value) == "UTF-8") {
                     $value = htmlentities(utf8_encode($value));
                 }
             }
@@ -501,6 +500,15 @@ class App extends CI_Model {
     /* SGR PATCH */
 
     function genid_sgr($container) {
+
+        /*
+         * SGR PATCH
+         * SWITCH TO SGR DB
+         */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->sgr_db->switch_db('sgr');
+
+
         $insert = array();
         $id = mt_rand();
         $trys = 10;
