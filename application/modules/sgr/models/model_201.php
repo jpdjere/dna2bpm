@@ -158,7 +158,11 @@ class Model_201 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        $options = array('upsert' => true, 'safe' => true);
+        
+         if (!isset($this->session->userdata['rectify']))
+            exit();
+        
+         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
         $parameter = array(
