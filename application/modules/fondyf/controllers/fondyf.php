@@ -64,35 +64,37 @@ class Fondyf extends MX_Controller {
     function buscar($type = null) {
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
-        $template='fondyf/listar_proyectos';
+        $template = 'fondyf/listar_proyectos';
         $filter = array(
             'idwf' => 'fondyfpp',
             'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
-            
         );
         //-----busco en el cuit
-        $filter['$or'][]=array('data.1695' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
+        $filter['$or'][] = array('data.1695' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //-----busco en el nombre empresa
-        $filter['$or'][]=array('data.1693' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
+        $filter['$or'][] = array('data.1693' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //-----busco en el nro proyecto
-        $filter['$or'][]=array('data.8339' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
+        $filter['$or'][] = array('data.8339' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //echo json_encode($filter) . '<br>';
-        $tokens = $this->bpm->get_tokens_byFilter($filter,array('case', 'data','checkdate'),  array('checkdate'=>false));
-        
+        $tokens = $this->bpm->get_tokens_byFilter($filter, array('case', 'data', 'checkdate'), array('checkdate' => false));
+
         $data['empresas'] = array_map(function ($token) {
-         $url='../dna2/RenderView/printvista.php?idvista=3555&idap=284&id='.$token['data']['id'];
+            $url = '../dna2/RenderView/printvista.php?idvista=3555&idap=284&id=' . $token['data']['id'];
             return array(
-         '_d'=>$token['_id'],
-         'case'=>$token['case'],
-         'nombre'=>$token['data']['1693'],
-         'cuit'=>$token['data']['1695'],
-         'Nro'=>(isset($token['data']['8339'])) ? $token['data']['8339']:'',
-         'fechaent'=>date('d/m/Y',  strtotime($token['checkdate'])),
-         'link_open'=>$this->bpm->gateway($url),
-                
-                    );
+                '_d' => $token['_id'],
+                'case' => $token['case'],
+                'nombre' => $token['data']['1693'],
+                'cuit' => $token['data']['1695'],
+                'Nro' => (isset($token['data']['8339'])) ? $token['data']['8339'] : '',
+                'fechaent' => date('d/m/Y', strtotime($token['checkdate'])),
+                'link_open' => $this->bpm->gateway($url),
+            );
         }, $tokens);
-        $this->parser->parse($template,$data);
+        $this->parser->parse($template, $data);
+    }
+
+    function setup() {
+        echo Modules::run('bpm/kpi/import_kpi', 'fondyf');
     }
 
 }
