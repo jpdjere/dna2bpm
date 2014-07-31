@@ -218,6 +218,11 @@ class Model_12 extends CI_Model {
     }
 
     function update_period($id, $status) {
+        
+        if (!isset($this->session->userdata['rectify']))
+            exit();
+        
+        
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -229,10 +234,10 @@ class Model_12 extends CI_Model {
         );
 
 
-        if (isset($this->session->userdata['rectify'])) {
+      
             $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
             return $rs['err'];
-        }
+      
     }
 
     function get_anexo_info($anexo, $parameter) {
