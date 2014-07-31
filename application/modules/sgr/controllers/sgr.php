@@ -106,8 +106,6 @@ class Sgr extends MX_Controller {
         /* DD.JJ PRESENTATION */
         if ($this->anexo == "17") {
             $default_dashboard = 'dashboard_17';
-            $anexo_17 = $this->anexo_17();
-
 
             $anexo_merge = array_merge($customData, $this->anexo_17());
             foreach ($anexo_merge as $key => $each) {
@@ -221,7 +219,7 @@ class Sgr extends MX_Controller {
         $customData['rectify_message_template'] = "";
         $customData['rectified_legend'] = $this->get_rectified_legend($this->anexo);
         $customData['rectify_message'] = $this->period;
-        if ($this->session->userdata['rectify']) {
+        if (isset($this->session->userdata['rectify'])) {
             $customData['rectify_message_template'] = $this->parser->parse('rectify', $customData, true);
         }
         return $customData;
@@ -232,7 +230,7 @@ class Sgr extends MX_Controller {
     function upload_status($upload) {
         $customData = array();
         if (!$upload) {
-            if (!$this->session->userdata['period']) {
+            if (!isset($this->session->userdata['period'])) {
                 $customData['message'] = ' <i class="fa fa-info-circle"></i> Para procesar debe seleccionar el periodo a informar.';
                 $customData['select_period'] = true;
             }
@@ -346,7 +344,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -360,7 +358,7 @@ class Sgr extends MX_Controller {
 
         $filename = $process_filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
-        $user_id = (float) ($this->idu);
+        
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -393,8 +391,7 @@ class Sgr extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
-        $customData['sgr_id'] = $this->sgr_id;
-        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        $customData['sgr_id'] = $this->sgr_id;        
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -402,7 +399,7 @@ class Sgr extends MX_Controller {
         $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
         $filename = $filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
-        $user_id = (float) ($this->idu);
+        
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -446,8 +443,7 @@ class Sgr extends MX_Controller {
                     /* RENDER */
                     $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
                     $customData['sgr_period'] = $this->period;
-                    $customData['anexo_list'] = $this->AnexosDB();
-                    $custo_Data['process_filename'] = $new_filename;
+                    $customData['anexo_list'] = $this->AnexosDB();                    
                     $customData['print_file'] = anchor('/sgr/pdf_asset/09/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir PDF </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
                     $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                     $this->render('success', $customData);
@@ -467,7 +463,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        $get_period = $this->sgr_model->get_processed($this->anexo, $this->sgr_id);
+        
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -475,7 +471,7 @@ class Sgr extends MX_Controller {
         $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
         $filename = $filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
-        $user_id = (float) ($this->idu);
+        
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -576,10 +572,9 @@ class Sgr extends MX_Controller {
             $model = "model_" . $anexo;
             $this->load->Model($model);
 
-            for ($i = 2; $i <= $data->rowcount(); $i++) {
+            for ($i = 2; $i <= $data->rowcount(); $i++) 
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
-                $result_data_ = $this->$model->check($sanitize_data);
-            }
+            
 
             /* INSERT UPDATE */
             for ($i = 2; $i <= $data->rowcount(); $i++) {
@@ -600,7 +595,7 @@ class Sgr extends MX_Controller {
                 $save_period = (array) $this->$model->save_period($result);
 
 
-                if ($save_period['status'] == "ok") {
+                if (isset($save_period['status']) == "ok") {
                     /* RENDER */
                     $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
                     $customData['sgr_period'] = $this->period;
@@ -1561,7 +1556,7 @@ class Sgr extends MX_Controller {
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-
+                    $rectifica_link_class = "";
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
                 } else {
