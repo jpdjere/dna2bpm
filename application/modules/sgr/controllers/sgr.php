@@ -1533,29 +1533,36 @@ class Sgr extends MX_Controller {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
+            
+            
 
-            foreach ($processed as $file) {
+            foreach ($processed as $file) {               
+                
+                
                 $asset = ($anexo == "09") ? "pdf_asset" : "xls_asset";
+                $file_origen = $file['origen'];
+                $file_filename = $file['filename'];
+                
 
-                $print_filename = substr($file['filename'], 0, -25);
+                $print_filename = substr($file_filename, 0, -25);
                 $disabled_link = '';
 
-                if ($file['filename'] == "SIN MOVIMIENTOS") {
+                if ($file_filename == "SIN MOVIMIENTOS") {
                     $disabled_link = ' disabled_link';
-                    $print_filename = $file['filename'];
+                    $print_filename = $file_filename;
                 }
 
-                if ($file['origen'] == "forms2") {
+                if ($file_origen == "forms2") {
                     $disabled_link = ' disabled_link';
-                    $print_filename = $file['filename'];
+                    $print_filename = $file_filename;
 
                     $show_period = ($i != 2010) ? $file['period'] : "ADMINISTRADOR";
 
 
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
+                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
+                    $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
-                    $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $rectifica_link_class = "";
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
@@ -1567,10 +1574,10 @@ class Sgr extends MX_Controller {
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                     $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                    $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
+                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' .$file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $print_file = anchor('/sgr/print_anexo/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
-                    $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_xls = ($anexo == '202' || $anexo == '141') ? $print_xls_link : "";
 
                     $rectifica_link_class = ($this->period) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
@@ -1597,12 +1604,15 @@ class Sgr extends MX_Controller {
             <div id="' . $i . '"><ul>';
             $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             foreach ($rectified as $file) {
-                $print_filename = substr($file['filename'], 0, -25);
+                
+                $file_filename = $file['filename'];
+                
+                $print_filename = substr($file_filename, 0, -25);
                 $disabled_link = '';
 
-                if ($file['filename'] == "SIN MOVIMIENTOS") {
+                if ($file_filename == "SIN MOVIMIENTOS") {
                     $disabled_link = ' disabled_link';
-                    $print_filename = $file['filename'];
+                    $print_filename = $file_filename;
                 }
 
                 $rectified_on = $file['rectified_on'];
@@ -1643,13 +1653,16 @@ class Sgr extends MX_Controller {
                 return false;
                 exit();
             }
+            
+             $file_filename = $file['filename'];
+            
             $list_files = '';
-            $print_filename = substr($file['filename'], 0, -25);
+            $print_filename = substr($file_filename, 0, -25);
             $disabled_link = '';
 
-            if ($file['filename'] == "SIN MOVIMIENTOS") {
+            if ($file_filename == "SIN MOVIMIENTOS") {
                 $disabled_link = ' disabled_link';
-                $print_filename = $file['filename'];
+                $print_filename = $file_filename;
             }
             $pending_on = $file['pending_on'];
             $list_files .= '<li><strong>Anexos Pendientes:  ' . $print_filename . ' (' . $pending_on . ') [' . $file['period'] . '] </strong></li>';
