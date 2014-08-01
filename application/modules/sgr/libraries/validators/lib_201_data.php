@@ -522,8 +522,8 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
                     array_push($stack, $result);
                 } else {
-                    /* E.3 */
-                    if ($sum_RETIRO > $sum_APORTE) {
+                    /* E.3 */                    
+                    if ((int)$sum_RETIRO > (int)$sum_APORTE) {
                         $code_error = "E.3";
                         $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
                         array_push($stack, $result);
@@ -595,8 +595,9 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
                     array_push($stack, $result);
                 } else {
-                    /* E.3 */
-                    if ($sum_RETIRO > $sum_APORTE) {
+                    
+                    /* E.3 */                    
+                    if ((int)$sum_RETIRO > (int)$sum_APORTE) {
                         $code_error = "E.3";
                         $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
                         array_push($stack, $result);
@@ -655,7 +656,7 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-        //debug($stack);        exit();
+       // debug($stack);        exit();
         $this->data = $stack;
     }
 
