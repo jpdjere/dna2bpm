@@ -66,7 +66,7 @@ class Model_14 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             /* STRING */
-            $insertarr["NRO_GARANTIA"] = (string) $insertarr["NRO_GARANTIA"]; //Nro orden
+            $insertarr["NRO_GARANTIA"] = (string) trim($insertarr["NRO_GARANTIA"]); //Nro orden
 
 
             /* INTEGERS & FLOAT */

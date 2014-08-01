@@ -776,12 +776,12 @@ class Sgr extends MX_Controller {
             $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
         }
 
-        /*$this->pdf->set_paper('a4', 'landscape');
+        $this->pdf->set_paper('a4', 'landscape');
         $this->pdf->parse('print', $customData);
         $this->pdf->render();
-        $this->pdf->stream("$parameter.pdf");*/
+        $this->pdf->stream("$parameter.pdf");
 
-        echo $this->parser->parse('print', $customData, true);
+        //echo $this->parser->parse('print', $customData, true);
     }
 
     function print_xls($parameter = null) {
