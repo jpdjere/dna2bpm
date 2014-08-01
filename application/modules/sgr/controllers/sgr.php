@@ -776,12 +776,12 @@ class Sgr extends MX_Controller {
             $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
         }
 
-        $this->pdf->set_paper('a4', 'landscape');
+        /*$this->pdf->set_paper('a4', 'landscape');
         $this->pdf->parse('print', $customData);
         $this->pdf->render();
-        $this->pdf->stream("$parameter.pdf");
+        $this->pdf->stream("$parameter.pdf");*/
 
-        //echo $this->parser->parse('print', $customData, true);
+        echo $this->parser->parse('print', $customData, true);
     }
 
     function print_xls($parameter = null) {
@@ -1817,8 +1817,8 @@ class Sgr extends MX_Controller {
                 if ($anexo == $this->anexo && (float) $sgr == $this->sgr_id) {
                     list($filename, $extension) = explode(".", $file['name']);
                     /* Vars */
-                    $disabled_link = ($this->period) ? '' : ' disabled_link';
-                    $disabled_link = ($this->session->userdata['rectify']) ? '' : $disabled_link;
+                    $disabled_link = (isset($this->period)) ? '' : ' disabled_link';
+                    $disabled_link = (isset($this->session->userdata['rectify'])) ? '' : $disabled_link;
 
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('id' => 'procesar', 'class' => 'btn btn-success procesar' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link fa-spin" alt="Procesar">PROCESAR</i>';
