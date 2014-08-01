@@ -343,6 +343,7 @@ class Model_06 extends CI_Model {
     function update_period($id, $status) {
         
          if (!isset($this->session->userdata['rectify']))
+             echo "Erno";
             exit();
         
         $options = array('upsert' => true, 'safe' => true);
