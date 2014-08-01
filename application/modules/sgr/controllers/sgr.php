@@ -1603,7 +1603,11 @@ class Sgr extends MX_Controller {
      */
 
     function get_rectified($anexo) {
+        
         $list_files = '';
+        $translate = '';    
+        
+        
         for ($i = date("Y"); $i > 2009; $i--) {
             $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
             <div id="' . $i . '"><ul>';
@@ -1640,7 +1644,7 @@ class Sgr extends MX_Controller {
             $list_files .= '</ul></div>
         </div>';
         }
-        if ($file)
+        if (isset($file))
             return $list_files;
     }
 
@@ -1652,6 +1656,8 @@ class Sgr extends MX_Controller {
     function get_pending($anexo) {
 
         $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
+        $list_files = '';
+        
         foreach ($pending as $file) {
 
             if (!$file) {
@@ -1661,7 +1667,7 @@ class Sgr extends MX_Controller {
             
              $file_filename = $file['filename'];
             
-            $list_files = '';
+            
             $print_filename = substr($file_filename, 0, -25);
             $disabled_link = '';
 
