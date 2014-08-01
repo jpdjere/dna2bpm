@@ -57,9 +57,14 @@ class mysql_model_periods extends CI_Model {
                 /* ANEXOS */
                 if (translate_anexos_dna2($row->anexo))
                     $get_period = $this->sgr_model->get_if_is_rectified($row->archivo);
+                
+                
+                $get_period_id = $get_period['id'];
+                $get_period_status = $get_period['status'];
+                
 
-                if ($get_period['id'])
-                    $this->update_period($get_period['id'], $get_period['status']);
+                if (isset($get_period['id']))
+                    $this->update_period($get_period_id, $get_period_status);
                
             }
         }
