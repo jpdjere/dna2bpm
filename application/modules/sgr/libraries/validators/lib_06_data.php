@@ -82,7 +82,8 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
-
+                    $B_cell_value = "";
+                    
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -91,7 +92,6 @@ class Lib_06_data extends MX_Controller {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $B_cell_value = "";
                         $allow_words = array("A", "B");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -488,9 +488,9 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
-                          //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
-                        
-                          
+                        //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
+
+
                         if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Transfiere:" . $AH_cell_value . ", Dispone de:" . $grantor_subscribed);
@@ -855,7 +855,7 @@ class Lib_06_data extends MX_Controller {
 
                                         list($first_year_to_check) = explode("/", $R2_cell_value);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);                                        
+                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);
                                         /* VALIDACION R.3 */
                                         if (!in_array($check_diff, range(0, 3))) {
                                             $code_error = "R.3";
@@ -918,7 +918,7 @@ class Lib_06_data extends MX_Controller {
                             case 21: //ANIO_MES2                              
                                 $U_cell_value = "";
                                 $U2_cell_value = "";
-                                $error=false;
+                                $error = false;
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
@@ -926,32 +926,31 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                    	$code_error = "U.3";                       	
+                                        $code_error = "U.3";
                                         list($U_year) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-										if($R_cell_value){
-											// Existe R
-											list($R_year) = explode("/", $R_cell_value);
-											if((int)$R_year+1!=(int)$U_year){
-												$error=true;
-											}
-										}else{
-											// No existe R, U puede ser de uno a dos años menor que periodo actual
-											$dif=(int)$period_to_check-(int)$U_year;
-											if($dif!=1 && $dif!=2){
-												$error=true;
-											}
-										}
-										// 
-										if ($error) {
-											$result = return_error_array ( $code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue'] );
-											array_push ( $stack, $result );
-										} else {
-											$U_cell_value = $parameterArr [$i] ['fieldValue'];
-											$U2_cell_value = $return;
-										}
-
+                                        if ($R_cell_value) {
+                                            // Existe R
+                                            list($R_year) = explode("/", $R_cell_value);
+                                            if ((int) $R_year + 1 != (int) $U_year) {
+                                                $error = true;
+                                            }
+                                        } else {
+                                            // No existe R, U puede ser de uno a dos años menor que periodo actual
+                                            $dif = (int) $period_to_check - (int) $U_year;
+                                            if ($dif != 1 && $dif != 2) {
+                                                $error = true;
+                                            }
+                                        }
+                                        // 
+                                        if ($error) {
+                                            $result = return_error_array($code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue']);
+                                            array_push($stack, $result);
+                                        } else {
+                                            $U_cell_value = $parameterArr [$i] ['fieldValue'];
+                                            $U2_cell_value = $return;
+                                        }
                                     }
                                 }
 
@@ -1023,26 +1022,24 @@ class Lib_06_data extends MX_Controller {
                                         list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-                                        if($second_year_to_check){
-                                        // Columna U con data	
-	                                        if((int)$second_year_to_check+1!=(int)$last_year_to_check){
-	                                        	// El año debe de X debe ser U+1
+                                        if ($second_year_to_check) {
+                                            // Columna U con data	
+                                            if ((int) $second_year_to_check + 1 != (int) $last_year_to_check) {
+                                                // El año debe de X debe ser U+1
 
-												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-												array_push($stack, $result);
-	                                        }
-                                        }else{
-										// Columna U vacia
-                                        	if(!($last_year_to_check==$period_to_check || (int)$last_year_to_check==(int)$period_to_check-1)){
-												// X debe ser mismo año que periodo o uno antes
-												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-												array_push($stack, $result);
-                                        	}else{
-                                        		$X2_cell_value = $return;
-                                        	}
-                                        	
+                                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                                array_push($stack, $result);
+                                            }
+                                        } else {
+                                            // Columna U vacia
+                                            if (!($last_year_to_check == $period_to_check || (int) $last_year_to_check == (int) $period_to_check - 1)) {
+                                                // X debe ser mismo año que periodo o uno antes
+                                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                                array_push($stack, $result);
+                                            } else {
+                                                $X2_cell_value = $return;
+                                            }
                                         }
-
                                     }
                                 }
 
@@ -1428,9 +1425,9 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-/*         $stack = array(); */
+        /*         $stack = array(); */
         //debug($stack);        exit();
-         $this->data = $stack;
+        $this->data = $stack;
     }
 
 }

@@ -24,7 +24,7 @@ class Sgr extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
-        /* update db */        
+        /* update db */
         $this->load->Model("mysql_model_periods");
         $this->mysql_model_periods->active_periods_dna2();
 
@@ -344,7 +344,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        
+
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -358,7 +358,7 @@ class Sgr extends MX_Controller {
 
         $filename = $process_filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
-        
+
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -391,7 +391,7 @@ class Sgr extends MX_Controller {
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
-        $customData['sgr_id'] = $this->sgr_id;        
+        $customData['sgr_id'] = $this->sgr_id;
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -399,7 +399,7 @@ class Sgr extends MX_Controller {
         $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
         $filename = $filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
-        
+
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -443,7 +443,7 @@ class Sgr extends MX_Controller {
                     /* RENDER */
                     $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
                     $customData['sgr_period'] = $this->period;
-                    $customData['anexo_list'] = $this->AnexosDB();                    
+                    $customData['anexo_list'] = $this->AnexosDB();
                     $customData['print_file'] = anchor('/sgr/pdf_asset/09/' . $new_filename, ' <i class="fa fa-print" alt="Imprimir"> Imprimir PDF </i>', array('target' => '_blank', 'class' => 'btn btn-primary')) . '</li>';
                     $customData['message'] = '<li>El Archivo (' . $new_filename . ') fue importado con exito</li>';
                     $this->render('success', $customData);
@@ -463,7 +463,7 @@ class Sgr extends MX_Controller {
         $customData['module_url'] = base_url() . 'sgr/';
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_id'] = $this->sgr_id;
-        
+
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
 
@@ -471,7 +471,7 @@ class Sgr extends MX_Controller {
         $filename_ext = ($this->anexo == '09') ? ".pdf" : ".xls";
         $filename = $filename . $filename_ext;
         list($sgr, $anexo, $date) = explode("_", $filename);
-        
+
         if ($sgr != $this->sgr_id) {
             var_dump($sgr, $this->sgr_id);
             exit();
@@ -511,12 +511,17 @@ class Sgr extends MX_Controller {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
 
                 /* CHECK FOR EMPTY ROWS */
-                $row_count = @implode($data->sheets[0]['cells'][$i]);
+                $row_count = implode($data->sheets[0]['cells'][$i]);
                 $row_lenght = strlen($row_count);
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
                     if ($row_lenght > 1) {
                         $count = $data->rowcount();
-                        $fields = trim($data->sheets[0]['cells'][$i][$j]);
+
+
+                        if (isset($data->sheets[0]['cells'][$i][$j]))
+                            $fields = trim($data->sheets[0]['cells'][$i][$j]);
+
+
                         $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
                         array_push($valuesArr, $stack);
                     }
@@ -572,9 +577,9 @@ class Sgr extends MX_Controller {
             $model = "model_" . $anexo;
             $this->load->Model($model);
 
-            for ($i = 2; $i <= $data->rowcount(); $i++) 
+            for ($i = 2; $i <= $data->rowcount(); $i++)
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
-            
+
 
             /* INSERT UPDATE */
             for ($i = 2; $i <= $data->rowcount(); $i++) {
