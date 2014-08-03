@@ -64,7 +64,7 @@ class Model_122 extends CI_Model {
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
             /* STRING */
-            $insertarr['NRO_GARANTIA'] = (string) $insertarr['NRO_GARANTIA'];
+            $insertarr['NRO_GARANTIA'] = (string) trim($insertarr['NRO_GARANTIA']);
 
             /* INT & FLOAT */
             $insertarr['NUMERO_CUOTA_CUYO_VENC_MODIFICA'] = (int) $insertarr['NUMERO_CUOTA_CUYO_VENC_MODIFICA'];
@@ -130,8 +130,8 @@ class Model_122 extends CI_Model {
 
     function update_period($id, $status) {
         
-         if (!isset($this->session->userdata['rectify']))
-            exit();
+         /*if (!isset($this->session->userdata['rectify']))
+            exit();*/
          
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
@@ -198,16 +198,16 @@ class Model_122 extends CI_Model {
             $model_12 = 'model_12';
             $this->load->Model($model_12);
 
+           $list_NRO_GARANTIA = trim($list['NRO_GARANTIA']);
 
-
-            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
+            $get_movement_data = $this->$model_12->get_order_number_print($list_NRO_GARANTIA, $list['period']);
+           
 
             foreach ($get_movement_data as $warranty) {
                 $cuit = $warranty[5349];
                 $brand_name = $this->padfyj_model->search_name($warranty[5349]);
                 $origen = $warranty[5215];
             }
-
 
 
             $new_list = array();

@@ -83,8 +83,8 @@ class Model_17 extends CI_Model {
 
     function update_period($id, $status) {
         
-         if (!isset($this->session->userdata['rectify']))
-            exit();
+         /*if (!isset($this->session->userdata['rectify']))
+            exit();*/
          
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';

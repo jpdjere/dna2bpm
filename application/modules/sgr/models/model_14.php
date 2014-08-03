@@ -66,7 +66,7 @@ class Model_14 extends CI_Model {
             $insertarr[$value] = $parameter[$key];
 
             /* STRING */
-            $insertarr["NRO_GARANTIA"] = (string) $insertarr["NRO_GARANTIA"]; //Nro orden
+            $insertarr["NRO_GARANTIA"] = (string) trim($insertarr["NRO_GARANTIA"]); //Nro orden
 
 
             /* INTEGERS & FLOAT */
@@ -161,8 +161,8 @@ class Model_14 extends CI_Model {
 
     function update_period($id, $status) {
         
-         if (!isset($this->session->userdata['rectify']))
-            exit();
+         /*if (!isset($this->session->userdata['rectify']))
+            exit();*/
         
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
@@ -249,11 +249,14 @@ class Model_14 extends CI_Model {
             $this->load->model('padfyj_model');
             $model_12 = 'model_12';
             $this->load->Model($model_12);
+            
+            $list_NRO_GARANTIA  = trim($list['NRO_GARANTIA']);
 
 
             /* "12585/10" */
-            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $list['period']);
-
+            $get_movement_data = $this->$model_12->get_order_number_print($list_NRO_GARANTIA, $list['period']);
+            
+           
 
             if (!empty($get_movement_data)) {
                 foreach ($get_movement_data as $warrant) {
@@ -264,7 +267,7 @@ class Model_14 extends CI_Model {
 
             $new_list = array();
             $new_list['col1'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
-            $new_list['col2'] = $list['NRO_GARANTIA'];
+            $new_list['col2'] = $list_NRO_GARANTIA;
             $new_list['col3'] = $brand_name;
             $new_list['col4'] = $cuit;
             $new_list['col5'] = money_format_custom($list['CAIDA']);
