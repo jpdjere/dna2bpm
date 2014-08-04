@@ -39,8 +39,8 @@ $active_group = "dna2";
 $active_record = true;
 
 $db['dna2']['hostname'] = "localhost";
-$db['dna2']['username'] = "dna2";
-$db['dna2']['password'] = "BJtYg1Vvac";
+$db['dna2']['username'] = "root";
+$db['dna2']['password'] = "root";
 $db['dna2']['database'] = "forms2";
 $db['dna2']['dbdriver'] = "mysql";
 $db['dna2']['dbprefix'] = "";
