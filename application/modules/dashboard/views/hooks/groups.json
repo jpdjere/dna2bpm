@@ -13,7 +13,7 @@
         {
             "name": "Hook Sgr Reoprtes",
             "group": [49],
-            "redir": "../sgr/reportes"
+            "redir": "../sgr/reports"
         },
         {
             "name": "Hook Inventario",
