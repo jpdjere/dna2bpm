@@ -44,6 +44,8 @@ class Sgr extends MX_Controller {
         session_start();
 
         $_SESSION['idu'] = $this->idu;
+        
+        
 
 
         if (!$this->idu) {
@@ -633,6 +635,12 @@ class Sgr extends MX_Controller {
             $customData['message'] = $result;
 
             $this->render('errors', $customData);
+            
+            
+            if($_SESSION['idu']==-338563259)
+                exit();
+                
+                
             unlink($uploadpath);
         }
 
