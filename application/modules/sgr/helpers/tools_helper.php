@@ -258,7 +258,7 @@ function check_email($parameter) {
 }
 
 function check_web($parameter) {
-    if (is_numeric($parameter)) {
+    if (is_numeric($element)) {
         return true;
     } else {
         $parameter = "http://" . $parameter;
