@@ -637,9 +637,10 @@ class Sgr extends MX_Controller {
             $this->render('errors', $customData);
             
             
-            /*
-             * 4 TEST PURPOSES ONLY
-             * if($_SESSION['idu']==-338563259)
+           /* 
+            * 4 FOR TEST PURPOSES ONLY
+            * 
+            * if($_SESSION['idu']==-338563259)
                 exit();*/
                 
                 
