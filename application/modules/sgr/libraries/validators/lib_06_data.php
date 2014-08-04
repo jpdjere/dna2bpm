@@ -35,7 +35,6 @@ class Lib_06_data extends MX_Controller {
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $C_array_value = array();
         $B_cell_value = "";
-        
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -84,7 +83,6 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
-                    
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -94,6 +92,7 @@ class Lib_06_data extends MX_Controller {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
+                        $B_cell_value = "";
                         $allow_words = array("A", "B");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -490,9 +489,9 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
-                        //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
-
-
+                          //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
+                        
+                          
                         if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Transfiere:" . $AH_cell_value . ", Dispone de:" . $grantor_subscribed);
@@ -519,7 +518,7 @@ class Lib_06_data extends MX_Controller {
 
                         if ($grantor_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $grantor_integrated . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $balance_integrated . ")");
                             array_push($stack, $result);
                         }
 
@@ -829,196 +828,193 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
 
-                /////////////////////////// 
-                /* TIPO DE SOCIO */
 
-                if (isset($B_cell_value)) {
+                /////////////////////////////////////////
+                /*
+                 * 2. VALIDADORES PARTICULARES
+                 * 2.1.1. COLUMNA B - TIPO DE SOCIO: “A”
+                 *                  
+                 */
+                if ($B_cell_value == "A") {
+                    $range = range(18, 20);
+                    if (in_array($parameterArr[$i]['col'], $range)) {
 
-                    /////////////////////////////////////////
-                    /*
-                     * 2. VALIDADORES PARTICULARES
-                     * 2.1.1. COLUMNA B - TIPO DE SOCIO: “A”
-                     *                  
-                     */
-                    if ($B_cell_value == "A") {
-                        $range = range(18, 20);
-                        if (in_array($parameterArr[$i]['col'], $range)) {
+                        switch ($parameterArr[$i]['col']) {
 
-                            switch ($parameterArr[$i]['col']) {
+                            case 18: //ANIO_MES1                              
+                                $R_cell_value = "";
+                                $R2_cell_value = "";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $return = check_date($parameterArr[$i]['fieldValue']);
+                                    if (!$return) {
+                                        $code_error = "R.2";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                        $R_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $R2_cell_value = $return;
 
-                                case 18: //ANIO_MES1                              
-                                    $R_cell_value = "";
-                                    $R2_cell_value = "";
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $return = check_date($parameterArr[$i]['fieldValue']);
-                                        if (!$return) {
-                                            $code_error = "R.2";
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $R_cell_value = $parameterArr[$i]['fieldValue'];
-                                            $R2_cell_value = $return;
-
-                                            list($first_year_to_check) = explode("/", $R2_cell_value);
-                                            list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                            $check_diff = (int) $period_to_check - ((int) $first_year_to_check);
-                                            /* VALIDACION R.3 */
-                                            if (!in_array($check_diff, range(0, 3))) {
-                                                $code_error = "R.3";
-                                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $check_diff);
-                                                array_push($stack, $result);
-                                            }
-                                        }
-                                    }
-
-                                    break;
-
-                                case 19://MONTO
-                                    //Check Numeric Validation
-                                    $S2_cell_value = "";
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $code_error = "S.2";
-                                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
-                                        if ($return) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $S2_cell_value = $parameterArr[$i]['fieldValue'];
-                                            $average_amount_1 = $S2_cell_value;
-                                        }
-                                    }
-                                    break;
-
-                                case 20://TIPO_ORIGEN
-                                    //Value Validation
-                                    $T2_cell_value = $parameterArr[$i]['fieldValue'];
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $code_error = "T.2";
-                                        $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
-                                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                                        if ($return) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        list($first_year_to_check) = explode("/", $R2_cell_value);
+                                        list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);                                        
+                                        /* VALIDACION R.3 */
+                                        if (!in_array($check_diff, range(0, 3))) {
+                                            $code_error = "R.3";
+                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $check_diff);
                                             array_push($stack, $result);
                                         }
                                     }
+                                }
 
+                                break;
 
-                                    /* CHECK ONE FOR ALL */
-                                    if ((bool) $R_cell_value || (bool) $S2_cell_value || (bool) $T2_cell_value) {
-                                        if (!(bool) $R_cell_value || !(bool) $S2_cell_value || !(bool) $T2_cell_value) {
-                                            $code_error = "R.1";
-                                            $result_error_input_value = $R_cell_value . "*" . $S2_cell_value . "*" . $T2_cell_value;
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
-                                            array_push($stack, $result);
-                                        }
+                            case 19://MONTO
+                                //Check Numeric Validation
+                                $S2_cell_value = "";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $code_error = "S.2";
+                                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    if ($return) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                        $S2_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $average_amount_1 = $S2_cell_value;
                                     }
+                                }
+                                break;
 
-                                    break;
-                            }
+                            case 20://TIPO_ORIGEN
+                                //Value Validation
+                                $T2_cell_value = $parameterArr[$i]['fieldValue'];
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $code_error = "T.2";
+                                    $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    if ($return) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    }
+                                }
+
+
+                                /* CHECK ONE FOR ALL */
+                                if ((bool) $R_cell_value || (bool) $S2_cell_value || (bool) $T2_cell_value) {
+                                    if (!(bool) $R_cell_value || !(bool) $S2_cell_value || !(bool) $T2_cell_value) {
+                                        $code_error = "R.1";
+                                        $result_error_input_value = $R_cell_value . "*" . $S2_cell_value . "*" . $T2_cell_value;
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
+                                        array_push($stack, $result);
+                                    }
+                                }
+
+                                break;
                         }
+                    }
 
 
-                        $range = range(21, 23);
-                        if (in_array($parameterArr[$i]['col'], $range)) {
-                            switch ($parameterArr[$i]['col']) {
-                                case 21: //ANIO_MES2                              
-                                    $U_cell_value = "";
-                                    $U2_cell_value = "";
-                                    $error = false;
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $return = check_date($parameterArr[$i]['fieldValue']);
-                                        if (!$return) {
-                                            $code_error = "U.2";
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $code_error = "U.3";
-                                            list($U_year) = explode("/", $parameterArr[$i]['fieldValue']);
-                                            list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+                    $range = range(21, 23);
+                    if (in_array($parameterArr[$i]['col'], $range)) {
+                        switch ($parameterArr[$i]['col']) {
+                            case 21: //ANIO_MES2                              
+                                $U_cell_value = "";
+                                $U2_cell_value = "";
+                                $error=false;
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $return = check_date($parameterArr[$i]['fieldValue']);
+                                    if (!$return) {
+                                        $code_error = "U.2";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                    	$code_error = "U.3";                       	
+                                        list($U_year) = explode("/", $parameterArr[$i]['fieldValue']);
+                                        list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-                                            if ($R_cell_value) {
-                                                // Existe R
-                                                list($R_year) = explode("/", $R_cell_value);
-                                                if ((int) $R_year + 1 != (int) $U_year) {
-                                                    $error = true;
-                                                }
-                                            } else {
-                                                // No existe R, U puede ser de uno a dos años menor que periodo actual
-                                                $dif = (int) $period_to_check - (int) $U_year;
-                                                if ($dif != 1 && $dif != 2) {
-                                                    $error = true;
-                                                }
-                                            }
-                                            // 
-                                            if ($error) {
-                                                $result = return_error_array($code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue']);
-                                                array_push($stack, $result);
-                                            } else {
-                                                $U_cell_value = $parameterArr [$i] ['fieldValue'];
-                                                $U2_cell_value = $return;
-                                            }
-                                        }
+										if($R_cell_value){
+											// Existe R
+											list($R_year) = explode("/", $R_cell_value);
+											if((int)$R_year+1!=(int)$U_year){
+												$error=true;
+											}
+										}else{
+											// No existe R, U puede ser de uno a dos años menor que periodo actual
+											$dif=(int)$period_to_check-(int)$U_year;
+											if($dif!=1 && $dif!=2){
+												$error=true;
+											}
+										}
+										// 
+										if ($error) {
+											$result = return_error_array ( $code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue'] );
+											array_push ( $stack, $result );
+										} else {
+											$U_cell_value = $parameterArr [$i] ['fieldValue'];
+											$U2_cell_value = $return;
+										}
+
                                     }
+                                }
 
-                                    break;
+                                break;
 
-                                case 22://MONTO
-                                    //Check Numeric Validation
-                                    $V2_cell_value = "";
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $code_error = "V.2";
-                                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
-                                        if ($return) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $V2_cell_value = $parameterArr[$i]['fieldValue'];
-                                            $average_amount_2 = $V2_cell_value;
-                                        }
+                            case 22://MONTO
+                                //Check Numeric Validation
+                                $V2_cell_value = "";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $code_error = "V.2";
+                                    $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    if ($return) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                        $V2_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $average_amount_2 = $V2_cell_value;
                                     }
-                                    break;
+                                }
+                                break;
 
-                                case 23://TIPO_ORIGEN
-                                    //Value Validation
-                                    $W2_cell_value = "";
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $code_error = "W.2";
-                                        $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
-                                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                                        if ($return) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $W2_cell_value = $parameterArr[$i]['fieldValue'];
-                                        }
+                            case 23://TIPO_ORIGEN
+                                //Value Validation
+                                $W2_cell_value = "";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $code_error = "W.2";
+                                    $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
+                                    if ($return) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                        $W2_cell_value = $parameterArr[$i]['fieldValue'];
                                     }
+                                }
 
 
-                                    /* CHECK ONE FOR ALL */
-                                    if ((bool) $U_cell_value || (bool) $V2_cell_value || (bool) $W2_cell_value) {
-                                        if (!(bool) $U_cell_value || !(bool) $V2_cell_value || !(bool) $W2_cell_value) {
-                                            $code_error = "U.1";
-                                            $result_error_input_value = $U_cell_value . "*" . $V2_cell_value . "*" . $W2_cell_value;
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
-                                            array_push($stack, $result);
-                                        }
+                                /* CHECK ONE FOR ALL */
+                                if ((bool) $U_cell_value || (bool) $V2_cell_value || (bool) $W2_cell_value) {
+                                    if (!(bool) $U_cell_value || !(bool) $V2_cell_value || !(bool) $W2_cell_value) {
+                                        $code_error = "U.1";
+                                        $result_error_input_value = $U_cell_value . "*" . $V2_cell_value . "*" . $W2_cell_value;
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
+                                        array_push($stack, $result);
                                     }
+                                }
 
-                                    break;
-                            }
+                                break;
                         }
+                    }
 
 
-                        $range = range(24, 26);
-                        if (in_array($parameterArr[$i]['col'], $range)) {
+                    $range = range(24, 26);
+                    if (in_array($parameterArr[$i]['col'], $range)) {
 
-                            switch ($parameterArr[$i]['col']) {
-                                case 24: //ANIO_MES3                                        
-                                    $X_cell_value = $parameterArr[$i]['fieldValue'];
-                                    $X2_cell_value = "";
-                                    $code_error = "X.2";
+                        switch ($parameterArr[$i]['col']) {
+                            case 24: //ANIO_MES3                                        
+                                $X_cell_value = $parameterArr[$i]['fieldValue'];
+                                $X2_cell_value = "";
+                                $code_error = "X.2";
 
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
+                                if ($parameterArr[$i]['fieldValue'] != "") {
 
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
@@ -1047,150 +1043,151 @@ class Lib_06_data extends MX_Controller {
                                         	}
                                         	
                                         }
+
                                     }
+                                }
 
-                                    break;
+                                break;
 
-                                case 25://MONTO
-                                    //Check Numeric Validation                                
-                                    $Y2_cell_value = "";
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $code_error = "Y.2";
-                                        $return = check_is_numeric($parameterArr[$i]['fieldValue']);
-                                        if ($return) {
-
-
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $Y2_cell_value = $parameterArr[$i]['fieldValue'];
-                                            $average_amount_3 = $Y2_cell_value;
-                                        }
-                                    }
-                                    break;
-
-                                case 26://TIPO_ORIGEN
-                                    //Value Validation
-                                    $Z2_cell_value = "";
-                                    if ($parameterArr[$i]['fieldValue'] != "") {
-                                        $code_error = "Z.2";
-                                        $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS", "ESTIMACION");
-                                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                                        if ($return) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            $Z2_cell_value = $parameterArr[$i]['fieldValue'];
-                                        }
-                                    }
-
-
-                                    /* CHECK ONE FOR ALL */
-                                    if ((bool) $X_cell_value || (bool) $Y2_cell_value || (bool) $Z2_cell_value) {
-                                        if (!(bool) $X_cell_value || !(bool) $Y2_cell_value || !(bool) $Z2_cell_value) {
-                                            $code_error = "X.1";
-                                            $result_error_input_value = $X_cell_value . "*" . $Y2_cell_value . "*" . $Z2_cell_value;
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
-                                            array_push($stack, $result);
-                                        }
-                                    }
-                                    break;
-                            }
-                        }
-
-                        /*
-                         * CANTIDAD_DE_EMPLEADOS
-                         * El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.
-                         */
-                        if ($parameterArr[$i]['col'] == 28) {
-                            if ($A_cell_value == "INCORPORACION") {
-                                $code_error = "AB.1";
-
-                                /* AVERAGE AMOUNT */
-                                $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3;
-                                $average_amount_1 = 0;
-                                $average_amount_2 = 0;
-                                $average_amount_3 = 0;
-
-
-                                $return = check_empty($parameterArr[$i]['fieldValue']);
-                                if ($return) {
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty." . $A_cell_value);
-                                    array_push($stack, $result);
-                                } else {
-                                    //Check Numeric Validation
+                            case 25://MONTO
+                                //Check Numeric Validation                                
+                                $Y2_cell_value = "";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $code_error = "Y.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                                    if ($return) {
+
+
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                        $Y2_cell_value = $parameterArr[$i]['fieldValue'];
+                                        $average_amount_3 = $Y2_cell_value;
+                                    }
+                                }
+                                break;
+
+                            case 26://TIPO_ORIGEN
+                                //Value Validation
+                                $Z2_cell_value = "";
+                                if ($parameterArr[$i]['fieldValue'] != "") {
+                                    $code_error = "Z.2";
+                                    $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS", "ESTIMACION");
+                                    $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                                     if ($return) {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
+                                    } else {
+                                        $Z2_cell_value = $parameterArr[$i]['fieldValue'];
                                     }
+                                }
+
+
+                                /* CHECK ONE FOR ALL */
+                                if ((bool) $X_cell_value || (bool) $Y2_cell_value || (bool) $Z2_cell_value) {
+                                    if (!(bool) $X_cell_value || !(bool) $Y2_cell_value || !(bool) $Z2_cell_value) {
+                                        $code_error = "X.1";
+                                        $result_error_input_value = $X_cell_value . "*" . $Y2_cell_value . "*" . $Z2_cell_value;
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $result_error_input_value);
+                                        array_push($stack, $result);
+                                    }
+                                }
+                                break;
+                        }
+                    }
+
+                    /*
+                     * CANTIDAD_DE_EMPLEADOS
+                     * El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.
+                     */
+                    if ($parameterArr[$i]['col'] == 28) {
+                        if ($A_cell_value == "INCORPORACION") {
+                            $code_error = "AB.1";
+
+                            /* AVERAGE AMOUNT */
+                            $average_amount = $average_amount_1 + $average_amount_2 + $average_amount_3;
+                            $average_amount_1 = 0;
+                            $average_amount_2 = 0;
+                            $average_amount_3 = 0;
+
+
+                            $return = check_empty($parameterArr[$i]['fieldValue']);
+                            if ($return) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty." . $A_cell_value);
+                                array_push($stack, $result);
+                            } else {
+                                //Check Numeric Validation
+                                $return = check_is_numeric($parameterArr[$i]['fieldValue']);
+                                if ($return) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                    array_push($stack, $result);
                                 }
                             }
                         }
                     }
+                }
 
 
 
 
-                    /////////////////////////////////////////
-                    /*
-                     * 2. VALIDADORES PARTICULARES
-                     * 2.1.2. COLUMNA B - TIPO DE SOCIO: “B”
-                     *                  
-                     */
+                /////////////////////////////////////////
+                /*
+                 * 2. VALIDADORES PARTICULARES
+                 * 2.1.2. COLUMNA B - TIPO DE SOCIO: “B”
+                 *                  
+                 */
 
-                    if ($B_cell_value == "B") {
-                        $range = range(18, 26);
-                        if (in_array($parameterArr[$i]['col'], $range)) {
+                if ($B_cell_value == "B") {
+                    $range = range(18, 26);
+                    if (in_array($parameterArr[$i]['col'], $range)) {
 
-                            switch ($parameterArr[$i]['col']) {
+                        switch ($parameterArr[$i]['col']) {
 
-                                case 18: //Año/Mes 1
-                                    $code_error = "R.4";
-                                    break;
-                                case 19: //Monto 1
-                                    $code_error = "S.4";
-                                    break;
-                                case 20: //Tipo Origen 1
-                                    $code_error = "T.3";
-                                    break;
-                                case 21: //Año/Mes 2
-                                    $code_error = "U.4";
-                                    break;
-                                case 22: //Monto 2
-                                    $code_error = "V.4";
-                                    break;
-                                case 23: //Tipo Origen 2
-                                    $code_error = "W.3";
-                                    break;
-                                case 24: //Año/Mes 3
-                                    $code_error = "X.4";
-                                    break;
-                                case 25: //Monto 3
-                                    $code_error = "Y.4";
-                                    break;
-                                case 26: //Tipo Origen 3
-                                    $code_error = "Z.3";
-                                    break;
-                            }
-
-                            //Check for Empty
-                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                            if ($return) {
-                                $code_error = "Q-AB";
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
+                            case 18: //Año/Mes 1
+                                $code_error = "R.4";
+                                break;
+                            case 19: //Monto 1
+                                $code_error = "S.4";
+                                break;
+                            case 20: //Tipo Origen 1
+                                $code_error = "T.3";
+                                break;
+                            case 21: //Año/Mes 2
+                                $code_error = "U.4";
+                                break;
+                            case 22: //Monto 2
+                                $code_error = "V.4";
+                                break;
+                            case 23: //Tipo Origen 2
+                                $code_error = "W.3";
+                                break;
+                            case 24: //Año/Mes 3
+                                $code_error = "X.4";
+                                break;
+                            case 25: //Monto 3
+                                $code_error = "Y.4";
+                                break;
+                            case 26: //Tipo Origen 3
+                                $code_error = "Z.3";
+                                break;
                         }
 
-                        if ($parameterArr[$i]['col'] == 28) {
-                            $code_error = "AB.2";
-                            //Check for Empty
-                            $return = check_for_empty($parameterArr[$i]['fieldValue']);
-                            if ($return) {
-                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                array_push($stack, $result);
-                            }
+                        //Check for Empty
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $code_error = "Q-AB";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+                    }
+
+                    if ($parameterArr[$i]['col'] == 28) {
+                        $code_error = "AB.2";
+                        //Check for Empty
+                        $return = check_for_empty($parameterArr[$i]['fieldValue']);
+                        if ($return) {
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
                         }
                     }
                 }
@@ -1432,9 +1429,9 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-        /*         $stack = array(); */
+/*         $stack = array(); */
         //debug($stack);        exit();
-        $this->data = $stack;
+         $this->data = $stack;
     }
 
 }
