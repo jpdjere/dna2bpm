@@ -42,7 +42,7 @@ class Util extends MX_Controller {
                 'vistas',
             ),
             'ignore' => array(), // List of tables to omit from the backup
-            'format' => 'txt', // gzip, zip, txt
+            'format' => 'gzip', // gzip, zip, txt
             'filename' => 'preguntas.sql', // File name - NEEDED ONLY WITH ZIP FILES
             'add_drop' => TRUE, // Whether to add DROP TABLE statements to backup file
             'add_insert' => TRUE, // Whether to add INSERT data to backup file
@@ -56,7 +56,7 @@ class Util extends MX_Controller {
 //        write_file('images/download/preguntas.sql', $backup);
 
 // Load the download helper and send the file to your desktop
-        force_download('preguntas.sql', $backup);
+        force_download('preguntas.sql.gz', $backup);
     }
 
 }
