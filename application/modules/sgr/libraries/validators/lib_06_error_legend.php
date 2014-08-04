@@ -3,16 +3,20 @@
 class Lib_06_error_legend {
 
     public function __construct() {
-        $this->result = $this->return_legend($code, $row, $value);
+        if (isset($code))
+            $this->result = $this->return_legend($code, $row, $value);
     }
 
     function return_legend($code, $row, $value) {
+
+
+        $result_error = "";
 
         switch ($code) {
             case "VG.1":
                 $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Se esta intentando INCORPORAR el mismo CUIT mas de una vez dentro del importador.';
                 break;
-            
+
             case "A.1":
                 $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Operación: El campo no puede estar vacío y debe contener uno de los siguientes parámetros: "INCORPORACION, INCREMENTO TENENCIA ACCIONARIA", "DISMINUCION DE CAPITAL SOCIAL", "INTEGRACION PENDIENTE".';
                 break;
@@ -59,15 +63,15 @@ class Lib_06_error_legend {
             case "AI.2":
                 $result_error = '<strong>Columna AI - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AI - Si la columna AJ está completa, el Socio Cedente informado en la misma debe poseer la cantidad de Capital Integrado para transferir, correspondiente al tipo de Acción que posea, “A” o “B”. De no poseerlo, se rechazará la importación.';
                 break;
-            
+
             case "AJ.1":
                 $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AJ - En caso de que en la columna “A” se completen las opciones “INCORPORACIÓN” o “INCREMENTO TENENCIA ACCIONARIA” y en la columna AG se complete la modalidad "SUSCRIPCION", esta columna DEBE QUEDAR VACÍA.';
                 break;
-            
+
             case "AJ.2":
                 $result_error = '<strong>Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AL - CUIT del Cedente: En caso de que en la columna "A" se complete la opción "DISMINUCIÓN DE CAPITAL SOCIAL", esta columna NO PUEDE ESTAR VACÍA.';
                 break;
-            case "AJ.3": 
+            case "AJ.3":
                 $result_error = '<strong>Columna Columna AJ - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/> Columna AJ - En caso de que en la columna AG se complete la modalidad TRANSFERENCIA, esta columna NO PUEDE QUEDAR VACÍA.';
                 break;
             case "AK.2":
@@ -161,7 +165,7 @@ class Lib_06_error_legend {
                 break;
             case "AI.8": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la Columna "A" se completa la opción “INTEGRACIÓN PENDIENTE”, este campo debe tomar valor mayor a CERO y se debe verificar que el valor indicado sea menor o igual a la diferencia entre los saldos previos de Capital Suscripto y Capital Integrado. Es decir, sólo se podrá realizar una “INTEGRACIÓN PENDIENTE”, en caso de que haya SUSCRIPTO CAPITAL sin haberlo integrado.';
                 break;
-            
+
             case "AK.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>EL SOCIO YA SE ENCUENTRA INCORPORADO A LA SGR, no puede incorporarlo nuevamente. ';
                 break;
             case "Q.2": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Q - Código de Actividad: Debe coincidir con alguno de los Códigos del C.I.I.U.';

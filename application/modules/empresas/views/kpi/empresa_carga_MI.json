@@ -1,0 +1,18 @@
+{
+    "icon": "",
+    "title": "Empresas",
+    "desc": "",
+    "help": "",
+    "type": "state",
+    "idkpi": "empresa_carga_MI",
+    "idwf": "empresa_carga",
+    "idu": 1,
+    "hidden": false,
+    "locked": true,
+    "filter": "user",
+    "filter_extra": "{}",
+    "resourceId": "oryx_CAC0E088-33DF-40DC-B9D9-C21D97CA6985",
+    "widget_type": "tiles",
+    "widget": "tile-green",
+    "group": 0
+}

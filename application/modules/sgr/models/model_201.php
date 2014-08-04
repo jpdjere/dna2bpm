@@ -808,6 +808,9 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
+            
+            
+            
 
 
 
@@ -819,6 +822,13 @@ class Model_201 extends CI_Model {
             }
         }
 
+        
+           if ($nro == 8) {
+                
+                debug($retiro_result_arr);
+                
+            }
+        
         $aporte_sum = array_sum($aporte_result_arr);
         $retiro_sum = array_sum($retiro_result_arr);
         $rendimientos_sum = array_sum($rendimientos_result_arr);
