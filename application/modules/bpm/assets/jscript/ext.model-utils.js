@@ -6,6 +6,7 @@ var exclude_shape = new Array('SequenceFlow', 'Pool', 'MessageFlow');
 var exclude_paint = new Array('Pool', 'Lane');
 var TOKEN_SCROLL = true;
 var load_data_callback = null;
+var tooltips = new Array();
 /*
  var offset_x=0;
  var offset_y=0;
@@ -35,10 +36,10 @@ function load_data(idwf) {
 
                 st1 = model_svg.select('.stencils:first');
                 obj = st1.elements[0];
-                if(obj){
-                xy = obj.getAttribute('transform').replace('translate(', '').replace(')', '').split(',');
-                offset_x = parseInt(xy[0]);
-                offset_y = parseInt(xy[1]);
+                if (obj) {
+                    xy = obj.getAttribute('transform').replace('translate(', '').replace(')', '').split(',');
+                    offset_x = parseInt(xy[0]);
+                    offset_y = parseInt(xy[1]);
                 }
 
                 /*
@@ -51,10 +52,19 @@ function load_data(idwf) {
                  
                  });
                  */
+                //----first remove previous events
+                Ext.each(tooltips, function(tooltip) {
+                    tooltip.destroy()
+                })
                 add_events(model_data.childShapes);
                 if (load_data_callback) {
                     load_data_callback();
                 }
+                //----init panzoom
+                if (typeof (panzoom_init) == 'function') {
+                    panzoom_init();
+                }
+
             }
         });
         first = true;
@@ -112,6 +122,10 @@ function paint(resourceId, color, stroke_width) {
             switch (shape.stencil.id) {
                 case "Task":
                     $('#' + shape.resourceId + ' .stencils .me [id*="_frame"]').attr('style', '').attr('stroke-width', stroke_with).attr('stroke', color);
+                    break;
+                case "ParallelGateway":
+                    $('#' + shape.resourceId + ' .stencils .me [id*="_frame"]').attr('style', '').attr('stroke-width', stroke_with).attr('stroke', color);
+
                     break;
                 case "Exclusive_Databased_Gateway":
                     $('#' + shape.resourceId + ' .stencils .me [id*="_frame"]').attr('style', '').attr('stroke-width', stroke_with).attr('stroke', color);

@@ -93,7 +93,14 @@ class Model_202 extends CI_Model {
             $insertarr["CUIT_PROTECTOR"] = $cuit;
             $insertarr["SALDO"] = $saldo;
             $insertarr["DISPONIBLE"] = $disponible;
-          
+            
+            
+            if ($this->sgr_id == 2207746538) {
+                echo "update";
+                debug($this->sgr_id);
+                debug($get_movement_data);
+                exit();
+            }
             
             
         }

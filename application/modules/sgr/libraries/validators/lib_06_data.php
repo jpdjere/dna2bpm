@@ -42,6 +42,11 @@ class Lib_06_data extends MX_Controller {
 
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                
+                if(!isset($parameterArr[$i]['col']))
+                    exit();
+                
 
                 /* TIPO_OPERACION
                  * Nro A.1
@@ -52,6 +57,9 @@ class Lib_06_data extends MX_Controller {
                   DISMINUCION DE CAPITAL SOCIAL
                   INTEGRACION PENDIENTE
                  */
+                
+                
+                
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
@@ -520,7 +528,7 @@ class Lib_06_data extends MX_Controller {
 
                         if ($grantor_integrated < $AI_cell_value) {
                             $code_error = "AI.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $balance_integrated . ")");
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . "(" . $grantor_integrated . ")");
                             array_push($stack, $result);
                         }
 

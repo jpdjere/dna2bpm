@@ -19,22 +19,42 @@ class Msg extends CI_Model {
     
 
     //---get that msg
-    function get_msgs($iduser, $folder=null) {
+    function get_msgs($iduser, $folder=null, $skip=null, $limit=null) {
 
         if($folder=='outbox'){
             $query = array('from' =>(double) $iduser);
+        }elseif($folder=='star'){
+        	$query = array(
+        			'to' =>(double) $iduser,
+        			'star'=>true,
+        			'folder'=>array('$ne'=>'trash')
+        	);
         }else{
+        
             // Para outbox
             $query = array('to' =>(double) $iduser);
             if (isset($folder))
                 $query['folder'] = $folder;
         }
-        
+	// Query build
+    $pipe=$this->mongo->db->msg->find($query);
+	if(!is_null($skip))
+		$pipe = $pipe->skip($skip);
+	if(!is_null($limit))
+		$pipe = $pipe->limit($limit);	
+	$pipe=$pipe->sort(array('checkdate'=>-1));
 
-        $result = $this->mongo->db->msg->find($query)->sort(array('checkdate'=>-1));   
-
-        return $result;
+    return $pipe;
        
+    }
+    
+    function count_msgs($iduser, $folder=null) {
+    	$query = array(
+    			'to' =>(double) $iduser,
+    			'folder'=>$folder
+    	);
+    	return $this->mongo->db->msg->find($query)->count();
+
     }
 
     //---send msg multiple users
@@ -62,7 +82,7 @@ class Msg extends CI_Model {
 
     function remove($mongoid) {
         $mongoid = (is_object($mongoid)) ? $mongoid : new MongoId($mongoid);
-        $options = array('safe' => true, 'justOne' => true);
+        $options = array('w' => true, 'justOne' => true);
         $criteria = array('_id' => $mongoid);
         return $this->mongo->db->msg->remove($criteria, $options);
     }
@@ -77,7 +97,7 @@ class Msg extends CI_Model {
 
     // Save a msg
     function save($msg) {
-        $options = array('upsert' => true, 'safe' => true);
+        $options = array('upsert' => true, 'w' => true);
         return $this->mongo->db->msg->save($msg, $options);
     }
 
@@ -92,21 +112,32 @@ class Msg extends CI_Model {
     // Set or unset star
     function set_star($status,$id) {
     $mongoid=new MongoId($id);
-    $status=($status==1)?(true):(false);
+     $status=($status=='on')?(true):(false);
     $query=array('$set' =>array('star'=>$status));
     $criteria = array('_id' => $mongoid);
+
     $rs=$this->mongo->db->msg->update($criteria, $query);
+
     }
 
     // Was message read?
     function set_read($status,$id) {
     $mongoid=new MongoId($id);
-    $status=($status==1)?(true):(false);
+    $status=($status=='read')?(true):(false);
     $query=array('$set' =>array('read'=>$status));
     $criteria = array('_id' => $mongoid);
     $rs=$this->mongo->db->msg->update($criteria, $query);
     }
     
+    // Set Tag?
+    function set_tag($tag,$id) {
+    $mongoid=new MongoId($id);
+    $query=array('$set' =>array('tag'=>$tag));
+    $criteria = array('_id' => $mongoid);
+
+    $rs=$this->mongo->db->msg->update($criteria, $query);
+
+    }
 
 
 }//

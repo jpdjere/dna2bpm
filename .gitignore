@@ -1,6 +1,5 @@
 /nbproject/
 /images/
-/application/config/
 /tmp/
 /update-git.log
 /application/modules/qr/cache/
@@ -10,5 +9,4 @@
 /.buildpath
 /.project
 /.settings/
-/anexos_sgr/06/
 /anexos_sgr/
