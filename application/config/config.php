@@ -12,9 +12,9 @@
 |
 */
 
-//$config['base_url']	= "http://www.accionpyme.mecon.gob.ar/dna2bpm/";
+$config['base_url']	= "/dna2bpm/";
 
-$config['base_url']	= "http://localhost/dna2bpm/";
+// // $config['base_url']	= "http://localhost/dna2bpm/";
 
 
 /*
@@ -333,8 +333,8 @@ $config['proxy_ips'] = '';
 | Define System language
 |--------------------------------------------------------------------------
 */
-$config['language']='english';
 $config['language']='spanish';
+$config['language']='english';
 
 // 4 theme
 $config['theme']='le-frog';     //---not 100%

@@ -18,9 +18,9 @@
 |
 | These are the things you can load automatically:
 |
-| 1. Packages
-| 2. Libraries
-| 3. Helper files
+| 1. Libraries
+| 2. Helper files
+| 3. Plugins
 | 4. Custom config files
 | 5. Language files
 | 6. Models
@@ -29,36 +29,18 @@
 
 /*
 | -------------------------------------------------------------------
-|  Auto-load Packges
-| -------------------------------------------------------------------
-| Prototype:
-|
-|  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
-|
-*/
-
-$autoload['packages'] = array();
-
-
-/*
-| -------------------------------------------------------------------
 |  Auto-load Libraries
 | -------------------------------------------------------------------
 | These are the classes located in the system/libraries folder
-| or in your application/libraries folder.
+| or in your system/application/libraries folder.
 |
 | Prototype:
 |
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array(
-    'mongo',
-    'session',      
-    //-----if you need full layer support with plugin loader load the user/userlayer library
-    //'user/userlayer'
-    );
-
+$autoload['libraries'] = array('mongo','session','database');
+$autoload['libraries'] = array('mongo','session');
 
 /*
 | -------------------------------------------------------------------
@@ -70,6 +52,18 @@ $autoload['libraries'] = array(
 */
 
 $autoload['helper'] = array('url');
+
+
+/*
+| -------------------------------------------------------------------
+|  Auto-load Plugins
+| -------------------------------------------------------------------
+| Prototype:
+|
+|	$autoload['plugin'] = array('captcha', 'js_calendar');
+*/
+
+$autoload['plugin'] = array();
 
 
 /*
@@ -96,7 +90,7 @@ $autoload['config'] = array();
 |
 |	$autoload['language'] = array('lang1', 'lang2');
 |
-| NOTE: Do not include the "_lang" part of your file.  For example
+| NOTE: Do not include the "_lang" part of your file.  For example 
 | "codeigniter_lang.php" would be referenced as array('codeigniter');
 |
 */
@@ -113,13 +107,35 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('model1', 'model2');
 |
 */
+//----load the user model from module: 'user'
+/* 
+ * Actual library provides:
+     authenticate($username='', $password='') 
+     authenticateByHash($username='', $hash='') 
+     getlevel($idu) 
+     authorize($reqlevel='') 
+     isloggedin() 
+     has($piece) 
+     getapps($level=null) 
+     get_user_apps($level=null) 
+     appfilter($chunk) 
+     getbyid($iduser) 
+     getbypassw($hash) 
+     getbynick($nick) 
+     getbygroup($idgroup) 
+     getbygroupname($groupname) 
+     get_user($iduser) 
+     get_groups($order=null, $query_txt=null) 
+     get_users($idgroup, $order=null, $query_txt=null) 
+     put_user($object) 
+     save($object) 
+     delete_group($idgroup) 
+     delete_user($iduser) 
+ 
+ */
+$autoload['model'] = array('user/user');
 
-$autoload['model'] = array(
-    'user/user',
-    'user/group',
-    'user/rbac',
-    );
 
 
 /* End of file autoload.php */
-/* Location: ./application/config/autoload.php */
+/* Location: ./system/application/config/autoload.php */
