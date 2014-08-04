@@ -43,10 +43,6 @@ class Lib_06_data extends MX_Controller {
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
                 
-                
-                if(!isset($parameterArr[$i]['col']))
-                    exit();
-                
 
                 /* TIPO_OPERACION
                  * Nro A.1
