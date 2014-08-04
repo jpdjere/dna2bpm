@@ -82,6 +82,7 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
+                    $B_cell_value = "";
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -91,7 +92,7 @@ class Lib_06_data extends MX_Controller {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        $B_cell_value = "";
+                        
                         $allow_words = array("A", "B");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
