@@ -25,8 +25,8 @@ class Sgr extends MX_Controller {
         $this->load->library('session');
 
         /* update db */
-        //$this->load->Model("mysql_model_periods");
-        //$this->mysql_model_periods->active_periods_dna2();
+        $this->load->Model("mysql_model_periods");
+        $this->mysql_model_periods->active_periods_dna2();
 
 //---base variables
         $this->base_url = base_url();
