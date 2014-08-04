@@ -34,7 +34,9 @@ class Lib_06_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $C_array_value = array();
-
+        
+        
+        $B_cell_value = "";
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
@@ -1024,7 +1026,7 @@ class Lib_06_data extends MX_Controller {
                                         list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-                                        if($second_year_to_check){
+                                        if(isset($second_year_to_check)){
                                         // Columna U con data	
 	                                        if((int)$second_year_to_check+1!=(int)$last_year_to_check){
 	                                        	// El año debe de X debe ser U+1
