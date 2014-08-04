@@ -55,7 +55,7 @@ if (!defined('ENVIRONMENT'))
 if (defined('ENVIRONMENT')) {
     switch (ENVIRONMENT) {
         case 'development':
-            error_reporting(0);
+            error_reporting(E_ALL);
             break;
 
         case 'testing':
@@ -65,7 +65,7 @@ if (defined('ENVIRONMENT')) {
             break;
 
         default:
-            error_reporting(0);
+            error_reporting(E_ALL);
             break;
     }
 }
