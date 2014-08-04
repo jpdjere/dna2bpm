@@ -23,7 +23,10 @@ class Sgr extends MX_Controller {
         $this->load->model('sgr/sgr_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
-
+        
+        
+         error_reporting(0);
+        
         /* update db */
         //$this->load->Model("mysql_model_periods");
         //$this->mysql_model_periods->active_periods_dna2();
@@ -1604,7 +1607,7 @@ class Sgr extends MX_Controller {
             $list_files .= '</ul></div>
         </div>';
         }
-        if ($file)
+        if (isset($file))
             return $list_files;
     }
 
@@ -1713,7 +1716,7 @@ class Sgr extends MX_Controller {
                 $legend_msg = "13, 20.2";
                 break;
         }
-        if ($legend_msg)
+        if (isset($legend_msg))
             return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
     }
 
