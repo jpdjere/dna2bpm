@@ -1020,32 +1020,32 @@ class Lib_06_data extends MX_Controller {
 
                                     if ($parameterArr[$i]['fieldValue'] != "") {
 
-                                        $return = check_date($parameterArr[$i]['fieldValue']);
-                                        if (!$return) {
-                                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                            array_push($stack, $result);
-                                        } else {
-                                            list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
-                                            list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
+                                    $return = check_date($parameterArr[$i]['fieldValue']);
+                                    if (!$return) {
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        array_push($stack, $result);
+                                    } else {
+                                        list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
+                                        list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-                                            if (isset($second_year_to_check)) {
-                                                // Columna U con data	
-                                                if ((int) $second_year_to_check + 1 != (int) $last_year_to_check) {
-                                                    // El año debe de X debe ser U+1
+                                        if(isset($second_year_to_check)){
+                                        // Columna U con data	
+	                                        if((int)$second_year_to_check+1!=(int)$last_year_to_check){
+	                                        	// El año debe de X debe ser U+1
 
-                                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                                    array_push($stack, $result);
-                                                }
-                                            } else {
-                                                // Columna U vacia
-                                                if (!($last_year_to_check == $period_to_check || (int) $last_year_to_check == (int) $period_to_check - 1)) {
-                                                    // X debe ser mismo año que periodo o uno antes
-                                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                                    array_push($stack, $result);
-                                                } else {
-                                                    $X2_cell_value = $return;
-                                                }
-                                            }
+												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+												array_push($stack, $result);
+	                                        }
+                                        }else{
+										// Columna U vacia
+                                        	if(!($last_year_to_check==$period_to_check || (int)$last_year_to_check==(int)$period_to_check-1)){
+												// X debe ser mismo año que periodo o uno antes
+												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+												array_push($stack, $result);
+                                        	}else{
+                                        		$X2_cell_value = $return;
+                                        	}
+                                        	
                                         }
                                     }
 
