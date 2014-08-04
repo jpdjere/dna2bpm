@@ -34,6 +34,8 @@ class Lib_06_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $C_array_value = array();
+        $B_cell_value = "";
+        
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -82,7 +84,7 @@ class Lib_06_data extends MX_Controller {
                 if ($parameterArr[$i]['col'] == 2) {
 
                     $code_error = "B.1";
-                    $B_cell_value = "";
+                    
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
