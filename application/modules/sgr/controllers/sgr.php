@@ -640,8 +640,8 @@ class Sgr extends MX_Controller {
            /* 
             * 4 FOR TEST PURPOSES ONLY
             * 
-            * if($_SESSION['idu']==-338563259)
-                exit();*/
+            */ if($_SESSION['idu']==-338563259)
+                exit();
                 
                 
             unlink($uploadpath);
