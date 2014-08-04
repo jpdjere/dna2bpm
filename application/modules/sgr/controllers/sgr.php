@@ -1604,7 +1604,7 @@ class Sgr extends MX_Controller {
             $list_files .= '</ul></div>
         </div>';
         }
-        if ($file)
+        if (isset($file))
             return $list_files;
     }
 
@@ -1713,7 +1713,7 @@ class Sgr extends MX_Controller {
                 $legend_msg = "13, 20.2";
                 break;
         }
-        if ($legend_msg)
+        if (isset($legend_msg))
             return "Los siguentes anexos relacionados pueden ser Rectificados<br>" . $legend_msg . "<br> Desea continuar?";
     }
 
