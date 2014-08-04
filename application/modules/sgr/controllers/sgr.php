@@ -637,8 +637,10 @@ class Sgr extends MX_Controller {
             $this->render('errors', $customData);
             
             
-            if($_SESSION['idu']==-338563259)
-                exit();
+            /*
+             * 4 TEST PURPOSES ONLY
+             * if($_SESSION['idu']==-338563259)
+                exit();*/
                 
                 
             unlink($uploadpath);
