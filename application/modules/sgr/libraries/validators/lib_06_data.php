@@ -42,6 +42,11 @@ class Lib_06_data extends MX_Controller {
 
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                
+                if(!isset($parameterArr[$i]['col']))
+                    exit();
+                
 
                 /* TIPO_OPERACION
                  * Nro A.1
@@ -52,6 +57,9 @@ class Lib_06_data extends MX_Controller {
                   DISMINUCION DE CAPITAL SOCIAL
                   INTEGRACION PENDIENTE
                  */
+                
+                
+                
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
