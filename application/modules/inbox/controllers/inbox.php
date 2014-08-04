@@ -7,6 +7,7 @@ class Inbox extends MX_Controller {
         $this->load->config('config');
         $this->load->library('parser');
         $this->load->library('ui');
+        $this->load->library('pagination');
         $this->load->model('msg');
         $this->load->model('user');
 
@@ -18,8 +19,6 @@ class Inbox extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
         
-        // CONFIG
-        define("MSGS_X_PAGE",2); // Mails x page
 
         
     }
@@ -58,19 +57,23 @@ class Inbox extends MX_Controller {
     	$customData['folder']=$folder;
     	
 		// Pagination 
-    	$i=1;
-    	$skip=null;
-    	while($this->uri->segment($i)){
-    		if($this->uri->segment($i)=='page'){
-    			$page=$this->uri->segment($i+1)?($this->uri->segment($i+1)):(1);
-    			//$skip=($page-1)*MSGS_X_PAGE;
-    			break;
-    		}
-    		$i++;
-    	}
-    	$
-    	// Messages Loop
-    	$mymgs = $this->msg->get_msgs($this->idu,$folder,$skip,MSGS_X_PAGE);
+		define("ITEMS_X_PAGE",3);
+		$items=$this->msg->count_msgs($this->idu,$folder);
+
+    	$config=array('url'=>$this->base_url."dashboard/inbox",
+    			//'current_page'=>1,
+    			'items_total'=>$items, // Total items in array
+    			'items_x_page'=>ITEMS_X_PAGE,
+    			'pagination_width'=>3,
+//     			'class_ul'=>""
+//     			,'class_a'=>""
+    	);
+    	$customData['pagination']=$this->pagination->index($config);
+    	
+    	$current_page=$this->pagination->get_current_page();
+     	$skip=($current_page-1)*ITEMS_X_PAGE;
+	
+    	$mymgs = $this->msg->get_msgs($this->idu,$folder,$skip,ITEMS_X_PAGE);
 
     	foreach ($mymgs as $msg) {
     		$msg['msgid'] = $msg['_id'];
