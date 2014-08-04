@@ -239,7 +239,8 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
-    function get_pending($anexo, $sgr_id) {
+    function get_pending($anexo, $sgr_id) {        
+        
         $rtn = array();
         
         $container = 'container.sgr_periodos';
@@ -248,9 +249,11 @@ class Sgr_model extends CI_Model {
 
         foreach ($result as $list) {
             $rtn[] = $list;
-        }
+        }        
         return $rtn;
     }
+    
+    
 
     function get_sgr($sent_idu=false) {
         $rtn = array();

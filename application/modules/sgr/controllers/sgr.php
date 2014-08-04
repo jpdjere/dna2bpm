@@ -25,8 +25,8 @@ class Sgr extends MX_Controller {
         $this->load->library('session');
 
         /* update db */
-        //$this->load->Model("mysql_model_periods");
-        //$this->mysql_model_periods->active_periods_dna2();
+        $this->load->Model("mysql_model_periods");
+        $this->mysql_model_periods->active_periods_dna2();
 
 //---base variables
         $this->base_url = base_url();
@@ -199,9 +199,8 @@ class Sgr extends MX_Controller {
         $rtn['sgr_period'] = $this->period;
 
 // PENDING LIST        
-        $rtn['pending_list'] = $this->get_pending($this->anexo);
-
-
+        $rtn['pending_list'] = $this->get_pending($this->anexo, $this->sgr_id);
+        
         return $rtn;
     }
 
@@ -1613,7 +1612,7 @@ class Sgr extends MX_Controller {
      * 
      */
 
-    function get_rectified($anexo) {
+    function get_rectified($anexo) {    
         
         $list_files = '';
         $translate = '';    
@@ -1664,10 +1663,10 @@ class Sgr extends MX_Controller {
      * 
      */
 
-    function get_pending($anexo) {
+    function get_pending($anexo, $sgr_id) {
 
-        $pending = $this->sgr_model->get_pending($anexo, $this->sgr_id);
-        $list_files = '';
+        $pending = $this->sgr_model->get_pending($anexo, $sgr_id);
+        $list_files = NULL;
         
         foreach ($pending as $file) {
 
@@ -1677,6 +1676,8 @@ class Sgr extends MX_Controller {
             }
             
              $file_filename = $file['filename'];
+             
+             
             
             
             $print_filename = substr($file_filename, 0, -25);
@@ -1689,6 +1690,7 @@ class Sgr extends MX_Controller {
             $pending_on = $file['pending_on'];
             $list_files .= '<li><strong>Anexos Pendientes:  ' . $print_filename . ' (' . $pending_on . ') [' . $file['period'] . '] </strong></li>';
         }
+        
         return $list_files;
     }
 
