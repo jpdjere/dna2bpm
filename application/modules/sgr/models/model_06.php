@@ -322,7 +322,7 @@ class Model_06 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-        
+
         /* UPDATE */
         if (isset($get_period['status']))
             $this->update_period($get_period['id'], $get_period['status']);
@@ -639,17 +639,30 @@ class Model_06 extends CI_Model {
 
             $cuit_grantor = "";
 
-            if ($list['5248'])
+
+            $codigo_actividad = ($list['5208'] == "0") ? "-" : $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
+
+            if ($list['1698'] != "")
+                $zip_address = "</br>[" . $list['1698'] . "]";
+
+            if (isset($list['5248']))
                 $cuit_grantor = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
+
+            if ($list['CODIGO_AREA'] != "")
+                $area_code = "(" . $list['CODIGO_AREA'] . ") ";
+
+            if ($list['4653'] != "")
+                $address = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
+
 
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
             $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
-            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . "</br>[" . $list['1698'] . "]";
-            $new_list['DIRECCION'] = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
-            $new_list['TELEFONO'] = "(" . $list['CODIGO_AREA'] . ") " . $list['1701'];
+            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . $zip_address;
+            $new_list['DIRECCION'] = $address;
+            $new_list['TELEFONO'] = $area_code . $list['1701'];
             $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
-            $new_list['CODIGO_ACTIVIDAD'] = $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
+            $new_list['CODIGO_ACTIVIDAD'] = $codigo_actividad;
             $new_list['"ANIO"'] = $inner_table;
             $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type . "<br/>" . $afip_condition[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
