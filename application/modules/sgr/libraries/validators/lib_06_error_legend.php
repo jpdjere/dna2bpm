@@ -208,7 +208,9 @@ class Lib_06_error_legend {
                 break;
             case "Z.2": $result_error = '<strong>Columna Z - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si se completó "ESTIMACIÓN", el año informado en la COLUMNA "X" debe corresponder con el del período de incorporación que se está informando, y las COLUMNAS "R" a "W" deben estar vacías.';
                 break;
-            case "S.3, V.3, Y.2": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Promedio Montos Facturados: Promedio Montos Facturados: El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
+            case "S.3, V.3": $result_error = '<strong>Columna ' . $code . ' - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Promedio Montos Facturados: Promedio Montos Facturados: El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
+                break;
+            case "Y.2": $result_error = '<strong>Columna Y - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Promedio Montos Facturados: Promedio Montos Facturados: El Promedio de los Tres años debe ser menor al límite establecido por la normativa vigente (Resolución SEPyMEyDR Nº 24/2001, modificatorias y complementarias) para cada sector de actividad.';
                 break;
             case "AB.1": $result_error = '<strong>Columna AB - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Cantidad de Empleados: El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.';
                 break;
