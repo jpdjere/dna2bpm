@@ -8,7 +8,9 @@
                                         <div class="col-md-3 col-sm-4">
 
                                             <!-- compose message btn -->
+                                            {if {usercan_create}}
                                             <a class="btn btn-block btn-primary load_modal" href="{base_url}inbox/new_msg" title="New Message"><i class="fa fa-pencil" ></i> Compose Message</a>
+                                            {/if}
                                             <!-- Navigation - folders-->
                                             <div style="margin-top: 15px;">
                                                 <ul class="nav nav-pills nav-stacked">
@@ -62,11 +64,11 @@
 												{/if}
                                                 </div>
                                                 <div class="col-sm-6 search-form">
-                                                    <form action="#" class="text-right">
+                                                    <form action="#" class="text-right" name="form_search">
                                                         <div class="input-group">                                                            
-                                                            <input type="text" class="form-control input-sm" placeholder="Search">
+                                                            <input type="text" class="form-control input-sm" placeholder="Search" id="search">
                                                             <div class="input-group-btn">
-                                                                <button type="submit" name="q" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button>
+                                                                <button  name="q" type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button>
                                                             </div>
                                                         </div>                                                     
                                                     </form>
