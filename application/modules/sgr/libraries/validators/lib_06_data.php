@@ -34,15 +34,21 @@ class Lib_06_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $C_array_value = array();
-        
-        
+
+
         $B_cell_value = "";
+
+
+
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
 
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
-                
+
+
+
+
 
                 /* TIPO_OPERACION
                  * Nro A.1
@@ -53,13 +59,19 @@ class Lib_06_data extends MX_Controller {
                   DISMINUCION DE CAPITAL SOCIAL
                   INTEGRACION PENDIENTE
                  */
-                
-                
-                
+
+
+
 
                 if ($parameterArr[$i]['col'] == 1) {
                     $A_cell_value = "";
                     $code_error = "A.1";
+
+
+                    $S2_cell_value = 0;
+                    $V2_cell_value = 0;
+                    $Y2_cell_value = 0;
+                    $montosArr = 0;
 
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -98,7 +110,7 @@ class Lib_06_data extends MX_Controller {
                     }
                     //Value Validation
                     if ($parameterArr[$i]['fieldValue'] != "") {
-                        
+
                         $allow_words = array("A", "B");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
@@ -436,11 +448,16 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
 
-                        $calcPromedio = ($S2_cell_value != "") ? 1 : 0;
-                        $calcPromedio += ($V2_cell_value != "") ? 1 : 0;
-                        $calcPromedio += ($Y2_cell_value != "") ? 1 : 0;
+                        $calcPromedio = ($S2_cell_value == 0) ? 0 : 1;
+                        $calcPromedio += ($V2_cell_value == 0) ? 0 : 1;
+                        $calcPromedio += ($Y2_cell_value == 0) ? 0 : 1;
+                        
+                        $average_amount = 0;
+                        
+
                         if ($calcPromedio != 0) {
                             $montosArr = array($S2_cell_value, $V2_cell_value, $Y2_cell_value);
+
                             $sumaMontos = array_sum($montosArr);
                             $average_amount = $sumaMontos / $calcPromedio;
                         }
@@ -495,9 +512,9 @@ class Lib_06_data extends MX_Controller {
                          * para transferir, y que corresponden al tipo de Acción que posea, “A” o “B”. 
                          * De no poseerlo, se debe rechazar la importación. 
                          */
-                          //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
-                        
-                          
+                        //echo "<br> balance " . $balance . $parameterArr[$i]['fieldValue']."->". $B_cell_value . "->" . $AH_cell_value;
+
+
                         if ($grantor_subscribed < $AH_cell_value) {
                             $code_error = "AH.4";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'] . " Transfiere:" . $AH_cell_value . ", Dispone de:" . $grantor_subscribed);
@@ -862,7 +879,7 @@ class Lib_06_data extends MX_Controller {
 
                                         list($first_year_to_check) = explode("/", $R2_cell_value);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
-                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);                                        
+                                        $check_diff = (int) $period_to_check - ((int) $first_year_to_check);
                                         /* VALIDACION R.3 */
                                         if (!in_array($check_diff, range(0, 3))) {
                                             $code_error = "R.3";
@@ -876,7 +893,7 @@ class Lib_06_data extends MX_Controller {
 
                             case 19://MONTO
                                 //Check Numeric Validation
-                                $S2_cell_value = "";
+
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "S.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
@@ -925,7 +942,7 @@ class Lib_06_data extends MX_Controller {
                             case 21: //ANIO_MES2                              
                                 $U_cell_value = "";
                                 $U2_cell_value = "";
-                                $error=false;
+                                $error = false;
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $return = check_date($parameterArr[$i]['fieldValue']);
                                     if (!$return) {
@@ -933,40 +950,38 @@ class Lib_06_data extends MX_Controller {
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
-                                    	$code_error = "U.3";                       	
+                                        $code_error = "U.3";
                                         list($U_year) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-										if($R_cell_value){
-											// Existe R
-											list($R_year) = explode("/", $R_cell_value);
-											if((int)$R_year+1!=(int)$U_year){
-												$error=true;
-											}
-										}else{
-											// No existe R, U puede ser de uno a dos años menor que periodo actual
-											$dif=(int)$period_to_check-(int)$U_year;
-											if($dif!=1 && $dif!=2){
-												$error=true;
-											}
-										}
-										// 
-										if ($error) {
-											$result = return_error_array ( $code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue'] );
-											array_push ( $stack, $result );
-										} else {
-											$U_cell_value = $parameterArr [$i] ['fieldValue'];
-											$U2_cell_value = $return;
-										}
-
+                                        if ($R_cell_value) {
+                                            // Existe R
+                                            list($R_year) = explode("/", $R_cell_value);
+                                            if ((int) $R_year + 1 != (int) $U_year) {
+                                                $error = true;
+                                            }
+                                        } else {
+                                            // No existe R, U puede ser de uno a dos años menor que periodo actual
+                                            $dif = (int) $period_to_check - (int) $U_year;
+                                            if ($dif != 1 && $dif != 2) {
+                                                $error = true;
+                                            }
+                                        }
+                                        // 
+                                        if ($error) {
+                                            $result = return_error_array($code_error, $parameterArr [$i] ['row'], $parameterArr [$i] ['fieldValue']);
+                                            array_push($stack, $result);
+                                        } else {
+                                            $U_cell_value = $parameterArr [$i] ['fieldValue'];
+                                            $U2_cell_value = $return;
+                                        }
                                     }
                                 }
 
                                 break;
 
                             case 22://MONTO
-                                //Check Numeric Validation
-                                $V2_cell_value = "";
+                                //Check Numeric Validation                                
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "V.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
@@ -1030,26 +1045,24 @@ class Lib_06_data extends MX_Controller {
                                         list($last_year_to_check) = explode("/", $parameterArr[$i]['fieldValue']);
                                         list($n, $period_to_check) = explode("-", $this->session->userdata['period']);
 
-                                        if(isset($second_year_to_check)){
-                                        // Columna U con data	
-	                                        if((int)$second_year_to_check+1!=(int)$last_year_to_check){
-	                                        	// El año debe de X debe ser U+1
+                                        if (isset($second_year_to_check)) {
+                                            // Columna U con data	
+                                            if ((int) $second_year_to_check + 1 != (int) $last_year_to_check) {
+                                                // El año debe de X debe ser U+1
 
-												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-												array_push($stack, $result);
-	                                        }
-                                        }else{
-										// Columna U vacia
-                                        	if(!($last_year_to_check==$period_to_check || (int)$last_year_to_check==(int)$period_to_check-1)){
-												// X debe ser mismo año que periodo o uno antes
-												$result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-												array_push($stack, $result);
-                                        	}else{
-                                        		$X2_cell_value = $return;
-                                        	}
-                                        	
+                                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                                array_push($stack, $result);
+                                            }
+                                        } else {
+                                            // Columna U vacia
+                                            if (!($last_year_to_check == $period_to_check || (int) $last_year_to_check == (int) $period_to_check - 1)) {
+                                                // X debe ser mismo año que periodo o uno antes
+                                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                                array_push($stack, $result);
+                                            } else {
+                                                $X2_cell_value = $return;
+                                            }
                                         }
-
                                     }
                                 }
 
@@ -1057,13 +1070,11 @@ class Lib_06_data extends MX_Controller {
 
                             case 25://MONTO
                                 //Check Numeric Validation                                
-                                $Y2_cell_value = "";
+
                                 if ($parameterArr[$i]['fieldValue'] != "") {
                                     $code_error = "Y.2";
                                     $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                     if ($return) {
-
-
                                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                         array_push($stack, $result);
                                     } else {
@@ -1435,9 +1446,10 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-/*         $stack = array(); */
-        //debug($stack);        exit();
-         $this->data = $stack;
+        /*         $stack = array(); */
+//        debug($stack);
+//        exit();
+        $this->data = $stack;
     }
 
 }
