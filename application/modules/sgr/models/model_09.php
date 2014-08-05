@@ -28,8 +28,6 @@ class Model_09 extends CI_Model {
         }
     }
 
-   
-
     function save($parameter) {
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
@@ -62,12 +60,15 @@ class Model_09 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -80,9 +81,7 @@ class Model_09 extends CI_Model {
     }
 
     function update_period($id, $status) {
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -180,11 +179,11 @@ class Model_09 extends CI_Model {
 
             $get_month = explode("-", $list['period']);
             $month_value = translate_month_spanish($get_month[0]);
-            
-           
-            
+
+
+
             $warranty_sum = $this->model_12->get_period_amount($list['period']);
-            
+
 
             $col9 = array_sum(array($list['80_HASTA_FEB_2010'], $list['80_DESDE_FEB_2010'], $list['80_DESDE_ENE_2011']));
             $col10 = array_sum(array($list['120_HASTA_FEB_2010'], $list['120_DESDE_FEB_2010'], $list['120_DESDE_ENE_2011']));

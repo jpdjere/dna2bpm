@@ -72,37 +72,35 @@ class Model_202 extends CI_Model {
             $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"] = (float) $insertarr["DEUDA_PROPORCIONAL_ASIGNADA"];
             $insertarr["RENDIMIENTO_ASIGNADO"] = (float) $insertarr["RENDIMIENTO_ASIGNADO"];
 
-            
-            /* DYNAMIC INFO*/
+
+            /* DYNAMIC INFO */
             $model_201 = 'model_201';
             $this->load->Model($model_201);
 
-            
+
             $get_movement_data = $this->$model_201->get_movement_data_print($insertarr['NUMERO_DE_APORTE'], $this->session->userdata['period']);
             $partener_info = $this->$model_201->get_input_number_print($insertarr['NUMERO_DE_APORTE'], $this->session->userdata['period']);
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
             }
-            
-            
+
+
             $retiros = array_sum(array($get_movement_data['RETIRO']));
             $saldo = $get_movement_data['APORTE'] - $retiros;
             $disponible = $saldo - (float) $insertarr['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
             /* */
-            
+
             $insertarr["CUIT_PROTECTOR"] = $cuit;
             $insertarr["SALDO"] = $saldo;
             $insertarr["DISPONIBLE"] = $disponible;
-            
-            
-            if ($this->sgr_id == 2207746538) {
-                echo "update";
-                debug($this->sgr_id);
-                debug($get_movement_data);
-                exit();
-            }
-            
-            
+
+
+//            if ($this->sgr_id == 2207746538) {
+//                echo "update";
+//                debug($this->sgr_id);
+//                debug($get_movement_data);
+//                exit();
+//            }
         }
         return $insertarr;
     }
@@ -140,11 +138,13 @@ class Model_202 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -157,10 +157,7 @@ class Model_202 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-        /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -254,10 +251,9 @@ class Model_202 extends CI_Model {
             $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
-                
             }
             $brand_name = $this->padfyj_model->search_name($list["CUIT_PROTECTOR"]);
-           
+
 
             $new_list = array();
             $new_list['NUMERO_DE_APORTE'] = $list['NUMERO_DE_APORTE']; //$list['NUMERO_DE_APORTE'];
@@ -295,7 +291,7 @@ class Model_202 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query)->sort(array('NUMERO_DE_APORTE' => 1));
         $new_list = array();
         foreach ($result as $list) {
-           
+
 
             $col4[] = (float) $list['SALDO'];
             $col5[] = (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];

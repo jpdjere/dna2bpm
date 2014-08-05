@@ -28,12 +28,8 @@ class Model_17 extends CI_Model {
         }
     }
 
-    
-
-    
-
     function save($parameter) {
-        
+
 
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
@@ -50,14 +46,14 @@ class Model_17 extends CI_Model {
         } else {
             $out = array('status' => 'error');
         }
-        
+
         return $out;
     }
 
     function save_period($parameter) {
         /* ADD PERIOD */
         $container = 'container.sgr_periodos';
-        
+
         $id = $this->app->genid_sgr($container);
         $parameter['period'] = $parameter['period'];
         $parameter['period_date'] = translate_period_date($parameter['period']);
@@ -68,12 +64,14 @@ class Model_17 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             $out = array('status' => 'ok');
         } else {
             $out = array('status' => 'error');
@@ -82,10 +80,7 @@ class Model_17 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-         
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);

@@ -108,12 +108,15 @@ class Model_124 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
+
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -126,9 +129,7 @@ class Model_124 extends CI_Model {
     }
 
     function update_period($id, $status) {
-       /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -198,15 +199,13 @@ class Model_124 extends CI_Model {
 
         return $newTable;
     }
-    
-    
-    
+
     function get_warranty_qty($period) {
 
         $rtn = array();
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
-        
+
         $get_result = $this->sgr_model->get_current_period_info($anexo, $period);
 
         $query = array("filename" => $get_result['filename']);
@@ -219,9 +218,8 @@ class Model_124 extends CI_Model {
 
         return count(array_unique($rtn));
     }
-    
-    
-      function get_warranty_amount($period) {
+
+    function get_warranty_amount($period) {
 
         $rtn = array();
         $anexo = $this->anexo;
@@ -238,7 +236,6 @@ class Model_124 extends CI_Model {
         return array_sum($rtn);
     }
 
-    
     function get_anexo_data($anexo, $parameter) {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
@@ -260,13 +257,13 @@ class Model_124 extends CI_Model {
                 foreach ($get_movement_data as $warranty) {
                     $participate_cuit = $warranty[5349];
                     $participate = $this->padfyj_model->search_name($participate_cuit);
-                    
-                    $creditor_cuit =$warranty[5351];
+
+                    $creditor_cuit = $warranty[5351];
                     $creditor = $this->padfyj_model->search_name($creditor_cuit);
-                     
+
                     $reafianzadora_cuit = (string) $list['CUIT'];
-                    $reafianzadora= $this->padfyj_model->search_name($reafianzadora_cuit);
-                    
+                    $reafianzadora = $this->padfyj_model->search_name($reafianzadora_cuit);
+
                     $origen = $warranty[5215];
                     $warranty_type = $warranty[5216][0];
                     $amount = $warranty[5218];
@@ -287,7 +284,7 @@ class Model_124 extends CI_Model {
             $new_list['col8'] = $creditor_cuit;
             $new_list['col9'] = mongodate_to_print($list['FECHA_REAFIANZA']);
             $new_list['col10'] = money_format_custom($list['SALDO_VIGENTE']);
-            $new_list['col11'] = percent_format_custom($list['REAFIANZADO']*100);
+            $new_list['col11'] = percent_format_custom($list['REAFIANZADO'] * 100);
             $new_list['RAZON_SOCIAL'] = $reafianzadora;
             $new_list['CUIT'] = $reafianzadora_cuit;
             $rtn[] = $new_list;

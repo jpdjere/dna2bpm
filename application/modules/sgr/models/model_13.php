@@ -47,7 +47,7 @@ class Model_13 extends CI_Model {
          * @name ...
          * @author Diego
          *
-        * @example .... TIPO_DE_GARANTIA	MENOR_90_DIAS	MENOR_180_DIAS	MENOR_365_DIAS	MAYOR_365_DIAS	VALOR_CONTRAGARANTIAS
+         * @example .... TIPO_DE_GARANTIA	MENOR_90_DIAS	MENOR_180_DIAS	MENOR_365_DIAS	MAYOR_365_DIAS	VALOR_CONTRAGARANTIAS
          * */
         $defdna = array(
             1 => 'TIPO_DE_GARANTIA',
@@ -62,18 +62,16 @@ class Model_13 extends CI_Model {
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
-                
+
             /* STRING */
             $insertarr['TIPO_DE_GARANTIA'] = (string) $insertarr['TIPO_DE_GARANTIA'];
-            
+
             /* FLOAT */
             $insertarr['MENOR_90_DIAS'] = (float) $insertarr['MENOR_90_DIAS'];
             $insertarr['MENOR_180_DIAS'] = (float) $insertarr['MENOR_180_DIAS'];
             $insertarr['MENOR_365_DIAS'] = (float) $insertarr['MENOR_365_DIAS'];
             $insertarr['MAYOR_365_DIAS'] = (float) $insertarr['MAYOR_365_DIAS'];
             $insertarr['VALOR_CONTRAGARANTIAS'] = (float) $insertarr['VALOR_CONTRAGARANTIAS'];
-            
-           
         }
         return $insertarr;
     }
@@ -110,12 +108,15 @@ class Model_13 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -128,10 +129,7 @@ class Model_13 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -145,7 +143,7 @@ class Model_13 extends CI_Model {
         return $rs['err'];
     }
 
-   function get_anexo_info($anexo, $parameter, $xls = false) {
+    function get_anexo_info($anexo, $parameter, $xls = false) {
         $tmpl = array('data' => ' <tr><td rowspan="2" align="center">Tipo de Garantía</td>
         <td colspan="5" align="center">Saldo según antigüedad</td>
         <td rowspan="2" align="center">Valor de las contragarantías</td>
@@ -191,7 +189,7 @@ class Model_13 extends CI_Model {
 
         foreach ($result as $list) {
             /* Vars */
-            
+
             $new_list = array();
             $sum_totales = array_sum(array($list['MENOR_90_DIAS'], $list['MENOR_180_DIAS'], $list['MENOR_365_DIAS'], $list['MAYOR_365_DIAS']));
             $new_list['col1'] = $list['TIPO_DE_GARANTIA'];
@@ -234,7 +232,7 @@ class Model_13 extends CI_Model {
 
         $new_list = array();
 
-        $new_list['col1'] = "<strong>TOTALES</strong>";       
+        $new_list['col1'] = "<strong>TOTALES</strong>";
         $new_list['col2'] = money_format_custom(array_sum($col2));
         $new_list['col3'] = money_format_custom(array_sum($col3));
         $new_list['col4'] = money_format_custom(array_sum($col4));
@@ -247,7 +245,7 @@ class Model_13 extends CI_Model {
 
         return $rtn;
     }
-    
+
     function get_amount_total($period, $col) {
 
         $rtn = array();
