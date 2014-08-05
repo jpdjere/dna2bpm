@@ -215,11 +215,14 @@ class Model_141 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+        
+          /* UPDATE */
+        if (isset($get_period['status']))
         $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -231,10 +234,7 @@ class Model_141 extends CI_Model {
         return $out;
     }
 
-    function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
+    function update_period($id, $status) {        
         
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';

@@ -149,7 +149,10 @@ class Model_061 extends CI_Model {
         if ($result) {
             /* ACTUALIZO PENDIND DEL ANEXO 06 */
             $get_pending = $this->sgr_model->get_current_period_info("06", $period);
-            $this->update_pending($get_period['id'], $get_period['status']);
+            /* UPDATE */
+            if (isset($get_period['status']))
+                $this->update_period($get_period['id'], $get_period['status']);
+
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -162,10 +165,8 @@ class Model_061 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
+
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -243,7 +244,7 @@ class Model_061 extends CI_Model {
             $parner_linked = $this->padfyj_model->search_name((string) $list['CUIT_VINCULADO']);
 
             $type_partner_inc_value = false;
-            
+
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
 
             $type_partner_inc = $this->$model_anexo->partner_type_linked((string) $list['CUIT_VINCULADO']);
@@ -251,18 +252,18 @@ class Model_061 extends CI_Model {
             if ($type_partner_inc) {
                 foreach ($type_partner_inc as $partner_inc)
                     $type_partner_inc_value = $partner_inc[5272];
-            }           
-            
+            }
+
             $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
-            
+
             $es_participe = "-";
             $es_protector = "-";
-            
+
             if ($list['CUIT_VINCULADO']) {
                 $es_participe = ($type_partner_inc_value[0] == "A") ? "SI" : "NO";
                 $es_protector = ($type_partner_inc_value[0] == "B") ? "SI" : "NO";
             }
-             
+
             $new_list = array();
             $new_list['TIPO_SOCIO'] = $type_partner;
             $new_list['CUIT_SOCIO_INCORPORADO'] = $list['CUIT_SOCIO_INCORPORADO'];

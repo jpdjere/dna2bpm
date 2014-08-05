@@ -223,36 +223,33 @@ class Model_06 extends CI_Model {
             //Formatos numricos para importes
             $insertarr[5597] = (int) $insertarr[5597];
             $insertarr[5598] = (int) $insertarr[5598];
-
-
-            
         }
-        
+
         if ($insertarr[5248]) {
-                /*
-                  1  	Disminución de tenencia accionaria 	null
-                  2  	Desvinculación 	null
-                 */
-                $query_period = period_before($this->session->userdata['period']); //period -1
-                $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_DE_TRANSACCION'], 1900));
-                $integrated_calc = $this->shares_print($insertarr[5248], $insertarr[5272], 5598,$query_period, $transaction_date);
-                                 
-                
-                $integrated_total = abs((int)$integrated_calc - $insertarr[5598]);
-                
-                $grantor_type = ($integrated_total == 0) ? "2" : "1";
-            }            
-           
-            
-            $insertarr[5292] = $grantor_type;
-            
-            
-        
+            /*
+              1  	Disminución de tenencia accionaria 	null
+              2  	Desvinculación 	null
+             */
+            $query_period = period_before($this->session->userdata['period']); //period -1
+            $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $insertarr['FECHA_DE_TRANSACCION'], 1900));
+            $integrated_calc = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $query_period, $transaction_date);
+
+
+            $integrated_total = abs((int) $integrated_calc - $insertarr[5598]);
+
+            $grantor_type = ($integrated_total == 0) ? "2" : "1";
+        }
+
+
+        $insertarr[5292] = $grantor_type;
+
+
+
         return $insertarr;
     }
 
-    function save($parameter) {        
-        
+    function save($parameter) {
+
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_' . $this->anexo;
 
@@ -325,9 +322,13 @@ class Model_06 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -341,10 +342,9 @@ class Model_06 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
+
+
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -636,9 +636,9 @@ class Model_06 extends CI_Model {
                 $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . money_format_custom($list['26']) . '</td><td>' . $list['27'] . '</td></tr>';
             }
             $inner_table .= '</table>';
-            
+
             $cuit_grantor = "";
-            
+
             if ($list['5248'])
                 $cuit_grantor = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 
@@ -1129,7 +1129,7 @@ class Model_06 extends CI_Model {
         $buy_sum = array_sum($buy_result_arr);
         $sell_sum = array_sum($sell_result_arr);
         $balance = abs($buy_sum - $sell_sum);
-        
+
         return $balance;
     }
 
