@@ -8,12 +8,12 @@
         {
             "name": "Hook SGR",
             "group": [58],
-            "redir": "../sgr"
+            "redir": "../sgr/dashboard/"
         },
         {
             "name": "Hook Sgr Reoprtes",
             "group": [49],
-            "redir": "../sgr/reports"
+            "redir": "../sgr/management/"
         },
         {
             "name": "Hook Inventario",
