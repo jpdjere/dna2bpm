@@ -137,12 +137,14 @@ class Model_121 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -155,9 +157,6 @@ class Model_121 extends CI_Model {
     }
 
     function update_period($id, $status) {
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -215,8 +214,8 @@ class Model_121 extends CI_Model {
         $this->load->model('padfyj_model');
         $model_12 = 'model_12';
         $this->load->Model($model_12);
-        
-        
+
+
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
@@ -224,14 +223,14 @@ class Model_121 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
         foreach ($result as $list) { /* Vars */
             $new_list = array();
-            
+
             $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_ORDEN'], $list['period']);
 
             foreach ($get_movement_data as $warranty) {
                 $cuit = $warranty[5349];
                 $brand_name = $this->padfyj_model->search_name($warranty[5349]);
             }
-            
+
             $new_list['NRO_ORDEN'] = $list['NRO_ORDEN'];
             $new_list['NRO_CUOTA'] = $list['NRO_CUOTA'];
             $new_list['CUIT'] = $cuit;

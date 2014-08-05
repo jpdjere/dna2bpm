@@ -111,12 +111,15 @@ class Model_122 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+        
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -129,10 +132,7 @@ class Model_122 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-         
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -198,10 +198,10 @@ class Model_122 extends CI_Model {
             $model_12 = 'model_12';
             $this->load->Model($model_12);
 
-           $list_NRO_GARANTIA = trim($list['NRO_GARANTIA']);
+            $list_NRO_GARANTIA = trim($list['NRO_GARANTIA']);
 
             $get_movement_data = $this->$model_12->get_order_number_print($list_NRO_GARANTIA, $list['period']);
-           
+
 
             foreach ($get_movement_data as $warranty) {
                 $cuit = $warranty[5349];
@@ -225,7 +225,6 @@ class Model_122 extends CI_Model {
         }
         return $rtn;
     }
-
 
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 

@@ -202,9 +202,12 @@ class Model_12 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -218,11 +221,7 @@ class Model_12 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-       /* if (!isset($this->session->userdata['rectify']))
-            exit();*/
-        
-        
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -234,10 +233,9 @@ class Model_12 extends CI_Model {
         );
 
 
-      
-            $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
-            return $rs['err'];
-      
+
+        $rs = $this->mongo->sgr->$container->update($query, array('$set' => $parameter), $options);
+        return $rs['err'];
     }
 
     function get_anexo_info($anexo, $parameter) {

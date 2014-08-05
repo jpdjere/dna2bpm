@@ -128,12 +128,14 @@ class Model_123 extends CI_Model {
         /*
          * VERIFICO PENDIENTE           
          */
-        $get_period = $this->sgr_model->get_current_period_info($this->anexo,$period);
-        $this->update_period($get_period['id'], $get_period['status']);
+        $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
+        /* UPDATE */
+        if (isset($get_period['status']))
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if ($result) {
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -146,10 +148,7 @@ class Model_123 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
-         /*if (!isset($this->session->userdata['rectify']))
-            exit();*/
-         
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -173,23 +172,23 @@ class Model_123 extends CI_Model {
         $date_header = str_replace("-", "/", "/" . $period_value);
 
         $headerArr = array();
-        
-        $headerArr[] = "Fecha/N° de Orden de la Garantía";        
-            for ($i = 1; $i <= 31; $i++) {
-                
-                if($i<10)
-                    $i = "0". $i;
-                
-               $headerArr[] = $i . $date_header;
-            }
-         $headerArr[] = "PROMEDIO";    
-        
+
+        $headerArr[] = "Fecha/N° de Orden de la Garantía";
+        for ($i = 1; $i <= 31; $i++) {
+
+            if ($i < 10)
+                $i = "0" . $i;
+
+            $headerArr[] = $i . $date_header;
+        }
+        $headerArr[] = "PROMEDIO";
+
         $data = array($headerArr);
 
         foreach ($anexoValues as $values) {
             unset($values['period']);
             $data[] = array_values($values);
-        }        
+        }
 
         $this->load->library('table');
         return $this->table->generate($data);
@@ -210,12 +209,12 @@ class Model_123 extends CI_Model {
                 if ($list['DIA' . $i] != 0)
                     $array_sum[] = $list['DIA' . $i];
             }
-            
+
             $average = array_sum($array_sum);
-            
-            $count_arr_sum = (count($array_sum)==0)?1: count($array_sum);
-                   
-            
+
+            $count_arr_sum = (count($array_sum) == 0) ? 1 : count($array_sum);
+
+
             $result_average = $average / $count_arr_sum;
             $new_list = array();
             $new_list['col1'] = $list['NRO_ORDEN'];
