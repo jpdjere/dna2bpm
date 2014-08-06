@@ -4,7 +4,7 @@ class ui {
 
         var $CI;
 		var $scripts;
-
+		var $styles;
 		
         public function __construct($params = array()) {
                 log_message('debug', "Extui Class Initialized");
@@ -15,6 +15,7 @@ class ui {
 
 
         }
+        
 
         /*
          * Compose an ui with $content as main content combining $content into $file as {content} tag
@@ -22,6 +23,8 @@ class ui {
 
         function compose( $file, $data) {
                 $this->CI->parser->options['convert_delimiters'] = array(false, '&#123;', '&#125;');
+
+                
                 // Register Scripts
                 $this->register_script('jquery',$data['base_url'].'jscript/jquery/jquery.min.js'); 
                 $this->register_script('jqueryUI',$data['base_url'].'jscript/jquery/ui/jquery-ui-1.10.2.custom/jquery-ui-1.10.2.custom.min.js',array('jquery'));        
@@ -40,12 +43,19 @@ class ui {
                 $this->register_script('PLUpload',$data['base_url'].'jscript/plupload-2.1.2/plupload.full.min.js',array('jquery'));
                 $this->register_script('jquery.form',$data['base_url'].'jscript/jquery/plugins/Form/jquery.form.min.js',array('jquery'));
                 $this->register_script('icheck',$data['module_url'].'assets/bootstrap-wysihtml5/js/plugins/iCheck/icheck.min.js',array('WYSIHTML5'));
+                $this->register_script('inboxJS',$data['base_url'].'inbox/assets/jscript/inbox.js',array());
+                $this->register_script('selectJS',$data['base_url'].'jscript/select2-3.4.5/select2.min.js',array());
                 
+                //===== CSS loaded only when same JS  handle is loaded
+                $this->styles['morris'][]=$data['base_url']."dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css";
+                $this->styles['jvectormap'][]=$data['base_url']."dashboard/assets/bootstrap-wysihtml5/css/jvectormap/jquery-jvectormap-1.2.2.css";
+                $this->styles['fullcalendar'][]=$data['base_url']."dashboard/assets/bootstrap-wysihtml5/css/fullcalendar/fullcalendar.css";
                 
-                // Load default JS 
-                $default=array('jquery','jqueryUI','bootstrap','WYSIHTML5','adminLTE','dashboardJS','jquery.form');
-                //Custom JS Check
 
+                // Load default JS 
+                $default=array('jquery','jqueryUI','bootstrap','WYSIHTML5','adminLTE','dashboardJS','jquery.form','inboxJS','morris');
+                
+                //Custom JS Check
                 if (isset($data['js'])){
                 	foreach($data['js'] as $k=>$js){
                 		if(is_numeric($k)){
@@ -57,14 +67,25 @@ class ui {
                 	}
                 	
                 }   
+                
+                // CSS for scripts enqueued
+                $data['widgets_css']="";
+                foreach($default as $myjs){
+                	if(isset($this->styles[$myjs])){
+                		$data['widgets_css']="";
+                		foreach($this->styles[$myjs] as $k=>$mycss){
+                			$data['widgets_css'].=$this->custom_styles(array($mycss=>$myjs)); 
+                		}
+                	}
+                }
 
-                // Custom JS
+                // Custom JS from user
                 if (isset($data['custom_js']))
                 	$data['js']=$this->custom_scripts($data['custom_js']);
 
-                //Custom CSS
+                //Custom CSS from user
                 if (isset($data['css']))
-                	$data['css']=$this->custom_styles($data['css']);       
+                	$data['customs_css']=$this->custom_styles($data['css']);       
                          
                 // Globals JS
                 if (isset($data['global_js']))
@@ -138,9 +159,9 @@ class ui {
         private function custom_styles($css=array()){
                 $strcss = '';
                         foreach ($css as $cssfile => $desc) {
-                                $strcss.="<!-- CSS:$desc -->\n";
+                                $strcss.="<!-- CSS:$desc -->\n";                               
                                 $strcss.="<link rel='stylesheet' type='text/css' href='$cssfile' />\n";
-                        }
+                        }         
                return $strcss;
         }
         
@@ -161,6 +182,10 @@ class ui {
         
         private function register_script($handle,$source,$dep=array(),$footer=true){
         	$this->scripts[$handle]=array('source'=>$source,'dep'=>$dep,'footer'=>$footer);
+        }
+        
+        function show_scripts(){
+        	var_dump($this->scripts);
         }
         
         
