@@ -333,8 +333,8 @@ $config['proxy_ips'] = '';
 | Define System language
 |--------------------------------------------------------------------------
 */
-$config['language']='spanish';
 $config['language']='english';
+$config['language']='spanish';
 
 // 4 theme
 $config['theme']='le-frog';     //---not 100%
