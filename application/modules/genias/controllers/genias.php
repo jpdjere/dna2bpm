@@ -1294,7 +1294,11 @@ class Genias extends MX_Controller {
 
     }
 
-
+    function debug() {
+    	$genias=$this->genias_model->debug();
+    var_dump($genias);
+    }
+    
     
     
 
