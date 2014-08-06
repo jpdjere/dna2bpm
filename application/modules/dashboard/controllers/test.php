@@ -16,6 +16,7 @@ class test extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('user/user');
+        $this->idu = (int) $this->session->userdata('iduser');
     }
 
     function Index() {
