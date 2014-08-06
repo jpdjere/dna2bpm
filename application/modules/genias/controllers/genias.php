@@ -1294,10 +1294,7 @@ class Genias extends MX_Controller {
 
     }
 
-    function debug() {
-    	$this->genias_model->debug($this->idu);
 
-    }
     
     
     
