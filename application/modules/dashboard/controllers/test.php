@@ -2,6 +2,7 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
+
 /**
  * test
  * 
@@ -18,18 +19,28 @@ class test extends MX_Controller {
     }
 
     function Index() {
-     $module="bpm";
-     $controller='manager';
-     $function='show_tasks';
-     
-     //$this->load->module($module);
-    //$widget=$this->$module->run($controller.'/'.$function);
-    $widget=Modules::run($module.'/'.$controller.'/'.$function);
-     var_dump($widget);
-        
-    }
-    
+        $module = "bpm";
+        $controller = 'manager';
+        $function = 'show_tasks';
 
+        //$this->load->module($module);
+        //$widget=$this->$module->run($controller.'/'.$function);
+        $widget = Modules::run($module . '/' . $controller . '/' . $function);
+        var_dump($widget);
+    }
+
+    function hooks_group($user = null) {
+        $user = ($user) ? $user : $this->user->get_user((int) $this->idu);
+        if (is_file(FCPATH . APPPATH . "modules/dashboard/views/hooks/groups.json")) {
+            $config = json_decode($this->load->view('hooks/groups.json', '', true));
+            foreach ($config->hooks as $hook) {
+                if (array_intersect($user->group, $hook->group)) {
+                    var_dump($this->base_url, $hook->redir);
+                    var_dump($this->base_url . $hook->redir);
+                }
+            }
+        }
+    }
 
 }
 
