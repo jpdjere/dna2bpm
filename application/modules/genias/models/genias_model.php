@@ -827,7 +827,8 @@ class Genias_model extends CI_Model {
      	// Es coordinador?
      	$query = array('coordinadores' => ((int) $idu));
      	$result = $this->mongo->db->$container->find($query);
-        var_dump($result,$idu);
+        var_dump(iterator_to_array($result),$idu);
+
         exit();
      	$genias = array();
      	$rol = '';
