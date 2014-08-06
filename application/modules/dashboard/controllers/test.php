@@ -16,6 +16,9 @@ class test extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('user/user');
+         //---base variables
+        $this->base_url = base_url();
+        $this->module_url = base_url() . $this->router->fetch_module() . '/';
         $this->idu = (int) $this->session->userdata('iduser');
     }
 
@@ -38,6 +41,7 @@ class test extends MX_Controller {
                 if (array_intersect($user->group, $hook->group)) {
                     var_dump($this->base_url, $hook->redir);
                     var_dump($this->base_url . $hook->redir);
+                    exit;
                 }
             }
         }
