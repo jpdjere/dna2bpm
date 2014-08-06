@@ -2,8 +2,8 @@
     "hooks": [
         {
             "name": "Hook Genias",
-            "group": [98, 92,85,98],
-            "redir": "genias"
+            "group": [98, 92,85],
+            "redir": "../genias"
         },
         {
             "name": "Hook SGR",
