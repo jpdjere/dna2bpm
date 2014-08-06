@@ -44,8 +44,8 @@ class Sgr extends MX_Controller {
         session_start();
 
         $_SESSION['idu'] = $this->idu;
-        
-        
+
+
 
 
         if (!$this->idu) {
@@ -200,7 +200,7 @@ class Sgr extends MX_Controller {
 
 // PENDING LIST        
         $rtn['pending_list'] = $this->get_pending($this->anexo, $this->sgr_id);
-        
+
         return $rtn;
     }
 
@@ -634,15 +634,15 @@ class Sgr extends MX_Controller {
             $customData['message'] = $result;
 
             $this->render('errors', $customData);
-            
-            
-           /* 
-            * 4 FOR TEST PURPOSES ONLY
-            * 
-             if($_SESSION['idu']==-338563259)
-               exit();*/
-                
-                
+
+
+            /*
+             * 4 FOR TEST PURPOSES ONLY
+             * 
+              if($_SESSION['idu']==-338563259)
+              exit(); */
+
+
             unlink($uploadpath);
         }
 
@@ -760,7 +760,7 @@ class Sgr extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-        $this->load->library('pdf/pdf');
+
 
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
@@ -791,12 +791,22 @@ class Sgr extends MX_Controller {
             $customData['show_footer'] = $this->$model->get_anexo_footer($this->anexo, $parameter);
         }
 
-        $this->pdf->set_paper('a4', 'landscape');
-        $this->pdf->parse('print', $customData);
-        $this->pdf->render();
-        $this->pdf->stream("$parameter.pdf");
+        /* PRINT ANEXO */
+        $this->stream_print($anexo, $customData, $parameter);
+    }
 
-        //echo $this->parser->parse('print', $customData, true);
+    function stream_print($anexo, $customData, $parameter) {
+        if ($anexo == '12') {
+            echo $this->parser->parse('print', $customData, true);
+        } else {
+            /* LOAD LIBRARY */
+            $this->load->library('pdf/pdf');
+
+            $this->pdf->set_paper('a4', 'landscape');
+            $this->pdf->parse('print', $customData);
+            $this->pdf->render();
+            $this->pdf->stream("$parameter.pdf");
+        }
     }
 
     function print_xls($parameter = null) {
@@ -1548,16 +1558,16 @@ class Sgr extends MX_Controller {
             $list_files .= '<div id="tab_processed' . $i . '" class="tab-pane">             
             <div class="" id="' . $i . '"><ul>';
             $processed = $this->sgr_model->get_processed($anexo, $this->sgr_id, $i);
-            
-            
 
-            foreach ($processed as $file) {               
-                
-                
+
+
+            foreach ($processed as $file) {
+
+
                 $asset = ($anexo == "09") ? "pdf_asset" : "xls_asset";
                 $file_origen = $file['origen'];
                 $file_filename = $file['filename'];
-                
+
 
                 $print_filename = substr($file_filename, 0, -25);
                 $disabled_link = '';
@@ -1589,7 +1599,7 @@ class Sgr extends MX_Controller {
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                     $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' .$file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('/sgr/print_anexo/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
@@ -1612,20 +1622,20 @@ class Sgr extends MX_Controller {
      * 
      */
 
-    function get_rectified($anexo) {    
-        
+    function get_rectified($anexo) {
+
         $list_files = '';
-        $translate = '';    
-        
-        
+        $translate = '';
+
+
         for ($i = date("Y"); $i > 2009; $i--) {
             $list_files .= '<div id="tab_rectified' . $i . '" class="tab-pane">             
             <div id="' . $i . '"><ul>';
             $rectified = $this->sgr_model->get_rectified($anexo, $this->sgr_id, $i);
             foreach ($rectified as $file) {
-                
+
                 $file_filename = $file['filename'];
-                
+
                 $print_filename = substr($file_filename, 0, -25);
                 $disabled_link = '';
 
@@ -1667,19 +1677,19 @@ class Sgr extends MX_Controller {
 
         $pending = $this->sgr_model->get_pending($anexo, $sgr_id);
         $list_files = NULL;
-        
+
         foreach ($pending as $file) {
 
             if (!$file) {
                 return false;
                 exit();
             }
-            
-             $file_filename = $file['filename'];
-             
-             
-            
-            
+
+            $file_filename = $file['filename'];
+
+
+
+
             $print_filename = substr($file_filename, 0, -25);
             $disabled_link = '';
 
@@ -1690,7 +1700,7 @@ class Sgr extends MX_Controller {
             $pending_on = $file['pending_on'];
             $list_files .= '<li><strong>Anexos Pendientes:  ' . $print_filename . ' (' . $pending_on . ') [' . $file['period'] . '] </strong></li>';
         }
-        
+
         return $list_files;
     }
 
