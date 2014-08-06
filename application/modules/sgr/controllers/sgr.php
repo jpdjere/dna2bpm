@@ -518,10 +518,7 @@ class Sgr extends MX_Controller {
                     if ($row_lenght > 1) {
                         $count = $data->rowcount();
 
-
-                        if (isset($data->sheets[0]['cells'][$i][$j]))
-                            $fields = trim($data->sheets[0]['cells'][$i][$j]);
-
+                        $fields = (isset($data->sheets[0]['cells'][$i][$j])) ? trim($data->sheets[0]['cells'][$i][$j]) : NULL;
 
                         $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
                         array_push($valuesArr, $stack);
