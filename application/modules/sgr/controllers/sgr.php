@@ -846,7 +846,7 @@ class Sgr extends MX_Controller {
         $customData['user_print'] = strtoupper($user->lastname . ", " . $user->name);
         $customData['print_period'] = str_replace("-", "/", $get_period_info['period']);
         $get_anexo = $this->$model->get_anexo_info($this->anexo, $parameter, true);
-        $customData['show_table'] = $get_anexo;
+        $customData['show_table'] = utf8_decode($get_anexo);
 
         echo $this->parser->parse('print_to_xls', $customData, true);
     }
@@ -1563,6 +1563,7 @@ class Sgr extends MX_Controller {
 
             foreach ($processed as $file) {
 
+                $print_xls_array = array('12', '125', '141', '202');
 
                 $asset = ($anexo == "09") ? "pdf_asset" : "xls_asset";
                 $file_origen = $file['origen'];
@@ -1587,12 +1588,10 @@ class Sgr extends MX_Controller {
                     $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
-                    $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $rectifica_link_class = "";
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . "  " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
                 } else {
-
 
                     /* RECTIFY COUNT */
                     $count = $this->sgr_model->get_period_count($anexo, $file['period']);
@@ -1603,7 +1602,13 @@ class Sgr extends MX_Controller {
                     $print_file = anchor('/sgr/print_anexo/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                    $print_xls = ($anexo == '202' || $anexo == '141') ? $print_xls_link : "";
+                    //$print_xls = ($anexo == '202' || $anexo == '141') ? $print_xls_link : "";
+
+
+
+                    $print_xls = (in_array($anexo, $print_xls_array)) ? $print_xls_link : "";
+
+
 
                     $rectifica_link_class = ($this->period) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger'));
