@@ -2,7 +2,7 @@
     "hooks": [
         {
             "name": "Hook Genias",
-            "group": [98, 92],
+            "group": [98, 92,85,98],
             "redir": "genias"
         },
         {
