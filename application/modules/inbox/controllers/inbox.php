@@ -7,6 +7,7 @@ class Inbox extends MX_Controller {
         $this->load->config('config');
         $this->load->library('parser');
         $this->load->library('ui');
+        $this->load->library('pagination');
         $this->load->model('msg');
         $this->load->model('user');
 
@@ -18,21 +19,20 @@ class Inbox extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
         
-        // CONFIG
-        define("MSGS_X_PAGE",2); // Mails x page
 
         
     }
     
+    //==== MAIN LISTING
 
     function Index() {
     	
      	$customData['user'] = (array) $this->user->get_user($this->idu);
      	$customData['inbox_icon'] = 'icon-envelope';
+     	$customData['usercan_create'] = $this->user->has('/root/modules/inbox/controllers/inbox/new_msg');
+     	$customData['usercan_create']=true;
      	$customData['js'] = array(
-     			'icheck',
-     			$this->base_url . "jscript/select2-3.4.5/select2.min.js"=>'Select JS',
-     			$this->module_url . "assets/jscript/inbox.js"=>'Inbox JS'    			
+     			'icheck','inboxJS','selectJS'		
      	);
 
      	
@@ -57,20 +57,36 @@ class Inbox extends MX_Controller {
     	}
     	$customData['folder']=$folder;
     	
-		// Pagination 
+    	// Filter
     	$i=1;
-    	$skip=null;
+    	$filter=null;
     	while($this->uri->segment($i)){
-    		if($this->uri->segment($i)=='page'){
-    			$page=$this->uri->segment($i+1)?($this->uri->segment($i+1)):(1);
-    			//$skip=($page-1)*MSGS_X_PAGE;
+    		if($this->uri->segment($i)=='filter'){
+    			$filter=$this->uri->segment($i+1)?($this->uri->segment($i+1)):(null);
     			break;
     		}
     		$i++;
     	}
-    	$
-    	// Messages Loop
-    	$mymgs = $this->msg->get_msgs($this->idu,$folder,$skip,MSGS_X_PAGE);
+
+
+
+    	//==== Pagination
+    	define("ITEMS_X_PAGE",3);
+    	$current_page=$this->pagination->get_current_page();
+    	$skip=($current_page-1)*ITEMS_X_PAGE;
+    	//==== Bring me my MSGs!!!
+    	$mymgs = $this->msg->get_msgs($this->idu,$folder,$skip,ITEMS_X_PAGE,$filter);
+    	$items=$mymgs->count();
+
+    	$config=array('url'=>$this->base_url."dashboard/inbox",
+    			//'current_page'=>1,
+    			'items_total'=>$items, // Total items in array
+    			'items_x_page'=>ITEMS_X_PAGE,
+    			'pagination_width'=>3,
+    			//     			'class_ul'=>""
+    			//     			,'class_a'=>""
+    	);
+    	$customData['pagination']=$this->pagination->index($config);
 
     	foreach ($mymgs as $msg) {
     		$msg['msgid'] = $msg['_id'];
@@ -103,7 +119,7 @@ class Inbox extends MX_Controller {
 	    return $customData;
     }
     
-    // Mini version for toolbar
+    //====  Mini INBOX version for toolbar
     function toolbar(){
     	$customData['base_url'] = $this->base_url;
     	$customData['module_url'] = $this->module_url;
@@ -131,24 +147,28 @@ class Inbox extends MX_Controller {
     }
   
 
-    // get msg by id
+    //==== GET MSG BY ID
     function get_msg(){
     $msgid=$this->input->post('id');
+
     $mymgs = $this->msg->get_msg($msgid);
-    $this->msg->set_read("read",$msgid); // Marco leido
+    $mymgs['debug']=$this->input->post('whereiam');
+	   if($this->input->post('whereiam')!='outbox')
+	    	$this->msg->set_read("read",$msgid); // Marco leido
+    
     echo json_encode($mymgs);
     }
     
 
     
-    // save star value
+    //====  STAR MARK
     function set_star(){
     $state=$this->input->post('state');
     $id=$this->input->post('msgid');
     $this->msg->set_star($state,$id);
     }
 
-    // save star value
+    //====  READ MARK
     function set_read(){
     $state=$this->input->post('state');
     $id=$this->input->post('msgid');
@@ -157,7 +177,7 @@ class Inbox extends MX_Controller {
 	    }
     }
     
-    // save star value
+    //====  TAG MARK
     function set_tag(){
      	$tag=$this->input->post('tag');
      	$id=$this->input->post('msgid');
@@ -167,10 +187,10 @@ class Inbox extends MX_Controller {
      	}
     }
     
+    //====  SEND MSG
     function send(){
 
-        $data=$this->input->post('data');
-        
+        $data=$this->input->post('data');    
         $to=explode(",",$data[0]['value']);
         $subject=$data[1]['value'];
         $body=$data[2]['value'];
@@ -189,6 +209,7 @@ class Inbox extends MX_Controller {
         
     }
     
+    //====  NEW MSG
     function new_msg(){
 
          $customData['user'] = (array) $this->user->get_user($this->idu);
