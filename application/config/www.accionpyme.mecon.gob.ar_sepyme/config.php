@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+error_reporting(0);
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -12,7 +14,7 @@
 |
 */
 
-$config['base_url']	= "http://dna2-tests.mecon.ar/dna2bpm/";
+$config['base_url']	= "http://www.accionpyme.mecon.gob.ar/dna2bpm/";
 
 //$config['base_url']	= "http://localhost/dna2bpm/";
 
