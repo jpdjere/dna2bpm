@@ -820,5 +820,43 @@ class Genias_model extends CI_Model {
         
         
      }
+     
+     function debug($idu) {
+     	$container = 'container.genias';
+     
+     	// Es coordinador?
+     	$query = array('coordinadores' => ((int) $idu));
+     	$result = $this->mongo->db->$container->find($query);
+     
+     	$genias = array();
+     	$rol = '';
+     	while ($r = $result->getNext()) {
+     		$rol = 'coordinador';
+     		$my_genias[] = $r;
+     		//var_dump($r['_id']);
+     	}
+     
+     	if ($rol == 'coordinador') {
+     		$genias['rol'] = $rol;
+     		$genias['genias'] = $my_genias;
+     		return $genias;
+     	}
+     
+     	// Es usuario?
+     	$query = array('users' => (int) $idu);
+     	$result = $this->mongo->db->$container->find($query);
+     	while ($r = $result->getNext()) {
+     		$rol = 'user';
+     		$my_genias[] = $r;
+     	}
+     
+     	if ($rol == 'user') {
+     		$genias['rol'] = $rol;
+     		$genias['genias'] = $my_genias;
+     		return $genias;
+     	}
+     
+     	return false;
+     }
 
 }
