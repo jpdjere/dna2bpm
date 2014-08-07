@@ -69,7 +69,7 @@ class Lib_14_data extends MX_Controller {
 
                     $A_cell_value = "";
                     $code_error = "A.1";
-                    
+
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -155,14 +155,19 @@ class Lib_14_data extends MX_Controller {
                                 $dollar_quotation = $this->sgr_model->get_dollar_quotation($A_cell_value);
                                 $dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation;
 
-
-                                /* FIX */
-                                $fix_ten_cents = fix_ten_cents($dollar_value, $C_cell_value);
-                                if ($fix_ten_cents) {
-                                    $code_error = "C.3";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $B_cell_value . '  (' . money_format_custom($c_info[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation) . ' = ' . money_format_custom($dollar_value) . ' )');
-                                    array_push($stack, $result);
+                                /* SOLO SI LA CAIDO ES MAYOR AL IMPORTE DE LA GARANTIA */
+                                if ($dollar_value < $C_cell_value) {
+                                    /* FIX */
+                                    $fix_ten_cents = fix_ten_cents($dollar_value, $C_cell_value);
+                                    if ($fix_ten_cents) {
+                                        $code_error = "C.3";
+                                        $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($C_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $B_cell_value . '  (' . money_format_custom($c_info[5218]) . '/' . money_format_custom($dollar_quotation_origin) . '*' . money_format_custom($dollar_quotation) . ' = ' . money_format_custom($dollar_value) . ' )');
+                                        array_push($stack, $result);
+                                    }
                                 }
+
+
+
 
                                 $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
                                 $new_dollar_value = ($c_info[5218] / $dollar_quotation_origin) * $dollar_quotation_period;
@@ -414,7 +419,7 @@ class Lib_14_data extends MX_Controller {
              */
 
             if ($get_temp_data['INCOBRABLES_PERIODO']) {
-               
+
                 if ($sum_CAIDA < $sum_RECUPEROS) {
                     $code_error = "E.3";
                     $result = return_error_array($code_error, "", "[" . $get_temp_data['INCOBRABLES_PERIODO'] . "] saldo de caidas " . $sum_CAIDA);
@@ -555,7 +560,8 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);        exit();
+        /*var_dump($stack);
+        exit();*/
         $this->data = $stack;
     }
 
