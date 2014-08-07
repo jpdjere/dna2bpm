@@ -288,6 +288,39 @@ function check_is_numeric_no_decimal($number, $mayor = null) {
     return (filter_var($number, FILTER_VALIDATE_INT, $int_options));
 }
 
+function check_is_numeric_no_decimal_plus_bis($number, $mayor = null) {
+
+
+
+
+
+
+
+    $int_options = array("options" =>
+        array(
+            "min_range" => 0
+        //, "max_range" => 256
+    ));
+
+    $int_options = ($mayor) ? $int_options : null;
+
+    $is_mumber = (filter_var($number, FILTER_VALIDATE_INT, $int_options));
+
+
+
+    if (!$is_mumber) {
+
+        $mystring = strtoupper($number);
+        $findme = 'BIS';
+        $pos = strpos($mystring, $findme);       
+        
+        if ($pos)
+            return (int)$number;
+    } else {
+        return $is_mumber;
+    }
+}
+
 function check_is_numeric_range($number, $minor, $mayor) {
 
     $int_options = array("options" =>
@@ -555,8 +588,8 @@ function last_month_date($period) {
     }
 }
 
-function period_before($period) {   
-    
+function period_before($period) {
+
 
     list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
     $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-28');

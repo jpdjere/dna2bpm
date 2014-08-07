@@ -69,7 +69,7 @@ class Lib_201_data extends MX_Controller {
                 /* NUMERO_DE_APORTE
                  * Nro A.1
                  * Detail:
-                 * Debe tener formato numérico, entero sin decimales.
+                 * Debe tener formato numérico mayor a cero, entero, sin decimales. O debe tener formato numérico + la palabra “BIS”. Ej. 414BIS
                  * Nro A.3
                  * Detail: 
                   En un mismo archivo no se puede repetir el mismo número para los casos en que se estén informando Aportes (Columna D).
@@ -82,7 +82,7 @@ class Lib_201_data extends MX_Controller {
 
                  */
                 if ($parameterArr[$i]['col'] == 1) {
-                    
+
                     $code_error = "A.1";
                     $A_cell_value = "";
                     $get_input_number = "";
@@ -95,7 +95,7 @@ class Lib_201_data extends MX_Controller {
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
                         $exist_input_number = $this->$model_anexo->exist_input_number($A_cell_value);
 
-                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
+                        $return = check_is_numeric_no_decimal_plus_bis($parameterArr[$i]['fieldValue'], true);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -148,7 +148,7 @@ class Lib_201_data extends MX_Controller {
                  */
                 if ($parameterArr[$i]['col'] == 3) {
                     $C_cell_value = "";
-                    
+
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.1";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
@@ -347,7 +347,7 @@ class Lib_201_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
-                        
+
                         $insert_tmp = array();
                         $insert_tmp['NUMERO_DE_APORTE'] = (int) $A_cell_value;
                         $insert_tmp['FECHA_MOVIMIENTO'] = $B_cell_value;
@@ -494,8 +494,8 @@ class Lib_201_data extends MX_Controller {
             }
 
 
-            $get_last_input_number = $this->$model_anexo->get_last_input();            
-            
+            $get_last_input_number = $this->$model_anexo->get_last_input();
+
 
             $check_consecutive_array = array($get_last_input_number, $get_min);
             $check_consecutive = check_consecutive_values($check_consecutive_array);
@@ -522,8 +522,8 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
                     array_push($stack, $result);
                 } else {
-                    /* E.3 */                    
-                    if ((int)$sum_RETIRO > (int)$sum_APORTE) {
+                    /* E.3 */
+                    if ((int) $sum_RETIRO > (int) $sum_APORTE) {
                         $code_error = "E.3";
                         $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
                         array_push($stack, $result);
@@ -595,9 +595,9 @@ class Lib_201_data extends MX_Controller {
                     $result = return_error_array($code_error, "", $get_temp_data['RETIRO']);
                     array_push($stack, $result);
                 } else {
-                    
-                    /* E.3 */                    
-                    if ((int)$sum_RETIRO > (int)$sum_APORTE) {
+
+                    /* E.3 */
+                    if ((int) $sum_RETIRO > (int) $sum_APORTE) {
                         $code_error = "E.3";
                         $result = return_error_array($code_error, "", "( Nro de Aporte " . $number . " Aporte: " . $sum_APORTE . " ) " . $sum_RETIRO);
                         array_push($stack, $result);
@@ -608,13 +608,13 @@ class Lib_201_data extends MX_Controller {
                 $query_param = 'RETIRO';
                 $get_retiros_tmp = $this->$model_anexo->get_retiros_tmp($number, $query_param);
                 $retiros_arr = array();
-                foreach ($get_retiros_tmp as $o) {                    
+                foreach ($get_retiros_tmp as $o) {
                     $date = $o;
                     $retiros_arr[] = date('Y-m-d', $date->sec);
                 }
-                
-                
-               
+
+
+
 
                 foreach (repeatedElements($retiros_arr) as $arr) {
                     $code_error = "B.3";
@@ -649,14 +649,14 @@ class Lib_201_data extends MX_Controller {
                 }
             }
         }
-        
-        
+
+
         if (!check_consecutive_values($input_num_unique)) {
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "No son correlativos entre si.");
             array_push($stack, $result);
         }
 
-       // debug($stack);        exit();
+         //debug($stack);        exit();
         $this->data = $stack;
     }
 
