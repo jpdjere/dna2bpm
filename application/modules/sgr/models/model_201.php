@@ -100,7 +100,7 @@ class Model_201 extends CI_Model {
             $insertarr["RETIRO_DE_RENDIMIENTOS"] = (float) $insertarr["RETIRO_DE_RENDIMIENTOS"];
 
             $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
-            $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
+            $insertarr["NUMERO_DE_APORTE"] = $insertarr["NUMERO_DE_APORTE"];
         }
         return $insertarr;
     }

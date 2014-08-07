@@ -3,29 +3,29 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {  
+$(document).ready(function() {
     //session_rectify_ajax();
-    $("#is_session").hide();    
+    $("#is_session").hide();
     $('#myModal').modal('show');
-    
-    
+
+
     /*RECTIFICA HREF*/
-    $('[class^="rectifica-link_"]').click(function(event) {       
-         $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
+    $('[class^="rectifica-link_"]').click(function(event) {
+        $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
         var parameter = $(this).attr('href');
         var arr = parameter.split('/');
-        var input_period = arr[4];
-        var anexo = arr[5];
+        var input_period = arr[2];
+        var anexo = arr[3];
         event.preventDefault();
         $.get(globals.module_url + "unset_period");
         $("input[name$='input_period']").val(input_period);
-        $("input[name$='anexo']").val(anexo);        
+        $("input[name$='anexo']").val(anexo);
         $("#show_anexos").hide();
         $("#is_session").show();
         $("#no_session").hide();
     });
 
-    
+
     /*fixed*/
     $('[class^="rectifica-warning_"]').click(function(event) {
         var get_period = $("#sgr_period").html();
@@ -36,12 +36,12 @@ $(document).ready(function() {
         event.preventDefault();
         $.get(globals.module_url + "unset_period_active");
         bootbox.confirm("El período actual seleccionado (" + get_period + " ) va a dejar de estar activo, desea continuar?", function(result) {
-            if (result) {              
+            if (result) {
                 $("#error").html('<i class="fa fa-info-circle"></i> Si rectifica, la información asociada y relacionada será borrada del sistema');
                 $("#sgr_period").html("Rectifica");
                 $("#no_movement").hide();
                 $("#is_session").show();
-                $("#no_session").hide();        
+                $("#no_session").hide();
                 $("input[name$='input_period']").val(input_period);
                 $("input[name$='anexo']").val(anexo);
             }
@@ -51,22 +51,22 @@ $(document).ready(function() {
 
     $('.dp').datepicker();
     $('[id^="others_"]').hide();
-    
-    // Dashboard Accordion ||
-    $('[data-toggle="collapse"]').on('click',function(){
-    	var is_open=$(this).parents('div').next().hasClass('in');
-    	if(is_open){
-    		$('i',this).removeClass('fa-chevron-up');
-    		$('i',this).addClass('fa-chevron-down');
-    	}else{
-    		$('i',this).removeClass('fa-chevron-down');
-    		$('i',this).addClass('fa-chevron-up');
-    	}
 
-        
+    // Dashboard Accordion ||
+    $('[data-toggle="collapse"]').on('click', function() {
+        var is_open = $(this).parents('div').next().hasClass('in');
+        if (is_open) {
+            $('i', this).removeClass('fa-chevron-up');
+            $('i', this).addClass('fa-chevron-down');
+        } else {
+            $('i', this).removeClass('fa-chevron-down');
+            $('i', this).addClass('fa-chevron-up');
+        }
+
+
     })
-    
-    
+
+
     /*RECTIFICAR*/
     $('[id^="rectify_"]').change(function() {
         var option_value = $(this).val();
@@ -84,12 +84,12 @@ $(document).ready(function() {
                     type: "POST",
                     url: globals.module_url + 'check_session_period',
                     success: function(resp) {
-                        if (resp) {                           
-                          //  $("#is_session").show();
-                          //  $("#no_session").hide();
+                        if (resp) {
+                            //  $("#is_session").show();
+                            //  $("#no_session").hide();
                         } else {
-                           // $("#no_session").show();
-                           // $("#is_session").hide();
+                            // $("#no_session").show();
+                            // $("#is_session").hide();
                         }
                     }
                 });
@@ -146,4 +146,4 @@ if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
     onUpdateReady();
 }
 
-        
+
