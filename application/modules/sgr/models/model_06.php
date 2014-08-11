@@ -655,13 +655,20 @@ class Model_06 extends CI_Model {
                 $address = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
 
 
+            if (isset($cuit)) {
+                $partner_data = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
+                $partner_add_data = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . $zip_address;
+                $partner_phone = $area_code . $list['1701'];
+                $partner_web = $list['1703'] . "</br>" . $list['1704'];
+            }
+
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
-            $new_list['SOCIO'] = $list['5272'][0] . "</br>" . $cuit . "</br>" . $brand_name;
-            $new_list['LOCALIDAD'] = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . $zip_address;
-            $new_list['DIRECCION'] = $address;
-            $new_list['TELEFONO'] = $area_code . $list['1701'];
-            $new_list['EMAIL'] = $list['1703'] . "</br>" . $list['1704'];
+            $new_list['SOCIO'] = $partner_data;
+            $new_list['LOCALIDAD'] = $partner_add_data;
+            $new_list['DIRECCION'] = $partner_add_data;
+            $new_list['TELEFONO'] = $partner_phone;
+            $new_list['EMAIL'] = $partner_web;
             $new_list['CODIGO_ACTIVIDAD'] = $codigo_actividad;
             $new_list['"ANIO"'] = $inner_table;
             $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type . "<br/>" . $afip_condition[$list['5596'][0]];
