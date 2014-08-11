@@ -79,7 +79,7 @@ class Fondyf extends MX_Controller {
         $tokens = $this->bpm->get_tokens_byFilter($filter, array('case', 'data', 'checkdate'), array('checkdate' => false));
 
         $data['empresas'] = array_map(function ($token) {
-            $url = '../dna2/RenderView/printvista.php?idvista=3555&idap=284&id=' . $token['data']['id'];
+            $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $token['data']['id'];
             return array(
                 '_d' => $token['_id'],
                 'case' => $token['case'],

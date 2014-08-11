@@ -15,10 +15,11 @@
                     "span": 4
                 },
                 {
-                    "title": "Tile01",
+                    "title": "Revisar Solicitudes",
                     "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks"
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params":["fondyfpp","fondyfpp_FC"]
                 },
                 {
                     "title": "Tile01",
