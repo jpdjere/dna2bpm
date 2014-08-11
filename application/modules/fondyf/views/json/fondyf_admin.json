@@ -19,7 +19,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params":["fondyfpp","fondyfpp_FC"]
+                    "params": ["fondyfpp", "fondyfpp_FC"]
                 },
                 {
                     "title": "Tile01",
@@ -33,7 +33,8 @@
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "tile_cases"
-                },
+                }
+                ,
                 {
                     "title": "Tile01",
                     "module": "bpm",
@@ -41,6 +42,7 @@
                     "function": "tile",
                     "params": ["cases_closed"]
                 }
+
             ]
         },
         {
@@ -65,6 +67,14 @@
         },
         {
             "col2": [
+                {
+                    "title": "PP MiniStatus",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "ministatus_pp"
+                    ,
+                    "span": 12
+                },
                 {
                     "title": "Cases",
                     "module": "bpm",
