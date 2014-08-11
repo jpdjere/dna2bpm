@@ -822,10 +822,8 @@ class Model_201 extends CI_Model {
         }
 
         
-           if ($nro == 8) {
-                
-                debug($retiro_result_arr);
-                
+           if ($nro == 8) {                
+                //debug($retiro_result_arr);                
             }
         
         $aporte_sum = array_sum($aporte_result_arr);
