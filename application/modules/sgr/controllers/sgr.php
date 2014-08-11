@@ -801,7 +801,7 @@ class Sgr extends MX_Controller {
     }
 
     function stream_print($anexo, $customData, $parameter) {
-        if ($anexo == '12') {
+        if ($anexo == '12' || $anexo == '202') {
             echo $this->parser->parse('print', $customData, true);
         } else {
             /* LOAD LIBRARY */
