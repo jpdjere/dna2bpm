@@ -576,17 +576,20 @@ class Model_06 extends CI_Model {
     function ui_table($result) {
         foreach ($result as $list) {
             /* Vars */
-            
             $cuit = null;
-            
-            if ($list['1695']!="") {
+            $partner_data = null;
+            $partner_add_data = null;
+            $partner_phone = null;
+            $partner_web = null;
+
+
+            if ($list['1695'] != "") {
                 $cuit = str_replace("-", "", $list['1695']);
                 $this->load->model('padfyj_model');
                 $brand_name = $this->padfyj_model->search_name($cuit);
                 $brand_name = ($brand_name) ? $brand_name : $list['1693'];
                 $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
             }
-
 
 
             $this->load->model('app');
@@ -665,6 +668,8 @@ class Model_06 extends CI_Model {
 
             if ($list['4653'] != "")
                 $address = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
+
+
 
 
             if (isset($cuit)) {
