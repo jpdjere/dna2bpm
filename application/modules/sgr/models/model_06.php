@@ -582,14 +582,16 @@ class Model_06 extends CI_Model {
             $partner_phone = null;
             $partner_web = null;
 
+            $this->load->model('padfyj_model');
 
             if ($list['1695'] != "") {
                 $cuit = str_replace("-", "", $list['1695']);
-                $this->load->model('padfyj_model');
                 $brand_name = $this->padfyj_model->search_name($cuit);
                 $brand_name = ($brand_name) ? $brand_name : $list['1693'];
-                $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
             }
+
+            if (isset($list['5248']))
+                $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
 
 
             $this->load->model('app');
