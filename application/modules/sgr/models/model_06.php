@@ -577,7 +577,7 @@ class Model_06 extends CI_Model {
         foreach ($result as $list) {
             /* Vars */
 
-            if (isset($list['1695'])) {
+            if ($list['1695']!="") {
                 $cuit = str_replace("-", "", $list['1695']);
                 $this->load->model('padfyj_model');
                 $brand_name = $this->padfyj_model->search_name($cuit);
