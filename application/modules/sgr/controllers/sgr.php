@@ -25,15 +25,17 @@ class Sgr extends MX_Controller {
         $this->load->library('session');
         
         
-         error_reporting(0);
+       
         
         /* update db */
         $this->load->Model("mysql_model_periods");
         $this->mysql_model_periods->active_periods_dna2();
+        
 
 //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
+        
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
@@ -82,6 +84,9 @@ class Sgr extends MX_Controller {
         $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
+        
+        $customData['base_url_dna2'] = 'http://'. $_SERVER['HTTP_HOST'].'/dna2/';
+        
         $customData['titulo'] = "Dashboard";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
@@ -96,8 +101,8 @@ class Sgr extends MX_Controller {
     }
 
 // ==== Anexos ====
-    function Index() {
-
+    function Index() {  
+        
         $customData = array();
         $default_dashboard = 'dashboard';
 

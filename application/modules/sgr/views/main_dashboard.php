@@ -37,7 +37,7 @@
             </div>
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <li><a  href="../../dna2/" target="_blank">Acceso <strong>Versión Anterior del Sistema</strong></a></li>
+                    <li><a  href="{base_url_dna2}" target="_blank">Acceso <strong>Versión Anterior del Sistema</strong></a></li>
                     <hr>
                     <h2>SIPRIN 2014</h2>
                     {anexo_list}
