@@ -576,7 +576,9 @@ class Model_06 extends CI_Model {
     function ui_table($result) {
         foreach ($result as $list) {
             /* Vars */
-
+            
+            $cuit = null;
+            
             if ($list['1695']!="") {
                 $cuit = str_replace("-", "", $list['1695']);
                 $this->load->model('padfyj_model');
