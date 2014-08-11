@@ -233,7 +233,7 @@ class Dashboard extends MX_Controller {
     // ============ Parse JSON config
     function parse_config($file, $debug = false) {
         $myconfig = json_decode($this->load->view($file, '', true), true);
-
+        
 //             $return['js'] = array();
         //Root config
         foreach ($myconfig as $key => $value) {
@@ -286,8 +286,7 @@ class Dashboard extends MX_Controller {
             }
             // ____ Reparto de columnas
 
-
-            $content.='<div class="row">';
+            $content.="<div class='row zone_$myzone_key  '>";
 
             foreach ($widgets as $k => $myWidget) {
 //                     if (isset($myWidget['js']))
@@ -306,9 +305,9 @@ class Dashboard extends MX_Controller {
                     $markup = $myWidget['module'] . '/' . $myWidget['controller'] . '/' . $myWidget['function'] . $markup;
                 // Si es un array uso el zonekey para identificar el markup
                 if (is_array($markup)) {
-                    $content.="<div class='col-lg-$span'>{$markup['content']}</div>";
+                    $content.="<div class='col-lg-$span '>{$markup['content']}</div>";
                 } else {
-                    $content.="<div class='col-lg-$span'>$markup</div>";
+                    $content.="<div class='col-lg-$span '>$markup</div>";
                 }
             }
             $content.='</div>';

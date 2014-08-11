@@ -21,6 +21,9 @@
  		 <link href="{base_url}jscript/jquery/ui/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet" type="text/css" />
  	    <!--  iCheck -->
  	    <link href="{module_url}assets/bootstrap-wysihtml5/css/iCheck/minimal/blue.css" rel="stylesheet" type="text/css" />
+ 	     <!--  fonts -->
+ 	    <link href="{module_url}assets/fonts/Droid-Sans-fontfacekit/web_fonts/droidsans_regular_macroman/stylesheet.css" rel="stylesheet" type="text/css" />
+ 	    
  	    
  	    <!--====== Font Kits ===== -->
  	    <link href="{module_url}assets/fonts/webfontkit-20140806-113318/stylesheet.css" rel="stylesheet" type="text/css" />
@@ -128,20 +131,25 @@
 
                 <section class="content">
                     {tiles}
+          
+			    
                     <section class="col-lg-12 connectedSortable ui-sortable">
-                        <div class="row" id="tiles_after">
+                        <div class="row " id="tiles_after">
                             {tiles_after}
                         </div>
                     </section>
-                    <div class="row">
+
                         <section class="col-lg-6 connectedSortable ui-sortable" id="col1"> 
                             {col1} 
                         </section>
                         <section class="col-lg-6 connectedSortable ui-sortable" id="col2"> 
                             {col2}   
                         </section>
+                        
+                </section>
 
-                </section>         
+
+         
         </div>
 
 
