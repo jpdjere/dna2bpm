@@ -97,6 +97,23 @@ class Fondyf extends MX_Controller {
         echo Modules::run('bpm/kpi/import_kpi', 'fondyf');
     }
 
+    function ministatus_pp() {
+        $state = Modules::run('bpm/manager/mini_status', 'fondyfpp', 'array');
+        $state = array_filter($state, function($task) {
+            return $task['type'] == 'Task';
+        });
+        //---las aplano un poco
+        foreach($state as $task){
+        $task['user']=(isset($task['status']['user']))?$task['status']['user']:0; 
+        $task['finished']=(isset($task['status']['finished']))?$task['status']['finished']:0; 
+        $wfData['mini'][] = $task;
+        }
+        $wfData['base_url'] = base_url();
+        $wf = $this->bpm->load('fondyfpp');
+        $wfData+=$wf['data']['properties'];
+        $this->parser->parse('fondyf/ministatus_pp', $wfData);
+    }
+
 }
 
 /* End of file fondyf */
