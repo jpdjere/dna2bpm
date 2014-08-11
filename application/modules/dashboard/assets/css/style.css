@@ -23,7 +23,7 @@ a.logo:hover{background-color:#132D60 !important;}
 .bg-light-blue{	background-color:#132D60 !important;}
 
 /* ==== height is inherit ====*/
-/* columns of same height styles */
+/* ==== columns of same height styles */
 .container-xs-height {
     display:table;
     padding-left:0px;
