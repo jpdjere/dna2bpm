@@ -3,6 +3,8 @@
         <h3 class="box-title">{name}</h3>
         <div class="box-tools pull-right">
             <div class="label bg-aqua">{count}</div>
+            <button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
         </div>
     </div>
     <div class="box-body">

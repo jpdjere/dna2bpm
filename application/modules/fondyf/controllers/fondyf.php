@@ -69,6 +69,7 @@ class Fondyf extends MX_Controller {
             'idwf' => 'fondyfpp',
             'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
         );
+        $data['querystring']=$this->input->post('query');
         //-----busco en el cuit
         $filter['$or'][] = array('data.1695' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //-----busco en el nombre empresa
@@ -90,7 +91,8 @@ class Fondyf extends MX_Controller {
                 'link_open' => $this->bpm->gateway($url),
             );
         }, $tokens);
-        $this->parser->parse($template, $data);
+        $data['count']=count($tokens);
+        $this->parser->parse($template, $data,false,true);
     }
 
     function setup() {
