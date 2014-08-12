@@ -53,7 +53,7 @@ class Lib_16_data extends MX_Controller {
                 $parameter_col = (isset($parameterArr[$i]['col'])) ? $parameterArr[$i]['col'] : 0;
 
                 $range = range(1, 9);
-                if (in_array($parameterArr[$i]['col'], $range)) {
+                if (in_array($parameter_col, $range)) {
                     $code_error = "BJ.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
