@@ -50,8 +50,10 @@ class Lib_16_data extends MX_Controller {
                  * Debe contener formato numérico sin decimales.
                  */
 
+                $parameter_col = (isset($parameterArr[$i]['col'])) ? $parameterArr[$i]['col'] : 0;
+
                 $range = range(1, 9);
-                if (in_array($parameterArr[$i]['col'], $range)) {
+                if (in_array($parameter_col, $range)) {
                     $code_error = "BJ.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -59,9 +61,9 @@ class Lib_16_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        
-                        $return = (string)check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);  
-                        if ($return==null) {
+
+                        $return = (string) check_is_numeric_no_decimal($parameterArr[$i]['fieldValue']);
+                        if ($return == null) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
                         }
