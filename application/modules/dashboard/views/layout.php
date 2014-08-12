@@ -21,7 +21,12 @@
  		 <link href="{base_url}jscript/jquery/ui/jquery-ui-1.10.2.custom/css/smoothness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet" type="text/css" />
  	    <!--  iCheck -->
  	    <link href="{module_url}assets/bootstrap-wysihtml5/css/iCheck/minimal/blue.css" rel="stylesheet" type="text/css" />
+ 	    <!--  fonts -->
+ 	    <link href="{module_url}assets/fonts/Droid-Sans-fontfacekit/web_fonts/droidsans_regular_macroman/stylesheet.css" rel="stylesheet" type="text/css" />
  	    
+ 	     <!--====== Font Kits ===== -->
+ 	    <link href="{module_url}assets/fonts/webfontkit-20140806-113318/stylesheet.css" rel="stylesheet" type="text/css" />
+ 	 	<link href="{module_url}assets/fonts/Droid-Sans-fontfacekit/web_fonts/droidsans_regular_macroman/stylesheet.css" rel="stylesheet" type="text/css" />   
  
  	    <!--====== CSS for widgets ===== -->
 		{widgets_css}
@@ -127,7 +132,8 @@
               
 				<section class="content">
                         {tiles} 
-                        {widgets}                    
+                        {widgets}  
+                 
          		 </section>         
                     
                     

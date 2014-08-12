@@ -69,6 +69,7 @@ class Fondyf extends MX_Controller {
             'idwf' => 'fondyfpp',
             'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
         );
+        $data['querystring']=$this->input->post('query');
         //-----busco en el cuit
         $filter['$or'][] = array('data.1695' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //-----busco en el nombre empresa
@@ -79,7 +80,7 @@ class Fondyf extends MX_Controller {
         $tokens = $this->bpm->get_tokens_byFilter($filter, array('case', 'data', 'checkdate'), array('checkdate' => false));
 
         $data['empresas'] = array_map(function ($token) {
-            $url = '../dna2/RenderView/printvista.php?idvista=3555&idap=284&id=' . $token['data']['id'];
+            $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $token['data']['id'];
             return array(
                 '_d' => $token['_id'],
                 'case' => $token['case'],
@@ -90,11 +91,30 @@ class Fondyf extends MX_Controller {
                 'link_open' => $this->bpm->gateway($url),
             );
         }, $tokens);
-        $this->parser->parse($template, $data);
+        $data['count']=count($tokens);
+        $this->parser->parse($template, $data,false,true);
     }
 
     function setup() {
         echo Modules::run('bpm/kpi/import_kpi', 'fondyf');
+    }
+
+    function ministatus_pp() {
+        $state = Modules::run('bpm/manager/mini_status', 'fondyfpp', 'array');
+        $state = array_filter($state, function($task) {
+            return $task['type'] == 'Task';
+        });
+        //---las aplano un poco
+        foreach($state as $task){
+        $task['user']=(isset($task['status']['user']))?$task['status']['user']:0; 
+        $task['finished']=(isset($task['status']['finished']))?$task['status']['finished']:0; 
+        $wfData['mini'][] = $task;
+        }
+        $wfData['base_url'] = base_url();
+        $wf = $this->bpm->load('fondyfpp');
+        $wfData+=$wf['data']['properties'];
+        $wfData['name'] ='Mini Status: '.$wfData['name'];
+        return $this->parser->parse('fondyf/ministatus_pp', $wfData,true,true);
     }
 
 }

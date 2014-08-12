@@ -6,9 +6,92 @@
         
 */
 
-body{
-	background-color:#f60 !important;
-}
+
+
 body > .header .logo {
-  font-family: 'Palatino, serif', cursive;
+  font-family: droid_sansregular;
+  background-color:#132D60 !important;
 }
+
+.skin-blue .navbar{background-color:#01ABA8 ;}
+a.logo:hover{background-color:#132D60 !important;}
+
+.bg-orange{	background-color:#DBAB00 !important;}
+.bg-teal{	background-color:#87CDD7 !important;}
+.bg-green{	background-color:#6BAB4B !important;}
+.bg-blue{	background-color:#2B6E88 !important;}
+.bg-light-blue{	background-color:#132D60 !important;}
+
+/* ==== height is inherit ====*/
+/* ==== columns of same height styles */
+.container-xs-height {
+    display:table;
+    padding-left:0px;
+    padding-right:0px;
+}
+.row-xs-height {
+    display:table-row;
+}
+.col-xs-height {
+    display:table-cell;
+    float:none;
+}
+@media (min-width: 768px) {
+    .container-sm-height {
+        display:table;
+        padding-left:0px;
+        padding-right:0px;
+    }
+    .row-sm-height {
+        display:table-row;
+    }
+    .col-sm-height {
+        display:table-cell;
+        float:none;
+    }
+}
+@media (min-width: 992px) {
+    .container-md-height {
+        display:table;
+        padding-left:0px;
+        padding-right:0px;
+    }
+    .row-md-height {
+        display:table-row;
+    }
+    .col-md-height {
+        display:table-cell;
+        float:none;
+    }
+}
+@media (min-width: 1200px) {
+    .container-lg-height {
+        display:table;
+        padding-left:0px;
+        padding-right:0px;
+    }
+    .row-lg-height {
+        display:table-row;
+    }
+    .col-lg-height {
+        display:table-cell;
+        float:none;
+    }
+}
+
+/* vertical alignment styles */
+.col-top {
+    vertical-align:top;
+}
+.col-middle {
+    vertical-align:middle;
+}
+.col-bottom {
+    vertical-align:bottom;
+}
+
+/* fix firefox responsive images */
+.img-responsive {
+    width: 100%
+}
+

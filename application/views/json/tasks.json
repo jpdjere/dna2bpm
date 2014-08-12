@@ -1,0 +1,48 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Basic DashBoard",
+    "zones": [
+        {
+            "tiles": [
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "manager",
+                    "function": "tile_tasks"
+                }
+                ,
+                {
+                    "title": "Tile02",
+                    "module": "inbox",
+                    "controller": "inbox",
+                    "function": "tile_inbox"
+                }
+            ]
+        }
+        ,
+        {
+            "widgets": [
+                {
+                    "title": "To Do List",
+                    "module": "bpm",
+                    "controller": "manager",
+                    "function": "widget_2do"
+                }
+                ,
+                {
+                    "title": "LastMsgs",
+                    "module": "inbox",
+                    "controller": "inbox",
+                    "function": "widget_lastMsgs"
+                }
+                ,
+                {
+                    "title": "QuickMsg",
+                    "module": "inbox",
+                    "controller": "inbox",
+                    "function": "widget_quickMsg"
+                }
+            ]
+        }
+    ]
+}

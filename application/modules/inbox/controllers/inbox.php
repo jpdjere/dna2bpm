@@ -16,7 +16,7 @@ class Inbox extends MX_Controller {
         $this->module_url = base_url() . $this->router->fetch_module().'/';
         $this->user->authorize();
         //----LOAD LANGUAGE
-        $this->lang->load('library', $this->config->item('language'));
+        $this->lang->load('inbox', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
         
 
@@ -26,7 +26,7 @@ class Inbox extends MX_Controller {
     //==== MAIN LISTING
 
     function Index() {
-    	
+    	$customData['lang']= $this->lang->language;
      	$customData['user'] = (array) $this->user->get_user($this->idu);
      	$customData['inbox_icon'] = 'icon-envelope';
      	$customData['usercan_create'] = $this->user->has('/root/modules/inbox/controllers/inbox/new_msg');
@@ -71,7 +71,7 @@ class Inbox extends MX_Controller {
 
 
     	//==== Pagination
-    	define("ITEMS_X_PAGE",3);
+    	define("ITEMS_X_PAGE",10);
     	$current_page=$this->pagination->get_current_page();
     	$skip=($current_page-1)*ITEMS_X_PAGE;
     	//==== Bring me my MSGs!!!
@@ -82,7 +82,7 @@ class Inbox extends MX_Controller {
     			//'current_page'=>1,
     			'items_total'=>$items, // Total items in array
     			'items_x_page'=>ITEMS_X_PAGE,
-    			'pagination_width'=>3,
+    			'pagination_width'=>5,
     			//     			'class_ul'=>""
     			//     			,'class_a'=>""
     	);
@@ -121,6 +121,7 @@ class Inbox extends MX_Controller {
     
     //====  Mini INBOX version for toolbar
     function toolbar(){
+        $customData['lang']= $this->lang->language;
     	$customData['base_url'] = $this->base_url;
     	$customData['module_url'] = $this->module_url;
     	$customData['inbox_count']=$this->msg->count_msgs($this->idu,'inbox');

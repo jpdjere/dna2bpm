@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-
+ini_set('error_reporting',E_ALL);
 $config['base_url']	= "/dna2bpm/";
 
 // // $config['base_url']	= "http://localhost/dna2bpm/";
