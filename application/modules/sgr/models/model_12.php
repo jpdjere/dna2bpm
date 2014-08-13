@@ -675,7 +675,7 @@ class Model_12 extends CI_Model {
             , 'GRACIA'
             , 'PERIODICIDAD'
             , 'SISTEMA'
-            , 'DESTINO_CREDITO');
+            , 'DESTINO_CREDITO', 'SGR');
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
 
@@ -826,7 +826,10 @@ class Model_12 extends CI_Model {
             /* PONDERACION */
             $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
             $warranty_type_value = ($warranty_type[$list[5216][0]]) ? $warranty_type[$list[5216][0]] : $list[5216][0];
-
+            
+            /*SGR DATA*/
+            $filename = trim($list['filename']);
+            list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
 
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
@@ -850,6 +853,7 @@ class Model_12 extends CI_Model {
             $new_list['PERIODICIDAD'] = $periodicity[$list[5226][0]];
             $new_list['SISTEMA'] = $repayment_system[$list[5227][0]];
             $new_list['DESTINO_CREDITO'] = $list['DESTINO_CREDITO'];
+            $new_list['SGR'] = $g_denomination;
             $rtn[] = $new_list;
         }
 
