@@ -630,7 +630,7 @@ debug($grantor_type);
 
     function print_anexo($parameter = null) {
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             exit();
         }
         $parameter = urldecode($parameter);

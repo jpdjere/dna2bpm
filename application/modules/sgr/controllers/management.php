@@ -712,7 +712,7 @@ class Management extends MX_Controller {
 
     function print_anexo($parameter = null) {
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             exit();
         }
         $parameter = urldecode($parameter);
@@ -750,7 +750,7 @@ class Management extends MX_Controller {
 
     function print_xls($parameter = null) {
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             exit();
         }
         $parameter = urldecode($parameter);
@@ -786,7 +786,7 @@ class Management extends MX_Controller {
 
     function print_ddjj($parameter = null) {
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             exit();
         }
         $parameter = urldecode($parameter);

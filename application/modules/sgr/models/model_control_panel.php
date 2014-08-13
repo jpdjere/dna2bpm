@@ -92,7 +92,7 @@ class Model_control_panel extends CI_Model {
 
 
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             return false;
             exit();
         }
