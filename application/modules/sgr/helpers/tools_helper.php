@@ -205,9 +205,33 @@ function check_decimal($number, $decimal = 2, $positive = null) {
     return $status;
 }
 
+/* Fix #15151 */
+function validate_two_decimals($number, $decimal = 2, $positive = null) {
+    $number = str_replace(",", ".", $number);
+    $status = false;
+
+    $value = isfloat($number);
+    if ($value) {
+        $places_count = strlen(substr(strrchr($number, "."), 1));
+        if ($places_count > $decimal) {
+            $status = true;
+        }
+
+        if ($positive) {
+            $number = (int) $number;
+            if ($number < 0) {
+                $status = true;
+            }
+        }
+    } else {
+        $status = true;
+    }
+
+    return $status;
+}
 /* VALIDATE POSTIVE/NEGATIVE */
 
-function validate_two_decimals($number) {
+function validate_two_decimals_ex($number) {
     /* Change to positive */
     $number = ($number < 0) ? abs($number) : $number;
     $patron = '^[0-9]+\.[0-9]{2}$';

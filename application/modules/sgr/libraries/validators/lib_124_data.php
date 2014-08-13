@@ -40,6 +40,8 @@ class Lib_124_data extends MX_Controller {
              * @example NRO_GARANTIA	FECHA_REAFIANZA	SALDO_VIGENTE	REAFIANZADO	RAZON_SOCIAL	CUIT
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* NRO_GARANTIA
                  * Nro A.1
@@ -47,7 +49,7 @@ class Lib_124_data extends MX_Controller {
                  * El Número de garantía debe estar informado en el sistema.
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
                     $A_cell_value = "";
                     $code_error = "A.1";
 
@@ -92,7 +94,7 @@ class Lib_124_data extends MX_Controller {
                  * La fecha debe estar comprendida dentro del período informado.
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -141,7 +143,7 @@ class Lib_124_data extends MX_Controller {
                  * Detail:
                  * Formato de número. Acepta hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     //empty field Validation
                     $code_error = "C.1";
 
@@ -162,7 +164,7 @@ class Lib_124_data extends MX_Controller {
                  * Nro D.1
                  * Detail:
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     //empty field Validation
                     $code_error = "D.1";
 
@@ -202,7 +204,7 @@ class Lib_124_data extends MX_Controller {
              * Detail:
              * En caso de que el CUIT informado en la Columna E ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
              */
-            if ($parameterArr[$i]['col'] == 5) {
+            if ($param_col == 5) {
                 //empty field Validation
                 $code_error = "E.1";
 
@@ -220,7 +222,7 @@ class Lib_124_data extends MX_Controller {
              * Detail:
              * Debe tener 11 caracteres sin guiones. Debe validar que cumpla con el “ALGORITMO VERIFICADOR”.
              */
-            if ($parameterArr[$i]['col'] == 6) {
+            if ($param_col == 6) {
                 //empty field Validation
                 $code_error = "F.1";
 

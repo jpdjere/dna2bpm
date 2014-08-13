@@ -51,7 +51,8 @@ class Lib_14_data extends MX_Controller {
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
-
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
 
                 /* FECHA_MOVIMIENTO
@@ -63,7 +64,7 @@ class Lib_14_data extends MX_Controller {
                  * La fecha debe estar dentro del período informado.
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $sum_cdefgh = array();
 
@@ -101,7 +102,7 @@ class Lib_14_data extends MX_Controller {
                  * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12).                
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $B_cell_value = $parameterArr[$i]['fieldValue'];
                     $order_num[] = $B_cell_value;
                     /* WARRANTY DATA */
@@ -113,7 +114,7 @@ class Lib_14_data extends MX_Controller {
                  * Detail:
                  * Formato de número. Debe ser un valor numérico y aceptar hasta 2 decimales.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
 
                     $code_error = "C.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -224,7 +225,7 @@ class Lib_14_data extends MX_Controller {
                  * Detail:
                  * Debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.                 
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
 
                     $code_error = "D.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -256,7 +257,7 @@ class Lib_14_data extends MX_Controller {
                  * Detail:
                  * Debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.                
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
 
                     $code_error = "E.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -288,7 +289,7 @@ class Lib_14_data extends MX_Controller {
                  * Detail:
                  * Debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
                  */
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
                     $code_error = "F.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
 
@@ -322,7 +323,7 @@ class Lib_14_data extends MX_Controller {
                  * GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que 
                  * se está importando).
                  */
-                if ($parameterArr[$i]['col'] == 7) {
+                if ($param_col == 7) {
                     $code_error = "G.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $sum_cdefgh[] = 1;
@@ -352,7 +353,7 @@ class Lib_14_data extends MX_Controller {
                   H.3 = G.3
                   Debe validar que la suma de todos los RECUPEROS POR GASTOS DE GESTIÓN DE RECUPEROS e INCOBRABLES POR GASTOS DE GESTIÓN DE RECUPEROS registrados en el Sistema (incluidos los informados  en el archivo que se está importando) para una misma garantía no supere la suma de todos los GASTOS POR GESTIÓN DE RECUPEROS de esa misma garantía registrados en el Sistema (incluidos los informados  en el archivo que se está importando).
                  */
-                if ($parameterArr[$i]['col'] == 8) {
+                if ($param_col == 8) {
                     $code_error = "H.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $sum_cdefgh[] = 1;

@@ -63,6 +63,9 @@ class Lib_202_data extends MX_Controller {
              * RENDIMIENTO_ASIGNADO
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* NUMERO_DE_APORTE
                  * Nro A.1
@@ -78,7 +81,7 @@ class Lib_202_data extends MX_Controller {
                  * Detail:
                   Si para un determinado Número de Aporte el SALDO DE APORTE, es cero, debe validar que la Columna B sea Cero y que la Columna D tenga un monto informado.
                  */
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     //empty field Validation  
                     $get_anexo_data = false;
@@ -113,7 +116,7 @@ class Lib_202_data extends MX_Controller {
                  * Detail:
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                
                  */
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
 
                     $B_cell_value = false;
                     $code_error = "B.1";
@@ -134,7 +137,7 @@ class Lib_202_data extends MX_Controller {
                  * Detail:
                  * OPCIONAL. Valor con formato numérico positivo,  que acepte hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     $code_error = "C.1";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -153,7 +156,7 @@ class Lib_202_data extends MX_Controller {
                  * Valor con formato numérico,  que acepte hasta dos decimales.
                  * 
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
 
                     $code_error = "D.1";
                     //empty field Validation                    

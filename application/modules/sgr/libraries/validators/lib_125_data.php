@@ -39,6 +39,8 @@ class Lib_125_data extends MX_Controller {
              * @example CUIT_PART	CUIT_ACREEDOR	SLDO_FINANC	SLDO_COMER	SLDO_TEC
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* CUIT_PART
                  * Nro A.1
@@ -49,7 +51,7 @@ class Lib_125_data extends MX_Controller {
                  * Debe figura en el Sistema con Garantías Otorgadas en el Sistema (Anexo 12)
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
                     $A_cell_value = "";
 
 
@@ -87,7 +89,7 @@ class Lib_125_data extends MX_Controller {
                  * Debe estar registrado en el Sistema asociado al CUIT del Socio Partícipe informado al menos en una garantía otorgada.
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -122,7 +124,7 @@ class Lib_125_data extends MX_Controller {
                  * Detail:
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GFEF0, GFEF1, GFEF2, GFEF3, GFOI0, GFOI1, GFOI2, GFOI3, GFP0, GFP1, GFP2, GFP3, GFCPD, GFFF0, GFFF1, GFFF2, GFFF3, GFON0, GFON1, GFON2, FON3, GFVCP, GFMFO, GFL0, GFL1, GFL2, GFL3, GFPB0, GFPB1 o GFPB2.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     //empty field Validation
                     $code_error = "C.1";
 
@@ -183,7 +185,7 @@ class Lib_125_data extends MX_Controller {
                  * Detail:
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GC1 o GC2.
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     //empty field Validation
 
                     $haygarantia = false;
@@ -232,7 +234,7 @@ class Lib_125_data extends MX_Controller {
                  * Detail:
                  * El campo sólo podría ser mayor a Cero sólo en caso de que en el sistema esté registrado que el Socio Partícipe haya recibido alguno de los siguientes tipos de garantías: GT
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
 
                     $haygarantia = false;
                     $E1_array = array("GT","III.1.1", "III.1.2", "III.1.3", "III.2.1", "III.2.2", "III.2.3", "III.2.4", "III.3", "TECNICA");

@@ -24,6 +24,9 @@ class Lib_15_data extends MX_Controller {
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
+            
+            
+            
             /**
              * BASIC VALIDATION
              * 
@@ -43,13 +46,15 @@ class Lib_15_data extends MX_Controller {
              * MONTO
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* INCISO_ART_25
                  * Nro A.1
                  * Detail:
                  * Debe estar compuesta por alguno de los parámetros establecidos en la Columna A de Anexo adjunto (OPCIONES DE INVERSIÓN) a tales efectos.                 
                  */
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
                     $code_error = "A.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -71,7 +76,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                
                  */
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -88,7 +93,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.                 
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     $code_error = "C.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -108,7 +113,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío.
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
 
                     $code_error = "D.2";
                     $A1_arr = array("D", "J", "K");
@@ -129,7 +134,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * En caso de que la OPCIÓN DE INVERSIÓN indicada en la Columna A sea D, J o K, este campo deberá estar vacío. 
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
                     $code_error = "E.3";
                     $A1_arr = array("D", "J", "K");
                     if (in_array($A_cell_value, $A1_arr)) {
@@ -163,7 +168,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * Se puede completar la cantidad de filas que sean necesarias. Si una fila se completa, todos sus campos deben estar llenos.
                  */
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
                     //empty field Validation
                     $code_error = "F.1";
                     //empty field Validation                    
@@ -179,7 +184,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * Debe estar compuesta por alguno de los parámetros establecidos en la Columna A de Anexo adjunto (OPCIONES DE INVERSIÓN) a tales efectos.                 
                  */
-                if ($parameterArr[$i]['col'] == 7) {
+                if ($param_col == 7) {
                     $code_error = "G.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -204,7 +209,7 @@ class Lib_15_data extends MX_Controller {
                  * Detail:
                  * Numero entero mayor a cero.
                  */
-                if ($parameterArr[$i]['col'] == 8) {
+                if ($param_col == 8) {
 
                     $code_error = "H.1";
 
@@ -234,7 +239,7 @@ class Lib_15_data extends MX_Controller {
                  * Debe validar que la suma total de las inversiones sea igual al Saldo de la Columna 7 – Saldo del Aporte Disponible, de la Impresión del Anexo 20.2 más el saldo de la Columna D del importado de dicho Anexo.
                  */
 
-                if ($parameterArr[$i]['col'] == 9) {
+                if ($param_col == 9) {
                     $code_error = "I.1";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);

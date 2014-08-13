@@ -65,6 +65,8 @@ class Lib_201_data extends MX_Controller {
              * NRO_ACTA
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* NUMERO_DE_APORTE
                  * Nro A.1
@@ -81,7 +83,7 @@ class Lib_201_data extends MX_Controller {
                   Para los casos en que se estén informando Retiro de Rendimientos (Columna G), no puede darse que para un mismo número haya informada dos files en la que la Fecha de Movimiento (Columna B) sea la misma.
 
                  */
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $code_error = "A.1";
                     $A_cell_value = "";
@@ -112,7 +114,7 @@ class Lib_201_data extends MX_Controller {
                   Debe verificar que todas las fechas informadas se encuentren dentro del período que se está importando.
 
                  */
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     $B_cell_value = "";
 
@@ -146,7 +148,7 @@ class Lib_201_data extends MX_Controller {
                   En caso de que se trate de un Aporte (Columna D), debe verificar que el CUIT pertenece a un Socio Protector incorporado como Socio B y con Tenencia de Acciones positivas.
 
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     $C_cell_value = "";
 
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -166,7 +168,7 @@ class Lib_201_data extends MX_Controller {
                  * Formato Numérico. Debe aceptar hasta 2 decimales.                  
                  * CAMBIA EN EL INSTRUCTIVO
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     $code_error = "D.1";
                     $D_cell_value = null;
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -203,7 +205,7 @@ class Lib_201_data extends MX_Controller {
                  * Detail:
                  * Formato Numérico. Debe aceptar hasta 2 decimales.                  
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
 
                     $C2_is_true = false;
                     $E_cell_value = null;
@@ -258,7 +260,7 @@ class Lib_201_data extends MX_Controller {
                  * Detail:
                   De estar completa, debe tomar Formato Numérico mayor o igual a cero y  aceptar hasta 2 decimales.
                  */
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
                     $F_cell_value = null;
 
 
@@ -319,7 +321,7 @@ class Lib_201_data extends MX_Controller {
                  * Detail:
                  * De estar completa, debe tomar Formato Numérico mayor a cero y aceptar hasta 2 decimales.
                  */
-                if ($parameterArr[$i]['col'] == 7) {
+                if ($param_col == 7) {
 
                     $code_error = "G.1";
                     $G_cell_value = null;
@@ -386,7 +388,7 @@ class Lib_201_data extends MX_Controller {
                  * Debe permitir informar cualquier cosa. Siempre deben estar completos..
                  */
                 $range = range(8, 16);
-                if (in_array($parameterArr[$i]['col'], $range)) {
+                if (in_array($param_col, $range)) {
                     $code_error = "HP.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -401,7 +403,7 @@ class Lib_201_data extends MX_Controller {
                  * Detail:
                  * Debe tener formato numérico de cinco dígitos sin decimales.
                  */
-                if ($parameterArr[$i]['col'] == 17) {
+                if ($param_col == 17) {
                     $code_error = "Q.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -424,7 +426,7 @@ class Lib_201_data extends MX_Controller {
                  * Detail:
                  * Debe tener formato numérico de cinco dígitos sin decimales.
                  */
-                if ($parameterArr[$i]['col'] == 18) {
+                if ($param_col == 18) {
                     $code_error = "R.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $R_cell_value = (int) $parameterArr[$i]['fieldValue'];
