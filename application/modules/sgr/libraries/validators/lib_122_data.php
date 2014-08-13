@@ -40,6 +40,8 @@ class Lib_122_data extends MX_Controller {
              * @example NRO_GARANTIA	NUMERO_CUOTA_CUYO_VENC_MODIFICA	FECHA_VENC_CUOTA FECHA_VENC_CUOTA_NUEVA	MONTO_CUOTA SALDO_AL_VENCIMIENTO
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* NRO_GARANTIA
                  * Nro A.1
@@ -47,7 +49,7 @@ class Lib_122_data extends MX_Controller {
                  * El Número de garantía debe estar informado en el sistema
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $code_error = "A.1";
                     $A_cell_value = $parameterArr[$i]['fieldValue'];
@@ -74,7 +76,7 @@ class Lib_122_data extends MX_Controller {
                  * Una misma cuota de una garantía no puede figurar dos veces en el archivo importado.
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -98,7 +100,7 @@ class Lib_122_data extends MX_Controller {
                  * Detail:
                  * Formato numérico de cinco dígitos sin decimales. Debe ser posterior a la fecha de emisión de la garantía informada en la Columna C del Anexo 12.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     $code_error = "C.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -138,7 +140,7 @@ class Lib_122_data extends MX_Controller {
                  * Formato numérico de cinco dígitos sin decimales. La fecha debe encontrarse dentro del período que se está informando.
                  */
 
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     $code_error = "D.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -167,7 +169,7 @@ class Lib_122_data extends MX_Controller {
                  * Formato numérico. Aceptar hasta dos decimales.
                  */
 
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
                     $code_error = "E.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -190,7 +192,7 @@ class Lib_122_data extends MX_Controller {
                  * Formato numérico. Aceptar hasta dos decimales. El monto debe ser inferior al registrado en como Monto de Garantí Otorgada del Anexo 12.';
                  */
 
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
                     $code_error = "F.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);

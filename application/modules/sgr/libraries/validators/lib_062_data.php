@@ -35,6 +35,8 @@ class Lib_062_data extends MX_Controller {
 
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* CUIT
                  * Nro A.1
@@ -42,7 +44,7 @@ class Lib_062_data extends MX_Controller {
                  * Debe tener 11 caracteres numéricos sin guiones.               
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $code_error = "A.1";
 
@@ -79,7 +81,7 @@ class Lib_062_data extends MX_Controller {
                  * El año debe ser igual o menor al del período en que se está informando.
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
 
                     $code_error = "B.1";
                     //empty field Validation
@@ -117,7 +119,7 @@ class Lib_062_data extends MX_Controller {
                  * Detail:
                  * Debe ser formato numérico y aceptar hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.1";
                         $return = check_decimal($parameterArr[$i]['fieldValue']);
@@ -138,7 +140,7 @@ class Lib_062_data extends MX_Controller {
                  * Detail:
                  * Numero entero mayor a cero.
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     //empty field Validation
                     $code_error = "D.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -164,7 +166,7 @@ class Lib_062_data extends MX_Controller {
                  * Detail:
                  * Numero entero mayor a cero.
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
                     if (isset($parameterArr[$i]['fieldValue'])) {
                         $code_error = "E.1";
                         $allow_words = array("BALANCES", "CERTIFICACION DE INGRESOS", "DDJJ IMPUESTOS");

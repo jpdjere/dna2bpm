@@ -43,6 +43,8 @@ class Lib_16_data extends MX_Controller {
               SALDO_PROMEDIO_FDR_CONTINGENTE
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* DESCRIPCION
                  * Nro BJ.1
@@ -50,10 +52,10 @@ class Lib_16_data extends MX_Controller {
                  * Debe contener formato numérico sin decimales.
                  */
 
-                $parameter_col = (isset($parameterArr[$i]['col'])) ? $parameterArr[$i]['col'] : 0;
+                
 
                 $range = range(1, 9);
-                if (in_array($parameter_col, $range)) {
+                if (in_array($param_col, $range)) {
                     $code_error = "BJ.1";
                     //empty field Validation                    
                     $return = check_empty($parameterArr[$i]['fieldValue']);
