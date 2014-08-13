@@ -817,7 +817,6 @@ class Model_12 extends CI_Model {
 
 
             $this->load->model('app');
-            $warranty_type = $this->app->get_ops(525);
             $currency = $this->app->get_ops(549);
             $repayment_system = $this->app->get_ops(527);
             $rate = $this->app->get_ops(526);
@@ -825,7 +824,6 @@ class Model_12 extends CI_Model {
 
             /* PONDERACION */
             $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
-            $warranty_type_value = ($warranty_type[$list[5216][0]]) ? $warranty_type[$list[5216][0]] : $list[5216][0];
             
             /*SGR DATA*/
             $filename = trim($list['filename']);
@@ -834,9 +832,9 @@ class Model_12 extends CI_Model {
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];
-            $new_list['ORIGEN'] = $list[5215];
-            $new_list['TIPO'] = $warranty_type_value;
-            $new_list['PONDERACION'] = $get_weighting['weighted'] * 100;
+            $new_list['ORIGEN'] = translate_date_xls($list[5215]);
+            $new_list['TIPO'] = $list[5216][0];
+            $new_list['PONDERACION'] = $get_weighting['weighted'];
             $new_list['IMPORTE'] = $list[5218];
             $new_list['MONEDA'] = $currency[$list[5219][0]];
             $new_list['LIBRADOR_NOMBRE'] = $drawer;
@@ -847,7 +845,7 @@ class Model_12 extends CI_Model {
             $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
             $new_list['MONEDA_CRED_GARANT'] = $list[5758][0];
             $new_list['TASA'] = $rate[$list[5222][0]];
-            $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223];
+            $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223]/100;
             $new_list['PLAZO'] = $list[5224];
             $new_list['GRACIA'] = $list[5225];
             $new_list['PERIODICIDAD'] = $periodicity[$list[5226][0]];
