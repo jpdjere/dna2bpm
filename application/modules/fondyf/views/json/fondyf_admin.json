@@ -52,16 +52,14 @@
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_2do"
-                    ,
-                    "span": 12
+                  
                 },
                 {
                     "title": "2do",
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_tasks_done"
-                    ,
-                    "span": 12
+                  
                 }
             ]
         },
@@ -72,24 +70,19 @@
                     "module": "fondyf",
                     "controller": "fondyf",
                     "function": "ministatus_pp"
-                    ,
-                    "span": 12
+                    
                 },
                 {
                     "title": "Cases",
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_cases"
-                    ,
-                    "span": 12
                 },
                 {
                     "title": "Cases Closed",
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_cases_closed"
-                    ,
-                    "span": 12
                 }
             ]
         }
