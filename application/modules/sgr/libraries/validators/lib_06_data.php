@@ -47,7 +47,7 @@ class Lib_06_data extends MX_Controller {
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
 
-
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
 
                 /* TIPO_OPERACION
@@ -60,10 +60,7 @@ class Lib_06_data extends MX_Controller {
                   INTEGRACION PENDIENTE
                  */
 
-
-
-
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
                     $A_cell_value = "";
                     $code_error = "A.1";
 
@@ -97,7 +94,7 @@ class Lib_06_data extends MX_Controller {
                   B
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
 
                     $code_error = "B.1";
                     $B_cell_value = "";
@@ -122,7 +119,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
 
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
 
                     $C_cell_value = $parameterArr[$i]['fieldValue'];
                     if ($C_cell_value) {
@@ -140,11 +137,11 @@ class Lib_06_data extends MX_Controller {
                   ACA – Acta de Consejo de Administración
                   EC – Estatuto Constitutivo
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     
                 }
 
-                if ($parameterArr[$i]['col'] == 29) {
+                if ($param_col == 29) {
 
                     $code_error = "AC.1";
                     //empty field Validation
@@ -168,7 +165,7 @@ class Lib_06_data extends MX_Controller {
                   El campo no puede estar vacío y debe contener cinco dígitos numéricos.
                  */
 
-                if ($parameterArr[$i]['col'] == 30) {
+                if ($param_col == 30) {
 
                     $code_error = "AD.1";
                     //empty field Validation
@@ -193,7 +190,7 @@ class Lib_06_data extends MX_Controller {
                   OPCIONAL. De ser completado, deben ser datos numéricos.
                  */
 
-                if ($parameterArr[$i]['col'] == 31) {
+                if ($param_col == 31) {
 
                     $code_error = "AE.1";
 
@@ -212,7 +209,7 @@ class Lib_06_data extends MX_Controller {
                   OPCIONAL. De ser completado, deben ser datos numéricos.
                  */
 
-                if ($parameterArr[$i]['col'] == 32) {
+                if ($param_col == 32) {
 
                     $code_error = "AF.1";
                     //Check Date Validation
@@ -243,7 +240,7 @@ class Lib_06_data extends MX_Controller {
                  *
                  */
 
-                if ($parameterArr[$i]['col'] == 33) {
+                if ($param_col == 33) {
 
                     $code_error = "AG.1";
                     $AG_cell_value = $parameterArr[$i]['fieldValue'];
@@ -326,8 +323,8 @@ class Lib_06_data extends MX_Controller {
                  * 
                  */
                 $range = range(34, 35);
-                if (in_array($parameterArr[$i]['col'], $range)) {
-                    switch ($parameterArr[$i]['col']) {
+                if (in_array($param_col, $range)) {
+                    switch ($param_col) {
                         case 34:
                             $AH_cell_value = (int) $parameterArr[$i]['fieldValue'];
                             $code_error = "AH.1";
@@ -398,7 +395,7 @@ class Lib_06_data extends MX_Controller {
 
 
                 /* CEDENTE */
-                if ($parameterArr[$i]['col'] == 36) {
+                if ($param_col == 36) {
 
 
                     $AL_cell_value = $parameterArr[$i]['fieldValue'];
@@ -593,7 +590,7 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.
                      * NO puede estar repetido dentro del mismo excel
                      */
-                    if ($parameterArr[$i]['col'] == 3) {
+                    if ($param_col == 3) {
                         $code_error = "C.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -622,7 +619,7 @@ class Lib_06_data extends MX_Controller {
                      * NOMBRE
                      * El campo no puede estar vacío. En caso de que el CUIT informado ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
                      */
-                    if ($parameterArr[$i]['col'] == 4) {
+                    if ($param_col == 4) {
                         $code_error = "D.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -637,7 +634,7 @@ class Lib_06_data extends MX_Controller {
                      * PROVINCIA
                      * El campo no puede estar vacío. En caso de que el CUIT informado ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.
                      */
-                    if ($parameterArr[$i]['col'] == 5) {
+                    if ($param_col == 5) {
                         $code_error = "E.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -659,7 +656,7 @@ class Lib_06_data extends MX_Controller {
                      * PARTIDO_MUNICIPIO_COMUNA
                      * El campo no puede estar vacío.
                      */
-                    if ($parameterArr[$i]['col'] == 6) {
+                    if ($param_col == 6) {
                         $code_error = "F.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -673,7 +670,7 @@ class Lib_06_data extends MX_Controller {
                      * LOCALIDAD
                      * El campo no puede estar vacío.
                      */
-                    if ($parameterArr[$i]['col'] == 7) {
+                    if ($param_col == 7) {
                         $code_error = "G.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -690,7 +687,7 @@ class Lib_06_data extends MX_Controller {
                       Anexo 6 - Modificación Validador H.1
                      * "H.1. El campo no puede estar vacío. Debe contener 8 dígitos. El primero y los tres últimos alfabéticos, el segundo, tercero, cuarto y quinto numéricos, o debe contener 4 dígitos, todos numéricos."
                      */
-                    if ($parameterArr[$i]['col'] == 8) {
+                    if ($param_col == 8) {
                         $code_error = "H.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -710,7 +707,7 @@ class Lib_06_data extends MX_Controller {
                      * CALLE
                      * El campo no puede estar vacío.
                      */
-                    if ($parameterArr[$i]['col'] == 9) {
+                    if ($param_col == 9) {
                         $code_error = "I.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -724,7 +721,7 @@ class Lib_06_data extends MX_Controller {
                      * NRO
                      * El campo no puede estar vacío.
                      */
-                    if ($parameterArr[$i]['col'] == 10) {
+                    if ($param_col == 10) {
                         $code_error = "J.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -739,7 +736,7 @@ class Lib_06_data extends MX_Controller {
                      * CODIGO_AREA
                      * El campo no puede estar vacío. Debe tener entre 2 y 4 dígitos (sin el cero adelante).
                      */
-                    if ($parameterArr[$i]['col'] == 13) {
+                    if ($param_col == 13) {
                         $code_error = "M.1";
 
                         //Check Empry
@@ -760,7 +757,7 @@ class Lib_06_data extends MX_Controller {
                      * TELEFONO
                      * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
                      */
-                    if ($parameterArr[$i]['col'] == 14) {
+                    if ($param_col == 14) {
                         $code_error = "N.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -780,7 +777,7 @@ class Lib_06_data extends MX_Controller {
                      * EMAIL
                      * OPCIONA. De completarse, que tenga formato de dirección de correo electrónico.
                      */
-                    if ($parameterArr[$i]['col'] == 15) {
+                    if ($param_col == 15) {
                         $code_error = "O.1";
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
@@ -796,7 +793,7 @@ class Lib_06_data extends MX_Controller {
                      * WEB
                      * OPCIONA. De completarse, que tenga formato de dirección de página web.
                      */
-                    if ($parameterArr[$i]['col'] == 16) {
+                    if ($param_col == 16) {
                         $code_error = "P.1";
 
                         if ($parameterArr[$i]['fieldValue'] != "") {
@@ -813,7 +810,7 @@ class Lib_06_data extends MX_Controller {
                      * CODIGO_ACTIVIDAD_AFIP
                      * El campo no puede estar vacío. Debe tener entre 6 y 10 dígitos.
                      */
-                    if ($parameterArr[$i]['col'] == 17) {
+                    if ($param_col == 17) {
                         $code_error = "Q.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -832,7 +829,7 @@ class Lib_06_data extends MX_Controller {
                       INSCRIPTO
                       MONOTRIBUTISTA
                      */
-                    if ($parameterArr[$i]['col'] == 27) {
+                    if ($param_col == 27) {
 
                         $code_error = "AA.1";
                         //empty field Validation
@@ -860,9 +857,9 @@ class Lib_06_data extends MX_Controller {
                  */
                 if ($B_cell_value == "A") {
                     $range = range(18, 20);
-                    if (in_array($parameterArr[$i]['col'], $range)) {
+                    if (in_array($param_col, $range)) {
 
-                        switch ($parameterArr[$i]['col']) {
+                        switch ($param_col) {
 
                             case 18: //ANIO_MES1                              
                                 $R_cell_value = "";
@@ -937,8 +934,8 @@ class Lib_06_data extends MX_Controller {
 
 
                     $range = range(21, 23);
-                    if (in_array($parameterArr[$i]['col'], $range)) {
-                        switch ($parameterArr[$i]['col']) {
+                    if (in_array($param_col, $range)) {
+                        switch ($param_col) {
                             case 21: //ANIO_MES2                              
                                 $U_cell_value = "";
                                 $U2_cell_value = "";
@@ -1027,9 +1024,9 @@ class Lib_06_data extends MX_Controller {
 
 
                     $range = range(24, 26);
-                    if (in_array($parameterArr[$i]['col'], $range)) {
+                    if (in_array($param_col, $range)) {
 
-                        switch ($parameterArr[$i]['col']) {
+                        switch ($param_col) {
                             case 24: //ANIO_MES3                                        
                                 $X_cell_value = $parameterArr[$i]['fieldValue'];
                                 $X2_cell_value = "";
@@ -1117,7 +1114,7 @@ class Lib_06_data extends MX_Controller {
                      * CANTIDAD_DE_EMPLEADOS
                      * El campo no puede estar vacío y debe contener caracteres numéricos mayores a Cero.
                      */
-                    if ($parameterArr[$i]['col'] == 28) {
+                    if ($param_col == 28) {
                         if ($A_cell_value == "INCORPORACION") {
                             $code_error = "AB.1";
 
@@ -1156,9 +1153,9 @@ class Lib_06_data extends MX_Controller {
 
                 if ($B_cell_value == "B") {
                     $range = range(18, 26);
-                    if (in_array($parameterArr[$i]['col'], $range)) {
+                    if (in_array($param_col, $range)) {
 
-                        switch ($parameterArr[$i]['col']) {
+                        switch ($param_col) {
 
                             case 18: //Año/Mes 1
                                 $code_error = "R.4";
@@ -1198,7 +1195,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    if ($parameterArr[$i]['col'] == 28) {
+                    if ($param_col == 28) {
                         $code_error = "AB.2";
                         //Check for Empty
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
@@ -1219,8 +1216,8 @@ class Lib_06_data extends MX_Controller {
                 if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
 
                     $range = range(5, 28);
-                    if (in_array($parameterArr[$i]['col'], $range)) {
-                        switch ($parameterArr[$i]['col']) {
+                    if (in_array($param_col, $range)) {
+                        switch ($param_col) {
                             case 5: //Provincia
                                 $code_error = "E.2";
                                 break;
@@ -1320,8 +1317,8 @@ class Lib_06_data extends MX_Controller {
                  */
                 if ($A_cell_value == "DISMINUCION DE CAPITAL SOCIAL") {
                     $range = range(3, 28);
-                    if (in_array($parameterArr[$i]['col'], $range)) {
-                        switch ($parameterArr[$i]['col']) {
+                    if (in_array($param_col, $range)) {
+                        switch ($param_col) {
                             case 3: //CUIT
                                 $code_error = "C.2";
                                 break;
@@ -1419,7 +1416,7 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío y debe contener el siguientes parámetro:
                       SUSCRIPCIÓN
                      */
-                    if ($parameterArr[$i]['col'] == 33) {
+                    if ($param_col == 33) {
                         $code_error = "AG.2";
                         //empty field Validation
                         $return = check_empty($parameterArr[$i]['fieldValue']);

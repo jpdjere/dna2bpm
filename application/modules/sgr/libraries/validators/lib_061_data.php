@@ -35,14 +35,15 @@ class Lib_061_data extends MX_Controller {
             /* Validacion Basica */
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
-
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
+                
                 /* CUIT_SOCIO_INCORPORADO
                  * Nro A.1
                  * Detail:
                  * Si alguna de las columnas B a F está completa, este campo no puede estar vacío y  debe tener 11 caracteres sin guiones.
                  */
-
-                if ($parameterArr[$i]['col'] == 1) {
+                
+                if ($param_col == 1) {
                     $code_error = "A.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
@@ -70,7 +71,7 @@ class Lib_061_data extends MX_Controller {
                   NO
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
 
                     $code_error = "B.1";
                     $B_cell_value = NULL;
@@ -122,7 +123,7 @@ class Lib_061_data extends MX_Controller {
                  * Detail:
                  * Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío y  debe tener 11 caracteres sin guiones. El CUIT debe cumplir el “ALGORITMO VERIFICADOR”.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     $C_cell_value = NULL;
                     $code_error = "C.1";
                     /* CHECK EMPTY */
@@ -172,7 +173,7 @@ class Lib_061_data extends MX_Controller {
                  * Detail:
                  * Si en la Columna B se completó la opción “SI”, el campo no puede estar vacío. Si el CUIT se encuentra registrado en la Base de Datos del Sistema, debe tomar el nombre allí escrito, de lo contrario, debe tomar transitoriamente el nombre informado por la SGR.
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     $D_cell_value = NULL;
                     $code_error = "D.1";
                     //Check Empry
@@ -204,7 +205,7 @@ class Lib_061_data extends MX_Controller {
                   ASCENDENTE
                   DESCENDENTE
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
 
                     $E_cell_value = NULL;
                     //Check Empry
@@ -270,7 +271,7 @@ class Lib_061_data extends MX_Controller {
                  * Detail:
                   Para un mismo CUIT informado en la Columna A, los campos que en la Columna E indiquen ASCENDENTE, deben sumar 1, de forma de cerciorarse que estén informando el total de los Accionistas de la empresa.
                  */
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
 
                     $F_cell_value = NULL;
                     $code_error = "F.1";

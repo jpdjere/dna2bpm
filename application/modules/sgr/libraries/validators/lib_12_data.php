@@ -58,6 +58,8 @@ class Lib_12_data extends MX_Controller {
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {               
                 
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
+                
                 
                 /* NRO
                  * Nro A.1
@@ -65,7 +67,7 @@ class Lib_12_data extends MX_Controller {
                  * El Número no puede estar cargado previamente en el Sistema en la misma SGR, así como tampoco puede estar repetido en el archivo que se está importando.               
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $col_A_arr[] = $parameterArr[$i]['fieldValue'];
 
@@ -93,7 +95,7 @@ class Lib_12_data extends MX_Controller {
 
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
 
                     $code_error = "B.1";
 
@@ -167,7 +169,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Debe contener cinco dígitos numéricos. La fecha debe estar dentro del período informado.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
 
                     $code_error = "C.1";
                     //empty field Validation
@@ -198,7 +200,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Debe contener uno de los parámetros establecidos en el Anexo adjunto donde se lista el Tipo de Garantías. Debe validar que el Tipo de Garantía informado se corresponda con el menú habilitado en la fecha en que se está informando
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
 
                     $this->load->model('app');
                     $warranty_type = $this->app->get_ops(525);
@@ -228,7 +230,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Debe ser formato numérico y aceptar hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
                     //empty field Validation
                     $code_error = "E.1";
 
@@ -254,7 +256,7 @@ class Lib_12_data extends MX_Controller {
                   Dolares Americanos
                   Si la Columna D se completó con la opción GFCPD, la moneda de origen sólo podrá ser PESOS ARGENTINOS
                  */
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
                     $code_error = "F.1";
 
                     //empty field Validation
@@ -286,7 +288,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF2
                   GFFF3
                  */
-                if ($parameterArr[$i]['col'] == 7) {
+                if ($param_col == 7) {
                     $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
                     $code_error = "G.1";
                     if (in_array($D_cell_value, $codes_arr)) {
@@ -313,7 +315,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF3
                   GFCPD
                  */
-                if ($parameterArr[$i]['col'] == 8) {
+                if ($param_col == 8) {
                     $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
 
                     if (in_array($D_cell_value, $codes_arr)) {
@@ -363,7 +365,7 @@ class Lib_12_data extends MX_Controller {
                   deberá tener el siguiente formato: 3 Letras, un Numero, una letra.
                   Eje. OAH1P
                  */
-                if ($parameterArr[$i]['col'] == 9) {
+                if ($param_col == 9) {
                     $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB0","GFPB1","GFPB2", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D_cell_value, $codes_arr)) {
@@ -437,7 +439,7 @@ class Lib_12_data extends MX_Controller {
                   GFEF0, GFEF1, GFEF2, GFEF3
                   Debe validar que hayan informado alguno de los CUIT detallados en el Anexo adjunto, donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.
                  */
-                if ($parameterArr[$i]['col'] == 11) {
+                if ($param_col == 11) {
                     $code_error = "K.1";
 
                     //empty field Validation
@@ -482,7 +484,7 @@ class Lib_12_data extends MX_Controller {
                  * Aceptar hasta dos decimales.
                  */
 
-                if ($parameterArr[$i]['col'] == 12) {
+                if ($param_col == 12) {
                     $code_error = "L.1";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -506,7 +508,7 @@ class Lib_12_data extends MX_Controller {
                   Pesos Argentinos
                   Dolares Americanos
                  */
-                if ($parameterArr[$i]['col'] == 13) {
+                if ($param_col == 13) {
                     $code_error = "M.1";
 
                     //empty field Validation
@@ -541,7 +543,7 @@ class Lib_12_data extends MX_Controller {
                   TEC
                   TEBP
                  */
-                if ($parameterArr[$i]['col'] == 14) {
+                if ($param_col == 14) {
                     $code_error = "N.1";
 
                     //empty field Validation
@@ -572,7 +574,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Si en la Columna N se indicó que la tasa es “FIJA”, puede tomar un valor mayor a 0 y menor a 0,30.
                  */
-                if ($parameterArr[$i]['col'] == 15) {
+                if ($param_col == 15) {
                     $in_value = (int) $parameterArr[$i]['fieldValue'];
                     $range1 = range(-50, -1);
                     $range2 = range(1, 50);
@@ -614,7 +616,7 @@ class Lib_12_data extends MX_Controller {
                  * Nro P.5
                  * Si en la Columna “J” el nombre del Acreedor es FONAPYME, y en la columna “K” el CUIT ingresado es 30708258691, el plazo, en ningún caso, puede ser mayor a 2557 días)
                  */
-                if ($parameterArr[$i]['col'] == 16) {
+                if ($param_col == 16) {
                     $P_cell_value = (int) $parameterArr[$i]['fieldValue'];
                     $code_error = "P.1";
                     //empty field Validation
@@ -645,7 +647,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Si en la Columna R se indicó PAGO ÚNICO, el valor aquí indicado debe ser igual al valor indicado en la Columna P.
                  */
-                if ($parameterArr[$i]['col'] == 17) {
+                if ($param_col == 17) {
                     $Q_cell_value = (int) $parameterArr[$i]['fieldValue'];
                     $code_error = "Q.1";
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -725,7 +727,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Si en la Columna “D” el Tipo de Garantía seleccionado fue GFCPD o GFVCP, este campo sólo puede indicar PAGO UNICO.
                  */
-                if ($parameterArr[$i]['col'] == 18) {
+                if ($param_col == 18) {
 
                     $R_cell_value = strtoupper($parameterArr[$i]['fieldValue']);
 
@@ -779,7 +781,7 @@ class Lib_12_data extends MX_Controller {
                  * Detail:
                  * Si en la Columna “T” se indicó que la Periodicidad de los pagos es PAGO UNICO, este campo sólo puede indicar PAGO UNICO.
                  */
-                if ($parameterArr[$i]['col'] == 19) {
+                if ($param_col == 19) {
                     $code_error = "S.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -822,7 +824,7 @@ class Lib_12_data extends MX_Controller {
                   CAPITAL DE TRABAJO
                   PROYECTO DE INVERSION
                  */
-                if ($parameterArr[$i]['col'] == 20) {
+                if ($param_col == 20) {
                     $code_error = "T.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);

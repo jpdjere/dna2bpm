@@ -41,6 +41,8 @@ class Lib_123_data extends MX_Controller {
              * @example NRO_ORDEN	DIA1	DIA2	DIA3	DIA4	DIA5	DIA6	DIA7	DIA8	DIA9	DIA10	DIA11	DIA12	DIA13	DIA14	DIA15	DIA16	DIA17	DIA18	DIA19	DIA20	DIA21	DIA22	DIA23	DIA24	DIA25	DIA26	DIA27	DIA28	DIA29	DIA30	DIA31
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* NRO_ORDEN
                  * Nro A.1
@@ -53,7 +55,7 @@ class Lib_123_data extends MX_Controller {
                  */
                 //debug($parameterArr);
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $A_cell_value = "";
                     $code_error = "A.1";
@@ -78,10 +80,10 @@ class Lib_123_data extends MX_Controller {
                  * Detail:
                  * Si algún día el saldo estuvo en Cero, deben informar “0”. Ningún campo puede estar vacío. 
                  */
-                if ($parameterArr[$i]['col'] != 1) {
+                if ($param_col != 1) {
 
                     $value = $parameterArr[$i]['fieldValue'];
-                    $key = ($parameterArr[$i]['col'] - 1);                    
+                    $key = ($param_col - 1);                    
                     if ($value == "") {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $row, "El Día " . $key . " No puede estar vacio");
