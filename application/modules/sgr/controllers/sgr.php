@@ -816,7 +816,7 @@ class Sgr extends MX_Controller {
 
     function print_xls($parameter = null) {
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             exit();
         }
         $parameter = urldecode($parameter);
@@ -859,7 +859,7 @@ class Sgr extends MX_Controller {
     function print_ddjj($parameter = null) {
 
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             exit();
         }
 

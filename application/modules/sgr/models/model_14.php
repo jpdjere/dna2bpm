@@ -717,7 +717,7 @@ class Model_14 extends CI_Model {
 
     function get_anexo_data_report($anexo, $parameter) {
 
-        if (!$parameter) {
+        if (!isset($parameter)) {
             return false;
             exit();
         }
