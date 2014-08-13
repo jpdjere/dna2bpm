@@ -15,8 +15,12 @@ class Management_model extends CI_Model {
         $this->load->helper('sgr/tools');
 
 
+
+
         $original_user = (float) $this->session->userdata['iduser'];
-        $taken_user = (float) $this->session->userdata['sgr_impersonate'];
+
+        if (isset($this->session->userdata['sgr_impersonate']))
+            $taken_user = (float) $this->session->userdata['sgr_impersonate'];
 
         $this->idu = ($taken_user) ? $taken_user : $original_user;
 
