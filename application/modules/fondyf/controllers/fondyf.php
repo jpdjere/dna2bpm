@@ -121,7 +121,7 @@ class Fondyf extends MX_Controller {
         $this->load->model('bpm/bpm');
         $this->load->model('dna2/dna2old');
         $dna2url=$this->dna2old->get('url');
-        $url=$dna2url."RenderEdit/editnew.php?idvista=3560&origen=V&idap=286&id=$id&idwf=$idwf&idcase=$idcase&token=$token";
+        $url=$dna2url."RenderEdit/editnew.php?idvista=3560&origen=V&idap=286&id=$id&idwf=$idwf&case=$idcase&token=$token";
         $url=$this->bpm->gateway($url);
         redirect($url);
     }
