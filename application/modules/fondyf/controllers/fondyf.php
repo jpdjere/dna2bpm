@@ -69,7 +69,7 @@ class Fondyf extends MX_Controller {
             'idwf' => 'fondyfpp',
             'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
         );
-        $data['querystring']=$this->input->post('query');
+        $data['querystring'] = $this->input->post('query');
         //-----busco en el cuit
         $filter['$or'][] = array('data.1695' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //-----busco en el nombre empresa
@@ -91,8 +91,8 @@ class Fondyf extends MX_Controller {
                 'link_open' => $this->bpm->gateway($url),
             );
         }, $tokens);
-        $data['count']=count($tokens);
-        $this->parser->parse($template, $data,false,true);
+        $data['count'] = count($tokens);
+        $this->parser->parse($template, $data, false, true);
     }
 
     function setup() {
@@ -105,16 +105,25 @@ class Fondyf extends MX_Controller {
             return $task['type'] == 'Task';
         });
         //---las aplano un poco
-        foreach($state as $task){
-        $task['user']=(isset($task['status']['user']))?$task['status']['user']:0; 
-        $task['finished']=(isset($task['status']['finished']))?$task['status']['finished']:0; 
-        $wfData['mini'][] = $task;
+        foreach ($state as $task) {
+            $task['user'] = (isset($task['status']['user'])) ? $task['status']['user'] : 0;
+            $task['finished'] = (isset($task['status']['finished'])) ? $task['status']['finished'] : 0;
+            $wfData['mini'][] = $task;
         }
         $wfData['base_url'] = base_url();
         $wf = $this->bpm->load('fondyfpp');
         $wfData+=$wf['data']['properties'];
-        $wfData['name'] ='Mini Status: '.$wfData['name'];
-        return $this->parser->parse('fondyf/ministatus_pp', $wfData,true,true);
+        $wfData['name'] = 'Mini Status: ' . $wfData['name'];
+        return $this->parser->parse('fondyf/ministatus_pp', $wfData, true, true);
+    }
+
+    function ver_ficha($idwf,$idcase,$token,$id) {
+        $this->load->model('bpm/bpm');
+        $this->load->model('dna2/dna2old');
+        $dna2url=$this->dna2old->get('url');
+        $url=$dna2url."RenderEdit/editnew.php?idvista=3560&origen=V&idap=286&id=$id&idwf=$idwf&case=$idcase&token=$token";
+        $url=$this->bpm->gateway($url);
+        redirect($url);
     }
 
 }
