@@ -43,6 +43,8 @@ class Lib_121_data extends MX_Controller {
              * @example NRO  CUIT_PARTICIPE	ORIGEN	TIPO	IMPORTE	MONEDA	LIBRADOR_NOMBRE	LIBRADOR_CUIT	NRO_OPERACION_BOLSA	ACREEDOR	CUIT_ACREEDOR	IMPORTE_CRED_GARANT	MONEDA_CRED_GARANT	TASA	PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* NRO_ORDEN
                  * Nro A.1
@@ -52,7 +54,7 @@ class Lib_121_data extends MX_Controller {
                  * (Columnas R y S del Anexo 12).
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
 
                     $code_error = "A.1";
                     $A_cell_value = $parameterArr[$i]['fieldValue'];
@@ -87,7 +89,7 @@ class Lib_121_data extends MX_Controller {
                  * Por lo menos debe tener dos cuotas. Si tiene sólo una está mal. La numeración debe empezar en 1 y ser correlativa dentro de cada garantía.
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -115,7 +117,7 @@ class Lib_121_data extends MX_Controller {
                  * Detail:
                  * Formato numérico de cinco dígitos sin decimales. Debe ser posterior a la fecha de emisión de la garantía informada en la Columna C del Anexo 12.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     $code_error = "C.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -158,7 +160,7 @@ class Lib_121_data extends MX_Controller {
                  * Formato numérico. Aceptar hasta dos decimales. La suma de las cuotas de una misma garantía debe ser igual al monto informado para esa misa garantía en la Columna E del Anexo 12.
                  */
 
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
                     $code_error = "D.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -190,7 +192,7 @@ class Lib_121_data extends MX_Controller {
                  * Formato numérico. Aceptar hasta dos decimales. La suma de las cuotas de una misma garantía debe ser igual al monto informado para esa misa garantía en la Columna L del Anexo 12.
                  */
 
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
                     $code_error = "E.1";
                     //empty field Validation
                     $return = check_empty($parameterArr[$i]['fieldValue']);

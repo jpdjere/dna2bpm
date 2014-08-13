@@ -45,6 +45,8 @@ class Lib_141_data extends MX_Controller {
              * CUIT_PARTICIPE	CANT_GTIAS_VIGENTES	HIPOTECARIAS	PRENDARIAS	FIANZA	OTRAS	REAFIANZA	MORA_EN_DIAS	CLASIFICACION_DEUDOR
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* CUIT_PARTICIPE
                  * Nro A.1
@@ -55,7 +57,7 @@ class Lib_141_data extends MX_Controller {
                  * Debe figura en el Sistema con Garantías Otorgadas (Anexo 12)
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
                     $A_cell_value = "";
 
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -92,7 +94,7 @@ class Lib_141_data extends MX_Controller {
                  * OPCIONAL. Si se detecta que el CUIT está informando en el ANEXO 12.5, debe tener formato número y aceptar números enteros mayores a Cero. De lo contrario, debe estar vacío.                
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     
                 }
 
@@ -101,7 +103,7 @@ class Lib_141_data extends MX_Controller {
                  * Detail:
                  * OPCIONAL. De completarse, debe tomar valor numérico mayor a cero y aceptar hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
 
                     $code_error = "C.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -117,7 +119,7 @@ class Lib_141_data extends MX_Controller {
                  * Nro D.1
                  * Detail:OPCIONAL. De completarse, debe tomar valor numérico mayor a cero y aceptar hasta dos decimales.                
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
 
                     $code_error = "D.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -134,7 +136,7 @@ class Lib_141_data extends MX_Controller {
                  * Detail:
                  * OPCIONAL. De completarse, debe tomar valor numérico mayor a cero y aceptar hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
 
                     $code_error = "E.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -151,7 +153,7 @@ class Lib_141_data extends MX_Controller {
                  * Detail:
                  * OPCIONAL. De completarse, debe tomar valor numérico mayor a cero y aceptar hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 6) {
+                if ($param_col == 6) {
                     $code_error = "F.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
@@ -168,7 +170,7 @@ class Lib_141_data extends MX_Controller {
                  * Debe completarse sólo en caso de que el CUIT informado en la Columna A del importador se encuentre previamente informado en el Sistema mediante ANEXO 12.4. 
                  * De lo contrario, debe estar vacío.De completarse, debe tomar valor numérico mayor a cero y aceptar hasta dos decimales.
                  */
-                if ($parameterArr[$i]['col'] == 7) {
+                if ($param_col == 7) {
                     $code_error = "G.1";
 
                     /* CHECK ANEXO 12/4 */
@@ -187,7 +189,7 @@ class Lib_141_data extends MX_Controller {
                  * Detail: 
                  * OPCIONAL. De estar completo debe tener formato numérico, positivo y entero, sin decimales. Debe validar que si en el proceso de importación detecta que el CUIT informado en la Columna A tiene saldos de deuda positivos (Saldo Calculado por el Sistema sobre la información histórica de los movimientos del FDR Contingente informados mediante ANEXO 14), esta columna deberá estar completa. Esto está relacionado con el proceso indicado en las Validaciones de Impresión de las PARTICULARIDADES DE IMPRESIÓN de este Anexo.
                  */
-                if ($parameterArr[$i]['col'] == 8) {
+                if ($param_col == 8) {
                     $code_error = "H.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
@@ -206,7 +208,7 @@ class Lib_141_data extends MX_Controller {
                  * Detail:
                  * De estar completo, debe tomar alguno de los siguientes parámetros:1,2,3,4,5
                  */
-                if ($parameterArr[$i]['col'] == 9) {
+                if ($param_col == 9) {
                     $code_error = "I.1";
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         

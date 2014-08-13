@@ -35,6 +35,8 @@ class Lib_13_data extends MX_Controller {
              * TIPO_DE_GARANTIA	MENOR_90_DIAS	MENOR_180_DIAS	MENOR_365_DIAS	MAYOR_365_DIAS	VALOR_CONTRAGARANTIAS
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
+                
+                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
 
                 /* TIPO_DE_GARANTIA
                  * Nro A.1
@@ -45,7 +47,7 @@ class Lib_13_data extends MX_Controller {
                  * Sólo pude contener alguno de los tipos de Garantía aceptados de acuerdo a lo que se lista en el Modelo de importación. Pueden estar listados todos o sólo algunos.
                  */
 
-                if ($parameterArr[$i]['col'] == 1) {
+                if ($param_col == 1) {
                     $code_error = "A.1";
                     $A_cell_value = NULL;
                     $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -68,7 +70,7 @@ class Lib_13_data extends MX_Controller {
                  * Formato de número. Acepta hasta dos decimales.                 
                  */
 
-                if ($parameterArr[$i]['col'] == 2) {
+                if ($param_col == 2) {
                     $code_error = "B.1";
                     $B_cell_value = NULL;
                     if ($parameterArr[$i]['fieldValue'] != "") {
@@ -86,7 +88,7 @@ class Lib_13_data extends MX_Controller {
                  * Detail:
                  * Formato de número. Acepta hasta dos decimales.                
                  */
-                if ($parameterArr[$i]['col'] == 3) {
+                if ($param_col == 3) {
                     //empty field Validation
                     $code_error = "C.1";
                     $C_cell_value = NULL;
@@ -108,7 +110,7 @@ class Lib_13_data extends MX_Controller {
                  * Detail:
                  * Formato de número. Acepta hasta dos decimales.                 
                  */
-                if ($parameterArr[$i]['col'] == 4) {
+                if ($param_col == 4) {
 
                     $code_error = "D.1";
                     $D_cell_value = NULL;
@@ -127,7 +129,7 @@ class Lib_13_data extends MX_Controller {
                  * Detail:
                  * Formato de número. Acepta hasta dos decimales.                 
                  */
-                if ($parameterArr[$i]['col'] == 5) {
+                if ($param_col == 5) {
                     //empty field Validation
                     $code_error = "E.1";
                     $E_cell_value = NULL;
@@ -145,7 +147,7 @@ class Lib_13_data extends MX_Controller {
                      * Detail:
                      * Formato de número. Acepta hasta dos decimales.                 
                      */
-                    if ($parameterArr[$i]['col'] == 6) {
+                    if ($param_col == 6) {
                         $F_cell_value = NULL;
                         $code_error = "F.1";
 
