@@ -94,6 +94,9 @@ class reports extends MX_Controller {
     }
 
     function action_form() {
+        
+        ini_set("error_reporting", E_ALL);
+        
         $customData = array();
         $default_dashboard = 'reports_result';
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
