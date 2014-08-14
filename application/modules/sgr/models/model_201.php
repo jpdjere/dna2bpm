@@ -316,7 +316,7 @@ class Model_201 extends CI_Model {
             $new_list['FECHA_APORTE_ORIGINAL'] = mongodate_to_print($get_movement_data['FECHA_MOVIMIENTO']);
             $new_list['APORTE_ORIGINAL'] = money_format_custom($get_movement_data['APORTE']);
 
-            $new_list['RETENCION_POR_CONTINGENTE'] = $get_movement_data['RETENCION_POR_CONTINGENTE'];
+            $new_list['RETENCION_POR_CONTINGENTE'] = money_format_custom($list['RETENCION_POR_CONTINGENTE']);
             $new_list['RETIRO_DE_RENDIMIENTOS'] = money_format_custom($list['RETIRO_DE_RENDIMIENTOS']);
             $new_list['ESPECIE'] = $list['ESPECIE'];
             $new_list['TITULAR_ORIG'] = $list['TITULAR_ORIG'];
