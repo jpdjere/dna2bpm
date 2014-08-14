@@ -50,7 +50,7 @@ class Management extends MX_Controller {
 
         $_SESSION['idu'] = $this->idu;
 
-        if (!$this->idu) {
+        if (!isset($this->idu)) {
             header("$this->module_url/user/logout");
             exit();
         }

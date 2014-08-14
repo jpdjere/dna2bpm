@@ -52,7 +52,7 @@ class reports extends MX_Controller {
         }
 
         /* ANEXO */
-        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
+        $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
 
         /* PERIOD */
         if (isset($this->session->userdata['period']))
@@ -442,10 +442,6 @@ class reports extends MX_Controller {
 
         $cpData['username'] = strtoupper($user_lastname . ", " . $user_name);
         $cpData['usermail'] = $user_email;
-// Profile 
-//$cpData['profile_img'] = get_gravatar($user->email);
-
-        //$cpData['gravatar'] = isset($user->avatar) ? $this->base_url . $user->avatar : get_gravatar(user_email);
         $cpData['rol'] = "Usuarios";
         $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
 
