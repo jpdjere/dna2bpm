@@ -22,10 +22,10 @@
                     "params": ["fondyfpp", "fondyfpp_FC"]
                 },
                 {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks_done"
+                    "title": "Tile Comité",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_comite"
                 }
                 ,
                 {
