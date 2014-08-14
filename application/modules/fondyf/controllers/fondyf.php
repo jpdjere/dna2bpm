@@ -55,6 +55,22 @@ class Fondyf extends MX_Controller {
         $data['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondyfpp';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
+  
+
+    function tile_comite() {
+        $this->load->model('bpm/bpm');
+        $this->load->model('dna2/dna2old');
+        $dna2url=$this->dna2old->get('url');
+        //http://www.accionpyme.mecon.gob.ar/dna2/frontcustom/286/sol_ministro_2014.R.php
+        $url=$dna2url."frontcustom/286/sol_ministro_2014";
+        $url=$this->bpm->gateway($url);
+        $data['number'] = 'Comité';
+        $data['title'] = 'Enviar a Comité';
+        $data['icon'] = 'ion-archive';
+        $data['more_info_text'] = 'Descargar';
+        $data['more_info_link'] = $url;
+        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
+    }
 
     function tile_buscar() {
         $data = array();
@@ -112,6 +128,7 @@ class Fondyf extends MX_Controller {
         }
         $wfData['base_url'] = base_url();
         $wf = $this->bpm->load('fondyfpp');
+        var_dump($wfData,$wf);
         $wfData+=$wf['data']['properties'];
         $wfData['name'] = 'Mini Status: ' . $wfData['name'];
         return $this->parser->parse('fondyf/ministatus_pp', $wfData, true, true);
