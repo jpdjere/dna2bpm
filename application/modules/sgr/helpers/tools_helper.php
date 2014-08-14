@@ -1018,11 +1018,18 @@ function deleteFromArray(&$array, $deleteIt, $useOldKeys = FALSE) {
         $array = array_values($array); return TRUE;
 }
 
-/**/
+
 function array_item_or_false($item, $array, $default = FALSE) {
     if (!isset($array[$item]) OR $array[$item] == "") {
         return $default;
     }
 
     return $array[$item];
+}
+
+function dot_by_coma($parameter){
+    $value = str_replace(".", ",", $parameter);
+    
+    return $value;
+    
 }
