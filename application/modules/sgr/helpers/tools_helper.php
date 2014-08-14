@@ -206,6 +206,7 @@ function check_decimal($number, $decimal = 2, $positive = null) {
 }
 
 /* Fix #15151 */
+
 function validate_two_decimals($number, $decimal = 2, $positive = null) {
     $number = str_replace(",", ".", $number);
     $status = false;
@@ -229,6 +230,7 @@ function validate_two_decimals($number, $decimal = 2, $positive = null) {
 
     return $status;
 }
+
 /* VALIDATE POSTIVE/NEGATIVE */
 
 function validate_two_decimals_ex($number) {
@@ -336,10 +338,10 @@ function check_is_numeric_no_decimal_plus_bis($number, $mayor = null) {
 
         $mystring = strtoupper($number);
         $findme = 'BIS';
-        $pos = strpos($mystring, $findme);       
-        
+        $pos = strpos($mystring, $findme);
+
         if ($pos)
-            return (int)$number;
+            return (int) $number;
     } else {
         return $is_mumber;
     }
@@ -1014,4 +1016,12 @@ function deleteFromArray(&$array, $deleteIt, $useOldKeys = FALSE) {
         return FALSE; unset($array[$key]);
     if (!$useOldKeys)
         $array = array_values($array); return TRUE;
+}
+
+function array_item_or_false($item, $array, $default = FALSE) {
+    if (!isset($array[$item]) OR $array[$item] == "") {
+        return $default;
+    }
+
+    return $array[$item];
 }
