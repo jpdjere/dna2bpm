@@ -757,12 +757,14 @@ class Model_12 extends CI_Model {
         }
 
         header('Content-type: text/html; charset=UTF-8');
+
         $rtn = array();
 
-        $order_number = $parameter['order_number'];
-        $cuit_sharer = $parameter['cuit_sharer'];
-        $start_date = first_month_date($parameter['input_period_from']);
-        $end_date = last_month_date($parameter['input_period_to']);
+        $order_number = (isset($parameter['order_number'])) ? $parameter['order_number'] : null;
+        $cuit_sharer = (isset($parameter['cuit_sharer'])) ? $parameter['cuit_sharer'] : null;
+
+        $start_date = (isset($parameter['input_period_from'])) ? first_month_date($parameter['input_period_from']) : null;
+        $end_date = (isset($parameter['input_period_to'])) ? last_month_date($parameter['input_period_to']) : null;
 
         /* GET PERIOD */
         $period_container = 'container.sgr_periodos';
@@ -824,19 +826,45 @@ class Model_12 extends CI_Model {
 
             /* PONDERACION */
             $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0]);
-            
-            /*SGR DATA*/
+
+            /* SGR DATA */
             $filename = trim($list['filename']);
             list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
+
+            $destino_credito = (isset($list['DESTINO_CREDITO'])) ? $list['DESTINO_CREDITO'] : null;
+            
+            /*CURRENCY*/
+            $moneda = array_item_or_false($list, $list[5219][0]);
+            if ($moneda!=0)
+                $moneda = $currency[$moneda];
+            
+            /* RATE */           
+            $tasa = array_item_or_false($list, $list[5222][0]);
+            if ($tasa!=0)
+                $tasa = $rate[$tasa];
+
+            /* PERDIODICITY */
+            $periodicidad = array_item_or_false($list, $list[5226][0]);
+            if ($periodicidad!=0)
+                $periodicidad = $periodicity[$periodicidad];
+
+
+            /* SYSTEM */            
+            $sistema = array_item_or_false($list, $list[5227][0]);
+            if ($sistema!=0)
+                $sistema = $repayment_system[$sistema];
+            
+        
+
 
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];
             $new_list['ORIGEN'] = translate_date_xls($list[5215]);
             $new_list['TIPO'] = $list[5216][0];
-            $new_list['PONDERACION'] = $get_weighting['weighted'];
-            $new_list['IMPORTE'] = $list[5218];
-            $new_list['MONEDA'] = $currency[$list[5219][0]];
+            $new_list['PONDERACION'] = dot_by_coma($get_weighting['weighted']);
+            $new_list['IMPORTE'] = dot_by_coma($list[5218]);
+            $new_list['MONEDA'] = $moneda;
             $new_list['LIBRADOR_NOMBRE'] = $drawer;
             $new_list['LIBRADOR_CUIT'] = $list[5726];
             $new_list['NRO_OPERACION_BOLSA'] = $list[5727];
@@ -844,13 +872,13 @@ class Model_12 extends CI_Model {
             $new_list['CUIT_ACREEDOR'] = $list[5351];
             $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
             $new_list['MONEDA_CRED_GARANT'] = $list[5758][0];
-            $new_list['TASA'] = $rate[$list[5222][0]];
-            $new_list['PUNTOS_ADIC_CRED_GARANT'] = $list[5223]/100;
+            $new_list['TASA'] = $tasa;
+            $new_list['PUNTOS_ADIC_CRED_GARANT'] = dot_by_coma($list[5223] / 100);
             $new_list['PLAZO'] = $list[5224];
             $new_list['GRACIA'] = $list[5225];
-            $new_list['PERIODICIDAD'] = $periodicity[$list[5226][0]];
-            $new_list['SISTEMA'] = $repayment_system[$list[5227][0]];
-            $new_list['DESTINO_CREDITO'] = $list['DESTINO_CREDITO'];
+            $new_list['PERIODICIDAD'] = $periodicidad;
+            $new_list['SISTEMA'] = $sistema;
+            $new_list['DESTINO_CREDITO'] = $destino_credito;
             $new_list['SGR'] = $g_denomination;
             $rtn[] = $new_list;
         }

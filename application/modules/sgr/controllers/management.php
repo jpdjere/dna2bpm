@@ -38,9 +38,11 @@ class Management extends MX_Controller {
 
 // IDU : Chequeo de sesion                
         $original_user = (float) $this->session->userdata['iduser'];
-        $taken_user = (float) $this->session->userdata['sgr_impersonate'];
 
-        $this->idu = ($taken_user) ? $taken_user : $original_user;
+        if (isset($this->session->userdata['sgr_impersonate']))
+            $taken_user = (float) $this->session->userdata['sgr_impersonate'];
+
+        $this->idu = (isset($taken_user)) ? $taken_user : $original_user;
 
 
         /* bypass session */
@@ -48,7 +50,7 @@ class Management extends MX_Controller {
 
         $_SESSION['idu'] = $this->idu;
 
-        if (!$this->idu) {
+        if (!isset($this->idu)) {
             header("$this->module_url/user/logout");
             exit();
         }
@@ -62,8 +64,11 @@ class Management extends MX_Controller {
         }
 
 
-        $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
-        $this->period = $this->session->userdata['period'];
+        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
+
+        if (isset($this->session->userdata['period']))
+            $this->period = $this->session->userdata['period'];
+
 
         /* TIME LIMIT */
         set_time_limit(28800);
@@ -107,7 +112,7 @@ class Management extends MX_Controller {
         $customData['anexo_list'] = $this->AnexosDB('_blank');
         $customData['sgr_options'] = $this->get_sgrs();
 
-        if ($this->session->userdata['sgr_impersonate'])
+        if (isset($this->session->userdata['sgr_impersonate']))
             $customData['menu_management'] = true;
 
         $this->render('management_template', $customData);
@@ -116,7 +121,8 @@ class Management extends MX_Controller {
     /* INDEX */
 
     function Index() {
-        if (!$this->session->userdata['sgr_impersonate'])
+
+        if (!isset($this->session->userdata['sgr_impersonate']))
             $this->Sgr_pick();
         else
             $this->Main_loader();
@@ -142,7 +148,7 @@ class Management extends MX_Controller {
         $sgrArr = $this->management_model->get_sgrs();
         $sgrArr = (array) $sgrArr;
 
-        $rtn;
+        $rtn = "";
 
         foreach ($sgrArr as $sgr) {
 
@@ -1389,7 +1395,7 @@ class Management extends MX_Controller {
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
-                    
+
 
                     $list_files .= "<li>" . $download . " " . $print_file . " " . $print_filename . "  [" . $show_period . "]  </li>";
                 } else {
@@ -1403,11 +1409,11 @@ class Management extends MX_Controller {
                     $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
-                    
-                     
+
+
                     $print_xls_array = array('12', '125', '141', '202');
-                    
-                    $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));                    
+
+                    $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_xls = (in_array($anexo, $print_xls_array)) ? $print_xls_link : "";
 
                     $rectifica_link_class = ($this->session->userdata['period']) ? 'rectifica-warning_' . $file['period'] : 'rectifica-link_' . $file['period'];

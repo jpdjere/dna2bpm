@@ -38,7 +38,7 @@ class reports extends MX_Controller {
         $_SESSION['idu'] = $this->idu;
 
 
-        if (!$this->idu) {
+        if (!isset($this->idu)) {
             header("$this->module_url/user/logout");
             exit();
         }
@@ -51,9 +51,12 @@ class reports extends MX_Controller {
             $this->sgr_cuit = $sgr['1695'];
         }
 
-
+        /* ANEXO */
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
-        $this->period = $this->session->userdata['period'];
+
+        /* PERIOD */
+        if (isset($this->session->userdata['period']))
+            $this->period = $this->session->userdata['period'];
 
 
         /* TIME LIMIT */
@@ -163,7 +166,7 @@ class reports extends MX_Controller {
             case '14':
                 return $this->process_14($anexo);
                 break;
-            
+
             case '15':
                 return $this->process_15($anexo);
                 break;
@@ -218,7 +221,6 @@ class reports extends MX_Controller {
         }
     }
 
-    
     function process_15($anexo) {
 
         $rtn = array();
@@ -237,7 +239,7 @@ class reports extends MX_Controller {
             return $result;
         }
     }
-    
+
     function process_14($anexo) {
 
         $rtn = array();
@@ -426,16 +428,17 @@ class reports extends MX_Controller {
             'module_url' => $this->module_url,
             'idu' => $this->idu
         );
+
         $user = $this->user->get_user($this->idu);
 
         $cpData['user'] = (array) $user;
         // $cpData['isAdmin'] = $this->user->isAdmin($user);
-        $cpData['username'] = strtoupper($user->lastname . ", " . $user->name);
-        $cpData['usermail'] = $user->email;
-// Profile 
-//$cpData['profile_img'] = get_gravatar($user->email);
+        $user_lastname = isset($user->lastname) ? $user->lastname : "";
+        $user_name = isset($user->name) ? $user->name : "";
+        $user_email = isset($user->email) ? user_email : "";
 
-        $cpData['gravatar'] = (isset($user->avatar)) ? $this->base_url . $user->avatar : get_gravatar($user->email);
+        $cpData['username'] = strtoupper($user_lastname . ", " . $user_name);
+        $cpData['usermail'] = $user_email;
         $cpData['rol'] = "Usuarios";
         $cpData['rol_icono'] = ($cpData['rol'] == 'coordinador') ? ('icon-group') : ('icon-user');
 
