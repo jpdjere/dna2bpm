@@ -20,7 +20,7 @@ class Management_model extends CI_Model {
         if (isset($this->session->userdata['sgr_impersonate']))
             $taken_user = (float) $this->session->userdata['sgr_impersonate'];
 
-        $this->idu = (isset($taken_user)) ? $taken_user : $original_user;
+        $this->idu = (isset($taken_user))? $taken_user : $original_user;
 
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/cimongo', '', 'sgr_db');
