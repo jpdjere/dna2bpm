@@ -30,7 +30,10 @@ class Menu_extra {
         $cpData = array();
         $user = $this_CI->user->get_user($this->idu);
         $apps = $this_CI->app->get_apps();
-
+        $this_CI->load->model('bpm/bpm');
+        $this_CI->load->model('dna2/dna2old');
+        $dna2url=$this_CI->dna2old->get('url');
+        //http://www.accionpyme.mecon.gob.ar/dna2/frontcustom/286/sol_ministro_2014.R.php
         if ($apps->count()) {
             //----check if the user has access to thi app
             foreach ($apps as $thisApp) {
@@ -48,7 +51,7 @@ class Menu_extra {
                     $cpData['apps'][] = array(
                         'icon' => isset($thisApp['icon']) ? $thisApp['icon'] : 'icon-list-alt',
                         'name' => isset($thisApp['title']) ? $thisApp['title'] : $thisApp['idapp'] . '(???)',
-                        'link' => $this->base_url . 'dna2/application/' . $thisApp['idapp'],
+                        'link' =>$this_CI->bpm->gateway($dna2url. 'appfront/index.php?idap=' . $thisApp['idapp']),
                         'target' => '_self'
                     );
                 }
