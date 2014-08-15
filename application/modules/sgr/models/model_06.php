@@ -416,8 +416,7 @@ class Model_06 extends CI_Model {
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 	</tr>
 	<tr>
-		<td rowspan=4>SGR</td>
-		<td rowspan=4>CUIT SGR</td>
+		<td rowspan=4>SGR</td>		
 		<td rowspan=4>ID</td>
 		<td rowspan=4>Per&iacute;odo</td>
 		<td rowspan=4>Tipo de Operaci&oacute;n</td>
@@ -429,7 +428,7 @@ class Model_06 extends CI_Model {
 		<td rowspan=4>Cantidad de Empleados al Cierre del &uacute;ltimo Ejercicio</td>
 		<td colspan=7>Capital Social</td>
 		<td colspan=3>Datos del Socios cedente</td>
-		<td rowspan=4>Archivo SIPRINSGR</td>
+		<td rowspan=4>Archivo SIPRIN SGR</td>
 	</tr>
 	<tr>
 		<td rowspan=3>Tipo de Socio (A/B)</td>
@@ -760,17 +759,13 @@ class Model_06 extends CI_Model {
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
 
-            $sgrArr_data = $this->sgr_model->get_sgr($list['idu']);
-            foreach ($sgrArr_data as $sgr) {
-                $sgr_id = (float) $sgr['id'];
-                $sgr_nombre = $sgr['1693'];
-                $sgr_cuit = $sgr['1695'];
-            }
+            /* SGR DATA */
+            $filename = trim($list['filename']);
+            list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
 
 
             $new_list = array();
-            $new_list['col1'] = $sgr_nombre;
-            $new_list['col2'] = $sgr_cuit;
+            $new_list['col1'] = $g_denomination;
             $new_list['col3'] = $list['id'];
             $new_list['col4'] = $get_period_filename['period'];
             $new_list['col5'] = $operation_type[$list['5779'][0]];
