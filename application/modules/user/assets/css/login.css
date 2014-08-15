@@ -12,5 +12,7 @@ background-color:#222C3E ;
 
 .body .alert{
 	margin:0px;
+word-break: break-all;
+	
 }
 

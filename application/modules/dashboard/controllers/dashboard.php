@@ -132,6 +132,12 @@ class Dashboard extends MX_Controller {
         //---load custom menu
         $menu_custom = Modules::run('menu/get_menu', '0', 'sidebar-menu', !$this->user->isAdmin());
         $customData['menu_custom'] = $this->parser->parse_string($menu_custom, $customData, TRUE, TRUE);
+        //----check if extra library exists and load it 
+        if (is_file(FCPATH . APPPATH . "modules/dashboard/libraries/menu_extra.php")) {
+            $this->load->library('dashboard/menu_extra');
+            
+            $customData['menu_custom'].=$this->menu_extra->get();
+        }
         return $this->parser->parse('dashboard/menu', $customData, true, true);
     }
 
