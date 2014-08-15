@@ -243,8 +243,7 @@ class Model_14 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-            /* Vars */
-            $cuit = str_replace("-", "", $list['CUIT']);
+            /* Vars */            
             $this->load->model('padfyj_model');
             $model_12 = 'model_12';
             $this->load->Model($model_12);
