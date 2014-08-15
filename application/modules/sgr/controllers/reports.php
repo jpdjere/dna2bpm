@@ -95,7 +95,7 @@ class reports extends MX_Controller {
 
     function action_form() {
         
-        ini_set("error_reporting", E_ALL);
+        //ini_set("error_reporting", E_ALL);
         
         $customData = array();
         $default_dashboard = 'reports_result';
