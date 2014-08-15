@@ -654,7 +654,7 @@ class Model_12 extends CI_Model {
 
     function get_anexo_report($anexo, $parameter) {
 
-        $headerArr = array('NRO'
+        $headerArr = array( 'SGR', 'ID', 'NRO_ORDEN'
             , 'PARTICIPE'
             , 'CUIT_PARTICIPE'
             , 'ORIGEN'
@@ -675,7 +675,7 @@ class Model_12 extends CI_Model {
             , 'GRACIA'
             , 'PERIODICIDAD'
             , 'SISTEMA'
-            , 'DESTINO_CREDITO', 'SGR');
+            , 'DESTINO_CREDITO');
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
 
@@ -862,7 +862,8 @@ class Model_12 extends CI_Model {
 
 
 
-
+            $new_list['SGR'] = $g_denomination;
+            $new_list['ID'] = $list['id'];
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];
@@ -885,7 +886,7 @@ class Model_12 extends CI_Model {
             $new_list['PERIODICIDAD'] = $periodicidad;
             $new_list['SISTEMA'] = $sistema;
             $new_list['DESTINO_CREDITO'] = $destino_credito;
-            $new_list['SGR'] = $g_denomination;
+            
             $rtn[] = $new_list;
         }
 
