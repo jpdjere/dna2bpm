@@ -555,7 +555,7 @@ class Lib_12_data extends MX_Controller {
                         array_push($stack, $result);
                     } else {
                         $N_cell_value = strtoupper($parameterArr[$i]['fieldValue']);
-                        $allow_words = array("FIJA", "LIBOR", "BADLARPU", "BADLARPR", "TEC", "TEBP");
+                        $allow_words = array("FIJA", "LIBOR", "BADLARPU", "BADLARPR", "TEC", "TEBP", "50%BNA", "BNA");
                         $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                         if ($return) {
 
