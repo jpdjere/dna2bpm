@@ -3,7 +3,8 @@
 class Lib_14_error_legend {
 
     public function __construct() {
-        $this->result = $this->return_legend($code, $row, $value);
+        if (isset($code))
+            $this->result = $this->return_legend($code, $row, $value);
     }
 
     function return_legend($code, $row, $value) {
@@ -12,7 +13,7 @@ class Lib_14_error_legend {
             case "A.1":
                 $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe ser un numéro de cinco dígitos sin decimales. Ej. Para la fecha "01/10/2013" debe ingresarse "41548" (formato general).';
                 break;
-            case "A.2":                
+            case "A.2":
                 $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La fecha debe estar dentro del período informado.';
                 break;
             case "B.1":
@@ -39,7 +40,7 @@ class Lib_14_error_legend {
             case "C.2.A":
                 $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>En caso de que la garantía haya sido otorgada en PESOS, debe validar que el importe sea menor o igual al Monto de la Garantía Otorgada informada mediante Anexo 12 registrado en el Sistema.';
                 break;
-             case "C.2.B":
+            case "C.2.B":
                 $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>GARANTÍAS EN DÓLARES: En caso de que la garantía haya sido otorgada en dólares, los montos informados deben ser menores o iguales al monto en pesos informado para esa misma garantía en la columna E del anexo 12, dividido el Tipo de Cambio de la fecha de otorgamiento, multiplicado por el Tipo de Cambio vigente al último día del período que se está informando.';
                 break;
             case "C.3":
