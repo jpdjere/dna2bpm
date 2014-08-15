@@ -832,29 +832,35 @@ class Model_12 extends CI_Model {
             list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
 
             $destino_credito = (isset($list['DESTINO_CREDITO'])) ? $list['DESTINO_CREDITO'] : null;
-            
-            /*CURRENCY*/
-            $moneda = array_item_or_false($list, $list[5219][0]);
-            if ($moneda!=0)
+
+            /* CURRENCY */
+            $moneda = $list[5219][0];
+            if (isset($moneda))
                 $moneda = $currency[$moneda];
-            
-            /* RATE */           
-            $tasa = array_item_or_false($list, $list[5222][0]);
-            if ($tasa!=0)
+
+
+            $moneda_2 = $list[5758][0];
+            if (isset($moneda_2))
+                $moneda_2 = $currency[$moneda];
+
+
+            /* RATE */
+            $tasa = $list[5222][0];
+            if (isset($tasa))
                 $tasa = $rate[$tasa];
 
             /* PERDIODICITY */
-            $periodicidad = array_item_or_false($list, $list[5226][0]);
-            if ($periodicidad!=0)
+            $periodicidad = $list[5226][0];
+            if (isset($periodicidad))
                 $periodicidad = $periodicity[$periodicidad];
 
 
-            /* SYSTEM */            
-            $sistema = array_item_or_false($list, $list[5227][0]);
-            if ($sistema!=0)
+            /* SYSTEM */
+            $sistema = $list[5227][0];
+            if (isset($sistema))
                 $sistema = $repayment_system[$sistema];
-            
-        
+
+
 
 
             $new_list['NRO'] = $list[5214];
@@ -870,8 +876,8 @@ class Model_12 extends CI_Model {
             $new_list['NRO_OPERACION_BOLSA'] = $list[5727];
             $new_list['ACREEDOR'] = $creditor;
             $new_list['CUIT_ACREEDOR'] = $list[5351];
-            $new_list['IMPORTE_CRED_GARANT'] = $list[5221];
-            $new_list['MONEDA_CRED_GARANT'] = $list[5758][0];
+            $new_list['IMPORTE_CRED_GARANT'] = dot_by_coma($list[5221]);
+            $new_list['MONEDA_CRED_GARANT'] = $moneda_2;
             $new_list['TASA'] = $tasa;
             $new_list['PUNTOS_ADIC_CRED_GARANT'] = dot_by_coma($list[5223] / 100);
             $new_list['PLAZO'] = $list[5224];
