@@ -3,7 +3,8 @@
 class Lib_13_error_legend {
 
     public function __construct() {
-        $this->result = $this->return_legend($code, $row, $value);
+        if (isset($code))
+            $this->result = $this->return_legend($code, $row, $value);
     }
 
     function return_legend($code, $row, $value) {
