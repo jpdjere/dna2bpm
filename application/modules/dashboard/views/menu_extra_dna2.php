@@ -9,7 +9,7 @@
             {apps}
             <li>
 
-                <a href="{link}" target="{target}" style="margin-left: 10px;">
+                <a href="{link}" target="{target}" style="margin-left: 10px;" class="load_idframe">
                     <i class="fa fa-angle-double-right"></i> {name}
                 </a>                       
 
