@@ -1,0 +1,9 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "dna2old",
+    "view": "layout_iframe",
+    "icon": "fa-clock",
+    "css":{"{base_url}dashboard/assets/css/dna2old.css":"DNA2OLD"},
+    "custom_js":{"{base_url}dashboard/assets/jscript/dna2old.js":"DNA2OLD"},
+    "zones": []
+}

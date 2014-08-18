@@ -100,11 +100,15 @@ class Dashboard extends MX_Controller {
     }
 
     function Index() {
-        $dashboard = $this->session->userdata('json');
+        $dashboard = ($this->session->userdata('json')) ? $this->session->userdata('json'):null;
         if ($this->user->isAdmin()) {
             $dashboard = 'dashboard/json/admin.json';
         }
+        if($dashboard<>''){
         $this->Dashboard($dashboard);
+        } else {
+        $this->Dashboard();
+        }
     }
 
     function Show($file, $debug = false) {
@@ -132,6 +136,12 @@ class Dashboard extends MX_Controller {
         //---load custom menu
         $menu_custom = Modules::run('menu/get_menu', '0', 'sidebar-menu', !$this->user->isAdmin());
         $customData['menu_custom'] = $this->parser->parse_string($menu_custom, $customData, TRUE, TRUE);
+        //----check if extra library exists and load it 
+        if (is_file(FCPATH . APPPATH . "modules/dashboard/libraries/menu_extra.php")) {
+            $this->load->library('dashboard/menu_extra');
+            
+            $customData['menu_custom'].=$this->menu_extra->get();
+        }
         return $this->parser->parse('dashboard/menu', $customData, true, true);
     }
 
@@ -148,7 +158,7 @@ class Dashboard extends MX_Controller {
 
     // ==== Dashboard
 
-    function Dashboard($json = 'dashboard/json/dashboard.json', $debug = false) {
+    function Dashboard($json = 'dashboard/json/dashboard.json',$extraData=null, $debug = false) {
         /* eval Group hooks first */
         $this->session->set_userdata('json', $json);
         $user = $this->user->get_user((int) $this->idu);
@@ -190,7 +200,12 @@ class Dashboard extends MX_Controller {
         //var_dump(array_keys($customData));exit; 
 //          var_dump($customData);  
 //          exit(); 
-
+        /*
+         * Adds extra data if passed
+         */
+        if($extraData){
+         $customData+=$extraData;   
+        }
         $this->ui->compose($layout, $customData);
     }
 
