@@ -100,11 +100,15 @@ class Dashboard extends MX_Controller {
     }
 
     function Index() {
-        $dashboard = $this->session->userdata('json');
+        $dashboard = ($this->session->userdata('json')) ? $this->session->userdata('json'):null;
         if ($this->user->isAdmin()) {
             $dashboard = 'dashboard/json/admin.json';
         }
+        if($dashboard<>''){
         $this->Dashboard($dashboard);
+        } else {
+        $this->Dashboard();
+        }
     }
 
     function Show($file, $debug = false) {
