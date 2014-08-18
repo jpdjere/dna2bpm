@@ -154,7 +154,7 @@ class Dashboard extends MX_Controller {
 
     // ==== Dashboard
 
-    function Dashboard($json = 'dashboard/json/dashboard.json', $debug = false) {
+    function Dashboard($json = 'dashboard/json/dashboard.json',$extraData=null, $debug = false) {
         /* eval Group hooks first */
         $this->session->set_userdata('json', $json);
         $user = $this->user->get_user((int) $this->idu);
@@ -196,7 +196,12 @@ class Dashboard extends MX_Controller {
         //var_dump(array_keys($customData));exit; 
 //          var_dump($customData);  
 //          exit(); 
-
+        /*
+         * Adds extra data if passed
+         */
+        if($extraData){
+         $customData+=$extraData;   
+        }
         $this->ui->compose($layout, $customData);
     }
 
