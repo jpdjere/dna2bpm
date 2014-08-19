@@ -16,7 +16,7 @@ class Fondyf extends MX_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('menu/menu_model');
-        $this->user->authorize();
+        $this->user->isloggedin();
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -27,28 +27,34 @@ class Fondyf extends MX_Controller {
     }
 
     function Index() {
+        $this->Add_group();
         $this->proyecto();
     }
 
     function Proyecto() {
+        $this->user->authorize();
         Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_proyectos.json');
     }
 
     function Evaluador() {
+        $this->user->authorize();
         Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_evaluador.json');
     }
 
     function Admin() {
+        $this->user->authorize();
         Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_admin.json');
     }
 
     function tile_proyectos() {
+        $this->user->authorize();
         //----portable indicators are stored as json files
         $kpi = json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
         echo Modules::run('bpm/kpi/tile_kpi', $kpi);
     }
 
     function tile_solicitud() {
+        $this->user->authorize();
         $data['number'] = 'Solicitud';
         $data['title'] = 'Crea una nueva solicitud';
         $data['icon'] = 'ion-document-text';
@@ -59,6 +65,7 @@ class Fondyf extends MX_Controller {
   
 
     function tile_comite() {
+        $this->user->authorize();
         $this->load->model('bpm/bpm');
         $this->load->model('dna2/dna2old');
         $dna2url=$this->dna2old->get('url');
@@ -74,11 +81,13 @@ class Fondyf extends MX_Controller {
     }
 
     function tile_buscar() {
+        $this->user->authorize();
         $data = array();
         return $this->parser->parse('fondyf/buscar_proyecto', $data, true);
     }
 
     function buscar($type = null) {
+        $this->user->authorize();
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
         $template = 'fondyf/listar_proyectos';
@@ -113,10 +122,12 @@ class Fondyf extends MX_Controller {
     }
 
     function setup() {
+        $this->user->authorize();
         echo Modules::run('bpm/kpi/import_kpi', 'fondyf');
     }
 
     function ministatus_pp() {
+        $this->user->authorize();
         $state = Modules::run('bpm/manager/mini_status', 'fondyfpp', 'array');
         $state = array_filter($state, function($task) {
             return $task['type'] == 'Task';
@@ -136,6 +147,7 @@ class Fondyf extends MX_Controller {
     }
 
     function ver_ficha($idwf,$idcase,$token,$id) {
+        $this->user->authorize();
         $this->load->model('bpm/bpm');
         $this->load->model('dna2/dna2old');
         $dna2url=$this->dna2old->get('url');
@@ -149,7 +161,7 @@ class Fondyf extends MX_Controller {
     }
     function Add_group(){
         $user=$this->user->get_user($this->idu);
-        if(!$this->user->isAdmin($user) or true){
+        if(!$this->user->isAdmin($user)){
         $this->load->model('user/group');
         $group_add=$this->group->get_byname('Fondif/EMPRESARIO');
         $update['idu']=$this->idu;
