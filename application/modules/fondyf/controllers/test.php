@@ -18,6 +18,7 @@ class test extends MX_Controller {
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         $this->dna2 = $this->load->database('dna2', true, true);
+        $this->user->authorize();
     }
 
     function Index() {
