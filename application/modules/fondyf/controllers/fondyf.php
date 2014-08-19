@@ -20,6 +20,7 @@ class Fondyf extends MX_Controller {
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->load->config('fondyf/config');
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
@@ -142,7 +143,22 @@ class Fondyf extends MX_Controller {
         $url=$this->bpm->gateway($url);
         redirect($url);
     }
-
+    function Landing(){
+        $this->Add_group();
+        redirect($this->module_url);
+    }
+    function Add_group(){
+        $user=$this->user->get_user($this->idu);
+        if(!$this->user->isAdmin($user) or true){
+        $this->load->model('user/group');
+        $group_add=$this->group->get_byname('Fondif/EMPRESARIO');
+        $update['idu']=$this->idu;
+        $update['group']=$user->group;
+        array_push($update['group'],(int)$group_add['idgroup']);
+        $update['group']=array_unique($update['group']);
+        $this->user->update($update);
+        }
+    }
 }
 
 /* End of file fondyf */
