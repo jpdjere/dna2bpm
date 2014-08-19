@@ -149,7 +149,7 @@ class Fondyf extends MX_Controller {
     }
     function Add_group(){
         $user=$this->user->get_user($this->idu);
-        if(!$this->user->isAdmin($user) or true){
+        if(!$this->user->isAdmin($user)){
         $this->load->model('user/group');
         $group_add=$this->group->get_byname('Fondif/EMPRESARIO');
         $update['idu']=$this->idu;
