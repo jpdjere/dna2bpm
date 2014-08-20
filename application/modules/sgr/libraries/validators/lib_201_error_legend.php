@@ -11,7 +11,7 @@ class Lib_201_error_legend {
 
         switch ($code) {
             case "A.1":
-                $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener formato numérico mayor a cero, entero, sin decimales. O debe tener formato numérico + la palabra "BIS". Ej. 414BIS';
+                $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener formato numérico mayor a cero, entero, sin decimales.';
                 break;
             case "A.2":
                 $result_error = '<strong>Columna A - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si lo que se está informando es un Aporte (Columna D), debe validarse con los movimientos históricos que están cargados en el Sistema que el número informado no exista y sea correlativo al último informado.';

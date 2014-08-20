@@ -71,7 +71,7 @@ class Lib_201_data extends MX_Controller {
                 /* NUMERO_DE_APORTE
                  * Nro A.1
                  * Detail:
-                 * Debe tener formato numérico mayor a cero, entero, sin decimales. O debe tener formato numérico + la palabra “BIS”. Ej. 414BIS
+                 * Debe tener formato numérico mayor a cero, entero, sin decimales.
                  * Nro A.3
                  * Detail: 
                   En un mismo archivo no se puede repetir el mismo número para los casos en que se estén informando Aportes (Columna D).
@@ -97,7 +97,7 @@ class Lib_201_data extends MX_Controller {
                         $get_input_number = $this->$model_anexo->get_input_number($A_cell_value);
                         $exist_input_number = $this->$model_anexo->exist_input_number($A_cell_value);
 
-                        $return = check_is_numeric_no_decimal_plus_bis($parameterArr[$i]['fieldValue'], true);
+                        $return = check_is_numeric_no_decimal($parameterArr[$i]['fieldValue'], true);
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
