@@ -45,14 +45,13 @@ include('_header.php')
 
 
 
-
 				<section class="col-lg-6 connectedSortable ui-sortable" id="col1">
 					{col1}</section>
 				<section class="col-lg-6 connectedSortable ui-sortable" id="col2">
 					{col2}</section>
 
 			</section>
-	
+
 	</div>
 
 
@@ -60,7 +59,8 @@ include('_header.php')
 	<!-- ++++++++ CENTRO  -->
 	</div>
 	<!-- /Wrapper -->
-
+	
+{config_panel} 
 	
 <?php 
 /* 

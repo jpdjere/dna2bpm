@@ -113,6 +113,9 @@ $lang['records'] = 'registros';
 $lang['of'] = 'de';
 $lang['to'] = 'al';
 $lang['total'] = 'total';
+/* --DASHBOARD----------- */
+$lang['my_placeholder'] = 'Mi anotador'
+		
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
