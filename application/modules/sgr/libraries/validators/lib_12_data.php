@@ -669,7 +669,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFCPD") {
                         $code_error = "P.2";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
+                        $yearCtyDays = 366;
 
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -681,7 +681,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
+                        $yearCtyDays = 366 ;
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -693,7 +693,7 @@ class Lib_12_data extends MX_Controller {
                     
                     
                     
-                    $yearCtyDays = (Bisiesto($this->period)) ? 366 : 365;
+                    $yearCtyDays =  366;
 
                     $ctyMayor = $return['mayor'] * $yearCtyDays;
                     $ctyMinor = $return['minor'] * $yearCtyDays;
