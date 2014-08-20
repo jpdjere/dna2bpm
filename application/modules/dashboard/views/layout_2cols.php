@@ -43,11 +43,6 @@ include('_header.php')
 						{tiles_after}</section>
 				</div>
 
-<!--  ====  PASTEBOARD ==== -->
-				<section class="col-lg-12 connectedSortable ui-sortable" id="pasteboard" >
-
-				</section>
-<!--  ----  pasteboard ---- -->
 
 
 				<section class="col-lg-6 connectedSortable ui-sortable" id="col1">
@@ -56,7 +51,7 @@ include('_header.php')
 					{col2}</section>
 
 			</section>
-	
+
 	</div>
 
 
@@ -64,8 +59,9 @@ include('_header.php')
 	<!-- ++++++++ CENTRO  -->
 	</div>
 	<!-- /Wrapper -->
-
-{config_panel}	
+	
+{config_panel} 
+	
 <?php 
 /* 
  *  FOOTER 

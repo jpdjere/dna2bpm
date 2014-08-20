@@ -114,7 +114,8 @@ $lang['of'] = 'of';
 $lang['to'] = 'to';
 $lang['total'] = 'total';
 
-
+/* --DASHBOARD----------- */
+$lang['my_placeholder'] = 'My placeholder';
 
 /*
  * To change this template, choose Tools | Templates
