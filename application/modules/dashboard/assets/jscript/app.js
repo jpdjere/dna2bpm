@@ -158,7 +158,7 @@ $('.form-extra').ajaxForm({
 	  if($(this).hasClass('open')){
 		  // Close it
 		  $('#config_panel_content,#config_panel_bt').animate({
-			  right: "-=170",
+			  right: "-=400",
 			  }, 500, function() {
 			  // Animation complete.
 			  });
@@ -167,7 +167,7 @@ $('.form-extra').ajaxForm({
 	  }else{
 		  // open it
 		  $('#config_panel_content,#config_panel_bt').animate({
-			  right: "+=170",
+			  right: "+=400",
 			  }, 500, function() {
 			  // Animation complete.
 			  });

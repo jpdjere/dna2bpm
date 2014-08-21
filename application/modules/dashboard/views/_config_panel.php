@@ -1,10 +1,11 @@
 <div id="config_panel_bt">
-<i class='fa fa-gear'></i>
+<i class="fa fa-thumb-tack"></i>
 </div>
 <div id="config_panel_content">
-<h4 style='margin: 0 0 5px 0; border-bottom: 1px dashed #ddd; padding-bottom: 3px;'>Layout Options</h4>
-	<div class='form-group no-margin'>
-		<input type='checkbox' id="bt_pasteboard"/> Pasteboard
-
-	</div>
+<h4 style='margin: 0 0 5px 0;  padding-bottom: 3px;'>{my_placeholder}</h4>
+<!--  ====  PASTEBOARD ==== -->
+				<section class="col-lg-12 connectedSortable ui-sortable" id="pasteboard" >
+							
+				</section>
+<!--  ----  pasteboard ---- -->
 </div>
