@@ -8,15 +8,15 @@
             <li class="pull-right perfil"><a  href="javascript:window.close()">CERRAR</a>
             
                 
-            <li class="pull-right perfil">
-                <i class="{rol_icono}"></i>  {if !fre_session}<strong> {sgr_nombre}</strong>{/if}  <span class="">  {username}</span> |
+             <li class="pull-right perfil">
+                <i class="{rol_icono}"></i> <strong>{if fre_session} FRE {else}  {sgr_nombre}{/if} </strong> <span class="">  {username}</span> |
             </li>
            
             {if fre_session}
             <li class="pull-right perfil" ><a  href="{base_url}sgr/exit_fre" class="alert alert-danger">CERRAR <strong> {sgr_nombre}</strong></a></li>
             {/if}
             
-             <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard">INICIO</a></li>
+            <li class="pull-right perfil"><a  href="{base_url}sgr/dashboard"><strong>INICIO</strong></a></li>
             
         </ul>
     </div>
