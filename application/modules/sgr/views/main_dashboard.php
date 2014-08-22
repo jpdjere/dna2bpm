@@ -68,9 +68,9 @@
         </div>
 
         <!--  Panel Herramientas -->
-        <!--        <div class="panel panel-default">
+                <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><i class="fa fa-wrench"></i> Herramientas
+                        <h4 class="panel-title"><i class="fa fa-cloud-download"></i> Descargas
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="pull-right">
                                 <i class="fa fa-chevron-down"></i>
                             </a>
@@ -78,10 +78,14 @@
                     </div>
                     <div id="collapse2" class="panel-collapse collapse ">
                         <div class="panel-body">
-                            xxxxxxxx Próximamente xxxxxxxx
+                            <ul>
+                                <li><i class="fa fa-download"></i> <a href="{module_url}assets/download/modelos.rar" target="_self">Descargar Modelos de Importación</a> </li>
+                                <!--<li><i class="fa fa-download"></i> <a href="{module_url}assets/download/modelos.rar" target="_self">Descargar Manual</a></li>-->
+                                
+                            </ul>
                         </div>
                     </div>
-                </div>-->
+                </div>
         {/if}
         <!--  Panel Reportes -->
         <!--        <div class="panel panel-default">
