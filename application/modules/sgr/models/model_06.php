@@ -637,8 +637,9 @@ class Model_06 extends CI_Model {
             }
 
 
+            $print_table = null;
+            $inner_table = null;
 
-            $inner_table = '<table width="100%">';
             if ($list['19']) {
                 $inner_table .= '<tr><td>' . $list['19'] . '</td><td align="right">' . money_format_custom($list['20']) . '</td><td>' . $list['21'] . '</td></tr>';
             }
@@ -648,22 +649,24 @@ class Model_06 extends CI_Model {
             if ($list['25']) {
                 $inner_table .= '<tr><td>' . $list['25'] . '</td><td align="right">' . money_format_custom($list['26']) . '</td><td>' . $list['27'] . '</td></tr>';
             }
-            $inner_table .= '</table>';
+
 
             $cuit_grantor = "";
 
-            if (!isset($list['19']) && !isset($list['22']) && !isset($list['25']))
-                $inner_table = null;
-
+            if (isset($inner_table)) {
+                $print_table = '<table width="100%">';
+                $print_table .= $inner_table;
+                $print_table .= '</table>';
+            }
 
             $codigo_actividad = ($list['5208'] == "0") ? "-" : $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
 
             if ($list['1698'] != "")
                 $zip_address = "</br>[" . $list['1698'] . "]";
-            
-            
-            
-            if (isset($list['5248']) && $list['5248']!="")
+
+
+
+            if (isset($list['5248']) && $list['5248'] != "")
                 $cuit_grantor = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 
             if ($list['CODIGO_AREA'] != "")
@@ -688,7 +691,7 @@ class Model_06 extends CI_Model {
             $new_list['TELEFONO'] = $partner_phone;
             $new_list['EMAIL'] = $partner_web;
             $new_list['CODIGO_ACTIVIDAD'] = $codigo_actividad;
-            $new_list['"ANIO"'] = $inner_table;
+            $new_list['"ANIO"'] = $print_table;
             $new_list['CONDICION_INSCRIPCION_AFIP'] = $promedio . "<br/>" . $company_type . "<br/>" . $afip_condition[$list['5596'][0]];
             $new_list['EMPLEADOS'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['ACTA'] = "Tipo: " . $acta_type[$list['5253'][0]] . "<br/>Acta: " . $list['5255'] . "<br/>Nro." . $list['5254'] . "<br/>Efectiva:" . $transaction_date;
