@@ -41,7 +41,20 @@ class Sgr_model extends CI_Model {
         $result->sort(array('id' => 1));
         return $result;
     }
+    
+    
+    function get_fre($idu) {
+        
 
+        $container = 'container.sgr_fre';
+        $query = array('sgr_idu' => (int)$idu);
+        $result = $this->mongo->sgr->$container->find($query);
+        
+        $result->sort(array('title' => 1));
+        return $result;
+    }
+
+    
     function get_anexo($anexo) {
         $container = 'container.sgr_anexos';
         $query['number'] = $anexo;
