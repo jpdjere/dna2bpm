@@ -652,7 +652,7 @@ class Model_06 extends CI_Model {
 
             $cuit_grantor = "";
 
-            if (isset($list['19']) || isset($list['22']) || isset($list['25']))
+            if (!isset($list['19']) && !isset($list['22']) && !isset($list['25']))
                 $inner_table = null;
 
 
@@ -660,8 +660,10 @@ class Model_06 extends CI_Model {
 
             if ($list['1698'] != "")
                 $zip_address = "</br>[" . $list['1698'] . "]";
-
-            if (isset($list['5248']))
+            
+            
+            
+            if (isset($list['5248']) && $list['5248']!="")
                 $cuit_grantor = $list['5248'] . "<br/>" . $grantor_brand_name . "<br/>" . $grantor_type;
 
             if ($list['CODIGO_AREA'] != "")
@@ -669,8 +671,6 @@ class Model_06 extends CI_Model {
 
             if ($list['4653'] != "")
                 $address = $list['4653'] . "</br>" . "Nro." . $list['4654'] . "</br>Piso/Dto/Of." . $list['4655'] . " " . $list['4656'];
-
-
 
 
             if (isset($cuit)) {
