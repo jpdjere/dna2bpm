@@ -23,19 +23,19 @@ class Sgr extends MX_Controller {
         $this->load->model('sgr/sgr_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
-        
-        
-       
-        
+
+
+
+
         /* update db */
         $this->load->Model("mysql_model_periods");
         $this->mysql_model_periods->active_periods_dna2();
-        
+
 
 //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
-        
+
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
 
@@ -84,9 +84,9 @@ class Sgr extends MX_Controller {
         $customData['sgr_id_encode'] = base64_encode($this->sgr_id);
         $customData['base_url'] = base_url();
         $customData['module_url'] = base_url() . 'sgr/';
-        
-        $customData['base_url_dna2'] = 'http://'. $_SERVER['HTTP_HOST'].'/dna2/';
-        
+
+        $customData['base_url_dna2'] = 'http://' . $_SERVER['HTTP_HOST'] . '/dna2/';
+
         $customData['titulo'] = "Dashboard";
         $customData['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
         $customData['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
@@ -95,14 +95,23 @@ class Sgr extends MX_Controller {
         $sections = array();
         $sections['Anexos'] = array();
         $customData['anexo_list'] = $this->AnexosDB('_blank');
+
+        /* fre_session */
+        if (isset($this->session->userdata['fre_session']))
+            $customData['fre_session'] = $this->session->userdata['fre_session'];
+
+        $customData['fre_list'] = $this->freDB();
+
         $customData['is_sgr_sociedades'] = $this->user->has('root/modules/sgr/controllers/sgr/anexo');
+
+
 
         $this->render('main_dashboard', $customData);
     }
 
 // ==== Anexos ====
-    function Index() {  
-        
+    function Index() {
+
         $customData = array();
         $default_dashboard = 'dashboard';
 
@@ -111,7 +120,13 @@ class Sgr extends MX_Controller {
         foreach ($header_merge as $key => $each) {
             $customData[$key] = $each;
         }
-
+        
+        
+        
+        /*FRE*/
+        /* fre_session */
+        if (isset($this->session->userdata['fre_session']))
+            $customData['fre_session'] = $this->session->userdata['fre_session'];
 
         /* DD.JJ PRESENTATION */
         if ($this->anexo == "17") {
@@ -281,6 +296,33 @@ class Sgr extends MX_Controller {
         redirect('/sgr');
     }
 
+    /* FRE */
+
+    function Fre_code($parameter) {
+
+        /* BORRO SESSION RECTIFY */
+        $this->session->unset_userdata('rectify');
+        $this->session->unset_userdata('others');
+
+
+        $parameter = str_replace("rEpLaCe", "=", $parameter);
+
+        $newdata = array('fre_session' => $this->idu, 'iduser' => base64_decode($parameter));
+        $this->session->set_userdata($newdata);
+        redirect('/sgr/dashboard');
+    }
+    
+    function Exit_fre(){
+        
+        $newdata = array('iduser' => $this->session->userdata('fre_session'));
+        $this->session->set_userdata($newdata);
+        
+        /*CLEAR SESSION*/
+        $this->session->unset_userdata('fre_session');
+        
+        redirect('/sgr/dashboard');
+    }
+
     function AnexosDB($target = '_self') {
         $module_url = base_url() . 'sgr/';
         $anexosArr = $this->sgr_model->get_anexos();
@@ -288,6 +330,22 @@ class Sgr extends MX_Controller {
         foreach ($anexosArr as $anexo) {
             $result .= '<li><a target="' . $target . '" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
+        return $result;
+    }
+
+    function freDB($target = '_self') {
+
+        $module_url = base_url() . 'sgr/';
+        $anexosArr = $this->sgr_model->get_fre($this->idu);
+
+        $result = null;
+        foreach ($anexosArr as $anexo) {
+
+            $crypt = str_replace("=", "rEpLaCe", base64_encode($anexo['id']));
+
+            $result .= '<li>' . $anexo['title'] . ' <a target="' . $target . '" href=  "' . $module_url . 'fre_code/' . $crypt . '"> [SELECCIONAR]</a></li>';
+        }
+
         return $result;
     }
 
@@ -1594,8 +1652,8 @@ class Sgr extends MX_Controller {
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
                     $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_xls = (in_array($anexo, $print_xls_array)) ? $print_xls_link : "";
-                    
-                    
+
+
                     $rectifica_link_class = "";
                     $rectify = anchor($file['period'] . "/" . $anexo, '<i class="fa fa-undo" alt="Rectificar"></i> RECTIFICAR', array('class' => $rectifica_link_class . ' btn btn-danger' . $disabled_link));
                     $list_files .= "<li>" . $download . " " . $print_file . " " . $print_xls . " " . $rectify . " " . $print_filename . "  [" . $show_period . "]  </li>";
