@@ -80,7 +80,7 @@
                         <div class="panel-body">
                             <ul>
                                 <li><i class="fa fa-download"></i> <a href="{module_url}assets/download/modelos.rar" target="_self">Descargar Modelos de Importación</a> </li>
-                                <!--<li><i class="fa fa-download"></i> <a href="{module_url}assets/download/modelos.rar" target="_self">Descargar Manual</a></li>-->
+                                <li><i class="fa fa-download"></i> <a href="{module_url}assets/download/documentacion.zip" target="_self">Descargar Documentación</a></li>
                                 
                             </ul>
                         </div>
