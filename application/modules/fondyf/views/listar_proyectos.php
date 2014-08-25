@@ -11,11 +11,11 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Nro</th>
+                    <th>Nro Proyecto</th>
                     <th>Fecha</th>
                     <th>Nombre</th>
                     <th>CUIT</th>
-                    <th>CasoT</th>
+                    <th>Caso</th>
                 </tr>
             </thead>
             <tbody>
