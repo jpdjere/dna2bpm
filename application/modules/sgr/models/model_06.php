@@ -681,6 +681,8 @@ class Model_06 extends CI_Model {
                 $partner_add_data = $list['1700'] . "</br>" . $partido[$list['1699'][0]] . "</br>" . $provincia[$list['4651'][0]] . $zip_address;
                 $partner_phone = $area_code . $list['1701'];
                 $partner_web = $list['1703'] . "</br>" . $list['1704'];
+            } else {
+                $partner_data = $list['5272'][0];
             }
 
             $new_list = array();
