@@ -60,16 +60,15 @@ class Fondyf extends MX_Controller {
         $data['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondyfpp';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
-  
 
     function tile_comite() {
         $this->user->authorize();
         $this->load->model('bpm/bpm');
         $this->load->model('dna2/dna2old');
-        $dna2url=$this->dna2old->get('url');
+        $dna2url = $this->dna2old->get('url');
         //http://www.accionpyme.mecon.gob.ar/dna2/frontcustom/286/sol_ministro_2014.R.php
-        $url=$dna2url."frontcustom/286/sol_ministro_2014";
-        $url=$this->bpm->gateway($url);
+        $url = $dna2url . "frontcustom/286/sol_ministro_2014";
+        $url = $this->bpm->gateway($url);
         $data['number'] = 'Comité';
         $data['title'] = 'Enviar a Comité';
         $data['icon'] = 'ion-archive';
@@ -100,17 +99,20 @@ class Fondyf extends MX_Controller {
         $filter['$or'][] = array('data.1693' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
         //-----busco en el nro proyecto
         $filter['$or'][] = array('data.8339' => array('$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')));
-        //echo json_encode($filter) . '<br>';
         $tokens = $this->bpm->get_tokens_byFilter($filter, array('case', 'data', 'checkdate'), array('checkdate' => false));
-
         $data['empresas'] = array_map(function ($token) {
-            $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $token['data']['id'];
+            $case = $this->bpm->get_case($token['case']);
+            $data = $this->bpm->load_case_data($case);
+            $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data['Proyectos_fondyf']['id'];
+//
+//            echo json_encode($data) . '<br>';
+//            exit;
             return array(
                 '_d' => $token['_id'],
                 'case' => $token['case'],
                 'nombre' => $token['data']['1693'],
                 'cuit' => $token['data']['1695'],
-                'Nro' => (isset($token['data']['8339'])) ? $token['data']['8339'] : '',
+                'Nro' => (isset($data['Proyectos_fondyf']['8339'])) ? $data['Proyectos_fondyf']['8339'] : '???',
                 'fechaent' => date('d/m/Y', strtotime($token['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
             );
@@ -143,31 +145,34 @@ class Fondyf extends MX_Controller {
         return $this->parser->parse('fondyf/ministatus_pp', $wfData, true, true);
     }
 
-    function ver_ficha($idwf,$idcase,$token,$id) {
+    function ver_ficha($idwf, $idcase, $token, $id) {
         $this->user->authorize();
         $this->load->model('bpm/bpm');
         $this->load->model('dna2/dna2old');
-        $dna2url=$this->dna2old->get('url');
-        $url=$dna2url."RenderEdit/editnew.php?idvista=3560&origen=V&idap=286&id=$id&idwf=$idwf&case=$idcase&token=$token";
-        $url=$this->bpm->gateway($url);
+        $dna2url = $this->dna2old->get('url');
+        $url = $dna2url . "RenderEdit/editnew.php?idvista=3560&origen=V&idap=286&id=$id&idwf=$idwf&case=$idcase&token=$token";
+        $url = $this->bpm->gateway($url);
         redirect($url);
     }
-    function Landing(){
+
+    function Landing() {
         $this->Add_group();
         redirect($this->module_url);
     }
-    function Add_group(){
-        $user=$this->user->get_user($this->idu);
-        if(!$this->user->isAdmin($user)){
-        $this->load->model('user/group');
-        $group_add=$this->group->get_byname('FonDyF/EMPRESARIO');
-        $update['idu']=$this->idu;
-        $update['group']=$user->group;
-        array_push($update['group'],(int)$group_add['idgroup']);
-        $update['group']=array_unique($update['group']);
-        $this->user->update($update);
+
+    function Add_group() {
+        $user = $this->user->get_user($this->idu);
+        if (!$this->user->isAdmin($user)) {
+            $this->load->model('user/group');
+            $group_add = $this->group->get_byname('FonDyF/EMPRESARIO');
+            $update['idu'] = $this->idu;
+            $update['group'] = $user->group;
+            array_push($update['group'], (int) $group_add['idgroup']);
+            $update['group'] = array_unique($update['group']);
+            $this->user->update($update);
         }
     }
+
 }
 
 /* End of file fondyf */
