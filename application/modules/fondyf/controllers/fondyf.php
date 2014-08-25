@@ -138,7 +138,6 @@ class Fondyf extends MX_Controller {
         }
         $wfData['base_url'] = base_url();
         $wf = $this->bpm->load('fondyfpp');
-        var_dump($wfData,$wf);
         $wfData+=$wf['data']['properties'];
         $wfData['name'] = 'Mini Status: ' . $wfData['name'];
         return $this->parser->parse('fondyf/ministatus_pp', $wfData, true, true);
