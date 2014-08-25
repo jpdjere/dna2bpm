@@ -104,8 +104,8 @@ class Fondyf extends MX_Controller {
             $case = $this->bpm->get_case($token['case']);
             $data = $this->bpm->load_case_data($case);
             $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data['Proyectos_fondyf']['id'];
-//
-//            echo json_encode($data) . '<br>';
+
+//            var_dump( $data) ;
 //            exit;
             return array(
                 '_d' => $token['_id'],
