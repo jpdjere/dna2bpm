@@ -67,7 +67,7 @@ class Fondyf extends MX_Controller {
         $this->load->model('dna2/dna2old');
         $dna2url = $this->dna2old->get('url');
         //http://www.accionpyme.mecon.gob.ar/dna2/frontcustom/286/sol_ministro_2014.R.php
-        $url = $dna2url . "frontcustom/286/sol_ministro_2014";
+        $url = $dna2url . "frontcustom/286/sol_ministro_2014.R.php";
         $url = $this->bpm->gateway($url);
         $data['number'] = 'Comité';
         $data['title'] = 'Enviar a Comité';
