@@ -205,7 +205,7 @@ class Bpm extends CI_Model {
                 foreach ($tokens as $resourceId => $state) {
                     if (isset($all_tokens[$resourceId])) {
                         $all_tokens[$resourceId]['run'] ++;
-                        $all_tokens[$resourceId]['status'][$state] ++;
+                        $all_tokens[$resourceId]['status'][$state]=(isset($all_tokens[$resourceId]['status'][$state]))?$all_tokens[$resourceId]['status'][$state]++:1;
                     } else {
 
                         $token = $this->bpm->get_token($case['idwf'], $case['id'], $resourceId);
@@ -666,14 +666,26 @@ class Bpm extends CI_Model {
         }
     }
 
-    function get_all_cases($offset = 0, $limit = 50, $order = null, $query_txt = null, $model) {
+    function get_all_cases_count($idwf = null, $model) {
+        if ($model) {
+            $this->db->where(array('idwf' => $model));
+        }
+        if ($idwf) {
+            $this->db->like('id', $idwf);
+        }
+         return $this->db->count_all_results('case');
+    }
+    
+    function get_all_cases($offset = 0, $limit = 50, $order = null, $query_txt = null, $model,$fields=array()) {
+		if($fields){
+			$this->db->select($fields);
+		}
         if ($model) {
             $this->db->where(array('idwf' => $model));
         }
         if ($query_txt) {
             $this->db->like('id', $query_txt);
         }
-
         if ($order) {
             #@todo //--check order like
             $this->db->order_by($order);
