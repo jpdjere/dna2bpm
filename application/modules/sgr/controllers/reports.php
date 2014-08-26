@@ -438,7 +438,7 @@ class reports extends MX_Controller {
         // $cpData['isAdmin'] = $this->user->isAdmin($user);
         $user_lastname = isset($user->lastname) ? $user->lastname : "";
         $user_name = isset($user->name) ? $user->name : "";
-        $user_email = isset($user->email) ? user_email : "";
+        $user_email = isset($user->email) ? $user_email : "";
 
         $cpData['username'] = strtoupper($user_lastname . ", " . $user_name);
         $cpData['usermail'] = $user_email;
