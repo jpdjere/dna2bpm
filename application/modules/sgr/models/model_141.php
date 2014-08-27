@@ -368,13 +368,13 @@ class Model_141 extends CI_Model {
             if ($xls) {
                 $new_list['col3'] = $col3;
                 $new_list['col4'] = $col4;
-                $new_list['col5'] = (float) $col5;
-                $new_list['col6'] = (float) $col6;
-                $new_list['col7'] = (float) $col7;
-                $new_list['col8'] = (float) $col8;
-                $new_list['col9'] = (float) $col9;
-                $new_list['col10'] = (float) $col10;
-                $new_list['col11'] = (float) $col11;
+                $new_list['col5'] = money_format_xls($col5);
+                $new_list['col6'] = money_format_xls($col6);
+                $new_list['col7'] = money_format_xls($col7);
+                $new_list['col8'] = money_format_xls($col8);
+                $new_list['col9'] = money_format_xls($col9);
+                $new_list['col10'] = money_format_xls($col10);
+                $new_list['col11'] = money_format_xls($col11);
                 $new_list['col12'] = $col12;
             } else {
                 $new_list['col3'] = $col3;
@@ -439,7 +439,7 @@ class Model_141 extends CI_Model {
         foreach ($result as $list) {
 
             $col3_val = $list['CANT_GTIAS_VIGENTES'];
-            $col4_val = $list['MONTO_GARANTIAS'];
+            $col4_val = money_format_xls($list['MONTO_GARANTIAS']);
 
             $col5_val = $list['HIPOTECARIAS'];
             $col6_val = $list['PRENDARIAS'];
@@ -450,16 +450,16 @@ class Model_141 extends CI_Model {
             $col11_val = $list['MONTO_ADEUDADO'];
             $col12_val = $list['CANTIDAD_GARANTIAS_AFRONTADAS'];
 
-            $col3[] = (float) $col3_val;
-            $col4[] = (float) $col4_val;
-            $col5[] = (float) $col5_val;
-            $col6[] = (float) $col6_val;
-            $col7[] = (float) $col7_val;
-            $col8[] = (float) $col8_val;
-            $col9[] = (float) $col9_val;
-            $col10[] = (float) $col10_val;
-            $col11[] = (float) $col11_val;
-            $col12[] = (float) $col12_val;
+            $col3[] = $col3_val;
+            $col4[] = (float)$col4_val;
+            $col5[] = (float)$col5_val;
+            $col6[] = (float)$col6_val;
+            $col7[] = (float)$col7_val;
+            $col8[] = (float)$col8_val;
+            $col9[] = (float)$col9_val;
+            $col10[] = (float)$col10_val;
+            $col11[] = (float)$col11_val;
+            $col12[] = (float)$col12_val;
         }
 
 
@@ -469,14 +469,14 @@ class Model_141 extends CI_Model {
         $new_list['col2'] = "-";
         if ($xls) {
             $new_list['col3'] = array_sum($col3);
-            $new_list['col4'] = (float) (array_sum($col4));
-            $new_list['col5'] = (float) (array_sum($col5));
-            $new_list['col6'] = (float) (array_sum($col6));
-            $new_list['col7'] = (float) (array_sum($col7));
-            $new_list['col8'] = (float) (array_sum($col8));
-            $new_list['col9'] = (float) (array_sum($col9));
-            $new_list['col10'] = (float) (array_sum($col10));
-            $new_list['col11'] = (float) (array_sum($col11));
+            $new_list['col4'] = (array_sum($col4));
+            $new_list['col5'] = money_format_xls(array_sum($col5));
+            $new_list['col6'] = money_format_xls(array_sum($col6));
+            $new_list['col7'] = money_format_xls(array_sum($col7));
+            $new_list['col8'] = money_format_xls(array_sum($col8));
+            $new_list['col9'] = money_format_xls(array_sum($col9));
+            $new_list['col10'] = money_format_xls(array_sum($col10));
+            $new_list['col11'] = money_format_xls(array_sum($col11));
             $new_list['col12'] = array_sum($col12);
         } else {
             $new_list['col3'] = array_sum($col3);
