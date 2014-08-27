@@ -23,17 +23,10 @@ function money_format_custom($parameter, $entero = null) {
     return $parameter;
 }
 
-function percent_format_custom($parameter) {
-
-    if ($parameter == NULL) {
-        $parameter = 0;
-    }
-
-    if ($_POST['excel'] == 1) {
-        $parameter = @number_format($parameter, 2, ",", ".");
-    } else {
-        $parameter = @number_format($parameter, 2, ",", ".") . "%";
-    }
+function money_format_xls($parameter) {
+    $parameter = (float)$parameter;
+    $parameter = str_replace(".", ",", $parameter);
+   
     return $parameter;
 }
 
@@ -1012,7 +1005,6 @@ function deleteFromArray(&$array, $deleteIt, $useOldKeys = FALSE) {
         $array = array_values($array); return TRUE;
 }
 
-
 function array_item_or_false($item, $array, $default = FALSE) {
     if (!isset($array[$item]) OR $array[$item] == "") {
         return $default;
@@ -1021,23 +1013,22 @@ function array_item_or_false($item, $array, $default = FALSE) {
     return $array[$item];
 }
 
-function dot_by_coma($parameter){
+function dot_by_coma($parameter) {
     $value = str_replace(".", ",", $parameter);
-    
+
     return $value;
-    
 }
 
-/* CRYPT*/
+/* CRYPT */
 
-function encryptIt( $q ) {
-    $cryptKey  = 'qJB0rGtIn5UB1xG03efyCp';
-    $qEncoded      = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
+function encryptIt($q) {
+    $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
+    $qEncoded = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($cryptKey), $q, MCRYPT_MODE_CBC, md5(md5($cryptKey))));
     return( $qEncoded );
 }
 
-function decryptIt( $q ) {
-    $cryptKey  = 'qJB0rGtIn5UB1xG03efyCp';
-    $qDecoded      = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0");
+function decryptIt($q) {
+    $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
+    $qDecoded = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($cryptKey), base64_decode($q), MCRYPT_MODE_CBC, md5(md5($cryptKey))), "\0");
     return( $qDecoded );
 }
