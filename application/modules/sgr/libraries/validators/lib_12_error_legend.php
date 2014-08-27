@@ -105,6 +105,9 @@ class Lib_12_error_legend {
             case "Q.2":
                 $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la Columna "R" se indicó "PAGO ÚNICO", el valor aquí indicado debe ser igual al valor indicado en la Columna "P".';
                 break;
+            case "Q.3":
+                $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/> Si en la columna R NO se indicó PAGO UNICO, entonces el valor indicado aquí debe ser menor al indicado en la columna P (Plazo)';
+                break;
             case "R.1":
                 $result_error = '<strong>Columna R - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe contener uno de los siguientes parámetros:"PAGO UNICO"/"MENSUAL"/"BIMESTRAL"/"TRIMESTRAL"/"CUATRIMESTRAL"/"SEMESTRAL"/"ANUAL"/"OTRO"';
                 break;
