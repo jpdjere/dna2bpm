@@ -9,21 +9,21 @@ class Lib_12_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
         $this->period = $this->session->userdata['period'];
-        
-        
-        
+
+
+
 
         /* PARTNER INFO DATA */
         $model_06 = 'model_06';
         $this->load->Model($model_06);
 
 
-        /* ANEXO 12 DATA*/
+        /* ANEXO 12 DATA */
         $model_anexo = "model_12";
         $this->load->Model($model_anexo);
 
-       
-        /*ANEXO 6.2 DATA */
+
+        /* ANEXO 6.2 DATA */
         $model_062 = 'model_062';
         $this->load->Model($model_062);
 
@@ -56,11 +56,11 @@ class Lib_12_data extends MX_Controller {
              *
              * @example 
              * */
-            for ($i = 0; $i <= count($parameterArr); $i++) {               
-                
-                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
-                
-                
+            for ($i = 0; $i <= count($parameterArr); $i++) {
+
+                $param_col = (isset($parameterArr[$i]['col'])) ? $parameterArr[$i]['col'] : 0;
+
+
                 /* NRO
                  * Nro A.1
                  * Detail:
@@ -126,7 +126,7 @@ class Lib_12_data extends MX_Controller {
                     $amount_employees = 0;
                     $transaction_date = null;
                     $partner_data = $this->$model_06->get_partner_left($parameterArr[$i]['fieldValue']);
-                    
+
                     foreach ($partner_data as $partner) {
 
                         $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
@@ -134,10 +134,10 @@ class Lib_12_data extends MX_Controller {
                     }
                     $amount_employees2 = 0;
                     $amount_employees2 = $this->$model_062->get_partner_left($parameterArr[$i]['fieldValue']);
-                    
-                    
+
+
                     $sum_amount_employees = array_sum(array($amount_employees, $amount_employees2));
-                    
+
                     if ($sum_amount_employees == 0) {
                         $code_error = "B.2";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -289,7 +289,7 @@ class Lib_12_data extends MX_Controller {
                   GFFF3
                  */
                 if ($param_col == 7) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD", "GFPB0", "GFPB1", "GFPB2");
                     $code_error = "G.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -316,7 +316,7 @@ class Lib_12_data extends MX_Controller {
                   GFCPD
                  */
                 if ($param_col == 8) {
-                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD","GFPB0","GFPB1","GFPB2");
+                    $codes_arr = array("GFFF0", "GFFF1", "GFFF2", "GFFF3", "GFCPD", "GFPB0", "GFPB1", "GFPB2");
 
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -366,7 +366,7 @@ class Lib_12_data extends MX_Controller {
                   Eje. OAH1P
                  */
                 if ($param_col == 9) {
-                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB0","GFPB1","GFPB2", "GFVCP");
+                    $codes_arr = array("GFCPD", "GFON0", "GFON1", "GFON2", "GFON3", "GFPB0", "GFPB1", "GFPB2", "GFVCP");
                     $code_error = "I.1";
                     if (in_array($D_cell_value, $codes_arr)) {
                         $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -374,13 +374,13 @@ class Lib_12_data extends MX_Controller {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
                         }
-                        
+
                         // I.2
                         $I2_validate_arr = array("GFCPD");
                         $code_error = "I.2";
                         if (in_array($D_cell_value, $I2_validate_arr)) {
                             $check_cnv_syntax = check_cnv_syntax($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax) {        
+                            if (!$check_cnv_syntax) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             } else {
@@ -390,30 +390,29 @@ class Lib_12_data extends MX_Controller {
                                     array_push($stack, $result);
                                 }
                             }
-                        } 
+                        }
                         // I.3
-                       $I3_validate_arr = array("GFON0", "GFON1", "GFON2", "GFON3", "GFVCP");
-                       $code_error = "I.3";
-                       if (in_array($D_cell_value, $I3_validate_arr)) {
+                        $I3_validate_arr = array("GFON0", "GFON1", "GFON2", "GFON3", "GFVCP");
+                        $code_error = "I.3";
+                        if (in_array($D_cell_value, $I3_validate_arr)) {
                             $check_cnv_syntax_alt = check_cnv_syntax_alt($parameterArr[$i]['fieldValue']);
-                            if (!$check_cnv_syntax_alt) {        
+                            if (!$check_cnv_syntax_alt) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
                         // I.4
-                       $I4_validate_arr = array("GFPB0","GFPB1","GFPB2");
-                       $code_error = "I.4";
-                       if (in_array($D_cell_value, $I4_validate_arr)) {
-                           $check_cnv_syntax_i4 = check_cnv_syntax_i4($parameterArr[$i]['fieldValue']);
-                           $check_cnv_code = (!empty($check_cnv_syntax_i4))?($this->sgr_model->get_cnv_code('$'.$check_cnv_syntax_i4)):(null);
+                        $I4_validate_arr = array("GFPB0", "GFPB1", "GFPB2");
+                        $code_error = "I.4";
+                        if (in_array($D_cell_value, $I4_validate_arr)) {
+                            $check_cnv_syntax_i4 = check_cnv_syntax_i4($parameterArr[$i]['fieldValue']);
+                            $check_cnv_code = (!empty($check_cnv_syntax_i4)) ? ($this->sgr_model->get_cnv_code('$' . $check_cnv_syntax_i4)) : (null);
 
-                            if (!$check_cnv_syntax_i4 || is_null($check_cnv_code)) {        
+                            if (!$check_cnv_syntax_i4 || is_null($check_cnv_code)) {
                                 $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                 array_push($stack, $result);
                             }
                         }
-                        
                     } else {
                         $return = check_for_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -587,11 +586,11 @@ class Lib_12_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     } else {
-                       
+
                         /* Support #12131: Anexo 12 - validador O.1 
                          * Modificamos los valores topes de este validador que dice:Debe tomar valores 
                          * entre -20 y -1 o entre 1 y 20 (es decir, no puede tomar valores entre -1 y 1). 
-                         * Hay q pasarlo de -20 a -50 y 20 a 50.*/
+                         * Hay q pasarlo de -20 a -50 y 20 a 50. */
                         if (!in_array($in_value, $range1) && !in_array($in_value, $range2)) {
                             $code_error = "O.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -646,6 +645,9 @@ class Lib_12_data extends MX_Controller {
                  * Nro Q.2
                  * Detail:
                  * Si en la Columna R se indicó PAGO ÚNICO, el valor aquí indicado debe ser igual al valor indicado en la Columna P.
+                 * Nro Q.3
+                 * Detail:
+                 *  Si en la columna R NO se indicó PAGO ÚNICO, entonces el valor indicado aquí debe ser menor al indicado en la columna P (Plazo).
                  */
                 if ($param_col == 17) {
                     $Q_cell_value = (int) $parameterArr[$i]['fieldValue'];
@@ -681,7 +683,7 @@ class Lib_12_data extends MX_Controller {
                     if ($D_cell_value == "GFVCP") {
                         $code_error = "P.3";
                         $ctyDays = 0;
-                        $yearCtyDays = 366 ;
+                        $yearCtyDays = 366;
                         if ($P_cell_value >= $yearCtyDays) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -690,21 +692,21 @@ class Lib_12_data extends MX_Controller {
 
 
                     $return = $this->sgr_model->get_warranty_type($D_cell_value);
-                    
-                    
-                    
-                    $yearCtyDays =  366;
+
+
+
+                    $yearCtyDays = 366;
 
                     $ctyMayor = $return['mayor'] * $yearCtyDays;
                     $ctyMinor = $return['minor'] * $yearCtyDays;
                     $ctyDays = $P_cell_value;
 
                     $range = range($ctyMinor, $ctyMayor);
-                    
+
                     if (!in_array($ctyDays, $range)) {
-                        
-                       debug($ctyDays, $range);
-                        
+
+                        debug($ctyDays, $range);
+
                         $code_error = "P.4";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $P_cell_value);
                         array_push($stack, $result);
@@ -762,6 +764,22 @@ class Lib_12_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+
+
+                        /*Q.3*/
+                        $show_Q3 = null;
+
+                        if ($R_cell_value != "PAGO UNICO") {
+                            if ($Q_cell_value > $P_cell_value)
+                                $show_Q3 = true;
+                        }
+
+                        if (isset($show_Q3)) {
+                            $code_error = "Q.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $Q_cell_value . " es mayor a " . $P_cell_value);
+                            array_push($stack, $result);
+                        }
+                        
                     }
                 }
 
