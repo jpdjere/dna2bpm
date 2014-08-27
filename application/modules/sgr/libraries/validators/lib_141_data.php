@@ -66,7 +66,7 @@ class Lib_141_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
-                        $A_cell_array = $parameterArr[$i]['fieldValue'];
+                        $A_cell_array[] = $parameterArr[$i]['fieldValue'];
 
                         $return = cuit_checker($parameterArr[$i]['fieldValue']);
                         if (!$return) {
@@ -225,7 +225,8 @@ class Lib_141_data extends MX_Controller {
 
 
 
-        /* EXTRA VALIDATION A.4 */
+        /* EXTRA VALIDATION A.4 */        
+      
         foreach (repeatedElements($A_cell_array) as $arr) {
             $code_error = "A.4";
             $result = return_error_array($code_error, $parameterArr[$i]['row'], "CUIT Repetido " . $arr['value']);
@@ -236,8 +237,7 @@ class Lib_141_data extends MX_Controller {
 
 
 
-//        var_dump($stack);
-//        exit();
+        //var_dump($stack);        exit();
         $this->data = $stack;
     }
 
