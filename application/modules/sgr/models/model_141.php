@@ -367,7 +367,7 @@ class Model_141 extends CI_Model {
             $new_list['col2'] = $brand_name;
             if ($xls) {
                 $new_list['col3'] = $col3;
-                $new_list['col4'] = $col4;
+                $new_list['col4'] = money_format_xls($col4);
                 $new_list['col5'] = money_format_xls($col5);
                 $new_list['col6'] = money_format_xls($col6);
                 $new_list['col7'] = money_format_xls($col7);
@@ -439,7 +439,7 @@ class Model_141 extends CI_Model {
         foreach ($result as $list) {
 
             $col3_val = $list['CANT_GTIAS_VIGENTES'];
-            $col4_val = money_format_xls($list['MONTO_GARANTIAS']);
+            $col4_val = $list['MONTO_GARANTIAS'];
 
             $col5_val = $list['HIPOTECARIAS'];
             $col6_val = $list['PRENDARIAS'];
@@ -469,7 +469,7 @@ class Model_141 extends CI_Model {
         $new_list['col2'] = "-";
         if ($xls) {
             $new_list['col3'] = array_sum($col3);
-            $new_list['col4'] = (array_sum($col4));
+            $new_list['col4'] = money_format_xls(array_sum($col4));
             $new_list['col5'] = money_format_xls(array_sum($col5));
             $new_list['col6'] = money_format_xls(array_sum($col6));
             $new_list['col7'] = money_format_xls(array_sum($col7));
