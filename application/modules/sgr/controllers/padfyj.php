@@ -61,7 +61,8 @@ class Padfyj extends MX_Controller {
             $fields = array('CUIT', 'DENOMINACION');
             $container = 'padfyj';
             $query = array('CUIT' => $data[0]);
-            $result = $this->mongo->db->$container->find($query, $fields);
+            $result = $this->mongo->padfyj->$container->find($query, $fields);
+            
             $result->timeout(100000);
             foreach ($result as $result) {
                 $rtn .= "<tr><td>" . $result['CUIT'] . "</td><td>" . $result['DENOMINACION'] . "</td></tr>";
