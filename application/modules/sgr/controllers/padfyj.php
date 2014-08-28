@@ -50,21 +50,27 @@ class Padfyj extends MX_Controller {
 
     function info() {
 
-        header("Content-Description: File Transfer");
-        header("Content-type: application/x-msexcel");
-        header("Content-Type: application/force-download");
-        header("Content-Disposition: attachment; filename=padfyj.xls");
-        header("Content-Description: PHP Generated XLS Data");
+//        header("Content-Description: File Transfer");
+//        header("Content-type: application/x-msexcel");
+//        header("Content-Type: application/force-download");
+//        header("Content-Disposition: attachment; filename=padfyj.xls");
+//        header("Content-Description: PHP Generated XLS Data");
 
         $rtn = "";
+        
+        //var_dump($this->empresa());
         foreach ($this->empresa() as $data) {
+            
+            
+            
             $fields = array('CUIT', 'DENOMINACION');
             $container = 'padfyj';
-            $query = array('CUIT' => $data[0]);
-            $result = $this->mongo->padfyj->$container->find($query, $fields);
+            $query = array('CUIT' => $data);
             
-            $result->timeout(100000);
-            foreach ($result as $result) {
+            $results = $this->mongo->padfyj->$container->find($query, $fields);
+           
+            $results->timeout(100000);
+            foreach ($results as $result) {
                 $rtn .= "<tr><td>" . $result['CUIT'] . "</td><td>" . $result['DENOMINACION'] . "</td></tr>";
             }
         }
