@@ -57,8 +57,39 @@ class Padfyj extends MX_Controller {
         header("Content-Description: PHP Generated XLS Data");
 
         $rtn = "";
+        foreach ($this->empresa() as $data) {
+            $fields = array('CUIT', 'DENOMINACION');
+            $container = 'padfyj';
+            $query = array('CUIT' => $data[0]);
+            $result = $this->mongo->db->$container->find($query, $fields);
+            $result->timeout(100000);
+            foreach ($result as $result) {
+                $rtn .= "<tr><td>" . $result['CUIT'] . "</td><td>" . $result['DENOMINACION'] . "</td></tr>";
+            }
+        }
+        echo "<table>";
+        echo "<tr><th>CUIT</th><th>DENOMINACION</th></tr>";
+        echo $rtn;
+        echo "</table>";
+    }
+
+    function empresa() {
+        $rtn = array();
+        $query = array();
+        $fields = array(1695);
+        $container = 'container.empresas';
+        $result = $this->mongo->db->$container->find();
+        $result->timeout(100000);
+        //$result->limit(5);
+        foreach ($result as $result) {
+            unset($result['_id']);
+            unset($result['id']);
+
+            $result['CUIT'] = str_replace("-", "", $result[1695]);
+            $rtn[] = array($result['CUIT']);
+        }
         
-        $empresas = array('20014428489'
+         $empresas = array('20014428489'
 ,'20033593830'
 ,'20035021613'
 ,'20036226170'
@@ -1752,39 +1783,8 @@ class Padfyj extends MX_Controller {
 ,'27107320844'
 ,'27108804810'
 );
-        foreach ($empresas as $data) {
-            $fields = array('CUIT', 'DENOMINACION');
-            $container = 'padfyj';
-            $query = array('CUIT' => $data);
-            $result = $this->mongo->db->$container->find($query, $fields);
-            $result->timeout(100000);
-            foreach ($result as $result) {
-                $rtn .= "<tr><td>" . $result['CUIT'] . "</td><td>" . $result['DENOMINACION'] . "</td></tr>";
-            }
-        }
-        echo "<table>";
-        echo "<tr><th>CUIT</th><th>DENOMINACION</th></tr>";
-        echo $rtn;
-        echo "</table>";
-    }
 
-    function empresa() {
-        $rtn = array();
-        $query = array();
-        $fields = array(1695);
-        $container = 'container.empresas';
-        $result = $this->mongo->db->$container->find();
-        $result->timeout(100000);
-        //$result->limit(5);
-        foreach ($result as $result) {
-            unset($result['_id']);
-            unset($result['id']);
-
-            $result['CUIT'] = str_replace("-", "", $result[1695]);
-            $rtn[] = array($result['CUIT']);
-        }
-
-        return $rtn;
+        return $empresas;
     }
 
 }
