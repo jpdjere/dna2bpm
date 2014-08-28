@@ -23,6 +23,21 @@ function money_format_custom($parameter, $entero = null) {
     return $parameter;
 }
 
+
+function percent_format_custom($parameter) {
+
+    if ($parameter == NULL) {
+        $parameter = 0;
+    }
+
+    if ($_POST['excel'] == 1) {
+        $parameter = @number_format($parameter, 2, ",", ".");
+    } else {
+        $parameter = @number_format($parameter, 2, ",", ".") . "%";
+    }
+    return $parameter;
+}
+
 function money_format_xls($parameter) {
     $parameter = (float)$parameter;
     $parameter = str_replace(".", ",", $parameter);
