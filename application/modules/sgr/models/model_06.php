@@ -913,11 +913,29 @@ class Model_06 extends CI_Model {
         return $return_result;
     }
 
+    /* PROTECTOR */
+
     function partner_type_linked($cuit) {
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
         $new_query = array(
             1695 => $cuit
+        );
+
+        $new_result = $this->mongo->sgr->$container->findOne($new_query);
+        if ($new_result)
+            $return_result[] = $new_result;
+
+        return $return_result;
+    }
+
+    /* SHARER */
+
+    function partner_type_linked_sharer($cuit) {
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+        $new_query = array(
+            1695 => $cuit, 'sgr_id' => $this->sgr_id,
         );
 
         $new_result = $this->mongo->sgr->$container->findOne($new_query);
