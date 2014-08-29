@@ -230,8 +230,9 @@ class Model_061 extends CI_Model {
         foreach ($result as $list) {
 
             /* Vars */
+            if (isset($list['1695']))
+                $cuit = str_replace("-", "", $list['1695']);
 
-            $cuit = str_replace("-", "", $list['1695']);
             $brand_name = $list['1693'];
             $this->load->model('app');
             $this->load->model('padfyj_model');
@@ -246,10 +247,17 @@ class Model_061 extends CI_Model {
             $type_partner_inc_value = false;
 
             $type_partner = $this->$model_anexo->partner_type($list['CUIT_SOCIO_INCORPORADO']);
-
-            $type_partner_inc = $this->$model_anexo->partner_type_linked((string) $list['CUIT_VINCULADO']);
-
-            if ($type_partner_inc) {
+            
+            /*SHARER*/
+             $type_partner_inc_sharer = $this->$model_anexo->partner_type_linked_sharer((string) $list['CUIT_VINCULADO']);            
+            if (isset($type_partner_inc_sharer)) {
+                foreach ($type_partner_inc_sharer as $partner_inc_sharer)
+                    $type_partner_inc_value_sharer = $partner_inc[5272];
+            }
+            
+            /*PROTECTOR*/
+            $type_partner_inc = $this->$model_anexo->partner_type_linked((string) $list['CUIT_VINCULADO']);            
+            if (isset($type_partner_inc)) {
                 foreach ($type_partner_inc as $partner_inc)
                     $type_partner_inc_value = $partner_inc[5272];
             }
@@ -259,8 +267,8 @@ class Model_061 extends CI_Model {
             $es_participe = "-";
             $es_protector = "-";
 
-            if ($list['CUIT_VINCULADO']) {
-                $es_participe = ($type_partner_inc_value[0] == "A") ? "SI" : "NO";
+            if (isset($list['CUIT_VINCULADO'])) {
+                $es_participe = ($type_partner_inc_value_sharer[0] == "A") ? "SI" : "NO";
                 $es_protector = ($type_partner_inc_value[0] == "B") ? "SI" : "NO";
             }
 
