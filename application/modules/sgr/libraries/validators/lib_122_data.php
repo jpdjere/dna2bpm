@@ -148,6 +148,7 @@ class Lib_122_data extends MX_Controller {
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         array_push($stack, $result);
                     } else {
+                        $D_cell_value = $parameterArr[$i]['fieldValue']; 
                         $return = check_date_format($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -213,12 +214,15 @@ class Lib_122_data extends MX_Controller {
                             $amount_warranty = (float) $order_number[5218];
                             $currency = $order_number['5219'][0];
                             $origin = $order_number['5215'];
-
+                            $new_expiry = $D_cell_value-1;
+                            
 
                             if ($currency == 2) {
                                 $dollar_quotation_origin = $this->sgr_model->get_dollar_quotation(translate_date_xls($origin));
-                                $dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
-                                $new_dollar_value = ($amount_warranty / $dollar_quotation_origin) * $dollar_quotation_period;
+                                $dollar_quotation_new_expiry = $this->sgr_model->get_dollar_quotation($new_expiry);
+                                //$dollar_quotation_period = $this->sgr_model->get_dollar_quotation_period();
+                                
+                                $new_dollar_value = ($amount_warranty / $dollar_quotation_origin) * $dollar_quotation_new_expiry;
 
                                 $a = (int) $new_dollar_value;
                                 $b = (int) $F_cell_value;
@@ -227,7 +231,7 @@ class Lib_122_data extends MX_Controller {
 
                                 if ($fix_ten_cents) {
                                     $code_error = "F.2.B";
-                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($F_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $order_number[5214] . '  (' . $amount_warranty . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_period . ' = ' . money_format_custom($new_dollar_value) . ' )');
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], money_format_custom($F_cell_value) . ' Monto disponible para el Nro. Orden  = ' . $order_number[5214] . '  (' . $amount_warranty . '/' . $dollar_quotation_origin . '*' . $dollar_quotation_new_expiry . ' = ' . money_format_custom($new_dollar_value) . ' )');
                                     array_push($stack, $result);
                                 }
                             } else {
@@ -253,6 +257,7 @@ class Lib_122_data extends MX_Controller {
             array_push($stack, $result);
         }
 
+        
         //debug($stack);        exit();
         $this->data = $stack;
     }
