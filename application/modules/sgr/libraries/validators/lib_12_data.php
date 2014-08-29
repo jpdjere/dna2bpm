@@ -129,7 +129,7 @@ class Lib_12_data extends MX_Controller {
 
                     foreach ($partner_data as $partner) {
 
-                        $amount_employees = (int) $partner['CANTIDAD_DE_EMPLEADOS'];
+                        $amount_employees += (int) $partner['CANTIDAD_DE_EMPLEADOS'];
                         $transaction_date = $partner['FECHA_DE_TRANSACCION'];
                     }
                     $amount_employees2 = 0;
@@ -140,7 +140,7 @@ class Lib_12_data extends MX_Controller {
 
                     if ($sum_amount_employees == 0) {
                         $code_error = "B.2";
-                        $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        $result = return_error_array($code_error, $parameterArr[$i]['row'], "." . $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     } else {
                         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
