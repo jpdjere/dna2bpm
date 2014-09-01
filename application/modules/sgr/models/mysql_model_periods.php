@@ -235,4 +235,19 @@ class mysql_model_periods extends CI_Model {
         return $out;
     }
 
+    function Call_every_one() {
+        
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';        
+        $this->Update_anexo($anexo);
+        
+    }
+
+    function Update_anexo($anexo) {
+
+        $mysql_model = "mysql_model_" . $anexo;
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+    }
+
 }
