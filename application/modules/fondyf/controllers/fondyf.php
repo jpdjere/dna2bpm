@@ -174,41 +174,56 @@ class Fondyf extends MX_Controller {
 			$this->user->update ( $update );
 		}
 	}
-	function set_evaluador($idwf, $idcase,$src_resourceId) {
+	function set_evaluador($idwf, $idcase, $tokenId) {
 		$this->load->library ( 'parser' );
 		$this->load->model ( 'user/group' );
+		$this->load->model ( 'bpm/bpm' );
 		$this->load->library ( 'bpm/ui' );
 		
 		$group_name = 'FonDyF/EVALUADOR TÉCNICO';
-		
+		$case = $this->bpm->get_case($idcase, $idwf);
+		$renderData=$this->bpm->load_case_data($case,$idwf);
+		$mywf = $this->bpm->load ($idwf);
+		$wf = $this->bpm->bindArrayToObject ( $mywf ['data'] );
+		//---tomo el template de la tarea
+		$shape=$this->bpm->get_shape('oryx_86F5055B-EF9B-4EB3-A636-F4D8AD782981', $wf);
+		//----token que hay que finalizar
+		$src_resourceId = 'oryx_86F5055B-EF9B-4EB3-A636-F4D8AD782981';
 		// ---Token de pp asignado
-		$resourceId = 'oryx_167509E0-AD2F-4C25-A1E9-B3E40C6C6291';
-		//----get evaluadores
+		$lane_resourceId = 'oryx_295810F2-8C34-4D03-80F8-7B5C371381B8';
+		// ----get evaluadores
 		$evaluadores = $this->user->getbygroupname ( $group_name );
-		$url=$this->base_url."bpm/engine/assign/model/$idwf/$idcase/$src_resourceId";
-		$evaluadores=array_map(function($user) use($url){
-// 			var_dump($user);exit;
-			$rtn_arr=array(
-				'iduser'=>$user->idu,
-				'name'=>$user->name,
-				'lastname'=>$user->lastname,
-				'nick'=>$user->nick,
-				'url'=>$url.'/'.$user->idu					
+		$url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId";
+		$evaluadores = array_map ( function ($user) use($url) {
+			// var_dump($user);exit;
+			$rtn_arr = array (
+					'iduser' => $user->idu,
+					'name' => $user->name,
+					'lastname' => $user->lastname,
+					'nick' => $user->nick,
+					'url' => $url . '/' . $user->idu 
 			);
 			return $rtn_arr;
-		},$evaluadores);
+		}, $evaluadores );
 		
-	    $renderData ['name'] ="Assignar Evaluador";
-	    $renderData ['base_url'] = base_url ();
+		$renderData ['title'] = "FonDyF::Assignar Evaluador";
+		$renderData ['name'] = "Assignar Evaluador";
+		$renderData ['documentation'] =($shape->properties->documentation<>'')? nl2br($this->parser->parse_string ( $shape->properties->documentation, $renderData, true, true )):'';
+		$renderData ['base_url'] = base_url ();
 		$renderData ['button'] = $evaluadores;
+		// ---prepare UI
+		$renderData ['js'] = array (
+				$this->base_url . 'bpm/assets/jscript/modal_window.js' => 'Modal Window Generic JS' 
+		);
 		$renderData ['global_js'] = array (
 				'base_url' => $this->base_url,
 				'module_url' => $this->module_url,
 				'idwf' => $idwf,
 				'idcase' => $idcase,
-				'resourceId' => $resourceId 
+				'resourceId' => $src_resourceId 
 		);
-		$this->ui->compose ( 'fondyf/get_user', 'bpm/bootstrap.ui.php', $renderData );
+		
+		$this->ui->compose ('fondyf/get_user', 'bpm/bootstrap.ui.php', $renderData );
 	}
 }
 

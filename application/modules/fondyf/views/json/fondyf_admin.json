@@ -29,18 +29,11 @@
                 }
                 ,
                 {
-                    "title": "Tile01",
+                    "title": "Asignar Evaluador",
                     "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_cases"
-                }
-                ,
-                {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
+                    "controller": "kpi",
                     "function": "tile",
-                    "params": ["cases_closed"]
+                    "params": ["fondyfpp", "fondyfpp_AK"]
                 }
 
             ]
