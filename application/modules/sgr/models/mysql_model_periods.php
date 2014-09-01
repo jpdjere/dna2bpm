@@ -236,12 +236,10 @@ class mysql_model_periods extends CI_Model {
     }
 
     function Call_every_one() {
-        $this->Update_anexo('06');
-        $this->Update_anexo('062');
-        $this->Update_anexo('09');
-        $this->Update_anexo('12');
-        $this->Update_anexo('14');
-        $this->Update_anexo('201');
+        
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';        
+        $this->Update_anexo($anexo);
+        
     }
 
     function Update_anexo($anexo) {
