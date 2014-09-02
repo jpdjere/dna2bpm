@@ -143,10 +143,10 @@ class Model_14 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-          /* UPDATE */
+        /* UPDATE */
         if (isset($get_period['status']))
-        $this->update_period($get_period['id'], $get_period['status']);
-        
+            $this->update_period($get_period['id'], $get_period['status']);
+
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
         if (isset($result)) {
@@ -161,8 +161,8 @@ class Model_14 extends CI_Model {
         return $out;
     }
 
-    function update_period($id, $status) {        
-        
+    function update_period($id, $status) {
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -243,18 +243,18 @@ class Model_14 extends CI_Model {
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $list) {
-            /* Vars */            
+            /* Vars */
             $this->load->model('padfyj_model');
             $model_12 = 'model_12';
             $this->load->Model($model_12);
-            
-            $list_NRO_GARANTIA  = trim($list['NRO_GARANTIA']);
+
+            $list_NRO_GARANTIA = trim($list['NRO_GARANTIA']);
 
 
             /* "12585/10" */
             $get_movement_data = $this->$model_12->get_order_number_print($list_NRO_GARANTIA, $list['period']);
-            
-           
+
+
 
             if (!empty($get_movement_data)) {
                 foreach ($get_movement_data as $warrant) {
@@ -671,7 +671,7 @@ class Model_14 extends CI_Model {
 		
 	</tr>
 	<tr>
-		<td>MOVIMIENTOS DE CAPITAL SOCIAL</td>
+		<td>Movimientos del F.D.R. contingente</td>
 		
 	</tr>
 	<tr>
@@ -682,8 +682,7 @@ class Model_14 extends CI_Model {
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 		
 	</tr><tr>
-            <td align="center" rowspan="2">SGR</td>
-            <td align="center" rowspan="2">CUIT SGR</td>
+            <td align="center" rowspan="2">SGR</td>            
             <td align="center" rowspan="2">ID</td>
             <td align="center" rowspan="2">Per&iacute;odo</td>
             <td align="center" rowspan="2">Fecha</td>
@@ -742,8 +741,8 @@ class Model_14 extends CI_Model {
                 '$gte' => $start_date, '$lte' => $end_date
             )
         );
-        
-      
+
+
 
 
         if ($parameter['sgr_id'] != 666)
@@ -752,7 +751,7 @@ class Model_14 extends CI_Model {
         $period_result = $this->mongo->sgr->$period_container->find($query);
 
 
-       
+
 
         $files_arr = array();
         $container = 'container.sgr_anexo_' . $anexo;
@@ -776,14 +775,18 @@ class Model_14 extends CI_Model {
 
             /* Vars */
             $cuit = str_replace("-", "", $list['CUIT']);
-            $this->load->model('padfyj_model');
-            $model_12 = 'model_12';
-            $this->load->Model($model_12);
+            $this->load->model('padfyj_model');            
+            $this->load->Model(model_12);
 
 
             /* "12585/10" */
-            $get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $this->session->userdata['period']);
+            //$get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $this->session->userdata['period']);
+            $each_sgr_id = $this->sgr_model->get_sgr_by_filename($list['filename']);
+            
+            $get_movement_data = $this->model_12->get_order_number_by_sgrid($list['NRO_GARANTIA'], $each_sgr_id);
 
+            
+            //debug($get_movement_data);
 
             if (!empty($get_movement_data)) {
                 foreach ($get_movement_data as $warrant) {
@@ -795,21 +798,24 @@ class Model_14 extends CI_Model {
 
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
+            $filename = trim($list['filename']);
+            list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
+
+
             $new_list = array();
-            $new_list['col1'] = $this->sgr_nombre;
-            $new_list['col2'] = $cuit_sgr;
-            $new_list['col3'] = $list['id'];
-            $new_list['col4'] = $get_period_filename['period'];
-            $new_list['col5'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
-            $new_list['col6'] = $list['NRO_GARANTIA'];
-            $new_list['col7'] = $brand_name;
-            $new_list['col8'] = $cuit;
-            $new_list['col9'] = money_format_custom($list['CAIDA']);
-            $new_list['col10'] = money_format_custom($list['RECUPERO']);
-            $new_list['col11'] = money_format_custom($list['INCOBRABLES_PERIODO']);
-            $new_list['col12'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
-            $new_list['col13'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
-            $new_list['col14'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
+            $new_list['col1'] = $g_denomination;
+            $new_list['col2'] = $list['id'];
+            $new_list['col3'] = $get_period_filename['period'];
+            $new_list['col4'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
+            $new_list['col5'] = $list['NRO_GARANTIA'];
+            $new_list['col6'] = $brand_name;
+            $new_list['col7'] = $cuit;
+            $new_list['col8'] = money_format_custom($list['CAIDA']);
+            $new_list['col9'] = money_format_custom($list['RECUPERO']);
+            $new_list['col10'] = money_format_custom($list['INCOBRABLES_PERIODO']);
+            $new_list['col11'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
+            $new_list['col12'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
+            $new_list['col13'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
             $rtn[] = $new_list;
         }
 
