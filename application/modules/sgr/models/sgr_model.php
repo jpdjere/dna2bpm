@@ -303,6 +303,16 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+    function get_sgr_by_filename($filename) {
+
+        $container = 'container.sgr_periodos';
+        $query = array("filename" => $filename);
+        $result = $this->mongo->sgr->$container->findOne($query);
+
+        if (isset($result))
+            return $result['sgr_id'];
+    }
+
     function get_sgrs_users() {
         $rtn = array();
 
@@ -617,7 +627,7 @@ class Sgr_model extends CI_Model {
         if (isset($period)) {
             $query["period"] = $period;
         }
-      
+
         $result = $this->mongo->sgr->$container->find($query);
 
         foreach ($result as $each) {
@@ -714,6 +724,33 @@ class Sgr_model extends CI_Model {
         return $rtn;
     }
 
+    
+    function get_active_each_sgrid($anexo, $sgr_id) {
+        $rtn = array();
+        $period = 'container.sgr_periodos';
+
+        
+      
+       
+
+        $query = array(
+            'sgr_id' => (float) $sgr_id,
+            'anexo' => $anexo,            
+            'status' => 'activo'
+            
+        );
+
+        $result = $this->mongo->sgr->$period->find($query);
+
+        foreach ($result as $each) {
+
+            $rtn[] = $each;
+        }
+
+        return $rtn;
+    }
+    
+    
     /* GET ACTIVE for PRINT ANEXOS */
 
     function get_active_one($anexo, $get_period) {

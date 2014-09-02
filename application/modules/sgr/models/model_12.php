@@ -525,6 +525,35 @@ class Model_12 extends CI_Model {
         return $return_result;
     }
 
+    function get_order_number_by_sgrid($nro, $sgr_id) {
+        
+        
+        $anexo = '12';
+
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_each_sgrid($anexo, $sgr_id);
+
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            
+          
+            
+            $new_query = array(
+                'filename' => $list['filename'],
+                5214 => $nro
+            );
+            $new_result = $this->mongo->sgr->$container->findOne($new_query);
+            if ($new_result) {
+                $return_result[] = $new_result;
+            }
+        }
+        return $return_result;
+    }
+    
+    
     /* GET DATA */
 
     function get_warranty_partner_left($cuit) {
