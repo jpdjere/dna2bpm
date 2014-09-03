@@ -33,7 +33,9 @@ class Lib_06_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
+        $b3_ext_arr = array();
         $C_array_value = array();
+
 
 
         $B_cell_value = "";
@@ -123,7 +125,10 @@ class Lib_06_data extends MX_Controller {
 
                     $C_cell_value = $parameterArr[$i]['fieldValue'];
                     if ($C_cell_value) {
+
                         $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
+
+
                         $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
                         //echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
                     }
@@ -137,9 +142,7 @@ class Lib_06_data extends MX_Controller {
                   ACA – Acta de Consejo de Administración
                   EC – Estatuto Constitutivo
                  */
-                if ($param_col == 3) {
-                    
-                }
+
 
                 if ($param_col == 29) {
 
@@ -327,6 +330,12 @@ class Lib_06_data extends MX_Controller {
                     switch ($param_col) {
                         case 34:
                             $AH_cell_value = (int) $parameterArr[$i]['fieldValue'];
+
+
+                            /* EXT B3 */
+                            if ($A_cell_value == "INCORPORACION")
+                                $b3_ext_arr[] = $C_cell_value . '*' . $AH_cell_value . "*" . $B_cell_value;
+
                             $code_error = "AH.1";
                             //empty field Validation
                             $return = check_empty($parameterArr[$i]['fieldValue']);
@@ -476,6 +485,7 @@ class Lib_06_data extends MX_Controller {
                     if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
                         /* B.3 */
 
+
                         if ($subscribed == 0) {
                             $code_error = "B.3";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
@@ -592,6 +602,7 @@ class Lib_06_data extends MX_Controller {
                      */
                     if ($param_col == 3) {
                         $code_error = "C.1";
+
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
@@ -1449,9 +1460,15 @@ class Lib_06_data extends MX_Controller {
             $result = return_error_array($code_error, "-", "");
             array_push($stack, $result);
         }
-        /*         $stack = array(); */
-//        debug($stack);
-//        exit();
+
+
+
+
+        /* $stack = array(); */
+
+
+        //debug($b3_ext_arr);
+        //debug($stack);        exit();
         $this->data = $stack;
     }
 
