@@ -100,7 +100,7 @@ class Model_201 extends CI_Model {
             $insertarr["RETIRO_DE_RENDIMIENTOS"] = (float) $insertarr["RETIRO_DE_RENDIMIENTOS"];
 
             $insertarr["NRO_ACTA"] = (int) $insertarr["NRO_ACTA"];
-            $insertarr["NUMERO_DE_APORTE"] = $insertarr["NUMERO_DE_APORTE"];
+            $insertarr["NUMERO_DE_APORTE"] = (int) $insertarr["NUMERO_DE_APORTE"];
         }
         return $insertarr;
     }
@@ -787,6 +787,9 @@ class Model_201 extends CI_Model {
     }
 
     function get_movement_data_print($nro, $period_date) {
+        
+        
+        
         $anexo = $this->anexo;
 
         $period = 'container.sgr_periodos';
@@ -799,20 +802,26 @@ class Model_201 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_date);
+        
+      
 
         /* FIND ANEXO */
         $new_query = array();
         foreach ($result as $list) {
+            
+            
+             
+            
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
             
             
+//             if ($nro == 13) {                
+//                debug($list['filename']);                
+//            }
             
-
-
-
             $movement = $this->mongo->sgr->$container->find($new_query);
             foreach ($movement as $x) {
                 $aporte_result_arr[] = $x['APORTE'];
@@ -822,9 +831,7 @@ class Model_201 extends CI_Model {
         }
 
         
-           if ($nro == 8) {                
-                //debug($retiro_result_arr);                
-            }
+         
         
         $aporte_sum = array_sum($aporte_result_arr);
         $retiro_sum = array_sum($retiro_result_arr);
