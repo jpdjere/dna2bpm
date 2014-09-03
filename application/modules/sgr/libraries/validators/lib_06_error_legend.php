@@ -236,7 +236,7 @@ class Lib_06_error_legend {
                 break;
             case "AB.2": $result_error = '<strong>Columna AB- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>AB- Cantidad de Empleados: Está columna DEBE ESTAR VACÍA.';
                 break;
-            case "B.3": $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: Debe verificar que el Tipo de Socio se correspondan con el carácter que el Socio tiene en ese momento en la SGR. Si es Partícipe, puede incrementar la tenencia de Acciones Clase A, y si es protector sólo de Acciones Clase B.';
+            case "B.3": $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: Debe verificar que el Tipo de Socio se correspondan con el carácter que el Socio tiene en ese momento en la SGR, tanto en la información histórica como en el mismo archivo que se está informando. Si es Partícipe, puede incrementar la tenencia de Acciones Clase A, y si es protector sólo de Acciones Clase B.';
                 break;
             case "C.2": $result_error = '<strong>Columna C - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe verificar que el CUIT que se esté incorporando no esté incorporado previamente, para la cual deber verificar que no tenga saldos de Capital positivos (Tanto Suscriptos como Integrados), en la SGR en que se está incorporando.';
                 break;
