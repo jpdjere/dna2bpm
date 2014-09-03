@@ -47,7 +47,7 @@ class Lib_06_data extends MX_Controller {
             for ($i = 0; $i <= count($parameterArr); $i++) {
 
 
-                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
+                $param_col = (isset($parameterArr[$i]['col'])) ? $parameterArr[$i]['col'] : 0;
 
 
                 /* TIPO_OPERACION
@@ -448,9 +448,9 @@ class Lib_06_data extends MX_Controller {
                         $calcPromedio = ($S2_cell_value == 0) ? 0 : 1;
                         $calcPromedio += ($V2_cell_value == 0) ? 0 : 1;
                         $calcPromedio += ($Y2_cell_value == 0) ? 0 : 1;
-                        
+
                         $average_amount = 0;
-                        
+
 
                         if ($calcPromedio != 0) {
                             $montosArr = array($S2_cell_value, $V2_cell_value, $Y2_cell_value);
@@ -1133,6 +1133,12 @@ class Lib_06_data extends MX_Controller {
                                 //Check Numeric Validation
                                 $return = check_is_numeric($parameterArr[$i]['fieldValue']);
                                 if ($return) {
+                                    $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                    array_push($stack, $result);
+                                }
+
+                                //Check Cero
+                                if ($parameterArr[$i]['fieldValue'] == 0) {
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                                     array_push($stack, $result);
                                 }
