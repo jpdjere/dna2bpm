@@ -175,8 +175,7 @@ class Dashboard extends MX_Controller {
         $customData['base_url'] = $this->base_url;
         $customData['module_url'] = $this->module_url;
         $customData['inbox_count'] = $this->msg->count_msgs($this->idu, 'inbox');
-        $customData['config_panel'] =$this->parser->parse('_config_panel',  $customData['lang'], true, true);
-        
+        $customData['config_panel'] =$this->parser->parse('_config_panel', array(), true, true);
         $customData['name'] = $user->name . ' ' . $user->lastname;
 
         // Global JS
@@ -205,9 +204,11 @@ class Dashboard extends MX_Controller {
         /*
          * Adds extra data if passed
          */
+
         if($extraData){
          $customData+=$extraData;   
         }
+
         $this->ui->compose($layout, $customData);
     }
 
@@ -251,11 +252,13 @@ class Dashboard extends MX_Controller {
         define('MINWIDTH', 2);
 //             $return['js'] = array();
         //Root config
+
         foreach ($myconfig as $key => $value) {
             if ($key != 'zones')
                 $return[$key] = $value;
         }
-
+        $return['js']=array();
+        $return['css']=array();
         //Zones
         foreach ($myconfig['zones'] as $zones) {
             $content = "";
@@ -307,9 +310,7 @@ class Dashboard extends MX_Controller {
                 if (isset($myWidget['params'])) {
                     $args = $myWidget['params'];
                     array_unshift($args, $myWidget['module'] . '/' . $myWidget['controller'] . '/' . $myWidget['function']);
-
-                    $markup = $widget = call_user_func_array(array('Modules', 'run'), $args);
-                   
+                    $markup = $widget = call_user_func_array(array('Modules', 'run'), $args);                   
                 } else {
                     $markup = $widget = Modules::run($myWidget['module'] . '/' . $myWidget['controller'] . '/' . $myWidget['function']);
                 }
@@ -323,9 +324,24 @@ class Dashboard extends MX_Controller {
                 else
                     $content.="<div class='col-lg-$span '>$mycontent</div>";
 
+				// CSS 
+ 				if(isset($myWidget['css']))
+ 					foreach($myWidget['css'] as $item){
+	 					foreach($item as $k=>$v){
+	 						$return['css'][$k]=$v;
+	 					}
+ 					}
+ 					
+            	// JS 
+ 				if(isset($myWidget['js']))
+ 					foreach($myWidget['js'] as $item){
+	 					foreach($item as $k=>$v){
+	 						$return['js'][$k]=$v;
+	 					}
+ 					}
+					
 
-                // closing div
-                //if($Qspan==0)$content.="</div>";
+
             }
             // $content.='</div>';
             // Por si el widget devuelve un array en lugar del contenido solamente
