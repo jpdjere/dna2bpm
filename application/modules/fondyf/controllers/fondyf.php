@@ -79,7 +79,7 @@ class Fondyf extends MX_Controller {
 		$template = 'fondyf/listar_proyectos';
 		$filter = array (
 				'idwf' => 'fondyfpp',
-				'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5' 
+//				'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5' 
 		);
 		$data ['querystring'] = $this->input->post ( 'query' );
 		// -----busco en el cuit
