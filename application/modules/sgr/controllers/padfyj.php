@@ -25,7 +25,7 @@ class Padfyj extends MX_Controller {
         set_time_limit(3600 * 8);
         $this->output->enable_profiler(true);
         $this->load->model('padfyj_model');
-        $filename_base = '/home/juanb/Desktop/tmp/Persona Física/padfyj/padfyj_%.txt';
+        $filename_base = '/home/ich/Desktop/padfyj/padfyj_%.txt';
         $i = 1;
         for ($i = 5; $i <= 9; $i++) {
             $filename = str_replace('%', $i, $filename_base);
