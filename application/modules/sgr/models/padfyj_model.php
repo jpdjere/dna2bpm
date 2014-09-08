@@ -33,7 +33,7 @@ class Padfyj_model extends CI_Model {
              */
         } else {
             //echo "Inserto: " . $array['CUIT'] . ' ' . $array['DENOMINACION'] . "<br/>";
-            $result = $this->db->insert('padfyj', $array);
+            $result = $this->db->insert('padfyj_2014', $array);
         }
         return $result;
     }
