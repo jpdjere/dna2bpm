@@ -135,7 +135,7 @@ class mysql_model_06 extends CI_Model {
                 monto3, 
                 capital_suscripto,
                 capital_integrado,
-                fecha_efectiva,fecha_acta 
+                fecha_efectiva,fecha_acta, 
                 filename, cedente_cuit, cedente_caracteristica, modalidad,
                 idu'
         );
