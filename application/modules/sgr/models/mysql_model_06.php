@@ -135,7 +135,7 @@ class mysql_model_06 extends CI_Model {
                 monto3, 
                 capital_suscripto,
                 capital_integrado,
-                fecha_efectiva, 
+                fecha_efectiva,fecha_acta 
                 filename, cedente_cuit, cedente_caracteristica, modalidad,
                 idu'
         );
@@ -170,8 +170,10 @@ class mysql_model_06 extends CI_Model {
 
             $parameter[5597] = (float) str_replace(",", ".", $row->capital_suscripto);
             $parameter[5598] = (float) str_replace(",", ".", $row->capital_integrado);
+            
+            $fecha_efectiva = ($row->fecha_efectiva=="0000-00-00")?$row->fecha_acta:$row->fecha_efectiva;           
 
-            $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_efectiva);
+            $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($fecha_efectiva);
 
 
             if (strtoupper(trim($row->tipo_operacion)) == "INCORPORACION")
