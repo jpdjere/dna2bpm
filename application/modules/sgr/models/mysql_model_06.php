@@ -178,6 +178,8 @@ class mysql_model_06 extends CI_Model {
                 $parameter[5779] = "1";
             if (strtoupper(trim($row->tipo_operacion)) == "INCREMENTO DE TENENCIA ACCIONARIA")
                 $parameter[5779] = "2";
+            if (strtoupper(trim($row->tipo_operacion)) == "INCREMENTO TENENCIA ACCIONARIA")
+                $parameter[5779] = "2";
             if (strtoupper(trim($row->tipo_operacion)) == "DISMINUCION DE CAPITAL SOCIAL")
                 $parameter[5779] = "3";
 
@@ -190,6 +192,8 @@ class mysql_model_06 extends CI_Model {
             if (strtoupper(trim($row->cedente_caracteristica)) == "DESVINCULACION")
                 $parameter[5292] = "2";
             if (strtoupper(trim($row->cedente_caracteristica)) == "DISMINUCION DE TENENCIA ACCIONARIA")
+                $parameter[5292] = "1";
+            if (strtoupper(trim($row->cedente_caracteristica)) == "DISMINUCION TENENCIA ACCIONARIA")
                 $parameter[5292] = "1";
 
 
