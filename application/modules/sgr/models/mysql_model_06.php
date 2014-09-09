@@ -125,18 +125,49 @@ class mysql_model_06 extends CI_Model {
         $this->db->select(
                 'id,
                 cuit, 
+                nombre,
+                provincia, 	
+                partido,		
+                localidad,
+                codigo_postal, 
+                calle, 
+                nro, 
+                piso, 
+                dto_oficina, 
+                telefono1,
+                telefono2, 
+                email, 
+                web,  	
+                sector, 
                 tipo_socio, 
                 tipo_operacion,
-                cedente_cuit,
                 codigo_actividad,
                 cantidad_empleados, 
+                anio,	
                 monto,
+                tipo_origen,
+                anio2,
                 monto2,
+                tipo_origen2
+                anio3,
                 monto3, 
+                tipo_origen3,
+                promedio,
+                tipo_empresa, 
+                regimen_iva, 
                 capital_suscripto,
+                acciones_suscriptas, 
                 capital_integrado,
-                fecha_efectiva,fecha_acta, 
-                filename, cedente_cuit, cedente_caracteristica, modalidad,
+                acciones_integradas, 
+                fecha_efectiva,
+                tipo_acta, 
+                fecha_acta, 
+                acta_nro, 
+                filename, 
+                cedente_cuit, 
+                cedente_nombre, 
+                cedente_caracteristica, 
+                modalidad,
                 idu'
         );
 
@@ -151,12 +182,45 @@ class mysql_model_06 extends CI_Model {
 
             $parameter = array();
 
+
+
+
             /* STRING */
             $parameter[1695] = (string) $row->cuit;
+            $parameter[1693] = (string) $row->nombre;
             $parameter[5272] = (string) $row->tipo_socio;
             $parameter[5248] = (string) $row->cedente_cuit;
 
+            $parameter[19] = (string) $row->anio;
+            $parameter[22] = (string) $row->anio2;
+            $parameter[25] = (string) $row->anio3;
 
+            $parameter[21] = (string) $row->tipo_origen;
+            $parameter[24] = (string) $row->tipo_origen2;
+            $parameter[27] = (string) $row->tipo_origen3;
+
+
+            $parameter[1693] = (string) $row->nombre;
+            $parameter[4651] = (string) $row->provincia;
+            $parameter[1699] = (string) $row->partido;
+            $parameter[1700] = (string) $row->localidad;
+
+            $parameter[1698] = (string) $row->codigo_postal;
+            $parameter[4653] = (string) $row->calle;
+
+            $parameter[4654] = (string) $row->nro;
+            $parameter[4655] = (string) $row->piso;
+            $parameter[4656] = (string) $row->dto_oficina;
+            $parameter[1701] = (string) $row->telefono1 . $row->telefono2;
+            $parameter[1703] = (string) $row->email;
+            $parameter[1704] = (string) $row->web;
+
+
+            $parameter[5596] = (string) $row->regimen_iva;
+            $parameter[5253] = (string) $row->tipo_acta;
+
+            $parameter[5254] = (string) $row->acta_nro;
+            $parameter[5249] = (string) $row->cedente_nombre;
 
             /* INTEGERS */
 
@@ -166,16 +230,16 @@ class mysql_model_06 extends CI_Model {
             /* FLOAT */
             $parameter[20] = (float) $row->monto;
             $parameter[23] = (float) $row->monto2;
-            $parameter[26] = (float) $row->monto3;
+            $parameter[26] = (float) $row->monto3;            
 
             $parameter[5597] = (float) str_replace(",", ".", $row->capital_suscripto);
             $parameter[5598] = (float) str_replace(",", ".", $row->capital_integrado);
-            
-            $fecha_efectiva = ($row->fecha_efectiva=="0000-00-00")?$row->fecha_acta:$row->fecha_efectiva;           
 
-            $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($fecha_efectiva);
+            /* DATES */
+            $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_efectiva);
+            $parameter[5255] = translate_mysql_date($row->fecha_acta);
 
-
+            /* OPTIONS*/
             if (strtoupper(trim($row->tipo_operacion)) == "INCORPORACION")
                 $parameter[5779] = "1";
             if (strtoupper(trim($row->tipo_operacion)) == "INCREMENTO DE TENENCIA ACCIONARIA")
