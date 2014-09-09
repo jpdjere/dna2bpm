@@ -148,7 +148,7 @@ class mysql_model_06 extends CI_Model {
                 tipo_origen,
                 anio2,
                 monto2,
-                tipo_origen2
+                tipo_origen2,
                 anio3,
                 monto3, 
                 tipo_origen3,
