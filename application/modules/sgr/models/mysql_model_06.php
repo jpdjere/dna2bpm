@@ -118,7 +118,7 @@ class mysql_model_06 extends CI_Model {
     /* SAVE FETCHS ANEXO  DATA */
 
     function anexo_data_tmp($anexo, $filename) {
-        
+
         ini_set('error_reporting', E_ALL);
 
 
@@ -230,16 +230,19 @@ class mysql_model_06 extends CI_Model {
             /* FLOAT */
             $parameter[20] = (float) $row->monto;
             $parameter[23] = (float) $row->monto2;
-            $parameter[26] = (float) $row->monto3;            
+            $parameter[26] = (float) $row->monto3;
 
             $parameter[5597] = (float) str_replace(",", ".", $row->capital_suscripto);
             $parameter[5598] = (float) str_replace(",", ".", $row->capital_integrado);
 
             /* DATES */
+            if (isset($row->fecha_efectiva))
             $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_efectiva);
-            $parameter[5255] = translate_mysql_date($row->fecha_acta);
 
-            /* OPTIONS*/
+            if (isset($row->fecha_acta))
+                $parameter[5255] = translate_mysql_date($row->fecha_acta);
+
+            /* OPTIONS */
             if (strtoupper(trim($row->tipo_operacion)) == "INCORPORACION")
                 $parameter[5779] = "1";
             if (strtoupper(trim($row->tipo_operacion)) == "INCREMENTO DE TENENCIA ACCIONARIA")
@@ -268,12 +271,11 @@ class mysql_model_06 extends CI_Model {
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
-            
+
 
             $insert = $this->save_anexo_06_tmp($parameter, $anexo);
-            
+
             debug($insert);
-            
         }
     }
 
@@ -311,6 +313,7 @@ class mysql_model_06 extends CI_Model {
     function save_anexo_06_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
+
         $period = $this->session->userdata['period'];
         $container = 'container.sgr_anexo_06';
         /* TRANSLATE ANEXO NAME */
