@@ -268,9 +268,12 @@ class mysql_model_06 extends CI_Model {
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
-            debug($parameter);
+            
 
-            $this->save_anexo_06_tmp($parameter, $anexo);
+            $insert = $this->save_anexo_06_tmp($parameter, $anexo);
+            
+            debug($insert);
+            
         }
     }
 
