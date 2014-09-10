@@ -275,7 +275,7 @@ class mysql_model_06 extends CI_Model {
 
             $insert = $this->save_anexo_06_tmp($parameter, $anexo);
 
-            debug($insert);
+            debug($row);
         }
     }
 
