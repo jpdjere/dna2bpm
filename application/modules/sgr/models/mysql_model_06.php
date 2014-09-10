@@ -181,9 +181,7 @@ class mysql_model_06 extends CI_Model {
         foreach ($query->result() as $row) {
 
             $parameter = array();
-
-
-
+            $arr = array();
 
             /* STRING */
             $parameter[1695] = (string) $row->cuit;
@@ -248,8 +246,6 @@ class mysql_model_06 extends CI_Model {
             else
                 $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_acta);
 
-
-            var_dump($row->fecha_acta, $arr);
 
             /* OPTIONS */
             if (strtoupper(trim($row->tipo_operacion)) == "INCORPORACION")
