@@ -118,8 +118,8 @@ class mysql_model_06 extends CI_Model {
     /* SAVE FETCHS ANEXO  DATA */
 
     function anexo_data_tmp($anexo, $filename) {
-
-
+        
+        ini_set('error_reporting', E_ALL);
 
 
         $this->db->select(
