@@ -236,11 +236,20 @@ class mysql_model_06 extends CI_Model {
             $parameter[5598] = (float) str_replace(",", ".", $row->capital_integrado);
 
             /* DATES */
-            if (isset($row->fecha_efectiva))
-            $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_efectiva);
 
-            if (isset($row->fecha_acta))
-                $parameter[5255] = translate_mysql_date($row->fecha_acta);
+
+            if (isset($row->fecha_acta)) {
+                list($arr['Y'], $arr['m'], $arr['d']) = explode("-", $row->fecha_acta);
+                $parameter[5255] = $arr;
+            }
+
+            if ($row->fecha_efectiva != "0000-00-00")
+                $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_efectiva);
+            else
+                $parameter['FECHA_DE_TRANSACCION'] = translate_mysql_date($row->fecha_acta);
+
+
+            var_dump($row->fecha_acta, $arr);
 
             /* OPTIONS */
             if (strtoupper(trim($row->tipo_operacion)) == "INCORPORACION")
@@ -274,8 +283,6 @@ class mysql_model_06 extends CI_Model {
 
 
             $insert = $this->save_anexo_06_tmp($parameter, $anexo);
-
-            debug($row);
         }
     }
 
