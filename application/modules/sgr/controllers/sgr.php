@@ -120,10 +120,10 @@ class Sgr extends MX_Controller {
         foreach ($header_merge as $key => $each) {
             $customData[$key] = $each;
         }
-        
-        
-        
-        /*FRE*/
+
+
+
+        /* FRE */
         /* fre_session */
         if (isset($this->session->userdata['fre_session']))
             $customData['fre_session'] = $this->session->userdata['fre_session'];
@@ -311,15 +311,15 @@ class Sgr extends MX_Controller {
         $this->session->set_userdata($newdata);
         redirect('/sgr/dashboard');
     }
-    
-    function Exit_fre(){
-        
+
+    function Exit_fre() {
+
         $newdata = array('iduser' => $this->session->userdata('fre_session'));
         $this->session->set_userdata($newdata);
-        
-        /*CLEAR SESSION*/
+
+        /* CLEAR SESSION */
         $this->session->unset_userdata('fre_session');
-        
+
         redirect('/sgr/dashboard');
     }
 
@@ -328,7 +328,15 @@ class Sgr extends MX_Controller {
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a target="' . $target . '" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
+            /*
+             * FILTER 4 FRE
+             * FONDOS DE AFECTACIÓN ESPECÍFICOS, no deben tener la opcion de subir los Anexo 6, ni 6.1 ni 6.2.
+             */
+            $chunk_id = (int) $anexo['id'];
+            $limit_chunk_id = (isset($this->session->userdata['fre_session'])) ? 3 : 0;
+
+            if ($chunk_id > $limit_chunk_id)
+                $result .= '<li><a target="' . $target . '" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
         return $result;
     }
@@ -576,9 +584,9 @@ class Sgr extends MX_Controller {
 
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-                
+
                 $data_sheets_cells = $data->sheets[0]['cells'][$i];
-                
+
 
                 /* CHECK FOR EMPTY ROWS */
                 $row_count = implode($data_sheets_cells);
@@ -812,9 +820,9 @@ class Sgr extends MX_Controller {
     }
 
     function print_anexo($parameter = null) {
-        
+
         //ini_set("error_reporting", E_ALL);
-        
+
         if (!$parameter)
             exit();
 
