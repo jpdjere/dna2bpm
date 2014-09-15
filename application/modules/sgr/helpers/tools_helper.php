@@ -23,7 +23,6 @@ function money_format_custom($parameter, $entero = null) {
     return $parameter;
 }
 
-
 function percent_format_custom($parameter) {
 
     if ($parameter == NULL) {
@@ -39,9 +38,9 @@ function percent_format_custom($parameter) {
 }
 
 function money_format_xls($parameter) {
-    $parameter = (float)$parameter;
+    $parameter = (float) $parameter;
     $parameter = str_replace(".", ",", $parameter);
-   
+
     return $parameter;
 }
 
@@ -965,11 +964,14 @@ function fix_ten_cents($value, $value2) {
     $percent_negative = (int) ($value * -0.01);
 
     $range = range($percent_negative, $percent);
+
     $diff = $value - $value2;
     $diff = (int) $diff;
 
-    if (!in_array($diff, $range))
-        return true;
+    if ($diff < 0) {
+        if (!in_array($diff, $range))
+            return true;
+    }
 }
 
 function sum_values($value1, $value2) {
