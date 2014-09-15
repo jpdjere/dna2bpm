@@ -195,12 +195,20 @@ class Tools extends MX_Controller {
         redirect('sgr/reports/');
     }
 
-    function AnexosDB() {
-        $module_url = base_url() . 'sgr/reports/';
+    function AnexosDB($target = '_self') {
+        $module_url = base_url() . 'sgr/';
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
-            $result .= '<li><a href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
+            /*
+             * FILTER 4 FRE
+             * FONDOS DE AFECTACIÓN ESPECÍFICOS, no deben tener la opcion de subir los Anexo 6, ni 6.1 ni 6.2.
+             */
+            $chunk_id = (int) $anexo['id'];
+            $limit_chunk_id = (isset($this->session->userdata['fre_session'])) ? 3 : 0;
+
+            if ($chunk_id > $limit_chunk_id)
+                $result .= '<li><a target="' . $target . '" href=  "' . $module_url . 'anexo_code/' . $anexo['number'] . '"> ' . $anexo['title'] . ' <strong>[' . $anexo['short'] . ']</strong></a></li>';
         }
         return $result;
     }
