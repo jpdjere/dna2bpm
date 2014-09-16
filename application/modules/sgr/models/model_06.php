@@ -683,6 +683,9 @@ class Model_06 extends CI_Model {
                 $partner_web = $list['1703'] . "</br>" . $list['1704'];
             } else {
                 $partner_data = $list['5272'][0];
+                $partner_add_data = "";
+                $partner_phone = "";
+                $partner_web = "";
             }
 
             $new_list = array();
