@@ -660,7 +660,13 @@ class Model_06 extends CI_Model {
             }
 
             $codigo_actividad = ($list['5208'] == "0") ? "-" : $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
-
+            
+            
+            $zip_address=null;
+            $cuit_grantor=null;
+            $area_code=null;
+            $address=null;
+            
             if ($list['1698'] != "")
                 $zip_address = "</br>[" . $list['1698'] . "]";
 
@@ -683,13 +689,14 @@ class Model_06 extends CI_Model {
                 $partner_web = $list['1703'] . "</br>" . $list['1704'];
             } else {
                 $partner_data = $list['5272'][0];
+                
             }
 
             $new_list = array();
             $new_list['TIPO_OPERACION'] = $operation_type[$list['5779'][0]];
             $new_list['SOCIO'] = $partner_data;
             $new_list['LOCALIDAD'] = $partner_add_data;
-            $new_list['DIRECCION'] = $partner_add_data;
+            $new_list['DIRECCION'] = $address;
             $new_list['TELEFONO'] = $partner_phone;
             $new_list['EMAIL'] = $partner_web;
             $new_list['CODIGO_ACTIVIDAD'] = $codigo_actividad;
