@@ -174,6 +174,24 @@ class Fondyf extends MX_Controller {
 			$this->user->update ( $update );
 		}
 	}
+	function asignar_evaluador($idwf, $idcase, $tokenId){
+		$this->load->library ( 'parser' );
+		$this->load->model ( 'user/group' );
+		$this->load->model ( 'bpm/bpm' );
+		$case = $this->bpm->get_case($idcase, $idwf);
+		$renderData=$this->bpm->load_case_data($case,$idwf);
+		//----tomo evaluador del caso
+		$evaluador=$renderData['Proyectos_fondyf']['8668'][0];		
+		//----token que hay que finalizar
+		$src_resourceId = 'oryx_1C122FC6-1C7F-425A-A0A2-E9EA1892177E';
+		// ---Token de pp asignado
+		$lane_resourceId = 'oryx_295810F2-8C34-4D03-80F8-7B5C371381B8';
+		
+		$url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
+		
+		redirect($url);
+	}
+	
 	function set_evaluador($idwf, $idcase, $tokenId) {
 		$this->load->library ( 'parser' );
 		$this->load->model ( 'user/group' );
