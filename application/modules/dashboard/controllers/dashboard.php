@@ -268,6 +268,8 @@ class Dashboard extends MX_Controller {
             $myzone_key = key($zones);
             $empty_spans = 0;
             $no_span = false;
+
+            
             foreach ($myzone as $item) {
                 $widgets[] = $item;
                 $spans[] = (empty($item["span"])) ? (MINWIDTH) : ($item["span"]);
