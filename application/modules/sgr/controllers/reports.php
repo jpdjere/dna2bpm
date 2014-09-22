@@ -23,12 +23,11 @@ class reports extends MX_Controller {
         $this->load->model('sgr/sgr_model');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
-        
-        
-         /* update db */
-        $this->load->Model("mysql_model_periods");
-        $this->mysql_model_periods->call_every_one();
 
+
+        /* update db */
+        $this->load->Model("mysql_model_periods");
+        //$this->mysql_model_periods->call_every_one();
 //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . 'sgr/';
@@ -70,8 +69,8 @@ class reports extends MX_Controller {
     }
 
     function Index() {
-        
-             
+
+
 
         $customData = array();
         $default_dashboard = 'reports';
@@ -86,7 +85,7 @@ class reports extends MX_Controller {
         }
 
         /* FORM TEMPLATE */
-        $enables = array('06', '12', '14', '15');
+        $enables = array('06', '12', '14', '15', '201');
 
         if (in_array($this->anexo, $enables))
             $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
@@ -102,14 +101,17 @@ class reports extends MX_Controller {
     }
 
     function action_form() {
-        
-        //ini_set("error_reporting", E_ALL);
-        
+
+        ini_set("error_reporting", E_ALL);
+
         $customData = array();
         $default_dashboard = 'reports_result';
         $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
+
+
+
 
         /* HEADERS */
         $header_merge = array_merge($customData, $this->headers());
@@ -182,6 +184,10 @@ class reports extends MX_Controller {
             case '15':
                 return $this->process_15($anexo);
                 break;
+
+            case '201':
+                return $this->process_201($anexo);
+                break;
         }
     }
 
@@ -189,8 +195,6 @@ class reports extends MX_Controller {
 
         $rtn = array();
         $report_name = $this->input->post('report_name');
-
-
 
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
@@ -228,6 +232,28 @@ class reports extends MX_Controller {
                     $result = $this->$model->get_anexo_report($anexo, $rtn);
                     break;
             }
+
+            return $result;
+        }
+    }
+
+    function process_201($anexo) {
+
+        $rtn = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+
+            $result = $this->$model->get_anexo_report($anexo, $rtn);
+
+
 
             return $result;
         }
@@ -331,7 +357,7 @@ class reports extends MX_Controller {
     }
 
     function AnexosDB($target = '_self') {
-        $module_url = base_url() . 'sgr/';
+        $module_url = base_url() . 'sgr/reports/';
         $anexosArr = $this->sgr_model->get_anexos();
         $result = "";
         foreach ($anexosArr as $anexo) {
