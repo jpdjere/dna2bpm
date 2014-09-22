@@ -14,18 +14,19 @@ class Padfyj_model extends CI_Model {
     }
 
     function save($array) {
+        $result = null;
         //---rpimero busco si existe
         $query = array('CUIT' => $array['CUIT']);
         $details = array();
         //---Comentar para la primera pasada.
-        //$details = $this->db->get_where('padfyj', $query)->result_array();
-        if ($details[0]) {
-            if (count($details) > 1) {
-                var_dump($query, json_encode($query));
-                show_error("Hay mas de 1 para:" . $array['CUIT']);
-            }
-            echo "Existe: " . $array['CUIT'] . ' ' . $array['DENOMINACION'] . "<br/>";
-            $criteria = array('_id' => $details[0]['_id']);
+        $details = $this->db->get_where('padfyj', $query)->result_array();
+        if (isset($details[0])) {
+//            if (count($details) > 1) {
+//                var_dump($query, json_encode($query));
+//                show_error("Hay mas de 1 para:" . $array['CUIT']);
+//            }
+//            //echo "Existe: " . $array['CUIT'] . ' ' . $array['DENOMINACION'] . "<br/>";
+//            $criteria = array('_id' => $details[0]['_id']);
             /*
               $this->db->where($creiteria);
               $result = $this->db->update('padfyj', $array);
@@ -33,7 +34,7 @@ class Padfyj_model extends CI_Model {
              */
         } else {
             //echo "Inserto: " . $array['CUIT'] . ' ' . $array['DENOMINACION'] . "<br/>";
-            $result = $this->db->insert('padfyj_2014', $array);
+            $result = $this->db->insert('padfyj', $array);
         }
         return $result;
     }

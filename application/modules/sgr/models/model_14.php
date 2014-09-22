@@ -681,16 +681,18 @@ class Model_14 extends CI_Model {
 	<tr>
 		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
 		
-	</tr><tr>
-            <td align="center" rowspan="2">SGR</td>            
-            <td align="center" rowspan="2">ID</td>
-            <td align="center" rowspan="2">Per&iacute;odo</td>
-            <td align="center" rowspan="2">Fecha</td>
-                                <td align="center" rowspan="2">N° de Orden de la Garantía Otorgada</td>
-                                <td align="center" rowspan="2">Socio Participe</td>
-                                <td align="center" rowspan="2">C.U.I.T</td>                                
-                                <td align="center" colspan="3">GARANTIAS AFRONTADAS</td>
-                                <td align="center" colspan="3">Gastos por Gestión de Recuperos</td>
+    </tr>
+    <tr>
+        <td align="center" rowspan="2">SGR</td>            
+        <td align="center" rowspan="2">ID</td>        
+        <td align="center" rowspan="2">Per&iacute;odo</td>
+        <td align="center" rowspan="2">Fecha</td>
+        <td align="center" rowspan="2">N° de Orden de la Garantía Otorgada</td>
+        <td align="center" rowspan="2">Socio Participe</td>
+        <td align="center" rowspan="2">C.U.I.T</td>                                
+        <td align="center" colspan="3">GARANTIAS AFRONTADAS</td>
+        <td align="center" colspan="3">Gastos por Gestión de Recuperos</td>
+        <td align="center" rowspan="2">Filename</td>
     <tr>
         <td>Deuda Originada en el Período</td>
         <td>Cobranza o Recupero del Período</td>
@@ -804,7 +806,7 @@ class Model_14 extends CI_Model {
 
             $new_list = array();
             $new_list['col1'] = $g_denomination;
-            $new_list['col2'] = $list['id'];
+            $new_list['col2'] = $list['id'];            
             $new_list['col3'] = $get_period_filename['period'];
             $new_list['col4'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['col5'] = $list['NRO_GARANTIA'];
@@ -816,6 +818,7 @@ class Model_14 extends CI_Model {
             $new_list['col11'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
             $new_list['col12'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
             $new_list['col13'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
+            $new_list['col14'] = $list['filename'];
             $rtn[] = $new_list;
         }
 
