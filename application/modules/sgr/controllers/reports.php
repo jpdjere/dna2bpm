@@ -65,10 +65,13 @@ class reports extends MX_Controller {
 
 
         /* TIME LIMIT */
-        set_time_limit(28800);
+        set_time_limit(230400);
+        //ini_set("error_reporting", 0);
     }
 
     function Index() {
+        
+             
 
         $customData = array();
         $default_dashboard = 'reports';
@@ -123,10 +126,11 @@ class reports extends MX_Controller {
         $fileName = $anexo . "_al_" . date("j-n-Y"); //Get today
         //Generate  file
         header("Content-Description: File Transfer");
-        header("Content-type: application/x-msexcel");
+        //header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Type: application/x-msexcel");
         header("Content-Type: application/force-download");
         header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
-        header("Content-Description: PHP Generated XLS Data");
+        header("Content-Description: PHP Generated XLSx Data");
         /* RENDER */
         $this->render($default_dashboard, $customData);
     }
@@ -451,7 +455,7 @@ class reports extends MX_Controller {
         // $cpData['isAdmin'] = $this->user->isAdmin($user);
         $user_lastname = isset($user->lastname) ? $user->lastname : "";
         $user_name = isset($user->name) ? $user->name : "";
-        $user_email = isset($user->email) ? $user_email : "";
+        $user_email = isset($user->email) ? $user->email : "";
 
         $cpData['username'] = strtoupper($user_lastname . ", " . $user_name);
         $cpData['usermail'] = $user_email;
