@@ -999,12 +999,15 @@ class Model_201 extends CI_Model {
     
     
 
+
+
     <tr>
-        <td align="center" rowspan="2">SGR</td>            
-        <td align="center" rowspan="2">ID</td>       
+        <td align="center" rowspan="2">SGR</td>
+        <td align="center" rowspan="2">ID</td>
+        <td align="center" rowspan="2">Per&iacute;odo</td>        
         <td align="center" rowspan="2">Número de Aporte</td>
         <td align="center" rowspan="2">Fecha de Movimiento</td>
-        <td align="center" rowspan="2">Nombre o Razón Social del Socio Protector</td>
+        <td align="center" rowspan="2">Nombre o Raz&oacute;n Social del Socio Protector</td>
         <td align="center" rowspan="2">C.U.I.T. Socio Protector</td>
         <td align="center" rowspan="2">Monto del Aporte</td>
         <td align="center" rowspan="2">Monto del Retiro</td>
@@ -1015,20 +1018,22 @@ class Model_201 extends CI_Model {
         <td align="center" rowspan="2">Especie</td>
         <td align="center" colspan="4">Cuenta Origen</td>
         <td align="center" colspan="4">Cuenta Destino</td>
-        <td align="center" colspan="2">Acta de Autorización</td></tr>
-         <td align="center" rowspan="2">Filename</td>
+        <td align="center" colspan="2">Acta de Autorizaci&oacute;n</td>        
+    </tr>
     <tr>
         <td>Titular</td>
-        <td>N°</td>
+        <td>Nro.</td>
         <td>Entidad</td>
         <td>Entidad Depositaria</td>
         <td>Titular</td>
-        <td>N°</td>
+        <td>Nro</td>
         <td>Entidad</td>
         <td>Entidad Depositaria</td>
         <td>Fecha</td>
-        <td>Número</td>
+        <td>Nro</td>
+        <td>Filename</td>
     </tr>
+
 	
 ',
         );
