@@ -812,12 +812,12 @@ class Model_14 extends CI_Model {
             $new_list['col5'] = $list['NRO_GARANTIA'];
             $new_list['col6'] = $brand_name;
             $new_list['col7'] = $cuit;
-            $new_list['col8'] = money_format_custom($list['CAIDA']);
-            $new_list['col9'] = money_format_custom($list['RECUPERO']);
-            $new_list['col10'] = money_format_custom($list['INCOBRABLES_PERIODO']);
-            $new_list['col11'] = money_format_custom($list['GASTOS_EFECTUADOS_PERIODO']);
-            $new_list['col12'] = money_format_custom($list['RECUPERO_GASTOS_PERIODO']);
-            $new_list['col13'] = money_format_custom($list['GASTOS_INCOBRABLES_PERIODO']);
+            $new_list['col8'] = dot_by_coma($list['CAIDA']);
+            $new_list['col9'] = dot_by_coma($list['RECUPERO']);
+            $new_list['col10'] = dot_by_coma($list['INCOBRABLES_PERIODO']);
+            $new_list['col11'] = dot_by_coma($list['GASTOS_EFECTUADOS_PERIODO']);
+            $new_list['col12'] = dot_by_coma($list['RECUPERO_GASTOS_PERIODO']);
+            $new_list['col13'] = dot_by_coma($list['GASTOS_INCOBRABLES_PERIODO']);
             $new_list['col14'] = $list['filename'];
             $rtn[] = $new_list;
         }
