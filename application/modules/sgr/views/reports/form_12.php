@@ -43,11 +43,20 @@
 					</div>
 				<!--  CUIT  -->
 					<div class="row ">
-						<div class="form-group col-md-12">
-	                        <label>C.U.I.T. participe </label>
+						<div class="form-group col-md-6">
+	                        <label>C.U.I.T. Participe </label>
 	                        <input type="text" class="form-control" name="cuit_sharer" placeholder="XXXXXXXXXXX" />
 						</div>
 					</div>
+                                
+                                <!--  CUIT ACREEDOR -->
+					<div class="row ">
+						<div class="form-group col-md-6">
+	                        <label>C.U.I.T. Acreedor </label>
+	                        <input type="text" class="form-control" name="cuit_creditor" placeholder="XXXXXXXXXXX" />
+						</div>
+					</div>
+                                
 				<!--  Nro de Orden  -->
 					<div class="row ">
 						<div class="form-group col-md-12">

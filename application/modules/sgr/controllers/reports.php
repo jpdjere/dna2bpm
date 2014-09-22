@@ -304,6 +304,9 @@ class reports extends MX_Controller {
         if ($this->input->post('cuit_sharer'))
             $rtn['cuit_sharer'] = $this->input->post('cuit_sharer');
 
+        if ($this->input->post('cuit_creditor'))
+            $rtn['cuit_creditor'] = $this->input->post('cuit_creditor');
+        
         if ($this->input->post('order_number'))
             $rtn['order_number'] = $this->input->post('order_number');
 
