@@ -704,7 +704,7 @@ class Model_12 extends CI_Model {
             , 'GRACIA'
             , 'PERIODICIDAD'
             , 'SISTEMA'
-            , 'DESTINO_CREDITO');
+            , 'DESTINO_CREDITO', 'filename');
         $data = array($headerArr);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
 
@@ -791,6 +791,7 @@ class Model_12 extends CI_Model {
 
         $order_number = (isset($parameter['order_number'])) ? $parameter['order_number'] : null;
         $cuit_sharer = (isset($parameter['cuit_sharer'])) ? $parameter['cuit_sharer'] : null;
+        $cuit_creditor = (isset($parameter['cuit_creditor'])) ? $parameter['cuit_creditor'] : null;
 
         $start_date = (isset($parameter['input_period_from'])) ? first_month_date($parameter['input_period_from']) : null;
         $end_date = (isset($parameter['input_period_to'])) ? last_month_date($parameter['input_period_to']) : null;
@@ -817,12 +818,20 @@ class Model_12 extends CI_Model {
             $period = $results['period'];
             $new_query['$or'][] = array("filename" => $results['filename']);
         }
-        if ($cuit_sharer)
+        if (isset($cuit_sharer))
             $new_query["5349"] = $cuit_sharer;
 
-        if ($order_number)
+        if (isset($order_number))
             $new_query["5214"] = $order_number;
+        
+        
+        if (isset($cuit_creditor))
+            $new_query["5351"] = $cuit_creditor;
 
+        
+        
+        //var_dump($container, $new_query);
+       // exit();
 
 
         $result_arr = $this->mongo->sgr->$container->find($new_query);
@@ -915,6 +924,7 @@ class Model_12 extends CI_Model {
             $new_list['PERIODICIDAD'] = $periodicidad;
             $new_list['SISTEMA'] = $sistema;
             $new_list['DESTINO_CREDITO'] = $destino_credito;
+            $new_list['filename'] = $list['filename'];
             
             $rtn[] = $new_list;
         }
