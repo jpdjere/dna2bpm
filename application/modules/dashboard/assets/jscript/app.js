@@ -53,10 +53,10 @@ $(document).ready(function() {
     /* Sidebar tree view */
     $(".sidebar .treeview").tree();
 
-$('.form-extra').ajaxForm({
-    target:'#tiles_after section',
-    replaceTarget:false
-});
+    $('.form-extra').ajaxForm({
+        target: '#tiles_after section',
+        replaceTarget: false
+    });
     // ==== Reload Widget
     $(document).on('click', '.reload_widget', function(event) {
         event.preventDefault();
@@ -144,46 +144,82 @@ $('.form-extra').ajaxForm({
         $("input[type='checkbox']", ".table-mailbox").iCheck("uncheck");
     });
 
-  //When checking the checkbox
-  $("#check-all").on('ifChecked', function(event) {
-  	 $("input[type='checkbox']", ".table-mailbox").iCheck("check");
-  });
-  
-  
+    //When checking the checkbox
+    $("#check-all").on('ifChecked', function(event) {
+        $("input[type='checkbox']", ".table-mailbox").iCheck("check");
+    });
+
+
 //=========== CONFIG PANEL
-  
-  $(document).on('click','#config_panel_bt',function(e){
-	 // $('#config_panel_bt').toggle();
 
-	  if($(this).hasClass('open')){
-		  // Close it
-		  $('#config_panel_content,#config_panel_bt').animate({
-			  right: "-=400",
-			  }, 500, function() {
-			  // Animation complete.
-			  });
+    $(document).on('click', '#config_panel_bt', function(e) {
+        // $('#config_panel_bt').toggle();
 
-		  $(this).removeClass('open');
-	  }else{
-		  // open it
-		  $('#config_panel_content,#config_panel_bt').animate({
-			  right: "+=400",
-			  }, 500, function() {
-			  // Animation complete.
-			  });
-		  $(this).addClass('open');
-	  }
+        if ($(this).hasClass('open')) {
+            // Close it
+            $('#config_panel_content,#config_panel_bt').animate({
+                right: "-=170",
+            }, 500, function() {
+                // Animation complete.
+            });
 
-  });
-  
-  
-  $('#bt_pasteboard').on('ifChecked', function(event){
-	  	$('#pasteboard').show(500);
-  });
-  
-  $('#bt_pasteboard').on('ifUnchecked', function(event){
-	  $('#pasteboard').hide(500);
-});
+            $(this).removeClass('open');
+        } else {
+            // open it
+            $('#config_panel_content,#config_panel_bt').animate({
+                right: "+=170",
+            }, 500, function() {
+                // Animation complete.
+            });
+            $(this).addClass('open');
+        }
 
+    });
+
+
+    $('#bt_pasteboard').on('ifChecked', function(event) {
+        $('#pasteboard').show(500);
+    });
+
+    $('#bt_pasteboard').on('ifUnchecked', function(event) {
+        $('#pasteboard').hide(500);
+    });
+
+    /*     
+     * Add refresh events to boxes
+     */
+    $(document).on('click', "[data-widget='refresh']", function() {
+        //Find the box parent        
+        var box = $(this).parents(".box").first();
+        //Find the url
+        var url = box.find(".widget_url").text();
+        $.ajax({
+            url: url,
+            context: box
+        }).done(function(data) {
+            $(this).replaceWith(data);
+        });
+    });
+    /*
+     * update5
+     */
+    setTimeout(update5, 30000);
+    
+    function update5() {
+        $('.update5').each(function() {
+            var box = $(this);
+            //Find the url
+            var url = box.find(".widget_url").text();
+            if (url) {
+                $.ajax({
+                    url: url,
+                    context: box
+                }).done(function(data) {
+                    $(this).replaceWith(data);
+                });
+            }
+        });
+        setTimeout(update5, 30000);
+    }
 
 });

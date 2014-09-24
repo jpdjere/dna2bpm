@@ -165,6 +165,7 @@ class Dashboard extends MX_Controller {
         $this->hooks_group($user);
         $myconfig = $this->parse_config($json, $debug);
 
+
         $layout = ($myconfig['view'] <> '') ? $myconfig['view'] : 'layout';
         $customData = $myconfig;
         $customData['lang'] = $this->lang->language;
@@ -175,7 +176,8 @@ class Dashboard extends MX_Controller {
         $customData['base_url'] = $this->base_url;
         $customData['module_url'] = $this->module_url;
         $customData['inbox_count'] = $this->msg->count_msgs($this->idu, 'inbox');
-        $customData['config_panel'] =$this->parser->parse('_config_panel', array(), true, true);
+        $customData['config_panel'] =$this->parser->parse('_config_panel',  $customData['lang'], true, true);
+        
         $customData['name'] = $user->name . ' ' . $user->lastname;
 
         // Global JS
@@ -341,10 +343,9 @@ class Dashboard extends MX_Controller {
 	 						$return['js'][$k]=$v;
 	 					}
  					}
-					
-
-
+ 				
             }
+            
             // $content.='</div>';
             // Por si el widget devuelve un array en lugar del contenido solamente
             if (is_array($markup)) {
