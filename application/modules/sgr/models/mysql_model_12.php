@@ -350,7 +350,7 @@ class mysql_model_12 extends CI_Model {
             $parameter[5224] = (int) $row->plazo;
             $parameter[5225] = (int) $row->gracia;
 
-            $parameter[5219] = (string) $row->moneda;
+            $parameter[5219] = (string) (isset($row->moneda))?$row->moneda:'1';
             $parameter[5758] = (string) $row->moneda_Cred_Garant;
 
             $parameter[5226] = (string) $row->periodicidad;
