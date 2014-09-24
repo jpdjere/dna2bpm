@@ -660,13 +660,13 @@ class Model_06 extends CI_Model {
             }
 
             $codigo_actividad = ($list['5208'] == "0") ? "-" : $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
-            
-            
-            $zip_address=null;
-            $cuit_grantor=null;
-            $area_code=null;
-            $address=null;
-            
+
+
+            $zip_address = null;
+            $cuit_grantor = null;
+            $area_code = null;
+            $address = null;
+
             if ($list['1698'] != "")
                 $zip_address = "</br>[" . $list['1698'] . "]";
 
@@ -689,7 +689,6 @@ class Model_06 extends CI_Model {
                 $partner_web = $list['1703'] . "</br>" . $list['1704'];
             } else {
                 $partner_data = $list['5272'][0];
-                
             }
 
             $new_list = array();
@@ -808,7 +807,7 @@ class Model_06 extends CI_Model {
             $new_list['col30'] = dot_by_coma($list['26']);
             $new_list['col31'] = $list['27'];
             $new_list['col32'] = dot_by_coma($promedio);
-            $new_list['col33'] = $company_type;//$afip_condition[$list['5596'][0]];
+            $new_list['col33'] = $company_type; //$afip_condition[$list['5596'][0]];
             $new_list['col34'] = "-";
             $new_list['col35'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['col36'] = $acta_type[$list['5253'][0]];
@@ -918,6 +917,22 @@ class Model_06 extends CI_Model {
         }
 
         return $return_result;
+    }
+
+    /* get_partner_name */
+
+    function get_partner_name($cuit) {
+        $anexo = $this->anexo;
+        $field = array('1693');
+        $container = 'container.sgr_anexo_' . $anexo;
+        $new_query = array(
+            1695 => $cuit
+        );
+
+        $new_result = $this->mongo->sgr->$container->findOne($new_query, $field);
+
+        if ($new_result)
+            return $return_result = $new_result[1693];
     }
 
     /* PROTECTOR */
