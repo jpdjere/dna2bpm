@@ -777,17 +777,18 @@ class Model_14 extends CI_Model {
 
             /* Vars */
             $cuit = str_replace("-", "", $list['CUIT']);
-            $this->load->model('padfyj_model');            
-            $this->load->Model(model_12);
+            $this->load->model('padfyj_model');
+            $this->load->Model('model_06');
+            $this->load->Model('model_12');
 
 
             /* "12585/10" */
             //$get_movement_data = $this->$model_12->get_order_number_print($list['NRO_GARANTIA'], $this->session->userdata['period']);
             $each_sgr_id = $this->sgr_model->get_sgr_by_filename($list['filename']);
-            
+
             $get_movement_data = $this->model_12->get_order_number_by_sgrid($list['NRO_GARANTIA'], $each_sgr_id);
 
-            
+
             //debug($get_movement_data);
 
             if (!empty($get_movement_data)) {
@@ -798,6 +799,15 @@ class Model_14 extends CI_Model {
             }
 
 
+
+            if (!isset($brand_name)) {
+                $brand_name_get = $this->model_06->get_partner_name($cuit);                
+                $brand_name = $brand_name_get;
+            }
+
+
+
+
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
             $filename = trim($list['filename']);
@@ -806,7 +816,7 @@ class Model_14 extends CI_Model {
 
             $new_list = array();
             $new_list['col1'] = $g_denomination;
-            $new_list['col2'] = $list['id'];            
+            $new_list['col2'] = $list['id'];
             $new_list['col3'] = $get_period_filename['period'];
             $new_list['col4'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['col5'] = $list['NRO_GARANTIA'];
