@@ -393,6 +393,8 @@ class Model_06 extends CI_Model {
 
         $sgr_nombre_to_print = ($this->sgr_nombre) ? $this->sgr_nombre : 'TODAS';
 
+
+
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
 
@@ -533,10 +535,9 @@ class Model_06 extends CI_Model {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
 
-
-
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $cuit_socio = (isset($parameter['cuit_socio'])) ? $parameter['cuit_socio'] : null;
 
 
         $start_date = first_month_date($input_period_from);
@@ -557,17 +558,40 @@ class Model_06 extends CI_Model {
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
 
-        $files_arr = array();
+
         $container = 'container.sgr_anexo_' . $anexo;
 
 
         $new_query = array();
+        $new_query_2 = array();
         foreach ($period_result as $results) {
-
             $period = $results['period'];
-            $new_query['$or'][] = array("filename" => $results['filename']);
+            $new_query[] = array("filename" => $results['filename']);
         }
-        $result_arr = $this->mongo->sgr->$container->find($new_query);
+
+        if (isset($cuit_socio))
+            $new_query_2[] = array(1695 => $cuit_socio);
+
+
+        if (isset($cuit_socio))
+            $new_query_2[] = array(5248 => $cuit_socio);
+
+
+
+        $or1 = array('$or' => $new_query);
+        $or2 = array('$or' => $new_query_2);
+
+        $query = array('$and' => array($or1, $or2));
+
+
+        if (empty($new_query_2))
+            $query = $or1;
+
+
+
+        if (!empty($new_query))
+            $result_arr = $this->mongo->sgr->$container->find($query);
+
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr, $anexo);
     }
@@ -660,13 +684,13 @@ class Model_06 extends CI_Model {
             }
 
             $codigo_actividad = ($list['5208'] == "0") ? "-" : $list['5208'] . "<br>[SECTOR]<br>" . $sector_opt[$sector_value];
-            
-            
-            $zip_address=null;
-            $cuit_grantor=null;
-            $area_code=null;
-            $address=null;
-            
+
+
+            $zip_address = null;
+            $cuit_grantor = null;
+            $area_code = null;
+            $address = null;
+
             if ($list['1698'] != "")
                 $zip_address = "</br>[" . $list['1698'] . "]";
 
@@ -689,7 +713,6 @@ class Model_06 extends CI_Model {
                 $partner_web = $list['1703'] . "</br>" . $list['1704'];
             } else {
                 $partner_data = $list['5272'][0];
-                
             }
 
             $new_list = array();
@@ -808,7 +831,7 @@ class Model_06 extends CI_Model {
             $new_list['col30'] = dot_by_coma($list['26']);
             $new_list['col31'] = $list['27'];
             $new_list['col32'] = dot_by_coma($promedio);
-            $new_list['col33'] = $company_type;//$afip_condition[$list['5596'][0]];
+            $new_list['col33'] = $company_type; //$afip_condition[$list['5596'][0]];
             $new_list['col34'] = "-";
             $new_list['col35'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['col36'] = $acta_type[$list['5253'][0]];
@@ -918,6 +941,22 @@ class Model_06 extends CI_Model {
         }
 
         return $return_result;
+    }
+
+    /* get_partner_name */
+
+    function get_partner_name($cuit) {
+        $anexo = $this->anexo;
+        $field = array('1693');
+        $container = 'container.sgr_anexo_' . $anexo;
+        $new_query = array(
+            1695 => $cuit
+        );
+
+        $new_result = $this->mongo->sgr->$container->findOne($new_query, $field);
+
+        if ($new_result)
+            return $return_result = $new_result[1693];
     }
 
     /* PROTECTOR */
