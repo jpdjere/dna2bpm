@@ -393,6 +393,8 @@ class Model_06 extends CI_Model {
 
         $sgr_nombre_to_print = ($this->sgr_nombre) ? $this->sgr_nombre : 'TODAS';
 
+
+
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
 
@@ -533,10 +535,9 @@ class Model_06 extends CI_Model {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
 
-
-
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $cuit_socio = (isset($parameter['cuit_socio'])) ? $parameter['cuit_socio'] : null;
 
 
         $start_date = first_month_date($input_period_from);
@@ -557,17 +558,40 @@ class Model_06 extends CI_Model {
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
 
-        $files_arr = array();
+
         $container = 'container.sgr_anexo_' . $anexo;
 
 
         $new_query = array();
+        $new_query_2 = array();
         foreach ($period_result as $results) {
-
             $period = $results['period'];
-            $new_query['$or'][] = array("filename" => $results['filename']);
+            $new_query[] = array("filename" => $results['filename']);
         }
-        $result_arr = $this->mongo->sgr->$container->find($new_query);
+
+        if (isset($cuit_socio))
+            $new_query_2[] = array(1695 => $cuit_socio);
+
+
+        if (isset($cuit_socio))
+            $new_query_2[] = array(5248 => $cuit_socio);
+
+
+
+        $or1 = array('$or' => $new_query);
+        $or2 = array('$or' => $new_query_2);
+
+        $query = array('$and' => array($or1, $or2));
+
+
+        if (empty($new_query_2))
+            $query = $or1;
+
+
+
+        if (!empty($new_query))
+            $result_arr = $this->mongo->sgr->$container->find($query);
+
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr, $anexo);
     }
