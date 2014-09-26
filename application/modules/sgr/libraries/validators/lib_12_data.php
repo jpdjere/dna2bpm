@@ -693,9 +693,7 @@ class Lib_12_data extends MX_Controller {
 
                     $return = $this->sgr_model->get_warranty_type($D_cell_value);
 
-
-
-                    $yearCtyDays = 366;
+                    $yearCtyDays = 365;
 
                     $ctyMayor = $return['mayor'] * $yearCtyDays;
                     $ctyMinor = $return['minor'] * $yearCtyDays;
@@ -705,7 +703,7 @@ class Lib_12_data extends MX_Controller {
 
                     if (!in_array($ctyDays, $range)) {
 
-                        debug($ctyDays, $range);
+                      //  var_dump($ctyDays, $range);
 
                         $code_error = "P.4";
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $P_cell_value);
@@ -868,7 +866,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //debug($stack);        exit();
+        debug($stack);        exit();
         $this->data = $stack;
     }
 
