@@ -291,15 +291,12 @@ class Model_201 extends CI_Model {
              * Vars 								
              */
             $this->load->model('padfyj_model');
+            $this->load->Model('model_201');
 
 
-            $model_201 = 'model_201';
-            $this->load->Model($model_201);
+            $get_movement_data = $this->model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
 
-
-            $get_movement_data = $this->$model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
-
-            $partener_info = $this->$model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
+            $partener_info = $this->model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
 
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
@@ -617,6 +614,34 @@ class Model_201 extends CI_Model {
         }
         return $rtn;
     }
+    
+    
+    function get_input_number_report($code, $sgr_id) {      
+        
+        
+        $anexo = $this->anexo;
+        $container = 'container.sgr_anexo_' . $anexo;
+
+        $rtn = array();
+
+        /* GET ACTIVE ANEXOS */
+        $result = $this->sgr_model->get_active_each_sgrid($anexo, $sgr_id);
+        /* FIND ANEXO */
+        foreach ($result as $list) {
+            $new_query = array(
+                'NUMERO_DE_APORTE' => (int) $code,
+                'filename' => $list['filename'],
+                "APORTE" => array('$ne' => 0),
+            );
+            
+            
+            $io_result = $this->mongo->sgr->$container->find($new_query);
+            foreach ($io_result as $data) {
+                $rtn[] = $data;
+            }
+        }
+        return $rtn;
+    }
 
     function get_last_input_number($code) {
         $anexo = $this->anexo;
@@ -853,12 +878,14 @@ class Model_201 extends CI_Model {
         $nro = (int) $nro;
 
 
-
+        
+        
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_print($anexo, $period_date);
+        $result = $this->sgr_model->get_active_print($anexo, $period_date);        
 
         /* FIND ANEXO */
-        foreach ($result as $list) {
+        foreach ($result as $list) {          
+            
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro,
@@ -1109,15 +1136,16 @@ class Model_201 extends CI_Model {
 
             /* Vars */         
             $this->load->model('padfyj_model');
-            $model_12 = 'model_12';
-            $this->load->Model($model_12);
+            
+            $this->load->Model(model_12);
             $cuit = null;
             $brand_name = null;
             
             
             $get_movement_data = $this->model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
+            $each_sgr_id = $this->sgr_model->get_sgr_by_filename($list['filename']);
             
-            $partener_info = $this->model_201->get_input_number_print($list['NUMERO_DE_APORTE'], $list['period']);
+            $partener_info = $this->model_201->get_input_number_report($list['NUMERO_DE_APORTE'], $each_sgr_id);
 
             foreach ($partener_info as $partner) {
                 $cuit = $partner["CUIT_PROTECTOR"];
