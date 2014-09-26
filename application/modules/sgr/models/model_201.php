@@ -1141,10 +1141,10 @@ class Model_201 extends CI_Model {
             $cuit = null;
             $brand_name = null;
             
-            
-            $get_movement_data = $this->model_201->get_original_aporte_print($list['NUMERO_DE_APORTE'], $list['period']);
             $each_sgr_id = $this->sgr_model->get_sgr_by_filename($list['filename']);
             
+            
+            $get_movement_data = $this->model_201->get_input_number_report($list['NUMERO_DE_APORTE'], $each_sgr_id);                        
             $partener_info = $this->model_201->get_input_number_report($list['NUMERO_DE_APORTE'], $each_sgr_id);
 
             foreach ($partener_info as $partner) {
@@ -1152,12 +1152,15 @@ class Model_201 extends CI_Model {
                 $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
             }
 
-            //debug($get_movement_data);
+           
 
             if (!empty($get_movement_data)) {
                 foreach ($get_movement_data as $warrant) {
                     $cuit = $warrant[5349];
                     $brand_name = $this->padfyj_model->search_name($warrant[5349]);
+                    $fecha_aporte_original = mongodate_to_print($warrant['FECHA_MOVIMIENTO']);
+                    $aporte_original = dot_by_coma($warrant['APORTE']);
+                    
                 }
             }
 
@@ -1178,8 +1181,8 @@ class Model_201 extends CI_Model {
             $new_list['col7'] = $cuit;
             $new_list['col8'] = dot_by_coma($list['APORTE']);
             $new_list['col9'] = dot_by_coma($list['RETIRO']);
-            $new_list['col10'] = mongodate_to_print($get_movement_data['FECHA_MOVIMIENTO']);
-            $new_list['col11'] = dot_by_coma($get_movement_data['APORTE']);
+            $new_list['col10'] = $fecha_aporte_original;
+            $new_list['col11'] = $aporte_original;
             $new_list['col12'] = dot_by_coma($list['RETENCION_POR_CONTINGENTE']);
             $new_list['col13'] = dot_by_coma($list['RETIRO_DE_RENDIMIENTOS']);
             $new_list['col14'] = $list['ESPECIE'];
