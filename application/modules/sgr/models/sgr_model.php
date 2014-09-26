@@ -727,10 +727,7 @@ class Sgr_model extends CI_Model {
     
     function get_active_each_sgrid($anexo, $sgr_id) {
         $rtn = array();
-        $period = 'container.sgr_periodos';
-
-        
-      
+        $period = 'container.sgr_periodos';     
        
 
         $query = array(
@@ -780,6 +777,8 @@ class Sgr_model extends CI_Model {
     }
 
     function get_active_print($anexo, $period_date) {
+        
+        
 
         $rtn = array();
         $period = 'container.sgr_periodos';
@@ -795,7 +794,7 @@ class Sgr_model extends CI_Model {
                 '$lte' => $endDate
             ),
         );
-
+        
 
         $result = $this->mongo->sgr->$period->find($query);
         foreach ($result as $each) {
