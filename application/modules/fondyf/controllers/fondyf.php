@@ -243,6 +243,13 @@ class Fondyf extends MX_Controller {
 		
 		$this->ui->compose ('fondyf/get_user', 'bpm/bootstrap.ui.php', $renderData );
 	}
+    function show_msgs($idwf,$idcase){
+        $filter=array(
+            'idwf'=>$idwf,
+            'case'=>$idcase,
+            );
+       echo Modules::run('inbox/show_msgs_by_filter',$filter);
+    }
 }
 
 /* End of file fondyf */

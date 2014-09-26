@@ -342,10 +342,9 @@ class Dashboard extends MX_Controller {
 	 						$return['js'][$k]=$v;
 	 					}
  					}
-					
-
-
+ 				
             }
+            
             // $content.='</div>';
             // Por si el widget devuelve un array en lugar del contenido solamente
             if (is_array($markup)) {
