@@ -870,7 +870,11 @@ class Sgr extends MX_Controller {
     }
 
     function stream_print($anexo, $customData, $parameter) {
-        if ($anexo == '12') {
+        
+        /*Print on HTML*/
+        $no_pdf = array('12', '123');
+        
+        if (in_array($anexo, $no_pdf)) {
             echo $this->parser->parse('print', $customData, true);
         } else {
             /* LOAD LIBRARY */
