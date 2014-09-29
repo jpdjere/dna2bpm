@@ -481,7 +481,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    
+
 
 
                     /*
@@ -557,8 +557,8 @@ class Lib_06_data extends MX_Controller {
 
                     $subscribed = array_sum(array($grantor_subscribed, $AH_cell_value));
                     $integrated = array_sum(array($grantor_integrated, $AI_cell_value));
-                    
-                    
+
+
                     /* "INCREMENTO TENENCIA ACCIONARIA" */
                     if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
                         /* B.3 */
@@ -578,7 +578,7 @@ class Lib_06_data extends MX_Controller {
                             array_push($stack, $result);
                         }
                     }
-                    
+
 
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
@@ -672,12 +672,22 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío.
                      */
                     if ($param_col == 6) {
+                        $bs_as_code = null;
                         $code_error = "F.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
+                        } else {
+                            $code_error = "F.1.B";
+
+                            $bs_as_code = strtolower($parameterArr[$i]['fieldValue']);
+
+                            if ($bs_as_code == "buenos aires") {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
@@ -686,12 +696,21 @@ class Lib_06_data extends MX_Controller {
                      * El campo no puede estar vacío.
                      */
                     if ($param_col == 7) {
+                        $bs_as_code = null;
                         $code_error = "G.1";
                         //Check Empry
                         $return = check_empty($parameterArr[$i]['fieldValue']);
                         if ($return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                             array_push($stack, $result);
+                        } else {
+                            $code_error = "G.1.B";
+
+                            $bs_as_code = strtolower($parameterArr[$i]['fieldValue']);
+                            if ($bs_as_code == "buenos aires") {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
                         }
                     }
 
