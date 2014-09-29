@@ -481,25 +481,7 @@ class Lib_06_data extends MX_Controller {
                         }
                     }
 
-                    /* "INCREMENTO TENENCIA ACCIONARIA" */
-                    if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
-                        /* B.3 */
-
-
-                        if ($subscribed == 0) {
-                            $code_error = "B.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            array_push($stack, $result);
-                        }
-
-                        /* C.3 */
-                        $return = check_empty($C_cell_value);
-                        if ($return) {
-                            $code_error = "C.3";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                            array_push($stack, $result);
-                        }
-                    }
+                    
 
 
                     /*
@@ -575,6 +557,28 @@ class Lib_06_data extends MX_Controller {
 
                     $subscribed = array_sum(array($grantor_subscribed, $AH_cell_value));
                     $integrated = array_sum(array($grantor_integrated, $AI_cell_value));
+                    
+                    
+                    /* "INCREMENTO TENENCIA ACCIONARIA" */
+                    if ($A_cell_value == "INCREMENTO TENENCIA ACCIONARIA") {
+                        /* B.3 */
+
+
+                        if (!isset($subscribed)) {
+                            $code_error = "B.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            array_push($stack, $result);
+                        }
+
+                        /* C.3 */
+                        $return = check_empty($C_cell_value);
+                        if ($return) {
+                            $code_error = "C.3";
+                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                            array_push($stack, $result);
+                        }
+                    }
+                    
 
                     /** AI.5
                       El saldo de Capital Integrado nunca puede ser mayor al Saldo de Capital Suscripto.
