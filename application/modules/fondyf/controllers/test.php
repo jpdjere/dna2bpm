@@ -57,6 +57,58 @@ class test extends MX_Controller {
         echo "DNA2 ok:<br/>";
     }
 
+    function fix_8339() {
+        $query = json_decode('{"$and":[{"8339":{"$exists":true}},{"8339":{"$ne":""}}]}', true);
+        var_dump($query);
+//        exit;
+        $this->db->where($query, true);
+        $this->db->select();
+        $this->db->order_by(array('8339' => 1));
+        $rs = $this->db->get('container.proyectos_fondyf')->result();
+
+        foreach ($rs as $proj) {
+            //$user=$this->user->get_user($proj->idu);
+            $query = array('data.Proyectos_fondyf.query.id' => $proj->id);
+            $this->db->where($query);
+            $this->db->select('id');
+            $case = $this->db->get('case')->result();
+            var_dump($case, $proj->id, $proj->{8339}
+                    //,$proj->idu
+                    //,$user->name.' '.$user->lastname
+            );
+            echo '<hr/>';
+        }
+    }
+
+    function fix_data($case = null) {
+        $this->load->model('bpm/bpm');
+        $query = ($case) ? array('idwf' => 'fondyfpp', 'id' => $case) : array('idwf' => 'fondyfpp');
+        $this->db->where($query);
+        $rs = $case = $this->db->get('case')->result();
+        foreach ($rs as $case) {
+            $token=$this->bpm->get_token('fondyfpp', $case->id, 'oryx_508C9A17-620B-4A6F-8508-D3D14DAB6DA2');
+            //---Create Token if not exists
+            if(!$token){
+                $token=array(
+                    
+                );
+                $token['assign']=case['assign'];
+                $token['checkdate']=case['checkdate'];
+                $token['iduser']=case['iduser'];
+            }
+            var_dump($case->id,$token);
+            //----empresa
+            if(isset($case->data['Empresas'])){
+                echo "Tiene empresa<br/>";
+            }
+            //----Proyecto
+            if(isset($case->data['Proyectos_fondyf'])){
+                echo "Tiene Projecto<br/>";
+            }
+            echo '<hr/>';
+        }
+    }
+
 }
 
 /* End of file welcome.php */
