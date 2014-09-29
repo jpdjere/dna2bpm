@@ -726,10 +726,9 @@ class Model_14 extends CI_Model {
         $rtn = array();
 
 
-
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
-
+        $cuit_socio = (isset($parameter['cuit_socio'])) ? $parameter['cuit_socio'] : null;
 
         $start_date = first_month_date($input_period_from);
         $end_date = last_month_date($input_period_to);
@@ -768,15 +767,74 @@ class Model_14 extends CI_Model {
 
         $result_arr = $this->mongo->sgr->$container->find($new_query);
         /* TABLE DATA */
-        return $this->ui_table_xls($result_arr, $anexo);
-    }
 
+        if (isset($cuit_socio))
+            return $this->ui_table_xls_cuit($result_arr, $anexo, $cuit_socio);
+        else
+            return $this->ui_table_xls($result_arr, $anexo);
+    }
+    function ui_table_xls_cuit($result, $anexo = null, $cuit_socio) {
+
+        foreach ($result as $list) {
+
+            /* Vars */
+            $this->load->model('padfyj_model');
+            $this->load->Model('model_06');
+            $this->load->Model('model_12');
+
+           
+            $each_sgr_id = $this->sgr_model->get_sgr_by_filename($list['filename']);
+
+            $get_movement_data = $this->model_12->get_order_number_by_sgrid($list['NRO_GARANTIA'], $each_sgr_id);
+
+
+            if (!empty($get_movement_data)) {
+                foreach ($get_movement_data as $warrant) {
+                    $cuit = $warrant[5349];
+                    $brand_name = $this->padfyj_model->search_name($warrant[5349]);
+                }
+            }
+
+            if($cuit_socio==$cuit){
+                if (!isset($brand_name)) {
+                $brand_name_get = $this->model_06->get_partner_name($cuit);
+                $brand_name = $brand_name_get;
+            }
+
+            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
+
+            $filename = trim($list['filename']);
+            list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
+
+
+            $new_list = array();
+            $new_list['col1'] = $g_denomination;
+            $new_list['col2'] = $list['id'];
+            $new_list['col3'] = $get_period_filename['period'];
+            $new_list['col4'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
+            $new_list['col5'] = $list['NRO_GARANTIA'];
+            $new_list['col6'] = $brand_name;
+            $new_list['col7'] = $cuit;
+            $new_list['col8'] = dot_by_coma($list['CAIDA']);
+            $new_list['col9'] = dot_by_coma($list['RECUPERO']);
+            $new_list['col10'] = dot_by_coma($list['INCOBRABLES_PERIODO']);
+            $new_list['col11'] = dot_by_coma($list['GASTOS_EFECTUADOS_PERIODO']);
+            $new_list['col12'] = dot_by_coma($list['RECUPERO_GASTOS_PERIODO']);
+            $new_list['col13'] = dot_by_coma($list['GASTOS_INCOBRABLES_PERIODO']);
+            $new_list['col14'] = $list['filename'];
+            $rtn[] = $new_list;
+            }
+
+            
+        }
+
+        return $rtn;
+    }
     function ui_table_xls($result, $anexo = null) {
 
         foreach ($result as $list) {
 
             /* Vars */
-            $cuit = str_replace("-", "", $list['CUIT']);
             $this->load->model('padfyj_model');
             $this->load->Model('model_06');
             $this->load->Model('model_12');
@@ -789,7 +847,7 @@ class Model_14 extends CI_Model {
             $get_movement_data = $this->model_12->get_order_number_by_sgrid($list['NRO_GARANTIA'], $each_sgr_id);
 
 
-            //debug($get_movement_data);
+
 
             if (!empty($get_movement_data)) {
                 foreach ($get_movement_data as $warrant) {
@@ -801,12 +859,9 @@ class Model_14 extends CI_Model {
 
 
             if (!isset($brand_name)) {
-                $brand_name_get = $this->model_06->get_partner_name($cuit);                
+                $brand_name_get = $this->model_06->get_partner_name($cuit);
                 $brand_name = $brand_name_get;
             }
-
-
-
 
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
