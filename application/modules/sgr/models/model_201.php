@@ -141,13 +141,13 @@ class Model_201 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-          /* UPDATE */
+        /* UPDATE */
         if (isset($get_period['status']))
-        $this->update_period($get_period['id'], $get_period['status']);
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if (isset($result)){
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -159,9 +159,9 @@ class Model_201 extends CI_Model {
         return $out;
     }
 
-    function update_period($id, $status) {        
-        
-         $options = array('upsert' => true, 'safe' => true);
+    function update_period($id, $status) {
+
+        $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
         $parameter = array(
@@ -614,11 +614,10 @@ class Model_201 extends CI_Model {
         }
         return $rtn;
     }
-    
-    
-    function get_input_number_report($code, $sgr_id) {      
-        
-        
+
+    function get_input_number_report($code, $sgr_id) {
+
+
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
 
@@ -633,8 +632,8 @@ class Model_201 extends CI_Model {
                 'filename' => $list['filename'],
                 "APORTE" => array('$ne' => 0),
             );
-            
-            
+
+
             $io_result = $this->mongo->sgr->$container->find($new_query);
             foreach ($io_result as $data) {
                 $rtn[] = $data;
@@ -812,9 +811,9 @@ class Model_201 extends CI_Model {
     }
 
     function get_movement_data_print($nro, $period_date) {
-        
-        
-        
+
+
+
         $anexo = $this->anexo;
 
         $period = 'container.sgr_periodos';
@@ -827,26 +826,26 @@ class Model_201 extends CI_Model {
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_print($anexo, $period_date);
-        
-      
+
+
 
         /* FIND ANEXO */
         $new_query = array();
         foreach ($result as $list) {
-            
-            
-             
-            
+
+
+
+
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
             );
-            
-            
+
+
 //             if ($nro == 13) {                
 //                debug($list['filename']);                
 //            }
-            
+
             $movement = $this->mongo->sgr->$container->find($new_query);
             foreach ($movement as $x) {
                 $aporte_result_arr[] = $x['APORTE'];
@@ -855,9 +854,9 @@ class Model_201 extends CI_Model {
             }
         }
 
-        
-         
-        
+
+
+
         $aporte_sum = array_sum($aporte_result_arr);
         $retiro_sum = array_sum($retiro_result_arr);
         $rendimientos_sum = array_sum($rendimientos_result_arr);
@@ -878,19 +877,18 @@ class Model_201 extends CI_Model {
         $nro = (int) $nro;
 
 
-        
-        
+
+
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_print($anexo, $period_date);        
+        $result = $this->sgr_model->get_active_print($anexo, $period_date);
 
         /* FIND ANEXO */
-        foreach ($result as $list) {          
-            
+        foreach ($result as $list) {
+
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro,
                 'APORTE' => array('$ne' => 0),
-                    
             );
 
             $movement_result = $this->mongo->sgr->$container->findOne($new_query);
@@ -997,7 +995,7 @@ class Model_201 extends CI_Model {
         );
         return $return_arr;
     }
-    
+
     function get_anexo_report($anexo, $parameter) {
 
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
@@ -1109,7 +1107,7 @@ class Model_201 extends CI_Model {
 
         if ($parameter['sgr_id'] != 666)
             $query["sgr_id"] = (float) $parameter['sgr_id'];
-       
+
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
 
@@ -1134,33 +1132,25 @@ class Model_201 extends CI_Model {
 
         foreach ($result as $list) {
 
-            /* Vars */         
+            /* Vars */
             $this->load->model('padfyj_model');
-            
+
             $this->load->Model(model_12);
             $cuit = null;
             $brand_name = null;
-            
+
             $each_sgr_id = $this->sgr_model->get_sgr_by_filename($list['filename']);
-            
-            
-            $get_movement_data = $this->model_201->get_input_number_report($list['NUMERO_DE_APORTE'], $each_sgr_id);                        
-            $partener_info = $this->model_201->get_input_number_report($list['NUMERO_DE_APORTE'], $each_sgr_id);
 
-            foreach ($partener_info as $partner) {
-                $cuit = $partner["CUIT_PROTECTOR"];
-                $brand_name = $this->padfyj_model->search_name($partner["CUIT_PROTECTOR"]);
-            }
 
-           
+            $get_movement_data = $this->model_201->get_input_number_report($list['NUMERO_DE_APORTE'], $each_sgr_id);
+
 
             if (!empty($get_movement_data)) {
-                foreach ($get_movement_data as $warrant) {
-                    $cuit = $warrant[5349];
-                    $brand_name = $this->padfyj_model->search_name($warrant[5349]);
+                foreach ($get_movement_data as $warrant) {                    
+                    $cuit = $warrant['CUIT_PROTECTOR'];
+                    $brand_name = $this->padfyj_model->search_name($cuit);
                     $fecha_aporte_original = mongodate_to_print($warrant['FECHA_MOVIMIENTO']);
-                    $aporte_original = dot_by_coma($warrant['APORTE']);
-                    
+                    $aporte_original = dot_by_coma($warrant['APORTE']);                    
                 }
             }
 
@@ -1195,7 +1185,7 @@ class Model_201 extends CI_Model {
             $new_list['col21'] = $list['ENTIDAD_DEST'];
             $new_list['col22'] = $list['ENT_DEP_DEST'];
             $new_list['col23'] = mongodate_to_print($list['FECHA_ACTA']);
-            $new_list['col24'] = $list['NRO_ACTA'];            
+            $new_list['col24'] = $list['NRO_ACTA'];
             $new_list['col25'] = $list['filename'];
             $rtn[] = $new_list;
         }
