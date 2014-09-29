@@ -426,8 +426,6 @@ class Model_15 extends CI_Model {
             $query["sgr_id"] = (float) $parameter['sgr_id'];
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
-
-
        
 
         $files_arr = array();
@@ -472,7 +470,7 @@ class Model_15 extends CI_Model {
             $new_list['col9'] = $list['IDENTIFICACION'];
             $new_list['col10'] = $list['INCISO_ART_25'];
             $new_list['col11'] = $list['MONEDA'];
-            $new_list['col12'] = money_format_custom($list['MONTO']);
+            $new_list['col12'] = dot_by_coma($list['MONTO']);
             $new_list['col13'] = $list['filename'];
             $rtn[] = $new_list;
         }
