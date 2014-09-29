@@ -124,9 +124,17 @@ class Lib_06_error_legend {
             case "F.1":
                 $result_error = '<strong>Columna F - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Partido/Municipio/Comuna: El campo no puede estar vacío.';
                 break;
+            
+             case "F.1.B":
+                $result_error = '<strong>Columna F - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>No existe Partido/Municipio/Comuna <strong>Buenos Aires.</strong>';
+                break;
 
             case "G.1":
                 $result_error = '<strong>Columna G - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/> Localidad: El campo no puede estar vacío.';
+                break;
+            
+             case "G.1.B":
+                $result_error = '<strong>Columna G - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/> No existe Localidad <strong>Buenos Aires</strong> (Para la C.A.B.A. se debe informar <strong>CAPITAL FEDERAL</strong>)';
                 break;
 
             case "H.1":
