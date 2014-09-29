@@ -44,6 +44,13 @@
             
              <div class="row ">
                 <div class="form-group col-md-6">
+                    <label>Nro. Orden</label> 
+                    <input type="text" class="form-control" name="nro_orden" placeholder="XXXX" />
+                </div>
+            </div>
+            
+             <div class="row ">
+                <div class="form-group col-md-6">
                     <label>C.U.I.T. Socio Participe</label> 
                     <input type="text" class="form-control" name="cuit_socio" placeholder="XXXXXXXXXXX" />
                 </div>

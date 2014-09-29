@@ -729,6 +729,7 @@ class Model_14 extends CI_Model {
         $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
         $cuit_socio = (isset($parameter['cuit_socio'])) ? $parameter['cuit_socio'] : null;
+        $nro_orden = (isset($parameter['nro_orden'])) ? $parameter['nro_orden'] : null;
 
         $start_date = first_month_date($input_period_from);
         $end_date = last_month_date($input_period_to);
@@ -759,13 +760,34 @@ class Model_14 extends CI_Model {
 
 
         $new_query = array();
+        $new_query_2 = array();
         foreach ($period_result as $results) {
             $period = $results['period'];
-            $new_query['$or'][] = array("filename" => $results['filename']);
+            $new_query[] = array("filename" => $results['filename']);
         }
 
+        if (isset($nro_orden))
+            $new_query_2[] = array('NRO_GARANTIA' => $nro_orden);
 
-        $result_arr = $this->mongo->sgr->$container->find($new_query);
+
+     
+
+
+
+        $or1 = array('$or' => $new_query);
+        $or2 = array('$or' => $new_query_2);
+
+        $query = array('$and' => array($or1, $or2));
+
+
+        if (empty($new_query_2))
+            $query = $or1;
+
+
+
+        if (!empty($new_query))
+            $result_arr = $this->mongo->sgr->$container->find($query);
+        
         /* TABLE DATA */
 
         if (isset($cuit_socio))
