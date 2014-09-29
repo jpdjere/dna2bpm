@@ -584,12 +584,12 @@ class Sgr extends MX_Controller {
 
         if (!$result_head['result']) {
             for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++) {
-
                 $data_sheets_cells = $data->sheets[0]['cells'][$i];
 
-
                 /* CHECK FOR EMPTY ROWS */
+                if(isset($data_sheets_cells))
                 $row_count = implode($data_sheets_cells);
+                
                 $row_lenght = strlen($row_count);
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
                     if ($row_lenght > 1) {
