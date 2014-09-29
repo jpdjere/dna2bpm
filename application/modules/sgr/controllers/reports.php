@@ -295,6 +295,9 @@ class reports extends MX_Controller {
         if ($this->input->post('cuit_socio'))
             $rtn['cuit_socio'] = $this->input->post('cuit_socio');
         
+         if ($this->input->post('nro_orden'))
+            $rtn['nro_orden'] = $this->input->post('nro_orden');
+        
         
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
