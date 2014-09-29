@@ -291,6 +291,11 @@ class reports extends MX_Controller {
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        
+        if ($this->input->post('cuit_socio'))
+            $rtn['cuit_socio'] = $this->input->post('cuit_socio');
+        
+        
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
