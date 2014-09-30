@@ -80,34 +80,6 @@ class test extends MX_Controller {
         }
     }
 
-    function fix_data($case = null) {
-        $this->load->model('bpm/bpm');
-        $query = ($case) ? array('idwf' => 'fondyfpp', 'id' => $case) : array('idwf' => 'fondyfpp');
-        $this->db->where($query);
-        $rs = $case = $this->db->get('case')->result();
-        foreach ($rs as $case) {
-            $token=$this->bpm->get_token('fondyfpp', $case->id, 'oryx_508C9A17-620B-4A6F-8508-D3D14DAB6DA2');
-            //---Create Token if not exists
-            if(!$token){
-                $token=array(
-                    
-                );
-                $token['assign']=case['assign'];
-                $token['checkdate']=case['checkdate'];
-                $token['iduser']=case['iduser'];
-            }
-            var_dump($case->id,$token);
-            //----empresa
-            if(isset($case->data['Empresas'])){
-                echo "Tiene empresa<br/>";
-            }
-            //----Proyecto
-            if(isset($case->data['Proyectos_fondyf'])){
-                echo "Tiene Projecto<br/>";
-            }
-            echo '<hr/>';
-        }
-    }
 
 }
 
