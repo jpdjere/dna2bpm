@@ -421,7 +421,11 @@ class Lib_14_data extends MX_Controller {
 
             if ($get_temp_data['INCOBRABLES_PERIODO']) {
 
-                if ($sum_CAIDA < $sum_RECUPEROS) {
+                /*CAIDAS + RECUPEROS???? < $get_temp_data['INCOBRABLES_PERIODO'] */
+                
+                $recuperos_plus_incobrable  = array_sum($sum_RECUPEROS, $get_temp_data['INCOBRABLES_PERIODO']);
+                
+                if ($sum_CAIDA < $get_temp_data['INCOBRABLES_PERIODO']) {
                     $code_error = "E.3";
                     $result = return_error_array($code_error, "", "[" . $get_temp_data['INCOBRABLES_PERIODO'] . "] saldo de caidas " . $sum_CAIDA);
                     array_push($stack, $result);
