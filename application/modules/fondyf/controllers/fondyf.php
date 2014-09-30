@@ -90,7 +90,7 @@ class Fondyf extends MX_Controller {
         $template = 'fondyf/listar_proyectos';
         $filter = array(
             'idwf' => 'fondyfpp',
-//				'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5' 
+            'resourceId' => 'oryx_508C9A17-620B-4A6F-8508-D3D14DAB6DA2'
         );
         $data ['querystring'] = $this->input->post('query');
         // -----busco en el cuit
@@ -111,15 +111,16 @@ class Fondyf extends MX_Controller {
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
-        var_dump(json_encode($filter));
         $tokens = $this->bpm->get_tokens_byFilter($filter, array(
             'case',
             'data',
             'checkdate'
                 ), array(
             'checkdate' => false
-                ));
+        ));
+//        var_dump(json_encode($filter),count($tokens));
         $data ['empresas'] = array_map(function ($token) {
+            // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case']);
             $data = $this->bpm->load_case_data($case);
 
@@ -179,6 +180,19 @@ class Fondyf extends MX_Controller {
 
         $url = $this->bpm->gateway($url);
         redirect($url);
+    }
+
+    function fix_data($case = null) {
+        $debug=false;
+        $this->load->model('bpm/bpm');
+        $resourceId = 'oryx_508C9A17-620B-4A6F-8508-D3D14DAB6DA2';
+        $filter = ($case) ? array('idwf' => 'fondyfpp', 'id' => $case) : array('idwf' => 'fondyfpp');
+        $rs =$this->bpm->get_cases_byFilter($filter);
+        foreach ($rs as $case) {
+            if($debug)
+                var_dump($case['id']);
+            $token = $this->bpm->consolidate_data('fondyfpp',$case['id'], $resourceId);
+        }
     }
 
     function Landing() {
@@ -280,4 +294,4 @@ class Fondyf extends MX_Controller {
 }
 
 /* End of file fondyf */
-/* Location: ./system/application/controllers/welcome.php */
+    /* Location: ./system/application/controllers/welcome.php */    
