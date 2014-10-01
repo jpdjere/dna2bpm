@@ -131,8 +131,8 @@ class Fondyf extends MX_Controller {
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
-                'nombre' => $token ['data'] ['1693'],
-                'cuit' => $token ['data'] ['1695'],
+                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
+                'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : '???',
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url)
@@ -183,15 +183,15 @@ class Fondyf extends MX_Controller {
     }
 
     function fix_data($case = null) {
-        $debug=false;
+        $debug = false;
         $this->load->model('bpm/bpm');
         $resourceId = 'oryx_508C9A17-620B-4A6F-8508-D3D14DAB6DA2';
         $filter = ($case) ? array('idwf' => 'fondyfpp', 'id' => $case) : array('idwf' => 'fondyfpp');
-        $rs =$this->bpm->get_cases_byFilter($filter);
+        $rs = $this->bpm->get_cases_byFilter($filter);
         foreach ($rs as $case) {
-            if($debug)
+            if ($debug)
                 var_dump($case['id']);
-            $token = $this->bpm->consolidate_data('fondyfpp',$case['id'], $resourceId);
+            $token = $this->bpm->consolidate_data('fondyfpp', $case['id'], $resourceId);
         }
     }
 
