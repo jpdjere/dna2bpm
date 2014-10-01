@@ -11,7 +11,7 @@ class Lib_14_data extends MX_Controller {
         $this->load->Model('model_12');
         $this->load->Model('model_14');
 
-        ini_set("error_reporting", E_ALL);
+        //ini_set("error_reporting", E_ALL);
 
         /* Vars 
          * 
