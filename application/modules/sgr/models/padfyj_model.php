@@ -53,11 +53,18 @@ class Padfyj_model extends CI_Model {
     }
 
     function search_name($cuit) {
-        
+
         $container = 'padfyj';
         $query = array("CUIT" => $cuit);
         $resultData = $this->mongo->padfyj->$container->findOne($query);
         return $resultData["DENOMINACION"];
+    }
+
+    function search_code($code) {
+
+        $query = array("CODE" => $code);
+        $resultData = $this->mongo->padfyj->codeact->findOne($query);
+        return $resultData["DESCRIPCION"];
     }
 
 }
