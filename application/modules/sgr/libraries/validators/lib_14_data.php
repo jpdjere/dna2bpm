@@ -8,14 +8,10 @@ class Lib_14_data extends MX_Controller {
         $this->load->library('session');
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
+        $this->load->Model('model_12');
+        $this->load->Model('model_14');
 
-        $model_12 = 'model_12';
-        $this->load->Model($model_12);
-
-        $model_anexo = "model_14";
-        $this->load->Model($model_anexo);
-
-
+        ini_set("error_reporting", E_ALL);
 
         /* Vars 
          * 
@@ -30,12 +26,10 @@ class Lib_14_data extends MX_Controller {
         $original_array = array();
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
-        $this->$model_anexo->clear_tmp($insert_tmp);
+        $insert_tmp = array();
+        $this->model_14->clear_tmp($insert_tmp);
 
         $order_num = array();
-
-
-
 
 
         for ($i = 1; $i <= $parameterArr[0]['count']; $i++) {
@@ -106,7 +100,7 @@ class Lib_14_data extends MX_Controller {
                     $B_cell_value = $parameterArr[$i]['fieldValue'];
                     $order_num[] = $B_cell_value;
                     /* WARRANTY DATA */
-                    $B_warranty_info = $this->$model_12->get_order_number_left($parameterArr[$i]['fieldValue']);
+                    $B_warranty_info = $this->model_12->get_order_number_left($parameterArr[$i]['fieldValue']);                    
                 }
 
                 /* CAIDA
@@ -201,6 +195,8 @@ class Lib_14_data extends MX_Controller {
                          * Si se está informando la CAÍDA de una Garantía (Columna C del importador), 
                          * debe validar que el número de garantía se encuentre registrado en el Sistema como que fue otorgada (Anexo 12). 
                          */
+                      
+                        
                         if (!$B_warranty_info) {
                             $code_error = "B.1";
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $B_cell_value);
@@ -213,7 +209,7 @@ class Lib_14_data extends MX_Controller {
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
                         $insert_tmp['CAIDA'] = $parameterArr[$i]['fieldValue'];
 
-                        $this->$model_anexo->save_tmp($insert_tmp);
+                        $this->model_14->save_tmp($insert_tmp);
                     }
                 }
 
@@ -245,7 +241,7 @@ class Lib_14_data extends MX_Controller {
 
                         $insert_tmp['RECUPERO'] = $parameterArr[$i]['fieldValue'];
 
-                        $this->$model_anexo->save_tmp($insert_tmp);
+                        $this->model_14->save_tmp($insert_tmp);
                     }
                 }
 
@@ -277,7 +273,7 @@ class Lib_14_data extends MX_Controller {
 
                         $insert_tmp['INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
 
-                        $this->$model_anexo->save_tmp($insert_tmp);
+                        $this->model_14->save_tmp($insert_tmp);
                     }
                 }
 
@@ -307,7 +303,7 @@ class Lib_14_data extends MX_Controller {
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
                         $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
 
-                        $this->$model_anexo->save_tmp($insert_tmp);
+                        $this->model_14->save_tmp($insert_tmp);
                     }
                 }
 
@@ -341,7 +337,7 @@ class Lib_14_data extends MX_Controller {
 
                         $insert_tmp['RECUPERO_GASTOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
 
-                        $this->$model_anexo->save_tmp($insert_tmp);
+                        $this->model_14->save_tmp($insert_tmp);
                     }
                 }
 
@@ -370,7 +366,7 @@ class Lib_14_data extends MX_Controller {
                         $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
                         $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
-                        $this->$model_anexo->save_tmp($insert_tmp);
+                        $this->model_14->save_tmp($insert_tmp);
                     }
 
                     /* VG.1 */
@@ -395,8 +391,8 @@ class Lib_14_data extends MX_Controller {
 
 
             /* MOVEMENT DATA */
-            $get_historic_data = $this->$model_anexo->get_movement_data($number);
-            $get_temp_data = $this->$model_anexo->get_tmp_movement_data($number);
+            $get_historic_data = $this->model_14->get_movement_data($number);
+            $get_temp_data = $this->model_14->get_tmp_movement_data($number);
 
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
             $sum_RECUPERO = array_sum(array($get_historic_data['RECUPERO'], $get_temp_data['RECUPERO']));
@@ -449,9 +445,9 @@ class Lib_14_data extends MX_Controller {
 
                 /* D.3 */
                 $query_param = 'RECUPERO';
-                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
+                $get_recuperos_tmp = $this->model_14->get_recuperos_tmp($number, $query_param);
                 foreach ($get_recuperos_tmp as $recuperos) {
-                    $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
+                    $caidas = $this->model_14->get_caida_tmp($number, $recuperos);
                     $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "D.3";
@@ -461,14 +457,14 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 $query_param = 'INCOBRABLES_PERIODO';
-                $get_recuperos_tmp = $this->$model_anexo->get_recuperos_tmp($number, $query_param);
+                $get_recuperos_tmp = $this->model_14->get_recuperos_tmp($number, $query_param);
 
 
 
 
                 foreach ($get_recuperos_tmp as $recuperos) {
-                    $caidas = $this->$model_anexo->get_caida_tmp($number, $recuperos);
-                    $return_calc = calc_anexo_14($caidas, $get_historic_data, $number);
+                    $caidas = $this->model_14->get_caida_tmp($number, $recuperos);
+                    $return_calc = calc_model_14($caidas, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "E.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -527,10 +523,10 @@ class Lib_14_data extends MX_Controller {
 
 
                 $query_param = 'RECUPERO_GASTOS_PERIODO';
-                $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
+                $get_gastos_tmp = $this->model_14->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
-                    $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data, $number);
+                    $gastos = $this->model_14->get_gastos_tmp($number, $gastos);
+                    $return_calc = calc_model_14_gastos($gastos, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -539,10 +535,10 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 $query_param = 'GASTOS_INCOBRABLES_PERIODO';
-                $get_gastos_tmp = $this->$model_anexo->get_gastos_tmp($number, $query_param);
+                $get_gastos_tmp = $this->model_14->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
-                    $gastos = $this->$model_anexo->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data, $number);
+                    $gastos = $this->model_14->get_gastos_tmp($number, $gastos);
+                    $return_calc = calc_model_14_gastos($gastos, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
