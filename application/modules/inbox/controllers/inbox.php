@@ -74,7 +74,7 @@ class Inbox extends MX_Controller {
     	$customData['folder']=$folder;
 
     //==== Pagination
-    	define("ITEMS_X_PAGE",4);
+    	define("ITEMS_X_PAGE",10);
     	$skip=($current_page-1)*ITEMS_X_PAGE;
     	//==== Bring me my MSGs!!!
     	$mymgs = $this->msg->get_msgs($this->idu,$folder,$skip,ITEMS_X_PAGE,$filter);
