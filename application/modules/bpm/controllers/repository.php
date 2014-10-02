@@ -315,6 +315,52 @@ class Repository extends MX_Controller {
         echo $this->parser->parse('bpm/tokens.php', $data, true);
     }
 
+    function browse($model,$idwf) {
+        $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        if ($debug)
+            echo '<h2>' . __FUNCTION__ . '</h2>';
+        $this->load->library('ui');
+        $level = $this->user->getlevel($this->idu);
+        $cpData = $this->lang->language;
+        $segments = $this->uri->segment_array();
+        $case = $this->bpm->get_case($idcase);
+        $cpData['theme'] = $this->config->item('theme');
+        $cpData['level'] = $level;
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'Token Viewer';
+
+        //var_dump($cpData);exit;
+        $cpData['css'] = array(
+            $this->module_url . 'assets/css/process_browser.css' => 'Manager styles',
+            $this->module_url . 'assets/css/extra-icons.css' => 'Extra Icons',
+            $this->module_url . 'assets/css/fix_bootstrap_checkbox.css' => 'Fix Checkbox',
+        );
+        $cpData['js'] = array(
+            $this->module_url . 'assets/jscript/process_browser/ext.settings.js' => 'Settings & overrides',
+            $this->module_url . 'assets/jscript/fontawesome_icons.js' => 'FontAwesome icons',
+            $this->module_url . 'assets/jscript/process_browser/ext.data.js' => 'data Components',
+            $this->module_url . 'assets/jscript/process_browser/ext.tokenGrid.js' => 'Types Grid',
+            $this->module_url . 'assets/jscript/ext.model-utils.js' => 'Model utils',
+            $this->module_url . 'assets/jscript/process_browser/ext.add_events.js' => 'Events for overlays',
+            $this->module_url . 'assets/jscript/process_browser/ext.tokens.viewport.js' => 'viewport',
+            $this->base_url . "jscript/jquery/jquery.min.js" => 'JQuery',
+            //----Pan & ZooM---------------------------------------------
+            $this->module_url . 'assets/jscript/panzoom/jquery.panzoom.min.js' => 'Panzoom Minified',
+            $this->module_url . 'assets/jscript/panzoom/jquery.mousewheel.js' => 'wheel-suppport',
+            $this->module_url . 'assets/jscript/panzoom/pnazoom_wheel.js' => 'wheel script',
+            //-----------------------------------------------------------
+            $this->base_url . "jscript/bootstrap/js/bootstrap.min.js" => 'Bootstrap JS',
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'idwf' => $idwf,
+        );
+
+        $this->ui->makeui('ext.ui.php', $cpData);
+    }
     function get_comments($model, $idwf, $resourceId) {
         $wfData = $this->lang->language;
 //var_dump($level);
