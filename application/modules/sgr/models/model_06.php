@@ -232,7 +232,7 @@ class Model_06 extends CI_Model {
               1  	Disminución de tenencia accionaria 	null
               2  	Desvinculación 	null
              */
-            $ctrl_date = (isset($insertarr['FECHA_DE_TRANSACCION'])) ? $insertarr['FECHA_DE_TRANSACCION'] : $insertarr[5255];
+            $ctrl_date = (isset($insertarr['FECHA_DE_TRANSACCION'])) ? : $insertarr[5255];
             $query_period = period_before($this->session->userdata['period']); //period -1
             $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $ctrl_date, 1900));
             $integrated_calc = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $query_period, $transaction_date);
@@ -391,105 +391,19 @@ class Model_06 extends CI_Model {
         return $this->table->generate($data);
     }
 
-    function get_anexo_report($anexo, $parameter) {
+    function get_anexo_report($anexo, $parameter) {        
 
-        $sgr_nombre_to_print = ($this->sgr_nombre) ? $this->sgr_nombre : 'TODAS';
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
+        /*HEADER TEMPLATE*/
+        $header_data = array();
+        $header_data['input_period_to'] = $input_period_to;
+        $header_data['input_period_from'] = $input_period_from;
 
-
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
-
-        $tmpl = array(
-            'data' => '<tr>
-		<td>' . $this->sgr_nombre . '</td>
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>MOVIMIENTOS DE CAPITAL SOCIAL</td>
-		
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
-	</tr>
-	<tr>
-		<td rowspan=4>SGR</td>		
-		<td rowspan=4>ID</td>
-		<td rowspan=4>Per&iacute;odo</td>
-		<td rowspan=4>Tipo de Operaci&oacute;n</td>
-		<td colspan=3>DATOS DEL COMPRADOR DE ACCIONES</td>
-		<td colspan=12>DATOS GENERALES Y DE CONTACTO</td>
-		<td colspan=2>Actividad principal</td>
-		<td colspan=11>Cumplimiento de condici&oacute;n PyME seg&uacute;n Resoluci&oacute;n SEPyME N&ordm; 24/2001 y sus modificatorias</td>
-		<td rowspan=4>Condici&oacute;n de Inscripci&oacute;n ante la Administraci&oacute;n Federal de Ingresos P&uacute;blicos</td>
-		<td rowspan=4>Cantidad de Empleados al Cierre del &uacute;ltimo Ejercicio</td>
-		<td colspan=7>Capital Social</td>
-		<td colspan=3>Datos del Socios cedente</td>
-		<td rowspan=4>Archivo SIPRIN SGR</td>
-	</tr>
-	<tr>
-		<td rowspan=3>Tipo de Socio (A/B)</td>
-		<td rowspan=3>N&ordm; CUIT</td>
-		<td rowspan=3>Apellido y nombre o Raz&oacute;n Social</td>
-		<td rowspan=3>Provincia</td>
-		<td rowspan=3>Partido / Municipio / Comuna</td>
-		<td rowspan=3>Localidad</td>
-		<td rowspan=3>C&oacute;digo Postal</td>
-		<td rowspan=3>Calle</td>
-		<td rowspan=3>N&ordm; </td>
-		<td rowspan=3>Piso</td>
-		<td rowspan=3>Dto. / Oficina</td>
-		<td colspan=2>Tel&eacute;fonos</td>
-		<td rowspan=3>E-mail</td>
-		<td rowspan=3>P&aacute;gina Web</td>
-		<td colspan=2>AFIP</td>
-		<td colspan=9>Valor de las ventas totales anuales:. </td>
-		<td></td>
-		<td></td>
-		<td colspan=3>Aprobaci&oacute;n de la operaci&oacute;n</td>
-		<td rowspan=3>Fecha de transacci&oacute;n</td>
-		<td rowspan=3>Modalidad de compra de acciones</td>
-		<td rowspan=2>Capital Suscripto por esta operaci&oacute;n</td>
-		<td rowspan=2>Capital Integrado por esta operaci&oacute;n</td>
-		<td rowspan=3>N&ordm; CUIT</td>
-		<td rowspan=3>Apellido y nombre o Raz&oacute;n Social</td>
-		<td rowspan=3>Car&aacute;cter del Cedente</td>
-		</tr>
-	<tr>
-		<td rowspan=2>N&ordm; 1</td>
-		<td rowspan=2>N&ordm; 2</td>
-		<td rowspan=2>C&oacute;digo</td>
-		<td rowspan=2>Sector</td>
-		<td colspan=3>Facturaci&oacute;n A&ntilde;o 1</td>
-		<td colspan=3>Facturaci&oacute;n A&ntilde;o 2</td>
-		<td colspan=3>Facturaci&oacute;n A&ntilde;o 3</td>
-		<td rowspan=2>Promedio</td>
-		<td rowspan=2>Tipo de Empresa</td>
-		<td rowspan=2>Tipo de Acta</td>
-		<td rowspan=2>Fecha</td>
-		<td rowspan=2>Acta N&ordm;</td>
-		</tr>
-	<tr>
-		<td>Mes/A&ntilde;o </td>
-		<td>Monto</td>
-		<td>Tipo Origen</td>
-		<td>Mes/A&ntilde;o </td>
-		<td>Monto</td>
-		<td>Tipo Origen</td>
-		<td>Mes/A&ntilde;o </td>
-		<td>Monto</td>
-		<td>Tipo Origen</td>
-		<td> $ </td>
-		<td> $ </td>
-		</tr>',
-        );
+        $header = $this->parser->parse('reports/form_'.$anexo.'_header', $header_data, TRUE);
+        $tmpl = array('data' => $header);
+        
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -537,8 +451,8 @@ class Model_06 extends CI_Model {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
         $cuit_socio = (isset($parameter['cuit_socio'])) ? $parameter['cuit_socio'] : null;
 
 
@@ -612,7 +526,7 @@ class Model_06 extends CI_Model {
             if ($list['1695'] != "") {
                 $cuit = str_replace("-", "", $list['1695']);
                 $brand_name = $this->padfyj_model->search_name($cuit);
-                $brand_name = ($brand_name) ? $brand_name : $list['1693'];
+                $brand_name = ($brand_name) ? : $list['1693'];
             }
 
             if (isset($list['5248']))
@@ -748,7 +662,7 @@ class Model_06 extends CI_Model {
             $cuit = str_replace("-", "", $list['1695']);
             $this->load->model('padfyj_model');
             $brand_name = $this->padfyj_model->search_name($cuit);
-            $brand_name = ($brand_name) ? $brand_name : $list['1693'];
+            $brand_name = ($brand_name) ? : $list['1693'];
             $grantor_brand_name = $this->padfyj_model->search_name($list['5248']);
 
             $this->load->model('app');
