@@ -163,39 +163,14 @@ class Model_15 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-        $tmpl = array(
-            'data' => '<tr>
-                    <td align="center" >Fondo de riesgo disponible</td>
-                    <td align="center" rowspan="3">Entidad Emisora</td>
-                    <td align="center" rowspan="3">CUIT Entidad Emisora</td>
-                    <td align="center" rowspan="3">Entidad Depositaria</td>
-                    <td align="center" rowspan="3">CUIT Entidad Depositaria</td>
-                    <td align="center" rowspan="3">Moneda nominativa del Activo</td>
-                    <td align="center" rowspan="3">Monto (En Pesos)</td>
-                    <td align="center" rowspan="3">Proporción en el Fondo de Riesgo (%)</td>
-                </tr>
-                <tr>
-                    <td >1. Activos Artículo 25</td></tr>
-                    <tr>
-                        <td>Inciso del Art. 25</td>
-                        <td>Descripción</td>
-                        <td>Identificación</td>
-                    </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                                <th>5</th>
-                                <th>6</th>
-                                <th>7</th>
-                                <th>8</th>
-                                <th>9</th>
-                                <th>10</th>                                              
-                            </tr> ',
-        );
+        $header_data = array();
+
+        $header = $this->parser->parse('prints/anexo_15_header', TRUE);
+        $tmpl = array('data' => $header);
 
         $data = array($tmpl);
+
+
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
@@ -351,8 +326,6 @@ class Model_15 extends CI_Model {
 
 
         $header = $this->parser->parse('reports/form_15_header', $header_data, TRUE);
-
-
         $tmpl = array('data' => $header);
 
 
@@ -443,7 +416,7 @@ class Model_15 extends CI_Model {
             $new_list['col1'] = $list['id'];
             $new_list['col2'] = $get_period_filename['period'];
             $new_list['col3'] = $sgr_nombre;
-            $new_list['col4'] = str_replace("-","", $sgr_cuit);
+            $new_list['col4'] = str_replace("-", "", $sgr_cuit);
             $new_list['col5'] = $list['INCISO_ART_25'];
             $new_list['col6'] = $list['DESCRIPCION'];
             $new_list['col7'] = '';
