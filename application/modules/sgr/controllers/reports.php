@@ -56,7 +56,7 @@ class reports extends MX_Controller {
         }
 
         /* ANEXO */
-        $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
+        $this->anexo = ($this->session->userdata['anexo_code']) ? : "06";
 
         /* PERIOD */
         if (isset($this->session->userdata['period']))
@@ -74,7 +74,7 @@ class reports extends MX_Controller {
 
         $customData = array();
         $default_dashboard = 'reports';
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -106,12 +106,9 @@ class reports extends MX_Controller {
 
         $customData = array();
         $default_dashboard = 'reports_result';
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-
-
-
 
         /* HEADERS */
         $header_merge = array_merge($customData, $this->headers());
@@ -119,16 +116,16 @@ class reports extends MX_Controller {
             $customData[$key] = $each;
         }
 
-        $rtn_report = $this->process(); //$this->$model->get_anexo_report($anexo, $this->process_06());
+        $rtn_report = $this->process(); 
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
         $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);
-        $customData['show_table'] = ($rtn_report) ? $rtn_report : "";
-
+        $customData['show_table'] = ($rtn_report)? : "";
+        
+        header('Content-type: text/html; charset=UTF-8');
         $fileName = $anexo . "_al_" . date("j-n-Y"); //Get today
         //Generate  file
         header("Content-Description: File Transfer");
-        //header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-Type: application/x-msexcel");
         header("Content-Type: application/force-download");
         header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
@@ -197,8 +194,8 @@ class reports extends MX_Controller {
         $report_name = $this->input->post('report_name');
 
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
         
          if ($this->input->post('cuit_socio'))
             $rtn['cuit_socio'] = $this->input->post('cuit_socio');        
@@ -225,8 +222,8 @@ class reports extends MX_Controller {
         $report_name = $this->input->post('report_name');
 
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
@@ -248,8 +245,8 @@ class reports extends MX_Controller {
         $report_name = $this->input->post('report_name');
 
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
@@ -270,8 +267,8 @@ class reports extends MX_Controller {
         $report_name = $this->input->post('report_name');
 
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
@@ -289,8 +286,8 @@ class reports extends MX_Controller {
         $report_name = $this->input->post('report_name');
 
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
         
         if ($this->input->post('cuit_socio'))
             $rtn['cuit_socio'] = $this->input->post('cuit_socio');
@@ -323,8 +320,8 @@ class reports extends MX_Controller {
         if ($this->input->post('order_number'))
             $rtn['order_number'] = $this->input->post('order_number');
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? $this->input->post('input_period_from') : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? $this->input->post('input_period_to') : '01-2020';
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
@@ -495,9 +492,9 @@ class reports extends MX_Controller {
 
         $cpData['user'] = (array) $user;
         // $cpData['isAdmin'] = $this->user->isAdmin($user);
-        $user_lastname = isset($user->lastname) ? $user->lastname : "";
-        $user_name = isset($user->name) ? $user->name : "";
-        $user_email = isset($user->email) ? $user->email : "";
+        $user_lastname = isset($user->lastname) ? : "";
+        $user_name = isset($user->name) ? : "";
+        $user_email = isset($user->email) ? : "";
 
         $cpData['username'] = strtoupper($user_lastname . ", " . $user_name);
         $cpData['usermail'] = $user_email;
@@ -511,7 +508,7 @@ class reports extends MX_Controller {
         $cpData['inbox_count'] = $mymgs->count();
 
 // offline mark
-        $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
+        $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? : ('');
 
         $this->ui->compose($file, 'layout.php', $cpData);
     }

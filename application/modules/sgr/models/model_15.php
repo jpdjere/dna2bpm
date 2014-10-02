@@ -128,14 +128,14 @@ class Model_15 extends CI_Model {
          * VERIFICO PENDIENTE           
          */
         $get_period = $this->sgr_model->get_current_period_info($this->anexo, $period);
-        
-          /* UPDATE */
+
+        /* UPDATE */
         if (isset($get_period['status']))
-        $this->update_period($get_period['id'], $get_period['status']);
+            $this->update_period($get_period['id'], $get_period['status']);
 
         $result = $this->app->put_array_sgr($id, $container, $parameter);
 
-        if (isset($result)){
+        if (isset($result)) {
             /* BORRO SESSION RECTIFY */
             $this->session->unset_userdata('rectify');
             $this->session->unset_userdata('others');
@@ -148,7 +148,7 @@ class Model_15 extends CI_Model {
     }
 
     function update_period($id, $status) {
-        
+
         $options = array('upsert' => true, 'safe' => true);
         $container = 'container.sgr_periodos';
         $query = array('id' => (float) $id);
@@ -336,49 +336,27 @@ class Model_15 extends CI_Model {
 
         return $rtn;
     }
-    
+
     function get_anexo_report($anexo, $parameter) {
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
-        $tmpl = array(
-            'data' => '<tr>
-		<td>' . $this->sgr_nombre . '</td>
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>MOVIMIENTOS DE CAPITAL SOCIAL</td>
-		
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
-		
-	</tr><tr>
-            <td align="center" >SGR</td>
-            <td align="center" >ID</td>
-            <td align="center" >Per&iacute;odo</td>
-            <td align="center" >CUIT_DEPOSITARIO</td>
-            <td align="center" >CUIT_EMISOR</td>
-            <td align="center" >DESCRIPCION</td>
-            <td align="center" >EMISOR</td>                                
-            <td align="center" >ENTIDAD_DESPOSITARIA</td>
-            <td align="center" >IDENTIFICACION</td>
-            <td align="center" >INCISO_ART_25</td>
-            <td align="center" >MONEDA</td>
-            <td align="center" >MONTO</td>
-            <td align="center" >ARCHIVO</td>
-    </tr>
-	
-',
-        );
+
+        $header_data = array();
+
+
+        $header_data['input_period_to'] = $input_period_to;
+        $header_data['input_period_from'] = $input_period_from;
+
+
+        $header = $this->parser->parse('reports/form_15_header', $header_data, TRUE);
+
+
+        $tmpl = array('data' => $header);
+
+
+
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -389,7 +367,7 @@ class Model_15 extends CI_Model {
 
         return $newTable;
     }
-    
+
     function get_anexo_data_report($anexo, $parameter) {
 
         if (!isset($parameter)) {
@@ -418,15 +396,15 @@ class Model_15 extends CI_Model {
                 '$gte' => $start_date, '$lte' => $end_date
             )
         );
-        
-      
+
+
 
 
         if ($parameter['sgr_id'] != 666)
             $query["sgr_id"] = (float) $parameter['sgr_id'];
 
         $period_result = $this->mongo->sgr->$period_container->find($query);
-       
+
 
         $files_arr = array();
         $container = 'container.sgr_anexo_' . $anexo;
@@ -443,12 +421,15 @@ class Model_15 extends CI_Model {
         /* TABLE DATA */
         return $this->ui_table_xls($result_arr, $anexo);
     }
-    
+
     function ui_table_xls($result, $anexo = null) {
 
-        foreach ($result as $list) {           
-            
-            
+        $this->load->model('app');
+        $currency = $this->app->get_ops(549);
+
+
+        foreach ($result as $list) {
+
             $sgrArr_data = $this->sgr_model->get_sgr_by_id($list['sgr_id']);
             foreach ($sgrArr_data as $sgr) {
                 $sgr_id = (float) $sgr['id'];
@@ -459,19 +440,21 @@ class Model_15 extends CI_Model {
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
             $new_list = array();
-            $new_list['col1'] = $sgr_nombre;            
-            $new_list['col2'] = $list['id'];
-            $new_list['col3'] = $get_period_filename['period'];
-            $new_list['col4'] = $list['CUIT_DEPOSITARIO'];
-            $new_list['col5'] = $list['CUIT_EMISOR'];
+            $new_list['col1'] = $list['id'];
+            $new_list['col2'] = $get_period_filename['period'];
+            $new_list['col3'] = $sgr_nombre;
+            $new_list['col4'] = str_replace("-","", $sgr_cuit);
+            $new_list['col5'] = $list['INCISO_ART_25'];
             $new_list['col6'] = $list['DESCRIPCION'];
-            $new_list['col7'] = $list['EMISOR'];
-            $new_list['col8'] = $list['ENTIDAD_DESPOSITARIA'];
-            $new_list['col9'] = $list['IDENTIFICACION'];
-            $new_list['col10'] = $list['INCISO_ART_25'];
-            $new_list['col11'] = $list['MONEDA'];
-            $new_list['col12'] = dot_by_coma($list['MONTO']);
-            $new_list['col13'] = $list['filename'];
+            $new_list['col7'] = '';
+            $new_list['col8'] = $list['IDENTIFICACION'];
+            $new_list['col9'] = $list['EMISOR'];
+            $new_list['col10'] = $list['CUIT_EMISOR'];
+            $new_list['col11'] = $list['ENTIDAD_DESPOSITARIA'];
+            $new_list['col12'] = $list['CUIT_DEPOSITARIO'];
+            $new_list['col13'] = $currency[$list['MONEDA']];
+            $new_list['col14'] = dot_by_coma($list['MONTO']);
+            $new_list['col15'] = $list['filename'];
             $rtn[] = $new_list;
         }
 
