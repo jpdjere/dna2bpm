@@ -35,8 +35,8 @@ class Model_control_panel extends CI_Model {
 
         $sgr_nombre_to_print = ($this->sgr_nombre) ? $this->sgr_nombre : 'TODAS';
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
         $tmpl = array(
             'data' => '<tr>
@@ -105,8 +105,8 @@ class Model_control_panel extends CI_Model {
         if ($parameter['input_origin'] != "0")
             $input_origin = ($parameter['input_origin'] == "1") ? "forms2" : "2013";
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
         $start_date = first_month_date($input_period_from);
         $end_date = last_month_date($input_period_to);

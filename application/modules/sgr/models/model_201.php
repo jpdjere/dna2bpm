@@ -998,8 +998,8 @@ class Model_201 extends CI_Model {
 
     function get_anexo_report($anexo, $parameter) {
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
         $tmpl = array(
             'data' => '<tr>
@@ -1085,8 +1085,8 @@ class Model_201 extends CI_Model {
 
 
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
 
         $start_date = first_month_date($input_period_from);

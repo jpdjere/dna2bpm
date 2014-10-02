@@ -659,8 +659,8 @@ class Model_14 extends CI_Model {
 
     function get_anexo_report($anexo, $parameter) {
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
         $tmpl = array(
             'data' => '<tr>
@@ -726,8 +726,8 @@ class Model_14 extends CI_Model {
         $rtn = array();
 
 
-        $input_period_from = ($parameter['input_period_from']) ? $parameter['input_period_from'] : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? $parameter['input_period_to'] : '12_' . date("Y");
+        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
         $cuit_socio = (isset($parameter['cuit_socio'])) ? $parameter['cuit_socio'] : null;
         $nro_orden = (isset($parameter['nro_orden'])) ? $parameter['nro_orden'] : null;
 
