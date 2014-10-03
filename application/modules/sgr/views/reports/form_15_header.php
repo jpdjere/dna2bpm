@@ -11,8 +11,7 @@
     <td align="center">SGR</td>
     <td align="center">CUIT SGR</td>
     <td align="center">INCISO ART 25</td>
-    <td align="center">DESCRIPCION</td>
-    <td align="center">ID INVERSION</td>
+    <td align="center">DESCRIPCION</td>    
     <td align="center">IDENTIFICACION</td>
     <td align="center">EMISOR</td>
     <td align="center">CUIT EMISOR</td>

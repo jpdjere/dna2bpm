@@ -163,13 +163,13 @@ class Model_15 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
+        /* HEADER TEMPLATE */
         $header_data = array();
 
-        $header = $this->parser->parse('prints/anexo_15_header', TRUE);
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
         $tmpl = array('data' => $header);
 
         $data = array($tmpl);
-
 
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
@@ -411,20 +411,19 @@ class Model_15 extends CI_Model {
 
             $new_list = array();
             $new_list['col1'] = $list['id'];
-            $new_list['col2'] = $get_period_filename['period'];
+            $new_list['col2'] = period_print_format($get_period_filename['period']);
             $new_list['col3'] = $sgr_nombre;
             $new_list['col4'] = str_replace("-", "", $sgr_cuit);
             $new_list['col5'] = $list['INCISO_ART_25'];
-            $new_list['col6'] = $list['DESCRIPCION'];
-            $new_list['col7'] = '';
-            $new_list['col8'] = $list['IDENTIFICACION'];
-            $new_list['col9'] = $list['EMISOR'];
-            $new_list['col10'] = $list['CUIT_EMISOR'];
-            $new_list['col11'] = $list['ENTIDAD_DESPOSITARIA'];
-            $new_list['col12'] = $list['CUIT_DEPOSITARIO'];
-            $new_list['col13'] = $currency[$list['MONEDA']];
-            $new_list['col14'] = dot_by_coma($list['MONTO']);
-            $new_list['col15'] = $list['filename'];
+            $new_list['col6'] = $list['DESCRIPCION'];            
+            $new_list['col7'] = $list['IDENTIFICACION'];
+            $new_list['col8'] = $list['EMISOR'];
+            $new_list['col9'] = $list['CUIT_EMISOR'];
+            $new_list['col10'] = $list['ENTIDAD_DESPOSITARIA'];
+            $new_list['col11'] = $list['CUIT_DEPOSITARIO'];
+            $new_list['col12'] = $currency[$list['MONEDA']];
+            $new_list['col13'] = dot_by_coma($list['MONTO']);
+            $new_list['col14'] = $list['filename'];
             $rtn[] = $new_list;
         }
 
