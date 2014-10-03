@@ -315,8 +315,7 @@ class Model_15 extends CI_Model {
     function get_anexo_report($anexo, $parameter) {
 
         $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");        
-        
+        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
         /*HEADER TEMPLATE*/
         $header_data = array();
@@ -324,8 +323,6 @@ class Model_15 extends CI_Model {
         $header_data['input_period_from'] = $input_period_from;
         $header = $this->parser->parse('reports/form_'.$anexo.'_header', $header_data, TRUE);
         $tmpl = array('data' => $header);
-
-
 
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
