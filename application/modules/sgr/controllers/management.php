@@ -64,7 +64,7 @@ class Management extends MX_Controller {
         }
 
 
-        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
+        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? : "06";
 
         if (isset($this->session->userdata['period']))
             $this->period = $this->session->userdata['period'];
@@ -722,7 +722,7 @@ class Management extends MX_Controller {
             exit();
         }
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -760,7 +760,7 @@ class Management extends MX_Controller {
             exit();
         }
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -796,7 +796,7 @@ class Management extends MX_Controller {
             exit();
         }
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
         //----Load pdf lib

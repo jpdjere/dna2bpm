@@ -634,7 +634,7 @@ debug($grantor_type);
             exit();
         }
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -745,7 +745,7 @@ debug($grantor_type);
     function set_no_movement() {
         $data = $this->input->post('data');
         $period = $data['no_movement'];
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
