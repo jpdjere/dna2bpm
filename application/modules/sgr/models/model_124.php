@@ -144,52 +144,14 @@ class Model_124 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter) {
-        $tmpl = array(
-            'data' => '<tr><td colspan="13" align="center">GARANTIAS REAFIANZADAS</td></tr><tr><td rowspan="5" align="center">N&ordm; de Orden</td>
-                                <td colspan="2" rowspan="3" align="center">Del Part&iacute;cipe / Beneficiario</td>
-                                <td colspan="3" rowspan="3" align="center">De la Garant&iacute;a</td>
-                                
-                                <td colspan="2" rowspan="3" align="center">Del Acreedor</td>
-                                <td colspan="3" rowspan="3" align="center">Del Reafianzamiento</td>
-                                <td colspan="2" rowspan="3" align="center">Institución Reafianzadora</td>
-                            </tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr>
-                                <td rowspan="2" align="center">Nombre o raz&oacute;n social</td>
-                                <td rowspan="2" align="center">C.U.I.T.</td>
-                                <td rowspan="2" align="center">Fecha de    origen</td>
-                                <td rowspan="2" align="center">Tipo</td>                                
-                                <td rowspan="2" align="center">Importe</td>
-                                <td rowspan="2" align="center">Nombre o Razón Social</td>                                
-                                <td rowspan="2" align="center">C.U.I.T.</td>
-                                <td rowspan="2" align="center">Fecha de<br>entrada en Vigencia</td>
-                                <td rowspan="2" align="center">Saldo Vigente</td>
-                                <td rowspan="2" align="center">Porcentaje Reafianzado</td>
-                                <td rowspan="2" align="center">Razón Social</td>
-                                <td rowspan="2" align="center">C.U.I.T.</td>                                                             
-                            </tr>
-                            <tr>
-                              
-                             
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                                <th>5</th>
-                                <th>6</th>
-                                <th>7</th>
-                                <th>8</th>
-                                <th>9</th>
-                                <th>10</th>
-                                <th>11</th>
-                                <th>12</th>
-                                <th>13</th>                                           
-                            </tr> ',
-        );
+        /* HEADER TEMPLATE */
+        $header_data = array();
+
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
+        $tmpl = array('data' => $header);
+
         $data = array($tmpl);
+
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);

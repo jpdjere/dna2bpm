@@ -139,36 +139,15 @@ class Model_125 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
-        $tmpl = array(
-            'data' => ' <tr>
-        <td colspan="2" align="center">Socio Participe</td>
-        <td colspan="2" align="center">Acreedor <br></td>
-        <td colspan="4" align="center">Saldo de Garantías Vigentes<br></td>
-    </tr>
-    <tr>
-        <td align="center">C.U.I.T.</td>
-        <td align="center">Razón Social</td>
-        <td align="center">C.U.I.T.</td>
-        <td align="center">Razón Social</td>
-        <td align="center">Financiera</td>
-        <td align="center">Comerciales <br></td>
-        <td align="center">Técnicas</td>
-        <td align="center">Total</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>    
-    </tr> ',
-        );
+       
+        /* HEADER TEMPLATE */
+        $header_data = array();
 
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
+        $tmpl = array('data' => $header);
 
         $data = array($tmpl);
+
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
