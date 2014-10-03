@@ -131,6 +131,8 @@ function check_date($parameter) {
     }
 }
 
+/* PERIOD */
+
 function check_period($var, $period) {
     $valida_fecha = date("m-Y", mktime(0, 0, 0, 1, -1 + $var, 1900));
     if ($valida_fecha != $period) {
@@ -161,6 +163,64 @@ function check_period_minor($parameter, $period) {
     if ($check_date > $period) {
         return true;
     }
+}
+
+function translate_period_date($period) {
+    list($period_month, $period_year) = explode("-", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+function translate_dna2_period_date($period) {
+    list($period_month, $period_year) = explode("_", $period);
+
+    $period_day = '01';
+    $realtime = date("$period_year-$period_month-$period_day H:i:s");
+    $mongotime = New Mongodate(strtotime($realtime));
+    return $mongotime;
+}
+
+function translate_date_xls($date) {
+    $new_date = unixtojd(strtotime($date)) - gregoriantojd(1, 1, 1900);
+    return $new_date;
+}
+
+function first_month_date($period) {
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+    $month_date = "01";
+    $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+
+    return $endDate;
+}
+
+function last_month_date($period) {
+
+    if ($period) {
+        list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+        $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
+        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
+
+        return $endDate;
+    }
+}
+
+function period_before($period) {
+
+
+    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
+    $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-28');
+    $endDate = strtotime('-1 month', strtotime($fecha));
+
+    return date("m-Y", $endDate);
+}
+
+function period_print_format($period) {
+    // 2014-06
+    list($month, $year) = explode("-", $period);
+    return $year . "-" . $month;
 }
 
 function check_decimal_minor_equal($number, $decimal = 2, $positive = null) {
@@ -571,58 +631,6 @@ function translate_mysql_date($date) {
     $realtime = date("$date H:i:s");
     $mongotime = New Mongodate(strtotime($realtime));
     return $mongotime;
-}
-
-function translate_period_date($period) {
-    list($period_month, $period_year) = explode("-", $period);
-
-    $period_day = '01';
-    $realtime = date("$period_year-$period_month-$period_day H:i:s");
-    $mongotime = New Mongodate(strtotime($realtime));
-    return $mongotime;
-}
-
-function translate_dna2_period_date($period) {
-    list($period_month, $period_year) = explode("_", $period);
-
-    $period_day = '01';
-    $realtime = date("$period_year-$period_month-$period_day H:i:s");
-    $mongotime = New Mongodate(strtotime($realtime));
-    return $mongotime;
-}
-
-function translate_date_xls($date) {
-    $new_date = unixtojd(strtotime($date)) - gregoriantojd(1, 1, 1900);
-    return $new_date;
-}
-
-function first_month_date($period) {
-    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
-    $month_date = "01";
-    $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
-
-    return $endDate;
-}
-
-function last_month_date($period) {
-
-    if ($period) {
-        list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
-        $month_date = date("t", mktime(1, 1, 1, $getPeriodMonth, 1, $getPeriodYear));
-        $endDate = new MongoDate(strtotime($getPeriodYear . "-" . $getPeriodMonth . "-" . $month_date));
-
-        return $endDate;
-    }
-}
-
-function period_before($period) {
-
-
-    list($getPeriodMonth, $getPeriodYear) = explode("-", $period);
-    $fecha = date($getPeriodYear . '-' . $getPeriodMonth . '-28');
-    $endDate = strtotime('-1 month', strtotime($fecha));
-
-    return date("m-Y", $endDate);
 }
 
 function mongodate_to_print($date) {
