@@ -147,54 +147,11 @@ class Model_16 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter) {
 
+        /* HEADER TEMPLATE */
+        $header_data = array();
 
-        $tmpl = array(
-            'data' => '<tr>
-        <td align="center" rowspan="2">Promedio Saldo <br>mensual correspondiente al mes</td>
-        <td align="center" rowspan="2">Saldo Promedio <br />Garantias Vigentes</td>
-        <td align="center" rowspan="2">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 hasta feb 2010</td>
-        <td align="center" rowspan="2">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 hasta feb 2010</td>
-        
-        <td colspan="2">Emitidas entre el 25 de Febrero y el 31 de Diciembre de 2010</td>
-        <td colspan="2">Emitidas desde el 1° de Febrero de 2011</td>
-        
-                                <td rowspan="2" align="center">Saldo Total de Garantias Vigentes que Computan para el 80%</td>
-                                <td rowspan="2" align="center">Saldo Total de Garantias Vigentes que Computan para el 120%</td>
-                                <td rowspan="2" align="center">Saldo Promedio <br />Fonde de Riesgo<br /> Total computable</td>                                
-                                <td rowspan="2" align="center">Saldo Promedio <br />Fonde de Riesgo<br /> contingente</td>
-                                <td rowspan="2" align="center">Saldo Promedio <br />Fonde de Riesgo<br /> Total disponible</td>
-                                <td rowspan="2" align="center">Solvencia (Apalancamiento)</td>
-                                <td rowspan="2" align="center">Grado de Utilización para el 80%</td>
-                                <td rowspan="2" align="center">Grado de Utilización para el 120%</td>
-    </tr>
-    <tr>
-         <td align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 desde feb 2010</td>
-                                <td  align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 desde feb 2010</td>
-                                <td  align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />80 desde ene 2011</td>
-                                <td align="center">Saldo Promedio <br />Ponderado Garantias Vigentes <br />120 desde ene 2011</td>
-                                
-    </tr>
-                            <tr>
-                                <td align="center">1</td>
-                                <td align="center">2</td>
-                                <td align="center">3</td>
-                                <td align="center">4</td>
-                                <td align="center">5</td>
-                                <td align="center">6</td>
-                                <td align="center">7</td>
-                                <td align="center">8</td>
-                                <td align="center">9 (3+5+7)</td>
-                                <td align="center">10 (4+6+8)</td>
-                                <td align="center">11</td>
-                                <td align="center">12</td>
-                                <td align="center">13 (11-12)</td>
-                                <td align="center">14 (2/11)</td>
-                                <td align="center">15 (9/11)</td>
-                                <td align="center">16 (10/11)</td>
-                            </tr>',
-        );
-
-
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
+        $tmpl = array('data' => $header);
 
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
