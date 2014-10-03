@@ -332,7 +332,7 @@ class Repository extends MX_Controller {
 
         //var_dump($cpData);exit;
         $cpData['css'] = array(
-            $this->module_url . 'assets/css/process_browser.css' => 'Manager styles',
+//            $this->module_url . 'assets/css/process_browser.css' => 'Manager styles',
             $this->module_url . 'assets/css/extra-icons.css' => 'Extra Icons',
             $this->module_url . 'assets/css/fix_bootstrap_checkbox.css' => 'Fix Checkbox',
         );

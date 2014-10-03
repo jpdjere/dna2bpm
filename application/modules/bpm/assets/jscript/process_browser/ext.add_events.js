@@ -49,7 +49,7 @@ var add_events = function (shapes) {
                 resourceId = target.id.replace('overlay', '');
 
                 //console.log(resourceId);
-                console.log(flat[resourceId]);
+//                console.log(flat[resourceId]);
                 modal = Ext.get('myModal');
                 //----set Title
                 modal.select('h4').elements[0].innerHTML = flat[resourceId].properties.name;
