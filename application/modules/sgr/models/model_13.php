@@ -144,30 +144,14 @@ class Model_13 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
-        $tmpl = array('data' => ' <tr><td rowspan="2" align="center">Tipo de Garantía</td>
-        <td colspan="5" align="center">Saldo según antigüedad</td>
-        <td rowspan="2" align="center">Valor de las contragarantías</td>
-    </tr>
-    <tr>
-        <td align="center">Menor de 90<br>días</td>
-        <td align="center">Menor de 180<br>días</td>
-        <td align="center">Menor de 365<br>días</td>
-        <td align="center">Mayor de 365<br>días</td>
-        <td align="center">Totales</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-    </tr> ',
-        );
+       /* HEADER TEMPLATE */
+        $header_data = array();
 
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
+        $tmpl = array('data' => $header);
 
         $data = array($tmpl);
+        
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
