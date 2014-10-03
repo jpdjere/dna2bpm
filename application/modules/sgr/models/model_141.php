@@ -251,72 +251,17 @@ class Model_141 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
 
-        $tmpl = array(
-            'data' => '<tr>
-        <td align="center" rowspan="2">C.U.I.T</td>
-        <td align="center" rowspan="2">Socio Participe</td>
-        <td colspan="2" align="center">Saldo de Garantías Vigentes<br></td>
-        <td colspan="5" align="center">Contragarantías</td>
-        <td align="center" rowspan="2">Saldos Reafianzados <br></td>
-        <td colspan="4" align="center">Deudores por Garantías Abonadas<br></td>
-    </tr>
-    <tr>
-        <td align="center">Cantidad de Garantías<br></td>
-        <td align="center">Monto</td>
-        <td align="center">Hipotecarias</td>
-        <td align="center">Prendarias</td>
-        <td align="center">Fianzas</td>
-        <td align="center">Otras</td>
-        <td align="center">Total</td>
-        <td align="center">Monto adeudado a la fecha</td>
-        <td align="center">Cantidad de garantías afrontadas <br></td>
-        <td align="center">Días de mora</td>
-        <td align="center">Clasificación del deudor <br></td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-        <td>10</td>
-        <td>11</td>
-        <td>12</td>
-        <td>13</td>
-        <td>14</td>              
-    </tr> ',
-        );
-
-        $tmpl_xls = array(
-            'data' => '<tr><td>C.U.I.T</td>
-        <td>Socio Participe</td>
-        <td>Cantidad de Garantias</td>
-        <td>Monto</td>
-        <td>Hipotecarias</td>
-        <td>Prendarias</td>
-        <td>Fianzas</td>
-        <td>Otras</td>
-        <td>Total</td>
-        <td>Saldos Reafianzados </td>
-        <td>Monto adeudado a la fecha</td>
-        <td>Cantidad de garantias afrontadas</td>
-        <td>Dias de mora</td>
-        <td>Clasificacion del deudor</td>  
-                            </tr>',
-        );
-
-        /* DRAW TABLE */
-        $fix_table = '<thead>
-<tr>
-<th>';
-
-
-        $template = ($xls) ? $tmpl_xls : $tmpl;
-        $data = array($template);
+       /* HEADER TEMPLATE */
+        $header_data = array();
+        $template = array();
+               
+        if($xls)
+            $template['xls'] = true;
+        
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header',$template,  TRUE);
+        $tmpl = array('data' => $header);
+        
+        $data = array($tmpl);
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
@@ -325,7 +270,7 @@ class Model_141 extends CI_Model {
         }
 
         $this->load->library('table_custom');
-        $newTable = str_replace($fix_table, '<thead>', $this->table_custom->generate($data));
+        $newTable = $this->table_custom->generate($data);
         return $newTable;
     }
 
