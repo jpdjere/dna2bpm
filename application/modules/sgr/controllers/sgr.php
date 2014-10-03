@@ -67,7 +67,7 @@ class Sgr extends MX_Controller {
         }
 
 
-        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? : "06";
+        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
 
         if (isset($this->session->userdata['period']))
             $this->period = $this->session->userdata['period'];
@@ -145,8 +145,8 @@ class Sgr extends MX_Controller {
             }
 
             $error_set_period = $this->set_period();
-            $translate_error = ($this->translate_error_period($error_set_period)) ? : array();
-            $rectify_status = ($this->rectify_status()) ? : array();
+            $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
+            $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
             $rectify_merge = array_merge($rectify_status, $translate_error);
             foreach ($rectify_merge as $key => $each) {
                 $customData[$key] = $each;
@@ -154,8 +154,8 @@ class Sgr extends MX_Controller {
 
 // UPLOAD ANEXO
             $upload = $this->upload_file();
-            $translate_upload = ($this->translate_upload($upload)) ? : array();
-            $upload_status = ($this->upload_status($upload)) ? : array();
+            $translate_upload = ($this->translate_upload($upload)) ? $this->translate_upload($upload) : array();
+            $upload_status = ($this->upload_status($upload)) ? $this->upload_status($upload) : array();
             $upload_merge = array_merge($translate_upload, $upload_status);
             foreach ($upload_merge as $key => $each) {
                 $customData[$key] = $each;
@@ -595,9 +595,9 @@ class Sgr extends MX_Controller {
                     if ($row_lenght > 1) {
                         $count = $data->rowcount();
 
-                        $fields = (isset($data->sheets[0]['cells'][$i][$j])) ? : NULL;
+                        $fields = (isset($data->sheets[0]['cells'][$i][$j])) ? trim($data->sheets[0]['cells'][$i][$j]) : NULL;
 
-                        $stack = array('fieldValue' => trim($fields), "row" => $i, "col" => $j, "count" => $count);
+                        $stack = array('fieldValue' => $fields, "row" => $i, "col" => $j, "count" => $count);
                         array_push($valuesArr, $stack);
                     }
                 }
@@ -831,7 +831,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -897,7 +897,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -938,7 +938,7 @@ class Sgr extends MX_Controller {
 
 
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
         //----Load pdf lib
@@ -1523,7 +1523,7 @@ class Sgr extends MX_Controller {
     function set_no_movement() {
         $data = $this->input->post('data');
         $period = $data['no_movement'];
-        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
