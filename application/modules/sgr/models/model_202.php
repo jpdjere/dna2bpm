@@ -173,48 +173,18 @@ class Model_202 extends CI_Model {
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
 
-        $tmpl = array(
-            'data' => '<tr><td align="center">Número de Aporte</td>
-                                <td align="center">Nombre o Razón Social del Socio Protector</td>
-                                <td align="center">C.U.I.T.</td>
-                                <td align="center">Saldo del Aporte</td>
-                                <td align="center">Contingente Proporcional Asignado</td>
-                                <td align="center">Deuda Proporcional Asignada</td>
-                                <td align="center">Saldo del Aporte Disponible</td>
-                                <td align="center">Rendimiento Asignado</td>
-                            </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                                <th>4</th>
-                                <th>5</th>
-                                <th>6</th>
-                                <th>7</th>
-                                <th>8</th>                                                
-                            </tr> ',
-        );
+        /* HEADER TEMPLATE */
+        $header_data = array();
+        $template = array();
 
-        $tmpl_xls = array(
-            'data' => '<tr><td>Numero de Aporte</td>
-                                <td align="center">Nombre o Razon Social del Socio Protector</td>
-                                <td>C.U.I.T.</td>
-                                <td>Saldo del Aporte</td>
-                                <td>Contingente Proporcional Asignado</td>
-                                <td>Deuda Proporcional Asignada</td>
-                                <td>Saldo del Aporte Disponible</td>
-                                <td>Rendimiento Asignado</td>
-                            </tr>',
-        );
+        if ($xls)
+            $template['xls'] = true;
 
-        /* DRAW TABLE */
-        $fix_table = '<thead>
-<tr>
-<th>';
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', $template, TRUE);
+        $tmpl = array('data' => $header);
 
+        $data = array($tmpl);
 
-        $template = ($xls) ? $tmpl_xls : $tmpl;
-        $data = array($template);
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
