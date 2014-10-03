@@ -2,7 +2,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>{title}</title>
-        <link rel="stylesheet" type="text/css" href="{base_url}jscript/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="{base_url}jscript/bootstrap-wysihtml5/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="{base_url}jscript/bootstrap-wysihtml5/css/font-awesome.min.css" />
         <!--<link rel="stylesheet" type="text/css" href="{base_url}jscript/bootstrap-wysihtml5/css/ionicons.min.css" />-->
         <link rel="stylesheet" type="text/css" href="{base_url}jscript/ext/resources/css/ext-all-neptune-debug.css" />
@@ -30,7 +30,21 @@
                 </div>
             </div>
         </div>
+<!-- ======== MODAL ======== --> 
 
+        <div  class="modal fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <!-- Boot -->
         <script type="text/javascript">
             //-----declare global vars

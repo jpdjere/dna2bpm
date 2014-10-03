@@ -323,12 +323,12 @@ class Repository extends MX_Controller {
         $level = $this->user->getlevel($this->idu);
         $cpData = $this->lang->language;
         $segments = $this->uri->segment_array();
-        $case = $this->bpm->get_case($idcase);
+//        $case = $this->bpm->get_case($idcase);
         $cpData['theme'] = $this->config->item('theme');
         $cpData['level'] = $level;
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
-        $cpData['title'] = 'Token Viewer';
+        $cpData['title'] = 'Process Browser';
 
         //var_dump($cpData);exit;
         $cpData['css'] = array(
@@ -340,10 +340,10 @@ class Repository extends MX_Controller {
             $this->module_url . 'assets/jscript/process_browser/ext.settings.js' => 'Settings & overrides',
             $this->module_url . 'assets/jscript/fontawesome_icons.js' => 'FontAwesome icons',
             $this->module_url . 'assets/jscript/process_browser/ext.data.js' => 'data Components',
-            $this->module_url . 'assets/jscript/process_browser/ext.tokenGrid.js' => 'Types Grid',
+//            $this->module_url . 'assets/jscript/process_browser/ext.tokenGrid.js' => 'Types Grid',
             $this->module_url . 'assets/jscript/ext.model-utils.js' => 'Model utils',
             $this->module_url . 'assets/jscript/process_browser/ext.add_events.js' => 'Events for overlays',
-            $this->module_url . 'assets/jscript/process_browser/ext.tokens.viewport.js' => 'viewport',
+            $this->module_url . 'assets/jscript/process_browser/ext.viewport.js' => 'viewport',
             $this->base_url . "jscript/jquery/jquery.min.js" => 'JQuery',
             //----Pan & ZooM---------------------------------------------
             $this->module_url . 'assets/jscript/panzoom/jquery.panzoom.min.js' => 'Panzoom Minified',
@@ -359,7 +359,7 @@ class Repository extends MX_Controller {
             'idwf' => $idwf,
         );
 
-        $this->ui->makeui('ext.ui.php', $cpData);
+        $this->ui->makeui('ext.ui-no-ion.php', $cpData);
     }
     function get_comments($model, $idwf, $resourceId) {
         $wfData = $this->lang->language;

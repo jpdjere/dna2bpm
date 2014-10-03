@@ -108,31 +108,31 @@ var dgstore = Ext.create('Ext.data.Store', {
     ,
     listeners:{
         load: function(me){
-            if(globals.idcase){
+            if(globals.idwf){
            // mygrid.selModel().selected(mygrid.store.find('id',globals.idcase));
             }
         }
     }
 });
 
-//--4 token Grid
-var tokenstore = Ext.create('Ext.data.Store', {
-    id:'tokenStore',
-    autoLoad: false,
-    model: 'tokenModel',
-    proxy: {
-        type: 'ajax',
-        url: globals.module_url+'case_manager/tokens/read/'+globals.idwf,  // url that will load data with respect to start and limit params
-        noCache: false,
-        reader: {
-            type: 'json',
-            root: 'rows',
-            totalProperty: 'totalCount'
-        },
-        writer:{
-            type: 'json',
-            allowSingle:false
-        }
-        
-    }
-});
+////--4 token Grid
+//var tokenstore = Ext.create('Ext.data.Store', {
+//    id:'tokenStore',
+//    autoLoad: false,
+//    model: 'tokenModel',
+//    proxy: {
+//        type: 'ajax',
+//        url: globals.module_url+'repository/get_shapes/'+globals.idwf,  // url that will load data with respect to start and limit params
+//        noCache: false,
+//        reader: {
+//            type: 'json',
+//            root: 'rows',
+//            totalProperty: 'totalCount'
+//        },
+//        writer:{
+//            type: 'json',
+//            allowSingle:false
+//        }
+//        
+//    }
+//});
