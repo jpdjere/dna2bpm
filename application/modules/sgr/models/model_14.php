@@ -192,37 +192,14 @@ class Model_14 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
-        $tmpl = array(
-            'data' => '<tr><td align="center" rowspan="2">Fecha</td>
-                                <td align="center" rowspan="2">N° de Orden de la Garantía Otorgada</td>
-                                <td align="center" rowspan="2">Socio Participe</td>
-                                <td align="center" rowspan="2">C.U.I.T</td>                                
-                                <td align="center" colspan="3">GARANTIAS AFRONTADAS</td>
-                                <td align="center" colspan="3">Gastos por Gestión de Recuperos</td>
-    <tr>
-        <td>Deuda Originada en el Período</td>
-        <td>Cobranza o Recupero del Período</td>
-        <td>Incobrables declarados en el Período</td>
-        <td>Gastos efectuados en el Período</td>
-        <td>Recuperos del Período</td>
-        <td>Incobrables declarados en el Período</td>       
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-        <td>10</td>       
-    </tr> ',
-        );
+        /* HEADER TEMPLATE */
+        $header_data = array();
 
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
+        $tmpl = array('data' => $header);
 
         $data = array($tmpl);
+        
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
@@ -662,49 +639,15 @@ class Model_14 extends CI_Model {
         $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
-        $tmpl = array(
-            'data' => '<tr>
-		<td>' . $this->sgr_nombre . '</td>
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>Movimientos del F.D.R. contingente</td>
-		
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
-		
-    </tr>
-    <tr>
-        <td align="center" rowspan="2">SGR</td>            
-        <td align="center" rowspan="2">ID</td>        
-        <td align="center" rowspan="2">Per&iacute;odo</td>
-        <td align="center" rowspan="2">Fecha</td>
-        <td align="center" rowspan="2">N° de Orden de la Garantía Otorgada</td>
-        <td align="center" rowspan="2">Socio Participe</td>
-        <td align="center" rowspan="2">C.U.I.T</td>                                
-        <td align="center" colspan="3">GARANTIAS AFRONTADAS</td>
-        <td align="center" colspan="3">Gastos por Gestión de Recuperos</td>
-        <td align="center" rowspan="2">Filename</td>
-    <tr>
-        <td>Deuda Originada en el Período</td>
-        <td>Cobranza o Recupero del Período</td>
-        <td>Incobrables declarados en el Período</td>
-        <td>Gastos efectuados en el Período</td>
-        <td>Recuperos del Período</td>
-        <td>Incobrables declarados en el Período</td>       
-    </tr>
-	
-',
-        );
+        /*HEADER TEMPLATE*/
+        $header_data = array();
+        $header_data['input_period_to'] = $input_period_to;
+        $header_data['input_period_from'] = $input_period_from;
+        $header = $this->parser->parse('reports/form_'.$anexo.'_header', $header_data, TRUE);
+        $tmpl = array('data' => $header);
+
         $data = array($tmpl);
+        
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
@@ -832,7 +775,7 @@ class Model_14 extends CI_Model {
             $new_list = array();
             $new_list['col1'] = $g_denomination;
             $new_list['col2'] = $list['id'];
-            $new_list['col3'] = $get_period_filename['period'];
+            $new_list['col3'] = period_print_format($get_period_filename['period']);
             $new_list['col4'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['col5'] = $list['NRO_GARANTIA'];
             $new_list['col6'] = $brand_name;
