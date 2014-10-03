@@ -175,74 +175,18 @@ class Model_201 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
-        $tmpl = array(
-            'data' => '<tr><td align="center" rowspan="2">Número de Aporte</td>
-                                <td align="center" rowspan="2">Fecha de Movimiento</td>
-                                <td align="center" rowspan="2">Nombre o Razón Social del Socio Protector</td>
-                                <td align="center" rowspan="2">C.U.I.T. Socio Protector</td>
-                                <td align="center" rowspan="2">Monto del Aporte</td>
-                                <td align="center" rowspan="2">Monto del Retiro</td>
-                                <td align="center" rowspan="2">Fecha del Aporte Original</td>
-                                <td align="center" rowspan="2">Monto del Aporte Original</td>                                
-                                <td align="center" rowspan="2">Retencion por Contingente</td>
-                                <td align="center" rowspan="2">Retiro de Rendimientos</td>                                
-                                <td align="center" rowspan="2">Especie</td>
-                                <td align="center" colspan="4">Cuenta Origen</td>
-                                <td align="center" colspan="4">Cuenta Destino</td>
-                                <td align="center" colspan="2">Acta de Autorización</td></tr>
-    <tr>
-        <td>Titular</td>
-        <td>N°</td>
-        <td>Entidad</td>
-        <td>Entidad Depositaria</td>
-        <td>Titular</td>
-        <td>N°</td>
-        <td>Entidad</td>
-        <td>Entidad Depositaria</td>
-        <td>Fecha</td>
-        <td>Número</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-        <td>10</td>
-        <td>11</td>
-        <td>12</td>
-        <td>13</td>
-        <td>14</td>
-        <td>15</td>
-        <td>16</td>
-        <td>17</td>
-        <td>18</td>
-        <td>19</td>
-        <td>20</td>
-        <td>21</td>
-    </tr> ',
-        );
+        /* HEADER TEMPLATE */
+        $header_data = array();
+        $template = array();
 
-        $tmpl_xls = array(
-            'data' => '<tr><td>Numero de Aporte</td>
-                                <td align="center">Nombre o Razon Social del Socio Protector</td>
-                                <td>C.U.I.T.</td>
-                                <td>Saldo del Aporte</td>
-                                <td>Contingente Proporcional Asignado</td>
-                                <td>Deuda Proporcional Asignada</td>
-                                <td>Saldo del Aporte Disponible</td>
-                                <td>Rendimiento Asignado</td>
-                            </tr>',
-        );
+        if ($xls)
+            $template['xls'] = true;
 
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', $template, TRUE);
+        $tmpl = array('data' => $header);
 
+        $data = array($tmpl);
 
-        $template = ($xls) ? $tmpl_xls : $tmpl;
-        $data = array($template);
         $anexoValues = $this->get_anexo_data($anexo, $parameter, $xls);
         $anexoValues2 = $this->get_anexo_data_clean($anexo, $parameter, $xls);
         $anexoValues = array_merge($anexoValues, $anexoValues2);
@@ -832,10 +776,6 @@ class Model_201 extends CI_Model {
         /* FIND ANEXO */
         $new_query = array();
         foreach ($result as $list) {
-
-
-
-
             $new_query = array(
                 'filename' => $list['filename'],
                 'NUMERO_DE_APORTE' => $nro
@@ -1001,67 +941,13 @@ class Model_201 extends CI_Model {
         $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
         $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
 
-        $tmpl = array(
-            'data' => '<tr>
-		<td>' . $this->sgr_nombre . '</td>
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>Movimientos del F.D.R. contingente</td>
-		
-	</tr>
-	<tr>
-		<td></td>
-		
-	</tr>
-	<tr>
-		<td>PER&Iacute;ODO/S: ' . $input_period_from . ' a ' . $input_period_to . '</td>
-		
-    </tr>
-    
-    
+        /*HEADER TEMPLATE*/
+        $header_data = array();
+        $header_data['input_period_to'] = $input_period_to;
+        $header_data['input_period_from'] = $input_period_from;
+        $header = $this->parser->parse('reports/form_'.$anexo.'_header', $header_data, TRUE);
+        $tmpl = array('data' => $header);
 
-
-
-    <tr>
-        <td align="center" rowspan="2">SGR</td>
-        <td align="center" rowspan="2">ID</td>
-        <td align="center" rowspan="2">Per&iacute;odo</td>        
-        <td align="center" rowspan="2">Número de Aporte</td>
-        <td align="center" rowspan="2">Fecha de Movimiento</td>
-        <td align="center" rowspan="2">Nombre o Raz&oacute;n Social del Socio Protector</td>
-        <td align="center" rowspan="2">C.U.I.T. Socio Protector</td>
-        <td align="center" rowspan="2">Monto del Aporte</td>
-        <td align="center" rowspan="2">Monto del Retiro</td>
-        <td align="center" rowspan="2">Fecha del Aporte Original</td>
-        <td align="center" rowspan="2">Monto del Aporte Original</td>                                
-        <td align="center" rowspan="2">Retencion por Contingente</td>
-        <td align="center" rowspan="2">Retiro de Rendimientos</td>                                
-        <td align="center" rowspan="2">Especie</td>
-        <td align="center" colspan="4">Cuenta Origen</td>
-        <td align="center" colspan="4">Cuenta Destino</td>
-        <td align="center" colspan="2">Acta de Autorizaci&oacute;n</td>        
-    </tr>
-    <tr>
-        <td>Titular</td>
-        <td>Nro.</td>
-        <td>Entidad</td>
-        <td>Entidad Depositaria</td>
-        <td>Titular</td>
-        <td>Nro</td>
-        <td>Entidad</td>
-        <td>Entidad Depositaria</td>
-        <td>Fecha</td>
-        <td>Nro</td>
-        <td>Filename</td>
-    </tr>
-
-	
-',
-        );
         $data = array($tmpl);
         $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
         foreach ($anexoValues as $values) {
@@ -1146,11 +1032,11 @@ class Model_201 extends CI_Model {
 
 
             if (!empty($get_movement_data)) {
-                foreach ($get_movement_data as $warrant) {                    
+                foreach ($get_movement_data as $warrant) {
                     $cuit = $warrant['CUIT_PROTECTOR'];
                     $brand_name = $this->padfyj_model->search_name($cuit);
                     $fecha_aporte_original = mongodate_to_print($warrant['FECHA_MOVIMIENTO']);
-                    $aporte_original = dot_by_coma($warrant['APORTE']);                    
+                    $aporte_original = dot_by_coma($warrant['APORTE']);
                 }
             }
 
@@ -1164,7 +1050,7 @@ class Model_201 extends CI_Model {
             $new_list = array();
             $new_list['col1'] = $g_denomination;
             $new_list['col2'] = $list['id'];
-            $new_list['col3'] = $get_period_filename['period'];
+            $new_list['col3'] = period_print_format($get_period_filename['period']);
             $new_list['col4'] = $list['NUMERO_DE_APORTE'];
             $new_list['col5'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['col6'] = $brand_name;
