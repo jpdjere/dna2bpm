@@ -147,34 +147,14 @@ class Model_122 extends CI_Model {
     }
 
     function get_anexo_info($anexo, $parameter, $xls = false) {
-        $tmpl = array(
-            'data' => '<tr><td align="center" rowspan="2">N° de<br>Garntía</td>
-                                <td align="center" rowspan="2">N° de Cuota<br>cuyo vencimiento se<br>modifica</td>
-                                <td align="center" colspan="2">Del Participe/Beneficiario </td>
-                                <td align="center" rowspan="2">Fecha de Origen de la Garantía</td>                                
-                                <td align="center" colspan="3">De la Cuota cuyo vencimiento se modifica</td>
-                                <td align="center" rowspan="2">Saldo al Vencimiento</td> 
-    <tr>
-        <td>Nombre o Razón Social</td>
-        <td>C.U.I.T</td>
-        <td>Fecha de Vencimiento Original</td>
-        <td>Fecha de Efectiva Cancelación</td>
-        <td>Monto</td>      
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-    </tr> ',
-        );
+      /* HEADER TEMPLATE */
+        $header_data = array();
+
+        $header = $this->parser->parse('prints/anexo_' . $anexo . '_header', TRUE);
+        $tmpl = array('data' => $header);
 
         $data = array($tmpl);
+
         $anexoValues = $this->get_anexo_data($anexo, $parameter);
         foreach ($anexoValues as $values) {
             $data[] = array_values($values);
