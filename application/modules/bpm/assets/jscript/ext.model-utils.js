@@ -23,10 +23,10 @@ function load_data(idwf) {
             url: url,
             disableCaching: false,
             method: 'GET',
-            failure: function(response, options) {
+            failure: function (response, options) {
                 alert('Error Loading:' + response.err);
             },
-            success: function(response, options) {
+            success: function (response, options) {
                 var model_data = Ext.JSON.decode(response.responseText);
 
                 center_panel = Ext.getCmp('modelPanel');
@@ -53,7 +53,7 @@ function load_data(idwf) {
                  });
                  */
                 //----first remove previous events
-                Ext.each(tooltips, function(tooltip) {
+                Ext.each(tooltips, function (tooltip) {
                     tooltip.destroy()
                 })
                 add_events(model_data.childShapes);
@@ -78,7 +78,7 @@ function load_model(idwf) {
 
     options = {
         url: globals.module_url + 'repository/svg/' + idwf,
-        success: function() {
+        success: function () {
             load_data(idwf);
 
         }
@@ -148,4 +148,8 @@ function paint(resourceId, color, stroke_width) {
         }
     }
 }
-;
+function nl2br(str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>';
+    return (str + '')
+            .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+}
