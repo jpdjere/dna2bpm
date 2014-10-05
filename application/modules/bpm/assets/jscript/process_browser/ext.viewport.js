@@ -1,29 +1,51 @@
-var modelPanel= Ext.create('Ext.panel.Panel', {
-    id:'modelPanel',
-    autoScroll:true,
-    listeners:{
+var modelPanel = Ext.create('Ext.panel.Panel', {
+    id: 'modelPanel',
+    autoScroll: true,
+    listeners: {
 //  render: load_model
-}
+    }
 });
-        
+
 Ext.application({
     name: 'AppEditor',
-    init: function(){
-        
+    init: function () {
+
     },
-    launch:function(){
-        var remove_loaders=function(){
-            
+    launch: function () {
+        var remove_loaders = function () {
+
             Ext.get('loading').remove();
             Ext.fly('loading-mask').remove();
-                        
-        }        
-        var center = Ext.create('Ext.Panel', 
-        {
-            region:'center',
-            margins:'0 0 0 0',
-            layout:'border',
-            items: [
+
+        }
+        var panel = Ext.create('Ext.Panel',
+                {
+                    xtype: 'panel',
+                    id: 'info-panel',
+//                    layout: '',
+                    margins: '5 20 5 5',
+                }
+        )
+        var right = Ext.create('Ext.Panel',
+                {
+                    title: '<h4><i class="fa fa-info-circle"></i></h4>',
+                    region: 'east', // position for region
+                    id: 'chat-panel',
+                    xtype: 'panel',
+                    width: 400,
+                    overflowY: 'scroll',
+                    split: true, // enable resizing
+                    collapsible: true, // make collapsible
+                    collapsed: false,
+                    layout: 'fit',
+                    items: [panel]
+                });
+        var center = Ext.create('Ext.Panel',
+                {
+                    region: 'center',
+                    margins: '0 0 0 0',
+                    layout: 'border',
+                    items: [
 //            {
 //                region:'south',
 //                layout:'fit',
@@ -35,21 +57,21 @@ Ext.application({
 //                items:[tokenGrid]
 //            }
 //            ,
-            {
-                //title: '<i class="icon icon-bpm"></i> Model Panel / Picker',
-                title:'<h4><i class="icon icon-info-sign"></i> Process Browser</h4>',
-                id:'ModelPanel',
-                region:'center',
-                layout:'fit',
-                collapsible: false,
-                collapsed:false,
-                animCollapse: false,
-                resizable:true,
-                split: true,
-                items:[modelPanel],
-                tbar:{
-                    id:'ModelPanelTbar',
-                    disabled:true,
+                        {
+                            //title: '<i class="icon icon-bpm"></i> Model Panel / Picker',
+                            title: '<h4><i class="icon icon-info-sign"></i> Process Browser</h4>',
+                            id: 'ModelPanel',
+                            region: 'center',
+                            layout: 'fit',
+                            collapsible: false,
+                            collapsed: false,
+                            animCollapse: false,
+                            resizable: true,
+                            split: true,
+                            items: [modelPanel],
+                            tbar: {
+                                id: 'ModelPanelTbar',
+                                disabled: true,
 //                    items:[
 //                    TokensPlay,
 //                    TokensStop,
@@ -62,33 +84,33 @@ Ext.application({
 //                    TokensStatus,
 //                    TokensHistory,
 //                    ]
+                            }
+                        }
+                    ]
                 }
-            }
-            ]
-        }
         );
 
         //---CREATE TOKENS VIEWPORT  
-        
+
         Ext.create('Ext.Viewport', {
-            layout:'border',
-            items:[
-            center,
+            layout: 'border',
+            items: [
+                center, right
             ]
             ,
-            listeners:{
-                render: function(){
+            listeners: {
+                render: function () {
                 },
-                afterRender: function(){
+                afterRender: function () {
                     remove_loaders();
 //                    load_data_callback=tokens_paint_all;
                     load_model(globals.idwf);
 //                    tokens_load_status(globals.idwf,globals.idcase);
                 }
-                    
+
             }
         });
     }
-    
+
 });
 

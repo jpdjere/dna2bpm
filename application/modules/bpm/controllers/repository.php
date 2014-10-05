@@ -15,7 +15,7 @@ class Repository extends MX_Controller {
         $this->user->authorize();
 //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
-        $this->idu = (int) $this->session->userdata('iduser');
+        $this->idu = $this->session->userdata('iduser');
         $this->debug = array();
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -64,17 +64,17 @@ class Repository extends MX_Controller {
         if ($mywf) {
             show_error('Name Already Exists', 404);
         } else {
-            $new=$this->add($idwf);
+            $new = $this->add($idwf);
             $this->bpm->save($idwf, $data, $svg);
         }
     }
-    
-    function add($new_idwf=null) {
+
+    function add($new_idwf = null) {
 //---check if has post
         if (!($this->input->post('idwf')or $new_idwf)) {
             show_error("Can't access this page directly");
         }
-        $idwf =($new_idwf)? $new_idwf:$this->input->post('idwf');
+        $idwf = ($new_idwf) ? $new_idwf : $this->input->post('idwf');
         $folder = $this->input->post('folder');
         $name = ($this->input->post('name')) ? $this->input->post('name') : $this->lang->line('New_Model');
         $user = $this->user->get_user($this->idu);
@@ -262,7 +262,7 @@ class Repository extends MX_Controller {
         $wf = bindArrayToObject($mywf['data']);
         $status = array('$regex' => $filter_status);
 //$status=array('$regex'=>'^wa*');
-        $case = $this->bpm->get_case($wf->case,$wf->idwf);
+        $case = $this->bpm->get_case($wf->case, $wf->idwf);
         $open = $case['history'];
         $data['count'] = count($open);
         $data['idcase'] = $idcase;
@@ -315,13 +315,14 @@ class Repository extends MX_Controller {
         echo $this->parser->parse('bpm/tokens.php', $data, true);
     }
 
-    function browse($model,$idwf) {
+    function browse($model, $idwf) {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
         if ($debug)
             echo '<h2>' . __FUNCTION__ . '</h2>';
         $this->load->library('ui');
         $level = $this->user->getlevel($this->idu);
-        $cpData = $this->lang->language;
+        $this->lang->load('bpm/bpm', $this->config->item('language'));
+        $cpData['lang'] = $this->lang->language;
         $segments = $this->uri->segment_array();
 //        $case = $this->bpm->get_case($idcase);
         $cpData['theme'] = $this->config->item('theme');
@@ -329,11 +330,15 @@ class Repository extends MX_Controller {
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['title'] = 'Process Browser';
+        //----load modal window
+//        $cpData['content'] = $this->parser->parse('bpm/shape_info', $cpData, true, true);
+        $cpData['content'] ='';
 
         //var_dump($cpData);exit;
         $cpData['css'] = array(
 //            $this->module_url . 'assets/css/process_browser.css' => 'Manager styles',
             $this->module_url . 'assets/css/extra-icons.css' => 'Extra Icons',
+            $this->module_url . 'assets/css/chat.css' => 'Chat',
             $this->module_url . 'assets/css/fix_bootstrap_checkbox.css' => 'Fix Checkbox',
         );
         $cpData['js'] = array(
@@ -358,11 +363,13 @@ class Repository extends MX_Controller {
             'module_url' => $this->module_url,
             'idwf' => $idwf,
         );
-
+//        var_dump($cpData);exit;
         $this->ui->makeui('ext.ui-no-ion.php', $cpData);
     }
-    function get_comments($model, $idwf, $resourceId) {
-        $wfData = $this->lang->language;
+
+    function get_info($model, $idwf, $resourceId) {
+        $this->lang->load('bpm/bpm', $this->config->item('language'));
+        $wfData['lang'] = $this->lang->language;
 //var_dump($level);
         $wfData['htmltitle'] = 'WF-Manager:' . $idwf;
         $wfData['theme'] = $this->config->item('theme');
@@ -371,9 +378,17 @@ class Repository extends MX_Controller {
         $mywf = $this->bpm->load($idwf);
         $wf = $this->bpm->bindArrayToObject($mywf['data']);
         $shape = $this->bpm->get_shape($resourceId, $wf);
-        echo $shape->stencil->id . '<br/>';
-        echo $shape->properties->documentation;
-//$this->parser->parse('bpm/comments.php', $wfData);
+        $wfData['shape'] = (array) $shape->properties;
+        $wfData['shape']['documentation']= nl2br($wfData['shape']['documentation']);
+        $this->user->Initiator = $this->idu;
+        $resources = array_map(function($iduser) {
+            return (array)$this->user->get_user_safe($iduser);
+        },  $this->bpm->get_resources($shape, $wf));
+        unset ($wfData['shape']['resources']);
+        $wfData['resources'] = $resources;
+        $parent = $this->bpm->find_parent($shape, 'Lane', $wf);
+        $wfData['performer'] = $parent->properties->name;
+        $this->parser->parse('bpm/shape_info.php', $wfData);
     }
 
     function upload() {

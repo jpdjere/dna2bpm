@@ -15,6 +15,9 @@ $lang["finishTask"] = 'Mark as "Finished"';
 $lang["closeTask"] = 'Close';
 $lang["claim"] = 'claim';
 $lang["refuse"] = 'refuse';
+$lang["comment"] = 'Comment';
+$lang["comments"] = 'Comments';
+$lang["performer"] = 'Performer';
 
 /* --WF-Messages----- */
 $lang['newTask'] = 'New Task';
