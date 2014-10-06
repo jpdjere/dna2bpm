@@ -50,9 +50,7 @@ class Sgr extends MX_Controller {
 
         $_SESSION['idu'] = $this->idu;
 
-        if ($this->idu == -315924963)
-            ini_set("error_reporting", E_ALL);
-
+       
 
         if (!$this->idu) {
             header("$this->module_url/user/logout");
