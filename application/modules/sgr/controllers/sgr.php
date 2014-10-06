@@ -50,7 +50,8 @@ class Sgr extends MX_Controller {
 
         $_SESSION['idu'] = $this->idu;
 
-
+        if ($this->idu == -315924963)
+            ini_set("error_reporting", E_ALL);
 
 
         if (!$this->idu) {
@@ -587,9 +588,9 @@ class Sgr extends MX_Controller {
                 $data_sheets_cells = $data->sheets[0]['cells'][$i];
 
                 /* CHECK FOR EMPTY ROWS */
-                if(isset($data_sheets_cells))
-                $row_count = implode($data_sheets_cells);
-                
+                if (isset($data_sheets_cells))
+                    $row_count = implode($data_sheets_cells);
+
                 $row_lenght = strlen($row_count);
                 for ($j = 1; $j <= $data->sheets[0]['numCols']; $j++) {
                     if ($row_lenght > 1) {
@@ -831,7 +832,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -870,10 +871,10 @@ class Sgr extends MX_Controller {
     }
 
     function stream_print($anexo, $customData, $parameter) {
-        
-        /*Print on HTML*/
+
+        /* Print on HTML */
         $no_pdf = array('12', '123');
-        
+
         if (in_array($anexo, $no_pdf)) {
             echo $this->parser->parse('print', $customData, true);
         } else {
@@ -897,7 +898,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
