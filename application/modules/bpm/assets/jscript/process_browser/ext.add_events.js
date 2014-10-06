@@ -46,19 +46,12 @@ var add_events = function (shapes) {
             });
 
             div.on('click', function (event, target, options) {
-                resourceId = target.id.replace('overlay', '');
-
-                //console.log(resourceId);
-//                console.log(flat[resourceId]);
-//                modal = Ext.get('myModal');
-//                //----set Title
-//                modal.select('h4').elements[0].innerHTML = flat[resourceId].properties.name;
-//                //----set Documentartion
-//                modal.select('.modal-body-text').elements[0].innerHTML = nl2br(flat[resourceId].properties.documentation);
+                resourceId = target.id.replace('overlay', '');    
                 Ext.Ajax.request({
-                    url: 'http://localhost/dna2bpm/bpm/repository/get_info/model/fondyfpp/oryx_1919DF6F-2144-424C-AC23-9F4BEDF68401',
+                    url: globals.base_url + 'bpm/repository/get_info/model/' + globals.idwf + '/' + resourceId,
                     success: function (response) {
-                        Ext.get('info-panel').update(response.responseText);
+                       div=Ext.get('load-content');
+                       div.el.dom.innerHTML=response.responseText;
                     }
                 });
                 //$('#myModal').modal('show');

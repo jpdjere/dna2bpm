@@ -18,22 +18,23 @@ Ext.application({
             Ext.fly('loading-mask').remove();
 
         }
-        var panel = Ext.create('Ext.Panel',
+        var panel = Ext.create('Ext.panel.Panel',
                 {
                     xtype: 'panel',
                     id: 'info-panel',
-//                    layout: '',
-                    margins: '5 20 5 5',
+                    layout: 'fit',
+                    overflowY: 'scroll',
+                    margins: '5 0 5 5',
+                    html:'<div id="load-content"></div>'
                 }
-        )
-        var right = Ext.create('Ext.Panel',
+        );
+        var right = Ext.create('Ext.panel.Panel',
                 {
-                    title: '<h4><i class="fa fa-info-circle"></i></h4>',
+                    title: '<i class="fa fa-info-circle"></i>',
                     region: 'east', // position for region
                     id: 'chat-panel',
                     xtype: 'panel',
                     width: 400,
-                    overflowY: 'scroll',
                     split: true, // enable resizing
                     collapsible: true, // make collapsible
                     collapsed: false,
@@ -59,7 +60,7 @@ Ext.application({
 //            ,
                         {
                             //title: '<i class="icon icon-bpm"></i> Model Panel / Picker',
-                            title: '<h4><i class="icon icon-info-sign"></i> Process Browser</h4>',
+                            title: '<i class="icon icon-info-sign"></i> Process Browser',
                             id: 'ModelPanel',
                             region: 'center',
                             layout: 'fit',
@@ -94,6 +95,7 @@ Ext.application({
 
         Ext.create('Ext.Viewport', {
             layout: 'border',
+            id:'border-panel',
             items: [
                 center, right
             ]
