@@ -67,7 +67,7 @@ class Sgr extends MX_Controller {
         }
 
 
-        $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
+        $this->anexo = ($this->session->userdata['anexo_code']) ? : "06";
 
         if (isset($this->session->userdata['period']))
             $this->period = $this->session->userdata['period'];
@@ -145,8 +145,8 @@ class Sgr extends MX_Controller {
             }
 
             $error_set_period = $this->set_period();
-            $translate_error = ($this->translate_error_period($error_set_period)) ? $this->translate_error_period($error_set_period) : array();
-            $rectify_status = ($this->rectify_status()) ? $this->rectify_status() : array();
+            $translate_error = ($this->translate_error_period($error_set_period)) ? : array();
+            $rectify_status = ($this->rectify_status()) ? : array();
             $rectify_merge = array_merge($rectify_status, $translate_error);
             foreach ($rectify_merge as $key => $each) {
                 $customData[$key] = $each;
@@ -831,7 +831,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -897,7 +897,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ?  : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -938,7 +938,7 @@ class Sgr extends MX_Controller {
 
 
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
         //----Load pdf lib
@@ -1523,7 +1523,7 @@ class Sgr extends MX_Controller {
     function set_no_movement() {
         $data = $this->input->post('data');
         $period = $data['no_movement'];
-        $anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -2038,7 +2038,7 @@ class Sgr extends MX_Controller {
 
 // offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? ('offline') : ('');
-        $layout = (isset($customData['layout'])) ? ($customData['layout']) : ('layout.php');
+        $layout = (isset($customData['layout'])) ? : 'layout.php';
         $this->ui->compose($file, 'layout.php', $cpData);
     }
 
