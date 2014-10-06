@@ -186,6 +186,9 @@ var TreeClick=function(widget,event){
         //---prevent not loading
         var first=false;
         load_data_callback=function(){
+            //---ensure published
+            model_data.properties['published']=(model_data.properties['published']==true)?model_data.properties['published']:false;
+            model_data.properties['idwf']=n.data.id;
             propsGrid.setSource(model_data.properties);
             propsGrid.setLoading(false);
             propsGrid.enable();

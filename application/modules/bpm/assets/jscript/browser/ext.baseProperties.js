@@ -1,11 +1,11 @@
 try {
- var PropertiesSave = Ext.create('Ext.Action',
+    var PropertiesSave = Ext.create('Ext.Action',
             {
                 text: 'Save',
                 iconCls: 'icon icon-save',
                 handler: function() {
                     //var url = globals.module_url + 'kpi/save_properties/' + Ext.getCmp('propsGrid').store.data.get('idkpi').data.value;
-                    var url = globals.module_url + 'kpi/save_properties/';
+                    var url = globals.module_url + 'repository/save_properties/';
                     save_props(url);
                 }
             });
@@ -97,40 +97,40 @@ try {
         return rtn;
     }
     ///---add some flavor to propertyGrid
-/*
- * name: "New Model",
-documentation: "",
-auditing: "",
-monitoring: "",
-version: "1",
-author: "System Administrator",
-language: "english",
-namespaces: "",
-targetnamespace: "http://www.omg.org/bpmn20",
-expressionlanguage: "http://www.w3.org/1999/XPath",
-typelanguage: "http://www.w3.org/2001/XMLSchema",
-creationdate: "2014-03-17T00:00:00",
-modificationdate: "2014-03-17T00:00:00"
- */
+    /*
+     * name: "New Model",
+     documentation: "",
+     auditing: "",
+     monitoring: "",
+     version: "1",
+     author: "System Administrator",
+     language: "english",
+     namespaces: "",
+     targetnamespace: "http://www.omg.org/bpmn20",
+     expressionlanguage: "http://www.w3.org/1999/XPath",
+     typelanguage: "http://www.w3.org/2001/XMLSchema",
+     creationdate: "2014-03-17T00:00:00",
+     modificationdate: "2014-03-17T00:00:00"
+     */
     config = {
         id: 'propsGrid',
-        source: {},
-        sortableColumns: true,
-        disabled: true,
-        sourceConfig: {
+        source: {
+        },
+//        disabled: true,
+        sortableColumns: true
+        ,sourceConfig: {
             "resourceId": {
                 //editor:readonly,
                 //type:'boolean'
             },
-            "hidden": {
-                displayName: '<i class="icon icon-eye-close"></i> Hidden',
-                editor: new Ext.form.Checkbox(),
-                renderer: checkRender,
-                type: 'boolean'
-
-            },
             "locked": {
                 displayName: '<i class="icon icon-lock"></i> Locked',
+                
+                editor: new Ext.form.Checkbox(),
+                type: 'boolean'
+            },
+            "published": {
+                displayName: '<i class="icon icon-lock"></i> Published',
                 renderer: checkRender,
                 editor: new Ext.form.Checkbox(),
                 type: 'boolean'
@@ -156,22 +156,22 @@ modificationdate: "2014-03-17T00:00:00"
         }
 
 
-        ////////////////////////////////////////////////////////////////////////////
-        //////////////////////   LISTENERS    /////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////
+                //////////////////////   LISTENERS    /////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////
 
         ,
         listeners: {
             propertychange: function(source, recordId, value, oldValue, options) {
                 //console.log('source',source,'recordId','recordId',this.activeRecord,value,oldValue,options);            
-                var ds = mygrid.store.data.getAt(mygrid.store.data.keys.indexOf(this.activeRecord));
-                //---change data on mygrid
-                if (ds)
-                    ds.data[recordId] = value;
-                //---update cache
-                pgridCache[this.activeRecord] = this.getSource();
-                //---finally refresh the grid
-                mygrid.getView().refresh(true);
+//                var ds = mygrid.store.data.getAt(mygrid.store.data.keys.indexOf(this.activeRecord));
+//                //---change data on mygrid
+//                if (ds)
+//                    ds.data[recordId] = value;
+//                //---update cache
+//                pgridCache[this.activeRecord] = this.getSource();
+//                //---finally refresh the grid
+//                mygrid.getView().refresh(true);
             }
         },
         ////////////////////////////////////////////////////////////////////////////
@@ -181,30 +181,7 @@ modificationdate: "2014-03-17T00:00:00"
             id: 'propsGridTbar',
             items: [
                 PropertiesSave
-                        , {
-                            xtype: 'button',
-                            text: 'Refresh',
-                            iconCls: 'icon icon-repeat',
-                            handler: function(me) {
-                                if (mygrid.selModel.getSelection()[0]) {
 
-                                    load_props(propsGrid.url, propsGrid.idkpi, true);
-                                } else {
-                                    propsGrid.setSource({});
-                                }
-
-                            }
-                        }
-                , {
-                    xtype: 'button',
-                    text: 'Preview',
-                    iconCls: 'icon icon-desktop',
-                    handler: function(me) {
-                        //load_props(propsGrid.url, propsGrid.idkpi, true);
-
-                    }
-                }
-                
             ]
         }
 

@@ -683,11 +683,14 @@ class Kpi extends MX_Controller {
 		echo json_encode ( $postkpi );
 	}
 	function Save_properties($data = null, $return = null) {
+        $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        if ($debug)
+            echo '<h2>' . __FUNCTION__ . '</h2>';
+		$debug = (in_array ( 'debug', $segments )) ? true : false;
 		$this->load->helper ( 'dbframe' );
 		$this->load->model ( 'user/rbac' );
 		$this->load->model ( 'app' );
 		$segments = $this->uri->segment_array ();
-		$debug = (in_array ( 'debug', $segments )) ? true : false;
 		$types_path = $this->types_path;
 		$postkpi = ($data) ? $data : $_POST;
 		$idkpi = $postkpi ['idkpi'];

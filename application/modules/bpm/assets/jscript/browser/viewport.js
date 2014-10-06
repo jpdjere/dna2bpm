@@ -28,7 +28,7 @@ Ext.onReady(function(){
         width: 360,
         minWidth: 300,
         maxWidth: 700,
-        collapsed: true,
+        collapsed: false,
         collapsible: true,
         animCollapse: true,
         margins: '0 0 0 0',

@@ -50,13 +50,9 @@ class Admin extends MX_Controller {
         );
 
         $cpData['js'] = array(
-            $this->base_url . "jscript/jquery/jquery.min.js" => 'JQuery',
-            //----Pan & ZooM---------------------------------------------
-            $this->module_url . 'assets/jscript/panzoom/jquery.panzoom.min.js' => 'Panzoom Minified',
-            $this->module_url . 'assets/jscript/panzoom/jquery.mousewheel.js' => 'wheel-suppport',
-            $this->module_url . 'assets/jscript/panzoom/pnazoom_wheel.js' => 'wheel script',
             //-----------------------------------------------------------------
             $this->module_url . "assets/jscript/ext.settings.js" => 'Settings',
+            $this->module_url . "assets/jscript/browser/ext.load_props.js" => 'Load Save Properties',
             $this->module_url . 'assets/jscript/ext.model-utils.js' => 'Model utils',
             $this->module_url . "assets/jscript/browser/data.js" => 'Data Objects',
             $this->module_url . "assets/jscript/browser/tree.js" => 'Module Tree',
@@ -64,6 +60,11 @@ class Admin extends MX_Controller {
             $this->module_url . "assets/jscript/browser/center_panel.js" => 'Center Panel',
             $this->module_url . "assets/jscript/browser/ext.baseProperties.js" => 'Right Panel',
             $this->module_url . "assets/jscript/browser/viewport.js" => 'Viewport',
+            $this->base_url . "jscript/jquery/jquery.min.js" => 'JQuery',
+            //----Pan & ZooM---------------------------------------------
+            $this->module_url . 'assets/jscript/panzoom/jquery.panzoom.min.js' => 'Panzoom Minified',
+            $this->module_url . 'assets/jscript/panzoom/jquery.mousewheel.js' => 'wheel-suppport',
+            $this->module_url . 'assets/jscript/panzoom/pnazoom_wheel.js' => 'wheel script',
         );
 
         $cpData['global_js'] = array(

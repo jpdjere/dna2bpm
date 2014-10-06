@@ -71,7 +71,7 @@ class Repository extends MX_Controller {
 
     function add($new_idwf = null) {
 //---check if has post
-        if (!($this->input->post('idwf')or $new_idwf)) {
+        if (!($this->input->post('idwf') or $new_idwf)) {
             show_error("Can't access this page directly");
         }
         $idwf = ($new_idwf) ? $new_idwf : $this->input->post('idwf');
@@ -332,14 +332,13 @@ class Repository extends MX_Controller {
         $cpData['title'] = 'Process Browser';
         //----load modal window
 //        $cpData['content'] = $this->parser->parse('bpm/shape_info', $cpData, true, true);
-        $cpData['content'] ='';
+        $cpData['content'] = '';
 
         //var_dump($cpData);exit;
         $cpData['css'] = array(
 //            $this->module_url . 'assets/css/process_browser.css' => 'Manager styles',
             $this->module_url . 'assets/css/extra-icons.css' => 'Extra Icons',
             $this->module_url . 'assets/css/chat.css' => 'Chat',
-            $this->module_url . 'assets/css/fix_bootstrap_checkbox.css' => 'Fix Checkbox',
         );
         $cpData['js'] = array(
             $this->module_url . 'assets/jscript/process_browser/ext.settings.js' => 'Settings & overrides',
@@ -379,12 +378,12 @@ class Repository extends MX_Controller {
         $wf = $this->bpm->bindArrayToObject($mywf['data']);
         $shape = $this->bpm->get_shape($resourceId, $wf);
         $wfData['shape'] = (array) $shape->properties;
-        $wfData['shape']['documentation']= nl2br($wfData['shape']['documentation']);
+        $wfData['shape']['documentation'] = nl2br($wfData['shape']['documentation']);
         $this->user->Initiator = $this->idu;
         $resources = array_map(function($iduser) {
-            return (array)$this->user->get_user_safe($iduser);
-        },  $this->bpm->get_resources($shape, $wf));
-        unset ($wfData['shape']['resources']);
+            return (array) $this->user->get_user_safe($iduser);
+        }, $this->bpm->get_resources($shape, $wf));
+        unset($wfData['shape']['resources']);
         $wfData['resources'] = $resources;
         $parent = $this->bpm->find_parent($shape, 'Lane', $wf);
         $wfData['performer'] = $parent->properties->name;
@@ -489,6 +488,9 @@ class Repository extends MX_Controller {
     }
 
     function update_folder() {
+        $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        if ($debug)
+            echo '<h2>' . __FUNCTION__ . '</h2>';
         $debug = false;
         if (!$this->input->post('idwf')) {
             show_error("Can't access this page directly");
@@ -545,6 +547,9 @@ class Repository extends MX_Controller {
      */
 
     function repair_stencil_path() {
+        $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        if ($debug)
+            echo '<h2>' . __FUNCTION__ . '</h2>';
         $wfs = $this->bpm->get_models(array(), array('data.stencilset'));
         $data = array(
             'data.stencilset.url' => '../../jscript/bpm-dna2/stencilsets/bpmn2.0/bpmn2.0_2.json',
@@ -552,6 +557,30 @@ class Repository extends MX_Controller {
         foreach ($wfs as $bpm) {
             $this->bpm->update_model($bpm->idwf, $data);
             echo $bpm->idwf . ":done!<hr/>";
+        }
+    }
+
+    function Save_properties($data = null, $return = null) {
+        $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        if ($debug)
+            echo '<h2>' . __FUNCTION__ . '</h2>';
+        $this->load->helper('dbframe');
+        $this->load->model('user/rbac');
+        $this->load->model('app');
+        $post=$this->input->post();
+        if($post['idwf']){
+        $set=array('data.properties'=>$post);
+        $this->bpm->update_model($post['idwf'], $data);
+        }
+        if (!$debug) {
+            if ($return) {
+                return $post;
+            } else {
+                header('Content-type: application/json;charset=UTF-8');
+                echo json_encode($post);
+            }
+        } else {
+            var_dump($obj);
         }
     }
 
