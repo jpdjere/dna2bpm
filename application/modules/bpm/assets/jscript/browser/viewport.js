@@ -17,13 +17,30 @@ Ext.onReady(function(){
         items:[tree]
     }
     );
-    var center=Ext.create('Ext.Panel',
+    var right=Ext.create('Ext.panel.Panel',
+    { 
+        title: 'Model Properties',
+        region:'east',
+        id: 'rightPanel',
+        layout: 'fit',
+        margins: '0 0 0 0',
+        split: true,
+        width: 360,
+        minWidth: 300,
+        maxWidth: 700,
+        collapsed: true,
+        collapsible: true,
+        animCollapse: true,
+        margins: '0 0 0 0',
+        layout: 'fit',
+        items:[propsGrid]
+    });
+    var center=Ext.create('Ext.panel.Panel',
     { 
         region:'center',
         id: 'centerPanel',
         layout: 'fit',
         margins: '0 0 0 0',
-        autoScroll:true,
         items: [center_panel]
     });
     //---Create Application
@@ -42,7 +59,8 @@ Ext.onReady(function(){
                 },
                 */
                 left,
-                center
+                center,
+                right
                 ],
                 listeners: {
 

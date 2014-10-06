@@ -62,6 +62,7 @@ class Admin extends MX_Controller {
             $this->module_url . "assets/jscript/browser/tree.js" => 'Module Tree',
             $this->module_url . 'assets/jscript/browser/ext.add_events.js' => 'Events for overlays',
             $this->module_url . "assets/jscript/browser/center_panel.js" => 'Center Panel',
+            $this->module_url . "assets/jscript/browser/ext.baseProperties.js" => 'Right Panel',
             $this->module_url . "assets/jscript/browser/viewport.js" => 'Viewport',
         );
 

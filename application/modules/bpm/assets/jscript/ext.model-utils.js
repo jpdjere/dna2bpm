@@ -27,11 +27,11 @@ function load_data(idwf) {
                 alert('Error Loading:' + response.err);
             },
             success: function (response, options) {
-                var model_data = Ext.JSON.decode(response.responseText);
+                model_data = Ext.JSON.decode(response.responseText);
 
                 center_panel = Ext.getCmp('modelPanel');
                 svg_box = center_panel.body.dom;
-                var model_svg = Ext.get(center_panel.body.dom.children[1].id);
+                model_svg = Ext.get(center_panel.body.dom.children[1].id);
 
 
                 st1 = model_svg.select('.stencils:first');

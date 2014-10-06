@@ -185,6 +185,12 @@ var TreeClick=function(widget,event){
         //center_panel.body.load(options);
         //---prevent not loading
         var first=false;
+        load_data_callback=function(){
+            propsGrid.setSource(model_data.properties);
+            propsGrid.setLoading(false);
+            propsGrid.enable();
+        };
+        propsGrid.setLoading(true);
         load_model(n.data.id);
 
     }
