@@ -347,7 +347,7 @@ class Bpmui extends MX_Controller {
     }
     
     function widget_browse_models(){
-        $filter=array('data.properties.published'=>true);
+        $filter=array('data.properties.published'=>'true');
         $models=$this->bpm->get_models($filter);
         var_dump($models);
     }
