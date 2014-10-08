@@ -567,20 +567,25 @@ class Repository extends MX_Controller {
         $this->load->helper('dbframe');
         $this->load->model('user/rbac');
         $this->load->model('app');
-        $post=$this->input->post();
-        if($post['idwf']){
-        $set=array('data.properties'=>$post);
-        $this->bpm->update_model($post['idwf'], $data);
+        $post = $this->input->post();
+        if ($post['idwf']) {
+            $data = array('data.properties' => $post);
+
+            $result = $this->bpm->update_model($post['idwf'], $data);
         }
-        if (!$debug) {
-            if ($return) {
-                return $post;
+        if ($result) {
+            if (!$debug) {
+                if ($return) {
+                    return $post;
+                } else {
+                    header('Content-type: application/json;charset=UTF-8');
+                    echo json_encode($post);
+                }
             } else {
-                header('Content-type: application/json;charset=UTF-8');
-                echo json_encode($post);
+                var_dump($obj);
             }
         } else {
-            var_dump($obj);
+            show_error('Error saving properties');
         }
     }
 

@@ -796,7 +796,7 @@ class Bpm extends CI_Model {
             show_error(__FUNCTION__ . ': $data must be an array');
         }
         $query = array('idwf' => $idmodel);
-        $this->db
+        return  $this->db
                 ->where($query)
                 ->update($this->bpm_container, $data);
     }
