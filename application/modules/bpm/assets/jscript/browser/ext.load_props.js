@@ -63,7 +63,7 @@ function save_props(url){
                 },
                 // NO errors ! ;)
                 failure: function(response,options){
-                    alert('Error Loading:'+response.err);
+                    alert('Error Loading:'+response.statusText);
                     propsGrid.setLoading(false);
                 
                 }
