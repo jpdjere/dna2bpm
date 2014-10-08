@@ -345,6 +345,12 @@ class Bpmui extends MX_Controller {
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
         echo $this->parser->parse('bpm/widgets/cases_open', $data, true, true);
     }
+    
+    function widget_browse_models(){
+        $filter=array('data.properties.published'=>true);
+        $models=$this->bpm->get_models($filter);
+        var_dump($models);
+    }
 
     private function prepare_cases($cases, $chunk, $pagesize) {
         $data = array();
