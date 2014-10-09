@@ -169,6 +169,13 @@ class Fondyf extends MX_Controller {
         return $this->parser->parse('fondyf/ministatus_pp', $wfData, true, true);
     }
 
+    /**
+     * PROYECTS AMOUNT 
+     *
+     * Description Calculate the amount  of money  in projects grouped by state
+     * name proyects_amount
+     * @author Diego Otero 
+     */
     function proyects_amount() {
         $this->user->authorize();
         $state = Modules::run('bpm/manager/status_amounts', 'fondyfpp', 'array');

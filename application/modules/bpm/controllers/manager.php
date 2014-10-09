@@ -355,11 +355,18 @@ class Manager extends MX_Controller {
         }
     }
 
+    /**
+     * STATUS_AMOUNTS 
+     * 
+     * Description Calculate the amount  of money  in projects grouped by state 
+     * name status_amounts
+     * @author Diego Otero 
+     */
     function status_amounts($idwf, $output = 'array', $filter = array()) {
         $filter['idwf'] = $idwf;
         $querys = $this->bpm->get_amount_stats($filter);
 
-
+        /* OPTIONS */
         $this->load->model('app');
         $option = $this->app->get_ops(772);
 
@@ -368,16 +375,11 @@ class Manager extends MX_Controller {
             $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
             $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
             $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
-            
-          
 
 
-           $amount = ($ctrl_value>=30)?$value8573:$value8326;
-            
+            $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
+
             foreach ($option as $opt => $desc) {
-                
-                
-                
                 if ($opt == $ctrl_value)
                     $cases_arr[$desc][] = (float) $amount;
             }
