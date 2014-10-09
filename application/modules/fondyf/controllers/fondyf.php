@@ -172,20 +172,20 @@ class Fondyf extends MX_Controller {
     function proyects_amount() {
         $this->user->authorize();
         $state = Modules::run('bpm/manager/status_amounts', 'fondyfpp', 'array');
-                
+
         foreach ($state as $key => $task) {
             $new_task = array();
             $new_task['status'] = $key;
-            $new_task['amount'] = array_sum($task);
+            $new_task['amount'] = "$" . @number_format(array_sum($task), 2, ",", ".");
             $wfData['mini'][] = $new_task;
         }
 
-       // var_dump($wfData);exit;
+        // var_dump($wfData);exit;
 
         $wfData ['base_url'] = base_url();
         $wf = $this->bpm->load('fondyfpp');
         $wfData += $wf ['data'] ['properties'];
-        $wfData ['name'] = 'Montos por Estados';       
+        $wfData ['name'] = 'Montos por Estados';
 
         return $this->parser->parse('fondyf/montos_estados', $wfData, true, true);
     }
