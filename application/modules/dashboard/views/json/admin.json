@@ -69,6 +69,13 @@
                     "title": "ministatus",
                     "module": "bpm",
                     "controller": "bpmui",
+                    "function": "widget_browse_models",
+                    "params":[true]
+                },
+                {
+                    "title": "ministatus",
+                    "module": "bpm",
+                    "controller": "bpmui",
                     "function": "widget_ministatus",
                     "params":[true]
                 },

@@ -82,8 +82,8 @@ class Bpmui extends MX_Controller {
             $data['folders'][] = array(
                 'folder' => $folder,
                 'models' => array_filter($models, function($model) use($folder) {
-                    return $model['folder'] == $folder;
-                })
+                            return $model['folder'] == $folder;
+                        })
             );
         }
         $data['base_url'] = $this->base_url;
@@ -345,11 +345,55 @@ class Bpmui extends MX_Controller {
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
         echo $this->parser->parse('bpm/widgets/cases_open', $data, true, true);
     }
-    
-    function widget_browse_models(){
-        $filter=array('data.properties.published'=>'true');
-        $models=$this->bpm->get_models($filter);
-        var_dump($models);
+
+    function widget_browse_models($addIgnore=false) {
+        if (($this->user->isAdmin() OR $this->user->has("root/ADMWF"))){
+            $this->lang->load('bpm/bpm');
+            $models = $this->bpm->get_models();
+            //----convert to arrays
+            $models = array_map(function($model) {
+                $model = (array) $model;
+
+                $model['properties'] = $model['data']['properties'];
+                return (array) $model;
+            }, $models);
+            //----get folders
+            $folders = array_unique(array_map(function($model) {
+                        return $model['folder'];
+                    }, $models));
+            sort($folders);
+            //-----make 2 level tree
+            foreach ($folders as $folder) {
+                $data['folders'][] = array(
+                    'folder' => $folder,
+                    'models' => array_filter($models, function($model) use($folder) {
+                                return $model['folder'] == $folder;
+                            })
+                );
+            }
+            $data['base_url'] = $this->base_url;
+            $data['qtty'] = count($models);
+            $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
+//        $models_flat = array_map(function ($model) {
+//            $m['idwf'] = $model->idwf;
+//            $m['properties'] = $model->data['properties'];
+//            return $m;
+//        }, $models);
+//        $data['models'] = $models_flat;
+            //----prepare script
+            if ($addIgnore) {
+                $add = "";
+            } else {
+                $add = "
+<script>
+    if (window.$) {
+    $('.treeview').tree();
+    }
+</script>
+    ";
+            }
+            echo $this->parser->parse('bpm/widgets/browser_widget', $data, true, true) . $add;
+        }
     }
 
     private function prepare_cases($cases, $chunk, $pagesize) {
