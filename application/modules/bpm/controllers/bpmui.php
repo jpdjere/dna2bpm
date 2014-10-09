@@ -371,6 +371,7 @@ class Bpmui extends MX_Controller {
                             })
                 );
             }
+            $data['title'] ="Model Navigator";
             $data['base_url'] = $this->base_url;
             $data['qtty'] = count($models);
             $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
