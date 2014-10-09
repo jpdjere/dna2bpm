@@ -196,6 +196,7 @@ class Bpm extends CI_Model {
     }
 
     function get_cases_stats($filter) {
+
         $all_tokens = array();
         $allcases = $this->get_cases_byFilter($filter, array('id', 'idwf', 'token_status'));
         foreach ($allcases as $case) {
@@ -227,6 +228,46 @@ class Bpm extends CI_Model {
             }
         }//---end foreach cases
         return $all_tokens;
+    }
+
+    /* MONTOS POR ESTADO */
+
+    function get_test_byId($query) {
+        $rtn = array();
+        $container = 'container.proyectos_fondyf';
+        $fields = array('8334', '8326', '8573');
+        $rs = $this->mongo->db->$container->find($query, $fields);
+        foreach ($rs as $list) {
+            unset($list['_id']);
+            $rtn[] = $list;
+        }
+        return $rtn;
+    }
+
+    function get_amount_stats($filter) {
+
+        /* get ids */
+        $all_ids = array();
+        $arr_status = array();
+
+
+        $allcases = $this->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
+
+
+
+        foreach ($allcases as $case) {
+            if (isset($case['data']['Proyectos_fondyf']['query']))
+                $all_ids[] = $case['data']['Proyectos_fondyf']['query'];
+        }
+
+
+        $get_value = array_map(function ($all_ids) {
+            return $this->get_test_byId($all_ids);
+        }, $all_ids);
+
+
+
+        return $get_value;
     }
 
     function get_cases($user = null, $offset = 0, $limit = null, $filter_status = array()) {
@@ -457,23 +498,23 @@ class Bpm extends CI_Model {
             $mywf = $this->load($idwf);
             $wf = $this->bindArrayToObject($mywf ['data']);
             //---tomo el template de la tarea
-            $wf->idwf=$idwf;
-            $wf->case=$idcase;
+            $wf->idwf = $idwf;
+            $wf->case = $idcase;
             $shape = $this->bpm->get_shape($resourceId, $wf);
-            $token=$this->token_checkin(array('status'=>'finished'), $wf, $shape);
+            $token = $this->token_checkin(array('status' => 'finished'), $wf, $shape);
         }
         $token['data'] = (isset($token['data'])) ? $token['data'] : array();
-            foreach ($data as $entity => $values) {
-                unset($values['_id']);
-                unset($values['id']);
-                unset($values['owner']);
-                unset($values['parent']);
-                try {
-                    $token['data'] = (array) $values + $token['data'];
-                } catch (Exception $e) {
-                    echo $e->getMessage();
-                }
+        foreach ($data as $entity => $values) {
+            unset($values['_id']);
+            unset($values['id']);
+            unset($values['owner']);
+            unset($values['parent']);
+            try {
+                $token['data'] = (array) $values + $token['data'];
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
+        }
 //            var_dump($token);
 //            echo json_encode($token);
 //            exit;

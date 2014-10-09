@@ -45,25 +45,31 @@
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_2do"
-                  
+
                 },
                 {
                     "title": "2do",
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_tasks_done"
-                  
+
                 }
             ]
         },
         {
             "col2": [
                 {
-                    "title": "PP MiniStatus",
+                    "title": "Proyect amount",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "proyects_amount"
+
+                }, {
+                    "title": "PP MiniStatuas",
                     "module": "fondyf",
                     "controller": "fondyf",
                     "function": "ministatus_pp"
-                    
+
                 },
                 {
                     "title": "Cases",

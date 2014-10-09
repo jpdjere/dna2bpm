@@ -150,6 +150,7 @@ class Fondyf extends MX_Controller {
     function ministatus_pp() {
         $this->user->authorize();
         $state = Modules::run('bpm/manager/mini_status', 'fondyfpp', 'array');
+
         $state = array_filter($state, function ($task) {
             return $task ['type'] == 'Task';
         });
@@ -159,11 +160,34 @@ class Fondyf extends MX_Controller {
             $task ['finished'] = (isset($task ['status'] ['finished'])) ? $task ['status'] ['finished'] : 0;
             $wfData ['mini'] [] = $task;
         }
+
+        //var_dump($wfData);
         $wfData ['base_url'] = base_url();
         $wf = $this->bpm->load('fondyfpp');
         $wfData += $wf ['data'] ['properties'];
         $wfData ['name'] = 'Mini Status: ' . $wfData ['name'];
         return $this->parser->parse('fondyf/ministatus_pp', $wfData, true, true);
+    }
+
+    function proyects_amount() {
+        $this->user->authorize();
+        $state = Modules::run('bpm/manager/status_amounts', 'fondyfpp', 'array');
+                
+        foreach ($state as $key => $task) {
+            $new_task = array();
+            $new_task['status'] = $key;
+            $new_task['amount'] = array_sum($task);
+            $wfData['mini'][] = $new_task;
+        }
+
+       // var_dump($wfData);exit;
+
+        $wfData ['base_url'] = base_url();
+        $wf = $this->bpm->load('fondyfpp');
+        $wfData += $wf ['data'] ['properties'];
+        $wfData ['name'] = 'Montos por Estados';       
+
+        return $this->parser->parse('fondyf/montos_estados', $wfData, true, true);
     }
 
     function ver_ficha($idwf, $idcase, $token, $id = null) {
