@@ -172,7 +172,7 @@ class Fondyf extends MX_Controller {
     /**
      * PROYECTS AMOUNT 
      *
-     * Description Calculate the amount  of money  in projects grouped by state
+     * Description Calculate the amount  of money  in projects grouped by status
      * name proyects_amount
      * @author Diego Otero 
      */

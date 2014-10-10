@@ -358,7 +358,7 @@ class Manager extends MX_Controller {
     /**
      * STATUS_AMOUNTS 
      * 
-     * Description Calculate the amount  of money  in projects grouped by state 
+     * Description Calculate the amount  of money  in projects grouped by status 
      * name status_amounts
      * @author Diego Otero 
      */
