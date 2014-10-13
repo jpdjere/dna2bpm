@@ -25,6 +25,7 @@
                             <a href='{base_url}bpm/repository/browse/model/{idwf}' class="">
                                 <span class="text">{idwf}<br/>{properties name}</span>
                             </a>
+                            <img class="img-polaroid" src="{base_url}images/svg/{idwf}-small.png">
                         </li>
                         {/models}
                     </ul>
