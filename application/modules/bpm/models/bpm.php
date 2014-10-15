@@ -140,7 +140,9 @@ class Bpm extends CI_Model {
         //var_dump2($mywf);
         unset($mywf['_id']);
         $wf = $this->db->where($query)->update('workflow', $mywf, array('upsert' => true));
-        $this->save_image_file($idwf, $svg);
+        if ($this->config->item('make_thumbnails')) {
+            $this->save_image_file($idwf, $svg);
+        }
         $this->save_mode_file($idwf, $data);
         $this->zip_model($idwf, $data);
 
@@ -339,29 +341,30 @@ class Bpm extends CI_Model {
         $svg = str_replace('<svg >', $header, $svg);
         $svg = str_replace('blank"href', 'blank" href', $svg);
         $this->load->helper('file');
+        $phantom_path=APPPATH.'modules/bpm/assets/jscript/phantomjs-1.9.7-linux-x86_64';
         $resize = '-resize 30%';
         $crop = '-crop 720x720+0+0';
         $path = 'images/svg/';
         $path_thumb = 'images/png/';
         $filename = $path . $idwf . '.svg';
         $filename_thumb = $path_thumb . $idwf . '.png';
-        $filename_crop = $path_thumb . $idwf . '-croped.png';
+        $filename_crop = $path_thumb . $idwf . '-cropped.png';
         $filename_thumb_small = $path_thumb . $idwf . '-small.png';
 
         $result = write_file($filename, $svg);
         $rtn = '';
-        $command = "convert '$filename' '$filename_thumb'";
+        $command =  "$phantom_path/bin/phantomjs $phantom_path/rasterize.js $filename $filename_thumb";
         exec($command, $cmd, $rtn);
         if ($debug) {
             echo "$command\n rt:$rtn\n";
         }
-        $command = "convert  $crop '$filename_thumb' '$filename_crop'";
+        $command = "$phantom_path/bin/phantomjs $phantom_path/crop.js $filename $filename_crop";
         exec($command, $cmd, $rtn);
 
         if ($debug) {
             echo "$command\n rt:$rtn\n";
         }
-        $command = "convert $resize '$filename_crop'  '$filename_thumb_small'";
+        $command = "$phantom_path/bin/phantomjs $phantom_path/zoom.js $filename_crop $filename_thumb_small .5";
         exec($command, $cmd, $rtn);
         if ($debug) {
             echo getcwd() . "\n";
@@ -407,7 +410,7 @@ class Bpm extends CI_Model {
         if (!isset($data['iduser']))
             $data['iduser'] = (int) $this->session->userdata('iduser');
 
-        if (!isset($idwf) or !isset($case) or !isset($resourceId)) {
+        if (!isset($idwf) or ! isset($case) or ! isset($resourceId)) {
             show_error("Can't update whith: idwf:$idwf case:$case  resourceId:$resourceId<br/>Incomplete Data.");
         }
         //$title=(isset($shape->properties->title))?$shape->properties->title;$shape->stencil->id;
@@ -1752,7 +1755,7 @@ class Bpm extends CI_Model {
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
-        if (isset($token['idgroup']) and !isset($token['assign'])) {
+        if (isset($token['idgroup']) and ! isset($token['assign'])) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
                     $is_allowed = true;
