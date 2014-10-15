@@ -53,6 +53,7 @@ $(document).ready(function() {
     /* Sidebar tree view */
     $(".sidebar .treeview").tree();
 
+    
     $('.form-extra').ajaxForm({
         target: '#tiles_after section',
         replaceTarget: false
