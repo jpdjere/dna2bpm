@@ -154,7 +154,7 @@ class Lib_201_data extends MX_Controller {
                     if ($parameterArr[$i]['fieldValue'] != "") {
                         $code_error = "C.1";
                         $C_cell_value = $parameterArr[$i]['fieldValue'];
-                        $return = cuit_checker($parameterArr[$i]['fieldValue']);
+                        $return = ($C_cell_value=="22222222222")?:cuit_checker($parameterArr[$i]['fieldValue']);                       
                         if (!$return) {
                             $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                             array_push($stack, $result);
@@ -658,7 +658,7 @@ class Lib_201_data extends MX_Controller {
             array_push($stack, $result);
         }
 
-         //debug($stack);        exit();
+        // debug($stack);        exit();
         $this->data = $stack;
     }
 
