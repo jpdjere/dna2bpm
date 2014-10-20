@@ -53,7 +53,6 @@ $(document).ready(function() {
     /* Sidebar tree view */
     $(".sidebar .treeview").tree();
 
-    
     $('.form-extra').ajaxForm({
         target: '#tiles_after section',
         replaceTarget: false
@@ -84,6 +83,9 @@ $(document).ready(function() {
         })
                 .done(function(data) {
                     $('#tiles_after section').html(data);
+                    $.smoothScroll({
+                        scrollTarget: '#tiles_after section'
+                     });
                 })
                 .error(function(jqXHR, textStatus, errorThrown) {
                     $('#tiles_after section').html(textStatus + errorThrown);
@@ -222,5 +224,21 @@ $(document).ready(function() {
         });
         setTimeout(update5, 30000);
     }
+    
+    /*
+     * Generic redirection after click 
+     * 
+     * Add class scrollme to anchor and data-target for target
+     */
+    $(document).on('click', ".scrollme", function() {
+    	var target=$(this).attr('data-target');
+    	if(target)
+            $.smoothScroll({
+                scrollTarget: '#'+target
+             });
+    		
+    });
+    
+    
 
 });
