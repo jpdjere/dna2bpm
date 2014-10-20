@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th></th>
                     <th>Nro Proyecto</th>
                     <th>Fecha</th>
                     <th>Nombre</th>
