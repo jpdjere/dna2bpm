@@ -111,6 +111,11 @@ class Fondyf extends MX_Controller {
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
+        $filter ['$or'] [] = array(
+            'case' => array(
+                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
+            )
+        );
         $tokens = $this->bpm->get_tokens_byFilter($filter, array(
             'case',
             'data',
@@ -139,6 +144,55 @@ class Fondyf extends MX_Controller {
             );
         }, $tokens);
         $data ['count'] = count($tokens);
+        $this->parser->parse($template, $data, false, true);
+    }
+
+    function mini_status_resultado($idwf, $resourceId, $status) {
+        $this->user->authorize();
+        $this->load->model('bpm/bpm');
+        $this->load->library('parser');
+        $template = 'fondyf/listar_proyectos';
+        $filter = array(
+            'idwf' => $idwf,
+            'resourceId' => $resourceId,
+            'status' => $status,
+        );
+        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
+            'case',
+            'data',
+            'checkdate'
+                ), array(
+            'checkdate' => false
+        ));
+//        var_dump(json_encode($filter),count($tokens));
+        $data ['empresas'] = array_map(function ($token) {
+            // var_dump($token['_id']);
+            $case = $this->bpm->get_case($token ['case']);
+            $data = $this->bpm->load_case_data($case);
+
+            $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
+
+            // var_dump( $data) ;
+            // exit;
+            return array(
+                '_d' => $token ['_id'],
+                'case' => $token ['case'],
+                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
+                'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
+                'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : '???',
+                'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
+                'link_open' => $this->bpm->gateway($url)
+            );
+        }, $tokens);
+        $data ['count'] = count($tokens);
+        //---saco título para el resultado
+        $mywf = $this->bpm->load($idwf);
+        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
+        //---tomo el template de la tarea
+        $shape = $this->bpm->get_shape($resourceId, $wf);
+        $add = ($status == 'user') ? 'En curso' : 'Finalizado';
+        $data['querystring'] = $shape->properties->name . ' / ' . $add;
+
         $this->parser->parse($template, $data, false, true);
     }
 
