@@ -172,14 +172,23 @@ class Fondyf extends MX_Controller {
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
 
-            // var_dump( $data) ;
-            // exit;
+           
+
+            /* STATUS */
+            $status = "N/A";
+            if (isset($data ['Proyectos_fondyf'] ['8334'])) {
+                $this->load->model('app');
+                $option = $this->app->get_ops(772);
+                $status = $option[$data ['Proyectos_fondyf'] ['8334'][0]];
+            }
+
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
                 'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
                 'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
-                'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : '???',
+                'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
+                'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url)
             );

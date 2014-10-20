@@ -15,6 +15,7 @@
                     <th>Fecha</th>
                     <th>Nombre</th>
                     <th>CUIT</th>
+                    <th>Estado</th>
                     <th>Caso</th>
                 </tr>
             </thead>
@@ -30,6 +31,7 @@
                     <td>{fechaent}</td>
                     <td>{nombre}</td>
                     <td>{cuit}</td>
+                    <td>{estado}</td>
                     <td>{case}</td>
                 </tr>
                 {/empresas}
