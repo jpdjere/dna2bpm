@@ -22,12 +22,12 @@
                     {title}
                 </td>
                 <td>            
-                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/user" class="load_tiles_after">
+                    <a href="{base_url}fondyf/mini_status_resultado/{idwf}/{resourceId}/user" class="load_tiles_after">
                         {user}
                     </a>
                 </td>
                 <td>
-                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/finished" class="load_tiles_after">
+                    <a href="{base_url}fondyf/mini_status_resultado/{idwf}/{resourceId}/finished" class="load_tiles_after">
                         {finished}
                     </a>
                 </td>
