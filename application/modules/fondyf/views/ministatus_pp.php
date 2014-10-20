@@ -25,10 +25,14 @@
                     {user}
                 </td>
                 <td>
-                    {finished}
+                     <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/finished" class="load_tiles_after">
+                        {finished}
+                    </a>
                 </td>
                 <td>
-                    {run}
+                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/user" class="load_tiles_after">
+                        {run}
+                    </a>
                 </td>
             </tr>
             {/mini}
