@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th></th>
                     <th>Nro Proyecto</th>
                     <th>Fecha</th>
                     <th>Nombre</th>
@@ -26,7 +27,11 @@
                         <a href="{link_open}" target="_blank">
                             <i class="ion ion-folder fa-2x fa-adjust"></i>
                         </a>
+
                     </td>
+                    <td><a href="{link_msg}" class="load_tiles_after">
+                            <i class="fa fa-envelope"></i>
+                        </a></td>
                     <td>{Nro}</td>
                     <td>{fechaent}</td>
                     <td>{nombre}</td>

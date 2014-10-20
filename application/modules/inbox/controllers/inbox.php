@@ -156,7 +156,6 @@ class Inbox extends MX_Controller {
     	echo $this->count_msgs();
     }
     
-    
     //====  Mini INBOX version for toolbar
     function toolbar(){
         $customData['lang']= $this->lang->language;
@@ -224,7 +223,6 @@ class Inbox extends MX_Controller {
     		//
     		$msg['excerpt']=substr($msg['body'],0,10);
     		$customData['mymsgs'][] = $msg;
-
     	}
 
     	echo $this->parser->parse('inbox/widgets/msgs_by_case', $customData, true, true);
@@ -242,8 +240,6 @@ class Inbox extends MX_Controller {
     
     echo json_encode($mymgs);
     }
-    
-
     
     //====  STAR MARK
     function set_star(){
