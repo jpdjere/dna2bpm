@@ -171,8 +171,9 @@ class Fondyf extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
+            $url_msg = (isset($data ['Proyectos_fondyf']['id'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : '';
 
-           
+            //var_dump($this->show_msgs('fondyfpp',  $token ['case']));
 
             /* STATUS */
             $status = "N/A";
@@ -190,7 +191,7 @@ class Fondyf extends MX_Controller {
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                'link_open' => $this->bpm->gateway($url)
+                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg
             );
         }, $tokens);
         $data ['count'] = count($tokens);
@@ -378,6 +379,7 @@ class Fondyf extends MX_Controller {
     }
 
     function show_msgs($idwf, $idcase) {
+
         $filter = array(
             'idwf' => $idwf,
             'case' => $idcase,
