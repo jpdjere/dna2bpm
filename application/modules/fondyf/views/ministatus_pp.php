@@ -22,12 +22,17 @@
                     {title}
                 </td>
                 <td>            
-                    {user}
+                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/user" class="load_tiles_after">
+                        {user}
+                    </a>
                 </td>
                 <td>
-                    {finished}
+                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/finished" class="load_tiles_after">
+                        {finished}
+                    </a>
                 </td>
                 <td>
+
                     {run}
                 </td>
             </tr>
