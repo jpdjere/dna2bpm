@@ -276,7 +276,22 @@ class Fondyf extends MX_Controller {
         $url = $this->bpm->gateway($url);
         redirect($url);
     }
+  function imprimir_proyecto($idwf, $idcase, $token, $id = null) {
 
+        $this->user->authorize();
+        $this->load->model('bpm/bpm');
+        $this->load->model('dna2/dna2old');
+        $dna2url = $this->dna2old->get('url');
+        if ($id) {
+            $url = $dna2url . "frontcustom/284/proyecto_fondyf_preA.php?id=$id&idwf=$idwf&case=$idcase&token=$token";
+        } else {
+            show_error('El Caso no tiene id de proyecto');
+        }
+
+        $url = $this->bpm->gateway($url);
+        redirect($url);
+    }
+    
     function fix_data($case = null) {
         $debug = false;
         $this->load->model('bpm/bpm');
