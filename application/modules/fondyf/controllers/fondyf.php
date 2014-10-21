@@ -171,17 +171,27 @@ class Fondyf extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
+            $url_msg = (isset($data ['Proyectos_fondyf']['id'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : '';
 
-            // var_dump( $data) ;
-            // exit;
+            //var_dump($this->show_msgs('fondyfpp',  $token ['case']));
+
+            /* STATUS */
+            $status = "N/A";
+            if (isset($data ['Proyectos_fondyf'] ['8334'])) {
+                $this->load->model('app');
+                $option = $this->app->get_ops(772);
+                $status = $option[$data ['Proyectos_fondyf'] ['8334'][0]];
+            }
+
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
                 'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
                 'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
-                'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : '???',
+                'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
+                'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                'link_open' => $this->bpm->gateway($url)
+                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg
             );
         }, $tokens);
         $data ['count'] = count($tokens);
@@ -266,7 +276,22 @@ class Fondyf extends MX_Controller {
         $url = $this->bpm->gateway($url);
         redirect($url);
     }
+  function imprimir_proyecto($idwf, $idcase, $token, $id = null) {
 
+        $this->user->authorize();
+        $this->load->model('bpm/bpm');
+        $this->load->model('dna2/dna2old');
+        $dna2url = $this->dna2old->get('url');
+        if ($id) {
+            $url = $dna2url . "frontcustom/284/proyecto_fondyf_preA.php?id=$id&idwf=$idwf&case=$idcase&token=$token";
+        } else {
+            show_error('El Caso no tiene id de proyecto');
+        }
+
+        $url = $this->bpm->gateway($url);
+        redirect($url);
+    }
+    
     function fix_data($case = null) {
         $debug = false;
         $this->load->model('bpm/bpm');
@@ -369,6 +394,7 @@ class Fondyf extends MX_Controller {
     }
 
     function show_msgs($idwf, $idcase) {
+
         $filter = array(
             'idwf' => $idwf,
             'case' => $idcase,

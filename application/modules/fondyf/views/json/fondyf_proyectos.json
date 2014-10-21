@@ -18,8 +18,14 @@
                     "title": "Tile01",
                     "module": "fondyf",
                     "controller": "fondyf",
-                    "function": "tile_proyectos",
-                    "span":3
+                    "function": "tile_proyectos"
+                },
+                {
+                    "title": "Proyectos Aprobados",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["fondyfpp", "fondyfpp_BO"]
                 },
                
                 {
