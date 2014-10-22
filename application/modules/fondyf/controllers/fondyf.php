@@ -149,7 +149,7 @@ class Fondyf extends MX_Controller {
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                 'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg
+                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg
             );
         }, $tokens);
         $data ['count'] = count($tokens);
@@ -349,6 +349,57 @@ class Fondyf extends MX_Controller {
         $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
 
         redirect($url);
+    }
+
+    function info($tipo,$idcase) {
+        $idwf='fondyfpp';
+        $this->load->model('bpm/bpm');
+        $this->load->library('parser');
+        $this->load->library('bpm/ui');
+        $renderData = array();
+        $renderData ['base_url'] = $this->base_url;
+        // ---prepare UI
+        $renderData ['js'] = array(
+            $this->base_url . 'bpm/assets/jscript/modal_window.js' => 'Modal Window Generic JS'
+        );
+        // ---prepare globals 4 js
+        $renderData ['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->base_url . 'bpm'
+        );
+//        $this->bpm->debug['load_case_data'] = true;
+        $user = $this->user->getuser((int) $this->session->userdata('iduser'));
+        $case = $this->bpm->get_case($idcase, $idwf);
+        $this->user->Initiator = $case['iduser'];
+        //---saco título para el resultado
+        $mywf = $this->bpm->load($idwf);
+        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
+        //---tomo el template de la tarea
+        //$shape = $this->bpm->get_shape($resourceId, $wf);
+
+        $data = $this->bpm->load_case_data($case, $idwf);
+        $data['user'] = (array) $user;
+        
+        //$resources = $this->bpm->get_resources($shape, $wf, $case);
+        //---if has no messageref and noone is assigned then
+        //---fire a message to lane or self         
+//            if (!count($resources['assign']) and !$shape->properties->messageref) {
+//                $lane = $this->bpm->find_parent($shape, 'Lane', $wf);
+//                //---try to get resources from lane
+//                if ($lane) {
+//                    $resources = $this->bpm->get_resources($lane, $wf);
+//                }
+//                //---if can't get resources from lane then assign it self as destinatary
+//                if (!count($resources['assign']))
+//                    $resources['assign'][] = $this->user->Initiator;
+//            }
+        //---process inbox--------------
+        
+        $renderData['name'] ='Ingresar Proyecto';
+        $renderData['text'] = '';
+        $renderData['text'] .= '<hr/>';
+//        $renderData['text'] .=nl2br();
+        $this->ui->compose('bpm/modal_msg_little', 'bpm/bootstrap.ui.php', $renderData);
     }
 
     function set_evaluador($idwf, $idcase, $tokenId) {
