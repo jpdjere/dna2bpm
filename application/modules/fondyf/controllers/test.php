@@ -15,11 +15,12 @@ class test extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->user->authorize();
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         $this->dna2 = $this->load->database('dna2', true, true);
         $this->lang->load('library', $this->config->item('language'));
-        $this->user->authorize();
+        $this->base_url=  base_url();
     }
 
     function Index() {
@@ -84,10 +85,22 @@ class test extends MX_Controller {
     function notificacion($idwf, $idcase, $resourceId) {
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
+        $this->load->library('bpm/ui');
+        $renderData = array();
+        $renderData ['base_url'] = $this->base_url;
+        // ---prepare UI
+        $renderData ['js'] = array(
+            $this->base_url . 'bpm/assets/jscript/modal_window.js' => 'Modal Window Generic JS'
+        );
+        // ---prepare globals 4 js
+        $renderData ['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->base_url.'bpm'
+        );
 //        $this->bpm->debug['load_case_data'] = true;
-        $user=$this->user->getuser((int) $this->session->userdata('iduser'));
+        $user = $this->user->getuser((int) $this->session->userdata('iduser'));
         $case = $this->bpm->get_case($idcase, $idwf);
-        $this->user->Initiator=$case['iduser'];
+        $this->user->Initiator = $case['iduser'];
         $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
         //---saco título para el resultado
         $mywf = $this->bpm->load($idwf);
@@ -125,11 +138,17 @@ class test extends MX_Controller {
         //---process inbox--------------
         $to = (isset($resources['assign'])) ? array_merge($token['assign'], $resources['assign']) : $token['assign'];
         $to = array_unique(array_filter($to));
-        foreach($to as $iduser){
-            $user=$this->user->get_user_safe($iduser);
-            $msg['to'][]=$user;
+        foreach ($to as $iduser) {
+            $user = $this->user->get_user_safe($iduser);
+            $msg['to'][] = $user;
+//            var_dump($user);exit;
+            $renderData['to'][] = $user->name . ' ' . $user->lastname;
         }
-        var_dump($msg);
+        $renderData['name'] = $msg['subject'];
+        $renderData['text'] = 'To:<br/>' . implode(',', $renderData['to']);
+        $renderData['text'] .= '<hr/>';
+        $renderData['text'] .=nl2br($msg['body']);
+        $this->ui->compose('bpm/modal_msg_little', 'bpm/bootstrap.ui.php', $renderData);
     }
 
 }
