@@ -12,6 +12,7 @@
                 <tr>
                     <th></th>
                     <th></th>
+                    <th></th>
                     <th>Nro Proyecto</th>
                     <th>Fecha</th>
                     <th>Nombre</th>
@@ -29,10 +30,13 @@
                         </a>
 
                     </td>
-                    <td><a href="{link_msg}" class="load_tiles_after">
-                            <i class="ion ion-email fa-2x fa-adjust"></i>
-                            
-                        </a></td>
+                    <td>{if {link_msg}>0}<a href="{link_msg}" class="load_tiles_after">
+                            <i class="ion ion-email fa-2x fa-adjust"></i>                            
+                        </a>   {/if}                 
+                    </td>
+                    <td>  {if {url_bpm}>0}<a href="{url_bpm}" class="load_tiles_after">
+                            <i class="ion-arrow-right-b fa-2x fa-adjust"></i>                            
+                        </a>{/if}</td>
                     <td>{Nro}</td>
                     <td>{fechaent}</td>
                     <td>{nombre}</td>
