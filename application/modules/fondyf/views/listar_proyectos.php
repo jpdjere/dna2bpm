@@ -30,7 +30,8 @@
 
                     </td>
                     <td><a href="{link_msg}" class="load_tiles_after">
-                            <i class="fa fa-envelope"></i>
+                            <i class="ion ion-email fa-2x fa-adjust"></i>
+                            
                         </a></td>
                     <td>{Nro}</td>
                     <td>{fechaent}</td>
