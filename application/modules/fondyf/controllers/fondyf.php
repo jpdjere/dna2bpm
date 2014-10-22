@@ -130,7 +130,7 @@ class Fondyf extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
-            $url_msg = (isset($data ['Proyectos_fondyf']['id'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : '';
+            $url_msg = (isset($data ['Proyectos_fondyf']['id'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : '#';
 
             /* STATUS */
             $status = "N/A";
@@ -180,7 +180,7 @@ class Fondyf extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
-            $url_msg = (isset($data ['Proyectos_fondyf']['id'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : '';
+            $url_msg = (isset($data ['Proyectos_fondyf']['id'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : '#';
 
             //var_dump($this->show_msgs('fondyfpp',  $token ['case']));
 
