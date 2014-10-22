@@ -436,7 +436,9 @@ class Fondyf extends MX_Controller {
             'idwf' => $idwf,
             'case' => $idcase,
         );
-        echo Modules::run('inbox/show_msgs_by_filter', $filter);
+        $cdata = array();
+        $cdata['title'] = "Notificaciones: ";
+        echo Modules::run('inbox/show_msgs_by_filter', $filter, $cdata);
     }
 
 }
