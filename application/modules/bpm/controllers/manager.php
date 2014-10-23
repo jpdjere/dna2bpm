@@ -388,4 +388,26 @@ class Manager extends MX_Controller {
         return $cases_arr;
     }
 
+    /**
+     * EVALUATOR PROJECTS 
+     * 
+     * Description 
+     * name evaluator_projects
+     * @author Diego Otero 
+     */
+    function evaluator_projects($idwf, $output = 'array', $filter = array()) {
+        $filter['idwf'] = $idwf;
+        $querys = $this->bpm->get_evaluator_by_project($filter);
+        //$cases_arr = array();
+        foreach ($querys[0] as $values) {
+            
+            $evaluator_id = $values[8668][0];
+        
+            $proyect_array = array("project_ip" => $values[8339], "project_id" => $values['id']);
+            $cases_arr[$evaluator_id][] = $proyect_array;
+        }
+
+        return $cases_arr;
+    }
+
 }

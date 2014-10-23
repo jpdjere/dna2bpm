@@ -66,6 +66,20 @@ class Webservice extends MX_Controller {
         'Edad'=>array('name' => 'Edad', 'type' => 'xsd:integer')
         )
 );
+        
+        $this->nusoap_server->wsdl->addComplexType(
+        'ArregloDeEstructuras',
+        'complexType',
+        'array',
+        'sequence',
+        'http://schemas.xmlsoap.org/soap/encoding/:Array',
+        array(),
+        array(array('ref' => 'http://schemas.xmlsoap.org/soap/encoding/:arrayType',
+         'wsdl:arrayType' => 'tns:Estructura[]')
+        ),
+        'tns:Estructura'  
+);
+        
     }   
 
     function index() {

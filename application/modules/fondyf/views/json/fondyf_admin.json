@@ -59,6 +59,13 @@
         {
             "col2": [
                 {
+                    "title": "Proyect by Evaluator",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "projects_evaluator"
+
+                },
+                {
                     "title": "Proyect amount",
                     "module": "fondyf",
                     "controller": "fondyf",
