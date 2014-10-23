@@ -248,6 +248,9 @@ $(document).ready(function() {
     	});
     });
     
+    $(document).on('click','.bt-print',function(e){
+    	window.print();
+    });
     
 
 });
