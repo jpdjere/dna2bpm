@@ -110,7 +110,7 @@ padding-top:15px;
 
 
 /*==== Config Panel Just for screen====*/
-@media screen {
+
 	#config_panel_bt{
 	position: fixed;
 	top:120px;
@@ -137,6 +137,11 @@ padding-top:15px;
 		overflow: auto;
 	
 	}
+	
+	
+/*==== PRINT STYLES====*/
+@media print {
+#config_panel_bt,#config_panel_content{
+	display:none;
 }
-
-
+}
