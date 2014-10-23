@@ -1,4 +1,4 @@
-<div id="config_panel_bt">
+<div id="config_panel_bt hidden-print">
 <i class="fa fa-thumb-tack"></i>
 </div>
 <div id="config_panel_content">
