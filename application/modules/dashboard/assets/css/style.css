@@ -108,32 +108,35 @@ background-color:#FDFFA3;
 padding-top:15px;
 }
 
-#config_panel_bt{
-position: fixed;
-top:120px;
-right:0px;
-background: rgba(0, 0, 0, 0.7);
-border-radius: 5px 0px 0px 5px;
-padding: 5px 7px; 
-font-size: 12px;
-z-index: 999999;
-cursor: pointer;
-color: #ddd;
-}
 
-#config_panel_content{
-	width:400px;
+/*==== Config Panel Just for screen====*/
+@media screen {
+	#config_panel_bt{
 	position: fixed;
 	top:120px;
- 	right:-400px;
-	border-left:1px solid #aaa; 
-	height:400px;
+	right:0px;
+	background: rgba(0, 0, 0, 0.7);
+	border-radius: 5px 0px 0px 5px;
+	padding: 5px 7px; 
+	font-size: 12px;
 	z-index: 999999;
- 	background-color:#ccc; 
-	padding:5px;
-	overflow: auto;
-
+	cursor: pointer;
+	color: #ddd;
+	}
+	
+	#config_panel_content{
+		width:400px;
+		position: fixed;
+		top:120px;
+	 	right:-400px;
+		border-left:1px solid #aaa; 
+		height:400px;
+		z-index: 999999;
+	 	background-color:#ccc; 
+		padding:5px;
+		overflow: auto;
+	
+	}
 }
-
 
 
