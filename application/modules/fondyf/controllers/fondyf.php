@@ -24,13 +24,12 @@ class Fondyf extends MX_Controller {
         // ----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
-        
-        
-        /*GROUP*/
-        $user = $this->user->get_user($this->idu);       
-       
+
+
+        /* GROUP */
+        $user = $this->user->get_user($this->idu);
+
         $this->id_group = ($user->{'group'});
-       
     }
 
     function Index() {
@@ -136,14 +135,14 @@ class Fondyf extends MX_Controller {
             $case = $this->bpm->get_case($token ['case']);
             $data = $this->bpm->load_case_data($case);
 
-            $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';            
-            $url_msg = (isset($token ['case']))?'show_msgs/fondyfpp/' . $token ['case']:null;
-            /*FonDyF/COORDINADOR (134)*/
-            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/'. $token ['case']: null;           
-            
+            $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
+            $url_msg = (isset($token ['case'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : null;
+            /* FonDyF/COORDINADOR (134) */
+            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
+
             $url_bpm = 0;
-            if(isset($url_bpm_check))
-                $url_bpm = $this->bpm->gateway($url_bpm_check);             
+            if (isset($url_bpm_check))
+                $url_bpm = $this->bpm->gateway($url_bpm_check);
 
             /* STATUS */
             $status = "N/A";
@@ -152,8 +151,8 @@ class Fondyf extends MX_Controller {
                 $option = $this->app->get_ops(772);
                 $status = $option[$data ['Proyectos_fondyf'] ['8334'][0]];
             }
-       
-            
+
+
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
@@ -162,7 +161,7 @@ class Fondyf extends MX_Controller {
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                 'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm'=> $url_bpm
+                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm' => $url_bpm
             );
         }, $tokens);
         $data ['count'] = count($tokens);
@@ -170,8 +169,7 @@ class Fondyf extends MX_Controller {
     }
 
     function mini_status_resultado($idwf, $resourceId, $status) {
-        
-        
+
         $this->user->authorize();
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
@@ -180,8 +178,8 @@ class Fondyf extends MX_Controller {
             'idwf' => $idwf,
             'resourceId' => $resourceId,
             'status' => $status,
-        );   
-        
+        );
+
         $tokens = $this->bpm->get_tokens_byFilter($filter, array(
             'case',
             'data',
@@ -190,22 +188,22 @@ class Fondyf extends MX_Controller {
             'checkdate' => false
         ));
 //        var_dump(json_encode($filter),count($tokens));
-        
-         
+
+
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case']);
             $data = $this->bpm->load_case_data($case);
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
-            $url_msg = (isset($token ['case']))?'show_msgs/fondyfpp/' . $token ['case']:null;
+            $url_msg = (isset($token ['case'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : null;
 
-            /*FonDyF/COORDINADOR (134)*/
-            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/'. $token ['case']: null;           
-            
+            /* FonDyF/COORDINADOR (134) */
+            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
+
             $url_bpm = 0;
-            if(isset($url_bpm_check))
-                $url_bpm = $this->bpm->gateway($url_bpm_check);             
+            if (isset($url_bpm_check))
+                $url_bpm = $this->bpm->gateway($url_bpm_check);
 
             /* STATUS */
             $status = "N/A";
@@ -223,11 +221,11 @@ class Fondyf extends MX_Controller {
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm'=> $url_bpm
+                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm' => $url_bpm
             );
         }, $tokens);
-       
-        
+
+
         $data ['count'] = count($tokens);
         //---saco título para el resultado
         $mywf = $this->bpm->load($idwf);
@@ -236,9 +234,9 @@ class Fondyf extends MX_Controller {
         $shape = $this->bpm->get_shape($resourceId, $wf);
         $add = ($status == 'user') ? 'En curso' : 'Finalizado';
         $data['querystring'] = $shape->properties->name . ' / ' . $add;
-        
-        
-        
+
+
+
         $this->parser->parse($template, $data, false, true);
     }
 
@@ -295,6 +293,46 @@ class Fondyf extends MX_Controller {
         $wfData ['name'] = 'Montos por Estados';
 
         return $this->parser->parse('fondyf/montos_estados', $wfData, true, true);
+    }
+
+    /**
+     * PROYECTS EVALUATOR 
+     *
+     * Description 
+     * name projects_evaluator
+     * @author Diego Otero 
+     */
+    function projects_evaluator() {
+        $this->user->authorize();
+        $state = Modules::run('bpm/manager/evaluator_projects', 'fondyfpp', 'array');
+
+        foreach ($state as $key => $task) {
+            $new_task = array();
+
+            foreach ($task as $each) {
+                $user = (array) $this->user->get_user_safe($key);
+                $evaluator_info = strtoupper($user['nick']) . "<br> (" . $user['name'] . " " . $user['lastname'] . ")";
+                
+                $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id='. $each['project_id'];
+                
+                $projData['url'] = $this->bpm->gateway($url);
+                $projData['project_value'] = $each['project_ip'];
+
+                $project .= $this->parser->parse('fondyf/proyectos_evaluador_anchor', $projData, true, true);
+            }
+
+
+            $new_task['evaluator'] = $evaluator_info;
+            $new_task['project'] = $project;
+            $wfData['mini'][] = $new_task;
+        }
+
+        $wfData ['base_url'] = base_url();
+        $wf = $this->bpm->load('fondyfpp');
+        $wfData += $wf ['data'] ['properties'];
+        $wfData ['name'] = 'Evaluadores por proyecto';
+
+        return $this->parser->parse('fondyf/proyectos_evaluador', $wfData, true, true);
     }
 
     function ver_ficha($idwf, $idcase, $token, $id = null) {

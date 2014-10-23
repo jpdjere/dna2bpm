@@ -1,0 +1,1 @@
+<p><a href="{url}" target="_blank">{project_value}</a></p>

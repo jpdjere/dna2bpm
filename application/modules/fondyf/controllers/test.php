@@ -20,7 +20,7 @@ class test extends MX_Controller {
         $this->db = $this->cimongo;
         $this->dna2 = $this->load->database('dna2', true, true);
         $this->lang->load('library', $this->config->item('language'));
-        $this->base_url=  base_url();
+        $this->base_url = base_url();
     }
 
     function Index() {
@@ -82,6 +82,36 @@ class test extends MX_Controller {
         }
     }
 
+    function check_case() {
+        $SQL = "
+            SELECT idsent.id AS id, TF3.valor AS empresa
+FROM `td_fondyf` AS TF1
+INNER JOIN `td_fondyf` AS TF2 ON TF1.id = TF2.id
+INNER JOIN `td_fondyf` AS TF3 ON TF1.id = TF3.id
+INNER JOIN idsent ON idsent.id = TF1.id
+WHERE TF1.idpreg = 8334
+AND TF1.valor = 05
+AND TF2.idpreg = 8335
+AND TF2.valor = 2014
+AND TF3.idpreg = 8325
+AND idsent.estado = 'activa'
+";
+        $rs = $this->dna2->query($SQL);
+        foreach ($rs->result() as $row) {
+            echo $row->id . '<br>';
+            $case=array();
+            $this->db->where(array('data.Proyectos_fondyf.query.id'=>(int)$row->id));
+            $this->db->select('id');
+//            $this->db->debug=true;
+            $case = $this->db->get('case')->result();
+            if(count($case)){
+                echo $case[0]->id.'<hr/>';
+            } else {
+                echo "<h1>NO!</h1><hr/>";
+            }
+        }
+    }
+
     function notificacion($idwf, $idcase, $resourceId) {
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
@@ -95,7 +125,7 @@ class test extends MX_Controller {
         // ---prepare globals 4 js
         $renderData ['global_js'] = array(
             'base_url' => $this->base_url,
-            'module_url' => $this->base_url.'bpm'
+            'module_url' => $this->base_url . 'bpm'
         );
 //        $this->bpm->debug['load_case_data'] = true;
         $user = $this->user->getuser((int) $this->session->userdata('iduser'));
