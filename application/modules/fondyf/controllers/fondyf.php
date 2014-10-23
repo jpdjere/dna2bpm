@@ -311,7 +311,7 @@ class Fondyf extends MX_Controller {
 
             foreach ($task as $each) {
                 $user = (array) $this->user->get_user_safe($key);
-                $evaluator_info = $user['nick'] . " (" . $user['name'] . " " . $user['lastname'] . ")";
+                $evaluator_info = strtoupper($user['nick']) . "<br> (" . $user['name'] . " " . $user['lastname'] . ")";
                 
                 $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id='. $each['project_id'];
                 
