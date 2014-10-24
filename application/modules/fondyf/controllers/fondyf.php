@@ -305,11 +305,13 @@ class Fondyf extends MX_Controller {
     function projects_evaluator() {
         $this->user->authorize();
         $state = Modules::run('bpm/manager/evaluator_projects', 'fondyfpp', 'array');
-
+        
+       
         foreach ($state as $key => $task) {
             $new_task = array();
-
+             $project = null;
             foreach ($task as $each) {
+               
                 $user = (array) $this->user->get_user_safe($key);
                 $evaluator_info = strtoupper($user['nick']) . "<br> (" . $user['name'] . " " . $user['lastname'] . ")";
                 
@@ -317,6 +319,7 @@ class Fondyf extends MX_Controller {
                 
                 $projData['url'] = $this->bpm->gateway($url);
                 $projData['project_value'] = $each['project_ip'];
+                $projData['status'] = $each['status'];
 
                 $project .= $this->parser->parse('fondyf/proyectos_evaluador_anchor', $projData, true, true);
             }
