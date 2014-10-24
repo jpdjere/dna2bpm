@@ -6,26 +6,30 @@
             <button class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
         </div>
     </div>
+
+
     <div class="box-body">
+        {mini}        
         <table class="table table-striped">
             <thead>
+                <tr><td colspan="6" align="right">{evaluator}</td></tr>
                 <tr>
-                    <th>Evaluador</th>
-                    <th>Proyectos</th>
+                    <th>Nro Proyecto</th>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>CUIT</th>
+                    <th>Estado</th>
+                    <th>Caso</th>
                 </tr>
             </thead>
-            {mini}
-            <tr>
-                <td class="center">
-                    {evaluator}
-                </td>
-                <td>            
-                    {project}
-                </td>                
-            </tr>
-            {/mini}
-        </table>
-    </div><!-- /.box-body -->
+            <tbody>
+                
+                {project}            
+            </tbody>
+        </table>        
+        {/mini}
+    </div>
+    <!-- /.box-body -->
     <div class="box-footer">
         {footer}
     </div><!-- /.box-footer-->
