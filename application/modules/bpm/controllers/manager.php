@@ -398,12 +398,18 @@ class Manager extends MX_Controller {
     function evaluator_projects($idwf, $output = 'array', $filter = array()) {
         $filter['idwf'] = $idwf;
         $querys = $this->bpm->get_evaluator_by_project($filter);
-        //$cases_arr = array();
+        
+        /* OPTIONS */
+        $this->load->model('app');
+        $option = $this->app->get_ops(772);
+        
+        
         foreach ($querys[0] as $values) {
+            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
             
             $evaluator_id = $values[8668][0];
         
-            $proyect_array = array("project_ip" => $values[8339], "project_id" => $values['id']);
+            $proyect_array = array("project_ip" => $values[8339], "project_id" => $values['id'], "status" => $ctrl_value);
             $cases_arr[$evaluator_id][] = $proyect_array;
         }
 
