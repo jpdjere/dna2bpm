@@ -129,7 +129,7 @@ AND idsent.estado = 'activa'
         }, $tokens);
         foreach ($cases as $case) {
             if ($case['id']) {
-                echo '<h1>FIX  ' . $case['idcase'] . '</h1>';
+                echo '<h1>FIX  ' . $case['idcase'] .' :: '.$case['id'] .'</h1>';
                 $proy = $this->mongo->db->selectcollection('container.proyectos_fondyf')->findOne(array('id' => $case['id']), array('8668'));
                 $ideval = $proy['8668'][0];
                 $user = $this->user->get_user($ideval);
