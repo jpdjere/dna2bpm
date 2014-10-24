@@ -99,89 +99,70 @@ AND idsent.estado = 'activa'
         $rs = $this->dna2->query($SQL);
         foreach ($rs->result() as $row) {
             echo $row->id . '<br>';
-            $case=array();
-            $this->db->where(array('data.Proyectos_fondyf.query.id'=>(int)$row->id));
+            $case = array();
+            $this->db->where(array('data.Proyectos_fondyf.query.id' => (int) $row->id));
             $this->db->select('id');
 //            $this->db->debug=true;
             $case = $this->db->get('case')->result();
-            if(count($case)){
-                echo $case[0]->id.'<hr/>';
+            if (count($case)) {
+                echo $case[0]->id . '<hr/>';
             } else {
                 echo "<h1>NO!</h1><hr/>";
             }
         }
     }
 
-    function notificacion($idwf, $idcase, $resourceId) {
+    function fix_evaluador($case = null) {
+        $idwf = 'fondyfpp';
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
         $this->load->library('bpm/ui');
-        $renderData = array();
-        $renderData ['base_url'] = $this->base_url;
-        // ---prepare UI
-        $renderData ['js'] = array(
-            $this->base_url . 'bpm/assets/jscript/modal_window.js' => 'Modal Window Generic JS'
-        );
-        // ---prepare globals 4 js
-        $renderData ['global_js'] = array(
-            'base_url' => $this->base_url,
-            'module_url' => $this->base_url . 'bpm'
-        );
-//        $this->bpm->debug['load_case_data'] = true;
-        $user = $this->user->getuser((int) $this->session->userdata('iduser'));
-        $case = $this->bpm->get_case($idcase, $idwf);
-        $this->user->Initiator = $case['iduser'];
-        $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-        //---saco título para el resultado
         $mywf = $this->bpm->load($idwf);
         $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        //---tomo el template de la tarea
-        $shape = $this->bpm->get_shape($resourceId, $wf);
+        $lane = $this->bpm->get_shape_byprop(array('name' => 'EVALUADOR TÉCNICO'), $wf);
+        $lane = $lane[0];
+        //---busco los casos que hayan pasado
+        $this->db->where(array('resourceId' => 'oryx_94935482-755B-49C2-8229-A871F575CBD6', 'idwf' => $idwf));
+        $tokens = $this->db->get('tokens')->result();
+        $cases = array_map(function($token) {
+            return array('idcase' => $token->case, 'id' => (property_exists($token, 'data')) ? $token->data['id'] : null);
+        }, $tokens);
+        foreach ($cases as $case) {
+            if ($case['id']) {
+                echo '<h1>FIX  ' . $case['idcase'] .' :: '.$case['id'] .'</h1>';
+                $proy = $this->mongo->db->selectcollection('container.proyectos_fondyf')->findOne(array('id' => $case['id']), array('8668'));
+                $ideval = $proy['8668'][0];
+                $user = $this->user->get_user($ideval);
+                echo "EVAL: " . $user->name . ' ' . $user->lastname . '<br/><br/>';
+                //--fix lane
+                $resourceId = $lane->resourceId;
+                $token = $this->bpm->get_token($idwf, $case['idcase'], $resourceId);
+                if (count($token['assign']) > 1 or true) {
+                    $token['assign'] = array($ideval);
+                    $this->bpm->save_token($token);
+                    //---Fix comunicacion
+                    $token = $this->bpm->get_token($idwf, $case['idcase'], 'oryx_C2EC6376-8EB3-4514-AABA-B4BED6FAB8A1');
 
-        $data = $this->bpm->load_case_data($case, $idwf);
-        $data['user'] = (array) $user;
-        $data['date'] = date($this->lang->line('dateFmt'));
-        $msg['from'] = $this->idu;
-        $msg['subject'] = $this->parser->parse_string($shape->properties->name, $data, true, true);
-        $msg['body'] = $this->parser->parse_string($shape->properties->documentation, $data, true, true);
-
-        $msg['idwf'] = $idwf;
-        $msg['case'] = $idcase;
-        if ($shape->properties->properties <> '') {
-            foreach ($shape->properties->properties->items as $property) {
-                $msg[$property->name] = $property->datastate;
+                    $token['assign'] = array($ideval);
+                    $this->bpm->save_token($token);
+                    //--fix tasks
+                    foreach ($lane->childShapes as $shape) {
+                        if ($shape->stencil->id == 'Task') {
+                            $token = $this->bpm->get_token($idwf, $case['idcase'], $shape->resourceId);
+                            if (count($token['assign']) > 1) {
+                                echo "Fixing:" . $shape->properties->name;
+                                $token['assign'] = array($ideval);
+                                $this->bpm->save_token($token);
+                                echo '<hr/>';
+                            }
+                        }
+                    }
+                }//  >1
             }
         }
-        $resources = $this->bpm->get_resources($shape, $wf, $case);
-        //---if has no messageref and noone is assigned then
-        //---fire a message to lane or self         
-//            if (!count($resources['assign']) and !$shape->properties->messageref) {
-//                $lane = $this->bpm->find_parent($shape, 'Lane', $wf);
-//                //---try to get resources from lane
-//                if ($lane) {
-//                    $resources = $this->bpm->get_resources($lane, $wf);
-//                }
-//                //---if can't get resources from lane then assign it self as destinatary
-//                if (!count($resources['assign']))
-//                    $resources['assign'][] = $this->user->Initiator;
-//            }
-        //---process inbox--------------
-        $to = (isset($resources['assign'])) ? array_merge($token['assign'], $resources['assign']) : $token['assign'];
-        $to = array_unique(array_filter($to));
-        foreach ($to as $iduser) {
-            $user = $this->user->get_user_safe($iduser);
-            $msg['to'][] = $user;
-//            var_dump($user);exit;
-            $renderData['to'][] = $user->name . ' ' . $user->lastname;
-        }
-        $renderData['name'] = $msg['subject'];
-        $renderData['text'] = 'To:<br/>' . implode(',', $renderData['to']);
-        $renderData['text'] .= '<hr/>';
-        $renderData['text'] .=nl2br($msg['body']);
-        $this->ui->compose('bpm/modal_msg_little', 'bpm/bootstrap.ui.php', $renderData);
     }
 
 }
 
 /* End of file welcome.php */
-/* Location: ./system/application/controllers/welcome.php */
+    /* Location: ./system/application/controllers/welcome.php */    
