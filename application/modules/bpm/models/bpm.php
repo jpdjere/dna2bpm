@@ -446,7 +446,7 @@ class Bpm extends CI_Model {
         if (!isset($data['iduser']))
             $data['iduser'] = (int) $this->session->userdata('iduser');
 
-        if (!isset($idwf) or ! isset($case) or ! isset($resourceId)) {
+        if (!isset($idwf) or !isset($case) or !isset($resourceId)) {
             show_error("Can't update whith: idwf:$idwf case:$case  resourceId:$resourceId<br/>Incomplete Data.");
         }
         //$title=(isset($shape->properties->title))?$shape->properties->title;$shape->stencil->id;
@@ -1476,7 +1476,6 @@ class Bpm extends CI_Model {
 
     function assign($shape, $wf) {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
-        $debug = false;
         if ($debug)
             echo '<H1>Assign:' . $shape->properties->name . '</H1>';
         $token = $this->get_token($wf->idwf, $wf->case, $shape->resourceId);
@@ -1740,7 +1739,7 @@ class Bpm extends CI_Model {
                             }
                             break;
                         case 'token':
-                            $shape = $this->get_shape_byprop(array('name' =>str_replace('\n',"\n", $resourceassignmentexpr)), $wf);
+                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n', "\n", $resourceassignmentexpr)), $wf);
                             if ($shape) {
                                 $token = $this->get_token($case['idwf'], $case['id'], $shape[0]->resourceId);
                                 if ($token) {
@@ -1754,7 +1753,7 @@ class Bpm extends CI_Model {
                             }
                             break;
                         case 'shape':
-                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n',"\n", $resourceassignmentexpr)), $wf);
+                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n', "\n", $resourceassignmentexpr)), $wf);
                             if ($shape) {
                                 $res_extra = $this->get_resources($shape, $wf, $case);
                                 if ($debug) {
@@ -1791,8 +1790,11 @@ class Bpm extends CI_Model {
                 }//--end if rule
             }//---end foreach $rule
         }//---end if has assignments
-        //----make assign equals PotentialOwner
-        $rtn['assign'] = $rtn['PotentialOwner'];
+        //----make assign equals PotentialOwner if exists
+        if (isset($rtn['PotentialOwner'])) {
+            $rtn['assign'] = $rtn['PotentialOwner'];
+        }
+
         return $rtn;
     }
 
@@ -1819,7 +1821,7 @@ class Bpm extends CI_Model {
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
-        if (isset($token['idgroup']) and ! isset($token['assign'])) {
+        if (isset($token['idgroup']) and !isset($token['assign'])) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
                     $is_allowed = true;
