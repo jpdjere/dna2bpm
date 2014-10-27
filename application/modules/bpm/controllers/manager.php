@@ -10,7 +10,6 @@ class Manager extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('user');
         $this->load->model('bpm');
-        $this->load->model('fondyf');
         $this->load->model('msg');
         $this->load->model('user/group');
         $this->user->authorize();
@@ -398,7 +397,7 @@ class Manager extends MX_Controller {
      */
     function evaluator_projects($idwf, $output = 'array', $filter = array()) {
         $filter['idwf'] = $idwf;
-        $querys = $this->fondyf->get_evaluator_by_project($filter);
+        $querys = $this->bpm->get_evaluator_by_project($filter);
         
         /* OPTIONS */
         $this->load->model('app');
