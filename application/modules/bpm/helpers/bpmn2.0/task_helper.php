@@ -132,12 +132,17 @@ function run_Task($shape, $wf, $CI) {
 
     switch ($shape->properties->tasktype) {
         case 'User':
+
             if ($debug)
                 echo "USER<br/>";
             //----ASSIGN TASK to USER / GROUP
             $CI->bpm->assign($shape, $wf);
             //----Get token data
-//            $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+            if ($CI->break_on_next) {
+                echo "sale ACA";exit;
+                redirect($this->base_url . $CI->config->item('default_controller'));
+            }
+//              $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
 ////////////////////////////////////////////////////////////////////////////
 ///////////////////////EVAL EXECUTION POLICY////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -236,7 +241,7 @@ function run_Task($shape, $wf, $CI) {
                 $data['from'] = $user;
             }
             //---Get FROM
-            $user = $this->user->get_user_safe($msg['from']);
+            $user = $CI->user->get_user_safe($msg['from']);
             $data['user'] = (array) $user;
             $msg['subject'] = $CI->parser->parse_string($shape->properties->name, $data, true, true);
             $msg['body'] = $CI->parser->parse_string($shape->properties->documentation, $data, true, true);
