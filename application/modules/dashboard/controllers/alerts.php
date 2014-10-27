@@ -42,13 +42,17 @@ class Alerts extends MX_Controller {
 //       	var_dump(iterator_to_array($alerts));
 //       	exit();
       	$q=$alerts->count();
-       	return ($q>0)?( $this->parser->parse('widgets/alerts', $customdata, true, false)):('');
+       	return ($q>0)?( $this->parser->parse('dashboard/widgets/alerts', $customdata, true, false)):('');
 
     }
     
     function dismiss() {
     	$id=$this->input->post('id');
     	$this->alerts_model->dismiss($id);
+    }
+    
+    function Index(){
+    	
     }
 
 }
