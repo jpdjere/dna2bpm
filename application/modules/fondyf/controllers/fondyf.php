@@ -138,7 +138,7 @@ class Fondyf extends MX_Controller {
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
             $url_msg = (isset($token ['case'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : null;
             /* FonDyF/COORDINADOR (134) */
-            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
+            $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
 
             $url_bpm = 0;
             if (isset($url_bpm_check))
