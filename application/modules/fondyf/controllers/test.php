@@ -18,7 +18,7 @@ class test extends MX_Controller {
         $this->user->authorize();
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
-        $this->dna2 = $this->load->database('dna2', true, true);
+        //$this->dna2 = $this->load->database('dna2', true, true);
         $this->lang->load('library', $this->config->item('language'));
         $this->base_url = base_url();
     }
@@ -57,6 +57,29 @@ class test extends MX_Controller {
         ));
         $this->dna2->update('idsent', array('idu' => $idu_jb));
         echo "DNA2 ok:<br/>";
+    }
+
+    function fix_assign() {
+        $this->load->model('bpm/bpm');
+        $query = array(
+            'idwf' => 'fondyfpp',
+            'assign' => array('$exists' => true),
+           // 'checkdate' => '2014-10-23 11:36:21'
+        );
+        $this->db->where($query);
+        $rs = $this->db->get('tokens')->result_array();
+        echo "encontrados: ".count($rs).'<br/>';
+        foreach ($rs as $token) {
+            var_dump(
+                    $token['_id'],
+                    $token['assign']
+                    );
+            $token['assign'] = array_map(function ($part) {
+                return (int) $part;
+            }, $token['assign']);
+            $this->bpm->save_token($token);
+            var_dump($token['assign']);
+        }
     }
 
     function fix_8339() {
@@ -129,7 +152,7 @@ AND idsent.estado = 'activa'
         }, $tokens);
         foreach ($cases as $case) {
             if ($case['id']) {
-                echo '<h1>FIX  ' . $case['idcase'] .' :: '.$case['id'] .'</h1>';
+                echo '<h1>FIX  ' . $case['idcase'] . ' :: ' . $case['id'] . '</h1>';
                 $proy = $this->mongo->db->selectcollection('container.proyectos_fondyf')->findOne(array('id' => $case['id']), array('8668'));
                 $ideval = $proy['8668'][0];
                 $user = $this->user->get_user($ideval);
@@ -165,4 +188,4 @@ AND idsent.estado = 'activa'
 }
 
 /* End of file welcome.php */
-    /* Location: ./system/application/controllers/welcome.php */    
+/* Location: ./system/application/controllers/welcome.php */
