@@ -1,11 +1,12 @@
 <?php
-require_once('Toast.php');
+require_once(APPPATH. 'modules/test/controllers/Toast.php');
 
-class Example_tests extends Toast
+class Bpm_simple extends Toast
 {
-	function Example_tests()
+	function Bpm_simple()
 	{
 		parent::Toast(__FILE__);
+        $this->load->model('bpm/bpm');
 		// Load any models, libraries etc. you need here
 	}
 
@@ -24,10 +25,11 @@ class Example_tests extends Toast
 
 	/* TESTS BELOW */
 
-	function test_simple_addition()
+	function test_import()
 	{
-		$var = 2 + 2;
-		$this->_assert_equals($var, 4);
+		$result=$this->bpm->import('images/zip/fondyfpp.zip');
+        $this->message =$result['msg'];
+		$this->_assert_equals_strict($result['success'], true);
 	}
 
 
