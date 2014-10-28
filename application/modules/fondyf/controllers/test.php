@@ -59,6 +59,16 @@ class test extends MX_Controller {
         echo "DNA2 ok:<br/>";
     }
 
+    function fix_assign() {
+        $query = array(
+            'idwf' => 'fondyfpp',
+            'assign' => array('$exists' => true)
+        );
+        $this->db->where($query);
+        $rs = $this->db->get('tokens')->result();
+        var_dump($rs);
+    }
+
     function fix_8339() {
         $query = json_decode('{"$and":[{"8339":{"$exists":true}},{"8339":{"$ne":""}}]}', true);
         var_dump($query);
