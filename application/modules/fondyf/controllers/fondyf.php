@@ -305,7 +305,7 @@ class Fondyf extends MX_Controller {
      */
     function status_amounts() {
         $filter['idwf'] = 'fondyfpp';
-        $querys = $this->bpm->get_amount_stats($filter);
+        $querys = $this->get_amount_stats($filter);
 
         /* OPTIONS */
         $this->load->model('app');
@@ -328,6 +328,30 @@ class Fondyf extends MX_Controller {
 
         return $cases_arr;
     }
+    
+    function get_amount_stats($filter) {
+        $this->load->model('fondyf_model');  
+        /* get ids */
+        $all_ids = array();
+        $arr_status = array();
+
+
+        $allcases = $this->bpm->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
+
+        foreach ($allcases as $case) {
+            if (isset($case['data']['Proyectos_fondyf']['query']))
+                $all_ids[] = $case['data']['Proyectos_fondyf']['query'];
+        }
+
+
+        $get_value = array_map(function ($all_ids) {
+            return $this->fondyf_model->get_amount_stats_by_id($all_ids);
+        }, $all_ids);
+
+
+
+        return $get_value;
+    }    
     
 
     /**
@@ -381,12 +405,14 @@ class Fondyf extends MX_Controller {
      * @author Diego Otero 
      */
     function evaluator_projects() {
+       $this->load->model('fondyf_model');       
         
        $output = 'array'; 
        $filter = array();
         
         $filter['idwf'] = 'fondyfpp';
-        $querys = $this->bpm->get_evaluator_by_project($filter);
+        var_dump($this->fondyf_model->get_evaluator_by_project($filter));
+        $querys = $this->fondyf_model->get_evaluator_by_project($filter);
         
         /* OPTIONS */
         $this->load->model('app');
