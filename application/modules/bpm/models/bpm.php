@@ -276,14 +276,13 @@ class Bpm extends CI_Model {
     function get_evaluator_by_project_by_id($query) {
         $rtn = array();
         $container = 'container.proyectos_fondyf';
-        $fields = array('8668', 'id', '8339', '8334');
+        $fields = array('8668', 'id', '8339');
         $query = array(8668 => array('$exists' => true));
         $rs = $this->mongo->db->$container->find($query, $fields);
         foreach ($rs as $list) {
             unset($list['_id']);
             $rtn[] = $list;
-        }               
-        
+        }
         return $rtn;
     }
 
@@ -449,7 +448,7 @@ class Bpm extends CI_Model {
         if (!isset($data['iduser']))
             $data['iduser'] = (int) $this->session->userdata('iduser');
 
-        if (!isset($idwf) or !isset($case) or !isset($resourceId)) {
+        if (!isset($idwf) or ! isset($case) or ! isset($resourceId)) {
             show_error("Can't update whith: idwf:$idwf case:$case  resourceId:$resourceId<br/>Incomplete Data.");
         }
         //$title=(isset($shape->properties->title))?$shape->properties->title;$shape->stencil->id;
@@ -1479,7 +1478,6 @@ class Bpm extends CI_Model {
 
     function assign($shape, $wf) {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
-        $debug = false;
         if ($debug)
             echo '<H1>Assign:' . $shape->properties->name . '</H1>';
         $token = $this->get_token($wf->idwf, $wf->case, $shape->resourceId);
@@ -1715,6 +1713,7 @@ class Bpm extends CI_Model {
             foreach ($shape->properties->resources->items as $rule) {
                 if ($rule->resourceassignmentexpr) {
                     $resource = $rule->resource;
+                    $type = $rule->resource_type;
                     $resourceassignmentexpr = $rule->resourceassignmentexpr;
                     $ruleEval = 'return $this->' . $resource . '->' . $resourceassignmentexpr . ';';
                     //---allow resources to be passed by JSON
@@ -1734,7 +1733,7 @@ class Bpm extends CI_Model {
                             $matches = (is_array($matches)) ? $matches : (array) $matches;
                             foreach ($matches as $iduser) {
 
-                                $rtn['assign'][] = (int) $iduser;
+                                $rtn[$type][] = (int) $iduser;
                                 if ($debug) {
                                     $user = $this->user->get_user($iduser);
                                     echo "adding user:" . $user->nick . ':' . $user->idu . ':' . $user->name . ' ' . $user->lastname . '<hr/>';
@@ -1742,21 +1741,21 @@ class Bpm extends CI_Model {
                             }
                             break;
                         case 'token':
-                            $shape = $this->get_shape_byprop(array('name' => $resourceassignmentexpr), $wf);
+                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n', "\n", $resourceassignmentexpr)), $wf);
                             if ($shape) {
                                 $token = $this->get_token($case['idwf'], $case['id'], $shape[0]->resourceId);
                                 if ($token) {
                                     if ($debug) {
                                         echo "Get Resources from BPM shape: $resourceassignmentexpr <hr/>";
                                     }
-                                    $rtn['assign'] = (isset($rtn['assign'])) ? $rtn['assign'] : array();
+                                    $rtn[$type] = (isset($rtn[$type])) ? $rtn[$type] : array();
                                     $token['assign'] = (isset($token['assign'])) ? $token['assign'] : array();
-                                    $rtn['assign'] = array_unique(array_merge($token['assign'], $rtn['assign']));
+                                    $rtn[$type] = array_unique(array_merge($token['assign'], $rtn[$type]));
                                 }
                             }
                             break;
                         case 'shape':
-                            $shape = $this->get_shape_byprop(array('name' => $resourceassignmentexpr), $wf);
+                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n', "\n", $resourceassignmentexpr)), $wf);
                             if ($shape) {
                                 $res_extra = $this->get_resources($shape, $wf, $case);
                                 if ($debug) {
@@ -1772,7 +1771,7 @@ class Bpm extends CI_Model {
                                 $matches = (json_decode($resourceassignmentexpr)) ? json_decode($resourceassignmentexpr) : eval($ruleEval);
                                 $matches = (is_array($matches)) ? $matches : (array) $matches;
                                 foreach ((array) $matches as $iduser) {
-                                    $rtn['assign'][] = (int) $iduser;
+                                    $rtn[$type][] = (int) $iduser;
                                     if ($debug) {
                                         $user = $this->user->get_user($iduser);
                                         echo "adding user:" . $user->nick . ':' . $user->idu . ':' . $user->name . ' ' . $user->lastname . '<br/>';
@@ -1793,6 +1792,11 @@ class Bpm extends CI_Model {
                 }//--end if rule
             }//---end foreach $rule
         }//---end if has assignments
+        //----make assign equals PotentialOwner if exists
+        if (isset($rtn['PotentialOwner'])) {
+            $rtn['assign'] = $rtn['PotentialOwner'];
+        }
+
         return $rtn;
     }
 
@@ -1819,7 +1823,7 @@ class Bpm extends CI_Model {
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
-        if (isset($token['idgroup']) and !isset($token['assign'])) {
+        if (isset($token['idgroup']) and ! isset($token['assign'])) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
                     $is_allowed = true;
@@ -1835,6 +1839,57 @@ class Bpm extends CI_Model {
                 echo "is_allowed=false<br/>";
         }
         return $is_allowed;
+    }
+
+    function import($file_import, $overwrite = true) {
+        $this->load->helper('file');
+        $data = pathinfo($file_import);
+        /*
+         * array (size=4)
+          'dirname' => string 'images/zip' (length=10)
+          'basename' => string 'fondyfpp.zip' (length=12)
+          'extension' => string 'zip' (length=3)
+          'filename' => string 'fondyfpp' (length=8)
+         */
+        $err = false;
+        $zip = new ZipArchive;
+        if ($zip->open($file_import) === true) {
+            $zip->extractTo('./');
+            $zip->close();
+        } else {
+            $err = true;
+            $rtnObject['msg'] = "Error can't deflate:$file_import";
+            $rtnObject['success'] = false;
+        }
+        if (!$err) {
+            $idwf = $data['filename'];
+            $filename = "images/model/$idwf.json";
+            $filename_svg = "images/svg/$idwf.svg";
+            $model = $this->bpm->model_exists($idwf);
+
+            $svg = read_file($filename_svg);
+            if ($raw = read_file($filename)) {
+                $data = json_decode($raw, false);
+//---if exists set the internal id of the old one
+                $thisModel['idwf'] = $idwf;
+                $thisModel['data'] = $data;
+                $thisModel['folder'] = 'General';
+                $thisModel['svg'] = $svg;
+                if ($model) {
+                    $this->bpm->save($idwf, $data, $svg);
+                    $rtnObject['msg'] = "Imported OK! Updated existing model: $idwf";
+                    $rtnObject['success'] = true;
+                } else {
+                    $rtnObject['msg'] = "Imported OK! New Model Created: $idwf";
+                    $rtnObject['success'] = true;
+                    $rs = $this->bpm->save_raw($thisModel);
+                }
+            } else {
+                $rtnObject['msg'] = "Error reading $file_import";
+                $rtnObject['success'] = false;
+            }
+        }//---not error
+        return $rtnObject;
     }
 
 }

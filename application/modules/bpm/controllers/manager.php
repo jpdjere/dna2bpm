@@ -252,7 +252,7 @@ class Manager extends MX_Controller {
 //                    echo '<hr/>';
                     $user = (array) $this->user->get_user($iduser);
                     foreach ($tasks as $task) {
-                        $task['date'] = date($this->lang->line('dateFmt'), strtotime($task['checkdate']));
+                        $task['date'] =date($this->lang->line('dateFmt'), strtotime($task['checkdate']));
 
                         $user['tasks'][] = $task;
                     }
@@ -296,13 +296,8 @@ class Manager extends MX_Controller {
      */
 
     function mini_status($idwf, $output = 'array', $filter = array()) {
-
-
-
         $filter['idwf'] = $idwf;
         $tokens = $this->bpm->get_cases_stats($filter);
-
-
         switch ($output) {
 
             /*
@@ -349,9 +344,9 @@ class Manager extends MX_Controller {
              * ARRAY
              */
             default:
-
                 return $tokens;
                 break;
         }
-    }   
+    }
+
 }
