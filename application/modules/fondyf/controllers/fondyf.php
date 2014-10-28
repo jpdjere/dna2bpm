@@ -294,8 +294,7 @@ class Fondyf extends MX_Controller {
 
         return $this->parser->parse('fondyf/montos_estados', $wfData, true, true);
     }
-    
-    
+
     /**
      * STATUS_AMOUNTS 
      * 
@@ -328,9 +327,9 @@ class Fondyf extends MX_Controller {
 
         return $cases_arr;
     }
-    
+
     function get_amount_stats($filter) {
-        $this->load->model('fondyf_model');  
+        $this->load->model('fondyf_model');
         /* get ids */
         $all_ids = array();
         $arr_status = array();
@@ -351,8 +350,7 @@ class Fondyf extends MX_Controller {
 
 
         return $get_value;
-    }    
-    
+    }
 
     /**
      * PROYECTS EVALUATOR 
@@ -364,21 +362,24 @@ class Fondyf extends MX_Controller {
     function projects_evaluator() {
         $this->user->authorize();
         $state = $this->evaluator_projects();
-        
-       
+
+
         foreach ($state as $key => $task) {
             $new_task = array();
             $project = null;
             foreach ($task as $each) {
-               
+
                 $user = (array) $this->user->get_user_safe($key);
                 $evaluator_info = strtoupper($user['nick']) . " (" . $user['name'] . " " . $user['lastname'] . ")";
-                
-                $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id='. $each['project_id'];
-                
+
+                $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $each['project_id'];
+
                 $projData['url'] = $this->bpm->gateway($url);
                 $projData['project_value'] = $each['project_ip'];
                 $projData['status'] = $each['status'];
+                $projData['filing_date'] = $each['filing_date'];
+                $projData['cuit'] = $each['cuit'];
+                $projData['business_name'] = $each['business_name'];
 
                 $project .= $this->parser->parse('fondyf/proyectos_evaluador_anchor', $projData, true, true);
             }
@@ -396,7 +397,7 @@ class Fondyf extends MX_Controller {
 
         return $this->parser->parse('fondyf/proyectos_evaluador', $wfData, true, true);
     }
-    
+
     /**
      * EVALUATOR PROJECTS 
      * 
@@ -405,32 +406,45 @@ class Fondyf extends MX_Controller {
      * @author Diego Otero 
      */
     function evaluator_projects() {
-       $this->load->model('fondyf_model');       
-        
-       $output = 'array'; 
-       $filter = array();
-        
+        $this->load->model('fondyf_model');
+
+        $output = 'array';
+        $filter = array();
+
         $filter['idwf'] = 'fondyfpp';
-        var_dump($this->fondyf_model->get_evaluator_by_project($filter));
         $querys = $this->fondyf_model->get_evaluator_by_project($filter);
-        
+        //var_dump($querys);exit;
+
         /* OPTIONS */
         $this->load->model('app');
         $option = $this->app->get_ops(772);
-        
-        
-        foreach ($querys[0] as $values) {
-            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+
+
+        foreach ($querys[0] as $values) {               
+            
+            $ctrl_value = (isset($values[8334][0])) ? $values[8334][0] : $values[8334];
+            
             
             $evaluator_id = $values[8668][0];
-        
-            $proyect_array = array("project_ip" => $values[8339], "project_id" => $values['id'], "status" => $ctrl_value);
+            
+            list($filing_year, $filing_month, $filing_day) = explode("/", $values[8340]);
+            $filing_date = $filing_day."/".$filing_month."/". $filing_year;            
+            
+            $company_id = floatval($values[8325][0]);           
+            $company = $this->fondyf_model->get_company_by_project_by_id($company_id);
+
+            $proyect_array = array(
+            "project_ip" => $values[8339]
+            , "project_id" => $values['id']
+            , "status" => $option[$ctrl_value]
+            , "filing_date" => $filing_date
+            , "cuit" => $company[0][1695], "business_name" => $company[0][1693]
+            );
             $cases_arr[$evaluator_id][] = $proyect_array;
         }
 
         return $cases_arr;
     }
-    
 
     function ver_ficha($idwf, $idcase, $token, $id = null) {
 
@@ -513,8 +527,8 @@ class Fondyf extends MX_Controller {
         redirect($url);
     }
 
-    function info($tipo,$idcase) {
-        $idwf='fondyfpp';
+    function info($tipo, $idcase) {
+        $idwf = 'fondyfpp';
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
         $this->load->library('bpm/ui');
@@ -541,7 +555,7 @@ class Fondyf extends MX_Controller {
 
         $data = $this->bpm->load_case_data($case, $idwf);
         $data['user'] = (array) $user;
-        
+
         //$resources = $this->bpm->get_resources($shape, $wf, $case);
         //---if has no messageref and noone is assigned then
         //---fire a message to lane or self         
@@ -556,8 +570,8 @@ class Fondyf extends MX_Controller {
 //                    $resources['assign'][] = $this->user->Initiator;
 //            }
         //---process inbox--------------
-        
-        $renderData['name'] ='Ingresar Proyecto';
+
+        $renderData['name'] = 'Ingresar Proyecto';
         $renderData['text'] = '';
         $renderData['text'] .= '<hr/>';
 //        $renderData['text'] .=nl2br();

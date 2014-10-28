@@ -19,7 +19,7 @@
                     <th>Nombre</th>
                     <th>CUIT</th>
                     <th>Estado</th>
-                    <th>Caso</th>
+                   <!-- <th>Caso</th>-->
                 </tr>
             </thead>
             <tbody>
