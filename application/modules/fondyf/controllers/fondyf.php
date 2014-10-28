@@ -54,7 +54,7 @@ class Fondyf extends MX_Controller {
 
     function tile_proyectos() {
         // ----portable indicators are stored as json files
-        $kpi = json_decode($this->load->view("fondyf/kpi/kpi_proyectos.json", '', true), true);
+        $kpi = json_decode($this->load->view("fondyf/kpi/empresa_proyectos_presentados.json", '', true), true);
         echo Modules::run('bpm/kpi/tile_kpi', $kpi);
     }
 
@@ -138,7 +138,7 @@ class Fondyf extends MX_Controller {
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
             $url_msg = (isset($token ['case'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : null;
             /* FonDyF/COORDINADOR (134) */
-            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
+            $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
 
             $url_bpm = 0;
             if (isset($url_bpm_check))
@@ -276,7 +276,7 @@ class Fondyf extends MX_Controller {
      */
     function proyects_amount() {
         $this->user->authorize();
-        $state = Modules::run('bpm/manager/status_amounts', 'fondyfpp', 'array');
+        $state = $this->status_amounts();
 
         foreach ($state as $key => $task) {
             $new_task = array();
@@ -294,6 +294,65 @@ class Fondyf extends MX_Controller {
 
         return $this->parser->parse('fondyf/montos_estados', $wfData, true, true);
     }
+    
+    
+    /**
+     * STATUS_AMOUNTS 
+     * 
+     * Description Calculate the amount  of money  in projects grouped by status 
+     * name status_amounts
+     * @author Diego Otero 
+     */
+    function status_amounts() {
+        $filter['idwf'] = 'fondyfpp';
+        $querys = $this->get_amount_stats($filter);
+
+        /* OPTIONS */
+        $this->load->model('app');
+        $option = $this->app->get_ops(772);
+
+        foreach ($querys as $values) {
+
+            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+            $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
+            $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
+
+
+            $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
+
+            foreach ($option as $opt => $desc) {
+                if ($opt == $ctrl_value)
+                    $cases_arr[$desc][] = (float) $amount;
+            }
+        }
+
+        return $cases_arr;
+    }
+    
+    function get_amount_stats($filter) {
+        $this->load->model('fondyf_model');  
+        /* get ids */
+        $all_ids = array();
+        $arr_status = array();
+
+
+        $allcases = $this->bpm->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
+
+        foreach ($allcases as $case) {
+            if (isset($case['data']['Proyectos_fondyf']['query']))
+                $all_ids[] = $case['data']['Proyectos_fondyf']['query'];
+        }
+
+
+        $get_value = array_map(function ($all_ids) {
+            return $this->fondyf_model->get_amount_stats_by_id($all_ids);
+        }, $all_ids);
+
+
+
+        return $get_value;
+    }    
+    
 
     /**
      * PROYECTS EVALUATOR 
@@ -304,19 +363,22 @@ class Fondyf extends MX_Controller {
      */
     function projects_evaluator() {
         $this->user->authorize();
-        $state = Modules::run('bpm/manager/evaluator_projects', 'fondyfpp', 'array');
-
+        $state = $this->evaluator_projects();
+        
+       
         foreach ($state as $key => $task) {
             $new_task = array();
-
+            $project = null;
             foreach ($task as $each) {
+               
                 $user = (array) $this->user->get_user_safe($key);
-                $evaluator_info = strtoupper($user['nick']) . "<br> (" . $user['name'] . " " . $user['lastname'] . ")";
+                $evaluator_info = strtoupper($user['nick']) . " (" . $user['name'] . " " . $user['lastname'] . ")";
                 
                 $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id='. $each['project_id'];
                 
                 $projData['url'] = $this->bpm->gateway($url);
                 $projData['project_value'] = $each['project_ip'];
+                $projData['status'] = $each['status'];
 
                 $project .= $this->parser->parse('fondyf/proyectos_evaluador_anchor', $projData, true, true);
             }
@@ -334,6 +396,41 @@ class Fondyf extends MX_Controller {
 
         return $this->parser->parse('fondyf/proyectos_evaluador', $wfData, true, true);
     }
+    
+    /**
+     * EVALUATOR PROJECTS 
+     * 
+     * Description 
+     * name evaluator_projects
+     * @author Diego Otero 
+     */
+    function evaluator_projects() {
+       $this->load->model('fondyf_model');       
+        
+       $output = 'array'; 
+       $filter = array();
+        
+        $filter['idwf'] = 'fondyfpp';
+        var_dump($this->fondyf_model->get_evaluator_by_project($filter));
+        $querys = $this->fondyf_model->get_evaluator_by_project($filter);
+        
+        /* OPTIONS */
+        $this->load->model('app');
+        $option = $this->app->get_ops(772);
+        
+        
+        foreach ($querys[0] as $values) {
+            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+            
+            $evaluator_id = $values[8668][0];
+        
+            $proyect_array = array("project_ip" => $values[8339], "project_id" => $values['id'], "status" => $ctrl_value);
+            $cases_arr[$evaluator_id][] = $proyect_array;
+        }
+
+        return $cases_arr;
+    }
+    
 
     function ver_ficha($idwf, $idcase, $token, $id = null) {
 

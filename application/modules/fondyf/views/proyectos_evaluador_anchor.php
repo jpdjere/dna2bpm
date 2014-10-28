@@ -1,1 +1,11 @@
-<p><a href="{url}" target="_blank">{project_value}</a></p>
+{if {project_value}!=""}           
+<tr>
+    <td class="center"> {project_value}
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+{/if}
