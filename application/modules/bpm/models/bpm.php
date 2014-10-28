@@ -18,6 +18,7 @@ class Bpm extends CI_Model {
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         $this->load->config('bpm/config');
+        $this->load->model('fondyf/fondyf');
     }
 
     function load($idwf, $replace = false) {
@@ -232,80 +233,7 @@ class Bpm extends CI_Model {
         return $all_tokens;
     }
 
-    /* MONTOS POR ESTADO */
-
-    function get_amount_stats_by_id($query) {
-        $rtn = array();
-        $container = 'container.proyectos_fondyf';
-        $fields = array('8334', '8326', '8573');
-        $rs = $this->mongo->db->$container->find($query, $fields);
-        foreach ($rs as $list) {
-            unset($list['_id']);
-            $rtn[] = $list;
-        }
-        return $rtn;
-    }
-
-    function get_amount_stats($filter) {
-
-        /* get ids */
-        $all_ids = array();
-        $arr_status = array();
-
-
-        $allcases = $this->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
-
-
-
-        foreach ($allcases as $case) {
-            if (isset($case['data']['Proyectos_fondyf']['query']))
-                $all_ids[] = $case['data']['Proyectos_fondyf']['query'];
-        }
-
-
-        $get_value = array_map(function ($all_ids) {
-            return $this->get_amount_stats_by_id($all_ids);
-        }, $all_ids);
-
-
-
-        return $get_value;
-    }
-
-    function get_evaluator_by_project_by_id($query) {
-        $rtn = array();
-        $container = 'container.proyectos_fondyf';
-        $fields = array('8668', 'id', '8339');
-        $query = array(8668 => array('$exists' => true));
-        $rs = $this->mongo->db->$container->find($query, $fields);
-        foreach ($rs as $list) {
-            unset($list['_id']);
-            $rtn[] = $list;
-        }
-        return $rtn;
-    }
-
-    function get_evaluator_by_project($filter) {
-
-
-        /* get ids */
-        $all_ids = array();
-        $arr_status = array();
-
-        $allcases = $this->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
-
-        foreach ($allcases as $case) {
-            if (isset($case['data']['Proyectos_fondyf']['query']))
-                $all_ids[] = $case['data']['Proyectos_fondyf']['query'];
-        }
-
-
-        $get_value = array_map(function ($all_ids) {
-            return $this->get_evaluator_by_project_by_id($all_ids);
-        }, $all_ids);
-
-        return $get_value;
-    }
+       
 
     function get_cases($user = null, $offset = 0, $limit = null, $filter_status = array()) {
         $data = array(
@@ -445,7 +373,7 @@ class Bpm extends CI_Model {
         if (!isset($data['iduser']))
             $data['iduser'] = (int) $this->session->userdata('iduser');
 
-        if (!isset($idwf) or !isset($case) or !isset($resourceId)) {
+        if (!isset($idwf) or ! isset($case) or ! isset($resourceId)) {
             show_error("Can't update whith: idwf:$idwf case:$case  resourceId:$resourceId<br/>Incomplete Data.");
         }
         //$title=(isset($shape->properties->title))?$shape->properties->title;$shape->stencil->id;
@@ -1820,7 +1748,7 @@ class Bpm extends CI_Model {
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
-        if (isset($token['idgroup']) and !isset($token['assign'])) {
+        if (isset($token['idgroup']) and ! isset($token['assign'])) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
                     $is_allowed = true;
@@ -1836,6 +1764,57 @@ class Bpm extends CI_Model {
                 echo "is_allowed=false<br/>";
         }
         return $is_allowed;
+    }
+
+    function import($file_import, $overwrite = true) {
+        $this->load->helper('file');
+        $data = pathinfo($file_import);
+        /*
+         * array (size=4)
+          'dirname' => string 'images/zip' (length=10)
+          'basename' => string 'fondyfpp.zip' (length=12)
+          'extension' => string 'zip' (length=3)
+          'filename' => string 'fondyfpp' (length=8)
+         */
+        $err = false;
+        $zip = new ZipArchive;
+        if ($zip->open($file_import) === true) {
+            $zip->extractTo('./');
+            $zip->close();
+        } else {
+            $err = true;
+            $rtnObject['msg'] = "Error can't deflate:$file_import";
+            $rtnObject['success'] = false;
+        }
+        if (!$err) {
+            $idwf = $data['filename'];
+            $filename = "images/model/$idwf.json";
+            $filename_svg = "images/svg/$idwf.svg";
+            $model = $this->bpm->model_exists($idwf);
+
+            $svg = read_file($filename_svg);
+            if ($raw = read_file($filename)) {
+                $data = json_decode($raw, false);
+//---if exists set the internal id of the old one
+                $thisModel['idwf'] = $idwf;
+                $thisModel['data'] = $data;
+                $thisModel['folder'] = 'General';
+                $thisModel['svg'] = $svg;
+                if ($model) {
+                    $this->bpm->save($idwf, $data, $svg);
+                    $rtnObject['msg'] = "Imported OK! Updated existing model: $idwf";
+                    $rtnObject['success'] = true;
+                } else {
+                    $rtnObject['msg'] = "Imported OK! New Model Created: $idwf";
+                    $rtnObject['success'] = true;
+                    $rs = $this->bpm->save_raw($thisModel);
+                }
+            } else {
+                $rtnObject['msg'] = "Error reading $file_import";
+                $rtnObject['success'] = false;
+            }
+        }//---not error
+        return $rtnObject;
     }
 
 }

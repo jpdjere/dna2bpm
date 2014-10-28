@@ -1,5 +1,5 @@
 <?php
-require_once('Toast.php');
+require_once(APPPATH. 'modules/test/controllers/Toast.php');
 
 class Example_tests extends Toast
 {

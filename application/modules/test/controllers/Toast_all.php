@@ -21,7 +21,7 @@ class Toast_all extends MX_Controller {
 
     // The folder INSIDE /controllers/ where the test classes are located
     // TODO: autoset
-    var $test_dir = '/test/';
+    var $test_dir = '/tests/';
     // Files to skip (ie. non-test classes) inside the test dir
     var $skip = array(
         'Toast.php',
@@ -46,9 +46,11 @@ class Toast_all extends MX_Controller {
         $this->load->helper('url');
         $test_urls = array();
         foreach ($test_files as $file) {
-            $test_urls[] = site_url($this->test_dir . $file . '/show_results');
+            $test_urls[] = site_url('test/'.$this->test_dir . $file . '/show_results');
         }
-
+//        var_dump($test_urls);
+//        exit;
+        
         // Load header
         $output .= $this->load->view('test/header', NULL, TRUE);
 
