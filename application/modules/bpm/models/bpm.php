@@ -18,6 +18,7 @@ class Bpm extends CI_Model {
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         $this->load->config('bpm/config');
+        $this->load->model('fondyf/fondyf');
     }
 
     function load($idwf, $replace = false) {
@@ -287,6 +288,8 @@ class Bpm extends CI_Model {
     }
 
     function get_evaluator_by_project($filter) {
+        
+         
 
 
         /* get ids */

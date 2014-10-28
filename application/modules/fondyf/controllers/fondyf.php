@@ -276,7 +276,7 @@ class Fondyf extends MX_Controller {
      */
     function proyects_amount() {
         $this->user->authorize();
-        $state = Modules::run('bpm/manager/status_amounts', 'fondyfpp', 'array');
+        $state = $this->status_amounts();
 
         foreach ($state as $key => $task) {
             $new_task = array();
@@ -294,6 +294,41 @@ class Fondyf extends MX_Controller {
 
         return $this->parser->parse('fondyf/montos_estados', $wfData, true, true);
     }
+    
+    
+    /**
+     * STATUS_AMOUNTS 
+     * 
+     * Description Calculate the amount  of money  in projects grouped by status 
+     * name status_amounts
+     * @author Diego Otero 
+     */
+    function status_amounts() {
+        $filter['idwf'] = 'fondyfpp';
+        $querys = $this->bpm->get_amount_stats($filter);
+
+        /* OPTIONS */
+        $this->load->model('app');
+        $option = $this->app->get_ops(772);
+
+        foreach ($querys as $values) {
+
+            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+            $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
+            $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
+
+
+            $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
+
+            foreach ($option as $opt => $desc) {
+                if ($opt == $ctrl_value)
+                    $cases_arr[$desc][] = (float) $amount;
+            }
+        }
+
+        return $cases_arr;
+    }
+    
 
     /**
      * PROYECTS EVALUATOR 
@@ -304,7 +339,7 @@ class Fondyf extends MX_Controller {
      */
     function projects_evaluator() {
         $this->user->authorize();
-        $state = Modules::run('bpm/manager/evaluator_projects', 'fondyfpp', 'array');
+        $state = $this->evaluator_projects();
         
        
         foreach ($state as $key => $task) {
@@ -337,6 +372,39 @@ class Fondyf extends MX_Controller {
 
         return $this->parser->parse('fondyf/proyectos_evaluador', $wfData, true, true);
     }
+    
+    /**
+     * EVALUATOR PROJECTS 
+     * 
+     * Description 
+     * name evaluator_projects
+     * @author Diego Otero 
+     */
+    function evaluator_projects() {
+        
+       $output = 'array'; 
+       $filter = array();
+        
+        $filter['idwf'] = 'fondyfpp';
+        $querys = $this->bpm->get_evaluator_by_project($filter);
+        
+        /* OPTIONS */
+        $this->load->model('app');
+        $option = $this->app->get_ops(772);
+        
+        
+        foreach ($querys[0] as $values) {
+            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+            
+            $evaluator_id = $values[8668][0];
+        
+            $proyect_array = array("project_ip" => $values[8339], "project_id" => $values['id'], "status" => $ctrl_value);
+            $cases_arr[$evaluator_id][] = $proyect_array;
+        }
+
+        return $cases_arr;
+    }
+    
 
     function ver_ficha($idwf, $idcase, $token, $id = null) {
 
