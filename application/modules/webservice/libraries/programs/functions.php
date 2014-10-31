@@ -30,6 +30,8 @@ class Functions extends CI_Model {
         $rtnVal = (isset($result[$idframe])) ? $result[$idframe] : null;
         return $rtnVal;
     }
+    
+    
 
 }
 
@@ -38,4 +40,3 @@ class Functions extends CI_Model {
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
