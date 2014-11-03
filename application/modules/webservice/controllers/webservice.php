@@ -24,8 +24,7 @@ class Webservice extends MX_Controller {
         /* PROGRAM CLASSES */
         $this->load->library("programs/crefis");
         $this->crefis = new crefis();
-        $crefis_monto = $this->crefis->monto("50");
-
+        
 
         $programas = array(
             'creFis'
@@ -105,7 +104,7 @@ class Webservice extends MX_Controller {
 
                     if (isset($idopcion))
                         $arr_estados = $this->app->get_ops($idopcion);
-
+                }
 
                     foreach ($id_proyectos as $idrel) {
 
@@ -159,7 +158,7 @@ class Webservice extends MX_Controller {
 //				<td class="col-8">' . $idrel . '</td></tr>';
 //                        }
                     }
-                }
+                
             }
 
 
@@ -171,7 +170,7 @@ class Webservice extends MX_Controller {
 
 
 
-        return "<p>sandbox</p>" . $show_msg; //$crefis_monto;
+        return "<p>sandbox</p>" . $show_msg; 
     }
 
     function test_getvalue($id, $idframe) {
