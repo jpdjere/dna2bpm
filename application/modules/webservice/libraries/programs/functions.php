@@ -30,9 +30,6 @@ class Functions extends CI_Model {
         $rtnVal = (isset($result[$idframe])) ? $result[$idframe] : null;
         return $rtnVal;
     }
-    
-    
-
 }
 
 /* 
