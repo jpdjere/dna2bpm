@@ -31,10 +31,11 @@ class Webservice extends MX_Controller {
         /* PROGRAM CLASSES */    	
         $this->load->library("programs/crefis");
         $this->load->library("programs/crefis_ucap");
+        $this->load->library("programs/sgr");
         
 
         $programas = array(
-            'creFis', 'CreFis_UCAP'
+            'creFis', 'CreFis_UCAP', 'SGR' 
         );
 
         
@@ -73,7 +74,7 @@ class Webservice extends MX_Controller {
                     $id_proyectos = $this->search4rel($id, $programa->where);
                 }*/
                 
-                $id_proyectos = array('1757988261', '1462625477','3187435506','2408249502');
+                $id_proyectos = array('1157516869','449799308','2553133622');
 
                 
 
