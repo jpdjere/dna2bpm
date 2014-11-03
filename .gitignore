@@ -9,4 +9,6 @@
 /.buildpath
 /.project
 .settings/
+.project
+.buildpath
 /anexos_sgr/
