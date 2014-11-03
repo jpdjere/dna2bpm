@@ -3,8 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-
-
+require_once 'functions.php';
 class CreFis {
 
 	public $nombre = 'Credito Fiscal';
