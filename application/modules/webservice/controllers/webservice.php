@@ -111,18 +111,18 @@ class Webservice extends MX_Controller {
 
                         $ip = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->id) : null;
 
-                        if (isset($ip)) {
-                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
+//                        if (isset($ip)) {
+//                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
+//
+//
+////                            if (($programa->estado != 0)) {
+////                                $estado_value = $this->test_getvalue($idrel, $programa->estado);
+////                                $estado_opt = $this->app->get_ops($programa->estado);
+////                                $estado = $estado_opt[$estado_value];
+////                            }
+//                        }
 
-
-                            if (($programa->estado != 0)) {
-                                $estado_value = $this->test_getvalue($idrel, $programa->estado);
-                                $estado_opt = $this->app->get_ops($programa->estado);
-                                $estado = $estado_opt[$estado_value];
-                            }
-                        }
-
-                        var_dump($idrel, $estado);
+                        var_dump($idrel);
 
                         //
 //                        if (isset($ip)) {
