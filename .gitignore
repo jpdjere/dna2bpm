@@ -8,5 +8,7 @@
 /tests/
 /.buildpath
 /.project
-/.settings/
+.settings/
+.project
+.buildpath
 /anexos_sgr/
