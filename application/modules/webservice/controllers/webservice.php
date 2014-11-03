@@ -11,61 +11,41 @@ if (!defined('BASEPATH'))
  * @author Diego Otero <xxcynicxx@gmail.com>
  * @date   Oct 21, 2014
  */
+
+
+
 class Webservice extends MX_Controller {
 
     function __construct() {
         $dbconnect = $this->load->database('dna2');
         $this->load->model('app');
+        $this->load->library("programs/functions");
     }
 
+    
+    
+    
+    
     public function msg() {
 
-
-        /* PROGRAM CLASSES */
+        /* PROGRAM CLASSES */    	
         $this->load->library("programs/crefis");
-        $this->crefis = new crefis();
-        $crefis_monto = $this->crefis->monto("50");
-
+        $this->load->library("programs/crefis_ucap");
+        $this->load->library("programs/sgr");
+        
 
         $programas = array(
-            'creFis'
+            'creFis', 'CreFis_UCAP', 'SGR' 
         );
 
-
-        $get_cuit = array('27-06508092-9', '30-71027733-4');
-        $msg = null;
+        
+        
         $show_msg = null;
 
+           
+            $show_msg .= '<hr/>';
 
-        if ($get_cuit) {
-            $empresas = array('27-06508092-9', '30-71027733-4'); //explode(',', $get_cuit);
-        } else {
-            $this->db->select('*');
-            $query = $this->db->get('empresas_repro');
-            foreach ($query->result() as $row)
-                $empresas[] = $row->CUIT;
-        }
-
-
-
-        foreach ($empresas as $CUIT) {
-            $cuit = explode('-', $CUIT);
-
-            $id = -1;
-            $msg = '<span class="error">No encontrado</span>';
-
-            $this->db->select('*');
-            $this->db->where('idpreg', 1695);
-            $this->db->like('valor', '%' . $cuit[1] . '%');
-            $query = $this->db->get('td_empresas');
-            foreach ($query->result() as $row_cuit) {
-                $id = $row_cuit->id;
-                $msg = '<br/><span class="ok">Encontrado: ' . getvalue($id, 1693) . ' id:' . $id . '</span>';
-            }
-
-            $show_msg .= '<hr/>' . $CUIT . ':' . $msg;
-
-            $show_msg .= '<table class="tablesorter" id="table_C6659_1' . $cuit[1] . '">
+            $show_msg .= '<table class="tablesorter" id="table_C6659_1">
 		<thead>
 			<tr class="row-0">
 				<th width="80" class="{sorter: false} hcol-0"></th>
@@ -88,90 +68,80 @@ class Webservice extends MX_Controller {
                 $programa = new $nombre();
 
 
-                if ($programa->self) {
+                /*if ($programa->self) {
                     $id_proyectos = $this->search4relSelf($id, $programa->where);
                 } else {
                     $id_proyectos = $this->search4rel($id, $programa->where);
-                }
+                }*/
+                
+                $id_proyectos = array('1157516869','449799308','2553133622');
 
-                if ($programa->estado != 0) {
-                    $this->db->select('*');
-                    $this->db->where('idpreg', $programa->estado);
-                    $query = $this->db->get('preguntas');
-                    foreach ($query->result() as $row)
-                        $idopcion = $row->idopcion;
-
-                    $arr_estados = array();
-
-                    if (isset($idopcion))
-                        $arr_estados = $this->app->get_ops($idopcion);
-
+                
 
                     foreach ($id_proyectos as $idrel) {
 
                         $ip = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->id) : null;
 
-//                        if (isset($ip)) {
-//                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
-//
-//
-////                            if (($programa->estado != 0)) {
-////                                $estado_value = $this->test_getvalue($idrel, $programa->estado);
-////                                $estado_opt = $this->app->get_ops($programa->estado);
-////                                $estado = $estado_opt[$estado_value];
-////                            }
-//                        }
+                        if (isset($ip)) {
+                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
 
-                        var_dump($idrel);
 
-                        //
-//                        if (isset($ip)) {
-//                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
-//                            $estado = ($programa->estado != 0) ? $this->test_getvalue($idrel, $programa->estado) : "";
-//                           // $monto = $programa->monto($idrel);
-//                            $fecha = '';
-//
-////                            $estados = ($programa->estado != 0) ? $this->test_gethist($idrel, $programa->estado) : array();
-////                            if (is_array($estados)) {
-////                                asort($estados);
-////                                foreach ($estados as $estado => $fecha) {
-////                                    $fecha = date('d/m/Y', strtotime($fecha));
-////                                }
-////                            }
-//                            
-//                            $basedir = null;
-//                            $monto = null;
-//
-//                            $show_msg .= '<tr class="row-1"	id="child_C6659' . $cuit[1] . '_1">
-//				<td class="col-0"><a class="subformPreview" title="Ver Datos" href="' . $basedir . '/' . $programa->url . '>&id=' . $idrel . '"
-//					target="_blank"><img border="0" align="absmiddle" alt="Ver Datos"
-//						src="http://www.accionpyme.mecon.gov.ar/dna2/Icons/24x24/Document 2 Search.gif"></a>
-//				</td>
-//				<td class="col-1">';
-//                            $show_msg .= $programa->nombre;
-//                            $show_msg .= '</td>
-//				<td class="col-2">' . $ip . '</td>
-//				<td class="col-3">' . $titulo . '</td>
-//				<td class="col-4">' . $monto . '</td>
-//				<td class="col-5">' . $fecha . '</td>
-//				<td class="col-6">' . $arr_estados[$estado] . '(' . $estado . ')</td>
-//				<td class="col-7">' . $programa->monto($idrel) . '</td>
-//				<td class="col-8">' . $idrel . '</td></tr>';
-//                        }
+                            if (($programa->estado != 0)) {
+                                $estado_value = $this->test_getvalue($idrel, $programa->estado);
+                                $estado_opt = $this->app->get_ops($programa->estado);
+                                $estado = $estado_opt[$estado_value];
+                            }
+                        }
+
+                       
+                        
+                        if (isset($ip)) {
+                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
+                            $estado = ($programa->estado != 0) ? $this->test_getvalue($idrel, $programa->estado) : "";
+                            $monto = $programa->monto($idrel);
+                            $fecha = '';
+
+                            $estados = ($programa->estado != 0) ? $this->test_gethist($idrel, $programa->estado) : array();
+                            if (is_array($estados)) {
+                                asort($estados);
+                                foreach ($estados as $estado => $fecha) {
+                                    $fecha = date('d/m/Y', strtotime($fecha));
+                                }
+                            }
+                            
+                            $basedir = null;
+                            $monto = null;
+
+                            $show_msg .= '<tr class="row-1"	id="child_C6659_1">
+				<td class="col-0"><a class="subformPreview" title="Ver Datos" href="' . $basedir . '/' . $programa->url . '>&id=' . $idrel . '"
+					target="_blank"><img border="0" align="absmiddle" alt="Ver Datos"
+						src="http:www.accionpyme.mecon.gov.ar/dna2/Icons/24x24/Document 2 Search.gif"></a>
+				</td>
+				<td class="col-1">';
+                            $show_msg .= $programa->nombre;
+                            $show_msg .= '</td>
+				<td class="col-2">' . $ip . '</td>
+				<td class="col-3">' . $titulo . '</td>
+				<td class="col-4">' . $monto . '</td>
+				<td class="col-5">' . $fecha . '</td>
+				<td class="col-6">' . $arr_estados[$estado] . '(' . $estado . ')</td>
+				<td class="col-7">' . $programa->monto($idrel) . '</td>
+				<td class="col-8">' . $idrel . '</td></tr>';
+                        }
                     }
-                }
+                
             }
 
 
             $show_msg .= ' </tbody></table>';
-        }
+        
 
 
 
 
 
 
-        return "<p>sandbox</p>" . $show_msg; //$crefis_monto;
+        return "<p>sandbox</p>" . $show_msg; 
     }
 
     function test_getvalue($id, $idframe) {

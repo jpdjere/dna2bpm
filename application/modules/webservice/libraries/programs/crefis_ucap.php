@@ -5,23 +5,20 @@ if (!defined('BASEPATH'))
 
 
 
-class CreFis {
-
-	public $nombre = 'Credito Fiscal';
+// ---pegada como UCAP
+class CreFis_UCAP {
+	public $nombre = 'Credito Fiscal - UCAP';
 	public $cod = 'CreFis';
 	public $where = array (
-			4844,
-			4845
+			4846
 	);
 	public $id = 4837;
 	public $titulo = 4842;
-	public $url = 'RenderEdit/editnew.php?idvista=3133&origen=V&idap=7';
+	public $url = 'frontcustom/231/interno.print.php?a=1';
 	public $estado = 4970;
-	public $self = false; // si es true son empresas si no otra entidad
 
 	function monto($idrel) {
 		return getvalue ( $idrel, 5040 );
 	}
 
 }
-
