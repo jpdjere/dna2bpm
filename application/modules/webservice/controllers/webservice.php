@@ -11,6 +11,25 @@ if (!defined('BASEPATH'))
  * @author Diego Otero <xxcynicxx@gmail.com>
  * @date   Oct 21, 2014
  */
+
+class CreFis_UCAP {
+
+	public $nombre = 'Credito Fiscal - UCAP';
+	public $cod = 'CreFis';
+	public $where = array (
+			4846
+	);
+	public $id = 4837;
+	public $titulo = 4842;
+	public $url = 'frontcustom/231/interno.print.php?a=1';
+	public $estado = 4970;
+
+	function monto($idrel) {
+		return getvalue ( $idrel, 5040 );
+	}
+
+}
+
 class Webservice extends MX_Controller {
 
     function __construct() {
@@ -18,16 +37,19 @@ class Webservice extends MX_Controller {
         $this->load->model('app');
     }
 
+    
+    
+    
+    
     public function msg() {
 
 
         /* PROGRAM CLASSES */
         $this->load->library("programs/crefis");
-        $this->crefis = new crefis();
         
 
         $programas = array(
-            'creFis'
+            'creFis', 'CreFis_UCAP'
         );
 
 
@@ -87,11 +109,13 @@ class Webservice extends MX_Controller {
                 $programa = new $nombre();
 
 
-                if ($programa->self) {
+                /*if ($programa->self) {
                     $id_proyectos = $this->search4relSelf($id, $programa->where);
                 } else {
                     $id_proyectos = $this->search4rel($id, $programa->where);
-                }
+                }*/
+                
+                $id_proyectos = array('1757988261', '1462625477','3187435506','2408249502');
 
                 if ($programa->estado != 0) {
                     $this->db->select('*');
