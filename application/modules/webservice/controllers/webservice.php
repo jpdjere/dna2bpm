@@ -11,41 +11,61 @@ if (!defined('BASEPATH'))
  * @author Diego Otero <xxcynicxx@gmail.com>
  * @date   Oct 21, 2014
  */
-
-
-
 class Webservice extends MX_Controller {
 
     function __construct() {
         $dbconnect = $this->load->database('dna2');
         $this->load->model('app');
-        $this->load->library("programs/functions");
     }
 
-    
-    
-    
-    
     public function msg() {
 
-        /* PROGRAM CLASSES */    	
+
+        /* PROGRAM CLASSES */
         $this->load->library("programs/crefis");
         $this->load->library("programs/crefis_ucap");
         $this->load->library("programs/sgr");
-        
+
 
         $programas = array(
-            'creFis', 'CreFis_UCAP', 'SGR' 
+            'creFis', 'CreFis_UCAP', 'SGR'
         );
 
-        
-        
+
+        $get_cuit = array('20-24006411-2', '30-70951279-6', '20-25366263-9');
+        $msg = null;
         $show_msg = null;
 
-           
-            $show_msg .= '<hr/>';
 
-            $show_msg .= '<table class="tablesorter" id="table_C6659_1">
+        if ($get_cuit) {
+            $empresas = $get_cuit;
+        } else {
+            $this->db->select('*');
+            $query = $this->db->get('empresas_repro');
+            foreach ($query->result() as $row)
+                $empresas[] = $row->CUIT;
+        }
+
+
+
+        foreach ($empresas as $CUIT) {
+            $cuit = explode('-', $CUIT);
+
+            $id = -1;
+            $msg = '<span class="error">No encontrado</span>';
+
+            $this->db->select('*');
+            $this->db->where('idpreg', 1695);
+            $this->db->like('valor', '%' . $cuit[1] . '%');
+            $query = $this->db->get('td_empresas');
+            foreach ($query->result() as $row_cuit) {
+                $id = $row_cuit->id;
+                $msg = '<br/><span class="ok">Encontrado: ' . getvalue($id, 1693) . ' id:' . $id . '</span>';
+            }
+
+            $show_msg .= '<hr/>' . $CUIT . ':' . $msg;
+
+            $show_msg .= '<table class="tablesorter" id="table_C6659_1' . $cuit[1] . '">
 		<thead>
 			<tr class="row-0">
 				<th width="80" class="{sorter: false} hcol-0"></th>
@@ -68,15 +88,24 @@ class Webservice extends MX_Controller {
                 $programa = new $nombre();
 
 
-                /*if ($programa->self) {
+                if ($programa->self) {
                     $id_proyectos = $this->search4relSelf($id, $programa->where);
                 } else {
                     $id_proyectos = $this->search4rel($id, $programa->where);
-                }*/
-                
-                $id_proyectos = array('1157516869','449799308','2553133622');
+                }
 
-                
+                if ($programa->estado != 0) {
+                    $this->db->select('*');
+                    $this->db->where('idpreg', $programa->estado);
+                    $query = $this->db->get('preguntas');
+                    foreach ($query->result() as $row)
+                        $idopcion = $row->idopcion;
+
+                    $arr_estados = array();
+
+                    if (isset($idopcion))
+                        $arr_estados = $this->app->get_ops($idopcion);
+
 
                     foreach ($id_proyectos as $idrel) {
 
@@ -93,8 +122,8 @@ class Webservice extends MX_Controller {
                             }
                         }
 
-                       
-                        
+
+
                         if (isset($ip)) {
                             $titulo = $this->test_getvalue($idrel, $programa->titulo);
                             $estado = ($programa->estado != 0) ? $this->test_getvalue($idrel, $programa->estado) : "";
@@ -108,16 +137,17 @@ class Webservice extends MX_Controller {
                                     $fecha = date('d/m/Y', strtotime($fecha));
                                 }
                             }
-                            
+
                             $basedir = null;
                             $monto = null;
 
-                            $show_msg .= '<tr class="row-1"	id="child_C6659_1">
-				<td class="col-0"><a class="subformPreview" title="Ver Datos" href="' . $basedir . '/' . $programa->url . '>&id=' . $idrel . '"
-					target="_blank"><img border="0" align="absmiddle" alt="Ver Datos"
-						src="http:www.accionpyme.mecon.gov.ar/dna2/Icons/24x24/Document 2 Search.gif"></a>
+                            $show_msg .= '<tr class="row-1"	id="child_C6659' . $cuit[1] . '_1">
+											<td class="col-0"><a class="subformPreview" title="Ver Datos" href="' . $basedir . '/' . $programa->url . '>&id=' . $idrel . '"
+											target="_blank"><img border="0" align="absmiddle" alt="Ver Datos"
+											src="http:www.accionpyme.mecon.gov.ar/dna2/Icons/24x24/Document 2 Search.gif"></a>
 				</td>
 				<td class="col-1">';
+                            
                             $show_msg .= $programa->nombre;
                             $show_msg .= '</td>
 				<td class="col-2">' . $ip . '</td>
@@ -129,19 +159,20 @@ class Webservice extends MX_Controller {
 				<td class="col-8">' . $idrel . '</td></tr>';
                         }
                     }
-                
+                }
             }
 
 
             $show_msg .= ' </tbody></table>';
-        
+        }
 
 
 
 
 
 
-        return "<p>sandbox</p>" . $show_msg; 
+        return "<p>sandbox</p>" . $show_msg;
+        $crefis_monto;
     }
 
     function test_getvalue($id, $idframe) {
