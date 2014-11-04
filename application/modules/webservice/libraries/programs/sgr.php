@@ -9,6 +9,7 @@ class SGR {
     
     // tipo operacion 5779
     public $nombre = 'SGR';
+    public $tabladest = 'td_sgr';
     public $cod = 'SGR';
     public $where = array (
             5272 

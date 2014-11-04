@@ -24,16 +24,15 @@ class Webservice extends MX_Controller {
 
         /* PROGRAM CLASSES */
         $this->load->library("programs/crefis");
-        /* $this->load->library("programs/crefis_ucap");
-          $this->load->library("programs/sgr"); */
+        $this->load->library("programs/crefis_ucap");
+        $this->load->library("programs/sgr");
+        $this->load->library("programs/ksemilla");
 
 
-        $programas = array(
-            'creFis','ksemilla'/* , 'CreFis_UCAP', 'SGR' */
-        );
+        $programas = array('SGR', 'creFis', 'KSEMILLA'/* , 'CreFis_UCAP', 'SGR' */);
 
 
-        $get_cuit = array('20-29592934-1', '30-70366211-7', '30-71025327-3');
+        $get_cuit = array('30-70150829-3'); // array('20-29592934-1', '30-70366211-7', '30-71025327-3');
         $msg = null;
         $show_msg = null;
 
@@ -86,17 +85,21 @@ class Webservice extends MX_Controller {
 		</thead>
 		<tbody>';
 
+
+
             foreach ($programas as $nombre) {
-                $id_proyectos = array();                
-                $this->load->library("programs/" . $nombre);
+                $id_proyectos = array();
                 $programa = new $nombre();
 
 
                 if ($programa->self) {
+
                     $id_proyectos = $this->search4relSelf($id, $programa->where, $programa->tabladest);
                 } else {
                     $id_proyectos = $this->search4rel($id, $programa->where, $programa->tabladest);
                 }
+
+                var_dump($id_proyectos);
 
                 foreach ($id_proyectos as $idrel) {
                     if ($programa->estado != 0) {
@@ -201,7 +204,7 @@ class Webservice extends MX_Controller {
             $this->db->where('idpreg', $idpreg);
             $this->db->where('estado', 'activa');
             $this->db->where($table . '.id', $id);
-            
+
             $query = $this->db->get($table);
             $parameter = array();
             foreach ($query->result() as $newrow) {
@@ -219,7 +222,7 @@ class Webservice extends MX_Controller {
             $this->db->join('idsent', 'idsent.id = ' . $table . '.id', 'inner');
             $this->db->where('idpreg', $idpreg);
             $this->db->where('estado', 'activa');
-            $this->db->where($table . '.id', $id);           
+            $this->db->where($table . '.id', $id);
 
             $query = $this->db->get($table);
             $parameter = array();
