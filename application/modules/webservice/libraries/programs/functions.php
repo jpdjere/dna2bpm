@@ -7,11 +7,10 @@ class Functions extends CI_Model {
 
     function __construct() {
         parent::__construct();
-        $this->idu = (int) $this->session->userdata('iduser');
-        
+        $this->idu = (int) $this->session->userdata('iduser');        
     }
 
-    function getvalue($id, $idframe) {           
+    function getvalue($id, $idframe) {          
         
         $rtnVal = null;
         $result = null;

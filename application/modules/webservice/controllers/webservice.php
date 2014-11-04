@@ -20,20 +20,20 @@ class Webservice extends MX_Controller {
     }
 
     public function msg() {
-	
+
 
         /* PROGRAM CLASSES */
         $this->load->library("programs/crefis");
-        $this->load->library("programs/crefis_ucap");
-        $this->load->library("programs/sgr");
+        /* $this->load->library("programs/crefis_ucap");
+          $this->load->library("programs/sgr"); */
 
 
         $programas = array(
-            'creFis', 'CreFis_UCAP', 'SGR'
+            'creFis','ksemilla'/* , 'CreFis_UCAP', 'SGR' */
         );
 
 
-        $get_cuit = array('20-24006411-2', '30-70951279-6', '20-25366263-9');
+        $get_cuit = array('20-29592934-1', '30-70366211-7', '30-71025327-3');
         $msg = null;
         $show_msg = null;
 
@@ -50,18 +50,22 @@ class Webservice extends MX_Controller {
 
 
         foreach ($empresas as $CUIT) {
+
+
+
             $cuit = explode('-', $CUIT);
 
             $id = -1;
             $msg = '<span class="error">No encontrado</span>';
-
+            $tbl_dest = 'td_empresas';
             $this->db->select('*');
             $this->db->where('idpreg', 1695);
-            $this->db->like('valor', '%' . $cuit[1] . '%');
+            $this->db->like('valor', trim($cuit[1]));
             $query = $this->db->get('td_empresas');
             foreach ($query->result() as $row_cuit) {
+
                 $id = $row_cuit->id;
-                $msg = '<br/><span class="ok">Encontrado: ' . getvalue($id, 1693) . ' id:' . $id . '</span>';
+                $msg = '<br/><span class="ok">Encontrado: ' . $this->test_getvalue($id, 1693, $tbl_dest) . ' id:' . $id . '</span>';
             }
 
             $show_msg .= '<hr/>' . $CUIT . ':' . $msg;
@@ -83,82 +87,48 @@ class Webservice extends MX_Controller {
 		<tbody>';
 
             foreach ($programas as $nombre) {
-                $id_proyectos = array();
-                $id = null;
+                $id_proyectos = array();                
                 $this->load->library("programs/" . $nombre);
                 $programa = new $nombre();
 
 
                 if ($programa->self) {
-                    $id_proyectos = $this->search4relSelf($id, $programa->where);
+                    $id_proyectos = $this->search4relSelf($id, $programa->where, $programa->tabladest);
                 } else {
-                    $id_proyectos = $this->search4rel($id, $programa->where);
+                    $id_proyectos = $this->search4rel($id, $programa->where, $programa->tabladest);
                 }
 
-                if ($programa->estado != 0) {
-                    $this->db->select('*');
-                    $this->db->where('idpreg', $programa->estado);
-                    $query = $this->db->get('preguntas');
-                    foreach ($query->result() as $row)
-                        $idopcion = $row->idopcion;
-
-                    $arr_estados = array();
-
-                    if (isset($idopcion))
-                        $arr_estados = $this->app->get_ops($idopcion);
+                foreach ($id_proyectos as $idrel) {
+                    if ($programa->estado != 0) {
+                        $ip = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->id, $programa->tabladest) : "N/A";
+                        $get_estado = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->estado, $programa->tabladest) : null;
+                        $titulo = "titulo"; //$this->test_getvalue($idrel, $programa->titulo, $programa->tabladest);
+                        $monto = NULL;
+                        $fecha = NULL;
+                        $print_estado = '-';
 
 
-                    foreach ($id_proyectos as $idrel) {
-
-                        $ip = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->id) : null;
-
-                        if (isset($ip)) {
-                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
-
-
-                            if (($programa->estado != 0)) {
-                                $estado_value = $this->test_getvalue($idrel, $programa->estado);
-                                $estado_opt = $this->app->get_ops($programa->estado);
-                                $estado = $estado_opt[$estado_value];
-                            }
+                        if (isset($get_estado)) {
+                            $idopcion = $this->get_status($programa->estado);
+                            $opcion_arr = $this->app->get_ops($idopcion);
+                            $estado = ''; //$opcion_arr[$estado];
                         }
 
 
-
-                        if (isset($ip)) {
-                            $titulo = $this->test_getvalue($idrel, $programa->titulo);
-                            $estado = ($programa->estado != 0) ? $this->test_getvalue($idrel, $programa->estado) : "";
-                            $monto = $programa->monto($idrel);
-                            $fecha = '';
-
-                            $estados = ($programa->estado != 0) ? $this->test_gethist($idrel, $programa->estado) : array();
-                            if (is_array($estados)) {
-                                asort($estados);
-                                foreach ($estados as $estado => $fecha) {
-                                    $fecha = date('d/m/Y', strtotime($fecha));
-                                }
-                            }
-
-                            $basedir = null;
-                            $monto = null;
-
-                            $show_msg .= '<tr class="row-1"	id="child_C6659' . $cuit[1] . '_1">
-											<td class="col-0"><a class="subformPreview" title="Ver Datos" href="' . $basedir . '/' . $programa->url . '>&id=' . $idrel . '"
-											target="_blank"><img border="0" align="absmiddle" alt="Ver Datos"
-											src="http:www.accionpyme.mecon.gov.ar/dna2/Icons/24x24/Document 2 Search.gif"></a>
+                        /* TABLE */
+                        $show_msg .= '<tr class="row-1"	id="child_C6659' . $cuit[1] . '_1">
+                                    <td class="col-0"></a>
 				</td>
 				<td class="col-1">';
-                            
-                            $show_msg .= $programa->nombre;
-                            $show_msg .= '</td>
-				<td class="col-2">' . $ip . '</td>
-				<td class="col-3">' . $titulo . '</td>
+
+                        $show_msg .= $programa->nombre;
+                        $show_msg .= '</td><td class="col-2">' . $ip . '</td>
+                            	<td class="col-3">' . $titulo . '</td>
 				<td class="col-4">' . $monto . '</td>
 				<td class="col-5">' . $fecha . '</td>
-				<td class="col-6">' . $arr_estados[$estado] . '(' . $estado . ')</td>
-				<td class="col-7">' . $programa->monto($idrel) . '</td>
+				<td class="col-6">' . $estado . '</td>
+				<td class="col-7">' . $monto . '</td>
 				<td class="col-8">' . $idrel . '</td></tr>';
-                        }
                     }
                 }
             }
@@ -167,27 +137,23 @@ class Webservice extends MX_Controller {
             $show_msg .= ' </tbody></table>';
         }
 
-
-
-
-
-
+        //echo $show_msg;
         return "<p>sandbox</p>" . $show_msg;
     }
 
-    function test_getvalue($id, $idframe) {
-
-        $this->db->select('tabladest');
-        $this->db->where('idpreg', $idframe);
+    function get_status($status_ctrl) {
+        $this->db->select('*');
+        $this->db->where('idpreg', $status_ctrl);
         $query = $this->db->get('preguntas');
-        $parameter = array();
         foreach ($query->result() as $row)
-            $tabladest = $row;
+            $idopcion = $row->idopcion;
+        return $idopcion;
+    }
+
+    function test_getvalue($id, $idframe, $tabledest) {
 
 
-        $plainrow = (array) $row;
-        foreach ($plainrow as $key => $value)
-            $table = $value;
+        $table = $tabledest;
 
 
         $this->db->select('valor');
@@ -226,27 +192,16 @@ class Webservice extends MX_Controller {
             return $row->valor;
     }
 
-    function search4rel($id, $idpregs) {
+    function search4rel($id, $idpregs, $table) {
         $rtnarr = array();
         foreach ($idpregs as $idpreg) {
-            $this->db->select('tabladest');
-            $this->db->where('idpreg', $idpreg);
-            $query = $this->db->get('preguntas');
-            $parameter = array();
-            foreach ($query->result() as $row)
-                $tabladest = $row;
-
-
-            $plainrow = (array) $row;
-            foreach ($plainrow as $key => $value)
-                $table = $value;
 
             $this->db->select('idsent.id', $table);
             $this->db->join('idsent', 'idsent.id = ' . $table . '.id', 'inner');
             $this->db->where('idpreg', $idpreg);
             $this->db->where('estado', 'activa');
-            if (isset($id))
-                $this->db->like('tdest.id', '%' . $id . '%');
+            $this->db->where($table . '.id', $id);
+            
             $query = $this->db->get($table);
             $parameter = array();
             foreach ($query->result() as $newrow) {
@@ -256,27 +211,15 @@ class Webservice extends MX_Controller {
         return $rtnarr;
     }
 
-    function search4relSelf($id, $idpregs) {
+    function search4relSelf($id, $idpregs, $table) {
         $rtnarr = array();
         foreach ($idpregs as $idpreg) {
-            $this->db->select('tabladest');
-            $this->db->where('idpreg', $idpreg);
-            $query = $this->db->get('preguntas');
-            $parameter = array();
-            foreach ($query->result() as $row)
-                $tabladest = $row;
-
-
-            $plainrow = (array) $row;
-            foreach ($plainrow as $key => $value)
-                $table = $value;
 
             $this->db->select('idsent.id', $table);
             $this->db->join('idsent', 'idsent.id = ' . $table . '.id', 'inner');
             $this->db->where('idpreg', $idpreg);
             $this->db->where('estado', 'activa');
-            if (isset($id))
-                $this->db->where('tdest.id', $id);
+            $this->db->where($table . '.id', $id);           
 
             $query = $this->db->get($table);
             $parameter = array();
