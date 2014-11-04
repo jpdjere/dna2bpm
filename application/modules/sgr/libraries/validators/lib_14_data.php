@@ -11,8 +11,6 @@ class Lib_14_data extends MX_Controller {
         $this->load->Model('model_12');
         $this->load->Model('model_14');
 
-        //ini_set("error_reporting", E_ALL);
-
         /* Vars 
          * 
          * $parameters =  
@@ -526,7 +524,7 @@ class Lib_14_data extends MX_Controller {
                 $get_gastos_tmp = $this->model_14->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
                     $gastos = $this->model_14->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_model_14_gastos($gastos, $get_historic_data, $number);
+                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -538,7 +536,7 @@ class Lib_14_data extends MX_Controller {
                 $get_gastos_tmp = $this->model_14->get_gastos_tmp($number, $query_param);
                 foreach ($get_gastos_tmp as $gastos) {
                     $gastos = $this->model_14->get_gastos_tmp($number, $gastos);
-                    $return_calc = calc_model_14_gastos($gastos, $get_historic_data, $number);
+                    $return_calc = calc_anexo_14_gastos($gastos, $get_historic_data, $number);
                     if ($return_calc) {
                         $code_error = "G.3";
                         $result = return_error_array($code_error, "", "[" . $query_param . "] " . $return_calc);
@@ -561,7 +559,8 @@ class Lib_14_data extends MX_Controller {
                 }
             }
         }
-        //var_dump($stack);        exit();
+        
+        //var_dump("error", $stack);        exit();
         $this->data = $stack;
     }
 
