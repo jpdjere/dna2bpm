@@ -14,7 +14,7 @@ if (!defined('BASEPATH'))
 class Webservice extends MX_Controller {
 
     function __construct() {
-        //$dbconnect = $this->load->database('dna2');
+        $dbconnect = $this->load->database('dna2');
         $this->load->model('app');
         ini_set("error_reporting", E_ALL);
     }
