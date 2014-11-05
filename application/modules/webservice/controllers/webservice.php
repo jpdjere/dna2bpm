@@ -14,14 +14,17 @@ if (!defined('BASEPATH'))
 class Webservice extends MX_Controller {
 
     function __construct() {
-        $dbconnect = $this->load->database('dna2');
+        //$dbconnect = $this->load->database('dna2');
         $this->load->model('app');
         ini_set("error_reporting", E_ALL);
     }
 
-    public function msg() {
+    
+    
+    public function msg($program, $parameter) {
 
-
+	
+    	
         /* PROGRAM CLASSES */
         $this->load->library("programs/crefis");
         $this->load->library("programs/crefis_ucap");
@@ -38,13 +41,8 @@ class Webservice extends MX_Controller {
 
 
         if ($get_cuit) {
-            $empresas = $get_cuit;
-        } else {
-            $this->db->select('*');
-            $query = $this->db->get('empresas_repro');
-            foreach ($query->result() as $row)
-                $empresas[] = $row->CUIT;
-        }
+            $empresas = ($parameter=="") ? $get_cuit:array($parameter);
+        } 
 
 
 
