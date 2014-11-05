@@ -2,5 +2,5 @@
 
 require 'webservice.php';
 $myclass = new webservice();
-$response =  $myclass->msg($parameter);
+$response =  $myclass->msg($program, $parameter);
 
