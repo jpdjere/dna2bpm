@@ -25,6 +25,7 @@ class Toast_all extends MX_Controller {
     // Files to skip (ie. non-test classes) inside the test dir
     var $skip = array(
         'Toast.php',
+        'test.php',
         'Toast_all.php'
     );
     // CURL multithreaded mode (only set to true if you are sure your tests
@@ -48,7 +49,7 @@ class Toast_all extends MX_Controller {
         foreach ($test_files as $file) {
             $test_urls[] = site_url($this->test_dir . $file . '/show_results');
         }
-
+        
         // Load header
         $output .= $this->load->view('test/header', NULL, TRUE);
 
@@ -74,7 +75,7 @@ class Toast_all extends MX_Controller {
     function _get_test_files() {
         $files = array();
 
-        $handle = opendir(FCPATH . APPPATH . "modules/test/controllers" . $this->test_dir);
+        $handle = opendir(FCPATH . APPPATH . "modules/test/controllers");
         while (false !== ($file = readdir($handle))) {
             // Skip hidden/system files and the files in the skip[] array
             if (!in_array($file, $this->skip) && !(substr($file, 0, 1) == '.')) {

@@ -1,9 +1,9 @@
 <?php $this->load->helper('language'); ?>
-
+<?php echo $modelname?>
 <?php $i=0; foreach ($results as $result): ?>
 	<li>
 	<?php if ($result[lang('ut_result')] == lang('ut_passed')): ?>
-		<div class="pas">
+		<div class="alert alert-success">
 
 			[<?php echo strtoupper(lang('ut_passed')); ?>] <?php echo $result[lang('ut_test_name')]; ?>
 
@@ -15,7 +15,7 @@
 
 		</div>
 	<?php else: ?>
-		<div class="err">
+		<div class="alert alert-danger">
 
 			[<?php echo strtoupper(lang('ut_failed')); ?>] <?php echo $result[lang('ut_test_name')]; ?>
 
