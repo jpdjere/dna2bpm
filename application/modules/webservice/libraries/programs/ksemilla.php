@@ -5,7 +5,8 @@ if (!defined('BASEPATH'))
 
 
 
-class KSEMILLA {
+class KSEMILLA {   
+   
     
     public $nombre = 'Capital Semilla';
     public $cod = 'PACC3';
@@ -20,16 +21,16 @@ class KSEMILLA {
     public $estado = 5925;
     public $self = false; // si es true son empresas si no otra entidad
     
-    function monto($idrel) {
+    function monto() {              
         /*
          * Para K semilla MONTO 5904 = 1 => 6193 5904 = 2/3 => 5931
          */
-        $cat = getvalue ( $idrel, 5904 );
+        $cat = 5904;
         if ($cat == 1) {
-            $monto = getvalue ( $idrel, 5904 );
+            $monto = 5904;
         } else {
             // --es categoria 2 Ã³ 3
-            $monto = getvalue ( $idrel, 5931 );
+            $monto = 5931;
         }
         return $monto;
     }

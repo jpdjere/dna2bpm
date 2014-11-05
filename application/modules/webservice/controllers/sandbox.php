@@ -25,9 +25,10 @@ class Sandbox extends MX_Controller {
         ini_set('soap.wsdl_cache_enabled', '0');
         ini_set('soap.wsdl_cache_ttl', '0');
 
+        
         $params = array(
             'program' => 'td_crefis',
-            'parameter' => '23-23600704-9',
+            'parameter' => '20-29592934-1',
         );
         $wsdlURL = 'http://'. $_SERVER['HTTP_HOST'] .'/dna2bpm/index.php/webservice/dispatcher/?wsdl';       
         $this->nusoap_client = new soapclient($wsdlURL);

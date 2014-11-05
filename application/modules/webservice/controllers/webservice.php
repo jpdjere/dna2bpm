@@ -19,36 +19,30 @@ class Webservice extends MX_Controller {
         ini_set("error_reporting", E_ALL);
     }
 
-    
-    
-    public function msg($program, $parameter) {
+    public function msg($program = null, $parameter = null) {        
+        
 
-	
-    	
+        $classes = array('crefis', 'crefis_ucap', 'sgr', 'ksemilla', 'pacc1', 'pacc1_dircon');
+        $programas = array('creFis','CreFis_UCAP',  'SGR', 'KSEMILLA', 'PACC1', 'PACC1_DIRCON' );
+        
         /* PROGRAM CLASSES */
-        $this->load->library("programs/crefis");
-        $this->load->library("programs/crefis_ucap");
-        $this->load->library("programs/sgr");
-        $this->load->library("programs/ksemilla");
+        foreach ($classes as $class)
+            $this->load->library("programs/". $class);           
+        
 
 
-        $programas = array('SGR', 'creFis', 'KSEMILLA'/* , 'CreFis_UCAP', 'SGR' */);
-
-
-        $get_cuit =  array('20-29592934-1', '30-70366211-7', '30-71025327-3');
+        $get_cuit = array('20-29592934-1', '30-70366211-7', '30-71025327-3');
         $msg = null;
         $show_msg = null;
-
+        
+        
+        $arr_parameter = array($parameter);
 
         if ($get_cuit) {
-            $empresas = ($parameter=="") ? $get_cuit:array($parameter);
-        } 
-
-
+            $empresas = (!isset($parameter)) ? $get_cuit:$arr_parameter;
+        }
 
         foreach ($empresas as $CUIT) {
-
-
 
             $cuit = explode('-', $CUIT);
 
@@ -62,7 +56,7 @@ class Webservice extends MX_Controller {
             foreach ($query->result() as $row_cuit) {
 
                 $id = $row_cuit->id;
-                $msg = '<br/><span class="ok">Encontrado: ' . $this->test_getvalue($id, 1693, $tbl_dest) . ' id:' . $id . '</span>';
+                $msg = '<br/><span class="ok">Encontrado: ' . $this->test_getvalue($id, 1693, $tbl_dest) . ' | id:' . $id . '</span>';
             }
 
             $show_msg .= '<hr/>' . $CUIT . ':' . $msg;
@@ -91,28 +85,37 @@ class Webservice extends MX_Controller {
 
 
                 if ($programa->self) {
-
                     $id_proyectos = $this->search4relSelf($id, $programa->where, $programa->tabladest);
                 } else {
                     $id_proyectos = $this->search4rel($id, $programa->where, $programa->tabladest);
                 }
 
-             
+
 
                 foreach ($id_proyectos as $idrel) {
                     if ($programa->estado != 0) {
                         $ip = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->id, $programa->tabladest) : "N/A";
                         $get_estado = ($programa->id != 0) ? $this->test_getvalue($idrel, $programa->estado, $programa->tabladest) : null;
-                        $titulo = "titulo"; //$this->test_getvalue($idrel, $programa->titulo, $programa->tabladest);
-                        $monto = NULL;
-                        $fecha = NULL;
-                        $print_estado = '-';
+                        $titulo = utf8_decode($this->test_getvalue($idrel, $programa->titulo, $programa->tabladest));
+                        $monto = ($programa->monto() != 0) ? $this->test_getvalue($idrel, $programa->monto(), $programa->tabladest) : null;
+                        
+                        $fecha = NULL;                        
+                        $estados = ($programa->estado != 0) ? $this->test_gethist($idrel, $programa->estado, $programa->tabladest) : array();  
+                        
+                       
+                        
+                        if (is_array($estados)) {
+                            asort($estados);
+                            foreach ($estados as $estado => $fecha) {                                
+                                $fecha = date('d/m/Y', strtotime($fecha));
+                            }
+                        }
 
 
                         if (isset($get_estado)) {
                             $idopcion = $this->get_status($programa->estado);
                             $opcion_arr = $this->app->get_ops($idopcion);
-                            $estado = ''; //$opcion_arr[$estado];
+                            $estado = $opcion_arr[$get_estado];
                         }
 
 
@@ -125,10 +128,10 @@ class Webservice extends MX_Controller {
                         $show_msg .= $programa->nombre;
                         $show_msg .= '</td><td class="col-2">' . $ip . '</td>
                             	<td class="col-3">' . $titulo . '</td>
-				<td class="col-4">' . $monto . '</td>
+				<td class="col-4">$' . $monto . '</td>
 				<td class="col-5">' . $fecha . '</td>
 				<td class="col-6">' . $estado . '</td>
-				<td class="col-7">' . $monto . '</td>
+				<td class="col-7">'.$parameter.'</td>
 				<td class="col-8">' . $idrel . '</td></tr>';
                     }
                 }
@@ -166,31 +169,20 @@ class Webservice extends MX_Controller {
             return $row->valor;
     }
 
-    function test_gethist($id, $idframe) {
+    function test_gethist($id, $idframe, $tabledest) {
 
-        $this->db->select('tabladest');
-        $this->db->where('idpreg', $idframe);
-        $query = $this->db->get('preguntas');
-        $parameter = array();
-        foreach ($query->result() as $row)
-            $tabladest = $row;
+        $tablahist = str_replace("td_", "th_", $tabledest);
 
 
-        $plainrow = (array) $row;
-        foreach ($plainrow as $key => $value)
-            $table = $value;
-
-
-        $tablahist = str_replace("td_", "th_", $table);
-
-
-        $this->db->select('valor');
+        $this->db->select('fecha');
         $this->db->where('idpreg', $idframe);
         $this->db->where('id', $id);
         $query = $this->db->get($tablahist);
         $parameter = array();
         foreach ($query->result() as $row)
-            return $row->valor;
+            $parameter[] = $row->fecha;
+        
+            return $parameter;
     }
 
     function search4rel($id, $idpregs, $table) {

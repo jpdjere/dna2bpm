@@ -2,5 +2,10 @@
 
 require 'webservice.php';
 $myclass = new webservice();
-$response =  $myclass->msg($program, $parameter);
+
+/* VARS */
+$a = $program;
+$b = $parameter;
+
+$response = $myclass->msg($a, $b);
 
