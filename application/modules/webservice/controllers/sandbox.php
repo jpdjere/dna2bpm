@@ -17,7 +17,8 @@ class Sandbox extends MX_Controller {
         parent::__construct();
         $this->load->library("Nusoap_library"); //cargando mi biblioteca
         ini_set("soap.wsdl_cache_enabled", "0");
-        
+        ini_set('display_errors', 1);
+        error_reporting(-1);
     }
 
     function index() {
@@ -25,14 +26,16 @@ class Sandbox extends MX_Controller {
         ini_set('soap.wsdl_cache_enabled', '0');
         ini_set('soap.wsdl_cache_ttl', '0');
 
-        
+
         $params = array(
             'program' => 'td_crefis',
             'parameter' => '20-29592934-1',
         );
-        $wsdlURL = 'http://'. $_SERVER['HTTP_HOST'] .'/dna2bpm/index.php/webservice/dispatcher/?wsdl';       
+        $wsdlURL = 'http://' . $_SERVER['HTTP_HOST'] . '/dna2bpm/index.php/webservice/dispatcher/?wsdl';
         $this->nusoap_client = new soapclient($wsdlURL);
-        echo $this->nusoap_client->__soapCall('get_beneficio', $params);
-    }  
+        $rtn = $this->nusoap_client->__soapCall('get_beneficio', $params);
+        echo $rtn;
+
+    }
 
 }
