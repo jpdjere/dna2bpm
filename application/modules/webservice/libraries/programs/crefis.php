@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-include("functions.php");
+
 
 class CreFis {
 
@@ -20,9 +20,8 @@ class CreFis {
     public $estado = 4970;
     public $self = false; // si es true son empresas si no otra entidad
 
-    function monto($idrel) {
-        $functions = $this->functions = new functions();
-        return $functions->getvalue($idrel, 5040);
+    function monto() {       
+        return 5040;
     }
     
     

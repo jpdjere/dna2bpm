@@ -20,7 +20,7 @@ class SGR {
     public $estado = 5272;
     public $self = true; // si es true son empresas si no otra entidad
     
-    function monto($idrel) {
+    function monto() {
         return 0;
     }
 

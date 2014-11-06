@@ -56,9 +56,26 @@ class Webservice extends MX_Controller {
             foreach ($query->result() as $row_cuit) {
 
                 $id = $row_cuit->id;
+                $msg = '<br/><span class="ok">Encontrado: ' . $this->test_getvalue($id, 1693, $tbl_dest) . ' | id:' . $id . '</span>';
             }
 
+            $show_msg .= '<hr/>' . $CUIT . ':' . $msg;
 
+            $show_msg .= '<table class="tablesorter" id="table_C6659_1' . $cuit[1] . '">
+		<thead>
+			<tr class="row-0">
+				<th width="80" class="{sorter: false} hcol-0"></th>
+				<th class="hcol-1 header">Programa</th>
+				<th class="hcol-2 header">Identificador</th>
+				<th class="hcol-3 header">Titulo</th>
+				<th class="hcol-4 header">Monto</th>
+				<th class="hcol-5 header">Fecha</th>
+				<th class="hcol-6 header">Estado</th>
+				<th class="hcol-7 header">Detalle</th>
+				<th class="hcol-8 header">ID DNA</th>
+			</tr>
+		</thead>
+		<tbody>';
 
 
 
@@ -100,27 +117,32 @@ class Webservice extends MX_Controller {
                             $opcion_arr = $this->app->get_ops($idopcion);
                             $estado = $opcion_arr[$get_estado];
                         }
-                        
-                        
-                        
-                        
+
+
+                        /* TABLE */
+                        $show_msg .= '<tr class="row-1"	id="child_C6659' . $cuit[1] . '_1">
+                                    <td class="col-0"></a>
+				</td>
+				<td class="col-1">';
+
+                        $show_msg .= $programa->nombre;
+                        $show_msg .= '</td><td class="col-2">' . $ip . '</td>
+                            	<td class="col-3">' . $titulo . '</td>
+				<td class="col-4">$' . $monto . '</td>
+				<td class="col-5">' . $fecha . '</td>
+				<td class="col-6">' . $estado . '</td>
+				<td class="col-7">' . $parameter . '</td>
+				<td class="col-8">' . $idrel . '</td></tr>';
                     }
                 }
             }
+
+
+            $show_msg .= ' </tbody></table>';
         }
 
+      return $show_msg;
 
-        $program_array = array(
-            'identificador' => $ip,
-            'titulo' => $titulo,
-            'monto' => $monto,
-            'estado' => $estado,
-            'detalle' => "det",
-            'id_dna' => $idrel,
-            'fecha' => $fecha,
-            'programa' => $programa->nombre);
-
-        return $program_array;
     }
 
     function get_status($status_ctrl) {

@@ -1,9 +1,11 @@
 <?php
 
 require 'webservice.php';
-
-//
 $myclass = new webservice();
 
-$pepe =  $myclass->msg();
+/* VARS */
+//$a = $program;
+//$b = $parameter;
+
+$response = $myclass->msg();
 

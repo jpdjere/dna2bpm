@@ -44,9 +44,8 @@ class Dispatcher extends MX_Controller {
                 $input_array, $return_array, "urn:SOAPServerWSDL", "urn:" . $ns . "/get_beneficio", "rpc", "encoded", "get profit by program");
 
         function get_beneficio($program, $parameter) {
-
             include("get_beneficios.php");
-            return $pepe;
+            return $response;
         }
 
         $this->nusoap_server->service(file_get_contents("php://input"));
