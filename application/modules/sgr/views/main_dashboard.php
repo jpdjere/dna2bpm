@@ -45,6 +45,7 @@
             <div id="collapse1" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <li><a  href="{base_url_dna2}" target="_blank">Acceso <strong>Versión Anterior del Sistema</strong></a></li>
+                    {social_structure}
                     <hr>
 
 

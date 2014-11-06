@@ -21,6 +21,7 @@ class Sgr extends MX_Controller {
         $this->load->model('bpm/bpm');
         $this->load->model('user/rbac');
         $this->load->model('sgr/sgr_model');
+        $this->load->model('sgr/model_organos_sociales');
         $this->load->helper('sgr/tools');
         $this->load->library('session');
 
@@ -50,7 +51,7 @@ class Sgr extends MX_Controller {
 
         $_SESSION['idu'] = $this->idu;
 
-       
+
 
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -95,16 +96,21 @@ class Sgr extends MX_Controller {
         $sections['Anexos'] = array();
         $customData['anexo_list'] = $this->AnexosDB('_blank');
 
-        /* fre_session */
+        /* FRE SESSION */
         if (isset($this->session->userdata['fre_session']))
             $customData['fre_session'] = $this->session->userdata['fre_session'];
 
         $customData['fre_list'] = $this->freDB();
-
         $customData['is_sgr_sociedades'] = $this->user->has('root/modules/sgr/controllers/sgr/anexo');
 
+        /* ORGANOS SOCIALES */
+        $social_structure = $this->model_organos_sociales->get_ident();
+        $print_file = anchor('sgr/dna2_social_structure_asset/RenderEdit/' . $social_structure, ' <i class="fa fa-print" alt="Organos Sociales"> Organos Sociales </i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
+        $list_files = "<li>" . $print_file . "</li>";
+        $customData['social_structure'] = $list_files;
+        $customData['social_structure'] = ($this->idu == -342725103) ? $list_files : '';
 
-
+        /* RENDER */
         $this->render('main_dashboard', $customData);
     }
 
