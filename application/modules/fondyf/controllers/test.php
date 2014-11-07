@@ -63,7 +63,7 @@ class test extends MX_Controller {
         $this->load->model('bpm/bpm');
         $query = array(
             'idwf' => 'fondyfpp',
-            'assign' => array('$exists' => true),
+            'assign' => array('$type' => 2),
            // 'checkdate' => '2014-10-23 11:36:21'
         );
         $this->db->where($query);
