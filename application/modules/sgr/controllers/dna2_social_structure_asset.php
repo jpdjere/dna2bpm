@@ -34,7 +34,7 @@ class dna2_social_structure_asset extends CI_Controller {
         $actual_link = 'http://' . $_SERVER[HTTP_HOST] . '/dna2/' . implode('/', $this->uri->segments);
         $actual_link = str_replace("sgr/dna2_social_structure_asset/", "", $actual_link);
         $actual_link = str_replace($cript_file, base64_encode($cript_file), $actual_link);
-        header('Location: ' . $actual_link . "/editnew.php?idvista=2572&origen=V&idap=227&id=" . $cript_file);
+        header('Location: ' . $actual_link . "/edit_sgr.php?idvista=2572&origen=V&idap=227&id=" . $cript_file);
         
         //var_dump(base64_encode($cript_file));        
         //var_dump($actual_link . "printVista.php?filename=" . base64_encode($cript_file));
