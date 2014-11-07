@@ -849,7 +849,7 @@ class Model_12 extends CI_Model {
             $new_list['NRO'] = $list[5214];
             $new_list['PARTICIPE'] = $participate;
             $new_list['CUIT_PARTICIPE'] = $list[5349];
-            $new_list['ORIGEN'] = translate_date_xls($list[5215]);
+            $new_list['ORIGEN'] = $list[5215];
             $new_list['TIPO'] = $list[5216][0];
             $new_list['PONDERACION'] = dot_by_coma($get_weighting['weighted']);
             $new_list['IMPORTE'] = dot_by_coma($list[5218]);
