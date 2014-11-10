@@ -9,8 +9,8 @@ class Lib_06_data extends MX_Controller {
         $this->load->helper('sgr/tools');
         $this->load->model('sgr/sgr_model');
 
-        $model_anexo = "model_06";
-        $this->load->Model($model_anexo);
+
+        $this->load->Model('model_06');
 
 //        $mysql_model_06 = "mysql_model_06";
 //        $this->load->Model($mysql_model_06);
@@ -126,10 +126,10 @@ class Lib_06_data extends MX_Controller {
                     $C_cell_value = $parameterArr[$i]['fieldValue'];
                     if ($C_cell_value) {
 
-                        $subscribed = $this->$model_anexo->shares($C_cell_value, $B_cell_value);
+                        $subscribed = $this->model_06->shares($C_cell_value, $B_cell_value);
 
 
-                        $integrated = $this->$model_anexo->shares($C_cell_value, $B_cell_value, 5598);
+                        $integrated = $this->model_06->shares($C_cell_value, $B_cell_value, 5598);
                         //echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
                     }
                 }
@@ -410,8 +410,8 @@ class Lib_06_data extends MX_Controller {
                     $AL_cell_value = $parameterArr[$i]['fieldValue'];
 
                     if ($AL_cell_value) {
-                        $grantor_subscribed = $this->$model_anexo->shares($AL_cell_value, $B_cell_value);
-                        $grantor_integrated = $this->$model_anexo->shares($AL_cell_value, $B_cell_value, 5598);
+                        $grantor_subscribed = $this->model_06->shares($AL_cell_value, $B_cell_value);
+                        $grantor_integrated = $this->model_06->shares($AL_cell_value, $B_cell_value, 5598);
                     }
 
                     if ($AG_cell_value == "SUSCRIPCION" && ($A_cell_value == "INCORPORACION" || $A_cell_value == "INCREMENTO TENENCIA ACCIONARIA")) {
@@ -447,12 +447,25 @@ class Lib_06_data extends MX_Controller {
                     $sector = $this->sgr_model->clae2013($ciu);
                     if ($A_cell_value == "INCORPORACION") {
                         /* C.2 */
-                        $saldo = array_sum(array($subscribed, $integrated));
-                        if ($saldo != 0) {
-                            $code_error = "C.2";
-                            $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
-                            array_push($stack, $result);
+
+
+                        /* Se desvinculo?*/
+                        $grantor_character = null;
+                        $partner_bground = $this->model_06->get_partner_left($C_cell_value);
+                        foreach ($partner_bground as $pb)
+                            $grantor_character = $pb[5292][0];
+
+
+                        if ($grantor_character != 2) {
+                            $saldo = array_sum(array($subscribed, $integrated));
+                            if ($saldo != 0) {
+                                $code_error = "C.2";
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], "Saldo:" . $saldo . ' para ' . $C_cell_value . "(" . $subscribed . "-" . $integrated . ")");
+                                array_push($stack, $result);
+                            }
                         }
+
+
 
                         $calcPromedio = ($S2_cell_value == 0) ? 0 : 1;
                         $calcPromedio += ($V2_cell_value == 0) ? 0 : 1;
@@ -620,7 +633,7 @@ class Lib_06_data extends MX_Controller {
                                 array_push($stack, $result);
                             } else {
                                 /* VALIDO EN TODAS LAS */
-                                $balance = 0; //$this->$model_anexo->shares_others_sgrs($C_cell_value, $B_cell_value);
+                                $balance = 0; //$this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value);
                                 if ($balance != 0) {
                                     $code_error = "B.2";
                                     $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
