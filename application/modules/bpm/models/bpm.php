@@ -18,7 +18,6 @@ class Bpm extends CI_Model {
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         $this->load->config('bpm/config');
-        $this->load->model('fondyf/fondyf');
     }
 
     function load($idwf, $replace = false) {
@@ -233,8 +232,6 @@ class Bpm extends CI_Model {
         return $all_tokens;
     }
 
-       
-
     function get_cases($user = null, $offset = 0, $limit = null, $filter_status = array()) {
         $data = array(
             'cases' => array(),
@@ -409,7 +406,7 @@ class Bpm extends CI_Model {
         return $this->db->where($criteria)->delete('tokens');
     }
 
-    function clear_case($idcase) {
+    function clear_case($idwf, $idcase) {
         $case = $this->get_case($idcase);
         $_id = $case['_id'];
         return $this->save_case(
@@ -614,7 +611,7 @@ class Bpm extends CI_Model {
         $query+=$filter;
         toRegex($query);
         //var_dump2(json_encode($query));
-        return $this->mongo->db->tokens->find($query);
+        return $this->mongo->db->tokens->find($query)->sort(array('_id'=>true));
     }
 
     function get_triggers() {
@@ -1766,7 +1763,7 @@ class Bpm extends CI_Model {
         return $is_allowed;
     }
 
-    function import($file_import, $overwrite = true) {
+    function import($file_import, $overwrite = true, $folder = 'General') {
         $this->load->helper('file');
         $data = pathinfo($file_import);
         /*
@@ -1798,7 +1795,7 @@ class Bpm extends CI_Model {
 //---if exists set the internal id of the old one
                 $thisModel['idwf'] = $idwf;
                 $thisModel['data'] = $data;
-                $thisModel['folder'] = 'General';
+                $thisModel['folder'] = $folder;
                 $thisModel['svg'] = $svg;
                 if ($model) {
                     $this->bpm->save($idwf, $data, $svg);
