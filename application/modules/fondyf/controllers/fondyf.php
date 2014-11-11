@@ -279,8 +279,10 @@ class Fondyf extends MX_Controller {
         $state = $this->status_amounts();
 
         foreach ($state as $key => $task) {
+            
             $new_task = array();
             $new_task['status'] = $key;
+            $new_task['how_many'] = count($task);
             $new_task['amount'] = "$" . @number_format(array_sum($task), 2, ",", ".");
             $wfData['mini'][] = $new_task;
         }
@@ -420,25 +422,25 @@ class Fondyf extends MX_Controller {
         $option = $this->app->get_ops(772);
 
 
-        foreach ($querys[0] as $values) {               
-            
+        foreach ($querys[0] as $values) {
+
             $ctrl_value = (isset($values[8334][0])) ? $values[8334][0] : $values[8334];
-            
-            
+
+
             $evaluator_id = $values[8668][0];
-            
+
             list($filing_year, $filing_month, $filing_day) = explode("/", $values[8340]);
-            $filing_date = $filing_day."/".$filing_month."/". $filing_year;            
-            
-            $company_id = floatval($values[8325][0]);           
+            $filing_date = $filing_day . "/" . $filing_month . "/" . $filing_year;
+
+            $company_id = floatval($values[8325][0]);
             $company = $this->fondyf_model->get_company_by_project_by_id($company_id);
 
             $proyect_array = array(
-            "project_ip" => $values[8339]
-            , "project_id" => $values['id']
-            , "status" => $option[$ctrl_value]
-            , "filing_date" => $filing_date
-            , "cuit" => $company[0][1695], "business_name" => $company[0][1693]
+                "project_ip" => $values[8339]
+                , "project_id" => $values['id']
+                , "status" => $option[$ctrl_value]
+                , "filing_date" => $filing_date
+                , "cuit" => $company[0][1695], "business_name" => $company[0][1693]
             );
             $cases_arr[$evaluator_id][] = $proyect_array;
         }

@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th>Estado</th>
+                    <th>Cantidad</th>
                     <th>Importe</th>
                 </tr>
             </thead>
@@ -19,6 +20,9 @@
                 <td class="center">
                     {status}
                 </td>
+                <td align="center">            
+                    {how_many}
+                </td>   
                 <td>            
                     {amount}
                 </td>                
