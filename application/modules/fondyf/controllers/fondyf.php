@@ -51,6 +51,10 @@ class Fondyf extends MX_Controller {
         $this->user->authorize();
         Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_admin.json');
     }
+    function Mesa_de_entradas() {
+        $this->user->authorize();
+        Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_mesaentrada.json');
+    }
 
     function tile_proyectos() {
         // ----portable indicators are stored as json files
@@ -140,7 +144,7 @@ class Fondyf extends MX_Controller {
             /* FonDyF/COORDINADOR (134) */
             $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group) or $this->user->isAdmin()) ? $this->base_url.'bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
             
-            $url_clone = (in_array(134, $this->id_group) or in_array(133, $this->id_group) or $this->user->isAdmin() and $case['status']=='closed') ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
+            $url_clone = (in_array(134, $this->id_group) or in_array(140, $this->id_group) or $this->user->isAdmin() and $case['status']=='closed') ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
             $url_bpm = 0;
             if (isset($url_bpm_check))
                 $url_bpm = $this->bpm->gateway($url_bpm_check);
