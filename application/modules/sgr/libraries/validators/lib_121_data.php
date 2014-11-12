@@ -27,6 +27,7 @@ class Lib_121_data extends MX_Controller {
         $parameterArr = (array) $parameter;
         $result = array("error_code" => "", "error_row" => "", "error_input_value" => "");
         $b1_array = array();
+        $d2_nro_array = array();
         $d2_sum = 0;
         $e2_sum = 0;
 
@@ -43,8 +44,8 @@ class Lib_121_data extends MX_Controller {
              * @example NRO  CUIT_PARTICIPE	ORIGEN	TIPO	IMPORTE	MONEDA	LIBRADOR_NOMBRE	LIBRADOR_CUIT	NRO_OPERACION_BOLSA	ACREEDOR	CUIT_ACREEDOR	IMPORTE_CRED_GARANT	MONEDA_CRED_GARANT	TASA	PUNTOS_ADIC_CRED_GARANT	PLAZO	GRACIA	PERIODICIDAD	SISTEMA	DESTINO_CREDITO
              * */
             for ($i = 0; $i <= count($parameterArr); $i++) {
-                
-                $param_col = (isset($parameterArr[$i]['col']))?$parameterArr[$i]['col']:0;
+
+                $param_col = (isset($parameterArr[$i]['col'])) ? $parameterArr[$i]['col'] : 0;
 
                 /* NRO_ORDEN
                  * Nro A.1
@@ -104,12 +105,11 @@ class Lib_121_data extends MX_Controller {
 
                     if ($parameterArr[0]['count'] < 3) {
 
-
                         $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         array_push($stack, $result);
                     }
 
-                    $b1_array[] = $parameterArr[$i]['fieldValue'];
+                    $b1_array[$A_cell_value][] = $parameterArr[$i]['fieldValue'];
                 }
 
                 /* VENCIMIENTO
@@ -179,7 +179,9 @@ class Lib_121_data extends MX_Controller {
                         } else {
                             // D2
                             $d2_sum+=(float) $parameterArr[$i]['fieldValue'];
-                            $d2_nro = $parameterArr[$i - 3]['fieldValue'];
+
+                            $d2_nro = $parameterArr[$i - 3]['fieldValue'];                            
+                            $d2_nro_array[$A_cell_value][] = $d2_nro;
                         }
                     }
 
@@ -219,18 +221,23 @@ class Lib_121_data extends MX_Controller {
         }
 
         // ============ Validation B.1 ==
-        if ($A_cell_value) {
-            if (!check_consecutive_values($b1_array)) {
+
+
+        foreach ($b1_array as $keyvalue) {
+
+            if (!check_consecutive_values($keyvalue)) {
                 $code_error = "B.1";
                 $result = return_error_array($code_error, "-", "Los números de cuotas deben ser consecutivos");
                 array_push($stack, $result);
             }
         }
 
-        // ============ Validation D.2.A 
 
-        if (!empty($d2_nro)) {
-            $item = $this->$model_anexo->get_order_number_left($d2_nro);
+        // ============ Validation D.2.A 
+        
+        //if (!empty($d2_nro)) {
+        foreach ($d2_nro_array as $d2val){
+            $item = $this->$model_anexo->get_order_number_left($d2val);
 
 
             foreach ($item as $itm) {
@@ -256,8 +263,8 @@ class Lib_121_data extends MX_Controller {
             } else {
                 if (isset($amount)) {
                     $code_error = "D.2.A";
-                   
-                    $result_comp = bccomp($d2_sum,$amount, 2); // 0
+
+                    $result_comp = bccomp($d2_sum, $amount, 2); // 0
                     if ($result_comp != 0) {
                         $result = return_error_array($code_error, "-", "Monto: " . $amount . " / Suma:" . $d2_sum);
                         array_push($stack, $result);
@@ -292,7 +299,7 @@ class Lib_121_data extends MX_Controller {
                 $code_error = "E.2.A";
 
                 if (isset($amount)) {
-                    $result_comp = bccomp($e2_sum,$amount, 2); // 0
+                    $result_comp = bccomp($e2_sum, $amount, 2); // 0
                     if ($result_comp != 0) {
                         $result = return_error_array($code_error, "-", $e2_sum . " de " . $amount);
                         array_push($stack, $result);
