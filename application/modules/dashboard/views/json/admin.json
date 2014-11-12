@@ -10,7 +10,7 @@
                     "title": "Tile01",
                     "module": "dashboard",
                     "controller": "dashboard",
-                    "span": 2,
+                    "span":2,
                     "function": "tile_admin_users"
 
                 },
@@ -18,7 +18,7 @@
                     "title": "Tile01",
                     "module": "dashboard",
                     "controller": "dashboard",
-                    "span": 2,
+                    "span":2,
                     "function": "tile_admin_bpm"
 
                 },
@@ -26,7 +26,7 @@
                     "title": "Tile01",
                     "module": "dashboard",
                     "controller": "dashboard",
-                    "span": 2,
+                    "span":2,
                     "function": "tile_admin_menu"
 
                 },
@@ -34,15 +34,15 @@
                     "title": "Tile01",
                     "module": "git",
                     "controller": "git",
-                    "span": 2,
+                    "span":2,
                     "function": "tile"
 
                 },
                 {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_cases"
+                    "title": "Buscar",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_buscar"
                 }
             ]
         },

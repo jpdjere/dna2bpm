@@ -139,7 +139,8 @@ class Fondyf extends MX_Controller {
             $url_msg = (isset($token ['case'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : null;
             /* FonDyF/COORDINADOR (134) */
             $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
-
+            //if($case['status']=='closed')
+            $url_clone = (in_array(134, $this->id_group) or in_array(133, $this->id_group) or $this->user->isAdmin()) ? 'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
             $url_bpm = 0;
             if (isset($url_bpm_check))
                 $url_bpm = $this->bpm->gateway($url_bpm_check);
@@ -161,10 +162,14 @@ class Fondyf extends MX_Controller {
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm' => $url_bpm
+                'link_open' => $this->bpm->gateway($url), 
+                'link_msg' => $url_msg, 
+                'url_clone' => $url_clone, 
+                'url_bpm' => $url_bpm
             );
         }, $tokens);
         $data ['count'] = count($tokens);
+        $data['base_url']=$this->base_url;
         $this->parser->parse($template, $data, false, true);
     }
 
@@ -582,7 +587,6 @@ class Fondyf extends MX_Controller {
 
     function set_evaluador($idwf, $idcase, $tokenId) {
         $this->load->library('parser');
-        $this->load->model('user/group');
         $this->load->model('bpm/bpm');
         $this->load->library('bpm/ui');
 
@@ -631,7 +635,32 @@ class Fondyf extends MX_Controller {
 
         $this->ui->compose('fondyf/get_user', 'bpm/bootstrap.ui.php', $renderData);
     }
+    function clone_case($from_idwf,$to_idwf,$idcase){
+        $this->load->model('bpm/bpm');
+        $this->load->module('bpm/engine');
+        $case=$this->bpm->get_case($idcase,$from_idwf);
+        $case_to=$this->bpm->get_case($idcase,$to_idwf);
+        if(!$case_to){
+            //---Clear id
+            unset($case['_id']);
+            //---Clear case history
+            unset($case['history']);
+            //---Clear tokens
+            unset($case['token_status']);
+            //---Clear Interval
+            unset($case['interval']);
+            //----set new variables
+            $case['chackdate']= date('Y-m-d H:i:s');
+            $case['status']= 'open';
+            $case['idwf']= $to_idwf;
+            $case_to=$this->bpm->save_case($case);
+        }
+        var_dump($case);exit;
+        //----run case
+        //$this->engine->Startcase('model', $to_idwf, $idcase);
+        // Modules::run("bpm/run/model/$to_idwf/$idcase");
 
+    }
     function show_msgs($idwf, $idcase) {
 
         $filter = array(

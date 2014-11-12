@@ -13,6 +13,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                     <th>Nro Proyecto</th>
                     <th>Fecha</th>
                     <th>Nombre</th>
@@ -34,9 +35,16 @@
                             <i class="ion ion-email fa-2x fa-adjust"></i>                            
                         </a>   {/if}                 
                     </td>
-                    <td>  {if {url_bpm}>0}<a href="{url_bpm}">
+                    <td>  
+                    {if {url_bpm}>0}<a href="{url_bpm}">
                             <i class="ion-arrow-right-b fa-2x fa-adjust"></i>                            
-                        </a>{/if}</td>
+                        </a>{/if}
+                    </td>
+                    <td>  
+                    {if {url_clone}>0}<a href="{base_url}{url_clone}">
+                            <i class="ion ion-android-inbox fa-2x fa-adjust"></i>                            
+                        </a>{/if}
+                    </td>
                     <td>{Nro}</td>
                     <td>{fechaent}</td>
                     <td>{nombre}</td>
