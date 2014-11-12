@@ -51,6 +51,10 @@ class Fondyf extends MX_Controller {
         $this->user->authorize();
         Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_admin.json');
     }
+    function Mesa_de_entradas() {
+        $this->user->authorize();
+        Modules::run('dashboard/dashboard', 'fondyf/json/fondyf_mesaentrada.json');
+    }
 
     function tile_proyectos() {
         // ----portable indicators are stored as json files
@@ -136,10 +140,11 @@ class Fondyf extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
             $url = (isset($data ['Proyectos_fondyf']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_fondyf'] ['id'] : '#';
-            $url_msg = (isset($token ['case'])) ? 'show_msgs/fondyfpp/' . $token ['case'] : null;
+            $url_msg = (isset($token ['case'])) ? $this->base_url.'fondyf/show_msgs/fondyfpp/' . $token ['case'] : null;
             /* FonDyF/COORDINADOR (134) */
-            $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group)) ? '/bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
-
+            $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group) or $this->user->isAdmin()) ? $this->base_url.'bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
+            
+            $url_clone = (in_array(134, $this->id_group) or in_array(140, $this->id_group) or $this->user->isAdmin() and $case['status']=='closed') ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
             $url_bpm = 0;
             if (isset($url_bpm_check))
                 $url_bpm = $this->bpm->gateway($url_bpm_check);
@@ -161,10 +166,14 @@ class Fondyf extends MX_Controller {
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm' => $url_bpm
+                'link_open' => $this->bpm->gateway($url), 
+                'link_msg' => $url_msg, 
+                'url_clone' => $url_clone, 
+                'url_bpm' => $url_bpm
             );
         }, $tokens);
         $data ['count'] = count($tokens);
+        $data['base_url']=$this->base_url;
         $this->parser->parse($template, $data, false, true);
     }
 
@@ -582,7 +591,6 @@ class Fondyf extends MX_Controller {
 
     function set_evaluador($idwf, $idcase, $tokenId) {
         $this->load->library('parser');
-        $this->load->model('user/group');
         $this->load->model('bpm/bpm');
         $this->load->library('bpm/ui');
 
@@ -631,7 +639,25 @@ class Fondyf extends MX_Controller {
 
         $this->ui->compose('fondyf/get_user', 'bpm/bootstrap.ui.php', $renderData);
     }
+    function clone_case($from_idwf,$to_idwf,$idcase){
+        $this->load->model('bpm/bpm');
+        $this->load->module('bpm/engine');
+        $case=$this->bpm->get_case($idcase,$from_idwf);
+        $case_to=$this->bpm->get_case($idcase,$to_idwf);
+        if(!$case_to){
+            
+            $this->bpm->gen_case($to_idwf,$idcase);
+            $case_to=$this->bpm->get_case($idcase,$to_idwf);
+            $case_to['data']=$case['data'];
+            $case_to['iduser']=$case['iduser'];
+            $case_to=$this->bpm->save_case($case_to);
+        }
+        
+        //----run case
+        $this->engine->Startcase('model', $to_idwf, $idcase);
+        // Modules::run("bpm/run/model/$to_idwf/$idcase");
 
+    }
     function show_msgs($idwf, $idcase) {
 
         $filter = array(

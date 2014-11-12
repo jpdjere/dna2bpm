@@ -53,18 +53,19 @@
                     "controller": "bpmui",
                     "function": "widget_tasks_done"
 
-                }
-            ]
-        },
-        {
-            "col2": [
-                {
+                },
+                 {
                     "title": "Proyect by Evaluator",
                     "module": "fondyf",
                     "controller": "fondyf",
                     "function": "projects_evaluator"
 
-                },
+                }
+            ]
+        },
+        {
+            "col2": [
+               
                 {
                     "title": "Proyect amount",
                     "module": "fondyf",
@@ -77,19 +78,8 @@
                     "controller": "fondyf",
                     "function": "ministatus_pp"
 
-                },
-                {
-                    "title": "Cases",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "widget_cases"
-                },
-                {
-                    "title": "Cases Closed",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "widget_cases_closed"
                 }
+                
             ]
         }
     ]
