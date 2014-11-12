@@ -26,22 +26,22 @@
                 {empresas}
                 <tr>
                     <td>
-                        <a href="{link_open}" target="_blank">
+                        <a href="{link_open}" target="_blank" title="Ver Proyecto">
                             <i class="ion ion-folder fa-2x fa-adjust"></i>
                         </a>
 
                     </td>
-                    <td>{if {link_msg}>0}<a href="{link_msg}" class="load_tiles_after">
+                    <td>{if {link_msg}>0}<a href="{link_msg}" class="load_tiles_after"  title="Ver Notificaciones">
                             <i class="ion ion-email fa-2x fa-adjust"></i>                            
                         </a>   {/if}                 
                     </td>
                     <td>  
-                    {if {url_bpm}>0}<a href="{url_bpm}">
+                    {if {url_bpm}>0}<a href="{url_bpm}" title="Procesar Tareas">
                             <i class="ion-arrow-right-b fa-2x fa-adjust"></i>                            
                         </a>{/if}
                     </td>
                     <td>  
-                    {if {url_clone}>0}<a href="{base_url}{url_clone}">
+                    {if {url_clone}>0}<a href="{url_clone}" title="Documentación Recibida: Comenzar PDE!">
                             <i class="ion ion-android-inbox fa-2x fa-adjust"></i>                            
                         </a>{/if}
                     </td>
