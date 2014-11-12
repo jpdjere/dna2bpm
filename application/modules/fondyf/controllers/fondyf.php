@@ -647,7 +647,6 @@ class Fondyf extends MX_Controller {
             $case_to['data']=$case['data'];
             $case_to['iduser']=$case['iduser'];
             $case_to=$this->bpm->save_case($case_to);
-            var_dump($case_to);
         }
         
         //----run case
