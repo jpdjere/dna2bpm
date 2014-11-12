@@ -85,17 +85,17 @@ class Mysql extends MX_Controller {
         $result = $this->$mysql_model->active_periods_dna2();
         debug($result);
     }
-    
+
     function Periods() {
 
-        
+
         $mysql_model = "mysql_model_periods";
         $this->load->Model($mysql_model);
 
         $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
         debug($result);
     }
-    
+
     function Anexo06() {
 
         $anexo = '06';
@@ -136,7 +136,7 @@ class Mysql extends MX_Controller {
         //$result = $this->$mysql_model->update();
         debug($result);
     }
-    
+
     function Anexo12_one($filename) {
 
         $anexo = '12';
@@ -150,6 +150,16 @@ class Mysql extends MX_Controller {
     function Anexo14() {
 
         $anexo = '14';
+        $mysql_model = "mysql_model_" . $anexo;
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+        debug($result);
+    }
+
+    function Anexo15() {
+
+        $anexo = '15';
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
