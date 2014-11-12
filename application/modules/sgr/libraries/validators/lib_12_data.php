@@ -474,6 +474,24 @@ class Lib_12_data extends MX_Controller {
                                 array_push($stack, $result);
                             }
                         }
+                        
+                        
+                        $code_error = "K.4";
+                        $k4_check_arr = array_merge($k3_check_arr, $k2_check_arr);                        
+                        if (!in_array($D_cell_value, $k4_check_arr)) {
+                            $is_cuit = $this->$model_anexo->get_mv_and_comercial_cuits($parameterArr[$i]['fieldValue'], "MV");
+                            if (!$is_cuit) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }     
+                            
+                            if (!$is_cuit) {
+                                $result = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                array_push($stack, $result);
+                            }
+                            
+                        }
+                        
                     }
                 }
 
@@ -866,7 +884,7 @@ class Lib_12_data extends MX_Controller {
                 array_push($stack, $result);
             }
         }
-        //debug($stack);        exit();
+       // debug($stack);        exit();
         $this->data = $stack;
     }
 
