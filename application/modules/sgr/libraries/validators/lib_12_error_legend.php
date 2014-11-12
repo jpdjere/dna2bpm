@@ -69,6 +69,9 @@ class Lib_12_error_legend {
             case "K.3":
                 $result_error = '<strong>Columna K - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si el Tipo de Garantía informado en la Columna "D" es alguno de los siguientes: "GFEF0", "GFEF1", "GFEF2", "GFEF3" , el CUIT informado deberá estar incluido en el anexo donde se listan los BANCOS COMERCIALES que son los únicos pueden aceptar dichos tipos de garantías.';
                 break;
+             case "K.4":
+                $result_error = '<strong>Columna K - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El CUIT del acreedor informado no se corresponde con el Tipo de Garantía Informado';
+                break;
             case "L.1":
                 $result_error = '<strong>Columna L - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener formato numérico. Acepta hasta dos decimales. No puede tomar valores negativos.';
                 break;
