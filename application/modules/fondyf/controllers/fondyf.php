@@ -144,7 +144,10 @@ class Fondyf extends MX_Controller {
             /* FonDyF/COORDINADOR (134) */
             $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group) or $this->user->isAdmin()) ? $this->base_url.'bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
             
-            $url_clone = (in_array(134, $this->id_group) or in_array(140, $this->id_group) or $this->user->isAdmin() and $case['status']=='closed') ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
+            $url_clone = (in_array(134, $this->id_group) or in_array(138, $this->id_group) or $this->user->isAdmin() and $case['status']=='closed') ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
+            
+           
+            
             $url_bpm = 0;
             if (isset($url_bpm_check))
                 $url_bpm = $this->bpm->gateway($url_bpm_check);
@@ -229,6 +232,7 @@ class Fondyf extends MX_Controller {
                 'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
                 'Nro' => (isset($data ['Proyectos_fondyf'] ['8339'])) ? $data ['Proyectos_fondyf'] ['8339'] : 'N/A',
                 'estado' => $status,
+                 'url_clone' => null, 
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url), 'link_msg' => $url_msg, 'url_bpm' => $url_bpm
             );
@@ -397,6 +401,7 @@ class Fondyf extends MX_Controller {
 
 
             $new_task['evaluator'] = $evaluator_info;
+            $new_task['toggle_id'] = md5($evaluator_info);
             $new_task['project'] = $project;
             $wfData['mini'][] = $new_task;
         }
