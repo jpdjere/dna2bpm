@@ -19,7 +19,7 @@
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{toggle_id}" href="#{toggle_id}">
-                        <i class="ion-arrow-right-b fa-adjust"></i> {evaluator}
+                        <i class="ion-arrow-right-b fa-adjust"></i> {evaluator} ({how_many})    
                     </a>
                 </div>
                 <div id="{toggle_id}" class="accordion-body collapse">

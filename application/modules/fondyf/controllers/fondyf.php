@@ -385,7 +385,9 @@ class Fondyf extends MX_Controller {
             foreach ($task as $each) {
 
                 $user = (array) $this->user->get_user_safe($key);
-                $evaluator_info = strtoupper($user['nick']) . " (" . $user['name'] . " " . $user['lastname'] . ")";
+                //$evaluator_info = strtoupper($user['nick']) . " | " . $user['name'] . " " . $user['lastname'];
+                $evaluator_info =  $user['name'] . " " . $user['lastname'];
+                $how_many = count($task);
 
                 $url = '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $each['project_id'];
 
@@ -395,6 +397,7 @@ class Fondyf extends MX_Controller {
                 $projData['filing_date'] = $each['filing_date'];
                 $projData['cuit'] = $each['cuit'];
                 $projData['business_name'] = $each['business_name'];
+                
 
                 $project .= $this->parser->parse('fondyf/proyectos_evaluador_anchor', $projData, true, true);
             }
@@ -402,6 +405,7 @@ class Fondyf extends MX_Controller {
 
             $new_task['evaluator'] = $evaluator_info;
             $new_task['toggle_id'] = md5($evaluator_info);
+            $new_task['how_many'] = $how_many;
             $new_task['project'] = $project;
             $wfData['mini'][] = $new_task;
         }
