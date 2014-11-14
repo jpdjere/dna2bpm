@@ -70,13 +70,34 @@ class reports extends MX_Controller {
 
     function Index() {
 
-
-
         $customData = array();
-        $default_dashboard = 'reports';
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
+        
+        
+        /* CNV case */
+        if ($this->idu == 10) {
+            $form_title = "N/D";
+            $default_dashboard = 'reports_cnv';
+            
+            switch($model){
+                case 'model_cnv_1':
+                    $form_title = "INFORMACIÓN POR SGR – VARIABLES PRINCIPALES";
+                    break;
+                
+            }
+            
+            
+            $customData['form_title'] = $form_title;
+            
+        } else {
+            $default_dashboard = 'reports';
+        }
+
+
+        
+
 
         /* HEADERS */
         $header_merge = array_merge($customData, $this->headers());
@@ -85,12 +106,13 @@ class reports extends MX_Controller {
         }
 
         /* FORM TEMPLATE */
-        $enables = array('06', '12', '14', '15', '201');
+        $enables = array('06', '12', '14', '15', '201', 'cnv_1');
 
         if (in_array($this->anexo, $enables))
             $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
         else
             $customData['form_template'] = "";
+
 
         $custom_sgr = ' <option value="' . $this->sgr_id . '">' . $this->sgr_nombre . '</option>';
         $customData['sgr_options'] = $this->get_sgrs();
@@ -101,12 +123,10 @@ class reports extends MX_Controller {
     }
 
     function action_form() {
-
-       // ini_set("error_reporting", E_ALL);
-
         $customData = array();
         $default_dashboard = 'reports_result';
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -116,12 +136,12 @@ class reports extends MX_Controller {
             $customData[$key] = $each;
         }
 
-        $rtn_report = $this->process(); 
+        $rtn_report = $this->process();
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
         $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);
         $customData['show_table'] = ($rtn_report)? : "";
-        
+
         header('Content-type: text/html; charset=UTF-8');
         $fileName = $anexo . "_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -139,7 +159,7 @@ class reports extends MX_Controller {
     function headers() {
         $rtn = array();
 
-        $rtn['sgr_nombre'] = $this->sgr_nombre;
+        $rtn['sgr_nombre'] = (isset($this->sgr_nombre)) ? $this->sgr_nombre : null;
         $rtn['sgr_id'] = $this->sgr_id;
         $rtn['sgr_id_encode'] = base64_encode($this->sgr_id);
         $rtn['base_url'] = base_url();
@@ -159,12 +179,9 @@ class reports extends MX_Controller {
 
     /* PROCESS */
 
-
-    /* PROCESS */
-
     function process() {
 
-        $anexo = $this->input->post('anexo');
+        $anexo = $this->input->post('anexo');        
         switch ($anexo) {
             case '06':
                 return $this->process_06($anexo);
@@ -185,6 +202,11 @@ class reports extends MX_Controller {
             case '201':
                 return $this->process_201($anexo);
                 break;
+            
+            /*CNV cases*/
+            case 'cnv_1':
+                return $this->process_cnv_1($anexo);
+                break;
         }
     }
 
@@ -196,12 +218,12 @@ class reports extends MX_Controller {
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-        
-         if ($this->input->post('cuit_socio'))
-            $rtn['cuit_socio'] = $this->input->post('cuit_socio');        
-        
-        $rtn['sgr_id'] = $this->input->post('sgr');        
-        
+
+        if ($this->input->post('cuit_socio'))
+            $rtn['cuit_socio'] = $this->input->post('cuit_socio');
+
+        $rtn['sgr_id'] = $this->input->post('sgr');
+
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
             $this->load->model($model);
@@ -288,14 +310,14 @@ class reports extends MX_Controller {
 
         $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
         $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-        
+
         if ($this->input->post('cuit_socio'))
             $rtn['cuit_socio'] = $this->input->post('cuit_socio');
-        
-         if ($this->input->post('nro_orden'))
+
+        if ($this->input->post('nro_orden'))
             $rtn['nro_orden'] = $this->input->post('nro_orden');
-        
-        
+
+
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
@@ -316,7 +338,7 @@ class reports extends MX_Controller {
 
         if ($this->input->post('cuit_creditor'))
             $rtn['cuit_creditor'] = $this->input->post('cuit_creditor');
-        
+
         if ($this->input->post('order_number'))
             $rtn['order_number'] = $this->input->post('order_number');
 
@@ -329,6 +351,27 @@ class reports extends MX_Controller {
 
             $result = $this->$model->get_anexo_report($anexo, $rtn);
 
+            return $result;
+        }
+    }
+
+    /* CNV */
+
+    function process_cnv_1($anexo) {
+
+        $rtn = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';        
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+            $result = $this->$model->get_anexo_report($anexo, $rtn);
+            
+         
             return $result;
         }
     }
@@ -363,9 +406,12 @@ class reports extends MX_Controller {
         $this->session->unset_userdata('rectify');
         $this->session->unset_userdata('others');
 
-
         $newdata = array('anexo_code' => $parameter);
         $this->session->set_userdata($newdata);
+        redirect('sgr/reports/');
+    }
+
+    function Cnv_code($parameter) {
         redirect('sgr/reports/');
     }
 
@@ -490,11 +536,12 @@ class reports extends MX_Controller {
 
         $user = $this->user->get_user($this->idu);
 
+
         $cpData['user'] = (array) $user;
         // $cpData['isAdmin'] = $this->user->isAdmin($user);
-        $user_lastname = isset($user->lastname) ? : "";
-        $user_name = isset($user->name) ? : "";
-        $user_email = isset($user->email) ? : "";
+        $user_lastname = isset($user->lastname) ? $user->lastname : null;
+        $user_name = isset($user->name) ? $user->name : null;
+        $user_email = isset($user->email) ? $user->email : null;
 
         $cpData['username'] = strtoupper($user_lastname . ", " . $user_name);
         $cpData['usermail'] = $user_email;
