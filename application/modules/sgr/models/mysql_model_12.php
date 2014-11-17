@@ -406,17 +406,19 @@ class mysql_model_12 extends CI_Model {
 
 
 
-        if ($already_id) {
-            //echo "duplicado" . $parameter['id'];
+         if ($already_id) {
+            echo "duplicado" . $parameter['id'];
         } else {
+            
+            echo "NO duplicado" . $parameter['id'];
 
-            $id = $this->app->genid_sgr($container);
-            $result = $this->app->put_array_sgr($id, $container, $parameter);
-            if ($result) {
-                $out = array('status' => 'ok');
-            } else {
-                $out = array('status' => 'error');
-            }
+//            $id = $this->app->genid_sgr($container);
+//            $result = $this->app->put_array_sgr($id, $container, $parameter);
+//            if ($result) {
+//                $out = array('status' => 'ok');
+//            } else {
+//                $out = array('status' => 'error');
+//            }
         }
         return $out;
     }
