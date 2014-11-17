@@ -8,8 +8,7 @@
 /tests/
 /.buildpath
 /.project
-.settings/
-.project
-.buildpath
-/anexos_sgr/
+/.settings/
 /.c9/
+.c9revisions/
+.settings
