@@ -144,7 +144,13 @@ class Fondyf extends MX_Controller {
             /* FonDyF/COORDINADOR (134) */
             $url_bpm_check = (in_array(134, $this->id_group) or in_array(133, $this->id_group) or $this->user->isAdmin()) ? $this->base_url.'bpm/engine/run/model/fondyfpp/' . $token ['case'] : null;
             
-            $url_clone = (in_array(134, $this->id_group) or in_array(138, $this->id_group) or $this->user->isAdmin() and $case['status']=='closed') ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
+            $url_clone = (
+                in_array(134, $this->id_group) 
+                or in_array(138, $this->id_group) 
+                or $this->user->isAdmin() 
+                and $case['status']=='closed'
+                and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C',$keys) //---está finalizado pero por esta figura
+                ) ? $this->base_url.'fondyf/clone_case/fondyfpp/fondyfpde/' . $token ['case'] : null;
             
            
             

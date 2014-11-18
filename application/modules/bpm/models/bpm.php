@@ -1006,18 +1006,18 @@ class Bpm extends CI_Model {
         return $next;
     }
 
-    function get_shape($resourceId, $wf) {
+    function get_shape($resourceId, &$wf) {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
         if ($debug)
             echo "<h2>get_shape</h2>" . $resourceId . '<hr/>';
-        foreach ($wf->childShapes as $obj) {
+        foreach ($wf->childShapes as $key=>$obj) {
             if ($debug)
                 echo "Analizing:" . $obj->stencil->id . '<hr>';
             if ($obj->resourceId == $resourceId) {
-                return $obj;
-            }
+                return $wf->childShapes->$key;
+                }
             if (in_array($obj->stencil->id, $this->digInto)) {
-                $thisobj = $this->get_shape($resourceId, $obj);
+                $thisobj = $this->get_shape($resourceId, $wf->childShapes->$key);
                 if ($thisobj)
                     return $thisobj;
             }
@@ -1131,15 +1131,15 @@ class Bpm extends CI_Model {
     }
 
     function bindArrayToObject($array) {
-        $return = json_decode(json_encode($array));
-
-//        foreach ($array as $k => $v) {
-//            if (is_array($v)) {
-//                $return->$k = $this->bindArrayToObject($v);
-//            } else {
-//                $return->$k = $v;
-//            }
-//        }
+        //$return = json_decode(json_encode($array));
+        $return = new stdClass();
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                $return->$k = $this->bindArrayToObject($v);
+            } else {
+                $return->$k = $v;
+            }
+        }
         return $return;
     }
 
