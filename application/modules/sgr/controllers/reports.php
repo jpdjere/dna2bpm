@@ -65,7 +65,7 @@ class reports extends MX_Controller {
 
         /* TIME LIMIT */
         set_time_limit(230400);
-        //ini_set("error_reporting", 0);
+        ini_set("error_reporting", 0);
     }
 
     function Index() {
@@ -74,29 +74,27 @@ class reports extends MX_Controller {
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
-        
-        
+
+
         /* CNV case */
         if ($this->idu == 10) {
             $form_title = "N/D";
             $default_dashboard = 'reports_cnv';
-            
-            switch($model){
+
+            switch ($model) {
                 case 'model_cnv_1':
                     $form_title = "INFORMACIÓN POR SGR – VARIABLES PRINCIPALES";
                     break;
-                
             }
-            
-            
+
+
             $customData['form_title'] = $form_title;
-            
         } else {
             $default_dashboard = 'reports';
         }
 
 
-        
+
 
 
         /* HEADERS */
@@ -122,6 +120,41 @@ class reports extends MX_Controller {
         $this->render($default_dashboard, $customData);
     }
 
+    function action_form_cnv() {
+        $customData = array();
+        $default_dashboard = 'form_result_cnv';
+
+        /* HEADERS */
+        $header_merge = array_merge($customData, $this->headers());
+        foreach ($header_merge as $key => $each) {
+            $customData[$key] = $each;
+        }
+
+
+
+        $customData['form_template'] = $this->parser->parse('reports/form_result_cnv', $customData, true);
+
+        foreach ($this->process() as $key => $value) {
+            $customData[$key] = ($value)? : "";
+        }
+
+
+
+        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
+
+
+        $customData['sgr'] = "pepe";
+        /* LOAD LIBRARY */
+        $this->load->library('pdf/pdf');
+
+        $this->pdf->set_paper('a4', 'portrait');
+        $this->pdf->parse($default_dashboard, $customData);
+        $this->pdf->render();
+        $this->pdf->stream("cnv.pdf");
+
+         //$this->render($default_dashboard, $customData);
+    }
+
     function action_form() {
         $customData = array();
         $default_dashboard = 'reports_result';
@@ -137,6 +170,10 @@ class reports extends MX_Controller {
         }
 
         $rtn_report = $this->process();
+
+
+
+
         $fileName = "reporte_al_" . date("j-n-Y"); //Get today
 
         $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);
@@ -181,7 +218,7 @@ class reports extends MX_Controller {
 
     function process() {
 
-        $anexo = $this->input->post('anexo');        
+        $anexo = $this->input->post('anexo');
         switch ($anexo) {
             case '06':
                 return $this->process_06($anexo);
@@ -202,10 +239,16 @@ class reports extends MX_Controller {
             case '201':
                 return $this->process_201($anexo);
                 break;
-            
-            /*CNV cases*/
+
+            /* CNV cases */
             case 'cnv_1':
-                return $this->process_cnv_1($anexo);
+
+                $rtn_array = array();
+                $rtn_array['show_table'] = $this->process_cnv_1($anexo);
+                $rtn_array['show_table_2'] = $this->process_cnv_1_2($anexo);
+                $rtn_array['show_table_3'] = $this->process_cnv_1_3($anexo);
+                return $rtn_array;
+
                 break;
         }
     }
@@ -363,15 +406,47 @@ class reports extends MX_Controller {
         $report_name = $this->input->post('report_name');
 
 
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';        
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
         $rtn['sgr_id'] = $this->input->post('sgr');
         if ($this->input->post('sgr')) {
             $model = "model_" . $anexo;
             $this->load->model($model);
 
-            $result = $this->$model->get_anexo_report($anexo, $rtn);
-            
-         
+            $result = $this->$model->get_anexo_report($anexo, $rtn, "default");
+            return $result;
+        }
+    }
+
+    function process_cnv_1_2($anexo) {
+
+        $rtn = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+            $result = $this->$model->get_anexo_report($anexo, $rtn, '2');
+            return $result;
+        }
+    }
+
+    function process_cnv_1_3($anexo) {
+
+        $rtn = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $rtn['sgr_id'] = $this->input->post('sgr');
+        if ($this->input->post('sgr')) {
+            $model = "model_" . $anexo;
+            $this->load->model($model);
+
+            $result = $this->$model->get_anexo_report($anexo, $rtn, '3');
             return $result;
         }
     }

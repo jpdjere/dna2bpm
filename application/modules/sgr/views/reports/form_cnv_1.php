@@ -1,5 +1,5 @@
 
-<form method="post" class="well" id="form" action="reports/action_form/">
+<form method="post" class="well" id="form" action="reports/action_form_cnv/">
 
     <div class="row ">
         <!--  ========================== row 4 . ========================== -->
