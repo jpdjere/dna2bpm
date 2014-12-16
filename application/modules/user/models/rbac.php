@@ -50,7 +50,7 @@ class Rbac extends CI_Model {
 
     function clear_paths($idgroup) {
         if ($idgroup) {
-            $options = array("justOne" => false, "safe" => true);
+            $options = array("justOne" => false, "w" => true);
             $criteria = array('idgroup' => (int) $idgroup);
             return $this->mongo->db->selectCollection($this->permGroups)->remove($criteria, $options);
         } else {
