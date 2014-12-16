@@ -41,7 +41,7 @@ class Msg extends CI_Model {
             }else{
             	//Check subject
             	$myregex = new MongoRegex("/$filter/i");
-            	$query['subject'] = $myregex;
+            	$query['$or']=array(array("subject" => $myregex),array("body" => $myregex));
             }
         }
 
@@ -58,15 +58,15 @@ class Msg extends CI_Model {
     
     // ===== Get MSGs using a filter
     function get_msgs_by_filter($filter = array()) {
-    	return $this->mongo->db->msg->find($filter);
+    	return $this->mongo->db->msg->find((array)$filter);
     }
 
-    function count_msgs($iduser, $folder = null,$read=null) {
+    function count_msgs($iduser, $folder='inbox') {
         $query = array(
             'to' => (double) $iduser,
             'folder' => $folder
         );
-        if(!is_null($read))$query['read']=$read;
+        //if(!is_null($read))$query['read']=$read;
         return $this->mongo->db->msg->find($query)->count();
     }
 
@@ -115,7 +115,7 @@ class Msg extends CI_Model {
 // 1 = errors and messages
 // 2 = messages only
             $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
-            $mail->Subject = $this->config->item('mail_suffix').' ' . $msg['subject'];
+            $mail->Subject = utf8_decode($this->config->item('mail_suffix').' ' . $msg['subject']);
             $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
             $mail->IsHTML(true);
             $mail->MsgHTML(nl2br($msg['body']));
@@ -190,6 +190,3 @@ class Msg extends CI_Model {
     }
 
 }
-
-//
-?>

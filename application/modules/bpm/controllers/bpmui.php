@@ -74,7 +74,8 @@ class Bpmui extends MX_Controller {
         }, $models);
         //----get folders
         $folders = array_unique(array_map(function($model) {
-                    return $model['folder'];
+                    if (isset($model['folder']))
+                        return $model['folder'];
                 }, $models));
         sort($folders);
         //-----make 2 level tree
@@ -82,7 +83,8 @@ class Bpmui extends MX_Controller {
             $data['folders'][] = array(
                 'folder' => $folder,
                 'models' => array_filter($models, function($model) use($folder) {
-                            return $model['folder'] == $folder;
+                            if (isset($model['folder']))
+                                return $model['folder'] == $folder;
                         })
             );
         }
@@ -140,8 +142,8 @@ class Bpmui extends MX_Controller {
         echo $this->parser->parse('bpm/widgets/ministatus', $data, true, true);
     }
 
-    function widget_data($model, $idcase) {
-        $case = $this->bpm->get_case($idcase);
+    function widget_data($idwf, $idcase) {
+        $case = $this->bpm->get_case($idcase,$idwf);
         ob_start();
         var_dump($this->bpm->load_case_data($case));
         $content = ob_get_contents();
@@ -170,6 +172,26 @@ class Bpmui extends MX_Controller {
                 echo "There is no tile named: $tile";
             }
         }
+    }
+
+    function tile_tasks2me() {
+        $data['lang'] = $this->lang->language;
+        $data['title'] = $this->lang->line('MyTasks');
+//        $query = array(
+//            'assign' => $this->idu,
+//            'status' => 'user',
+//        );
+        $query = array(
+            'assign' => $this->idu,
+            'status' => 'user'
+        );
+
+        $tasks = $this->bpm->get_tasks_byFilter($query);
+        $data['number'] = count($tasks);
+        $data['icon'] = 'ion-android-checkmark';
+        $data['more_info_link'] = $this->base_url . 'dashboard/show/tasks';
+        $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
+        return $this->parser->parse('dashboard/tiles/tile-yellow', $data, true, true);
     }
 
     function tile_tasks() {

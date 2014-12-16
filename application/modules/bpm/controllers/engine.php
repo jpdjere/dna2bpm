@@ -93,9 +93,9 @@ class Engine extends MX_Controller {
 
     function Newcase($model, $idwf, $manual = false, $parent = null, $silent = false) {
         // ---Gen new case ID
-        $case = $this->bpm->gen_case($idwf);
+        $idcase = $this->bpm->gen_case($idwf);
         if ($manual) {
-            $mycase = $this->bpm->get_case($case, $idwf);
+            $mycase = $this->bpm->get_case($idcase, $idwf);
             $mycase ['run_manual'] = true;
 
             $this->bpm->save_case($mycase);
@@ -103,7 +103,7 @@ class Engine extends MX_Controller {
 
         // ----save parent data if any
         if ($parent) {
-            $mycase = $this->bpm->get_case($case, $idwf);
+            $mycase = $this->bpm->get_case($idcase, $idwf);
             $mycase ['parent'] = $parent;
             $this->bpm->save_case($mycase);
             /*
@@ -112,27 +112,27 @@ class Engine extends MX_Controller {
             // ----set child process in parent
             $token = $this->bpm->get_token($parent ['token'] ['idwf'], $parent ['token'] ['case'], $parent ['token'] ['resourceId']);
             $child = array(
-                'case' => $case,
+                'case' => $idcase,
                 'idwf' => $idwf
             );
             $token ['child'] = $child;
             $this->bpm->save_token($token);
         }
         // ---Start the case (will move next on startnone shapes)
-        $this->Startcase($model, $idwf, $case, $silent);
+        $this->Startcase($model, $idwf, $idcase, $silent);
     }
 
-    function Start($model, $idwf, $case, $silent = false) {
-        $this->Startcase($model, $idwf, $case, $silent = false);
+    function Start($model, $idwf, $idcase, $silent = false) {
+        $this->Startcase($model, $idwf, $idcase, $silent = false);
     }
 
-    function Startcase($model, $idwf, $case, $silent = false) {
+    function Startcase($model, $idwf, $idcase, $silent = false) {
         $debug = (isset($this->debug [__FUNCTION__])) ? $this->debug [__FUNCTION__] : false;
         if ($debug)
-            var_dump($model, $idwf, $case, $debug);
+            var_dump($model, $idwf, $idcase, $debug);
         // ---Remove tokens from db if there are any
-        $this->bpm->clear_tokens($idwf, $case);
-        $this->bpm->clear_case($case);
+        $this->bpm->clear_tokens($idwf, $idcase);
+        $this->bpm->clear_case($idwf,$idcase);
         // ---start a case and insert start tokens in database
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         if (!$mywf) {
@@ -154,21 +154,21 @@ class Engine extends MX_Controller {
             show_error("The Schema doesn't have an start point");
         // ---Start all StartNoneEvents as possible
         foreach ($start_shapes as $start_shape) {
-            $this->bpm->set_token($idwf, $case, $start_shape->resourceId, $start_shape->stencil->id, 'pending');
+            $this->bpm->set_token($idwf, $idcase, $start_shape->resourceId, $start_shape->stencil->id, 'pending');
         }
         if ($this->create_start_msg) {
             // ------Create a message in the inbox.
             $msg = array(
                 'iduser' => $this->session->userdata('iduser'),
-                'subject' => $wf->properties->name . ':' . $case,
+                'subject' => $wf->properties->name . ':' . $idcase,
                 'body' => $wf->properties->documentation,
                 'from' => 'DNA²',
-                'link' => 'bpm/engine/tokens/model' . $idwf . '/' . $case
+                'link' => 'bpm/engine/tokens/model' . $idwf . '/' . $idcase
             );
             $this->user->create_message($this->session->userdata('iduser'), $msg);
         }
         // ---Redir the browser to engine Run
-        $redir = "bpm/engine/run/model/$idwf/$case";
+        $redir = "bpm/engine/run/model/$idwf/$idcase";
         if (!$silent) {
             header("Location:" . $this->base_url . $redir);
         } else {
@@ -257,9 +257,9 @@ class Engine extends MX_Controller {
 
             $this->bpm->update_case_token_status($idwf, $case);
             //----if some helper want to break then break
-            if ($this->break_on_next) {
-                redirect($this->base_url . $this->config->item('default_controller'));
-            }
+//            if ($this->break_on_next) {
+//                redirect($this->base_url . $this->config->item('default_controller'));
+//            }
             $this->get_pending('model', $idwf, $case, $run_resourceId);
             $this->run_after();
             $run_resourceId = null;
@@ -294,6 +294,19 @@ class Engine extends MX_Controller {
             if ($resourceId) {
                 $shape = $this->bpm->get_shape($resourceId, $wf);
                 if ($shape) {
+                    //---save postdata in case
+                    if(property_exists($shape->properties->datainputset, 'items')){
+                        $thisCase=$this->bpm->get_case($case);
+                        $thisCase['data']['datainputset']=(isset($thisCase['data']['datainputset']))?(array)$thisCase['data']['datainputset']:array();
+                        if(count($_POST)){
+                            foreach ($shape->properties->datainputset->items as $item) {
+                                if(isset($_POST[$item->name]))
+                                    $thisCase['data']['datainputset'][$item->name]=$_POST[$item->name];
+                            }
+                            $this->bpm->save_case($thisCase);
+                        }
+                    }
+                    //---MOVENEXT
                     $this->bpm->movenext($shape, $wf);
                 } else {
                     show_error("The shape $resourceId doesn't exists anymore");
@@ -348,7 +361,7 @@ class Engine extends MX_Controller {
                         'status' => $token ['status'],
                         'name' => (isset($shape->properties->name)) ? $shape->properties->name : ''
                     );
-                    $this->bpm->update_history($wf->case, $history);
+                    $this->bpm->update_history($wf->idwf,$wf->case, $history);
                     $shape_flow = $this->bpm->get_shape($flowId, $wf);
                     // run_SequenceFlow(_flow, $wf);
                     $this->bpm->movenext($shape_flow, $wf);
@@ -402,6 +415,8 @@ class Engine extends MX_Controller {
         $renderData ['idwf'] = $idwf;
         $renderData ['idcase'] = $idcase;
         $renderData ['resourceId'] = $resourceId;
+        $renderData['date'] = date($this->lang->line('dateFmt'));
+        
         // -----load bpm
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         $mywf ['data'] ['idwf'] = $idwf;
@@ -409,8 +424,11 @@ class Engine extends MX_Controller {
         $wf = bindArrayToObject($mywf ['data']);
         // ---get case
         $case = $this->bpm->get_case($idcase, $idwf);
+        //---set inititaror
+        $renderData['Initiator']=(array)$this->user->get_user_safe($case['iduser']);
         // ---get token
         $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
+        
         // --get shape
         $shape = $this->bpm->get_shape($token ['resourceId'], $wf);
         // -check if data is loaded
@@ -434,18 +452,39 @@ class Engine extends MX_Controller {
                     if (method_exists($this->$conn, 'get_ui')) {
                         $do['ui'] = $this->$conn->get_ui($resource, $dataShape, $wf);
                     }
-                    
+
                     $renderData['DataObject_Input'][] = $do;
                 }
             }
         }
+        //  var_dump($shape->properties->datainputset);
+        //----prepare manual input
+        if(property_exists($shape->properties->datainputset, 'items')){
+            foreach ($shape->properties->datainputset->items as $item){
+                if(!strstr('.',$item->name) and $item->whileexecuting=='true'){
+                  $renderData['DataInputSet'][]=array(
+                      'name'=>$item->name,
+                      'required'=>($item->optional=='true')?'required':'',
+                      );  
+                }
+            }
+        }
+        // var_dump($renderData['DataInputSet']);
 // 		exit;
         $renderData ['task_documentation'] = $shape->properties->documentation;
+        
         if ($resourceId) {
             $renderData += $this->bindObjectToArray($this->data);
             $renderData ['wf'] = $mywf ['data'] ['properties'];
             // $renderData+=$mywf['data']['properties'];
             $renderData ['token'] = $token;
+            //---map users assigned
+            $renderData ['assign']=array_map(
+                function($iduser){
+                return (array)$this->user->get_user_safe($iduser);
+                },
+                $renderData['token']['assign']);
+
             $renderData ['case'] = $case;
             // --parse documentation string
             $renderData ['task_documentation'] = ($renderData ['task_documentation'] == '') ? '' : $this->parser->parse_string(nl2br($renderData ['task_documentation']), $renderData, true, true);
@@ -490,6 +529,11 @@ class Engine extends MX_Controller {
         $wf = bindArrayToObject($mywf ['data']);
         // ---load data 4 templating
         $this->load_data($wf, $idcase);
+        // ---get case
+        $case = $this->bpm->get_case($idcase, $idwf);
+        //---set inititaror
+        $renderData['Initiator']=(array)$this->user->get_user_safe($case['iduser']);
+        
         $i = 1;
 
         if ($resourceId) {
@@ -768,6 +812,9 @@ class Engine extends MX_Controller {
         // if no filter passed then set default to me
         // $debug = true;
         // $this->load_data($idwf, $idcase);
+        if ($this->break_on_next) {
+            redirect($this->base_url . $this->config->item('default_controller'));
+        }
         $renderData = array();
         $renderData = $this->lang->language;
         $renderData ['theme'] = $this->config->item('theme');

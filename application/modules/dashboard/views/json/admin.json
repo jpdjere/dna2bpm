@@ -32,8 +32,8 @@
                 },
                 {
                     "title": "Tile01",
-                    "module": "git",
-                    "controller": "git",
+                    "module": "gitmod",
+                    "controller": "gitmod",
                     "span": 2,
                     "function": "tile"
 
@@ -60,7 +60,6 @@
                     "controller": "bpmui",
                     "function": "widget_cases"
                 }
-
             ]
         },
         {

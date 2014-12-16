@@ -196,6 +196,7 @@ class Bpm extends CI_Model {
     }
 
     function get_cases_stats($filter) {
+
         $all_tokens = array();
         $allcases = $this->get_cases_byFilter($filter, array('id', 'idwf', 'token_status'));
         foreach ($allcases as $case) {
@@ -298,33 +299,37 @@ class Bpm extends CI_Model {
         $svg = str_replace('<svg >', $header, $svg);
         $svg = str_replace('blank"href', 'blank" href', $svg);
         $this->load->helper('file');
+        $phantom_path = APPPATH . 'modules/bpm/assets/jscript/phantomjs-1.9.7-linux-x86_64';
         $resize = '-resize 30%';
         $crop = '-crop 720x720+0+0';
         $path = 'images/svg/';
         $path_thumb = 'images/png/';
         $filename = $path . $idwf . '.svg';
         $filename_thumb = $path_thumb . $idwf . '.png';
-        $filename_crop = $path_thumb . $idwf . '-croped.png';
+        $filename_crop = $path_thumb . $idwf . '-cropped.png';
         $filename_thumb_small = $path_thumb . $idwf . '-small.png';
 
         $result = write_file($filename, $svg);
+        
         $rtn = '';
-        $command = "convert '$filename' '$filename_thumb'";
-        exec($command, $cmd, $rtn);
-        if ($debug) {
-            echo "$command\n rt:$rtn\n";
-        }
-        $command = "convert  $crop '$filename_thumb' '$filename_crop'";
-        exec($command, $cmd, $rtn);
-
-        if ($debug) {
-            echo "$command\n rt:$rtn\n";
-        }
-        $command = "convert $resize '$filename_crop'  '$filename_thumb_small'";
-        exec($command, $cmd, $rtn);
-        if ($debug) {
-            echo getcwd() . "\n";
-            echo "$command\n rt:$rtn\n";
+        if ($this->config->item('make_thumbnails')) {
+            $command = "$phantom_path/bin/phantomjs $phantom_path/rasterize.js $filename $filename_thumb";
+            exec($command, $cmd, $rtn);
+            if ($debug) {
+                echo "$command\n rt:$rtn\n";
+            }
+            $command = "$phantom_path/bin/phantomjs $phantom_path/crop.js $filename $filename_crop";
+            exec($command, $cmd, $rtn);
+    
+            if ($debug) {
+                echo "$command\n rt:$rtn\n";
+            }
+            $command = "$phantom_path/bin/phantomjs $phantom_path/zoom.js $filename_crop $filename_thumb_small .5";
+            exec($command, $cmd, $rtn);
+            if ($debug) {
+                echo getcwd() . "\n";
+                echo "$command\n rt:$rtn\n";
+            }
         }
         return $result;
     }
@@ -366,7 +371,7 @@ class Bpm extends CI_Model {
         if (!isset($data['iduser']))
             $data['iduser'] = (int) $this->session->userdata('iduser');
 
-        if (!isset($idwf) or !isset($case) or !isset($resourceId)) {
+        if (!isset($idwf) or ! isset($case) or ! isset($resourceId)) {
             show_error("Can't update whith: idwf:$idwf case:$case  resourceId:$resourceId<br/>Incomplete Data.");
         }
         //$title=(isset($shape->properties->title))?$shape->properties->title;$shape->stencil->id;
@@ -402,7 +407,7 @@ class Bpm extends CI_Model {
         return $this->db->where($criteria)->delete('tokens');
     }
 
-    function clear_case($idcase) {
+    function clear_case($idwf, $idcase) {
         $case = $this->get_case($idcase);
         $_id = $case['_id'];
         return $this->save_case(
@@ -453,23 +458,31 @@ class Bpm extends CI_Model {
         $case = $this->get_case($idcase);
         $data = $this->load_case_data($case, $idwf);
         $token = $this->get_token($idwf, $idcase, $resourceId);
-        if ($token) {
-            $tdata = (isset($token['data'])) ? $token['data'] : array();
-            foreach ($data as $entity => $values) {
-                unset($values['_id']);
-                unset($values['id']);
-                unset($values['owner']);
-                unset($values['parent']);
-                try {
-                    $token['data'] = (array)$values + (array)$tdata;
-                } catch (Exception $e) {
-                    
-                }
+        if (!$token) {
+            $mywf = $this->load($idwf);
+            $wf = $this->bindArrayToObject($mywf ['data']);
+            //---tomo el template de la tarea
+            $wf->idwf = $idwf;
+            $wf->case = $idcase;
+            $shape = $this->bpm->get_shape($resourceId, $wf);
+            $token = $this->token_checkin(array('status' => 'finished'), $wf, $shape);
+        }
+        $token['data'] = (isset($token['data'])) ? $token['data'] : array();
+        foreach ($data as $entity => $values) {
+            unset($values['_id']);
+            unset($values['id']);
+            unset($values['owner']);
+            unset($values['parent']);
+            try {
+                $token['data'] = (array) $values + $token['data'];
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
+        }
+//            var_dump($token);
 //            echo json_encode($token);
 //            exit;
-            $this->save_token($token);
-        }
+        $this->save_token($token);
         return $token;
     }
 
@@ -599,7 +612,7 @@ class Bpm extends CI_Model {
         $query+=$filter;
         toRegex($query);
         //var_dump2(json_encode($query));
-        return $this->mongo->db->tokens->find($query);
+        return $this->mongo->db->tokens->find($query)->sort(array('_id'=>true));
     }
 
     function get_triggers() {
@@ -730,7 +743,8 @@ class Bpm extends CI_Model {
     function save_case($case) {
         unset($case['_id']);
         $query = array(
-            'id' => $case['id']
+            'id' => $case['id'],
+            'idwf'=>$case['idwf']
         );
         //----get the status tokens
         //$case['token_status'] = $this->get_token_status($case['idwf'], $case['id']);
@@ -761,7 +775,7 @@ class Bpm extends CI_Model {
         $hasone = false;
 
         while (!$hasone and $i <= $trys) {//---search until found or $trys iterations
-            $query = array('id' => $id);
+            $query = array('id' => $id,'idwf'=>$idwf);
             $result = $this->db->get_where('case', $query)->result();
             $i++;
             if ($result) {
@@ -993,18 +1007,18 @@ class Bpm extends CI_Model {
         return $next;
     }
 
-    function get_shape($resourceId, $wf) {
+    function get_shape($resourceId, &$wf) {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
         if ($debug)
             echo "<h2>get_shape</h2>" . $resourceId . '<hr/>';
-        foreach ($wf->childShapes as $obj) {
+        foreach ($wf->childShapes as $key=>$obj) {
             if ($debug)
                 echo "Analizing:" . $obj->stencil->id . '<hr>';
             if ($obj->resourceId == $resourceId) {
-                return $obj;
-            }
+                return $wf->childShapes->$key;
+                }
             if (in_array($obj->stencil->id, $this->digInto)) {
-                $thisobj = $this->get_shape($resourceId, $obj);
+                $thisobj = $this->get_shape($resourceId, $wf->childShapes->$key);
                 if ($thisobj)
                     return $thisobj;
             }
@@ -1118,15 +1132,15 @@ class Bpm extends CI_Model {
     }
 
     function bindArrayToObject($array) {
-        $return = json_decode(json_encode($array));
-
-//        foreach ($array as $k => $v) {
-//            if (is_array($v)) {
-//                $return->$k = $this->bindArrayToObject($v);
-//            } else {
-//                $return->$k = $v;
-//            }
-//        }
+        //$return = json_decode(json_encode($array));
+        $return = new stdClass();
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                $return->$k = $this->bindArrayToObject($v);
+            } else {
+                $return->$k = $v;
+            }
+        }
         return $return;
     }
 
@@ -1229,8 +1243,8 @@ class Bpm extends CI_Model {
         return $start_shapes;
     }
 
-    function update_history($idcase, $data) {
-        $query = array('id' => $idcase);
+    function update_history($idwf,$idcase, $data) {
+        $query = array('id' => $idcase,'idwf'=>$idwf);
         $options = array('w' => true, 'justOne' => true);
         $action = array(
             '$push' => array(
@@ -1301,7 +1315,7 @@ class Bpm extends CI_Model {
             'status' => $token['status'],
             'name' => (isset($shape_src->properties->name)) ? $shape_src->properties->name : ''
         );
-        $this->update_history($wf->case, $history);
+        $this->update_history($wf->idwf,$wf->case, $history);
         //---remove lock
         $token['lockedBy'] = null;
         $token['lockedDate'] = null;
@@ -1388,7 +1402,6 @@ class Bpm extends CI_Model {
 
     function assign($shape, $wf) {
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
-        $debug = false;
         if ($debug)
             echo '<H1>Assign:' . $shape->properties->name . '</H1>';
         $token = $this->get_token($wf->idwf, $wf->case, $shape->resourceId);
@@ -1503,13 +1516,13 @@ class Bpm extends CI_Model {
           if ($debug)
           echo '<H3>Auto-Assign Runner have no parent "LANE"</H3>';
           //----Assign the the shape to the runner
-          $data['assign'][] = $this->idu;
-          } */
-
+          $data['assign'][] = $this->user->Initiator;
+          } 
+        */
         /*
          * EVAL SHAPE RESOURCES
          */
-        //---now get spacific task assignements and added (if no parent lanes runner will be in assign group
+        //---now get specific task assignements and added (if no parent lanes runner has to be in assign group
         if (isset($shape->properties->resources->items)) {
             //---merge assignment with specific data.
             $resources = $this->get_resources($shape, $wf);
@@ -1549,13 +1562,15 @@ class Bpm extends CI_Model {
         $data = array_filter($data);
 
         //---if assignment not set either by group or explicit assignment then assign task to "Initiator"
-        if (isset($data['assign']) && !count($data['assign'])) {
-            if (count($data['idgroup'])) {
-                $initiator = $this->user->get_user($this->user->Initiator);
-                if (array_intersect($data['idgroup'], $initiator->group)) {
-                    $data['assign'][] = $this->user->Initiator;
-                    if ($debug)
-                        echo '<H3>Assign Initiator as him belongs to lane group</H3>';
+        if (!isset($data['assign']) or !count($data['assign'])) {
+            if (isset($data['idgroup'])){
+                if(count($data['idgroup'])) {
+                    $initiator = $this->user->get_user($this->user->Initiator);
+                    if (array_intersect($data['idgroup'], $initiator->group)) {
+                        $data['assign'][] = $this->user->Initiator;
+                        if ($debug)
+                            echo '<H3>Assign Initiator as him belongs to lane group</H3>';
+                    }
                 }
             } else {
                 $data['assign'][] = $this->user->Initiator;
@@ -1624,6 +1639,7 @@ class Bpm extends CI_Model {
             foreach ($shape->properties->resources->items as $rule) {
                 if ($rule->resourceassignmentexpr) {
                     $resource = $rule->resource;
+                    $type = $rule->resource_type;
                     $resourceassignmentexpr = $rule->resourceassignmentexpr;
                     $ruleEval = 'return $this->' . $resource . '->' . $resourceassignmentexpr . ';';
                     //---allow resources to be passed by JSON
@@ -1643,11 +1659,36 @@ class Bpm extends CI_Model {
                             $matches = (is_array($matches)) ? $matches : (array) $matches;
                             foreach ($matches as $iduser) {
 
-                                $rtn['assign'][] = (int) $iduser;
+                                $rtn[$type][] = (int) $iduser;
                                 if ($debug) {
                                     $user = $this->user->get_user($iduser);
-                                    echo "adding user:" . $user->nick . ':' . $user->idu . ':' . $user->name . ' ' . $user->lastname . '<br/>';
+                                    echo "adding user:" . $user->nick . ':' . $user->idu . ':' . $user->name . ' ' . $user->lastname . '<hr/>';
                                 }
+                            }
+                            break;
+                        case 'token':
+                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n', "\n", $resourceassignmentexpr)), $wf);
+                            if ($shape) {
+                                $token = $this->get_token($case['idwf'], $case['id'], $shape[0]->resourceId);
+                                if ($token) {
+                                    if ($debug) {
+                                        echo "Get Resources from BPM shape: $resourceassignmentexpr <hr/>";
+                                    }
+                                    $rtn[$type] = (isset($rtn[$type])) ? $rtn[$type] : array();
+                                    $token['assign'] = (isset($token['assign'])) ? $token['assign'] : array();
+                                    $rtn[$type] = array_unique(array_merge($token['assign'], $rtn[$type]));
+                                }
+                            }
+                            break;
+                        case 'shape':
+                            $shape = $this->get_shape_byprop(array('name' => str_replace('\n', "\n", $resourceassignmentexpr)), $wf);
+                            if ($shape) {
+                                $res_extra = $this->get_resources($shape, $wf, $case);
+                                if ($debug) {
+                                    echo "Get Resources from BPM shape: $resourceassignmentexpr <hr/>";
+                                    var_dump($res_extra, $rtn);
+                                }
+                                $rtn = array_merge($rtn, $res_extra);
                             }
                             break;
                         case 'case':
@@ -1656,7 +1697,7 @@ class Bpm extends CI_Model {
                                 $matches = (json_decode($resourceassignmentexpr)) ? json_decode($resourceassignmentexpr) : eval($ruleEval);
                                 $matches = (is_array($matches)) ? $matches : (array) $matches;
                                 foreach ((array) $matches as $iduser) {
-                                    $rtn['assign'][] = (int) $iduser;
+                                    $rtn[$type][] = (int) $iduser;
                                     if ($debug) {
                                         $user = $this->user->get_user($iduser);
                                         echo "adding user:" . $user->nick . ':' . $user->idu . ':' . $user->name . ' ' . $user->lastname . '<br/>';
@@ -1677,6 +1718,11 @@ class Bpm extends CI_Model {
                 }//--end if rule
             }//---end foreach $rule
         }//---end if has assignments
+        //----make assign equals PotentialOwner if exists
+        if (isset($rtn['PotentialOwner'])) {
+            $rtn['assign'] = $rtn['PotentialOwner'];
+        }
+
         return $rtn;
     }
 
@@ -1703,7 +1749,7 @@ class Bpm extends CI_Model {
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
-        if (isset($token['idgroup']) and !isset($token['assign'])) {
+        if (isset($token['idgroup']) and ! isset($token['assign'])) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
                     $is_allowed = true;
@@ -1719,6 +1765,57 @@ class Bpm extends CI_Model {
                 echo "is_allowed=false<br/>";
         }
         return $is_allowed;
+    }
+
+    function import($file_import, $overwrite = true, $folder = 'General') {
+        $this->load->helper('file');
+        $data = pathinfo($file_import);
+        /*
+         * array (size=4)
+          'dirname' => string 'images/zip' (length=10)
+          'basename' => string 'fondyfpp.zip' (length=12)
+          'extension' => string 'zip' (length=3)
+          'filename' => string 'fondyfpp' (length=8)
+         */
+        $err = false;
+        $zip = new ZipArchive;
+        if ($zip->open($file_import) === true) {
+            $zip->extractTo('./');
+            $zip->close();
+        } else {
+            $err = true;
+            $rtnObject['msg'] = "Error can't deflate:$file_import";
+            $rtnObject['success'] = false;
+        }
+        if (!$err) {
+            $idwf = $data['filename'];
+            $filename = "images/model/$idwf.json";
+            $filename_svg = "images/svg/$idwf.svg";
+            $model = $this->bpm->model_exists($idwf);
+
+            $svg = read_file($filename_svg);
+            if ($raw = read_file($filename)) {
+                $data = json_decode($raw, false);
+//---if exists set the internal id of the old one
+                $thisModel['idwf'] = $idwf;
+                $thisModel['data'] = $data;
+                $thisModel['folder'] = $folder;
+                $thisModel['svg'] = $svg;
+                if ($model) {
+                    $this->bpm->save($idwf, $data, $svg);
+                    $rtnObject['msg'] = "Imported OK! Updated existing model: $idwf";
+                    $rtnObject['success'] = true;
+                } else {
+                    $rtnObject['msg'] = "Imported OK! New Model Created: $idwf";
+                    $rtnObject['success'] = true;
+                    $rs = $this->bpm->save_raw($thisModel);
+                }
+            } else {
+                $rtnObject['msg'] = "Error reading $file_import";
+                $rtnObject['success'] = false;
+            }
+        }//---not error
+        return $rtnObject;
     }
 
 }

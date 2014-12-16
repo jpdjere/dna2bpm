@@ -100,11 +100,13 @@ class Case_manager extends MX_Controller {
         $cpData['title'] = 'Case Manager';
 
         $cpData['css'] = array(
+            $this->module_url . 'assets/css/jsoneditor.min.css' => 'JSON-Editor CSS',
             $this->module_url . 'assets/css/case_manager.css' => 'Manager styles',
             $this->module_url . 'assets/css/extra-icons.css' => 'Extra Icons',
             $this->module_url . 'assets/css/fix_bootstrap_checkbox.css' => 'Fix Checkbox',
         );
         $cpData['js'] = array(
+            $this->module_url . 'assets/jscript/jsoneditor.min.js' => 'JSON-Editor',
             $this->module_url . 'assets/jscript/case_manager/ext.settings.js' => 'Settings & overrides',
             $this->module_url . 'assets/jscript/fontawesome_icons.js' => 'FontAwesome icons',
             $this->module_url . 'assets/jscript/case_manager/ext.data.js' => 'data Components',
@@ -238,6 +240,11 @@ class Case_manager extends MX_Controller {
                 switch ($action) {
                     case 'history':
                         $tokens = array_slice($case['history'], 0, 100);
+                        $status = array('$in'=>array('user','waiting'));
+                        $status_tokens = $this->bpm->get_tokens($idwf, $idcase,$status);
+                        $tokens=array_merge($tokens,$status_tokens);
+                        //---merge status with history
+                        
                         break;
                     case 'status':
                         // select all tokens
@@ -257,6 +264,7 @@ class Case_manager extends MX_Controller {
                 $user = $this->user->get_user($token['iduser']);
                 $token['user'] = $user->nick;
                 //----set date
+                if(isset($token['name'])) $token['title']=$token['name'];
                 $token['date'] = isset($token['checkdate']) ? date($this->lang->line('dateFmt'), strtotime($token['checkdate'])) : '???';
                 $token['icon'] = "<img src='" . $this->base_url . $this->bpm->get_icon($token['type']) . "' />";
                 $out['rows'][] = $token;

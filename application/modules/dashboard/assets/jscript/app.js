@@ -35,6 +35,9 @@ $(document).ready(function() {
         })
                 .done(function(data) {
                     $('#tiles_after section').html(data);
+                    $.smoothScroll({
+                        scrollTarget: '#tiles_after section'
+                     });
                 })
                 .error(function(jqXHR, textStatus, errorThrown) {
                     $('#tiles_after section').html(textStatus + errorThrown);
@@ -71,7 +74,7 @@ $(document).ready(function() {
         handle: ".box-header, .nav-tabs",
         forcePlaceholderSize: true,
         zIndex: 999999
-    }).disableSelection();
+    });
     $(".box-header, .nav-tabs").css("cursor", "move");
     //jQuery UI sortable for the todo list
     $(".todo-list").sortable({
@@ -79,7 +82,7 @@ $(document).ready(function() {
         handle: ".handle",
         forcePlaceholderSize: true,
         zIndex: 999999
-    }).disableSelection();
+    });
     ;
 
     //=========== ICHECK 
@@ -173,5 +176,55 @@ $(document).ready(function() {
         });
         setTimeout(update5, 30000);
     }
+    
+    /*
+     * Generic redirection after click 
+     * 
+     * Add class scrollme to anchor and data-target for target
+     */
+    $(document).on('click', ".scrollme", function() {
+    	var target=$(this).attr('data-target');
+    	if(target)
+            $.smoothScroll({
+                scrollTarget: '#'+target
+             });
+    		
+    });
+    
+    // ==== Alerts dismiss
+    $(document).on('click', '[data-dismiss="alert"]', function(event) {
+    	var url = globals['base_url']+"dashboard/alerts/dismiss";
+    	var id=$(this).parent().attr('data-id');
+    	$.post(url,{id:id},function(resp){
+    		//alert(resp);
+    	});
+    });
+    
+    $(document).on('click','.bt-print',function(e){
+    	window.print();
+    });
+    
+    /* =====================================================================================
+     * 
+     *  anchors with .ajax will be loaded in data-target or replace anchor if not presnet
+     *  
+     */
+    
+    $(document).on('click', ".ajax", function(e) {
+        e.preventDefault();
+        var me=$(this);
+        if($(this).attr('data-target')){
+            var target='#'+$(this).attr('data-target');
+            var url=$(this).attr('href');
+            $( target ).load( url );
+        }else{
+            var url=$(this).attr('href');
+            $.post(url,function(data){
+                me.parent().html(data);
+            });
+        }
+
+    });
+    
 
 });
