@@ -43,7 +43,7 @@ class Engine extends MX_Controller {
         // ---Set if suprocess has to be loaded: Default=true
         $this->expandSubProcess = false;
         // ---Debug options
-        $this->debug ['Run'] = null;
+        $this->debug ['Run'] = true;
         $this->debug ['run_post'] = null;
         $this->debug ['manual_task'] = null;
         $this->debug ['triggers'] = null;
@@ -215,12 +215,13 @@ class Engine extends MX_Controller {
             // ------Automatic Run
             $i = 1;
             // ---LOAD CORE Functions---------------------------------
-            $this->load->helper('bpmn2.0/start_end');
-            $this->load->helper('bpmn2.0/gate');
-            $this->load->helper('bpmn2.0/task');
-            $this->load->helper('bpmn2.0/event');
-            $this->load->helper('bpmn2.0/flow');
-            $this->load->helper('bpmn2.0/subproc');
+            // $this->load->helper('bpmn2.0/start_end');
+            // $this->load->helper('bpmn2.0/gate');
+            // $this->load->helper('bpmn2.0/task');
+            // $this->load->helper('bpmn2.0/event');
+            // $this->load->helper('bpmn2.0/flow');
+            // $this->load->helper('bpmn2.0/subproc');
+            $this->load->library('bpmn20/shape_engine');
             // ---------------------------------------------------------
             $this->load_data($wf, $case);
             // $open = $this->bpm->get_tokens($idwf, $case, 'pending');
@@ -257,7 +258,7 @@ class Engine extends MX_Controller {
                         /*
                          * Calls the specific function for that shape or movenext
                          */
-                        $result = (function_exists($callfunc)) ? $callfunc($shape, $wf, $this) : $this->bpm->movenext($shape, $wf);
+                        $result = (method_exists($this->shape_engine,$callfunc)) ? $this->shape_engine->$callfunc($shape, $wf, $this) : $this->bpm->movenext($shape, $wf);
                     }
                 }
                 // ---clear resource id filter

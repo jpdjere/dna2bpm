@@ -313,6 +313,12 @@ function run_test($idwf,$idcase,$resourceId){
         
     
     }
+    function shape_engine(){
+        $this->load->library('bpmn20/shape_engine');
+        var_dump(get_class_methods($this->shape_engine));
+        var_dump(get_parent_class($this),get_parent_class($this->shape_engine));
+        
+    }
 }
 /* End of file test */
 /* Location: ./system/application/controllers/welcome.php */

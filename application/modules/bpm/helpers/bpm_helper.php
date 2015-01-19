@@ -116,5 +116,12 @@ if(!function_exists('date_diff')) {
 
         return $diff;
     }
+        function notme($shapes, $resourceId) {
+            foreach ($shapes as $key => $shape) {
+                if ($shape->resourceId == $resourceId)
+                    $shapes[$key] = null;
+            }
+        return array_filter($shapes);
+        }
 }
 ?>
