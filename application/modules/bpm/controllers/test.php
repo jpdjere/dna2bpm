@@ -317,11 +317,12 @@ function run_test($idwf,$idcase,$resourceId){
     function refactor_id(){
         $cases=$this->bpm->get_cases_byFilter(array());
         foreach($cases as $case){
-            $case['idcase']=$case['id'];
-            echo $case['idwf'].'->'.$case['idcase'].'<hr>';
-            unset($case['id']);
-            $this->bpm->save_case($case);
-            
+            if(isset($case['id'])){
+                $case['idcase']=$case['id'];
+                echo $case['idwf'].'->'.$case['idcase'].'<hr>';
+                unset($case['id']);
+                $this->bpm->save_case($case);
+            }
         }
         
     }
