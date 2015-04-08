@@ -2,7 +2,7 @@
 Ext.define('caseModel', {
     extend:"Ext.data.Model",
     fields:[
-        'id',
+        'idcase',
         'idwf',
         'iduser',
         'user',

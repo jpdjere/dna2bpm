@@ -293,8 +293,9 @@ class Bpmui extends MX_Controller {
         echo $this->parser->parse('bpm/widgets/tasks_done', $data, true, true);
     }
 
+    
     function widget_2doMe($chunk = 1, $pagesize = 5) {
-        //$data['lang']=$this->lang->language;
+        //$data['lang']=$this->lang->language; ==
         $query = array(
             'assign' => $this->idu,
             'status' => 'user'

@@ -2,7 +2,7 @@
 function run_MessageFlow($shape, $wf,$CI) {
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     $idwf = $wf->idwf;
-    $case = $wf->case;
+    $case = $wf->idcase;
     $data=array();
     //----End catching
     foreach ($shape->outgoing as $out) {
@@ -22,7 +22,7 @@ function run_SequenceFlow($shape, $wf,$CI) {
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     
     $idwf = $wf->idwf;
-    $case = $wf->case;
+    $case = $wf->idcase;
     $data=array();
     //---collect data from previous instance
     $resourceId = $shape->resourceId;
@@ -37,7 +37,7 @@ function run_SequenceFlow($shape, $wf,$CI) {
     if($debug)  var_dump('Data_out',$data_out);
     if ($data_out) {
         //---get data token from previous shape
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inbound[0]->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inbound[0]->resourceId);
         foreach ($data_out as $item) {
             
             $data['transport'][$item->name] = (isset($token['data'][$item->name])) ? $token['data'][$item->name]:null;
@@ -62,7 +62,7 @@ function run_SequenceFlow($shape, $wf,$CI) {
                 $CI->bpm->movenext($shape, $wf);
             } else {
                 $data = array('conditionexpression' => $strEval, 'result' => $result);
-                $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'stoped', $data);
+                $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'stoped', $data);
             }
             break;
         case 'None':

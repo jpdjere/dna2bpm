@@ -258,11 +258,11 @@ class Repository extends MX_Controller {
 //---load WF
         $mywf = $this->bpm->load($idwf, true);
         $mywf['data']['idwf'] = $idwf;
-        $mywf['data']['case'] = $idcase;
+        $mywf['data']['idcase'] = $idcase;
         $wf = bindArrayToObject($mywf['data']);
         $status = array('$regex' => $filter_status);
 //$status=array('$regex'=>'^wa*');
-        $case = $this->bpm->get_case($wf->case,$wf->idwf);
+        $case = $this->bpm->get_case($wf->idcase,$wf->idwf);
         $open = $case['history'];
         $data['count'] = count($open);
         $data['idcase'] = $idcase;

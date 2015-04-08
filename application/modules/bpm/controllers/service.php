@@ -53,10 +53,10 @@ class Service extends MX_Controller {
         $out=array('total'=>count($tokens));
         foreach($tokens as $token){
             $idwf=$token['idwf'];
-            $idcase=$token['case'];
+            $idcase=$token['idcase'];
             $this->engine->run_filter=array(
                 'idwf' => $idwf,
-                'case' => $idcase,
+                'idcase' => $idcase,
                 'status' => 'waiting',
                 'resourceId'=>$token['resourceId'],
             );
@@ -70,7 +70,7 @@ class Service extends MX_Controller {
              $tlog=array(
                  '_id'=>$token['_id'],
                  'idwf'=>$token['idwf'],
-                 'case'=>$token['case'],
+                 'idcase'=>$token['idcase'],
                  'trigger'=>$token['trigger'],
                  'resourceId'=>$token['resourceId'],
                  'checkdate'=>date('Y-m-d H:i:s'),

@@ -34,11 +34,12 @@ function run_Task($shape, $wf, $CI) {
 
     $data = array();
 //---get case data
-    $case = $CI->bpm->get_case($wf->case, $wf->idwf);
+    $case = $CI->bpm->get_case($wf->idcase, $wf->idwf);
+    $data['idcase'] = $wf->idcase;
 //---set initiator same as case creator.
     $CI->user->Initiator = (int) $case['iduser'];
 //----Get token data
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
 //---set actual user
     $iduser = (int) $CI->idu;
     $user = $CI->user->get_user($iduser);
@@ -78,7 +79,7 @@ function run_Task($shape, $wf, $CI) {
 //---load data from 'transport' from previous shape
     $inbound = $CI->bpm->get_previous($resourceId, $wf);
     foreach ($inbound as $inshape) {
-        $token_in = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+        $token_in = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
         if (isset($token_in['data'])) {
             if (isset($token_in['data']['transport'])) {
 //--add transported data to my data;
@@ -112,7 +113,7 @@ function run_Task($shape, $wf, $CI) {
         }
     }
 //---SAVE Data in data
-    $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, $token['status'], $data);
+    $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, $token['status'], $data);
     if ($debug) {
         var_dump2($shape, $data);
         echo '<hr>';
@@ -125,7 +126,7 @@ function run_Task($shape, $wf, $CI) {
     foreach ($shape->outgoing as $out) {
         $this_shape = $CI->bpm->get_shape($out->resourceId, $wf);
         if ($this_shape->stencil->id == 'IntermediateTimerEvent') {
-            $CI->bpm->set_token($wf->idwf, $wf->case, $this_shape->resourceId, $this_shape->stencil->id, 'pending');
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $this_shape->resourceId, $this_shape->stencil->id, 'pending');
         }
     }
 ////////////////////////////////////////////////////////////////////////////
@@ -143,7 +144,7 @@ function run_Task($shape, $wf, $CI) {
             if ($CI->break_on_next) {
                 redirect($CI->base_url . $CI->config->item('default_controller'));
             }
-//              $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+//              $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
 ////////////////////////////////////////////////////////////////////////////
 ///////////////////////EVAL EXECUTION POLICY////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -163,14 +164,14 @@ function run_Task($shape, $wf, $CI) {
             $data['rendering'] = $shape->properties->rendering;
 
 //---change status to manual (stops execution and wait 4 manual input)
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'user', $data);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'user', $data);
             if ($CI->break_on_next) {
                 redirect($CI->base_url . $CI->config->item('default_controller'));
             }
             break;
         case 'Manual':
             //---change status to manual (stops execution and wait 4 manual input)
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'user', $data);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'user', $data);
             if ($CI->break_on_next) {
                 redirect($CI->base_url . $CI->config->item('default_controller'));
             }
@@ -233,7 +234,7 @@ function run_Task($shape, $wf, $CI) {
             $msg['from'] = $CI->idu;
 
             $msg['idwf'] = $wf->idwf;
-            $msg['case'] = $wf->case;
+            $msg['idcase'] = $wf->idcase;
             $msg['resourceId'] = $resourceId;
             if ($shape->properties->properties <> '') {
                 foreach ($shape->properties->properties->items as $property) {
@@ -292,7 +293,7 @@ function run_Task($shape, $wf, $CI) {
 
         default://---default acction
             //---change status to manual (stops execution and wait 4 manual input)
-            //$CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'manual', $data);
+            //$CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'manual', $data);
             $CI->bpm->movenext($shape, $wf);
             if ($CI->break_on_next) {
                 redirect($CI->base_url . $CI->config->item('default_controller'));

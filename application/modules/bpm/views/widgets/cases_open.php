@@ -26,24 +26,24 @@
                 <!-- todo text -->
                 <span class="text">{title}</span>
                 <!-- Emphasis label -->
-                <span class="pull-right label bg-blue">{id}</span>
+                <span class="pull-right label bg-blue">{idcase}</span>
                 <!-- General tools such as edit or delete-->
                 <div class="tools">
-                    <a href='{base_url}bpm/engine/run/model/{idwf}/{id}'>
+                    <a href='{base_url}bpm/engine/run/model/{idwf}/{idcase}'>
                         <i class="fa fa-2x fa-play play_case"></i>
                     </a>
                     {if {isAdmin}}
-                    <a href='{base_url}bpm/engine/startcase/model/{idwf}/{id}'>
+                    <a href='{base_url}bpm/engine/startcase/model/{idwf}/{idcase}'>
                         <i class="fa fa-2x fa-refresh restart_case"></i>
                     </a>
-                    <a href='{base_url}bpm/tokens/view/{id}'>
+                    <a href='{base_url}bpm/tokens/view/{idcase}'>
                         <i class="fa fa-2x fa-rotate-270 fa-sitemap  restart_case"></i>
                     </a>
-                    <a href='{base_url}bpm/case_manager/archive/model/{idwf}/{id}' title="Archive" class="load_modal">
+                    <a href='{base_url}bpm/case_manager/archive/model/{idwf}/{idcase}' title="Archive" class="load_modal">
                         <i class="fa fa-2x fa-archive archive_case"></i>
                     </a>
                     --
-                    <a href='{base_url}bpm/bpmui/widget_data/{idwf}/{id}' title="Data" class="load_modal">
+                    <a href='{base_url}bpm/bpmui/widget_data/{idwf}/{idcase}' title="Data" class="load_modal">
                         <i class="ion ion-android-developer fa-2x"></i>
                     </a>
                     {/if}

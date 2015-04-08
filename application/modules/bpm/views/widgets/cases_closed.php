@@ -27,7 +27,7 @@
                 <!-- todo text -->
                 <span class="text">{title}</span>
                 <!-- Emphasis label -->
-                <span class="pull-right label bg-blue">{id}</span>
+                <span class="pull-right label bg-blue">{idcase}</span>
                 <!-- General tools such as edit or delete-->
 <!--                                <div class="tools">
                                     <i class="fa fa-play play_case"></i>

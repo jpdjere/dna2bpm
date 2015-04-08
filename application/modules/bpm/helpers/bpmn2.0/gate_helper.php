@@ -10,7 +10,7 @@ function run_ParallelGateway($shape, $wf, $CI) {
     $inbound = $CI->bpm->get_inbound_shapes($resourceId, $wf);
 //---only mark finished if all inbound finished
     foreach ($inbound as $inshape) {
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
         if ($token['status'] != 'finished') {
             $has_finished = false;
         }
@@ -18,7 +18,7 @@ function run_ParallelGateway($shape, $wf, $CI) {
     if ($has_finished) {
         $CI->bpm->movenext($shape, $wf);
     } else {
-        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting');
+        $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting');
     }
 }
 
@@ -32,7 +32,7 @@ function run_Exclusive_Databased_Gateway($shape, $wf, $CI) {
     //----ASSIGN to USER / GROUP
 //    $CI->bpm->assign($shape, $wf);
 //    //----Get token data
-//    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+//    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
     $shape_data = array();
 ////---assign gate to current user
 //    //$shape_data['assign'][] = (int) $CI->session->userdata('iduser');
@@ -165,7 +165,7 @@ function run_Exclusive_Databased_Gateway($shape, $wf, $CI) {
                     $CI->bpm->movenext($shape_out, $wf, $shape_data);
                 } else {
 //do nothing
-// $CI->bpm->set_token($wf->idwf, $wf->case, $shape_out->resourceId, $shape_out->stencil->id, 'stoped', $shape_data);
+// $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape_out->resourceId, $shape_out->stencil->id, 'stoped', $shape_data);
                 }
             }
         } else {
@@ -187,8 +187,8 @@ function run_Exclusive_Databased_Gateway($shape, $wf, $CI) {
 //---assign proper user or group like in Task
             $CI->bpm->assign($shape, $wf);
             $shape_data['tasktype'] = 'User'; //--this is for Tasks panel
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'user', $shape_data);
-//$CI->manual_gate('model', $wf->idwf, $wf->case, $shape->resourceId);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'user', $shape_data);
+//$CI->manual_gate('model', $wf->idwf, $wf->idcase, $shape->resourceId);
         } else {
 //---- is an xor Join then first to come then out!
             $CI->bpm->movenext($shape, $wf);
@@ -249,7 +249,7 @@ function run_InclusiveGateway($shape, $wf, $CI) {
                 if ($thisresult['eval']) {
                     $CI->bpm->movenext($shape_out, $wf, $shape_data);
                 } else {
-                    $CI->bpm->set_token($wf->idwf, $wf->case, $shape_out->resourceId, $shape_out->stencil->id, 'stoped', $shape_data);
+                    $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape_out->resourceId, $shape_out->stencil->id, 'stoped', $shape_data);
                 }
             }
         } else {
@@ -268,8 +268,8 @@ function run_InclusiveGateway($shape, $wf, $CI) {
             }
         }
         if ($do_manual) {
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'user', $shape_data);
-//$CI->manual_gate('model', $wf->idwf, $wf->case, $shape->resourceId);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'user', $shape_data);
+//$CI->manual_gate('model', $wf->idwf, $wf->idcase, $shape->resourceId);
         } else {
 //---- SYNCHRONIZE INCOMING FLOWS
             $has_finished = true;
@@ -278,7 +278,7 @@ function run_InclusiveGateway($shape, $wf, $CI) {
             $inbound = $CI->bpm->get_inbound_shapes($resourceId, $wf);
 //---only mark finished if all inbound finished
             foreach ($inbound as $inshape) {
-                $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+                $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
                 if ($token['status'] != 'finished') {
                     $has_finished = false;
                 }
@@ -286,7 +286,7 @@ function run_InclusiveGateway($shape, $wf, $CI) {
             if ($has_finished) {
                 $CI->bpm->movenext($shape, $wf);
             } else {
-                $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting');
+                $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting');
             }
         }
     }
@@ -304,7 +304,7 @@ function run_EventbasedGateway($shape, $wf, $CI) {
     $cancel_events=false;
     foreach ($flows as $flow) {
             $trigger_resourceId=$flow->outgoing->{0}->resourceId;
-            $token_trigger=$CI->bpm->get_token($wf->idwf, $wf->case, $trigger_resourceId);
+            $token_trigger=$CI->bpm->get_token($wf->idwf, $wf->idcase, $trigger_resourceId);
             // var_dump2($token_trigger);
             //---if not exists the initialize tokens for engine
             if(!$token_trigger){
@@ -322,7 +322,7 @@ function run_EventbasedGateway($shape, $wf, $CI) {
                 //---set flag for process cancelations
                 $cancel_events=true;
                 //---set finished to flow preceeding
-                $CI->bpm->set_token($wf->idwf, $wf->case, $flow->resourceId, $flow->stencil->id, 'finished');
+                $CI->bpm->set_token($wf->idwf, $wf->idcase, $flow->resourceId, $flow->stencil->id, 'finished');
             } else {
                 $triggers[]=array(
                 'flow'=>$flow,
@@ -337,9 +337,9 @@ function run_EventbasedGateway($shape, $wf, $CI) {
         foreach($triggers as $arr){
             $flow=$arr['flow'];
             $shape_cancel=$arr['shape'];
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape_cancel->resourceId, $shape_cancel->stencil->id, 'canceled', $data);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape_cancel->resourceId, $shape_cancel->stencil->id, 'canceled', $data);
         }
         //---now set $shape as finished
-        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'finished');
+        $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'finished');
     }
 }

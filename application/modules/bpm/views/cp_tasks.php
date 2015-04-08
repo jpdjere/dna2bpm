@@ -26,11 +26,11 @@
             {cases}
             <li>
                 <h3>
-                    <span class="calendar1">{date}</span> | <a href="{base_url}bpm/engine/run/model/{idwf}/{id}" target="_blank">{name}</a>::{id}::{status}
+                    <span class="calendar1">{date}</span> | <a href="{base_url}bpm/engine/run/model/{idwf}/{idcase}" target="_blank">{name}</a>::{idcase}::{status}
                 </h3>
                 {if {wfadmin}}
-                <span class="inbox-item-tokens" /><a href="{base_url}bpm/repository/tokens/model/{idwf}/{id}" target="_blank">Tokens</a>
-                <span class="inbox-item-restart"/><a href="{base_url}bpm/engine/startcase/model/{idwf}/{id}" title="">Restart</a>
+                <span class="inbox-item-tokens" /><a href="{base_url}bpm/repository/tokens/model/{idwf}/{idcase}" target="_blank">Tokens</a>
+                <span class="inbox-item-restart"/><a href="{base_url}bpm/engine/startcase/model/{idwf}/{idcase}" title="">Restart</a>
                 {/if}
                 <ul>
                     {mytasks}
@@ -38,14 +38,14 @@
                         <img src="{base_url}{icon}" style="vertical-align: middle" />
                         <a href="{run_url}">{title}</a>
                         {if {claimable}}
-                        <button class="claimTask" title="claim" idwf="{idwf}" case="{case}" resourceId="{resourceId}">{lang claim}</button>
+                        <button class="claimTask" title="claim" idwf="{idwf}" case="{idcase}" resourceId="{resourceId}">{lang claim}</button>
                         {/if}
                         {if {refusable}}
-                        <button class="refuseTask" title="refuse" idwf="{idwf}" case="{case}" resourceId="{resourceId}">{lang refuse}</button>
+                        <button class="refuseTask" title="refuse" idwf="{idwf}" case="{idcase}" resourceId="{resourceId}">{lang refuse}</button>
                         {/if}
                         <!--manual task -->
                         {if {wfadmin}}
-                        <button class="manualTask" title="refuse" idwf="{idwf}" case="{case}" resourceId="{resourceId}">{lang manual}</button>
+                        <button class="manualTask" title="refuse" idwf="{idwf}" case="{idcase}" resourceId="{resourceId}">{lang manual}</button>
                         {/if}
                         <!--manual task -->
                     </li>

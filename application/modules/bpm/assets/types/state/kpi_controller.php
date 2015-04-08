@@ -41,7 +41,7 @@ function state($kpi, $CI, $list = null) {
     } else { //----return cases matched
         //---map tokens to get case
         $cases = array_map(function ($case) {
-            return $case['id'];
+            return $case['idcase'];
         }, $cases);
         return $cases;
     }

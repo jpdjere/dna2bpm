@@ -1,5 +1,5 @@
 function gridClick(view, record, item, index, e, options) {
-    thisCase = record.data.id;
+    thisCase = record.data.idcase;
     url = globals.module_url + 'case_manager/tokens/status/' + globals.idwf + '/' + thisCase;
     globals.idcase=thisCase;
     tokenStore = Ext.getStore('tokenStore')
@@ -222,7 +222,7 @@ var mygrid = Ext.create('Ext.grid.Panel',
                 {
                     flex: 1,
                     text: "ID",
-                    dataIndex: 'id',
+                    dataIndex: 'idcase',
                     sortable: true
 
                 }

@@ -123,16 +123,16 @@ class Manager extends MX_Controller {
             $task['run_url'] = $this->module_url .
                     'engine/do_pending/model/' .
                     $task['idwf'] . '/' .
-                    $task['case'] . '/' .
+                    $task['idcase'] . '/' .
                     $task['resourceId'];
 
 
             //----filter by status
             if ($filter_status <> '') {
                 if ($task['status'] == $filter_status)
-                    $tarr[$task['case']][] = $task;
+                    $tarr[$task['idcase']][] = $task;
             } else {
-                $tarr[$task['case']][] = $task;
+                $tarr[$task['idcase']][] = $task;
             }
         }
         //---add qtty to groups

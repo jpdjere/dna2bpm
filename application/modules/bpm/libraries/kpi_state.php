@@ -37,7 +37,7 @@ class kpi_state {
         );
         $cases_filtered = $this->CI->bpm->get_cases_byFilter($filter);
         $cases = array_map(function ($case) {
-            return $case['id'];
+            return $case['idcase'];
         }, $cases_filtered);
         return $cases;
     }

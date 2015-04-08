@@ -5,13 +5,13 @@ function run_CollapsedSubprocess($shape, $wf, $CI) {
     if ($debug)
         echo '<H1>COLLAPSED SUBPROCESS:' . $shape->properties->name . '</H1>';
 
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
     $parent['token'] = $token;
-    $parent['case'] = $wf->case;
+    $parent['case'] = $wf->idcase;
     $parent['idwf'] = $wf->idwf;
     $silent = true;
     //----Set token status to waiting
-    $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting');
+    $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting');
     //---check if child proceses already exists.
     if (isset($token['child'])) {
         $CI->Run('model', $token['child']['idwf'], $token['child']['case']);
@@ -71,7 +71,7 @@ function run_Subprocess($shape, $wf, $CI) {
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     if ($debug)
         echo '<H1>SUBPROCESS:' . $shape->properties->name . '</H1>';
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
     switch ($token['status']) {
         case 'waiting':
             //---check that some finish event has been reached
@@ -80,7 +80,7 @@ function run_Subprocess($shape, $wf, $CI) {
                 //---only one finis event can make the subproc marked as finish.
                 // find end events  childs
                 if (preg_match('/^End/', $child->stencil->id)) {
-                    $child_token = $CI->bpm->get_token($wf->idwf, $wf->case, $child->resourceId);
+                    $child_token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $child->resourceId);
                     if ($child_token['status'] == 'finished') {
                         $has_finihed = true;
                     }
@@ -107,10 +107,10 @@ function run_Subprocess($shape, $wf, $CI) {
                     show_error("The Schema doesn't have an start point");
                 //---Start all  StartNoneEvents as possible
                 foreach ($start_shapes as $start_shape) {
-                    $CI->bpm->set_token($wf->idwf, $wf->case, $start_shape->resourceId, $start_shape->stencil->id, 'pending');
+                    $CI->bpm->set_token($wf->idwf, $wf->idcase, $start_shape->resourceId, $start_shape->stencil->id, 'pending');
                 }
                 //---now Set the status to waiting
-                $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting');
+                $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting');
             } else {
                 //----if has no childshapes move next
                 $CI->bpm->movenext($shape, $wf);

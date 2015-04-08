@@ -67,7 +67,7 @@ class test extends MX_Controller {
          * Start test
          */
         $case = $this->bpm->get_case('YKLL');
-        $wf->case = $case['id'];
+        $wf->idcase = $case['idcase'];
         $this->user->Initiator = $case['iduser'];
         $shape = $this->bpm->get_shape('oryx_C2EC6376-8EB3-4514-AABA-B4BED6FAB8A1', $wf);
         $resources = $this->bpm->get_resources($shape, $wf, $case);
@@ -106,7 +106,7 @@ class test extends MX_Controller {
         $msg['from'] = $this->idu;
 
         $msg['idwf'] = $idwf;
-        $msg['case'] = $idcase;
+        $msg['idcase'] = $idcase;
         if ($shape->properties->properties <> '') {
             foreach ($shape->properties->properties->items as $property) {
                 $msg[$property->name] = $property->datastate;
@@ -312,6 +312,18 @@ function run_test($idwf,$idcase,$resourceId){
         echo "Saved!";
         
     
+    }
+    
+    function refactor_id(){
+        $cases=$this->bpm->get_cases_byFilter(array());
+        foreach($cases as $case){
+            $case['idcase']=$case['id'];
+            echo $case['idwf'].'->'.$case['idcase'].'<hr>';
+            unset($case['id']);
+            $this->bpm->save_case($case);
+            
+        }
+        
     }
 }
 /* End of file test */

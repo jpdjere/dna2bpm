@@ -113,7 +113,7 @@ function run_IntermediateEventThrowing($shape, $wf, $CI) {
     foreach ($catchers as $catcher) {
 //var_dump2('$catcher->properties->name == $shape->properties->name', $catcher->properties->name == $shape->properties->name);
         $launch_catcher = false;
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $catcher->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $catcher->resourceId);
 //----if token not exist and is not already canceled then start it as pending
         if (isset($token['status'])) {
             //var_dump2($token['status']);
@@ -137,7 +137,7 @@ function run_IntermediateEventThrowing($shape, $wf, $CI) {
             var_dump2('launch_catcher', $launch_catcher);
 //---take action
         if ($launch_catcher) {
-            $CI->bpm->set_token($wf->idwf, $wf->case, $catcher->resourceId, $catcher->stencil->id, 'pending');
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $catcher->resourceId, $catcher->stencil->id, 'pending');
             if ($debug) {
                 echo '>>> Launching:' . $catcher->properties->name .':'.$catcher->stencil->id . '<br>';
                 var_dump2($catcher);
@@ -159,7 +159,7 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
     if ($debug) {
         echo '<h1> << IntermediateEventCatching:' . $shape->stencil->id .' '.$shape->properties->name. '</h1>';
     }
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
 //---if token already canceled then exit
     if ($token['status'] == 'canceled')
         return;
@@ -257,7 +257,7 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
 //---only mark finished if all inbound finished
     if ($is_normal_flow) {
         foreach ($inbound as $inshape) {
-            $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+            $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
 //if ($inshape->stencil->id == 'SequenceFlow' or $inshape->stencil->id == 'MessageFlow') {
             if ($inshape->stencil->id == 'MessageFlow') {
                 if ($token['status'] !== 'finished') {
@@ -272,7 +272,7 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
 
 //---Check if any thrower has finished
     foreach ($throwers as $thrower) {
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $thrower->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $thrower->resourceId);
         if ($token['status'] == 'finished') {
             $has_finished_thrower = true;
         }
@@ -285,7 +285,7 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
 //---What to do if is a boundary event
     if ($is_boundary_event) {
         $inshape = $inbound[0];
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
 //---check whether the boundary activity has finished or not
         if ($token['status'] !== 'finished') {
             if ($shape->properties->boundarycancelactivity == true) {
@@ -296,15 +296,15 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
 //---check if is a Subprocess then cancel all included activities
                 if (isset($inshape->childShapes)) {
                     foreach ($inshape->childShapes as $child) {
-                        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $child->resourceId);
+                        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $child->resourceId);
                         if ($token['status'] !== 'finished') {
-                            $CI->bpm->set_token($wf->idwf, $wf->case, $child->resourceId, $child->stencil->id, 'canceled', $data);
+                            $CI->bpm->set_token($wf->idwf, $wf->idcase, $child->resourceId, $child->stencil->id, 'canceled', $data);
                         }
                     }
                 }
 //---------------
 
-                $CI->bpm->set_token($wf->idwf, $wf->case, $inshape->resourceId, $inshape->stencil->id, 'canceled', $data);
+                $CI->bpm->set_token($wf->idwf, $wf->idcase, $inshape->resourceId, $inshape->stencil->id, 'canceled', $data);
                 $CI->bpm->movenext($shape, $wf);
                 return;
             }
@@ -316,7 +316,7 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
             $has_finished_flow = false;
             $has_finished_thrower = false;
             $data = array('canceledBy' => $inshape->resourceId, 'canceledName' => $inshape->properties->name);
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'canceled', $data);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'canceled', $data);
             return;
         }
     }
@@ -338,7 +338,7 @@ function run_IntermediateEventCatching($shape, $wf, $CI) {
         if ($debug)
             echo '<h1>FALSE</h1>';
         $data['name'] = $shape->properties->name;
-        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting', $data);
+        $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting', $data);
     }
 }
 
@@ -350,7 +350,7 @@ function run_IntermediateTimerEvent($shape, $wf, $CI) {
     // $debug=true;
     if ($debug)
         echo "<h2>" . __FUNCTION__ . '</h2>';
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
 //var_dump2($token);
 //---1st arrive to this timer set the trigger condition
     if ($token['status'] == 'pending') {
@@ -363,8 +363,8 @@ function run_IntermediateTimerEvent($shape, $wf, $CI) {
             echo 'trigger:'.$shape->properties->name.' -> '.date('Y-m-d H:i:s',time()).' -> '.$trigger.'</br>';
             
         }
-        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting', array('trigger' => $trigger));
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+        $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting', array('trigger' => $trigger));
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
     }
 //----------------------------------------------------------
 //---Eval trigger condition while is waiting...
@@ -440,7 +440,7 @@ function run_IntermediateSignalEventCatching($shape, $wf, $CI) {
         $uno = run_IntermediateEventCatching($shape, $wf, $CI);
     } else {
         $data['name'] = $shape->properties->name;
-        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting', $data);
+        $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting', $data);
     }
 }
 
@@ -461,7 +461,7 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
 //---all trigers defined in eventdefinitionref
 //---trigers are referenced by a list of comma separated names
 //---or connected implicitly with message flow lines
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $shape->resourceId);
 //---if token already canceled then exit
     if ($token['status'] == 'canceled')
         return;
@@ -523,7 +523,7 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
 //---only mark finished if all inbound finished
     if ($is_normal_flow) {
         foreach ($inbound as $inshape) {
-            $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+            $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
 //if ($inshape->stencil->id == 'SequenceFlow' or $inshape->stencil->id == 'MessageFlow') {
             if ($inshape->stencil->id == 'MessageFlow') {
                 if ($token['status'] !== 'finished') {
@@ -540,7 +540,7 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
     $has_all = $throwers_name;
     foreach ($throwers as $thrower) {
         $has_all[$thrower->resourceId] = 0;
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $thrower->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $thrower->resourceId);
         if ($token['status'] == 'finished') {
             $has_all[$thrower->resourceId] = 1;
         }
@@ -556,7 +556,7 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
 //---What to do if is a boundary event
     if ($is_boundary_event) {
         $inshape = $inbound[0];
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $inshape->resourceId);
+        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $inshape->resourceId);
 //---check whether the boundary activity has finished or not
         if ($token['status'] !== 'finished') {
             if ($shape->properties->boundarycancelactivity == true) {
@@ -567,15 +567,15 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
 //---check if is a Subprocess then cancel all included activities
                 if (isset($inshape->childShapes)) {
                     foreach ($inshape->childShapes as $child) {
-                        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $child->resourceId);
+                        $token = $CI->bpm->get_token($wf->idwf, $wf->idcase, $child->resourceId);
                         if ($token['status'] !== 'finished') {
-                            $CI->bpm->set_token($wf->idwf, $wf->case, $child->resourceId, $child->stencil->id, 'canceled', $data);
+                            $CI->bpm->set_token($wf->idwf, $wf->idcase, $child->resourceId, $child->stencil->id, 'canceled', $data);
                         }
                     }
                 }
 //---------------
 
-                $CI->bpm->set_token($wf->idwf, $wf->case, $inshape->resourceId, $inshape->stencil->id, 'canceled', $data);
+                $CI->bpm->set_token($wf->idwf, $wf->idcase, $inshape->resourceId, $inshape->stencil->id, 'canceled', $data);
                 $CI->bpm->movenext($shape, $wf);
                 return;
             }
@@ -587,7 +587,7 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
             $has_finished_flow = false;
             $has_finished_thrower = false;
             $data = array('canceledBy' => $inshape->resourceId, 'canceledName' => $inshape->properties->name);
-            $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'canceled', $data);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'canceled', $data);
             return;
         }
     }
@@ -605,14 +605,14 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
 //----cancel boundary if exists
         if ($is_boundary_event) {
             $data = array('canceledBy' => $inshape->resourceId, 'canceledName' => $inshape->properties->name);
-            $CI->bpm->set_token($wf->idwf, $wf->case, $inbound[0]->resourceId, $inbound[0]->stencil->id, 'canceled', $data);
+            $CI->bpm->set_token($wf->idwf, $wf->idcase, $inbound[0]->resourceId, $inbound[0]->stencil->id, 'canceled', $data);
         }
         $CI->bpm->movenext($shape, $wf);
     } else {
         if ($debug)
             echo '<h1>FALSE</h1>';
         $data['name'] = $shape->properties->name;
-        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting', $data);
+        $CI->bpm->set_token($wf->idwf, $wf->idcase, $shape->resourceId, $shape->stencil->id, 'waiting', $data);
     }
 }
 
@@ -648,21 +648,21 @@ function run_IntermediateLinkEventThrowing($shape, $wf, $CI) {
             
             
             
-            $clone=$CI->bpm->clone_case($wf->idwf, $to_idwf, $wf->case);
+            $clone=$CI->bpm->clone_case($wf->idwf, $to_idwf, $wf->idcase);
             // if($clone){
             //     //----Start
-            //     $CI->Startcase('model', $to_idwf, $wf->case);
+            //     $CI->Startcase('model', $to_idwf, $wf->idcase);
             // } else {
                 //----Run
                 $mywf ['data'] ['idwf'] = $to_idwf;
-                $mywf ['data'] ['case'] = $wf->case;
+                $mywf ['data'] ['case'] = $wf->idcase;
                 $mywf ['data'] ['folder'] = $mywf ['folder'];
                 $to_wf = bindArrayToObject($mywf ['data']);
                 //---1st try to get catcher links
                 if($debug) echo "run_IntermediateEventThrowing<br/>";
                 run_IntermediateEventThrowing($shape, $to_wf, $CI);
                 if($debug) echo "Runing: ".$to_wf->idwf.'<br/>';
-                $CI->Run('model', $to_idwf, $wf->case);
+                $CI->Run('model', $to_idwf, $wf->idcase);
             // }
             
         }

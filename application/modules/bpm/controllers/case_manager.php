@@ -58,7 +58,7 @@ class Case_manager extends MX_Controller {
         $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
         $filter = array(
             'idwf' => $idwf,
-            'case' => $idcase,
+            'idcase' => $idcase,
             '_id' => array('$gt' => $token['_id'])
         );
         //---remove tokens newer than this
@@ -163,7 +163,7 @@ class Case_manager extends MX_Controller {
                         $sort['checkdate'] = -1;
                     }
                     $fields = array(
-                        "id",
+                        "idcase",
                         "iduser",
                         "status",
                         "checkdate",
@@ -194,7 +194,7 @@ class Case_manager extends MX_Controller {
                     $input = json_decode(file_get_contents('php://input'));
                     //var_dump('$input',$input);
                     foreach ($input as $thisCase) {
-                        $case = $this->bpm->get_case($thisCase->id);
+                        $case = $this->bpm->get_case($thisCase->idcase);
                         $case['locked'] = $thisCase->locked;
                         $case['lockedBy'] = $this->idu;
                         $case['lockedDate'] = date('Y-m-d H:i:s');
@@ -205,7 +205,7 @@ class Case_manager extends MX_Controller {
                 case 'destroy':
                     $input = json_decode(file_get_contents('php://input'));
                     foreach ($input as $case) {
-                        $rs = $this->bpm->delete_case($model, $case->id);
+                        $rs = $this->bpm->delete_case($model, $case->idcase);
                     }
                     $out = array('status' => 'ok');
                     break;

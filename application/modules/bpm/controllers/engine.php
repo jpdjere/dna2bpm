@@ -83,7 +83,7 @@ class Engine extends MX_Controller {
         }
         $wf = bindArrayToObject($mywf ['data']);
         $wf->idwf = $idwf;
-        $wf->case = $idcase;
+        $wf->idcase = $idcase;
         $shape = $this->bpm->get_shape($resourceId, $wf);
         $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
         if ($token) {
@@ -207,7 +207,7 @@ class Engine extends MX_Controller {
 
             $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
             $mywf ['data'] ['idwf'] = $idwf;
-            $mywf ['data'] ['case'] = $case;
+            $mywf ['data'] ['idcase'] = $case;
             $mywf ['data'] ['folder'] = $mywf ['folder'];
             $wf = bindArrayToObject($mywf ['data']);
             // ----make it publicly available to other methods
@@ -295,10 +295,10 @@ class Engine extends MX_Controller {
             echo "<h2>" . __FUNCTION__ . '</h2>';
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         $mywf ['data'] ['idwf'] = $idwf;
-        $mywf ['data'] ['case'] = $case;
+        $mywf ['data'] ['idcase'] = $case;
         $wf = bindArrayToObject($mywf ['data']);
         // ---check if not finished yet
-        $token = $this->bpm->get_token($wf->idwf, $wf->case, $resourceId);
+        $token = $this->bpm->get_token($wf->idwf, $wf->idcase, $resourceId);
         if ($token ['status'] != 'finished') {
             // @todo check permissions
             if ($resourceId) {
@@ -345,7 +345,7 @@ class Engine extends MX_Controller {
         $data = array();
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         $mywf ['data'] ['idwf'] = $idwf;
-        $mywf ['data'] ['case'] = $case;
+        $mywf ['data'] ['idcase'] = $case;
         $wf = bindArrayToObject($mywf ['data']);
 
         if ($resourceId) {
@@ -371,7 +371,7 @@ class Engine extends MX_Controller {
                         'status' => $token ['status'],
                         'name' => (isset($shape->properties->name)) ? $shape->properties->name : ''
                     );
-                    $this->bpm->update_history($wf->idwf, $wf->case, $history);
+                    $this->bpm->update_history($wf->idwf, $wf->idcase, $history);
                     $shape_flow = $this->bpm->get_shape($flowId, $wf);
                     // run_SequenceFlow(_flow, $wf);
                     $this->bpm->movenext($shape_flow, $wf);
@@ -393,12 +393,12 @@ class Engine extends MX_Controller {
         $renderData ['theme'] = $this->config->item('theme');
         $renderData ['base_url'] = $this->base_url;
         $renderData ['idwf'] = $idwf;
-        $renderData ['case'] = $idcase;
+        $renderData ['idcase'] = $idcase;
         $renderData ['resourceId'] = $resourceId;
         // -----load bpm
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         $mywf ['data'] ['idwf'] = $idwf;
-        $mywf ['data'] ['case'] = $idcase;
+        $mywf ['data'] ['idcase'] = $idcase;
         $wf = bindArrayToObject($mywf ['data']);
         // ---load data 4 templating
         $this->load_data($wf, $idcase);
@@ -430,7 +430,7 @@ class Engine extends MX_Controller {
         // -----load bpm
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         $mywf ['data'] ['idwf'] = $idwf;
-        $mywf ['data'] ['case'] = $idcase;
+        $mywf ['data'] ['idcase'] = $idcase;
         $wf = bindArrayToObject($mywf ['data']);
         // ---get case
         $case = $this->bpm->get_case($idcase, $idwf);
@@ -496,7 +496,7 @@ class Engine extends MX_Controller {
                     return (array) $this->user->get_user_safe($iduser);
                 }, $renderData['token']['assign']);
             }
-            $renderData ['case'] = $case;
+            $renderData ['idcase'] = $idcase;
             // --parse documentation string
             $renderData ['task_documentation'] = ($renderData ['task_documentation'] == '') ? '' : $this->parser->parse_string(nl2br($renderData ['task_documentation']), $renderData, true, true);
             // --parse Name
@@ -540,7 +540,7 @@ class Engine extends MX_Controller {
         // -----load bpm
         $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
         $mywf ['data'] ['idwf'] = $idwf;
-        $mywf ['data'] ['case'] = $idcase;
+        $mywf ['data'] ['idcase'] = $idcase;
         $wf = bindArrayToObject($mywf ['data']);
         // ---load data 4 templating
         $this->load_data($wf, $idcase);
@@ -693,7 +693,7 @@ class Engine extends MX_Controller {
             }
             $mywf = $this->bpm->load($token ['idwf'], true);
             $mywf ['data'] ['idwf'] = $token ['idwf'];
-            $mywf ['data'] ['case'] = $token ['case'];
+            $mywf ['data'] ['idcase'] = $token ['case'];
             // ---update the token so its finished
             $wf = bindArrayToObject($mywf ['data']);
             $shape = $this->bpm->get_shape($token ['resourceId'], $wf);
@@ -725,7 +725,7 @@ class Engine extends MX_Controller {
             }
             $mywf = $this->bpm->load($token ['idwf'], true);
             $mywf ['data'] ['idwf'] = $token ['idwf'];
-            $mywf ['data'] ['case'] = $token ['case'];
+            $mywf ['data'] ['idcase'] = $token ['case'];
             $wf = bindArrayToObject($mywf ['data']);
             $shape = $this->bpm->get_shape($token ['resourceId'], $wf);
             // ----trigger has occured then move to next shape
@@ -818,7 +818,7 @@ class Engine extends MX_Controller {
         if (!$this->wf) {
             $mywf = $this->bpm->load($idwf, $this->expandSubProcess);
             $mywf ['data'] ['idwf'] = $idwf;
-            $mywf ['data'] ['case'] = $idcase;
+            $mywf ['data'] ['idcase'] = $idcase;
             $mywf ['data'] ['folder'] = $mywf ['folder'];
             $wf = bindArrayToObject($mywf ['data']);
             // ----make it publicly available to other methods
@@ -840,7 +840,7 @@ class Engine extends MX_Controller {
         $renderData ['theme'] = $this->config->item('theme');
         $renderData ['base_url'] = $this->base_url;
         $renderData ['idwf'] = $idwf;
-        $renderData ['case'] = $idcase;
+        $renderData ['idcase'] = $idcase;
         $user = $this->user->getuser($this->idu);
 
         // ----the task is assignet to the user or is for the group the user belong to
@@ -862,7 +862,7 @@ class Engine extends MX_Controller {
         $case = $this->bpm->get_case($idcase, $idwf);
         // ----set manual flag 4 test
         $run_manual = (isset($case ['run_manual'])) ? $case ['run_manual'] : false;
-        // var_dump('case',$case,'run_manual',$run_manual);
+        // var_dump('idcase',$case,'run_manual',$run_manual);
         if ($case ['status'] == 'open') {
             // ----load WF data
             $myTasks = $this->bpm->get_pending($idwf, $idcase, array(
@@ -937,7 +937,7 @@ class Engine extends MX_Controller {
                                                     'id' => $id,
                                                     'idwf' => $idwf,
                                                     'token' => $token_id,
-                                                    'case' => $token ['case']
+                                                    'idcase' => $token ['case']
                                                 ));
                                                 $q = '';
                                                 foreach ($querystr as $key => $value)
