@@ -1,0 +1,28 @@
+[28-Oct-2015 15:41:16 America/Argentina/Buenos_Aires] PHP Fatal error:  Class 'Issue' not found in /home/juanb/www/dna2bpm/application/modules/siac/controllers/siac.php on line 40
+[28-Oct-2015 15:41:16 America/Argentina/Buenos_Aires] PHP Stack trace:
+[28-Oct-2015 15:41:16 America/Argentina/Buenos_Aires] PHP   1. {main}() /home/juanb/www/dna2bpm/index.php:0
+[28-Oct-2015 15:41:16 America/Argentina/Buenos_Aires] PHP   2. require_once() /home/juanb/www/dna2bpm/index.php:222
+[28-Oct-2015 15:41:16 America/Argentina/Buenos_Aires] PHP   3. call_user_func_array:{/home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360}() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 15:41:16 America/Argentina/Buenos_Aires] PHP   4. Siac->create() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 16:00:10 America/Argentina/Buenos_Aires] PHP Fatal error:  Class 'Issue' not found in /home/juanb/www/dna2bpm/application/modules/siac/controllers/siac.php on line 40
+[28-Oct-2015 16:00:10 America/Argentina/Buenos_Aires] PHP Stack trace:
+[28-Oct-2015 16:00:10 America/Argentina/Buenos_Aires] PHP   1. {main}() /home/juanb/www/dna2bpm/index.php:0
+[28-Oct-2015 16:00:10 America/Argentina/Buenos_Aires] PHP   2. require_once() /home/juanb/www/dna2bpm/index.php:222
+[28-Oct-2015 16:00:10 America/Argentina/Buenos_Aires] PHP   3. call_user_func_array:{/home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360}() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 16:00:10 America/Argentina/Buenos_Aires] PHP   4. Siac->create() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 16:03:06 America/Argentina/Buenos_Aires] PHP Parse error:  syntax error, unexpected 'formulario' (T_STRING), expecting function (T_FUNCTION) in /home/juanb/www/dna2bpm/application/modules/siac/controllers/siac.php on line 30
+[28-Oct-2015 16:03:06 America/Argentina/Buenos_Aires] PHP Stack trace:
+[28-Oct-2015 16:03:06 America/Argentina/Buenos_Aires] PHP   1. {main}() /home/juanb/www/dna2bpm/index.php:0
+[28-Oct-2015 16:03:06 America/Argentina/Buenos_Aires] PHP   2. require_once() /home/juanb/www/dna2bpm/index.php:222
+[28-Oct-2015 16:40:46 America/Argentina/Buenos_Aires] PHP Fatal error:  Call to a member function compose() on a non-object in /home/juanb/www/dna2bpm/application/modules/siac/controllers/siac.php on line 44
+[28-Oct-2015 16:40:46 America/Argentina/Buenos_Aires] PHP Stack trace:
+[28-Oct-2015 16:40:46 America/Argentina/Buenos_Aires] PHP   1. {main}() /home/juanb/www/dna2bpm/index.php:0
+[28-Oct-2015 16:40:46 America/Argentina/Buenos_Aires] PHP   2. require_once() /home/juanb/www/dna2bpm/index.php:222
+[28-Oct-2015 16:40:46 America/Argentina/Buenos_Aires] PHP   3. call_user_func_array:{/home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360}() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 16:40:46 America/Argentina/Buenos_Aires] PHP   4. Siac->formulario() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 16:40:59 America/Argentina/Buenos_Aires] PHP Fatal error:  Call to a member function compose() on a non-object in /home/juanb/www/dna2bpm/application/modules/siac/controllers/siac.php on line 44
+[28-Oct-2015 16:40:59 America/Argentina/Buenos_Aires] PHP Stack trace:
+[28-Oct-2015 16:40:59 America/Argentina/Buenos_Aires] PHP   1. {main}() /home/juanb/www/dna2bpm/index.php:0
+[28-Oct-2015 16:40:59 America/Argentina/Buenos_Aires] PHP   2. require_once() /home/juanb/www/dna2bpm/index.php:222
+[28-Oct-2015 16:40:59 America/Argentina/Buenos_Aires] PHP   3. call_user_func_array:{/home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360}() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
+[28-Oct-2015 16:40:59 America/Argentina/Buenos_Aires] PHP   4. Siac->formulario() /home/juanb/www/dna2bpm/system/core/CodeIgniter.php:360
