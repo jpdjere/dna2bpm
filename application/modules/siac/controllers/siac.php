@@ -25,10 +25,17 @@ class Siac extends MX_Controller {
         $attributes = array('class' => 'api_endpoint');
         echo ul($links, $attributes);
     }
-
-   /**
-    * Carga de Formulario
-    */
+    /**
+     * importa/actualiza el modelo en la base de datos
+     */ 
+    function import(){
+        $result = $this->bpm->import(APPPATH.'modules/siac/assets/model/siac.zip', true, 'SIAC');
+        var_dump($result);
+    }
+     
+    /**
+     * Carga de Formulario
+     */
     function formulario($idwf,$idcase,$token_id){
         $this->load->module('bpm/engine');
         // -----load bpm
