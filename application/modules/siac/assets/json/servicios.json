@@ -1,0 +1,21 @@
+[{
+        "value": 1,
+        "name": "Alumbrado"
+    }, {
+        "value": 2,
+        "name": "Arbolado"
+    }, {
+        "value": 3,
+        "name": "Vía pública (calles, veredas,ramblas, etc)"
+    }, {
+        "value": 4,
+        "name": "Habilitaciones y Permisos"
+    }, {
+        "value": 5,
+        "name": "Limpieza y Recolección"
+    }
+    , {
+        "value": 6,
+        "name": "Residuos Especiales"
+    }
+]

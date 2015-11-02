@@ -1,6 +1,6 @@
 <div class="container">
     
-<form class="form-horizontal">
+<form class="form-horizontal" method="POST" action="{module_url}guardar_formulario/{idwf}/{idcase}/{token_id}">
     <fieldset>
 
         <!-- Form Name -->
@@ -10,36 +10,14 @@
         <div class="form-group">
             <label class="col-md-4 label-control" for="radios">Servicio</label>
             <div class="col-md-4">
+                {Servicios}
                 <div class="radio">
-                    <label for="radios-0">
-                        <input  type="radio" name="radios" id="radios-0" value="1" checked="checked"> Alumbrado
+                    <label for="radios-{value}">
+                        <input  type="radio" name="radios" id="radios-{value}" value="{value}"> {name}
                     </label>
                 </div>
-                <div class="radio">
-                    <label for="radios-1">
-                        <input type="radio" name="radios" id="radios-1" value="2"> Arbolado
-                    </label>
-                </div>
-                <div class="radio">
-                    <label for="radios-2">
-                        <input  type="radio" name="radios" id="radios-2" value="3"> Vía pública (calles, veredas,ramblas, etc)
-                    </label>
-                </div>
-                <div class="radio">
-                    <label for="radios-3">
-                        <input type="radio" name="radios" id="radios-3" value="4"> Habilitaciones y Permisos
-                    </label>
-                </div>
-                <div class="radio">
-                    <label for="radios-4">
-                        <input  type="radio" name="radios" id="radios-4" value="5"> Limpieza y Recolección
-                    </label>
-                </div>
-                <div class="radio">
-                    <label for="radios-5">
-                        <input  type="radio" name="radios" id="radios-5" value="6"> Residuos Especiales
-                    </label>
-                </div>
+                {/Servicios}
+                
             </div>
         </div>
 
@@ -47,7 +25,7 @@
         <div class="form-group">
             <label class="col-md-4 " for="textarea">Descripción</label>
             <div class="col-md-4">
-                <textarea class="form-control" id="textarea" name="textarea"></textarea>
+                <textarea class="form-control" id="textarea" required="" name="desc"></textarea>
             </div>
         </div>
 
