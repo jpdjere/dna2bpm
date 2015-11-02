@@ -8,7 +8,7 @@
 
         <!-- Multiple Radios -->
         <div class="form-group">
-            <label class="col-md-4 label-control" for="radios">Multiple Radios</label>
+            <label class="col-md-4 label-control" for="radios">Servicio</label>
             <div class="col-md-4">
                 <div class="radio">
                     <label for="radios-0">
