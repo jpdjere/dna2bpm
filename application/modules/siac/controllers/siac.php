@@ -25,16 +25,31 @@ class Siac extends MX_Controller {
         $attributes = array('class' => 'api_endpoint');
         echo ul($links, $attributes);
     }
-
-   /**
-    * Carga de Formulario
-    */
+    /**
+     * importa/actualiza el modelo en la base de datos
+     */ 
+    function import(){
+        $result = $this->bpm->import(APPPATH.'modules/siac/assets/model/siac.zip', true, 'SIAC');
+        var_dump($result);
+    }
+     
+    /**
+     * Carga de Formulario
+     */
     function formulario($idwf,$idcase,$token_id){
+        $this->load->module('bpm/engine');
+        // -----load bpm
+        $mywf = $this->bpm->load($idwf);
+        $mywf ['data'] ['idwf'] = $idwf;
+        $mywf ['data'] ['case'] = $idcase;
+        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
+        $this->engine->load_data($wf, $idcase);
+        $cpData=$this->bpm->bindObjectToArray($this->engine->data);
+        $cpData['token_id']=$token_id;
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['title'] = 'SIAC::Formulario Carga';
-        $cpData['css'] = array(
-        );
+        $cpData['css'] = array();
         $cpData['js'] = array(
             $this->module_url . "assets/jscript/main.js" => 'Funciones Principales',
         );
@@ -44,6 +59,10 @@ class Siac extends MX_Controller {
             'module_url' => $this->module_url,
         );
         $this->ui->compose('formulario', 'bootstrap.ui.php', $cpData);
+    }
+    
+    function guardar_formulario(){
+        var_dump($this->input->post());
     }
 
 }
