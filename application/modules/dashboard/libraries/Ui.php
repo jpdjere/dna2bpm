@@ -50,6 +50,9 @@ class ui {
         $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
         $this->register_script('ckeditor', $data['base_url'] . 'jscript/ckeditor/ckeditor.js', array('jquery'));
         $this->register_script('jquery.smooth-scroll', $data['base_url'] . 'jscript/jquery/plugins/jquery.smooth-scroll.min.js', array('jquery'));
+        $this->register_script('socket.io', 'http://localhost:8000/socket.io/socket.io.js', array());
+        $this->register_script('bootstrap-notify-master', $data['base_url'] . 'dashboard/assets/bootstrap-notify-master/bootstrap-notify.min.js', array('jquery','socket.io'));
+        $this->register_script('dna2dispatcher', $data['base_url'] . 'dashboard/assets/jscript/dna2dispatcher.js', array('socket.io','jquery','bootstrap-notify-master'));
 
         //===== CSS loaded only when same JS  handle is loaded
         $this->styles['morris'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css";
@@ -61,7 +64,7 @@ class ui {
         $this->styles['daterangerpicker'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css";
         
         // Load default JS 
-        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form', 'morris');
+        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form', 'morris','socket.io','dna2dispatcher','bootstrap-notify-master');
  
         //Custom JS Check
         if (isset($data['js'])) {
