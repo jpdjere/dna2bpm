@@ -18,7 +18,8 @@ class Bpm extends CI_Model {
     public $bpm_container = 'workflow';
     public $debug = array();
     public $digInto = array('Pool', 'Subprocess', 'CollapsedSubprocess', 'Lane');
-
+    //---initialize hook arrays
+    public $movenext_hook=array();
     function __construct() {
         parent::__construct();
         $this->idu = $this->user->idu;
@@ -1413,6 +1414,7 @@ class Bpm extends CI_Model {
         $status = 'pending';
         //---mark this shape as FINISHED
         $token = $this->get_token($wf->idwf, $wf->case, $shape_src->resourceId);
+        var_dump($token);
         //---if shape haven't been assigned then assign to performer / runner
         $boundary = array();
         if ($shape_src->stencil->id == 'Task') {
@@ -1467,7 +1469,8 @@ class Bpm extends CI_Model {
         $token = array_filter($token);
         //---SAVE Token as finished
         $this->save_token($token);
-
+        //---Process hook
+        $this->process_hook(__FUNCTION__,$wf->idwf, $wf->case,$token,$case);
         //---process outgoing
         if ($process_out) {
             if ($shape_src->outgoing) {
@@ -1544,6 +1547,8 @@ class Bpm extends CI_Model {
         }
         //---Update case status
         $this->update_case_token_status($wf->idwf, $wf->case);
+        //---Process hook
+        $this->process_hook(__FUNCTION__,$wf->idwf, $wf->case,$token,$case);
         return true;
     }
 
@@ -2099,6 +2104,23 @@ class Bpm extends CI_Model {
         }
         return $result;
     }
-
+    function process_hook($hook,$idwf,$idcase,$token=null,$case=null){
+        $target=$hook.'_hook';
+        if(property_exists($this,$target)){
+            foreach($this->$target as $classArr){
+                list($class,$function)=each($classArr);
+                if($this->$class){
+                    if(method_exists($this->$class,$function)){
+                        // echo "calling:$class -> $function<hr/>";exit;
+                        $this->$class->$function($idwf,$idcase,$token,$case);
+                    }
+                }else {
+                show_error($class.' not exists');
+                }
+            }
+        }else {
+            show_error(__FILE__.":$hook::$target doesn't exists");
+        }
+    }
 
 }
