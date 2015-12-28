@@ -1414,7 +1414,6 @@ class Bpm extends CI_Model {
         $status = 'pending';
         //---mark this shape as FINISHED
         $token = $this->get_token($wf->idwf, $wf->case, $shape_src->resourceId);
-        var_dump($token);
         //---if shape haven't been assigned then assign to performer / runner
         $boundary = array();
         if ($shape_src->stencil->id == 'Task') {
