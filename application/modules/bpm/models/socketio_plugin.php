@@ -26,10 +26,10 @@ class Socketio_plugin extends CI_Model{
     
     function movenext_hook($idwf,$idcase,$token=null,$case=null){
         if($token['type']=='Task'){
-            var_dump($idwf,$idcase,$token,$case,$this->config->item('socketio_host'));exit;
+            // var_dump($idwf,$idcase,$token,$case,$this->config->item('socketio_host'));
             $client = new Client(new Version1X($this->config->item('socketio_host')));
             $client->initialize();
-            @$client->emit('chat message',$token['title'].'->'.$token['status']);
+            @$client->emit('bpm message',$token);
             $client->close();
         }
     }

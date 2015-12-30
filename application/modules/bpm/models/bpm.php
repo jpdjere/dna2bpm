@@ -1441,9 +1441,6 @@ class Bpm extends CI_Model {
         //---calculate time diff
         $token['interval'] = date_diff($dateOut, $dateIn, true);
 
-        ////////////////////////////////////////////////////////////////////////
-        //////////////     UPDATE PARENT LANE                     //////////////
-        ////////////////////////////////////////////////////////////////////////
         $shape = $shape_src;
         if ($debug)
             echo "<h2>" . $shape->resourceId . ' ' . $shape->stencil->id . '</h2>';
@@ -1529,6 +1526,9 @@ class Bpm extends CI_Model {
         //---Update parent lane
         $lane = $this->find_parent($shape, 'Lane', $wf);
         //---try to get resources from lane
+        ////////////////////////////////////////////////////////////////////////
+        //////////////     UPDATE PARENT LANE                     //////////////
+        ////////////////////////////////////////////////////////////////////////
         if ($lane) {
             $l_status = 'finished';
             //---get child status
@@ -1546,8 +1546,6 @@ class Bpm extends CI_Model {
         }
         //---Update case status
         $this->update_case_token_status($wf->idwf, $wf->case);
-        //---Process hook
-        $this->process_hook(__FUNCTION__,$wf->idwf, $wf->case,$token,$case);
         return true;
     }
 
