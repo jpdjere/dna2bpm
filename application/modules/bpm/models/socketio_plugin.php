@@ -29,7 +29,7 @@ class Socketio_plugin extends CI_Model{
             // var_dump($idwf,$idcase,$token,$case,$this->config->item('socketio_host'));
             $client = new Client(new Version1X($this->config->item('socketio_host')));
             $client->initialize();
-            @$client->emit('bpm message',$token);
+            $client->emit('bpm '.__FUNCTION__,$token);
             $client->close();
         }
     }
