@@ -12,7 +12,8 @@ socket.on('welcome', function(msg) {
     socket.emit('register user', globals.myidu);
 });
 socket.on('registered', function(msg) {
-    $.notify({message:msg,delay:5000});
+    //@2do ca,biar el estado del icono acá
+    // $.notify({message:msg,delay:5000});
 });
 
 socket.on('chat message', function(msg) {
