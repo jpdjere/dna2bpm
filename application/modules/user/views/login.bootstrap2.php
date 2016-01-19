@@ -1,4 +1,5 @@
- 
+<meta property="og:image" content="{base_url}user/assets/images/login.png"> 
+<link itemprop="thumbnailUrl" href="{base_url}user/assets/images/login.png">
         <div class="form-box" id="login-box">
             <div class="header bg-navy">{lang loginMsg}</div>
             <form id="formAuth" action="{authUrl}" method="post">
@@ -25,7 +26,9 @@
                 </div>
                 <div class="footer">                                                               
                     <button type="submit" class="btn bg-olive btn-block">{lang loginButton}</button>  
-                    
+                    {loginExtra}
+                        {html}
+                    {/loginExtra}
                     <p> <a href="{module_url}recover" >
 	                        {lang forgotPassword}
 	                    </a></p>

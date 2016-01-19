@@ -223,12 +223,26 @@ class User extends CI_Model {
         }
     }
 
+    function getbyfilter($filter=array()) {
+        /**
+         * returns single user with matching id
+         */
+        //var_dump(json_encode($query));
+        $this->db->where($filter);
+        $result = $this->db->get('users')->result();
+        ///----return only 1st
+        if (isset($result[0]->idu)) {
+            return $result[0];
+        } else {
+            return false;
+        }
+    }
     function getbyid($iduser) {
         /**
          * returns single user with matching id
          */
         //var_dump(json_encode($query));
-        $this->db->where(array('idu' => (int) $iduser));
+        $this->db->where(array('idu' =>(int) $iduser));
         $result = $this->db->get('users')->result();
         ///----return only 1st
         if (isset($result[0]->idu)) {
@@ -431,23 +445,25 @@ class User extends CI_Model {
         $current_user=(empty($iduser))?((int)$this->idu):((int)$iduser);
         $genero = isset($current_user['gender']) ? ($current_user['gender']) : ("male");
         $userdata=(array) $this->user->get_user($current_user);
-
+        
+        
         // Chequeo avatar
-        if ( is_file(FCPATH."images/avatar/".$current_user.".jpg")){
-        	return base_url()."images/avatar/".$current_user.".jpg";
-        }elseif(is_file(FCPATH."images/avatar/".$current_user.".png")){
+        if ( is_file(FCPATH."images/avatar/".$current_user.".pnh")){
         	return base_url()."images/avatar/".$current_user.".png";
-        }else{
+        }elseif(is_file(FCPATH."images/avatar/".$current_user.".jpg")){
+        	return base_url()."images/avatar/".$current_user.".jpg";
+        } elseif(!empty($userdata['avatar'])){ //check custom URL
+            return $userdata['avatar'];
+        }elseif($this->config->item('gravatar')){
             //=== gravatar test
-            if($this->config->item('gravatar')){
                 $hash=md5( strtolower( trim( $userdata['email'] ) ) );
                 $gravatar="http://www.gravatar.com/avatar/$hash";
                 return $gravatar;
             }
             //
 
-        	return ($genero == "male")?(base_url()."images/avatar/male.jpg"):(base_url()."images/avatar/female.jpg");
-        }
+    	return ($genero == "male")?(base_url()."images/avatar/male.jpg"):(base_url()."images/avatar/female.jpg");
+        
     }
 
     /**

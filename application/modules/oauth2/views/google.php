@@ -1,0 +1,1 @@
+<a href="{base_url}oauth2/google" class="btn bg-red btn-block">GooglE</a>

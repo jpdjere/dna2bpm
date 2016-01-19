@@ -82,7 +82,7 @@ class Profile extends MX_Controller {
 
         // Chequeo avatar
 
-        $data['avatar']=$this->get_avatar();
+        $data['avatar']=$this->user->get_avatar();
 		$customData['content']=$this->parser->parse('user/profile',$data,true);
 
        // $this->ui->compose('profile', 'bootstrap3.ui.php', $customData);

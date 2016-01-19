@@ -170,7 +170,7 @@ class Dashboard extends MX_Controller {
         $customData['alerts']=Modules::run('dashboard/alerts/get_my_alerts');
         $customData['brand'] = $this->config->item('brand');
         $customData['menu'] = $this->menu();
-        $customData['avatar'] = Modules::run('user/profile/get_avatar'); //Avatar URL
+        $customData['avatar'] = $this->user->get_avatar(); //Avatar URL
         $customData['base_url'] = $this->base_url;
         $customData['module_url'] = $this->module_url;
         $customData['inbox_count'] = $this->msg->count_msgs($this->idu, 'inbox');

@@ -19,7 +19,6 @@ class Google extends MX_Controller {
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
-        $this->user->authorize();
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = $this->user->idu;
@@ -56,24 +55,35 @@ class Google extends MX_Controller {
 
         // We got an access token, let's now get the owner details
         $ownerDetails = $this->provider->getResourceOwner($token);
-        var_dump($ownerDetails);
+        var_dump('$ownerDetails',$ownerDetails);
         // Use these details to create a new profile or authorize a newone
-        $idu=$ownerDetails->getid();
-        if(!$this->user->getby_id($idu)){
+        $user=$this->user->getbyfilter(array('googleId'=>$ownerDetails->getid()));
+        
+        if(!$user){
         //Register a new user
-            $user['idu']=$idu;
-            $user['name']=$ownerDetails=getName();
+            $user['idu']=$this->user->genid();
+            $user['name']=$ownerDetails->getName();
             $user['lastname']=$ownerDetails->getLastName();
             $user['nick']=$ownerDetails->getEmail();
-            //@todo get avatar
-            //---save new user
-            $this->user->save($user);
+            $user['email']=$ownerDetails->getEmail();
+            $user['auth']='google';
+            $user['googleId']=$ownerDetails->getid();
+            $user['group']=array($this->config->item('groupUser'));
+            $user['avatar']=$ownerDetails->getAvatar();
+            $user['checkdate']=date('Y-m-d H:i:s');
+            
+        } else{
+        //---update avatar
+        $user=(array)$user;
+        $user['avatar']=$ownerDetails->getAvatar();
         }
+        
+        $this->user->save($user);
         
         //---register if it has logged is
         $this->session->set_userdata('loggedin', true);
         //---register the user id
-        $this->session->set_userdata('iduser', $idu);
+        $this->session->set_userdata('iduser', $user['idu']);
         //---register level string
         $redir = $this->session->userdata('redir');
         $redir = ($this->session->userdata('redir')) ? $this->session->userdata('redir') : base_url() . $this->config->item('default_controller');
@@ -90,6 +100,7 @@ class Google extends MX_Controller {
     } catch (Exception $e) {
 
         // Failed to get user details
+        var_dump($e);
         exit('Something went wrong: ' . $e->getMessage());
 
     }

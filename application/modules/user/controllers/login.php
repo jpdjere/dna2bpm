@@ -77,8 +77,10 @@ class Login extends MX_Controller {
             'authUrl' => $this->base_url . 'user/authenticate'
         );
         $cpData['show_warn'] = ($this->config->item('show_warn') and $msg <> '');
+        $cpData['loginExtra']=(isset($this->user->loginExtra))?$this->user->loginExtra:array();
         //----clear data
         $this->session->unset_userdata('msg');
+        
         //$this->ui->makeui('user/ext.ui.php', $cpData);
         //$this->parser->parse('user/login', $cpData);
         $this->ui->compose('user/login.bootstrap2.php', 'user/bootstrap3.ui.php', $cpData);

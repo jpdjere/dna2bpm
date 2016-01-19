@@ -23,7 +23,8 @@ class Whoami extends MX_Controller {
         echo "Eviroment: " . ENVIRONMENT . '<br/>';
         $plugins=(class_exists('Userlayer')) ? implode(',', $this->config->item('user_plugin')):array();
         var_dump('plugins',$plugins);
-        var_dump('idu', $idu, $this->user->get_user_safe((int) $idu));
+        var_dump('idu', $idu, $this->user->get_user_safe($idu));
+        var_dump('avatar',$this->user->get_avatar());
     }
 
 }

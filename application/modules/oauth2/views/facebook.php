@@ -1,0 +1,1 @@
+<a href="{base_url}oauth2/facebook" class="btn bg-blue btn-block">FaceBook</a>
