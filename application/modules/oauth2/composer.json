@@ -1,0 +1,8 @@
+{
+    "require": {
+        "league/oauth2-google": "^1.0"
+    },
+    "config": {
+        "vendor-dir": "libraries"
+    }
+}
