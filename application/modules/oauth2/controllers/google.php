@@ -44,7 +44,7 @@ class Google extends MX_Controller {
             echo $rs['error'];
         exit;
         }
-        var_dump($rs);
+        // var_dump($rs);
             // Try to get an access token (using the authorization code grant)
 
     // Optional: Now you have a token you can look up a users profile data
@@ -55,9 +55,10 @@ class Google extends MX_Controller {
 
         // We got an access token, let's now get the owner details
         $ownerDetails = $this->provider->getResourceOwner($token);
-        var_dump('$ownerDetails',$ownerDetails);
+        // var_dump('$ownerDetails',$ownerDetails);
         // Use these details to create a new profile or authorize a newone
-        $user=$this->user->getbyfilter(array('googleId'=>$ownerDetails->getid()));
+        // $user=$this->user->getbyfilter(array('googleId'=>$ownerDetails->getid()));
+        $user=$this->user->getbymailaddress(array($ownerDetails->getEmail()));
         
         if(!$user){
         //Register a new user
@@ -73,9 +74,10 @@ class Google extends MX_Controller {
             $user['checkdate']=date('Y-m-d H:i:s');
             
         } else{
-        //---update avatar
+        //---update avatar & user data
         $user=(array)$user;
         $user['avatar']=$ownerDetails->getAvatar();
+        $user['googledata']=$ownerDetails->toArray();
         }
         
         $this->user->save($user);
