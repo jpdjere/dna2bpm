@@ -21,11 +21,14 @@
                     </div>      
                  <!--  REMEMBERME -->      
                     <div class="form-group">
+                        <button type="submit" class="btn bg-olive ">{lang loginButton}</button>  
+                    </div>
+                    <div class="form-group">
                        <input type="checkbox" value="remember-me" > {lang rememberButton}
                     </div>
                 </div>
                 <div class="footer">                                                               
-                    <button type="submit" class="btn bg-olive btn-block">{lang loginButton}</button>  
+                    
                     {loginExtra}
                         {html}
                     {/loginExtra}
