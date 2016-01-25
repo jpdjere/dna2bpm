@@ -6,13 +6,13 @@ if (!defined('BASEPATH'))
 /**
  * dna2
  * 
- * This class will handle all the hassle needed to login with a google account
+ * This class will handle all the hassle needed to login with a facebook account
  * 
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  * @date   Jan 18, 2016
  */
 include(FCPATH.APPPATH.'modules/oauth2/libraries/autoload.php');
-class facebook extends MX_Controller {
+class Facebook extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -22,11 +22,11 @@ class facebook extends MX_Controller {
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = $this->user->idu;
-        $this->provider= new League\OAuth2\Client\Provider\Google([
-        'clientId'     => '378956461442.apps.googleusercontent.com',
-        'clientSecret' => '8JfPosL9qrC-k-cN47CPK2DT',
-        'redirectUri'  => $this->module_url.'google/landing',
-        'hostedDomain' => 'localhost',
+        $this->provider= new League\OAuth2\Client\Provider\Facebook([
+        'clientId'     => '1700216486880211',
+        'clientSecret' => 'a5cc554d00d96a06fb18526e8e9c9393',
+        'redirectUri'  => $this->module_url.'facebook/landing',
+        'graphApiVersion'   => 'v2.5',
         ]);
         ini_set('xdebug.var_display_max_depth',-1);
     }
@@ -44,7 +44,7 @@ class facebook extends MX_Controller {
             echo $rs['error'];
         exit;
         }
-        var_dump($rs);
+        // var_dump($rs);
             // Try to get an access token (using the authorization code grant)
 
     // Optional: Now you have a token you can look up a users profile data
@@ -55,27 +55,30 @@ class facebook extends MX_Controller {
 
         // We got an access token, let's now get the owner details
         $ownerDetails = $this->provider->getResourceOwner($token);
-        var_dump('$ownerDetails',$ownerDetails);
+        // var_dump('$ownerDetails',$ownerDetails);
         // Use these details to create a new profile or authorize a newone
-        $user=$this->user->getbyfilter(array('googleId'=>$ownerDetails->getid()));
+        // $user=$this->user->getbyfilter(array('facebookId'=>$ownerDetails->getid()));
+        $user=$this->user->getbymailaddress(array($ownerDetails->getEmail()));
         
         if(!$user){
         //Register a new user
             $user['idu']=$this->user->genid();
-            $user['name']=$ownerDetails->getName();
+            $user['name']=$ownerDetails->getFirstName();
             $user['lastname']=$ownerDetails->getLastName();
             $user['nick']=$ownerDetails->getEmail();
             $user['email']=$ownerDetails->getEmail();
-            $user['auth']='google';
-            $user['googleId']=$ownerDetails->getid();
+            $user['auth']='facebook';
+            $user['facebookId']=$ownerDetails->getid();
             $user['group']=array($this->config->item('groupUser'));
-            $user['avatar']=$ownerDetails->getAvatar();
+            $user['avatar']=$ownerDetails->getPictureUrl();
             $user['checkdate']=date('Y-m-d H:i:s');
+            $user['facebookdata']=$ownerDetails->toArray();
             
         } else{
-        //---update avatar
+        //---update avatar & user data
         $user=(array)$user;
-        $user['avatar']=$ownerDetails->getAvatar();
+        $user['avatar']=$ownerDetails->getPictureUrl();
+        $user['facebookdata']=$ownerDetails->toArray();
         }
         
         $this->user->save($user);
@@ -135,7 +138,7 @@ object(League\OAuth2\Client\Provider\GoogleUser)[40]
           'givenName' => string 'Juan Ignacio' (length=12)
       'image' => 
         array (size=1)
-          'url' => string 'https://lh4.googleusercontent.com/-VTMrwynw_Ps/AAAAAAAAAAI/AAAAAAAAA2U/UFLptSt6D0M/photo.jpg?sz=50' (length=98)
+          'url' => string 'https://lh4.facebookusercontent.com/-VTMrwynw_Ps/AAAAAAAAAAI/AAAAAAAAA2U/UFLptSt6D0M/photo.jpg?sz=50' (length=98)
 Hello Juan Ignacio!
 string 'token' (length=5)
 object(League\OAuth2\Client\Token\AccessToken)[51]

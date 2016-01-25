@@ -448,7 +448,7 @@ class User extends CI_Model {
         
         
         // Chequeo avatar
-        if ( is_file(FCPATH."images/avatar/".$current_user.".pnh")){
+        if ( is_file(FCPATH."images/avatar/".$current_user.".png")){
         	return base_url()."images/avatar/".$current_user.".png";
         }elseif(is_file(FCPATH."images/avatar/".$current_user.".jpg")){
         	return base_url()."images/avatar/".$current_user.".jpg";
