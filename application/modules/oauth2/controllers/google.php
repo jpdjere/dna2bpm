@@ -28,6 +28,7 @@ class Google extends MX_Controller {
         'redirectUri'  => $this->module_url.'google/landing',
         'hostedDomain' => 'localhost',
         ]);
+        $this->load->config();
         ini_set('xdebug.var_display_max_depth',-1);
     }
     function Index(){
@@ -71,11 +72,13 @@ class Google extends MX_Controller {
             $user['group']=array($this->config->item('groupUser'));
             $user['avatar']=$ownerDetails->getAvatar();
             $user['checkdate']=date('Y-m-d H:i:s');
+            $default_redirect=($this->config->item('oauth2redirect_url')) ? $this->config->item('oauth2redirect_url'):$this->config->item('default_controller');
             
         } else{
         //---update avatar
-        $user=(array)$user;
-        $user['avatar']=$ownerDetails->getAvatar();
+          $default_redirect=$this->config->item('default_controller');
+          $user=(array)$user;
+          $user['avatar']=$ownerDetails->getAvatar();
         }
         
         $this->user->save($user);
@@ -86,7 +89,7 @@ class Google extends MX_Controller {
         $this->session->set_userdata('iduser', $user['idu']);
         //---register level string
         $redir = $this->session->userdata('redir');
-        $redir = ($this->session->userdata('redir')) ? $this->session->userdata('redir') : base_url() . $this->config->item('default_controller');
+        $redir = ($this->session->userdata('redir')) ? $this->session->userdata('redir') : base_url() . $default_redirect;
         log_message('debug', 'Redirecting user:' . $this->session->userdata('iduser') . ' to:' . $redir);
         //---clear redir from session
         $this->session->unset_userdata('redir');
