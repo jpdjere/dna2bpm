@@ -73,6 +73,7 @@ class Google extends MX_Controller {
             $user['group']=array($this->config->item('groupUser'));
             $user['avatar']=$ownerDetails->getAvatar();
             $user['checkdate']=date('Y-m-d H:i:s');
+            $user['googledata']=$ownerDetails->toArray();
             $default_redirect=($this->config->item('oauth2redirect_url')) ? $this->config->item('oauth2redirect_url'):$this->config->item('default_controller');
             
         } else{
@@ -80,7 +81,7 @@ class Google extends MX_Controller {
           $default_redirect=$this->config->item('default_controller');
           $user=(array)$user;
           $user['avatar']=$ownerDetails->getAvatar();
-        $user['googledata']=$ownerDetails->toArray();
+          $user['googledata']=$ownerDetails->toArray();
         }
         
         $this->user->save($user);
