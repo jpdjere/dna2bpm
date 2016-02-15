@@ -79,7 +79,7 @@ class Authenticate extends MX_Controller {
             //echo "si";
         } else {
             show_error('Error user don\'t exist');
-            redirect( base_url() . 'user/login/nouser');
+            redirect( 'user/login/nouser');
         }
     }
 

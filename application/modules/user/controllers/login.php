@@ -9,7 +9,7 @@ class Login extends MX_Controller {
         parent::__construct();
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
         //----load parser
         $this->load->library('parser');
         $this->load->config('config');
@@ -20,7 +20,7 @@ class Login extends MX_Controller {
         $this->lang->load('login', $this->config->item('language'));
         //---add language data
         $cpData = $this->lang->language;
-        $cpData['authUrl'] = base_url() . 'user/authenticate';
+        $cpData['authUrl'] = site_url('user/authenticate');
         $cpData['base_url'] = base_url();
         $cpData['show_warn'] = $this->config->item('show_warn');
         $cpData['theme'] = $this->config->item('theme');
@@ -37,7 +37,7 @@ class Login extends MX_Controller {
         $cpData['lang'] = $this->lang->language;
 
         $cpData['title'] = 'LogIn Form';
-        $cpData['authUrl'] = base_url() . 'user/authenticate';
+        $cpData['authUrl'] = site_url('user/authenticate');
         $cpData['base_url'] = $this->base_url;
         $cpData['module_url'] = $this->module_url;
         $cpData['theme'] = $this->config->item('theme');

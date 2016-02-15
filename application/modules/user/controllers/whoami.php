@@ -21,6 +21,9 @@ class Whoami extends MX_Controller {
         $idu = $this->session->userdata('iduser');
         echo "CI Version: " . CI_VERSION . '<br/>';
         echo "Eviroment: " . ENVIRONMENT . '<br/>';
+        echo "BaseURL: " . base_url() . '<br/>';
+        echo site_url('/').'<br>';
+        echo site_url('/dashboard/assets/jscript/app.js').'<br>';
         $plugins=(class_exists('Userlayer')) ? implode(',', $this->config->item('user_plugin')):array();
         var_dump('plugins',$plugins);
         var_dump('idu', $idu, $this->user->get_user_safe((int) $idu));
