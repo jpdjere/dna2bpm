@@ -26,7 +26,7 @@ class ui {
         $this->register_script('jqueryUI', $data['base_url'] . 'jscript/jquery/ui/jquery-ui-1.10.2.custom/jquery-ui-1.10.2.custom.min.js', array('jquery'));
         $this->register_script('bootstrap', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/bootstrap.min.js');
         $this->register_script('raphael', '//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js');
-        $this->register_script('morris', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/morris/morris.min.js');
+        $this->register_script('morris', site_url('dashboard/assets/bootstrap-wysihtml5/js/plugins/morris/morris.min.js'));
         $this->register_script('sparkline', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/sparkline/jquery.sparkline.min.js', array('jquery'));
         $this->register_script('jvectormap', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js', array('jquery'));
         $this->register_script('jvectormap.world.mill', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js', array('jquery', 'jvectormap'));
@@ -45,20 +45,19 @@ class ui {
         $this->register_script('jquery.form', $data['base_url'] . 'jscript/jquery/plugins/Form/jquery.form.min.js', array('jquery'));
         $this->register_script('icheck', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/iCheck/icheck.min.js', array('WYSIHTML5'));
         $this->register_script('selectJS', $data['base_url'] . 'jscript/select2-3.4.5/select2.min.js', array());
-        $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
+        $this->register_script('inboxJS', site_url('inbox/assets/jscript/inbox.js'), array('jquery'));
         $this->register_script('highCharts', $data['base_url'] . 'jscript/Highcharts-4.0.4/js/highcharts.js', array('jquery'));
-        $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
         $this->register_script('ckeditor', $data['base_url'] . 'jscript/ckeditor/ckeditor.js', array('jquery'));
         $this->register_script('jquery.smooth-scroll', $data['base_url'] . 'jscript/jquery/plugins/jquery.smooth-scroll.min.js', array('jquery'));
 
         //===== CSS loaded only when same JS  handle is loaded
-        $this->styles['morris'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css";
+        $this->styles['morris'][] = site_url("dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css");
         $this->styles['jvectormap'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/jvectormap/jquery-jvectormap-1.2.2.css";
         $this->styles['fullcalendar'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/js/plugins/fullcalendar-2.3.1/fullcalendar.css";
         $this->styles['selectJS'][] = $data['base_url'] . "jscript/select2-3.4.5/select2.css";
         $this->styles['selectJS'][] = $data['base_url'] . "jscript/select2-3.4.5/select2-bootstrap.css";
-        $this->styles['inboxJS'][] = $data['base_url'] . "inbox/assets/css/inbox.css";
-        $this->styles['daterangerpicker'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css";
+        $this->styles['inboxJS'][] = site_url ( "inbox/assets/css/inbox.css");
+        $this->styles['daterangerpicker'][] = site_url("dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css");
         
         // Load default JS 
         $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form', 'morris');

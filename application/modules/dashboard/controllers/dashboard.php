@@ -24,7 +24,7 @@ class Dashboard extends MX_Controller {
 
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url( $this->router->fetch_module() . '/');
         $this->user->authorize();
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
