@@ -3,7 +3,7 @@
 {
     "cmd": [
         "php",
-        "-S", "$ip:$port"
+        "-S", "$ip:$port","index.php"
     ],
     "selector": "^.*\\.(php)$",
     "debugger": "xdebug",
