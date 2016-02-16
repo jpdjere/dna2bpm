@@ -10,6 +10,6 @@
     "env": {
     "XDEBUG_CONFIG": "xdebug.remote_enable=1 idekey=cloud9ide remote_host=localhost remote_port=9000 remote_mode=req"
     },
-    "info": "PHP with Debugger on http://localhost:8080\n ",
+    "info": "PHP with Local Debugger\n press any Key to end debug session",
     "working_dir": "$project_path"
 }
