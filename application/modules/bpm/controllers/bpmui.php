@@ -20,7 +20,7 @@ class Bpmui extends MX_Controller {
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
         $this->idu = $this->user->idu;
         $this->activeUser = $this->user->get_user($this->idu);
         //----LOAD LANGUAGE

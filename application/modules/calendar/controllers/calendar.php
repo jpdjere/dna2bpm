@@ -23,7 +23,7 @@ class Calendar extends MX_Controller {
         date_default_timezone_set('UTC');
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
         $this->load->library('parser');
         $this->idu = (int) $this->session->userdata('iduser');
         $this->user_can_create=$this->user->has("root/modules/calendar/controllers/calendar/create_event");

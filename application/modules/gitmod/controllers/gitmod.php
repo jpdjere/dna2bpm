@@ -24,7 +24,7 @@ class Gitmod extends MX_Controller {
 
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
         $this->load->library('gitmod/git');
         $this->idu = $this->user->idu;
         $this->stageInculde=array('A ','D ','R','M ');

@@ -29,7 +29,7 @@ class Service extends MX_Controller {
 
         //$this->debug['get_shape_byname']=false;
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
     }
     /**
      * Process timer tokens

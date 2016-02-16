@@ -13,7 +13,7 @@ class Setup extends CI_Controller {
         $this->load->helper('file');
         //---base variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
         $this->writable_folders = array(
             'images/avatar',
             'images/model',

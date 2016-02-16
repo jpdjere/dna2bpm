@@ -24,7 +24,7 @@ class Apps extends MX_Controller {
         $this->module_path = 'application/modules/apps/';
         //----Variables
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module().'/';
+        $this->module_url = site_url($this->router->fetch_module().'/');
     }
 
     function addQuote($st) {
@@ -75,7 +75,7 @@ class Apps extends MX_Controller {
                   $out = $_POST;
                   //$debug = true;
                   break;
-                 * 
+                 *
                  */
                 case 'create':
                     include($types_path . 'base/form.base.php');
@@ -186,7 +186,7 @@ class Apps extends MX_Controller {
             $this->module_url . 'assets/jscript/editor/ext.data.js' => 'data Components',
             $this->module_url . 'assets/jscript/editor/ext.grid.js' => 'Grid',
             $this->base_url . 'jscript/editarea/edit_area/edit_area_full.js' => 'Edit Area',
-            $this->base_url . 'form/assets/jscript/ext.code_editor.js' => 'Code Editor',
+            site_url ('form/assets/jscript/ext.code_editor.js') => 'Code Editor',
             $this->module_url . 'assets/jscript/editor/ext.load_props.js' => 'Form Porperty loader',
             $this->module_url . 'assets/jscript/editor/ext.viewport.js' => 'viewport',
             $this->module_url . 'assets/jscript/editor/ext.baseProperties.js' => 'Property Grid',
@@ -276,7 +276,7 @@ class Apps extends MX_Controller {
                             'idu' => $this->idu
                         );
                     }
-                    
+
                     $this->app->put_app($idapp, $app);
                     $out = array('status' => 'ok');
                     break;
@@ -338,7 +338,7 @@ class Apps extends MX_Controller {
         //---now define the properties template
         $properties_template = $common + $type_props;
         $properties_template =  array_merge(array_flip(array_keys($common)), $properties_template);
-        
+
         $form = new dbframe($thisForm, $properties_template);
 
         if (!$debug) {
@@ -612,7 +612,7 @@ class Apps extends MX_Controller {
                   $out = $_POST;
                   //$debug = true;
                   break;
-                 * 
+                 *
                  */
             }
             //----end switch
@@ -947,7 +947,7 @@ class Apps extends MX_Controller {
 //----load the data from post
 
         $form->load($postform, $properties_template);
-        
+
         if ($idform) {
             //---wht 2 do? uh? ...nothing?
             $dbform = $this->app->get_object($idobj);
@@ -978,7 +978,7 @@ class Apps extends MX_Controller {
         $debug = (in_array('debug', $segments)) ? true : false;
         $types_path = $this->types_path;
         $postform = $this->input->post();
-        
+
         //----create empty frame according to the template
         $app = new dbframe();
         $idapp = $postform['idapp'];
@@ -1012,9 +1012,9 @@ class Apps extends MX_Controller {
         $app->template['id'] = 'integer';
         $app->id = $app->idapp;
         // var_dump($app->toSave());exit;
-        
+
         $this->app->put_app($app->idapp, $app->toSave() + $dbapp);
-        
+
         //----register app in RBAC-REPOSIROTY
         $path = 'modules/application/' . $app->idapp;
         $properties = array(

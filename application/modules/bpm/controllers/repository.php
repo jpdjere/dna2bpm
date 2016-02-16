@@ -23,7 +23,7 @@ class Repository extends MX_Controller {
         $this->idu = $this->user->idu;
         $this->debug = array();
         $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->module_url = site_url($this->router->fetch_module() . '/');
 
 //---LOAD CORE Functions
         /*
