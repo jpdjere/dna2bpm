@@ -1,4 +1,16 @@
 <?php
+/* route static assets and return false */
+if (php_sapi_name() == 'cli-server') {
+        $parts=split('/',$_SERVER['SCRIPT_NAME']);
+    if (in_array($parts[1],array(
+    "jscript",
+    "images",
+    "css"
+    ))) {
+        
+    return false;    // serve the requested resource as-is.
+    } 
+}
 
 /*
  * ---------------------------------------------------------------

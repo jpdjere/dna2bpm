@@ -62,7 +62,7 @@ class Login extends MX_Controller {
         //---build UI 
         //---define files to viewport
         $cpData['css'] = array(
-            $this->module_url . "assets/css/login.css" => 'Login Specific',
+            site_url( "/user/assets/css/login.css") => 'Login Specific',
         );
         $cpData['js'] = array(
                 //$this->module_url . "assets/jscript/login.js" => 'Login',
@@ -74,7 +74,7 @@ class Login extends MX_Controller {
             'show_warn' => $this->config->item('show_warn'),
             'msg' => $msg,
             'msgcode' => (isset($cpData['msgcode'])) ? $cpData['msgcode'] : '',
-            'authUrl' => $this->base_url . 'user/authenticate'
+            'authUrl' => site_url('/user/authenticate')
         );
         $cpData['show_warn'] = ($this->config->item('show_warn') and $msg <> '');
         //----clear data
