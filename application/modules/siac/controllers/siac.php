@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Siac extends MX_Controller {
 
@@ -32,6 +32,44 @@ class Siac extends MX_Controller {
         $result = $this->bpm->import(APPPATH.'modules/siac/assets/model/siac.zip', true, 'SIAC');
         var_dump($result);
     }
+    /**
+     * Pantalla de Seleccion
+     */
+     function servicios($idwf=null,$idcase=null,$token_id=null){
+         $this->load->helper('file');
+         $json= read_file(APPPATH.'modules/'.$this->router->fetch_module() .'/assets/json/servicios.json');
+         if(!$servicios=json_decode($json,true)){
+             show_error('Archivo json mal configurado');
+             exit;
+         }
+         $this->load->module('bpm/engine');
+        // -----load bpm
+        $mywf = $this->bpm->load($idwf);
+        $mywf ['data'] ['idwf'] = $idwf;
+        $mywf ['data'] ['case'] = $idcase;
+        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
+        $this->engine->load_data($wf, $idcase);
+        $cpData=$this->bpm->bindObjectToArray($this->engine->data);
+        $token=$this->bpm->get_token_byid($token_id);
+        var_dump($token_id,$token);exit;
+        $cpData['servicios']=$servicios;
+        $cpData['idwf']=$idwf;
+        $cpData['idcase']=$idcase;
+        $cpData['resourceId']=$token['resourceId'];
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['title'] = 'SIAC::Seleccion de Servicio';
+        $cpData['css'] = array();
+        $cpData['js'] = array(
+            $this->module_url . "assets/jscript/main.js" => 'Funciones Principales',
+        );
+
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+        );
+        $this->ui->compose('servicios', 'bootstrap.ui.php', $cpData);
+     }
      
     /**
      * Carga de Formulario
