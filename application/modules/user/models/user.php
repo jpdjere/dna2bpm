@@ -13,6 +13,7 @@ class User extends CI_Model {
         $this->idu = $this->session->userdata('iduser');
         $this->config->load('user/config');
         $this->autodiscover = ($this->config->item('autodiscover')) ? true : false;
+        $this->login_url=base_url() . 'user/login';
     }
 
     function add($user_data) {
@@ -136,7 +137,7 @@ class User extends CI_Model {
         if (!$canaccess) {
             $this->session->set_userdata('redir', base_url() . uri_string());
             $this->session->set_userdata('msg', 'nolevel');
-            redirect(base_url() . 'user/login');
+            redirect($this->login_url);
         }
     }
 
@@ -160,7 +161,7 @@ class User extends CI_Model {
         if (!$this->session->userdata('loggedin')) {
             $this->session->set_userdata('redir', base_url() . uri_string());
             $this->session->set_userdata('msg', 'hastolog');
-            redirect(base_url() . 'user/login');
+            redirect($this->login_url);
         } else {
             return true;
         }
@@ -284,7 +285,7 @@ class User extends CI_Model {
                     'lastname' => 'asc'
                 )
         );
-        $result = $this->db->get('users')->result();
+        $result = $this->db->get('users')->result_array();
         return $result;
     }
 
@@ -426,26 +427,39 @@ class User extends CI_Model {
         $current_user = (array) $this->user->get_user_safe($iduser);
         $genero = isset($current_user['gender']) ? ($current_user['gender']) : ("male");
 
+
+        $current_user=(empty($iduser))?((int)$this->idu):((int)$iduser);
+        $genero = isset($current_user['gender']) ? ($current_user['gender']) : ("male");
+        $userdata=(array) $this->user->get_user($current_user);
+
         // Chequeo avatar
-        if (is_file("images/avatar/" . $iduser . ".jpg")) {
-            return base_url() . "images/avatar/" . $iduser . ".jpg";
-        } elseif (is_file("images/avatar/" . $iduser . ".png")) {
-            return base_url() . "images/avatar/" . $iduser . ".png";
-        } else {
-            return ($genero == "male") ? (base_url() . "images/avatar/male.jpg") : (base_url() . "images/avatar/female.jpg");
+        if ( is_file(FCPATH."images/avatar/".$current_user.".jpg")){
+        	return base_url()."images/avatar/".$current_user.".jpg";
+        }elseif(is_file(FCPATH."images/avatar/".$current_user.".png")){
+        	return base_url()."images/avatar/".$current_user.".png";
+        }else{
+            //=== gravatar test
+            if($this->config->item('gravatar')){
+                $hash=md5( strtolower( trim( $userdata['email'] ) ) );
+                $gravatar="http://www.gravatar.com/avatar/$hash";
+                return $gravatar;
+            }
+            //
+
+        	return ($genero == "male")?(base_url()."images/avatar/male.jpg"):(base_url()."images/avatar/female.jpg");
         }
     }
 
     /**
      * Save Raw user data
      */
-    function save($data) {
-        //var_dump($data);
-        unset($data['_id']);
-        $this->db->where(array('idu' => $data['idu']));
-        $result = $this->db->update('users', $data);
-        return $result;
-    }
+    // function save_raw($data) {
+    //     unset($data['_id']);
+    //     $this->db->where(array('idu' => $data['idu']));
+    //     $result = $this->db->update('users', $data);
+    //     return $result;
+
+    // }
 
     //forgot password: change password token
     function save_token($object) {
