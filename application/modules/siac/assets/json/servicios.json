@@ -1,21 +1,36 @@
 [{
-        "value": 1,
-        "name": "Alumbrado"
-    }, {
-        "value": 2,
-        "name": "Arbolado"
-    }, {
-        "value": 3,
-        "name": "Vía pública (calles, veredas,ramblas, etc)"
-    }, {
-        "value": 4,
-        "name": "Habilitaciones y Permisos"
-    }, {
-        "value": 5,
-        "name": "Limpieza y Recolección"
-    }
-    , {
-        "value": 6,
-        "name": "Residuos Especiales"
-    }
-]
+    "value": "1",
+    "name": "Alumbrado"
+    "items": [{
+            "value": "1-1",
+            "name": "Problemas en Luminarias"
+            "desc": "Luces rotas o que no funcionan bien"
+        }, 
+        {
+            "value": "1-2",
+            "name": "Luminaria encendida permanente"
+            "desc": "Solicitá el arreglo"
+        },
+        {
+            "value": "1-3",
+            "name": "Instalación de Luminarias"
+            "desc": "Informanos tu necesidad"
+        }
+
+    ]
+}, {
+    "value": "2",
+    "name": "Arbolado"
+}, {
+    "value": "3",
+    "name": "Vía pública (calles, veredas,ramblas, etc)"
+}, {
+    "value": "4",
+    "name": "Habilitaciones y Permisos"
+}, {
+    "value": "5",
+    "name": "Limpieza y Recolección"
+}, {
+    "value": "6",
+    "name": "Residuos Especiales"
+}]
