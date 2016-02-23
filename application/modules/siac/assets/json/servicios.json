@@ -50,16 +50,71 @@
     ]
 }, 
 {
-    "value": "5",
-    "name": "Tránsito"
+    "value": "4",
+    "name": "Tránsito",
+    "items": [{
+            "item_value": "4-1",
+            "item_name": "Vehículos mal estacionados",
+            "item_desc": "Denunciá vehiculos en infracción"
+        }, {
+            "item_value": "4-2",
+            "item_name": "Funcionamientos Semáforos",
+            "item_desc": "Informanos del mal funcionamiento o luces rotas"
+        },{
+            "item_value": "4-3",
+            "item_name": "Vehículos abandonados",
+            "item_desc": "Denunciá los vehículos abandonados"
+        }
+
+    ]
 }, 
 
 {
     "value": "5",
-    "name": "Limpieza y Recolección"
+    "name": "Limpieza y Recolección",
+    "items": [{
+            "item_value": "5-1",
+            "item_name": "Residuos no habituales",
+            "item_desc": "Solicitá el retiro de escombros, muebles, pinturas, chapas, restos de obra, etc."
+        }, {
+            "item_value": "5-2",
+            "item_name": "Retiro de poda",
+            "item_desc": "solicitá la recolección de restos de poda, pastos y hojas"
+        },
+        {
+            "item_value": "5-3",
+            "item_name": "Barrido",
+            "item_desc": "Envianos tu consulta con respecto al barrido"
+        }
+        ,
+        {
+            "item_value": "5-4",
+            "item_name": "Recolección de residuos",
+            "item_desc": "Reclamá por la recoleccion o residuos en la vía pública"
+        }
+        ,
+        {
+            "item_value": "5-5",
+            "item_name": "Residuos fuera de lugar o en esquinas",
+            "item_desc": "Reclamá por la recoleccion o residuos en la vía pública"
+        }
+
+    ]
 },
 {
     "value": "7",
-    "name": "Habilitaciones y Permisos"
+    "icon": "fa-search",
+    "name": "Habilitaciones y Permisos",
+    "items": [{
+            "item_value": "7-1",
+            "item_name": "Establecimientos no Habilitados",
+            "item_desc": "Denunciá establecimientos"
+        }, {
+            "item_value": "7-2",
+            "item_name": "Construcciones",
+            "item_desc": "Denunciá Construcciones sin permiso o fuera de regla"
+        }
+
+    ]
 }
 ]

@@ -4,7 +4,7 @@
   <div class="panel-heading">
        <h3>
            {name}
-       </h3>
+       </h3><i class="fa {icon}"></i>
   </div>
   <div class="panel-body">
       <ul class="list-group">

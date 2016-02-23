@@ -51,7 +51,6 @@ class Siac extends MX_Controller {
         $this->engine->load_data($wf, $idcase);
         $cpData=$this->bpm->bindObjectToArray($this->engine->data);
         $token=$this->bpm->get_token_byid($token_id);
-        var_dump($token_id,$token);exit;
         $cpData['servicios']=$servicios;
         $cpData['idwf']=$idwf;
         $cpData['idcase']=$idcase;
