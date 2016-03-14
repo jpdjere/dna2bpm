@@ -43,7 +43,7 @@ class Engine extends MX_Controller {
         // ---Set if suprocess has to be loaded: Default=true
         $this->expandSubProcess = true;
         // ---Debug options
-        $this->debug ['Run'] = null;
+        $this->debug ['Run'] = true;
         $this->debug ['run_post'] = null;
         $this->debug ['manual_task'] = null;
         $this->debug ['triggers'] = null;
@@ -53,7 +53,7 @@ class Engine extends MX_Controller {
         /*
          * true: don't show modal msgs null: no debug
          */
-        $this->debug ['show_modal'] = null;
+        $this->debug ['show_modal'] = true;
 
         // ---debug Helpers
         $this->debug ['run_Task'] = false;
@@ -223,7 +223,7 @@ class Engine extends MX_Controller {
             if($mywf){
             $mywf ['data'] ['idwf'] = $idwf;
             $mywf ['data'] ['case'] = $case;
-            $mywf ['data'] ['folder'] = $mywf ['folder'];
+            $mywf ['data'] ['folder'] =(isset($mywf['folder'])) ? $mywf['folder']:'';
             $wf = bindArrayToObject($mywf ['data']);
             // ----make it publicly available to other methods
             $this->wf = $wf;
@@ -256,16 +256,20 @@ class Engine extends MX_Controller {
              */
             $open = $this->bpm->get_tokens_byFilter($filter);
             while ($i <= 100 and $open = $this->bpm->get_tokens_byFilter($filter)) {
-                if ($debug)
-                    echo "<h1>Step:$i</h1>";
                 $i ++;
                 foreach ($open as $token) {
+                    $resourceId = $token ['resourceId'];
+                    $shape = $this->bpm->get_shape($resourceId, $wf);
+                    if ($debug){
+                    echo "<h1>Step:$i ".$shape->stencil->id."</h1>";
+                    var_dump($filter);
+                    }
+                    ///make available the current token
+                    $wf->token=$token;
                     // ---only call tokens that correspond to user.
                     // var_dump($token);
-                    $resourceId = $token ['resourceId'];
 
                     if (!in_array($resourceId, $wf->prevent_run)) {
-                        $shape = $this->bpm->get_shape($resourceId, $wf);
                         if (!$shape) {
                             show_error("Can't find $resourceId in model: engine line " . __LINE__);
                         }
@@ -284,7 +288,7 @@ class Engine extends MX_Controller {
                 }
             //----remove waiting from filter after 1st run
             $filter['status']='pending';
-            $open = $this->bpm->get_tokens_byFilter($filter);
+            // $open = $this->bpm->get_tokens_byFilter($filter);
 
             }
 
