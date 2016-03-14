@@ -27,8 +27,8 @@ function run_Exclusive_Databased_Gateway($shape, $wf, $CI) {
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     $debug = false;
     $iduser = (int) $CI->idu;
-    $user = $CI->user->get_user($iduser);
-    $user_groups = (array) $user->group;
+    // $user = $CI->user->get_user_safe($iduser);
+    // $user_groups = (array) $user->group;
     //----ASSIGN to USER / GROUP
 //    $CI->bpm->assign($shape, $wf);
 //    //----Get token data
@@ -295,17 +295,23 @@ function run_InclusiveGateway($shape, $wf, $CI) {
 
 function run_EventbasedGateway($shape, $wf, $CI) {
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
-    // $debug=true;
+    $debug=true;
     /**
      * @todo: don't process if no new events
      */
+    //----put shape to wait until next run
+    if($wf->token['status']=='pending')
+        $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting');
+    
     $has_finished = true;
     $flows=$CI->bpm->get_outgoing_shapes($shape, $wf);
     $cancel_events=false;
+    $token=$wf->token;
+    //----iterate over the flows to check condition
     foreach ($flows as $flow) {
             $trigger_resourceId=$flow->outgoing->{0}->resourceId;
             $token_trigger=$CI->bpm->get_token($wf->idwf, $wf->case, $trigger_resourceId);
-            // var_dump2($token_trigger);
+            var_dump2($token_trigger);
             //---if not exists the initialize tokens for engine
             if(!$token_trigger){
                 $shape_trigger=$CI->bpm->get_shape($trigger_resourceId, $wf);
