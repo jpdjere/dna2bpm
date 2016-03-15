@@ -236,7 +236,7 @@ function run_IntermediateEventCatching($shape, &$wf, &$CI) {
 //----merge by name & by ref
     $throwers = array_merge($throwers_name, $throwers_ref);
     if($debug){
-        echo 'has: '.count($throwers).'<br/>';
+        echo 'has: '.count($throwers).' Thrower / trigger<br/>';
         // var_dump2($throwers);
         
     }
@@ -244,8 +244,8 @@ function run_IntermediateEventCatching($shape, &$wf, &$CI) {
 //---check if all throwers  or inbound has finished
 //---Same as parallel gateway
     $has_finished_flow = true;
-    $has_finished_thrower = (count($throwers)>0) ? false : true;
     $has_finished_thrower = false;
+    $has_finished_thrower = (count($throwers)>0) ? false : true;
     
     $is_normal_flow = false;
     $is_boundary_event = false;
@@ -332,7 +332,7 @@ function run_IntermediateEventCatching($shape, &$wf, &$CI) {
         }
     }
 //---make condition merging 2 previous conditions
-    $has_finished = $has_finished_flow && $has_finished_thrower;
+    $has_finished = $has_finished_flow || $has_finished_thrower;
     if ($debug)
         var_dump2('is_normal_flow', $is_normal_flow, 'is_boundary_event', $is_boundary_event, 'has_finished_flow:', $has_finished_flow, 'has_finished_thrower:', $has_finished_thrower, 'has_finished:', $has_finished);
 //---If the event is not interrupting then move forward
