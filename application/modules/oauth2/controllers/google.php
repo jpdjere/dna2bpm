@@ -5,9 +5,9 @@ if (!defined('BASEPATH'))
 
 /**
  * dna2
- * 
+ *
  * This class will handle all the hassle needed to login with a google account
- * 
+ *
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  * @date   Jan 18, 2016
  */
@@ -37,9 +37,10 @@ class Google extends MX_Controller {
         redirect($authUrl);
         exit;
     }
-    
+
     function landing(){
         $rs=$this->input->get();
+        $this->load->config('oauth2/config');
         // Got an error, probably user denied access
         if(!empty($rs['error'])){
             echo $rs['error'];
@@ -60,8 +61,9 @@ class Google extends MX_Controller {
         // Use these details to create a new profile or authorize a newone
         // $user=$this->user->getbyfilter(array('googleId'=>$ownerDetails->getid()));
         $user=$this->user->getbymailaddress(array($ownerDetails->getEmail()));
-        
+
         if(!$user){
+          if($this->config->item('allow_register')){
         //Register a new user
             $user['idu']=$this->user->genid();
             $user['name']=$ownerDetails->getName();
@@ -75,7 +77,10 @@ class Google extends MX_Controller {
             $user['checkdate']=date('Y-m-d H:i:s');
             $user['googledata']=$ownerDetails->toArray();
             $default_redirect=($this->config->item('oauth2redirect_url')) ? $this->config->item('oauth2redirect_url'):$this->config->item('default_controller');
-            
+          } else {
+             $this->session->set_userdata('msg', 'noregister');
+             redirect( base_url() . 'user/login');
+          }
         } else{
         //---update avatar
           $default_redirect=$this->config->item('default_controller');
@@ -83,9 +88,9 @@ class Google extends MX_Controller {
           $user['avatar']=$ownerDetails->getAvatar();
           $user['googledata']=$ownerDetails->toArray();
         }
-        
+
         $this->user->save($user);
-        
+
         //---register if it has logged is
         $this->session->set_userdata('loggedin', true);
         //---register the user id
@@ -126,20 +131,20 @@ class Google extends MX_Controller {
   'session_state' => string '5b555786a1005050929963b3d6aed06ad35e70e7..ae20' (length=46)
   'prompt' => string 'none' (length=4)
 object(League\OAuth2\Client\Provider\GoogleUser)[40]
-  protected 'response' => 
+  protected 'response' =>
     array (size=5)
-      'emails' => 
+      'emails' =>
         array (size=1)
-          0 => 
+          0 =>
             array (size=1)
               'value' => string 'juanignacioborda@gmail.com' (length=26)
       'id' => string '113983509196521428627' (length=21)
       'displayName' => string 'Juan Ignacio Borda' (length=18)
-      'name' => 
+      'name' =>
         array (size=2)
           'familyName' => string 'Borda' (length=5)
           'givenName' => string 'Juan Ignacio' (length=12)
-      'image' => 
+      'image' =>
         array (size=1)
           'url' => string 'https://lh4.googleusercontent.com/-VTMrwynw_Ps/AAAAAAAAAAI/AAAAAAAAA2U/UFLptSt6D0M/photo.jpg?sz=50' (length=98)
 Hello Juan Ignacio!

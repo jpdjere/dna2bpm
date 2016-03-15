@@ -44,6 +44,9 @@ class Login extends MX_Controller {
         $cpData['plugins'] = (class_exists('Userlayer')) ? implode(',', $this->config->item('user_plugin')) : array();
         //----NO USER
 
+        if ($msg == 'noregister') {
+            $cpData['msgcode'] = $this->lang->line('noregister');
+        }
         if ($msg == 'nouser') {
             $cpData['msgcode'] = $this->lang->line('nousr');
         }

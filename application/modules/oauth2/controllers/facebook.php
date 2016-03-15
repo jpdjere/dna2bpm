@@ -61,6 +61,7 @@ class Facebook extends MX_Controller {
         $user=$this->user->getbymailaddress(array($ownerDetails->getEmail()));
         
         if(!$user){
+           if($this->config->item('allow_register')){
         //Register a new user
             $user['idu']=$this->user->genid();
             $user['name']=$ownerDetails->getFirstName();
@@ -73,7 +74,10 @@ class Facebook extends MX_Controller {
             $user['avatar']=$ownerDetails->getPictureUrl();
             $user['checkdate']=date('Y-m-d H:i:s');
             $user['facebookdata']=$ownerDetails->toArray();
-            
+            } else {
+               $this->session->set_userdata('msg', 'noregister');
+               redirect( base_url() . 'user/login');
+            }
         } else{
         //---update avatar & user data
         $user=(array)$user;
