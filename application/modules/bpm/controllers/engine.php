@@ -262,7 +262,7 @@ class Engine extends MX_Controller {
                     $resourceId = $token ['resourceId'];
                     $shape = $this->bpm->get_shape($resourceId, $wf);
                     if ($debug){
-                    echo "<h1>Step:$i ".$shape->stencil->id."</h1>";
+                    echo "<h1>Step:$i ".$shape->stencil->id."<br/>".$shape->resourceId."</h1>";
                     }
                     ///make available the current token
                     $wf->token=$token;
