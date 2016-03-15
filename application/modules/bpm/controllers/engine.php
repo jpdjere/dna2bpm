@@ -53,7 +53,7 @@ class Engine extends MX_Controller {
         /*
          * true: don't show modal msgs null: no debug
          */
-        $this->debug ['show_modal'] = true;
+        $this->debug ['show_modal'] = null;
 
         // ---debug Helpers
         $this->debug ['run_Task'] = false;
@@ -241,6 +241,7 @@ class Engine extends MX_Controller {
             // $open = $this->bpm->get_tokens($idwf, $case, 'pending');
             $status = 'pending';
             $wf->prevent_run = array();
+            $wf->_new_event=false;
             $filter = (count($this->run_filter)) ? $this->run_filter : array(
                 'idwf' => $idwf,
                 'case' => $case,
@@ -262,7 +263,6 @@ class Engine extends MX_Controller {
                     $shape = $this->bpm->get_shape($resourceId, $wf);
                     if ($debug){
                     echo "<h1>Step:$i ".$shape->stencil->id."</h1>";
-                    var_dump($filter);
                     }
                     ///make available the current token
                     $wf->token=$token;
@@ -288,6 +288,11 @@ class Engine extends MX_Controller {
                 }
             //----remove waiting from filter after 1st run
             $filter['status']='pending';
+            //----if new events then add waiting to filter and clear condition
+            if($wf->_new_event){
+                $wf->_new_event=false;
+                $filter['status']=array('$in'=>array('pending','waiting'));
+            }
             // $open = $this->bpm->get_tokens_byFilter($filter);
 
             }

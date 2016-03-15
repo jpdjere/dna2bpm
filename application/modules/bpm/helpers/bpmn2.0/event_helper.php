@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /////////////////////   THROWING ENERIC FUNCTION  //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-function run_IntermediateEventThrowing($shape, $wf, $CI) {
+function run_IntermediateEventThrowing($shape, &$wf, $CI) {
 
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     // $debug = true;
@@ -145,12 +145,14 @@ function run_IntermediateEventThrowing($shape, $wf, $CI) {
             run_IntermediateEventCatching($catcher, $wf, $CI);
         }
     }//---end foreach catcher
+    //-----register event on the $wf
+    $wf->_new_event=true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////   CATCHING GENERIC FUNCTION  /////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-function run_IntermediateEventCatching($shape, $wf, &$CI) {
+function run_IntermediateEventCatching($shape, &$wf, &$CI) {
 
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     // $debug=true;
@@ -342,7 +344,7 @@ function run_IntermediateEventCatching($shape, $wf, &$CI) {
             echo '<h1>HAS FINISHED TRUE</h1>';
         $CI->bpm->movenext($shape, $wf);
         //----cancel boundary if exists
-        
+        $wf->_new_event=true;
     } else {
         if ($debug)
             echo '<h1>FALSE</h1>';
