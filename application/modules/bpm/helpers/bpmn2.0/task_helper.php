@@ -1,6 +1,6 @@
 <?php
 
-function run_Task($shape, $wf, $CI) {
+function run_Task($shape, &$wf, &$CI) {
     $debug = (isset($CI->debug[__FUNCTION__])) ? $CI->debug[__FUNCTION__] : false;
     // $debug = true;
     //$CI = & get_instance('Engine');
