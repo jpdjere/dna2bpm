@@ -159,7 +159,7 @@ function run_IntermediateEventCatching($shape, $wf, &$CI) {
     if ($debug) {
         echo '<h1> << IntermediateEventCatching:' . $shape->stencil->id .' '.$shape->properties->name. '</h1>';
     }
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $wf->token;
 //---if token already canceled then exit
     if ($token['status'] == 'canceled')
         return;
@@ -359,7 +359,7 @@ function run_IntermediateTimerEvent($shape, $wf, $CI) {
     // $debug=true;
     if ($debug)
         echo "<h2>" . __FUNCTION__ . '</h2>';
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $wf->token;
     $data=$CI->bindObjectToArray($CI->data);
     // var_dump($data);
 //---1st arrive to this timer set the trigger condition
@@ -377,7 +377,7 @@ function run_IntermediateTimerEvent($shape, $wf, $CI) {
             
         }
         $CI->bpm->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, 'waiting', array('trigger' => $trigger));
-        $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+        $token = $wf->token;
     }
 //----------------------------------------------------------
 //---Eval trigger condition while is waiting...
@@ -475,7 +475,7 @@ function run_IntermediateParallelMultipleEventCatching($shape, $wf, $CI) {
 //---all trigers defined in eventdefinitionref
 //---trigers are referenced by a list of comma separated names
 //---or connected implicitly with message flow lines
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $wf->token;
 //---if token already canceled then exit
     if ($token['status'] == 'canceled')
         return;

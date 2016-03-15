@@ -38,7 +38,7 @@ function run_Task($shape, $wf, $CI) {
 //---set initiator same as case creator.
     $CI->user->Initiator = (int) $case['iduser'];
 //----Get token data
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $wf->token;
 //---set actual user
     $iduser = (int) $CI->idu;
     $user = $CI->user->get_user($iduser);
@@ -143,7 +143,7 @@ function run_Task($shape, $wf, $CI) {
             if ($CI->break_on_next) {
                 redirect($CI->base_url . $CI->config->item('default_controller'));
             }
-//              $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+//              $token = $wf->token;
 ////////////////////////////////////////////////////////////////////////////
 ///////////////////////EVAL EXECUTION POLICY////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

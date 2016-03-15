@@ -32,7 +32,7 @@ function run_Exclusive_Databased_Gateway($shape, $wf, $CI) {
     //----ASSIGN to USER / GROUP
 //    $CI->bpm->assign($shape, $wf);
 //    //----Get token data
-//    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+//    $token = $wf->token;
     $shape_data = array();
 ////---assign gate to current user
 //    //$shape_data['assign'][] = (int) $CI->session->userdata('iduser');

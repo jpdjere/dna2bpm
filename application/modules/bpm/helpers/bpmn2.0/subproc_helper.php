@@ -6,7 +6,7 @@ function run_CollapsedSubprocess($shape, $wf, $CI) {
     if ($debug)
         echo '<H1>COLLAPSED SUBPROCESS:' . $shape->properties->name . '</H1>';
 
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $wf->token;
     $parent['token'] = $token;
     $parent['case'] = $wf->case;
     $parent['idwf'] = $wf->idwf;
@@ -85,7 +85,7 @@ function run_Subprocess($shape, $wf, $CI) {
     // $debug=true;
     if ($debug)
         echo '<H1>SUBPROCESS:' . $shape->properties->name . '</H1>';
-    $token = $CI->bpm->get_token($wf->idwf, $wf->case, $shape->resourceId);
+    $token = $wf->token;
     switch ($token['status']) {
         case 'waiting':
             //---check that some finish event has been reached
