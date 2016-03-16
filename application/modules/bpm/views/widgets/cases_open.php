@@ -36,7 +36,7 @@
                     <a href='{base_url}bpm/engine/startcase/model/{idwf}/{id}'>
                         <i class="fa fa-2x fa-refresh restart_case"></i>
                     </a>
-                    <a href='{base_url}bpm/tokens/view/{id}'>
+                    <a href='{base_url}bpm/tokens/view/{idwf}/{id}'>
                         <i class="fa fa-2x fa-rotate-270 fa-sitemap  restart_case"></i>
                     </a>
                     <a href='{base_url}bpm/case_manager/archive/model/{idwf}/{id}' title="Archive" class="load_modal">
