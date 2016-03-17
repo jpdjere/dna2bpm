@@ -315,6 +315,7 @@ class Engine extends MX_Controller {
                 show_error("Model: $idwf doesn't exitst contact Administrator");
             }
         }
+        return true;
     }
 
     function run_after() {
