@@ -1484,10 +1484,14 @@ class Bpm extends CI_Model {
                 // var_dump($shape_src->outgoing,xdebug_get_function_stack());exit;
                 foreach ($shape_src->outgoing as $pointer) {
                     //---Get Token 4 pointer
-                    $token = $this->get_token($wf->idwf, $wf->case, $pointer);
+                    $token = $this->get_token($wf->idwf, $wf->case, $pointer->resourceId);
 
                     //---If token already has status leave it alone!
                     $token['status'] = (isset($token['status'])) ? $token['status'] : '';
+                    //-----skip if canceled
+                    //@todo check if other statuses could be skipped
+                    if($token['status']=='canceled')
+                        continue;
                     //---start non boundary
                     if (!in_array($pointer->resourceId, $boundary)) {
                         $status = 'pending';
