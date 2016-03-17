@@ -43,7 +43,7 @@ class Engine extends MX_Controller {
         // ---Set if suprocess has to be loaded: Default=true
         $this->expandSubProcess = true;
         // ---Debug options
-        $this->debug ['Run'] = true;
+        $this->debug ['Run'] = false;
         $this->debug ['run_post'] = null;
         $this->debug ['manual_task'] = null;
         $this->debug ['triggers'] = null;
@@ -255,7 +255,7 @@ class Engine extends MX_Controller {
             /**
              * Start procesing pending tokens
              */
-            $open = $this->bpm->get_tokens_byFilter($filter);
+            // $open = $this->bpm->get_token_byFilter($filter);
             while ($i <= 100 and $open = $this->bpm->get_tokens_byFilter($filter)) {
                 $i ++;
                 foreach ($open as $token) {
