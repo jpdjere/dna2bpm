@@ -56,22 +56,18 @@ class Bpm_simple extends Toast {
         $this->idcase = 'TEST';
     }
     
-    function test_remove_case(){
-        $result=$this->bpm->delete_case($this->idwf, $this->idcase);
-        $this->message = "Remove Case ID:".$this->idcase;
-        $this->_assert_true($result);
-    }
     function test_gen_case(){
         $this->idcase=$this->bpm->gen_case($this->idwf, $this->idcase);
         $this->message = "Case ID (is string):".$this->idcase;
         $this->_assert_true(is_string($this->idcase));
     }
-    
+
     function test_get_case(){
         $case=$this->bpm->get_case($this->idcase, $this->idwf);
         $this->message = "Case:".json_encode($case);
         $this->_assert_equals_strict($case['status'], 'open');
     }
+    
     function test_clear_tokens() {
         $result = $this->bpm->clear_tokens($this->idwf, $this->idcase);
     }
@@ -88,12 +84,16 @@ class Bpm_simple extends Toast {
     }
 
     function test_run() {
-//        $result=$this->bpm->import('images/zip/test_trivial.zip',true,'Tests');
-//        $this->message =$result['msg'];
-//		$this->_assert_equals_strict($result['success'], true);
-//        Modules::run('');
+        $this->load->module('bpm/engine');
+        $this->engine->run('model',$this->idwf,$this->idcase,null,true);
     }
 
+    function test_remove_case(){
+        $result=$this->bpm->delete_case($this->idwf, $this->idcase);
+        $this->message = "Remove Case ID:".$this->idcase;
+        $this->_assert_true($result);
+    }
+    
     function test_that_fails() {
         $a = true;
         $b = $a;
