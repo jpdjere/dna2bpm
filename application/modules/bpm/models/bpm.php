@@ -479,8 +479,9 @@ class Bpm extends CI_Model {
 
         $criteria = array('idwf' => $idwf, 'case' => $case, 'resourceId' => $resourceId);
         //var_dump2($query, $criteria, $options);
-
-        if ($this->get_token($idwf, $case, $resourceId)) {
+            
+        // if ($this->get_token($idwf, $case, $resourceId)) {
+        if ($this->db->where($criteria)->select(array('_id'))->count_all_results('tokens')) {
             $this->db->where($criteria)->update('tokens', $data);
         } else {
             $this->db->insert('tokens', $data);
@@ -531,6 +532,11 @@ class Bpm extends CI_Model {
     }
 
     function get_token($idwf, $idcase, $resourceId) {
+        // $this->trunrun++;
+        // $d=debug_backtrace();
+        //  var_dump($d[0]['args']);
+        // @var_dump($d[1]['class'].'::'.$d[1]['function'],$d[2]['class'].'::'.$d[2]['function']);
+        // echo '<hr>';
         //---TODO get token from cache
         $query = array(
             'idwf' => $idwf,
