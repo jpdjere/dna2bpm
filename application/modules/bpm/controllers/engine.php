@@ -43,6 +43,7 @@ class Engine extends MX_Controller {
         // ---Set if suprocess has to be loaded: Default=true
         $this->expandSubProcess = true;
         // ---Debug options
+        // $this->output->enable_profiler(true);
         $this->debug ['Run'] = false;
         $this->debug ['run_post'] = null;
         $this->debug ['manual_task'] = null;
@@ -184,7 +185,7 @@ class Engine extends MX_Controller {
         // ---Redir the browser to engine Run
         $redir = "bpm/engine/run/model/$idwf/$idcase";
         if (!$silent) {
-            redirect( $this->base_url . $redir);
+             redirect( $this->base_url . $redir);
         } else {
             //echo "created:  $idwf, $idcase<hr/>";
             // $this->Run('model', $idwf, $case);
@@ -308,8 +309,8 @@ class Engine extends MX_Controller {
             $this->get_pending('model', $idwf, $case, $run_resourceId);
             $this->run_after();
             $run_resourceId = null;
-
-
+            
+            
             //---end check model exists
             } else {
                 show_error("Model: $idwf doesn't exitst contact Administrator");
