@@ -17,6 +17,7 @@ function run_Task($shape, &$wf, &$CI) {
         $wf->task_run = array();
     switch ($shape->properties->looptype) {
         case 'Standard':
+            //@todo eval loop conditions: CompletionQuantity
             break;
         default:
             //only excutes task 1 time
