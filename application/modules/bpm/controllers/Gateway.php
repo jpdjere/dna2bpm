@@ -12,10 +12,15 @@ if (!defined('BASEPATH'))
  * @date    Jul 23, 2014
  */
 class Gateway extends CI_Controller {
-
+    
+    
+    
     function __construct() {
         parent::__construct();
         session_start();
+        
+        var_dump($_REQUEST['url']);
+        
         if (isset($_REQUEST['url'])) {
             $url =  base64_decode(urldecode($_REQUEST['url']));
             $_SESSION['idu'] = $this->session->userdata('iduser');
