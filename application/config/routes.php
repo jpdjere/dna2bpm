@@ -56,6 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 /**
  * Assets route
  * in order to have module assets isolated
- * 
+ *
  */
 $route['(:any)/assets/(.+)'] = '$1/assets';
+$route['presentacion/(:any)'] = 'presentacion';

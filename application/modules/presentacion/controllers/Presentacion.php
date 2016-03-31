@@ -31,7 +31,5 @@ class Presentacion extends MX_Controller {
     function fdefault(){
         $this->load->view('default');
     }
-    function dna2(){
-        $this->index();
-    }
+
 }
