@@ -109,6 +109,8 @@ class Dashboard extends MX_Controller {
         } else {
         $this->Dashboard($this->config->item('default_dashboard'));
         }
+        
+       
     }
 
     function Show($file, $debug = false) {
@@ -133,7 +135,6 @@ class Dashboard extends MX_Controller {
         $customData['base_url'] = $this->base_url;
         $customData['module_url'] = $this->module_url;
         $customData['lang'] = $this->lang->language;
-        $customData['is_admin']=$this->user->isAdmin();
         //---load custom menu
         $menu_custom = Modules::run('menu/get_menu', '0', 'sidebar-menu', !$this->user->isAdmin());
         $customData['menu_custom'] = $this->parser->parse_string($menu_custom, $customData, TRUE, TRUE);
@@ -143,6 +144,10 @@ class Dashboard extends MX_Controller {
             
             $customData['menu_custom'].=$this->menu_extra->get();
         }
+        //=== Manual Menu for general use
+        $customData['show_calendar']=$this->user->has("root/modules/calendar/controllers/calendar/get_events");
+       
+    
         return $this->parser->parse('dashboard/menu', $customData, true, true);
     }
 
@@ -160,8 +165,6 @@ class Dashboard extends MX_Controller {
     // ==== Dashboard
 
     function Dashboard($json = 'dashboard/json/dashboard.json',$debug = false,$extraData=null) {
-
-
         /* eval Group hooks first */
         $this->session->set_userdata('json', $json);
         $user = $this->user->get_user((int) $this->idu);
@@ -177,8 +180,7 @@ class Dashboard extends MX_Controller {
         $customData['base_url'] = $this->base_url;
         $customData['module_url'] = $this->module_url;
         $customData['inbox_count'] = $this->msg->count_msgs($this->idu, 'inbox');
-        $customData['config_panel'] =$this->parser->parse('_config_panel',  $customData['lang'], true, true);
-        
+       // $customData['config_panel'] =$this->parser->parse('_config_panel',  $customData['lang'], true, true);
         $customData['name'] = $user->name . ' ' . $user->lastname;
 
         // Global JS
@@ -263,7 +265,7 @@ class Dashboard extends MX_Controller {
     // ============ Parse JSON config
     function parse_config($file, $debug = false) {
         $myconfig = json_decode($this->load->view($file, '', true), true);
-        $minwidth=2;
+        define('MINWIDTH', 2);
 //             $return['js'] = array();
         //Root config
 
@@ -311,7 +313,7 @@ class Dashboard extends MX_Controller {
             
             foreach ($myzone as $item) {
                 $widgets[] = $item;
-                $spans[] = (empty($item["span"])) ? ($minwidth) : ($item["span"]);
+                $spans[] = (empty($item["span"])) ? (MINWIDTH) : ($item["span"]);
                 if (isset($item["span"]))
                     $empty_spans++;
             }
@@ -377,7 +379,7 @@ class Dashboard extends MX_Controller {
                 
             if(isset($myWidget['box_class'])){
                // box info present, use this box bitch --
-                $customData=array();
+     
                 $customData['box_class']=implode(" ",$myWidget['box_class']);
                 // Color schema
                 $customData['btn_class']='btn-default';
@@ -442,7 +444,6 @@ class Dashboard extends MX_Controller {
 
             $return[$myzone_key] = $content;
         }
-
         return $return;
     }
 
@@ -461,14 +462,20 @@ class Dashboard extends MX_Controller {
         $this->dashboard('dashboard/json/tasks.json');
     }
     
+    // ============ Demo
+     function demo($args=array()) {
+    	 $this->dashboard('dashboard/json/demo.json');
+    } 
+    
+
     
     // ============ Widgets
 
-    // function box_primary($data = array()) {
-    //     return $this->parser->parse('widgets/box_primary', $data, true, true);
-    // }
+    function box_primary($data = array()) {
+        return $this->parser->parse('widgets/box_primary', $data, true, true);
+    }
 
-
+  
     function widget_dashboards() {
         $this->load->helper('file');
         $data['title'] = 'Dashboards';
@@ -482,13 +489,18 @@ class Dashboard extends MX_Controller {
             $config['dash_name'] = str_replace('.json', '', $file);
             $data['dashboards'][] = $config;
         }
-//        var_dump($data);
-//        exit;
 
         return $this->parser->parse('widgets/dashboards', $data, true, true);
     }
     
 
+    
+    /*TEST*/
+    function webservice_cuits(){
+        $wfData ['name'] = 'Buscador CUITs (WS)';
+
+        return $this->parser->parse('dashboard/webservice_cuits', $wfData, true, true);
+    }
 
 }
 

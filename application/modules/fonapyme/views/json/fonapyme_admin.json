@@ -1,0 +1,87 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "fonapyme Administrador",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                {
+                    "title": "Buscar",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "tile_buscar",
+                    "span": 4,
+					"js": [{"{base_url}fonapyme/assets/jscript/app.js":"fonapymepp"}]
+                },
+                {
+                    "title": "Revisar Solicitudes",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["fonapymepp", "fonapymepp_FC"]
+                },
+                {
+                    "title": "Tile Comité",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "tile_comite"
+                }
+                ,
+                {
+                    "title": "Asignar Evaluador",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["fonapymepp", "fonapymepp_AK"]
+                }
+
+            ]
+        },
+        {
+            "col1": [
+                {
+                    "title": "2do",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_2do"
+
+                },
+                {
+                    "title": "2do",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_tasks_done"
+
+                },
+                 {
+                    "title": "Proyect by Evaluator",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "projects_evaluator"
+
+                }
+            ]
+        },
+        {
+            "col2": [
+               
+                {
+                    "title": "Proyect amount",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "proyects_amount"
+
+                }, {
+                    "title": "PP MiniStatuas",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "ministatus_pp"
+
+                }
+                
+            ]
+        }
+    ]
+}

@@ -1,0 +1,103 @@
+/* 
+    Document   : map.css
+    Created on : Jun 27, 2012, 10:00:36 AM
+    Author     : juanb
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.content{
+    margin:0 auto;
+    padding:0;
+    position:relative;
+}
+
+
+#select{
+    position:relative;
+
+    width:200px;
+    margin:0 0 15px 30px;
+}
+
+
+
+#svgload {
+    padding:0;
+    /*
+    border-color: chocolate;
+    border-style: solid;
+    border-width: 1px;
+    */
+    /*    display:none;*/
+    overflow: hidden;
+    width: 100%; 
+    /*height: 800px;*/
+}
+#text{
+    border-color: red;
+    border-style: dashed;
+    border-width: 1px;
+    display:none;
+    overflow: hidden;
+    /*width: 50%; 
+    height: 80px;*/
+    position: absolute;
+}
+a {color:#FFFFFF}
+
+#bubble {
+    
+    position: absolute !important;  
+
+}
+/*  para el resaltado*/
+.highlight {
+    /*stroke:#000000;
+    stroke-width:0.5;
+    fill: #F00000;*/
+}
+
+ellipse{
+    display: none;
+}
+/*  from mapa_web.css */
+.str2 {stroke:#373435;stroke-width:0.00762}
+.str1 {stroke:#606062;stroke-width:0.00762}
+.str0 {stroke:#E6E7E8;stroke-width:0.2}
+.fil0 {fill:none}
+.fil3 {fill:#00A859}
+.fil1 {fill:#E6E7E8}
+.fil2 { fill: #6E6E6E;}
+
+.seccionVI{
+    fill: #1b3f3f;
+}
+
+.seccionV{
+    fill: #f25a3c;
+}
+
+.seccionIII{
+    fill: #429e1a; 
+}
+
+.seccionI{
+    fill: #454ade;
+}
+
+.seccionVII{
+    fill: #3f7cac;
+}
+
+.seccionII{
+    fill: #5e253e;
+}
+
+.seccionIV{
+    fill: #c33c54;
+}
+
+.seccionVIII {
+    fill: #911fa7;
+}

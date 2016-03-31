@@ -1,0 +1,30 @@
+{
+    "createdBy": "Martin González",
+    "title": "Bonificación de Tasa - ABM Entidades",
+    "view": "layout_2colsy1_bonita",
+    "icon": "fa-qrcode",
+    "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"3":"jquery.validate"},{"{base_url}bonita/assets/jscript/bonita_script_lic_entidades.js":"Entidades JS"},{"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"}],
+    
+    "zones": [
+        {   "col1": [{
+            "title": "Half Table",
+            "module": "bonita",
+            "controller": "bonita_licitaciones",
+            "function": "bonita_entidades"
+            
+             }
+            ]
+
+    }, {
+        "col2": []
+    
+        },{
+        "col3": []
+    
+        },    
+    {
+        "2cols_after": [            
+            ]
+    }]
+        }
+    

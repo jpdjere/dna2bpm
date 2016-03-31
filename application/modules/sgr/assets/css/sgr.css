@@ -1,0 +1,281 @@
+/* 
+    Document   : sgr
+    Created on : 17/04/2013, 12:54:16
+    Author     : diego
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+html {
+    height: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial,Helvetica,sans-serif !important;
+
+}
+
+/* MISC */
+
+.gap{margin:8px 0px}
+.gap-top{margin-top:8px}
+.gap-bottom{margin-bottom:8px}
+
+/* HEADERS */
+h1{font-size:18px;color:#989898;}
+h2{font-size:16px;color:#616161}
+h3{font-size:14px;color:#989898}
+h4{font-size:12px;color:#616161}
+h5{font-size:11px;color:#989898}
+h1 i{color:#B94A48}
+h3 i{color:#B94A48}
+
+
+h6 {
+
+    line-height: 0;
+    margin: 0;
+    text-rendering: optimizelegibility;
+}
+
+
+
+.processed{
+    padding:0px 4px 4px 4px;
+    margin-top:11px;
+
+}
+.rectified{
+    padding:0px 4px 4px 4px;
+    margin-top:11px;
+
+}
+
+.observaciones{
+    padding:0px 4px 4px 4px;
+    margin-top:10px;
+    background-color: #f0f0f0;
+    border:1px dotted #ccc;
+    border-top:1px solid #bfbfbf;
+}
+
+.line{
+    border-top: 1px solid #fff;
+    padding-bottom:6px;
+}
+
+h1
+
+/* offline styles */
+
+.offline .hide_offline{
+    display:none;
+}
+
+/* Profile */
+
+#status{margin-right:10px;}
+#status.online{
+    color:#00B1AB;
+}
+
+#status.offline{
+    color:#f00;
+}
+
+
+#barra_user{
+    padding-bottom:20px;
+}
+
+.perfil{
+    font-size: 12px;
+/*    text-shadow: 1px 1px 0px #cccccc;
+    filter: dropshadow(color=#cccccc, offx=1, offy=1); */
+}
+
+.breadcrumb-genias li{
+    color:#999 !important;
+    font-size: 12px;
+    text-shadow: 1px 1px 0px #fff;
+    filter: dropshadow(color=#fff, offx=1, offy=1); 
+}
+.form-inline{
+    margin-bottom: 8px;
+}
+
+.general-sidenav {
+    background-color: #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    margin: 30px 0 0;
+    padding: 0;
+    width: 228px;
+}
+.general-sidenav > li > a {
+    border: 1px solid #E5E5E5;
+    display: block;
+    margin: 0 0 -1px;
+    padding: 8px 14px;   
+}
+.general-sidenav > li:first-child > a {
+    border-radius: 6px 6px 0 0;
+}
+.general-sidenav > li:last-child > a {
+    border-radius: 0 0 6px 6px;
+}
+.general-sidenav > .active > a {
+    border: 0 none;
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, -1px 0 0 rgba(0, 0, 0, 0.1) inset;
+    padding: 9px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+.general-sidenav .icon-chevron-right {
+    float: right;
+    margin-right: -6px;
+    margin-top: 2px;
+    opacity: 0.25;
+}
+.general-sidenav > li > a:hover {
+    background-color: #F5F5F5;
+}
+.general-sidenav a:hover .icon-chevron-right {
+    opacity: 0.5;
+}
+.general-sidenav .active .icon-chevron-right, .general-sidenav .active a:hover .icon-chevron-right {
+    background-image: url("../img/glyphicons-halflings-white.png");
+    opacity: 1;
+}
+
+/* ==== BARRA DE NAVEGACION ====*/
+
+.barra_coordinador{
+    background: #2F4E89 !important;
+    border-bottom:1px #ccc solid !important;
+}
+
+.container{
+    padding: 0px 30px !important;
+}
+
+.no-transition {
+    -webkit-transition: height 0.001s;
+    -moz-transition: height 0.001s;
+    -ms-transition: height 0.001s;
+    -o-transition: height 0.001s;
+    transition: height 0.001s;
+}
+
+/*==== UL TREE ====*/
+UL.ultree * LI,UL.ultree{
+    list-style: none;
+}
+
+UL.ultree > LI{
+    border-bottom: 1px solid #ccc;
+    padding:10px 3px;
+
+}
+
+UL.ultree UL LI{
+    padding:5px 0px;
+
+}
+
+a.ulcollapse{
+    display:inline-block;
+}
+UL.ultree .par{
+    background-color: #F1F1F1;
+}
+
+UL.ultree > LI > UL > LI{
+    border-bottom:1px dashed #ccc;
+}
+
+UL.ultree > LI > UL > LI:last-child{
+    border-bottom:none;
+}
+UL.ultree .cuit{
+    color:#f60;
+    margin-left:4px;
+}
+
+UL.ultree .cantidad{
+    margin-left:4px;
+}
+
+/*UL.ultree LI Ul LI{
+    display: none;
+}*/
+
+.disabled_link {
+    pointer-events: none;
+    cursor: default;
+    opacity:0.7;
+}
+
+li{
+    list-style-type: none;
+    padding: 2px;
+}
+
+/* MODIFY*/
+#header {
+    background: none no-repeat scroll 0 0 #FFFFFF;
+    height: 100px;
+    position: relative;
+}
+#header-dna {
+    background: url('../images/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    width: 580px;
+}
+#header-logos {
+    background: url('../images/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 210px;
+}
+
+.navbar {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    
+}
+
+a{
+    color: #01B5AC;
+    text-decoration: none;
+
+}
+
+a:hover{
+    color: #006964;
+
+}
+
+.btn-primary {
+    background-color: #00A5A7;
+    background-image: linear-gradient(to bottom, #00A4A4, #009191);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #009595;
+    color: #FFFFFF;
+}
+
+.user_class{
+    color: #01B5AC;
+}

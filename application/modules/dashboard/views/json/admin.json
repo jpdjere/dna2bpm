@@ -10,7 +10,7 @@
                     "title": "Tile01",
                     "module": "dashboard",
                     "controller": "dashboard",
-                    "span": 2,
+                    "span":2,
                     "function": "tile_admin_users"
 
                 },
@@ -18,7 +18,7 @@
                     "title": "Tile01",
                     "module": "dashboard",
                     "controller": "dashboard",
-                    "span": 2,
+                    "span":2,
                     "function": "tile_admin_bpm"
 
                 },
@@ -26,7 +26,7 @@
                     "title": "Tile01",
                     "module": "dashboard",
                     "controller": "dashboard",
-                    "span": 2,
+                    "span":2,
                     "function": "tile_admin_menu"
 
                 },
@@ -39,10 +39,10 @@
 
                 },
                 {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_cases"
+                    "title": "Buscar",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_buscar"
                 }
             ]
         },
@@ -59,7 +59,36 @@
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "widget_cases"
-                }
+                },
+                 {
+                    "title": "Webservice_cuits",
+                    "module": "dashboard",
+                    "controller": "dashboard",
+                    "function": "webservice_cuits"
+
+                },
+                 {
+            "title": "Alerts - ",
+            "module": "dashboard",
+            "controller": "alerts",
+            "function": "create_alert_box",
+            "js": [{"{base_url}dashboard/assets/jscript/alerts.js": "alert-JS"},{"0": "fullcalendar-moment"},{"1": "daterangerpicker"}],
+            "box_icon":"fa-bullhorn",
+            "box_class":["box box-primary"],
+            "box_buttons":["remove","collapse"],
+            "box_collapsed":"0"
+             },
+             {
+            "title": "Alerts",
+            "module": "dashboard",
+            "controller": "alerts",
+            "function": "alert_list_box",
+            "js": [{"{base_url}dashboard/assets/jscript/alerts.js": "alert-JS"},{"0": "fullcalendar-moment"},{"1": "daterangerpicker"}],
+            "box_icon":"fa-bullhorn",
+            "box_class":["box box-primary"],
+            "box_buttons":["remove","collapse"],
+            "box_collapsed":"0"
+             }
             ]
         },
         {
@@ -77,6 +106,7 @@
                     "controller": "dashboard",
                     "function": "widget_dashboards"
                 }
+           
             ]
         }
         

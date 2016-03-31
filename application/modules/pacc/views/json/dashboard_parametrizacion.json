@@ -1,0 +1,40 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard de Parametrización de Componentes",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-code",
+    "js": [{
+       
+        "{base_url}pacc/assets/jscript/jquery.colorize-1.7.0.js": "Script",
+        "{base_url}pacc/assets/jscript/forms.js": "Script",
+        "{base_url}pacc/assets/jscript/app.js": "Script"
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+      
+        }
+
+    ],
+    "zones": [{
+       "tiles": []
+    }, {
+        "col1": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "poa",
+            "function": "parametrizacion_componentes"
+             }
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

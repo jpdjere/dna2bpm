@@ -1,0 +1,222 @@
+{
+					map: "argentinaHigh",
+					images: [{
+						latitude: -31.866877,
+						longitude: -59.062832,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Entre Ríos"
+					},{
+						latitude: -26.582367,
+						longitude: -54.163825,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Misiones"
+					
+					},{
+						latitude: -24.84196,
+						longitude: -60.025137,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Formosa"
+				
+					},{
+						latitude: -34.511854,
+						longitude: -68.685881,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Mendoza"
+
+					},{
+						latitude: -43.497523,
+						longitude: -68.598399,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Chubut",
+						description: ""
+					},{
+						latitude: -48.436396,
+						longitude: -69.735668,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Santa Cruz",
+						description: ""
+					},{
+						latitude: -54.394435,
+						longitude: -67.811058,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Tierra del Fuego",
+						description: ""
+					},{
+						latitude: -38.394824,
+						longitude: -69.735668,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Neuquén",
+						description: ""
+					},{
+						latitude: -66.761271,
+						longitude: -40.027551,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						
+						title: "?",
+						description: ""
+					},{
+						latitude: -37.215457,
+						longitude: -65.274073,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "La Pampa",
+						description: ""
+					},{
+						latitude: -30.967674,
+						longitude: -68.685881,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "San Juan",
+						description: ""
+					},{
+						latitude: -33.712165,
+						longitude: -65.886449,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "San Luis",
+						description: ""
+					},{
+						latitude: -31.792274,
+						longitude: -63.699392,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Córdoba",
+						description: ""
+					},{
+						latitude: -29.450077,
+						longitude: -67.023718,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "La Rioja",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -30.059922,
+						longitude: -60.899959,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Santa Fe",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -26.974322,
+						longitude: -67.198683,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+					
+						title: "Catamarca",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -26.896039,
+						longitude: -65.18659,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Tucumán",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -27.520772,
+						longitude: -63.349463,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Santiago del Estero",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -26.503814,
+						longitude: -60.55003,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Chaco",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -22.834168,
+						longitude: -65.798966,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Jujuy",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -36.724379,
+						longitude: -60.112619,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Buenos Aires - Cantidad de Incubadoras: 12",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},
+                    {
+						latitude: -25.160281,
+						longitude: -64.574215,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Salta",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -29.067049,
+						longitude: -57.575633,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Corrientes",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					},{
+						latitude: -40.027551,
+						longitude: -66.761271,
+						svgPath: icon,
+						color: "#CC0000",
+						scale: 0.5,
+						labelShiftY: 2,
+						title: "Río Negro",
+						description: "Cantidad de Proyectos Presentados: 10 // Cantidad de Proyectos Aprobados: 10"
+					}]
+				}

@@ -1,0 +1,44 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard de Matriz de resultados",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [{
+       
+        "{base_url}pacc/assets/jscript/forms.js": "Script"
+        
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "matriz_de_resultados",
+            "function": "matriz_producto"
+             },
+             {
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "matriz_de_resultados",
+            "function": "matriz_indicador"
+             }]
+    }, {
+        "col1": [
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

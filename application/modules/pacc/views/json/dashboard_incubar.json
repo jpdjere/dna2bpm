@@ -1,0 +1,107 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212@gmail.com>",
+    "title": "Dashboard Incubar",
+    "view": "layout_2cols_fixed",
+    "button" :"<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "icon": "fa-map-marker",
+    "js": [{
+        
+        "{base_url}map/assets/jscript/ammap/ammap.js": "Script",
+        "{base_url}map/assets/jscript/ammap/maps/js/argentinaHigh.js": "Script",
+        "{base_url}ui/assets/jscript/spin.js": "Script",
+        "{base_url}ui/assets/jscript/ladda.js": "Script",
+        "{base_url}ui/assets/jscript/aux-w.js": "Script",
+        "{base_url}map/assets/jscript/ammap/themes/black.js": "Script",
+        "{base_url}pacc/assets/jscript/jquery.colorize-1.7.0.js": "Script",
+        "{base_url}pacc/assets/jscript/app.js": "Script",
+        "{base_url}pacc/assets/jscript/select.js": "Script",
+        "{base_url}ui/assets/jscript/partidos.js": "Script",
+        "{base_url}dashboard/assets/jscript/app.js": "Script",
+        "{base_url}ui/assets/jscript/area_charts.js": "Script",
+        "{base_url}ui/assets/jscript/morris.js": "Script",
+        "{base_url}ui/assets/jscript/raphael.js": "Script",
+        "{base_url}ui/assets/jscript/bootstrap-tour.js": "Script",
+        "{base_url}ui/assets/jscript/incubar-tour.js": "Script"
+
+     
+    }],
+    "css": [{
+        "{base_url}ui/assets/css/map.css": "Map Css",
+        "{base_url}ui/assets/css/ammap.css": "AMMap Css",
+        "{base_url}ui/assets/css/map-bs.css": "Map Css",
+        "{base_url}ui/assets/css/ladda-themeless.min.css": "Map Css",
+        "{base_url}ui/assets/css/jquery-bubble-popup-v3.css": "Map Css",
+        "{base_url}ui/assets/css/demo.css": "Map Css",
+        "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+    }],
+
+
+    "zones": [{
+        "tiles": [{
+                "title": "Buscar",
+                "module": "pacc",
+                "controller": "fondyf",
+                "function": "tile_buscar"
+            }]
+    },
+   
+    {
+        "full_widget": [{
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "map_table"
+        },
+            {
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "proyectos_empresas"
+        },{
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "proyectos_emprendedores"
+
+        },{
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "incubadoras_provincia_localidad"
+
+        },{
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "estado_de_las_incubadoras"
+
+        }
+        ]
+    },{
+        "widgets": []
+
+    },{
+        "col1": [{
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "area_charts"
+
+        },
+        {
+            "title": "Chart",
+            "module": "pacc",
+            "controller": "incubadoras",
+            "function": "ranking_incubadoras"
+        }]
+
+    },{
+        "col2": [{
+                "title": "Tile01",
+                "module": "pacc",
+                "controller": "incubar",
+                "function": "area_charts_negativa"
+
+        }]
+    }]
+}

@@ -10,6 +10,7 @@ $lang["PageDescription"] = "Access for registered users.";
 $lang["loginButton"] = "go!";
 $lang["rememberButton"] = "Remember Me";
 $lang["forgotPassword"] = "Forgot your username or password!";
+$lang['newUser'] = 'New user';
 $lang["nolevel"] = "You don't have permission to access:";
 $lang["nousr"] = "You are not a registered user or you've misstyped either the username or password";
 $lang["hastolog"] = "You have to be logged to open:";

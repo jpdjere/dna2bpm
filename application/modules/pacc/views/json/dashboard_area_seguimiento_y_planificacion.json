@@ -1,0 +1,98 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard del Area de Seguimiento y Planificación",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [
+        
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/raphael.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/dna2convert_provincias.js": "Convert Provincias"},
+        {"{base_url}ui/assets/jscript/ammap.js": "Script"},
+        {"{base_url}ui/assets/jscript/map.js": "Script"},
+        {"{base_url}ui/assets/jscript/argentinaHigh.js": "Script"},
+        
+        {"{base_url}ui/assets/jscript/jquery.flot.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.resize.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.categories.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.knob.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.orderBars.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.sparkline.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/bload/bload.min.js": "Bloadify!"},
+        {"{base_url}ui/assets/jscript/ui.js": "Script"}
+    ],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        },
+        {"{base_url}ui/assets/jscript/bload/bload.css": "Bloadify!"}
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Buscar",
+            "module": "pacc",
+            "controller": "fondyf",
+            "function": "tile_buscar"
+            }
+          ]
+    },
+    
+  
+    {
+        "col1": [{
+            "title": "Cantidad de Proyectos PDE presentados sin evaluación (PreAprobación, observación técnica o rechazo)",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pde_sin_evaluacion"
+            },
+            {
+            "title": "Cantidad de Proyectos PDE PreAprobados sin presentar documentación formal",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pde_preaprobados"
+            },
+            {
+            "title": "Cantidad de Proyectos PDE Observados Técnicos sin presentar respuesta ",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pde_observados_sin_respuesta"
+            },
+            {
+            "title": "Cantidad de Proyectos PDE con ingreso de Documentación Formal sin evaluación (Aprobación, formalización, observación formal o rechazo).",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pde_con_documentacion_sin_evaluacion"
+            }
+            ]
+
+    }, 
+    {
+        "col2": [{
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pn_sin_evaluacion"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pn_preaprobados"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pn_observados_sin_respuesta"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "area_seguimiento_y_planificacion",
+            "function": "cant_pn_con_documentacion_sin_evaluacion"
+            }
+            ]
+        }
+    ]
+}

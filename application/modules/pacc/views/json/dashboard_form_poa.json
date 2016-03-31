@@ -1,0 +1,38 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard de Formularios POA",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [{
+       
+        "{base_url}pacc/assets/jscript/forms.js": "Script"
+        
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "poa",
+            "function": "forms"
+             }]
+    }, {
+        "col1": [
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

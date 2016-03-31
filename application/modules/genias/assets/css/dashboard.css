@@ -1,0 +1,18 @@
+.ui-datepicker-calendar {
+        display: none;
+}
+
+/*.tab:not([class*='active']){
+    display:none;
+}*/
+
+
+
+ 
+ /* ======== METAS */
+ .metas_cantidad{
+ color:#2A6496;
+ font-weight:bold;
+ font-size:18px;
+ 
+ }

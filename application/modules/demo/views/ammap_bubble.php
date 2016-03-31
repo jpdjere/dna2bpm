@@ -1,0 +1,1 @@
+<div id="{mapdiv}" style="width: 100%; background-color: #222222; height: 500px;"></div>

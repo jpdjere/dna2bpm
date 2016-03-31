@@ -1,0 +1,28 @@
+{
+    "createdBy": "Martin González",
+    "title": "Formulario de Entrada",
+    "view": "layout_2cols",
+    "icon": "fa-qrcode",
+    "zones": [
+        {   "col1": [{
+            "title": "Half Table",
+            "module": "fonapyme",
+            "controller": "fonapyme_forment",
+            "function": "descarga",
+            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}fonapyme/assets/jscript/fonapyme_forment.js":"Profile JS"}]
+             }
+            ]
+
+    }, {
+        "col2": []
+    
+        },{
+        "col3": []
+    
+        },    
+    {
+        "2cols_after": [            
+            ]
+    }]
+        }
+    

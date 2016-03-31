@@ -1,0 +1,52 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard Administración",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-code",
+    "js": [{
+            "{base_url}ui/assets/jscript/date-pick.js": "GIT-CSS",
+            "{base_url}pacc/assets/jscript/administracion.js": "Js de Administracion"
+
+    }], 
+
+    "css": [{
+            
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+                "title": "Buscar",
+                "module": "pacc",
+                "controller": "fondyf",
+                "function": "tile_buscar"
+            }]
+    }, 
+    
+    {
+        "col1": [
+            ]
+
+    },
+    {
+        "full_widget": [{
+            "title": "Chart",
+            "module": "pacc",
+            "controller": "administracion",
+            "function": "desembolsos_previstos_vs_ejecutados"
+        }]
+    },
+    
+    {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

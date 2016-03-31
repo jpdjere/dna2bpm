@@ -1,0 +1,31 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Plan Adquisiciones",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-qrcode",
+    "zones": [
+        {   "col1": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "plan_adquisiciones",
+            "function": "plan_adquisiciones_carga"
+             
+             }
+            ]},
+        
+       
+        
+    {
+        "tiles_bottom": [{
+             "title": "Half Table1",
+            "module": "pacc",
+            "controller": "plan_adquisiciones",
+            "function": "plan_adquisiciones_list"
+             }
+
+
+
+            ]
+    }]
+        }
+    

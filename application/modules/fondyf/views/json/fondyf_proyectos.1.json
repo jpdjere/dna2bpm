@@ -1,0 +1,79 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "FonDyF Proyectos",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                 {
+                    "title": "TileSolicitud",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_solicitud",
+                    "span":3
+                },
+                {
+                    "title": "Tile01",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "tile_proyectos"
+                },
+                {
+                    "title": "Proyectos Aprobados",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["fondyfpp", "fondyfpp_BO"]
+                },
+               
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_cases"
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile",
+                    "params": ["cases_closed"]
+                }
+            ]
+        },
+        {
+            "col1": [
+                 {
+                    "title": "2do",
+                    "module": "fondyf",
+                    "controller": "fondyf",
+                    "function": "widget_2doMe2"
+                },
+                {
+                    "title": "2do",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_tasks_done"
+                }
+            ]
+        },
+        {
+            "col2": [
+                {
+                    "title": "Cases",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_cases"
+                },
+                {
+                    "title": "Cases Closed",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_cases_closed"
+                }
+            ]
+        }
+    ]
+}

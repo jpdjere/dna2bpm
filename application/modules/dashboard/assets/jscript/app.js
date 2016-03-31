@@ -7,8 +7,31 @@ $(document).ready(function() {
 
     $('.form-extra').ajaxForm({
         target: '#tiles_after section',
-        replaceTarget: false
+        replaceTarget: false,
+        beforeSubmit: function(arr, $form, options) { 
+    // The array of form data takes the following form: 
+    // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ] 
+     
+      $('#tiles_after section').append('<div class="loader " ><div><i class="fa fa-spinner fa-spin fa-2x" ></i> <span class="">Cargando</span></div></div>');
+    // return false to cancel submit                  
+        }
     });
+    
+    
+    
+    /* */
+    $('.form-ws').ajaxForm({
+        target: '#webservice',
+        replaceTarget: false,
+        beforeSubmit: function(arr, $form, options) { 
+    // The array of form data takes the following form: 
+    // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ] 
+     
+      $('#webservice').append('<div class="loader " ><div><i class="fa fa-spinner fa-spin fa-2x" ></i> <span class="">Cargando</span></div></div>');
+    // return false to cancel submit                  
+        }
+    });
+    
     // ==== Reload Widget
     $(document).on('click', '.reload_widget', function(event) {
         event.preventDefault();
@@ -108,29 +131,29 @@ $(document).ready(function() {
 
 //=========== CONFIG PANEL
 
-    $(document).on('click', '#config_panel_bt', function(e) {
-        // $('#config_panel_bt').toggle();
+    // $(document).on('click', '#config_panel_bt', function(e) {
+    //     // $('#config_panel_bt').toggle();
 
-        if ($(this).hasClass('open')) {
-            // Close it
-            $('#config_panel_content,#config_panel_bt').animate({
-                right: "-=170",
-            }, 500, function() {
-                // Animation complete.
-            });
+    //     if ($(this).hasClass('open')) {
+    //         // Close it
+    //         $('#config_panel_content,#config_panel_bt').animate({
+    //             right: "-=400",
+    //         }, 500, function() {
+    //             // Animation complete.
+    //         });
 
-            $(this).removeClass('open');
-        } else {
-            // open it
-            $('#config_panel_content,#config_panel_bt').animate({
-                right: "+=170",
-            }, 500, function() {
-                // Animation complete.
-            });
-            $(this).addClass('open');
-        }
+    //         $(this).removeClass('open');
+    //     } else {
+    //         // open it
+    //         $('#config_panel_content,#config_panel_bt').animate({
+    //             right: "+=400",
+    //         }, 500, function() {
+    //             // Animation complete.
+    //         });
+    //         $(this).addClass('open');
+    //     }
 
-    });
+    // });
 
 
     $('#bt_pasteboard').on('ifChecked', function(event) {
@@ -227,13 +250,12 @@ $(document).ready(function() {
 
     });
     
-    
-    // $(document).on('click', ".widget_alert button", function(e) {
-    //     var id=$(this).parent().attr('data-id');
-    //     $.get('');
-    // });
-    
-    
+    //=== Same height for tiles
+    var max='';
+     $('.full-height .inner').each(function(e){
+        if(max<$(this).css('height'))max=$(this).css('height');
+     });
+     $('.full-height .inner').css('height',max);
 
 });
 

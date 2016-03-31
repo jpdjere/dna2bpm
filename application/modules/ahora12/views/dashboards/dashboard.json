@@ -1,0 +1,49 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Plataforma Ahora 12",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "js": [{
+
+        "{base_url}ui/assets/jscript/morris.js": "Script",
+        "{base_url}ui/assets/jscript/raphael.js": "Script",
+        "{base_url}ui/assets/jscript/morris_line.js": "Morris Liner"
+
+    }],
+    "zones": [{
+        "tiles": [
+
+        ]
+    }, {
+        "col1": [{
+                "title": "Tile01",
+                "module": "ahora12",
+                "controller": "ahora12",
+                "function": "xTarjeta"
+            }, {
+                "title": "ChartMontos",
+                "module": "ahora12",
+                "controller": "ahora12",
+                "function": "chart_montos"
+            }
+
+        ]
+    }, {
+        "col2": [
+
+            {
+                "title": "Tile02",
+                "module": "ahora12",
+                "controller": "ahora12",
+                "function": "xRubro"
+            }, {
+                "title": "Tile02",
+                "module": "ahora12",
+                "controller": "ahora12",
+                "function": "xProvincia"
+            }
+
+        ]
+    }]
+}

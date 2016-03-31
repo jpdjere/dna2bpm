@@ -1,0 +1,110 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Cantidad de proyectos reclamados",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-code",
+    "js": [
+        
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/raphael.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/dna2convert_provincias.js": "Convert Provincias"},
+        {"{base_url}ui/assets/jscript/ammap.js": "Script"},
+        {"{base_url}ui/assets/jscript/map.js": "Script"},
+        {"{base_url}ui/assets/jscript/argentinaHigh.js": "Script"},
+        
+        {"{base_url}ui/assets/jscript/jquery.flot.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.resize.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.pie.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.categories.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.knob.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.flot.orderBars.js": "Script"},
+        {"{base_url}ui/assets/jscript/jquery.sparkline.min.js": "Script"},
+        {"{base_url}ui/assets/jscript/fake-ui.js": "Script"},
+        {"{base_url}ui/assets/jscript/ui.js": "Script"}
+    ],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19600"
+            },{
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19601"
+            }
+          ]
+    }, {
+        "col1": [{
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19596"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19639"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19640"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19642"
+            },{
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "coordinador",
+            "function": "gonza"
+            }
+            ]
+
+    }, {
+        "col2": [{
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19637"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "bars_19638"
+            },
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "lines_19635"
+            },            
+            {
+            "title": "Full Table",
+            "module": "pacc",
+            "controller": "fake_pacc",
+            "function": "lines_19636"
+            }
+      
+            ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

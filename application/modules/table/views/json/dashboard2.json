@@ -1,0 +1,43 @@
+{
+    "createdBy": "Juan Borda <juanignacioborda@gmail.com>",
+    "title": "Handsontable API Experimento",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-git",
+    "js": [{
+            "{base_url}code/assets/jscript/jquery-ace.min.js": "JQuery-ACE"
+        },{
+            "{base_url}code/assets/jscript/src-min/ace.js": "ACE"
+        },{
+            "{base_url}code/assets/jscript/src-min/mode-php.js": "ACE-PHP"
+        },{
+            "{base_url}code/assets/jscript/src-min/mode-html.js": "ACE-HTML"
+        },{
+            "{base_url}table/assets/jscript/handsontable.full.min.js": "Code-core"
+        },{ 
+            "{base_url}table/assets/jscript/ht1.js": "Script"}],
+    "css": [{
+            "{base_url}table/assets/css/table.css": "Code-CSS"
+        }
+    ],
+    
+    "zones": [{
+        "tiles": [
+            {
+            "title": "Table.",
+            "module": "table",
+            "controller": "table",
+            "function": "ht1"
+            }
+                
+
+        ]
+    }, {
+        "col1": [
+                
+        ]
+
+    }, {
+        "col2": [ ]
+
+    }]
+}

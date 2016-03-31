@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost/" />
+<title>poa-completo</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">poa-completo</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/dna2bpm/pacc/poa/form</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=Area</td>
+	<td>label=Apoyo a Nuevas Empresas</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=option[value=&quot;2&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=Comp</td>
+	<td>label=2 - descripcion del compomente 2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#Comp &gt; option[value=&quot;2&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=SComp</td>
+	<td>label=2.1 - SUBCOMPONENTE 1 DE COMPONENTE 2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.form-control</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IP_TI</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IP_TII</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IP_TIII</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=IP_TIV</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=COSTO_UNI</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=Inciso_ONP</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=FUENTE_22</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=FUENTE_11</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=FUENTE_PYME</td>
+	<td>22</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//button[@type='button']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=...</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TI_BID</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TI_BNA</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TI_PYME</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TII_BID</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TII_BNA</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TII_PYME</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TIII_BID</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TIII_BNA</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TIII_PYME</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TIV_BID</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TIV_BNA</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=PESO_TIV_PYME</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=PESO_TIV_PYME</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=IP_TI_REAL</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=IP_TII_REAL</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=IP_TIII_REAL</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=IP_TIV_REAL</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TI_BID_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TI_BNA_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TI_PYME_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TII_BID_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TII_BNA_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TII_PYME_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TIII_BID_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TIII_BNA_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TIII_PYME_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TIV_BID_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TIV_BNA_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=PESO_TIV_PYME_REAL</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=finish</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Cargar un POA online</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

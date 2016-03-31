@@ -1,6 +1,7 @@
- 
+<meta property="og:image" content="{base_url}user/assets/images/login.png"> 
+<link itemprop="thumbnailUrl" href="{base_url}user/assets/images/login.png">
         <div class="form-box" id="login-box">
-            <div class="header bg-navy">{lang loginMsg}</div>
+            <div class="header bg-light-blue">{lang loginMsg}</div>
             <form id="formAuth" action="{authUrl}" method="post">
                 <div class="body bg-gray">
                 <!--  MSG -->
@@ -24,11 +25,14 @@
                     </div>
                 </div>
                 <div class="footer">                                                               
-                    <button type="submit" class="btn bg-olive btn-block">{lang loginButton}</button>  
-                    
-                    <p> <a href="{module_url}recover" >
-	                        {lang forgotPassword}
-	                    </a></p>
+                    <button type="submit" class="btn btn-default btn-flat btn-block">&nbsp;{lang loginButton}</button>  
+                    <p>
+                    <a href="http://www.accionpyme.mecon.gov.ar/dna2/pub/register.bpm.php" ><i class="fa fa-user"></i>&nbsp;{lang newUser}</a>
+                    </p>
+                    <p>
+                    <a href="{module_url}recover" ><i class="fa fa-unlock"></i>
+ {lang forgotPassword} </a>
+                    </p>
                     
                 </div>
             </form>

@@ -1,0 +1,81 @@
+{
+    "createdBy": "Diego Otero <daotero@industria.gob.ar>",
+    "title": "SGR Sociedades",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "zones": [
+        {
+            "tiles": [
+                {
+                    "title": "Tile01",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "span":2,
+                    "function": "anexos_tile"
+
+                },
+                {
+                    "title": "Tile01",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "span":2,
+                    "function": "anexos_dna2"
+
+                },
+                {
+                    "title": "Tile01",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "span":2,
+                    "function": "central"
+
+                },
+                {
+                    "title": "Tile01",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "span":2,
+                    "function": "documentation"
+
+                }   
+                ,
+                {
+                    "title": "Tile01",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "span":2,
+                    "function": "anexos_models_tile"
+
+                }   
+            ]
+        },
+        {
+            "col1": [
+                {
+                    "title": "Anexos",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "function": "anexos",
+                    "box_icon": "fa fa-th",
+                    "box_class": ["box box-success"],
+                    "box_buttons": [ "collapse"],
+                    "box_collapsed": "0"
+                }
+            ]
+        }, {
+            "col2": [
+                {
+                    "title": "Reportes",
+                    "module": "sgrbpm",
+                    "controller": "sgrbpm",
+                    "function": "reports",
+                    "box_icon": "ion ion-clipboard",
+                    "box_class": ["box box-primary"],
+                    "box_buttons": [ "collapse"],
+                    "box_collapsed": "0"
+                }
+            ]
+        }
+        
+    ]
+}

@@ -1,0 +1,29 @@
+/* 
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+{
+    "idcontact":1,
+    "name": "Juan Ignacio",
+    "lastname":"Borda ",
+    mail:
+    {
+        "work":"<juanignacioborda@gmail.com>",
+        "home":"<juanignacioborda@home.com>",
+      
+    },
+    phone:{
+        "mobile":"234123-123123",
+        "work":"546897213-234",
+        "home":"2346768234",
+        "other":"2346768234"
+    },
+    address:{
+        "work":"Malabia 1614",
+        "home":"Malabia 1614",
+    },
+    avatar:"picture.png",
+    users:[1,2,4234234234], //----usuarios que tienen acceso al contacto
+    groups:[1,99,83],       //----grupos que tienen acceso al contacto
+}

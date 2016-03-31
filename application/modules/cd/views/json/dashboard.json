@@ -1,0 +1,24 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Carta Documento",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-list-alt",
+    "js": [{"{base_url}cd/assets/jscript/app.js": "CD-JS"}
+    ],
+    "css": [{
+        }
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Full Table",
+            "module": "cd",
+            "controller": "cd",
+            "function": "form"
+             }]
+    },    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

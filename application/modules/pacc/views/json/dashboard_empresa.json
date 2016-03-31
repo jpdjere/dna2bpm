@@ -1,0 +1,57 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "PACC Proyectos",
+    "view": "layout_2cols_fixed",
+    "icon": "ion-briefcase",
+    "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "private": true,
+    "js": [{
+        "{base_url}ui/assets/jscript/bootstrap-tour.js": "Tour Script",
+        "{base_url}pacc11/assets/jscript/tour.empresas.js": "Tour"
+    }],
+    "css": [{
+        "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+    }],
+    "zones": [{
+        "tiles": [{
+            "title": "TileSolicitud",
+            "module": "pacc",
+            "controller": "empresa",
+            "function": "tile_solicitud_PACC11",
+            "span": 3
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "pacc11_PP"],
+            "span": 3
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "pacc11_PPA"],
+            "span": 3
+        }, {
+            "title": "Proyectos Aprobados",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "pacc11_PA"],
+            "span": 3
+
+        }]
+    }, {
+        "col1": [{
+            "title": "2do",
+            "module": "pacc",
+            "controller": "empresa",
+            "function": "widget_2doMe2"
+        }]
+    }, {
+        "col2": [
+
+        ]
+    }]
+}

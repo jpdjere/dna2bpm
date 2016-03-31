@@ -1,0 +1,28 @@
+{
+    "createdBy": "Martin González",
+    "title": "Bonificación de Tasa - Licitaciones",
+    "view": "layout_2colsy1_bonita",
+    "icon": "fa-qrcode",
+    "zones": [
+        {   "col1": [{
+            "title": "Half Table",
+            "module": "bonita",
+            "controller": "bonita_licitaciones",
+            "function": "bonita_licitaciones_carga",
+            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}bonita/assets/jscript/bonita_script_rep_prov.js":"Profile JS"}]
+             }
+            ]
+
+    }, {
+        "col2": []
+    
+        },{
+        "col3": []
+    
+        },    
+    {
+        "2cols_after": [            
+            ]
+    }]
+        }
+    

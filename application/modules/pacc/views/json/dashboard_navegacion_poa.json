@@ -1,0 +1,38 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Modulo de Administración de Reportes POA",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [{
+       
+        "{base_url}pacc/assets/jscript/forms.js": "Script"
+        
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": []
+    }, {
+        "col1": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "poa",
+            "function": "navegacion_poa"
+             }
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

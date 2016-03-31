@@ -1,0 +1,66 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212@gmail.com>",
+    "title": "Dashboard de Mapas",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-map-marker",
+    "js": [{
+        
+        "{base_url}map/assets/jscript/ammap/ammap.js": "Script",
+        "{base_url}map/assets/jscript/ammap/maps/js/argentinaHigh.js": "Script",
+        "{base_url}map/assets/jscript/aux.js": "Script",
+        "{base_url}map/assets/jscript/ammap/themes/black.js": "Script",
+        "{base_url}map/assets/jscript/partidos.js": "Script"
+     
+    }],
+
+    "css": [{
+        "{base_url}map/assets/css/map.css": "Map Css",
+        "{base_url}map/assets/css/ammap.css": "AMMap Css",
+        "{base_url}map/assets/css/map-bs.css": "Map Css",
+        "{base_url}map/assets/css/jquery-bubble-popup-v3.css": "Map Css"
+    }],
+
+
+    "zones": [{
+        "tiles": [{
+                "title": "Tile01",
+                "module": "map",
+                "controller": "map",
+                "function": "map_table"
+
+        }]
+    },
+    {
+        "tiles_after": [{
+                "title": "Tile01",
+                "module": "map",
+                "controller": "map",
+                "function": "full_table_emprendedores"
+
+        }
+        ]
+    },
+    {
+        "full_widget": [{
+                "title": "Tile01",
+                "module": "map",
+                "controller": "map",
+                "function": "full_table_empresas"
+
+        },{
+                "title": "Tile01",
+                "module": "map",
+                "controller": "map",
+                "function": "full_table_empresas"
+
+        }
+        ]
+    },{
+        "widgets": []
+
+    }, {
+        "col2": [
+        ]
+
+    }]
+}

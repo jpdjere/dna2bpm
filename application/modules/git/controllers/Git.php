@@ -74,7 +74,13 @@ class Git extends MX_Controller {
         $who = 'nobody';
         $request_headres=$this->input->request_headers();
         $result = 'Unauthorized access';
-        if ($request_headres['X-gitlab-event']=='Push Hook') {
+        if ($include_payload){
+            if ($fp = fopen('update-git.log', 'a')) {
+                 fwrite($fp, date('Y-m-d H:i:s') . ' payload:' . file_get_contents('php://input') . "\n\n");
+            }
+            
+        }
+        if ($request_body->object_kind=='push') {
             $who = $request_body->user_name.' <'.$request_body->user_email.'>';
             if ($who) {
                 $result = shell_exec('git pull 2>&1');
@@ -88,8 +94,7 @@ class Git extends MX_Controller {
                exit;
            }
             if ($fp = fopen('update-git.log', 'a')) {
-                if ($include_payload)
-                    fwrite($fp, date('Y-m-d H:i:s') . ' ' . urldecode($request) . "\n");
+                
                 fwrite($fp, date('Y-m-d H:i:s') . ' Pushed by:' . $who . "\n");
                 fwrite($fp, date('Y-m-d H:i:s') . ' Result: ' . $result . "\n\n");
                 fclose($fp);

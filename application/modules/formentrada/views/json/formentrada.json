@@ -1,0 +1,27 @@
+{
+    "createdBy": "Martin González",
+    "title": "Formulario",
+    "view": "layout_2colsy1_bonita",
+    "icon": "fa-qrcode",
+    "zones": [
+        {   "col1": [{
+            "title": "Half Table",
+            "module": "formentrada",
+            "controller": "formentrada",
+            "function": "formentrada_cuadro",
+            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}formentrada/assets/jscript/formentrada_script.js":"Profile JS"}]
+             }
+            ]
+
+    }, {
+        "col2": []
+    
+        },{
+        "col3": []
+    
+        },    
+    {
+        "2cols_after": [            
+            ]
+    }]
+        }

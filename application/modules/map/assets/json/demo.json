@@ -1,0 +1,21 @@
+{
+    "markers":[ {
+        "latitude":-35.087851, 
+        "longitude":-60.463257, 
+        "title":"Bragado", 
+        "content":"Capital de la ind metalmec&aacute;nica"
+    },
+    {
+        "latitude":-36.248113, 
+        "longitude":-61.067505, 
+        "title":"Bolivar", 
+        "content":"San Carlos de Bol&iacute;var es una ciudad argentina"
+    },
+    {
+        "latitude":-34.924711, 
+        "longitude":-57.946014, 
+        "title":"La Plata", 
+        "content":"La Plata es la capital de la provincia de Buenos Aires (Argentina)"
+    } 
+    ]
+}

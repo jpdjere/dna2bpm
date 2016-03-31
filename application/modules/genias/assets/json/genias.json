@@ -1,0 +1,17 @@
+{
+    "totalcount": 11,
+    "rows": [
+        {"value": "TDF", "text": "GenIA Tierra del Fuego"}
+        , {"value": "CAT", "text": "GenIA Catamarca"}
+        , {"value": "CHA", "text": "GenIA Chaco"}
+        , {"value": "TUC", "text": " GenIA Tucum\u00e1n"}
+        , {"value": "MZA", "text": " GenIA Mendoza"}
+        , {"value": "SAL", "text": " GenIA Salta"}
+        , {"value": "ER", "text": " GenIA Entre R\u00edos"}
+        , {"value": "CTES", "text": " GenIA Corrientes"}
+        , {"value": "CBA", "text": " GenIA C\u00f3rdoba"}
+        , {"value": "BUE053", "text": " GenIA Buenos Aires Mar del Plata"}
+        , {"value": "MIS", "text": "GenIA Misiones"}
+    ]
+
+}

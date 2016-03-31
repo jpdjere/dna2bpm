@@ -1,0 +1,54 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "fonapyme Evaluador",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                {
+                    "title": "Buscar",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "tile_buscar",
+                    "span": 4,
+                    "js": [{"{base_url}fonapyme/assets/jscript/app.js":"fonapymepp"}]
+                },
+                {
+                    "title": "Tile01",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "tile_proyectos"
+                },
+                {
+                    "title": "TileSolicitud",
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "tile_solicitud"
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_cases"
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile",
+                    "params": ["cases_closed"]
+                }
+            ]
+        },
+        {
+            "col1": [
+            ]
+        },
+        {
+            "col2": [
+            ]
+        }
+    ]
+}

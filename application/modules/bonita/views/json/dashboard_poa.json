@@ -1,0 +1,43 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard de Pruebas POA",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [{
+        "{base_url}pacc/assets/jscript/jquery.colorize-1.7.0.js": "Script",
+        "{base_url}pacc/assets/jscript/app.js": "Script"
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "poa",
+            "function": "fixed_table"
+             },
+             {
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "poa",
+            "function": "fixed_table_dos"
+             }]
+    }, {
+        "col1": [
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

@@ -1,0 +1,30 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Reporte POA",
+    "view": "layout_2cols",
+    "icon": "fa-qrcode",
+    "zones": [
+        {   "col1": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "poa_report",
+            "function": "fpoa_list"
+             }
+            ]
+
+    }, {
+        "col2": [{
+            "title": "POA Carga",
+            "module": "pacc",
+            "controller": "poa_report",
+            "function": "fpoa_load",
+            "js":[{"0":"jqueryUI"},{"1":"PLUpload"},{"{base_url}pacc/assets/jscript/poa_script.js":"Profile JS"}]
+        }]
+    
+        },    
+    {
+        "2cols_after": [            
+            ]
+    }]
+        }
+    

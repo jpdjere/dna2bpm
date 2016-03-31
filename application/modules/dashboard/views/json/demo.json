@@ -6,55 +6,51 @@
     "zones": [
         {
             "tiles": [
+                {
+                    "title": "Tile01",
+                    "module": "dashboard",
+                    "controller": "dashboard",
+                    "span": 2,
+                    "function": "tile_admin_users"
 
+                },
+                {
+                    "title": "Tile01",
+                    "module": "dashboard",
+                    "controller": "dashboard",
+                    "span": 2,
+                    "function": "tile_admin_bpm"
+
+                },
+                {
+                    "title": "Tile01",
+                    "module": "dashboard",
+                    "controller": "dashboard",
+                    "span": 2,
+                    "function": "tile_admin_menu"
+
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_cases"
+                }
             ]
         },
         {
             "col1": [        
                 {
-                    "title": "UI elements : callout",
+                    "title": "Knob",
                     "module": "dashboard",
                     "controller": "kitchensink",
-                    "function": "callout",
-                    "box_icon":"fa-object-ungroup",
-                    "box_class":["box"],
+                    "function": "knob",
+                    "box_icon":"fa-pie-chart",
+                    "box_class":["box"], 
                     "box_buttons":["remove","collapse"],
-                    "box_collapsed":"0"
+                    "box_collapsed":"0",
+                    "js":[{"0":"knob"},{"{base_url}dashboard/assets/jscript/knob.js":"knobJS"}]
                 },
-                {
-                    "title": "UI elements : alert",
-                    "module": "dashboard",
-                    "controller": "kitchensink",
-                    "function": "alert",
-                    "box_icon":"fa-object-ungroup",
-                    "box_class":["box"],
-                    "box_buttons":["remove","collapse"],
-                    "box_collapsed":"1"
-                },
-                {
-                    "title": "UI elements : progress",
-                    "module": "dashboard",
-                    "controller": "kitchensink",
-                    "function": "progress",
-                    "box_icon":"fa-object-ungroup",
-                    "box_class":["box"],
-                    "box_buttons":["remove","collapse"],
-                    "box_collapsed":"1"
-                },
-                {
-                    "title": "UI elements : UL & OL",
-                    "module": "dashboard",
-                    "controller": "kitchensink",
-                    "function": "lists",
-                    "box_icon":"fa-object-ungroup",
-                    "box_class":["box"],
-                    "box_buttons":["remove","collapse"],
-                    "box_collapsed":"1"
-                }
-            ]
-        },
-        {
-            "col2": [
                 {
                     "title": "JSON Box Settings",
                     "module": "dashboard",
@@ -66,16 +62,43 @@
                     "box_collapsed":"0"
                 },
                 {
-                    "title": "Pagination",
+                    "title": "HighCharts",
                     "module": "dashboard",
                     "controller": "kitchensink",
-                    "function": "pagination",
-                    "box_icon":"fa-book",
-                    "box_class":["box"],
+                    "function": "highcharts",
+                    "js":[{"0":"highCharts"}],
+                    "box_icon":"fa-bullhorn",
+                    "box_class":["box box-primary"],
                     "box_buttons":["remove","collapse"],
-                    "box_collapsed":"0"
+                    "box_collapsed":"0",
+                    "params":[{"title":{"text":"hey"}},"400"]
                 }
-                
+            ]
+        },
+        {
+            "col2": [
+            {
+            "title": "Alerts - ",
+            "module": "dashboard",
+            "controller": "alerts",
+            "function": "create_alert_box",
+            "js": [{"{base_url}dashboard/assets/jscript/alerts.js": "alert-JS"},{"0": "fullcalendar-moment"},{"1": "daterangerpicker"}],
+            "box_icon":"fa-bullhorn",
+            "box_class":["box box-primary"],
+            "box_buttons":["remove","collapse"],
+            "box_collapsed":"0"
+             },
+             {
+            "title": "Alerts",
+            "module": "dashboard",
+            "controller": "alerts",
+            "function": "alert_list_box",
+            "js": [{"{base_url}dashboard/assets/jscript/alerts.js": "alert-JS"},{"0": "fullcalendar-moment"},{"1": "daterangerpicker"}],
+            "box_icon":"fa-bullhorn",
+            "box_class":["box box-primary"],
+            "box_buttons":["remove","collapse"],
+            "box_collapsed":"0"
+             }
             ]
         }
         

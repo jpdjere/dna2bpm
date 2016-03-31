@@ -1,0 +1,36 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard Mesa de Entrada",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-code",
+    "js": [
+        {"{base_url}pacc/assets/jscript/buscador.js": "JS-Buscador"}
+        ],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+            "tiles": [{
+                "title": "Buscar",
+                "module": "pacc",
+                "controller": "pacc",
+                "function": "tile_buscar_container",
+                "span": 4
+                
+            }]
+        }, {
+            "col1": []
+
+        }, {
+            "col2": []
+        },
+
+        {
+            "2cols_after": [
+
+            ]
+        }
+    ]
+}

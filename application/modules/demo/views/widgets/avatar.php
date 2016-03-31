@@ -1,0 +1,1 @@
+<img alt="User Image" class="img-circle foto-usuario" src="{avatar}">

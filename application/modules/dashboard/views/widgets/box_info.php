@@ -10,6 +10,6 @@
         {content}
     </div><!-- /.box-body -->
     <div class="box-footer">
-        {footer}
+        {widget_footer}
     </div><!-- /.box-footer-->
 </div>

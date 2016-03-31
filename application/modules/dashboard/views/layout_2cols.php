@@ -7,7 +7,6 @@ include('_header.php')
 
 ?>
 
-
 	<div class="wrapper row-offcanvas row-offcanvas-left hidden-print">
 		<!-- Wrapper -->
 
@@ -35,8 +34,10 @@ include('_header.php')
 			</section>
 
 			<section class="content">
+				<div class="full-height">
 				{tiles}
-				
+				</div>
+
 				{alerts}
 
 
@@ -59,7 +60,8 @@ include('_header.php')
 	<!-- ++++++++ CENTRO  -->
 	</div>
 	<!-- /Wrapper -->
-
+	
+{config_panel} 
 	
 <?php 
 /* 

@@ -46,12 +46,13 @@ class ui {
         $this->register_script('icheck', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/iCheck/icheck.min.js', array('WYSIHTML5'));
         $this->register_script('selectJS', $data['base_url'] . 'jscript/select2-3.4.5/select2.min.js', array());
         $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
-        $this->register_script('highCharts', $data['base_url'] . 'jscript/Highcharts-4.0.4/js/highcharts.js', array('jquery'));
+        
+        $this->register_script('highCharts', $data['base_url'] . 'jscript/Highcharts-4.2.1/js/highcharts.js', array('jquery'));
         $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
         $this->register_script('ckeditor', $data['base_url'] . 'jscript/ckeditor/ckeditor.js', array('jquery'));
         $this->register_script('jquery.smooth-scroll', $data['base_url'] . 'jscript/jquery/plugins/jquery.smooth-scroll.min.js', array('jquery'));
-        $this->register_script('jquery.matchHeight', $data['base_url'] . 'jscript/jquery/plugins/jquery.matchHeight-min.js', array('jquery'));
-        
+        $this->register_script('matchHeight', $data['base_url'] . 'dashboard/assets/jscript/jquery.matchHeight.js', array('jquery'));
+        $this->register_script('jquery.validate', $data['base_url'] . 'jscript/jquery/plugins/jquery-validate/dist/jquery.validate.min.js', array('jquery'));
         
         //===== CSS loaded only when same JS  handle is loaded
         $this->styles['morris'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css";
@@ -63,7 +64,7 @@ class ui {
         $this->styles['daterangerpicker'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css";
         
         // Load default JS 
-        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','jquery.matchHeight','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form');
+        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','matchHeight','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form', 'morris');
  
         //Custom JS Check
         if (isset($data['js'])) {
@@ -202,9 +203,16 @@ class ui {
     function show_scripts() {
         var_dump($this->scripts);
     }
+    
+    function get_topbar() {
+        $data['base_url'] = $this->base_url;
+        return $this->CI->parser->parse('dashboard/_logos_header', $data, true, true);
+    }
+    
+    
 
 
-/* ============= UI Elements  =============  */
+/* ============= UI Elements  */
 
 
 //=== Callouts
@@ -290,20 +298,20 @@ function progress_success($width){
 
 function ul($data,$unstyled=false){
     $class=($unstyled)?('list-unstyled'):('');
-    return "<ul class='$class'>".$this->arr2ul($data,'ul',$unstyled)."</ul>";
+    return "<ul class='$class'>".$this->arr2ul($data,'ul')."</ul>";
 }
 
 function ol($data,$unstyled=false){
     $class=($unstyled)?('list-unstyled'):('');
-    return "<ol class='$class'>".$this->arr2ul($data,'ol',$unstyled)."</ol>";
+    return "<ol class='$class'>".$this->arr2ul($data,'ol')."</ol>";
 }
 
-private function arr2ul($data,$tag='ol',$unstyled=false){
+private function arr2ul($data,$tag='ol'){
     $block="";
     foreach($data as $ul){
         if(is_array($ul)){
             $block.="<$tag>\n";
-            $block.=$this->ol($ul,$unstyled);
+            $block.=$this->ol($ul);
             $block.="</$tag>\n";
         }else{
            $block.="<li>$ul</li>\n";
@@ -311,8 +319,6 @@ private function arr2ul($data,$tag='ol',$unstyled=false){
     }
      return $block;
 }
-
-//=== BOXes 
 
 
 

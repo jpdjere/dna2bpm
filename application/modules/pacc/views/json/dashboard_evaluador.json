@@ -1,0 +1,110 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard Evaluador",
+    "view": "layout_2cols_fixed",
+     "button" :"<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "icon": "fa-group",
+    "js": [{
+            "{base_url}ui/assets/jscript/jquery.flot.resize.min.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.flot.pie.min.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.flot.categories.min.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.flot.orderBars.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.knob.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.sparkline.min.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/bootstrap-tour.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/evaluador-tour.js": "Script"
+        }, 
+
+
+        {
+            "{base_url}ui/assets/jscript/ui.js": "Script"
+        }
+    ],
+    "css": [{
+            "{base_url}demo/assets/css/demo.css": "GIT-CSS"
+        },{
+            "{base_url}demo/assets/css/bootstrap-tour.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+            "col1": [
+                {
+                    "title": "Tile01",
+                    "span":4,
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_tasks2me"
+                }
+                , {
+                    "title": "Tile02",
+                    "span":4,
+                    "module": "dashboard",
+                    "controller": "dashboard",
+                    "function": "tile",
+                    "params": ["dashboard/tiles/tile-green", {
+                        "title": "Finalizados",
+                        "number":113
+                    }]
+                }, {
+                    "title": "Tile03",
+                    "span":4,
+                    "module": "dashboard",
+                    "controller": "dashboard",
+                    "function": "tile",
+                    "params": ["dashboard/tiles/tile-red", {
+                        "title": "Atrasados",
+                        "number":7
+                    }]
+                },
+                {
+                    "title": "2do",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_2doMe"
+                }
+            ]
+        },
+        
+        {
+            "col2": [
+            {
+                    "title": "Full Table",
+                    "module": "pacc",
+                    "controller": "evaluador",
+                    "function": "half_table_rank"
+             }]
+
+        }, 
+        
+        {
+            "tiles": [{
+                "title": "Buscar",
+                "module": "pacc",
+                "controller": "fondyf",
+                "function": "tile_buscar"
+            },
+
+                {
+                    "title": "Full Table",
+                    "span":12,
+                    "module": "pacc",
+                    "controller": "evaluador",
+                    "function": "lista_de_proyectos"
+                }]
+        },
+
+        {
+            "2cols_after": [
+
+            ]
+        }
+    ]
+}

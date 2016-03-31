@@ -1,0 +1,24 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Mesa de entrada",
+    "view": "layout_clean",
+    "icon": "fa-qrcode",
+    "zones": [
+        {
+            "widgets": [
+                {
+				"title": "Mesa de Entrada",
+				"module": "inventory",
+				"controller": "inventory",
+				"function": "dashboard",
+				"css":[{"{base_url}inventory/assets/css/inventory.css":"Inventory CSS"}],
+				"js":[{"{base_url}inventory/assets/jscript/actions.js":"Actions"},
+                                    {"{base_url}inventory/assets/jscript/html5-qrcode.min.js":"QR"},
+                                    {"{base_url}inventory/assets/jscript/html5-qrcode.js":"QR"},
+                                    {"{base_url}inventory/assets/jscript/bootbox.min.js":"Bootbox"}
+]
+                }
+            ]
+        }
+    ]
+}

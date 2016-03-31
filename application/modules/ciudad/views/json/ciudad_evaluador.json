@@ -1,0 +1,60 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "ciudad Evaluador",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                {
+                    "title": "Buscar",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "tile_buscar",
+                    "span": 4,
+                    "js": [{"{base_url}ciudad/assets/jscript/app.js":"ciudadGral"}]
+                },
+                {
+                    "title": "Tile01",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "tile_proyectos"
+                },
+                {
+                    "title": "TileSolicitud",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "tile_solicitud"
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_cases"
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile",
+                    "params": ["cases_closed"]
+                }
+            ]
+        },
+        {
+            "col1": [
+                 {
+                    "title": "2do",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "widget_2doMe2"
+                }
+            ]
+        },
+        {
+            "col2": [
+            ]
+        }
+    ]
+}

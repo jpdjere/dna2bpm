@@ -1,0 +1,45 @@
+{
+    "createdBy": "Gabrielfojo - El macho <trialvd@gmail.com>",
+    "title": "SGR Gestion",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                
+
+            ]
+        },
+        {
+            "col1": [
+                {
+                    "title": "2do",
+                    "module": "sgrbpm",
+                    "controller": "gestion",
+                    "function": "demo1",
+                    "box_icon":"fa-bullhorn",
+                    "box_class":["box box-primary"],
+                    "box_buttons":["remove","collapse"],
+                    "box_collapsed":"0"
+                }
+            ]
+        },
+        {
+            "col2": [
+               
+                {
+                    "title": "2do",
+                    "module": "sgrbpm",
+                    "controller": "gestion",
+                    "function": "demo2",
+                    "box_icon":"fa-glass",
+                    "box_class":["box box-primary"],
+                    "box_buttons":["remove","collapse"],
+                    "box_collapsed":"0"
+                }
+                
+            ]
+        }
+    ]
+}

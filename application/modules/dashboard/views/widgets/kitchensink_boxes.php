@@ -10,5 +10,3 @@
     <li>"box_collapsed":"0"</li>
 </ul>
 
-
-

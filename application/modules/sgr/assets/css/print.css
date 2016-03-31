@@ -1,0 +1,68 @@
+/* 
+    Document   : PRINT
+    Created on : 14/01/2014, 12:54:16
+    Author     : Diego
+    Description:
+        Purpose of the stylesheet follows.
+        
+*/
+
+
+#header {
+    background: none no-repeat scroll 0 0 #FFFFFF;
+    height: 100px;
+    position: relative;
+}
+#header-dna {
+    background: url('../images/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    width: 580px;
+}
+#header-logos {
+    background: url('../images/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 210px;
+}
+table { font-family: Futura, Arial, sans-serif; font-size:9px; width:100%;}
+caption { font-size: larger; margin: 1em auto; } 
+th { padding: .65em;text-align: center; }
+th, thead { background: #000; color: #fff; border: 1px solid #000; font-weight:bold; }  
+
+  
+td { border: 1px solid #777; }
+
+
+.no_border_table table { font-size:11px; }
+.no_border_table td { border: none;}
+.custom_border_table th {
+    background: none repeat scroll 0 0 #FFF;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-right:1px solid #777777;
+    color: #111;
+    font-weight: bold;
+}
+
+.border_table td { border: 1px solid #777; }
+.table_partners th {
+    border: 1px solid #777;
+}
+  .table_partners {margin:40px;  text-transform:uppercase; width: 94%; }  
+.sign{
+    
+    border-top: 1px dotted #777;
+    margin:50px;
+/*     position:absolute; */
+    right:100px;
+}
+
+@media (print) {
+/* 	th, thead { background: #fff; color: #000; border: 1px solid #000; font-weight:bold; }  */
+}
+
+
+

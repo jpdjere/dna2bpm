@@ -1,0 +1,78 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard Consolidado",
+    "view": "layout_2cols_fixed",
+    "button" :"<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "icon": "fa-code",
+    "js": [
+        
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/raphael.js": "GIT-JS"},
+
+        
+        {"{base_url}ui/assets/jscript/morris.js": "Script"},
+        {"{base_url}ui/assets/jscript/line_charts.js": "Script"},
+        
+        {"{base_url}ui/assets/jscript/jquery.knob.js": "Script"},
+        {"{base_url}pacc/assets/jscript/buscador.js": "Script"},
+
+        {"{base_url}ui/assets/jscript/ui.js": "Script"}
+      
+       
+    ],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS",
+            "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+        }
+
+    ],
+    "zones": [{
+       "tiles": []
+    },
+    {
+        "col1": [
+            {
+            "title": "2do",
+            "module": "pacc",
+            "controller": "consolidado",
+            "function": "knobs_empresas"
+
+            },
+            {
+            "title": "2do",
+            "module": "pacc",
+            "controller": "consolidado",
+            "function": "knobs_emprendedores_pitchs"
+
+            },
+            {
+            "title": "2do",
+            "module": "pacc",
+            "controller": "consolidado",
+            "function": "knobs_emprendedores"
+            }
+            ]
+
+    }, {
+        "col2": [
+        {
+            "title": "Chart",
+            "module": "charts",
+            "controller": "consolidado",
+            "function": "area_charts"
+        },
+        {
+            "title": "Map",
+            "module": "pacc",
+            "controller": "consolidado",
+            "function": "map_demo"
+
+        }]
+        },
+
+    {
+        "2cols_after": [
+
+            ]
+    }]
+}

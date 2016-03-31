@@ -1,0 +1,99 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Maqueta de Dashboard",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-code",
+    "js": [
+        
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/raphael.js": "GIT-JS"},
+        {"{base_url}ui/assets/jscript/gauge.js": "GIT-JS"},
+        {"{base_url}code/assets/jscript/jquery-ace.min.js": "JQuery-ACE"},
+        {"{base_url}code/assets/jscript/src-min/ace.js": "ACE"},
+        {"{base_url}code/assets/jscript/src-min/mode-php.js": "ACE-PHP"},
+        {"{base_url}code/assets/jscript/src-min/mode-html.js": "ACE-HTML"},
+        {"{base_url}code/assets/jscript/src-min/mode-javascript.js": "ACE-JS"},
+        {"{base_url}code/assets/jscript/src-min/mode-json.js": "ACE-JSON"},
+        {"{base_url}code/assets/jscript/code.js": "Code-core"},
+        {"{base_url}demo/assets/jscript/dna2convert_provincias.js": "Convert Provincias"},
+        {"{base_url}demo/assets/jscript/ammap.js": "Script"},
+        {"{base_url}demo/assets/jscript/map.js": "Script"},
+        {"{base_url}demo/assets/jscript/argentinaHigh.js": "Script"},
+        {"{base_url}demo/assets/jscript/bootstrap-tour.js": "Script"},
+        {"{base_url}demo/assets/jscript/custom-tour.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.flot.min.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.flot.resize.min.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.flot.pie.min.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.flot.categories.min.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.knob.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.sparkline.min.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.tablesorter.min.js": "Script"},
+        {"{base_url}demo/assets/jscript/jquery.tablesorter.widgets.js": "Script"},
+        {"{base_url}demo/assets/jscript/custom-table.js": "Script"},
+        {"{base_url}demo/assets/jscript/demo.js": "Script"}
+    ],
+    "css": [{
+            "{base_url}code/assets/css/code.css": "Code-CSS",
+            "{base_url}demo/assets/css/demo.css": "GIT-CSS",
+            "{base_url}demo/assets/css/theme.blue.css": "GIT-CSS",
+            "{base_url}demo/assets/css/bootstrap-tour.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Full Table",
+            "module": "demo",
+            "controller": "demo",
+            "function": "full_table"
+             },{
+            "title": "Full Table",
+            "module": "demo",
+            "controller": "demo",
+            "function": "full_table_sortable"
+             }]
+    }, {
+        "col1": [{
+            "title": "Half Table",
+            "module": "demo",
+            "controller": "demo",
+            "function": "half_table"
+             },
+             {
+            "title": "2do",
+            "module": "demo",
+            "controller": "demo",
+            "function": "knobs_emprendedores",
+            "js":[{"0":"knob"},{"{base_url}dashboard/assets/jscript/knob.js":"knobJS"}]
+            },
+            {
+            "title": "2do",
+            "module": "demo",
+            "controller": "demo",
+            "function": "knobs_empresas",
+            "js":[{"0":"knob"},{"{base_url}dashboard/assets/jscript/knob.js":"knobJS"}]
+            }
+            ]
+
+    }, {
+        "col2": [
+        {
+            "title": "Bars",
+            "module": "demo",
+            "controller": "demo",
+            "function": "bars"
+        },
+        {
+            "title": "Chart",
+            "module": "demo",
+            "controller": "demo",
+            "function": "charts"
+        }]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

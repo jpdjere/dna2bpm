@@ -27,7 +27,8 @@ include('_header.php')
 		<aside class="right-side">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>{title}</h1>
+				<h1>{title}  {button} </h1>
+               
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa {icon}"></i> Home</a></li>
 					<li class="active">{title}</li>
@@ -35,7 +36,11 @@ include('_header.php')
 			</section>
 
 			<section class="content">
-				{tiles}
+			
+				<div id="tiles">
+					<section class="col-lg-12">
+						{tiles}</section>
+				</div>
 				
 				{alerts}
 
@@ -43,6 +48,11 @@ include('_header.php')
 				<div id="tiles_after">
 					<section class="col-lg-12">
 						{tiles_after}</section>
+				</div>
+				
+				<div>
+					<section class="col-lg-12">
+						{full_widget}</section>
 				</div>
 
 

@@ -51,9 +51,9 @@ class Menu_model extends CI_Model {
 
     function clear_paths($repoId) {
         if ($idgroup) {
+            $options = array("justOne" => false, "safe" => true);
             $criteria = array('idgroup' => (int) $idgroup);
-            $this->db->where($criteria);
-            $this->db->delete($this->container);
+            return $this->mongowrapper->db->selectCollection($this->container)->remove($criteria, $options);
         } else {
             return false;
         }
@@ -62,8 +62,7 @@ class Menu_model extends CI_Model {
     function get_path($repoId, $id) {
         if ($id) {
             $query = array('repoId' => $repoId, 'properties.id' => $id);
-            $rs=$this->db->get_where($this->container,$query)->result_array();
-            $rs=$rs[0];
+            $rs = $this->mongowrapper->db->selectCollection($this->container)->findOne($query);
             $rs['id'] = $id;
             return $rs;
         } else {
@@ -73,13 +72,10 @@ class Menu_model extends CI_Model {
 
     function get_paths($repoId) {
         $query = array('repoId' => $repoId);
-        
-        
-        $this->db->where($query);
-        $this->db->order_by(array('path'=> 'ASC'));
-        $rs=$this->db->get($this->container)->result_array();
+        $rs = $this->mongowrapper->db->selectCollection($this->container)->find($query);
+        $rs->sort(array('path' => 1));
         $rtnArr = array();
-        foreach ($rs as $arr) {
+        while ($arr = $rs->getNext()) {
             if (isset($arr['path']))
                 $rtnArr[] = $arr['path'];
         }
@@ -88,12 +84,11 @@ class Menu_model extends CI_Model {
 
     function get_repository($query = array('repoId' => '0'), $check = true) {
         //returns a mongo cursor with matching id's
-        $this->db->where($query);
-        $this->db->order_by(array('properties.priority'=> 'ASC'));
-        $rs=$this->db->get($this->container)->result_array();
+        $rs = $this->mongowrapper->db->selectCollection($this->container)->find($query);
+        $rs->sort(array('properties.priority' => 1));
         $repo = array();
         $user = $this->user->get_user($this->idu);
-        foreach ($rs as  $r) {
+        while ($r = $rs->getNext()) {
             $repoId = $r['repoId'];
             $path = $r['path'];
             //---check if user has perm

@@ -1,0 +1,44 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard resumen del estado de un proyecto",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [{
+        "{base_url}pacc/assets/jscript/jquery.colorize-1.7.0.js": "Script",
+        "{base_url}pacc/assets/jscript/app.js": "Script"
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [
+            {
+            "title": "Buscador",
+            "module": "pacc",
+            "controller": "resumen_proyecto",
+            "function": "buscador_resumen_proyecto"
+             },{
+            "title": "Buscador",
+            "module": "pacc",
+            "controller": "resumen_proyecto",
+            "function": "table_resumen_proyecto"
+             }
+             ]
+    }, {
+        "col1": [
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

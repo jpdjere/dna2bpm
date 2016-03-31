@@ -1,0 +1,100 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard Asistente",
+    "view": "layout_2cols_fixed",
+    "button": "<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "icon": "fa-code",
+    "js": [
+
+        {
+            "{base_url}ui/assets/jscript/gauge.js": "GIT-JS"
+        }, {
+            "{base_url}ui/assets/jscript/raphael.js": "GIT-JS"
+        }, {
+            "{base_url}ui/assets/jscript/dna2convert_provincias.js": "Convert Provincias"
+        }, {
+            "{base_url}ui/assets/jscript/ammap.3.17.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/map.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/argentinaHigh.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/morris.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/line_charts.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.knob.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/bootstrap-tour.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/coordinadores-tour.js": "Script"
+        }, {
+            "{base_url}pacc/assets/jscript/buscador.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/ui.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/svg_todataurl.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/rgbcolor.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/canvg.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/test.js": "Script"
+        }
+
+    ],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS",
+            "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+        }
+
+    ],
+    "zones": [{
+            "tiles": [{
+                    "title": "Buscar",
+                    "module": "pacc",
+                    "controller": "pacc",
+                    "function": "tile_buscar_container",
+                    "span": 6
+                }, {
+                    "title": "Evaluación Legal",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc1SDE", "pacc1SDE_YM"]
+                }, {
+                    "title": "Tile01",
+                    "span": 2,
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_tasks2me"
+                }, {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_tasks_done",
+                    "span": 2
+                }
+
+
+            ]
+        }, {
+            "full_widget": []
+        }, {
+            "col1": [{
+                "title": "2do",
+                "module": "pacc",
+                "controller": "empresa",
+                "function": "widget_2doMe2"
+            }]
+
+        }, {
+            "col2": []
+        },
+
+        {
+            "2cols_after": []
+        }
+    ]
+}

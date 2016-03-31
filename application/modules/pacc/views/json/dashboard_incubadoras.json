@@ -1,0 +1,62 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Dashboard Incubadoras",
+    "view": "layout_2cols_fixed",
+    "button" :"<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "icon": "fa-code",
+    "js": [{
+        "{base_url}ui/assets/jscript/bootstrap-tour.js": "Tour Script",
+        "{base_url}ui/assets/jscript/incubadoras-tour.js": "Script"
+       
+    }],
+
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS",
+            "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+                "title": "Buscar",
+                "module": "pacc",
+                "controller": "fondyf",
+                "function": "tile_buscar"
+            }]
+    }, 
+    
+    {
+        "col1": [{
+            "title": "Chart",
+            "module": "pacc",
+            "controller": "incubadoras",
+            "function": "ranking_incubadoras"
+        }
+            ]
+
+    },
+    {
+        "full_widget": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "incubadoras",
+            "function": "estado_pp"
+             }]
+    },
+    
+    {
+        "col2": [{
+            "title": "Chart",
+            "module": "pacc",
+            "controller": "incubadoras",
+            "function": "faq_incubadoras"
+        }
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

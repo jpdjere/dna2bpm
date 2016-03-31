@@ -1,0 +1,25 @@
+{
+    "hooks": [
+        {
+            "name": "Hook Genias",
+            "group": [98, 92,85],
+            "redir": "genias"
+        },
+        {
+            "name": "Hook SGR",
+            "group": [58],
+            "redir": "sgr/dashboard/"
+        },
+        {
+            "name": "Hook Sgr Reoprtes",
+            "group": [49],
+            "redir": "sgr/management/"
+        },
+        {
+            "name": "Hook Inventario",
+            "group": [62,64,66,82,83], 
+            "redir": "inventory"
+        }
+
+    ]
+}

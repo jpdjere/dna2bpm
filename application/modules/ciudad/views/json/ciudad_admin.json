@@ -1,0 +1,73 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "ciudad Administrador",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                {
+                    "title": "Buscar",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "tile_buscar",
+                    "span": 4,
+					"js": [{"{base_url}ciudad/assets/jscript/app.js":"ciudadGral"}]
+                },
+                {
+                    "title": "Revisar Solicitudes",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["ciudadGral", "ciudadGral_FC"]
+                },
+                {
+                    "title": "Tile Comité",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "tile_comite"
+                }
+                ,
+                {
+                    "title": "Asignar Evaluador",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["ciudadGral", "ciudadGral_AK"]
+                },
+                {
+                    "title": "Aprobados Condicional",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "tile_aprobados_condicional",
+                    "params": []
+                }
+
+            ]
+        },
+        {
+            "col1": [
+                {
+                    "title": "2do",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "widget_2doMe2"
+                }
+            ]
+        },
+        {
+            "col2": [
+               
+                {
+                    "title": "Proyect amount",
+                    "module": "ciudad",
+                    "controller": "ciudad",
+                    "function": "proyects_amount"
+
+                }
+                
+            ]
+        }
+    ]
+}

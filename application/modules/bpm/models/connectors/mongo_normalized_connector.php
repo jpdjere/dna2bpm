@@ -42,6 +42,9 @@ class mongo_normalized_connector extends CI_Model {
                 
                 while($arr = $rs->getNext()){
                     $arr['_id'] = null;
+                    if(isset($resource['version']) && $resource['version']=='dna2.1') {
+                        $arr['parent']=null;
+                    }
                     $rtn_arr[]=array_filter($arr);
                 }
                 return $rtn_arr;

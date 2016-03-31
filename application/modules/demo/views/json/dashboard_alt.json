@@ -1,0 +1,169 @@
+{
+    "createdBy": "Luciano Menez, Gonzalo Rogati <juanignacioborda@gmail.com>",
+    "title": "Dashboard de Gauges y Half Knobs",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-git",
+    "js": [{
+        "{base_url}gauge/assets/jscript/gauge.js": "GIT-JS",
+        "{base_url}gauge/assets/jscript/simplegage.js": "GIT-JS",
+        "{base_url}progress/assets/jscript/progress.js": "GIT-JS",
+        "{base_url}gauge/assets/jscript/raphael.js": "GIT-JS",
+        "{base_url}progress/assets/jscript/progress.js": "Script",
+        "{base_url}map/assets/jscript/dna2convert_provincias.js": "Convert Provincias",
+        "{base_url}map/assets/jscript/ammap/ammap.js": "Script",
+        "{base_url}map/assets/jscript/ammap/themes/black.js": "Script",
+        "{base_url}map/assets/jscript/map.js": "Script",
+        "{base_url}map/assets/jscript/ammap/maps/js/argentinaHigh.js": "Script",
+        "{base_url}map/assets/jscript/ammaps_demo2.js": "Script",
+        "{base_url}map/assets/jscript/ammaps_demo3.js": "Script"
+    }, {
+        "{base_url}jscript/jquery/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js": "GIT-JS-touch"
+    }],
+    "css": [{
+        "{base_url}gauge/assets/css/gauge.css": "GIT-CSS"
+    }],
+    "zones": [{
+        "tiles": [
+                {
+                    "title": "Tile01",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_gauge_semaphore",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Gauge Info","label":"Progress Task Info","json_url":"gauge/data_test"}]     
+                },
+                {
+                    "title": "Tile02",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_gauge_success",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Gauge Success","label":"Progress Task Success","json_url":"gauge/data_test1"}] 
+                },
+                {
+                    "title": "Tile03",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_gauge_warning",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Gauge Warning","label":"Progress Task Warning","json_url":"gauge/data_test2"}] 
+                },
+                 {
+                    "title": "Tile04",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_gauge_alert",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Gauge Danger","label":"Progress Task Danger","json_url":"gauge/data_test3"}] 
+                },
+                {
+                    "title": "Tile05",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_knob_info",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Knob Info","label":"Progress Task Info","json_url":"gauge/data_test"}] 
+                },
+                {
+                    "title": "Tile06",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_knob_success",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Knob Success","label":"Progress Task Warning","json_url":"gauge/data_test1"}]
+                },
+                {
+                    "title": "Tile07",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_knob_warning",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Knob Warning","label":"Progress Task Danger","json_url":"gauge/data_test2"}]
+                },
+                {
+                    "title": "Tile08",
+                    "module": "gauge",
+                    "controller": "gauge",
+                    "span": 3,
+                    "function": "tile_knob_danger",
+                    "params":   [{"value":90,"min":0,"max":100,"title":"Knob Danger","label":"Progress Task 2","json_url":"gauge/data_test3"}]
+                }
+        ]
+    }, {
+        "col1": [
+            
+            {
+            "title": "Tile01",
+            "module": "map",
+            "controller": "ammap",
+            "span":12,
+            "function": "demo3"
+             },
+             {
+            "title": "Tile01",
+            "module": "map",
+            "controller": "ammap",
+            "span":12,
+            "function": "demo1_hardcoded"
+
+        },
+ 
+            {
+                "title": "Staged",
+                "module": "gauge",
+                "controller": "gauge",
+                "span":6,
+                "function": "widget_knob_info",  
+                "params":[{"value":90,"min":0,"max":100,"title":"Knob Info","label":"Progress Task Info","json_url":"gauge/data_test"}]
+            }
+
+        ]
+
+    }, {
+        "col2": 
+            [
+            {
+                "title": "Staged",
+                "module": "timeline",
+                "controller": "timeline",
+                "function": "timeline",
+                "params":[[
+                    {"event_title":"Tareas", "date":"08:00", "icon":"fa-clock-o", "content":"Esto es el contenido de Tareas","background":"bg-red"}, 
+                    {"event_title":"Usuarios","date":"09:00", "icon":"fa-user", "content":"Esto es el contenido de Usuarios","background":"bg-blue"}, 
+                    {"event_title":"Comentarios","date":"10:00", "icon":"fa-comments", "content":"Esto es el contenido de Comentarios","background":"bg-aqua"} 
+                ]]
+            },
+            {
+                
+                
+                    "title": "Tile01",
+                    "module": "ranking",
+                    "controller": "ranking",
+                    "function": "ranking"
+                
+  
+            }
+            ,
+            
+                {
+            "title": "4 Agujas.",
+            "module": "gauge",
+            "controller": "gauge",
+            "function": "complex_gages",
+            "params":[{"json_url":"gauge/data_test2"}]
+            }, 
+            {
+            "title": "2do",
+            "module": "gauge",
+            "controller": "gauge",
+            "function": "complex_knob",
+            "js":[{"0":"knob"},{"{base_url}dashboard/assets/jscript/knob.js":"knobJS"}],
+ 			"params":[
+ 			"[{'value':25,'data-label':'Knob Success','data-fgColor':'#5cb85c'},{'value':50,'data-label':'Knob Warning','data-fgColor':'#f0ad4e'},{'value':75,'data-label':'Knob Danger','data-fgColor':'#d9534f'}]",
+ 			"{'title':'Knob + Bars','col-md':4,'col-sm':6,'col-xs':6}"
+ 					 ]
+            }
+            ]
+
+    }]
+}

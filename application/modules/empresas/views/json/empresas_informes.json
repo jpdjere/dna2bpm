@@ -1,0 +1,55 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Empresas Informes",
+    "view": "layout_2cols_fixed",
+    "icon": "ion-briefcase",
+    "private": true,
+    "js": [{
+
+        "{base_url}ui/assets/jscript/morris.js": "Script",
+        "{base_url}ui/assets/jscript/raphael.js": "Script",
+        "{base_url}ui/assets/jscript/morris_line.js": "Morris Liner"
+
+    }],
+    "zones": [{
+        "tiles": []
+    }, {
+        "col1": [
+            {
+                "title": "altas  2016",
+                "module": "empresas",
+                "controller": "informes",
+                "function": "chart_altas_todas"
+
+            },
+            {
+                "title": "altas ",
+                "module": "empresas",
+                "controller": "informes",
+                "function": "tabla_altas_todas"
+
+            }
+
+
+        ]
+    }, {
+        "col2": [
+            {
+                "title": "altas  2016",
+                "module": "empresas",
+                "controller": "informes",
+                "function": "chart_altas_anio",
+                "params":[2012]
+
+            },
+            {
+                "title": "altas ",
+                "module": "empresas",
+                "controller": "informes",
+                "function": "tabla_altas_anio",
+                "params":[2012]
+            }
+
+            ]
+    }]
+}

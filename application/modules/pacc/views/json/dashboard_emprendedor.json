@@ -1,0 +1,60 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "PACC Emprendedor",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [
+        {
+            "tiles": [
+                 {
+                    "title": "TileSolicitud",
+                    "module": "pacc",
+                    "controller": "emprendedor",
+                    "function": "tile_solicitud_PACC13",
+                    "span":3
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["pacc", "pacc13_PP"],
+                    "span":3
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["pacc", "pacc13_PPA"],
+                    "span":3
+                },
+                {
+                    "title": "Proyectos Aprobados",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["pacc", "pacc13_PA"],
+                    "span":3
+
+                }
+            ]
+        },
+        {
+            "col1": [
+                 {
+                    "title": "2do",
+                    "module": "pacc",
+                    "controller": "empresa",
+                    "function": "widget_2doMe2"
+                }
+            ]
+        },
+        {
+            "col2": [
+
+            ]
+        }
+    ]
+}

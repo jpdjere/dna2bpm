@@ -1,0 +1,39 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Plan de Adquisiciones",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-code",
+    "js": [{
+       
+        "{base_url}pacc/assets/jscript/forms.js": "Script",
+        "{base_url}pacc/assets/jscript/plan_de_adquisiciones.js": "Script"
+        
+    
+    }],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS"
+        }
+
+    ],
+    "zones": [{
+       "tiles": [{
+            "title": "Half Table",
+            "module": "pacc",
+            "controller": "plan_de_adquisiciones",
+            "function": "plan_de_adquisiciones"
+             }]
+    }, {
+        "col1": [
+            ]
+
+    }, {
+        "col2": [
+        ]
+        },
+    
+    {
+        "2cols_after": [
+            
+            ]
+    }]
+}

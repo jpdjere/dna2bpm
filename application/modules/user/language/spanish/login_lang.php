@@ -10,6 +10,7 @@ $lang['loginButton'] = 'Entrar';
 $lang['loginMsg'] = 'Ingreso al sistema';
 $lang["rememberButton"] = "Recordarme";
 $lang['forgotPassword'] = 'Olvidó su usuario o su contraseña?';
+$lang['newUser'] = 'Usuario nuevo';
 $lang['nolevel'] = 'Ud no posee los permisos necesarios para acceder a:';
 $lang['nousr'] = 'Ud no es un usuario registrado o confundió su nombre de usuario y contraseña';
 $lang['hastolog'] = 'Ud debe identificarse para acceder al recurso:';

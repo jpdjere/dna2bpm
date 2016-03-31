@@ -7,7 +7,9 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link href="{base_url}jscript/bootstrap-wysihtml5/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="{base_url}jscript/fontawesome/css/font-awesome.min.css" />
+
+         <link rel="stylesheet" href="{base_url}dashboard/assets/bootstrap-wysihtml5/css/font-awesome-4.4.0/css/font-awesome.css" />
+
         <link rel="stylesheet" href="{base_url}css/fonts/droidsans_regular_macroman/stylesheet.css" />
  		<link href="{base_url}jscript/bootstrap-wysihtml5/css/AdminLTE.css" rel="stylesheet">
         <!-- CSS -->
