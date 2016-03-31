@@ -19,10 +19,10 @@ class Gateway extends CI_Controller {
         parent::__construct();
         session_start();
         
-        var_dump($_REQUEST['url']);
+       
         
         if (isset($_REQUEST['url'])) {
-            $url =  base64_decode(urldecode($_REQUEST['url']));
+            $url =   var_dump($_REQUEST['url']);//base64_decode(urldecode($_REQUEST['url']));
             $_SESSION['idu'] = $this->session->userdata('iduser');
             //echo $url;exit;
             redirect($url);
