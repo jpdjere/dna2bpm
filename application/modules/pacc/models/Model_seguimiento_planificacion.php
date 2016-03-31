@@ -6,7 +6,7 @@ class Model_seguimiento_planificacion extends CI_Model {
         // Call the Model constructor
         parent::__construct();
 
-        $this->load->library('cimongo/cimongo', '', 'db_pacc');
+        $this->load->library('cimongo/Cimongo.php', '', 'db_pacc');
         $this->db_pacc->switch_db('dna3');
         $this->idu = $this->session->userdata('iduser'); //Id user
         /* LOADER */

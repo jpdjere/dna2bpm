@@ -20,7 +20,7 @@ class Model_06 extends CI_Model {
 
 
         /* SWITCH TO SGR DB */
-        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
         if (!$this->idu) {

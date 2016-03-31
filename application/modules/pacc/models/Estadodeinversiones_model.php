@@ -17,7 +17,7 @@ class estadodeinversiones_model extends CI_Model {
         parent::__construct();
         
         
-        $this->load->library('cimongo/cimongo', '', 'db_pacc');
+        $this->load->library('cimongo/Cimongo.php', '', 'db_pacc');
         
         $this->db_pacc->switch_db('pacc');
         $this->db_uepex = $this->load->database('uepex',TRUE);

@@ -13,7 +13,7 @@ class Model_cnv_3 extends CI_Model {
         $this->anexo = '201';
         $this->idu = (float) switch_users($this->session->userdata('iduser'));
         /* SWITCH TO SGR DB */
-        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
         if (!$this->idu) {

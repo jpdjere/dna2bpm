@@ -16,7 +16,7 @@ class Model_evaluadores_proyectos extends CI_Model {
         
         
         
-        $this->load->library('cimongo/cimongo', '', 'db_pacc');
+        $this->load->library('cimongo/Cimongo.php', '', 'db_pacc');
         $this->db_pacc->switch_db('dna3');
         $this->idu = $this->session->userdata('iduser'); //Id user
                

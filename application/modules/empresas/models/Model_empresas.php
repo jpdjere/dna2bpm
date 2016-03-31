@@ -17,7 +17,7 @@ class Model_empresas extends CI_Model {
         $this->tmp_container = $this->main_container . '13_tmp';
 
         /* LOADER */
-        $this->load->library('cimongo/cimongo', '', 'dna3');
+        $this->load->library('cimongo/Cimongo.php', '', 'dna3');
         $this->dna3->switch_db('dna3');
         $this->load->model('app');
     }

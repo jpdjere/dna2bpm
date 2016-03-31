@@ -16,7 +16,7 @@ class Model_control_panel extends CI_Model {
         $additional_users = $this->sgr_model->additional_users($this->session->userdata('iduser'));
         $this->idu = (isset($additional_users)) ? $additional_users['sgr_idu'] : $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
-        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
         if (!$this->idu) {

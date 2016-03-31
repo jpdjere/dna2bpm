@@ -23,7 +23,7 @@ class Management_model extends CI_Model {
         $this->idu = (isset($taken_user)) ? $taken_user : $original_user;
 
         /* SWITCH TO SGR DB */
-        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
         if (!$this->idu)

@@ -14,10 +14,10 @@ class model_bonita_reportes extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         
-        //$this->load->library('cimongo/cimongo', '', 'db_importar');
+        //$this->load->library('cimongo/Cimongo.php', '', 'db_importar');
         //$this->db_importar->switch_db('importar');
        // $this->db_importar = $this->load->database('importar',TRUE);  
-        //$this->load->library('cimongo/cimongo', '', 'db_pacc');
+        //$this->load->library('cimongo/Cimongo.php', '', 'db_pacc');
         
         //$this->db_pacc->switch_db('pacc');
         $this->db_importar = $this->load->database('importar',TRUE);

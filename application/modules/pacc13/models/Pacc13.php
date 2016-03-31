@@ -18,7 +18,7 @@ class Pacc13 extends CI_Model {
 
         /* LOADER */
         $this->load->helper('pacc/normal_distribution');
-        $this->load->library('cimongo/cimongo', '', 'dna3');
+        $this->load->library('cimongo/Cimongo.php', '', 'dna3');
         $this->dna3->switch_db('dna3');
         $this->load->model('app');
     }
