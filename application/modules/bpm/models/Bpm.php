@@ -1924,6 +1924,8 @@ class Bpm extends CI_Model {
     function gateway($url) {
 
         $redir = base_url() . 'bpm/gateway/?url=' . urlencode(base64_encode($url));
+        
+        var_dump($url); exit;
         return $redir;
     }
 

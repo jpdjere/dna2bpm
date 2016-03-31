@@ -24,7 +24,7 @@ class Gateway extends CI_Controller {
         if (isset($_REQUEST['url'])) {
             $url =   base64_decode(urldecode($_REQUEST['url']));
             $_SESSION['idu'] = $this->session->userdata('iduser');
-            echo $url;exit;
+            //echo $url;exit;
             redirect($url);
         } else {
             show_error('No url passed');
