@@ -523,7 +523,7 @@ $(document).ready(function() {
                     }
                     
                     if(flag == 0 ){
-                        if( flag1 == 0 && flag2 == 0 && flag3 == 0){
+                        if( /*flag1 == 0 && flag2 == 0 &&*/ flag3 == 0){
                         if (clasifica == 'FONAPYME'){
                             alert('EN PRINCIPIO, CUMPLE CON LAS CARACTERÍSTICAS BÁSICAS DEL PROGRAMA FONAPYME. SE HA ENVIADO A SU CASILLA DE CORREO ELECTRÓNICO EL FORMULARIO PARA PARTICIPAR DEL CONCURSO PÚBLICO');    
                             
@@ -570,7 +570,9 @@ $(document).ready(function() {
                         }else{
                             
                             var mensaje_error = '';
-                            
+                            mensaje_error = 'SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
+                                
+                            /*
                             if(flag1 == 1 ){
                                 mensaje_error = 'EN VIRTUD DE SU ANTIGÜEDAD Y DE LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PONDREMOS EN CONTACTO PARA OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
                             } else{
@@ -581,7 +583,7 @@ $(document).ready(function() {
                                 }
                                 
                             }
-                            
+                            */
                             
                             
                             
