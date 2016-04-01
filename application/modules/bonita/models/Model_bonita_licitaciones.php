@@ -71,6 +71,13 @@ class model_bonita_licitaciones extends CI_Model {
         return $result;
         
     }
+    function listar_licitaciones(){
+        $container = 'container.bonita.licitaciones';
+        $query = array('borrado'=>0);
+        $this->db_bonita->where($query);
+        $result = $this->db_bonita->get($container)->result_array();
+        return $result;
+    }
     
     function borrar_entidades($headerArr){
         $container = 'container.bonita.entidades';

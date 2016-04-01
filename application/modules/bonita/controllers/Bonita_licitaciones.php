@@ -180,6 +180,36 @@ class bonita_licitaciones extends MX_Controller {
         return $this->parser->parse('bonita/bonita_region_rep_view',$customData,true,true);
     }
    
+   function bonita_licitaciones(){
+        $model='model_bonita_licitaciones';
+        $entidades = array();
+        $customData = array();
+        $customData['base_url'] = $this->base_url;
+        $entidades = $this->load->model($model)->listar_licitaciones();
+        $lista = '<table id="table_ent" class="table">';
+        foreach($entidades as $ent){
+             $lista =  $lista.'<tr><td>RAZÓN SOCIAL:  </td><td><a href="" data-id="'.$ent['_id'].'" data-cmd="editar" data-rsocial="'.$ent['rsocial'].'" data-ent_cuit="'.$ent['ent_cuit'].'" data-obs="'.$ent['obs'].'" title=”EDITAR” name="editar">'.$ent['rsocial'].'</a></td><td> -  CUIT: '.$ent['ent_cuit'].'  -</td><td><a href=""   data-id="'.$ent['_id'].'" data-cmd="borrar" name="borrar"> BORRAR</a></td></tr>';
+            
+        }
+        $lista =  $lista.'</table>';
+        $customData['lista'] = $lista;
+        return $this->parser->parse('bonita/bonita_licitaciones_list_view',$customData,true,true);
+   }
+   
+   function bonita_licitaciones_nueva(){
+        $model='model_bonita_licitaciones';
+        $customData = array();
+        $customData['base_url'] = $this->base_url;
+        $customData['titulo'] = "CARGAR NUEVA LICITACIÓN";
+        $return['tabla'] = $this->parser->parse('bonita/bonita_licitaciones_nuevo_view',$customData,true,true);
+        echo json_encode($return);
+        return $return;   
+   }
+   
+   
+   
+   
+   
    
    
     
