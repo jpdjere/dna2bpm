@@ -571,11 +571,23 @@ $(document).ready(function() {
                             
                             var mensaje_error = '';
                             
-                            if(flag1 == 1 || flag2 ==1){
+                            if(flag1 == 1 ){
                                 mensaje_error = 'EN VIRTUD DE SU ANTIGÜEDAD Y DE LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PONDREMOS EN CONTACTO PARA OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
                             } else{
+                                if(flag2 ==1){
+                                    mensaje_error = 'EN VIRTUD DE SU ANTIGÜEDAD Y DE LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PONDREMOS EN CONTACTO PARA OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
+                                }else{
                                 mensaje_error = 'SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
+                                }
+                                
                             }
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             alert(mensaje_error);
                             
                             

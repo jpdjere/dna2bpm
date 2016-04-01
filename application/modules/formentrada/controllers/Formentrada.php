@@ -123,7 +123,8 @@ class formentrada extends MX_Controller {
     //var_dump($fields2);
     //$fields = json_decode($fields2);
     $model = 'model_formentrada';
-    $result = $this->load->model($model)->insert_registros($fields);
+    $result = $this->load->model($model);
+    $this->model_formentrada->insert_registros($fields);
     //$customData['base_url'] = $this->base_url;
     //$return['tabla'] = $fields[0];
     $result = true;

@@ -8,7 +8,7 @@
  * 
  */
 
-class model_formentrada extends CI_Model {
+class Model_formentrada extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
