@@ -40,7 +40,8 @@
                     </tr>
                     
                     <tr>
-                        <th>¿El monto del préstamo bancario vigente ó la sumatoria de los montos de los prestamos vigentes solicitados al sistema bancario es inferior a $1.000.000?
+                        <th>¿El monto del préstamo bancario vigente ó la sumatoria de los montos de los prestamos vigentes solicitados al sistema bancario es inferior a $1.000.000?</br>
+                        (Para el monto indicado se deben considerar únicamente los créditos otorgados por entidades financieras. NO COMPRENDE acuerdos de descubiertos, acuerdos para descuentos de cheques, prefinanciación de exportaciones y contratos de leasing.)
                          </th>
                          <th>
                              

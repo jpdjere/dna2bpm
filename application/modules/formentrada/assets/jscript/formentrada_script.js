@@ -475,7 +475,7 @@ $(document).ready(function() {
                         
                         switch (sector){
                             case 'Industria, Agroindustria y Mineria':
-                                if(balance_prom >270000000){
+                                if(balance_prom > 360000000){
                                     //alert('NO CALIFICA COMO PYME DE ACUERDO AL PROMEDIO DE FACTURACIÓN DECLARADA. LA MISMA PARA INDUSTRIA, AGROINDUSTRIA Y MINERÍA DEBE SER MENOR A $ 270.000.000');
                                      //alert('SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER');
                                     error_balance_prom = 'SI';
@@ -483,7 +483,7 @@ $(document).ready(function() {
                                 }
                                 break;
                             case 'Construccion':
-                                if(balance_prom >134000000){
+                                if(balance_prom > 180000000){
                                     //alert('NO CALIFICA COMO PYME DE ACUERDO AL PROMEDIO DE FACTURACIÓN DECLARADA. LA MISMA PARA CONSTRUCCIÓN DEBE SER MENOR A $ 134.000.000');
                                     //alert('SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER');
                                     error_balance_prom = 'SI';
@@ -491,7 +491,7 @@ $(document).ready(function() {
                                 }
                                 break;
                             case 'Servicios Industriales':
-                                if(balance_prom >91000000){
+                                if(balance_prom >125000000){
                                     //alert('NO CALIFICA COMO PYME DE ACUERDO AL PROMEDIO DE FACTURACIÓN DECLARADA. LA MISMA PARA SERVICIOS INDUSTRIALES DEBE SER MENOR A $ 91.000.000');
                                     //alert('SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER');
                                     error_balance_prom = 'SI';
@@ -499,7 +499,7 @@ $(document).ready(function() {
                                 }
                                 break;
                             case 'Comercio':
-                                if(balance_prom >343000000){
+                                if(balance_prom >450000000){
                                     //alert('NO CALIFICA COMO PYME DE ACUERDO AL PROMEDIO DE FACTURACIÓN DECLARADA. LA MISMA PARA COMERCIO DEBE SER MENOR A $ 343.000.000');
                                     //alert('SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER');
                                     error_balance_prom = 'SI';
@@ -507,7 +507,7 @@ $(document).ready(function() {
                                 }
                                 break;
                             case 'Agropecuario':
-                                if(balance_prom >82000000){
+                                if(balance_prom >100000000){
                                     //alert('NO CALIFICA COMO PYME DE ACUERDO AL PROMEDIO DE FACTURACIÓN DECLARADA. LA MISMA PARA AGROPECUARIO DEBE SER MENOR A $ 82.000.000');
                                     //alert('SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER');
                                     error_balance_prom = 'SI';
