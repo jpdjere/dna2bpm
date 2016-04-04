@@ -50,7 +50,9 @@ class ui {
         $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
         $this->register_script('ckeditor', $data['base_url'] . 'jscript/ckeditor/ckeditor.js', array('jquery'));
         $this->register_script('jquery.smooth-scroll', $data['base_url'] . 'jscript/jquery/plugins/jquery.smooth-scroll.min.js', array('jquery'));
-
+        $this->register_script('jquery.matchHeight', $data['base_url'] . 'jscript/jquery/plugins/jquery.matchHeight-min.js', array('jquery'));
+        
+        
         //===== CSS loaded only when same JS  handle is loaded
         $this->styles['morris'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css";
         $this->styles['jvectormap'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/jvectormap/jquery-jvectormap-1.2.2.css";
@@ -61,7 +63,7 @@ class ui {
         $this->styles['daterangerpicker'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css";
         
         // Load default JS 
-        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form', 'morris');
+        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','jquery.matchHeight','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form');
  
         //Custom JS Check
         if (isset($data['js'])) {
@@ -200,6 +202,201 @@ class ui {
     function show_scripts() {
         var_dump($this->scripts);
     }
+
+
+/* ============= UI Elements  =============  */
+
+
+//=== Callouts
+function callout($config=array()){
+    // class: info,warning,danger
+    $default=array('body'=>'','title'=>'untitled','class'=>'info');
+    $default['_id']=md5(time()); // selector
+    $data=array_merge( $default,$config);
+    return $this->CI->parser->parse('dashboard/ui/callout', $data, true,true);
+}
+
+
+//=== Alerts
+function alert($config=array()){
+    // class: info,success,warning,danger
+    $default=array('body'=>'','class'=>'info','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-info');
+    $default['_id']=md5(time()); // selector
+    $data=array_merge( $default,$config);
+
+    return $this->CI->parser->parse('dashboard/ui/alert', $data, true,true);
+}
+
+// wrappers
+function alert_info($body){
+    // class: info,success,warning,danger
+    $config=array('body'=>$body,'class'=>'info','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-info');
+    return $this->alert($config);
+}
+
+function alert_danger($body){
+    // class: info,success,warning,danger
+    $config=array('body'=>$body,'class'=>'danger','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-ban');
+    return $this->alert($config);
+}
+
+function alert_warning($body){
+    // class: info,success,warning,danger
+    $config=array('body'=>$body,'class'=>'warning','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-warning');
+    return $this->alert($config);
+}
+
+function alert_success($body){
+    // class: info,success,warning,danger
+    $config=array('body'=>$body,'class'=>'success','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-check');
+    return $this->alert($config);
+}
+
+//=== progress
+function progress($config=array()){
+    // class: info,success,warning,danger
+    // size: sm,xs
+    $default=array('width'=>'100','class'=>'info','active'=>true,'stripped'=>true,'size'=>'');
+    $default['_id']=md5(time()); // selector
+    $data=array_merge( $default,$config);
+
+    return $this->CI->parser->parse('dashboard/ui/progress', $data, true,true);
+}
+
+// wrappers
+function progress_info($width){
+    $config=array('width'=>$width);
+    return $this->progress($config);
+}
+
+function progress_danger($width){
+    $config=array('width'=>$width,'class'=>'danger');
+    return $this->progress($config);
+}
+
+function progress_warning($width){
+    $config=array('width'=>$width,'class'=>'warning');
+    return $this->progress($config);
+}
+
+function progress_success($width){
+    $config=array('width'=>$width,'class'=>'success');
+    return $this->progress($config);
+}
+
+
+
+//=== ULs
+
+function ul($data,$unstyled=false){
+    $class=($unstyled)?('list-unstyled'):('');
+    return "<ul class='$class'>".$this->arr2ul($data,'ul',$unstyled)."</ul>";
+}
+
+function ol($data,$unstyled=false){
+    $class=($unstyled)?('list-unstyled'):('');
+    return "<ol class='$class'>".$this->arr2ul($data,'ol',$unstyled)."</ol>";
+}
+
+private function arr2ul($data,$tag='ol',$unstyled=false){
+    $block="";
+    foreach($data as $ul){
+        if(is_array($ul)){
+            $block.="<$tag>\n";
+            $block.=$this->ol($ul,$unstyled);
+            $block.="</$tag>\n";
+        }else{
+           $block.="<li>$ul</li>\n";
+        }
+    }
+     return $block;
+}
+
+//=== Pagination 
+
+ function paginate($text=null,$config=array()){
+        
+        if(is_null($text))return;
+        
+        $default=array(
+            'sep'=>'<!-- pagebreak -->',
+            'width'=>3,
+            'align'=>'right'
+            );
+        $config=array_merge($default,$config);
+
+        //=== Content
+        
+        if(is_array($text)){
+            $text=implode($config['sep'],$text);
+        }
+        $pages=explode($config['sep'],$text);
+        $count=count($pages);
+
+        $li="";
+        $anchors=array();
+
+        for($i=0;$i<$count;$i++){
+            $i2=$i+1;
+            if($i>0){
+               
+                $li.="<li style='display:none' data-page='$i2'>{$pages[$i]}</li>";
+            }else{
+                 $li.="<li data-page='$i2'>{$pages[$i]}</li>";
+            }
+        }
+
+        $id=md5(time());
+        $ret="<ul data-id='$id' class='list-unstyled'>$li</ul>";
+        
+        // Buttons
+        
+        $data_group=1;
+        $extra=($count%$config['width']);
+        $extra=$count+($config['width']-$extra);
+
+        for($i=0,$j=1;$i<$extra;$i++){
+            $disabled=($i>=$count)?('disabled'):('');
+             $i2=$i+1;
+            if($i<$config['width']){
+                $anchors[]="<li class='$disabled '><a href='#' data-link='$i2' data-group='$data_group'>$i2</a></li>";
+            }else{
+                $anchors[]="<li class='$disabled'><a href='#' data-link='$i2' data-group='$data_group' style='display:none'>$i2</a></li>";
+            }
+            $j++;
+            if($j>$config['width']){
+                $j=1;
+                $data_group++;
+            }
+        }
+        
+
+        // Render    
+        $li2=implode('',$anchors);
+        $disabled=($count>$config['width'])?(''):('disabled');
+        $ret.=<<<_EOF_
+        <nav class='text-{$config['align']}'>
+          <ul class="pagination" data-width="{$config['width']}" data-target="$id">
+            <li class="disabled" data-link="back">
+              <a href="#" aria-label="Previous" data-link="back">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+                $li2
+            <li class="$disabled" data-link="next">
+              <a href="#" aria-label="Next" data-link="next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+_EOF_;
+
+
+        return $ret;
+    }
+
+
 
 }
 
