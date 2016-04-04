@@ -141,7 +141,7 @@ class Model_cnv_3 extends CI_Model {
                 $rtn[] = $new_list;
                 
                 
-                var_dump($list['id']);
+                var_dump($rtn);
             }
         }
 
