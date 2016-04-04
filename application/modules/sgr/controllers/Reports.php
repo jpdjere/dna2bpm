@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  * sgr
  *
  */
-class reports extends MX_Controller {
+class Reports extends MX_Controller {
 
     function __construct() {
         parent::__construct();

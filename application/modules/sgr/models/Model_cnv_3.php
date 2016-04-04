@@ -10,8 +10,11 @@ class Model_cnv_3 extends CI_Model {
         parent::__construct();
         $this->load->helper('sgr/tools');
 
-        $this->anexo = '201';
-        $this->idu = (float) switch_users($this->session->userdata('iduser'));
+        $this->anexo = 'cnv_3';
+        /* Additional SGR users */
+        $this->load->model('sgr/sgr_model');
+        $additional_users = $this->sgr_model->additional_users($this->session->userdata('iduser'));
+        $this->idu = (isset($additional_users)) ? $additional_users['sgr_idu'] : $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
         $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
@@ -94,11 +97,14 @@ class Model_cnv_3 extends CI_Model {
     }
 
     function ui_table_xls($result) {
+        
+        //ini_set("error_reporting", E_ALL);
         $rtn = array();
         $container = 'container.sgr_anexo_15';
 
 
         foreach ($result as $each) {
+            
             $new_query15 = array("filename" => $each['filename']);
             $list_result = $this->mongowrapper->sgr->$container->find($new_query15);
             $list_result->sort(array('INCISO_ART_25' => 1));
@@ -106,19 +112,21 @@ class Model_cnv_3 extends CI_Model {
 
             foreach ($list_result as $list) {
 
-                $sgr_info = $this->sgr_model->get_sgr_by_id_new($list['sgr_id']);
-                list($g_anexo, $g_sgr, $g_year, $g_month, $g_day, $g_time) = explode("-", $list['filename']);
-
+                $sgr_info = $this->sgr_model->get_sgr_by_id_new($each['sgr_id']);
+                list($g_anexo, $g_sgr, $g_year, $g_month, $g_day, $g_time) = explode("-", $each['filename']);
+                
                 /* SGR DATA */
-                $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
+                $get_period_filename = $this->sgr_model->get_period_filename($each['filename']);
                 $this->load->model('padfyj_model');
                 $sgr_name = $this->padfyj_model->search_name(str_replace("-","", $sgr_info[1695]));
+                
+                
 
 
                 $curMonth = date($g_month, time());
                 $curQuarter = ceil($curMonth / 3);
                 $new_list = array();
-                $new_list['col1'] = period_print_format($list['period']);
+                $new_list['col1'] = period_print_format($each['period']);
                 $new_list['col2'] = $sgr_name;
                 $new_list['col3'] = $sgr_info[1695];
                 $new_list['col4'] = $list['INCISO_ART_25'];
@@ -131,6 +139,9 @@ class Model_cnv_3 extends CI_Model {
                 $new_list['col12'] = $curQuarter;
                 $new_list['col13'] = substr($g_day, 0, 2) . "/" . $g_month . "/" . trim($g_year);
                 $rtn[] = $new_list;
+                
+                
+                var_dump($rtn);
             }
         }
 
