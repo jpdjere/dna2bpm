@@ -119,6 +119,8 @@ class Model_cnv_3 extends CI_Model {
                 $get_period_filename = $this->sgr_model->get_period_filename($each['filename']);
                 $this->load->model('padfyj_model');
                 $sgr_name = $this->padfyj_model->search_name(str_replace("-","", $sgr_info[1695]));
+                
+                var_dump($list['id']);
 
 
                 $curMonth = date($g_month, time());
