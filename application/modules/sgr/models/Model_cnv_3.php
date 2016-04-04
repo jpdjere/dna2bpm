@@ -98,6 +98,8 @@ class Model_cnv_3 extends CI_Model {
 
     function ui_table_xls($result) {
         
+        php_info();
+        
         //ini_set("error_reporting", E_ALL);
         $rtn = array();
         $container = 'container.sgr_anexo_15';
@@ -141,8 +143,7 @@ class Model_cnv_3 extends CI_Model {
                 $rtn[] = $new_list;
                 
                 
-                var_dump($rtn);
-            }
+                            }
         }
 
         return $rtn;
