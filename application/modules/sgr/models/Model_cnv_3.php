@@ -98,7 +98,7 @@ class Model_cnv_3 extends CI_Model {
 
     function ui_table_xls($result) {
         
-        ini_set("error_reporting", E_ALL);
+        //ini_set("error_reporting", E_ALL);
         $rtn = array();
         $container = 'container.sgr_anexo_15';
 
