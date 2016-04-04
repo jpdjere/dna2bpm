@@ -46,13 +46,12 @@ class ui {
         $this->register_script('icheck', $data['module_url'] . 'assets/bootstrap-wysihtml5/js/plugins/iCheck/icheck.min.js', array('WYSIHTML5'));
         $this->register_script('selectJS', $data['base_url'] . 'jscript/select2-3.4.5/select2.min.js', array());
         $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
-        
-        $this->register_script('highCharts', $data['base_url'] . 'jscript/Highcharts-4.2.1/js/highcharts.js', array('jquery'));
+        $this->register_script('highCharts', $data['base_url'] . 'jscript/Highcharts-4.0.4/js/highcharts.js', array('jquery'));
         $this->register_script('inboxJS', $data['base_url'] . 'inbox/assets/jscript/inbox.js', array('jquery'));
         $this->register_script('ckeditor', $data['base_url'] . 'jscript/ckeditor/ckeditor.js', array('jquery'));
         $this->register_script('jquery.smooth-scroll', $data['base_url'] . 'jscript/jquery/plugins/jquery.smooth-scroll.min.js', array('jquery'));
-        $this->register_script('matchHeight', $data['base_url'] . 'dashboard/assets/jscript/jquery.matchHeight.js', array('jquery'));
-        $this->register_script('jquery.validate', $data['base_url'] . 'jscript/jquery/plugins/jquery-validate/dist/jquery.validate.min.js', array('jquery'));
+        $this->register_script('jquery.matchHeight', $data['base_url'] . 'jscript/jquery/plugins/jquery.matchHeight-min.js', array('jquery'));
+        
         
         //===== CSS loaded only when same JS  handle is loaded
         $this->styles['morris'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/morris/morris.css";
@@ -64,7 +63,7 @@ class ui {
         $this->styles['daterangerpicker'][] = $data['base_url'] . "dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css";
         
         // Load default JS 
-        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','matchHeight','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form', 'morris');
+        $default = array('jquery', 'jqueryUI','jquery.smooth-scroll','jquery.matchHeight','bootstrap','WYSIHTML5','adminLTE', 'inboxJS','dashboardJS', 'jquery.form');
  
         //Custom JS Check
         if (isset($data['js'])) {
@@ -203,16 +202,9 @@ class ui {
     function show_scripts() {
         var_dump($this->scripts);
     }
-    
-    function get_topbar() {
-        $data['base_url'] = $this->base_url;
-        return $this->CI->parser->parse('dashboard/_logos_header', $data, true, true);
-    }
-    
-    
 
 
-/* ============= UI Elements  */
+/* ============= UI Elements  =============  */
 
 
 //=== Callouts
@@ -298,20 +290,20 @@ function progress_success($width){
 
 function ul($data,$unstyled=false){
     $class=($unstyled)?('list-unstyled'):('');
-    return "<ul class='$class'>".$this->arr2ul($data,'ul')."</ul>";
+    return "<ul class='$class'>".$this->arr2ul($data,'ul',$unstyled)."</ul>";
 }
 
 function ol($data,$unstyled=false){
     $class=($unstyled)?('list-unstyled'):('');
-    return "<ol class='$class'>".$this->arr2ul($data,'ol')."</ol>";
+    return "<ol class='$class'>".$this->arr2ul($data,'ol',$unstyled)."</ol>";
 }
 
-private function arr2ul($data,$tag='ol'){
+private function arr2ul($data,$tag='ol',$unstyled=false){
     $block="";
     foreach($data as $ul){
         if(is_array($ul)){
             $block.="<$tag>\n";
-            $block.=$this->ol($ul);
+            $block.=$this->ol($ul,$unstyled);
             $block.="</$tag>\n";
         }else{
            $block.="<li>$ul</li>\n";
@@ -320,7 +312,89 @@ private function arr2ul($data,$tag='ol'){
      return $block;
 }
 
+//=== Pagination 
 
+ function paginate($text=null,$config=array()){
+        
+        if(is_null($text))return;
+        
+        $default=array(
+            'sep'=>'<!-- pagebreak -->',
+            'width'=>3,
+            'align'=>'right'
+            );
+        $config=array_merge($default,$config);
+
+        //=== Content
+        
+        if(is_array($text)){
+            $text=implode($config['sep'],$text);
+        }
+        $pages=explode($config['sep'],$text);
+        $count=count($pages);
+
+        $li="";
+        $anchors=array();
+
+        for($i=0;$i<$count;$i++){
+            $i2=$i+1;
+            if($i>0){
+               
+                $li.="<li style='display:none' data-page='$i2'>{$pages[$i]}</li>";
+            }else{
+                 $li.="<li data-page='$i2'>{$pages[$i]}</li>";
+            }
+        }
+
+        $id=md5(time());
+        $ret="<ul data-id='$id' class='list-unstyled'>$li</ul>";
+        
+        // Buttons
+        
+        $data_group=1;
+        $extra=($count%$config['width']);
+        $extra=$count+($config['width']-$extra);
+
+        for($i=0,$j=1;$i<$extra;$i++){
+            $disabled=($i>=$count)?('disabled'):('');
+             $i2=$i+1;
+            if($i<$config['width']){
+                $anchors[]="<li class='$disabled '><a href='#' data-link='$i2' data-group='$data_group'>$i2</a></li>";
+            }else{
+                $anchors[]="<li class='$disabled'><a href='#' data-link='$i2' data-group='$data_group' style='display:none'>$i2</a></li>";
+            }
+            $j++;
+            if($j>$config['width']){
+                $j=1;
+                $data_group++;
+            }
+        }
+        
+
+        // Render    
+        $li2=implode('',$anchors);
+        $disabled=($count>$config['width'])?(''):('disabled');
+        $ret.=<<<_EOF_
+        <nav class='text-{$config['align']}'>
+          <ul class="pagination" data-width="{$config['width']}" data-target="$id">
+            <li class="disabled" data-link="back">
+              <a href="#" aria-label="Previous" data-link="back">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+                $li2
+            <li class="$disabled" data-link="next">
+              <a href="#" aria-label="Next" data-link="next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+_EOF_;
+
+
+        return $ret;
+    }
 
 
 

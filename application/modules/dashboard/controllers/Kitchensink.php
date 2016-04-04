@@ -5,177 +5,193 @@ if (!defined('BASEPATH'))
 /**
  * test
  * 
- * Description of the class --
+ * Description of the class
  * 
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  * @date    May 28, 2014
  */
-class kitchensink extends MX_Controller {
+class Kitchensink extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->config('dashboard/config');
-        $this->load->library('parser');
-
-        //---base variables
-        $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
-        $this->user->authorize();
-        //----LOAD LANGUAGE
-        $this->lang->load('library', $this->config->item('language'));
-        $this->idu = $this->user->idu;
+        $this->load->model('user/user');
+        $this->load->library('dashboard/ui');
+        $this->load->library('dashboard/pagination');
+    
     }
 
     function Index() {
-    
+          Modules::run('dashboard/dashboard', 'dashboard/json/demo.json');
     }
     
-    // ============ highcharts demo
-    
-    function highcharts($args=array()) {
-    	
-    	$data['lang'] = $this->lang->language;
-    	$data['base_url'] = $this->base_url;
-    	$data['module_url'] = $this->module_url;
+//== Callouts
 
-
-        $return['content']=<<<_EOF_
-        <div id="highcharts1" style="width:100%; height:400px;"></div>
-        <div class="callout callout-warning">
-            <h4>Adding Highcharts</h4>
-            <p>Just add the handler to the JS parameter // www.highcharts.com</p>
-        
-        <p>i.e.:</p>
-        <ul class="list-unstyled">
-            <li>"js":[{"0":"highCharts"}]</li>
-        </ul>
-        
-        </div> 
+    function callout(){
+        $config=array('body'=>'Im a callout','title'=>'Callout','class'=>'info');
+        echo <<<'_EOF_'
+        <code><br>$this->load->library('dashboard/ui');<br>
+        $config=array('body'=>'Esto es un callout','title'=>'Callout','class'=>'info');<br>
+        echo $this->ui->callout($config);<br>
+        </code>
 _EOF_;
 
-
-    	$return['inlineJS']=<<<BLOCK
-    	//------- Highcharts
-    	$('#highcharts1').highcharts({
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Fruit Consumption'
-        },
-        xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-            title: {
-                text: 'Fruit eaten'
-            }
-        },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
-    });
-BLOCK;
-    	return $return;
-    }
-
-
-    //=== Boxes
-    function boxes(){
-        return $this->parser->parse('widgets/kitchensink_boxes', array(), true, true);
-
+        echo $this->ui->callout($config);
     }
     
-  // ============ Knob
+//== Alerts
+
+    function alert(){
+        
+        echo <<<'_EOF_'
+        <code>$this->load->library('dashboard/ui');<br>
+        $config=array('body'=>'This is an alert!','class'=>'info','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-info');<br>
+        echo $this->ui->alert($config);
+        </code><p style="height:15px"></p>
+_EOF_;
+        $config=array('body'=>'This is a custom alert!','class'=>'info','dismissable'=>true,'icon'=>true,'icon_class'=>'fa-info');
+        echo $this->ui->alert($config);
+        
+        echo <<<'_EOF_'
+        
+        <h4>Alert wrappers</h4>
+        <code>
+         $this->ui->alert_info("This is an info alert");<br>
+         $this->ui->alert_danger("This is a danger alert");<br>
+         $this->ui->alert_warning("This is a warning alert");<br>
+         $this->ui->alert_success("This is a success alert");<br>
+        </code><p style="height:15px"></p>
+_EOF_;
+
+        echo $this->ui->alert_info("This is an info alert");
+        echo $this->ui->alert_danger("This is a danger alert");
+        echo $this->ui->alert_warning("This is a warning alert");
+        echo $this->ui->alert_success("This is a success alert");
+        
+    }
   
-    function knob($config=array(),$data=array()) {
+//=== Proress
 
-// 		JSON data example
-//  	"params":[
-//  	"[{'value':50,'data-label':'Hey','data-fgColor':'#f60'},{'value':90,'data-label':'Hey2'},{'value':20,'data-label':'Hey3'}]",
-//  	"{'title':'mytitle','col-md':4,'col-sm':6,'col-xs':6}"
-//  	]
-// 		First parameter brings data for each knob, second parameter is for general settings
-    			
-
-
-        // Global Settings
-        $default=array(
-        	'data-width'=>'90',
-        	'data-height'=>'90',
-        	'data-min'=>0,
-        	'data-max'=>100,
-        	//'data-step'=>1,//step size 
-        	//'data-angleOffset'=>0,  //starting angle in degrees  
-        	//'data-angleArc'=>360,//arc size in degrees
-        	//'data-readOnly'=>true,
-        	//'data-fgColor'=>'#f56954',
-        	//'data-font'=>'arial',
-        	//'data-inputColor'=>'#0f0', // number color
-        	//'data-linecap'=>'butt', // butt|round    	  		
-        	'data-thickness'=>.3,
-        	//'data-displayInput'=>true,
-        	//'data-displayPrevious'=>false, // show/hide shadow when moving the knob
-        	'title'=>'-',
-        	'col-md'=>3,
-        	'col-sm'=>6,
-        	'col-xs'=>6
-        );
-
-        $config=array_merge($default,$config); // Join user params with default 
-
-        // get params for parser
-        $customData['title']=$config['title'];
-        $customData['col-md']=$config['col-md'];
-        $customData['col-sm']=$config['col-sm'];
-        $customData['col-xs']=$config['col-xs'];
-
-
-        //== DEBUG
-          $data[]=array('value'=>50,'data-label'=>'Demo');
-          $data[]=array('value'=>10,'data-fgColor'=>'#f60','data-label'=>'Demo');
-		//==
-
-        foreach($data as $item){
-        	$myconfig=array_merge($config,$item);
-        	
-        	$input=" ";
-        	// individual settings
-        	foreach($myconfig as $attr=>$val){
-        		$input.="$attr='$val' ";
-        	}
-			$label=(isset($myconfig['data-label']))?($myconfig['data-label']):('');
-        	$customData['knobs'][]=array(
-        			'input'=>"<input type='text' $input class='knob' >",
-        			'label'=>$label
-        	);
-        }
-        
-
-
-    $customData['extra']=<<<_EOF_
-    <div class="callout callout-warning">
-        <h4>Adding Knob</h4>
-        <p>Just add the handler to the JS parameter // https://github.com/aterrien/jQuery-Knob</p>
-    
-        <p>i.e.:</p>
-        <ul class="list-unstyled">
-            <li>"js":[{"0":"knob"}]</li>
-        </ul>
-    
-    </div> 
+    function progress(){
+        echo <<<'_EOF_'
+        <code>$this->load->library('dashboard/ui');<br>
+         $config=array('width'=>'50','class'=>'info','active'=>true,'stripped'=>true,'size'=>'md');<br>
+         //size:xs,sm,md<br>
+        echo $this->ui->progress($config);
+        </code><p style="height:15px"></p>
 _EOF_;
-        return $this->parser->parse('widgets/knob', $customData, true, true);
+        $config=array('width'=>'50','class'=>'info','active'=>true,'stripped'=>true,'size'=>'');
+        echo $this->ui->progress($config);
         
+        // wrappers
+        
+    echo <<<'_EOF_'
+    <h4>Progress wrappers</h4>
+        <code>
+        echo $this->ui->progress_info(50);<br>
+        echo $this->ui->progress_danger(50);<br>
+        echo $this->ui->progress_warning(50);<br>
+        echo $this->ui->progress_success(50);<br>
+        </code><p style="height:15px"></p>
+_EOF_;
+
+        echo $this->ui->progress_info(50);
+        echo $this->ui->progress_danger(50);
+        echo $this->ui->progress_warning(50);
+        echo $this->ui->progress_success(50);
     }
+ 
+//=== Lists
+
+      function lists(){
+        
+        echo <<<'_EOF_'
+        <code>$data=array('item1','item2',array('item3a','item3b',array('item4')));<br>
+        echo $this->ui->ol($data);<br>
+        echo $this->ui->ul($data);<br>
+        </code><p style="height:15px"></p>
+_EOF_;
+
+        $data=array('item1','item2',array('item3a','item3b',array('item4')));
+        echo $this->ui->ol($data);
+        echo $this->ui->ul($data);
+        
+        echo <<<'_EOF_'
+        <h4>Unstyled lists</h4>
+        <code>
+        echo $this->ui->ol($data,true);<br>
+        echo $this->ui->ul($data,true);<br>
+        </code><p style="height:15px"></p>
+_EOF_;
+        echo $this->ui->ol($data,true);
+        echo $this->ui->ul($data,true);
+    }  
     
+
+function boxes(){
     
+echo <<<_EOF_
+<code>  
+box-icon: <fontawesome class><br>
+box-class: [box [(btn-primary|btn-danger|btn-info|btn-warning|box-success)] [box-solid]]<br>
+box-buttons: [[remove] [collapse]]<br>
+box-collapsed: [[(0|1)]]<br>
+ </code><br>
+i.e.:
+
+    "box_icon":"fa-pie-chart",
+    "box_class":["box"],
+    "box_buttons":["remove","collapse"],
+    "box_collapsed":"0"
+
+
+_EOF_;
     
+}
+//=== Pagination
+
+function pagination(){
     
+$text=<<<_EOF_
+Linea 1<br>
+Linea 2<br>
+<!-- pagebreak -->
+Linea 3<br>
+Linea 4<br>
+<!-- pagebreak -->
+Linea 5<br>
+Linea 6<br>
+<!-- pagebreak -->
+Linea 7<br>
+Linea 8<br>
+<!-- pagebreak -->
+Linea 9<br>
+Linea 10<br>
+<!-- pagebreak -->
+Linea 11<br>
+Linea 10<br>
+<!-- pagebreak -->
+Linea 12<br>
+Linea 13<br>
+_EOF_;
+
+echo <<<'_EOF_'
+<code>
+$this->load->library('dashboard/ui');<br>
+$config['width']=4 //optional<br>
+$config['sep']='&lt;!-- pagebreak -->' //optional<br>
+$config['align']='right'//optional (left|center|right)
+/* If $text is a string, the pages will be extracted using the separator. If it is an array, each array item is a page and must have strings inside.*/<br>
+
+echo $this->ui->paginate($text,$config);
+</code><p style="height:15px"></p>
+_EOF_;
+    
+
+echo $this->ui->paginate($text,array('width'=>4));
+
+
+  }
+
 }
 
 /* End of file welcome.php */

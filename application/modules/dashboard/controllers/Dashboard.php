@@ -26,6 +26,8 @@ class Dashboard extends MX_Controller {
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
         $this->user->authorize();
+        //---update session ttl
+        $this->session->sess_update();
         //----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = $this->user->idu;
@@ -116,7 +118,7 @@ class Dashboard extends MX_Controller {
     function Show($file, $debug = false) {
         //---only admins can debug
         $debug = ($this->user->isAdmin()) ? $debug : false;
-        if (!is_file(FCPATH . APPPATH . "modules/dashboard/views/json/$file.json")) {
+        if (!is_file(APPPATH . "modules/dashboard/views/json/$file.json")) {
             // Whoops, we don't have a page for that!
             return null;
         } else {
@@ -139,7 +141,7 @@ class Dashboard extends MX_Controller {
         $menu_custom = Modules::run('menu/get_menu', '0', 'sidebar-menu', !$this->user->isAdmin());
         $customData['menu_custom'] = $this->parser->parse_string($menu_custom, $customData, TRUE, TRUE);
         //----check if extra library exists and load it 
-        if (is_file(FCPATH . APPPATH . "modules/dashboard/libraries/menu_extra.php")) {
+        if (is_file( APPPATH . "modules/dashboard/libraries/menu_extra.php")) {
             $this->load->library('dashboard/menu_extra');
             
             $customData['menu_custom'].=$this->menu_extra->get();
@@ -153,7 +155,7 @@ class Dashboard extends MX_Controller {
 
     function hooks_group($user = null) {
         $user = ($user) ? $user : $this->user->get_user((int) $this->idu);
-        if (is_file(FCPATH . APPPATH . "modules/dashboard/views/hooks/groups.json")) {
+        if (is_file(APPPATH . "modules/dashboard/views/hooks/groups.json")) {
             $config = json_decode($this->load->view('hooks/groups.json', '', true));
             foreach ($config->hooks as $hook) {
                 if (array_intersect($user->group, $hook->group))
@@ -481,7 +483,7 @@ class Dashboard extends MX_Controller {
         $data['title'] = 'Dashboards';
         $data['base_url'] = $this->base_url;
         $data['module_url'] = $this->module_url;
-        $files = get_filenames(FCPATH . APPPATH . 'modules/dashboard/views/json/');
+        $files = get_filenames(APPPATH . 'modules/dashboard/views/json/');
         $data['qtty'] = count($files);
 
         foreach ($files as $file) {
