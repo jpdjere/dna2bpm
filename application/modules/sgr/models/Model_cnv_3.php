@@ -120,7 +120,7 @@ class Model_cnv_3 extends CI_Model {
                 $this->load->model('padfyj_model');
                 $sgr_name = $this->padfyj_model->search_name(str_replace("-","", $sgr_info[1695]));
                 
-                var_dump($list['id']);
+                
 
 
                 $curMonth = date($g_month, time());
@@ -139,6 +139,9 @@ class Model_cnv_3 extends CI_Model {
                 $new_list['col12'] = $curQuarter;
                 $new_list['col13'] = substr($g_day, 0, 2) . "/" . $g_month . "/" . trim($g_year);
                 $rtn[] = $new_list;
+                
+                
+                var_dump($list['id']);
             }
         }
 
