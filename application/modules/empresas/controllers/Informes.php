@@ -175,7 +175,7 @@ function tabla_altas_anio($year=null,$action=null) {
             ///----evaluo para cada programa si está la pregunta
             
             foreach($req as $preguntas_programa){
-                $match=(array_intersect($preguntas_programa,$preguntas_index[$pregunta['idframe']]))?'x':'';
+                // $match=(array_intersect($preguntas_programa,$preguntas_index[$pregunta['idframe']]))?'x':'';
                 $match=(array_intersect($preguntas_programa,$preguntas_index[$pregunta['idframe']]))?count(array_intersect($preguntas_programa,$preguntas_index[$pregunta['idframe']])):'';
                 array_push($row,$match);
             }
