@@ -3,7 +3,7 @@
 class Uploader {
 
     var $config;
-
+    
     public function __construct() {          
 
         /*Vars*/        
