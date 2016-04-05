@@ -93,17 +93,23 @@ class Model_cnv_3 extends CI_Model {
         $period_result = $this->mongowrapper->sgr->$period_container->find($query);
         $period_result->sort(array('period' => 1, 'sgr_id' => -1));
 
-        return $this->ui_table_xls($period_result);
+        return $this->ui_table_xls($period_result, $parameter);
     }
 
-    function ui_table_xls($result) {
+    function ui_table_xls($result, $parameter) {
         
-        php_info();
-        
-        //ini_set("error_reporting", E_ALL);
         $rtn = array();
         $container = 'container.sgr_anexo_15';
+        
+        
+         /* CSS 4 REPORT */
+        css_reports_fn();
 
+        $i = 1;
+
+        $list = null;
+        $this->sgr_model->del_tmp_general();
+        
 
         foreach ($result as $each) {
             
@@ -128,25 +134,73 @@ class Model_cnv_3 extends CI_Model {
                 $curMonth = date($g_month, time());
                 $curQuarter = ceil($curMonth / 3);
                 $new_list = array();
-                $new_list['col1'] = period_print_format($each['period']);
-                $new_list['col2'] = $sgr_name;
-                $new_list['col3'] = $sgr_info[1695];
-                $new_list['col4'] = $list['INCISO_ART_25'];
-                $new_list['col6'] = $list['DESCRIPCION'];
-                $new_list['col7'] = $list['IDENTIFICACION'];
-                $new_list['col8'] = $list['ENTIDAD_DESPOSITARIA'];
-                $new_list['col9'] = dot_by_coma($list['MONTO']);
-                $new_list['col10'] = $g_year;
-                $new_list['col11'] = $g_month;
-                $new_list['col12'] = $curQuarter;
-                $new_list['col13'] = substr($g_day, 0, 2) . "/" . $g_month . "/" . trim($g_year);
+                $new_list['a'] = period_print_format($each['period']);
+                $new_list['b'] = $sgr_name;
+                $new_list['c'] = $sgr_info[1695];
+                $new_list['d'] = $list['INCISO_ART_25'];
+                $new_list['e'] = $list['DESCRIPCION'];
+                $new_list['f'] = $list['IDENTIFICACION'];
+                $new_list['g'] = $list['ENTIDAD_DESPOSITARIA'];
+                $new_list['h'] = dot_by_coma($list['MONTO']);
+                $new_list['i'] = $g_year;
+                $new_list['j'] = $g_month;
+                $new_list['k'] = $curQuarter;
+                $new_list['l'] = substr($g_day, 0, 2) . "/" . $g_month . "/" . trim($g_year);
+                $new_list['zquery'] = $parameter;
+                
+                /* COUNT */
+                $increment = $i++;
+                report_account_records_fn($increment);
+
+                /* ARRAY FOR RENDER */
                 $rtn[] = $new_list;
-                
-                
-                            }
+    
+                /* SAVE RESULT IN TMP DB COLLECTION */
+                $this->sgr_model->save_tmp_general($new_list, $list['id']);
+            }
         }
 
-        return $rtn;
+       /* PRINT XLS LINK */
+        link_report_and_back_fn();
+        exit();
+    }
+    
+    function get_link_report() {
+       
+        $headerArr = $this->header_arr();
+
+        $data[] = array($headerArr);
+        $anexoValues = $this->sgr_model->last_report_general();
+        
+        if (!$anexoValues) {
+            return false;
+        } else {
+            foreach ($anexoValues as $values) {
+                $header = '<h2>Reporte DETALLES DE LAS INVERSIONES DEL FRD</h2><h3>PER&Iacute;ODO/S: ' . $values['zquery']['input_period_from'] . ' a ' . $values['zquery']['input_period_to'] . '</h3>';
+
+                unset($values['_id']);
+                unset($values['id']);
+                $data[] = array_values($values);
+            }
+            $this->load->library('table');
+            return $header . $this->table->generate($data);
+        }
+    }
+    
+    function header_arr() {
+        $headerArr = array('Periodo'
+            , 'SGR'
+            , 'CUIT SGR'
+            , 'Inciso del Art. 25'
+            , 'Descripcion'
+            , 'Identificacion'
+            , 'Entidad Depositaria'
+            , 'Monto'
+            , 'A&ntilde;o'
+            , 'Mes'
+            , 'Trimestre'
+            , 'Fecha');
+        return $headerArr;
     }
 
 }
