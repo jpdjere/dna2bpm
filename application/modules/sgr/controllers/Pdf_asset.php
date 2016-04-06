@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
  * 
  */
 
-class Xls_asset extends MX_Controller {
+class Pdf_asset extends MX_Controller {
 
     function __construct() {
         parent::__construct();
