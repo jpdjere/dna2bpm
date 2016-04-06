@@ -53,7 +53,7 @@ class Xls_asset extends MX_Controller {
         //---set the type for the headers
         $file_type=  strtolower($path_parts['extension']);        
         if (is_file($file)) {
-            header('Content-type: application/pdf'); 
+            header('Content-type: application/vnd.ms-excel'); 
             readfile($file);
               
         } else { 
