@@ -1,6 +1,6 @@
 {
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
-    "title": "Dashboard Asistente Coordinación",
+    "title": "Dashboard Evaluador Técnico Emprendedores",
     "view": "layout_2cols_fixed",
     "button": "<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
     "icon": "fa-code",
@@ -56,25 +56,30 @@
                     "controller": "pacc",
                     "function": "tile_buscar_container",
                     "span": 6
-                }, {
-                    "title": "Rechazo Anticipos/Rendiciones",
+                }, 
+                {
+                    "title": "Rendición de Antició en Evaluación",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
                     "span": 2,
-                    "params": ["pacc3SDAREND", "pacc3SDAREND_FO"]
-                }, {
-                    "title": "Tile01",
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_TN"]
+                }, 
+                {
+                    "title": "Rendición SIN Antició en Evaluación",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
                     "span": 2,
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_VK"]
+                }, 
+                {
+                    "title": "Anticipos en Evaluación",
                     "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks2me"
-                }, {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks_done",
-                    "span": 2
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
                 }
 
 

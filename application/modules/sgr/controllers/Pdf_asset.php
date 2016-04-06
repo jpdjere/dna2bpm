@@ -8,12 +8,11 @@ if (!defined('BASEPATH'))
  * This file allows you to  access assets from within your modules directory
  * 
  * @author Diego
- * 
  * @version 	1.0 (2012-05-27)
  * 
  */
 
-class pdf_asset extends CI_Controller {
+class Pdf_asset extends CI_Controller {
 
     function __construct() {
         parent::__construct();

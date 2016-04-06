@@ -10,12 +10,12 @@ if (!defined('BASEPATH'))
  * @author Diego Otero
  * 
  * @version 	1.0 (2012-05-27)
- * 'http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/SGR_socios/printVista.php?file=' . base64_encode($file['filename']), '
+ * http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/SGR_socios/printVista.php?file=' . base64_encode($file['filename']), '
  * http://www.accionpyme.mecon.gob.ar/dna2/sgr/XML-Import/SGR_socios/?filename=Q0FQSVRBTCBTT0NJQUwgLSBBQ0lOREFSIFBZTUVTIFMuRy5SLiAtIDIwMTMtMDEtMTQgMDM6MzI6MDMueGxz
  * http://www.accionpyme.mecon.gob.ar/dna2/XML-Import/SGR_socios?filename=Q0FQSVRBTCUyMFNPQ0lBTCUyMC0lMjBBQ0lOREFSJTIwUFlNRVMlMjBTLkcuUi4lMjAtJTIwMjAxMy0xMS0yMSUyMDA5OjM2OjE1Lnhscw==
  */
 
-class dna2_asset extends CI_Controller {
+class Dna2_asset extends CI_Controller {
 
     function __construct() {
         parent::__construct();

@@ -59,6 +59,7 @@
                     id="bt_save_{sgr_period}">
                 <i class="fa fa-search"></i> Generar Reporte
             </button>
+             {link_report}
         </div>
     </div>
 </form>
