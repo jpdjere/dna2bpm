@@ -100,7 +100,8 @@ class fonapyme_forment extends MX_Controller {
         $tabla = $tabla.'Error: Menor a dos años</td><td>';
         $tabla = $tabla.'Error: Menor a dos balances</td><td>';
         $tabla = $tabla.'Error: Excede facturación</td></tr>';
-        $registros = $this->load->model($model)->download_registros();
+        $this->load->model($model);
+        $registros = $this->fonapyme_model_forment->download_registros();
         
         foreach($registros as $download){
             $tabla = $tabla.'<tr><td>';
