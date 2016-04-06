@@ -149,7 +149,7 @@ class Reports extends MX_Controller {
     function show_last_report() {
 
 
-        if($this->idu==10)
+        //if($this->idu==10)
             ini_set('display_errors', 1);
 
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
