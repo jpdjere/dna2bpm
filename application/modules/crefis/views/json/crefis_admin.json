@@ -21,6 +21,13 @@
                     "controller": "kpi",
                     "function": "tile",
                     "params": ["crefisGral", "crefisGral_FC"]
+                },
+                {
+                    "title": "Proyectos Evaluados",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["crefisGral", "crefisGral_AK"]
                 }
             ]
         },
