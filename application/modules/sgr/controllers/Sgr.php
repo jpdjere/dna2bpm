@@ -814,12 +814,6 @@ class Sgr extends MX_Controller {
         /*IF there's no error Go On*/
         if ($error==false) {
            
-            ini_set('display_errors', 1);
-            ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
-            
-            
-            
             $save = null;
             $model = "model_" . $anexo;
             $this->load->Model($model);
@@ -839,10 +833,11 @@ class Sgr extends MX_Controller {
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = $this->sgr_id;
                     $save = (array) $this->$model->save($result);
+                    var_dump("836", $this->$model->save($result), $save); exit;
                 }
             }
 
-             var_dump("845", $error, $save); exit;
+             
             
 
             /* SET PERIOD */
