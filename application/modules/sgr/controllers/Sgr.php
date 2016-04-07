@@ -809,6 +809,8 @@ class Sgr extends MX_Controller {
         }
 
 
+        var_dump("812", $error); exit;
+
         /*IF there's no error Go On*/
         if ($error==false) {
             
