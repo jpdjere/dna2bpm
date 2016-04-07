@@ -813,8 +813,7 @@ class Sgr extends MX_Controller {
 
         /*IF there's no error Go On*/
         if ($error==false) {
-            
-             var_dump("817", $error); exit;
+           
             
             $save = null;
             $model = "model_" . $anexo;
@@ -863,6 +862,8 @@ class Sgr extends MX_Controller {
             }
         }
 
+
+     var_dump("866", $error); exit;
 
         /* ERROR CASE */
         if ($error==true) {
