@@ -814,21 +814,17 @@ class Sgr extends MX_Controller {
         /*IF there's no error Go On*/
         if ($error==false) {
            
-            ini_set('display_errors', 1);
-            ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
-            
-            
-            
             $save = null;
             $model = "model_" . $anexo;
             $this->load->Model($model);
             
-             var_dump("827", $error, $save); exit;
+            
 
-            for ($i = 2; $i <= $data->rowcount(); $i++){
+            /*for ($i = 2; $i <= $data->rowcount(); $i++){
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
-            }
+            }*/
+
+
 
             /* INSERT UPDATE */
             for ($i = 2; $i <= $data->rowcount(); $i++) {
@@ -837,13 +833,15 @@ class Sgr extends MX_Controller {
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = $this->sgr_id;
                     $save = (array) $this->$model->save($result);
+                   // var_dump("836", $this->$model->save($result), $save); exit;
                 }
             }
 
+             
             
 
             /* SET PERIOD */
-            if ($save==true) {
+            if (!empty($save)) {
                 $result = array();
                 $result['filename'] = $new_filename;
                 $result['sgr_id'] = $this->sgr_id;
