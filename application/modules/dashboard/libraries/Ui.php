@@ -395,6 +395,14 @@ _EOF_;
 
         return $ret;
     }
+    
+    
+    //=== Logos 
+    
+    function render_logobar(){
+        $data['base_url']=base_url();
+        return $this->CI->parser->parse('dashboard/_logos_header', $data, true, true);
+    }
 
 
 
