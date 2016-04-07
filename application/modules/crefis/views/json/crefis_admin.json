@@ -37,7 +37,7 @@
                     "title": "2do",
                     "module": "crefis",
                     "controller": "crefis",
-                    "function": "widget_2doMe"
+                    "function": "widget_2doMe2"
                 }
             ]
         },
