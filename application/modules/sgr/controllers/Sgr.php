@@ -833,7 +833,7 @@ class Sgr extends MX_Controller {
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = $this->sgr_id;
                     $save = (array) $this->$model->save($result);
-                    var_dump("836", $this->$model->save($result), $save); exit;
+                   // var_dump("836", $this->$model->save($result), $save); exit;
                 }
             }
 
@@ -841,7 +841,7 @@ class Sgr extends MX_Controller {
             
 
             /* SET PERIOD */
-            if ($save==true) {
+            if (!empty($save)) {
                 $result = array();
                 $result['filename'] = $new_filename;
                 $result['sgr_id'] = $this->sgr_id;
