@@ -833,7 +833,7 @@ class Sgr extends MX_Controller {
                 }
             }
 
-
+             var_dump("836", $error, $save); exit;
 
             /* SET PERIOD */
             if ($save==true) {
@@ -843,7 +843,7 @@ class Sgr extends MX_Controller {
                 $result['anexo'] = $this->anexo;
                 $save_period = (array) $this->$model->save_period($result);
                 
-                var_dump("866", $error, $save); exit;
+               
 
                 if (isset($save_period['status']) == "ok") {
                     /* RENDER */
