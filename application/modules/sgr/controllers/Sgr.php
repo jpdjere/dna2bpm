@@ -824,11 +824,13 @@ class Sgr extends MX_Controller {
             $model = "model_" . $anexo;
             $this->load->Model($model);
             
-             var_dump("827", $error, $save); exit;
+            
 
-            for ($i = 2; $i <= $data->rowcount(); $i++){
+            /*for ($i = 2; $i <= $data->rowcount(); $i++){
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
-            }
+            }*/
+
+ var_dump("833", $error, $save); exit;
 
             /* INSERT UPDATE */
             for ($i = 2; $i <= $data->rowcount(); $i++) {
