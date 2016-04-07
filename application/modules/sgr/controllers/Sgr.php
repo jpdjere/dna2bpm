@@ -842,7 +842,8 @@ class Sgr extends MX_Controller {
                 $result['sgr_id'] = $this->sgr_id;
                 $result['anexo'] = $this->anexo;
                 $save_period = (array) $this->$model->save_period($result);
-
+                
+                var_dump("866", $error, $save); exit;
 
                 if (isset($save_period['status']) == "ok") {
                     /* RENDER */
@@ -863,7 +864,7 @@ class Sgr extends MX_Controller {
         }
 
 
-     var_dump("866", $error); exit;
+     
 
         /* ERROR CASE */
         if ($error==true) {
