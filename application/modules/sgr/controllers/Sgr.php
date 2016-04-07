@@ -809,9 +809,9 @@ class Sgr extends MX_Controller {
         }
 
 
-
-        if (!$error) {
-
+        /*IF there's no error Go On*/
+        if ($error===false) {
+            
             $save = null;
             $model = "model_" . $anexo;
             $this->load->Model($model);
@@ -833,7 +833,7 @@ class Sgr extends MX_Controller {
 
 
             /* SET PERIOD */
-            if ($save) {
+            if ($save===true) {
                 $result = array();
                 $result['filename'] = $new_filename;
                 $result['sgr_id'] = $this->sgr_id;
@@ -861,7 +861,7 @@ class Sgr extends MX_Controller {
 
 
         /* ERROR CASE */
-        if ($error) {
+        if ($error===true) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
