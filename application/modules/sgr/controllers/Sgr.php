@@ -830,7 +830,7 @@ class Sgr extends MX_Controller {
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
             }*/
 
- var_dump("833", $error, $save); exit;
+
 
             /* INSERT UPDATE */
             for ($i = 2; $i <= $data->rowcount(); $i++) {
@@ -842,6 +842,7 @@ class Sgr extends MX_Controller {
                 }
             }
 
+             var_dump("845", $error, $save); exit;
             
 
             /* SET PERIOD */
