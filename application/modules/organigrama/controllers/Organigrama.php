@@ -43,6 +43,7 @@ class Organigrama extends MX_Controller {
             // $this->module_url . 'assets/js/jquery/jquery-1.9.1.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/jscript/jquery/dist/jquery.min.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/jscript/jquery-ui/jquery-ui.min.js' => 'Basic Primitives JS',
+            $this->module_url . 'assets/jscript/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js' => 'Basic Primitives JS',
             // $this->module_url . 'assets/js/jquery/jquery-ui-1.10.2.custom.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/codemirror/codemirror.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/js/json3.min.js' => 'Basic Primitives JS',
@@ -77,6 +78,7 @@ class Organigrama extends MX_Controller {
         $renderData ['js'] = array(
             $this->module_url . 'assets/jscript/jquery/dist/jquery.min.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/jscript/jquery-ui/jquery-ui.min.js' => 'Basic Primitives JS',
+            $this->module_url . 'assets/jscript/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js' => 'Basic Primitives JS',
             // $this->module_url . 'assets/codemirror/codemirror.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/js/json3.min.js' => 'Basic Primitives JS',
             $this->module_url . 'assets/js/primitives.min.js' => 'Basic Primitives JS',
