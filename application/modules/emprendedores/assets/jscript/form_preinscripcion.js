@@ -11,32 +11,32 @@ console.log('----- Formularios de inscripcion');
 
 $("form").validate({
   rules: {
-    // simple rule, converted to {required:true}
-    // provincia: "required",
-    // ciudad:"required",
-    // og_ambito:"required",
-    // og_nombre:"required",
-    // og_ambito:"required",
-    // og_telefono:"required",
-    // o1_nombre:"required",
-    // o1_telefono:"required",
-    // o2_nombre:"required",
-    // o2_telefono:"required",
-    // espacio_uso:"required",
-    // espacio_domicilio:"required",
-    // espacio_m2:"required",
-    // og_email:{
-    //     required:true,
-    //     email:true
-    // },
-    // o1_email:{
-    //     required:true,
-    //     email:true
-    // },
-    // o2_email:{
-    //     required:true,
-    //     email:true
-    // }
+   // simple rule, converted to {required:true}
+    provincia: "required",
+    ciudad:"required",
+    og_ambito:"required",
+    og_nombre:"required",
+    og_ambito:"required",
+    og_telefono:"required",
+    o1_nombre:"required",
+    o1_telefono:"required",
+    o2_nombre:"required",
+    o2_telefono:"required",
+    espacio_uso:"required",
+    espacio_domicilio:"required",
+    espacio_m2:"required",
+    og_email:{
+        required:true,
+        email:true
+    },
+    o1_email:{
+        required:true,
+        email:true
+    },
+    o2_email:{
+        required:true,
+        email:true
+    }
     
   },
     submitHandler: function(form) {
