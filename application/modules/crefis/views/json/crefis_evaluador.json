@@ -48,7 +48,11 @@
                     "title": "2do",
                     "module": "crefis",
                     "controller": "crefis",
-                    "function": "widget_2doMe2"
+                    "function": "widget_2doMe2",
+                    "box_icon":"fa-pie-chart",
+                    "box_class":["box"], 
+                    "box_buttons":["remove","collapse"],
+                    "box_collapsed":"0"
                 }
             ]
         },
