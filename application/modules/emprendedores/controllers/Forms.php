@@ -66,7 +66,7 @@ class Forms extends MX_Controller {
         $mail->Subject = 'Programa Clubes de Emprendedores : formulario de preinscripción';
         $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
         $mail->IsHTML(true);
-        $mail->MsgHTML(nl2br($body));
+        $mail->MsgHTML(nl2br(utf8_encode($body)));
         
         $mail->AddAddress('gabriel@trialvd.com.ar', "");      
          
