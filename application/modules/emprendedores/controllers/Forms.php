@@ -69,7 +69,7 @@ class Forms extends MX_Controller {
         $mail->IsHTML(true);
         $mail->MsgHTML(nl2br($body));
         
-        $mail->AddAddress('gabriel@trialvd.com.ar', "");      
+        $mail->AddAddress('clubemprendedor@produccion.gob.ar', "");      
          
          
              if (!$mail->Send()) {
