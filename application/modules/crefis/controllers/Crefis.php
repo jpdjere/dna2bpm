@@ -1217,6 +1217,7 @@ BLOCK;
     }
 
     function widget_2doMe2($chunk = 1, $pagesize = 5) {
+        
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
         $query = array(
@@ -1257,7 +1258,20 @@ BLOCK;
 
         $data['more_info_link'] = $this->base_url . 'bpm/';
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
-      echo $this->parser->parse('crefis/widgets/2doMe2', $data, true, true);
+        
+        //==== Pagination
+        $pagination=array_chunk($data['mytasks'],2);
+        $pages=array();
+        foreach($pagination as $chunk){
+            $data['mytasks2']=$chunk;
+            $pages[]=$this->parser->parse('crefis/widgets/2doMe2_task', $data, true, true);
+            
+        }
+        
+
+        $data['mytasks_paginated']=$this->ui->paginate($pages);
+
+        echo $this->parser->parse('crefis/widgets/2doMe2', $data, true, true);
     }
 
     public function faq() {
