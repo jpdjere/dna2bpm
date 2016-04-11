@@ -47,7 +47,7 @@
             "function": "faq"
         },
         {
-            "title": "2do",
+            "title": "Tareas",
             "module": "crefis",
             "controller": "crefis",
             "function": "widget_2doMe2"
