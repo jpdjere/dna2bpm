@@ -187,7 +187,7 @@
           
             <!-- Send -->
            <div class="form-group" style='padding-top:20px;margin-top:20px;border-top:1px solid #ccc'>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-default">Enviar</button>
           </div>                 
           
           
