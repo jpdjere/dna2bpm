@@ -1,7 +1,7 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+// if (!defined('BASEPATH'))
+//     exit('No direct script access allowed');
 /**
  * Actualiza los archivos segun la rama configurada
  * 
@@ -69,7 +69,7 @@ class Forms extends MX_Controller {
         $mail->IsHTML(true);
         $mail->MsgHTML(nl2br($body));
         
-        $mail->AddAddress('gabriel@trialvd.com.ar', "");      
+        $mail->AddAddress('clubemprendedor@produccion.gob.ar', "");      
          
          
              if (!$mail->Send()) {
