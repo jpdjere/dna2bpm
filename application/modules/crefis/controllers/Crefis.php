@@ -1216,7 +1216,7 @@ BLOCK;
         return $update;
     }
 
-    function widget_2doMe2($chunk = 1, $pagesize = 5) {
+    function widget_2doMe2($chunk = 1, $pagesize = 2000) {
         
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
@@ -1260,8 +1260,10 @@ BLOCK;
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
         
         //==== Pagination
-        $pagination=array_chunk($data['mytasks'],2);
+
+        $pagination=array_chunk($data['mytasks'],5);
         $pages=array();
+        
         foreach($pagination as $chunk){
             $data['mytasks2']=$chunk;
             $pages[]=$this->parser->parse('crefis/widgets/2doMe2_task', $data, true, true);
