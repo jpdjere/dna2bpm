@@ -192,7 +192,7 @@
           <div class="form-group">
             <label for="po_impacto">Impacto</label>
             <p>Indique en cuantas personas impactaría la creación del nuevo "Club emprendedor"</p>
-            <input type="text" class="form-control" id="po_impacto" name="po_impacto" placeholder="Cnantidad de personas.." >
+            <input type="text" class="form-control" id="po_impacto" name="po_impacto" placeholder="Cantidad de personas.." >
           </div>
           <!-- uso esperado del espacio  -->
           <div class="form-group">
