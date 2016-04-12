@@ -215,8 +215,8 @@
           
           
    <!-- Send -->
-          <div class="row">
-                  <input type="submit" class="form-control" value="Enviar" >
+          <div class="form-group" style="margin-top:15px">
+                  <input type="submit" class="form-control btn btn-primary" value="Enviar" >
           </div>
    
           
