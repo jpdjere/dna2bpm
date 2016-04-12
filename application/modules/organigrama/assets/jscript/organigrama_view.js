@@ -16,6 +16,7 @@ jQuery(document).ready(function() {
     
     options.items = [];
     options.cursorItem = 0;
+    options.graphicsType= primitives.common.GraphicsType.SVG;
     options.onItemRender = onTemplateRender;
     options.templates = [getZoom0Template(), getZoom1Template(), getZoom2Template(), getZoom3Template(), getZoom4Template()];
     options.hasSelectorCheckbox = primitives.common.Enabled.True;
@@ -23,7 +24,7 @@ jQuery(document).ready(function() {
     options.hasSelectorCheckbox = primitives.common.Enabled.False;
     options.orientationType = primitives.common.OrientationType.Top;
     options.defaultTemplateName = "Zoom3";
-
+    options.minimalVisibility= primitives.common.Visibility.Dot;
     options.normalLevelShift = 20;
     options.dotLevelShift = 10;
     options.lineLevelShift = 10;
@@ -33,6 +34,7 @@ jQuery(document).ready(function() {
     options.leavesPlacementType= primitives.common.ChildrenPlacementType.Matrix;
     options.arrowsDirection = primitives.common.GroupByType.Children;
     options.pageFitMode = primitives.common.PageFitMode.FitToPage;
+    // options.pageFitMode= primitives.common.PageFitMode.PrintPreview;
 
     orgDiagram=jQuery("#orgdiagram").orgDiagram(options);
     // orgDiagram = jQuery("#orgdiagram").orgDiagram({

@@ -95,6 +95,71 @@ class Organigrama extends MX_Controller {
         );
          $this->ui->compose('organigrama/organigrama_view.php','organigrama/bootstrap.ui.php', $renderData);
     }
+    function Printable($idorg=0) {
+        $renderData=array();
+        $renderData ['base_url'] = $this->base_url;
+        // ---prepare UI
+        $renderData ['css'] = array(
+            $this->module_url . 'assets/jscript/jquery-ui/themes/base/jquery-ui.min.css' => 'Basic Primitives CSS',
+            // $this->module_url . 'assets//codemirror/codemirror.css' => 'Basic Primitives CSS',
+            // $this->module_url . 'assets/css/bporgeditor.latest.css' => 'Basic Primitives CSS',
+            $this->module_url . 'assets/css/primitives.latest.css' => 'Basic Primitives CSS',
+            $this->module_url . 'assets/css/organigrama.css' => 'Basic Primitives CSS',
+            );
+        $renderData ['js'] = array(
+            $this->module_url . 'assets/jscript/jquery/dist/jquery.min.js' => 'Basic Primitives JS',
+            $this->module_url . 'assets/jscript/jquery-ui/jquery-ui.min.js' => 'Basic Primitives JS',
+            $this->module_url . 'assets/jscript/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js' => 'Basic Primitives JS',
+            // $this->module_url . 'assets/codemirror/codemirror.js' => 'Basic Primitives JS',
+            $this->module_url . 'assets/js/json3.min.js' => 'Basic Primitives JS',
+            $this->module_url . 'assets/js/primitives.min.js' => 'Basic Primitives JS',
+            // $this->module_url . 'assets/js/bporgeditor.latest.js' => 'Basic Primitives JS',
+            // $this->module_url . 'assets/js/randomdata.js' => 'Oganigrama custom',
+            $this->module_url . 'assets/jscript/organigrama_print.js' => 'Oganigrama custom',
+        );
+// ---prepare globals 4 js
+        $renderData ['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'idorg'=>$idorg,
+            'options'=>array('backdrop'=>'static', 'keyboard'=> false)
+        );
+         $this->ui->compose('organigrama/organigrama.php','organigrama/bootstrap.ui.php', $renderData);
+    }
+    function png($idorg=0,$width,$height) {
+        $this->load->helper('file');
+        $phantom_path = APPPATH . 'modules/organigrama/assets/jscript/phantomjs';
+        $path_thumb = 'images/png/';
+        $url=$this->module_url.'printable/$idorg';
+        $filename_thumb = $path_thumb . $idorg . '.png';
+        
+        
+
+        $result = write_file($filename, $svg);
+
+        $rtn = '';
+        if ($this->config->item('make_thumbnails')) {
+            $command = "$phantom_path/bin/phantomjs $phantom_path/rasterize.js $filename $filename_thumb";
+            exec($command, $cmd, $rtn);
+            if ($debug) {
+                echo "$command\n rt:$rtn\n";
+            }
+            $command = "$phantom_path/bin/phantomjs $phantom_path/crop.js $filename $filename_crop";
+            exec($command, $cmd, $rtn);
+
+            if ($debug) {
+                echo "$command\n rt:$rtn\n";
+            }
+            $command = "$phantom_path/bin/phantomjs $phantom_path/zoom.js $filename_crop $filename_thumb_small .5";
+            exec($command, $cmd, $rtn);
+            if ($debug) {
+                echo getcwd() . "\n";
+                echo "$command\n rt:$rtn\n";
+            }
+        }
+        
+        
+    }
     function save($idorg=0){
         $this->user->authorize();
         if($this->input->post('data')){

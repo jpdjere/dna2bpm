@@ -1,28 +1,13 @@
-jQuery(document).ready(function () {
-            // var options = famdata;
-            // jQuery.extend(options, {
-            //     cursorItem: null,
-            //     hasSelectorCheckbox: primitives.common.Enabled.False,
-            //     hasButtons: primitives.common.Enabled.False,
-            //     pageFitMode: primitives.common.PageFitMode.PrintPreview,
-            //     elbowType: primitives.common.ElbowType.Round,
-            //     normalLevelShift: 30,
-            //     dotLevelShift: 30,
-            //     lineLevelShift: 24,
-            //     normalItemsInterval: 20,
-            //     dotItemsInterval: 10,
-            //     lineItemsInterval: 4,
-            //     linesWidth: 1,
-            //     linesColor: "black",
-            //     cousinsIntervalMultiplier: 1,
-            //     arrowsDirection: primitives.common.GroupByType.Parents
-            // });
+var m_timer = null;
+var options = new primitives.orgdiagram.Config();
+jQuery(document).ready(function() {
+    $(window).resize(function() {
+        onWindowResize();
+    });
+    LoadData();
+});
 
-            // jQuery("#diagram").famDiagram(options);
-            LoadData();
-        });
-        
-        function LoadData() {
+function LoadData() {
     /**
      * Load via ajax
      */
@@ -32,30 +17,23 @@ jQuery(document).ready(function () {
         'dataType': 'json',
         'success': function(data, status) {
             options = data.data;
-            // options.cursorItem = options.items[0] != null ? options.items[0].id : null;
-            jQuery.extend(options, {
-                cursorItem: null,
-                hasSelectorCheckbox: primitives.common.Enabled.False,
-                hasButtons: primitives.common.Enabled.False,
-                pageFitMode: primitives.common.PageFitMode.PrintPreview,
-                elbowType: primitives.common.ElbowType.Round,
-                normalLevelShift: 30,
-                dotLevelShift: 30,
-                lineLevelShift: 24,
-                normalItemsInterval: 20,
-                dotItemsInterval: 10,
-                lineItemsInterval: 4,
-                linesWidth: 1,
-                linesColor: "black",
-                cousinsIntervalMultiplier: 1,
-                arrowsDirection: primitives.common.GroupByType.Parents
-            });
-
-            jQuery("#orgdiagram").famDiagram(options);
-            // orgDiagram.orgDiagram({items:data.data.items});
+            options.hasSelectorCheckbox = primitives.common.Enabled.False;
+            orgDiagram = jQuery("#orgdiagram").orgDiagram(options);
+            // orgDiagram.orgDiagram(options);
             // orgDiagram.orgDiagram("update");
             // orgDiagram._trigger("onSave");
         }
 
     });
+}
+
+function onWindowResize() {
+    if (m_timer == null) {
+        m_timer = window.setTimeout(function() {
+            // ResizePlaceholder();
+            orgDiagram.orgDiagram("update", primitives.common.UpdateMode.Refresh)
+            window.clearTimeout(m_timer);
+            m_timer = null;
+        }, 300);
+    }
 }
