@@ -200,7 +200,25 @@
             <p>Indique que actividades se llevaran acabo en el "Club emprendedor"</p>
             <textarea class="form-control" id="po_uso_esperado" name="po_uso_esperado" placeholder="Uso esperado del espacio" ></textarea>
           </div>                          
+ 
+           <div class="row">
+              <div class='col-md-8'>
+                  <label for="espacio_domicilio">Domicilio</label>
+                  <input type="text" class="form-control" id="espacio_domicilio" name="espacio_domicilio" placeholder="Domicilio" >
+              </div>
+              <div class='col-md-4'>
+                  <label for="espacio_m2">M2</label>
+                  <input type="text" class="form-control" id="espacio_m2" name="espacio_m2" placeholder="M2" >
+              </div>
+         
+          </div>
           
+          
+   <!-- Send -->
+          <div class="row">
+                  <input type="submit" class="form-control" value="Enviar" >
+          </div>
+   
           
         </form>
 <!-- MSGs -->
