@@ -63,10 +63,12 @@ class Organigrama extends MX_Controller {
     }
     /**
      * View organigram
-     */ 
+     */
     function View($idorg=0) {
         $renderData=array();
         $renderData ['base_url'] = $this->base_url;
+        $renderData ['module_url'] = $this->module_url;
+        $renderData ['idorg'] = $idorg;
         // ---prepare UI
         $renderData ['css'] = array(
             $this->module_url . 'assets/jscript/jquery-ui/themes/base/jquery-ui.min.css' => 'Basic Primitives CSS',
@@ -98,6 +100,7 @@ class Organigrama extends MX_Controller {
     function Printable($idorg=0) {
         $renderData=array();
         $renderData ['base_url'] = $this->base_url;
+        $renderData ['title'] = "Organigrama:$idorg";
         // ---prepare UI
         $renderData ['css'] = array(
             $this->module_url . 'assets/jscript/jquery-ui/themes/base/jquery-ui.min.css' => 'Basic Primitives CSS',
@@ -126,39 +129,36 @@ class Organigrama extends MX_Controller {
         );
          $this->ui->compose('organigrama/organigrama.php','organigrama/bootstrap.ui.php', $renderData);
     }
-    function png($idorg=0,$width,$height) {
+    function png($idorg=0,$mode='download') {
+        // $debug=true;
         $this->load->helper('file');
-        $phantom_path = APPPATH . 'modules/organigrama/assets/jscript/phantomjs';
+        $phantom_path = APPPATH . 'modules/organigrama/assets/phantomjs';
         $path_thumb = 'images/png/';
-        $url=$this->module_url.'printable/$idorg';
-        $filename_thumb = $path_thumb . $idorg . '.png';
-        
-        
-
-        $result = write_file($filename, $svg);
+        $url=$this->module_url.'printable/'. $idorg;
+        $filename_thumb = $path_thumb .'organigrama'. $idorg . '.png';
 
         $rtn = '';
-        if ($this->config->item('make_thumbnails')) {
-            $command = "$phantom_path/bin/phantomjs $phantom_path/rasterize.js $filename $filename_thumb";
-            exec($command, $cmd, $rtn);
+        $command = "$phantom_path/bin/phantomjs $phantom_path/printable.js $url $filename_thumb";
+        exec($command, $cmd, $rtn);
             if ($debug) {
+                // echo getcwd() . "\n";
                 echo "$command\n rt:$rtn\n";
             }
-            $command = "$phantom_path/bin/phantomjs $phantom_path/crop.js $filename $filename_crop";
-            exec($command, $cmd, $rtn);
+            switch($mode){
+                case "view":
+                    $this->output
+                    ->set_content_type('png')
+                    ->append_output(file_get_contents($filename_thumb))
+                    ;
+                    break;
+                default:
+                    $this->load->helper('download');
+                    force_download('organigrama'. $idorg . '.png', file_get_contents($filename_thumb));
+                    break;
 
-            if ($debug) {
-                echo "$command\n rt:$rtn\n";
             }
-            $command = "$phantom_path/bin/phantomjs $phantom_path/zoom.js $filename_crop $filename_thumb_small .5";
-            exec($command, $cmd, $rtn);
-            if ($debug) {
-                echo getcwd() . "\n";
-                echo "$command\n rt:$rtn\n";
-            }
-        }
-        
-        
+
+
     }
     function save($idorg=0){
         $this->user->authorize();

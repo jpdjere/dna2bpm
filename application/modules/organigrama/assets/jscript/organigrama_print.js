@@ -18,6 +18,16 @@ function LoadData() {
         'success': function(data, status) {
             options = data.data;
             options.hasSelectorCheckbox = primitives.common.Enabled.False;
+            options.minimalVisibility = primitives.common.Visibility.Normal;
+            options.pageFitMode = primitives.common.PageFitMode.Width;
+            options.leavesPlacementType = primitives.common.ChildrenPlacementType.Matrix;
+            options.normalLevelShift = 20;
+            options.dotLevelShift = 10;
+            options.lineLevelShift = 10;
+            options.normalItemsInterval = 20;
+            options.dotItemsInterval = 10;
+            options.lineItemsInterval = 10;
+
             orgDiagram = jQuery("#orgdiagram").orgDiagram(options);
             // orgDiagram.orgDiagram(options);
             // orgDiagram.orgDiagram("update");
