@@ -44,6 +44,6 @@ function onWindowResize() {
             orgDiagram.orgDiagram("update", primitives.common.UpdateMode.Refresh)
             window.clearTimeout(m_timer);
             m_timer = null;
-        }, 300);
+        }, 1300);
     }
 }
