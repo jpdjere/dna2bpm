@@ -1,7 +1,7 @@
 <?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+// if (!defined('BASEPATH'))
+//     exit('No direct script access allowed');
 /**
  * Actualiza los archivos segun la rama configurada
  * 
@@ -62,13 +62,14 @@ class Forms extends MX_Controller {
         $mail->IsSMTP(); // telling the class to use SMTP
         $mail->Host = $this->config->item('smtp_host'); // SMTP server        
         //$mail->SMTPDebug = 1; 
+        $mail->CharSet = 'UTF-8';
         $mail->SetFrom('clubemprendedor@produccion.gob.ar', 'clubemprendedor@produccion.gob.ar');
         $mail->Subject = 'Programa Clubes de Emprendedores : formulario de preinscripción';
         $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
         $mail->IsHTML(true);
         $mail->MsgHTML(nl2br($body));
         
-        $mail->AddAddress('gabriel@trialvd.com.ar', "");      
+        $mail->AddAddress('clubemprendedor@produccion.gob.ar', "");      
          
          
              if (!$mail->Send()) {
