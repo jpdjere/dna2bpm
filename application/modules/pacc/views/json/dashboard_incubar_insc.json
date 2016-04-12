@@ -1,0 +1,57 @@
+{
+    "createdBy": "MJL <mjlucini@gmail.com>",
+    "title": "INCUBAR Inscripciones",
+    "view": "layout_2cols_fixed",
+    "icon": "ion-briefcase",
+    "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "private": true,
+    "js": [{
+        "{base_url}ui/assets/jscript/bootstrap-tour.js": "Tour Script",
+        "{base_url}pacc11/assets/jscript/tour.empresas.js": "Tour"
+    }],
+    "css": [{
+        "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+    }],
+    "zones": [{
+        "tiles": [{
+            "title": "TileSolicitud",
+            "module": "pacc",
+            "controller": "incubar",
+            "function": "pre_inscripción_INCUBAR",
+            "span": 3
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "INCUBAR_RX"],
+            "span": 3
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "INCUBAR_NY"],
+            "span": 3
+        }, {
+            "title": "Proyectos Aprobados",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "INCUBAR_XC"],
+            "span": 3
+
+        }]
+    }, {
+        "col1": [{
+            "title": "2do",
+            "module": "pacc",
+            "controller": "incubar",
+            "function": "widget_2doMe2"
+        }]
+    }, {
+        "col2": [
+
+        ]
+    }]
+}
