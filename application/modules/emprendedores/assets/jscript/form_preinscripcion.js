@@ -25,6 +25,8 @@ $("form").validate({
     espacio_uso:"required",
     espacio_domicilio:"required",
     espacio_m2:"required",
+    po_impacto:"required",
+    po_uso_esperado:"required",
     og_email:{
         required:true,
         email:true
