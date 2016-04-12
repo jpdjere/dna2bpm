@@ -187,33 +187,21 @@
           
    <!-- Población objetivo -->
    
-        <h4 class='text-info' ><i class="fa fa-chevron-right text-info"></i> Población objetivo</h4>       
+        <h4 class='text-info' ><i class="fa fa-chevron-right text-info"></i> Impacto</h4>       
      
           <div class="form-group">
-            <label for="po_impacto">Impacto</label>
+            <label for="po_impacto"> Población objetivo</label>
             <p>Indique en cuantas personas impactaría la creación del nuevo "Club emprendedor"</p>
             <input type="text" class="form-control" id="po_impacto" name="po_impacto" placeholder="Cantidad de personas.." >
           </div>
           <!-- uso esperado del espacio  -->
           <div class="form-group">
             <label for="po_uso_esperado">Uso esperado del espacio</label>
-            <p>Indique que actividades se llevaran acabo en el "Club emprendedor"</p>
+            <p>Indique qué actividades se llevaran a cabo en el "Club emprendedor"</p>
             <textarea class="form-control" id="po_uso_esperado" name="po_uso_esperado" placeholder="Uso esperado del espacio" ></textarea>
           </div>                          
  
-           <div class="row">
-              <div class='col-md-8'>
-                  <label for="espacio_domicilio">Domicilio</label>
-                  <input type="text" class="form-control" id="espacio_domicilio" name="espacio_domicilio" placeholder="Domicilio" >
-              </div>
-              <div class='col-md-4'>
-                  <label for="espacio_m2">M2</label>
-                  <input type="text" class="form-control" id="espacio_m2" name="espacio_m2" placeholder="M2" >
-              </div>
-         
-          </div>
-          
-          
+
    <!-- Send -->
           <div class="form-group" style="margin-top:15px">
                   <input type="submit" class="form-control btn btn-primary" value="Enviar" >
