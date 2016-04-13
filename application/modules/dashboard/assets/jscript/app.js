@@ -303,7 +303,7 @@ $(document).on('click','ul.pagination li a',function(e){
               prev_li.addClass('disabled');
          }         
      }else{
-        ul.find('li').hide();
+        ul.find('> li').hide();
         ul.find('[data-page="'+page+'"]').fadeIn(500);
      }
 

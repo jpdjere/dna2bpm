@@ -1391,7 +1391,7 @@ class Cnv extends MX_Controller {
                     $show_period = ($i != 2010) ? $file['period'] : "ADMINISTRADOR";
 
 
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
+                    $download = anchor('sgr/' . $asset . '/index/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
 
                     $print_xls_link = anchor('/sgr/print_xls/' . $file['filename'], ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
@@ -1406,7 +1406,7 @@ class Cnv extends MX_Controller {
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                     $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $download = anchor('sgr/' . $asset . '/index/' . $anexo . '/' . $file['filename'], ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('/sgr/print_anexo/' . $file['filename'], ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
 
@@ -1621,7 +1621,7 @@ class Cnv extends MX_Controller {
 
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('id' => 'procesar', 'class' => 'btn btn-success procesar' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link fa-spin" alt="Procesar">PROCESAR</i>';
-                    $download = anchor('sgr/xls_asset/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success'));
+                    $download = anchor('sgr/xls_asset/index/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success'));
 
                     $files_list .= '<li> ' . $download . " " . $process_file . ' PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
                 }

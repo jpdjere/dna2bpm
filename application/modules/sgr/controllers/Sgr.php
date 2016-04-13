@@ -809,15 +809,21 @@ class Sgr extends MX_Controller {
         }
 
 
+       
 
-        if (!$error) {
-
+        /*IF there's no error Go On*/
+        if ($error==false) {
+           
             $save = null;
             $model = "model_" . $anexo;
             $this->load->Model($model);
+            
+            
 
-            for ($i = 2; $i <= $data->rowcount(); $i++)
+            /*for ($i = 2; $i <= $data->rowcount(); $i++){
                 $sanitize_data = $this->$model->sanitize($data->sheets[0]['cells'][$i]);
+            }*/
+
 
 
             /* INSERT UPDATE */
@@ -827,19 +833,22 @@ class Sgr extends MX_Controller {
                     $result['filename'] = $new_filename;
                     $result['sgr_id'] = $this->sgr_id;
                     $save = (array) $this->$model->save($result);
+                   // var_dump("836", $this->$model->save($result), $save); exit;
                 }
             }
 
-
+             
+            
 
             /* SET PERIOD */
-            if ($save) {
+            if (!empty($save)) {
                 $result = array();
                 $result['filename'] = $new_filename;
                 $result['sgr_id'] = $this->sgr_id;
                 $result['anexo'] = $this->anexo;
                 $save_period = (array) $this->$model->save_period($result);
-
+                
+               
 
                 if (isset($save_period['status']) == "ok") {
                     /* RENDER */
@@ -860,8 +869,10 @@ class Sgr extends MX_Controller {
         }
 
 
+     
+
         /* ERROR CASE */
-        if ($error) {
+        if ($error==true) {
             $customData['anexo_title_cap'] = strtoupper($this->oneAnexoDB($this->anexo));
             $customData['sgr_period'] = $this->period;
             $customData['anexo_list'] = $this->AnexosDB();
@@ -1074,7 +1085,7 @@ class Sgr extends MX_Controller {
     function stream_print($anexo, $customData, $parameter) {
 
         /* Print on HTML */
-        $no_pdf = array('12', '123', '125', '06');
+        $no_pdf = array('12', '123', '125', '06', '14');
 
         if (in_array($anexo, $no_pdf)) {
             echo $this->parser->parse('print', $customData, true);
@@ -1927,7 +1938,7 @@ class Sgr extends MX_Controller {
 
                     $show_period = ($i != 2010) ? $file['period'] : "ADMINISTRADOR";
 
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
+                    $download = anchor('sgr/' . $asset . '/index/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-primary' . $disabled_link));
                     $print_file = anchor('sgr/dna2_asset/XML-Import/' . translate_anexos_dna2_urls($anexo) . '/' . $file_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary'));
                     $print_xls_link = anchor('/sgr/print_xls/' . $file_filename, ' <i class="fa fa-table" alt="XLS"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
                     $print_xls = (in_array($anexo, $print_xls_array)) ? $print_xls_link : "";
@@ -1943,7 +1954,7 @@ class Sgr extends MX_Controller {
 
                     $rectify_count_each = ($count > 0) ? "- " . $count . "º RECTIFICATIVA" : "";
                     $new_disabled_link = ($anexo == "09") ? ' disabled_link' : $disabled_link;
-                    $download = anchor('sgr/' . $asset . '/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
+                    $download = anchor('sgr/' . $asset . '/index/' . $anexo . '/' . $file_filename, ' <i class="fa fa-download" alt="Descargar"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $disabled_link));
 
                     $print_file = anchor('/sgr/' . $print_fn_lnk . '/' . $link_filename, ' <i class="fa fa-print" alt="Imprimir"></i>', array('target' => '_blank', 'class' => 'btn btn-primary' . $new_disabled_link));
 
@@ -2216,7 +2227,7 @@ class Sgr extends MX_Controller {
 
                     $process_file = anchor('/sgr/anexo/' . $filename, '<i class="fa fa-external-link" alt="Procesar"></i> PROCESAR', array('id' => 'procesar', 'class' => 'btn btn-success procesar' . $disabled_link));
                     $process_file_disabled = '<i class="fa fa-external-link fa-spin" alt="Procesar">PROCESAR</i>';
-                    $download = anchor('sgr/xls_asset/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success'));
+                    $download = anchor('sgr/xls_asset/index/' . $file['name'], '<i class="fa fa-download" alt="Descargar"></i>', array('class' => 'btn btn-success'));
 
                     $files_list .= '<li> ' . $download . " " . $process_file . ' PENDIENTE ' . $filedate . ' ' . $filetime . ' </li>';
                 }

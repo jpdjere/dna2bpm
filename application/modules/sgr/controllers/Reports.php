@@ -147,7 +147,7 @@ class Reports extends MX_Controller {
     }
 
     function show_last_report() {
-
+     
 
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;

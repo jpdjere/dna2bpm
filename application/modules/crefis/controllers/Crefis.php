@@ -14,7 +14,7 @@ if (!defined('BASEPATH'))
 class crefis extends MX_Controller {
     //--define el token que guarda la data consolidada para buscadores etc
     public $consolida_resrourceId='oryx_6772A7D9-3D05-4064-8E9F-B23B4F84F164';
-    
+
     function __construct() {
         parent::__construct();
         $this->load->model('menu/menu_model');
@@ -78,7 +78,7 @@ class crefis extends MX_Controller {
     function tile_aprobados_condicional() {
         $this->user->authorize();
         $this->load->model('crefis/crefis_model');
-        $data ['number'] = count($this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('8334' => '87')));
+        $data ['number'] = count($this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('4970' => '87')));
         $data ['title'] = 'Aprobados Condicional';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Listar';
@@ -140,8 +140,8 @@ class crefis extends MX_Controller {
                 continue;
             /* STATUS */
             $status = "N/A";
-            if (isset($case_data ['Proyectos_crefis'] ['8334'])) {
-                $status = $option[$case_data ['Proyectos_crefis'] ['8334'][0]];
+            if (isset($case_data ['Proyectos_crefis'] ['4970'])) {
+                $status = $option[$case_data ['Proyectos_crefis'] ['4970'][0]];
             }
             $i++;
             $arr = array(
@@ -210,7 +210,7 @@ class crefis extends MX_Controller {
         $filter = array(
             'idwf' => 'crefisGral',
         );
-        $cases = $this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('8334' => '87'));
+        $cases = $this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('4970' => '87'));
 //        var_dump($cases[0]);exit;
 
         $i = 0;
@@ -222,8 +222,8 @@ class crefis extends MX_Controller {
                 continue;
             /* STATUS */
             $status = "N/A";
-            if (isset($case_data ['Proyectos_crefis'] ['8334'])) {
-                $status = $option[$case_data ['Proyectos_crefis'] ['8334'][0]];
+            if (isset($case_data ['Proyectos_crefis'] ['4970'])) {
+                $status = $option[$case_data ['Proyectos_crefis'] ['4970'][0]];
             }
             $i++;
             $arr = array(
@@ -270,8 +270,8 @@ class crefis extends MX_Controller {
                 continue;
             /* STATUS */
             $status = "N/A";
-            if (isset($case_data ['Proyectos_crefis'] ['8334'])) {
-                $status = $option[$case_data ['Proyectos_crefis'] ['8334'][0]];
+            if (isset($case_data ['Proyectos_crefis'] ['4970'])) {
+                $status = $option[$case_data ['Proyectos_crefis'] ['4970'][0]];
             }
             $i++;
             $arr = array(
@@ -372,7 +372,7 @@ class crefis extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
 
-            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
+            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/231/interno.print.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
             $url_msg = (isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
             /* crefis/COORDINADOR (134) */
             $hist=$this->bpm->get_token_history('crefisGral',$token['case']);
@@ -380,7 +380,7 @@ class crefis extends MX_Controller {
             $keys = array_keys($case['token_status']);
             $url_clone = (
                     (in_array(134, $this->id_group) or in_array(138, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'closed' and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura
-                    and in_array($data ['Proyectos_crefis'] ['8334'][0], array(60, 65, 68, 87)) //---checkeo que esté en alguno de esos estados
+                    and in_array($data ['Proyectos_crefis'] ['4970'][0], array(60, 65, 68, 87)) //---checkeo que esté en alguno de esos estados
                     ) ? $this->base_url . 'crefis/clone_case/crefisGral/crefisGral/' . $token ['case'] : null;
             //---link para cancelar solo para coordinador
             $url_cancelar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
@@ -404,19 +404,19 @@ class crefis extends MX_Controller {
 
             /* STATUS */
             $status = "N/A";
-            if (isset($data ['Proyectos_crefis'] ['8334'])) {
+            if (isset($data ['Proyectos_crefis'] ['4970'])) {
                 $this->load->model('app');
                 $option = $this->app->get_ops(772);
-                $status = $option[$data ['Proyectos_crefis'] ['8334'][0]];
+                $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
             }
 
 
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
-                'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
-                'Nro' => (isset($data ['Proyectos_crefis'] ['8339'])) ? $data ['Proyectos_crefis'] ['8339'] : 'N/A',
+                'nombre' => (isset($data['Empresas_4844']['0']['1693'])) ? $data['Empresas_4844']['0']['1693'] : 'XXXX',
+                'cuit' => (isset($data['Empresas_4844']['0']['1695'])) ? $data['Empresas_4844']['0']['1695'] : 'XXXX',
+                'Nro' => (isset($data ['Proyectos_crefis'] ['4837'])) ? $data ['Proyectos_crefis'] ['4837'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
@@ -623,18 +623,18 @@ class crefis extends MX_Controller {
 
             /* STATUS */
             $status = "N/A";
-            if (isset($data ['Proyectos_crefis'] ['8334'])) {
+            if (isset($data ['Proyectos_crefis'] ['4970'])) {
                 $this->load->model('app');
                 $option = $this->app->get_ops(772);
-                $status = $option[$data ['Proyectos_crefis'] ['8334'][0]];
+                $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
             }
 
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
-                'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
-                'Nro' => (isset($data ['Proyectos_crefis'] ['8339'])) ? $data ['Proyectos_crefis'] ['8339'] : 'N/A',
+                'nombre' => (isset($data['Empresas_4844'][0]['1693'])) ? $data['Empresas']['1693'] : '',
+                'cuit' => (isset($data['Empresas_4844'][0]['1695'])) ? $data['Empresas']['1695'] : '',
+                // 'Nro' => (isset($data ['Proyectos_crefis'] ['8339'])) ? $data ['Proyectos_crefis'] ['8339'] : 'N/A',
                 'estado' => $status,
                 'url_clone' => null,
                 'fechaent' => ($token ['checkdate']) ? date('d/m/Y', strtotime($token ['checkdate'])) : '???',
@@ -730,7 +730,7 @@ class crefis extends MX_Controller {
                 $query = array('id' => $id);
                 $values = $this->crefis_model->get_amount_stats_by_id($query);
 
-                $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+                $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
                 $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
                 $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
 
@@ -797,7 +797,7 @@ class crefis extends MX_Controller {
 
         foreach ($querys as $values) {
 
-            $ctrl_value = (isset($values[0][8334][0])) ? $values[0][8334][0] : $values[0][8334];
+            $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
             $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
             $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
 
@@ -914,7 +914,7 @@ class crefis extends MX_Controller {
 
         foreach ($querys[0] as $values) {
 
-            $ctrl_value = (isset($values[8334][0])) ? $values[8334][0] : $values[8334];
+            $ctrl_value = (isset($values[4970][0])) ? $values[4970][0] : $values[4970];
 
 
             $evaluator_id = $values[8668][0];
@@ -1190,17 +1190,18 @@ BLOCK;
 
     function show_msgs($idcase) {
 
-        $idwfs = array('crefisGral', 'crefisGral');
+        $idwfs = array('crefisGral');
         foreach ($idwfs as $idwf) {
             $filter = array(
                 'idwf' => $idwf,
                 'case' => $idcase,
             );
 
-            $title = ($idwf == 'crefisGral') ? "Pre Aprobados" : "Aprobados";
-
+            //$title = ($idwf == 'crefisGral') ? "Pre Aprobados" : "Aprobados";
+            $title='al Proyecto';
             $cdata = array();
-            $cdata['title'] = "Notificaciones (" . $title . "): ";
+            //$cdata['title'] = "Notificaciones (" . $title . "): ";
+            $cdata['title'] = "Notificaciones " . $title . ": ";
             echo Modules::run('inbox/show_msgs_by_filter', $filter, $cdata);
         }
     }
@@ -1216,7 +1217,8 @@ BLOCK;
         return $update;
     }
 
-    function widget_2doMe2($chunk = 1, $pagesize = 5) {
+    function widget_2doMe2($chunk = 1, $pagesize = 2000) {
+        
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
         $query = array(
@@ -1257,9 +1259,24 @@ BLOCK;
 
         $data['more_info_link'] = $this->base_url . 'bpm/';
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
-      echo $this->parser->parse('crefis/widgets/2doMe2', $data, true, true);
+        
+        //==== Pagination
+
+        $pagination=array_chunk($data['mytasks'],5);
+        $pages=array();
+        
+        foreach($pagination as $chunk){
+            $data['mytasks2']=$chunk;
+            $pages[]=$this->parser->parse('crefis/widgets/2doMe2_task', $data, true, true);
+            
+        }
+        
+
+        $data['mytasks_paginated']=$this->ui->paginate($pages);
+
+        echo $this->parser->parse('crefis/widgets/2doMe2', $data, true, true);
     }
-    
+
     public function faq() {
         $this->user->authorize();
         $config['title']="Preguntas frecuentes";
@@ -1267,10 +1284,10 @@ BLOCK;
         $config['body']="<a class='btn btn-info' href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>
  Descargar</a>";
         echo $this->ui->callout($config);
-   
+
     }
-    
-    
+
+
 
 }
 

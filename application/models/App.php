@@ -336,6 +336,49 @@ class App extends CI_Model {
         $thisArr['id'] = $id;
         return $thisArr;
     }
+    
+     /* SGR PATCH */
+
+    function put_array_sgr($id, $container, $val_arr = array()) {
+
+        /*
+         * SGR PATCH
+         * SWITCH TO SGR DB
+         */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->sgr_db->switch_db('sgr');
+        
+        
+
+        $thisArr = array();
+
+        foreach ($val_arr as $idframe => $value) {
+
+            /* bug xls */
+            if (!is_array($value)) {
+                if (mb_detect_encoding($value) == "UTF-8") {
+                    $value = htmlentities(utf8_encode($value));
+                }
+            }
+
+            $thisFrame = $this->get_frame($idframe, array('type', 'container'));
+            $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
+        }
+
+        //----check 4 id
+        if (!is_numeric($id)) {
+            $id = $this->genid($container);
+        }
+        //unset($thisArr[4653], $thisArr[4654]);
+        $criteria = array('id' => $id);
+        $update = array('$set' => $thisArr);
+        $options = array('upsert' => true, 'w' => 0);
+        //var_dump($container, json_encode($criteria), json_encode($update));        
+        $result = $this->mongowrapper->sgr->selectCollection($container)->update($criteria, $update, $options);
+        $thisArr['id'] = $id;
+
+        return $thisArr;
+    }
 
     function cast_type($input, $type) {
         $retval = '';
@@ -488,6 +531,59 @@ class App extends CI_Model {
         $this->mongowrapper->db->selectCollection($container)->save($insert);
         return $id;
     }
+
+
+    /* SGR PATCH */
+
+    function genid_sgr($container) {
+
+        /*
+         * SGR PATCH
+         * SWITCH TO SGR DB
+         */
+        $this->load->library('cimongo/cimongo', '', 'sgr_db');
+        $this->sgr_db->switch_db('sgr');
+
+
+        $insert = array();
+        $id = mt_rand();
+        $trys = 10;
+        $i = 0;
+        //---if passed specific id
+        if (func_num_args() > 1) {
+            $id = (double) func_get_arg(1);
+            $passed = true;
+            //echo "passed: $id<br>";
+        }
+        $hasone = false;
+
+        while (!$hasone and $i <= $trys) {//---search until found or $trys iterations
+            //while (!$hasone) {//---search until found or 1000 iterations
+            $query = array('id' => $id);
+            $result = $this->mongowrapper->sgr->selectCollection($container)->findOne($query);
+            $i++;
+            if ($result) {
+                if ($passed) {
+                    show_error("id:$id already Exists in $container");
+                    $hasone = true;
+                    break;
+                } else {//---continue search for free id
+                    $id = mt_rand();
+                }
+            } else {//---result is null
+                $hasone = true;
+            }
+        }
+        if (!$hasone) {//-----cant allocate free id
+            show_error("Can't allocate an id in $container after $trys attempts");
+        }
+        //-----make basic object
+        $insert['id'] = $id;
+        //----Allocate id in the collection (may result in empty docs)
+        $this->mongowrapper->sgr->selectCollection($container)->save($insert);
+        return $id;
+    }
+    
 
     function dumpid($id, $container) {
         $criteria = array('id' => (int) $id);
