@@ -100,7 +100,7 @@ class Recover extends MX_Controller {
 
             $this->email->clear();
             $config['mailtype'] = "html";
-            $this->email->initialize($config);
+            //$this->email->initialize($config);
             $this->email->set_newline("\r\n");
             $this->email->from('dna2@produccion.gob.ar', 'Soporte');
             $list = array($clean['email']); //$list = array('xxx@gmail.com', 'xxx@gmail.com');
@@ -108,7 +108,8 @@ class Recover extends MX_Controller {
             $data = array();
             $this->email->subject($this->lang->line('mailsubject'));
             $this->email->message($content);
-
+            var_dump($this->email);
+            exit();
 //echo $content."<br>";
 
             if ($this->email->send()){
