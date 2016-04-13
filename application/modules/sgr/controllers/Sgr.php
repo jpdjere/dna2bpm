@@ -1085,7 +1085,7 @@ class Sgr extends MX_Controller {
     function stream_print($anexo, $customData, $parameter) {
 
         /* Print on HTML */
-        $no_pdf = array('12', '123', '125', '06');
+        $no_pdf = array('12', '123', '125', '06', '14');
 
         if (in_array($anexo, $no_pdf)) {
             echo $this->parser->parse('print', $customData, true);
