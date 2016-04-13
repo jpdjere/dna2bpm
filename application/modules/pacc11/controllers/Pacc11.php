@@ -75,7 +75,7 @@ class pacc11 extends MX_Controller {
         //----tomo evaluador técnico
         $evaluador = $renderData['Proyectos_pacc']['6404'][0];
         //----token que hay que finalizar (self)
-        $src_resourceId = 'oryx_43E6BB74-5545-4CAB-BD71-3F3B42533211';
+        $src_resourceId = 'oryx_BD7F84C3-73FE-48E0-831F-DEB0B9F78DCC';
         // ---Token de pp asignado
         $lane_resourceId = 'oryx_0DA9E38A-92D8-4B19-A948-46CEF3168613';
         
