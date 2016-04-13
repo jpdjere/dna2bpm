@@ -1190,17 +1190,18 @@ BLOCK;
 
     function show_msgs($idcase) {
 
-        $idwfs = array('crefisGral', 'crefisGral');
+        $idwfs = array('crefisGral');
         foreach ($idwfs as $idwf) {
             $filter = array(
                 'idwf' => $idwf,
                 'case' => $idcase,
             );
 
-            $title = ($idwf == 'crefisGral') ? "Pre Aprobados" : "Aprobados";
-
+            //$title = ($idwf == 'crefisGral') ? "Pre Aprobados" : "Aprobados";
+            $title='al Proyecto';
             $cdata = array();
-            $cdata['title'] = "Notificaciones (" . $title . "): ";
+            //$cdata['title'] = "Notificaciones (" . $title . "): ";
+            $cdata['title'] = "Notificaciones " . $title . ": ";
             echo Modules::run('inbox/show_msgs_by_filter', $filter, $cdata);
         }
     }
