@@ -416,7 +416,7 @@ class crefis extends MX_Controller {
                 'case' => $token ['case'],
                 'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
                 'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
-                'Nro' => (isset($data ['Proyectos_crefis'] ['8339'])) ? $data ['Proyectos_crefis'] ['8339'] : 'N/A',
+                'Nro' => (isset($data ['Proyectos_crefis'] ['4837'])) ? $data ['Proyectos_crefis'] ['4837'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
