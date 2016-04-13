@@ -1032,7 +1032,7 @@ class Sgr extends MX_Controller {
 
     function print_anexo($parameter = null) {
 
-        // ini_set("error_reporting", 0);
+         ini_set("error_reporting", E_ALL);
 
         if (!$parameter)
             exit();
