@@ -47,7 +47,7 @@ class File_connector extends CI_Model {
         //----extra css
         $CI->add_css[$CI->base_url .'bpm/assets/css/file_connector.css']='File_connector CSS';
         
-        $str = $this->parser->parse( APPPATH.'modules/bpm/models/connectors/file_connector_view.php', $dirinfo, true);
+        $str = $this->parser->parse( APPPATH.'modules/bpm/models/connectors/File_connector_view.php', $dirinfo, true);
         return $str;
     }
 
