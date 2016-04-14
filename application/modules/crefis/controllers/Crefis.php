@@ -372,7 +372,7 @@ class crefis extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
 
-            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/231/interno.print.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
+            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/231/list_docs_crefis_eval.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
             $url_msg = (isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
             /* crefis/COORDINADOR (134) */
             $hist=$this->bpm->get_token_history('crefisGral',$token['case']);
