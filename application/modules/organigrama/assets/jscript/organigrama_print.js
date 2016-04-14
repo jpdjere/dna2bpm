@@ -27,7 +27,7 @@ function LoadData() {
             options.normalItemsInterval = 20;
             options.dotItemsInterval = 10;
             options.lineItemsInterval = 10;
-            options.templates = [getContactTemplate()];
+            options.templates = [getTemplate1(),getTemplate2()];
             options.onItemRender = onTemplateRender;
             
             orgDiagram = jQuery("#orgdiagram").orgDiagram(options);
@@ -51,9 +51,9 @@ function onWindowResize() {
 }
 
 
-function getContactTemplate() {
+function getTemplate1() {
                 var result = new primitives.orgdiagram.TemplateConfig();
-                result.name = "contactTemplate";
+                result.name = "normal";
 
                 var buttons = [];
                 buttons.push(new primitives.orgdiagram.ButtonConfig("revert", "ui-icon-transferthick-e-w", "Revert"));
@@ -62,15 +62,51 @@ function getContactTemplate() {
 
                 result.buttons = buttons;
 
-                result.itemSize = new primitives.common.Size(220, 120);
+                result.itemSize = new primitives.common.Size(220, 130);
+                result.minimizedItemSize = new primitives.common.Size(3, 3);
+                result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
+
+
+                var itemTemplate = jQuery(
+                  '<div class="bp-item bp-corner-all bt-item-frame"  >'
+                    + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="box-size:border-box;word-wrap:break-word;position:static;margin:0px; width: inherit; height: auto;">'
+                        + '<div name="title" class="bp-item bp-title" style="box-size:border-box;word-wrap:break-word;padding:7px;position:static;white-space:normal; width: inherit; ">'
+                        + '</div>'
+                    + '</div>'
+                     + '<div name="description" class="bp-item" style="position:relative;font-weight:bold; font-size: 10px;padding:4px"></div>'
+                    + '<div name="phone" class="bp-item" style="position:static;padding:4px;font-size: 10px;"></div>'
+                    + '<div name="email" class="bp-item" style="position:static;padding:4px;font-size: 10px;"></div>'
+                   
+                + '</div>'
+                ).css({
+                    width: result.itemSize.width + "px",
+                    height: result.itemSize.height + "px"
+                }).addClass("bp-item bp-corner-all bt-item-frame");
+                result.itemTemplate = itemTemplate.wrap('<div>').parent().html();
+
+                return result;
+}
+
+function getTemplate2() {
+                var result = new primitives.orgdiagram.TemplateConfig();
+                result.name = "grande";
+
+                var buttons = [];
+                buttons.push(new primitives.orgdiagram.ButtonConfig("revert", "ui-icon-transferthick-e-w", "Revert"));
+                buttons.push(new primitives.orgdiagram.ButtonConfig("email", "ui-icon-mail-closed", "E-Mail"));
+                buttons.push(new primitives.orgdiagram.ButtonConfig("help", "ui-icon-help", "Help"));
+
+                result.buttons = buttons;
+
+                result.itemSize = new primitives.common.Size(280, 120);
                 result.minimizedItemSize = new primitives.common.Size(3, 3);
                 result.highlightPadding = new primitives.common.Thickness(2, 2, 2, 2);
 
 
                 var itemTemplate = jQuery(
                   '<div class="bp-item bp-corner-all bt-item-frame">'
-                    + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="top: 2px; left: 2px; width: 216px; height: 20px;">'
-                        + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 208px; height: 18px;">'
+                    + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="top: 2px; left: 2px; width: 276px; height: 20px;">'
+                        + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 270px; height: 18px;">'
                         + '</div>'
                     + '</div>'
                      + '<div name="description" class="bp-item" style="font-weight:bold;top: 26px; left: 6px; width: 162px; height: 36px; font-size: 10px;"></div>'
@@ -101,7 +137,7 @@ function onTemplateRender(event, data) {
 
                 var itemConfig = data.context;
 
-                if (data.templateName == "contactTemplate") {
+                if (data.templateName == "grande" || data.templateName == "normal") {
                     // dum
                     data.element.find("[name=photo]").attr({ "src": itemConfig.image, "alt": itemConfig.title });
                     data.element.find("[name=titleBackground]").css({ "background": itemConfig.itemTitleColor });
