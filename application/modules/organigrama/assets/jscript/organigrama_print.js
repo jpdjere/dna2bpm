@@ -73,10 +73,10 @@ function getContactTemplate() {
                         + '<div name="title" class="bp-item bp-title" style="top: 3px; left: 6px; width: 208px; height: 18px;">'
                         + '</div>'
                     + '</div>'
-
-                    + '<div name="phone" class="bp-item" style="top: 26px; left: 6px; width: 162px; height: 18px; font-size: 12px;"></div>'
-                    + '<div name="email" class="bp-item" style="top: 44px; left: 6px; width: 162px; height: 18px; font-size: 12px;"></div>'
-                    + '<div name="description" class="bp-item" style="top: 62px; left: 6px; width: 162px; height: 36px; font-size: 10px;"></div>'
+                     + '<div name="description" class="bp-item" style="font-weight:bold;top: 26px; left: 6px; width: 162px; height: 36px; font-size: 10px;"></div>'
+                    + '<div name="phone" class="bp-item" style="top: 44px; left: 6px; width: 162px; height: 18px; font-size: 12px;"></div>'
+                    + '<div name="email" class="bp-item" style="top: 62px; left: 6px; width: 162px; height: 18px; font-size: 12px;"></div>'
+                   
                 + '</div>'
                 ).css({
                     width: result.itemSize.width + "px",
