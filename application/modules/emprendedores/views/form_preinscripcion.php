@@ -100,11 +100,17 @@
               </label>
               </div>
           </div>
+  
+            <!-- Nombre  organismo -->
+          <div class="form-group">
+            <label for="og_nombre">Nombre del organismo</label>
+            <input type="text" class="form-control" id="og_nombre" name="og_nombre" placeholder="Nombre del referente" >
+          </div>
           
           <!-- Nombre  -->
           <div class="form-group">
-            <label for="og_nombre">Nombre del referente</label>
-            <input type="text" class="form-control" id="og_nombre" name="og_nombre" placeholder="Nombre del referente" >
+            <label for="og_referente">Nombre del referente</label>
+            <input type="text" class="form-control" id="og_referente" name="og_referente" placeholder="Nombre del referente" >
           </div>
 
           <!-- Email  -->
@@ -122,11 +128,17 @@
  <!-- Organización 1 -->
  
          <h4 class='text-info'><i class="fa fa-chevron-right text-info"></i> Organización 1</h4>
- 
-           <!-- Nombre  -->
+         
+           <!-- Nombre  Org 1 -->
           <div class="form-group">
-            <label for="o1_nombre">Nombre del referente</label>
-            <input type="text" class="form-control" id="o1_nombre" name="o1_nombre" placeholder="Nombre del referente" >
+            <label for="o1_nombre">Nombre de la organización 1</label>
+            <input type="text" class="form-control" id="o1_nombre" name="o1_nombre" placeholder="Nombre de la organización 1" >
+          </div>
+          
+         <!-- Nombre  -->
+          <div class="form-group">
+            <label for="o1_referente">Nombre del referente</label>
+            <input type="text" class="form-control" id="o1_referente" name="o1_referente" placeholder="Nombre del referente" >
           </div>
 
           <!-- Email  -->
@@ -145,10 +157,16 @@
  
          <h4 class='text-info'><i class="fa fa-chevron-right text-info"></i> Organización 2</h4>
  
-           <!-- Nombre  -->
+           <!-- Nombre  Org 1 -->
           <div class="form-group">
-            <label for="o2_nombre">Nombre del referente</label>
-            <input type="text" class="form-control" id="o2_nombre" name="o2_nombre" placeholder="Nombre del referente" >
+            <label for="o2_nombre">Nombre de la organización 1</label>
+            <input type="text" class="form-control" id="o2_nombre" name="o2_nombre" placeholder="Nombre de la organización 1" >
+          </div>
+          
+         <!-- Nombre  -->
+          <div class="form-group">
+            <label for="o2_referente">Nombre del referente</label>
+            <input type="text" class="form-control" id="o2_referente" name="o2_referente" placeholder="Nombre del referente" >
           </div>
 
           <!-- Email  -->
