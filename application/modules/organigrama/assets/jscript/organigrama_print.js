@@ -17,37 +17,20 @@ function LoadData() {
         'dataType': 'json',
         'success': function(data, status) {
             options = data.data;
-            // options.hasSelectorCheckbox = primitives.common.Enabled.False;
-            // options.minimalVisibility = primitives.common.Visibility.Normal;
-            // options.pageFitMode = primitives.common.PageFitMode.Width;
-            // options.leavesPlacementType = primitives.common.ChildrenPlacementType.Matrix;
-            // options.normalLevelShift = 20;
-            // options.dotLevelShift = 10;
-            // options.lineLevelShift = 10;
-            // options.normalItemsInterval = 20;
-            // options.dotItemsInterval = 10;
-            // options.lineItemsInterval = 10;
+            options.hasSelectorCheckbox = primitives.common.Enabled.False;
+            options.minimalVisibility = primitives.common.Visibility.Normal;
+            options.pageFitMode = primitives.common.PageFitMode.Width;
+            options.leavesPlacementType = primitives.common.ChildrenPlacementType.Matrix;
+            options.normalLevelShift = 20;
+            options.dotLevelShift = 10;
+            options.lineLevelShift = 10;
+            options.normalItemsInterval = 20;
+            options.dotItemsInterval = 10;
+            options.lineItemsInterval = 10;
              options.templates = [getTemplate1(),getTemplate2()];
              options.onItemRender = onTemplateRender;
             
             
-                options.cursorItem= null;
-                options.hasSelectorCheckbox= primitives.common.Enabled.False;
-                options.hasButtons= primitives.common.Enabled.False;
-                options.pageFitMode= primitives.common.PageFitMode.PrintPreview;
-                options.elbowType= primitives.common.ElbowType.Round;
-                options.normalLevelShift= 30;
-                options.dotLevelShift= 30;
-                options.lineLevelShift= 24;
-                options.normalItemsInterval= 20;
-                options.dotItemsInterval= 10;
-                options.lineItemsInterval= 4;
-                options.linesWidth= 1;
-                options.linesColor= "black";
-                options.cousinsIntervalMultiplier= 1;
-                options.arrowsDirection= primitives.common.GroupByType.Parents;
-                
-                
             orgDiagram = jQuery("#orgdiagram").orgDiagram(options);
             
             // orgDiagram.orgDiagram(options);
