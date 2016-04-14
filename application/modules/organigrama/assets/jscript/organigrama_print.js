@@ -70,9 +70,9 @@ function getTemplate1() {
 
 
                 var itemTemplate = jQuery(
-                  '<div class="bp-item bp-corner-all bt-item-frame" style="border: 1px solid black"  >'
-                    + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="margin:2px;box-size:border-box;word-wrap:break-word;position:static;margin:0px; width: inherit; height: auto;">'
-                        + '<div name="title" class="bp-item bp-title" style="box-size:border-box;word-wrap:break-word;padding:7px;position:static;white-space:normal; width: inherit; ">'
+                  '<div class="bp-item bp-corner-all bt-item-frame" style="border: 1px solid black;"  >'
+                    + '<div name="titleBackground" class="bp-item bp-corner-all bp-title-frame" style="padding:4px;margin:5px;box-size:border-box;word-wrap:break-word;position:static; width: 203px; height: auto;">'
+                        + '<div name="title" class="bp-item bp-title" style="word-wrap:break-word;position:static;white-space:normal; width: inherit; ">'
                         + '</div>'
                     + '</div>'
                      + '<div name="description" class="bp-item" style="position:relative;font-weight:bold; font-size: 10px;padding:4px"></div>'
