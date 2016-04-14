@@ -27,8 +27,8 @@ function LoadData() {
             // options.normalItemsInterval = 20;
             // options.dotItemsInterval = 10;
             // options.lineItemsInterval = 10;
-            // options.templates = [getTemplate1(),getTemplate2()];
-            // options.onItemRender = onTemplateRender;
+             options.templates = [getTemplate1(),getTemplate2()];
+             options.onItemRender = onTemplateRender;
             
             
                 options.cursorItem= null;
