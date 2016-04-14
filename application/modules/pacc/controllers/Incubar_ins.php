@@ -10,7 +10,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Incubar extends MX_Controller {
+class Incubar_ins extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -32,7 +32,7 @@ class Incubar extends MX_Controller {
      * Dashboard para Incubar
      */
     function dashboard($debug=false){
-        Modules::run('dashboard/dashboard', 'pacc/json/dashboard_incubar.json',$debug);
+        Modules::run('dashboard/dashboard', 'pacc/json/dashboard_incubar_insc.json',$debug);
 
     }
 
