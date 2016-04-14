@@ -106,8 +106,7 @@ class Recover extends MX_Controller {
             $data = array();
             $this->email->subject($this->lang->line('mailsubject'));
             $this->email->message($content);
-            var_dump($this->email);
-            exit();
+
 //echo $content."<br>";
 
             if ($this->email->send()){
