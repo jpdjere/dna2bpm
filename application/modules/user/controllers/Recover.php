@@ -66,8 +66,6 @@ class Recover extends MX_Controller {
     function Send() {
         //----LOAD LANGUAGE
         
-
-        
         $this->lang->load('login', $this->config->item('language'));
         //---add language data
         $cpData['lang'] = $this->lang->language;
