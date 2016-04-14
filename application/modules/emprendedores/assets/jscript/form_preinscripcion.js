@@ -44,7 +44,7 @@ $("form").validate({
     submitHandler: function(form) {
         var data=$( form ).serializeArray();
 
-        var url=base_url+"emprendedores/forms/process/";
+        var url=base_url+"emprendedores/formularios/process/";
         console.log(url);
         $.ajax({
           type: "POST",
