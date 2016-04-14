@@ -372,7 +372,7 @@ class crefis extends MX_Controller {
             $data = $this->bpm->load_case_data($case);
 
 
-            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
+            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/231/list_docs_crefis_eval.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
             $url_msg = (isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
             /* crefis/COORDINADOR (134) */
             $hist=$this->bpm->get_token_history('crefisGral',$token['case']);
@@ -414,9 +414,9 @@ class crefis extends MX_Controller {
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : '',
-                'cuit' => (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : '',
-                'Nro' => (isset($data ['Proyectos_crefis'] ['8339'])) ? $data ['Proyectos_crefis'] ['8339'] : 'N/A',
+                'nombre' => (isset($data['Empresas_4844']['0']['1693'])) ? $data['Empresas_4844']['0']['1693'] : 'XXXX',
+                'cuit' => (isset($data['Empresas_4844']['0']['1695'])) ? $data['Empresas_4844']['0']['1695'] : 'XXXX',
+                'Nro' => (isset($data ['Proyectos_crefis'] ['4837'])) ? $data ['Proyectos_crefis'] ['4837'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
@@ -1190,17 +1190,18 @@ BLOCK;
 
     function show_msgs($idcase) {
 
-        $idwfs = array('crefisGral', 'crefisGral');
+        $idwfs = array('crefisGral');
         foreach ($idwfs as $idwf) {
             $filter = array(
                 'idwf' => $idwf,
                 'case' => $idcase,
             );
 
-            $title = ($idwf == 'crefisGral') ? "Pre Aprobados" : "Aprobados";
-
+            //$title = ($idwf == 'crefisGral') ? "Pre Aprobados" : "Aprobados";
+            $title='al Proyecto';
             $cdata = array();
-            $cdata['title'] = "Notificaciones (" . $title . "): ";
+            //$cdata['title'] = "Notificaciones (" . $title . "): ";
+            $cdata['title'] = "Notificaciones " . $title . ": ";
             echo Modules::run('inbox/show_msgs_by_filter', $filter, $cdata);
         }
     }

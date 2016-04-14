@@ -18,7 +18,7 @@
                     <th></th>
                     <th>Nro Proyecto</th>
                     <th>Fecha</th>
-                    <th>Nombre</th>
+                    <th>Nombre Empresa</th>
                     <th>CUIT</th>
                     <th>Estado</th>
                     <th>Caso</th>
