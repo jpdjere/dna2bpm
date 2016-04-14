@@ -104,7 +104,7 @@
             <!-- Nombre  organismo -->
           <div class="form-group">
             <label for="og_nombre">Nombre del organismo</label>
-            <input type="text" class="form-control" id="og_nombre" name="og_nombre" placeholder="Nombre del referente" >
+            <input type="text" class="form-control" id="og_nombre" name="og_nombre" placeholder="Nombre del organismo" >
           </div>
           
           <!-- Nombre  -->
@@ -159,8 +159,8 @@
  
            <!-- Nombre  Org 1 -->
           <div class="form-group">
-            <label for="o2_nombre">Nombre de la organización 1</label>
-            <input type="text" class="form-control" id="o2_nombre" name="o2_nombre" placeholder="Nombre de la organización 1" >
+            <label for="o2_nombre">Nombre de la organización 2</label>
+            <input type="text" class="form-control" id="o2_nombre" name="o2_nombre" placeholder="Nombre de la organización 2" >
           </div>
           
          <!-- Nombre  -->
