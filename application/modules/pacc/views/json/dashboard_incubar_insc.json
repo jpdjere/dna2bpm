@@ -16,7 +16,7 @@
         "tiles": [{
             "title": "TileSolicitud",
             "module": "pacc",
-            "controller": "incubar",
+            "controller": "incubar_ins",
             "function": "pre_inscripción_INCUBAR",
             "span": 3
         }, {
@@ -46,7 +46,7 @@
         "col1": [{
             "title": "2do",
             "module": "pacc",
-            "controller": "incubar",
+            "controller": "incubar_ins",
             "function": "widget_2doMe2"
         }]
     }, {
