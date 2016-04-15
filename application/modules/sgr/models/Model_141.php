@@ -410,8 +410,8 @@ class Model_141 extends CI_Model {
 
             $this->model_141->update_partner_balance($merged_arr);
 
-            if (isset($debug))
-                var_dump($merged_arr);
+            /*if (isset($debug))
+                var_dump($merged_arr);*/
         }
     }
 
