@@ -970,9 +970,9 @@ class crefis extends MX_Controller {
         if ($id) {
             $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
             echo <<<BLOCK
-                <p align='left'>1. <a href="{$dna2url}frontcustom/284/nota_crefis_preapro.php?id=$id" target="_blank">Nota de Presentac&oacute;n</a></p>
-                <p align='left'>2. <a href="{$dna2url}frontcustom/284/print_crefis_preA.php?id=$todo" target="_blank">Imprimible del Proyecto</a></p>
-                <p align='left'>3. <a href="{$dna2url}frontcustom/284/ddjj_docu_crefis_preA.php?id=$id" target="_blank">Listado de Documentaci&oacute;n a Presentar</a></p>
+                <p align='left'>2. <a href="{$dna2url}frontcustom/231/externo.print.php?id=$todo" target="_blank">Imprimible del Proyecto</a></p>
+                <p align='left'>3. <a href="{$dna2url}frontcustom/284/ddjj_docu_crefis_preA.php?id=$id" target="_blank">Modelo de DJJ</a></p>-->
+                        
 BLOCK;
         } else {
             echo 'div class="alert alert-success" role="alert">El Caso no tiene id de proyecto</div>';
