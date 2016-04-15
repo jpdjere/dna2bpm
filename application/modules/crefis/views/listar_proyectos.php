@@ -28,7 +28,7 @@
                 {empresas}
                 <tr>
                     <td>
-                        <a href="{link_open}" target="_blank" title="Ver Proyecto">
+                        <a href="{link_open}" target="_blank" title="Ver Documentos del Proyecto">
                             <i class="ion ion-folder fa-2x fa-adjust"></i>
                         </a>
 
@@ -43,7 +43,7 @@
                         </a>{/if}
                     </td>
                     <td>
-                    {if {url_clone}>0}<a href="{url_clone}" title="Documentación Recibida: Comenzar PDE!">
+                    {if {url_clone}>0}<a href="{url_clone}" title="Recibir Documentación">
                             <i class="ion ion-android-inbox fa-2x fa-adjust"></i>
                         </a>{/if}
                     </td>
