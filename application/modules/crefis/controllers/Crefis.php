@@ -1245,7 +1245,7 @@ BLOCK;
                     $proyectoID = $mycase['data']['Proyectos_crefis']['query']['id'];
                     $proyecto = $this->bpm->get_data('container.proyectos_crefis', array('id' => $proyectoID));
                     //$data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
-                    $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0];
+                    $data['mytasks'][$k]['extra_data']['ip'] = '$proyecto[0]';
 
                     $url = (isset($mycase['data'] ['Proyectos_crefis']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
