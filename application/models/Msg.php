@@ -14,6 +14,8 @@ class Msg extends CI_Model {
         $this->load->library('mongowrapper');
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
+        
+        ini_set('display_errors',1);
     }
 
 //---get that msg
@@ -51,7 +53,7 @@ class Msg extends CI_Model {
     return $rs;
 
     }
-    
+
     // ===== Get MSGs using a filter
     function get_msgs_by_filter($filter = array()) {
         $this->db->where($filter);
@@ -69,7 +71,7 @@ class Msg extends CI_Model {
         //if(!is_null($read))$query['read']=$read;
         $this->db->where($query);
         $rs = $this->db->get('msg');
-        return count($rs->result_array());      
+        return count($rs->result_array());
     }
 
 //---send msg multiple users
@@ -84,10 +86,10 @@ class Msg extends CI_Model {
 //---set msg timestamp
         $msg['checkdate'] = date('Y-m-d H:i:s');
         $user = $this->user->get_user($to);
-        
+
 //---TODO : Check if user want's to recive email copies
         if (isset($msg['to']) and isset($msg['from'])) {
-            $this->db->insert('msg', $msg); 
+            $this->db->insert('msg', $msg);
             $sendEmail = false;
             if (!property_exists($user,"notification_by_email")) {
                 $sendEmail = true;
@@ -105,12 +107,12 @@ class Msg extends CI_Model {
     }
 
     function send_mail($msg, $user) {
-    $debug=false;    
-    // $debug=true;    
+    $this->load->config('email');
+    $debug=(null!==$this->config->item('debug')) ? $this->config->item('debug'):false;
     if($debug) echo '<pre>';
         if (property_exists($user,'email')) {
             $this->load->library('phpmailer/phpmailer');
-            $this->load->config('email');
+
             $ok = false;
             $mail = new $this->phpmailer;
             $mail->IsSMTP(); // telling the class to use SMTP
@@ -119,8 +121,8 @@ class Msg extends CI_Model {
             // 1 = errors and messages
             // 2 = messages only
             if($debug){
-            $mail->SMTPDebug = 1; 
-                
+            $mail->SMTPDebug = 1;
+
             }
             //---ReplyTo
             $sender= $this->user->get_user($msg['from']);
@@ -129,7 +131,7 @@ class Msg extends CI_Model {
              $slastname=(property_exists($sender,'lastname'))?$sender->lastname:'???';
                 $mail->AddReplyTo($sender->email,$sname.' '.$slastname);
             }
-            $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
+            $mail->SetFrom($sender->email, $sname.' '.$slastname);
             $mail->Subject = utf8_decode($this->config->item('mail_suffix').' ' . $msg['subject']);
             $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
             $mail->IsHTML(true);
@@ -152,11 +154,84 @@ class Msg extends CI_Model {
             }
         }
     }
+    
+    // == Generic mail sender
+    
+    function sendmail($config=array()){
+       
+        $default=array(
+        'subject'=>'',
+        'body'=>'',
+        'reply_email'=>'',
+        'reply_nicename'=>'',
+        'to'=>array(),
+        'cc'=>array(),
+        'bcc'=>array(),
+        'debug'=>2,
+        'is_html'=>true
+        );
+        $myconfig=array_merge($default,$config);
+          
+        if(empty($myconfig['to']))return;
+        if(empty($myconfig['subject']))return;
+      
+        $this->load->library('phpmailer/phpmailer');
+        $this->load->config('email');
+
+        $mail = new $this->phpmailer;
+        $mail->IsSMTP();
+  
+        if($myconfig['debug']>0)$mail->SMTPDebug = $myconfig['debug'];
+        $mail->Username = $this->config->item('smtp_user');             
+        $mail->Password =  $this->config->item('smtp_passw');
+        $mail->Host = $this->config->item('smtp_host');
+        $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
+        $mail->Subject = utf8_decode($this->config->item('mail_suffix').' ' . $myconfig['subject']);
+      
+        $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; //
+        if(!empty($myconfig['reply_email'])){
+            $nicename=(empty($myconfig['reply_nicename']))?($myconfig['reply_email']):($myconfig['reply_nicename']);
+            $mail->AddReplyTo($myconfig['reply_email'], $nicename);
+        }
+          
+        $mail->IsHTML($myconfig['is_html']);
+        $mail->Body=$myconfig['body'];
+
+
+
+        //==== Lets send this mails!
+        
+        foreach($myconfig['to'] as $email => $nicename){
+            $mail->AddAddress($email, $nicename);
+        }
+
+        foreach($myconfig['cc'] as $email => $nicename){
+            $mail->AddCC($email, $nicename);
+        }            
+
+        foreach($myconfig['bcc'] as $email => $nicename){
+            $mail->AddBCC($email, $nicename);
+        }            
+        
+
+        if (!$mail->Send()) {
+            if($debug) {
+                var_dump($myconfig,$mail->ErrorInfo);
+                exit;
+            }
+            return false;
+        } else {
+            return true;
+        }     
+         
+
+        
+    }
 
     function remove($mongoid) {
         $mongoid = (is_object($mongoid)) ? $mongoid : new MongoId($mongoid);
         $this->db->where(array('_id' => $mongoid));
-        $rs= $this->db->delete('msg' )->result_array(); 
+        $rs= $this->db->delete('msg' )->result_array();
     }
 
     function move($id, $folder = 'trash') {
@@ -181,7 +256,7 @@ class Msg extends CI_Model {
         $rs = $this->db->get('msg');
         return $rs->result_array();
 
-        
+
     }
 
 // Set or unset star
