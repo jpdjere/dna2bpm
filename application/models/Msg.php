@@ -200,7 +200,7 @@ class Msg extends CI_Model {
 
 
         //==== Lets send this mails!
-        
+        var_dump($myconfig);
         foreach($myconfig['to'] as $email => $nicename){
             $mail->AddAddress($email, $nicename);
         }
