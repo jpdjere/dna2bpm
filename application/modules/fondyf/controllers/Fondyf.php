@@ -1239,7 +1239,7 @@ BLOCK;
                     $proyecto = $this->bpm->get_data('container.proyectos_fondyf', array('id' => $proyectoID));
                     $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['8339'];
                     
-                    $url = (isset($mycase['data'] ['Proyectos_fondyf']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_fondyf_eval.php?id=' . $mycase['data'] ['Proyectos_fondyf']['query'] ['id'] : '#';
+                    //$url = (isset($mycase['data'] ['Proyectos_fondyf']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_fondyf_eval.php?id=' . $mycase['data'] ['Proyectos_fondyf']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
 
                 }
