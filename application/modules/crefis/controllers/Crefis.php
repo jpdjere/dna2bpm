@@ -1231,12 +1231,12 @@ BLOCK;
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
 
-        if (isset($data['mytasks'])) {
+        if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
                 $data['mytasks'][$k]['extra_data']['ip'] = false;
-                if (isset($mycase['data']['Empresas']['query']['id'])) {
-                    $empresaID = $mycase['data']['Empresas']['query']['id'];
+                if (isset($mycase['data']['Empresas_4844']['query']['id'])) {
+                    $empresaID = $mycase['data']['Empresas_4844']['query']['id'];
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
                 }
@@ -1244,7 +1244,7 @@ BLOCK;
 
                     $proyectoID = $mycase['data']['Proyectos_crefis']['query']['id'];
                     $proyecto = $this->bpm->get_data('container.proyectos_crefis', array('id' => $proyectoID));
-                    $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['8339'];
+                    $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
 
                     $url = (isset($mycase['data'] ['Proyectos_crefis']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
