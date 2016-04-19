@@ -86,7 +86,7 @@ class Recover extends MX_Controller {
             $msg['reply_email']='dna2@industria.gob.ar';
             $msg['reply_nicename']='Soporte';
             //$msg['to']=array('gabriel@trialvd.com.ar'=>'gabriel@trialvd.com.ar');
-            $msg['body']=utf_encode($content);
+            $msg['body']=utf8_encode($content);
             $msg['subject']= $this->lang->line('PageDescriptionR');
             $msg['debug']=2;
             
