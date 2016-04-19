@@ -11,7 +11,7 @@ $( "form" ).submit(function( event ) {
   var myform=$(this);
   var mail=$(this).find('[name="mail"]').val();
   var url=globals['module_url']+'recover/send';
-  
+  console.log(url);
      $.post(url,{mail:mail},function(resp){
          console.log(resp);
          if(resp.status==true){
