@@ -70,9 +70,9 @@ class Recover extends MX_Controller {
         $this->load->model('msg');
         $this->lang->load('login', $this->config->item('language'));
         
-        $msg['to']  = array($this->input->post('mail'),'');
-        $dbobj=$this->user->getbymailaddress($msg['to']);
- var_dump($msg['to']);
+
+        $dbobj=$this->user->getbymailaddress($this->input->post('mail'));
+ var_dump($dbobj);
         if(!empty($dbobj->idu)){
             
             $token=md5($dbobj->email.$dbobj->idu);
