@@ -115,59 +115,6 @@ class Recover extends MX_Controller {
         }
 
 
-         
-//         $this->lang->load('login', $this->config->item('language'));
-//         //---add language data
-//         $cpData['lang'] = $this->lang->language;
-//         $cpData['title'] = $this->lang->line('PageDescriptionR');
-//         $cpData['base_url'] = $this->base_url;
-//         $cpData['module_url'] = $this->module_url;
-//         $cpData['theme'] = $this->config->item('theme');
-        
-//         $clean['email']  = $this->input->post('mail');
-
-//         // Chequeo datos atraves del email
-//         $dbobj=(array)$this->user->getbymailaddress($clean['email']);
-
-//         // Envio
-//         if(isset($dbobj['idu'])){ 
-
-//             $token=md5($dbobj['email'].$dbobj['idu']);
-//             //armamos el mail
-//             $content = $this->lang->line('mailsendpart1');
-
-//             $content.=" <strong>{$dbobj['nick']}</strong> $this->base_url</p>";
-//             $content.=$this->lang->line('mailsendpart2');
-//             $content.="<a href='{$this->base_url}user/recover/new_pass/$token'>".$this->lang->line('mailsendpart3')."</a>";
-
-//             $this->email->clear();
-//             $config['mailtype'] = "html";
-//             $this->email->initialize($config);
-//             $this->email->set_newline("\r\n");
-//             $this->email->from('dna2@industria.gob.ar', 'Soporte');
-//             $list = array($clean['email']); //$list = array('xxx@gmail.com', 'xxx@gmail.com');
-//             $this->email->to($list);
-//             $data = array();
-//             $this->email->subject($this->lang->line('mailsubject'));
-//             $this->email->message($content);
-
-// //echo $content."<br>";
-
-//             if ($this->email->send()){
-//                 echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
-//                 //save token
-//                 $object['token']  = $token;
-//                 $object['creationdate']  = date('Y-m-d H:i:s');
-//                 $object['idu'] = (int)$dbobj['idu'];
-//                 $result = $this->user->save_token($object);
-                
-//             }else show_error($this->email->print_debugger());
-            
-                
-//         }else{
-//         exit("0, No se ha podido enviar el email. No existe el email");
-//         }
-
         
         
     }

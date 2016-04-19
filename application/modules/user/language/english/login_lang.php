@@ -35,4 +35,4 @@ $lang["mailmsg2"]="Your password has been changed successfully.</br>";
 $lang["mailalert"]="0, Error!";
 
 /* End of file user.php */
-/* Location: ./system/language/english/user.php */
+/* Location: ./system/language/english/user.php - */
