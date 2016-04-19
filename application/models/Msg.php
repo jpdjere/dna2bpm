@@ -136,7 +136,7 @@ class Msg extends CI_Model {
             $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
             $mail->IsHTML(true);
             $mail->MsgHTML(nl2br($msg['body']));
-
+                
             $mail->AddAddress($user->email, "");
 
 //        $mail->AddAttachment("images/phpmailer.gif");      // attachment
@@ -180,7 +180,8 @@ class Msg extends CI_Model {
 
         $mail = new $this->phpmailer;
         $mail->IsSMTP();
-
+        $mail -> charSet = "UTF-8"; 
+        
         if($myconfig['debug']>0)$mail->SMTPDebug = $myconfig['debug'];
         $mail->Username = $this->config->item('smtp_user');             
         $mail->Password =  $this->config->item('smtp_passw');
