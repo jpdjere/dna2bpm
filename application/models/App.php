@@ -355,7 +355,10 @@ class App extends CI_Model {
         foreach ($val_arr as $idframe => $value) {
 
             /* bug xls Charset*/
-            $value = mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8');
+            if (is_string($value)) {
+                $value = utf8_encode($value);
+            }
+
 
             $thisFrame = $this->get_frame($idframe, array('type', 'container'));
             $thisArr[$idframe] = $this->cast_type($value, $thisFrame['type']);
