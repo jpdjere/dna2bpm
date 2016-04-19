@@ -215,7 +215,7 @@ class Msg extends CI_Model {
 
         if (!$mail->Send()) {
             if($myconfig['debug']) {
-                var_dump($myconfig,$mail->ErrorInfo);
+                var_dump($mail,$mail->ErrorInfo);
                 exit;
             }
             return false;
