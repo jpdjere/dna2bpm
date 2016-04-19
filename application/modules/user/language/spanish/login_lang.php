@@ -39,5 +39,5 @@ $lang["mailalert"]="0, Ha habido alg&uacute;n error";
 
 
 
-/* End of file user.php */
+/* End of file user.php - */
 /* Location: ./system/language/spanish/user.php */

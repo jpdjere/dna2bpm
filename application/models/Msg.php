@@ -155,7 +155,7 @@ class Msg extends CI_Model {
         }
     }
     
-    // == Generic mail sender
+    // === Generic mail sender
     
     function sendmail($config=array()){
        
