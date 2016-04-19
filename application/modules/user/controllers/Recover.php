@@ -47,6 +47,7 @@ class Recover extends MX_Controller {
         //---build UI 
         //---define files to viewport
         $cpData['css'] = array($this->module_url . "assets/css/login.css" => 'Login Specific');
+        $cpData['js'] = array($this->module_url . "assets/jscript/recover.js" => 'Login Specific');
         
         //---
         $cpData['global_js'] = array(
@@ -94,18 +95,22 @@ class Recover extends MX_Controller {
 
             if($send_ok){
                 // Mail OK
-                echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
+               // echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
+  
                 //save token
                 $object['token']  = $token;
                 $object['creationdate']  = date('Y-m-d H:i:s');
-                $object['idu'] = (int)$dbobj['idu'];
+                $object['idu'] = (int)$dbobj->idu;
                 $result = $this->user->save_token($object); 
                 
+                $resp['status']=true;
+                $resp['msg']=$this->lang->line('mailmsg1');
             }else{
-                exit("0, No se ha podido enviar el email. ");
+                $resp['status']=false;
+                $resp['msg']=$this->lang->line('mailmsg1_error');;
             }
         
-            
+            echo json_encode($resp);
         }
 
 

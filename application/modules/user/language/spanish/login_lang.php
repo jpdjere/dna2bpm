@@ -29,7 +29,8 @@ $lang["mailsendpart3"]= "Quiero resetear mi clave";
 $lang["type_your_email"] = "Por favor ingrese su email";
 
 $lang["mailsubject"]= "Reseteo de contraseña sistema DNA2";
-$lang["mailmsg1"]="Revise su email.</br> Muchas gracias.";
+$lang["mailmsg1"]="Revise su email. Muchas gracias.";
+$lang["mailmsg1_error"]="Hubo un problema para enviar. Pruebe mas tarde.";
 $lang["mailback"]="VOLVER";
 $lang["mailform"]="Nueva contraseña";
 $lang["mailpassno"]="Su contraseña debe tener al menos 5 car&aacute;cteres.";
