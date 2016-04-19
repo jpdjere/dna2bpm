@@ -90,7 +90,7 @@ class Recover extends MX_Controller {
             //$msg['to']=array('gabriel@trialvd.com.ar'=>'gabriel@trialvd.com.ar');
             $msg['body']=utf8_decode($content);
             $msg['subject']= $this->lang->line('PageDescriptionR');
-            $msg['debug']=1;
+            $msg['debug']=0;
             
             $send_ok=$this->msg->sendmail($msg);
 
