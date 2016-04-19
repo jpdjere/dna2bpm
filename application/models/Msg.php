@@ -198,8 +198,6 @@ class Msg extends CI_Model {
         $mail->Body=$myconfig['body'];
 
 
-        var_dump($myconfig);
-        exit();
         //==== Lets send this mails!
         
         foreach($myconfig['to'] as $email => $nicename){

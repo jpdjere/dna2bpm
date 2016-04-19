@@ -72,7 +72,7 @@ class Recover extends MX_Controller {
         
 
         $dbobj=$this->user->getbymailaddress($this->input->post('mail'));
- var_dump($dbobj);
+
         if(!empty($dbobj->idu)){
             
             $token=md5($dbobj->email.$dbobj->idu);
