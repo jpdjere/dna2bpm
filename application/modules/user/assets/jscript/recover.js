@@ -13,6 +13,7 @@ $( "form" ).submit(function( event ) {
   var url=globals['module_url']+'recover/send';
   
      $.post(url,{mail:mail},function(resp){
+         console.log(resp);
          if(resp.status==true){
              var msg ="<p class='text-info '><i class='fa fa-thumbs-o-up' aria-hidden='true'></i> "+resp.msg+"</p>";
          }else{
