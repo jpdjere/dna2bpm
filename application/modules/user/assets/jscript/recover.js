@@ -21,7 +21,7 @@ $( "form" ).submit(function( event ) {
          }
          
          myform.find('.footer').html(msg);
-     },'html');
+     },'json');
     
   
   
