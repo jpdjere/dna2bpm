@@ -66,12 +66,13 @@ class Recover extends MX_Controller {
     function Send() {
         //----LOAD LANGUAGE
         ini_set('display_errors',1);
+        
         $this->load->model('msg');
         $this->lang->load('login', $this->config->item('language'));
         
         $msg['to']  = array($this->input->post('mail'),'');
         $dbobj=$this->user->getbymailaddress($msg['to']);
-
+ var_dump($dbobj);
         if(!empty($dbobj->idu)){
             
             $token=md5($dbobj->email.$dbobj->idu);
@@ -91,7 +92,7 @@ class Recover extends MX_Controller {
             $msg['debug']=2;
             
             $send_ok=$this->msg->sendmail($msg);
-            var_dump($send_ok);
+           
             if($send_ok){
                 // Mail OK
                 echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
