@@ -93,6 +93,10 @@ class util extends MX_Controller {
         $rtnU['sess_time_to']=($this->session->userdata['last_activity'] + $this->session->sess_time_to_update >= $this->session->now);
         
         if (!$debug) {
+            $this->output->set_header('Last-Modified: '.gmdate('D, d M Y H:i:s', $last_update).' GMT');
+            $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate");
+            $this->output->set_header("Cache-Control: post-check=0, pre-check=0");
+            $this->output->set_header("Pragma: no-cache");
             $this->output->set_content_type('json','utf-8');
             $this->output->set_output(json_encode($rtnU));
         } else {
@@ -104,10 +108,10 @@ class util extends MX_Controller {
     
     function sess_update()	{
 		// We only update the session every five minutes by default
-		if ($this->session->userdata['last_activity'] + $this->session->sess_time_to_update >= $this->session->now)
-		{
-			return false;
-		}
+    // 		if ($this->session->userdata['last_activity'] + $this->session->sess_time_to_update >= $this->session->now)
+    // 		{
+    // 			return false;
+    // 		}
 
 		// Save the old session id so we know which record to
 		// update in the database if we need it
@@ -125,7 +129,7 @@ class util extends MX_Controller {
 		$new_sessid = md5(uniqid($new_sessid, TRUE));
 
 		// Update the session data in the session data array
-		$this->session->userdata['session_id'] = $new_sessid;
+// 		$this->session->userdata['session_id'] =$old_sessid;
 		$this->session->userdata['last_activity'] = $this->now;
 
 		// _set_cookie() will handle this for us if we aren't using database sessions
@@ -146,7 +150,8 @@ class util extends MX_Controller {
 		}
 
 		// Write the cookie
-		$this->session->_set_cookie($cookie_data);
+    //$this->session->_set_cookie($cookie_data);
+    return true;
 	}
 }
 
