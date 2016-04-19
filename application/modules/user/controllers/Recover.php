@@ -66,8 +66,13 @@ class Recover extends MX_Controller {
     
     function Send() {
         //----LOAD LANGUAGE
-        ini_set('display_errors',1);
+        //ini_set('display_errors',1);
         
+                $resp['status']=false;
+                $resp['msg']=$this->lang->line('mailmsg1_error');;
+                echo json_encode($resp);
+                exit();
+                
         $this->load->model('msg');
         $this->lang->load('login', $this->config->item('language'));
         
