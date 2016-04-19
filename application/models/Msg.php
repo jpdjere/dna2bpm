@@ -171,7 +171,7 @@ class Msg extends CI_Model {
         'is_html'=>true
         );
         $myconfig=array_merge($default,$config);
-          
+                 
         if(empty($myconfig['to']))return;
         if(empty($myconfig['subject']))return;
       
@@ -180,14 +180,14 @@ class Msg extends CI_Model {
 
         $mail = new $this->phpmailer;
         $mail->IsSMTP();
-  
+
         if($myconfig['debug']>0)$mail->SMTPDebug = $myconfig['debug'];
         $mail->Username = $this->config->item('smtp_user');             
         $mail->Password =  $this->config->item('smtp_passw');
         $mail->Host = $this->config->item('smtp_host');
         $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
         $mail->Subject = utf8_decode($this->config->item('mail_suffix').' ' . $myconfig['subject']);
-      
+
         $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; //
         if(!empty($myconfig['reply_email'])){
             $nicename=(empty($myconfig['reply_nicename']))?($myconfig['reply_email']):($myconfig['reply_nicename']);
@@ -195,8 +195,8 @@ class Msg extends CI_Model {
         }
           
         $mail->IsHTML($myconfig['is_html']);
-        $mail->Body=$myconfig['body'];
 
+        $mail->Body=$myconfig['body'];
 
         //==== Lets send this mails!
         
@@ -214,7 +214,7 @@ class Msg extends CI_Model {
         
 
         if (!$mail->Send()) {
-            if($debug) {
+            if($myconfig['debug']) {
                 var_dump($myconfig,$mail->ErrorInfo);
                 exit;
             }

@@ -70,7 +70,7 @@ class Recover extends MX_Controller {
         $this->load->model('msg');
         $this->lang->load('login', $this->config->item('language'));
         
-
+        $msg['to'][$this->input->post('mail')]=$this->input->post('mail');
         $dbobj=$this->user->getbymailaddress($this->input->post('mail'));
 
         if(!empty($dbobj->idu)){
@@ -80,7 +80,6 @@ class Recover extends MX_Controller {
             $content.=" <strong>{$dbobj->nick}</strong> $this->base_url</p>";
             $content.=$this->lang->line('mailsendpart2');
             $content.="<a href='{$this->base_url}user/recover/new_pass/$token'>".$this->lang->line('mailsendpart3')."</a>";
-            
             
             //== Envio
             
@@ -92,7 +91,7 @@ class Recover extends MX_Controller {
             $msg['debug']=2;
             
             $send_ok=$this->msg->sendmail($msg);
-           
+
             if($send_ok){
                 // Mail OK
                 echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
