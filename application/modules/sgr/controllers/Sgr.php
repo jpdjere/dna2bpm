@@ -743,7 +743,9 @@ class Sgr extends MX_Controller {
         }
 
         $header = "lib_" . $anexo . "_header";
-        $result_head = (array) $this->load->library("validators/" . $header, $headerArr);
+        $this->load->library("validators/" . $header, $headerArr);
+        $result_head = (array) $this->$header;
+        
 
         /* COLUMN HEADER ERROR */
 
@@ -778,8 +780,8 @@ class Sgr extends MX_Controller {
             $data_values = "lib_" . $anexo . "_data";
             $lib_error = "lib_" . $anexo . "_error_legend";
             $this->load->library("validators/" . $lib_error);
-
-            $get_data = (array) $this->load->library("validators/" . $data_values, $valuesArr);
+            $this->load->library("validators/" . $data_values, $valuesArr);
+            $get_data = (array) $this->$data_values;
 
 
             foreach ($get_data['data'] as $result_data) {
