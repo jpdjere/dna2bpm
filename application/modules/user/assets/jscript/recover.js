@@ -6,7 +6,7 @@ $(document).ready(function(){
     
 
     
-$( "form #recover1" ).submit(function( event ) {
+$( "#recover1" ).submit(function( event ) {
   event.preventDefault();
   var myform=$(this);
   var mail=$(this).find('[name="mail"]').val();
