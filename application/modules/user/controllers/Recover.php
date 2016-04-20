@@ -47,6 +47,7 @@ class Recover extends MX_Controller {
         //---build UI 
         //---define files to viewport
         $cpData['css'] = array($this->module_url . "assets/css/login.css" => 'Login Specific');
+        $cpData['js'] = array($this->module_url . "assets/jscript/recover.js" => 'Login Specific');
         
         //---
         $cpData['global_js'] = array(
@@ -65,64 +66,54 @@ class Recover extends MX_Controller {
     
     function Send() {
         //----LOAD LANGUAGE
+        //ini_set('display_errors',1);
         
+                
+        $this->load->model('msg');
         $this->lang->load('login', $this->config->item('language'));
-        //---add language data
-        $cpData['lang'] = $this->lang->language;
-        $cpData['title'] = $this->lang->line('PageDescriptionR');
-        $cpData['base_url'] = $this->base_url;
-        $cpData['module_url'] = $this->module_url;
-        $cpData['theme'] = $this->config->item('theme');
         
-        $clean['email']  = $this->input->post('mail');
+        $msg['to'][$this->input->post('mail')]=$this->input->post('mail');
+        $dbobj=$this->user->getbymailaddress($this->input->post('mail'));
 
-  ////////////////////////////////////////////////            
-//        $email_pattern = '/^[^@\s<&>]+@([-a-z0-9]+\.)+[a-z]{2,}$/i';
-//        if (!preg_match($email_pattern, $_POST['email']))
-//        {
-//        exit("0, Ingrese un email v&aacute;lido");
-//        }
-        // Chequeo datos atraves del email
-        $dbobj=(array)$this->user->getbymailaddress($clean['email']);
-
-        // Envio
-        if(isset($dbobj['idu'])){ 
-
-            $token=md5($dbobj['email'].$dbobj['idu']);
-            //armamos el mail
+        if(!empty($dbobj->idu)){
+            
+            $token=md5($dbobj->email.$dbobj->idu);
             $content = $this->lang->line('mailsendpart1');
-
-            $content.=" <strong>{$dbobj['nick']}</strong> $this->base_url</p>";
+            $content.=" <strong>{$dbobj->nick}</strong> $this->base_url</p>";
             $content.=$this->lang->line('mailsendpart2');
             $content.="<a href='{$this->base_url}user/recover/new_pass/$token'>".$this->lang->line('mailsendpart3')."</a>";
+            
+            //== Envio
+            
+            $msg['reply_email']='dna2@industria.gob.ar';
+            $msg['reply_nicename']='Soporte';
+            //$msg['to']=array('gabriel@trialvd.com.ar'=>'gabriel@trialvd.com.ar');
+            $msg['body']=utf8_decode($content);
+            $msg['subject']= $this->lang->line('PageDescriptionR');
+            $msg['debug']=0;
+            
+            $send_ok=$this->msg->sendmail($msg);
 
-            $this->email->clear();
-            $config['mailtype'] = "html";
-            //$this->email->initialize($config);
-            $this->email->set_newline("\r\n");
-            $this->email->from('dna2@produccion.gob.ar', 'Soporte');
-            $list = array($clean['email']); //$list = array('xxx@gmail.com', 'xxx@gmail.com');
-            $this->email->to($list);
-            $data = array();
-            $this->email->subject($this->lang->line('mailsubject'));
-            $this->email->message($content);
-
-//echo $content."<br>";
-
-            if ($this->email->send()){
-                echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
+            if($send_ok){
+                // Mail OK --
+               // echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
+  
                 //save token
                 $object['token']  = $token;
                 $object['creationdate']  = date('Y-m-d H:i:s');
-                $object['idu'] = (int)$dbobj['idu'];
-                $result = $this->user->save_token($object);
+                $object['idu'] = (int)$dbobj->idu;
+                $result = $this->user->save_token($object); 
                 
-            }else show_error($this->email->print_debugger());
-            
-                
-        }else{
-        exit("0, No se ha podido enviar el email. No existe el email");
+                $resp['status']=true;
+                $resp['msg']=$this->lang->line('mailmsg1');
+            }else{
+                $resp['status']=false;
+                $resp['msg']=$this->lang->line('mailmsg1_error');;
+            }
+        
+            echo json_encode($resp);
         }
+
 
         
         
