@@ -67,8 +67,8 @@ class crefis extends MX_Controller {
     }
 
     function tile_solicitud() {
-        $data ['number'] = 'Solicitud';
-        $data ['title'] = 'Crea una nueva solicitud';
+        $data ['number'] = 'Nuevo';
+        $data ['title'] = 'Proyecto de Capacitación';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/crefisGral';
