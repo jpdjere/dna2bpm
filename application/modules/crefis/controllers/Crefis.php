@@ -1234,18 +1234,20 @@ BLOCK;
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
-                $data['mytasks'][$k]['extra_data']['ip'] = false;
+                $data['mytasks'][$k]['extra_data']['ip'] = '';
+                //-----recupera Empresa
                 if (isset($mycase['data']['Empresas_4844']['query']['id'])) {
-                    $empresaID = $mycase['data']['Empresas_4844']['query']['id'];
+                    $empresaID = $mycase['data']['Empresas_4844']['query']['id'][0];
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
+                    
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
                 }
+                //-----Recupera IP
+                
                 if (isset($mycase['data']['Proyectos_crefis']['query']['id'])) {
-                    $proyectoID = $mycase['data']['Proyectos_crefis']['query']['id'];
+                    $proyectoID = $mycase['data']['Proyectos_crefis']['query']['id'][0];
                     $proyecto = $this->bpm->get_data('container.proyectos_crefis', array('id' => $proyectoID));
                     $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
-                    
-
                     $url = (isset($mycase['data'] ['Proyectos_crefis']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
 
@@ -1266,6 +1268,7 @@ BLOCK;
         $pages=array();
         
         foreach($pagination as $chunk){
+            // var_dump($chunk);exit;
             $data['mytasks2']=$chunk;
             $pages[]=$this->parser->parse('crefis/widgets/2doMe2_task', $data, true, true);
             
