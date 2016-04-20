@@ -22,7 +22,8 @@ class Lib_06_data extends MX_Controller {
         }
 
         /* RESOLUCION */
-        $resolution_2013 = $this->sgr_model->resolution_date_2013();
+        //$resolution_2013 = $this->sgr_model->resolution_date_2013();
+       
 
         /* Vars 
          * 
@@ -205,7 +206,10 @@ class Lib_06_data extends MX_Controller {
              */
 
             if ($param_col == 30) {
-
+                
+                $resolution = NULL;
+                $res_data = NULL;
+                    
                 $code_error = "AD.1";
                 if (empty($parameterArr[$i]['fieldValue'])) {
                     $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
@@ -216,9 +220,41 @@ class Lib_06_data extends MX_Controller {
                     if ($return) {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
+                    
+                     $res_data = strftime("%Y/%m/%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                     
+                     $resolution = $this->sgr_model->get_resolution($res_data);
+                     
+                    
                 }
             }
+            
+            
+            if ($param_col == 17) {
 
+                if ($A_cell_value == "INCORPORACION") {
+                	
+                /*CODIGO_ACTIVIDAD_AFIP COL 17*/
+                 if (!$resolution) {
+                
+                    $code_error = "Q.2";
+                    $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
+                
+                                    if (!$return)
+                                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        } else {
+                                           $code_error = ($resolution=='11/2016') ? "Q.4" : "Q.3";
+                
+                                            $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
+                
+                                            if (!$return)
+                                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                                        }                      
+                                        
+                
+                }
+}
+                    
 
             /*
              * ACTA_NRO
@@ -501,13 +537,12 @@ class Lib_06_data extends MX_Controller {
 
 
 
-                    if (!$resolution_2013)
+                    if (!$resolution)
                         $sector = $this->sgr_model->clanae1999($ciu, $B_cell_value);
                     else
-                        $sector = $this->sgr_model->clae2013($ciu, $B_cell_value);
-
+                        $sector = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
                     /* CALC AVERAGE */
-
+                   
 
                     if ($A_cell_value == "INCORPORACION") {
                         /* C.2 */
@@ -544,15 +579,15 @@ class Lib_06_data extends MX_Controller {
                         }
                         if (!$sector) {
 
-                            if (!$resolution_2013)
+                            if (!$resolution)
                                 $code_error = "Q.2";
                             else
-                                $code_error = "Q.3";
+                                $code_error = ($resolution=='11/2016') ? "Q.4" : "Q.3";
 
 
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "Sector / Código  errorneo (" . $ciu . ")");
                         } else {
-                            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount);
+                            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount,  $res_data);
                             if (!$isPyme) {
                                 $code_error = "S.3";
                                 $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") / Sector Code: (" . $sector . ") / Promedio: (" . $average_amount . ")");
@@ -897,7 +932,6 @@ class Lib_06_data extends MX_Controller {
                  * El campo no puede estar vacío. El campo no puede estar vacío. Debe contener mínimo 5 y máximo 6 caracteres.
                  */
                 if ($param_col == 17) {
-
                     $code_error = "Q.1";
 
                     if (empty($parameterArr[$i]['fieldValue'])) {
@@ -909,25 +943,7 @@ class Lib_06_data extends MX_Controller {
                         $return = check_clanae_ciu($ciu);
                         if (!$return)
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-
-
-                        if (!$resolution_2013) {
-
-                            $code_error = "Q.2";
-
-
-                            $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
-
-                            if (!$return)
-                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        } else {
-                            $code_error = "Q.3";
-
-                            $return = $this->sgr_model->clae2013($ciu, $B_cell_value);
-
-                            if (!$return)
-                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        }
+                        
                     }
                 }
 
@@ -1217,6 +1233,7 @@ class Lib_06_data extends MX_Controller {
                  */
                 if ($param_col == 28) {
                     if ($A_cell_value == "INCORPORACION") {
+                        
                         $code_error = "AB.1";
 
                         /* AVERAGE AMOUNT */
@@ -1640,6 +1657,7 @@ class Lib_06_data extends MX_Controller {
                     }
                 }
             }
+            
         }
 
         if (count(array_unique($C_array_value)) < count($C_array_value)) {
@@ -1647,10 +1665,12 @@ class Lib_06_data extends MX_Controller {
             $code_error = "VG.1";
             $result[] = return_error_array($code_error, "-", "");
         }
+        
+         
 
 
 
-        /*       var_dump($result);      
+        /*var_dump($result);      
           exit; */
 
         $this->data = $result;

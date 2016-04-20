@@ -443,14 +443,18 @@ class Sgr_model extends CI_Model {
         return $array;
     }
 
-    function clae2013($code, $type) {
-
+    function clae2013($code, $type, $resolution = null) {
+        
+        if($resolution =='11/2016' && $type == "A")
+            $type = $type. "_reso_11_2016";
+            
         $sector = false;
 
         $code = (string) ((int) $code);
 
         $regex = new MongoRegex('/' . $code . '/');
         $container = 'container.sgr_clae_F883_2013_socios_' . $type;
+        
         $query = array("code" => $regex);
         $fields = array("sector", "code");
         $result = $this->mongowrapper->sgr->$container->findOne($query, $fields);
@@ -479,31 +483,25 @@ class Sgr_model extends CI_Model {
 
         return $sector;
     }
-
-    function resolution_date_2013() {
-        list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
-
-        $startDate = $year_period . "-" . $month_period . "-03";
-        $lastDate = '2013-11-01'; //Desde el 02/07/2015 los límites Pyme son los siguientes (Resolución 357/2015)
-
-        $check_resolution = check_date_for_resolution($startDate, $lastDate);
-
-        return $check_resolution;
-    }
-
-    function get_company_size($sector, $average) {
+    
+     function get_resolution($inc_date) {
+         $check_resolution = check_date_for_resolution($inc_date);
+         return $check_resolution;
+     }
+   
+    function get_company_size($sector, $average, $inc_date) {
 
         list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
 
         $startDate = $year_period . "-" . $month_period . "-03";
         $lastDate = '2015-07-02'; //Desde el 02/07/2015 los límites Pyme son los siguientes (Resolución 357/2015)
 
-        $check_resolution = check_date_for_resolution($startDate, $lastDate);
+        $check_resolution = check_date_for_resolution($inc_date);
 
         $query = array("sector" => $sector,);
 
         if ($check_resolution)
-            $query["resolution"] = "357/2015";
+            $query["resolution"] = $check_resolution;
 
 
         $sector = (string) $sector;

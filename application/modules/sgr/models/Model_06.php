@@ -613,7 +613,7 @@ class Model_06 extends CI_Model {
             }
 
 
-            $sector_value = $this->sgr_model->clae2013($list['5208'], $list['5272'][0]);
+            $sector_value = $this->sgr_model->clae2013($list['5208'], $list['5272'][0], $resolution);
 
 
             $isPyme = $this->sgr_model->get_company_size($sector_value, $promedio);
@@ -754,7 +754,7 @@ class Model_06 extends CI_Model {
                 $promedio = ($sumaMontos / $calc_average);
             }
 
-            $sector_value = $this->sgr_model->clae2013($list['5208'],$list['5272'][0] );
+            $sector_value = $this->sgr_model->clae2013($list['5208'],$list['5272'][0], $resolution);
             $isPyme = $this->sgr_model->get_company_size($sector_value, $promedio);
             $company_type = ($isPyme) ? "PyME" : "";
             $transaction_date = mongodate_to_print($list['FECHA_DE_TRANSACCION']);
