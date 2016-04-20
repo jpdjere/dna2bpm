@@ -65,7 +65,7 @@ class crefis_model extends CI_Model {
     function get_amount_stats_by_id($query) {
         $rtn = array();
         $container = 'container.proyectos_crefis';
-        $fields = array('8334', '8326', '8573');
+        $fields = array('4970', '8326', '8573');
         $rs = $this->mongowrapper->db->$container->find($query, $fields);
         foreach ($rs as $list) {
             unset($list['_id']);
@@ -101,7 +101,7 @@ class crefis_model extends CI_Model {
      * Trae los proyectos filtrando por valores del container
      * $ident=195 proyectos crefis
      */ 
-    function get_cases_byFilter_container($idwf,$ident=195,$query){
+    function get_cases_byFilter_container($idwf,$ident=126,$query){
         
      $entities=$this->db->get_where('entities',array('ident'=>$ident))->result_array();
      $entity=$entities[0];

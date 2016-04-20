@@ -77,8 +77,8 @@ class crefis extends MX_Controller {
 
     function tile_aprobados_condicional() {
         $this->user->authorize();
-        $this->load->model('crefis/crefis_model');
-        $data ['number'] = count($this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('4970' => '87')));
+        $this->load->model('crefis/Crefis_model');
+        $data ['number'] = count($this->Crefis_model->get_cases_byFilter_container('crefisGral', 126, array('4970' => '87')));
         $data ['title'] = 'Aprobados Condicional';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Listar';
@@ -203,14 +203,14 @@ class crefis extends MX_Controller {
         $this->user->authorize();
         $this->load->library('parser');
         $this->load->model('app');
-        $this->load->model('crefis/crefis_model');
+        $this->load->model('crefis/Crefis_model');
         $option = $this->app->get_ops(506);
         $template = 'crefis/listar_proyectos_fechas_pde';
         $template = 'crefis/listar_proyectos';
         $filter = array(
             'idwf' => 'crefisGral',
         );
-        $cases = $this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('4970' => '87'));
+        $cases = $this->Crefis_model->get_cases_byFilter_container('crefisGral', 126, array('4970' => '87'));
 //        var_dump($cases[0]);exit;
 
         $i = 0;
@@ -713,28 +713,28 @@ class crefis extends MX_Controller {
     function proyects_amount($filtroproy = null) {
 
         $this->user->authorize();
-        $this->load->model('crefis/crefis_model');
+        $this->load->model('crefis/Crefis_model');
 
         /* OPTIONS */
         $this->load->model('app');
         $option = $this->app->get_ops(506);
 
         $llamado = (isset($filtroproy)) ? $filtroproy['llamado'] : array('$exists' => true);
-        $query = array('8335' => $llamado);
+        $query = array('5372' => $llamado);
 
-        $cases = $this->crefis_model->get_cases_byFilter_container('crefisGral', 195, $query);
+        $cases = $this->Crefis_model->get_cases_byFilter_container('crefisGral', 126, $query);
         $cases_arr = array();
         foreach ($cases as $case) {
             $id = $case['data']['Proyectos_crefis']['query']['id'];
             if (isset($id)) {
                 $query = array('id' => $id);
-                $values = $this->crefis_model->get_amount_stats_by_id($query);
+                $values = $this->Crefis_model->get_amount_stats_by_id($query);
 
                 $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
-                $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
-                $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
+                $value5040 = (isset($values[0][5040])) ? str_replace(",", ".", str_replace(".", "", $values[0][5040])) : 0;
+                $value6982 = (isset($values[0][6982])) ? str_replace(",", ".", str_replace(".", "", $values[0][6982])) : 0;
 
-                $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
+                $amount = ($ctrl_value >= 40) ? $value6982 : $value5040;
                 $cases_arr[$option[$ctrl_value]][]  = (float) $amount;
             }
         }
@@ -798,11 +798,11 @@ class crefis extends MX_Controller {
         foreach ($querys as $values) {
 
             $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
-            $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
-            $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
+            $value5040 = (isset($values[0][5040])) ? str_replace(",", ".", str_replace(".", "", $values[0][5040])) : 0;
+            $value6982 = (isset($values[0][6982])) ? str_replace(",", ".", str_replace(".", "", $values[0][6982])) : 0;
 
 
-            $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
+            $amount = ($ctrl_value >= 30) ? $value6982 : $value5040;
 
             foreach ($option as $opt => $desc) {
                 if ($opt == $ctrl_value)
@@ -814,7 +814,7 @@ class crefis extends MX_Controller {
     }
 
     function get_amount_stats($filter) {
-        $this->load->model('crefis_model');
+        $this->load->model('Crefis_model');
         /* get ids */
         $all_ids = array();
         $arr_status = array();
@@ -829,7 +829,7 @@ class crefis extends MX_Controller {
 
 
         $get_value = array_map(function ($all_ids) {
-            return $this->crefis_model->get_amount_stats_by_id($all_ids);
+            return $this->Crefis_model->get_amount_stats_by_id($all_ids);
         }, $all_ids);
 
 
@@ -898,13 +898,13 @@ class crefis extends MX_Controller {
      * @author Diego Otero
      */
     function evaluator_projects() {
-        $this->load->model('crefis_model');
+        $this->load->model('Crefis_model');
 
         $output = 'array';
         $filter = array();
 
         $filter['idwf'] = 'crefisGral';
-        $querys = $this->crefis_model->get_evaluator_by_project($filter);
+        $querys = $this->Crefis_model->get_evaluator_by_project($filter);
         //var_dump($querys);exit;
 
         /* OPTIONS */
@@ -923,7 +923,7 @@ class crefis extends MX_Controller {
             $filing_date = $filing_day . "/" . $filing_month . "/" . $filing_year;
 
             $company_id = floatval($values[8325][0]);
-            $company = $this->crefis_model->get_company_by_project_by_id($company_id);
+            $company = $this->Crefis_model->get_company_by_project_by_id($company_id);
 
             $proyect_array = array(
                 "project_ip" => $values[8339]
@@ -1208,12 +1208,12 @@ BLOCK;
 
     function delegate_case() {
 
-        $this->load->model('crefis_model');
+        $this->load->model('Crefis_model');
         $idwf = 'crefisGral';
         $idcase = 'XYIK';
         $iduser_dest = -2101255759;
 
-        $update = $this->crefis_model->delegate_case_action($idwf, $idcase, $iduser_dest);
+        $update = $this->Crefis_model->delegate_case_action($idwf, $idcase, $iduser_dest);
         return $update;
     }
 
