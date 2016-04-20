@@ -31,11 +31,11 @@ $lang["type_your_email"] = "Por favor ingrese su email";
 $lang["mailsubject"]= "Reseteo de contraseña sistema DNA2";
 $lang["mailmsg1"]="Revise su email. Muchas gracias.";
 $lang["mailmsg1_error"]="Hubo un problema para enviar. Pruebe mas tarde.";
-$lang["mailback"]="VOLVER";
+$lang["mailback"]="Volver";
 $lang["mailform"]="Nueva contraseña";
 $lang["mailpassno"]="Su contraseña debe tener al menos 5 car&aacute;cteres.";
-$lang["mailmsg2"]="Su contraseña ha sido cambiada exitosamente.</br>";
-$lang["mailalert"]="0, Ha habido alg&uacute;n error";
+$lang["mailmsg2"]="Su contraseña ha sido cambiada exitosamente. <br>Ir a página de logueo.";
+$lang["mailalert"]="Ha habido un error.";
 
 
 
