@@ -10,20 +10,21 @@
                 "module": "crefis",
                 "controller": "crefis",
                 "function": "tile_solicitud",
-                "span": 2
+                "span": 3
             }, {
                 "title": "Tile01",
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
                 "params": ["crefisGral", "crefisGral_JM"],
-                "span": 2
+                "span": 3
             }, {
                 "title": "Proyectos Preaprobados",
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "params": ["crefisGral", "crefisGral_BO"]
+                "params": ["crefisGral", "crefisGral_BO"],
+                "span": 3
             }, {
                 "title": "Proyectos Aprobados",
                 "module": "bpm",
