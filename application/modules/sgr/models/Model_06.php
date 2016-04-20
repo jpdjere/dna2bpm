@@ -1367,15 +1367,17 @@ class Model_06 extends CI_Model {
      * Compra/venta por socio
      */
 
-    function shares_others_sgrs($cuit, $partner_type, $field = 5597) {
+    function shares_others_sgrs($cuit, $partner_type, $inc_date, $field = 5597) {
 
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
         $partner_type = ($partner_type == "A") ? "B" : "A";
+       
 
         $buy_result_arr = array();
         $sell_result_arr = array();
+        
 
         /* GET ACTIVE ANEXOS */
         $result = $this->sgr_model->get_active_other_sgrs($anexo);
@@ -1387,26 +1389,30 @@ class Model_06 extends CI_Model {
             $new_query = array(
                 1695 => (string) $cuit,
                 'filename' => $list['filename'],
-                5272 => $partner_type
+                5272 => $partner_type,
+                'FECHA_DE_TRANSACCION' => array('$lte' => $inc_date)
             );
-
+            
             $buy_result = $this->mongowrapper->sgr->$container->findOne($new_query);
-            if ($buy_result) {
+            
+            if ($buy_result)
                 $buy_result_arr[] = $buy_result[$field];
-            }
+            
 
             /* SELL */
             $new_query = array(
                 5248 => $cuit,
                 'filename' => $list['filename'],
-                5272 => $partner_type
+                5272 => $partner_type, 
+                'FECHA_DE_TRANSACCION' => array('$lte' => $inc_date)
             );
 
 
             $sell_result = $this->mongowrapper->sgr->$container->findOne($new_query);
-            if ($sell_result) {
+            
+            if ($sell_result) 
                 $sell_result_arr[] = $sell_result[$field];
-            }
+            
         }
 
         $buy_sum = array_sum($buy_result_arr);

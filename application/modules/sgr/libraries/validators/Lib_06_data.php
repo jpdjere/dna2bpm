@@ -208,7 +208,7 @@ class Lib_06_data extends MX_Controller {
             if ($param_col == 30) {
                 
                 $resolution = NULL;
-                $res_data = NULL;
+                $inc_date = NULL;
                     
                 $code_error = "AD.1";
                 if (empty($parameterArr[$i]['fieldValue'])) {
@@ -221,9 +221,20 @@ class Lib_06_data extends MX_Controller {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
                     
-                     $res_data = strftime("%Y/%m/%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                     $inc_date = strftime("%Y/%m/%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                     $inc_mongo_date = new MongoDate(strtotime(str_replace("-", "/", $inc_date)));
                      
-                     $resolution = $this->sgr_model->get_resolution($res_data);
+                       
+                     $resolution = $this->sgr_model->get_resolution($inc_date);
+                     
+                     
+                     
+                    /* VALIDO EN TODAS LAS */
+                    $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value, $inc_mongo_date);
+                    if ($balance != 0) {
+                        $code_error = "B.2";
+                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                    }
                      
                     
                 }
@@ -588,7 +599,7 @@ class Lib_06_data extends MX_Controller {
 
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "Sector / Código  errorneo (" . $ciu . ")");
                         } else {
-                            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount,  $res_data);
+                            $isPyme = $this->sgr_model->get_company_size($sector, $average_amount,  $inc_date);
                             if (!$isPyme) {
                                 $code_error = "S.3";
                                 $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "No califica como PYME (" . $ciu . ") / Sector Code: (" . $sector . ") / Promedio: (" . $average_amount . ")");
@@ -742,11 +753,11 @@ class Lib_06_data extends MX_Controller {
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         } else {
                             /* VALIDO EN TODAS LAS */
-                            $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value);
+                           /* $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value);
                             if ($balance != 0) {
                                 $code_error = "B.2";
                                 $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                            }
+                            }*/
                         }
                     }
                 }
@@ -1671,7 +1682,7 @@ class Lib_06_data extends MX_Controller {
 
 
 
-        /*var_dump($result);      
+       /* var_dump($result);      
           exit; */
 
         $this->data = $result;
