@@ -64,6 +64,8 @@ class Recover extends MX_Controller {
         $this->ui->compose('user/recover.php','user/bootstrap3.ui.php',$cpData);
     }
     
+    
+    
     function Send() {
         //----LOAD LANGUAGE
         //ini_set('display_errors',1);
@@ -119,10 +121,18 @@ class Recover extends MX_Controller {
         
     }
     
+    //=== 
+    
+
+    
+    
     
     function New_pass($token){
         
+        
         $msg = $this->session->userdata('msg');
+        
+        
         //----LOAD LANGUAGE
         $this->lang->load('login', $this->config->item('language'));
         //---add language data
@@ -162,53 +172,59 @@ class Recover extends MX_Controller {
         );
         $cpData['show_warn']=($this->config->item('show_warn') and $msg<>'');
         $cpData['token']=$token;
-        
+        $cpData['js'] = array($this->module_url . "assets/jscript/recover.js" => 'Login Specific');
+                
         //si el token aun existe en la base y es decir que no fue usado
-        $this->ui->compose('user/recover_newpass.php','user/bootstrap.ui.php',$cpData);
+        $this->ui->compose('user/recover_newpass.php','user/bootstrap3.ui.php',$cpData);
         //sino tiene que ir a una pantalla que le diga que ya fue utilizado y que vuelva a colocar su mail
         
         
     }
     
-     function Save_new_pass(){
+     function save_new_pass(){
          
-        // var_dump($this->input->post());
-             //----LOAD LANGUAGE
-            $this->lang->load('login', $this->config->item('language'));
-            //---add language data
-            $cpData['lang'] = $this->lang->language;
-            $cpData['title'] = $this->lang->line('mailform');
-            $cpData['base_url'] = $this->base_url;
-            $cpData['module_url'] = $this->module_url;
-            $cpData['theme'] = $this->config->item('theme');
+
+            //----LOAD LANGUAGE
+        $this->lang->load('login', $this->config->item('language'));
+        //---add language data
+        $cpData['lang'] = $this->lang->language;
         
             $token  = $this->input->post('token');
             $result=(array)$this->user->get_token($token);
 
             if($result['token']==$token){//if the token matches with a saved idu
-
+       
                 $user_data = array();
-                $clean= htmlspecialchars (utf8_decode($this->input->post('password1')));
-                if(strlen($clean)<5) exit($this->lang->line('mailpassno'));
+                $clean= htmlspecialchars (utf8_decode($this->input->post('passw')));
+                if(strlen($clean)<5){
+                        $resp['msg']=$this->lang->line('mailpassno');
+                        $resp['status']=false;
+                        exit(json_encode($resp));
+                }
+       
                 $user_data['passw']= md5($clean);
 
                 //data user
                 $user_data=(array)$this->user->get_user((int)$result['idu']);
                 $user_data['passw']= md5($clean);   
-                //var_dump($user_data);
+            
 
                 //guardamos la info
                 $savedresult = $this->user->save($user_data);
                 //borramos el token
                 $tokenout = $this->user->delete_token($token);
                
-                echo $this->lang->line('mailmsg2')."<a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
-
+                $resp['msg']=$this->lang->line('mailmsg2');
+                $resp['status']=true;
 
                 //$redir="/appfront/index.php";
                 //exit("1,$basedir$redir");
-            }else exit($this->lang->line('mailalert'));
-            
+            }else{
+ 
+                $resp['msg']=$this->lang->line('mailalert');
+                $resp['status']=false;
+            } 
+            echo json_encode($resp);
     } 
 
 }

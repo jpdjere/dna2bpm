@@ -1,39 +1,29 @@
 <div class="container">
-    <div class="well well-large span6 offset3">
+<div class="row">
+<div class="col-md-4 col-md-offset-4">        
     <form class="form-signin" id="formAuth" action="{module_url}recover/save_new_pass" method="post">
-        <h1 class="form-signin-heading">{lang mailform}</h1>
-        <!--{if {show_warn}}                
-        <div class="alert">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Warning!</strong> {msgcode}
-        </div>
-        {/if}   -->
-        <!-- username -->
-        <div class="div_text">
-            <div class="input-prepend">
-                <span class="add-on">
-                    <i class="icon-lock">
-                    </i>
-                </span>
-                <input name="password1" id="log inputIcon" value="" class="username span2" placeholder="nueva" type="password">
-            </div>
-            <div class="input-prepend">
-                <span class="add-on">
-                    <i class="icon-repeat">
-                    </i>
-                </span>
-                <input name="password2" id="log inputIcon" value="" class="username span2" placeholder="repetir" type="password">
-                <input name="token" id="token" value="{token}" type="hidden">
-            </div>
-
+        
+        <h1 class="form-signin-heading">{lang mailform}</h1>  
+        
+        <div class="form-group">
+            <label for="exampleInputEmail1">Password</label>
+            <input name="password" id="password" value="" class="form-control" placeholder="Ingrese su nueva contraseña" type="password">
         </div>
         
-
-       
-       
-        <button class="btn  btn-success" type="submit">{lang loginButtonR}</button>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Repetir Password</label>
+            <input name="password2" id="password2" value="" class="form-control" placeholder="Repita la contraseña" type="password">
+        </div>
+        <input name="token" id="token" type="hidden" value="{token}">
+        <button class="btn btn-info btn-block" type="submit">{lang loginButtonR}</button>
+        
+        <span id="dummy" style="display:none">
+               
+        </span>
         <br/>
     </form>
-    </div>
+
+</div> 
+
 </div> 
 <!-- /container -->
