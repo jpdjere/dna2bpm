@@ -233,27 +233,28 @@ class Lib_06_data extends MX_Controller {
             if ($param_col == 17) {
 
                 if ($A_cell_value == "INCORPORACION") {
-                	
-                /*CODIGO_ACTIVIDAD_AFIP COL 17*/
-                 if (!$resolution) {
-                
-                    $code_error = "Q.2";
-                    $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
-                
-                                    if (!$return)
-                                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                        } else {
-                                           $code_error = ($resolution=='11/2016') ? "Q.4" : "Q.3";
-                
-                                            $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
-                
-                                            if (!$return)
-                                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                                        }                      
-                                        
-                
+            
+                    /*CODIGO_ACTIVIDAD_AFIP COL 17*/
+                    if (!$resolution) {
+            
+                        $code_error = "Q.2";
+                        $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
+            
+                        if (!$return)
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                    }
+                    else {
+                        $code_error = ($resolution == '11/2016') ? "Q.4.A" : "Q.3";
+            
+                        $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
+            
+                        if (!$return)
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                    }
+            
+            
                 }
-}
+            }
                     
 
             /*
@@ -582,7 +583,7 @@ class Lib_06_data extends MX_Controller {
                             if (!$resolution)
                                 $code_error = "Q.2";
                             else
-                                $code_error = ($resolution=='11/2016') ? "Q.4" : "Q.3";
+                                $code_error = ($resolution=='11/2016') ? "Q.4.A" : "Q.3";
 
 
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "Sector / Código  errorneo (" . $ciu . ")");

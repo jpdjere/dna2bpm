@@ -276,7 +276,7 @@ class Lib_06_error_legend {
                 break;
             case "Q.3.B": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Para los Socios Protectores (B) incorporados a partir de Noviembre de 2013 inclusive, debe validar que se corresponda únicamente con alguno de los códigos del archivo 06 - CODIGOS DE ACTIVIDAD NUEVOS - F 883-2013 - socios B..';
                 break;
-            case "Q.4": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Para los Socios Partícipes (A) incorporados a partir de abril 2016  inclusive, debe validar que se corresponda únicamente con alguno de los códigos del archivo 06 - CODIGOS DE ACTIVIDAD NUEVOS - F 883-2013 - socios A - Reso 11-2016';
+            case "Q.4.A": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Para los Socios Partícipes (A) incorporados a partir de abril 2016  inclusive, debe validar que se corresponda únicamente con alguno de los códigos del archivo 06 - CODIGOS DE ACTIVIDAD NUEVOS - F 883-2013 - socios A - Reso 11-2016';
                 break;    
             case "R.4": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>R- Año/Mes 1: Está columna DEBE ESTAR VACÍA.';
                 break;
