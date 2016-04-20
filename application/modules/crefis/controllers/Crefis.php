@@ -67,8 +67,8 @@ class crefis extends MX_Controller {
     }
 
     function tile_solicitud() {
-        $data ['number'] = 'Solicitud';
-        $data ['title'] = 'Crea una nueva solicitud';
+        $data ['number'] = 'Nuevo';
+        $data ['title'] = 'Proyecto de Capacitación';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/crefisGral';
@@ -379,9 +379,9 @@ class crefis extends MX_Controller {
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = (
-                    (in_array(134, $this->id_group) or in_array(138, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'closed' and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura
-                    and in_array($data ['Proyectos_crefis'] ['4970'][0], array(60, 65, 68, 87)) //---checkeo que esté en alguno de esos estados
-                    ) ? $this->base_url . 'crefis/clone_case/crefisGral/crefisGral/' . $token ['case'] : null;
+                    (in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open' and in_array('oryx_05695DC8-1842-49D1-8327-1DAB8C164D35', $keys) //---está finalizado pero por esta figura
+                    and in_array($data ['Proyectos_crefis'] ['4970'][0], array(30, 40, 60)) //---checkeo que esté en alguno de esos estados
+                    ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;
             //---link para cancelar solo para coordinador
             $url_cancelar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
             $url_cancelar_pde = (
@@ -1231,20 +1231,20 @@ BLOCK;
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
 
-        if (isset($data['mytasks'])) {
+        if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
                 $data['mytasks'][$k]['extra_data']['ip'] = false;
-                if (isset($mycase['data']['Empresas']['query']['id'])) {
-                    $empresaID = $mycase['data']['Empresas']['query']['id'];
+                if (isset($mycase['data']['Empresas_4844']['query']['id'])) {
+                    $empresaID = $mycase['data']['Empresas_4844']['query']['id'];
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
                 }
                 if (isset($mycase['data']['Proyectos_crefis']['query']['id'])) {
-
                     $proyectoID = $mycase['data']['Proyectos_crefis']['query']['id'];
                     $proyecto = $this->bpm->get_data('container.proyectos_crefis', array('id' => $proyectoID));
-                    $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['8339'];
+                    $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
+                    
 
                     $url = (isset($mycase['data'] ['Proyectos_crefis']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
