@@ -95,7 +95,7 @@ class Recover extends MX_Controller {
             $send_ok=$this->msg->sendmail($msg);
 
             if($send_ok){
-                // Mail OK
+                // Mail OK --
                // echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
   
                 //save token
