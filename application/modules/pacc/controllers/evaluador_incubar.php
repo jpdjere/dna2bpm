@@ -16,7 +16,7 @@ class evaluador_incubar extends MX_Controller {
         parent::__construct();
 
         //---base variables
-        $this->load->model('model_evaluadores_proyectos');
+        //$this->load->model('model_evaluadores_proyectos');
         $this->base_url = base_url();
         //$this->idu = (int) $this->session->userdata('iduser');
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
