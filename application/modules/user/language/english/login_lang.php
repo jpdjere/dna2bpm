@@ -31,8 +31,8 @@ $lang["mailmsg1_error"]="Something went wrong. PLease try later.";
 $lang["mailback"]="BACK";
 $lang["mailform"]="New Password Form";
 $lang["mailpassno"]="Your password must be at least 5 characters.";
-$lang["mailmsg2"]="Your password has been changed successfully.</br>";
-$lang["mailalert"]="0, Error!";
+$lang["mailmsg2"]="Your password has been changed successfully. <br>Take me to login page.";
+$lang["mailalert"]="Error!";
 
 /* End of file user.php */
 /* Location: ./system/language/english/user.php - */
