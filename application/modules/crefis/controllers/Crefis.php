@@ -123,7 +123,7 @@ class crefis extends MX_Controller {
         $this->user->authorize();
         $this->load->library('parser');
         $this->load->model('app');
-        $option = $this->app->get_ops(772);
+        $option = $this->app->get_ops(506);
         $template = 'crefis/listar_proyectos_fechas_pp';
         $filter = array(
             'idwf' => 'crefisGral',
@@ -204,7 +204,7 @@ class crefis extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('app');
         $this->load->model('crefis/crefis_model');
-        $option = $this->app->get_ops(772);
+        $option = $this->app->get_ops(506);
         $template = 'crefis/listar_proyectos_fechas_pde';
         $template = 'crefis/listar_proyectos';
         $filter = array(
@@ -253,7 +253,7 @@ class crefis extends MX_Controller {
         $this->user->authorize();
         $this->load->library('parser');
         $this->load->model('app');
-        $option = $this->app->get_ops(772);
+        $option = $this->app->get_ops(506);
         $template = 'crefis/listar_proyectos_fechas_pde';
         $filter = array(
             'idwf' => 'crefisGral',
@@ -406,7 +406,7 @@ class crefis extends MX_Controller {
             $status = "N/A";
             if (isset($data ['Proyectos_crefis'] ['4970'])) {
                 $this->load->model('app');
-                $option = $this->app->get_ops(772);
+                $option = $this->app->get_ops(506);
                 $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
             }
 
@@ -625,7 +625,7 @@ class crefis extends MX_Controller {
             $status = "N/A";
             if (isset($data ['Proyectos_crefis'] ['4970'])) {
                 $this->load->model('app');
-                $option = $this->app->get_ops(772);
+                $option = $this->app->get_ops(506);
                 $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
             }
 
@@ -717,7 +717,7 @@ class crefis extends MX_Controller {
 
         /* OPTIONS */
         $this->load->model('app');
-        $option = $this->app->get_ops(772);
+        $option = $this->app->get_ops(506);
 
         $llamado = (isset($filtroproy)) ? $filtroproy['llamado'] : array('$exists' => true);
         $query = array('8335' => $llamado);
@@ -793,7 +793,7 @@ class crefis extends MX_Controller {
 
         /* OPTIONS */
         $this->load->model('app');
-        $option = $this->app->get_ops(772);
+        $option = $this->app->get_ops(506);
 
         foreach ($querys as $values) {
 
@@ -909,7 +909,7 @@ class crefis extends MX_Controller {
 
         /* OPTIONS */
         $this->load->model('app');
-        $option = $this->app->get_ops(772);
+        $option = $this->app->get_ops(506);
 
 
         foreach ($querys[0] as $values) {
