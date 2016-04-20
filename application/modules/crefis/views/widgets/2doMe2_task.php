@@ -15,8 +15,9 @@
                     <div class='col-md-12'>
                         
                         <!-- Extra data -->
-                        {if {extra_data ip}}
-                        <span class='label label-primary'> {extra_data ip} </span>
+                        
+                        {if {extra_data ip}!=''}
+                        <span class='label label-primary'> {extra_data ip} </span> 
                         <span class='label label-primary'> {extra_data empresa} </span>
                         {/if}
                         
