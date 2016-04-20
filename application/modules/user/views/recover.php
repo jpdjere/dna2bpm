@@ -1,6 +1,6 @@
         <div class="form-box" id="login-box">
             <div class="header bg-navy">{lang loginMsgR}</div>
-                <form  action="{module_url}recover/send" method="post" id="recover1">
+                <form  action="#" method="post" id="recover1">
 
 
                     <div class="body bg-gray">
