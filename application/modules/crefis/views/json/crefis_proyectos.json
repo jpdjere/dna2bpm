@@ -47,16 +47,6 @@
             "function": "widget_2doMe2"
         }]
     }, {
-        "col2": [{
-            "title": "Cases",
-            "module": "bpm",
-            "controller": "bpmui",
-            "function": "widget_cases"
-        }, {
-            "title": "Cases Closed",
-            "module": "bpm",
-            "controller": "bpmui",
-            "function": "widget_cases_closed"
-        }]
+        "col2": []
     }]
 }
