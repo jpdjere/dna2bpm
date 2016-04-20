@@ -790,11 +790,13 @@ class Sgr_model extends CI_Model {
         if ($exclude_this) {
             $query['period'] = array('$ne' => $exclude_this);
         }
-
+        
+        
         $result = $this->mongowrapper->sgr->$period->find($query);
 
         foreach ($result as $each)
             $rtn[] = $each;
+            
 
         return $rtn;
     }

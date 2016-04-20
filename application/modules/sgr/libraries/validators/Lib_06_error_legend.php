@@ -150,7 +150,7 @@ class Lib_06_error_legend {
                 break;
 
             case "B.2":
-                $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: No se puede incorporar un Socio Protector como Socio Partícipe, y viceversa. Verifique la relación.';
+                $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe verificar EN TODAS LAS SGR que el Socio que se Incorpora (Columnas C y D) no posea saldos positivos de acciones del carácter contrario al tipo de socio que se está incorporando (Si se incorpora como Partícipe que no sea Protector en ninguna SGR y viceversa). El saldo se debe calcular hasta la fecha de transacción informada en la columna AF del archivo Importador del ANEXO 6.';
                 break;
 
             case "C.1":
