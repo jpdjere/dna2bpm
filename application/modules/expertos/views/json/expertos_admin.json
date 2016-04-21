@@ -8,18 +8,11 @@
         {
             "tiles": [
                 {
-                    "title": "Revisar Solicitudes",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "params": ["Expertos_Empresas"]
-                },
-                {
-                    "title": "Proyectos Evaluados",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "params": ["Expertos_Empresas"]
+                "title": "Tile01",
+                "module": "bpm",
+                "controller": "bpmui",
+                "function": "tile_cases",
+                "span": 6
                 }
             ]
         },
