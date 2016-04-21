@@ -94,6 +94,9 @@ class Recover extends MX_Controller {
             $msg['subject']= $this->lang->line('PageDescriptionR');
             $msg['debug']=0;
 
+            var_dump($msg);
+            return;
+            
             $send_ok=$this->msg->sendmail($msg);
 
             if($send_ok){
