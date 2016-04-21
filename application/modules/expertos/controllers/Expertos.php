@@ -23,7 +23,7 @@ class expertos extends MX_Controller {
         // ---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
-        $this->load->config('crefis/config');
+        $this->load->config('exxpertos/config');
         // ----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
@@ -71,7 +71,7 @@ class expertos extends MX_Controller {
         $data ['title'] = 'Crea una nueva solicitud';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
-        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/crefisGral';
+        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/Expertos_Empresas';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
 
