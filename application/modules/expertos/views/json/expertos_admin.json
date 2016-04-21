@@ -1,6 +1,6 @@
 {
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
-    "title": "Capacitación PyME Coordinador",
+    "title": "Expertos PyME Coordinador",
     "view": "layout_2cols",
     "icon": "ion-briefcase",
     "private": true,
@@ -9,8 +9,8 @@
             "tiles": [
                 {
                     "title": "Buscar",
-                    "module": "crefis",
-                    "controller": "crefis",
+                    "module": "expertos",
+                    "controller": "Expertos",
                     "function": "tile_buscar",
                     "span": 4,
 					"js": [{"{base_url}crefis/assets/jscript/app.js":"crefisGral"}]
@@ -35,8 +35,8 @@
             "col1": [
                 {
                     "title": "2do",
-                    "module": "crefis",
-                    "controller": "crefis",
+                    "module": "expertos",
+                    "controller": "Expertos",
                     "function": "widget_2doMe2"
                 }
             ]
@@ -46,15 +46,15 @@
                
                 {
                     "title": "Proyect amount",
-                    "module": "crefis",
-                    "controller": "crefis",
+                    "module": "expertos",
+                    "controller": "Expertos",
                     "function": "proyects_amount"
 
                 },
                 {
                     "title": "Ministatus",
-                    "module": "crefis",
-                    "controller": "crefis",
+                    "module": "expertos",
+                    "controller": "Expertos",
                     "function": "ministatus_pp"
 
                 }
