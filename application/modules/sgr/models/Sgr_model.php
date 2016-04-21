@@ -999,10 +999,6 @@ class Sgr_model extends CI_Model {
             ),
         );
 
-        if ($exclude_this) {
-            $query['period'] = array('$ne' => $exclude_this);
-        }
-
 
         $result = $this->mongowrapper->sgr->$period->find($query)->sort(array('period_date' => -1))->limit(1);
 
@@ -1020,9 +1016,13 @@ class Sgr_model extends CI_Model {
             'anexo' => $anexo,
             "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
             'sgr_id' => array('$ne' => $this->sgr_id),
-            'status' => 'activo',
-            'period' => array('$ne' => $this->session->userdata['period'])
+            'status' => 'activo'
         );
+        
+         if (!$exclude_this) {
+            $query['period'] = array('$ne' =>  $this->session->userdata['period']);
+        }
+
 
         $result = $this->mongowrapper->sgr->$period->find($query);
         foreach ($result as $each) {

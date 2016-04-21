@@ -1380,7 +1380,8 @@ class Model_06 extends CI_Model {
         
 
         /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_other_sgrs($anexo);
+        $exclude_this = TRUE;
+        $result = $this->sgr_model->get_active_other_sgrs($anexo, $exclude_this);
 
         $return_result = array();
         /* FIND ANEXO */
@@ -1407,11 +1408,11 @@ class Model_06 extends CI_Model {
                 'FECHA_DE_TRANSACCION' => array('$lte' => $inc_date)
             );
 
-
             $sell_result = $this->mongowrapper->sgr->$container->findOne($new_query);
             
-            if ($sell_result) 
+            if ($sell_result) {
                 $sell_result_arr[] = $sell_result[$field];
+            }
             
         }
 

@@ -1681,9 +1681,9 @@ class Lib_06_data extends MX_Controller {
          
 
 
-
-       /* var_dump($result);      
-          exit; */
+        /*
+        var_dump($result);      
+        exit(); */
 
         $this->data = $result;
     }
