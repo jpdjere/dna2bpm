@@ -200,7 +200,7 @@ class Msg extends CI_Model {
           
         $mail->IsHTML($myconfig['is_html']);
 
-        $mail->Body=$myconfig['body'];
+        $mail->Body=utf8_decode($myconfig['body']);
 
         //==== Lets send this mails!
         
@@ -222,9 +222,6 @@ class Msg extends CI_Model {
         } else {
             $myconfig['status']=true;
         }     
-    $myconfig['body']=1;
-        //   var_dump($myconfig);
-        //     return;     
 
          //== DB Log 
         if($myconfig['db_log']){
