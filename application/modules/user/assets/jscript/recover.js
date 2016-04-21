@@ -21,7 +21,7 @@ $( "#recover1" ).submit(function( event ) {
          }
          
          myform.find('.footer').html(msg);
-     },'json');
+     },'html');
 
 });
 
