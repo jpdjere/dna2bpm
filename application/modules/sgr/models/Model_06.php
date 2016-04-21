@@ -263,7 +263,7 @@ class Model_06 extends CI_Model {
               1  	Disminución de tenencia accionaria 	null
               2  	Desvinculación 	null
              */
-            $ctrl_date = (isset($insertarr['FECHA_DE_TRANSACCION'])) ? : $insertarr[5255];
+            $ctrl_date = (isset($insertarr['FECHA_DE_TRANSACCION'])) ? $insertarr['FECHA_DE_TRANSACCION'] : $insertarr[5255];
             $query_period = period_before($this->session->userdata['period']); //period -1
             $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $ctrl_date, 1900));
             $integrated_calc = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $query_period, $transaction_date);
@@ -613,7 +613,7 @@ class Model_06 extends CI_Model {
             }
 
 
-            $sector_value = $this->sgr_model->clae2013($list['5208'], $list['5272'][0]);
+            $sector_value = $this->sgr_model->clae2013($list['5208'], $list['5272'][0], $resolution);
 
 
             $isPyme = $this->sgr_model->get_company_size($sector_value, $promedio);
@@ -754,7 +754,7 @@ class Model_06 extends CI_Model {
                 $promedio = ($sumaMontos / $calc_average);
             }
 
-            $sector_value = $this->sgr_model->clae2013($list['5208'],$list['5272'][0] );
+            $sector_value = $this->sgr_model->clae2013($list['5208'],$list['5272'][0], $resolution);
             $isPyme = $this->sgr_model->get_company_size($sector_value, $promedio);
             $company_type = ($isPyme) ? "PyME" : "";
             $transaction_date = mongodate_to_print($list['FECHA_DE_TRANSACCION']);
@@ -1407,6 +1407,11 @@ class Model_06 extends CI_Model {
             if ($sell_result) {
                 $sell_result_arr[] = $sell_result[$field];
             }
+<<<<<<<<< saved version
+
+=========
+            
+>>>>>>>>> local version
         }
 
         $buy_sum = array_sum($buy_result_arr);
