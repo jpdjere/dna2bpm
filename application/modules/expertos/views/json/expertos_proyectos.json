@@ -1,0 +1,55 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Expertos PyME Solicitudes",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [{
+        "tiles": [{
+                "title": "Tile01",
+                "module": "expertos",
+                "controller": "expertos",
+                "function": "tile_solicitud",
+                "span": 6
+            },
+
+            {
+                "title": "Tile01",
+                "module": "bpm",
+                "controller": "bpmui",
+                "function": "tile_cases",
+                "span": 6
+            }
+        ]
+    }, {
+        "col1": [{
+            "title": "FAQ",
+            "module": "crefis",
+            "controller": "crefis",
+            "function": "faq"
+        },
+        {
+            "title": "Tareas",
+            "module": "crefis",
+            "controller": "crefis",
+            "function": "widget_2doMe2"
+        }, {
+            "title": "2do",
+            "module": "bpm",
+            "controller": "bpmui",
+            "function": "widget_tasks_done"
+        }]
+    }, {
+        "col2": [{
+            "title": "Cases",
+            "module": "bpm",
+            "controller": "bpmui",
+            "function": "widget_cases"
+        }, {
+            "title": "Cases Closed",
+            "module": "bpm",
+            "controller": "bpmui",
+            "function": "widget_cases_closed"
+        }]
+    }]
+}
