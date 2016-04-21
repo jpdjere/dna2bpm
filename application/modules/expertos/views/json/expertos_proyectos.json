@@ -25,8 +25,8 @@
         "col1": [
         {
             "title": "Tareas",
-            "module": "crefis",
-            "controller": "crefis",
+            "module": "expertos",
+            "controller": "expertos",
             "function": "widget_2doMe2"
         }, {
             "title": "2do",

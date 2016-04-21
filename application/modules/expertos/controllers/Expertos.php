@@ -23,7 +23,7 @@ class expertos extends MX_Controller {
         // ---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
-        $this->load->config('exxpertos/config');
+        $this->load->config('expertos/config');
         // ----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
@@ -45,9 +45,9 @@ class expertos extends MX_Controller {
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_proyectos.json',$debug);
     }
 
-    function Evaluador($debug=false) {
+    function Direccion($debug=false) {
         $this->user->authorize();
-        Modules::run('dashboard/dashboard', 'crefis/json/crefis_evaluador.json',$debug);
+        Modules::run('dashboard/dashboard', 'crefis/json/expertos_direccion.json',$debug);
     }
 
     function Admin($debug=false) {
