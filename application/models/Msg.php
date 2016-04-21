@@ -173,10 +173,6 @@ class Msg extends CI_Model {
         );
         
         $myconfig=array_merge($default,$config);
-              
-              
-                          var_dump($myconfig);
-            return;
             
             
         if(empty($myconfig['to']))return;
@@ -226,7 +222,9 @@ class Msg extends CI_Model {
         } else {
             $myconfig['status']=true;
         }     
-         
+    
+          var_dump($myconfig);
+            return;     
 
          //== DB Log 
         if($myconfig['db_log']){
