@@ -62,7 +62,8 @@ class Formularios extends MX_Controller {
         $mailer['to']=array('gabriel@trialvd.com.ar'=>'gabriel@trialvd.com.ar');
         $status=$this->msg->sendmail($mailer);
         
-        var_dump($status);
+        
+        echo json_encode(array('status'=>$status));
        //==== Mailer
        
         // $this->load->config('email');
