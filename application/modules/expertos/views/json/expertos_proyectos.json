@@ -22,12 +22,7 @@
             }
         ]
     }, {
-        "col1": [{
-            "title": "FAQ",
-            "module": "crefis",
-            "controller": "crefis",
-            "function": "faq"
-        },
+        "col1": [
         {
             "title": "Tareas",
             "module": "crefis",
