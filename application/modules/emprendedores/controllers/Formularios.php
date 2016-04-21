@@ -52,7 +52,7 @@ class Formularios extends MX_Controller {
 
         $body="Programa Clubes de Emprendedores : formulario de preinscripción\n\n";
         foreach($data as $k=>$v){
-           $body.="$k: $v\n" ;
+           $body.="$k: $v<br>\n" ;
         }
         
         $mailer['body']=$body;
