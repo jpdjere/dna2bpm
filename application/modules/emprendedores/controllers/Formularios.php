@@ -59,7 +59,7 @@ class Formularios extends MX_Controller {
         $mailer['subject']='Programa Clubes de Emprendedores : formulario de preinscripción';
         $mailer['reply_email']='clubemprendedor@produccion.gob.ar';
         $mailer['reply_nicename']='Club de emprendedores';
-        $mailer['to']='gabriel@trialvd.com.ar';
+        $mailer['to']=array('gabriel@trialvd.com.ar'=>'gabriel@trialvd.com.ar');
         $status=$this->msg->sendmail($mailer);
         
         var_dump($status);
