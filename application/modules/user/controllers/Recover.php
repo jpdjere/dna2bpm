@@ -69,8 +69,7 @@ class Recover extends MX_Controller {
     function Send() {
         //----LOAD LANGUAGE
         ini_set('display_errors',1);
-        var_dump("OK");
-        return;
+
                 
         $this->load->model('msg');
         $this->lang->load('login', $this->config->item('language'));
@@ -96,7 +95,8 @@ class Recover extends MX_Controller {
             $msg['debug']=0;
 
             $send_ok=$this->msg->sendmail($msg);
-
+        var_dump($send_ok);
+        return;
             if($send_ok){
                 // Mail OK --
                // echo $this->lang->line('mailmsg1')."</br> <a href='{$this->base_url}'>".$this->lang->line('mailback')."</a>";
