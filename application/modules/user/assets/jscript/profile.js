@@ -4,7 +4,7 @@
  */
 
 $(document).ready(function() {
-
+    $('.bt-print').hide();
     // Save AJAX
     $('#form_profile').on('submit', function(e) {
         e.preventDefault();
@@ -18,10 +18,16 @@ $(document).ready(function() {
                 var feedback = JSON.parse(result);
 
                 if (feedback.ok == 1) {
-                    $('.content').prepend('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><strong>Profile saved!</div>');
+                    $('#myModal .modal-title').html('Ok.');
+                    $('#myModal .modal-body').html('Tus datos se han guardado con exito!')
+                    $('#myModal').modal();
+                    // $('.content').prepend('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><strong>Profile saved!</div>');
                 }
                 else {
-                    $('.content').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><strong>Profile couldn\'t be saved!</div>');
+                    $('#myModal .modal-title').html('Error.');
+                    $('#myModal .modal-body').html('Tus datos se no se han guardado :(');
+                    $('#myModal').modal();
+                    // $('.content').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><strong>Profile couldn\'t be saved!</div>');
 
                 }
             });
