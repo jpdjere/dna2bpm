@@ -263,7 +263,7 @@ class Model_06 extends CI_Model {
               1  	Disminución de tenencia accionaria 	null
               2  	Desvinculación 	null
              */
-            $ctrl_date = (isset($insertarr['FECHA_DE_TRANSACCION'])) ? : $insertarr[5255];
+            $ctrl_date = (isset($insertarr['FECHA_DE_TRANSACCION'])) ? $insertarr['FECHA_DE_TRANSACCION'] : $insertarr[5255];
             $query_period = period_before($this->session->userdata['period']); //period -1
             $transaction_date = strftime("%Y-%m-%d", mktime(0, 0, 0, 1, -1 + $ctrl_date, 1900));
             $integrated_calc = $this->shares_print($insertarr[5248], $insertarr[5272], 5598, $query_period, $transaction_date);
