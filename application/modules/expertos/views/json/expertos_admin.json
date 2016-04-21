@@ -42,7 +42,12 @@
             ]
         },
         {
-            "col2": [
+            "col2": [{
+            "title": "Cases",
+            "module": "bpm",
+            "controller": "bpmui",
+            "function": "widget_cases"
+        }
             ]
         }
     ]
