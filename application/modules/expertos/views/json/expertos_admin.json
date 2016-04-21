@@ -20,14 +20,14 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["Expertos_Empresas"]
+                    "params": ["Expertos_Empresas", "crefisGral_FC"]
                 },
                 {
                     "title": "Proyectos Evaluados",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["Expertos_Empresas"]
+                    "params": ["crefisGral", "crefisGral_AK"]
                 }
             ]
         },
@@ -45,10 +45,10 @@
             "col2": [
                
                 {
-                   "title": "Proyect amount",
-                   "module": "expertos",
-                   "controller": "Expertos",
-                   "function": "proyects_amount"
+                    "title": "Proyect amount",
+                    "module": "expertos",
+                    "controller": "Expertos",
+                    "function": "proyects_amount"
 
                 },
                 {
