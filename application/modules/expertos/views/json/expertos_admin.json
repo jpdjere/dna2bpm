@@ -8,14 +8,6 @@
         {
             "tiles": [
                 {
-                    "title": "Buscar",
-                    "module": "expertos",
-                    "controller": "Expertos",
-                    "function": "tile_buscar",
-                    "span": 4,
-					"js": [{"{base_url}expertos/assets/jscript/app.js":"Expertos_Empresas"}]
-                },
-                {
                     "title": "Revisar Solicitudes",
                     "module": "bpm",
                     "controller": "kpi",
