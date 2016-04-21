@@ -168,8 +168,10 @@ class Msg extends CI_Model {
         'cc'=>array(),
         'bcc'=>array(),
         'debug'=>0,
-        'is_html'=>true
+        'is_html'=>true,
+        'db_log'=>true
         );
+        
         $myconfig=array_merge($default,$config);
                  
         if(empty($myconfig['to']))return;
@@ -213,17 +215,25 @@ class Msg extends CI_Model {
             $mail->AddBCC($email, $nicename);
         }            
         
-
         if (!$mail->Send()) {
-            if($myconfig['debug']) {
-                var_dump($mail,$mail->ErrorInfo);
-                exit;
-            }
-            return false;
+            $myconfig['status']=false;
+            $myconfig['error']=$mail->ErrorInfo;
         } else {
-            return true;
+            $myconfig['status']=true;
         }     
          
+         
+         //== DB Log 
+        if($myconfig['db_log']){
+            
+        $myconfig['date']=new MongoDate(time());
+        $log=serialize($myconfig);
+            
+        $rs=$this->db->insert('sendmail', $myconfig); 
+        }
+        
+         
+         return $myconfig['status'];
 
         
     }
