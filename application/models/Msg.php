@@ -173,7 +173,12 @@ class Msg extends CI_Model {
         );
         
         $myconfig=array_merge($default,$config);
-                 
+              
+              
+                          var_dump($myconfig);
+            return;
+            
+            
         if(empty($myconfig['to']))return;
         if(empty($myconfig['subject']))return;
       
