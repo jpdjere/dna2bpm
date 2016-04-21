@@ -227,8 +227,7 @@ class Msg extends CI_Model {
         if($myconfig['db_log']){
             
         $myconfig['date']=new MongoDate(time());
-        $log=serialize($myconfig);
-            
+        $myconfig['idu']=$this->idu;
         $rs=$this->db->insert('sendmail', $myconfig); 
         }
         
