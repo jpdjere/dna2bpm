@@ -22,7 +22,7 @@
                     "title": "2do",
                     "module": "expertos",
                     "controller": "Expertos",
-                    "function": "widget_2doMe2"
+                    "function": "widget_2doMe2_b"
                 }
             ]
         },
