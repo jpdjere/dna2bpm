@@ -222,9 +222,9 @@ class Msg extends CI_Model {
         } else {
             $myconfig['status']=true;
         }     
-    
-          var_dump($myconfig);
-            return;     
+    $myconfig['body']=1;
+        //   var_dump($myconfig);
+        //     return;     
 
          //== DB Log 
         if($myconfig['db_log']){
