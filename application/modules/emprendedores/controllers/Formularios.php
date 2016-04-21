@@ -60,7 +60,7 @@ class Formularios extends MX_Controller {
         $mailer['reply_email']='clubemprendedor@produccion.gob.ar';
         $mailer['reply_nicename']='Club de emprendedores';
         $mailer['to']='gabriel@trialvd.com.ar';
-        $status=$this->msg->send_mail($mailer);
+        $status=$this->msg->sendmail($mailer);
         
         var_dump($status);
        //==== Mailer
