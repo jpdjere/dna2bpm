@@ -13,21 +13,21 @@
                     "controller": "Expertos",
                     "function": "tile_buscar",
                     "span": 4,
-					"js": [{"{base_url}crefis/assets/jscript/app.js":"Expertos_Empresas"}]
+					"js": [{"{base_url}expertos/assets/jscript/app.js":"Expertos_Empresas"}]
                 },
                 {
                     "title": "Revisar Solicitudes",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["Expertos_Empresas", "crefisGral_FC"]
+                    "params": ["Expertos_Empresas"]
                 },
                 {
                     "title": "Proyectos Evaluados",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["crefisGral", "crefisGral_AK"]
+                    "params": ["Expertos_Empresas"]
                 }
             ]
         },
@@ -43,7 +43,6 @@
         },
         {
             "col2": [
-               
                 {
                     "title": "Proyect amount",
                     "module": "expertos",
@@ -58,7 +57,6 @@
                     "function": "ministatus_pp"
 
                 }
-                
             ]
         }
     ]
