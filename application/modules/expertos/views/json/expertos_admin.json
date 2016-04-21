@@ -44,20 +44,20 @@
         {
             "col2": [
                
-                {
-                    "title": "Proyect amount",
-                    "module": "expertos",
-                    "controller": "Expertos",
-                    "function": "proyects_amount"
+                //{
+                 //   "title": "Proyect amount",
+                  //  "module": "expertos",
+                  //  "controller": "Expertos",
+                 //   "function": "proyects_amount"
 
-                },
-                {
-                    "title": "Ministatus",
-                    "module": "expertos",
-                    "controller": "Expertos",
-                    "function": "ministatus_pp"
-
-                }
+               // },
+               // {
+               //     "title": "Ministatus",
+               //     "module": "expertos",
+               //     "controller": "Expertos",
+               //     "function": "ministatus_pp"
+//
+              //  }
                 
             ]
         }
