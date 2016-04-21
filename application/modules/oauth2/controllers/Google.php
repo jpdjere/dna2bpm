@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  * @date   Jan 18, 2016
  */
-include(FCPATH.APPPATH.'modules/oauth2/libraries/autoload.php');
+include(APPPATH.'modules/oauth2/libraries/Autoload.php');
 class Google extends MX_Controller {
 
     function __construct() {
