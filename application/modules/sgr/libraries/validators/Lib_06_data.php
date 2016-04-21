@@ -174,7 +174,26 @@ class Lib_06_data extends MX_Controller {
                     //echo "<br>" . $C_cell_value ."->" . $subscribed. "| " . $integrated;
                 }
             }
+            
+            /*
+                 * CODIGO_ACTIVIDAD_AFIP
+                 * El campo no puede estar vacío. El campo no puede estar vacío. Debe contener mínimo 5 y máximo 6 caracteres.
+                 */
+                if ($param_col == 17) {
+                    $code_error = "Q.1";
 
+                    if (empty($parameterArr[$i]['fieldValue'])) {
+                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                    } else {
+                        $ciu = $parameterArr[$i]['fieldValue'];
+
+                        $return = check_clanae_ciu($ciu);
+                        if (!$return)
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        
+                    }
+                }
+                    
 
             /* TIPO_ACTA
              * El campo no puede estar vacío y debe contener uno de los siguientes parámetros:
@@ -235,16 +254,11 @@ class Lib_06_data extends MX_Controller {
                         $code_error = "B.2";
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
-                     
-                    
                 }
-            }
-            
-            
-            if ($param_col == 17) {
-
+                
+                
                 if ($A_cell_value == "INCORPORACION") {
-            
+                    
                     /*CODIGO_ACTIVIDAD_AFIP COL 17*/
                     if (!$resolution) {
             
@@ -252,7 +266,7 @@ class Lib_06_data extends MX_Controller {
                         $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
             
                         if (!$return)
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu);
                     }
                     else {
                         $code_error = ($resolution == '11/2016') ? "Q.4.A" : "Q.3";
@@ -260,12 +274,16 @@ class Lib_06_data extends MX_Controller {
                         $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
             
                         if (!$return)
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu);
                     }
             
             
                 }
+                
             }
+            
+            
+          
                     
 
             /*
@@ -452,9 +470,6 @@ class Lib_06_data extends MX_Controller {
                             }
                         }
 
-
-
-
                         break;
 
                     case 35:
@@ -542,10 +557,6 @@ class Lib_06_data extends MX_Controller {
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                         }
                     }
-
-
-
-
 
 
 
@@ -939,25 +950,7 @@ class Lib_06_data extends MX_Controller {
                 }
 
 
-                /*
-                 * CODIGO_ACTIVIDAD_AFIP
-                 * El campo no puede estar vacío. El campo no puede estar vacío. Debe contener mínimo 5 y máximo 6 caracteres.
-                 */
-                if ($param_col == 17) {
-                    $code_error = "Q.1";
-
-                    if (empty($parameterArr[$i]['fieldValue'])) {
-                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
-                    } else {
-
-                        $ciu = $parameterArr[$i]['fieldValue'];
-
-                        $return = check_clanae_ciu($ciu);
-                        if (!$return)
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                        
-                    }
-                }
+                
 
                 /*
                  * CONDICION_INSCRIPCION_AFIP
@@ -1681,8 +1674,8 @@ class Lib_06_data extends MX_Controller {
          
 
 
-        /*
-        var_dump($result);      
+        
+        /*var_dump($result);      
         exit(); */
 
         $this->data = $result;
