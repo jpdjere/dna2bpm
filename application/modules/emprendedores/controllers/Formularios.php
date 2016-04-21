@@ -52,43 +52,21 @@ class Formularios extends MX_Controller {
 
         $body="Programa Clubes de Emprendedores : formulario de preinscripción\n\n";
         foreach($data as $k=>$v){
-           $body.="$k: $v\n" ;
+           $clean[$k] = $this->security->xss_clean($k);
+           $clean[$v] = $this->security->xss_clean($v);
+           $body.="{$clean[$k]}: {$clean[$v]}<br>\n" ;
         }
         
         $mailer['body']=$body;
         $mailer['subject']='Programa Clubes de Emprendedores : formulario de preinscripción';
         $mailer['reply_email']='clubemprendedor@produccion.gob.ar';
         $mailer['reply_nicename']='Club de emprendedores';
-        $mailer['to']=array('gabriel@trialvd.com.ar'=>'gabriel@trialvd.com.ar');
+        $mailer['to']=array('clubemprendedor@produccion.gob.ar'=>'clubemprendedor@produccion.gob.ar');
         $status=$this->msg->sendmail($mailer);
         
-        var_dump($status);
-       //==== Mailer
-       
-        // $this->load->config('email');
-        // $mail = new $this->phpmailer;
-        // $mail->IsSMTP(); // telling the class to use SMTP
-        // $mail->Host = $this->config->item('smtp_host'); // SMTP server        
-        // //$mail->SMTPDebug = 1; 
-        // $mail->CharSet = 'UTF-8';
-        // $mail->SetFrom('clubemprendedor@produccion.gob.ar', 'clubemprendedor@produccion.gob.ar');
-        // $mail->Subject = 'Programa Clubes de Emprendedores : formulario de preinscripción';
-        // $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-        // $mail->IsHTML(true);
-        // $mail->MsgHTML(nl2br($body));
         
-        // $mail->AddAddress('clubemprendedor@produccion.gob.ar', "");      
-         
-         
-        //      if (!$mail->Send()) {
-        //           $resp['status']=false;
-        //           $resp['msg']=$mail->ErrorInfo;
-        //     } else {
-        //         $resp['status']=true;
-        //     }
-            
-        // echo json_encode($resp);
-        
+        echo json_encode(array('status'=>$status));
+
         
     }
     
