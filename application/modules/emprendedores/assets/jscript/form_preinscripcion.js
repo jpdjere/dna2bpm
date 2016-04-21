@@ -64,7 +64,7 @@ $("form").validate({
                 $('#msg_error').show();
             }
           },
-          dataType: 'json'
+          dataType: 'html'
         });
     }
 
