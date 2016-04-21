@@ -173,7 +173,8 @@ class Msg extends CI_Model {
         );
         
         $myconfig=array_merge($default,$config);
-                 
+            
+            
         if(empty($myconfig['to']))return;
         if(empty($myconfig['subject']))return;
       
@@ -199,7 +200,7 @@ class Msg extends CI_Model {
           
         $mail->IsHTML($myconfig['is_html']);
 
-        $mail->Body=$myconfig['body'];
+        $mail->Body=utf8_decode($myconfig['body']);
 
         //==== Lets send this mails!
         
@@ -221,16 +222,14 @@ class Msg extends CI_Model {
         } else {
             $myconfig['status']=true;
         }     
-         
 
          //== DB Log 
         if($myconfig['db_log']){
             
-        // $myconfig['date']=new MongoDate(time());
-        // $myconfig['idu']=$this->idu;
-       //$test=serialize($myconfig);
-       $this->db->insert('sendmail', $config); 
-      // $this->db->insert('sendmail', array('test'=>1));
+         $myconfig['date']=new MongoDate(time());
+         $myconfig['idu']=$this->idu;
+         $this->db->insert('sendmail', $myconfig); 
+
         }
         
          
