@@ -1295,7 +1295,7 @@ BLOCK;
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
-        echo $data;
+        var_dump($data);
         exit();
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
