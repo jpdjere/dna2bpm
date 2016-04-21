@@ -229,7 +229,8 @@ class Msg extends CI_Model {
         // $myconfig['date']=new MongoDate(time());
         // $myconfig['idu']=$this->idu;
        //$test=serialize($myconfig);
-       $this->db->insert('sendmail', $config); 
+       $test=print_r($config,true);
+       $this->db->insert('sendmail', array('test'=>$test)); 
       // $this->db->insert('sendmail', array('test'=>1));
         }
         
