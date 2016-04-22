@@ -8,6 +8,14 @@
         {
             "tiles": [
                 {
+                    "title": "Ordenes de Pago",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["Expertos_Empresas", "Expertos_Empresas_KW"]
+                },
+                {
                 "title": "Tile01",
                 "module": "bpm",
                 "controller": "bpmui",
