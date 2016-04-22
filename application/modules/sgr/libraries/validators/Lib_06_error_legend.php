@@ -150,7 +150,7 @@ class Lib_06_error_legend {
                 break;
 
             case "B.2":
-                $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Tipo de Socio: No se puede incorporar un Socio Protector como Socio Partícipe, y viceversa. Verifique la relación.';
+                $result_error = '<strong>Columna B - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe verificar EN TODAS LAS SGR que el Socio que se Incorpora (Columnas C y D) no posea saldos positivos de acciones del carácter contrario al tipo de socio que se está incorporando (Si se incorpora como Partícipe que no sea Protector en ninguna SGR y viceversa). El saldo se debe calcular hasta la fecha de transacción informada en la columna AF del archivo Importador del ANEXO 6.';
                 break;
 
             case "C.1":
@@ -276,6 +276,8 @@ class Lib_06_error_legend {
                 break;
             case "Q.3.B": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Para los Socios Protectores (B) incorporados a partir de Noviembre de 2013 inclusive, debe validar que se corresponda únicamente con alguno de los códigos del archivo 06 - CODIGOS DE ACTIVIDAD NUEVOS - F 883-2013 - socios B..';
                 break;
+            case "Q.4.A": $result_error = '<strong>Columna Q - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Para los Socios Partícipes (A) incorporados a partir de abril 2016  inclusive, debe validar que se corresponda únicamente con alguno de los códigos del archivo 06 - CODIGOS DE ACTIVIDAD NUEVOS - F 883-2013 - socios A - Reso 11-2016';
+                break;    
             case "R.4": $result_error = '<strong>Columna R- Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>R- Año/Mes 1: Está columna DEBE ESTAR VACÍA.';
                 break;
             case "S.4": $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Monto 1: Está columna DEBE ESTAR VACÍA.';

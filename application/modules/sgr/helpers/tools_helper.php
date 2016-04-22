@@ -128,9 +128,30 @@ function check_date_format($parameter) {
     }
 }
 
-function check_date_for_resolution($date1, $date2) {
-
-    return(strtotime($date1) > strtotime($date2));
+function check_date_for_resolution($date) {
+    
+    $rtn = NULL;
+    
+    $t = strtotime($date);
+    
+    
+    
+    switch(true) {
+        case ($t > 1435806000 && $t < 1458097200):  
+            /* Desde el 02/07/2015 los límites Pyme son los siguientes (Resolución 357/2015)
+             * 2015-07-02 - 2016-03-16 
+             */
+            $rtn = "357/2015";
+        break;
+        
+        case ($t > 1458183600):   //
+            /* Desde el 17/03/2016 los límites Pyme son los siguientes (Resolución 11/2016)
+             * 17/03/2016 - 0/0
+             */
+            $rtn = '11/2016';
+        break;
+    }
+    return $rtn;
 }
 
 function check_date($parameter) {
