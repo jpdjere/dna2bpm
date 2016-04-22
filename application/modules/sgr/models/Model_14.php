@@ -524,15 +524,13 @@ class Model_14 extends CI_Model {
         $token = $this->idu;
         $new_query = array(
             'TOKEN' => $token,
-            'NRO_GARANTIA' => $filter['warranty'],
+            'NRO_GARANTIA' => $filter['warranty']/*,
             'FECHA_MOVIMIENTO' => array(
                 '$lt' => $mongo_date
-            )
+            )*/
         );
 
         $movement_result = $this->mongowrapper->sgr_tmp->$container->find($new_query);
-
-
 
         foreach ($movement_result as $movement) {
 
