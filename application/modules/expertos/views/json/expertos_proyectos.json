@@ -28,11 +28,6 @@
             "module": "expertos",
             "controller": "expertos",
             "function": "widget_2doMe2"
-        }, {
-            "title": "2do",
-            "module": "bpm",
-            "controller": "bpmui",
-            "function": "widget_tasks_done"
         }]
     }, {
         "col2": [{
@@ -40,11 +35,6 @@
             "module": "bpm",
             "controller": "bpmui",
             "function": "widget_cases"
-        }, {
-            "title": "Cases Closed",
-            "module": "bpm",
-            "controller": "bpmui",
-            "function": "widget_cases_closed"
         }]
     }]
 }
