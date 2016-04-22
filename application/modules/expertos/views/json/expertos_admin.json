@@ -12,35 +12,17 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 6,
                     "params": ["Expertos_Empresas", "Expertos_Empresas_KW"]
-                },
-                {
-                "title": "Tile01",
-                "module": "bpm",
-                "controller": "bpmui",
-                "function": "tile_cases",
-                "span": 6
                 }
             ]
         },
         {
             "col1": [
-                {
-                    "title": "2do",
-                    "module": "expertos",
-                    "controller": "Expertos",
-                    "function": "widget_2doMe2_b"
-                }
             ]
         },
         {
-            "col2": [{
-            "title": "Cases",
-            "module": "bpm",
-            "controller": "bpmui",
-            "function": "widget_cases"
-        }
+            "col2": [
             ]
         }
     ]
