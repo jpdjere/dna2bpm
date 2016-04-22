@@ -1407,11 +1407,6 @@ class Model_06 extends CI_Model {
             if ($sell_result) {
                 $sell_result_arr[] = $sell_result[$field];
             }
-<<<<<<<<< saved version
-
-=========
-            
->>>>>>>>> local version
         }
 
         $buy_sum = array_sum($buy_result_arr);
