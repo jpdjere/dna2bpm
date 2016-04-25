@@ -397,7 +397,7 @@ class crefis extends MX_Controller {
             //---url para checkear
 
             $url_bpm = '';
-            if (in_array(134, $this->id_group) or in_array(135, $this->id_group) or $this->user->isAdmin()) {
+            if (in_array(145, $this->id_group) or in_array(1001, $this->id_group) or $this->user->isAdmin()) {
                 $model = ($crefisGral) ? 'crefisGral' : 'crefisGral';
                 $url_bpm = $this->base_url . 'bpm/engine/run/model/' . $model . '/' . $token ['case'];
             }
