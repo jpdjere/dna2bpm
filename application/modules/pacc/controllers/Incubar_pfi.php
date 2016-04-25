@@ -37,7 +37,7 @@ class Incubar_pfi extends MX_Controller {
     }
 
     function proyecto_PFI() {
-        $data ['number'] = 'Programa de Fortalecimiento Institucional';
+        $data ['number'] = 'Formulario PFI';
         $data ['title'] = 'PFI';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
