@@ -65,7 +65,7 @@ class crefis_model extends CI_Model {
     function get_amount_stats_by_id($query) {
         $rtn = array();
         $container = 'container.proyectos_crefis';
-        $fields = array('4970', '8326', '8573');
+        $fields = array('4970', '5040', '6982');
         $rs = $this->mongowrapper->db->$container->find($query, $fields);
         foreach ($rs as $list) {
             unset($list['_id']);
