@@ -1,6 +1,6 @@
 {
     "createdBy": "MJL <mjlucini@gmail.com>",
-    "title": "Inscripción al Registro Nacional de Incunbadoras",
+    "title": "INCUBAR Inscripciones",
     "view": "layout_2cols_fixed",
     "icon": "ion-briefcase",
     "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
@@ -16,31 +16,23 @@
         "tiles": [{
             "title": "TileSolicitud",
             "module": "pacc",
-            "controller": "incubar_ins",
-            "function": "pre_inscripción_INCUBAR",
+            "controller": "Incubar_pfi",
+            "function": "proyecto_PFI",
             "span": 3
         }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_RX"],
+            "params": ["pacc", "preaproPFI_LS"],
             "span": 3
         }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_NY"],
+            "params": ["pacc", "preaproPFI_UZ"],
             "span": 3
-        }, {
-            "title": "Proyectos Aprobados",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["pacc", "INCUBAR_XC"],
-            "span": 3
-
         }]
     }, {
         "col1": [{
