@@ -6,7 +6,7 @@
 
 jQuery(document).ready(function($) {
    
-console.log('----- Formularios de inscripcion');
+//console.log('----- Formularios de inscripcion');
 
 
 $("form").validate({
@@ -14,22 +14,7 @@ $("form").validate({
    // simple rule, converted to {required:true}
     provincia: "required",
     ciudad:"required",
-    og_ambito:"required",
-    og_nombre:"required",
-    og_referente:"required",
-    og_ambito:"required",
-    og_telefono:"required",
-    o1_nombre:"required",
-    o1_referente:"required",
-    o1_telefono:"required",
-    o2_nombre:"required",
-    o1_referente:"required",
-    o2_telefono:"required",
-    espacio_uso:"required",
-    espacio_domicilio:"required",
-    espacio_m2:"required",
-    po_impacto:"required",
-    po_uso_esperado:"required",
+   
     og_email:{
         required:true,
         email:true
@@ -47,7 +32,7 @@ $("form").validate({
     submitHandler: function(form) {
         var data=$( form ).serializeArray();
 
-        var url=base_url+"emprendedores/formularios/process/";
+        var url=base_url+"gestion/viaticos/process/";
         console.log(url);
         $.ajax({
           type: "POST",

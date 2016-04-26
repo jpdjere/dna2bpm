@@ -43,7 +43,7 @@
             
         <!-- Destino Interior/Internacional--> 
          <div class="form-group">
-            <label for="nombre">Provincia</label>
+            <label for="nombre">Destino Viaje</label>
             <select name="provincia" name="provincia" class="form-control"  >
               <option value="">Seleccione</option>
               <option value="interior">Interior</option>
@@ -52,7 +52,7 @@
          </div>  
           
         <!-- INTERIOR -->
-        
+        <h4 class='text-info'><i class="fa fa-chevron-right text-info"></i> INTERIOR</h4>
         <!-- Provincia  -->
           <div class="form-group">
             <label for="nombre">Provincia</label>
@@ -91,12 +91,13 @@
             <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ciudad" >
           </div>
           
-           <h4 class='text-info'><i class="fa fa-chevron-right text-info"></i> Fecha/Hora</h4>
+           
           <!-- Fecha/Hora  -->
           <div class="row">
               <div class='col-md-6'>
                   <label for="partida">Partida</label>
-                  <input type="text" class="form-control" id="partida" name="partida" placeholder="partida" >
+                  <input type="text" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM" />
+                  <!--<input type="text" class="form-control" id="partida" name="partida" placeholder="partida" >-->
               </div>
               
               <div class='col-md-6'>
@@ -146,8 +147,18 @@
     <script src="{base_url}/dashboard/assets/bootstrap-wysihtml5/js/bootstrap.min.js"></script>
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/jquery.validate.min.js"></script>
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/localization/messages_es_AR.js"></script>
-    <script src="{base_url}/emprendedores/assets/jscript/form_preinscripcion.js"></script>
+    <script src="{base_url}/emprendedores/assets/jscript/form_viaticos.js"></script>
     
-    
+    <script type="text/javascript">
+$(function() {
+    $('input[name="daterange"]').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+            format: 'MM/DD/YYYY h:mm A'
+        }
+    });
+});
+</script>
   </body>
 </html>
