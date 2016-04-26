@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link href="{base_url}/dashboard/assets/bootstrap-wysihtml5/css/bootstrap.min.css" rel="stylesheet">
     <link href="{base_url}/dashboard/assets/css/style.css" rel="stylesheet">
-    <link href="{base_url}emprendedores/assets/css/style.css" rel="stylesheet">
+    <link href="{base_url}gestion/assets/css/style.css" rel="stylesheet">
      <!-- font Awesome -->
     <link href="{base_url}dashboard/assets/bootstrap-wysihtml5/css/font-awesome-4.4.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
         
@@ -147,7 +147,7 @@
     <script src="{base_url}/dashboard/assets/bootstrap-wysihtml5/js/bootstrap.min.js"></script>
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/jquery.validate.min.js"></script>
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/localization/messages_es_AR.js"></script>
-    <script src="{base_url}/emprendedores/assets/jscript/form_viaticos.js"></script>
+    <script src="{base_url}/gestion/assets/jscript/form_viaticos.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     

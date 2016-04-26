@@ -53,19 +53,6 @@ class Viaticos extends MX_Controller {
         exit();
        $data=$this->input->post();
 
-        $body="Programa Clubes de Emprendedores : formulario de preinscripción\n\n";
-        foreach($data as $k=>$v){
-           $clean[$k] = $this->security->xss_clean($k);
-           $clean[$v] = $this->security->xss_clean($v);
-           $body.="{$clean[$k]}: {$clean[$v]}<br>\n" ;
-        }
-        
-        $mailer['body']=$body;
-        $mailer['subject']='Programa Clubes de Emprendedores : formulario de preinscripción';
-        $mailer['reply_email']='clubemprendedor@produccion.gob.ar';
-        $mailer['reply_nicename']='Club de emprendedores';
-        $mailer['to']=array('clubemprendedor@produccion.gob.ar'=>'clubemprendedor@produccion.gob.ar');
-        $status=$this->msg->sendmail($mailer);
         
         
         echo json_encode(array('status'=>$status));
