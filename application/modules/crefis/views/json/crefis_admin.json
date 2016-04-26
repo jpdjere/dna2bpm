@@ -28,6 +28,13 @@
                     "controller": "kpi",
                     "function": "tile",
                     "params": ["crefisGral", "crefisGral_AK"]
+                },
+                                {
+                    "title": "Proyectos Viables Tecnico",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["crefisGral", "crefisGral_JO"]
                 }
             ]
         },
