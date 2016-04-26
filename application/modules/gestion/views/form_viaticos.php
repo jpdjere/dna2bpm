@@ -96,8 +96,7 @@
           <div class="row">
               <div class='col-md-6'>
                   <label for="partida">Partida</label>
-                  <input type="text" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM" />
-                  <!--<input type="text" class="form-control" id="partida" name="partida" placeholder="partida" >-->
+                  <input type="text" class="form-control" id="partida" name="partida" placeholder="partida" >
               </div>
               
               <div class='col-md-6'>
@@ -148,19 +147,7 @@
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/jquery.validate.min.js"></script>
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/localization/messages_es_AR.js"></script>
     <script src="{base_url}/gestion/assets/jscript/form_viaticos.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     
-    <script type="text/javascript">
-$(function() {
-    $('input[name="daterange"]').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-            format: 'MM/DD/YYYY h:mm A'
-        }
-    });
-});
-</script>
+ 
   </body>
 </html>
