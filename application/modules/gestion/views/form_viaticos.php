@@ -41,7 +41,7 @@
       <div class='row'>
         {logobar}
         </div>
-<!-- ============= Formulario  -->
+      <!-- ============= Formulario  -->
 
      <div class='row'>
         <div class='col-md-12'>

@@ -28,11 +28,10 @@ $( "#destino" ).change(function() {
 
 $("#add_group").click(function(e) {
     
-    
     var sel=$('#select_group').val();
     if(sel=="all")$('#groups_box').html(""); // remove all to avoid repeats
 
-    $.post( base_url+'gestion/viaticos/get_option_button',{sel:sel}, function( data ) {
+    $.post('http://localhost/dna2bpm/gestion/viaticos/get_option_button',{sel:sel}, function( data ) {
         $('#groups_box').append(data);
     });
     

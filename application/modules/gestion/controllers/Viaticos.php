@@ -32,6 +32,7 @@ class Viaticos extends MX_Controller {
         
          /* LOAD MODEL */
         $this->load->model('forms_model');
+        $this->load->model('app');
         
         //$this->user->authorize();
         //---Output Profiler
@@ -92,10 +93,12 @@ class Viaticos extends MX_Controller {
     
     
     function process(){
-       $data=$this->input->post();
-        echo json_encode(array('status'=>'msg_ok'));
+         $data=$this->input->post();
+         $rtn = $this->forms_model->save($data);
+         echo json_encode(array('status'=>'msg_ok_' . $rtn));
         
     }
+    
     
     
     
