@@ -29,6 +29,10 @@ class Viaticos extends MX_Controller {
         $this->load->model('ssl/ssl_model');
         $this->load->model('msg');
         $this->load->library('phpmailer/phpmailer');
+        
+         /* LOAD MODEL */
+        $this->load->model('forms_model');
+        
         //d$this->user->authorize();
         //---Output Profiler
         //$this->output->enable_profiler(TRUE);
@@ -41,21 +45,60 @@ class Viaticos extends MX_Controller {
        $data['title']='SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE';
        $data['logobar']= $this->ui->render_logobar();
         
+        
+       /*Agentes*/
+        $data_select = NULL;
+        $agents_data = $this->forms_model->buscar_agentes_registrados();
+        
+        foreach ($agents_data as $each) {
+           $data_select .= '<option value='.$each['dni'].'>'.$each['apellido'].' '.$each['nombre'].' </option>';
+            
+        }
+        
+        $data['groupagents'] = $data_select;
+        
+        
       echo $this->parser->parse('form_viaticos',$data,true,true);
     
 
     }
     
     
+    
+    //=== Create  buttons groups on ajax call
+    
+    function get_option_button(){
+     $sel=$this->input->post('sel');
+     
+     $ret = NULL;
+     $groups = $this->forms_model->buscar_agentes_registrados();
+              
+     if($sel=='all'){
+         foreach($groups as $g){
+              $ret.= "<button type='button' data-groupid='{$g['dni']}' class='btn btn-default btn-xs'><i class='fa fa-times-circle'></i> {$g['nombre']}</button>";
+         }
+     }else{
+         // just one
+          foreach($groups as $g){
+              if($g['dni']==$sel){
+              $ret.= "<button type='button' data-groupid='{$g['dni']}' class='btn btn-default btn-xs'><i class='fa fa-times-circle'></i> {$g['nombre'] } {$g['apellido'] }</button>";
+              break;
+              }
+          }
+     }
+     echo $ret;
+    }
+    
+    
+    
     function process(){
         
-        var_dump($this->input->post());
-        exit();
-       $data=$this->input->post();
-
+         var_dump($this->input->post());
+         echo json_encode(array('status'=>$status));
+         exit();
+         $data=$this->input->post();
         
         
-        echo json_encode(array('status'=>$status));
 
         
     }

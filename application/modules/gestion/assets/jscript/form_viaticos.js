@@ -8,6 +8,47 @@ jQuery(document).ready(function($) {
    
 //console.log('----- Formularios de inscripcion');
 
+    /*hidden labels*/
+        $("#interior").show();
+        $("#exterior").hide();
+
+
+$( "#destino" ).change(function() {
+  if($( "#destino" ).val()=='interior'){
+      $("#interior").show();
+      $("#exterior").hide();
+  } else {
+     $("#interior").hide();
+     $("#exterior").show();
+  }
+});
+
+
+//GUARDAR
+
+$("#add_group").click(function(e) {
+    
+    
+    var sel=$('#select_group').val();
+    if(sel=="all")$('#groups_box').html(""); // remove all to avoid repeats
+
+    $.post( base_url+'gestion/viaticos/get_option_button',{sel:sel}, function( data ) {
+        $('#groups_box').append(data);
+    });
+    
+    console.log($('#groups_box').html());
+    
+});
+
+
+
+//delete groups 
+$(document).on('click','#groups_box button,#modal-groups_box button',function(e) {
+    $(this).remove();
+});
+
+
+//Validat
 
 $("form").validate({
   rules: {
@@ -52,8 +93,6 @@ $("form").validate({
           dataType: 'json'
         });
     }
-
-
 });
 
 
