@@ -149,6 +149,7 @@
             <label>Agentes Habilitados</label>
             <div class="input-group">
                 <select class="form-control"  id="select_group">
+                  <option value="">Seleccione</option>
                     {groupagents}
                 </select>
               <div class="input-group-btn">

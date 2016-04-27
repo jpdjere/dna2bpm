@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 //console.log('----- Formularios de inscripcion');
 
     /*hidden labels*/
-        $("#interior").show();
+        $("#interior").hide();
         $("#exterior").hide();
 
 
