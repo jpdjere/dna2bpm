@@ -42,10 +42,7 @@ $("#add_group").click(function(e) {
 
 
 
-//delete groups 
-$(document).on('click','#groups_box button,#modal-groups_box button',function(e) {
-    $(this).remove();
-});
+
 
 
 //Validat

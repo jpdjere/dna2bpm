@@ -14,6 +14,16 @@
      <!-- font Awesome -->
     <link href="{base_url}dashboard/assets/bootstrap-wysihtml5/css/font-awesome-4.4.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
         
+    <!-- Daterange picker -->
+        <link href="{base_url}/dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />   
+        
+    <!-- overload css skins -->
+    <link href="{base_url}/dashboard/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <!-- CSS:fullcalendar -->
+    <link rel='stylesheet' type='text/css' href='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/plugins/fullcalendar-2.3.1/fullcalendar.css' />
+    <!-- CSS:daterangerpicker -->
+    <link rel='stylesheet' type='text/css' href='{base_url}/dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css' />
+        
         
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,6 +60,9 @@
               <option value="exterior">Exterior</option>
             </select>
          </div>  
+         
+         
+        
           
         <!-- INTERIOR -->
         <div id="interior">
@@ -94,25 +107,17 @@
           
            
           <!-- Fecha/Hora  -->
-          <div class="row">
-              <div class='col-md-6'>
-                  <label for="partida">Partida</label>
-                  <input type="text" class="form-control" id="partida" name="partida" placeholder="partida" >
-              </div>
-              
-              <div class='col-md-6'>
-                  <label for="llegada">Llegada</label>
-                  <input type="text" class="form-control" id="llegada" name="llegada" placeholder="llegada" >
-              </div>
          
+          <div class="form-group">
+              <label>Interval:</label>
+              <div class="input-group">
+                  <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                  </div>
+                  <input class="form-control pull-right range" name="event-interval" id="event-interval" type="text" placeholder="&#123;lang interval&#125;" value="27/04/2016 15:00 - 27/04/2016 15:30">
+              </div><!-- /.input group -->
           </div>
           
-           <div class="row">
-              <div class='col-md-12'>
-                  <label for="duracion">Duración de la comisión</label>
-                  <input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duración de la comisión" >
-              </div>
-          </div>
           
           <div class="row">
               <div class='col-md-12'>
@@ -343,6 +348,20 @@
     <script src="{base_url}/jscript/jquery/plugins/jquery-validation-1.15.0/localization/messages_es_AR.js"></script>
     <script src="{base_url}/gestion/assets/jscript/form_viaticos.js"></script>
     
+    <!--CALENDAR -->
+    <script  src='{base_url}/jscript/jquery/ui/jquery-ui-1.10.2.custom/jquery-ui-1.10.2.custom.min.js'></script>
+    <script  src='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/AdminLTE/app.js'></script>
+    <script  src='{base_url}/jscript/jquery/plugins/Form/jquery.form.min.js'></script>
+    <script  src='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/plugins/fullcalendar-2.3.1/lib/moment.min.js'></script>
+    <script  src='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/plugins/fullcalendar-2.3.1/fullcalendar.min.js'></script>
+    <script  src='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/plugins/fullcalendar-2.3.1/lang-all.js'></script>
+    <script  src='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/plugins/daterangepicker/daterangepicker.js'></script>
+
+
+        <!-- JS custom -->     
+        <!-- JS:calendar-JS -->
+        <script  src='{base_url}/calendar/assets/jscript/app.js'></script>
+
  
   </body>
 </html>
