@@ -32,11 +32,11 @@ $("#add_group").click(function(e) {
     if(sel=="all")$('#groups_box').html(""); // remove all to avoid repeats
 
     //PARA TEST
-    $.post('http://dna2-tests.industria.gob.ar/dna2bpm/gestion/viaticos/get_option_button',{sel:sel}, function( data ) {
+    $.post(base_url+'/gestion/viaticos/get_option_button',{sel:sel}, function( data ) {
         $('#groups_box').append(data);
     });
     
-    console.log($('#groups_box').html());
+   // console.log($('#groups_box').html());
     
 });
 
@@ -71,6 +71,7 @@ $("form").validate({
         var data=$( form ).serializeArray();
 
         var url=base_url+"gestion/viaticos/process/";
+        var url_print=base_url+"gestion/viaticos/print_viatico/";
         console.log(url);
         $.ajax({
           type: "POST",
@@ -79,9 +80,10 @@ $("form").validate({
           success: function(resp) {
             console.log(resp);
             $(form).html('');
-            if(resp.status){
+            if(resp){
                 $(form).html('');
                 $('#msg_ok').show();
+                $("#MSG").html('<a href="'+url_print+resp+'"><i class="fa fa-user"></i>Imprimir</a>');
             }else{
                 $(form).html('');
                 $('#msg_error').show();

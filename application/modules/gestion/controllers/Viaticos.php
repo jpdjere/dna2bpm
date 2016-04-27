@@ -82,7 +82,7 @@ class Viaticos extends MX_Controller {
          // just one
           foreach($groups as $g){
               if($g['dni']==$sel){
-              $ret.= "<button type='button' data-groupid='{$g['dni']}' class='btn btn-default btn-xs'><i class='fa fa-times-circle'></i> {$g['nombre'] } {$g['apellido'] }</button>";
+              $ret.= "<input name='agentes[]' type='hidden' value='{$g['dni']}'><button type='button' data-groupid='{$g['dni']}' class='btn btn-default btn-xs'><i class='fa fa-times-circle'></i> {$g['nombre'] } {$g['apellido'] }</button>";
               break;
               }
           }
@@ -95,8 +95,28 @@ class Viaticos extends MX_Controller {
     function process(){
          $data=$this->input->post();
          $rtn = $this->forms_model->save($data);
-         echo json_encode(array('status'=>'msg_ok_' . $rtn));
+         echo $rtn;//json_encode(array('status'=>'msg_ok_' . $rtn));
         
+    }
+    
+    
+    function print_viatico($parameter){
+        
+        
+     
+     
+       $data['base_url']=$this->base_url;
+       $data['title']='SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE | Imprimible';
+       $data['logobar']= $this->ui->render_logobar();
+        
+        $query = array('id'=>(int)$parameter);
+        
+        $viatico_data = $this->forms_model->buscar_viaticos($query);
+        
+        foreach ($viatico_data[0] as $key=>$value) {
+                $data[$key]=$value;
+        }
+        echo $this->parser->parse('print_viaticos',$data,true,true);
     }
     
     

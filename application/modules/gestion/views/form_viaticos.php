@@ -60,6 +60,7 @@
     <div id='msg_ok'style="display:none;margin-top:20px">
         <div class="alert alert-success" role="alert" >
         El formulario se ha enviado correctamente. Gracias!
+        <div id="MSG"></div>
         </div>  
     </div>
           
@@ -124,7 +125,7 @@
           <!-- Fecha/Hora  -->
          
           <div class="form-group">
-              <label>Interval:</label>
+              <label>Fecha Desde/Hasta</label>
               <div class="input-group">
                   <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>

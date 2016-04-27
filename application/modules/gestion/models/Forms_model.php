@@ -44,6 +44,31 @@ class Forms_model extends CI_Model {
         return $rtn;
     }
     
+    /**
+     * Buscar Viaticos
+     *
+     * @name buscar_viaticos
+     *
+     * @see Viaticos()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+    function buscar_viaticos($query = null) {
+        $rtn = array();
+        $container = 'container.gestion_viaticos';
+        $rs = $this->mongowrapper->db->$container->find($query);
+
+        foreach ($rs as $each) {
+            $rtn[] = $each;
+        }
+
+        return $rtn;
+    }
+    
     
    /**
      * Save Viaticos 
@@ -70,7 +95,7 @@ class Forms_model extends CI_Model {
         $query = array('id' => (float) $id);
        
         $rs = $this->mongowrapper->db->$container->update($query, array('$set' => $parameter), $options);
-        return $rs;
+        return $id;
     }
     
     
