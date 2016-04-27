@@ -48,6 +48,21 @@
           <h2>EXPTE S01</h2>
           <h3>Solicitud de anticipo de viaticos y ordenes de pasaje</h3>
           <h4>Normativa: Decreto Nº 1343/74 compl.y modif. y/o Decreto Nº 2345/08</h4>
+          
+          <!-- MSGs -->
+
+    <div id='msg_error'style="display:none;margin-top:20px">
+        <div class="alert alert-danger" role="alert" >
+        Error
+        </div>  
+    </div>
+      
+    <div id='msg_ok'style="display:none;margin-top:20px">
+        <div class="alert alert-success" role="alert" >
+        El formulario se ha enviado correctamente. Gracias!
+        </div>  
+    </div>
+          
         <form method='post'>
             
             
@@ -315,19 +330,7 @@
    
           
         </form>
-<!-- MSGs -->
 
-    <div id='msg_error'style="display:none;margin-top:20px">
-        <div class="alert alert-danger" role="alert" >
-        Error
-        </div>  
-    </div>
-      
-    <div id='msg_ok'style="display:none;margin-top:20px">
-        <div class="alert alert-success" role="alert" >
-        El formulario se ha enviado correctamente. Gracias!
-        </div>  
-    </div>
     
     
     
