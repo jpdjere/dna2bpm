@@ -176,8 +176,37 @@
             </div>
             <div class="form-group" id="groups_box">
 
-            </div> 
-
+            </div>
+            
+            <!-- pasaje -->
+            <div class="row">
+              <div class='col-md-6'>
+                  <label for="pasaje">Pasaje</label>
+                  <input type="text" class="form-control" id="pasaje" name="pasaje" placeholder="Pasaje" >
+              </div>
+              
+             <div class='col-md-3'>
+                  <label for="importe_pasaje">Importe Pasaje</label>
+                  <input type="text" class="form-control" id="importe_pasaje" name="importe_pasaje" placeholder="0.00" >
+              </div>
+              
+               <div class='col-md-3'>
+                  <label for="gastos_eventuales">Gastos Eventuales</label>
+                  <input type="text" class="form-control" id="gastos_eventuales" name="gastos_eventuales" placeholder="0.00" >
+              </div>
+             </div>
+             
+             
+             <div class="row">
+              <div class='col-md-12'>
+                  <label for="observaciones">Observaciones</label>
+                  <textarea class="form-control" id="observaciones" name="observaciones" placeholder="observaciones..." ></textarea>
+                  <br />
+              </div>
+          </div>
+             
+             </div>
+             
 
         
 

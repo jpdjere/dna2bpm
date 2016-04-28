@@ -32,10 +32,11 @@ class Forms_model extends CI_Model {
      * @param type $query
      */
     function buscar_agentes_registrados($query = null, $fields = null) {
+        
         $rtn = array();
         $container = 'container.agentes_secretaria';
 
-        $rs = $this->mongowrapper->db->$container->find();
+        $rs = $this->mongowrapper->db->$container->find($query);
 
         foreach ($rs as $each) {
             $rtn[] = $each;

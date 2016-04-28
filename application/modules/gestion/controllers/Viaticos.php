@@ -102,8 +102,6 @@ class Viaticos extends MX_Controller {
     
     function print_viatico($parameter){
         
-        
-     
      
        $data['base_url']=$this->base_url;
        $data['title']='SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE | Imprimible';
@@ -114,6 +112,25 @@ class Viaticos extends MX_Controller {
         $viatico_data = $this->forms_model->buscar_viaticos($query);
         
         foreach ($viatico_data[0] as $key=>$value) {
+                if($key=='agentes'){
+                   $table = "";
+                   foreach($value as $anyone){
+                       if($anyone!=""){
+                            $id_agentes = array('dni'=> $anyone);
+                            $agentes = $this->forms_model->buscar_agentes_registrados($id_agentes);
+                            
+                            $table .= "<tr><td>".$agentes[0]['nombre'] ." ".  $agentes[0]['apellido']. "</td>
+                            <td>" . $anyone."</td><td>".$agentes[0]['modalidad']."</td>
+                            <td>". $agentes[0]['nivel_y_grado']."</td>
+                            <td>".$agentes[0]['nivel_y_grado']."</td>
+                            <td></td><td></td><td></td><td></td></tr>"; 
+                       }
+                   }
+                    
+                }
+                
+                $data['agentes']=$table;
+            
                 $data[$key]=$value;
         }
         echo $this->parser->parse('print_viaticos',$data,true,true);
