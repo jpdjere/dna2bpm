@@ -119,11 +119,38 @@ class Viaticos extends MX_Controller {
                             $id_agentes = array('dni'=> $anyone);
                             $agentes = $this->forms_model->buscar_un_agente($id_agentes);
                             
-                            $table .= "<tr><td>".$agentes[0]['nombre'] ." ".  $agentes[0]['apellido']. "</td>
+                            /*$table .= "<tr><td>".$agentes[0]['nombre'] ." ".  $agentes[0]['apellido']. "</td>
                             <td>" . $anyone."</td><td>".$agentes[0]['modalidad']."</td>
                             <td>". $agentes[0]['nivel_y_grado']."</td>
                             <td>".$agentes[0]['nivel_y_grado']."</td>
-                            <td></td><td></td><td></td><td></td></tr>"; 
+                            <td></td><td></td><td></td><td></td></tr>"; */
+                            
+                            
+                            $table .= '<tr>
+		<td colspan=2 style="border-left: 2px solid #212121" height="20" align="left">'.$agentes[0]['nombre'] ." ".  $agentes[0]['apellido'].'</td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left">'. $anyone.'</td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left">'.$agentes[0]['modalidad'].'</td>
+		<td align="left">'.$agentes[0]['nivel_y_grado'].'</td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left">viaticospymes@produccion.gob.ar</td>
+		<td style="border-right: 1px solid #212121; align="left">43350</td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left">1102</td>
+		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="left">1102</td>
+		<td align="left"></td>
+	</tr>
+	<tr>
+		<td colspan=2 style="border-left: 2px solid #212121" height="20" align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left"></td>
+		<td align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left"></td>
+		<td style="border-right: 1px solid #212121; align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="left"></td>
+		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="left"></td>
+		<td align="left"></td>
+	</tr>';
+                            
                        }
                    }
                     
@@ -133,7 +160,7 @@ class Viaticos extends MX_Controller {
             
                 $data[$key]=$value;
         }
-        echo $this->parser->parse('print_viaticos',$data,true,true);
+        echo $this->parser->parse('print_viaticos_xls',$data,true,true);
     }
     
     
