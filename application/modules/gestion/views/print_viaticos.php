@@ -97,20 +97,23 @@
           </div>
           
          <!-- ADD -->
-            <div class="form-group">
-              <table class="table-striped"><thead>
-                <th>APELLIDO Y NOMBRE</th>
-                <th>C.U.I.T o C.U.I.L.</th>
-                <th>PERMAN. O CONTRATADO</th>
-                <th>NIVEL/GRA CATEG/RAN</th>
-                <th>E-MAIL</th>
-                <th>TELEFONO</th>	
-                <th>VENCIMIENTO CONTRATO</th>
-                <th>VIATICO DIARIO</th>
-                <th>VIATICO TOTAL</th>
+            <div class="table-responsive dummy_msgs">
+              <hr>
+              <table class="table table-mailbox">
+                <thead>
+                  <th>APELLIDO Y NOMBRE</th>
+                  <th>C.U.I.T o C.U.I.L.</th>
+                  <th>PERMAN. O CONTRATADO</th>
+                  <th>NIVEL/GRA CATEG/RAN</th>
+                  <th>E-MAIL</th>
+                  <th>TELEFONO</th>	
+                  <th>VENCIMIENTO CONTRATO</th>
+                  <th>VIATICO DIARIO</th>
+                  <th>VIATICO TOTAL</th>
               </thead>
               <tbody>{agentes}</tbody>
               </table>
+              <hr>
             </div>
             
 
@@ -119,7 +122,7 @@
             <div class="row">
               <div class='col-md-6'>
                   <label for="pasaje">Pasaje:</label>
-                  {pasaje}
+                  {pasaje}<br/>
               </div>
               
              <div class='col-md-3'>
@@ -141,6 +144,24 @@
                   <br />
               </div>
           </div>
+          
+          <div class="row" align="center" style="padding: 10%;">
+              <div class='col-md-9' ></div>
+              <div class='col-md-3' ><hr>FIRMA Y SELLO DEL RESPONSABLE</div>
+          </div>
+          
+          <div class="row">
+            
+              <div class='col-md-12' align="center">
+                <hr>
+                Autorízase el anticipo solicitado y de corresponder la emisión de la/s orden/es de pasaje.
+Regístrese en la DIRECCION GENERAL DE ADMINISTRACION, procedase por el Departamento Tesoreria al pago resultante.
+</div>
+          </div>
+          
+          
+          
+
 
         
 
