@@ -31,12 +31,26 @@ class Forms_model extends CI_Model {
      *
      * @param type $query
      */
-    function buscar_agentes_registrados($query = null, $fields = null) {
+    function buscar_agentes_registrados() {
         
         $rtn = array();
         $container = 'container.agentes_secretaria';
+       
+        $rs = $this->mongowrapper->db->$container->find();
 
-        $rs = $this->mongowrapper->db->$container->find($query);
+        foreach ($rs as $each) {
+            $rtn[] = $each;
+        }
+
+        return $rtn;
+    }
+    
+    function buscar_un_agente($idu) {
+        
+        $rtn = array();
+        $container = 'container.agentes_secretaria';
+       
+        $rs = $this->mongowrapper->db->$container->find($idu);
 
         foreach ($rs as $each) {
             $rtn[] = $each;

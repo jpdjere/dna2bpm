@@ -117,7 +117,7 @@ class Viaticos extends MX_Controller {
                    foreach($value as $anyone){
                        if($anyone!=""){
                             $id_agentes = array('dni'=> $anyone);
-                            $agentes = $this->forms_model->buscar_agentes_registrados($id_agentes);
+                            $agentes = $this->forms_model->buscar_un_agente($id_agentes);
                             
                             $table .= "<tr><td>".$agentes[0]['nombre'] ." ".  $agentes[0]['apellido']. "</td>
                             <td>" . $anyone."</td><td>".$agentes[0]['modalidad']."</td>
