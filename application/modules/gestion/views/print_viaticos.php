@@ -145,7 +145,7 @@
               </div>
           </div>
           
-          <div class="row" align="center" style="padding: 10%;">
+          <div class="row" align="center" style="padding: 3%;">
               <div class='col-md-9' ></div>
               <div class='col-md-3' ><hr>FIRMA Y SELLO DEL RESPONSABLE</div>
           </div>
