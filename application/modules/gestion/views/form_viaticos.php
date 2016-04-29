@@ -77,7 +77,13 @@
             </select>
          </div>  
          
-         
+          <div class="row">
+              <div class='col-md-12'>
+                  <label for="expte">EXPTE S01:</label>
+                  <textarea class="form-control" id="expte" name="expte" placeholder="Ingrese el Nro. de Expte" ></textarea>
+              </div>
+          </div>
+          
         
           
         <!-- INTERIOR -->
