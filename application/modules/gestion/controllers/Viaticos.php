@@ -108,27 +108,45 @@ class Viaticos extends MX_Controller {
        $data['logobar']= $this->ui->render_logobar();
         
         $query = array('id'=>(int)$parameter);
-        
         $viatico_data = $this->forms_model->buscar_viaticos($query);
-        
         foreach ($viatico_data[0] as $key=>$value) {
+         
+         list($desde, $hasta) = explode("-", trim($viatico_data[0]['event-interval']));
+         
+        $desde =  $this->rtn_date_format($desde);
+        $hasta =  $this->rtn_date_format($hasta);
+        
+       
+        $datetime1 = new DateTime($desde);
+        $datetime2 = new DateTime($hasta);
+        $interval = $datetime1->diff($datetime2);
+        $diff =  (int)$interval->format('%R%a');
+        
+        
+        if($diff==0)
+         $diff = 1;
+        
+         
+          
+         
                 if($key=='agentes'){
                    $table = "";
                    foreach($value as $anyone){
-                    
-                    
                     
                        if($anyone!=""){
                             $id_agentes = array('dni'=> $anyone);
                             $agentes = $this->forms_model->buscar_un_agente($id_agentes);
                             
-                            $importe = '$1,102.00';
+                           
+                            $importe = (float)$this->escalas($viatico_data[0]['provincia']); 
+                            $importe_total= $importe*$diff;
+                           
                             
                             $print_nombre = $agentes[0]['nombre'] ." ".  $agentes[0]['apellido'];
                             if(strlen($print_nombre)>25){
                              $print_nombre =  $agentes[0]['apellido'];
                             }
-
+            
                             
                             $table .= '<tr>
                         		<td colspan=2 style="border-left: 2px solid #212121" height="20 align="center"><font size="2">'.$print_nombre.'</font></td>
@@ -138,8 +156,8 @@ class Viaticos extends MX_Controller {
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"><font size="2">viaticospymes@produccion</font></td>
                         		<td style="border-right: 1px solid #212121; align="center"><font size="2">43350</font></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
-                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"><font size="2">'.$importe.'</font></td>
-                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">'.$importe.'</font></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"><font size="2">$'.number_format($importe).'.00</font></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format($importe_total).'.00</font></td>
                         		<td align="center"></td>
                         	</tr>
                         	<tr>
@@ -160,12 +178,64 @@ class Viaticos extends MX_Controller {
                     
                 }
                 
+               
+                
+               $data['desde'] = $this->rtn_date_format($desde, "dia") ;
+               $data['hasta'] = $this->rtn_date_format($hasta, "dia") ;
+               $data['desde_hora'] = $this->rtn_date_format($desde, "hora") ;
+               $data['hasta_hora'] = $this->rtn_date_format($hasta, "hora") ;
+               $data['duracion'] = $diff;
+
+                
                 $data['agentes']=$table;
             
                 $data[$key]=$value;
         }
         echo $this->parser->parse('print_viaticos_xls',$data,true,true);
     }
+    
+    
+    function escalas($provincia){
+     
+      
+    $valor = 0;
+     
+    $arr_noroeste = array("Jujuy", "Salta", "Tucuman", "Catamarca","La Rioja");
+    $arr_noreste = array("Misiones", "Corrientes", "Entre Rios", "Formosa", "Chaco");
+    $arr_cuyo = array("San Juan", "Mendoza", "San Luis");
+    $arr_centro = array("Cordoba", "Santiago del Estero", "Santa Fe" , "La Pampa");
+    $arr_sur = array("Neuquen", "Rio Negro", "Chubut", "Santa Cruz" , "Tierra del Fuego");
+    $arr_metro = array("Buenos Aires", "CABA"); 
+    
+    if (in_array($provincia, $arr_noroeste)){$valor = 998;}
+    if (in_array($provincia, $arr_noreste)){$valor = 698;}
+    if (in_array($provincia, $arr_cuyo)){$valor = 998;}
+    if (in_array($provincia, $arr_centro)){$valor = 833;}
+    if (in_array($provincia, $arr_sur)){$valor = 1222;}
+    if (in_array($provincia, $arr_metro)){$valor = 698;}
+    
+    return $valor;
+     
+    }
+    
+    function rtn_date_format($param, $param2=null){
+     
+     
+      list($fecha, $hora) = explode(" ", trim($param));
+         $date = str_replace('/', '-', $param); 
+        
+        $rtn = $date;
+         
+         if($param2=="dia")
+          $rtn =  $fecha;
+          
+          if($param2=="hora")
+          $rtn =  $hora;
+         
+         return $rtn;
+     
+    }
+    
     
     
     

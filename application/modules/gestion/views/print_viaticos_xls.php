@@ -45,7 +45,7 @@
 		<td></td>
 		<td></td>
 		<td></td>
-		<td colspan=6 align="left">EXPTE S01 {id}</td>
+		<td colspan=6 align="left">EXPTE S01 {expte}</td>
 	</tr>
 	<tr>
 		<td colspan=11 height="12" ></td>
@@ -110,9 +110,9 @@
 	</tr>
 	<tr>
 		<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">FECHA DE PARTIDA: </td>
-		<td></td>
+		<td>{desde}</td>
 		<td align="left"><font size=3>HORA:</font></td>
-		<td align="left"></td>
+		<td align="left">{desde_hora}</td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -126,9 +126,9 @@
 	</tr>
 	<tr>
 		<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">FECHA DE LLEGADA:</td>
-		<td></td>
+		<td>{hasta}</td>
 		<td align="left"><font size=3>HORA:</font></td>
-		<td align="left"></td>
+		<td align="left">{hasta_hora}</td>
 		<td></td>
 		<td></td>
 		<td></td>
@@ -141,7 +141,7 @@
 		<td></td>
 	</tr>
 	<tr>
-		<td  colspan=9 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">DURACION DE LA COMISION: </td>
+		<td  colspan=9 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">DURACION DE LA COMISION: {duracion}</td>
 		<td style="border-right: 2px solid #212121" ></td>
 		<td></td>
 	</tr>

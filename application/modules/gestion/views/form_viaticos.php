@@ -77,17 +77,21 @@
             </select>
          </div>  
          
-          <div class="row">
-              <div class='col-md-12'>
-                  <label for="expte">EXPTE S01:</label>
-                  <textarea class="form-control" id="expte" name="expte" placeholder="Ingrese el Nro. de Expte" ></textarea>
-              </div>
-          </div>
+         
           
-        
           
         <!-- INTERIOR -->
         <div id="interior">
+          
+          
+         <div class="row">
+              <div class='col-md-12'>
+                  <label for="expte">EXPTE S01:</label>
+                  <input class="form-control" id="expte" name="expte" placeholder="Ingrese el Nro. de Expte" >
+              </div>
+          </div>
+        
+        
         <h4 class='text-info'><i class="fa fa-chevron-right text-info"></i> INTERIOR</h4>
         <!-- Provincia  -->
           <div class="form-group">

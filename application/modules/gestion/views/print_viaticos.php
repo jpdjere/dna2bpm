@@ -333,7 +333,7 @@ Regístrese en la DIRECCION GENERAL DE ADMINISTRACION, procedase por el Departam
    
         <!-- JS custom -->     
         <!-- JS:calendar-JS -->
-        <script  src='{base_url}/calendar/assets/jscript/app.js'></script>
+        <script  src='{base_url}/gestion/assets/jscript/app.js'></script>
 
  
   </body>
