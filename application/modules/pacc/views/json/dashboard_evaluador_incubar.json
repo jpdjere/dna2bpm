@@ -40,6 +40,14 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
+            "params": ["pacc", "INCUBAR_FB"],
+            "span": 3
+
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
             "params": ["pacc", "INCUBAR_JI"],
             "span": 3
 
