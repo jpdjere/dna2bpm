@@ -3,8 +3,6 @@
 /**
  * Description of pacc
  *
- * @author juanignacioborda@gmail.com
- * @date    2015-09-09
  *
  */
 if (!defined('BASEPATH'))
@@ -16,7 +14,7 @@ class Evaluador_incubar extends MX_Controller {
         parent::__construct();
 
         //---base variables
-        //$this->load->model('model_evaluadores_proyectos');
+        $this->load->model('model_evaluadores_proyectos');
         $this->base_url = base_url();
         //$this->idu = (int) $this->session->userdata('iduser');
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -31,7 +29,7 @@ class Evaluador_incubar extends MX_Controller {
     /**
      * Dashboard para Incubar
      */
-    function dashboard($debug=false){
+    function dashboard($debug=false){                       
         Modules::run('dashboard/dashboard', 'pacc/json/dashboard_evaluador_incubar.json',$debug);
     }
 
