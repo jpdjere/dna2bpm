@@ -27,9 +27,9 @@ var FolderAdd = Ext.create('Ext.Action', {
     }
 });
 function get_path(n){
-    parents=new Array(n.data.id.toString());
+    parents=new Array(n.data.text.toString());
     while(n=n.parentNode){
-        parents.unshift(n.data.id.toString())
+        parents.unshift(n.data.text.toString())
     }
     root=parents.splice(0,1);
     return parents.join('/');
@@ -43,10 +43,11 @@ var ModelAdd = Ext.create('Ext.Action', {
 
             if (!n.isLeaf()) {
                 Ext.MessageBox.prompt('Model', 'Please enter Model id:', function(btn,text){
+                    
                     if(btn=='ok' && text){
-
+                        text_id=text.trim().replace('/','-');
                         node={
-                            id: text,
+                            id: text.trim(),
                             text    : text +' <span class="text-new">[new]</span>',
                             leaf    : true,
                             iconCls : 'dot-gray',
