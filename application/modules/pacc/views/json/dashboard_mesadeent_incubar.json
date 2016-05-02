@@ -20,14 +20,6 @@
             "function": "tile",
             "params": ["pacc", "INCUBAR_QM"],
             "span": 3
-        }, {
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["pacc", ""],
-            "span": 3
-
         }]
     }, {
         "col1": [{
