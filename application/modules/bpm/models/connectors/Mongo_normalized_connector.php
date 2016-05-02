@@ -26,7 +26,6 @@ class Mongo_normalized_connector extends CI_Model {
                 if(isset($query['id'])&& is_array($query['id'])){
                     $query['id']=array('$in'=>array_values($query['id']));
                 }
-                var_dump($query);
                 //---select the database
                 if ($resource['datastoreref']) {
                     $this->mongowrapper->db = $this->mongowrapper->selectDB($resource['datastoreref']);
