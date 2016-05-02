@@ -33,7 +33,6 @@ class Evaluador_incubar extends MX_Controller {
      */
     function dashboard($debug=false){
         Modules::run('dashboard/dashboard', 'pacc/json/dashboard_evaluador_incubar.json',$debug);
-
     }
 
 
