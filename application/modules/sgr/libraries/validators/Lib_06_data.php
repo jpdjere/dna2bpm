@@ -795,7 +795,7 @@ class Lib_06_data extends MX_Controller {
                     } else {
                         $return = parameterised_province($parameterArr[$i]['fieldValue']);
                         if (!$return) {
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'].$A_cell_value);
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         }
                     }
                 }
