@@ -162,7 +162,7 @@ class Lib_06_error_legend {
                 break;
 
             case "E.1":
-                $result_error = '<strong>Columna E - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Provincia: El campo no puede estar vacío y debe contener sólo caracteres alfabéticos.';
+                $result_error = '<strong>Columna E - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El campo no puede estar vacío y solo puede aceptar algunos de los valores del archivo 06 - PARAMETRIZACIÓN PROVINCIA.';
                 break;
 
             case "F.1":
