@@ -14,9 +14,9 @@
     }],
     "zones": [{
         "tiles": [{
-            "title": "TileSolicitud",
-            "module": "pacc",
-            "controller": "mesadeent_incubar",
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
             "function": "INCUBAR_QM",
             "span": 3
         }, {
