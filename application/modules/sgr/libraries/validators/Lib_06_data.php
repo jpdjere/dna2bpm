@@ -226,8 +226,7 @@ class Lib_06_data extends MX_Controller {
 
             if ($param_col == 30) {
                 
-                $resolution = NULL;
-                $inc_date = NULL;
+                
                     
                 $code_error = "AD.1";
                 if (empty($parameterArr[$i]['fieldValue'])) {
@@ -239,47 +238,8 @@ class Lib_06_data extends MX_Controller {
                     if ($return) {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
-                    
-                     $inc_date = strftime("%Y/%m/%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
-                     $inc_mongo_date = new MongoDate(strtotime(str_replace("-", "/", $inc_date)));
-                     
-                       
-                     $resolution = $this->sgr_model->get_resolution($inc_date);
-                     
-                     
-                     
-                    /* VALIDO EN TODAS LAS */
-                    $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value, $inc_mongo_date);
-                    if ($balance != 0) {
-                        $code_error = "B.2";
-                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-                    }
+                   
                 }
-                
-                
-                if ($A_cell_value == "INCORPORACION") {
-                    
-                    /*CODIGO_ACTIVIDAD_AFIP COL 17*/
-                    if (!$resolution) {
-            
-                        $code_error = "Q.2";
-                        $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
-            
-                        if (!$return)
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu);
-                    }
-                    else {
-                        $code_error = ($resolution == '11/2016') ? "Q.4.A" : "Q.3";
-            
-                        $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
-            
-                        if (!$return)
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu);
-                    }
-            
-            
-                }
-                
             }
             
             
@@ -335,8 +295,46 @@ class Lib_06_data extends MX_Controller {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
                 }
-            }
-
+                
+                
+                    $resolution = NULL;
+                    $inc_date = NULL;
+                
+                     $inc_date = strftime("%Y/%m/%d", mktime(0, 0, 0, 1, -1 + $parameterArr[$i]['fieldValue'], 1900));
+                     $inc_mongo_date = new MongoDate(strtotime(str_replace("-", "/", $inc_date)));
+                    
+                     $resolution = $this->sgr_model->get_resolution($inc_date);
+                     
+                     
+                    /* VALIDO EN TODAS LAS */
+                    $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value, $inc_mongo_date);
+                    if ($balance != 0) {
+                        $code_error = "B.2";
+                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
+                    }
+                     
+                     if ($A_cell_value == "INCORPORACION") {
+                    
+                        /*CODIGO_ACTIVIDAD_AFIP COL 17*/
+                        if (!$resolution) {
+                
+                            $code_error = "Q.2";
+                            $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
+                
+                            if (!$return)
+                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu ." Reso. ". $resolution);
+                        }
+                        else {
+                            $code_error = ($resolution == '11/2016') ? "Q.4.A" : "Q.3";
+                
+                            $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
+                
+                            if (!$return)
+                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu ." Reso. ". $resolution);
+                        }
+            
+                    }
+                }
 
 
             /*
