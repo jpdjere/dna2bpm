@@ -1093,12 +1093,15 @@ class Sgr extends MX_Controller {
             echo $this->parser->parse('print', $customData, true);
         } else {
             /* LOAD LIBRARY */
-            $this->load->library('pdf/pdf');
+             echo $this->parser->parse('print', $customData, true);
+            
+        /*    fix it */
+           /* $this->load->library('pdf/pdf');
 
             $this->pdf->set_paper('a4', 'landscape');
             $this->pdf->parse('print', $customData);
             $this->pdf->render();
-            $this->pdf->stream("$parameter.pdf");
+            $this->pdf->stream("$parameter.pdf");*/
 
 //            if ($this->pdf->stream) {
 //                $this->pdf->stream("$parameter.pdf");
