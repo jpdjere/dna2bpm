@@ -128,6 +128,44 @@ function check_date_format($parameter) {
     }
 }
 
+
+
+
+function parameterised_province($parameter){
+    
+    $pcia_arr = array("BUENOS AIRES CONURBANO",
+        "BUENOS AIRES INTERIOR",
+        "CABA",
+        "CATAMARCA",
+        "CHACO",
+        "CHUBUT",
+        "CORDOBA",
+        "CORRIENTES",
+        "ENTRE RIOS",
+        "FORMOSA",
+        "JUJUY",
+        "LA PAMPA",
+        "LA RIOJA",
+        "MENDOZA",
+        "MISIONES",
+        "NEUQUEN",
+        "RIO NEGRO",
+        "SALTA",
+        "SAN JUAN",
+        "SAN LUIS",
+        "SANTA CRUZ",
+        "SANTA FE",
+        "SANTIAGO DEL ESTERO",
+        "TIERRA DEL FUEGO",
+        "TUCUMAN");
+        
+        if(in_array($parameter, $pcia_arr)){
+            return $parameter;
+        }
+        
+    
+}
+
 function check_date_for_resolution($date) {
     
     $rtn = NULL;
