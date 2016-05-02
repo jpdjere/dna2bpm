@@ -330,7 +330,7 @@ class Lib_06_data extends MX_Controller {
                             $return = $this->sgr_model->clae2013($ciu, $B_cell_value, $resolution);
                 
                             if (!$return)
-                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu ." Reso. ". $resolution);
+                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu );
                         }
             
                     }
