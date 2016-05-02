@@ -793,11 +793,9 @@ class Lib_06_data extends MX_Controller {
                     if (empty($parameterArr[$i]['fieldValue'])) {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                     } else {
-                        $allow_words = array("CAPITAL FEDERAL", "BUENOS AIRES", "CATAMARCA", "CORDOBA", "CHUBUT", "CHACO", "CORRIENTES", "ENTRE RIOS", "FORMOSA", "JUJUY", "LA PAMPA", "LA RIOJA", "MISIONES", "MENDOZA", "NEUQUEN", "RIO NEGRO", "SALTA", "SANTA CRUZ", "SANTIAGO DEL ESTERO", "SANTA FE", "SAN JUAN", "SAN LUIS", "TIERRA DEL FUEGO", "TUCUMAN");
-
-                        $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
-                        if ($return) {
-                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        $return = parameterised_province($parameterArr[$i]['fieldValue']);
+                        if (!$return) {
+                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue'].$A_cell_value);
                         }
                     }
                 }
