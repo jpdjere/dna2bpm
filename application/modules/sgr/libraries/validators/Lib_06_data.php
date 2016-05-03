@@ -179,7 +179,7 @@ class Lib_06_data extends MX_Controller {
                  * CODIGO_ACTIVIDAD_AFIP
                  * El campo no puede estar vacío. El campo no puede estar vacío. Debe contener mínimo 5 y máximo 6 caracteres.
                  */
-                if ($param_col == 17) {
+                if ($param_col == 17 && $A_cell_value=="INCORPORACION") {
                     $code_error = "Q.1";
 
                     if (empty($parameterArr[$i]['fieldValue'])) {
@@ -322,7 +322,7 @@ class Lib_06_data extends MX_Controller {
                             $return = $this->sgr_model->clanae1999($ciu, $B_cell_value);
                 
                             if (!$return)
-                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu ." Reso. ". $resolution);
+                                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $ciu);
                         }
                         else {
                             $code_error = ($resolution == '11/2016') ? "Q.4.A" : "Q.3";
