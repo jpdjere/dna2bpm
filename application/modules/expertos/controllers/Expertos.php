@@ -52,6 +52,17 @@ class expertos extends MX_Controller {
       
         
     }
+    
+    function Profesionales($debug=false) {
+        $this->user->authorize();
+        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
+        Modules::run('dashboard/dashboard', 'expertos/json/expertos_prof.json',$debug);
+      
+        
+    }
+    
+    
+    
 
     function Admin($debug=false) {
         $this->user->authorize();
@@ -75,6 +86,14 @@ class expertos extends MX_Controller {
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/Expertos_Empresas';
+        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
+    }
+    function tile_profesional() {
+        $data ['number'] = 'Instituciones y Profesionales';
+        $data ['title'] = 'Carga';
+        $data ['icon'] = 'ion-document-text';
+        $data ['more_info_text'] = 'Comenzar';
+        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/carga_pro_inst';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
 
