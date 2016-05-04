@@ -55,6 +55,7 @@ class expertos extends MX_Controller {
     
     function Profesionales($debug=false) {
         $this->user->authorize();
+        $this->Add_group();
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_prof.json',$debug);
       
@@ -1026,7 +1027,7 @@ BLOCK;
         $user =$this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $user=$user;
-            $group_add = $this->group->get_byname('CREFIS/EMPRESA');
+            $group_add = $this->group->get_byname('Expertos/Empresa / Institucion');
             array_push($user->group, (int) $group_add ['idgroup']);
             $user->group = array_unique($user->group);
             $this->user->save($user);
