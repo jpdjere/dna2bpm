@@ -175,7 +175,7 @@ function check_date_for_resolution($date) {
     
     
     switch(true) {
-        case ($t > 1435806000 && $t < 1458097200):  
+        case ($t >= 1435806000 && $t <= 1458097200):  
             /* Desde el 02/07/2015 los límites Pyme son los siguientes (Resolución 357/2015)
              * 2015-07-02 - 2016-03-16 
              */
