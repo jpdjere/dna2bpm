@@ -12,9 +12,9 @@
     <body>
         <div class="container" > 
             <div class="navbar navbar-inverse navbar-static-top ">
-                <div id="header">
-                    <div id="header-dna"></div>
-                    <div id="header-logos"></div>
+                <div class="header_institucional">
+                  <img src="{base_url}dashboard/assets/img/logo_presidencia.png" class="presidencia_logo">
+                  <img src="{base_url}dashboard/assets/img/logo_secretaria.png" class="secretaria_logo">
                 </div>
                 <div class="row-fluid" align="center">                    
 

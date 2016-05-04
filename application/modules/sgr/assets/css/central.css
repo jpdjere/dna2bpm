@@ -121,23 +121,22 @@ tbody:hover tr:hover td {
 }*/
 
 /* MODIFY*/
-#header {
-    background: none no-repeat scroll 0 0 #FFFFFF;
-    height: 100px;
-    position: relative;
+.presidencia_logo{
+float:right;
+margin:0px;
+width:370px;
 }
-#header-dna {
-    background: url('../images/orgullo.jpg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    height: 100px;
-    width: 580px;
+
+.secretaria_logo{
+margin:30px 0px 0px 0px;
+width:240px;
 }
-#header-logos {
-    background: url('../images/orgullo.jpg') no-repeat scroll -750px 0 rgba(0, 0, 0, 0);
-    height: 100px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 210px;
+
+.header_institucional{
+padding:15px;
+border-bottom:1px solid #ccc;
+/*background-color: #ccc;*/
+position: relative;
 }
 /* HEADERS */
 h1{font-size:18px;color:#989898;}
