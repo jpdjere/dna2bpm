@@ -122,17 +122,19 @@ class Viaticos extends MX_Controller {
         $interval = $datetime1->diff($datetime2);
         $diff =  (int)$interval->format('%R%a');
         
+        /*Sum Gastos*/
+        $sum_gatos = (float)$viatico_data[0]['gastos_eventuales'];
+        
         
         if($diff==0)
          $diff = 1;
         
-         
-          
-         
+                
                 if($key=='agentes'){
+                 $sum_gatos_agentes = 0;
                    $table = "";
                    foreach($value as $anyone){
-                    
+                      
                        if($anyone!=""){
                             $id_agentes = array('dni'=> $anyone);
                             $agentes = $this->forms_model->buscar_un_agente($id_agentes);
@@ -146,10 +148,15 @@ class Viaticos extends MX_Controller {
                             if(strlen($print_nombre)>25){
                              $print_nombre =  $agentes[0]['apellido'];
                             }
+                            
+                            
+                            $sum_gatos_agentes+=$importe_total;
+                            
+                            
             
                             
                             $table .= '<tr>
-                        		<td colspan=2 style="border-left: 2px solid #212121" height="20 align="center"><font size="2">'.$print_nombre.'</font></td>
+                        		<td colspan=2 style="border-left: 2px solid #212121" height="20 align="center"><font size="2">'.strtoupper($print_nombre).'</font></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"><font size="2">'. $anyone.'</font></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"><font size="2">'.$agentes[0]['modalidad'].'</font></td>
                         		<td align="center"><font size="2">'.$agentes[0]['nivel_y_grado'].'</font></td>
@@ -178,19 +185,82 @@ class Viaticos extends MX_Controller {
                     
                 }
                 
-               
+                
+                
+              
+               $sum_gatos = $sum_gatos+$sum_gatos_agentes;
                 
                $data['desde'] = $this->rtn_date_format($desde, "dia") ;
                $data['hasta'] = $this->rtn_date_format($hasta, "dia") ;
                $data['desde_hora'] = $this->rtn_date_format($desde, "hora") ;
                $data['hasta_hora'] = $this->rtn_date_format($hasta, "hora") ;
                $data['duracion'] = $diff;
-
+               $data['gastos_eventuales'] = number_format($viatico_data[0]['gastos_eventuales']);
+               $data['importe_pasaje'] = number_format($viatico_data[0]['importe_pasaje']);
+               
                 
                 $data['agentes']=$table;
             
                 $data[$key]=$value;
         }
+        
+        
+        if($viatico_data[0]['gastos_eventuales']){
+                  $table .= '<tr>
+                        		<td colspan=2 style="border-left: 2px solid #212121" height="20 align="center"><font size="2">EVENTUALES</font></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-right: 1px solid #212121; align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format($viatico_data[0]['gastos_eventuales']).'.00</font></td>
+                        		<td align="center"></td>
+                        	</tr>
+                        	<tr>
+                        		<td colspan=2 style="border-left: 2px solid #212121" height="10"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-right: 1px solid #212121; align="left"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121"></td>
+                        		<td></td>
+                        	</tr>';
+                }
+                
+        /*TOTALES*/
+        
+         $table .= '<tr>
+                        		<td colspan=2 style="border-left: 2px solid #212121" height="20 align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-right: 1px solid #212121; align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format($sum_gatos).'.00</font></td>
+                        		<td align="center"></td>
+                        	</tr>
+                        	<tr>
+                        		<td colspan=2 style="border-left: 2px solid #212121" height="10"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-right: 1px solid #212121; align="left"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121"></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121"></td>
+                        		<td></td>
+                        	</tr>';
+                
+               
+        $data['agentes']=$table;
         echo $this->parser->parse('print_viaticos_xls',$data,true,true);
     }
     
