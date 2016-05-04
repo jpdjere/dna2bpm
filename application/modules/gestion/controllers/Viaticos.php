@@ -101,7 +101,7 @@ class Viaticos extends MX_Controller {
     
     
     function print_viatico($parameter){
-        
+         var_dump($parameter);
      
        $data['base_url']=$this->base_url;
        $data['title']='SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE | Imprimible';
