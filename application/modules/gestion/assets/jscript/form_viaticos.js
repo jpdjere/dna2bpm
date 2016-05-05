@@ -52,20 +52,8 @@ $("form").validate({
    // simple rule, converted to {required:true}
     provincia: "required",
     ciudad:"required",
-   
-    og_email:{
-        required:true,
-        email:true
-    },
-    o1_email:{
-        required:true,
-        email:true
-    },
-    o2_email:{
-        required:true,
-        email:true
-    }
-    
+    destino:"required",
+    expte:"required"
   },
     submitHandler: function(form) {
         var data=$( form ).serializeArray();
@@ -96,7 +84,7 @@ $("form").validate({
 
 
 
-
+$("#dependencia").prop("disabled", true);
    
 
   

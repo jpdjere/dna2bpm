@@ -82,7 +82,7 @@ class Viaticos extends MX_Controller {
          // just one
           foreach($groups as $g){
               if($g['dni']==$sel){
-              $ret.= "<input name='agentes[]' type='hidden' value='{$g['dni']}'><button type='button' data-groupid='{$g['dni']}' class='btn btn-default btn-xs'><i class='fa fa-times-circle'></i> {$g['nombre'] } {$g['apellido'] }</button>";
+              $ret.= "<input name='agentes[]' type='hidden' value='{$g['dni']}'><button type='button' data-groupid='{$g['dni']}' class='btn btn-default btn-xs'><i class='fa fa-times-circle'></i>{$g['nombre'] } {$g['apellido'] }</button>";
               break;
               }
           }
