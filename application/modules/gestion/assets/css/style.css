@@ -11,3 +11,19 @@ label.error{
 h4{
 margin-top:30px;
 }
+
+td{
+    font-family:arial;
+    font-size:12px;
+}
+
+h1{
+    font-family:arial;
+    font-size:16px;
+    font-weight:bold;
+}
+h2{
+    font-family:arial;
+    font-size:14px;
+    font-weight:bold;
+}
