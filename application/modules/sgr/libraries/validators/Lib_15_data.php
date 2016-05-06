@@ -167,6 +167,9 @@ class Lib_15_data extends MX_Controller {
                 if ($return) {
                     $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                 }
+                
+                $code_error = "F.2";
+                
             }
 
             /* CUIT_DEPOSITARIO
@@ -253,7 +256,7 @@ class Lib_15_data extends MX_Controller {
                     } else {
                         $code_error = "I.B.1";
 
-                        if ($I_cell_value < -1300000) {                            
+                        if ($I_cell_value < -20000000) {                            
                             $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                         } else {
                             $return = check_decimal($parameterArr[$i]['fieldValue'], 2);
