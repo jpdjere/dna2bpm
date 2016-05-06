@@ -37,6 +37,9 @@ class Lib_15_error_legend {
             case "F.1":
                 $result_error = '<strong>Columna F - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/> En caso de que el CUIT de la Columna G del importador ya está registrado en la Base de Datos del Sistema, este tomará en cuenta el nombre allí registrado. En caso contrario, se mantendrá provisoriamente el nombre informado por la SGR.';
                 break;
+            case "F.2":
+                $result_error = '<strong>Columna F - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/> Si en la columna A ingresaron la opción D o K, debe permitir valores entre -20000000 y 99999999999, con formato numérico y aceptar hasta dos decimales.';
+                break;
             case "G.1":
                 $result_error = '<strong>Columna G - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener 11 caracteres numéricos sin guiones. Debe estar incluida en el anexo ENTIDADES DEPOSITARIAS. Si no lo está, deberá informarse la misma a la DSyC para que sea incluida.';
                 break;
@@ -50,7 +53,7 @@ class Lib_15_error_legend {
                 $result_error = '<strong>Columna I - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener formato numérico y aceptar hasta dos decimales. Debe ser mayor que cero.';
                 break;
             case "I.B.1":
-                $result_error = '<strong>Columna I - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la columna A ingresaron la opción D o K, debe permitir valores entre -1300000 y 99999999999, con formato numérico y aceptar hasta dos decimales.';
+                $result_error = '<strong>Columna I - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la columna A ingresaron la opción D o K, debe permitir valores entre -20000000 y 99999999999, con formato numérico y aceptar hasta dos decimales.';
                 break;
             case "I.2":
                 $result_error = '<strong>Columna I - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>La suma total de las inversiones debe ser igual al Saldo de la Columna 7 – Saldo del Aporte Disponible, de la Impresión del Anexo 20.2 más el saldo de la Columna D del importador de dicho Anexo.';
