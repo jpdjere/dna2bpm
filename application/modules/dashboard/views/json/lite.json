@@ -1,0 +1,17 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Dashboard",
+    "view": "layout_no_sidebar",
+    "icon": "fa-users",
+    "zones": [{
+        "widgets": [{
+            "title": "Dashoard Lite",
+            "module": "dashboard",
+            "controller": "Lite",
+            "function": "lite"
+        }]
+    }],
+                "js": [{
+                "{base_url}dashboard/assets/jscript/lite.js": "Dash"
+            }]
+}
