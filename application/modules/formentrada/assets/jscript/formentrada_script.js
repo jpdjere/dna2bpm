@@ -138,7 +138,34 @@ $(document).ready(function() {
 			
 			
 		});
-            $("#cuit").mask("99-99999999-9",{placeholder:""});
+        $("#cuit").mask("99-99999999-9",{placeholder:""});
+        
+        
+        
+        /// Si seleccionan la Pregunta 1 la 3 y 4 pasan a NO. 
+        $("[name='prestamo']").change(function(){
+            switch($("[name='prestamo']:checked").val()){
+                case 'NO':
+                    $("[name='situacion'][value='SI']").attr("checked",false);
+                    $("[name='vincu'][value='SI']").attr("checked",false);
+                    //$("[name='situacion'][value='NO']").attr("checked",false);
+                    //$("[name='vincu'][value='NO']").attr("checked",false);
+                    $("[name='situacion'][value='NO']").attr("checked",true);
+                    $("[name='vincu'][value='NO']").attr("checked",true);
+                    //console.log('NO');
+                    break;
+                case 'SI':
+                    //console.log('SI');
+                    //$("[name='situacion'][value='NO']").attr("checked",false);
+                    //$("[name='vincu'][value='NO']").attr("checked",false);
+                    break;
+                
+                
+            }
+            
+        });
+        
+        
             $('#commentForm').submit(function(e) {
                 
                 e.preventDefault();
@@ -373,7 +400,7 @@ $(document).ready(function() {
                 if(prestamo == 'NO'){
                     clasifica = 'FONAPYME';
                 }else{
-                    if(monto == 'SI'){
+                    if(monto == 'NO'){
                         clasifica = 'FONAPYME';
                     }else{
                         if(situacion == 'SI'){
