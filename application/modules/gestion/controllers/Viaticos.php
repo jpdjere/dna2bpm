@@ -133,7 +133,6 @@ class Viaticos extends MX_Controller {
                  $sum_gatos_agentes = 0;
                    $table = "";
                    foreach($value as $anyone){
-                      
                        if($anyone!=""){
                             $id_agentes = array('dni'=> $anyone);
                             $agentes = $this->forms_model->buscar_un_agente($id_agentes);
@@ -194,8 +193,8 @@ class Viaticos extends MX_Controller {
                $data['desde_hora'] = $this->rtn_date_format($desde, "hora") ;
                $data['hasta_hora'] = $this->rtn_date_format($hasta, "hora") ;
                $data['duracion'] = $diff;
-               $data['gastos_eventuales'] = number_format($viatico_data[0]['gastos_eventuales']);
-               $data['importe_pasaje'] = number_format($viatico_data[0]['importe_pasaje']);
+               $data['gastos_eventuales'] = number_format((float)$viatico_data[0]['gastos_eventuales']);
+               $data['importe_pasaje'] = number_format((float)$viatico_data[0]['importe_pasaje']);
                
                 
                 $data['agentes']=$table;
@@ -214,7 +213,7 @@ class Viaticos extends MX_Controller {
                         		<td style="border-right: 1px solid #212121; align="center"></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
-                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format($viatico_data[0]['gastos_eventuales']).'.00</font></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format((float)$viatico_data[0]['gastos_eventuales']).'.00</font></td>
                         		<td align="center"></td>
                         	</tr>
                         	<tr>
@@ -242,7 +241,7 @@ class Viaticos extends MX_Controller {
                         		<td style="border-right: 1px solid #212121; align="center"></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
                         		<td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
-                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format($sum_gatos).'.00</font></td>
+                        		<td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center"><font size="2">$'.number_format((float)$sum_gatos).'.00</font></td>
                         		<td align="center"></td>
                         	</tr>
                         	<tr>
