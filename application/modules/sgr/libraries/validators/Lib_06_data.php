@@ -306,14 +306,18 @@ class Lib_06_data extends MX_Controller {
                      $resolution = $this->sgr_model->get_resolution($inc_date);
                      
                      
-                    /* VALIDO EN TODAS LAS */
+                   
+                     
+                     if ($A_cell_value == "INCORPORACION") {
+                         
+                         
+                         
+                          /* VALIDO EN TODAS LAS */
                     $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value, $inc_mongo_date);
                     if ($balance != 0) {
                         $code_error = "B.2";
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
                     }
-                     
-                     if ($A_cell_value == "INCORPORACION") {
                     
                         /*CODIGO_ACTIVIDAD_AFIP COL 17*/
                         if (!$resolution) {
@@ -1671,8 +1675,8 @@ class Lib_06_data extends MX_Controller {
 
 
         
-        /*var_dump($result);      
-        exit(); */
+        var_dump($result);      
+        exit(); 
 
         $this->data = $result;
     }
