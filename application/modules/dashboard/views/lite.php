@@ -2,11 +2,15 @@
     
 <!-- Tramites -->
 
-<div class = "col-md-3 load_tiles_after" data-id='tramites' href='{base_url}/dashboard/lite/tramites' >
-    <div class='row center-block dashboard_shortcut'>
+<div class = "col-md-3"  >
+    <div class='row center-block dashboard_shortcut' data-id='tramites' style='margin-bottom:0px'>
        <div class='title'><i class="fa fa-paperclip fa-2x" aria-hidden="true"></i><span>Tramites</span></div>
        <div class="label label-{tramites_count_label_class} pull-right">{tramites_count_qtty}</div>
     </div>
+    <div class='tramites_shortcut_extra' style='display:none' style='margin-bottom:10px'>
+        {tramites_extra}
+
+      </div> 
 </div>
 
 <!-- Mis tramites -->
@@ -38,7 +42,6 @@
        <div class="label label-{inbox_count_label_class} pull-right">{inbox_count_qtty}</div>
     </div>
 </div>
-
 
 
 

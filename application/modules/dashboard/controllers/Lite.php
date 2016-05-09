@@ -48,7 +48,8 @@ function lite(){
      $data['tramites_count']=true;
      $data['tramites_count_label_class']='success';
      $data['tramites_count_qtty']=666;
-     $data['tramites_extra']="---- Extra ";
+     $menu_custom = Modules::run('menu/get_menu', '0', 'sidebar-menu', !$this->user->isAdmin());
+     $data['tramites_extra'] = $this->parser->parse_string($menu_custom, array(), TRUE, TRUE);
      
     // Mis tramites
      $cases = $this->bpm->get_cases_byFilter(

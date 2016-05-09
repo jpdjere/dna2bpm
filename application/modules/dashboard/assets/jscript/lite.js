@@ -7,7 +7,7 @@ $(document).ready(function(){
 
         console.log('---- users');
         
-        $('[data-id]').click(function(){
+        $('[data-id]').click(function(e){
             
            var myid = $(this).attr('data-id');
        
@@ -16,8 +16,14 @@ $(document).ready(function(){
                location.href=globals['base_url']+"dashboard/inbox/";
            }
            
-
-                      
            
+           if(myid=='tramites'){
+     
+               $('.tramites_shortcut_extra').fadeToggle();
+
+           }       
+
+
+
         });
 });

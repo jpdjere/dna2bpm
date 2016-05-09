@@ -156,3 +156,8 @@ transform: scale(1.01);
     border-radius: 3px;
 }
 
+.tramites_shortcut_extra{
+    background-color:#dedede;
+/*    -webkit-box-shadow: 1px 1px 5px 1px rgba(111,111,111,.5);*/
+/*box-shadow: 1px 1px 5px 1px rgba(111,111,111,.5);*/
+}
