@@ -4,9 +4,7 @@
 <head>
 	<title>{title}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:"Arial"; font-size:2 }
-	</style>
+	<link href="{base_url}gestion/assets/css/style.css" rel="stylesheet">
 	
 </head>
 
@@ -56,7 +54,7 @@
 		
 	</tr>
 	<tr>
-		<td colspan=11 height="12" align="left"><font size=3>A LA DIRECCION GENERAL DE ADMINISTRACION</font></td>
+		<td colspan=11 height="12" align="left">"A LA DIRECCION GENERAL DE ADMINISTRACION"</td>
 	</tr>
 	<tr>
 		<td colspan=11 height="12" ></td>
@@ -66,14 +64,14 @@
 		
 	</tr>
 	<tr>
-		<td colspan=11 height="24" align="center"><b><u><font size=4>SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE</font></u></b></td>
+		<td colspan=11 height="24" align="center"><b><u>"SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE"</u></b></td>
 		</tr>
 	<tr>
 		<td colspan=11 height="12" ></td>
 		
 	</tr>
 	<tr>
-		<td colspan=11 height="12" align="center"><font size=3>Normativa: Decreto Nº 1343/74 compl.y modif. y/o Decreto Nº 2345/08</font></td>
+		<td colspan=11 height="12" align="center">"Normativa: Decreto Nº 1343/74 compl.y modif. y/o Decreto Nº 2345/08"</td>
 		</tr>
 	<tr>
 		<td colspan=11 height="12" ></td>
@@ -98,7 +96,7 @@
 	</tr>
 	<tr>
 		<td colspan=4 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">CIUDAD: {ciudad}</td>
-		<td colspan=4 align="left"><font size=3>PROVINCIA: {provincia}</font></td>
+		<td colspan=4 align="left">PROVINCIA: {provincia}</td>
 		<td></td>
 		<td style="border-right: 2px solid #212121" ></td>
 		<td></td>
@@ -111,7 +109,7 @@
 	<tr>
 		<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">FECHA DE PARTIDA: </td>
 		<td>{desde}</td>
-		<td align="left"><font size=3>HORA:</font></td>
+		<td align="left">HORA:</td>
 		<td align="left">{desde_hora}</td>
 		<td></td>
 		<td></td>
@@ -127,7 +125,7 @@
 	<tr>
 		<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">FECHA DE LLEGADA:</td>
 		<td>{hasta}</td>
-		<td align="left"><font size=3>HORA:</font></td>
+		<td align="left">HORA:</td>
 		<td align="left">{hasta_hora}</td>
 		<td></td>
 		<td></td>
@@ -347,12 +345,12 @@
 		<td></td>
 	</tr>
 	<tr>
-		<td  colspan="9" style="border-left: 2px solid #212121; padding-left:20" align="left"><font size=4>Autorízase el anticipo solicitado y de corresponder la emisión de la/s orden/es de pasaje.</font></td>
+		<td  colspan="9" style="border-left: 2px solid #212121; padding-left:20" align="left">"Autorízase el anticipo solicitado y de corresponder la emisión de la/s orden/es de pasaje."</td>
 	  <td style="border-right: 2px solid #212121" ></td>
 		<td></td>
 	</tr>
 	<tr>
-		<td  colspan="9" style="border-left: 2px solid #212121; padding-left:20" height="24" align="left"><font size=4>Regístrese en la DIRECCION GENERAL DE ADMINISTRACION, procedase por el Departamento Tesoreria al pago resultante.</font></td>
+		<td  colspan="9" style="border-left: 2px solid #212121; padding-left:20" height="24" align="left">"Regístrese en la DIRECCION GENERAL DE ADMINISTRACION, procedase por el Departamento Tesoreria al pago resultante."</td>
 	  <td style="border-right: 2px solid #212121" ></td>
 		<td></td>
 	</tr>

@@ -8,17 +8,15 @@ class Forms_model extends CI_Model {
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         //$this->container="?";
-
     }
-    
-    
+
     function get_agents_data() {
         $container = 'container.agentes_secretaria';
         $result = $this->mongowrapper->dna2->$container->find();
         return $result;
     }
-   
-   /**
+
+    /**
      * Buscar Agentes 
      *
      * @name buscar_agentes_registrados
@@ -32,10 +30,10 @@ class Forms_model extends CI_Model {
      * @param type $query
      */
     function buscar_agentes_registrados() {
-        
+
         $rtn = array();
         $container = 'container.agentes_secretaria';
-       
+
         $rs = $this->mongowrapper->db->$container->find();
 
         foreach ($rs as $each) {
@@ -44,21 +42,22 @@ class Forms_model extends CI_Model {
 
         return $rtn;
     }
-    
+
     function buscar_un_agente($idu) {
-        
+
         $rtn = array();
         $container = 'container.agentes_secretaria';
-       
+
         $rs = $this->mongowrapper->db->$container->find($idu);
 
         foreach ($rs as $each) {
+            unset($each['_id']);
             $rtn[] = $each;
         }
 
         return $rtn;
     }
-    
+
     /**
      * Buscar Viaticos
      *
@@ -78,14 +77,14 @@ class Forms_model extends CI_Model {
         $rs = $this->mongowrapper->db->$container->find($query);
 
         foreach ($rs as $each) {
+            unset($each['_id']);
             $rtn[] = $each;
         }
 
         return $rtn;
     }
-    
-    
-   /**
+
+    /**
      * Save Viaticos 
      *
      * @name save
@@ -99,20 +98,18 @@ class Forms_model extends CI_Model {
      * @param type $query
      */
     function save($parameter) {
-        
-        
+
+
         $options = array('upsert' => true, 'w' => 1);
         $container = 'container.gestion_viaticos';
         $query = array();
         $id = (float) $this->app->genid($container);
-       
+
         $parameter['id'] = $id;
         $query = array('id' => (float) $id);
-       
+
         $rs = $this->mongowrapper->db->$container->update($query, array('$set' => $parameter), $options);
         return $id;
     }
-    
-    
 
 }

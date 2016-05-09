@@ -71,7 +71,8 @@ $("form").validate({
             if(resp){
                 $(form).html('');
                 $('#msg_ok').show();
-                $("#MSG").html('<a href="'+url_print+resp+'"><i class="fa fa-user"></i>Imprimir</a>');
+                $("#MSG").html('<a href="'+url_print+resp+'" class="form-control btn btn-primary"> <i class="fa fa-user"> </i>Imprimir</a>');
+                $("#send_button").hide();
             }else{
                 $(form).html('');
                 $('#msg_error').show();
