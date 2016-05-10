@@ -1269,9 +1269,9 @@ BLOCK;
                     $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
                     
 
-                    $url = (isset($mycase['data'] ['Asistencias']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
+                    $url = (isset($mycase['data'] ['Asistencias']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['carga_pro_inst']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
-
+                    
                 }
             }
         } else {
@@ -1325,7 +1325,7 @@ BLOCK;
                     $empresaID = $mycase['data']['Empresas']['query']['id'];
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
-                }
+                }/*
                 if (isset($mycase['data']['Asistencias']['query']['id'])) {
                     $proyectoID = $mycase['data']['Asistencias']['query']['id'];
                     $proyecto = $this->bpm->get_data('container.asistencias', array('id' => $proyectoID));
@@ -1335,7 +1335,7 @@ BLOCK;
                     $url = (isset($mycase['data'] ['Asistencias']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
 
-                }
+                }*/
             }
         } else {
             $data['mytasks'] = array();
