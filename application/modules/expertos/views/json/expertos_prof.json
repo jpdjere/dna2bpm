@@ -16,13 +16,13 @@
     }, {
         "col1": [
             {
-                    "title": "2do",
+                    "title": "Casos Abiertos",
                     "module": "expertos",
                     "controller": "Expertos",
-                    "function": "widget_2doMe2",
+                    "function": "widget_2doMe2_b",
                     "box_icon":"fa-pie-chart",
                     "box_class":["box"], 
-                    "box_buttons":["remove","collapse"],
+                    "box_buttons":["collapse"],
                     "box_collapsed":"0"
                 }
         ]
