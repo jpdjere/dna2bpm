@@ -50,6 +50,9 @@ class Mysql extends MX_Controller {
 
         $this->anexo = ($this->session->userdata['anexo_code']) ? $this->session->userdata['anexo_code'] : "06";
         $this->period = $this->session->userdata['period'];
+        
+         /* ERROR REPORTING */
+        ini_set("error_reporting", E_ALL);
     }
 
     function Index() {
