@@ -53,6 +53,10 @@ class Mysql extends MX_Controller {
         
          /* ERROR REPORTING */
         ini_set("error_reporting", E_ALL);
+        
+        /* TIME LIMIT */
+        set_time_limit(28800);
+
     }
 
     function Index() {
