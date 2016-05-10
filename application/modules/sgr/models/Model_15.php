@@ -72,7 +72,11 @@ class Model_15 extends CI_Model {
             9 => 'MONTO'
         );
 
-
+        
+        /* FIX INFORMATION */
+        $parameter = array_map('trim', $parameter); 
+        $parameter = array_map('addSlashes', $parameter);
+        
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
