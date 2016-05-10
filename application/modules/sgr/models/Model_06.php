@@ -35,15 +35,7 @@ class Model_06 extends CI_Model {
             $this->sgr_cuit = $sgr['1695'];
         }
     }
-
-    function sanitize($parameter) {
-        /* FIX INFORMATION */
-        $parameter = (array) $parameter;
-        $parameter = array_map('trim', $parameter);
-        $parameter = array_map('addSlashes', $parameter);
-
-        return $parameter;
-    }
+    
 
     function check($parameter) {
         /**
@@ -95,7 +87,12 @@ class Model_06 extends CI_Model {
             36 => 5248, //CEDENTE_CUIT
         );
 
-
+         
+        /* FIX INFORMATION */
+        $parameter = array_map('trim', $parameter); 
+        $parameter = array_map('addSlashes', $parameter);
+          
+        
         $insertarr = array();
         foreach ($defdna as $key => $value) {
             $insertarr[$value] = $parameter[$key];
@@ -117,38 +114,40 @@ class Model_06 extends CI_Model {
             $insertarr[23] = (float) $insertarr[23];
             $insertarr[26] = (float) $insertarr[26];
 
+            
+            
             //--- Tipo de Operacion           
-            if ($insertarr["5779"] == "INCORPORACION")
+            if (strtoupper($insertarr["5779"]) == "INCORPORACION")
                 $insertarr["5779"] = "1";
-            if ($insertarr["5779"] == "INCREMENTO TENENCIA ACCIONARIA")
+            if (strtoupper($insertarr["5779"]) == "INCREMENTO TENENCIA ACCIONARIA")
                 $insertarr["5779"] = "2";
-            if ($insertarr["5779"] == "DISMINUCION DE CAPITAL SOCIAL")
+            if (strtoupper($insertarr["5779"]) == "DISMINUCION DE CAPITAL SOCIAL")
                 $insertarr["5779"] = "3";
-            if ($insertarr["5779"] == "INTEGRACION PENDIENTE")
+            if (strtoupper($insertarr["5779"]) == "INTEGRACION PENDIENTE")
                 $insertarr["5779"] = "4";
-            if ($insertarr["5779"] == "FAE CORP")
+            if (strtoupper($insertarr["5779"]) == "FAE CORP")
                 $insertarr["5779"] = "5";
-            if ($insertarr["5779"] == "FAE GARANTAXI")
+            if (strtoupper($insertarr["5779"]) == "FAE GARANTAXI")
                 $insertarr["5779"] = "6";
-            if ($insertarr["5779"] == "FAE CUYO PYMES")
+            if (strtoupper($insertarr["5779"]) == "FAE CUYO PYMES")
                 $insertarr["5779"] = "7";
-            if ($insertarr["5779"] == "FAE INCAA")
+            if (strtoupper($insertarr["5779"]) == "FAE INCAA")
                 $insertarr["5779"] = "8";
-            if ($insertarr["5779"] == "FAE PMSA")
+            if (strtoupper($insertarr["5779"]) == "FAE PMSA")
                 $insertarr["5779"] = "9";
-            if ($insertarr["5779"] == "FAE PRODAF")
+            if (strtoupper($insertarr["5779"]) == "FAE PRODAF")
                 $insertarr["5779"] = "10";
-            if ($insertarr["5779"] == "FAE CATAMARCA")
+            if (strtoupper($insertarr["5779"]) == "FAE CATAMARCA")
                 $insertarr["5779"] = "11";
-            if ($insertarr["5779"] == "FAE SANTA CRUZ")
+            if (strtoupper($insertarr["5779"]) == "FAE SANTA CRUZ")
                 $insertarr["5779"] = "12";
-            if ($insertarr["5779"] == "FAE SANTA FE")
+            if (strtoupper($insertarr["5779"]) == "FAE SANTA FE")
                 $insertarr["5779"] = "13";
-            if ($insertarr["5779"] == "FAE SOCO RIL")
+            if (strtoupper($insertarr["5779"]) == "FAE SOCO RIL")
                 $insertarr["5779"] = "14";
-            if ($insertarr["5779"] == "FAE YAGUAR")
+            if (strtoupper($insertarr["5779"]) == "FAE YAGUAR")
                 $insertarr["5779"] = "15";
-            if ($insertarr["5779"] == "FUSION")
+            if (strtoupper($insertarr["5779"]) == "FUSION")
                 $insertarr["5779"] = "16";
 
 
@@ -170,86 +169,89 @@ class Model_06 extends CI_Model {
                 $insertarr[1694] = "7";
 
             //--- Metemo & metemo la Provincia
-            if ($insertarr[4651] == "CAPITAL FEDERAL")
+            if (strtoupper($insertarr[4651]) == "CAPITAL FEDERAL")
                 $insertarr[4651] = "CABA";
-            if ($insertarr[4651] == "BUENOS AIRES")
+            if (strtoupper($insertarr[4651]) == "BUENOS AIRES")
                 $insertarr[4651] = "BA";
 
-            if ($insertarr[4651] == "BUENOS AIRES INTERIOR")
+            if (strtoupper($insertarr[4651]) == "BUENOS AIRES INTERIOR")
                 $insertarr[4651] = "BA";
-            if ($insertarr[4651] == "BUENOS AIRES CONOURBANO")
+            if (strtoupper($insertarr[4651]) == "BUENOS AIRES CONOURBANO")
                 $insertarr[4651] = "BA";
 
-            if ($insertarr[4651] == "CATAMARCA")
+            if (strtoupper($insertarr[4651]) == "CATAMARCA")
                 $insertarr[4651] = "CAT";
-            if ($insertarr[4651] == "CORDOBA")
+            if (strtoupper($insertarr[4651]) == "CORDOBA")
                 $insertarr[4651] = "CBA";
-            if ($insertarr[4651] == "CHUBUT")
+            if (strtoupper($insertarr[4651]) == "CHUBUT")
                 $insertarr[4651] = "CH";
-            if ($insertarr[4651] == "CHACO")
+            if (strtoupper($insertarr[4651]) == "CHACO")
                 $insertarr[4651] = "CHA";
-            if ($insertarr[4651] == "CORRIENTES")
+            if (strtoupper($insertarr[4651]) == "CORRIENTES")
                 $insertarr[4651] = "CTES";
-            if ($insertarr[4651] == "ENTRE RIOS")
+            if (strtoupper($insertarr[4651]) == "ENTRE RIOS")
                 $insertarr[4651] = "ER";
-            if ($insertarr[4651] == "FORMOSA")
+            if (strtoupper($insertarr[4651]) == "FORMOSA")
                 $insertarr[4651] = "FOR";
-            if ($insertarr[4651] == "JUJUY")
+            if (strtoupper($insertarr[4651]) == "JUJUY")
                 $insertarr[4651] = "JUJ";
-            if ($insertarr[4651] == "LA PAMPA")
+            if (strtoupper($insertarr[4651])  == "LA PAMPA")
                 $insertarr[4651] = "LP";
-            if ($insertarr[4651] == "LA RIOJA")
+            if (strtoupper($insertarr[4651]) ==  "LA RIOJA")
                 $insertarr[4651] = "LR";
-            if ($insertarr[4651] == "MISIONES")
+            if (strtoupper($insertarr[4651]) == "MISIONES")
                 $insertarr[4651] = "MIS";
-            if ($insertarr[4651] == "MENDOZA")
+            if (strtoupper($insertarr[4651]) == "MENDOZA")
                 $insertarr[4651] = "MZA";
-            if ($insertarr[4651] == "NEUQUEN")
+            if (strtoupper($insertarr[4651]) == "NEUQUEN")
                 $insertarr[4651] = "NEU";
-            if ($insertarr[4651] == "RIO NEGRO")
+            if (strtoupper($insertarr[4651]) == "RIO NEGRO")
                 $insertarr[4651] = "RN";
-            if ($insertarr[4651] == "SALTA")
+            if (strtoupper($insertarr[4651]) == "SALTA")
                 $insertarr[4651] = "SAL";
-            if ($insertarr[4651] == "SANTA CRUZ")
+            if (strtoupper($insertarr[4651]) == "SANTA CRUZ")
                 $insertarr[4651] = "SC";
-            if ($insertarr[4651] == "SANTIAGO DEL ESTERO")
+            if (strtoupper($insertarr[4651]) == "SANTIAGO DEL ESTERO")
                 $insertarr[4651] = "SDE";
-            if ($insertarr[4651] == "SANTA FE")
+            if (strtoupper($insertarr[4651]) == "SANTA FE")
                 $insertarr[4651] = "SF";
-            if ($insertarr[4651] == "SAN JUAN")
+            if (strtoupper($insertarr[4651]) == "SAN JUAN")
                 $insertarr[4651] = "SJ";
-            if ($insertarr[4651] == "SAN LUIS")
+            if (strtoupper($insertarr[4651]) == "SAN LUIS")
                 $insertarr[4651] = "SL";
-            if ($insertarr[4651] == "TIERRA DEL FUEGO")
+            if (strtoupper($insertarr[4651]) == "TIERRA DEL FUEGO")
                 $insertarr[4651] = "TDF";
-            if ($insertarr[4651] == "TUCUMAN")
+            if (strtoupper($insertarr[4651]) == "TUCUMAN")
                 $insertarr[4651] = "TUC";
 
             //Regimen ante AFIP
-            if ($insertarr[5596] == "EXENTO")
+            if (strtoupper($insertarr[5596]) == "EXENTO")
                 $insertarr[5596] = "3";
-            if ($insertarr[5596] == "INSCRIPTO")
+            if (strtoupper($insertarr[5596]) == "INSCRIPTO")
                 $insertarr[5596] = "1";
-            if ($insertarr[5596] == "MONOTRIBUTISTA")
+            if (strtoupper($insertarr[5596]) == "MONOTRIBUTISTA")
                 $insertarr[5596] = "2";
-            if ($insertarr[5596] == "NO CATEGORIZADO")
+            if (strtoupper($insertarr[5596]) == "NO CATEGORIZADO")
                 $insertarr[5596] = "";
 
             //Tipo de Acta
-            if ($insertarr[5253] == "")
+            if (strtoupper($insertarr[5253]) == "")
                 $insertarr[5253] = "";
-            if ($insertarr[5253] == "ACTA DEL CONSEJO DE ADMINISTRACION")
+            if (strtoupper($insertarr[5253]) == "ACTA DEL CONSEJO DE ADMINISTRACION")
                 $insertarr[5253] = "1";
-            if ($insertarr[5253] == "ASAMBLEA ORDINARIA")
+            if (strtoupper($insertarr[5253]) == "ASAMBLEA ORDINARIA")
                 $insertarr[5253] = "2";
-            if ($insertarr[5253] == "ASAMBLEA CONSTITUTIVA")
+            if (strtoupper($insertarr[5253]) == "ASAMBLEA CONSTITUTIVA")
                 $insertarr[5253] = "3";
 
             //Modalidad            
-            if ($insertarr[5252] == "TRANSFERENCIA")
+            if (strtoupper($insertarr[5252]) == "TRANSFERENCIA")
                 $insertarr[5252] = "1";
-            if ($insertarr[5252] == "SUSCRIPCION")
+            if (strtoupper($insertarr[5252]) == "SUSCRIPCION")
                 $insertarr[5252] = "2";
+                
+                
+           
 
             //Formatos numricos para importes
             $insertarr[5597] = (int) $insertarr[5597];
