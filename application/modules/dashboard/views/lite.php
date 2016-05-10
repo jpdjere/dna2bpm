@@ -1,13 +1,13 @@
-<div class = "row">
+<div class = "row" >
     
 <!-- Tramites -->
 
 <div class = "col-md-3"  >
-    <div class='row center-block dashboard_shortcut' data-id='tramites' style='margin-bottom:0px'>
+    <div class='row center-block dashboard_shortcut' data-id='tramites' style=''>
        <div class='title'><i class="fa fa-paperclip fa-2x" aria-hidden="true"></i><span>Tramites</span></div>
-       <div class="label label-{tramites_count_label_class} pull-right">{tramites_count_qtty}</div>
+
     </div>
-    <div class='tramites_shortcut_extra' style='display:none' style='margin-bottom:10px'>
+    <div class='tramites_shortcut_extra' style='display:none;position:relative;margin-bottom:10px;top:-10px;padding:8px' >
         {tramites_extra}
 
       </div> 
@@ -15,7 +15,7 @@
 
 <!-- Mis tramites -->
 
-<div class = "col-md-3 load_tiles_after" data-id='tramites' href='{base_url}/bpm/bpmui/widget_cases' >
+<div class = "col-md-3 load_tiles_after" data-id='mis_tramites' href='{base_url}/bpm/bpmui/widget_cases' >
     <div class='row center-block dashboard_shortcut'>
        <div class='title'><i class="fa fa-paperclip fa-2x" aria-hidden="true"></i><span>Mis Tramites</span></div>
        <div class="label label-{mistramites_count_label_class} pull-right">{mistramites_count_qtty}</div>
@@ -25,7 +25,7 @@
 
 <!-- Tareas -->
 
-<div class = "col-md-3 load_tiles_after" data-id='tramites' href='{base_url}/bpm/bpmui/widget_2do'>
+<div class = "col-md-3 load_tiles_after" data-id='mis_tareas' href='{base_url}/bpm/bpmui/widget_2do'>
     <div class='row center-block dashboard_shortcut'>
        <div class='title'><i class="fa fa-list-alt fa-2x" aria-hidden="true"></i><span>Mis Tareas</span></div>
        <div class="label label-{tareas_count_label_class} pull-right">{tareas_count_qtty}</div>

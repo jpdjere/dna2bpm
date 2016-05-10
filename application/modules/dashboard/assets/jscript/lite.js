@@ -18,9 +18,8 @@ $(document).ready(function(){
            
            
            if(myid=='tramites'){
-     
                $('.tramites_shortcut_extra').fadeToggle();
-
+            
            }       
 
 
