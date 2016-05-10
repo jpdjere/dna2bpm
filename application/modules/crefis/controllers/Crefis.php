@@ -1237,8 +1237,9 @@ BLOCK;
                 $data['mytasks'][$k]['extra_data']['ip'] = '';
                 //-----recupera Empresa
                 if (isset($mycase['data']['Empresas_4844']['query']['id'])) {
-                    $empresaID = $mycase['data']['Empresas_4844']['query']['id'][0];
-                    $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
+                    $empresaID = (array)$mycase['data']['Empresas_4844']['query']['id'];
+                
+                    $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID[0]));
                     
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
                 }
