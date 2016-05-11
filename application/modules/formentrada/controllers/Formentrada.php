@@ -214,7 +214,7 @@ Para que las presentaciones sean admitidas, los interesados deberán cumplir con
         //}
     }
     function send_mail_2() {
-        $attach = utf8_decode("/var/www/dna2bpm/application/modules/formentrada/assets/Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf");
+        $attach = "/var/www/dna2bpm/application/modules/formentrada/assets/Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf";
         //$fields = array();
         $email = $this->input->post('email');
         //if (property_exists($user,'email')) {
