@@ -77,7 +77,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>¿Pertenece a un Grupo Empresarial? o ¿Está vinculada comercialmente a otra/s sociedades?
+                        <th>¿Pertenece a un Grupo Empresarial?
                          </th>
                          <th>
                              
@@ -89,6 +89,22 @@
                                     <input type="radio" name="vincu" id="vincu_no" value="NO">NO
                                 </label>
                                 <label for="vincu" class="error"></label>
+                            </fieldset>  
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>¿Está vinculada comercialmente a otra/s sociedades?
+                         </th>
+                         <th>
+                             
+                            <fieldset>
+                                <label for="vincu1_si">
+                                    <input type="radio" name="vincu1" id="vincu1_si" value="SI" required>SI
+                                </label>
+                                <label for="vincu1_no">
+                                    <input type="radio" name="vincu1" id="vincu1_no" value="NO">NO
+                                </label>
+                                <label for="vincu1" class="error"></label>
                             </fieldset>  
                         </th>
                     </tr>
@@ -205,7 +221,25 @@
                          <td>
                               <input id="email1" name="email1" type="email" required class="form-control">
                         </td>
-                    </tr>           
+                    </tr>
+                    <tr>
+                    <td>¿Su sede productiva se encuentra radicada en un parque industrial?
+                         </td>
+                         <td>
+                            <select id="parque_ind" name="parque_ind" class="form-control">
+                                <option selected value=""> Elige una opción </option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </selected>      
+                        </td>
+                    </tr>
+                    <tr>
+                    <td>Cantidad actual de empleados:
+                         </td>
+                         <td>
+                              <input id="cant_emp" name="cant_emp"  required class="form-control">
+                        </td>
+                    </tr>
                     
                 
             </table>
