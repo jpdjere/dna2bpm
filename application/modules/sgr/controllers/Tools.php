@@ -363,14 +363,14 @@ class Tools extends MX_Controller {
 
 
                 /*SOLO ACINDAR #26955*/
-             $arr = array("09-2015", "10-2015", "11-2015", "12-2015");            
-             if (in_array($each['period'], $arr) && $each['sgr_id'] == 2478671474) {
+             //$arr = array("09-2015", "10-2015", "11-2015", "12-2015");            
+            //if (in_array($each['period'], $arr) && $each['sgr_id'] == 2478671474) {
             
-            //if (($yperiod == "2014" || $yperiod == "2015") && $each['sgr_id'] == 2478671474) {
+            if (($yperiod == "2016") && $each['sgr_id'] == 2478671474) {
                 $period = $each['period'];
                 $sgr_id = $each['sgr_id'];
 
-                //var_dump($period, $sgr_id);
+                var_dump($period, $sgr_id);
 
                 $this->model_141->fix_anexo141_balance_model($period, $sgr_id, $debug = true);
             }
