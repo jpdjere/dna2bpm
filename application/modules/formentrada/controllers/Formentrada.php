@@ -214,7 +214,7 @@ Para que las presentaciones sean admitidas, los interesados deberán cumplir con
         //}
     }
     function send_mail_2() {
-        $attach = "/var/www/dna2bpm/application/modules/formentrada/assets/Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf";
+        $attach = utf8_decode("/var/www/dna2bpm/application/modules/formentrada/assets/Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf");
         //$fields = array();
         $email = $this->input->post('email');
         //if (property_exists($user,'email')) {
@@ -228,8 +228,8 @@ Para que las presentaciones sean admitidas, los interesados deberán cumplir con
 // 1 = errors and messages
 // 2 = messages only
             //$mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
-            $mail->SetFrom("rbt@produccion.gob.ar", "Régimen de Bonificación de Tasas");
-            $mail->Subject = utf8_decode(/*$this->config->item('mail_suffix').' ' . */"Régimen de Bonificación de Tasas");
+            $mail->SetFrom("rbt@produccion.gob.ar", utf8_decode("Régimen de Bonificación de Tasas"));
+            $mail->Subject = utf8_decode("Régimen de Bonificación de Tasas");
             $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
             $mail->IsHTML(true);
             $mail->MsgHTML(utf8_decode(nl2br("Este mail se envió en forma automática desde la página del Ministerio de Producción.
@@ -238,7 +238,7 @@ En caso que así lo requiera, se podrá hacer una derivación y contacto con el 
 Para ello será necesario indique mail, teléfono y responsable del contacto con la entidad financiera..")));
 
             $mail->AddAddress($email, "");
-            $mail->AddAttachment($attach, "Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf");
+            $mail->AddAttachment($attach, utf8_decode("Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf"));
 
 //        $mail->AddAttachment("images/phpmailer.gif");      // attachment
 //        $mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
