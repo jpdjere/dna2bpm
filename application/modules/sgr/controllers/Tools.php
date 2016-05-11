@@ -362,13 +362,11 @@ class Tools extends MX_Controller {
             list($mperiod, $yperiod) = explode("-", $each['period']);
 
 
-
-            // $arr = array("06-2015", "07-2015", "08-2015");            if (in_array($each['period'], $arr)) {
-            /* 2014 SOLO GARANTIZAR 
-             * Support #24825              
-              ANEXO 14.1 - SUMAS CON DECIMALES
-             */
-            if (($yperiod == "2014" || $yperiod == "2015") && $each['sgr_id'] == 3826154295) {
+                /*SOLO ACINDAR #26955*/
+             $arr = array("09-2015", "10-2015", "11-2015", "12-2015");            
+             if (in_array($each['period'], $arr) && $each['sgr_id'] == 2478671474) {
+            
+            //if (($yperiod == "2014" || $yperiod == "2015") && $each['sgr_id'] == 2478671474) {
                 $period = $each['period'];
                 $sgr_id = $each['sgr_id'];
 
