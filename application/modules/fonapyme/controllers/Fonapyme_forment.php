@@ -108,11 +108,11 @@ class fonapyme_forment extends MX_Controller {
             $tabla = $tabla.$download['fecha']['year'].'-'.$download['fecha']['mon'].'-'.$download['fecha']['mday'].' '.$download['fecha']['hours'].':'.$download['fecha']['minutes'].':'.$download['fecha']['seconds'].'</td>';
             $tabla = $tabla.'<td>'.$download['clasifica'].'</td>';
             $i=0;
-            for($i=0; $i<15 ; $i++){
+            for($i=0; $i<18 ; $i++){
                 $tabla = $tabla.'<td>'.$download['fields'][$i]['value'].'</td>';
             } 
             $i=0;
-            for($i=0; $i<9 ; $i++){
+            for($i=0; $i<13 ; $i++){
                 $tabla = $tabla.'<td>'.$download['fields2'][$i]['value'].'</td>';
             }
             $i--;
@@ -136,6 +136,11 @@ class fonapyme_forment extends MX_Controller {
             }
             if (isset($download['error_balance_prom'])){
             $tabla = $tabla.'<td>'.$download['error_balance_prom'].'</td>';
+            }else{
+            $tabla = $tabla.'<td></td>'; 
+            }
+            if (isset($download['programa'])){
+            $tabla = $tabla.'<td>'.utf8_decode($download['programa']).'</td>';
             }else{
             $tabla = $tabla.'<td></td>'; 
             }

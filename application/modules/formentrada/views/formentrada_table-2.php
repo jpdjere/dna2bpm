@@ -16,7 +16,10 @@
                                 <option value="Construcciones e instalaciones">Construcciones e instalaciones</option>
                                 <option value="Bienes de Capital y Construcciones e instalaciones">Bienes de Capital y Construcciones e instalaciones</option>
                                 <option value="Capital de trabajo">Capital de trabajo</option>
-                             
+                                <option value="Pre financiación de exportaciones">Pre financiación de exportaciones</option>
+                                <option value="Post financiación de exportaciones">Post financiación de exportaciones</option>
+                                <option value="Compra de unidades productivas (Galpones nuevos o usados)">Compra de unidades productivas (Galpones nuevos o usados)</option>
+                                <option value="Gastos de mudanza a Parques Industriales">Gastos de mudanza a Parques Industriales</option>
                         </select>
                         </td>
                     </tr>
@@ -42,10 +45,24 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Ventas (Ante Último Balance/Año) :
+                        <td>Ventas Exportación (Último Balance/Año):
+                         </td>
+                         <td>
+                             <input type="text" id="balance_1_exp" name="balance_1_exp" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ventas (Ante Último Balance/Año):
                          </td>
                          <td>
                              <input type="text" id="balance_2" name="balance_2" class="form-control" >
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>Ventas Exportación (Ante Último Balance/Año):
+                         </td>
+                         <td>
+                             <input type="text" id="balance_2_exp" name="balance_2_exp" class="form-control" >
                         </td>
                     </tr>
                     <tr>
@@ -53,6 +70,13 @@
                          </td>
                          <td>
                              <input type="text" id="balance_3" name="balance_3" class="form-control" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ventas Exportación (Ante Penúltimo Balance/Año):
+                         </td>
+                         <td>
+                             <input type="text" id="balance_3_exp" name="balance_3_exp" class="form-control" >
                         </td>
                     </tr>
                     <tr>
@@ -88,6 +112,22 @@
                             </div>     
                              
                             </td>
+                    </tr>
+                    
+                    
+                    <tr>
+                        <th>¿Acepta Usted que compartamos esta información con Bancos para generar alternativas de financiamieto?
+                         </th>
+                         <th>
+                             
+                            <fieldset>
+                                <label for="acepta_si">
+                                    <input type="radio" name="acepta" id="acepta_si" value="SI" required>SI
+                                </label>
+                                
+                                <label for="acepta" class="error"></label>
+                            </fieldset>  
+                        </th>
                     </tr>
                     
                                

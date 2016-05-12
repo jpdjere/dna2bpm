@@ -213,6 +213,43 @@ Para que las presentaciones sean admitidas, los interesados deberán cumplir con
             }
         //}
     }
+    function send_mail_2() {
+        $attach = "/var/www/dna2bpm/application/modules/formentrada/assets/Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf";
+        //$fields = array();
+        $email = $this->input->post('email');
+        //if (property_exists($user,'email')) {
+            $this->load->library('phpmailer/phpmailer');
+            $this->load->config('email');
+            $ok = false;
+            $mail = $this->phpmailer;
+            $mail->IsSMTP(); // telling the class to use SMTP
+            $mail->Host = $this->config->item('smtp_host'); // SMTP server
+            $mail->SMTPDebug = 2;                     // enables SMTP debug information (for testing)
+// 1 = errors and messages
+// 2 = messages only
+            //$mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
+            $mail->SetFrom("rbt@produccion.gob.ar", utf8_decode("Régimen de Bonificación de Tasas"));
+            $mail->Subject = utf8_decode("Régimen de Bonificación de Tasas");
+            $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+            $mail->IsHTML(true);
+            $mail->MsgHTML(utf8_decode(nl2br("Este mail se envió en forma automática desde la página del Ministerio de Producción.
+            Tengo el agrado de dirigirme a usted, a efectos de comunicarle que, de acuerdo al análisis de la información presentada, en principio, su proyecto se ajusta a ser financiado por las líneas de crédito bancarias con bonificación de tasas (Régimen de bonificación de tasas). Se deja constancia que la presente no implica el otorgamiento del derecho a esa empresa a la aprobación del crédito en cuestión. Por tal motivo, se adjunta al presente la alternativa de financiamiento vigente para su análisis, y en caso de cumplir con los requisitos podrá hacer su presentación ante la entidad financiera para su calificación como sujeto de crédito de la línea. Asimismo, la presentación en la entidad financiera deberá contener la información que se detalla en el adjunto Preanálisis. 
+En caso que así lo requiera, se podrá hacer una derivación y contacto con el Banco. Nuestro mail de contacto es rbt@produccion.gob.ar
+Para ello será necesario indique mail, teléfono y responsable del contacto con la entidad financiera..")));
+
+            $mail->AddAddress($email, "");
+            $mail->AddAttachment($attach, utf8_decode("Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf"));
+
+//        $mail->AddAttachment("images/phpmailer.gif");      // attachment
+//        $mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+            
+            if (!$mail->Send()) {
+                return "error: " . $mail->ErrorInfo;
+            } else {
+                return true;
+            }
+        //}
+    }
    
    /*
    

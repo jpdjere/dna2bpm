@@ -204,6 +204,15 @@ $(document).on("submit","[name='form_search']",function(e){
 	
 });
 
+
+
+//== Turn off check all when flip pages
+
+$(document).on('click','.pagination',function(){
+	$("#check-all").iCheck("uncheck");
+});
+
+
 //=============== OLD
 
 
