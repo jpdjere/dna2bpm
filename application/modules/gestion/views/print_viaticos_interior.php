@@ -241,7 +241,7 @@
 	<tr>
 		<td colspan=5 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">PASAJE: {pasaje}</td>
 		<td></td>
-		<td colspan=3 align="left">IMPORTE PASAJE: ${importe_pasaje}</td>
+		<td colspan=3 align="left">IMPORTE PASAJE: $ {importe_pasaje}.00</td>
 		<td style="border-right: 2px solid #212121"></td>
 		<td></td>
 	</tr>
@@ -251,7 +251,7 @@
 		<td></td>
 	</tr>
 	<tr>
-		<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" colspan=2 height="12" align="center">GASTOS EVENTUALES: ${gastos_eventuales}</td>
+		<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" colspan=2 height="12" align="center">GASTOS EVENTUALES: $ {gastos_eventuales_pesos}.00</td>
 		<td></td>
 		<td></td>
 		<td></td>
