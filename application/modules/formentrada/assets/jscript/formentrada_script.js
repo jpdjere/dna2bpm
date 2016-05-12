@@ -53,6 +53,20 @@ $(document).ready(function() {
 					minlength: 3
 					
 				},
+				provincia_leg: {
+					required: true
+					
+				},
+				municipio_leg: {
+					required: true,
+					minlength: 3
+					
+				},
+				direc_leg: {
+					required: true,
+					minlength: 3
+					
+				},
 				contact: {
 					required: true,
 					minlength: 3
@@ -129,6 +143,18 @@ $(document).ready(function() {
 					minlength: "Por favor ingrese al menos 3 caracteres."
 					
 				},
+				provincia_leg: {
+					required: "Por favor ingrese la Provincia."
+				},
+				municipio_leg: {
+					required: "Por favor ingrese la Localidad.",
+					minlength: "Por favor ingrese al menos 3 caracteres."
+				},
+				direc_leg: {
+					required: "Por favor ingrese la Dierección.",
+					minlength: "Por favor ingrese al menos 3 caracteres."
+					
+				},
 				contact: {
 					required: "Por favor ingrese el Nombre de Contacto.",
 					minlength: "Por favor ingrese al menos 3 caracteres."
@@ -152,6 +178,7 @@ $(document).ready(function() {
 					required: "Por favor ingrese si pertenece a un parque industrial.",
 					
 				},
+				
 				cant_emp: {
 					required: "Por favor ingrese Cantidad de Empleados.",
 					number:"El campo debe ser numérico."
@@ -200,8 +227,8 @@ $(document).ready(function() {
                 }else{
                     var fields = $("#commentForm").serializeArray();
                     
-                    var email_check = fields[14].value;
-                    var email_check1 = fields[15].value;
+                    var email_check = fields[17].value;
+                    var email_check1 = fields[18].value;
                     var flag_final; 
                     if(email_check != email_check1){
                        alert('Las direcciones de email no coinciden!'); 
@@ -271,11 +298,18 @@ $(document).ready(function() {
 					required: true/*,
 					number:true*/
 				},
+				sector_emp:{
+				    required: true
+				},
 				afip: {
 					required: true,
 					minlength: 3
 				},
 				sector: {
+					required: true
+					
+				},
+				sector_emp: {
 					required: true
 					
 				},
@@ -339,6 +373,10 @@ $(document).ready(function() {
 					
 				},
 				sector: {
+					required: "Por favor ingrese Sector de Actividad."
+					
+				},
+				sector_emp: {
 					required: "Por favor ingrese Sector de Actividad."
 					
 				},
@@ -413,8 +451,8 @@ $(document).ready(function() {
    
     $("#afip").mask("99-99-9999",{placeholder:" "});
     
-    $("#codigo_act").mask("999999",{completed:function(){buscarclanae( $("#codigo_act").val())}});
-    
+    $("#codigo_act").mask("999999",{completed:function(){buscarclanae( $("#codigo_act").val(),1)}});
+    $("#codigo_act_emp").mask("999999",{completed:function(){buscarclanae( $("#codigo_act_emp").val(),2)}});
     /*
     $('#codigo_act').on('input', function() {
 					var input=$(this);
@@ -475,7 +513,7 @@ $(document).ready(function() {
                     var prestamo = fields[0].value;
                     var monto = fields[1].value;
                     var situacion = fields[2].value;
-                    var email = fields[14].value;
+                    var email = fields[17].value;
                     
                 if(prestamo == 'NO'){
                     clasifica = 'FONAPYME';
@@ -518,8 +556,8 @@ $(document).ready(function() {
                 var balance_3 = replaceAll(balance_3,".", "");
                 var balance_3_exp = replaceAll(balance_3_exp,".", "");
                 
-                var fecha = fields2[9].value;
-                var sector = fields2[10].value;
+                var fecha = fields2[12].value;
+                var sector = fields2[13].value;
                 var financiamiento_aprob;
                 var return_cargaok = false;
                 var programa ='';
@@ -532,10 +570,10 @@ $(document).ready(function() {
                 var balance_prom = ((balance_1 -(balance_1_exp/2)) / 3 + (balance_2 - (balance_2_exp/2))/ 3 + (balance_3 - (balance_3_exp/2))/ 3 );
                 //var balance_prom = (balance_1 / 3 + balance_2 / 3 + balance_3 / 3 );
                 
-                console.log(balance_prom);
-                console.log(clasifica);
-                console.log(sector);
-                
+                //console.log(balance_prom);
+                //console.log(clasifica);
+                //console.log(sector);
+               // console.log(tipo_pres);
                 if (clasifica== 'FONAPYME'){
                     if(tipo_pres == 'Capital de trabajo'){
                         financiamiento_aprob = (monto_total * 1);
@@ -547,11 +585,12 @@ $(document).ready(function() {
                         
                         
                     }else{
+                        if(tipo_pres =="Bienes de Capital" || tipo_pres=="Construcciones e instalaciones" ||  tipo_pres=="Bienes de Capital y Construcciones e instalaciones"){
                         financiamiento_aprob = (monto_total * 0.70);
                         if(financiamiento > financiamiento_aprob || financiamiento < 100000 || financiamiento >3000000){
                             alert('El monto del financiamiento a solicitar puede ser hasta el 70% del monto total del proyecto, con un mínimo de $100 mil y sin superar los $3 Millones.');
                             flag = 1;
-                            
+                        }    
                         }
                     }
                     
@@ -655,11 +694,13 @@ $(document).ready(function() {
                             
                             
                         }else{
-                            financiamiento_aprob = (monto_total * 0.80);
-                            if(financiamiento > financiamiento_aprob || financiamiento >10000000){
-                                alert('El monto del financiamiento a solicitar puede ser hasta el 80% del monto total del proyecto y sin superar los $10 Millones.');
-                                flag = 1;
-                                
+                            if(tipo_pres =='Bienes de Capital' || tipo_pres=='Construcciones e instalaciones' ||  tipo_pres=='Bienes de Capital y Construcciones e instalaciones'){
+                        
+                                financiamiento_aprob = (monto_total * 0.80);
+                                if(financiamiento > financiamiento_aprob || financiamiento >10000000){
+                                    alert('El monto del financiamiento a solicitar puede ser hasta el 80% del monto total del proyecto y sin superar los $10 Millones.');
+                                    flag = 1;
+                                }    
                             }
                         }
                         
@@ -710,80 +751,99 @@ $(document).ready(function() {
                     
                     if(flag == 0 ){
                         if( /*flag1 == 0 && flag2 == 0 &&*/ flag3 == 0){
-                        if (clasifica == 'FONAPYME'){
-                            alert('EN PRINCIPIO, CUMPLE CON LAS CARACTERÍSTICAS BÁSICAS DEL PROGRAMA FONAPYME. SE HA ENVIADO A SU CASILLA DE CORREO ELECTRÓNICO EL FORMULARIO PARA PARTICIPAR DEL CONCURSO PÚBLICO');    
-                            
-                            
-                            if(tipo_pres == 'Capital de trabajo'){
-                                programa = 'FORTALECIMIENTO COMPETITIVO';
-                                $.ajax({
-                                    type: "POST",
-                                   
-                                    url: base_url + 'formentrada/formentrada/send_mail_1/',
-                                    //data: clasifica,
-                                    data: {'email':email},
-                                    dataType : "json",
-                                    success: function(result) {
-                             //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
-                                        //formulario_2();
-                                        
-                                        //console.log(result);
+                            if (clasifica == 'FONAPYME'){
+                                
+                                
+                                if(tipo_pres == 'Capital de trabajo'){
+                                    alert('EN PRINCIPIO, CUMPLE CON LAS CARACTERÍSTICAS BÁSICAS DEL PROGRAMA FONAPYME. SE HA ENVIADO A SU CASILLA DE CORREO ELECTRÓNICO EL FORMULARIO PARA PARTICIPAR DEL CONCURSO PÚBLICO');    
+                                
+                                    programa = 'FORTALECIMIENTO COMPETITIVO';
+                                    $.ajax({
+                                        type: "POST",
+                                       
+                                        url: base_url + 'formentrada/formentrada/send_mail_1/',
+                                        //data: clasifica,
+                                        data: {'email':email},
+                                        dataType : "json",
+                                        success: function(result) {
+                                 //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
+                                            //formulario_2();
+                                            
+                                            //console.log(result);
+                                            }
+                                    });
+                                }else{
+                                    if(tipo_pres =="Bienes de Capital" || tipo_pres=="Construcciones e instalaciones" ||  tipo_pres=="Bienes de Capital y Construcciones e instalaciones"){
+                                        alert('EN PRINCIPIO, CUMPLE CON LAS CARACTERÍSTICAS BÁSICAS DEL PROGRAMA FONAPYME. SE HA ENVIADO A SU CASILLA DE CORREO ELECTRÓNICO EL FORMULARIO PARA PARTICIPAR DEL CONCURSO PÚBLICO');    
+                                
+                                        programa = 'PRODUCCIÓN ESTRATÉGICA';
+                                        $.ajax({
+                                            type: "POST",
+                                           
+                                            url: base_url + 'formentrada/formentrada/send_mail/',
+                                            //data: clasifica,
+                                            data: {'email':email},
+                                            dataType : "json",
+                                            success: function(result) {
+                                     //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
+                                                //formulario_2();
+                                                
+                                                //console.log(result);
+                                                }
+                                        });
                                         }
-                                });
-                            }else{
-                                programa = 'PRODUCCIÓN ESTRATÉGICA';
-                                $.ajax({
-                                    type: "POST",
-                                   
-                                    url: base_url + 'formentrada/formentrada/send_mail/',
-                                    //data: clasifica,
-                                    data: {'email':email},
-                                    dataType : "json",
-                                    success: function(result) {
-                             //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
-                                        //formulario_2();
+                                    else{
+                                        programa = 'OTROS';
+                                        mensaje_error =  'LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';  
+                                        alert(mensaje_error);
+                                
                                         
-                                        //console.log(result);
-                                        }
-                                });
+                                    }    
+                                }
+                                
+                                
+                                
                             }
                             
-                            
-                            
-                        }
-                        
-                        if (clasifica == 'BANCARIO'){
-                            alert('EN PRINCIPIO, CUMPLE CON LAS CARACTERÍSTICAS BÁSICAS DEL PROGRAMA BONIFICACIÓN DE TASAS. SE HA ENVIADO A SU CASILLA DE CORREO ELECTRÓNICO INFORMACIÓN PARA QUE PUEDA ACCEDER AL MISMO');
-                            programa = 'BONIFICACIÓN DE TASAS';
-                            $.ajax({
-                                    type: "POST",
-                                   
-                                    url: base_url + 'formentrada/formentrada/send_mail_2/',
-                                    //data: clasifica,
-                                    data: {'email':email},
-                                    dataType : "json",
-                                    success: function(result) {
-                             //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
-                                        //formulario_2();
+                            if (clasifica == 'BANCARIO'){
+                                if(tipo_pres == 'Capital de trabajo' || tipo_pres =='Bienes de Capital' || tipo_pres=='Construcciones e instalaciones' ||  tipo_pres=='Bienes de Capital y Construcciones e instalaciones'){
+                                alert('EN PRINCIPIO, CUMPLE CON LAS CARACTERÍSTICAS BÁSICAS DEL PROGRAMA BONIFICACIÓN DE TASAS. SE HA ENVIADO A SU CASILLA DE CORREO ELECTRÓNICO INFORMACIÓN PARA QUE PUEDA ACCEDER AL MISMO');
+                                programa = 'BONIFICACIÓN DE TASAS';
+                                $.ajax({
+                                        type: "POST",
+                                       
+                                        url: base_url + 'formentrada/formentrada/send_mail_2/',
+                                        //data: clasifica,
+                                        data: {'email':email},
+                                        dataType : "json",
+                                        success: function(result) {
+                                 //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
+                                            //formulario_2();
+                                            
+                                            //console.log(result);
+                                            }
+                                });
+                                }else{
+                                        programa = 'OTROS';
+                                        mensaje_error =  'LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';  
+                                        alert(mensaje_error);
+                                        //console.log('Bancario Otros');
                                         
-                                        //console.log(result);
-                                        }
-                            });    
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            //alert('NO CUMPLE CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER'); 
-                        }
+                                } 
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                //alert('NO CUMPLE CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER'); 
+                            }
                         }else{
                             programa = 'OTROS';
                             var mensaje_error = '';
                             //mensaje_error = 'SEGÚN SU FACTURACIÓN, SU EMPRESA NO CLASIFICA COMO PYME INCUMPLIENDO CON LAS CARACTERÍSTICAS DEL PROGRAMA FONAPYME. SIN EMBARGO, LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
-                            mensaje_error =  'LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';  
                             /*
                             if(flag1 == 1 ){
                                 mensaje_error = 'EN VIRTUD DE SU ANTIGÜEDAD Y DE LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PONDREMOS EN CONTACTO PARA OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';
@@ -797,11 +857,7 @@ $(document).ready(function() {
                             }
                             */
                             
-                            
-                            
-                            
-                            
-                            
+                            mensaje_error =  'LA INFORMACIÓN SUMINISTRADA POR USTED, NOS PERMITIRÁ OFRECERLE ALGUNA DE LAS HERRAMIENTAS VIGENTES DEL MINISTERIO DE PRODUCCIÓN, A LAS QUE POTENCIALMENTE PODRÍA ACCEDER';  
                             alert(mensaje_error);
                             
                             
@@ -848,7 +904,7 @@ $(document).ready(function() {
         return text;
     }
     
-    function buscarclanae(clanae){
+    function buscarclanae(clanae,x){
         $.ajax({
                 type: "POST",
                 url: base_url + 'formentrada/formentrada/buscar_clanae/',
@@ -856,14 +912,23 @@ $(document).ready(function() {
                 data: {'clanae':clanae},
                 dataType : "json",
                 success: function(result) {
+                        if( x == 1){
                             $("#col6").html("<font color='red'>" + result + "</font>");           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
                             return result; 
+                            
+                        }
+                        if( x == 2){
+                            $("#col7").html("<font color='red'>" + result + "</font>");           //$("#col3").html('<div>Gracias por contactarte con el Ministerio de Producción.</div>');
+                            return result; 
+                            
+                        }
                                         //formulario_2();
                                         
                                         //console.log(result);
                 }
                 });
     }
+    
 
     
             
