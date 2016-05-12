@@ -86,34 +86,94 @@ class Viaticos extends MX_Controller {
         $rtn = $this->forms_model->save($data);
         echo $rtn; //json_encode(array('status'=>'msg_ok_' . $rtn));
     }
+    
+    
+    function manage_viaticos(){
+        
+        
+        $header_data = array(); 
+        $data = array();
+        
+        $header_data['base_url'] = $this->base_url;
+        $header_data['title'] = 'SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE | ADMINISTRACION';
+        $header_data['logobar'] = $this->ui->render_logobar();
+        
+        $rtn_data = array_merge($header_data, $data);
+        
+         $query = array('expte' => array('$exists'=>true));
+         $viatico_data = $this->forms_model->buscar_viaticos($query);
+        
+        $table_interior = null;
+        $table_exterior = null;
+            
+        foreach($viatico_data as $key=>$value){
+            
+            /* TABLE */
+            $customData = array();
+            $customData['expte'] = $value['expte'];
+            $customData['print'] = $value['id'];
+            
+            switch($value['destino']){
+                case "interior":
+                    $table_interior .= $this->parser->parse('table_rows_admin_interior', $customData, true);
+                    break;
+                    
+                default:
+                    $table_exterior .= $this->parser->parse('table_rows_admin_exterior', $customData, true);
+                    break;
+                
+            }
+
+            
+            
+            
+        }
+        
+        $data['table_interior'] = $table_interior;
+        $data['table_exterior'] = $table_exterior;
+        //$data = array_map('strtoupper', $data);
+        $rtn_data = array_merge($header_data, $data);
+        
+        
+        echo $this->parser->parse('manage_viaticos', $rtn_data, true, true);
+        
+        
+        
+    }
 
     function print_viatico($parameter) {
+        
+        $header_data = array(); 
+        $data = array();
 
-        $data['base_url'] = $this->base_url;
-        $data['title'] = 'SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE | Imprimible';
-        $data['logobar'] = $this->ui->render_logobar();
+        $header_data['base_url'] = $this->base_url;
+        $header_data['title'] = 'SOLICITUD DE ANTICIPO DE VIATICOS Y ORDENES DE PASAJE | Imprimible';
+        $header_data['logobar'] = $this->ui->render_logobar();
 
         $query = array('id' => (int) $parameter);
         $viatico_data = $this->forms_model->buscar_viaticos($query);
+            
         foreach ($viatico_data[0] as $key => $value) {
-
 
             /* TEMPLATE */
             $tmpl = $viatico_data[0]['destino'];
-
+            
             list($desde, $hasta) = explode("-", trim($viatico_data[0]['event-interval']));
+            
 
             $desde = $this->rtn_date_format($desde);
             $hasta = $this->rtn_date_format($hasta);
 
+            list($data['desde'], $data['desde_hora']) = explode(" ", $desde);
+            list($data['hasta'], $data['hasta_hora']) = explode(" ", $hasta);
 
-            $datetime1 = new DateTime($desde);
-            $datetime2 = new DateTime($hasta);
-            $interval = $datetime1->diff($datetime2);
-            $diff = (int) $interval->format('%R%a');
+            
+            $data['duracion'] = $this->diff_dates_fn($desde, $hasta);
+            
 
             /* Sum Gastos */
             $gatos_eventuales = (float) $viatico_data[0]['gastos_eventuales'];
+            $dolar_valor = (float)  $viatico_data[0]['tipo_de_cambio'];
 
 
             if ($diff == 0)
@@ -138,6 +198,14 @@ class Viaticos extends MX_Controller {
 
 
                         $print_nombre = $agentes[0]['nombre'] . " " . $agentes[0]['apellido'];
+                        /*EXTERIOR*/
+                        $data['nombre_apellido'] = strtoupper($print_nombre);
+                        $data['cuil'] = $anyone;
+                        $data['categoria_cargo'] = $agentes[0]['nivel_y_grado'];
+                        $data['permanente_o_contratado'] = ($agentes[0]['modalidad']=="PP") ? "PLANTA PERMANENTE" : $agentes[0]['modalidad'];
+                        
+                        
+                        
                         if (strlen($print_nombre) > 25) {
                             $print_nombre = $agentes[0]['apellido'];
                         }
@@ -174,7 +242,7 @@ class Viaticos extends MX_Controller {
             $customData['telefono'] = null;
             $customData['email'] = null;
             $customData['importe'] = null;
-            $customData['importe_total'] = "$" . number_format($gatos_eventuales) . ".00";
+            $customData['importe_total'] = number_format($gatos_eventuales);
 
             $table .= $this->parser->parse('table_rows', $customData, true);
         }
@@ -188,15 +256,26 @@ class Viaticos extends MX_Controller {
         $customData['telefono'] = null;
         $customData['email'] = null;
         $customData['importe'] = null;
-        $customData['importe_total'] = "$" . number_format($gatos_eventuales + $sum_gatos_agentes) . ".00";
+        $customData['importe_total'] = number_format($gatos_eventuales + $sum_gatos_agentes);
+    
 
         $table .= $this->parser->parse('table_rows', $customData, true);
-
-
         $data['agentes'] = $table;
+        
+        $data['importe_pasaje'] = number_format($viatico_data[0]['importe_pasaje']);
+        $data['transporte_exterior'] =  number_format($gatos_eventuales*$dolar_valor);
+        $data['costo_moneda_extrangera'] =  number_format($viatico_data[0]['viaticos_diarios']*$diff);
+        $data['gastos_eventuales_pesos'] = number_format($gatos_eventuales);
+        
+        
+        $data = array_map('strtoupper', $data);
+        $rtn_data = array_merge($header_data, $data);
 
-        echo $this->parser->parse('print_viaticos_' . $tmpl, $data, true, true);
+        echo $this->parser->parse('print_viaticos_' . strtolower($tmpl), $rtn_data, true, true);
     }
+    
+            
+  
 
     function escalas($provincia) {
 
@@ -231,21 +310,23 @@ class Viaticos extends MX_Controller {
         return $valor;
     }
 
-    function rtn_date_format($param, $param2 = null) {
-
+    function rtn_date_format($param) {
 
         list($fecha, $hora) = explode(" ", trim($param));
         $date = str_replace('/', '-', $param);
 
-        $rtn = $date;
-
-        if ($param2 == "dia")
-            $rtn = $fecha;
-
-        if ($param2 == "hora")
-            $rtn = $hora;
-
-        return $rtn;
+        return trim($date);
+    }
+    
+    function diff_dates_fn($desde, $hasta){
+          
+        $datetime1 = new DateTime($desde);
+        $datetime2 = new DateTime(($hasta));
+        $interval = $datetime1->diff($datetime2);
+        $diff = (int) $interval->format('%R%a');
+            
+        return $diff;
+                
     }
 
 }

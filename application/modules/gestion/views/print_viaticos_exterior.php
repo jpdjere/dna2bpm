@@ -223,7 +223,7 @@
 		</tr>
 			<tr>
 			<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">Viáticos diarios: </td>
-			<td colspan=5 align="left">U$S {viaticos_diarios}</td>
+			<td colspan=5 align="left">U$S {viaticos_diarios}.00</td>
 			<td></td>
 			<td style="border-right: 2px solid #212121"></td>
 			<td></td>
@@ -236,7 +236,7 @@
 		</tr>
 			<tr>
 			<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">Transporte y pasajes:</td>
-			<td colspan=5 align="left">{transporte_exterior}</td>
+			<td colspan=5 align="left">U$S {transporte_exterior}.00</td>
 			<td></td>
 			<td style="border-right: 2px solid #212121"></td>
 			<td></td>
@@ -249,7 +249,7 @@
 			</tr>
 			<tr>
 			<td colspan=3 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">Eventuales:</td>
-			<td colspan=5 align="left">U$S {gastos_eventuales}</td>
+			<td colspan=5 align="left">U$S {gastos_eventuales}.00</td>
 			<td></td>
 			<td style="border-right: 2px solid #212121"></td>
 			<td></td>
@@ -300,7 +300,7 @@
 		</tr>
 			</tr>
 			<tr>
-			<td colspan=8 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">COSTO EN MONEDA EXTRANJERA: U$S {costo_moneda_extrangera}</td>
+			<td colspan=8 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">COSTO EN MONEDA EXTRANJERA: U$S {costo_moneda_extrangera}.00</td>
 			<td></td>
 			<td style="border-right: 2px solid #212121"></td>
 			<td></td>
@@ -313,7 +313,7 @@
 		</tr>
 			</tr>
 			<tr>
-			<td colspan=8 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">COSTO EN PESOS PASAJES: $ {importe_pasaje}</td>
+			<td colspan=8 style="border-left: 2px solid #212121; padding-left:20" height="12" align="left">COSTO EN PESOS PASAJES: $ {importe_pasaje}.00</td>
 			<td></td>
 			<td style="border-right: 2px solid #212121"></td>
 			<td></td>

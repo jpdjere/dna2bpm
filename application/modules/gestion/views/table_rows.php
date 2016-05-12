@@ -7,8 +7,8 @@
     <td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center">{email}</td>
     <td style="border-right: 1px solid #212121; align="center">{telefono}</td>
     <td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center"></td>
-    <td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center">{importe}</td>
-    <td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center">{importe_total}</td>
+    <td style="border-left: 1px solid #212121; border-right: 1px solid #212121" align="center">$ {importe}.00</td>
+    <td style="border-left: 1px solid #212121; border-right: 2px solid #212121" align="center">$ {importe_total}.00</td>
     <td align="center"></td>
 </tr>
 <tr>

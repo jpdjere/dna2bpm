@@ -106,6 +106,8 @@ class Forms_model extends CI_Model {
         $id = (float) $this->app->genid($container);
 
         $parameter['id'] = $id;
+        
+        $parameter['fecha_carga'] = date('Y-m-d h:i:s');
         $query = array('id' => (float) $id);
 
         $rs = $this->mongowrapper->db->$container->update($query, array('$set' => $parameter), $options);
