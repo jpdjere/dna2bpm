@@ -40,8 +40,8 @@
                     </tr>
                     
                     <tr>
-                        <th>¿El monto del préstamo bancario vigente ó la sumatoria de los montos de los prestamos vigentes solicitados al sistema bancario es inferior a $1.000.000?</br>
-                        (Para el monto indicado se deben considerar únicamente los créditos otorgados por entidades financieras. NO COMPRENDE acuerdos de descubiertos, acuerdos para descuentos de cheques, prefinanciación de exportaciones y contratos de leasing.)
+                        <th>¿El monto del préstamo bancario vigente ó la sumatoria de los montos de los prestamos vigentes solicitados al sistema bancario es SUPERIOR a $1.000.000?</br>
+                        (Para el monto indicado se deben considerar únicamente los créditos otorgados por entidades financieras. NO COMPRENDE acuerdos de descubiertos, acuerdos para descuentos de cheques, prefinanciación de exportaciones y contratos de leasing).
                          </th>
                          <th>
                              
@@ -77,7 +77,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>¿Pertenece a un Grupo Empresarial? o ¿Está vinculada comercialmente a otra/s sociedades?
+                        <th>¿Pertenece a un Grupo Empresarial?
                          </th>
                          <th>
                              
@@ -89,6 +89,22 @@
                                     <input type="radio" name="vincu" id="vincu_no" value="NO">NO
                                 </label>
                                 <label for="vincu" class="error"></label>
+                            </fieldset>  
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>¿Está vinculada comercialmente a otra/s sociedades?
+                         </th>
+                         <th>
+                             
+                            <fieldset>
+                                <label for="vincu1_si">
+                                    <input type="radio" name="vincu1" id="vincu1_si" value="SI" required>SI
+                                </label>
+                                <label for="vincu1_no">
+                                    <input type="radio" name="vincu1" id="vincu1_no" value="NO">NO
+                                </label>
+                                <label for="vincu1" class="error"></label>
                             </fieldset>  
                         </th>
                     </tr>
@@ -124,7 +140,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Provincia:
+                        <td>Provincia de Implementación del Proyecto:
                          </td>
                          <td>
                             <select id="provincia" name="provincia" class="form-control">
@@ -158,19 +174,71 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Localidad:
+                        <td>Localidad de Implementación del Proyecto:
                          </td>
                          <td>
                              <input type="text" id="municipio" name="municipio" class="form-control" >
                         </td>
                     </tr>
                     <tr>
-                        <td>Dirección:
+                        <td>Dirección de Implementación del Proyecto:
                          </td>
                          <td>
                              <input type="text" id="direc" name="direc" class="form-control" >
                         </td>
                     </tr>
+                    <tr>
+                        <td>Domicilio Legal - Provincia:
+                         </td>
+                         <td>
+                            <select id="provincia_leg" name="provincia_leg" class="form-control">
+                                <option selected value=""> Elige una opción </option>
+                                <option value="Buenos Aires">Buenos Aires</option>
+                                <option value="CABA">CABA</option> 
+                                <option value="Catamarca">Catamarca</option>
+                                <option value="Chaco">Chaco</option> 
+                                <option value="Chubut">Chubut</option>
+                                <option value="Cordoba">Córdoba</option>
+                                <option value="Corrientes">Corrientes</option> 
+                                <option value="Entre Rios">Entre Rios</option>
+                                <option value="Formosa">Formosa</option>
+                                <option value="Jujuy">Jujuy</option>
+                                <option value="La Pampa">La Pampa</option> 
+                                <option value="La Rioja">La Rioja</option>
+                                <option value="Mendoza">Mendoza</option> 
+                                <option value="Misiones">Misiones</option>
+                                <option value="Neuquen">Neuquén</option> 
+                                <option value="Rio Negro">Rio Negro</option>
+                                <option value="Salta">Salta</option> 
+                                <option value="San Juan">San Juan</option>
+                                <option value="San Luis">San Luis</option> 
+                                <option value="Santa Cruz">Santa Cruz</option> 
+                                <option value="Santa Fe">Santa Fe</option>
+                                <option value="Santiago del Estero">Santiago del Estero</option> 
+                                <option value="Tierra del Fuego">Tierra del Fuego</option>
+                                <option value="Tucuman">Tucumán</option> 
+                                
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Domicilio Legal - Localidad:
+                         </td>
+                         <td>
+                             <input type="text" id="municipio_leg" name="municipio_leg" class="form-control" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Domicilio Legal - Dirección:
+                         </td>
+                         <td>
+                             <input type="text" id="direc_leg" name="direc_leg" class="form-control" >
+                        </td>
+                    </tr>
+                    
+                    
+                    
+                    
                     <tr>
                         <td>Nombre de Contacto:
                          </td>
@@ -205,7 +273,25 @@
                          <td>
                               <input id="email1" name="email1" type="email" required class="form-control">
                         </td>
-                    </tr>           
+                    </tr>
+                    <tr>
+                    <td>¿Su sede productiva se encuentra radicada en un parque industrial?
+                         </td>
+                         <td>
+                            <select id="parque_ind" name="parque_ind" class="form-control">
+                                <option selected value=""> Elige una opción </option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </selected>      
+                        </td>
+                    </tr>
+                    <tr>
+                    <td>Cantidad actual de empleados:
+                         </td>
+                         <td>
+                              <input id="cant_emp" name="cant_emp"  required class="form-control">
+                        </td>
+                    </tr>
                     
                 
             </table>
