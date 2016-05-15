@@ -53,10 +53,10 @@ class Engine extends MX_Controller {
         /*
          * true: don't show modal msgs null: no debug
          */
-        $this->debug ['show_modal'] = null;
+        $this->debug ['dont_show_modal'] = null;
 
         // ---debug Helpers
-        $this->debug ['run_Task'] = false;
+        $this->debug ['run_Task'] = null;
         $this->debug ['run_CollapsedSubprocess'] = null;
         $this->debug ['run_Exclusive_Databased_Gateway'] = null;
         $this->debug ['run_IntermediateEventThrowing'] = null;
@@ -113,25 +113,6 @@ class Engine extends MX_Controller {
             $this->bpm->save_case($mycase);
         }
 
-        // ----save parent data if any
-        if ($parent) {
-            $mycase = $this->bpm->get_case($idcase, $idwf);
-            $mycase ['parent'] = $parent;
-            $mycase['data'] = $data;
-            //----try to generate caseid from parent
-            $mycase['id']=($this->bpm->get_case($parent['case'],$idwf))?$mycase['id']:$this->bpm->gen_case($idwf,$parent['case']);
-
-            $this->bpm->save_case($mycase);
-            /*
-             * UPDATE PARENT
-             */
-            // ----set child process in parent
-            $token = $this->bpm->get_token($parent ['token'] ['idwf'], $parent ['token'] ['case'], $parent ['token'] ['resourceId']);
-            $token ['child'] = isset($token ['child']) ? $token ['child'] : array();
-            //@todo check if child not present
-            $token['child'][$idwf][] = $idcase;
-            $this->bpm->save_token($token);
-        }
         // ---Start the case (will move next on startnone shapes)
         $this->Startcase($model, $idwf, $idcase, $silent);
     }
@@ -600,7 +581,7 @@ class Engine extends MX_Controller {
             // ---prepare UI
             $renderData ['title'] = 'Manual Task';
             //----Skip javascript if no modal asked
-            if (!$this->debug['show_modal']) {
+            if (!$this->debug['dont_show_modal']) {
                 $renderData ['js'] =array_merge(
                     $this->add_js,
                     array(
