@@ -43,7 +43,7 @@ class formentrada extends MX_Controller {
     */
     $customData = array();
     $customData['base_url'] = $this->base_url;
-    echo $this->parser->parse('formentrada/formentrada_table-1',$customData,true,true);
+    echo $this->parser->parse('formentrada/formentrada_table-1B',$customData,true,true);
     }
     
     function segundo_formulario(){
@@ -60,7 +60,7 @@ class formentrada extends MX_Controller {
     $customData['select_afip'] = $select_afip;*/
     
     
-    $return['tabla'] = $this->parser->parse('formentrada/formentrada_table-2',$customData,true,true);
+    $return['tabla'] = $this->parser->parse('formentrada/formentrada_table-2B',$customData,true,true);
     
     //$return['tabla'] = '<p>Prueba!!</p>';
     echo json_encode($return);

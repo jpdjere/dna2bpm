@@ -10,12 +10,9 @@
             <h3 class='text-info'>INFORMACIÓN DEL PROYECTO</h3>
             </div>   
                 
-                
                 <!--0-->
                     <div class="form-group">
                         <label>Tipo de Préstamo:</label>
-                         
-                        
                             <select id="tipo_pres" name="tipo_pres" class="form-control">
                                 <option selected value=""> Elige una opción </option>
                                 <option value="Bienes de Capital">Bienes de Capital</option> 
@@ -103,6 +100,7 @@
                     <div class="form-group">
                         <label>Código de Actividad Principal, según Constancia AFIP (F-883 6 Dígitos Numérico):</label>
                         <input type="text" id="codigo_act_emp" name="codigo_act_emp" class="form-control" ></br> 
+                        <div id='col7' name='col7' type='danger'></div>  
                     </div> 
                     
                     
@@ -130,12 +128,12 @@
                                 <option value="Comercio">Comercio</option>
                                 <option value="Agropecuario">Agropecuario</option>
                             </select>
-                     </div> 
+                     </div>
                     
                     <!--14-->
                     <div class="form-group">
                         <label>Descripción del Proyecto:</label>
-                        <textarea id="descrip" name="descrip" class="form-control" rows="3" cols ="50" maxlength ="250" >
+                        <textarea id="descrip" name="descrip" class="form-control" rows="3" cols ="50" maxlength ="250">
                         </textarea>
                      </div> 
                     
@@ -143,20 +141,17 @@
                     <div class="form-inline">
                         <label>¿Acepta Usted que compartamos esta información con Bancos para generar alternativas de financiamieto?</label>
                         <fieldset>
-                                <label for="acepta_si">
-                                    <input type="radio" name="acepta" id="acepta_si" value="SI" required>SI
-                                </label>
-                                
-                                <label for="acepta" class="error"></label>
+                            <label for="acepta_si">
+                                <input type="radio" name="acepta" id="acepta_si" value="SI" required>SI
+                            </label></br>
+                            <label for="acepta" class="error"></label>
                         </fieldset>  
                     </div> 
                     
                                
                     <div class="form-group">
                        <button id="enviar" class="btn btn-primary btn-lg btn-block" name="enviar"  type="submit" value="Submit">Enviar</button>
-                   </div> 
-        
-        
+                   </div>
        
          </form>      
          </div>

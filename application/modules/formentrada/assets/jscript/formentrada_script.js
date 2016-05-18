@@ -139,7 +139,7 @@ $(document).ready(function() {
 					minlength: "Por favor ingrese al menos 3 caracteres."
 				},
 				direc: {
-					required: "Por favor ingrese la Dierección.",
+					required: "Por favor ingrese la Dirección.",
 					minlength: "Por favor ingrese al menos 3 caracteres."
 					
 				},
