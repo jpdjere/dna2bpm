@@ -267,16 +267,6 @@ class Lib_15_data extends MX_Controller {
                             }
                         }
                     }
-<<<<<<<<< saved version
-
-=========
-                    
-                    if($dolar_futuro){
-                        var_dump($B)
-                    }
-                        
-                    }
->>>>>>>>> local version
 
                     $code_error = "I.2";
                     //Valida contra Mongo
