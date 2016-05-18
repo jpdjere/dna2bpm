@@ -20,12 +20,9 @@
 
     <!-- overload css skins -->
     <link href="{base_url}/dashboard/assets/css/style.css" rel="stylesheet" type="text/css" />
-    <!-- CSS:fullcalendar -->
-    <link rel='stylesheet' type='text/css' href='{base_url}/dashboard/assets/bootstrap-wysihtml5/js/plugins/fullcalendar-2.3.1/fullcalendar.css' />
-    <!-- CSS:daterangerpicker -->
-    <link rel='stylesheet' type='text/css' href='{base_url}/dashboard/assets/bootstrap-wysihtml5/css/daterangepicker/daterangepicker.css' />
-
-
+    
+ <!-- Theme style -->
+        <link href="{base_url}/dashboard/assets/bootstrap-wysihtml5/css/AdminLTE.css" rel="stylesheet" type="text/css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,9 +48,9 @@
                 <h3>Solicitud de anticipo de viaticos y ordenes de pasaje</h3>
 
 
+                
+
                 <div class="box box-solid box-info">
-
-
                     <!-- /.box-header -->
                     <div style="display: block;" class="box-body">
                         <div style="position: relative; overflow: hidden; width: auto; height: 590px;" class="slimScrollDiv">
@@ -71,6 +68,7 @@
                                             {table_interior}
                                         </ul>
                                     </li>
+                                    
                                     
                                     <li class="treeview">
                                         <a href="#">
@@ -121,8 +119,6 @@
         <!-- JS custom -->
         <!-- JS:calendar-JS -->
         <script src='{base_url}/calendar/assets/jscript/app.js'></script>
-
-
 </body>
 
 </html>

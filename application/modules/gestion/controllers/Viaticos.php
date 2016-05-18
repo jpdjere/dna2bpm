@@ -141,7 +141,9 @@ class Viaticos extends MX_Controller {
         
     }
 
-    function print_viatico($parameter) {
+    function print_viatico($parameter, $ext) {
+        
+        
         
         $header_data = array(); 
         $data = array();
@@ -154,10 +156,10 @@ class Viaticos extends MX_Controller {
         $viatico_data = $this->forms_model->buscar_viaticos($query);
             
         foreach ($viatico_data[0] as $key => $value) {
-
-            /* TEMPLATE */
-            $tmpl = $viatico_data[0]['destino'];
             
+            /* TEMPLATE */
+            $tmpl = $viatico_data[0]['destino'] . $ext; 
+                    
             list($desde, $hasta) = explode("-", trim($viatico_data[0]['event-interval']));
             
 
