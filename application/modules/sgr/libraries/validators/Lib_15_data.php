@@ -78,9 +78,11 @@ class Lib_15_data extends MX_Controller {
                 //empty field Validation                    
                 $return = check_empty($parameterArr[$i]['fieldValue']);
                 if ($return) {
-
-
                     $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
+                } else {
+                    /*"B.2"*/
+                    if($parameterArr[$i]['row']=="FUTURO DOLAR")
+                        $dolar_futuro = true;    
                 }
             }
 
@@ -247,7 +249,7 @@ class Lib_15_data extends MX_Controller {
 
                     $I_cell_value = (int) $parameterArr[$i]['fieldValue'];
 
-                    $A_cell_value_arr = array('D', 'K');
+                    $A_cell_value_arr = array('D', 'K', 'H');
                     if (!in_array($A_cell_value, $A_cell_value_arr)) {
                         $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                         if ($return) {
@@ -265,13 +267,22 @@ class Lib_15_data extends MX_Controller {
                             }
                         }
                     }
+<<<<<<<<< saved version
+
+=========
+                    
+                    if($dolar_futuro){
+                        var_dump($B)
+                    }
+                        
+                    }
+>>>>>>>>> local version
 
                     $code_error = "I.2";
                     //Valida contra Mongo
                 }
             }
         } // END FOR LOOP->
-        //var_dump($result);        exit();
         $this->data = $result;
     }
 
