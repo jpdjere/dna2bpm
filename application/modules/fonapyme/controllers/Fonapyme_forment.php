@@ -108,11 +108,11 @@ class fonapyme_forment extends MX_Controller {
             $tabla = $tabla.$download['fecha']['year'].'-'.$download['fecha']['mon'].'-'.$download['fecha']['mday'].' '.$download['fecha']['hours'].':'.$download['fecha']['minutes'].':'.$download['fecha']['seconds'].'</td>';
             $tabla = $tabla.'<td>'.$download['clasifica'].'</td>';
             $i=0;
-            for($i=0; $i<18 ; $i++){
+            for($i=0; $i<21 ; $i++){
                 $tabla = $tabla.'<td>'.$download['fields'][$i]['value'].'</td>';
             } 
             $i=0;
-            for($i=0; $i<13 ; $i++){
+            for($i=0; $i<16 ; $i++){
                 $tabla = $tabla.'<td>'.$download['fields2'][$i]['value'].'</td>';
             }
             $i--;

@@ -215,6 +215,7 @@ Para que las presentaciones sean admitidas, los interesados deberán cumplir con
     }
     function send_mail_2() {
         $attach = "/var/www/dna2bpm/application/modules/formentrada/assets/Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf";
+        $attach1 = "/var/www/dna2bpm/application/modules/formentrada/assets/Preanálisis.pdf";
         //$fields = array();
         $email = $this->input->post('email');
         //if (property_exists($user,'email')) {
@@ -239,7 +240,7 @@ Para ello será necesario indique mail, teléfono y responsable del contacto con
 
             $mail->AddAddress($email, "");
             $mail->AddAttachment($attach, utf8_decode("Línea de Financiamiento BICE - INV, BK y KT- 2016.pdf"));
-
+            $mail->AddAttachment($attach1, utf8_decode("Preanálisis.pdf"));
 //        $mail->AddAttachment("images/phpmailer.gif");      // attachment
 //        $mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
             
