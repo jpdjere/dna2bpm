@@ -28,76 +28,99 @@
                 <label for="prestamo">¿Tiene uno o más préstamos bancarios vigentes, vinculados a la actividad de la empresa?</label>
                 <div>
                 <label class="radio-inline">
-                <input type="radio" name="prestamo" id="prestamo" value="SI"  required>SI
+                <input type="radio" name="prestamo" id="prestamo" value="SI" required>SI
                 </label>
                 <label class="radio-inline">
                 <input type="radio" name="prestamo" id="prestamo" value="NO" >NO
-                </label>
+                </label></br>
+                <label for="prestamo" class="error"></label>
                 </div>
             </div>    
             
             <!--2-->
             <div class="form-group">
-                <label class="error">El monto del préstamo bancario vigente ó la sumatoria de los montos de los prestamos vigentes solicitados al sistema bancario es SUPERIOR a $1.000.000?</br>
+                <label for="prestamo">El monto del préstamo bancario vigente ó la sumatoria de los montos de los prestamos vigentes solicitados al sistema bancario es SUPERIOR a $1.000.000?</br>
                         (Para el monto indicado se deben considerar únicamente los créditos otorgados por entidades financieras. NO COMPRENDE acuerdos de descubiertos, acuerdos para descuentos de cheques, prefinanciación de exportaciones y contratos de leasing).?</label>
-                <input type="radio" name="monto" id="monto_si" value="SI" class="form-control" required>SI</br>
-                <input type="radio" name="monto" id="monto_no" value="NO" class="form-control">NO
+                <div>
+                <label class="radio-inline">
+                <input type="radio" name="monto" id="monto_si" value="SI" required>SI</br>
+                </label>
+                <label class="radio-inline">
+                <input type="radio" name="monto" id="monto_no" value="NO" >NO
+                </label></br>
+                <label for="monto" class="error"></label>
+                </div>
             </div>    
     
             <!--3-->
             <div class="form-group">
-                <label class="error">Clasificación de deudores según el BCRA: ¿Tiene situación 2 o más?</label>
-                <a href="http://www.bcra.gob.ar/Informacion_usuario/iaucen010001.asp?error=0" target="_blank" class="form-control">Para conocer su Situación ante el BCRA haga click aquí</a>
-                <input type="radio" name="situacion" id="situacion_si" value="SI"  class="form-control" required>SI</br>
-            </div>    
+                <label>Clasificación de deudores según el BCRA: ¿Tiene situación 2 o más?</label>
+                <div>
+                <a href="http://www.bcra.gob.ar/Informacion_usuario/iaucen010001.asp?error=0" target="_blank">Para conocer su Situación ante el BCRA haga click aquí</a></br>
+                <label class="radio-inline">
+                <input type="radio" name="situacion" id="situacion_si" value="SI" required>SI
+                </label>
+                <label class="radio-inline">
+                <input type="radio" name="situacion" id="situacion_no" value="NO">NO
+                </label></br>
+                <label for="situacion" class="error"></label>
+                </div>
+            </div>
 
             <!--4-->
             <div class="form-group">
-                <label class="error">¿Pertenece a un Grupo Empresarial?</label>
-                <input type="radio" name="vincu" id="vincu_si" value="SI" class="form-control" required>SI
-                <input type="radio" name="vincu" id="vincu_no" value="NO" class="form-control">NO
+                <label>¿Pertenece a un Grupo Empresarial?</label>
+                <div>
+                <label class="radio-inline">
+                <input type="radio" name="vincu" id="vincu_si" value="SI" required>SI
+                </label>
+                <label class="radio-inline">
+                <input type="radio" name="vincu" id="vincu_no" value="NO" >NO
+                </label></br>
+                <label for="vincu" class="error"></label>
+                </div>
             </div>
                     
             <!--5-->
             <div class="form-group">
-                <label class="error">¿Está vinculada comercialmente a otra/s sociedades?</label>
-                <input type="radio" name="vincu1" id="vincu1_si" value="SI" class="form-control" required>SI
-                <input type="radio" name="vincu1" id="vincu1_no" value="NO" class="form-control">NO
+                <label>¿Está vinculada comercialmente a otra/s sociedades?</label>
+                <div>
+                <label class="radio-inline">
+                <input type="radio" name="vincu1" id="vincu1_si" value="SI" required>SI
+                </label>
+                <label class="radio-inline">
+                <input type="radio" name="vincu1" id="vincu1_no" value="NO">NO
+                </label></br>
+                <label for="vincu1" class="error"></label>
+                </div>
             </div>
-            
-            <!--6-->
-            <div class="form-group">
-                <label class="error">¿Está vinculada comercialmente a otra/s sociedades?</label>
-                <input type="radio" name="vincu1" id="vincu1_si" value="SI" class="form-control" required>SI
-                <input type="radio" name="vincu1" id="vincu1_no" value="NO" class="form-control">NO
-            </div>
-            
+
 
             <div class="form-group">
                 <h3 class='text-info'>DATOS DEL SOLICITANTE</h3>
             </div>   
 
-            <!--7-->
+            <!--6-->
             <div class="form-group">
-                <label class="error">Nombre o Razón Social de la empresa solicitante del crédito:</label>
+                <label>Nombre o Razón Social de la empresa solicitante del crédito:</label>
                 <input type="text" id="nombre" name="nombre" class="form-control" >
             </div>
                    
-            <!--8-->
+            <!--7-->
             <div class="form-group">
-                <label class="error">Forma Jurídica de la Empresa:</label>
+                <label >Forma Jurídica de la Empresa:</label>
                 <input type="text" id="forma" name="forma" class="form-control" >
             </div>
                     
-            <!--9-->
+            <!--8-->
             <div class="form-group">
-                <label class="error">CUIT:</label>
+                <label >CUIT:</label>
                 <input type="text" id="cuit"  name="cuit" class="form-control" >
             </div>
                 
-            <!--10-->
+            <!--9-->
             <div class="form-group">
-                <label class="error">Provincia de Implementación del Proyecto:</label>
+                <label >Provincia de Implementación del Proyecto:</label>
                 <select id="provincia" name="provincia" class="form-control">
                     <option selected value=""> Elige una opción </option>
                     <option value="Buenos Aires">Buenos Aires</option>
@@ -127,21 +150,21 @@
                 </select>
             </div>
 
+            <!--10-->
+            <div class="form-group">
+                <label >Localidad de Implementación del Proyecto:</label>
+                <input type="text" id="municipio" name="municipio" class="form-control" >
+            </div>
+
             <!--11-->
             <div class="form-group">
-                <label class="error">Localidad de Implementación del Proyecto:</label>
-                <input type="text" id="municipio" name="municipio" class="form-control" >
+                <label >Dirección de Implementación del Proyecto:</label>
+                <input type="text" id="direc" name="direc" class="form-control" >
             </div>
 
             <!--12-->
             <div class="form-group">
-                <label class="error">Dirección de Implementación del Proyecto:</label>
-                <input type="text" id="direc" name="direc" class="form-control" >
-            </div>
-
-            <!--13-->
-            <div class="form-group">
-                <label class="error">Domicilio Legal - Provincia:</label>
+                <label >Domicilio Legal - Provincia:</label>
                 <select id="provincia_leg" name="provincia_leg" class="form-control">
                     <option selected value=""> Elige una opción </option>
                     <option value="Buenos Aires">Buenos Aires</option>
@@ -171,66 +194,66 @@
                 </select>
             </div>
 
-            <!--14-->
+            <!--13-->
             <div class="form-group">
-                <label class="error">Domicilio Legal - Localidad:</label>
+                <label >Domicilio Legal - Localidad:</label>
                 <input type="text" id="municipio_leg" name="municipio_leg" class="form-control" >
             </div>
             
+            <!--14-->
+            <div class="form-group">
+                <label >Domicilio Legal - Dirección:</label>
+                <input type="text" id="direc_leg" name="direc_leg" class="form-control" >
+            </div>
+                    
             <!--15-->
             <div class="form-group">
-                <label class="error">Domicilio Legal - Dirección:</label>
-                <input type="text" id="direc_leg" name="direc_leg" class="form-control" >
+                <label >Nombre de Contacto:</label>
+                <input type="text" id="contact" name="contact" class="form-control" >
             </div>
                     
             <!--16-->
             <div class="form-group">
-                <label class="error">Nombre de Contacto:</label>
-                <input type="text" id="contact" name="contact" class="form-control" >
+                <label >Cargo:</label>
+                <input type="text" id="cargo" name="cargo" class="form-control" >
             </div>
-                    
+
             <!--17-->
             <div class="form-group">
-                <label class="error">Cargo:</label>
-                <input type="text" id="cargo" name="cargo" class="form-control" >
+                <label >Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" class="form-control">
             </div>
 
             <!--18-->
             <div class="form-group">
-                <label class="error">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" class="form-control">
+                <label >E-mail:</label>
+                <input id="email" name="email" type="email" required class="form-control">
             </div>
 
             <!--19-->
             <div class="form-group">
-                <label class="error">E-mail:</label>
-                <input id="email" name="email" type="email" required class="form-control">
+                <label >Por favor repita su E-mail:</label>
+                <input id="email1" name="email1" type="email" required class="form-control">
             </div>
 
             <!--20-->
             <div class="form-group">
-                <label class="error">Por favor repita su E-mail:</label>
-                <input id="email1" name="email1" type="email" required class="form-control">
-            </div>
-
-            <!--21-->
-            <div class="form-group">
-                <label class="error">¿Su sede productiva se encuentra radicada en un parque industrial?</label>
+                <label>¿Su sede productiva se encuentra radicada en un parque industrial?</label>
                 <select id="parque_ind" name="parque_ind" class="form-control">
                     <option selected value=""> Elige una opción </option>
                     <option value="SI">SI</option>
                     <option value="NO">NO</option>
-                </selected>      
+                </select>
             </div>
 
-            <!--22-->
+            <!--21-->
             <div class="form-group">
-                <label class="error">antidad actual de empleados:</label>
-                <input id="cant_emp" name="cant_emp"  required class="form-control">
+                <label>Cantidad actual de empleados:</label>
+                <input id="cant_emp" name="cant_emp" required class="form-control">
             </div>
 
             <div class="form-group">
-                <button id="siguiente" class="btn btn-primary btn-xs" name="siguiente" >Siguiente</button>
+                <button id="siguiente" class="btn btn-primary btn-lg btn-block" name="siguiente" >Siguiente</button>
             </div>
 
         </form>
