@@ -34,7 +34,7 @@ class Fondyf extends MX_Controller {
     }
 
     function Index() {
-        $this->Add_group();
+        //$this->Add_group();
         $this->proyecto();
     }
 
