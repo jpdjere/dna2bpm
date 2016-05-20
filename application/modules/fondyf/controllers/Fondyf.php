@@ -999,11 +999,13 @@ BLOCK;
         if (!$this->user->isAdmin($user)) {
             $this->load->model('user/group');
             $group_add = $this->group->get_byname('FonDyF/EMPRESARIO');
-            $update ['idu'] = $this->idu;
-            $update ['group'] = $user->group;
-            array_push($update ['group'], (int) $group_add ['idgroup']);
-            $update ['group'] = array_unique($update ['group']);
-            $this->user->update($update);
+            if($group_add){
+                $update ['idu'] = $this->idu;
+                $update ['group'] = $user->group;
+                array_push($update ['group'], (int) $group_add ['idgroup']);
+                $update ['group'] = array_unique($update ['group']);
+                $this->user->update($update);
+            }
         }
     }
 
