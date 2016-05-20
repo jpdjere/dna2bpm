@@ -998,7 +998,7 @@ BLOCK;
         $user = $this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $this->load->model('user/group');
-            
+            $group_add = null;
             $group_add = $this->group->get_byname('FonDyF/fondyfpde');
             
             if( $group_add ['idgroup'] != null){
