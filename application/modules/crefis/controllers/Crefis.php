@@ -970,8 +970,8 @@ class crefis extends MX_Controller {
         if ($id) {
             $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
             echo <<<BLOCK
-                <p align='left'>2. <a href="{$dna2url}frontcustom/231/externo.print.php?id=$todo" target="_blank">Imprimible del Proyecto</a></p>
-                <p align='left'>3. <a href="{$dna2url}frontcustom/284/ddjj_docu_crefis_preA.php?id=$id" target="_blank">Modelo de DJJ</a></p>-->
+                <p align='left'>1. <a href="{$dna2url}frontcustom/231/crefis.externo.print.apro.php?id=$todo" target="_blank">Imprimible del Proyecto</a></p>
+                <p align='left'>3. <a href="http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1a_primertestimonioescritura.doc" target="_blank">Modelo de Primer Testimonio de Escritura Pública para Empresas Solicitantes</a></p>-->
                         
 BLOCK;
         } else {
