@@ -1283,7 +1283,8 @@ BLOCK;
 
     public function faq() {
         $this->user->authorize();
-        $config['title']="Preguntas frecuentes";
+        $config['title']="<a href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>
+ Preguntas Frecuentes</a>";
         $config['class']="info";
         $config['body']="<a class='btn btn-info' href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>
  Descargar</a>";
