@@ -1287,11 +1287,11 @@ BLOCK;
         $config['class']="info";
         $config['body']="
             <ul class='list-unstyled'>
-            <li><a href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>&nbsp;Preguntas Frecuentes</a></li>
-            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/bases_capacitacionpyme.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Bases y Condiciones</a></li>
-            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1a_primertestimonioescritura.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Anexo para Presentaci&oacute;n de Proyectos (Anexo I A)</a></li>
-            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1b_certificacioncontable.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Anexo para Rendici&oacute;n de proyectos Modalidad 2 (Anexo I B)</a></li>
-            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/modalidad_1.zip' target='_blank'><i class='fa fa-file-archive-o'></i>&nbsp;Anexo para Rendición de proyectos Modalidad 1 (Anexos I B y I C)</a></li>
+            <li><i class='fa fa-file-pdf-o'></i><a href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'>&nbsp;Preguntas Frecuentes</a></li>
+            <li><i class='fa fa-file-word-o'></i><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/bases_capacitacionpyme.doc' target='_blank'>&nbsp;Bases y Condiciones</a></li>
+            <li><i class='fa fa-file-word-o'></i><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1a_primertestimonioescritura.doc' target='_blank'>&nbsp;Anexo para Presentaci&oacute;n de Proyectos (Anexo I A)</a></li>
+            <li><i class='fa fa-file-word-o'></i><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1b_certificacioncontable.doc' target='_blank'>&nbsp;Anexo para Rendici&oacute;n de proyectos Modalidad 2 (Anexo I B)</a></li>
+            <li><i class='fa fa-file-archive-o'></i><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/modalidad_1.zip' target='_blank'>&nbsp;Anexo para Rendición de proyectos Modalidad 1 (Anexos I B y I C)</a></li>
  </ul>";
         echo $this->ui->callout($config);
 
