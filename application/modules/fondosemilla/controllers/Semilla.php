@@ -37,7 +37,7 @@ class semilla extends MX_Controller {
 
     function Index() {
         $this->Add_group();
-        $this->proyecto();
+        $this->Emprendedores();
     }
 
     function Emprendedores($debug=false) {
