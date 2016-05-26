@@ -86,9 +86,9 @@
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <div class="pull-left">
+<!--                                     <div class="pull-left">
                                         <a href="{base_url}dashboard/profile" class="btn btn-default btn-flat">{lang user_profile}</a>
-                                    </div>
+                                    </div> -->
                                     <div class="pull-right">
                                         <a href="{base_url}user/logout" class="btn btn-default btn-flat">{lang user_logout}</a>
                                     </div>
