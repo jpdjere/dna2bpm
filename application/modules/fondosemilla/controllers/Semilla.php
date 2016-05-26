@@ -42,7 +42,7 @@ class semilla extends MX_Controller {
 
     function Emprendedores($debug=false) {
         $this->user->authorize();
-        Modules::run('dashboard/dashboard', 'semilla/json/semilla_proyectos.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
     }
 
     function Direccion($debug=false) {
