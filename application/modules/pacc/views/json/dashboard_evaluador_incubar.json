@@ -1,6 +1,6 @@
 {
     "createdBy": "MJL <mjlucini@gmail.com>",
-    "title": "Evaluación PNI",
+    "title": "Evaluadores RNI",
     "view": "layout_2cols_fixed",
     "icon": "ion-briefcase",
     "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
@@ -27,14 +27,6 @@
             "function": "tile",
             "params": ["pacc", "INCUBAR_VN"],
             "span": 3
-        }, {
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["pacc", "INCUBAR_RJ"],
-            "span": 3
-
         }, {
             "title": "Tile01",
             "module": "bpm",
