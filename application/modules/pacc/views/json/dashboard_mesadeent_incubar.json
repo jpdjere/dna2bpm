@@ -1,0 +1,36 @@
+{
+    "createdBy": "MJL <mjlucini@gmail.com>",
+    "title": "Mesa de ebtradas PNI",
+    "view": "layout_2cols_fixed",
+    "icon": "ion-briefcase",
+    "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "private": true,
+    "js": [{
+        "{base_url}ui/assets/jscript/bootstrap-tour.js": "Tour Script",
+        "{base_url}pacc11/assets/jscript/tour.empresas.js": "Tour"
+    }],
+    "css": [{
+        "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+    }],
+    "zones": [{
+        "tiles": [{
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "INCUBAR_QM"],
+            "span": 3
+        }]
+    }, {
+        "col1": [{
+            "title": "2do",
+            "module": "pacc",
+            "controller": "Evaluador_incubar",
+            "function": "widget_2doMe2"
+        }]
+    }, {
+        "col2": [
+
+        ]
+    }]
+}

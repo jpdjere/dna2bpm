@@ -1,0 +1,49 @@
+{
+    "createdBy": "MJL <mjlucini@gmail.com>",
+    "title": "Frotalecimiento Institucional",
+    "view": "layout_2cols_fixed",
+    "icon": "ion-briefcase",
+    "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "private": true,
+    "js": [{
+        "{base_url}ui/assets/jscript/bootstrap-tour.js": "Tour Script",
+        "{base_url}pacc11/assets/jscript/tour.empresas.js": "Tour"
+    }],
+    "css": [{
+        "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+    }],
+    "zones": [{
+        "tiles": [{
+            "title": "TileSolicitud",
+            "module": "pacc",
+            "controller": "Incubar_pfi",
+            "function": "proyecto_PFI",
+            "span": 3
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "preaproPFI_LS"],
+            "span": 3
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "preaproPFI_UZ"],
+            "span": 3
+        }]
+    }, {
+        "col1": [{
+            "title": "2do",
+            "module": "pacc",
+            "controller": "incubar_ins",
+            "function": "widget_2doMe2"
+        }]
+    }, {
+        "col2": [
+
+        ]
+    }]
+}
