@@ -43,7 +43,7 @@ class Incubar_ins extends MX_Controller {
         $user =$this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $user=$user;
-            $group_add = $this->group->get_byname('PACC/INCUBADORAS/INCUBADORA');
+            $group_add = $this->group->get_byname('PACC/INCUBADORAS /INCUBADORA');
             array_push($user->group, (int) $group_add ['idgroup']);
             $user->group = array_unique($user->group);
             $this->user->save($user);
