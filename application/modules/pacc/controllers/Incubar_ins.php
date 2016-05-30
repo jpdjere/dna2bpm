@@ -40,7 +40,8 @@ class Incubar_ins extends MX_Controller {
      * Agrega el grupo EMPRESA a los que entran al panel para que puedan ejecutar el BPM
      */
     function Add_group() {
-        $user =$this->user->get_user($this->idu);
+        //$user =$this->user->get_user($this->idu);
+        $user =$this->user->get_user($this->user->idu);
         if (!$this->user->isAdmin($user)) {
             $user=$user;
             $group_add = $this->group->get_byname('PACC/INCUBADORAS /INCUBADORA');
