@@ -86,7 +86,7 @@ class semilla extends MX_Controller {
         $data ['title'] = 'Carga tu proyecto';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
-        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/capital_semilla';
+        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondo_semilla2016';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
     function tile_profesional() {
