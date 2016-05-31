@@ -17,9 +17,10 @@
                 },
                 {
                     "title": "Tile01",
-                    "module": "ciudad",
-                    "controller": "ciudad",
-                    "function": "tile_proyectos"
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["ciudadGral", "ciudadGral_JM"]
                 },
                 {
                     "title": "TileSolicitud",
