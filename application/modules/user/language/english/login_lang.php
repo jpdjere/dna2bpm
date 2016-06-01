@@ -13,6 +13,7 @@ $lang["forgotPassword"] = "Forgot your username or password!";
 $lang["nolevel"] = "You don't have permission to access:";
 $lang["nousr"] = "You are not a registered user or you've misstyped either the username or password";
 $lang["hastolog"] = "You have to be logged to open:";
+$lang["newUser"] = "New user";
 
 $lang["mail"] = "Mail";
 $lang["PageDescriptionR"] = "Forgot Password";
