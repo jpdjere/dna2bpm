@@ -15,6 +15,17 @@
         ]
     }, {
         "col1": [
+                {
+                    "title": "Casos Abiertos",
+                    "module": "fondosemilla",
+                    "controller": "Semilla",
+                    "function": "widget_2doMe2_b",
+                    "box_icon":"fa-pie-chart",
+                    "box_class":["box"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                }
+            
         ]
     }, {
         "col2": [
