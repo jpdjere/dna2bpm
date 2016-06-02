@@ -16,7 +16,7 @@
     }, {
         "col1": [
                 {
-                    "title": "Casos Abiertos",
+                    "title": "Proyectos Abiertos",
                     "module": "fondosemilla",
                     "controller": "Semilla",
                     "function": "widget_2doMe2_b",
