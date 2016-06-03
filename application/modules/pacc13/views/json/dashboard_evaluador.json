@@ -66,6 +66,14 @@
                     "params": ["pacc3PP", "pacc3PP_YN"]
                 }, 
                 {
+                    "title": "Evaluación Formal PN",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3PPF", "pacc3PPF_KM"]
+                }, 
+                {
                     "title": "Rendición de Antició en Evaluación",
                     "module": "bpm",
                     "controller": "kpi",
