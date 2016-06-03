@@ -58,6 +58,14 @@
                     "span": 6
                 }, 
                 {
+                    "title": "Evaluación Técnica PN",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3PP", "pacc3PP_YN"]
+                }, 
+                {
                     "title": "Rendición de Antició en Evaluación",
                     "module": "bpm",
                     "controller": "kpi",
