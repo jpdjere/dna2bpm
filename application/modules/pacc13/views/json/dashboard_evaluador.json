@@ -86,7 +86,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 3,
+                    "span": 2,
                     "params": ["pacc3SDAREND", "pacc3SDAREND_VK"]
                 }, 
                 {
@@ -94,7 +94,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 3,
+                    "span": 2,
                     "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
                 }
 
