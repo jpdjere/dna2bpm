@@ -55,7 +55,7 @@
                     "module": "pacc",
                     "controller": "pacc",
                     "function": "tile_buscar_container",
-                    "span": 6
+                    "span": 4
                 },
                 {
                     "title": "Asignar Evaluador",
@@ -66,7 +66,15 @@
                     "params": ["pacc3PP", "pacc3PP_DR"]
                 },
                 {
-                    "title": "Recomendación para Pre-aprobación",
+                    "title": "Recomendación Técnica",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3PP", "pacc3PP_UR"]
+                },
+                {
+                    "title": "Recomendación Formal",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",

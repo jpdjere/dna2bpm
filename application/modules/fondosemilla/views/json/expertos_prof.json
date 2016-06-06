@@ -1,0 +1,33 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Instituciones y Profesionales",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [{
+        "tiles": [{
+                "title": "Tile01",
+                "module": "expertos",
+                "controller": "expertos",
+                "function": "tile_profesional",
+                "span": 6
+            }
+        ]
+    }, {
+        "col1": [
+            {
+                    "title": "Casos Abiertos",
+                    "module": "expertos",
+                    "controller": "Expertos",
+                    "function": "widget_2doMe2_b",
+                    "box_icon":"fa-pie-chart",
+                    "box_class":["box"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                }
+        ]
+    }, {
+        "col2": [
+            ]
+    }]
+}

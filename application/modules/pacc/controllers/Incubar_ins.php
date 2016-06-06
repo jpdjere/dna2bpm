@@ -32,8 +32,22 @@ class Incubar_ins extends MX_Controller {
      * Dashboard para Incubar
      */
     function dashboard($debug=false){
+        $this->Add_group();
         Modules::run('dashboard/dashboard', 'pacc/json/dashboard_incubar_insc.json',$debug);
 
+    }
+    /**
+     * Agrega el grupo EMPRESA a los que entran al panel para que puedan ejecutar el BPM
+     */
+    function Add_group() {
+        $user =$this->user->get_user($this->user->idu);
+        if (!$this->user->isAdmin($user)) {
+            $user=$user;
+            $group_add = $this->group->get_byname('PACC/INCUBADORAS /INCUBADORA');
+            array_push($user->group, (int) $group_add ['idgroup']);
+            $user->group = array_unique($user->group);
+            $this->user->save($user);
+        }
     }
 
     function pre_inscripción_INCUBAR() {

@@ -3,7 +3,7 @@
 class Nusoap_library {
 
     function Nusoap_library() {
-        require_once('nusoap' . EXT);
+        require_once('Nusoap' . EXT);
     }
 
 }

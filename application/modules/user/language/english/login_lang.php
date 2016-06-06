@@ -10,10 +10,10 @@ $lang["PageDescription"] = "Access for registered users.";
 $lang["loginButton"] = "go!";
 $lang["rememberButton"] = "Remember Me";
 $lang["forgotPassword"] = "Forgot your username or password!";
-$lang['newUser'] = 'New user';
 $lang["nolevel"] = "You don't have permission to access:";
 $lang["nousr"] = "You are not a registered user or you've misstyped either the username or password";
 $lang["hastolog"] = "You have to be logged to open:";
+$lang["newUser"] = "New user";
 
 $lang["mail"] = "Mail";
 $lang["PageDescriptionR"] = "Forgot Password";
@@ -26,13 +26,13 @@ $lang["mailsendpart1"]= "<h2>Dear user, </h2><p>We have received a request for p
 $lang["mailsendpart2"]="<p>Please click the link at the bottom to reset the password. In case you didn't ask for this reset, please ignore this email.</p>";
 $lang["mailsendpart3"]="I want to reset my password";
 $lang["mailsubject"]= "DNA2 password reset system";
-$lang["mailmsg1"]="Check your email. Thanks.";
-$lang["mailmsg1_error"]="Something went wrong. PLease try later.";
+$lang["mailmsg1"]="Check your email. </br> Thanks.";
+$lang["mailmsg1_error"]="It has been an error , try later</br> Thanks.";
 $lang["mailback"]="BACK";
 $lang["mailform"]="New Password Form";
 $lang["mailpassno"]="Your password must be at least 5 characters.";
-$lang["mailmsg2"]="Your password has been changed successfully. <br>Take me to login page.";
-$lang["mailalert"]="Error!";
+$lang["mailmsg2"]="Your password has been changed successfully.</br>";
+$lang["mailalert"]="0, Error!";
 
 /* End of file user.php */
-/* Location: ./system/language/english/user.php - */
+/* Location: ./system/language/english/user.php */

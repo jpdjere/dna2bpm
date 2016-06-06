@@ -1,0 +1,40 @@
+{
+    "createdBy": "Martín González",
+    "title": "Fondo Semilla Emprendedores",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [{
+        "tiles": [{
+                "title": "Tile01",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "tile_solicitud",
+                "span": 6
+            },
+
+            {
+                "title": "Tile01",
+                "module": "bpm",
+                "controller": "bpmui",
+                "function": "tile_cases",
+                "span": 6
+            }
+        ]
+    }, {
+        "col1": [
+        {
+            "title": "Tareas",
+            "module": "expertos",
+            "controller": "expertos",
+            "function": "widget_2doMe2"
+        }]
+    }, {
+        "col2": [{
+            "title": "Cases",
+            "module": "bpm",
+            "controller": "bpmui",
+            "function": "widget_cases"
+        }]
+    }]
+}

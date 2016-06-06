@@ -995,6 +995,17 @@ BLOCK;
     }
 
     function Add_group() {
+        $user =$this->user->get_user($this->idu);
+        if (!$this->user->isAdmin($user)) {
+            $user=$user;
+            $group_add = $this->group->get_byname('FonDyF/EMPRESARIO');
+            array_push($user->group, (int) $group_add ['idgroup']);
+            $user->group = array_unique($user->group);
+            $this->user->save($user);
+        }
+        
+        
+        /*
         $user = $this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $this->load->model('user/group');
@@ -1004,7 +1015,7 @@ BLOCK;
             array_push($update ['group'], (int) $group_add ['idgroup']);
             $update ['group'] = array_unique($update ['group']);
             $this->user->update($update);
-        }
+        }*/
     }
 
     function asignar_evaluador($idwf, $idcase, $tokenId) {
