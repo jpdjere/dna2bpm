@@ -9,7 +9,7 @@
             "module": "bonita",
             "controller": "bonita_licitaciones",
             "function": "bonita_filtros_provincia",
-            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}bonita/assets/jscript/bonita_script_rep_prov.js":"Profile JS"}]
+            "js":[{"{base_url}bonita/assets/jscript/bonita_script_rep_prov.js":"Profile JS"}]
              }
             ]
 
