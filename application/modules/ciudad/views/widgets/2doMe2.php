@@ -52,9 +52,9 @@
                 <div class="tools">
 
                 <!--     General tools such as edit or delete -->
-                    <a href="{link_open}" target="_blank" title="Ver Proyecto">
-                        <i class="ion ion-folder fa-2x fa-adjust"></i>
-                    </a>
+                    <!--<a href="{link_open}" target="_blank" title="Ver Proyecto">-->
+                    <!--    <i class="ion ion-folder fa-2x fa-adjust"></i>-->
+                    <!--</a>-->
                     &nbsp;
                     &nbsp;
                     <a href='{base_url}bpm/engine/run/model/{idwf}/{case}/{resourceId}' title="Realizar tarea">
