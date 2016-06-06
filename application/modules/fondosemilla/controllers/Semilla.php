@@ -1308,7 +1308,8 @@ BLOCK;
         $this->load->model('bpm/bpm');
         $query = array(
             'assign' => $this->idu,
-            'status' => 'user'
+            'status' => 'user',
+            'idwf' => 'fondo_semilla2016'
         );
 
         //var_dump(json_encode($query));exit;
