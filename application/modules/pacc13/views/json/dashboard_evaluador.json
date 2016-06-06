@@ -100,14 +100,6 @@
             ]
         }, {
             "full_widget": []
-        },{
-            "col1": [{
-                "title": "2do",
-                "module": "pacc13",
-                "controller": "evaluador",
-                "function": "widget_2doMe2"
-            }]
-
         }, {
             "col2": []
         },
