@@ -96,21 +96,17 @@
                     "function": "tile",
                     "span": 2,
                     "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
-                },
-                {
-                    "title": "Tile01",
-                    "span": 2,
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks2me"
                 }
-
-
             ]
         }, {
             "full_widget": []
-        }, {
-            "col1": []
+        },{
+            "col1": [{
+                "title": "2do",
+                "module": "pacc13",
+                "controller": "evaluador",
+                "function": "widget_2doMe2"
+            }]
 
         }, {
             "col2": []
