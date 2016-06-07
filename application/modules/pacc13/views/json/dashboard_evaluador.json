@@ -97,13 +97,16 @@
                     "span": 2,
                     "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
                 }
-
-
             ]
         }, {
             "full_widget": []
-        }, {
-            "col1": []
+        },{
+            "col1": [{
+                "title": "2do",
+                "module": "pacc13",
+                "controller": "evaluador",
+                "function": "widget_2doMe2"
+            }]
 
         }, {
             "col2": []
