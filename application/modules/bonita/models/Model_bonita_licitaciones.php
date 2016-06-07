@@ -130,14 +130,16 @@ class model_bonita_licitaciones extends CI_Model {
     
     function guardar_carga($headerArr){
         $container = 'container.bonita.licitaciones';
-        $id_mongo=$headerArr['id_mongo'];
-        $mongoID=new MongoID($id_mongo);
-        $query = array('_id'=>$mongoID);
+        $IdLicitacion=new MongoID($headerArr['id_mongo']);
+        $query = array('_id'=>$IdLicitacion);
         $this->db_bonita->where($query);
         $data = $this->db_bonita->get($container)->result_array();
         $data=$data[0];
         $data["editable"]=$headerArr["editable"];
-        $data["ofertas"][]=array('id_entidad'=>new MongoID($headerArr['id_entidad']),'monto'=>$headerArr['monto']*1,'borrado'=>false);
+        $id_entidad=$headerArr['id_entidad'];
+        $data["ofertas"][]=array('id_entidad'=>new MongoID($id_entidad),'monto'=>$headerArr['monto']*1,'borrado'=>false);
+
+        $this->db_bonita->where($query);
         $result = $this->db_bonita->update($container,$data);
         return $result;
     }
@@ -204,6 +206,7 @@ class model_bonita_licitaciones extends CI_Model {
             $i=$i+1;
         }
         
+        $this->db_bonita->where($query);
         $result = $this->db_bonita->update($container,$data);
         return $result;
     }
