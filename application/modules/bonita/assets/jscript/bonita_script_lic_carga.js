@@ -99,7 +99,7 @@ cargar_param();
                 var id_mongo = $('#table_lic').attr("data-id");
                 if(monto==0){
                     alert("El monto debe ser mayor a cero.")
-                }else if(monto>cmax){
+                }else if(parseInt(monto*1000000)>parseInt(cmax)){
                     alert("El monto debe ser menor al cupo máximo.")
                 }else{
                     $("#guardar").prop("disabled",true);
@@ -108,7 +108,6 @@ cargar_param();
                         data:{"id_mongo":id_mongo, "entidad":entidad, "monto":monto},
                         url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_nueva_carga/',
                         success: function(result) {
-                            console.log(result);
                             location.reload();
                         }
                     });
@@ -128,13 +127,13 @@ cargar_param();
             url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_carga_borrar/',
             dataType : "json",
             success: function(result) {
-                console.log(result);
                 location.reload();
             }
         });
     });
     
     get_cmax();
+    $("#guardar").prop("disabled",false);
     
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
