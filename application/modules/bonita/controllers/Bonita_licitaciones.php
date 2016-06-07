@@ -277,13 +277,11 @@ class bonita_licitaciones extends MX_Controller {
         $asignacion_generica=$asignacion_primaria['asignacion'];
         $total_asignacion=array_sum($asignacion_generica);
         
-        $x=0;
         while($total_asignacion-$cmax!=0){
             $asignacion_generica=$this->calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica);
             if(array_sum($asignacion_generica)==$total_asignacion){break;}
             $asignaciones[]=$asignacion_generica;
             $total_asignacion=array_sum($asignacion_generica);
-            $x+=1;
         }
         //$asignacion_generica=$this->calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion_anterior, $datos_entidades, $asignacion_generica);
 
@@ -322,7 +320,6 @@ class bonita_licitaciones extends MX_Controller {
             $i=$i+1;
         }
 
-        $datos_cargados =  $datos_cargados.$x;
         $datos_cargados =  $datos_cargados.'</table>';
         
         $customData['datos_licitacion'] = $datos;
@@ -343,7 +340,7 @@ class bonita_licitaciones extends MX_Controller {
         $asignacion_primaria=array();
         $i=0;
         foreach($datos_entidades as $entidad){
-            $monto_ofrecido=$entidad['monto']*1000000;
+            $monto_ofrecido=$entidad['monto'];
             $porc_oferta_total=$entidad['monto']/$total_ofrecido;
             $asignacion_primaria['porcentaje'][$i]=$porc_oferta_total;
             if($porc_oferta_total*$cmax>=$maxeeff){
