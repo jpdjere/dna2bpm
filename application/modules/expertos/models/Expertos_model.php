@@ -1,6 +1,6 @@
 <?php
 
-class crefis_model extends CI_Model {
+class expertos_model extends CI_Model {
 
     function __construct() {
         parent::__construct();
@@ -9,7 +9,27 @@ class crefis_model extends CI_Model {
         $this->db = $this->cimongo;
         $this->load->model('bpm/bpm');
     }
-
+    
+    function get_id_subprocess($idwf,$case){
+        $query = array(
+            //'assign' => $this->idu,
+            'id' => $case,
+            'idwf' => $idwf
+        );
+        $this->db->where($query);
+        //$this->db->select($fields);
+        //$this->db->order_by($sort);
+        $rs = $this->db->get('case');
+        return $rs->result_array();
+    }
+    
+    
+    
+    
+    
+    
+    
+    /*
     function get_evaluator_by_project_by_id($query) {
 
         $rtn = array();
@@ -41,10 +61,10 @@ class crefis_model extends CI_Model {
 
         return $rtn;
     }
-
-    function get_evaluator_by_project($filter) {
+    */
+    /*function get_evaluator_by_project($filter) {*/
         /* get ids */
-        $all_ids = array();
+      /*  $all_ids = array();
         $arr_status = array();
 
         $allcases = $this->bpm->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
@@ -58,10 +78,10 @@ class crefis_model extends CI_Model {
         }, $all_ids);
 
         return $get_value;
-    }
+    }*/
 
     /* MONTOS POR ESTADO */
-
+    /*
     function get_amount_stats_by_id($query) {
         $rtn = array();
         $container = 'container.proyectos_crefis';
@@ -73,10 +93,10 @@ class crefis_model extends CI_Model {
         }
         return $rtn;
     }
-
-    function delegate_case_action($idwf, $idcase, $iduser_dest) {
+    
+    function delegate_case_action($idwf, $idcase, $iduser_dest) {*/
         /* UPDATE CASE */
-        $collection = 'case';
+     /*   $collection = 'case';
         $query = array('id' => $idcase, 'idwf' => $idwf);
         $fields = array('iduser');
         $action = array('$set' => array('iduser' => $iduser_dest));
@@ -87,7 +107,7 @@ class crefis_model extends CI_Model {
         if (isset($rs)) {
             $last_user = $fnd['iduser'];
             /* UPDATE TOKENS */
-            $collection = 'tokens';
+   /*         $collection = 'tokens';
             $query = array('case' => $idcase, 'assign' => $last_user);
             $action = array('$addToSet' => array('assign' => $iduser_dest));
             $options = array('upsert' => true);
@@ -96,12 +116,12 @@ class crefis_model extends CI_Model {
 
 
         exit;
-    }
+    }*/
     /**
      * Trae los proyectos filtrando por valores del container
      * $ident=195 proyectos crefis
      */ 
-    function get_cases_byFilter_container($idwf,$ident=195,$query){
+   /* function get_cases_byFilter_container($idwf,$ident=195,$query){
         
      $entities=$this->db->get_where('entities',array('ident'=>$ident))->result_array();
      $entity=$entities[0];
@@ -117,6 +137,6 @@ class crefis_model extends CI_Model {
      $filter=array('idwf'=>$idwf,'data.Proyectos_crefis.query.id'=>array('$in'=>$ids));
      $cases=$this->bpm->get_cases_byFilter($filter);
      return $cases;
-    }
+    }*/
 
 }

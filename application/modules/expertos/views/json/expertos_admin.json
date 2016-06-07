@@ -7,18 +7,21 @@
     "zones": [
         {
             "tiles": [
-                {
-                    "title": "Ordenes de Pago",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "span": 6,
-                    "params": ["Expertos_Empresas", "Expertos_Empresas_KW"]
-                }
+                
             ]
         },
         {
             "col1": [
+                {
+                    "title": "Proyectos Abiertos",
+                    "module": "expertos",
+                    "controller": "Expertos",
+                    "function": "widget_2doMe2_c",
+                    "box_icon":"fa-pie-chart",
+                    "box_class":["box"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                }
             ]
         },
         {
