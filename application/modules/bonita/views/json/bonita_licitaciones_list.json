@@ -3,7 +3,12 @@
     "title": "Bonificación de Tasa - Licitaciones",
     "view": "layout_2colsy1_bonita",
     "icon": "fa-qrcode",
-    "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"3":"jquery.validate"},{"{base_url}bonita/assets/jscript/bonita_script_lic_licitaciones.js":"Entidades JS"},{"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"}],
+    "js":[
+            {"{base_url}bonita/assets/jscript/jquery.validate.js":"JQuery"},
+            {"{base_url}bonita/assets/jscript/jquery.price_format.2.0.js":"JQ"},
+            {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
+            {"{base_url}bonita/assets/jscript/bonita_script_lic_list.js":"Carga JS"}
+        ],
     
     "zones": [
         {   "col1": [{
