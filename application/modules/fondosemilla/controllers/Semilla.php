@@ -42,13 +42,18 @@ class semilla extends MX_Controller {
 
     function Emprendedores($debug=false) {
         $this->user->authorize();
+        $grupo_user = 'Fondo Semilla /Emprendedor';
+        $this->Add_group($grupo_user);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
+        
     }
 
-    function Direccion($debug=false) {
+    function Incubadoras($debug=false) {
         $this->user->authorize();
+        $grupo_user = 'Fondo Semilla /Incubadora';
+        $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
-        Modules::run('dashboard/dashboard', 'expertos/json/expertos_admin.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_incubadoras.json',$debug);
       
         
     }
@@ -1023,11 +1028,11 @@ BLOCK;
    /**
      * Agrega el grupo EMPRESA a los que entran al panel para que puedan ejecutar el BPM
      */
-    function Add_group() {
+    function Add_group($grupo_user) {
         $user =$this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $user=$user;
-            $group_add = $this->group->get_byname('Fondo Semilla /Emprendedor');
+            $group_add = $this->group->get_byname($grupo_user);
             array_push($user->group, (int) $group_add ['idgroup']);
             $user->group = array_unique($user->group);
             $this->user->save($user);
@@ -1363,6 +1368,77 @@ BLOCK;
 
         echo $this->parser->parse('expertos/widgets/2doMe2', $data, true, true);
     }
+    
+    
+    function widget_2doMe2_c($chunk = 1, $pagesize = 2000) {
+        
+        //$data['lang']=$this->lang->language;
+        $this->load->model('bpm/bpm');
+        $query = array(
+            'status' => 'user',
+            'idwf' => 'fondo_semilla2016'
+        );
+
+        //var_dump(json_encode($query));exit;
+        $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
+        //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
+        $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
+        //var_dump($data);
+        //exit();
+        if (isset($data['mytasks'])) { 
+            foreach ($data['mytasks'] as $k => $mytask) {
+                $mycase = $this->bpm->get_case($mytask['case']);
+                $data['mytasks'][$k]['extra_data']['ip'] = false;
+                /*if (isset($mycase['data']['Empresas']['query']['id'])) {
+                    $empresaID = $mycase['data']['Empresas']['query']['id'];
+                    $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
+                    $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
+                }/*
+                if (isset($mycase['data']['Asistencias']['query']['id'])) {
+                    $proyectoID = $mycase['data']['Asistencias']['query']['id'];
+                    $proyecto = $this->bpm->get_data('container.asistencias', array('id' => $proyectoID));
+                    $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
+                    
+
+                    $url = (isset($mycase['data'] ['Asistencias']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
+                    $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
+
+                }*/
+            }
+        } else {
+            $data['mytasks'] = array();
+        }
+
+        $data['title'] = $this->lang->line('Tasks') . ' ' . $this->lang->line('Pending');
+
+        $data['more_info_link'] = $this->base_url . 'bpm/';
+        $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
+        
+        //==== Pagination
+
+        $pagination=array_chunk($data['mytasks'],5);
+        $pages=array();
+        
+        foreach($pagination as $chunk){
+            $data['mytasks2']=$chunk;
+            $pages[]=$this->parser->parse('fondosemilla/widgets/2doMe2_task', $data, true, true);
+            
+        }
+        
+
+        $data['mytasks_paginated']=$this->ui->paginate($pages);
+
+        echo $this->parser->parse('fondosemilla/widgets/2doMe2', $data, true, true);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public function faq() {
         $this->user->authorize();
