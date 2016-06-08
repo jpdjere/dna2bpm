@@ -43,6 +43,14 @@
             "params": ["pacc", "INCUBAR_JI"],
             "span": 3
 
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "INCUBAR_GY"],
+            "span": 3
+
         }]
     }, {
         "col1": [{
