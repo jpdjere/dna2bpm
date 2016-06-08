@@ -383,7 +383,7 @@ class crefis extends MX_Controller {
                     and $case['status'] == 'open' and in_array($data ['Proyectos_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
                     ){ 
                 $model = 'crefisGral';
-                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';}
+                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';}
             else{
                 $url_clone = null;
                     }
