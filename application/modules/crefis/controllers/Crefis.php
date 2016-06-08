@@ -378,10 +378,20 @@ class crefis extends MX_Controller {
             $hist=$this->bpm->get_token_history('crefisGral',$token['case']);
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
-            $url_clone = (
+            $url_clone = ''; 
+            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
+                    and $case['status'] == 'open' and in_array($data ['Proyectos_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
+                    ){ 
+                $model = 'crefisGral';
+                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';}
+            else{
+                $url_clone = null;
+                    }
+                
+            /*$url_clone = (
                     (in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open' and in_array('oryx_05695DC8-1842-49D1-8327-1DAB8C164D35', $keys) //---está finalizado pero por esta figura
                     and in_array($data ['Proyectos_crefis'] ['4970'][0], array(30, 40, 60)) //---checkeo que esté en alguno de esos estados
-                    ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;
+                    ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;*/
             //---link para cancelar solo para coordinador
             $url_cancelar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
             $url_cancelar_pde = (
