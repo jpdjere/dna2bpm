@@ -379,11 +379,24 @@ class crefis extends MX_Controller {
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
-            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
+            if ((in_array(1004, $this->id_group) or in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
                     and $case['status'] == 'open' and in_array($data ['Proyectos_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
                     ){ 
                 $model = 'crefisGral';
-                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';}
+                $estado = $data ['Proyectos_crefis'] ['4970'][0];
+                switch($estado){
+                    case 40:
+                        $idResource = 'oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';
+                        break;
+                    case 60:
+                        $idResource = 'oryx_235D6339-A2ED-476B-A570-3233C86548EE';
+                        break;
+                    case 48:
+                    case 59:                    
+                        $idResource = 'oryx_FDD40364-9DB8-4090-B569-7D795E380F18';
+                        break;
+                }
+                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;}
             else{
                 $url_clone = null;
                     }
