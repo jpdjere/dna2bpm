@@ -92,15 +92,14 @@ class bonita_menu_licitaciones extends MX_Controller {
     
     function bonita_licitaciones_ops() {
         
-        $model='model_bonita';
-        
         $customData = array();
         
         $customData['tabla'] =
                 '<tr><a href="'.$this->module_url.'bonita_licitaciones/bonita_abm_entidades/" target="_blank">ABM Entidades</a></tr></br>'.
                 '<tr><a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_list/" target="_blank">ABM Licitaciones</a></tr></br>'.
-                '<tr><a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_carga_datos/" target="_blank">Cargar Licitaciones</a></tr></br>'/*.
-                '<tr><a href="'.$this->module_url.'bonita_reportes/bonita_reporte_sectores/" target="_blank">Reportes por Sector</a></tr></br>'.
+                '<tr><a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_carga_datos/" target="_blank">Cargar Licitaciones</a></tr></br>'.
+                '<tr><a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_reportes_licitaciones/" target="_blank">Reportes Licitaciones Cerradas</a></tr></br>'
+                /*.'<tr><a href="'.$this->module_url.'bonita_reportes/bonita_reporte_sectores/" target="_blank">Reportes por Sector</a></tr></br>'.
                 '<tr><a href="'.$this->module_url.'bonita_reportes/bonita_reporte_sectores_tam/" target="_blank">Reportes por Sector y Tamaño</a></tr></br>'*/;
                     
         return $this->parser->parse('bonita/bonita_licitaciones_opt_view',$customData,true,true);    

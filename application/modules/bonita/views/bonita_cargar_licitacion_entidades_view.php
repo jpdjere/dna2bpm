@@ -1,6 +1,18 @@
 <H3>CARGA DE ENTIDADES Y MONTOS:</H3></br>
 <tr>
-    {datos_licitacion}
+    <table id="table_lic" class="table">
+        <tr>
+            <td>RESOLUCIÓN:</td>
+            <td>FECHA DE LICITACIÓN</td>
+            <td>CUPO MÁXIMO:</td>
+            <td>MÁXIMO POR EEFF:</td>
+            <td>TOTAL OFRECIDO:</td>
+            <td>TOTAL DE ASIGNACIÓN:</td>
+        </tr>
+        <tr>
+            {datos_licitacion}
+        </tr>
+    </table>
 </tr>
 <tr>
     {datos_cargados}
@@ -32,4 +44,9 @@
         <button id="guardar" class="btn btn-default btn-xs" name="guardar">Guardar</button>
     </div>
     </form>
+    </br></br>
+    <div>
+        <button id="cerrar_licitacion" class="btn btn-default btn-xs" name="cerrar_licitacion">Cerrar Licitacion</button>
+    </div>
+    </br></br>
 </tr>

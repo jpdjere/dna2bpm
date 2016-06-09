@@ -96,7 +96,7 @@ cargar_param();
                 var entidad=fields[0].value;
                 var monto=fields[1].value;
                 var monto = replaceAll(monto,".", "");
-                var id_mongo = $('#table_lic').attr("data-id");
+                var id_mongo = $('#tabla_datos').attr("data-id");
                 if(monto==0){
                     alert("El monto debe ser mayor a cero.")
                 }else if(parseInt(monto*1000000)>parseInt(cmax)){
@@ -133,6 +133,7 @@ cargar_param();
     });
     
     get_cmax();
+    
     $("#guardar").prop("disabled",false);
     
     function getURLParameter(name) {
@@ -147,6 +148,30 @@ cargar_param();
             url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_get_cmax/',
             success: function(result) {
                 cmax=result;
+            }
+        });
+    }
+    
+    $("#cerrar_licitacion").click(function(e) {
+        var id=getURLParameter("id");
+        $.ajax({
+            type: "POST",
+            data:{"id_licitacion":id},
+            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_cerrar_licitacion/',
+            success: function(result) {
+                location.reload();
+                //window.location.replace(globals.base_url+bonita/bonita_licitaciones);
+            }
+        });
+        //get_usage();
+    });
+    
+    function get_usage(){
+        $.ajax({
+            type: "POST",
+            url: globals.base_url + 'bonita/bonita_licitaciones/get_usage/',
+            success: function(result) {
+                console.log(result);
             }
         });
     }

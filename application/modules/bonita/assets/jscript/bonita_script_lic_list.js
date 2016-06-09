@@ -70,6 +70,12 @@ $(function() {
         $("#cargarform").validate({
             
             rules: {
+                resolucion:{
+                    required: true,
+                },
+                fechalic:{
+                  required: true,  
+                },
                 cmax:{
                     required: true,
                 },
@@ -83,6 +89,12 @@ $(function() {
             },
                 
             messages: {
+                resolucion:{
+                    required: "Por favor ingrese la resolucion.",
+                },
+                fechalic:{
+                    required: "Por favor ingrese la fecha de la licitación.",
+                },
                 cmax:{
                     required: "Por favor ingrese el cupo máximo.",
                 },
@@ -110,19 +122,27 @@ $(function() {
             thousandsSeparator: '.'
         });
         
+        $("#fechalic").datepicker();
+        
         $('#cargarform').submit(function(e) {
             e.preventDefault();
             if ($("#cargarform").valid() == false){
                 alert('Por favor complete los campos solicitados!');
             }else{
                 var fields = $("#cargarform").serializeArray();
-                var cmax = fields[0].value;
-                var maxeeff = fields[1].value;
+                var resolucion=fields[0].value;
+                var fechalic=fields[1].value;
+                var cmax = fields[2].value;
+                var maxeeff = fields[3].value;
                 cmax = replaceAll(cmax,".", "");
                 maxeeff = replaceAll(maxeeff,".", "");
-                fields[0].value=parseInt(cmax);
-                fields[1].value=parseInt(maxeeff);
-                if(cmax*1<maxeeff*1){
+                fields[2].value=parseInt(cmax);
+                fields[3].value=parseInt(maxeeff);
+                var fechanueva = fechalic.split("/");
+                fechanueva = new Date(fechanueva[0], fechanueva[1], fechanueva[2]); 
+                if(isNaN(fechanueva.getTime())){
+                    alert("La fecha ingresada es inválida!");
+                }else if(cmax*1<maxeeff*1){
                     alert("El cupo máximo debe ser mayor que el máximo por entidad financiera!");
                 }else if(cmax*1==0 || maxeeff*1==0){
                     alert("El cupo máximo y el máximo por entidad financiera no pueden ser cero.");
@@ -154,6 +174,8 @@ $(function() {
     $('#table_lic a').click(function(e) {
         e.preventDefault();
         var id_mongo = $(this).attr("data-id");
+        var resolucion = $(this).attr("data-resolucion");
+        var fecha = $(this).attr("data-fechalic");
         var cmd = $(this).attr("data-cmd");
         var cmax = $(this).attr("data-cmax");
         var maxeeff = $(this).attr("data-maxeeff");
@@ -170,7 +192,7 @@ $(function() {
         }else{
             $.ajax({
                 type: "POST",
-                data:{"id_mongo":id_mongo, "cmax":cmax, "maxeeff":maxeeff, "obs":obs},
+                data:{"id_mongo":id_mongo, "resolucion":resolucion, "fechalic":fecha,"cmax":cmax, "maxeeff":maxeeff, "obs":obs},
                 url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_licitaciones_editar/',
                 dataType : "json",
                 success: function(result) {

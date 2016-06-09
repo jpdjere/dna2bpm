@@ -73,7 +73,10 @@ class model_bonita_licitaciones extends CI_Model {
         $headerArr['fecha'] = $hoy;
         $headerArr['cmax']=$headerArr['cmax']*1;
         $headerArr['maxeeff']=$headerArr['maxeeff']*1;
-        $id_mongo=$headerArr['id_mongo'];     
+        $headerArr['abierta']=true;
+        $headerArr['fechalic']=strtotime($headerArr['fechalic']);
+        $headerArr['fechalic']=getdate($headerArr['fechalic']);
+        $id_mongo=$headerArr['id_mongo'];
         $mongoID=new MongoID($id_mongo);
         $query = array('_id'=>$mongoID); 
         $this->db_bonita->where($query);
@@ -85,6 +88,8 @@ class model_bonita_licitaciones extends CI_Model {
         $container = 'container.bonita.licitaciones';
         $hoy = getdate();
         $headerArr['fecha'] = $hoy;
+        $headerArr['fechalic']=strtotime($headerArr['fechalic']);
+        $headerArr['fechalic']=getdate($headerArr['fechalic']);
         $id_mongo=$headerArr['id_mongo'];     
         $mongoID=new MongoID($id_mongo);
         $query = array('_id'=>$mongoID); 
@@ -109,7 +114,7 @@ class model_bonita_licitaciones extends CI_Model {
 /**************************************CARGA LICITACION ENTIDAD**************************************/
     function listar_licitaciones_no_editables(){
         $container = 'container.bonita.licitaciones';
-        $query = array('borrado'=>0);
+        $query = array('borrado'=>0, 'abierta'=>true);
         $this->db_bonita->where($query);
         $result = $this->db_bonita->get($container)->result_array();
         return $result;
@@ -220,6 +225,18 @@ class model_bonita_licitaciones extends CI_Model {
         return $data[0]["cmax"];
     }
 
+    function cerrar_licitacion($headerArr){
+        //borra la carga de un monto en una licitacion partucular
+        $container = 'container.bonita.licitaciones';
+        $query = array('_id'=>new MongoID($headerArr['id_licitacion'])); 
+        $this->db_bonita->where($query);
+        $data = $this->db_bonita->get($container)->result_array();
+        $data=$data[0];
+        $data['abierta']=false;
+        $this->db_bonita->where($query);
+        $result = $this->db_bonita->update($container,$data);
+        return $result;
+    }
     
     
     

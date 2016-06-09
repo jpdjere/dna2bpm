@@ -2,6 +2,14 @@
 <form class="cmxform" id="cargarform" name="cargarform"  method="post" action="">  
 <table>
     <tr>
+        <td>Resolución:&emsp;</td>
+        <td><input type="text" id="resolucion" name="resolucion" value="{resolucion}"></td>
+    </tr>
+    <tr>
+        <td>Fecha de Licitación:&emsp;</td>
+        <td><input type="text" id="fechalic" name="fechalic" value="{fechalic}"></td>
+    </tr>
+    <tr>
         <td>Cupo máximo:&emsp;</td>
         <td><input type="text" id="cmax" name="cmax" value="{cmax}"></td>
     </tr>

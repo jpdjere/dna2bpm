@@ -1,38 +1,26 @@
 <H3>LICITACIONES ABIERTAS:</H3>
     <button id="nuevo" class="btn btn-default btn-xs" name="nuevo">Nuevo</button></br>
     </br>
-  
+<table id="table_lic" class="table">
+    <tr>
+        <td>
+            RESOLUCIÓN:
+        </td>
+        <td>
+            FECHA DE LICITACIÓN:
+        </td>
+        <td>
+            CUPO MÁXIMO:
+        </td>
+        <td>
+            MÁXIMO POR EEFF:
+        </td>
+        <td>
+            EDITAR:
+        </td>
+        <td>
+            BORRAR:
+        </td>
+    </tr>
     {lista}
-
-<!--
-<form class="cmxform" id="cargarform" name="cargarform" method="post" action="">
-    
-
-
-            <table>
-                <tr>
-                    <td>Razón Social:&emsp;</td>
-                    <td>
-                        <input type="text" id="rsocial" name="rsocial">
-                    </td>
-                </tr>
-                <tr>
-                    <td>CUIT:&emsp;</td>
-                    <td>
-                        <input type="text" id="ent_cuit" name="ent_cuit">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Observaciones:&emsp;</td>
-                    <td>
-                        <input type="text" id="ent_obs" name="obs">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input class="submit" type="submit" value="Submit">
-                    </td>
-                </tr>
-            </table>
-</form>
-  -->
+</table>
