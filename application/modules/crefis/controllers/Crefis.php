@@ -378,10 +378,33 @@ class crefis extends MX_Controller {
             $hist=$this->bpm->get_token_history('crefisGral',$token['case']);
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
-            $url_clone = (
+            $url_clone = ''; 
+            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
+                    and $case['status'] == 'open' and in_array($data ['Proyectos_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
+                    ){ 
+                $model = 'crefisGral';
+                $estado = $data ['Proyectos_crefis'] ['4970'][0];
+                switch($estado){
+                    case 40:
+                        $idResource = 'oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';
+                        break;
+                    case 60:
+                        $idResource = 'oryx_235D6339-A2ED-476B-A570-3233C86548EE';
+                        break;
+                    case 48:
+                    case 59:                    
+                        $idResource = 'oryx_FDD40364-9DB8-4090-B569-7D795E380F18';
+                        break;
+                }
+                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;}
+            else{
+                $url_clone = null;
+                    }
+                
+            /*$url_clone = (
                     (in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open' and in_array('oryx_05695DC8-1842-49D1-8327-1DAB8C164D35', $keys) //---está finalizado pero por esta figura
                     and in_array($data ['Proyectos_crefis'] ['4970'][0], array(30, 40, 60)) //---checkeo que esté en alguno de esos estados
-                    ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;
+                    ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;*/
             //---link para cancelar solo para coordinador
             $url_cancelar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
             $url_cancelar_pde = (
@@ -1285,9 +1308,16 @@ BLOCK;
         $this->user->authorize();
         $config['title']="Descargas";
         $config['class']="info";
-        $config['body']="
+        /*$config['body']="
             <ul class='list-unstyled'>
             <li><a href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>&nbsp;Preguntas Frecuentes</a></li>
+            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/bases_capacitacionpyme.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Bases y Condiciones</a></li>
+            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1a_primertestimonioescritura.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Anexo para Presentaci&oacute;n de Proyectos (Anexo I A)</a></li>
+            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1b_certificacioncontable.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Anexo para Rendici&oacute;n de proyectos Modalidad 2 (Anexo I B)</a></li>
+            <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/modalidad_1.zip' target='_blank'><i class='fa fa-file-archive-o'></i>&nbsp;Anexo para Rendición de proyectos Modalidad 1 (Anexos I B y I C)</a></li>
+ </ul>";*/
+        $config['body']="
+            <ul class='list-unstyled'>
             <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/bases_capacitacionpyme.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Bases y Condiciones</a></li>
             <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1a_primertestimonioescritura.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Anexo para Presentaci&oacute;n de Proyectos (Anexo I A)</a></li>
             <li><a href='http://dna2.produccion.gob.ar/downloads/produccion/capacitacionPyme/anexo_1b_certificacioncontable.doc' target='_blank'><i class='fa fa-file-word-o'></i>&nbsp;Anexo para Rendici&oacute;n de proyectos Modalidad 2 (Anexo I B)</a></li>
