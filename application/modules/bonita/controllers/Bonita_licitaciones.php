@@ -274,9 +274,11 @@ class bonita_licitaciones extends MX_Controller {
         $asignacion_generica=$asignacion_primaria['asignacion'];
         $total_asignacion=array_sum($asignacion_generica);
         
-        while($total_asignacion-$cmax!=0){
+        while(round($total_asignacion)-$cmax!=0){
             $asignacion_generica=$this->calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica);
-            if(array_sum($asignacion_generica)==$total_asignacion){break;}
+            if(round(($asignacion_generica))==round($total_asignacion)){
+                break;
+            }
             $asignaciones[]=$asignacion_generica;
             $total_asignacion=array_sum($asignacion_generica);
         }
@@ -318,7 +320,6 @@ class bonita_licitaciones extends MX_Controller {
             </tr>';
             $i=$i+1;
         }
-
         $datos_cargados =  $datos_cargados.'</table>';
         
         //$customData['datos_licitacion'] = $datos;
