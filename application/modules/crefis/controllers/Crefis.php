@@ -1304,6 +1304,16 @@ BLOCK;
         echo $this->parser->parse('crefis/widgets/2doMe2', $data, true, true);
     }
 
+    /*UPDATE MYSQL FORMS2 4970CTRL*/
+    function update_forms2() {
+
+        /*test id 1194768800*/
+        $id = 1194768800;
+        $this->load->Model('mysql_crefis_model');
+        $this->mysql_crefis_model->update_4970($id);        
+    }
+
+
     public function faq() {
         $this->user->authorize();
         $config['title']="Descargas";
