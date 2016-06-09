@@ -22,5 +22,22 @@ class Mysql_crefis_model extends CI_Model {
             $this->db->where('id', $id);
             $this->db->where('idpreg', 4970);
             $this->db->update('td_crefis', $data); 
+
+            /*UPDATE HIST*/
+            $this->insert_history($id);
+    }
+
+    function insert_history($id){
+        /*    idparent    idpreg  valor   idform  iduser  fecha*/
+        $data = array(
+           'id' => $id ,
+           'idpreg' => 4970,
+           'valor'=> 45,
+           'idform' => 280,
+           'iduser'=>0,
+           'fecha' => now()
+        );
+
+        $this->db->insert('th_crefis', $data); 
     }
 }
