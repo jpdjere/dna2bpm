@@ -24,7 +24,7 @@ class Mysql_crefis_model extends CI_Model {
             $this->db->update('td_crefis', $data); 
 
             /*UPDATE HIST*/
-            $this->insert_history($id);
+            //$this->insert_history($id);
     }
 
     function insert_history($id){
