@@ -24,11 +24,11 @@ class Mysql_crefis_model extends CI_Model {
             $this->db->update('td_crefis', $data); 
 
             /*UPDATE HIST*/
-            //$this->insert_history($id);
+            $this->insert_history($id);
     }
 
     function insert_history($id){
-        /*    idparent    idpreg  valor   idform  iduser  fecha*/
+        /*    idparent    idpreg  valor   idform  iduser  fecha   */
         $data = array(
            'id' => $id ,
            'idpreg' => 4970,
@@ -37,7 +37,7 @@ class Mysql_crefis_model extends CI_Model {
            'iduser'=>0,
            'fecha' => now()
         );
-
+         var_dump($data); 
         $this->db->insert('th_crefis', $data); 
     }
 }
