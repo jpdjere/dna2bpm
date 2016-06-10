@@ -1306,11 +1306,13 @@ BLOCK;
 
     /*UPDATE MYSQL FORMS2 4970CTRL*/
     function update_forms2($id) {
-        /*test id 
+        /*
+        test id 
         #$id = 1194768800;
         */
         $this->load->Model('mysql_crefis_model');
-        $this->mysql_crefis_model->update_4970($id);        
+        $result = $this->mysql_crefis_model->update_4970($id);        
+        #print_r($result);
     }
 
 
