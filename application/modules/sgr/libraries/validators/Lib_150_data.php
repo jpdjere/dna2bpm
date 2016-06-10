@@ -117,7 +117,7 @@ class Lib_150_data extends MX_Controller {
                 if (in_array($A_cell_value, $A1_arr)) {
                     $return = check_for_empty($parameterArr[$i]['fieldValue']);
                     if ($return) {
-                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        #$result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
                 } else {
                     $code_error = "C.2";
@@ -200,7 +200,7 @@ class Lib_150_data extends MX_Controller {
                 if (isset($parameterArr[$i]['fieldValue'])) {
                     $return = check_word($parameterArr[$i]['fieldValue'], $allow_words);
                     if ($return) {
-                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                        #$result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
                 }
             }

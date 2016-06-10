@@ -379,7 +379,11 @@ class crefis extends MX_Controller {
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
+<<<<<<< HEAD
             if ((in_array(1004, $this->id_group) or in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
+=======
+            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
+>>>>>>> hotfix/Hotfix-27507
                     and $case['status'] == 'open' and in_array($data ['Proyectos_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
                     ){ 
                 $model = 'crefisGral';
