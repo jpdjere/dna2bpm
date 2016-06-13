@@ -6,7 +6,13 @@
     "private": true,
     "zones": [
         {
-            "tiles": [
+            "tiles": [{
+                "title": "Tile01",
+                "module": "expertos",
+                "controller": "expertos",
+                "function": "tile_profesional",
+                "span": 6
+            }
                 
             ]
         },
