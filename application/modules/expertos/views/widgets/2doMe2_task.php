@@ -21,10 +21,10 @@
                         {/if}
                         
                         <div class="pull-right">
-                            <a href="{link_open}" target="_blank" title="Ver Proyecto">
-                                <i class="fa fa-folder fa-lg" aria-hidden="true"></i>
-                            </a>
+                            
                             <a href='{base_url}bpm/engine/run/model/{idwf}/{case}/{resourceId}' title="Realizar tarea">
+                            
+                            
                                 <i class="fa fa-play fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>

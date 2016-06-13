@@ -37,8 +37,8 @@ class expertos extends MX_Controller {
     }
 
     function Index() {
-        $this->Add_group();
-        $this->proyecto();
+        //$this->Add_group();
+        //$this->proyecto();
     }
 
     function Proyecto($debug=false) {
@@ -48,6 +48,8 @@ class expertos extends MX_Controller {
 
     function Direccion($debug=false) {
         $this->user->authorize();
+        $grupo_user='Expertos/Dirección';
+        $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_admin.json',$debug);
       
@@ -56,7 +58,10 @@ class expertos extends MX_Controller {
     
     function Profesionales($debug=false) {
         $this->user->authorize();
-        $this->Add_group();
+        $grupo_user='Expertos/Empresa / Institucion';
+        $this->Add_group($grupo_user);
+        $grupo_user='Expertos/Expertos';
+        $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_prof.json',$debug);
       
@@ -1024,11 +1029,11 @@ BLOCK;
    /**
      * Agrega el grupo EMPRESA a los que entran al panel para que puedan ejecutar el BPM
      */
-    function Add_group() {
+    function Add_group($grupo_user) {
         $user =$this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $user=$user;
-            $group_add = $this->group->get_byname('Expertos/Empresa / Institucion');
+            $group_add = $this->group->get_byname($grupo_user);
             array_push($user->group, (int) $group_add ['idgroup']);
             $user->group = array_unique($user->group);
             $this->user->save($user);
@@ -1307,13 +1312,36 @@ BLOCK;
         
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
-        $query = array(
-            'assign' => $this->idu,
-            'status' => 'user'
+        $this->load->module('bpm/engine');
+        $query1 = array(
+            'iduser' => $this->idu,
+            //'status' => 'user',
+            'idwf' => 'Expertos_Base'
         );
-
+        //var_dump($this->idu);
         //var_dump(json_encode($query));exit;
+        $cases=$this->bpm->get_cases_byFilter($query1);
+        //echo "Mass Revert:".count($cases);
+        foreach($cases as $case){
+            //var_dump($case);
+            if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
+                $this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+            }
+            //echo '<hr>';
+        
+        }
+        
+        
+        
+        
+        $query = array(
+            'iduser' => $this->idu,
+            'status' => 'user',
+            'assign' => $this->idu//,
+            //'idwf' => 'Expertos_Base'
+        );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
+        //var_dump($tasks);
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
         //var_dump($data);
@@ -1369,47 +1397,32 @@ BLOCK;
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
         $query = array(
-            //'assign' => $this->idu,
-            'status' => 'user',
-            'idwf' => 'Expertos_Base'
+            'assign' => $this->idu,
+            'status' => 'user'
+            //'idwf' => 'Expertos_Base'
         );
 
         //var_dump(json_encode($query));exit;
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
-        //var_dump($data);
-        //exit();
+        
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
                 $data['mytasks'][$k]['extra_data']['ip'] = false;
-                $mi_id = $this->expertos_model->get_id_subprocess('Expertos_Base',$mytask['case']);
-                //var_dump($mi_id);
-                
-                /*if (isset($mycase['data']['Empresas']['query']['id'])) {
-                    $empresaID = $mycase['data']['Empresas']['query']['id'];
-                    //var_dump($mycase);
-                    
-                    $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
-                    $emp_arr = array();
-                    foreach($empresa as $emp_ele){
-                        var_dump($emp_ele);
-                    }
-                    
-                    
-                    
-                    //exit();
-                    $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
-                    $data['mytasks'][$k]['link_open'] = $empresa[0]['1693'];
-                }
                 if (isset($mycase['data']['Empresas']['query']['id'])) {
-                    $proyectoID = $mycase['data']['Empresas']['query']['id'];
-                    $proyecto = $this->bpm->get_data('container.empresas', array('id' => $proyectoID));
+                    $empresaID = $mycase['data']['Empresas']['query']['id'];
+                    $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
+                    $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
+                }/*
+                if (isset($mycase['data']['Asistencias']['query']['id'])) {
+                    $proyectoID = $mycase['data']['Asistencias']['query']['id'];
+                    $proyecto = $this->bpm->get_data('container.asistencias', array('id' => $proyectoID));
                     $data['mytasks'][$k]['extra_data']['ip'] = $proyecto[0]['4837'];
                     
 
-                    $url = (isset($mycase['data'] ['Empresas']['query']['id'])) ? '../dna2/frontcustom/294/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
+                    $url = (isset($mycase['data'] ['Asistencias']['query']['id'])) ? '../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $mycase['data'] ['Proyectos_crefis']['query'] ['id'] : '#';
                     $data['mytasks'][$k]['link_open'] = $this->bpm->gateway($url);
 
                 }*/
@@ -1417,7 +1430,7 @@ BLOCK;
         } else {
             $data['mytasks'] = array();
         }
-        //exit();
+
         $data['title'] = $this->lang->line('Tasks') . ' ' . $this->lang->line('Pending');
 
         $data['more_info_link'] = $this->base_url . 'bpm/';
@@ -1430,7 +1443,7 @@ BLOCK;
         
         foreach($pagination as $chunk){
             $data['mytasks2']=$chunk;
-            $pages[]=$this->parser->parse('expertos/widgets/2doMe2_dir_task', $data, true, true);
+            $pages[]=$this->parser->parse('expertos/widgets/2doMe2_task', $data, true, true);
             
         }
         
@@ -1438,6 +1451,9 @@ BLOCK;
         $data['mytasks_paginated']=$this->ui->paginate($pages);
 
         echo $this->parser->parse('expertos/widgets/2doMe2', $data, true, true);
+        
+        
+        
     }
     
     
@@ -1455,8 +1471,24 @@ BLOCK;
 
     }
 
-
-
+    public function mass_revert(){
+        $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
+        $this->load->module('bpm/case_manager');
+        $this->load->module('bpm/engine');
+        $query=array(
+            'idwf'=>'Expertos_Base',
+            
+            );
+        $cases=$this->bpm->get_cases_byFilter($query);
+        echo "Mass Revert:".count($cases);
+        foreach($cases as $case){
+            var_dump($case);
+            $this->case_manager->revert('model', 'Expertos_Base', $case['id'], $resourceId);
+            //$this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+            echo '<hr>';
+        }
+    }
+    
 }
 
 /* End of file crefis */
