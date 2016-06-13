@@ -30,6 +30,7 @@ class bonita_licitaciones extends MX_Controller {
         $this->idu = (float) $this->session->userdata('iduser');
         //---config
         $this->load->config('bonita/config');
+        $this->asignacion_actual=0;
     }
     
     function Index(){
@@ -237,7 +238,6 @@ class bonita_licitaciones extends MX_Controller {
             </tr>';
         }
         $customData['lista'] = $lista;
-        gc_collect_cycles();
         return $this->parser->parse('bonita/bonita_cargar_licitaciones_view',$customData,true,true);
     }
     
@@ -250,7 +250,7 @@ class bonita_licitaciones extends MX_Controller {
 
     function bonita_mostrar_licitacion(){
         //Muestra la licitacion seleccionada para cargar las entidades y los montos
-        $id_mongo = (string)$_GET['id'];
+        $id_mongo = $_GET['id'];
         $customData = array();
         $customData['base_url'] = $this->base_url;
         $datos_licitacion = $this->model_bonita_licitaciones->get_datos_licitacion($id_mongo);
@@ -344,11 +344,11 @@ class bonita_licitaciones extends MX_Controller {
             $porc_oferta_total=$entidad['monto']/$total_ofrecido;
             $asignacion_primaria['porcentaje'][$i]=$porc_oferta_total;
             if($porc_oferta_total*$cmax>=$maxeeff){
-                $asignacion_primaria['asignacion'][$i]=$maxeeff;
+                $asignacion_primaria['asignacion'][$i]=round($maxeeff);
             }else if($porc_oferta_total*$cmax>$monto_ofrecido){
-                $asignacion_primaria['asignacion'][$i]=$monto_ofrecido;
+                $asignacion_primaria['asignacion'][$i]=round($monto_ofrecido);
             }else{
-                $asignacion_primaria['asignacion'][$i]=$porc_oferta_total*$cmax;
+                $asignacion_primaria['asignacion'][$i]=round($porc_oferta_total*$cmax);
             }
             $i+=1;
         }
@@ -381,22 +381,22 @@ class bonita_licitaciones extends MX_Controller {
         
         foreach($datos_entidades as $entidad){
             if($asignacion_primaria[$i]==$maxeeff){
-                $asignacion_generica[]=$asignacion_primaria[$i];
+                $asignacion_generica[]=round($asignacion_primaria[$i]);
             }else{
                 $porc_faltante=$datos_entidades[$i]['ofertado']/$total_ofertado;
                 $pot_asignacion=$porc_faltante*$faltante_asignacion;
                 
                 if($asignacion_primaria[$i]+$pot_asignacion>$entidad['monto']){
                     if($entidad['monto']<$maxeeff){
-                        $asignacion_generica[]=$entidad['monto'];
+                        $asignacion_generica[]=round($entidad['monto']);
                     }else{
-                        $asignacion_generica[]=$maxeeff;
+                        $asignacion_generica[]=round($maxeeff);
                     }
                 }else{
                     if($asignacion_primaria[$i]+$pot_asignacion>$maxeeff){
-                        $asignacion_generica[]=$maxeeff;
+                        $asignacion_generica[]=round($maxeeff);
                     }else{
-                        $asignacion_generica[]=$asignacion_primaria[$i]+$pot_asignacion;
+                        $asignacion_generica[]=round($asignacion_primaria[$i]+$pot_asignacion);
                     }
                 }
             }
@@ -441,51 +441,254 @@ class bonita_licitaciones extends MX_Controller {
         $result = $this->model_bonita_licitaciones->get_cmax($fields['id_licitacion']);
         echo $result;
     }
-    
+
+/**************************************CERRAR LICITACION**************************************/
     function bonita_licitaciones_cerrar_licitacion(){
         //borrar la carga de una entidad en una licitacion particular
         $fields = $this->input->post();
-        $result=$this->model_bonita_licitaciones->cerrar_licitacion($fields);
+        
+        $datos_licitacion = $this->model_bonita_licitaciones->get_datos_licitacion($fields['id_licitacion']);
+
+        //entidades
+        $datos_entidades = $this->model_bonita_licitaciones->get_datos_cargados($fields['id_licitacion']);
+
+        //calculos
+        $maxeeff=$datos_licitacion[0]['maxeeff'];
+        $cmax=$datos_licitacion[0]['cmax'];
+        $total_ofrecido=$this->calcular_total_ofrecido($datos_entidades);
+        
+        $asignacion_primaria=$this->calcular_asignacion_primaria($datos_entidades, $maxeeff, $cmax, $total_ofrecido);
+        
+        $asignacion_generica=$asignacion_primaria['asignacion'];
+        $total_asignacion=array_sum($asignacion_generica);
+
+        while(round($total_asignacion)-$cmax!=0){
+            $asignacion_generica=$this->calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica);
+            if(array_sum($asignacion_generica)==$total_asignacion){break;}
+            $total_asignacion=array_sum($asignacion_generica);
+        }
+        
+        $this->model_bonita_licitaciones->persistir_licitacion_y_cerrar($fields['id_licitacion'], $asignacion_generica);
+        
+        //$result=$this->model_bonita_licitaciones->cerrar_licitacion($fields);
         echo $result;
     }
 
 /**************************************REPORTES LICITACIONES**************************************/
     function bonita_licitaciones_reportes_licitaciones(){
-        //Carga las licitaciones abiertas (no se pueden editar)
         $this->user->authorize();
         $this->load->module('dashboard');
         $this->dashboard->dashboard('bonita/json/bonita_licitaciones_reportes_licitaciones.json');
     }
 
     function bonita_mostrar_licitaciones_cerradas(){
-        //Muestra las licitaciones abiertas (no se pueden editar)
         $entidades = array();
         $customData = array();
         $customData['base_url'] = $this->base_url;
-        $licitaciones = $this->model_bonita_licitaciones->listar_licitaciones_no_editables();
-        $lista = '<table id="table_lic" class="table">';
+        $licitaciones = $this->model_bonita_licitaciones->listar_licitaciones_cerradas();
         foreach($licitaciones as $lic){
             $lista =  $lista.
             '<tr>
-                <td>
-                    CUPO MÁXIMO:
-                </td>
-                <td align="center">
-                    <label>'.number_format($lic['cmax'], 0, ",", ".").'&nbsp;&nbsp;&nbsp;</label>
-                </td>
-                <td>
-                    MÁXIMO POR EEFF:
-                </td>
-                <td align="center">
-                    '.number_format($lic['maxeeff'], 0, ",", ".").'&nbsp;&nbsp;&nbsp;
-                </td>
-                <td>
-                    <a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_carga_entidad_licitacion?id='.$lic['_id'].'" name="cargar">Continuar carga de la licitación</a>
-                </td>
+                <td>'.$lic['resolucion'].'</td>
+                <td>'.sprintf("%02d", $lic['fechalic']['mday']).'/'.sprintf("%02d", $lic['fechalic']['mon']).'/'.$lic['fechalic']['year'].'</td>
+                <td>'.sprintf("%02d", $lic['fecha_cierre']['mday']).'/'.sprintf("%02d", $lic['fecha_cierre']['mon']).'/'.$lic['fecha_cierre']['year'].'</td>
+                <td align="center">'.number_format($lic['cmax'], 0, ",", ".").'</td>
+                <td align="center">'.number_format($lic['maxeeff'], 0, ",", ".").'</td>
+                <td><a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_url_anexo1?id='.$lic['_id'].'" name="cargar">Anexo I</a></td>
+                <td><a href="'.$this->module_url.'bonita_licitaciones/bonita_licitaciones_url_anexo2?id='.$lic['_id'].'" name="cargar">Anexo II</a></td>
             </tr>';
         }
-        $lista =  $lista.'</table>';
         $customData['lista'] = $lista;
-        return $this->parser->parse('bonita/bonita_cargar_licitaciones_view',$customData,true,true);
+       return $this->parser->parse('bonita/bonita_reportes_licitaciones_cerradas',$customData,true,true);
+    }
+    
+    function bonita_licitaciones_url_anexo1(){
+        $this->user->authorize();
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('bonita/json/bonita_licitaciones_anexoI.json');
+    }
+    
+    function bonita_licitaciones_url_anexo2(){
+        $this->user->authorize();
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('bonita/json/bonita_licitaciones_anexoII.json');
+    }
+
+    function bonita_licitaciones_anexo1(){
+        $id_mongo=$_GET['id'];
+        $customData = array();
+        $customData['base_url'] = $this->base_url;
+        $licitacion = $this->model_bonita_licitaciones->get_datos_licitacion_cerrada($id_mongo);
+        if(is_null($licitacion)){
+            return "<p>Ha ocurrido un error y no se ha encontrado la licitación pedida. Por favor confirme que la licitacion exista bajo \"Licitaciones Cerradas\".</p>";
+        }
+        
+        $lista =  $lista.
+        '<tr>
+            <td>'.$licitacion['resolucion'].'</td>
+            <td>'.sprintf("%02d", $licitacion['fechalic']['mday']).'/'.sprintf("%02d", $licitacion['fechalic']['mon']).'/'.$licitacion['fechalic']['year'].'</td>
+            <td>'.sprintf("%02d", $licitacion['fecha_cierre']['mday']).'/'.sprintf("%02d", $licitacion['fecha_cierre']['mon']).'/'.$licitacion['fecha_cierre']['year'].'</td>
+            <td align="center">'.number_format($licitacion['cmax'], 0, ",", ".").'</td>
+            <td align="center">'.number_format($licitacion['maxeeff'], 0, ",", ".").'</td>
+        </tr>';
+        
+        $datos_entidades = $this->model_bonita_licitaciones->get_datos_cargados($id_mongo);
+        $total_ofrecido=$this->calcular_total_ofrecido($datos_entidades);
+        $x=1;
+        $lista_ofertas="";
+        foreach($licitacion['ofertas'] as $oferta){
+            if($oferta['borrado']==false){
+                $lista_ofertas=$lista_ofertas.
+                '<tr>
+                    <td>'.$x.'</td>
+                    <td>'.$this->model_bonita_licitaciones->get_rsocial($oferta['id_entidad']).'</td>
+                    <td>'.number_format($oferta['monto']/1000000, 2, ",", ".").'</td>
+                    <td>'.number_format($oferta['monto'], 0, ",", ".").'</td>
+                    <td>'.number_format($oferta['monto']*100/$total_ofrecido, 2, ",", ".").'</td>
+                </tr>';
+                $x+=1;
+            }
+        }
+
+        $customData['datos_licitacion'] = $lista;
+        $customData['lista_ofertas'] = $lista_ofertas;
+       return $this->parser->parse('bonita/bonita_reportes_licitaciones_anexoI',$customData,true,true);
+    }
+
+    function get_tabla_anexoI($id_mongo){
+        $datos_entidades = $this->model_bonita_licitaciones->get_datos_cargados($id_mongo);
+        $total_ofrecido=$this->calcular_total_ofrecido($datos_entidades);
+        
+        $customData = array();
+        $customData['base_url'] = $this->base_url;
+        $licitacion = $this->model_bonita_licitaciones->get_datos_licitacion_cerrada($id_mongo);
+        
+        $lista =  $lista.
+        '<tr>
+            <td>'.utf8_decode($licitacion['resolucion']).'</td>
+            <td>'.sprintf("%02d", $licitacion['fechalic']['mday']).'/'.sprintf("%02d", $licitacion['fechalic']['mon']).'/'.$licitacion['fechalic']['year'].'</td>
+            <td>'.sprintf("%02d", $licitacion['fecha_cierre']['mday']).'/'.sprintf("%02d", $licitacion['fecha_cierre']['mon']).'/'.$licitacion['fecha_cierre']['year'].'</td>
+            <td align="center">'.number_format($licitacion['cmax'], 0, ",", ".").'</td>
+            <td align="center">'.number_format($licitacion['maxeeff'], 0, ",", ".").'</td>
+        </tr>';
+ 
+        $x=1;
+        $lista_ofertas="";
+        foreach($licitacion['ofertas'] as $oferta){
+            if($oferta['borrado']==false){
+                $lista_ofertas=$lista_ofertas.
+                '<tr>
+                    <td>'.$x.'</td>
+                    <td>'.utf8_decode($this->model_bonita_licitaciones->get_rsocial($oferta['id_entidad'])).'</td>
+                    <td>'.number_format($oferta['monto']/1000000, 2, ",", ".").'</td>
+                    <td>'.number_format($oferta['monto'], 0, ",", ".").'</td>
+                    <td>'.number_format($oferta['monto']*100/$total_ofrecido, 2, ",", ".").'</td>
+                </tr>';
+                $x+=1;
+            }
+        }
+        $customData['datos_licitacion'] = $lista;
+        $customData['lista_ofertas'] = $lista_ofertas;
+        return $customData;
+    }
+
+    function bonita_licitaciones_anexo2(){
+        $id_mongo=$_GET['id'];
+        $customData = array();
+        $customData['base_url'] = $this->base_url;
+        $licitacion = $this->model_bonita_licitaciones->get_datos_licitacion_cerrada($id_mongo);
+        if(is_null($licitacion)){
+            return "<p>Ha ocurrido un error y no se ha encontrado la licitación pedida. Por favor confirme que la licitacion exista bajo \"Licitaciones Cerradas\".</p>";
+        }
+        
+        $lista =  $lista.
+        '<tr>
+            <td>'.$licitacion['resolucion'].'</td>
+            <td>'.sprintf("%02d", $licitacion['fechalic']['mday']).'/'.sprintf("%02d", $licitacion['fechalic']['mon']).'/'.$licitacion['fechalic']['year'].'</td>
+            <td>'.sprintf("%02d", $licitacion['fecha_cierre']['mday']).'/'.sprintf("%02d", $licitacion['fecha_cierre']['mon']).'/'.$licitacion['fecha_cierre']['year'].'</td>
+            <td align="center">'.number_format($licitacion['cmax'], 0, ",", ".").'</td>
+            <td align="center">'.number_format($licitacion['maxeeff'], 0, ",", ".").'</td>
+        </tr>';
+        
+        $datos_entidades = $this->model_bonita_licitaciones->get_datos_cargados($id_mongo);
+        $total_ofrecido=$this->calcular_total_ofrecido($datos_entidades);
+        $x=1;
+        $lista_ofertas="";
+        foreach($licitacion['ofertas'] as $oferta){
+            if($oferta['borrado']==false){
+                $lista_ofertas=$lista_ofertas.
+                '<tr>
+                    <td>'.$x.'</td>
+                    <td>'.$this->model_bonita_licitaciones->get_rsocial($oferta['id_entidad']).'</td>
+                    <td>'.number_format($oferta['asignacion'], 0, ",", ".").'</td>
+                    <td>'.number_format($oferta['asignacion']*100/$licitacion['cmax'], 2, ",", ".").'</td>
+                </tr>';
+                $x+=1;
+            }
+        }
+
+        $customData['datos_licitacion'] = $lista;
+        $customData['lista_ofertas'] = $lista_ofertas;
+       return $this->parser->parse('bonita/bonita_reportes_licitaciones_anexoII',$customData,true,true);
+    }
+
+    function get_tabla_anexoII($id_mongo){
+        $customData = array();
+        $customData['base_url'] = $this->base_url;
+        $licitacion = $this->model_bonita_licitaciones->get_datos_licitacion_cerrada($id_mongo);
+        if(is_null($licitacion)){
+            return "<p>Ha ocurrido un error y no se ha encontrado la licitación pedida. Por favor confirme que la licitacion exista bajo \"Licitaciones Cerradas\".</p>";
+        }
+        
+        $lista =  $lista.
+        '<tr>
+            <td>'.utf8_decode($licitacion['resolucion']).'</td>
+            <td>'.sprintf("%02d", $licitacion['fechalic']['mday']).'/'.sprintf("%02d", $licitacion['fechalic']['mon']).'/'.$licitacion['fechalic']['year'].'</td>
+            <td>'.sprintf("%02d", $licitacion['fecha_cierre']['mday']).'/'.sprintf("%02d", $licitacion['fecha_cierre']['mon']).'/'.$licitacion['fecha_cierre']['year'].'</td>
+            <td align="center">'.number_format($licitacion['cmax'], 0, ",", ".").'</td>
+            <td align="center">'.number_format($licitacion['maxeeff'], 0, ",", ".").'</td>
+        </tr>';
+        
+        $datos_entidades = $this->model_bonita_licitaciones->get_datos_cargados($id_mongo);
+        $total_ofrecido=$this->calcular_total_ofrecido($datos_entidades);
+        $x=1;
+        $lista_ofertas="";
+        foreach($licitacion['ofertas'] as $oferta){
+            if($oferta['borrado']==false){
+                $lista_ofertas=$lista_ofertas.
+                '<tr>
+                    <td>'.$x.'</td>
+                    <td>'.utf8_decode($this->model_bonita_licitaciones->get_rsocial($oferta['id_entidad'])).'</td>
+                    <td>'.number_format($oferta['asignacion'], 0, ",", ".").'</td>
+                    <td>'.number_format($oferta['asignacion']*100/$licitacion['cmax'], 2, ",", ".").'</td>
+                </tr>';
+                $x+=1;
+            }
+        }
+
+        $customData['datos_licitacion'] = $lista;
+        $customData['lista_ofertas'] = $lista_ofertas;
+        
+        return $customData;
+    }
+    
+    function descarga_anexoI(){
+        $id_mongo = $_GET['id'];
+        $customData=$this->get_tabla_anexoI($id_mongo);
+        $customData['base_url'] = $this->base_url;
+        $customData['new_filename'] = $this->get_file_name("AnexoI");
+        echo $this->parser->parse('bonita/bonita_reportes_licitaciones_anexoI_export',$customData,true,true);
+    }
+
+    function descarga_anexoII(){
+        $id_mongo = $_GET['id'];
+        $customData=$this->get_tabla_anexoII($id_mongo);
+        $customData['base_url'] = $this->base_url;
+        $customData['new_filename'] = $this->get_file_name("AnexoI");
+        echo $this->parser->parse('bonita/bonita_reportes_licitaciones_anexoII_export',$customData,true,true);
+    }
+    
+    function get_file_name($nombre){
+        return $nombre.'-'.date("y-m-d").rand(1000, 5000) .'.xls';
     }
 }

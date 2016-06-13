@@ -150,6 +150,7 @@ class model_bonita_licitaciones extends CI_Model {
     }
     
     function get_datos_cargados($id_mongo){
+        //devuelve las ofertas que no fueron borradas con la rsocial, monto, id_entidad
         $container = 'container.bonita.licitaciones';
         $mongoID=new MongoID($id_mongo);
         $query = array('_id'=>$mongoID, 'borrado'=>0);
@@ -225,19 +226,74 @@ class model_bonita_licitaciones extends CI_Model {
         return $data[0]["cmax"];
     }
 
-    function cerrar_licitacion($headerArr){
+/**************************************CERRAR LICITACION**************************************/
+    function persistir_licitacion_y_cerrar($id_mongo, $asignacion_actual){
+        $container = 'container.bonita.licitaciones';
+        $query = array('_id'=>new MongoID($id_mongo)); 
+        $this->db_bonita->where($query);
+        $data = $this->db_bonita->get($container)->result_array();
+        $data=$data[0];
+        
+        $data['abierta']=false;
+        $data['fecha_cierre']=getdate();
+        
+        $x=0;
+        $i=0;
+        foreach($data['ofertas'] as $oferta){
+            if($oferta['borrado']==false){
+                $data['ofertas'][$x]['asignacion']=$asignacion_actual[$i];
+                $i+=1;
+            }
+            $x+=1;
+        }
+        
+        $this->db_bonita->where($query);
+        $result = $this->db_bonita->update($container,$data);
+        return $result;
+    }
+    
+    /*function cerrar_licitacion($headerArr){
         //borra la carga de un monto en una licitacion partucular
         $container = 'container.bonita.licitaciones';
         $query = array('_id'=>new MongoID($headerArr['id_licitacion'])); 
         $this->db_bonita->where($query);
         $data = $this->db_bonita->get($container)->result_array();
         $data=$data[0];
-        $data['abierta']=false;
+        $data['abierta']=true;
+        $data['fecha_cierre']=getdate();
         $this->db_bonita->where($query);
         $result = $this->db_bonita->update($container,$data);
         return $result;
+    }*/
+
+/**************************************REPORTES LICITACIONES CERRADAS**************************************/
+    function listar_licitaciones_cerradas(){
+        $container = 'container.bonita.licitaciones';
+        $query = array('borrado'=>0, 'abierta'=>false);
+        $this->db_bonita->where($query);
+        $result = $this->db_bonita->get($container)->result_array();
+        return $result;
     }
     
+    function get_datos_licitacion_cerrada($id_licitacion){
+        $container = 'container.bonita.licitaciones';
+        try{
+            $query = array('borrado'=>0, 'abierta'=>false, '_id'=>new MongoID($id_licitacion));
+        }catch(MongoException $e){
+            return;
+        }
+        $this->db_bonita->where($query);
+        $result = $this->db_bonita->get($container)->result_array();
+        return $result[0];
+    }
+    
+    function get_rsocial($id_entidad){
+        $container = 'container.bonita.entidades';
+        $query = array('borrado'=>0, '_id'=>new MongoID($id_entidad));
+        $this->db_bonita->where($query);
+        $result = $this->db_bonita->get($container)->result_array();
+        return $result[0]['rsocial'];
+    }
     
     
     
