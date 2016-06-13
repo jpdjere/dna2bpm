@@ -1335,8 +1335,8 @@ BLOCK;
         $query = array(
             'iduser' => $this->idu,
             'status' => 'user',
-            'assign' => $this->idu,
-            'idwf' => 'Expertos_Base'
+            'assign' => $this->idu//,
+            //'idwf' => 'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
