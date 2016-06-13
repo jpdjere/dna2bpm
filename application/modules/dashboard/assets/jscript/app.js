@@ -262,7 +262,7 @@ $(document).ready(function() {
 //== jquery.matchHeight
 
 $('.small-box .inner').matchHeight();
-
+$('.dashboard_shortcut').matchHeight();
 
 //== Pagination
 
