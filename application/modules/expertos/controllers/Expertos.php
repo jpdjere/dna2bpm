@@ -1398,7 +1398,7 @@ BLOCK;
         $this->load->model('bpm/bpm');
         $query = array(
             //'assign' => $this->idu,
-            //'status' => 'user'
+            'status' => 'user',
             'idwf' => 'Expertos_Base'
         );
 
