@@ -37,8 +37,8 @@ class expertos extends MX_Controller {
     }
 
     function Index() {
-        $this->Add_group();
-        $this->proyecto();
+        //$this->Add_group();
+        //$this->proyecto();
     }
 
     function Proyecto($debug=false) {
@@ -56,7 +56,10 @@ class expertos extends MX_Controller {
     
     function Profesionales($debug=false) {
         $this->user->authorize();
-        $this->Add_group();
+        $grupo_user='Expertos/Empresa / Institucion';
+        $this->Add_group($grupo_user);
+        $grupo_user='Expertos/Expertos';
+        $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_prof.json',$debug);
       
@@ -1024,11 +1027,11 @@ BLOCK;
    /**
      * Agrega el grupo EMPRESA a los que entran al panel para que puedan ejecutar el BPM
      */
-    function Add_group() {
+    function Add_group($grupo_user) {
         $user =$this->user->get_user($this->idu);
         if (!$this->user->isAdmin($user)) {
             $user=$user;
-            $group_add = $this->group->get_byname('Expertos/Empresa / Institucion');
+            $group_add = $this->group->get_byname($grupo_user);
             array_push($user->group, (int) $group_add ['idgroup']);
             $user->group = array_unique($user->group);
             $this->user->save($user);
@@ -1307,13 +1310,36 @@ BLOCK;
         
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
-        $query = array(
-            'assign' => $this->idu,
-            'status' => 'user'
+        $this->load->module('bpm/engine');
+        $query1 = array(
+            'iduser' => $this->idu,
+            //'status' => 'user',
+            'idwf' => 'Expertos_Base'
         );
-
+        var_dump($this->idu);
         //var_dump(json_encode($query));exit;
+        $cases=$this->bpm->get_cases_byFilter($query1);
+        //echo "Mass Revert:".count($cases);
+        foreach($cases as $case){
+            var_dump($case);
+            if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
+                $this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+            }
+            echo '<hr>';
+        
+        }
+        
+        
+        
+        
+        $query = array(
+            'iduser' => $this->idu,
+            'status' => 'user',
+            'assign' => $this->idu,
+            'idwf' => 'Expertos_Base'
+        );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
+        //var_dump($tasks);
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
         //var_dump($data);
@@ -1369,9 +1395,9 @@ BLOCK;
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
         $query = array(
-            //'assign' => $this->idu,
-            'status' => 'user',
-            'idwf' => 'Expertos_Base'
+            'assign' => $this->idu,
+            'status' => 'user'
+            //'idwf' => 'Expertos_Base'
         );
 
         //var_dump(json_encode($query));exit;
@@ -1455,8 +1481,24 @@ BLOCK;
 
     }
 
-
-
+    public function mass_revert(){
+        $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
+        $this->load->module('bpm/case_manager');
+        $this->load->module('bpm/engine');
+        $query=array(
+            'idwf'=>'Expertos_Base',
+            
+            );
+        $cases=$this->bpm->get_cases_byFilter($query);
+        echo "Mass Revert:".count($cases);
+        foreach($cases as $case){
+            var_dump($case);
+            $this->case_manager->revert('model', 'Expertos_Base', $case['id'], $resourceId);
+            //$this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+            echo '<hr>';
+        }
+    }
+    
 }
 
 /* End of file crefis */
