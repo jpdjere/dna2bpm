@@ -159,20 +159,9 @@ cargar_param();
             data:{"id_licitacion":id},
             url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_cerrar_licitacion/',
             success: function(result) {
-                location.reload();
-                //window.location.replace(globals.base_url+bonita/bonita_licitaciones);
+                //location.reload();
+                window.location.replace(globals.base_url+'bonita/bonita_licitaciones/bonita_licitaciones_reportes_licitaciones');
             }
         });
-        //get_usage();
     });
-    
-    function get_usage(){
-        $.ajax({
-            type: "POST",
-            url: globals.base_url + 'bonita/bonita_licitaciones/get_usage/',
-            success: function(result) {
-                console.log(result);
-            }
-        });
-    }
 });
