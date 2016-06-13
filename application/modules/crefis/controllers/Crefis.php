@@ -379,11 +379,7 @@ class crefis extends MX_Controller {
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
-<<<<<<< HEAD
-            if ((in_array(1004, $this->id_group) or in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
-=======
-            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) 
->>>>>>> hotfix/Hotfix-27507
+            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin())
                     and $case['status'] == 'open' and in_array($data ['Proyectos_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
                     ){ 
                 $model = 'crefisGral';
@@ -1260,7 +1256,7 @@ BLOCK;
 
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
-                $mycase = $this->bpm->get_case($mytask['case']);
+                $mycase = $this->bpm->get_case($mytask['case'],$mytask['idwf']);
                 $data['mytasks'][$k]['extra_data']['ip'] = '';
                 //-----recupera Empresa
                 if (isset($mycase['data']['Empresas_4844']['query']['id'])) {
@@ -1271,7 +1267,6 @@ BLOCK;
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
                 }
                 //-----Recupera IP
-                
                 if (isset($mycase['data']['Proyectos_crefis']['query']['id'])) {
                     $proyectoID = $mycase['data']['Proyectos_crefis']['query']['id'][0];
                     $proyecto = $this->bpm->get_data('container.proyectos_crefis', array('id' => $proyectoID));
@@ -1284,7 +1279,7 @@ BLOCK;
         } else {
             $data['mytasks'] = array();
         }
-
+        // var_dump($data['mytasks']);
         $data['title'] = $this->lang->line('Tasks') . ' ' . $this->lang->line('Pending');
 
         $data['more_info_link'] = $this->base_url . 'bpm/';
