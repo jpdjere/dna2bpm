@@ -48,7 +48,7 @@ class expertos extends MX_Controller {
 
     function Direccion($debug=false) {
         $this->user->authorize();
-        $grupo_user='DireccionBPM';
+        $grupo_user='Expertos/DireccionBPM';
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_admin.json',$debug);
