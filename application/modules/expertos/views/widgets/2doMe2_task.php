@@ -8,7 +8,7 @@
                                 <i class="fa fa-ellipsis-v"></i>
                                 <i class="fa fa-ellipsis-v"></i>
                             </span>
-                            {title}
+                            CUIT: {title}
                     </div>
                 </div>
                 <div class='row'>
@@ -18,7 +18,6 @@
                         {if {extra_data ip}}
                         <span class='label label-primary'> {extra_data ip} </span>
                         <span class='label label-primary'> {extra_data empresa} </span>
-                        <span class='label label-primary'> CUIT: {extra_data empresa} </span>
                         {/if}
                         
                         <div class="pull-right">
