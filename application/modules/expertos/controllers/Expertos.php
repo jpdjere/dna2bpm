@@ -1418,9 +1418,13 @@ BLOCK;
                 //var_dump($empresa);
                 $data['mytasks'][$k]['extra_data']['ip'] = false;
                 if (isset($mycase['data']['Empresas']['query']['id'][0])) {
+                    
                     $empresaID = $mycase['data']['Empresas']['query']['id'][0];
-                    //var_dump($empresaID);
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
+                    $data['mytasks'][$k]['extra_data']['ip'] = $empresa[0]['1695'];
+                    
+                    //var_dump($empresaID);
+                    
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
                     //var_dump($empresa);
                 }/*

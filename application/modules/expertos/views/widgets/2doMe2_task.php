@@ -8,8 +8,7 @@
                                 <i class="fa fa-ellipsis-v"></i>
                                 <i class="fa fa-ellipsis-v"></i>
                             </span>
-                            {title}</br>
-                            {extra_data empresa}
+                            {title}
                     </div>
                 </div>
                 <div class='row'>
