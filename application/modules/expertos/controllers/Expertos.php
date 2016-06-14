@@ -1399,7 +1399,8 @@ BLOCK;
         $query = array(
             'assign' => $this->idu,
             'status' => 'user',
-            'idwf' =>array('$in'=>array('Expertos_Base','carga_pro_inst')) 
+            //'idwf' =>array('$in'=>array('Expertos_Base','carga_pro_inst')) 
+            'idwf' => 'Expertos_Base'
         );
 
         //var_dump(json_encode($query));exit;
