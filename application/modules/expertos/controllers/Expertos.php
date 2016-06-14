@@ -1428,11 +1428,12 @@ BLOCK;
 
                 }*/
             }
+            var_dump($data);
         } else {
             $data['mytasks'] = array();
         }
 
-        $data['title'] = 'Datos del Proyecto' . $this->lang->line('Tasks') . ' ' . $this->lang->line('Pending');
+        $data['title'] =  $this->lang->line('Tasks') . ' ' . $this->lang->line('Pending');
 
         $data['more_info_link'] = $this->base_url . 'bpm/';
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
