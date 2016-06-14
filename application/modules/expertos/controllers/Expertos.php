@@ -1411,12 +1411,13 @@ BLOCK;
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
+                
                 $data['mytasks'][$k]['extra_data']['ip'] = false;
                 if (isset($mycase['data']['Empresas']['query']['id'])) {
                     $empresaID = $mycase['data']['Empresas']['query']['id'];
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
-                    var_dump($empresa[0]);
+                    //var_dump($empresa[0]);
                 }/*
                 if (isset($mycase['data']['Asistencias']['query']['id'])) {
                     $proyectoID = $mycase['data']['Asistencias']['query']['id'];
@@ -1429,7 +1430,7 @@ BLOCK;
 
                 }*/
             }
-            //var_dump($data);
+            var_dump($data);
         } else {
             $data['mytasks'] = array();
         }
