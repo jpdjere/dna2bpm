@@ -1397,7 +1397,7 @@ BLOCK;
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
         $query = array(
-            'assign' => $this->idu,
+            //'assign' => $this->idu,
             'status' => 'user',
             //'idwf' =>array('$in'=>array('Expertos_Base','carga_pro_inst')) 
             'idwf' => 'Expertos_Base'
