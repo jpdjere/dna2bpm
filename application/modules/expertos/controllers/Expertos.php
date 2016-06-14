@@ -1422,7 +1422,7 @@ BLOCK;
                     //var_dump($empresaID);
                     $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
                     $data['mytasks'][$k]['extra_data']['empresa'] = $empresa[0]['1693'];
-                    var_dump($empresa);
+                    //var_dump($empresa);
                 }/*
                 if (isset($mycase['data']['Asistencias']['query']['id'])) {
                     $proyectoID = $mycase['data']['Asistencias']['query']['id'];
