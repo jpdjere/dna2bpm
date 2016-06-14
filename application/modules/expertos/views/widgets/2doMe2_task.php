@@ -8,7 +8,7 @@
                                 <i class="fa fa-ellipsis-v"></i>
                                 <i class="fa fa-ellipsis-v"></i>
                             </span>
-                            CUIT: {title}
+                            {title}
                     </div>
                 </div>
                 <div class='row'>
