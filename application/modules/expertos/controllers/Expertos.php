@@ -1411,6 +1411,7 @@ BLOCK;
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
+                var_dump($mycase);
                 $empresaID = $mycase['iduser'];
                 var_dump($empresaID);
                 $empresa = $this->bpm->get_data('container.empresas', array('id' => $empresaID));
