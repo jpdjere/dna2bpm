@@ -27,7 +27,30 @@ class pacc13 extends MX_Controller {
     function Index() {
         echo "<h1>" . $this->router->fetch_module() . '</h1>';
     }
-    
+    function imprimir_proyecto($idwf, $idcase, $token, $id = null) {
+
+        $this->user->authorize();
+        $this->load->model('bpm/bpm');
+        $this->load->model('dna2/dna2old');
+        $dna2url = $this->dna2old->get('url');
+//         if ($id) {
+//             $url = $dna2url . "frontcustom/284/proyecto_fondyf_preA_new.php?id=$id&idwf=$idwf&case=$idcase&token=$token";         
+//         } else {
+//             show_error('El Caso no tiene id de proyecto');
+//         }
+//         $url = $this->bpm->gateway($url);
+//         redirect($url);
+        if ($id) {
+            $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
+//                <p align='left'>2. <a href="{$dna2url}frontcustom/290/cartacompromiso1-1.php?id=$todo" target="_blank">Carta compromiso</a></p>
+            echo <<<BLOCK
+                <p align='left'>1. <a href="{$dna2url}frontcustom/290/pacc13.externo2016.print.php?id=$todo" target="_blank">Imprimir del Plan de Negocio</a></p>
+BLOCK;
+        } else {
+            echo 'div class="alert alert-success" role="alert">El Caso no tiene id de proyecto</div>';
+        }
+    }
+  
     function asignar_evaluador($idwf, $idcase, $tokenId) {
         $this->load->library('parser');
         $this->load->model('user/group');
