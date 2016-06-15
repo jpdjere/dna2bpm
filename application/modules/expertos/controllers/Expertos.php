@@ -1399,6 +1399,7 @@ BLOCK;
         $query = array(
             //'assign' => $this->idu,
             'status' => 'user',
+            'resourceId' =>'oryx_3CA60915-BAF1-40F0-AFDA-F0BABF3A8EE5',
             'idwf' =>array('$in'=>array('Expertos_Base','carga_pro_inst')) 
             //'idwf' => 'Expertos_Base'
         );
