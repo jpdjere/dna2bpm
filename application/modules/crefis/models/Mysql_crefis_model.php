@@ -13,7 +13,7 @@ class Mysql_crefis_model extends CI_Model {
 
     /* ACTIVE PERIODS DNA2 */
 
-    function update_4970($id,$idpreg,$valor) {
+    function update_4970($id) {
         
             $data = array(
                'valor' => 45
