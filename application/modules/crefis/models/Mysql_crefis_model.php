@@ -8,7 +8,7 @@ class Mysql_crefis_model extends CI_Model {
     function mysql_crefis_model() {
         parent::__construct();
         
-        $dbconnect = $this->load->database('dna2', $this->db);
+        $dbconnect = $this->load->database('dna2', $this->dna2_old);
     }
 
     /* ACTIVE PERIODS DNA2 */
@@ -19,9 +19,9 @@ class Mysql_crefis_model extends CI_Model {
                'valor' => 45
             );
 
-            $this->db->where('id', $id);
-            $this->db->where('idpreg', 4970);
-            $this->db->update('td_crefis', $data); 
+            $this->dna2_old->where('id', $id);
+            $this->dna2_old->where('idpreg', 4970);
+            $this->dna2_old->update('td_crefis', $data); 
 
             /*UPDATE HIST*/
             $this->insert_history($id);
@@ -38,6 +38,6 @@ class Mysql_crefis_model extends CI_Model {
            'fecha' => date('Y-m-d H:i:s')
         );
         
-        $this->db->insert('th_crefis', $data); 
+        $this->dna2_old->insert('th_crefis', $data); 
     }
 }
