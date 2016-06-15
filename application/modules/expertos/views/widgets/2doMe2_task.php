@@ -16,8 +16,8 @@
                         
                         <!-- Extra data -->
                         {if {extra_data ip}}
-                        <span class='label label-primary'> {extra_data ip} </span>
-                        <span class='label label-primary'> {extra_data empresa} </span>
+                        <span class='label label-primary'> CUIT: {extra_data ip} </span>
+                        <span class='label label-primary'> Razón Social: {extra_data empresa} </span>
                         {/if}
                         
                         <div class="pull-right">

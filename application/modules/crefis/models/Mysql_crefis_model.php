@@ -34,8 +34,8 @@ class Mysql_crefis_model extends CI_Model {
            'idpreg' => 4970,
            'valor'=> 45,
            'idform' => 280,
-           'iduser'=>0,
-           'fecha' => date('Y-m-d h:i:s')
+           'iduser'=>$this->session->userdata[iduser],
+           'fecha' => date('Y-m-d H:i:s')
         );
         
         $this->db->insert('th_crefis', $data); 
