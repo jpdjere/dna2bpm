@@ -34,7 +34,7 @@ class Mysql_crefis_model extends CI_Model {
            'idpreg' => 4970,
            'valor'=> 45,
            'idform' => 280,
-           'iduser'=>$this->session->userdata[iduser],
+           'iduser'=>1322971723,
            'fecha' => date('Y-m-d H:i:s')
         );
         
