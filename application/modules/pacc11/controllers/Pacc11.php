@@ -219,7 +219,7 @@ class pacc11 extends MX_Controller {
             $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
 //                <p align='left'>2. <a href="{$dna2url}frontcustom/290/cartacompromiso1-1.php?id=$todo" target="_blank">Carta compromiso</a></p>
             echo <<<BLOCK
-                <p align='left'>1. <a href="{$dna2url}frontcustom/290/pacc13.externo2016.print.php?id=$todo" target="_blank">Imprimir del Plan de Negocio</a></p>
+                <p align='left'>1. <a href="{$dna2url}frontcustom/289/pacc11.externo2016.print.php?id=$todo" target="_blank">Imprimir Proyecto</a></p>
 BLOCK;
         } else {
             echo 'div class="alert alert-success" role="alert">El Caso no tiene id de proyecto</div>';

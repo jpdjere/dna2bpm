@@ -1,0 +1,119 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Evaluador Administrativo Emprendedores",
+    "view": "layout_2cols_fixed",
+    "button": "<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
+    "icon": "fa-code",
+    "js": [
+
+        {
+            "{base_url}ui/assets/jscript/gauge.js": "GIT-JS"
+        }, {
+            "{base_url}ui/assets/jscript/raphael.js": "GIT-JS"
+        }, {
+            "{base_url}ui/assets/jscript/dna2convert_provincias.js": "Convert Provincias"
+        }, {
+            "{base_url}ui/assets/jscript/ammap.3.17.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/map.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/argentinaHigh.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/morris.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/line_charts.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/jquery.knob.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/bootstrap-tour.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/coordinadores-tour.js": "Script"
+        }, {
+            "{base_url}pacc/assets/jscript/buscador.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/ui.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/svg_todataurl.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/rgbcolor.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/canvg.js": "Script"
+        }, {
+            "{base_url}ui/assets/jscript/test.js": "Script"
+        }
+
+    ],
+    "css": [{
+            "{base_url}ui/assets/css/demo.css": "GIT-CSS",
+            "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
+        }
+
+    ],
+    "zones": [{
+            "tiles": [{
+                    "title": "Buscar",
+                    "module": "pacc",
+                    "controller": "pacc",
+                    "function": "tile_buscar_container",
+                    "span": 12
+                }, 
+                {
+                    "title": "Evaluación Técnica PN",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3PP", "pacc3PP_YN"]
+                }, 
+                {
+                    "title": "Evaluación Formal PN",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3PPF", "pacc3PPF_KM"]
+                }, 
+                {
+                    "title": "Rendición de Antició en Evaluación",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_TN"]
+                }, 
+                {
+                    "title": "Rendición SIN Antició en Evaluación",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_VK"]
+                }, 
+                {
+                    "title": "Anticipos en Evaluación",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
+                }
+            ]
+        }, {
+            "full_widget": []
+        },{
+            "col1": [{
+                "title": "2do",
+                "module": "pacc13",
+                "controller": "evaluador",
+                "function": "widget_2doMe2"
+            }]
+
+        }, {
+            "col2": []
+        },
+
+        {
+            "2cols_after": []
+        }
+    ]
+}
