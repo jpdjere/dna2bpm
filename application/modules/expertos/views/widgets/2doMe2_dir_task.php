@@ -16,15 +16,13 @@
                         
                         <!-- Extra data -->
                         {if {extra_data ip}}
-                        <span class='label label-primary'> CUIT: {extra_data ip} </span>
-                        <span class='label label-primary'> Razón Social: {extra_data empresa} </span>
+                        <span class='label label-primary'> {extra_data ip} </span>
+                        <span class='label label-primary'> {extra_data empresa} </span>
                         {/if}
                         
                         <div class="pull-right">
                             
-                            <a href='{base_url}bpm/engine/run/model/{idwf}/{case}/{resourceId}' title="Realizar tarea">
-                            
-                            
+                            <a href='{base_url}bpm/engine/run/model/{idwf}/{case}/{resourceId}/{idcase}' title="Realizar tarea">
                                 <i class="fa fa-play fa-lg" aria-hidden="true"></i>
                             </a>
                         </div>
