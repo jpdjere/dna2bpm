@@ -16,11 +16,11 @@ class Mysql_crefis_model extends CI_Model {
     function update_4970($id,$idpreg,$valor) {
         
             $data = array(
-               'valor' => $valor
+               'valor' => 45
             );
 
             $this->db->where('id', $id);
-            $this->db->where('idpreg', $idpreg);
+            $this->db->where('idpreg', 4970);
             $this->db->update('td_crefis', $data); 
 
             /*UPDATE HIST*/
@@ -31,8 +31,8 @@ class Mysql_crefis_model extends CI_Model {
         /*    idparent    idpreg  valor   idform  iduser  fecha   */
         $data = array(
            'id' => $id ,
-           'idpreg' => $idpreg,
-           'valor'=> $valor,
+           'idpreg' => 4970,
+           'valor'=> 45,
            'idform' => 280,
            'iduser'=>$this->session->userdata[iduser],
            'fecha' => date('Y-m-d H:i:s')
