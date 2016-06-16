@@ -1333,6 +1333,26 @@ BLOCK;
         
         }
         
+         $query2 = array(
+            'iduser' => $this->idu,
+            //'status' => 'user',
+            'idwf' => 'Consultores_Base'
+        );
+        //var_dump($this->idu);
+        //var_dump(json_encode($query));exit;
+        $cases=$this->bpm->get_cases_byFilter($query2);
+        //echo "Mass Revert:".count($cases);
+        $me=$this->user->idu;
+        foreach($cases as $case){
+        $this->user->idu=$case['iduser'];
+            //var_dump($case);
+            if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
+                $this->engine->Run('model', 'Consultores_Base', $case['id'],null, true);
+            }
+            //echo '<hr>';
+        
+        }
+        
         
         
         
