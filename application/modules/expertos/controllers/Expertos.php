@@ -1491,8 +1491,9 @@ BLOCK;
         $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
         $this->load->module('bpm/case_manager');
         $this->load->module('bpm/engine');
+        $modelo = 'Consultores_Base';
         $query=array(
-            'idwf'=>'Expertos_Base',
+            'idwf'=> $modelo
             
             );
         $cases=$this->bpm->get_cases_byFilter($query);
@@ -1500,10 +1501,10 @@ BLOCK;
         foreach($cases as $case){
             var_dump($case);
             $this->user->idu=$case['iduser'];
-            $this->case_manager->revert('model', 'Expertos_Base', $case['id'], $resourceId);
-            //$this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+            //$this->case_manager->revert('model', $modelo, $case['id'], $resourceId);
+            //$this->engine->Run('model', $modelo, $case['id'],null, true);
             if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
-                $this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+                $this->engine->Run('model', $modelo, $case['id'],null, true);
             }
             echo '<hr>';
         }
