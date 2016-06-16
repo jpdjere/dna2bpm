@@ -8,7 +8,7 @@ class Mysql_crefis_model extends CI_Model {
     function mysql_crefis_model() {
         parent::__construct();
         
-        $dbconnect = $this->load->database('dna2', $this->dna2_old);
+        $this->dna2_old = $this->load->database('dna2', TRUE);
     }
 
     /* ACTIVE PERIODS DNA2 */
