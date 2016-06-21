@@ -646,7 +646,6 @@ class pacc extends MX_Controller {
         $this->user->authorize();
         $this->load->library('parser');
         $template = 'pacc/listar_agencias';
-
         $filter = array(
             'idwf' => 'INCUBAR',
             'resourceId' =>$this->consolida_resrourceId
@@ -695,8 +694,6 @@ class pacc extends MX_Controller {
             //(isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
             /* crefis/COORDINADOR (134) */
             $hist=$this->bpm->get_token_history('INCUBAR',$token['case']);
-            
-            //var_dump($hist);
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
@@ -705,7 +702,7 @@ class pacc extends MX_Controller {
                     ){ 
                 $model = 'INCUBAR';
                 $estado = $data ['Agencias'] ['4970'][0];
-		$idResource = 'oryx_2B2D66FE-215C-4D64-8C5F-7BF0BE353B00'; //de arranque del play????????????
+		$idResource = 'INCUBAR'; //de arranque del play????????????
 /*
                 switch($estado){
                     case 40:
@@ -720,27 +717,23 @@ class pacc extends MX_Controller {
                 }
 */
 
-                $url_clone = $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;}
-			else{
-				$url_clone = null;
-			}
+                $url_clone =''; // $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+                
+                } else{
+			$url_clone = null;
+                }
                 
             /*$url_clone = (
                     (in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open' and in_array('oryx_05695DC8-1842-49D1-8327-1DAB8C164D35', $keys) //---está finalizado pero por esta figura
                     and in_array($data ['Agencias'] ['4970'][0], array(30, 40, 60)) //---checkeo que esté en alguno de esos estados
                     ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;*/
             //---link para cancelar solo para coordinador
-            $url_cancelar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
-            $url_cancelar_pde = (
-                    (in_array(134, $this->id_group) or $this->user->isAdmin()) and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura
-                    and $case['status'] == 'closed'
-                    ) ? $this->base_url . 'crefis/cancelar_pde/' . $token ['case'] : null;
+            $url_cancelar_pp = '';//((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
+            $url_cancelar_pde = ''; //((in_array(134, $this->id_group) or $this->user->isAdmin()) and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura and $case['status'] == 'closed') ? $this->base_url . 'crefis/cancelar_pde/' . $token ['case'] : null;
             //---link para reevaluar solo para coordinador
-            $url_reevaluar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/reevaluar_pp/' . $token ['case'] : null;
-            $url_reevaluar_pde = (
-                    (in_array(134, $this->id_group) or $this->user->isAdmin()) and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura
-                    and $case['status'] == 'closed'
-                    ) ? $this->base_url . 'crefis/reevaluar_pde/' . $token ['case'] : null;
+            $url_reevaluar_pp = '';//((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/reevaluar_pp/' . $token ['case'] : null;
+            $url_reevaluar_pde = '';
+            //((in_array(134, $this->id_group) or $this->user->isAdmin()) and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura                  and $case['status'] == 'closed') ? $this->base_url . 'crefis/reevaluar_pde/' . $token ['case'] : null;
             //---url para checkear
 
             $url_bpm = '';
