@@ -42,8 +42,6 @@
                     </td>
                     <td>
                     </td>
-                    <td>
-                    </td>
                     <td>{Nro}</td>
                     <td>{fechaent}</td>
                     <td>{nombre}</td>
