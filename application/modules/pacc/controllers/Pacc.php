@@ -642,7 +642,7 @@ class pacc extends MX_Controller {
         }
         return $rtn;
     }
-        function buscarAgen($type = null) {
+    function buscarAgen($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
         $template = 'pacc/listar_agencias';
@@ -689,12 +689,14 @@ class pacc extends MX_Controller {
             $INCUBAR = $this->bpm->get_case($token ['case'], 'INCUBAR');
             $data = $this->bpm->load_case_data($case);
 
-            $url = (isset($data ['Agencias']['id'])) ? '../dna2/frontcustom/231/list_docs_crefis_eval.php?id=' . $data ['Agencias'] ['id'] : '#';
-            $url_msg = (isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
+            $url = '';
+            //(isset($data ['Agencias']['id'])) ? '../dna2/frontcustom/231/list_docs_crefis_eval.php?id=' . $data ['Agencias'] ['id'] : '#';
+            $url_msg = '';
+            //(isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
             /* crefis/COORDINADOR (134) */
             $hist=$this->bpm->get_token_history('INCUBAR',$token['case']);
             
-            var_dump($hist);
+            //var_dump($hist);
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
@@ -703,7 +705,7 @@ class pacc extends MX_Controller {
                     ){ 
                 $model = 'INCUBAR';
                 $estado = $data ['Agencias'] ['4970'][0];
-				$idResource = 'oryx_2B2D66FE-215C-4D64-8C5F-7BF0BE353B00'; //de arranque del play????????????
+		$idResource = 'oryx_2B2D66FE-215C-4D64-8C5F-7BF0BE353B00'; //de arranque del play????????????
 /*
                 switch($estado){
                     case 40:
