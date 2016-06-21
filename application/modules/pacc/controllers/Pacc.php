@@ -683,9 +683,9 @@ class pacc extends MX_Controller {
             'checkdate' => false
         ));
         
-        print_r($filter);
+        //print_r($filter);
         
-        var_dump(json_encode($filter),count($tokens));
+        //var_dump(json_encode($filter),count($tokens));
         
         
         
