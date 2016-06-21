@@ -28,11 +28,14 @@
                 {empresas}
                 <tr>
                     <td>
+                        {if {url_clone}>0}<a href="{url_clone}" title="Recibir Documentación">
+                            <i class="ion ion-android-inbox fa-2x fa-adjust"></i>
+                        </a>{/if}
+                    </td>
+                    <td>
                         <a href="{link_open}" target="_blank" title="Ver Documentos del Proyecto">
                             <i class="ion ion-folder fa-2x fa-adjust"></i>
                         </a>
-                    </td>
-                    <td>
                     </td>
                     <td>
                     </td>
