@@ -681,7 +681,13 @@ class pacc extends MX_Controller {
                 ), array(
             'checkdate' => false
         ));
-//        var_dump(json_encode($filter),count($tokens));
+        
+        
+        
+        var_dump(json_encode($filter),count($tokens));
+        
+        
+        
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'INCUBAR');
