@@ -51,6 +51,14 @@
             "params": ["INCUBAR", "INCUBAR_GY"],
             "span": 3
 
+        }, {
+            "title": "Buscar",
+            "module": "pacc",
+            "controller": "Evaluador_incubar",
+            "function": "tile_buscar",
+            "span": 4,
+            "js": [{"{base_url}crefis/assets/jscript/app.js":"crefisGral"}]
+
         }]
     }, {
         "col1": [{
