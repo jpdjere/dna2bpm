@@ -18,21 +18,29 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_VC"],
+            "params": ["INCUBAR", "INCUBAR_VC"],
             "span": 3
         }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_VN"],
+            "params": ["INCUBAR", "INCUBAR_VN"],
             "span": 3
         }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_FB"],
+            "params": ["INCUBAR", "INCUBAR_FB"],
+            "span": 3
+
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_JI"],
             "span": 3
 
         }, {
@@ -40,22 +48,7 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_JI"],
-            "span": 3
-
-        }, {
-            "title": "Buscar Agencia",
-            "module": "pacc",
-            "controller": "Evaluador_incubar",
-            "function": "tile_buscar",
-            "span": 4,
-        }]
-    }, {
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["pacc", "INCUBAR_GY"],
+            "params": ["INCUBAR", "INCUBAR_GY"],
             "span": 3
 
         }]
