@@ -1,6 +1,6 @@
 <div class="box box-info">
     <div class="box-header">
-        <h3 class="box-title">Resultados de: "{querystring}" <span>({count})</span></h3>
+        <h3 class="box-title">Resultados de Agencias: "{querystring}" <span>({count})</span></h3>
         <div class="box-tools pull-right">
             <button class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
             <button class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
