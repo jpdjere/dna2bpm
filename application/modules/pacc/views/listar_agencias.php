@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                {empresas}
+                {agencias}
                 <tr>
                     <td>
                         <a href="{link_open}" target="_blank" title="Ver Documentos del Proyecto">
@@ -60,7 +60,7 @@
                     <td>{estado}</td>
                     <td>{case}</td>
                 </tr>
-                {/empresas}
+                {/agencias}
 
             </tbody>
         </table>
