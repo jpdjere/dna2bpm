@@ -704,7 +704,7 @@ class pacc extends MX_Controller {
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
-            var_dump($token['_id'],$keys);
+            //var_dump($token['_id'],$keys);
            
             if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin())
                     and $case['status'] == 'open' and in_array($data ['Agencias'] ['9498'][0], array('070', 70)) //---checkeo que esté en alguno de esos estados
