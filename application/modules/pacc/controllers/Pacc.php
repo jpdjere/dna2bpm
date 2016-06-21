@@ -642,7 +642,8 @@ class pacc extends MX_Controller {
         }
         return $rtn;
     }
-    public $consolida_resrourceId='oryx_130D84B5-1D3D-472C-B642-4DBC97C1E4A3';
+    //public $consolida_resrourceId='oryx_130D84B5-1D3D-472C-B642-4DBC97C1E4A3';
+    public $consolida_resrourceId='INCUBAR';
     function buscarAgen($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
@@ -705,14 +706,12 @@ class pacc extends MX_Controller {
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
             //var_dump($token['_id'],$keys);
+            $model = 'INCUBAR';
+            $idResource = 'INCUBAR'; //de arranque del play????????????
            
-            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin())
+/*            if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin())
                     and $case['status'] == 'open' and in_array($data ['Agencias'] ['9498'][0], array('070', 70)) //---checkeo que esté en alguno de esos estados
                     ){ 
-                $model = 'INCUBAR';
-                $estado = $data ['Agencias'] ['4970'][0];
-		$idResource = 'INCUBAR'; //de arranque del play????????????
-/*
                 switch($estado){
                     case 40:
                         break;
@@ -724,12 +723,14 @@ class pacc extends MX_Controller {
                         $idResource = 'oryx_FDD40364-9DB8-4090-B569-7D795E380F18';
                         break;
                 }
+                }
 */
-
-                $url_clone =''; // $this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
-                
-                } else{
-			$url_clone = null;
+                $estado = $data ['Agencias'] ['9498'][0];
+                if ($estado=='020' || $estado=='025' || $estado=='070' || $estado=='075'){
+                    $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+               
+                } else {
+                    $url_clone = null;
                 }
                 
             /*$url_clone = (
