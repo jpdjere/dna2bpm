@@ -45,8 +45,8 @@
 
         }, {
             "title": "Buscar Agencia",
-            "module": "pacc",
-            "controller": "pacc",
+            "module": "evaluador_incubar",
+            "controller": "evaluador_incubar",
             "function": "tile_buscar",
             "span": 4,
         }]
