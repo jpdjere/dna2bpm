@@ -642,7 +642,7 @@ class pacc extends MX_Controller {
         }
         return $rtn;
     }
-    public $consolida_resrourceId='INCUBAR';
+    public $consolida_resrourceId='oryx_130D84B5-1D3D-472C-B642-4DBC97C1E4A3';
     function buscarAgen($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
