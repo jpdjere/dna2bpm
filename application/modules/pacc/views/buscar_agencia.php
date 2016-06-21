@@ -4,12 +4,12 @@
         <div class="row">
         <div class="col-md-12">
         <h4>Buscador</h4>
-        <form class="form-extra" accept-charset="utf-8" method="post" action="{base_url}pacc/buscar/pp">
+        <form class="form-extra" accept-charset="utf-8" method="post" action="{base_url}evaluador_incubar/buscar/pp">
             <div class="col-lg-9 input-group input-group-sm">
                 <span class="input-group-addon">Nro.</span>
                 <input type="text"  class="form-control" name="query" placeholder="ej: nombre de la agencia ó cuit:30-11634893-7" />
                 <span class="input-group-btn">
-                    <button type="submit" class="btn btn-info btn-flat btn-search">Buscar</button>
+                    <button type="submit" class="btn btn-info btn-flat btn-search">Buscar Incubadora</button>
                 </span>
             </div>
         </form>
