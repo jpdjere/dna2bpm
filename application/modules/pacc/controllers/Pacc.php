@@ -649,8 +649,8 @@ class pacc extends MX_Controller {
         $template = 'pacc/listar_agencias';
         $filter = array(
             'idwf' => 'INCUBAR',
-            'resourceId' =>$this->consolida_resrourceId
         );
+//            'resourceId' =>$this->consolida_resrourceId
         $data ['querystring'] = $this->input->post('query');
         // -----busco en el cuit
         $filter ['$or'] [] = array(
