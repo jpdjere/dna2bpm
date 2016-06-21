@@ -28,8 +28,8 @@
                 {empresas}
                 <tr>
                     <td>
-                        {if {url_clone}>0}<a href="{url_clone}" title="Recibir Documentación">
-                            <i class="ion ion-android-inbox fa-2x fa-adjust"></i>
+                        {if {url_clone}>0}<a href="{url_clone}" title="Evaluar Caso">
+                            <i class="fa fa-play"></i>
                         </a>{/if}
                     </td>
                     <td>
