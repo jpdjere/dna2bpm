@@ -44,8 +44,7 @@ class Evaluador_incubar extends MX_Controller {
         $this->user->authorize();
         $this->load->library('parser');
         $template = 'pacc/listar_agencias';
-echo'XXXXXXXXXXXXXXXXX';
-exit;
+
         $filter = array(
             'idwf' => 'INCUBAR',
             'resourceId' =>$this->consolida_resrourceId
