@@ -36,12 +36,12 @@
                     <td>
                     {if {url_bpm}>0}<a href="{url_bpm}" title="Procesar Tareas">
                             <i class="ion-arrow-right-b fa-2x fa-adjust"></i>
-                        </a>{/if}
+                        </a>/if}
                     </td>
                     <td>
                     {if {url_clone}>0}<a href="{url_clone}" title="Recibir Documentación">
                             <i class="ion ion-android-inbox fa-2x fa-adjust"></i>
-                        </a>{/if}
+                        </a>/if}
                     </td>
                     <td>
 
