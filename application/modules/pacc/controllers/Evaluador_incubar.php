@@ -87,11 +87,12 @@ class Evaluador_incubar extends MX_Controller {
             $INCUBAR = $this->bpm->get_case($token ['case'], 'INCUBAR');
             $data = $this->bpm->load_case_data($case);
 
-
             $url = (isset($data ['Agencias']['id'])) ? '../dna2/frontcustom/231/list_docs_crefis_eval.php?id=' . $data ['Agencias'] ['id'] : '#';
             $url_msg = (isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
             /* crefis/COORDINADOR (134) */
             $hist=$this->bpm->get_token_history('INCUBAR',$token['case']);
+            
+            var_dump($hist);
             foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
