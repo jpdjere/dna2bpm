@@ -40,7 +40,7 @@ class Evaluador_incubar extends MX_Controller {
     }
 
 
-    function buscar($type = null) {
+    function buscarAgen($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
         $template = 'pacc/listar_agencias';
