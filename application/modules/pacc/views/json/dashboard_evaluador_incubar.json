@@ -54,10 +54,10 @@
         }, {
             "title": "Buscar",
             "module": "pacc",
-            "controller": "Evaluador_incubar",
+            "controller": "evaluador_incubar",
             "function": "tile_buscar",
             "span": 4,
-            "js": [{"{base_url}crefis/assets/jscript/app.js":"crefisGral"}]
+            //"js": [{"{base_url}crefis/assets/jscript/app.js":"crefisGral"}]
 
         }]
     }, {
