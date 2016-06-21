@@ -33,10 +33,6 @@
                         </a>
 
                     </td>
-                    <td>{if {link_msg}>0}<a href="{link_msg}" class="load_tiles_after"  title="Ver Notificaciones">
-                            <i class="ion ion-email fa-2x fa-adjust"></i>
-                        </a>   {/if}
-                    </td>
                     <td>
                     {if {url_bpm}>0}<a href="{url_bpm}" title="Procesar Tareas">
                             <i class="ion-arrow-right-b fa-2x fa-adjust"></i>
