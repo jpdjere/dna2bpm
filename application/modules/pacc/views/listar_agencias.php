@@ -25,13 +25,16 @@
                 </tr>
             </thead>
             <tbody>
-                {agencias}
+                {empresas}
                 <tr>
                     <td>
                         <a href="{link_open}" target="_blank" title="Ver Documentos del Proyecto">
                             <i class="ion ion-folder fa-2x fa-adjust"></i>
                         </a>
-
+                    </td>
+                    <td>
+                    </td>
+                    <td>
                     </td>
                     <td>
                     </td>
@@ -48,7 +51,7 @@
                     <td>{estado}</td>
                     <td>{case}</td>
                 </tr>
-                {/agencias}
+                {/empresas}
 
             </tbody>
         </table>

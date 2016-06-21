@@ -646,7 +646,7 @@ class pacc extends MX_Controller {
     function buscarAgen($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
-        $template = 'pacc/listar_agencias';
+        $templateAg = 'pacc/listar_agencias';
         $filter = array(
             'idwf' => 'INCUBAR',
             'resourceId' =>$this->consolida_resrourceId
@@ -782,9 +782,7 @@ class pacc extends MX_Controller {
         $data ['count'] = count($tokens);
         $data['base_url'] = $this->base_url;
         // var_dump($keys,$data);exit;
-
-
-        $this->parser->parse($template, $data, false, true);
+        $this->parser->parse($templateAg, $data, false, true);
     }
 
 
