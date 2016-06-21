@@ -16,9 +16,9 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>Nro Proyecto</th>
+                    <th>Nro Inscripción</th>
                     <th>Fecha</th>
-                    <th>Nombre Empresa</th>
+                    <th>Nombre Incubadora</th>
                     <th>CUIT</th>
                     <th>Estado</th>
                     <th>Caso</th>
