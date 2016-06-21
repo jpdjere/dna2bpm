@@ -642,15 +642,15 @@ class pacc extends MX_Controller {
         }
         return $rtn;
     }
-    public $consolida_resrourceId='oryx_1E50C0F6-62D4-4E42-8ADE-58CFBD633DFC';
+    //public $consolida_resrourceId='oryx_1E50C0F6-62D4-4E42-8ADE-58CFBD633DFC';
     function buscarAgen($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
         $template = 'pacc/listar_agencias';
         $filter = array(
             'idwf' => 'INCUBAR',
+            'resourceId' =>$this->consolida_resrourceId
         );
-//            'resourceId' =>$this->consolida_resrourceId
         $data ['querystring'] = $this->input->post('query');
         // -----busco en el cuit
         $filter ['$or'] [] = array(
@@ -683,9 +683,9 @@ class pacc extends MX_Controller {
             'checkdate' => false
         ));
         
+        print_r($filter);
         
-        
-        //var_dump(json_encode($filter),count($tokens));
+        var_dump(json_encode($filter),count($tokens));
         
         
         
