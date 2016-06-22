@@ -36,7 +36,8 @@ class semilla extends MX_Controller {
     }
 
     function Index() {
-        $this->Add_group();
+        $grupo_user = 'Fondo Semilla /Emprendedor';
+        $this->Add_group($grupo_user);
         $this->Emprendedores();
     }
 
