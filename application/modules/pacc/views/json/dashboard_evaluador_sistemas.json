@@ -33,7 +33,7 @@
         "col1": [{
             "title": "2do",
             "module": "pacc",
-            "controller": "Evaluador_incubar",
+            "controller": "Evaluador_sistemas",
             "function": "widget_2doMe2"
         }]
     }, {
