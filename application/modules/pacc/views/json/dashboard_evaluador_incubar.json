@@ -43,7 +43,15 @@
             "params": ["INCUBAR", "INCUBAR_JI"],
             "span": 3
 
-        }, {
+        },{
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_IG"],
+            "span": 3
+
+        },        {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
@@ -51,7 +59,8 @@
             "params": ["INCUBAR", "INCUBAR_GY"],
             "span": 3
 
-        }, {
+        },
+        {
             "title": "Buscar",
             "module": "pacc",
             "controller": "evaluador_incubar",
