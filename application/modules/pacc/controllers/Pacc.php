@@ -759,13 +759,12 @@ class pacc extends MX_Controller {
                 $status = $option[$data ['Agencias'] ['9498'][0]];
             }
             $id=$data ['Agencias'] ['id'];
-            var_dump($id);
             if ($id) {
                     $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
-                    $url_ver ='../dna2/RenderView/printvista.php?idvista=4108&idap=295&id='.$todo;
+                    $url_ver ='../../dna2/RenderView/printvista.php?idvista=4108&idap=295&id='.$todo;
                     //RenderView/printvista.php?idvista=3963&idap=295&id=1620312861&token=57559c872a3f7dad138b456f&case=RHHP&idwf=INCUBAR
             } else {
-                $url_ver ='XXXXXXX';
+                $url_ver ='NO ';
             }
 
             return array(
