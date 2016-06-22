@@ -758,6 +758,7 @@ class pacc extends MX_Controller {
                 $option = $this->app->get_ops(849);
                 $status = $option[$data ['Agencias'] ['9498'][0]];
             }
+            $id=$data ['Agencias'] ['id'];
             var_dump($id);
             if ($id) {
                     $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
