@@ -1,6 +1,6 @@
 {
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
-    "title": "Evaluador Técnico Emprendedores",
+    "title": "Evaluador Administrativo Emprendedores",
     "view": "layout_2cols_fixed",
     "button": "<button id='button' class='btn btn-default' type='button'>Iniciar Tour</button>",
     "icon": "fa-code",
