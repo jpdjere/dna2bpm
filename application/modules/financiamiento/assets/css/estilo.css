@@ -1,0 +1,82 @@
+body {
+   color: #666666;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+}
+
+.contenedor{ margin:0 auto;
+max-width:1170px;
+float:none;
+}
+
+.formulario_unico{ max-width:840px; float:none; margin:0 auto;}
+
+
+.oculto{
+    display:none;
+}
+
+
+@media (min-width: 768px) {
+.form-group {
+     min-height: 99px;
+	 font-size:13px;
+}
+.help-block{margin:0;}
+}
+.logo{margin:15px 0 15px 0;
+float:left;}
+
+
+.footer-texto{margin-top:15px;}
+.logo-footer{  text-align: right;}
+
+
+@media (max-width: 768px) {
+	
+	.footer-texto{ text-align:center}
+	.logo-footer{  text-align: center;}}
+	
+	.h1-paginas {
+    background-color: #d1d2d4 !important;
+    border: 0 none !important;
+    color: #333 !important;
+    font-size: 1.4em !important;
+    padding: 15px 20px;
+    text-align: center !important;
+    text-transform: uppercase;
+	width: 100%;
+	float:left;
+}
+
+.share-post {
+    border-bottom: 1px solid #0095da;
+    border-top: 1px solid #0095da;
+    float: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.share-post a {
+    color: #0095da;
+    float: left;
+    padding: 10px;
+}
+
+.volver {
+    border: 1px solid #333;
+    border-radius: 16px;
+    color: #333;
+    float: left;
+    font-size: 20px;
+    height: 30px;
+   line-height: 26px;
+    margin-top: -3px;
+    padding: 0;
+    width: 30px;
+}
+.formulario{ margin-top:25px;}
+form-group {
+    font-size: 13px;
+}
