@@ -775,7 +775,7 @@ class pacc extends MX_Controller {
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
-                'link_msg' => $url_msg,
+                'link_msg' => $url_ver,
                 'url_clone' => $url_clone,
                 'url_bpm' => $url_bpm,
                 'url_cancelar_pp' => $url_cancelar_pp,
