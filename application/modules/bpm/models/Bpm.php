@@ -737,8 +737,9 @@ class Bpm extends CI_Model {
                 '$in' => $user->group
             )
         );
-
+            
         $query+=$filter;
+        // var_dump(json_encode($query));exit;
         // 'status' => array('$in' => (array) $status),
         $this->db->where($query);
         $this->db->where_in('status',(array) $status);
@@ -1792,6 +1793,15 @@ class Bpm extends CI_Model {
                  unset($data['assign'][$me]);
                  $data['assign'][]='any';
                 }
+         
+                if($resources['any_cond']=='any'){
+                     //----remove assignment
+                     unset($data['assign']);
+                }
+            
+            $data['assign_any']=true;   
+            
+                
             }
             
         }
@@ -1958,6 +1968,7 @@ class Bpm extends CI_Model {
     function is_allowed($token, $user) {
         $is_allowed = false;
         $debug = (isset($this->debug[__FUNCTION__])) ? $this->debug[__FUNCTION__] : false;
+        $debug=true;
         if ($debug)
             echo "Eval is_allowed<br/>";
 //---check if the user is assigned to the task
@@ -1967,12 +1978,17 @@ class Bpm extends CI_Model {
                 if ($debug)
                     echo "is_allowed=true user is in token assign<br/>";
             }
+        } else {
+                if ($debug)
+                    echo "token is not assigned <br/>";
         }
 
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
-        if (isset($token['idgroup']) and ! isset($token['assign'])) {
+        $token['assign_any']=(isset($token['assign_any']))? $token['assign_any']:false;
+        var_dump((isset($token['idgroup'])) and (!isset($token['assign']) or $token['assign_any']));
+        if ((isset($token['idgroup'])) and ((!isset($token['assign']) or $token['assign_any']))) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
                     $is_allowed = true;
