@@ -18,7 +18,7 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["INCUBAR", "INCUBAR_PZ"],
+            "params": ["INCUBAR", "INCUBAR_SE"],
             "span": 3
         },         {
             "title": "Buscar",

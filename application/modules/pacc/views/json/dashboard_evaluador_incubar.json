@@ -48,7 +48,7 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["INCUBAR", "INCUBAR_IG"],
+            "params": ["INCUBAR", "INCUBAR_UQ"],
             "span": 3
 
         }, {
