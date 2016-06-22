@@ -18,21 +18,37 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_VC"],
+            "params": ["INCUBAR", "INCUBAR_VC"],
             "span": 3
         }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_VN"],
+            "params": ["INCUBAR", "INCUBAR_VN"],
             "span": 3
         }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_FB"],
+            "params": ["INCUBAR", "INCUBAR_FB"],
+            "span": 3
+
+        },        {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_GY"],
+            "span": 3
+
+        },{
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_UQ"],
             "span": 3
 
         }, {
@@ -40,16 +56,17 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_JI"],
+            "params": ["INCUBAR", "INCUBAR_JI"],
             "span": 3
 
-        }, {
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["pacc", "INCUBAR_GY"],
-            "span": 3
+        },
+        {
+            "title": "Buscar",
+            "module": "pacc",
+            "controller": "evaluador_incubar",
+            "function": "tile_buscar",
+            "span": 4,
+            "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
 
         }]
     }, {

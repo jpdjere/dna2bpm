@@ -33,6 +33,13 @@ class Evaluador_incubar extends MX_Controller {
         Modules::run('dashboard/dashboard', 'pacc/json/dashboard_evaluador_incubar.json',$debug);
     }
 
+    function tile_buscar() {
+        $this->user->authorize();
+        $data = array();
+        return $this->parser->parse('pacc/buscar_agencia', $data, true);
+    }
+
+
 
     function widget_2doMe2($chunk = 1, $pagesize = 5) {
         //$data['lang']=$this->lang->language;
@@ -77,13 +84,6 @@ class Evaluador_incubar extends MX_Controller {
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
       echo $this->parser->parse('pacc/widgets/2doMe2', $data, true, true);
     }
-
-
-
-
-
-
-
     }
 
 

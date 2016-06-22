@@ -1,6 +1,6 @@
 {
     "createdBy": "MJL <mjlucini@gmail.com>",
-    "title": "Mesa de ebtradas PNI",
+    "title": "Sistemas",
     "view": "layout_2cols_fixed",
     "icon": "ion-briefcase",
     "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",
@@ -18,9 +18,9 @@
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "INCUBAR_QM"],
+            "params": ["INCUBAR", "INCUBAR_SE"],
             "span": 3
-        }, {
+        },         {
             "title": "Buscar",
             "module": "pacc",
             "controller": "evaluador_incubar",
