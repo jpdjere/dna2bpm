@@ -26,6 +26,11 @@ class Mesadeent_incubar extends MX_Controller {
     /**
      * Dashboard para Incubar
      */
+    function tile_buscar() {
+        $this->user->authorize();
+        $data = array();
+        return $this->parser->parse('pacc/buscar_agencia', $data, true);
+    }
     function dashboard($debug=false){
         Modules::run('dashboard/dashboard', 'pacc/json/dashboard_mesadeent_incubar.json',$debug);
     }

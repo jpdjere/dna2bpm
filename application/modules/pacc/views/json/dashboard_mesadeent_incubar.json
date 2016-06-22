@@ -20,6 +20,14 @@
             "function": "tile",
             "params": ["pacc", "INCUBAR_QM"],
             "span": 3
+        }, {
+            "title": "Buscar",
+            "module": "pacc",
+            "controller": "evaluador_incubar",
+            "function": "tile_buscar",
+            "span": 4,
+            "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
+
         }]
     }, {
         "col1": [{

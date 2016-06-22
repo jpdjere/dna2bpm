@@ -725,13 +725,7 @@ class pacc extends MX_Controller {
                 }
 */
                 $estado = $data ['Agencias'] ['9498'][0];
-                if ($estado=='020' || $estado=='025' || $estado=='070' || $estado=='075'){
-                    $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
-               
-                } else {
-                    $url_clone = null;
-                }
-                
+                $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
             /*$url_clone = (
                     (in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open' and in_array('oryx_05695DC8-1842-49D1-8327-1DAB8C164D35', $keys) //---está finalizado pero por esta figura
                     and in_array($data ['Agencias'] ['4970'][0], array(30, 40, 60)) //---checkeo que esté en alguno de esos estados
