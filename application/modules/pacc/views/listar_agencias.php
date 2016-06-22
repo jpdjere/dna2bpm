@@ -33,7 +33,7 @@
                         </a>{/if}
                     </td>
                     <td>
-                        <a href="{link_open}" target="_blank" title="Ver Documentos del Proyecto">
+                        <a href="{link_msg}" target="_blank" title="Ver Pre-Insc. del Proyecto">
                             <i class="ion ion-folder fa-2x fa-adjust"></i>
                         </a>
                     </td>

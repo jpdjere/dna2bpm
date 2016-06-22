@@ -35,6 +35,22 @@
             "params": ["INCUBAR", "INCUBAR_FB"],
             "span": 3
 
+        },        {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_GY"],
+            "span": 3
+
+        },{
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_UQ"],
+            "span": 3
+
         }, {
             "title": "Tile01",
             "module": "bpm",
@@ -43,15 +59,8 @@
             "params": ["INCUBAR", "INCUBAR_JI"],
             "span": 3
 
-        }, {
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["INCUBAR", "INCUBAR_GY"],
-            "span": 3
-
-        }, {
+        },
+        {
             "title": "Buscar",
             "module": "pacc",
             "controller": "evaluador_incubar",

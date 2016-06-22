@@ -1,11 +1,14 @@
 <?php
 
-/*
+/**
+ * Description of pacc
+ *
+ *
  */
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Mesadeent_incubar extends MX_Controller {
+class Evaluador_sistemas extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -26,14 +29,16 @@ class Mesadeent_incubar extends MX_Controller {
     /**
      * Dashboard para Incubar
      */
+    function dashboard($debug=false){                       
+        Modules::run('dashboard/dashboard', 'pacc/json/dashboard_evaluador_sistemas.json',$debug);
+    }
+
     function tile_buscar() {
         $this->user->authorize();
         $data = array();
         return $this->parser->parse('pacc/buscar_agencia', $data, true);
     }
-    function dashboard($debug=false){
-        Modules::run('dashboard/dashboard', 'pacc/json/dashboard_mesadeent_incubar.json',$debug);
-    }
+
 
 
     function widget_2doMe2($chunk = 1, $pagesize = 5) {
@@ -79,13 +84,6 @@ class Mesadeent_incubar extends MX_Controller {
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
       echo $this->parser->parse('pacc/widgets/2doMe2', $data, true, true);
     }
-
-
-
-
-
-
-
     }
 
 
