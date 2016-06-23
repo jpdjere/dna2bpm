@@ -49,7 +49,7 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_UQ"],
-            "span": 3
+            "span": 4
 
         }, {
             "title": "Tile01",
@@ -57,7 +57,7 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_JI"],
-            "span": 3
+            "span": 4
 
         }, {
             "title": "Tile01",
@@ -65,7 +65,7 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_JY"],
-            "span": 3
+            "span": 4
 
         },
         {
@@ -73,7 +73,7 @@
             "module": "pacc",
             "controller": "evaluador_incubar",
             "function": "tile_buscar",
-            "span": 3,
+            "span": 4,
             "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
 
         }]
