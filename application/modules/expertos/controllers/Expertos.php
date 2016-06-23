@@ -1338,7 +1338,7 @@ BLOCK;
         
         $query = array(
             'iduser' => $this->idu,
-            'status' => 'user',
+            //'status' => 'user',
             'assign' => $this->idu//,
             //'idwf' => 'Expertos_Base'
         );
