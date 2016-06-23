@@ -59,6 +59,14 @@
             "params": ["INCUBAR", "INCUBAR_JI"],
             "span": 3
 
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_JY"],
+            "span": 3
+
         },
         {
             "title": "Buscar",
