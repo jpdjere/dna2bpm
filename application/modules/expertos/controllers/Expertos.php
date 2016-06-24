@@ -1357,10 +1357,10 @@ BLOCK;
         
         
         $query = array(
-            'iduser' => $this->idu,
+            //'iduser' => $this->idu,
             'status' => 'user',
-            'assign' => $this->idu//,
-            //'idwf' => 'Expertos_Base'
+            'assign' => $this->idu,
+            'idwf' => 'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
@@ -1507,7 +1507,7 @@ BLOCK;
 
     }
 
-    public function mass_revert(){
+    /*public function mass_revert(){
         $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
         $this->load->module('bpm/case_manager');
         $this->load->module('bpm/engine');
@@ -1527,6 +1527,32 @@ BLOCK;
                 $this->engine->Run('model', $modelo, $case['id'],null, true);
             }
             echo '<hr>';
+        }
+        
+    }*/
+    public function mass_up(){
+        $resourceId='oryx_A4F665D4-3F0D-4EBB-980E-689F527F092B';
+        $this->load->module('bpm/case_manager');
+        $this->load->module('bpm/engine');
+        $modelo = 'Expertos_Base';
+        $model = 'expertos_model';
+        //$modelo2 = 'carga_pro_inst';
+        $query=array(
+            'idwf'=> $modelo
+           
+            );
+            
+        $cases=$this->bpm->get_cases_byFilter($query);
+        echo "Mass up ".$modelo.":" .count($cases);
+        foreach($cases as $case){
+            //var_dump($case['resourceId']);
+//oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6
+            var_dump($case['idwf']);
+            var_dump($case['id']);
+            var_dump($case['iduser']);
+            
+            $rf = $this->$model->update_tokens($case['idwf'],$case['id'],$case['iduser']);
+            var_dump($rf);
         }
         
     }
