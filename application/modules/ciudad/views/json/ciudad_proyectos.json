@@ -12,6 +12,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
+                    "span": 3,
                     "params": ["ciudadGral", "ciudadGral_BO"]
                 },
 
