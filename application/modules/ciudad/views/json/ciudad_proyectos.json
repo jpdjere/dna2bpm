@@ -7,14 +7,7 @@
     "zones": [
         {
             "tiles": [
-                {
-                    "title": "Tile01",
-                    "module": "ciudad",
-                    "controller": "ciudad",
-                    "function": "tile_solicitud",
-                    "span":2
-                },
-                {
+                    {
                     "title": "Proyectos Aprobados",
                     "module": "bpm",
                     "controller": "kpi",
