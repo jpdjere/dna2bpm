@@ -22,7 +22,27 @@ class expertos_model extends CI_Model {
         $rs = $this->db->get('case');
         return $rs->result_array();
     }
-    
+    function update_tokens($idwf,$case,$iduser){
+        $query = array(
+            //'assign' => $this->idu,
+            'case' => $case,
+            'idwf' => $idwf,
+            'resourceId'=> 'oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6'
+        );
+        //$this->db->where($query);
+        //$this->db->select($fields);
+        //$this->db->order_by($sort);
+        //$rs = $this->db->get('case');
+        //return $rs->result_array();
+        
+        $collection = 'tokens';
+        //$query = array('case' => $idcase, 'assign' => $last_user);
+        $action = array('$addToSet' => array('assign' => $iduser));
+        $options = array('upsert' => true);
+        $rf = $this->mongowrapper->db->$collection->update($query, $action, $options);
+        return $rf;
+        
+    }
     
     
     
