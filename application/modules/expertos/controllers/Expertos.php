@@ -1333,14 +1333,34 @@ BLOCK;
         
         }
         
+         $query2 = array(
+            'iduser' => $this->idu,
+            //'status' => 'user',
+            'idwf' => 'Consultores_Base'
+        );
+        //var_dump($this->idu);
+        //var_dump(json_encode($query));exit;
+        $cases=$this->bpm->get_cases_byFilter($query2);
+        //echo "Mass Revert:".count($cases);
+        $me=$this->user->idu;
+        foreach($cases as $case){
+        $this->user->idu=$case['iduser'];
+            //var_dump($case);
+            if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
+                $this->engine->Run('model', 'Consultores_Base', $case['id'],null, true);
+            }
+            //echo '<hr>';
+        
+        }
+        
         
         
         
         $query = array(
-            'iduser' => $this->idu,
+            //'iduser' => $this->idu,
             'status' => 'user',
-            'assign' => $this->idu//,
-            //'idwf' => 'Expertos_Base'
+            'assign' => $this->idu,
+            'idwf' => 'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
@@ -1487,12 +1507,13 @@ BLOCK;
 
     }
 
-    public function mass_revert(){
+    /*public function mass_revert(){
         $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
         $this->load->module('bpm/case_manager');
         $this->load->module('bpm/engine');
+        $modelo = 'Consultores_Base';
         $query=array(
-            'idwf'=>'Expertos_Base',
+            'idwf'=> $modelo
             
             );
         $cases=$this->bpm->get_cases_byFilter($query);
@@ -1500,12 +1521,38 @@ BLOCK;
         foreach($cases as $case){
             var_dump($case);
             $this->user->idu=$case['iduser'];
-            //$this->case_manager->revert('model', 'Expertos_Base', $case['id'], $resourceId);
-            //$this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+            //$this->case_manager->revert('model', $modelo, $case['id'], $resourceId);
+            //$this->engine->Run('model', $modelo, $case['id'],null, true);
             if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
-                $this->engine->Run('model', 'Expertos_Base', $case['id'],null, true);
+                $this->engine->Run('model', $modelo, $case['id'],null, true);
             }
             echo '<hr>';
+        }
+        
+    }*/
+    public function mass_up(){
+        $resourceId='oryx_A4F665D4-3F0D-4EBB-980E-689F527F092B';
+        $this->load->module('bpm/case_manager');
+        $this->load->module('bpm/engine');
+        $modelo = 'Expertos_Base';
+        $model = 'expertos_model';
+        //$modelo2 = 'carga_pro_inst';
+        $query=array(
+            'idwf'=> $modelo
+           
+            );
+            
+        $cases=$this->bpm->get_cases_byFilter($query);
+        echo "Mass up ".$modelo.":" .count($cases);
+        foreach($cases as $case){
+            //var_dump($case['resourceId']);
+//oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6
+            var_dump($case['idwf']);
+            var_dump($case['id']);
+            var_dump($case['iduser']);
+            
+            $rf = $this->$model->update_tokens($case['idwf'],$case['id'],$case['iduser']);
+            var_dump($rf);
         }
         
     }
