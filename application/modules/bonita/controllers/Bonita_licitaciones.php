@@ -279,15 +279,33 @@ class bonita_licitaciones extends MX_Controller {
 
         while(round($total_asignacion)-$cmax!=0){
             $asignacion_generica=$this->calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica);
-            if(array_sum($asignacion_generica)==$total_asignacion){break;}
+
+            $iguales=false;
+            for($x=0;$x<3;$x+=1){
+                if(array_sum($asignacion_generica)+$x==$total_asignacion){
+                    $iguales=true;
+                }
+                if(array_sum($asignacion_generica)-$x==$total_asignacion){
+                    $iguales=true;
+                }
+            }
+            
+            if($iguales){break;}
             $asignaciones[]=$asignacion_generica;
             $total_asignacion=array_sum($asignacion_generica);
         }
-        if($total_asignacion!=$cmax){
-            $ultima_asignacion=$this->calcular_ultima_asignacion($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica, $asignaciones);
-            if($asignaciones){
-                $asignaciones[]=$ultima_asignacion;
+
+        $iguales=false;
+        for($x=0;$x<6;$x+=1){
+            if($total_asignacion+$x==$cmax){
+                $iguales=true;
             }
+        }
+        
+        if(!$iguales){
+            $ultima_asgnacion=$this->calcular_ultima_asignacion($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica, $asignaciones);
+            $asignaciones[]=$ultima_asgnacion;
+            $total_asignacion=array_sum($ultima_asgnacion);
         }
         
         //datos_licitacion
@@ -446,7 +464,7 @@ class bonita_licitaciones extends MX_Controller {
             if($asignacion_anterior[$i]<$entidad['monto']){
                 $nueva_oferta=$entidad['monto'];
             }
-
+            //echo $nueva_oferta;exit;
             //Porcentaje faltante
             if($nueva_oferta!=0){
                 $nuevo_porc_faltante=$nueva_oferta/$oferta_total;
