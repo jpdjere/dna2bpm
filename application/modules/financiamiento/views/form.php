@@ -4,16 +4,20 @@
   <title>Ministerio de Produccón de la Nación</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
   <link href="{base_url}dashboard/assets/bootstrap-wysihtml5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{base_url}financiamiento/assets/css/estilo.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <link rel="shortcut icon" type="image/png" href="{base_url}financiamiento/assets/images/cropped-Escudo-01.png"/>
   <link href="{base_url}dashboard/assets/bootstrap-wysihtml5/css/font-awesome-4.4.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-  <script src="{base_url}financiamiento/assets/css/bootstrap.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="{base_url}financiamiento/assets/images/cropped-Escudo-01.png"/>
 
-<script src="{base_url}financiamiento/assets/jscript/arrays_de_campos.js"></script>
-<script src="{base_url}financiamiento/assets/jscript/oculta_muestra.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+  <script src="{base_url}financiamiento/assets/css/bootstrap.min.js"></script>
+  <script src="{base_url}financiamiento/assets/jscript/jquery.maskedinput.js"></script>
+
+<script src="{base_url}financiamiento/assets/jscript/campos_aux.js"></script>
+<script src="{base_url}financiamiento/assets/jscript/formulario_principal.js"></script>
 </head>
 <body>
 <?php include("listas.php"); ?>
@@ -23,14 +27,34 @@ function lista($nombre, $meses, $nombre2=null){
     $nombre2=$nombre;
   }
 	$array = $meses;
-	$txt= "<select required disabled class='form-control' name='$nombre2' id='".$nombre."2'><option selected disabled>---</option>";
-	//disabled
+	$txt= "<select disabled class='form-control' name='$nombre2' id='".$nombre."2' required><option disabled value=''>---</option>";
 	for ($i=0; $i<sizeof($array); $i++){
 	$txt .= "<option value='$i'>". $array[$i] . '</option>';
 	}
 	$txt .= '</select>';
 	return $txt;
-}?>
+}
+
+function lista_multiple($nombre, $meses, $nombre2=null){
+  if($nombre2==null){
+    $nombre2=$nombre;
+  }
+	$array = $meses;
+	$txt= "<div class='required'>";
+	for ($i=0; $i<sizeof($array); $i++){
+	$txt .= "
+    <div class='checkbox'>
+      <label class='checkbox-custom' data-initialize='checkbox'>
+        <input id='$nombre-$i' name='".$nombre."[]' type='checkbox' value='$i' disabled>
+        <span class='checkbox-label'>$array[$i]</span>
+      </label>
+    </div>";
+    }
+	$txt .= '</div>';
+	return $txt;
+}
+
+?>
 <div class="col-sm-12 contenedor">
  <header style="width:100%; float:left">
       <a class="logo" href="http://www.produccion.gob.ar">
@@ -84,7 +108,7 @@ FORMULARIO ÚNICO
 
 <div class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="cuit" class="control-label">Cuit:</label>
-    <input class="form-control" id="cuit" placeholder="" required type="number">
+    <input class="form-control" id="cuit" required>
     <p class="help-block">Sin guiones ni espacios</p>
 </div>
 
@@ -168,10 +192,15 @@ FORMULARIO ÚNICO
 
 
 <!-- PYME BANCARIO (1.1) -->
-<?php  $id = 'destino_prestamo';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="destino_prestamo">Destino del Préstamo</label>
-  <?php $resultado = lista($id, $destino_prestamo); echo $resultado;?>
+<?php  $id = 'destino_prestamo';?>
+<div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+<div class="form-group">
+  <label for="$id" class="control-label">Destino del Préstamo</label>
+  <?php echo lista_multiple($id, $destino_prestamo, $id.'[]');?>
 </div>
+</div>
+
+
 
 <?php  $id = 'sectores_proyecto';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label class="control-label" for="sectores_proyecto">Sector al que pertenece la actividad a ser financiada </label>
@@ -185,14 +214,14 @@ FORMULARIO ÚNICO
 
 <?php $id = 'monto_prestamo';?><div  id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label for="monto_prestamo" class="control-label">Indique Monto del préstamo solicitado MM$</label>
-  <input class="form-control"  disabled="true" id="monto_prestamo2" name="monto_prestamo" placeholder="$" required type="number">
+  <input class="form-control"  disabled="true" id="monto_prestamo2" name="monto_prestamo" placeholder="$" required type="number" min="0">
 </div>
 
 
 <!-- PYME NO BANCARIO -->
 <?php $id = 'destino_prestamo_nobanc';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label class="control-label" for="destino_prestamo_nobanc">Destino del Préstamo</label>
-  <?php $resultado = lista($id, $destino_prestamo); echo $resultado;?>
+  <?php $resultado = lista($id, $destino_prestamo_fona); echo $resultado;?>
 </div>
 
 <?php $id = 'sectores_proyecto_nobanc';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">

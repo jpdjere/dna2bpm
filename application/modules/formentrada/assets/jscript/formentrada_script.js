@@ -8,7 +8,7 @@
  */
 
 $(document).ready(function() {
-   
+            
             $("#commentForm").validate({
 			rules: {
 			    prestamo:{
@@ -192,27 +192,32 @@ $(document).ready(function() {
 		});
         $("#cuit").mask("99-99999999-9",{placeholder:""});
         
-        
-        
-        /// Si seleccionan la Pregunta 1 la 3 y 4 pasan a NO. 
+        //Si la pregunta1==NO se desabilitan la pregunta 2 y 3
+        /// Si seleccionan la Pregunta 1 la 3 y 4 pasan a NO. ¿? confirmar
         $("[name='prestamo']").change(function(){
             switch($("[name='prestamo']:checked").val()){
                 case 'NO':
+                    $("#monto_no").prop("checked",true);
+                    $("#situacion_no").prop("checked",true);
+                    $("#monto_no").prop("disabled",true);
+                    $("#situacion_no").prop("disabled",true);
+                    /*
                     $("[name='situacion'][value='SI']").attr("checked",false);
                     $("[name='vincu'][value='SI']").attr("checked",false);
                     //$("[name='situacion'][value='NO']").attr("checked",false);
                     //$("[name='vincu'][value='NO']").attr("checked",false);
                     $("[name='situacion'][value='NO']").attr("checked",true);
                     $("[name='vincu'][value='NO']").attr("checked",true);
-                    //console.log('NO');
+                    //console.log('NO');*/
                     break;
                 case 'SI':
+                    $("#monto_no").prop("disabled",false);
+                    $("#situacion_no").prop("disabled",false);
+                    /*
                     //console.log('SI');
                     //$("[name='situacion'][value='NO']").attr("checked",false);
-                    //$("[name='vincu'][value='NO']").attr("checked",false);
+                    //$("[name='vincu'][value='NO']").attr("checked",false);*/
                     break;
-                
-                
             }
             
         });
@@ -225,13 +230,19 @@ $(document).ready(function() {
                     alert('Por favor complete los campos solicitados!');
                     
                 }else{
+                    $("#monto_no").prop("disabled",false);
+                    $("#situacion_no").prop("disabled",false);
                     var fields = $("#commentForm").serializeArray();
                     
                     var email_check = fields[17].value;
                     var email_check1 = fields[18].value;
-                    var flag_final; 
+                    var flag_final;
+                    console.log(email_check);
+                    console.log(email_check1);
                     if(email_check != email_check1){
-                       alert('Las direcciones de email no coinciden!'); 
+                       alert('Las direcciones de email no coinciden!');
+                        $("#monto_no").prop("disabled",true);
+                        $("#situacion_no").prop("disabled",true);
                     } else{
                     
                     
