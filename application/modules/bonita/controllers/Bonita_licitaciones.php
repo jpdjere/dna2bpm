@@ -283,6 +283,12 @@ class bonita_licitaciones extends MX_Controller {
             $asignaciones[]=$asignacion_generica;
             $total_asignacion=array_sum($asignacion_generica);
         }
+        if($total_asignacion!=$cmax){
+            $ultima_asignacion=$this->calcular_ultima_asignacion($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica, $asignaciones);
+            if($asignaciones){
+                $asignaciones[]=$ultima_asignacion;
+            }
+        }
         
         //datos_licitacion
         $datos = '<td>'.$datos_licitacion[0]['resolucion'].'</td><td>'.sprintf("%02d", $datos_licitacion[0]['fechalic']['mday']).'/'.sprintf("%02d", $datos_licitacion[0]['fechalic']['mon']).'/'.sprintf("%02d", $datos_licitacion[0]['fechalic']['year']).'</td><td>'.number_format($datos_licitacion[0]['cmax'], 0, ",", ".").'</td><td>'.number_format($datos_licitacion[0]['maxeeff'], 0, ",", ".").'</td><td>'.number_format($total_ofrecido, 0, ",", ".").'</td><td>'.number_format($total_asignacion, 0, ",", ".").'</td>';
@@ -355,7 +361,7 @@ class bonita_licitaciones extends MX_Controller {
         return $asignacion_primaria;
     }
     
-    function calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion_anterior, $datos_entidades, $asignacion_primaria){
+    function calcular_asignacion_generica($cmax, $maxeeff, $total_asignacion_anterior, $datos_entidades, $asignacion_anterior){
         
         //calculos generales
         $faltante_asignacion=$cmax-$total_asignacion_anterior;
@@ -367,7 +373,7 @@ class bonita_licitaciones extends MX_Controller {
         
         $i=0;
         foreach($datos_entidades as $entidad){
-            if($asignacion_primaria[$i]==$maxeeff){
+            if($asignacion_anterior[$i]==$maxeeff){
                 $datos_entidades[$i]['ofertado']=0;
             }else{
                 $datos_entidades[$i]['ofertado']=$entidad['monto'];
@@ -380,25 +386,82 @@ class bonita_licitaciones extends MX_Controller {
         $i=0;
         
         foreach($datos_entidades as $entidad){
-            if($asignacion_primaria[$i]==$maxeeff){
-                $asignacion_generica[]=round($asignacion_primaria[$i]);
+            if($asignacion_anterior[$i]==$maxeeff){
+                $asignacion_generica[]=round($asignacion_anterior[$i]);
             }else{
                 $porc_faltante=$datos_entidades[$i]['ofertado']/$total_ofertado;
                 $pot_asignacion=$porc_faltante*$faltante_asignacion;
                 
-                if($asignacion_primaria[$i]+$pot_asignacion>$entidad['monto']){
+                if($asignacion_anterior[$i]+$pot_asignacion>$entidad['monto']){
                     if($entidad['monto']<$maxeeff){
                         $asignacion_generica[]=round($entidad['monto']);
                     }else{
                         $asignacion_generica[]=round($maxeeff);
                     }
                 }else{
-                    if($asignacion_primaria[$i]+$pot_asignacion>$maxeeff){
+                    if($asignacion_anterior[$i]+$pot_asignacion>$maxeeff){
                         $asignacion_generica[]=round($maxeeff);
                     }else{
-                        $asignacion_generica[]=round($asignacion_primaria[$i]+$pot_asignacion);
+                        $asignacion_generica[]=round($asignacion_anterior[$i]+$pot_asignacion);
                     }
                 }
+            }
+            $i+=1;
+        }
+        
+        $i=0;
+        foreach($datos_entidades as $entidad){
+            if($asignacion_anterior[$i]<$maxeeff){
+                $nueva_oferta_total+=$entidad['monto'];
+            }
+            $i+=1;
+        }
+        
+        $i=0;
+        $total_asignacion_actual=array_sum($asignacion_generica);
+        $nuevo_faltante_asignacion=$cmax-$total_asignacion_actual;
+        
+        return $asignacion_generica;
+    }
+    
+    function calcular_ultima_asignacion($cmax, $maxeeff, $total_asignacion_anterior, $datos_entidades, $asignacion_anterior, $todas_asignaciones){
+        $nuevo_faltante_asignacion=$cmax-$total_asignacion_anterior;
+        $i=0;
+        $oferta_total=0;
+        foreach($datos_entidades as $entidad){
+            $nueva_oferta=0;
+            if($asignacion_anterior[$i]<$entidad['monto']){
+                $nueva_oferta=$entidad['monto'];
+            }
+            $oferta_total+=$nueva_oferta;
+            $i+=1;
+        }
+        
+        $i=0;
+        foreach($datos_entidades as $entidad){
+            //Oferta
+            $nueva_oferta=0;
+            $nuevo_porc_faltante=0;
+            $nuevo_pot_asignacion=0;
+            if($asignacion_anterior[$i]<$entidad['monto']){
+                $nueva_oferta=$entidad['monto'];
+            }
+
+            //Porcentaje faltante
+            if($nueva_oferta!=0){
+                $nuevo_porc_faltante=$nueva_oferta/$oferta_total;
+            }
+            
+            //Potencial Asignacion
+            if($nuevo_porc_faltante!=0){
+                $nuevo_pot_asignacion=$nuevo_porc_faltante*$nuevo_faltante_asignacion;
+            }
+
+            //Asignacion final
+            if($nuevo_pot_asignacion!=0){
+                $asignacion_generica[]=$asignacion_anterior[$i]+$nuevo_pot_asignacion;
+            }else{
+                $asignacion_generica[]=$asignacion_anterior[$i];
             }
             $i+=1;
         }

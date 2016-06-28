@@ -153,6 +153,7 @@ $(document).ready(function() {
             url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_entidad_editar/',
             dataType : "json",
             success: function(result) {
+                
                 $("#col2").html(result.tabla);
                 cargar_param(id_mongo);
             }
