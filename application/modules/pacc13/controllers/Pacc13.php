@@ -92,6 +92,18 @@ BLOCK;
      */ 
     
     function asignar_evaluador_sde($idwf, $idcase, $tokenId, $src_resourceId) {
+        echo $wf->idwf;
+echo '  1XXX</br>';
+echo $wf->case;
+echo ' 2XXX</br>';
+echo $tokenid;
+echo ' 3XXX</br>';
+echo $src_resourceId;
+echo ' 4xxx/br>';
+
+        var_dump($idwf, $idcase, $tokenId, $src_resourceId);
+        
+        
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
