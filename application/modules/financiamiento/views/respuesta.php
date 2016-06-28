@@ -18,7 +18,7 @@
 <div class="col-sm-12 contenedor">
 <header style="width:100%; float:left">
 <a class="logo" href="http://www.produccion.gob.ar">
-<img width="260" src="../assets/images/Logo-ministerio.png" scale="0">
+<img width="260" src="{base_url}financiamiento/assets/images/Logo-ministerio.png" scale="0">
 </a>
 </header>
 <section class="formulario_unico">

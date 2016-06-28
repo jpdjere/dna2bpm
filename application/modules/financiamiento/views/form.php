@@ -12,12 +12,11 @@
   <link rel="shortcut icon" type="image/png" href="{base_url}financiamiento/assets/images/cropped-Escudo-01.png"/>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
   <script src="{base_url}financiamiento/assets/css/bootstrap.min.js"></script>
   <script src="{base_url}financiamiento/assets/jscript/jquery.maskedinput.js"></script>
 
 <script src="{base_url}financiamiento/assets/jscript/campos_aux.js"></script>
-<script src="{base_url}financiamiento/assets/jscript/formulario_principal.js"></script>
+<script src="{base_url}financiamiento/assets/jscript/formulario_principal2.js"></script>
 </head>
 <body>
 <?php include("listas.php"); ?>

@@ -1,3 +1,4 @@
+;
 function oculta(id) {
 	$("#"+id).hide();
 	$("#"+id+"2").prop('disabled', true);
@@ -56,26 +57,28 @@ $(document).ready(function(){
 	$("#telefono")[0].addEventListener("input", function(){validaciones_especiales();}, false);
 	$("#cuit")[0].addEventListener("input", function(){validaciones_especiales();}, false);
 	
-	document.getElementsByName("destino_prestamo[]").forEach(function(checkbox){
-		checkbox.addEventListener("change", function(){validaciones_especiales();}, false);
-	});
+		
+	var destinos = document.getElementsByName("destino_prestamo[]");
+	for (var i=0; i < destinos.length; i++){
+		destinos[i].addEventListener("change", function(){validaciones_especiales();}, false);
+	}
 
 	function ocultar_campos(array_campos){
-		array_campos.forEach(function(campo){
-			oculta(campo);
-		});
+		for (var i=0; i < array_campos.length; i++){
+			oculta(array_campos[i]);
+		}
 	}
 
 	function mostrar_campos(array_campos){
-		array_campos.forEach(function(campo){
-			muestra(campo);
-		});
+		for (var i=0; i < array_campos.length; i++){
+			muestra(array_campos[i]);
+		}
 	}
 	
 	function ocultar_todos_los_campos(){
-		todos_los_campos.forEach(function(array_de_campos){
-			ocultar_campos(array_de_campos);
-		});
+		for (var i=0; i < todos_los_campos.length; i++){
+			ocultar_campos(todos_los_campos[i]);
+		}
 	}
 
 	$("#sector_actividad2").change(function(){
@@ -97,9 +100,9 @@ $(document).ready(function(){
 		
 	}
 	
-	sectores.forEach(function(sector){
-		$("#"+sector+"2").change(function(){
-			if($("#"+sector+"2").val()<=3){
+	$.each(sectores, function(i,val){
+		$("#"+sectores[i]+"2").change(function(){
+			if($("#"+sectores[i]+"2").val()<=3){
 				muestra_campos_pyme();
 			}else{
 				muestra_campos_gran_empresa();
