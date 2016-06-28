@@ -7,7 +7,6 @@
             <td>FECHA DE CIERRE:</td>
             <td>CUPO MÁXIMO:</td>
             <td>MÁXIMO POR ENTIDAD FINANCIERA:</td>
-            <td colspan="2">ANEXOS:</td>
         </tr>
         {datos_licitacion}
     </table>

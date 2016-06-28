@@ -549,6 +549,12 @@ class bonita_licitaciones extends MX_Controller {
             $total_asignacion=array_sum($asignacion_generica);
         }
         
+        if($total_asignacion!=$cmax){
+            $ultima_asgnacion=$this->calcular_ultima_asignacion($cmax, $maxeeff, $total_asignacion, $datos_entidades, $asignacion_generica, $asignaciones);
+            $asignacion_generica=$ultima_asgnacion;
+            $total_asignacion=array_sum($ultima_asgnacion);
+        }
+
         $this->model_bonita_licitaciones->persistir_licitacion_y_cerrar($fields['id_licitacion'], $asignacion_generica);
         
         //$result=$this->model_bonita_licitaciones->cerrar_licitacion($fields);
