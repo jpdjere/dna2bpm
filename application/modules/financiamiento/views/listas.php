@@ -94,6 +94,11 @@ $destino_prestamo['4']='5- Gastos de mudanza a parques industriales.';
 $destino_prestamo['5']='8-Otros.';
 
 
+$destino_prestamo_fona['0']='1-Bienes de Capital, Construcciones e instalaciones.';
+$destino_prestamo_fona['1']='2-Capital de Trabajo.';
+$destino_prestamo_fona['2']='3-Otros.';
+
+
 $sectores_proyecto['0']='1.Automotriz y Autopartista;';
 $sectores_proyecto['1']='2.Maquinaria Agrícola; ';
 $sectores_proyecto['2']='3.Biotecnología; ';
@@ -114,26 +119,16 @@ $monto_prestamo_gran['0']='1.Hasta $3 millones de IP';
 $monto_prestamo_gran['1']='2.Hasta $1.5 millones de CT';
 $monto_prestamo_gran['2']='3.Más de $3 millones de IP o más de $1.5 millones de CT';
 
+$destino_prestamo_gran['0']='CT';
+$destino_prestamo_gran['1']='IP';
 
 
 $banco_rbt['0']='BNA';
 $banco_rbt['1']='BICE';
 
-$banco_mi_galpon['0']='BNA';
-
-//$banco_mi_galpon_rbt['0']='BNA';
-//$banco_mi_galpon_rbt['1']='BICE';
-
 $banco_parques['0']='BNA';
 
-//$banco_parques_rbt['0']='BNA';
-//$banco_parques_rbt['1']='BICE';
-
-
-
-$destino_prestamo_gran['0']='CT';
-$destino_prestamo_gran['1']='IP';
-
+$banco_mi_galpon['0']='BNA';
 
 
 $todos_bancos['0']='BANCO DE GALICIA Y BUENOS AIRES S.A.';

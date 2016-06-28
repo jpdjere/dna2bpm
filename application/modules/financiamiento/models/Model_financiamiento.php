@@ -23,15 +23,42 @@ class Model_financiamiento extends CI_Model {
     
     function devolver_programas_pyme_bancario($idwf, $idcase){
         $query = array('idwf' => $idwf, 'idcase' => $idcase);
-        return $this->db_formentrada->where($query)->result_array();
+        $this->db_formentrada->where($query);
+        $caso = $this->db_formentrada->get($this->container)->result_array();
+        $programas = $caso[0]['programa'];
+        if(!$programas){
+            return array();
+        }else{
+            return array_filter($programas);
+        }
     }
     
-    function actualizar_programas($idwf, $idcase, $programas){
+    function actualizar_caso($idwf, $idcase, $datos){
         $query = array('idwf' => $idwf, 'idcase' => $idcase);
-        $data = array('programas'=> $programas);
         $options = array('upsert' => true);
         $this->db_formentrada->where($query);
-        return $this->db_formentrada->update($this->container, $data, $options);
+        return $this->db_formentrada->update($this->container, $datos, $options);
+    }
+    
+    function devolver_bancos_pyme_bancario($idwf, $idcase){
+        $query = array('idwf' => $idwf, 'idcase' => $idcase);
+        $this->db_formentrada->where($query);
+        $caso = $this->db_formentrada->get($this->container)->result_array();
+        $programas['rbt'] = $caso[0]['rbt'];
+        $programas['parques'] = $caso[0]['parques'];
+        $programas['mi_galpon'] = $caso[0]['mi_galpon'];
+        $programas=array_filter($programas, function($dato){
+            if(is_null($dato)){
+                return false;
+            }else{
+                return true;
+            }
+        });
+        if(!$programas){
+            return array();
+        }else{
+            return $programas;
+        }
     }
 }
 
