@@ -19,6 +19,8 @@ class Emails extends MX_Controller {
         $this->load->model('model_financiamiento');
         $this->load->library('parser');
         $this->load->model('bpm/bpm');
+        $this->reply_email='financiamiento@producción.gob.ar';
+        $this->reply_nicename='Financiamiento Ministerio de Producción';
     }
     
     function Index() {
@@ -29,15 +31,8 @@ class Emails extends MX_Controller {
     function email_gran_empresa_bancario(){
 
         $email['subject'] = 'Líneas de Crédito. Banco BICE';
-        $email['body'] = 'Este mail se envió en forma automática desde la página del Ministerio de Producción.
-        De acuerdo a los datos enviados mediante el formulario, hoy en día su solicitud podría canalizarse por medio de las líneas de crédito para Grandes Empresas disponibles en Banco BICE.
-        En líneas generales, para proyectos de inversión, el financiamiento es de hasta $200 millones o su equivalente en dólares, con un plazo de hasta 15 años a tasa “Badlar Bancos Privados” más el spread que el BICE determine en cada caso. En dólares con un plazo de hasta 10 años en dólares, a tasa Libor más el spread que el BICE determine en cada caso.
-        En caso de estar interesado, la empresa deberá hacer la presentación ante la entidad financiera para su calificación como sujeto de crédito de la línea.  La misma, deberá contener la información que se detalla en el adjunto Pre-análisis. 
-        Para mayor información podrá ingresar al siguiente link  http://www.bice.com.ar/es/
-        Se deja constancia que la presente no implica el otorgamiento del derecho a esa empresa a la aprobación del crédito en cuestión
-        Cualquier duda o dificultad que pudiera surgir comunicarse con financiamiento@producción.gob.ar o  comercial@bice.com.ar. 
-        ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/gran_empresa_bancario.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'
             =>'Preanalisis.pdf');
@@ -53,7 +48,7 @@ class Emails extends MX_Controller {
         Una vez completada la planilla, deberá enviarse a: financiamiento@producción.gob.ar con el asunto: ENVIO DE INFORMACIÓN ADICIONAL- NOMBRE DE EMPRESA.
         Cualquier duda o dificultad que pudiera surgir comunicarse con financiamiento@producción.gob.ar
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/no_bancario/plantilla_empresa.xlsx'
             =>'Plantilla Empresa.xlsx');
@@ -73,7 +68,7 @@ class Emails extends MX_Controller {
         Se deja constancia que la presente no implica el otorgamiento del derecho a esa empresa a la aprobación del crédito en cuestión
         Cualquier duda o dificultad que pudiera surgir comunicarse con fonapyme@producción.gob.ar 
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/no_bancario/fona_ct.xls'
             =>'ANEXO II - Formulario FONAPYME - FORTALECIMIENTO COMPETITIVO.xls');
@@ -93,7 +88,7 @@ class Emails extends MX_Controller {
         Se deja constancia que la presente no implica el otorgamiento del derecho a la aprobación del crédito en cuestión.
         Cualquier duda o dificultad que pudiera surgir comunicarse con fonapyme@producción.gob.ar
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/no_bancario/fona_bc.xls'
             =>'ANEXO II -  FONAPYME PRODUCCION ESTRATEGICA.xls');
@@ -108,7 +103,7 @@ class Emails extends MX_Controller {
         Tengo el agrado de dirigirme a usted a efectos de comunicarle que, de acuerdo al análisis de la información presentada, en principio, su proyecto excede el monto otorgado por el Ministerio de Producción para proyectos de estas características. No obstante, solicitamos que tenga a bien completar el archivo que se adjunta, de manera de poder avanzar en el análisis del caso en busca de la mejor alternativa de financiamiento que se adecue a sus las características de su empresa y proyecto.
         Cualquier duda o dificultad que pudiera surgir comunicarse con fonapyme@producción.gob.ar 
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/no_bancario/plantilla_empresa.xlsx'
             =>'Plantilla Empresa.xlsx');
@@ -137,7 +132,7 @@ class Emails extends MX_Controller {
         Se deja constancia que la presente no implica el otorgamiento del derecho a la aprobación del crédito en cuestión.
         Para mayor información podrá ingresar al siguiente link http://www.produccion.gob.ar/mi-galpon/como-se-accede/.
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array(
             '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/mi_galpon_informe.docx'
@@ -172,7 +167,7 @@ class Emails extends MX_Controller {
         La declaración de elegibilidad, a los efectos de calificar para solicitar un crédito con tasa bonificada por el Ministerio de Producción ante el Banco de la Nación Argentina, será notificada al empresario solicitante y al Banco, a los efectos de que inicie la gestión del crédito ante la sucursal del Banco señalada en la presentación.
         Cualquier duda o dificultad que pudiera surgir, comunicarse con rbt@produccion.gob.ar.
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array(
             '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/parques_certificacion.docx'
@@ -195,7 +190,7 @@ class Emails extends MX_Controller {
         Cualquier duda o dificultad que pudiera surgir, comunicarse con rbt@produccion.gob.ar; o en caso de que se requiera hacer una derivación y contacto con el Banco.
         Se deja constancia que la presente no implica el otorgamiento del derecho a la aprobación del crédito en cuestión.
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array(
             '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/rbt_bice_convenio.pdf'
@@ -216,7 +211,7 @@ class Emails extends MX_Controller {
         Cualquier duda o dificultad que pudiera surgir, comunicarse con rbt@produccion.gob.ar; o en caso de que se requiera hacer una derivación y contacto con el Banco.
         Se deja constancia que la presente no implica el otorgamiento del derecho a la aprobación del crédito en cuestión.
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array(
             '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/rbt_bna_convenio.pdf'
@@ -233,7 +228,7 @@ class Emails extends MX_Controller {
         Se deja constancia que la presente no implica el otorgamiento del derecho a la aprobación del crédito en cuestión.
         Cualquier duda o dificultad que pudiera surgir, comunicarse con financiamiento@producción.gob.ar.
         ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
+        $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
         $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'
             =>'Preanalisis.pdf');
