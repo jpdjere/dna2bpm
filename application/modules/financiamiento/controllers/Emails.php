@@ -28,7 +28,7 @@ class Emails extends MX_Controller {
 
     function email_gran_empresa_bancario(){
 
-        $email['asunto'] = 'Líneas de Crédito. Banco BICE';
+        $email['subject'] = 'Líneas de Crédito. Banco BICE';
         $email['body'] = 'Este mail se envió en forma automática desde la página del Ministerio de Producción.
         De acuerdo a los datos enviados mediante el formulario, hoy en día su solicitud podría canalizarse por medio de las líneas de crédito para Grandes Empresas disponibles en Banco BICE.
         En líneas generales, para proyectos de inversión, el financiamiento es de hasta $200 millones o su equivalente en dólares, con un plazo de hasta 15 años a tasa “Badlar Bancos Privados” más el spread que el BICE determine en cada caso. En dólares con un plazo de hasta 10 años en dólares, a tasa Libor más el spread que el BICE determine en cada caso.
@@ -46,7 +46,7 @@ class Emails extends MX_Controller {
     
     function email_gran_empresa_no_bancario(){
 
-        $email['asunto'] = 'Solicitud de información complementaria. Ministerio de Producción.';
+        $email['subject'] = 'Solicitud de información complementaria. Ministerio de Producción.';
         $email['body'] = 'Este mail se envió en forma automática desde la página del Ministerio de Producción.
         De acuerdo al análisis de la información presentada consideramos necesario profundizar el estudio del caso para encontrar la mejor alternativa de financiamiento que se corresponda con las características de su empresa y proyecto.
         Una vez completada la planilla, deberá enviarse a: financiamiento@producción.gob.ar con el asunto: ENVIO DE INFORMACIÓN ADICIONAL- NOMBRE DE EMPRESA.
