@@ -146,6 +146,7 @@ $(document).ready(function(){
 	$("#tiene_tramite2").change(function(){
 		
 		if($("#tiene_tramite2").val()==0){ 				//False: bancario
+			ocultar_campos(campos_pyme_no_bancario);
 			mostrar_campos(campos_pyme_bancario);
 			$("#monto_prestamo2").attr("disabled", false);
 			$("#monto_solicitado2").attr("disabled", true);
