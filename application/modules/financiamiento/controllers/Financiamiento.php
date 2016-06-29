@@ -64,6 +64,8 @@ class Financiamiento extends MX_Controller {
         $programas = $this->model_financiamiento->devolver_programas_pyme_bancario($idwf, $idcase);
         if(!$programas){
             $customData['programas']="Otros";
+            $datos=array('programa'=>array('otro'));
+            $this->model_financiamiento->actualizar_caso($idwf, $idcase, $datos);
         }else{
             foreach($programas as $programa){
                 $customData['programas']=" ".$customData['programas'].$programa." ";
@@ -91,7 +93,8 @@ class Financiamiento extends MX_Controller {
     function respuesta($customData){
         return $this->parser->parse('financiamiento/respuesta',$customData,true,true);
     }
-
+    
+    //Bancario
     function mostrar_respuesta_pyme_bancario($idwf, $idcase, $token){
         //Muestra las respuestas para los programas pyme bancarios
         $programas = $this->model_financiamiento->devolver_bancos_pyme_bancario($idwf, $idcase);
@@ -119,7 +122,8 @@ class Financiamiento extends MX_Controller {
         }
         echo $this->respuesta($customData);
     }
-    
+
+    //FonaPyme
     function mostrar_respuesta_fonapyme($tipo_caso){
         //Muestra las respuestas para los programas fonapyme
         $customData['base_url'] = $this->base_url;
@@ -127,6 +131,13 @@ class Financiamiento extends MX_Controller {
         echo $this->respuesta($customData);
     }
     
+    //Gran Empresa
+    function mostrar_respuesta_gran_empresa($tipo_empresa){
+        //Muestra las respuestas para los programas fonapyme
+        $customData['base_url'] = $this->base_url;
+        $customData['respuestas'] = $this->load->view("financiamiento/respuestas/gran_empresa_$tipo_empresa.htm", '', true);
+        echo $this->respuesta($customData);
+    }
 }
 
 
