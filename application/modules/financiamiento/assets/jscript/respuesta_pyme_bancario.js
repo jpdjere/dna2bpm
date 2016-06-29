@@ -24,11 +24,7 @@ $(document).ready(function() {
 			result.forEach(function(programa){
 				muestra(programa);
 			});
-			if(result.length==0){
-				muestra("otros");
-			}else{
-				muestra("compartir_efis");
-			}
+			muestra("compartir_efis");
 		}
 	});
 });

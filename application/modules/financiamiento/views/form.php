@@ -55,21 +55,25 @@ function lista_multiple($nombre, $meses, $nombre2=null){
 
 ?>
 <div class="col-sm-12 contenedor">
- <header style="width:100%; float:left">
-      <a class="logo" href="http://www.produccion.gob.ar">
-<img width="260" src="{base_url}financiamiento/assets/images/Logo-ministerio.png" scale="0">
+  
+<header>
+<div class="cabezal">
+<a class="logo" href="http://www.produccion.gob.ar">
+  <img width="260" src="{base_url}financiamiento/assets/images/Logo-ministerio.png" scale="0">
 </a>
+</div>
+<div class="slide">
+<div class="imagen"><h2 class="titulo-slide">
+FINANCIAMIENTO
+</h2></div>
+</div>
+</header>
+    
 
-
-    </header>
-
-    <section class="formulario_unico">
-  <h1 class="entry-title h1-paginas">
-<a class="volver" href="javascript:history.back()" title="Volver Atras">
-<i class="fa fa-angle-left"></i>
-</a>
-FORMULARIO ÚNICO
-</h1>
+<section class="formulario_unico">
+  
+  
+<h2 class="subtitulo"> A través del Formulario Único, las empresas podrán acceder al ﬁnanciamiento que necesitan.</h2>
 <div class="share-post">
 <a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.produccion.gob.ar/pac-conglomerados-productivos/">
 <i class="fa fa-facebook fa-1x"></i>
@@ -81,6 +85,14 @@ FORMULARIO ÚNICO
 <i class="fa fa-envelope fa-1x"></i>
 </a>
 </div>
+<h1 class="entry-title h1-paginas">
+<a class="volver" href="javascript:history.back()" title="Volver Atras">
+<i class="fa fa-angle-left"></i>
+</a>
+FORMULARIO ÚNICO
+</h1>
+
+
   <div class="col-sm-12">
 <form class="formulario"  action="{base_url}financiamiento/financiamiento/continuar_flujo"  method="post">
 <fieldset>
@@ -299,14 +311,14 @@ FORMULARIO ÚNICO
 </form>
 </section>
 
-<footer style=" margin-bottom: 20px; width: 100%; float:left; margin-top:20px;">
-<div class="col-xs-12 col-sm-12 col-md-8 footer-texto"> 2016 | Ministerio de Producción | Hipólito Yrigoyen 250 | (C1086AAB) CABA | Tel. 0800.333.7963</div>
-<div class="col-xs-12 col-sm-12 col-md-4 logo-footer">
-  <a href="http://www.produccion.gob.ar">
-    <img width="230" src="{base_url}financiamiento/assets/images/Logo-ministerio.png" scale="0">
-  </a>
+<footer style="width: 100%; float:left; margin-top:20px; background:#F0F1F1;">
+<div class="col-xs-12 col-sm-12 col-md-12 footer-texto">
+<img width="230" src="{base_url}financiamiento/assets/images/secretaria.jpg" scale="0"><a class="logofoter" href="http://www.produccion.gob.ar">
+<img width="230" src="{base_url}financiamiento/assets/images/Logo-ministerio.png" scale="0">
+</a></div>
 </div>   
 </footer>
+
 </div>
 </body>
 </html>

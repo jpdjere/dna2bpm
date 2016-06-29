@@ -64,12 +64,10 @@ class Financiamiento extends MX_Controller {
         $programas = $this->model_financiamiento->devolver_programas_pyme_bancario($idwf, $idcase);
         if(!$programas){
             $customData['programas']="Otros";
-            $datos=array('programa'=>array('otro'));
+            $datos=array('programa'=>array('otros'));
             $this->model_financiamiento->actualizar_caso($idwf, $idcase, $datos);
         }else{
-            foreach($programas as $programa){
-                $customData['programas']=" ".$customData['programas'].$programa." ";
-            }
+            $customData['programas']=$this->devolver_programas_encadenados($programas);
         }
         echo $this->parser->parse('financiamiento/form_pyme_bancario',$customData,true,true);
     }
@@ -88,6 +86,27 @@ class Financiamiento extends MX_Controller {
         $this->devolver_flujo_bpm($datos_formulario);
     }
 
+    function devolver_programas_encadenados($programas){
+        //Recibe los programas en un array y devuelve un string con los programas concatenados
+        foreach($programas as $clave=>$programa){
+            if($programa=='parques'){
+                $programas[$clave]="Parques";
+            }elseif($programa=='rbt'){
+                $programas[$clave]="Régimen de bonificación de tasas";
+            }elseif($programa=='mi_galpon'){
+                $programas[$clave]="Mi Galpón";
+            }   
+        }
+        if(count($programas)==3){
+            return sprintf("%s, %s y %s.", $programas[0], $programas[1], $programas[2]);
+        }elseif(count($programas)==2){
+            return sprintf("%s y %s.", $programas[0], $programas[1]);
+        }elseif(count($programas)==1){
+            return sprintf("%s.", $programas[0]);
+        }else{
+            return '';
+        }
+    }
 
 /*************************RESPUESTAS*************************/
     function respuesta($customData){
