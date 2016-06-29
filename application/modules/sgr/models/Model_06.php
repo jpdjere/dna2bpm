@@ -779,7 +779,8 @@ class Model_06 extends CI_Model {
             list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
 
 
-            
+            $afip_var = ($afip_condition[$list['5596'][0]])?$afip_condition[$list['5596'][0]]:$list['5596'][0];
+            $afip_var = strtoupper($afip_var);
             //var_dump($sector_opt[$sector_value]);
             
 
@@ -816,7 +817,7 @@ class Model_06 extends CI_Model {
             $new_list['col31'] = $list['27'];
             $new_list['col32'] = dot_by_coma($promedio);
             $new_list['col33'] = $company_type;
-            $new_list['col34'] = $afip_condition[$list['5596'][0]];
+            $new_list['col34'] = $afip_var;
             $new_list['col35'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['col36'] = $acta_type[$list['5253'][0]];
             $new_list['col37'] = $list['5255'];

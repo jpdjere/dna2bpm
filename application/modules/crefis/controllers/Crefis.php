@@ -433,7 +433,6 @@ class crefis extends MX_Controller {
                 $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
             }
 
-
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
@@ -444,8 +443,11 @@ class crefis extends MX_Controller {
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
                 'link_msg' => $url_msg,
+                'link_msg_cond' => isset($url_msg)?true:false,
                 'url_clone' => $url_clone,
+                'url_clone_cond' => isset($url_clone)?true:false,
                 'url_bpm' => $url_bpm,
+                'url_bpm_cond' => isset($url_bpm)?true:false,
                 'url_cancelar_pp' => $url_cancelar_pp,
                 'url_cancelar_pde' => $url_cancelar_pde,
                 'url_reevaluar_pp' => $url_reevaluar_pp,
