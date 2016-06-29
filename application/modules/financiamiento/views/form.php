@@ -136,7 +136,7 @@ FORMULARIO ÚNICO
 <?php $id = 'mail';?>
 <div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="mail" class="control-label">E-mail</label>
-    <input class="form-control" id="mail" id="mail" placeholder="" required type="email">
+    <input class="form-control" id="mail" name="mail" placeholder="" required type="email">
  </div>
 
 
