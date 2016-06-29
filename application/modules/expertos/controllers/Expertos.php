@@ -1360,7 +1360,7 @@ BLOCK;
             //'iduser' => $this->idu,
             'status' => 'user',
             'assign' => $this->idu,
-            'idwf' => 'Expertos_Base'
+            'idwf' => array('$in'=>array('Expertos_Base','carga_pro_inst'))//'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
