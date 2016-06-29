@@ -308,6 +308,13 @@ class bonita_licitaciones extends MX_Controller {
             $total_asignacion=array_sum($ultima_asgnacion);
         }
         
+        $iguales=false;
+        for($x=0;$x<6;$x+=1){
+            if($total_asignacion+$x==$cmax){
+                $total_asignacion=$cmax;
+            }
+        }
+
         //datos_licitacion
         $datos = '<td>'.$datos_licitacion[0]['resolucion'].'</td><td>'.sprintf("%02d", $datos_licitacion[0]['fechalic']['mday']).'/'.sprintf("%02d", $datos_licitacion[0]['fechalic']['mon']).'/'.sprintf("%02d", $datos_licitacion[0]['fechalic']['year']).'</td><td>'.number_format($datos_licitacion[0]['cmax'], 0, ",", ".").'</td><td>'.number_format($datos_licitacion[0]['maxeeff'], 0, ",", ".").'</td><td>'.number_format($total_ofrecido, 0, ",", ".").'</td><td>'.number_format($total_asignacion, 0, ",", ".").'</td>';
         $customData['datos_licitacion'] = $datos;

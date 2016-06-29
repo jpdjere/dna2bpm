@@ -39,7 +39,8 @@ class Emails extends MX_Controller {
         ';
         $email['reply_email'] = 'financiamiento@producción.gob.ar';
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
-        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'=>'Preanalisis.pdf');
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'
+            =>'Preanalisis.pdf');
         
         return $email;
     }
@@ -234,7 +235,8 @@ class Emails extends MX_Controller {
         ';
         $email['reply_email'] = 'financiamiento@producción.gob.ar';
         $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
-        $email['attachments'] = array();
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'
+            =>'Preanalisis.pdf');
         
         return $email;
     }
