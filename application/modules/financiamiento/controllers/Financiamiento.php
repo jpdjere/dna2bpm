@@ -126,6 +126,7 @@ class Financiamiento extends MX_Controller {
         $customData['respuestas'] = $this->load->view("financiamiento/respuestas/fona_$tipo_caso.htm", '', true);
         echo $this->respuesta($customData);
     }
+    
 }
 
 

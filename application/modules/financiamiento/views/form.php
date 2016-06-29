@@ -93,7 +93,7 @@ FORMULARIO ÚNICO
 <!-- Datos Generales -->
 <div  class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="razon_social" class="control-label">Razón Social</label>
-    <input class="form-control" id="razon_social" placeholder="" required type="text">
+    <input class="form-control" id="razon_social" name="razon_social" placeholder="" required type="text">
 </div>
 
 <div class="form-group col-xs-12 col-sm-6 col-lg-6">
@@ -107,7 +107,7 @@ FORMULARIO ÚNICO
 
 <div class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="cuit" class="control-label">Cuit:</label>
-    <input class="form-control" id="cuit" required>
+    <input class="form-control" id="cuit" name="cuit" required>
     <p class="help-block">Sin guiones ni espacios</p>
 </div>
 
@@ -119,7 +119,7 @@ FORMULARIO ÚNICO
 
 <div  class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="nombre_contacto" class="control-label">Nombre de Contacto</label>
-    <input class="form-control" id="nombre_contacto" placeholder="" required type="text">
+    <input class="form-control" id="nombre_contacto" name="nombre_contacto" placeholder="" required type="text">
 </div>
 
 <div class="form-group col-xs-12 col-sm-6 col-lg-6">
@@ -136,7 +136,7 @@ FORMULARIO ÚNICO
 <?php $id = 'mail';?>
 <div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="mail" class="control-label">E-mail</label>
-    <input class="form-control" id="mail" id="mail" placeholder="" required type="email">
+    <input class="form-control" id="mail" name="mail" placeholder="" required type="email">
  </div>
 
 
