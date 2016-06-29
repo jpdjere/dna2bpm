@@ -22,16 +22,18 @@
                     "function": "tile_proyectos"
                 },
                 {
-                    "title": "TileSolicitud",
-                    "module": "crefis",
-                    "controller": "crefis",
-                    "function": "tile_solicitud"
+                    "title": "Evaluacion Tecnica",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["crefisGral", "crefisGral_WN"]
                 },
                 {
-                    "title": "Tile01",
+                    "title": "Evaluacion Formal",
                     "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_cases"
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["crefisGral", "crefisGral_IY"]
                 },
                 {
                     "title": "Tile01",
