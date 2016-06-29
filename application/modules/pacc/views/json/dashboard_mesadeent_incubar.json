@@ -20,6 +20,7 @@
             "function": "tile",
             "params": ["pacc", "INCUBAR_QM"],
             "span": 3
+<<<<<<< HEAD
         },{
             "title": "Tile01",
             "module": "bpm",
@@ -28,6 +29,9 @@
             "params": ["pacc", "INCUBAR_JD"],
             "span": 3
         },{
+=======
+        }, {
+>>>>>>> hotfix/Hotfix-27822
             "title": "Buscar",
             "module": "pacc",
             "controller": "evaluador_incubar",

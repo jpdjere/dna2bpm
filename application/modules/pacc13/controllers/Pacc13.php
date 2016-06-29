@@ -91,7 +91,11 @@ BLOCK;
      * Asigna un evaluador para una solicitud de desembolso
      */ 
     
+<<<<<<< HEAD
     function asignar_evaluador_sde($idwf, $idcase, $tokenId, $src_resourceId) {
+=======
+    function asignar_evaluador_sde($idwf, $idcase, $tokenId) {
+>>>>>>> hotfix/Hotfix-27822
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
@@ -102,16 +106,26 @@ BLOCK;
         //----tomo evaluador técnico
         $evaluador = $renderData['Proyectos_pacc']['6096'][0];
         //----token que hay que finalizar (self)
+<<<<<<< HEAD
         //$src_resourceId = 'oryx_43E6BB74-5545-4CAB-BD71-3F3B42533211';
         // ---Token de pp asignado (Lane)
         $lane_resourceId = 'oryx_891FFEB1-5EE3-44C6-A16B-13153912E0F1';
+=======
+        $src_resourceId = 'oryx_43E6BB74-5545-4CAB-BD71-3F3B42533211';
+        // ---Token de pp asignado (Lane)
+        $lane_resourceId = 'oryx_0DA9E38A-92D8-4B19-A948-46CEF3168613';
+>>>>>>> hotfix/Hotfix-27822
         
         $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
 
         redirect($url);
     }
 
+<<<<<<< HEAD
     function asignar_evaluador_administrativo_sde($idwf, $idcase, $tokenId, $src_resourceId) {
+=======
+    function asignar_evaluador_administrativo_sde($idwf, $idcase, $tokenId) {
+>>>>>>> hotfix/Hotfix-27822
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
@@ -120,7 +134,11 @@ BLOCK;
         //----tomo evaluador administrativo
         $evaluador = $renderData['Proyectos_pacc']['7106'][0];
         //----token que hay que finalizar (self)
+<<<<<<< HEAD
         //$src_resourceId = 'oryx_BD7F84C3-73FE-48E0-831F-DEB0B9F78DCC';
+=======
+        $src_resourceId = 'oryx_BD7F84C3-73FE-48E0-831F-DEB0B9F78DCC';
+>>>>>>> hotfix/Hotfix-27822
         // ---Token de Lane asignado
         $lane_resourceId = 'oryx_CD23C511-FAE2-4549-8D26-2182224D770F';
         
