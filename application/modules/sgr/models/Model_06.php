@@ -815,8 +815,8 @@ class Model_06 extends CI_Model {
             $new_list['col30'] = dot_by_coma($list['26']);
             $new_list['col31'] = $list['27'];
             $new_list['col32'] = dot_by_coma($promedio);
-            $new_list['col33'] = $company_type; //$afip_condition[$list['5596'][0]];
-            $new_list['col34'] = "-";
+            $new_list['col33'] = $company_type;
+            $new_list['col34'] = $afip_condition[$list['5596'][0]];
             $new_list['col35'] = $list['CANTIDAD_DE_EMPLEADOS'];
             $new_list['col36'] = $acta_type[$list['5253'][0]];
             $new_list['col37'] = $list['5255'];
