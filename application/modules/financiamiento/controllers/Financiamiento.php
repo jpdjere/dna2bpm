@@ -64,9 +64,12 @@ class Financiamiento extends MX_Controller {
         $customData['token'] = $token;
         $programas = $this->model_financiamiento->devolver_programas_pyme_bancario($idwf, $idcase);
         if(!$programas){
-            $customData['programas']="Otros";
+            $datos_formulario['idwf']=$idwf;
+            $datos_formulario['idcase']=$idcase;
+            $datos_formulario['token']=$token;
             $datos=array('programa'=>array('otros'));
             $this->model_financiamiento->actualizar_caso($idwf, $idcase, $datos);
+            $this->devolver_flujo_bpm($datos_formulario);
         }else{
             $customData['programas']=$this->devolver_programas_encadenados($programas);
         }
@@ -96,7 +99,7 @@ class Financiamiento extends MX_Controller {
                 $programas[$clave]="Régimen de bonificación de tasas";
             }elseif($programa=='mi_galpon'){
                 $programas[$clave]="Mi Galpón";
-            }   
+            }
         }
         if(count($programas)==3){
             return sprintf("%s, %s y %s.", $programas[0], $programas[1], $programas[2]);
@@ -119,6 +122,9 @@ class Financiamiento extends MX_Controller {
         //Muestra las respuestas para los programas pyme bancarios
         $programas = $this->model_financiamiento->devolver_bancos_pyme_bancario($idwf, $idcase);
         $customData['base_url'] = $this->base_url;
+        $customData['idcase'] = $idcase;
+        $customData['idwf'] = $idwf;
+        $customData['token'] = $token;
         
         $rbt = $programas['rbt'];
         $mi_galpon = $programas['mi_galpon'];
@@ -144,17 +150,23 @@ class Financiamiento extends MX_Controller {
     }
 
     //FonaPyme
-    function mostrar_respuesta_fonapyme($tipo_caso){
+    function mostrar_respuesta_fonapyme($tipo_caso, $idwf, $idcase, $token){
         //Muestra las respuestas para los programas fonapyme
         $customData['base_url'] = $this->base_url;
+        $customData['idcase'] = $idcase;
+        $customData['idwf'] = $idwf;
+        $customData['token'] = $token;
         $customData['respuestas'] = $this->load->view("financiamiento/respuestas/fona_$tipo_caso.htm", '', true);
         echo $this->respuesta($customData);
     }
     
     //Gran Empresa
-    function mostrar_respuesta_gran_empresa($tipo_empresa){
+    function mostrar_respuesta_gran_empresa($tipo_empresa, $idwf, $idcase, $token){
         //Muestra las respuestas para los programas fonapyme
         $customData['base_url'] = $this->base_url;
+        $customData['idcase'] = $idcase;
+        $customData['idwf'] = $idwf;
+        $customData['token'] = $token;
         $customData['respuestas'] = $this->load->view("financiamiento/respuestas/gran_empresa_$tipo_empresa.htm", '', true);
         echo $this->respuesta($customData);
     }

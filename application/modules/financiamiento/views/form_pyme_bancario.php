@@ -50,7 +50,7 @@ FINANCIAMIENTO
 <section class="formulario_unico">
 
 
-<h2 class="subtitulo"> A través del Formulario Único, las empresas podrán acceder al ﬁnanciamiento que necesitan.</h2>
+<h2 class="subtitulo">Te ayudamos a encontrar la mejor opción de financiamiento para tu empresa</h2>
 <div class="share-post">
 <a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.produccion.gob.ar/pac-conglomerados-productivos/">
 <i class="fa fa-facebook fa-1x"></i>
@@ -66,7 +66,7 @@ FINANCIAMIENTO
 <a class="volver" href="javascript:history.back()" title="Volver Atras">
 <i class="fa fa-angle-left"></i>
 </a>
-FORMULARIO ÚNICO
+Formulario de Financiamiento
 </h1>
 
 
@@ -101,7 +101,7 @@ FORMULARIO ÚNICO
   <?php $resultado = lista($id, $banco_mi_galpon); echo $resultado;?>
 </div>
 
-<!-- OTROS -->
+<!-- TODOS LOS BANCOS -->
 <?php  $id = 'otros';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label class="control-label" for="otros">Seleccione el/los bancos con los cuales trabaja para futuras lineas disponibles</label>
   <?php $resultado = lista($id, $todos_bancos); echo $resultado;?>

@@ -32,12 +32,21 @@ function validaciones_especiales(){
 	}
 	
 	//destino_prestamo
-	var checkboxgroupcount = $(".required :checkbox:checked").length;
+	var checkboxgroupcount = $(".destino_prestamo :checkbox:checked").length;
 	if(checkboxgroupcount<1){
 		$("[name='destino_prestamo[]']")[0].setCustomValidity("Completa este campo");
 	}else{
 		$("[name='destino_prestamo[]']")[0].setCustomValidity("");
 	}
+
+	//todos_los_bancos
+	var checkboxgroupcount2 = $(".bancos_otros :checkbox:checked").length;
+	if(checkboxgroupcount2<1){
+		$("#bancos_otros-checkbox-text")[0].setCustomValidity("Completa este campo");
+	}else{
+		$("#bancos_otros-checkbox-text")[0].setCustomValidity("");
+	}
+	console.log(checkboxgroupcount2);
 }
 
 
@@ -45,19 +54,38 @@ $(document).ready(function(){
 	//Los arrays estan definidos en "arrays_de_campos" y se cargan desde el html
 	/*global sectores, todos_los_campos, campos_pyme_bancario,
 	campos_pyme_no_bancario, campos_gran_empresa*/
+	//if (history.forward(1)){alert("¡Cobarde, has vuelto atrás!")}
 	
 	$("#sector_actividad2").prop('disabled', false);
 	$("#tipo_sociedad2").prop('disabled', false);
 	$("#provincia2").prop('disabled', false);
 	$("#compartir_efis2").prop('disabled', false);
+	$("[name='bancos_otros[]']").prop('disabled', false);
+	$("#sector_actividad2").val('---');
 	
-	$("#cuit").mask("99-99999999-9",{placeholder:""});
+	$("#cuit").mask("99-99999999-9",{placeholder:"_"});
+	$("#bancos_otros-checkbox-text")[0].addEventListener("input", function(){
+		$("#bancos_otros-checkbox-text").val("");
+	}, false);
+	
+	$("#bancos_otros-checkbox-text").click(function () {
+		if($(".contenedor-checkboxes").css('display')=='none'){
+			$(".contenedor-checkboxes").css('display','block');
+			$(".contenedor-checkboxes").css('float','left');
+		}else{
+			$(".contenedor-checkboxes").hide();
+		}
+	});
 	
 	validaciones_especiales();
 	
 	$("#telefono")[0].addEventListener("input", function(){validaciones_especiales();}, false);
-	$("#cuit")[0].addEventListener("input", function(){validaciones_especiales();}, false);
-		
+	$("#cuit").change(function() {
+	    validaciones_especiales();
+	});
+	//$("#cuit")[0].addEventListener("change", function(){validaciones_especiales();}, false);
+	$("[name='bancos_otros[]']").change(function() {validaciones_especiales()});
+	
 	var destinos = document.getElementsByName("destino_prestamo[]");
 	for (var i=0; i < destinos.length; i++){
 		destinos[i].addEventListener("change", function(){validaciones_especiales();}, false);

@@ -39,7 +39,28 @@ function lista_multiple($nombre, $meses, $nombre2=null){
     $nombre2=$nombre;
   }
 	$array = $meses;
-	$txt= "<div class='required'>";
+	$txt= "<div class='$nombre input-checkbox'>
+	          <input type='text' id='$nombre-checkbox-text' class='form-control' placeholder='Seleccione una opción'>
+	            <div class='contenedor-checkboxes'>";
+	for ($i=0; $i<sizeof($array); $i++){
+	$txt .= "
+    <div class='checkbox'>
+      <label class='checkbox-custom' data-initialize='checkbox'>
+        <input id='$nombre-$i' name='".$nombre."[]' type='checkbox' value='$i' disabled>
+        <span class='checkbox-label'>$array[$i]</span>
+      </label>
+    </div>";
+    }
+	$txt .= '</div></div>';
+	return $txt;
+}
+
+function lista_multiple_no_desplegable($nombre, $meses, $nombre2=null){
+  if($nombre2==null){
+    $nombre2=$nombre;
+  }
+	$array = $meses;
+	$txt= "<div class='$nombre input-checkbox'>";
 	for ($i=0; $i<sizeof($array); $i++){
 	$txt .= "
     <div class='checkbox'>
@@ -73,7 +94,7 @@ FINANCIAMIENTO
 <section class="formulario_unico">
   
   
-<h2 class="subtitulo"> A través del Formulario Único, las empresas podrán acceder al ﬁnanciamiento que necesitan.</h2>
+<h2 class="subtitulo">Te ayudamos a encontrar la mejor opción de financiamiento para tu empresa</h2>
 <div class="share-post">
 <a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.produccion.gob.ar/pac-conglomerados-productivos/">
 <i class="fa fa-facebook fa-1x"></i>
@@ -89,7 +110,7 @@ FINANCIAMIENTO
 <a class="volver" href="javascript:history.back()" title="Volver Atras">
 <i class="fa fa-angle-left"></i>
 </a>
-FORMULARIO ÚNICO
+Formulario de Financiamiento
 </h1>
 
 
@@ -155,6 +176,14 @@ FORMULARIO ÚNICO
 <?php $id = 'compartir_efis';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label class="control-label" for="compartir_efis">¿Acepta usted que compartamos esta información con Bancos para generar alternativas de financiamiento?</label>
   <?php $resultado = lista($id, $si_no); echo $resultado;?>
+</div>
+
+<?php  $id = 'bancos_otros';?>
+<div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6">
+<div class="form-group">
+  <label for="<?php echo $id; ?>" class="control-label">Seleccione el/los bancos con los cuales trabaja para futuras lineas disponibles</label>
+  <?php echo lista_multiple($id, $todos_bancos, $id.'[]');?>
+</div>
 </div>
 
 
@@ -224,8 +253,8 @@ FORMULARIO ÚNICO
 <?php  $id = 'destino_prestamo';?>
 <div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
 <div class="form-group">
-  <label for="$id" class="control-label">Destino del Préstamo</label>
-  <?php echo lista_multiple($id, $destino_prestamo, $id.'[]');?>
+  <label for="<?php echo $id; ?>" class="control-label">Destino del Préstamo</label>
+  <?php echo lista_multiple_no_desplegable($id, $destino_prestamo, $id.'[]');?>
 </div>
 </div>
 

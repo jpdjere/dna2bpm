@@ -138,3 +138,8 @@ form-group {
 #body{
     text-align: justify;
 }
+
+.contenedor-checkboxes{
+    display:none;
+    float:left;
+}

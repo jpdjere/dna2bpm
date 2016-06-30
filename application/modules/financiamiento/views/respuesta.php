@@ -34,7 +34,7 @@ FINANCIAMIENTO
 <section class="formulario_unico">
 
 
-<h2 class="subtitulo"> A través del Formulario Único, las empresas podrán acceder al ﬁnanciamiento que necesitan.</h2>
+<h2 class="subtitulo">Te ayudamos a encontrar la mejor opción de financiamiento para tu empresa</h2>
 <div class="share-post">
 <a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.produccion.gob.ar/pac-conglomerados-productivos/">
 <i class="fa fa-facebook fa-1x"></i>
@@ -50,7 +50,7 @@ FINANCIAMIENTO
 <a class="volver" href="javascript:history.back()" title="Volver Atras">
 <i class="fa fa-angle-left"></i>
 </a>
-FORMULARIO ÚNICO
+Formulario de Financiamiento
 </h1>
 
 
@@ -68,6 +68,23 @@ Cualquier duda o dificultad que pudiera surgir, comunicarse con financiamiento@p
 </div>
 </div>
 </div>
+</div>
+<div>
+<!--
+<form method="post" action="{base_url}financiamiento/financiamiento/continuar_flujo">
+  <!-- Campos ocultos 
+  <input type="hidden" name="idwf" value="{idwf}">
+  <input type="hidden" name="idcase" value="{idcase}">
+  <input type="hidden" name="token" value="{token}">
+
+  <div id="volver" class="text-right form-group col-xs-12 col-sm-12 col-lg-12">
+    <label class="control-label">Para modificar los datos ingresados o volver a empezar haga click aqui</label>
+    <div class="text-right">
+    <input type="submit" class="btn btn-primary" value="Volver">
+    </div>
+  </div>
+</form>
+-->
 </div>
 </section>
 

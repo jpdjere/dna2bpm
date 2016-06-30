@@ -145,9 +145,6 @@ $banco_parques['0']='BNA';
 $banco_mi_galpon['0']='BNA';
 
 
-$todos_bancos['0']='BANCO DE GALICIA Y BUENOS AIRES S.A.';
-$todos_bancos['1']=' BANCO DE LA NACIÓN ARGENTINA';
-$todos_bancos['0']='BANCO DE LA PROVINCIA DE BUENOS AIRES';
 $todos_bancos['1']='INDUSTRIAL AND COMMERCIAL BANK OF CHINA (ARGENTINA) S.A.';
 $todos_bancos['2']='CITIBANK N.A.';
 $todos_bancos['3']=' BBVA BANCO FRANCÉS S.A.';
@@ -178,6 +175,10 @@ $todos_bancos['27']='BANCO DE FORMOSA S.A.';
 $todos_bancos['28']='BANCO DE SANTIAGO DEL ESTERO S.A.';
 $todos_bancos['29']='NUEVO BANCO DE SANTA FE S.A.';
 $todos_bancos['30']='NUEVO BANCO DE ENTRE RÍOS S.A.';
+$todos_bancos['31']='BANCO DE GALICIA Y BUENOS AIRES S.A.';
+$todos_bancos['32']=' BANCO DE LA NACIÓN ARGENTINA';
+$todos_bancos['33']='BANCO DE LA PROVINCIA DE BUENOS AIRES';
+$todos_bancos['0']='Ninguna de las opciones';
 
 
 

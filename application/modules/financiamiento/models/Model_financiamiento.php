@@ -18,7 +18,20 @@ class Model_financiamiento extends CI_Model {
     }
     
     function guardar_datos_formulario($datos_formulario = array()){
-        return $this->db_formentrada->insert($this->container, $datos_formulario);
+        $idwf=$datos_formulario['idwf'];
+        $idcase=$datos_formulario['idcase'];
+        $query = array('idwf' => $idwf, 'idcase' => $idcase);
+        $this->db_formentrada->where($query);
+        $caso = $this->db_formentrada->get($this->container)->result_array();
+        if(empty($caso)){
+            $this->db_formentrada->where($query);
+            return $this->db_formentrada->insert($this->container, $datos_formulario);
+        }else{
+            $this->db_formentrada->where($query);
+            $this->db_formentrada->delete($this->container);
+            $this->db_formentrada->where($query);
+            return $this->db_formentrada->insert($this->container, $datos_formulario);
+        }
     }
     
     function devolver_programas_pyme_bancario($idwf, $idcase){
