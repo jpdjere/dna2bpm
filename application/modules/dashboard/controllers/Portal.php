@@ -17,7 +17,7 @@ class Portal extends MX_Controller {
         $this->load->config('dashboard/config');
         $this->load->library('parser');
         $this->load->library('dashboard/ui');
-
+        $this->load->model('portal_model');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -64,14 +64,27 @@ function profile(){
     //  echo $this->ui->callout($config);
     $data=$this->user->get_user((int) $this->idu);
     $avatar=$this->user->get_avatar();
-  
+    $empresas = $this->portal_model->get_empresas();
+    //var_dump($empresas);
+    //exit();
+    $select = '<select class="selectpicker"  data-live-search="true">';
+    $id =0;
+    foreach($empresas as $empresa){
+        $select = $select. '<option id="'.$id.'" value="'.$empresa['1693'].'">Empresa:'.$empresa["1693"].' CUIT:'.$empresa["1695"].'</option>' ;
+        $id++;
+        
+    }
+    $select = $select.'</select>';
+    //echo ($select);
+    //exit();
 echo <<<_EOF_
 <div class="row">
 <div class="col-sm-3">
 <img src="$avatar"  class="avatar" style="width:120px" >
 </div>
 <div class="col-sm-9">
-<h3 >Empresa xxx SRL</h3>
+{$select}
+<h3 ></h3>
 <ul class='list-unstyled'>
 <li><strong>Sector:</strong> Minería</li>
 <li><strong>Clasificación:</strong> Pyme</li>
