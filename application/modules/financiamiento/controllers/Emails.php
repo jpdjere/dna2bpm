@@ -54,7 +54,7 @@ class Emails extends MX_Controller {
     
     function email_fona_ct(){
 
-        $email['subject'] = 'Formulario Presentación FONAPYME &#8211; FORTALECIMIENTO COMPETITIVO';
+        $email['subject'] = 'Formulario Presentación FONAPYME - FORTALECIMIENTO COMPETITIVO';
         $email['body'] = $this->load->view("financiamiento/cuerpos_emails/fona_ctrabajo.htm", '', true);
         $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = $this->reply_nicename;
@@ -66,7 +66,7 @@ class Emails extends MX_Controller {
     
     function email_fona_bc(){
 
-        $email['subject'] = 'Formulario Presentación FONAPYME &#8211; PRODUCCIÓN ESTRATÉGICA';
+        $email['subject'] = 'Formulario Presentación FONAPYME - PRODUCCIÓN ESTRATÉGICA';
         $email['body'] = $this->load->view("financiamiento/cuerpos_emails/fona_bc.htm", '', true);
         $email['reply_email'] = $this->reply_email;
         $email['reply_nicename'] = $this->reply_nicename;
