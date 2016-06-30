@@ -49,6 +49,7 @@ $(document).ready(function(){
 	$("#sector_actividad2").prop('disabled', false);
 	$("#tipo_sociedad2").prop('disabled', false);
 	$("#provincia2").prop('disabled', false);
+	$("#compartir_efis2").prop('disabled', false);
 	
 	$("#cuit").mask("99-99999999-9",{placeholder:""});
 	
@@ -56,7 +57,6 @@ $(document).ready(function(){
 	
 	$("#telefono")[0].addEventListener("input", function(){validaciones_especiales();}, false);
 	$("#cuit")[0].addEventListener("input", function(){validaciones_especiales();}, false);
-	
 		
 	var destinos = document.getElementsByName("destino_prestamo[]");
 	for (var i=0; i < destinos.length; i++){
@@ -112,6 +112,9 @@ $(document).ready(function(){
 	
 	function muestra_campos_pyme_no_bancario(){
 		mostrar_campos(campos_pyme_no_bancario);
+		oculta("monto_solicitado_bienes_cap");
+		oculta("monto_solicitado_inversion_prod");
+		oculta("monto_solicitado_otros");
 		if ($("#tiene_tramite2").val()!=1) { 			//False
 			oculta("concurso_homologado");
 		}
@@ -137,6 +140,7 @@ $(document).ready(function(){
 			muestra("tiene_tramite");
 			ocultar_campos(campos_pyme_no_bancario);
 		}else{											//True: no bancario
+			ocultar_campos(campos_pyme_no_bancario);
 			ocultar_campos(campos_pyme_bancario);
 			oculta("tiene_tramite");
 			muestra_campos_pyme_no_bancario();
@@ -155,6 +159,19 @@ $(document).ready(function(){
 			muestra_campos_pyme_no_bancario();
 			$("#monto_prestamo2").attr("disabled", true);
 			$("#monto_solicitado2").attr("disabled", false);
+		}
+	});
+	
+	$("#destino_prestamo_nobanc2").change(function() {
+		oculta("monto_solicitado_bienes_cap");
+		oculta("monto_solicitado_inversion_prod");
+		oculta("monto_solicitado_otros");
+		if($("#destino_prestamo_nobanc2").val()==0){
+			muestra("monto_solicitado_bienes_cap");
+		}else if($("#destino_prestamo_nobanc2").val()==1){
+			muestra("monto_solicitado_inversion_prod");
+		}else{
+			muestra("monto_solicitado_otros");
 		}
 	});
 });

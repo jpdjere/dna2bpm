@@ -7,6 +7,17 @@ var sectores=[
 	"cat_construccion"
 ];
 
+/*
+var sectores=[
+	"cat_agropecuario",
+	"cat_industria",
+	"cat_minería",
+	"cat_servicios",
+	"cat_construccion"
+	"cat_comercio",
+];
+*/
+
 var campos_pyme_general=[
 	"tiene_prestamos",
 	"clasificacion_deudores",
@@ -29,7 +40,9 @@ var campos_pyme_bancario=[
 var campos_pyme_no_bancario=[
 	"destino_prestamo_nobanc",
 	"sectores_proyecto_nobanc",
-	"monto_solicitado",
+	"monto_solicitado_bienes_cap",
+	"monto_solicitado_inversion_prod",
+	"monto_solicitado_otros",
 	"concurso_homologado"
 ];
 

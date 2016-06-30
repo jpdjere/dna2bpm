@@ -1,3 +1,8 @@
+.oculto{
+    display:none;
+}
+
+
 body {
    color: #666666;
     font-family: 'Roboto', sans-serif;
@@ -6,17 +11,46 @@ body {
 }
 
 .contenedor{ margin:0 auto;
-max-width:1170px;
+max-width:100%;;
 float:none;
+padding:0;
+}
+.slide{ position:relative;}
+.imagen{ background-image:url(../images/header.jpg);
+background-position:center top; height:450px}
+.slide h2{
+    text-shadow: none;
+    text-transform: uppercase;
+    top: 38%;
+    width: 100%;
+	text-align:center;
+	position:absolute;
+	color:#323232;
+	font-size:4em;
+	font-weight:bold;
+}
+@media (max-width: 768px) {.menu-footer{ display:none;}
+.imagen{ background-image:url(../images/header-chico.jpg);
+background-position:center top; height:280px}
+
+
+.slide h2{
+    text-shadow: none;
+    text-transform: uppercase;
+    top: 28%;
+    width: 100%;
+	text-align:center;
+	position:absolute;
+	color:#323232;
+	font-size:2.5em;
+	font-weight:bold;
 }
 
-.formulario_unico{ max-width:840px; float:none; margin:0 auto;}
-
-
-.oculto{
-    display:none;
+.logofoter{ float:none !important;  margin-top: 10px; display:block}
 }
+.formulario_unico{ max-width:840px; float:none; margin:0 auto;
 
+}
 
 @media (min-width: 768px) {
 .form-group {
@@ -27,11 +61,11 @@ float:none;
 }
 .logo{margin:15px 0 15px 0;
 float:left;}
+.cabezal { max-width:1170px; float:none; margin:0 auto; height:85px;}
 
+.footer-texto{margin-top:15px; width:100%; max-width:1170px; margin:0 auto; padding-top:30px; padding-bottom:30px; float:none; }
 
-.footer-texto{margin-top:15px;}
-.logo-footer{  text-align: right;}
-
+.logofoter{ float:right}
 
 @media (max-width: 768px) {
 	
@@ -39,10 +73,10 @@ float:left;}
 	.logo-footer{  text-align: center;}}
 	
 	.h1-paginas {
-    background-color: #d1d2d4 !important;
+    background-color: #F1F2F2!important;
     border: 0 none !important;
     color: #333 !important;
-    font-size: 1.4em !important;
+    font-size: 1.7em !important;
     padding: 15px 20px;
     text-align: center !important;
     text-transform: uppercase;
@@ -54,14 +88,16 @@ float:left;}
     border-bottom: 1px solid #0095da;
     border-top: 1px solid #0095da;
     float: left;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
     width: 100%;
+	
 }
 
 .share-post a {
     color: #0095da;
     float: left;
-    padding: 10px;
+  padding: 5px 10px;
+	font-size: 15px;
 }
 
 .volver {
@@ -79,4 +115,26 @@ float:left;}
 .formulario{ margin-top:25px;}
 form-group {
     font-size: 13px;
+}
+
+.form-control {
+    background-color: #f1f2f2;
+    background-image: none;
+    border: medium none;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+}
+
+.subtitulo{ max-width:450px; margin:40px auto; font-size:1.3em; text-align:center}
+
+#body{
+    text-align: justify;
 }

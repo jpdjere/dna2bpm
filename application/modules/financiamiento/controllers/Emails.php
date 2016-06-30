@@ -19,6 +19,8 @@ class Emails extends MX_Controller {
         $this->load->model('model_financiamiento');
         $this->load->library('parser');
         $this->load->model('bpm/bpm');
+        $this->reply_email='financiamiento@producción.gob.ar';
+        $this->reply_nicename='Financiamiento Ministerio de Producción';
     }
     
     function Index() {
@@ -29,17 +31,11 @@ class Emails extends MX_Controller {
     function email_gran_empresa_bancario(){
 
         $email['subject'] = 'Líneas de Crédito. Banco BICE';
-        $email['body'] = 'Este mail se envió en forma automática desde la página del Ministerio de Producción.
-        De acuerdo a los datos enviados mediante el formulario, hoy en día su solicitud podría canalizarse por medio de las líneas de crédito para Grandes Empresas disponibles en Banco BICE.
-        En líneas generales, para proyectos de inversión, el financiamiento es de hasta $200 millones o su equivalente en dólares, con un plazo de hasta 15 años a tasa “Badlar Bancos Privados” más el spread que el BICE determine en cada caso. En dólares con un plazo de hasta 10 años en dólares, a tasa Libor más el spread que el BICE determine en cada caso.
-        En caso de estar interesado, la empresa deberá hacer la presentación ante la entidad financiera para su calificación como sujeto de crédito de la línea.  La misma, deberá contener la información que se detalla en el adjunto Pre-análisis. 
-        Para mayor información podrá ingresar al siguiente link  http://www.bice.com.ar/es/
-        Se deja constancia que la presente no implica el otorgamiento del derecho a esa empresa a la aprobación del crédito en cuestión
-        Cualquier duda o dificultad que pudiera surgir comunicarse con financiamiento@producción.gob.ar o  comercial@bice.com.ar. 
-        ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
-        $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
-        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'=>'Preanalisis.pdf');
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/gran_empresa_bancario.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'
+            =>'Preanalisis.pdf');
         
         return $email;
     }
@@ -47,14 +43,126 @@ class Emails extends MX_Controller {
     function email_gran_empresa_no_bancario(){
 
         $email['subject'] = 'Solicitud de información complementaria. Ministerio de Producción.';
-        $email['body'] = 'Este mail se envió en forma automática desde la página del Ministerio de Producción.
-        De acuerdo al análisis de la información presentada consideramos necesario profundizar el estudio del caso para encontrar la mejor alternativa de financiamiento que se corresponda con las características de su empresa y proyecto.
-        Una vez completada la planilla, deberá enviarse a: financiamiento@producción.gob.ar con el asunto: ENVIO DE INFORMACIÓN ADICIONAL- NOMBRE DE EMPRESA.
-        Cualquier duda o dificultad que pudiera surgir comunicarse con financiamiento@producción.gob.ar
-        ';
-        $email['reply_email'] = 'financiamiento@producción.gob.ar';
-        $email['reply_nicename'] = 'Financiamiento Ministerio de Producción';
-        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/no_bancario/plantilla_empresa.xlsx'=>'Plantilla Empresa.xlsx');
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/gran_empresa_no_bancario.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/no_bancario/plantilla_empresa.xlsx'
+            =>'Plantilla Empresa.xlsx');
+        
+        return $email;
+    }
+    
+    function email_fona_ct(){
+
+        $email['subject'] = 'Formulario Presentación FONAPYME - FORTALECIMIENTO COMPETITIVO';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/fona_ctrabajo.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/no_bancario/fona_ct.xls'
+            =>'ANEXO II - Formulario FONAPYME - FORTALECIMIENTO COMPETITIVO.xls');
+        
+        return $email;
+    }
+    
+    function email_fona_bc(){
+
+        $email['subject'] = 'Formulario Presentación FONAPYME - PRODUCCIÓN ESTRATÉGICA';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/fona_bc.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/no_bancario/fona_bc.xls'
+            =>'ANEXO II -  FONAPYME PRODUCCION ESTRATEGICA.xls');
+        
+        return $email;
+    }
+
+    function email_fona_otros(){
+
+        $email['subject'] = 'Solicitud de información complementaria.';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/fona_otros.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/no_bancario/plantilla_empresa.xlsx'
+            =>'Plantilla Empresa.xlsx');
+        
+        return $email;
+    }
+
+    function email_mi_galpon(){
+
+        $email['subject'] = 'Presentación "Mi Galpón"';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/mi_galpon.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array(
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/mi_galpon_informe.docx'
+            =>'Modelo Informe en Caracter de Declaración Jurada 2016.docx',
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/mi_galpon_test_escr_pfisica.docx'
+            =>'Testimonio de Escritura Pública para Persona física.docx',
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/mi_galpon_test_escr_pjuridica.docx'
+            =>'Testimonio de Escritura Pública para Personas Jurídicas.docx'
+            );
+        
+        return $email;
+    }
+
+    function email_parques(){
+
+        $email['subject'] = 'Presentación "Parques Industriales"';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/parques.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array(
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/parques_certificacion.docx'
+            =>'Modelo de Cerificación Contable Parques Industriales 2016.docx',
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/parques_escritura_pfisicas.docx'
+            =>'Modelo de Escritura Pública para Personas Físicas.docx',
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/parques_escritura_pjuridcas.docx'
+            =>'Modelo de Escritura Pública para Personas Jurídicas.docx'
+            );
+        
+        return $email;
+    }
+
+    function email_rbt_bice(){
+
+        $email['subject'] = 'Régimen de Bonificación de Tasa.';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/rbt_bice.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array(
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/rbt_bice_convenio.pdf'
+            =>'Convenio Bice.pdf',
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/rbt_bice_preanalisis.pdf'
+            =>'Preanalisis Bice.docx'
+            );
+        
+        return $email;
+    }
+
+    function email_rbt_bna(){
+
+        $email['subject'] = 'Régimen de Bonificación de Tasa.';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/rbt_bna.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array(
+            '/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/pyme/bancario/rbt_bna_convenio.pdf'
+            =>'Convenio Bna.pdf'
+            );
+        
+        return $email;
+    }
+    
+    function email_pyme_bancario_otros(){
+
+        $email['subject'] = 'Líneas de Crédito. Banco BICE';
+        $email['body'] = $this->load->view("financiamiento/cuerpos_emails/otros_pyme_banc.htm", '', true);
+        $email['reply_email'] = $this->reply_email;
+        $email['reply_nicename'] = $this->reply_nicename;
+        $email['attachments'] = array('/var/www/dna2bpm/application/modules/financiamiento/assets/attachments/gran_empresa/bancario/preanalisis.pdf'
+            =>'Preanalisis.pdf'
+            );
         
         return $email;
     }

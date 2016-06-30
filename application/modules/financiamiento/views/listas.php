@@ -47,7 +47,14 @@ $sector_actividad['1']='Comercio';
 $sector_actividad['2']='Industria y Minería';
 $sector_actividad['3']='Servicios';
 $sector_actividad['4']='Construcción';
-
+/*
+$sector_actividad['1']='Agropecuario';
+$sector_actividad['2']='Industria';
+$sector_actividad['3']='Minería';
+$sector_actividad['4']='Servicios';
+$sector_actividad['5']='Construcción';
+$sector_actividad['6']='Comercio';
+*/
 
 $cat_agropecuario['0']='A. Micro: $2.000.000';
 $cat_agropecuario['1']='B. Pequeña: $13.000.000';
@@ -115,12 +122,19 @@ $sectores_proyecto['12']='13.Turismo';
 $sectores_proyecto['13']='14.Ninguno de los anteriores';
 
 
-$monto_prestamo_gran['0']='1.Hasta $3 millones de IP';
-$monto_prestamo_gran['1']='2.Hasta $1.5 millones de CT';
-$monto_prestamo_gran['2']='3.Más de $3 millones de IP o más de $1.5 millones de CT';
+$monto_prestamo_gran['0']='1.Hasta $3 millones de Inversión Productiva';
+$monto_prestamo_gran['1']='2.Hasta $1.5 millones de Capital de Trabajo';
+$monto_prestamo_gran['2']='3.Más de $3 millones de Inversión Productiva o más de $1.5 millones de Capital de Trabajo';
 
-$destino_prestamo_gran['0']='CT';
-$destino_prestamo_gran['1']='IP';
+$monto_prestamo_bienes_cap['0']='1.Hasta $1.5 millones';
+$monto_prestamo_bienes_cap['1']='2.Más de $1.5 millones';
+
+$monto_prestamo_inversion_prod['0']='1.Hasta $3 millones';
+$monto_prestamo_inversion_prod['1']='2.Más de $3 millones';
+
+$destino_prestamo_gran['0']='1-Bienes de Capital, Construcciones e instalaciones.';
+$destino_prestamo_gran['1']='2-Capital de Trabajo.';
+$destino_prestamo_gran['2']='3-Otros.';
 
 
 $banco_rbt['0']='BNA';
