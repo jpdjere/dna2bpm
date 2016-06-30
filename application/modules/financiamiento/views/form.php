@@ -26,7 +26,7 @@ function lista($nombre, $meses, $nombre2=null){
     $nombre2=$nombre;
   }
 	$array = $meses;
-	$txt= "<select disabled class='form-control' name='$nombre2' id='".$nombre."2' required><option disabled value=''>---</option>";
+	$txt= "<select disabled class='form-control' name='$nombre2' id='".$nombre."2' required><option disabled selected value=''>---</option>";
 	for ($i=0; $i<sizeof($array); $i++){
 	$txt .= "<option value='$i'>". $array[$i] . '</option>';
 	}
@@ -164,6 +164,18 @@ FORMULARIO ÚNICO
   <?php $resultado = lista($id, $cat_agropecuario, "cat_pyme"); echo $resultado;?>
 </div>
 
+<!--
+<?php $id = 'cat_industria';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label class="control-label" for="cat_agropecuario">Categorías Pyme Agropecuario</label>
+  <?php $resultado = lista($id, $cat_industria_mineria, "cat_pyme"); echo $resultado;?>
+</div>
+
+<?php $id = 'cat_mineria';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label class="control-label" for="cat_agropecuario">Categorías Pyme Agropecuario</label>
+  <?php $resultado = lista($id, $cat_industria_mineria, "cat_pyme"); echo $resultado;?>
+</div>
+-->
+
 <?php $id = 'cat_industria_mineria';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label class="control-label" for="cat_industria_mineria">Categorías Pyme Industria y Minería</label>
   <?php $resultado = lista($id, $cat_industria_mineria, "cat_pyme"); echo $resultado;?>
@@ -197,7 +209,7 @@ FORMULARIO ÚNICO
 </div>
 
 <?php  $id = 'tiene_tramite';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="tiene_tramite">¿Tiene en tramite un concurso de acreedores?</label>
+  <label class="control-label" for="tiene_tramite">¿Tiene en trámite un concurso de acreedores?</label>
   <?php $resultado = lista($id, $si_no); echo $resultado;?>
 </div>
 
@@ -262,9 +274,9 @@ FORMULARIO ÚNICO
   <?php $resultado = lista($id, $sectores_proyecto); echo $resultado;?>
 </div>
 
-<?php $id = 'monto_prestamo_gran';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+<?php $id = 'monto_prestamo_gran';?><div  id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label for="monto_prestamo_gran" class="control-label">Indique Monto del préstamo solicitado MM$</label>
-  <?php $resultado = lista($id, $monto_prestamo_gran); echo $resultado;?>
+  <input class="form-control"  disabled="true" id="monto_prestamo_gran2" name="monto_prestamo_gran" placeholder="$" required type="number" min="0">
 </div>
 
 <?php $id = 'situacion_2_gran';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">

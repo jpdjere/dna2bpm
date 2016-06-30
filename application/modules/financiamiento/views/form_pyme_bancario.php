@@ -103,7 +103,7 @@ FORMULARIO ÚNICO
 
 <!-- OTROS -->
 <?php  $id = 'otros';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="otros">Todos los Bancos</label>
+  <label class="control-label" for="otros">Seleccione el/los bancos con los cuales trabaja para futuras lineas disponibles</label>
   <?php $resultado = lista($id, $todos_bancos); echo $resultado;?>
 </div>
 

@@ -56,7 +56,6 @@ $(document).ready(function(){
 	
 	$("#telefono")[0].addEventListener("input", function(){validaciones_especiales();}, false);
 	$("#cuit")[0].addEventListener("input", function(){validaciones_especiales();}, false);
-	
 		
 	var destinos = document.getElementsByName("destino_prestamo[]");
 	for (var i=0; i < destinos.length; i++){

@@ -753,7 +753,7 @@ class bonita_licitaciones extends MX_Controller {
                 '<tr>
                     <td>'.$x.'</td>
                     <td>'.utf8_decode($this->model_bonita_licitaciones->get_rsocial($oferta['id_entidad'])).'</td>
-                    <td>'.number_format($oferta['asignacion'], 0, ",", ".").'</td>
+                    <td>'.number_format($oferta['asignacion'], 2, ",", ".").'</td>
                     <td>'.number_format($oferta['asignacion']*100/$licitacion['cmax'], 2, ",", ".").'</td>
                 </tr>';
                 $x+=1;

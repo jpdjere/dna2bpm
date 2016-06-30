@@ -7,6 +7,17 @@ var sectores=[
 	"cat_construccion"
 ];
 
+/*
+var sectores=[
+	"cat_agropecuario",
+	"cat_industria",
+	"cat_minería",
+	"cat_servicios",
+	"cat_construccion"
+	"cat_comercio",
+];
+*/
+
 var campos_pyme_general=[
 	"tiene_prestamos",
 	"clasificacion_deudores",
