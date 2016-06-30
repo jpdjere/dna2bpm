@@ -107,12 +107,6 @@ FORMULARIO ÚNICO
   <?php $resultado = lista($id, $todos_bancos); echo $resultado;?>
 </div>
 
-<!-- EFIS -->
-<?php $id = 'compartir_efis';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="compartir_efis">¿Acepta usted que compartamos esta información con Bancos para generar alternativas de financiamiento?</label>
-  <?php $resultado = lista($id, $si_no); echo $resultado;?>
-</div>
-
 <!-- FIN FORMULARIO -->
 <?php $id = 'enviar';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-12 col-lg-12">
   <label class="control-label" for="enviar"></label>

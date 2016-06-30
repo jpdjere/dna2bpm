@@ -22,7 +22,8 @@ class Financiamiento extends MX_Controller {
     }
     
     function Index() {
-        //$this->session->set_userdata(array('iduser'=>756148209, 'loggedin'=>true));
+        //$this->session->set_userdata(array('iduser'=>756148209, 'loggedin'=>true));   //local
+        //$this->session->set_userdata(array('iduser'=>2013235470, 'loggedin'=>true));  //test
         redirect($this->base_url.'bpm/engine/newcase/model/form_entrada');
     }
     

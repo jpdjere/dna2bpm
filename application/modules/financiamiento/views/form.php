@@ -149,7 +149,13 @@ FORMULARIO ÚNICO
 <div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6">
   <label for="mail" class="control-label">E-mail</label>
     <input class="form-control" id="mail" name="mail" placeholder="" required type="email">
- </div>
+</div>
+
+<!-- EFIS -->
+<?php $id = 'compartir_efis';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6">
+  <label class="control-label" for="compartir_efis">¿Acepta usted que compartamos esta información con Bancos para generar alternativas de financiamiento?</label>
+  <?php $resultado = lista($id, $si_no); echo $resultado;?>
+</div>
 
 
 <!-- Sector y Actividad -->
@@ -160,39 +166,39 @@ FORMULARIO ÚNICO
 </div>
 
 <?php $id = 'cat_agropecuario';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_agropecuario">Categorías Pyme Agropecuario</label>
+  <label class="control-label" for="cat_agropecuario">Categorías Agropecuario</label>
   <?php $resultado = lista($id, $cat_agropecuario, "cat_pyme"); echo $resultado;?>
 </div>
 
 <!--
 <?php $id = 'cat_industria';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_agropecuario">Categorías Pyme Agropecuario</label>
+  <label class="control-label" for="cat_agropecuario">Categorías Agropecuario</label>
   <?php $resultado = lista($id, $cat_industria_mineria, "cat_pyme"); echo $resultado;?>
 </div>
 
 <?php $id = 'cat_mineria';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_agropecuario">Categorías Pyme Agropecuario</label>
+  <label class="control-label" for="cat_agropecuario">Categorías Agropecuario</label>
   <?php $resultado = lista($id, $cat_industria_mineria, "cat_pyme"); echo $resultado;?>
 </div>
 -->
 
 <?php $id = 'cat_industria_mineria';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_industria_mineria">Categorías Pyme Industria y Minería</label>
+  <label class="control-label" for="cat_industria_mineria">Categorías Industria y Minería</label>
   <?php $resultado = lista($id, $cat_industria_mineria, "cat_pyme"); echo $resultado;?>
 </div>
 
 <?php  $id = 'cat_comercio';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_comercio">Categorías Pyme Comercio</label>
+  <label class="control-label" for="cat_comercio">Categorías Comercio</label>
   <?php $resultado = lista($id, $cat_comercio, "cat_pyme"); echo $resultado;?>
 </div>
 
 <?php $id = 'cat_servicios';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_servicios">Categorías Pyme Servicios</label>
+  <label class="control-label" for="cat_servicios">Categorías Servicios</label>
   <?php $resultado = lista($id, $cat_servicios, "cat_pyme"); echo $resultado;?>
 </div>
 
 <?php $id = 'cat_construccion';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="cat_construccion">Categorías Pyme Construcción</label>
+  <label class="control-label" for="cat_construccion">Categorías Construcción</label>
   <?php $resultado = lista($id, $cat_construccion, "cat_pyme"); echo $resultado;?>
 </div>
 
@@ -223,8 +229,6 @@ FORMULARIO ÚNICO
 </div>
 </div>
 
-
-
 <?php  $id = 'sectores_proyecto';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label class="control-label" for="sectores_proyecto">Sector al que pertenece la actividad a ser financiada </label>
   <?php $resultado = lista($id, $sectores_proyecto); echo $resultado;?>
@@ -242,9 +246,9 @@ FORMULARIO ÚNICO
 
 
 <!-- PYME NO BANCARIO -->
-<?php $id = 'destino_prestamo_nobanc';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="destino_prestamo_nobanc">Destino del Préstamo</label>
-  <?php $resultado = lista($id, $destino_prestamo_fona); echo $resultado;?>
+<?php $id = 'concurso_homologado';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label class="control-label" for="concurso_homologado">El concurso se encuentra homologado?</label>
+  <?php $resultado = lista($id, $si_no); echo $resultado;?>
 </div>
 
 <?php $id = 'sectores_proyecto_nobanc';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
@@ -252,16 +256,26 @@ FORMULARIO ÚNICO
   <?php $resultado = lista($id, $sectores_proyecto); echo $resultado;?>
 </div>
 
-<?php $id = 'monto_solicitado';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="monto_solicitado">Monto del préstamo solicitado MM$</label>
-  <?php $resultado = lista($id, $monto_prestamo_gran); echo $resultado;?>
-  </div>
-
-<?php $id = 'concurso_homologado';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="concurso_homologado">El concurso se encuentra homologado?</label>
-  <?php $resultado = lista($id, $si_no); echo $resultado;?>
+<?php $id = 'destino_prestamo_nobanc';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label class="control-label" for="destino_prestamo_nobanc">Destino del Préstamo</label>
+  <?php $resultado = lista($id, $destino_prestamo_fona); echo $resultado;?>
 </div>
 
+  <!-- MONTOS -->
+<?php $id = 'monto_solicitado_bienes_cap';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label class="control-label" for="monto_solicitado_bienes_cap">Monto del préstamo solicitado MM$</label>
+  <?php $resultado = lista($id, $monto_prestamo_bienes_cap, 'monto_solicitado'); echo $resultado;?>
+</div>
+
+<?php $id = 'monto_solicitado_inversion_prod';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label class="control-label" for="monto_solicitado_inversion_prod">Monto del préstamo solicitado MM$</label>
+  <?php $resultado = lista($id, $monto_prestamo_inversion_prod, 'monto_solicitado'); echo $resultado;?>
+</div>
+
+<?php $id = 'monto_solicitado_otros';?><div  id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
+  <label for="monto_solicitado_otros" class="control-label">Indique Monto del préstamo solicitado MM$</label>
+  <input class="form-control"  disabled="true" id="monto_solicitado_otros2" name="monto_solicitado" placeholder="$" required type="number" min="0">
+</div>
 
 <!-- GRAN EMPRESA -->
 <?php $id = 'destino_prestamo_gran';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
