@@ -46,7 +46,6 @@ function validaciones_especiales(){
 	}else{
 		$("#bancos_otros-checkbox-text")[0].setCustomValidity("");
 	}
-	console.log(checkboxgroupcount2);
 }
 
 
