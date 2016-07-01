@@ -41,6 +41,8 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_GY"],
+<<<<<<< HEAD
+=======
             "span": 3
 
         },{
@@ -49,7 +51,16 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_UQ"],
+>>>>>>> hotfix/Hotfix-27822
             "span": 3
+
+        },{
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_UQ"],
+            "span": 4
 
         }, {
             "title": "Tile01",
@@ -57,7 +68,28 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_JI"],
+<<<<<<< HEAD
+            "span": 4
+
+        }, {
+            "title": "Tile01",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["INCUBAR", "INCUBAR_JY"],
+            "span": 4
+
+        },
+        {
+            "title": "Buscar",
+            "module": "pacc",
+            "controller": "evaluador_incubar",
+            "function": "tile_buscar",
+            "span": 4,
+            "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
+=======
             "span": 3
+>>>>>>> hotfix/Hotfix-27822
 
         },
         {

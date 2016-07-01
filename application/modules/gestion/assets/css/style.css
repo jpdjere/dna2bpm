@@ -1,0 +1,34 @@
+
+
+label.error{
+    color:#777;
+    font-weight:normal;
+    margin-top:10px;
+    padding-left:5px;
+    border-left:2px solid #f00;
+}
+
+h4{
+margin-top:30px;
+}
+
+td{
+    font-family:arial;
+    font-size:12px;
+}
+
+h1{
+    font-family:arial;
+    font-size:16px;
+    font-weight:bold;
+}
+h2{
+    font-family:arial;
+    font-size:14px;
+    font-weight:bold;
+}
+
+p{
+  font-family:Verdana;  
+  font-size: 9pt;
+}

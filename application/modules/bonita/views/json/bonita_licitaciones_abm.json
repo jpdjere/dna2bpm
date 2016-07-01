@@ -7,9 +7,9 @@
         {   "col1": [{
             "title": "Half Table",
             "module": "bonita",
-            "controller": "bonita_licitaciones",
+            "controller": "bonita_reportes",
             "function": "bonita_filtros_provincia",
-            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}bonita/assets/jscript/bonita_script_rep_prov.js":"Profile JS"}]
+            "js":[{"{base_url}bonita/assets/jscript/bonita_script_rep_prov.js":"Profile JS"}]
              }
             ]
 

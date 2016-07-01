@@ -1,0 +1,20 @@
+{
+    "createdBy": "Sebastián Blázquez",
+    "title": "Bonificación de Tasa - Reportes Licitaciones Cerradas",
+    "view": "layout",
+    "icon": "fa-qrcode",
+    "js":[],
+    
+    "zones": [
+        {   "widgets": [{
+            "title": "Table",
+            "module": "bonita",
+            "controller": "bonita_licitaciones",
+            "function": "bonita_mostrar_licitaciones_cerradas"
+            }]
+        },{
+            "2cols_after": []
+        }
+    ]
+}
+    

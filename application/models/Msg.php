@@ -169,7 +169,8 @@ class Msg extends CI_Model {
         'bcc'=>array(),
         'debug'=>0,
         'is_html'=>true,
-        'db_log'=>true
+        'db_log'=>true,
+        'attachments'=>array()
         );
         
         $myconfig=array_merge($default,$config);
@@ -214,7 +215,11 @@ class Msg extends CI_Model {
 
         foreach($myconfig['bcc'] as $email => $nicename){
             $mail->AddBCC($email, $nicename);
-        }            
+        }         
+        
+        foreach($myconfig['attachments'] as $email => $nicename){
+            $mail->addAttachment($email, $nicename);
+        }         
         
         if (!$mail->Send()) {
             $myconfig['status']=false;
