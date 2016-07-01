@@ -96,7 +96,15 @@
                     "function": "tile",
                     "span": 2,
                     "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
-                }
+                },{
+                    "title": "Buscar",
+                    "module": "pacc13",
+                    "controller": "evaluador",
+                    "function": "tile_buscar",
+                    "span": 4,
+                    "js": [{"{base_url}pacc13/assets/jscript/bus13.js":"pac3SDAREND"}]
+
+        }
             ]
         }, {
             "full_widget": []
