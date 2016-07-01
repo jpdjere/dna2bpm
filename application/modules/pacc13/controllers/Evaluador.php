@@ -34,6 +34,12 @@ class evaluador extends MX_Controller {
     function dashboard($debug=false) {
         Modules::run('dashboard/dashboard', 'pacc13/json/dashboard_evaluador.json',$debug);
     }
+    function tile_buscar() {
+        $this->user->authorize();
+        $data = array();
+        return $this->parser->parse('pacc/buscar13', $data, true);
+    }
+
     function widget_2doMe2($chunk = 1, $pagesize = 5) {
         //$data['lang']=$this->lang->language;
         $this->load->model('bpm/bpm');
