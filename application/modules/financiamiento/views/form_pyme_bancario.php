@@ -71,41 +71,42 @@ Formulario de Financiamiento
 
 
 <div class="col-sm-12">
-<form class="formulario"  action="{base_url}financiamiento/financiamiento/guardar_bancos"  method="post">
+<form class="formulario"  action="{base_url}financiamiento/financiamiento/guardar_datos_extra"  method="post">
 <fieldset>
 
 <!-- Campos ocultos -->
 <input type="hidden" id="idwf" name="idwf" value="{idwf}">
 <input type="hidden" id="idcase" name="idcase" value="{idcase}">
 <input type="hidden" id="token" name="token" value="{token}">
+<input type="hidden" name="volver" value="0">
 
 <div class="alert alert-success">
-  Según los datos enviados su empresa podría calificar a los siguientes programas: {programas}
+  Según los datos enviados su empresa podría calificar a las siguientes línea(s): {programas}
 </div>
 
 <!-- RBT -->
 <?php  $id = 'rbt';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="rbt">BANCOS con convenio RBT</label>
+  <label class="control-label" for="rbt">Seleccionar los bancos disponibles a través de los cuales podrá acceder a RBT</label>
   <?php $resultado = lista($id, $banco_rbt); echo $resultado;?>
 </div>
 
 <!-- PARQUES -->
 <?php $id = 'parques';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="parques">BANCOS con convenio PARQUES</label>
+  <label class="control-label" for="parques">Seleccionar los bancos disponibles a través de los cuales podrá acceder a PARQUES</label>
   <?php $resultado = lista($id, $banco_parques); echo $resultado;?>
 </div>
 
 <!-- MI GALPON -->
 <?php  $id = 'mi_galpon';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
-  <label class="control-label" for="mi_galpon">BANCOS con convenio MI GALPÓN</label>
+  <label class="control-label" for="mi_galpon">Seleccionar los bancos disponibles a través de los cuales podrá acceder a MI GALPÓN</label>
   <?php $resultado = lista($id, $banco_mi_galpon); echo $resultado;?>
 </div>
 
-<!-- TODOS LOS BANCOS -->
+<!-- TODOS LOS BANCOS 
 <?php  $id = 'otros';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label class="control-label" for="otros">Seleccione el/los bancos con los cuales trabaja para futuras lineas disponibles</label>
   <?php $resultado = lista($id, $todos_bancos); echo $resultado;?>
-</div>
+</div>-->
 
 <!-- FIN FORMULARIO -->
 <?php $id = 'enviar';?><div id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-12 col-lg-12">
@@ -117,6 +118,22 @@ Formulario de Financiamiento
 
 
 </fieldset>
+</form>
+
+<form method="post" action="{base_url}financiamiento/financiamiento/guardar_datos_extra">
+  <!-- Campos ocultos -->
+  <input type="hidden" name="idwf" value="{idwf}">
+  <input type="hidden" name="idcase" value="{idcase}">
+  <input type="hidden" name="token" value="{token}">
+  <input type="hidden" name="token" value="{token}">
+  <input type="hidden" name="volver" value="1">
+
+  <div id="volver" class="text-right form-group col-xs-12 col-sm-12 col-lg-12">
+    <label class="control-label">Para modificar los datos ingresados o volver a empezar haga click aqui</label>
+    <div class="text-right">
+    <input type="submit" class="btn btn-primary" value="Volver">
+    </div>
+  </div>
 </form>
 </section>
 

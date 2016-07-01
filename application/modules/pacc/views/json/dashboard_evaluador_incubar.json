@@ -68,7 +68,6 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_JI"],
-<<<<<<< HEAD
             "span": 4
 
         }, {
@@ -87,9 +86,6 @@
             "function": "tile_buscar",
             "span": 4,
             "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
-=======
-            "span": 3
->>>>>>> hotfix/Hotfix-27822
 
         },
         {

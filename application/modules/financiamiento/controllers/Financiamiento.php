@@ -84,7 +84,7 @@ class Financiamiento extends MX_Controller {
         echo json_encode($result);
     }
     
-    function guardar_bancos(){
+    function guardar_datos_extra(){
         //Guarda los datos delbanco ingresados por el banco y devuelve el flujo al bpm
         $datos_formulario=$this->input->post();
         $this->model_financiamiento->actualizar_caso($datos_formulario['idwf'], $datos_formulario['idcase'], $datos_formulario);
@@ -97,7 +97,7 @@ class Financiamiento extends MX_Controller {
             if($programa=='parques'){
                 $programas[$clave]="Parques";
             }elseif($programa=='rbt'){
-                $programas[$clave]="Régimen de bonificación de tasas";
+                $programas[$clave]="Régimen de bonificación de tasas(RBT)";
             }elseif($programa=='mi_galpon'){
                 $programas[$clave]="Mi Galpón";
             }
@@ -111,6 +111,11 @@ class Financiamiento extends MX_Controller {
         }else{
             return '';
         }
+    }
+    
+    function volver(){
+        $datos_formulario=$this->input->post();
+        $this->devolver_flujo_bpm($datos_formulario);
     }
 
 /*************************RESPUESTAS*************************/
