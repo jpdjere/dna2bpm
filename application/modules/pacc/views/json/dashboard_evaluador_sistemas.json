@@ -33,11 +33,7 @@
         "col1": [{
             "title": "2do",
             "module": "pacc",
-<<<<<<< HEAD
             "controller": "Evaluador_sistemas",
-=======
-            "controller": "Evaluador_incubar",
->>>>>>> hotfix/Hotfix-27822
             "function": "widget_2doMe2"
         }]
     }, {
