@@ -41,17 +41,7 @@
             "controller": "kpi",
             "function": "tile",
             "params": ["INCUBAR", "INCUBAR_GY"],
-<<<<<<< HEAD
-=======
-            "span": 3
 
-        },{
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["INCUBAR", "INCUBAR_UQ"],
->>>>>>> hotfix/Hotfix-27822
             "span": 3
 
         },{
