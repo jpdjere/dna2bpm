@@ -195,9 +195,11 @@ BLOCK;
     }
     public $consolida_resrourceId='oryx_26F25BE4-8401-42AB-8971-4987B68ABF4F';
     function buscar13($type = null) {
+            echo '111X</br>';
         $this->user->authorize();
         $this->load->library('parser');
         $templateAg = 'pacc13/listar13';
+            echo '2222222XXXX</br>';
         $filter = array(
             'idwf' => 'pacc3SDAREND',
             'resourceId' =>$this->consolida_resrourceId
@@ -254,10 +256,10 @@ BLOCK;
             $url_reevaluar_pp = '';
             $url_reevaluar_pde = '';
             $url_bpm = '';
-            if (in_array(145, $this->id_group) or in_array(1001, $this->id_group) or $this->user->isAdmin()) {
+            //if (in_array(145, $this->id_group) or in_array(1001, $this->id_group) or $this->user->isAdmin()) {
                 $model = ($pacc3SDAREND) ? 'pacc3SDAREND' : 'pacc3SDAREND';
                 $url_bpm = $this->base_url . 'bpm/engine/run/model/' . $model . '/' . $token ['case'];
-            }
+            //}
 
             /* STATUS */
             $status = "N/A";
@@ -267,6 +269,8 @@ BLOCK;
                 $status = $option[$data ['Proyectos_pacc'] ['5689'][0]];
             }
             $id=$data ['Proyectos_pacc'] ['id'];
+            echo 'XXX88888X</br>';
+
             if ($id) {
                     $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
                     $url_ver ='../../dna2/RenderView/printvista.php?idvista=4123&idap=295&id='.$todo;
@@ -292,6 +296,8 @@ BLOCK;
 
             );
         }, $tokens);
+        echo 'AAAAAAAA'."</br>";
+        exit;
         $data ['count'] = count($tokens);
         $data['base_url'] = $this->base_url;
         // var_dump($keys,$data);exit;
