@@ -4,7 +4,7 @@
         <div class="row">
         <div class="col-md-12">
         <h4>Buscador PN</h4>
-        <form class="form-extra" accept-charset="utf-8" method="post" action="{base_url}pacc/buscar13/pp">
+        <form class="form-extra" accept-charset="utf-8" method="post" action="{base_url}pacc13/buscar13/pp">
             <div class="col-lg-9 input-group input-group-sm">
                 <span class="input-group-addon">Nro.</span>
                 <input type="text"  class="form-control" name="query" placeholder="ej: Nro de PN o Nombre de la empresa ó cuit:30-11634893-7" />
