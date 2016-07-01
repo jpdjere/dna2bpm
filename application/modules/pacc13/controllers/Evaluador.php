@@ -37,7 +37,7 @@ class evaluador extends MX_Controller {
     function tile_buscar() {
         $this->user->authorize();
         $data = array();
-        return $this->parser->parse('pacc13/buscar13', $data, true);
+        return $this->parser->parse('pacc13/buscar_13', $data, true);
     }
 
     function widget_2doMe2($chunk = 1, $pagesize = 5) {
