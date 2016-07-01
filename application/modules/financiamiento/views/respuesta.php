@@ -71,9 +71,9 @@ Cualquier duda o dificultad que pudiera surgir, comunicarse con financiamiento@p
 </div>
 <div>
 
-<!--
+<!-- VOLVER -->
 <form method="post" action="{base_url}financiamiento/financiamiento/volver">
-  <!-- Campos ocultos 
+  <!-- Campos ocultos -->
   <input type="hidden" name="idwf" value="{idwf}">
   <input type="hidden" name="idcase" value="{idcase}">
   <input type="hidden" name="token" value="{token}">
@@ -84,7 +84,7 @@ Cualquier duda o dificultad que pudiera surgir, comunicarse con financiamiento@p
     <input type="submit" class="btn btn-primary" value="Volver">
     </div>
   </div>
-</form>-->
+</form>
 
 </div>
 </section>

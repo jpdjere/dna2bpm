@@ -119,9 +119,9 @@ Formulario de Financiamiento
 
 </fieldset>
 </form>
-<!--
+
 <form method="post" action="{base_url}financiamiento/financiamiento/guardar_datos_extra">
-  <!-- Campos ocultos 
+  <!-- Campos ocultos -->
   <input type="hidden" name="idwf" value="{idwf}">
   <input type="hidden" name="idcase" value="{idcase}">
   <input type="hidden" name="token" value="{token}">
@@ -134,7 +134,7 @@ Formulario de Financiamiento
     <input type="submit" class="btn btn-primary" value="Volver">
     </div>
   </div>
-</form>-->
+</form>
 </section>
 
 
