@@ -91,11 +91,7 @@ BLOCK;
      * Asigna un evaluador para una solicitud de desembolso
      */ 
     
-<<<<<<< HEAD
     function asignar_evaluador_sde($idwf, $idcase, $tokenId, $src_resourceId) {
-=======
-    function asignar_evaluador_sde($idwf, $idcase, $tokenId) {
->>>>>>> hotfix/Hotfix-27822
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
