@@ -5,7 +5,7 @@
  */
 
 jQuery(document).ready(function($) {
-    var base_url=globals['base_url'];
+    //var base_url=globals['base_url'];
     var lang={'english':'eng','spanish':'es'};
 
     // Hidden groups holder
@@ -35,7 +35,7 @@ $.ajax({
             right: 'month,agendaWeek,agendaDay'
         },
         editable: true,
-        lang:lang[globals.lang],
+        //lang:lang[globals.lang],
         droppable: true, // this allows things to be dropped onto the calendar !!!
         eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ){
             //==== drag event

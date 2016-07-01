@@ -1,0 +1,24 @@
+{
+  "name": "organigrama",
+  "authors": [
+    "Juan Borda <juanignacioborda@gmail.com>"
+  ],
+  "description": "Modulo para editar y ver organigramas",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/jscript",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-ui": "~1.11.4",
+    "jquery-ui-touch-punch": "*"
+  }
+}

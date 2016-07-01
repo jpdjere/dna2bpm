@@ -112,3 +112,52 @@ border-bottom:1px solid #ccc;
 /*background-color: #ccc;*/
 position: relative;
 }
+
+/* ==== Dashboard/users ====*/
+
+
+
+.dashboard_shortcut{
+    margin-bottom:10px;
+    background-color:#ECECEC;
+    border-radius: 3px;
+    -webkit-transition:  -webkit-transform .3s;
+    transition:  transform .3s;
+}
+
+.dashboard_shortcut:hover{
+-webkit-box-shadow: 1px 1px 5px 1px rgba(111,111,111,.5);
+box-shadow: 1px 1px 5px 1px rgba(111,111,111,.5);
+
+-moz-transform: scale(1.01);
+-webkit-transform: scale(1.01);
+-o-transform: scale(1.01);
+-ms-transform: scale(1.01);
+transform: scale(1.01);
+}
+
+
+.dashboard_shortcut .title{
+    margin:20px;
+    float:left;
+}
+.dashboard_shortcut .title span{
+    font-size:24px;
+}
+.dashboard_shortcut .title i{
+    margin-right:10px;
+}
+.dashboard_shortcut div.label{
+    font-size:28px;
+    height:80px;
+    vertical-align:middle;
+    padding-top:25px;
+    min-width:80px;
+    border-radius: 3px;
+}
+
+.tramites_shortcut_extra{
+    background-color:#dedede;
+/*    -webkit-box-shadow: 1px 1px 5px 1px rgba(111,111,111,.5);*/
+/*box-shadow: 1px 1px 5px 1px rgba(111,111,111,.5);*/
+}

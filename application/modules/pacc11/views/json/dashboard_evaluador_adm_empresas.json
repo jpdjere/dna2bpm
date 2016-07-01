@@ -57,18 +57,19 @@
                     "function": "tile_buscar_container",
                     "span": 6
                 }, {
-                    "title": "Evaluación Legal",
+                    "title": "Evaluación SDE",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
                     "span": 2,
                     "params": ["pacc1SDE", "pacc1SDE_YM"]
                 }, {
-                    "title": "Tile01",
-                    "span": 2,
+                    "title": "Evaluación Respuesta SDE",
                     "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks2me"
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc1SDE", "pacc1SDE_FA"]
                 }, {
                     "title": "Tile01",
                     "module": "bpm",

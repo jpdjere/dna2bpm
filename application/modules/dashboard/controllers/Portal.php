@@ -67,7 +67,7 @@ function profile(){
     $empresas = $this->portal_model->get_empresas();
     //var_dump($empresas);
     //exit();
-    $select = '<select class="selectpicker"  data-live-search="true">';
+    $select = '<select class="form-control"  data-live-search="true">';
     $id =0;
     foreach($empresas as $empresa){
         $select = $select. '<option id="'.$id.'" value="'.$empresa['1693'].'">Empresa:'.$empresa["1693"].' CUIT:'.$empresa["1695"].'</option>' ;

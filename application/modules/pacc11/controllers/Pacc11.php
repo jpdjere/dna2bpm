@@ -64,7 +64,7 @@ class pacc11 extends MX_Controller {
         redirect($url);
     }
    
-    function asignar_evaluador_sde($idwf, $idcase, $tokenId) {
+    function asignar_evaluador_sde($idwf, $idcase, $tokenId, $src_resourceId) {
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
@@ -75,7 +75,7 @@ class pacc11 extends MX_Controller {
         //----tomo evaluador técnico
         $evaluador = $renderData['Proyectos_pacc']['6404'][0];
         //----token que hay que finalizar (self)
-        $src_resourceId = 'oryx_43E6BB74-5545-4CAB-BD71-3F3B42533211';
+        //$src_resourceId = 'oryx_BD7F84C3-73FE-48E0-831F-DEB0B9F78DCC';
         // ---Token de pp asignado
         $lane_resourceId = 'oryx_0DA9E38A-92D8-4B19-A948-46CEF3168613';
         
@@ -84,7 +84,7 @@ class pacc11 extends MX_Controller {
         redirect($url);
     }
     
-    function asignar_evaluador_administrativo_sde($idwf, $idcase, $tokenId) {
+    function asignar_evaluador_administrativo_sde($idwf, $idcase, $tokenId, $src_resourceId) {
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
@@ -93,7 +93,7 @@ class pacc11 extends MX_Controller {
         //----tomo evaluador administrativo
         $evaluador = $renderData['Proyectos_pacc']['6743'][0];
         //----token que hay que finalizar (self)
-        $src_resourceId = 'oryx_BD7F84C3-73FE-48E0-831F-DEB0B9F78DCC';
+        //$src_resourceId = 'oryx_BD7F84C3-73FE-48E0-831F-DEB0B9F78DCC';
         // ---Token de Lane asignado
         $lane_resourceId = 'oryx_CD23C511-FAE2-4549-8D26-2182224D770F';
         
@@ -217,9 +217,9 @@ class pacc11 extends MX_Controller {
 //         redirect($url);
         if ($id) {
             $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
+//                <p align='left'>2. <a href="{$dna2url}frontcustom/290/cartacompromiso1-1.php?id=$todo" target="_blank">Carta compromiso</a></p>
             echo <<<BLOCK
-                <p align='left'>1. <a href="{$dna2url}frontcustom/279/pacc1.externo2014.print.php?id=$todo" target="_blank">Imprimible del Proyecto</a></p>
-                <p align='left'>2. <a href="{$dna2url}frontcustom/279/cartacompromiso1-1.php?id=$todo" target="_blank">Carta compromiso</a></p>
+                <p align='left'>1. <a href="{$dna2url}frontcustom/289/pacc11.externo2016.print.php?id=$todo" target="_blank">Imprimir Proyecto</a></p>
 BLOCK;
         } else {
             echo 'div class="alert alert-success" role="alert">El Caso no tiene id de proyecto</div>';

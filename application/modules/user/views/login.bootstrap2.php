@@ -27,7 +27,7 @@
                 <div class="footer">                                                               
                     <button type="submit" class="btn btn-default btn-flat btn-block">&nbsp;{lang loginButton}</button>  
                     <p>
-                    <a href="http://www.accionpyme.mecon.gov.ar/dna2/pub/register.bpm.php" ><i class="fa fa-user"></i>&nbsp;{lang newUser}</a>
+                    <a href="{base_url}../dna2/pub/register.bpm.php" ><i class="fa fa-user"></i>&nbsp;{lang newUser}</a>
                     </p>
                     <p>
                    <!--  <a href="{module_url}recover" ><i class="fa fa-unlock"></i> -->

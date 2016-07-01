@@ -1,0 +1,28 @@
+{
+    "createdBy": "Martín González",
+    "title": "Fondo Semilla Incubadoras",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "zones": [{
+        "tiles": [
+            
+        ]
+    }, {
+        "col1": [
+            {
+                "title": "Proyectos para Incubar",
+                "module": "fondosemilla",
+                "controller": "Semilla",
+                "function": "widget_2doMe2_c",
+                "box_icon":"fa-pie-chart",
+                "box_class":["box"], 
+                "box_buttons":["collapse"],
+                "box_collapsed":"0"
+            }
+        ]
+    }, {
+        "col2": [
+            ]
+    }]
+}

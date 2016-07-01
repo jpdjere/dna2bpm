@@ -172,40 +172,62 @@ class Inbox extends MX_Controller {
     	$customData['unread_count']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
     	 
     	$mymgs = $this->msg->get_msgs($this->idu,'inbox',null,4);
-    	foreach ($mymgs as $msg) {
-    		$msg['msgid'] = $msg['_id'];
-    		$msg['subject']=(strlen($msg['subject'])!=0)?($msg['subject']):("No Subject");
-    		//Time lapse
-    		$datetime1 = date_create($msg['checkdate']);
-    		$datetime2 = date_create('now');
-    		$interval = date_diff($datetime1, $datetime2);
-    	    	    if($interval->format('%a%')==0){
-    			// Less then 24hs
-    			$horas=$interval->h;
-    			$min=$interval->i;
-    			if($horas==0){
-    				$msg['msg_time']="$min min";
-    			}else{
-    				$msg['msg_time']=$datetime1->format('H:i');
-    			}
-    		}else{
-    			$msg['msg_time']=$datetime1->format('Y-m-d H:i'); 
-    		}
-                // 
-
-    		$msg['excerpt']=substr(strip_tags($msg['body']),0,10);
-    		$customData['mymsgs'][] = $msg;
-     	}
+    	$customData['mymsgs']=$this->prepare_inbox($mymgs,$data);
     	return $this->parser->parse('inbox/toolbar', $customData, true, true);
 
     }
-    
+
+//== Inbox widget
+
+    function widget(){
+        $customData['lang']= $this->lang->language;
+        $customData['base_url'] = $this->base_url;
+        $customData['module_url'] = $this->module_url;
+        $customData['unread_count']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+         
+        $mymgs = $this->msg->get_msgs($this->idu,'inbox',null,4);
+        $customData['mymsgs']=$this->prepare_inbox($mymgs);
+        return $this->parser->parse('inbox/widgets/inbox', $customData, true, true);
+    }
+
+//== lista basicaa
+private function prepare_inbox($mymgs=array(),$customData=array()){
+            foreach ($mymgs as $msg) {
+            $msg['msgid'] = $msg['_id'];
+            $msg['subject']=(strlen($msg['subject'])!=0)?($msg['subject']):("No Subject");
+            //Time lapse
+            $datetime1 = date_create($msg['checkdate']);
+            $datetime2 = date_create('now');
+            $interval = date_diff($datetime1, $datetime2);
+                    if($interval->format('%a%')==0){
+                // Less then 24hs
+                $horas=$interval->h;
+                $min=$interval->i;
+                if($horas==0){
+                    $msg['msg_time']="$min min";
+                }else{
+                    $msg['msg_time']=$datetime1->format('H:i');
+                }
+            }else{
+                $msg['msg_time']=$datetime1->format('Y-m-d H:i'); 
+            }
+                // 
+
+            $msg['excerpt']=substr(strip_tags($msg['body']),0,10);
+            $customData['mymsgs'][] = $msg;
+        }
+return $customData['mymsgs'];
+}
+
+
+
     function print_toolbar(){
         echo $this->toolbar();
     }
     
     //====  Widget - show msgs by case
-    function show_msgs_by_filter($filter=array(),$customData=array()){
+    function show_msgs_by_filter($filter=array()){
+
 
     	$customData['lang']= $this->lang->language;
     	$customData['base_url'] = $this->base_url;
