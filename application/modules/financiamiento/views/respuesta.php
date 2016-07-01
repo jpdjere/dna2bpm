@@ -70,8 +70,9 @@ Cualquier duda o dificultad que pudiera surgir, comunicarse con financiamiento@p
 </div>
 </div>
 <div>
+
 <!--
-<form method="post" action="{base_url}financiamiento/financiamiento/continuar_flujo">
+<form method="post" action="{base_url}financiamiento/financiamiento/volver">
   <!-- Campos ocultos 
   <input type="hidden" name="idwf" value="{idwf}">
   <input type="hidden" name="idcase" value="{idcase}">
@@ -83,8 +84,8 @@ Cualquier duda o dificultad que pudiera surgir, comunicarse con financiamiento@p
     <input type="submit" class="btn btn-primary" value="Volver">
     </div>
   </div>
-</form>
--->
+</form>-->
+
 </div>
 </section>
 
