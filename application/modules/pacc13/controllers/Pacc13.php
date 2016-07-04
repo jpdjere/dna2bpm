@@ -227,8 +227,9 @@ BLOCK;
             )
         );
         
-      var_dump($filter);
+      print_r($filter);
       echo 'XXXXXXXXXXXXXXX';
+      exit;
         $tokens = $this->bpm->get_tokens_byFilter($filter, array(
             'case',
             'data',
