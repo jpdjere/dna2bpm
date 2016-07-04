@@ -193,11 +193,11 @@ BLOCK;
         $this->engine->Run('model', 'pacc3SDAREND', $caserendicion,$resourceId,$silent);
         
     }
-    public $consolida_resrourceId='oryx_26F25BE4-8401-42AB-8971-4987B68ABF4F';
-    function buscar13($type = null) {
+    public $consolida_resrourceId='oryx_A4C6A54C-6F0E-46A8-A8EF-F32CCC7BE2C2';
+    function buscarEmprend($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
-        $templateAg = 'pacc13/listar13';
+        $templateAg = 'pacc13/listar_13';
         $filter = array(
             'idwf' => 'pacc3SDAREND',
             'resourceId' =>$this->consolida_resrourceId
@@ -226,13 +226,8 @@ BLOCK;
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
-        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
-            'case',
-            'data',
-            'checkdate'
-                ), array(
-            'checkdate' => false
-        ));
+        
+        $tokens = $this->bpm->get_tokens_byFilter($filter, array('case','data','checkdate'), array('checkdate' => false));
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
@@ -247,8 +242,8 @@ BLOCK;
             //var_dump($token['_id'],$keys);
             $model = 'pacc3SDAREND';
             $idResource = 'pacc3SDAREND'; 
-			$estado = $data ['Proyectos_pacc'] ['5689'][0];
-                $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+            $estado = $data ['Proyectos_pacc'] ['5689'][0];
+            $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
             $url_cancelar_pp = '';
             $url_cancelar_pde = '';
             $url_reevaluar_pp = '';
@@ -293,8 +288,10 @@ BLOCK;
             );
         }, $tokens);
         $data ['count'] = count($tokens);
+
         $data['base_url'] = $this->base_url;
-        // var_dump($keys,$data);exit;
+        //var_dump($keys,$data);exit;
         $this->parser->parse($templateAg, $data, false, true);
+        
     }
 }
