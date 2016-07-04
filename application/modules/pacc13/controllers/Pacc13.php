@@ -14,10 +14,18 @@ class pacc13 extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->load->model('bpm/bpm');
+        // ----LOAD LANGUAGE
+        $this->lang->load('library', $this->config->item('language'));
+        $this->idu = (int) $this->session->userdata('iduser');
+        $this->user->authorize();
+        /* GROUP */
+        $user = $this->user->get_user($this->idu);
+
+        $this->id_group = ($user->{'group'});
     }
 
     /*
@@ -195,6 +203,7 @@ BLOCK;
     }
     public $consolida_resrourceId='oryx_A4C6A54C-6F0E-46A8-A8EF-F32CCC7BE2C2';
     function buscarEmprend($type = null) {
+        $this->load->model('bpm/bpm');
         $this->user->authorize();
         $this->load->library('parser');
         $templateAg = 'pacc13/listar_13';
@@ -227,7 +236,7 @@ BLOCK;
             )
         );
         
-        $tokens = $this->bpm->get_tokens_byFilter($filter, array('case','data','checkdate'), array('checkdate' => false));
+        $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
