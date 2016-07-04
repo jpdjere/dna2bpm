@@ -226,6 +226,8 @@ BLOCK;
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
+        
+      var_dump($filter);
         $tokens = $this->bpm->get_tokens_byFilter($filter, array(
             'case',
             'data',
