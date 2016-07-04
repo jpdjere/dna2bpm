@@ -72,8 +72,8 @@ class Inbox extends MX_Controller {
     function get_folder($folder='inbox',$current_page=1,$filter=array()){
 
     	define("PAGINATION_WIDTH",$this->config->item('pagination_width')?:5);
-    	define("PAGINATION_ALWAYS_VISIBLE",$this->config->item('pagination_always_visible'));
-    	define("PAGINATION_ITEMS_X_PAGE",$this->config->item('pagination_items_x_page')?:10);
+        define("PAGINATION_ITEMS_X_PAGE",$this->config->item('pagination_items_x_page')?:10);
+    	define("PAGINATION_ITEMS_X_PAGE",5);
     	define("DATE_FORMAT_WITHIN24HS",$this->config->item('date_format_within24hs')?:'H:i');
     	define("DATE_FORMAT_BEYOND24HS",$this->config->item('date_format_beyond24hs')?:'Y-m-d H:i');
     	
@@ -89,7 +89,8 @@ class Inbox extends MX_Controller {
     	//==== Bring me my MSGs!!!
     	$skip=($current_page-1)*PAGINATION_ITEMS_X_PAGE;
     	$mymgs = $this->msg->get_msgs($this->idu,$folder,$skip,PAGINATION_ITEMS_X_PAGE,$filter);
-        $Qmsgs=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox'))); 
+       //$Qmsgs=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox'))); 
+        $Qmsgs = count($this->msg->get_msgs($this->idu,$folder));
 
     	//==== Pagination
    	
@@ -102,6 +103,7 @@ class Inbox extends MX_Controller {
     			'class_a'=>"ajax",
     			'pagination_always_visible'=>PAGINATION_ALWAYS_VISIBLE
     	);
+
     	$customData['pagination']=$this->pagination->index($config);
     	$customData['items_total']=$Qmsgs;
 
