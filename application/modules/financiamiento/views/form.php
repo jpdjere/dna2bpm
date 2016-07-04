@@ -14,7 +14,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="{base_url}financiamiento/assets/css/bootstrap.min.js"></script>
   <script src="{base_url}financiamiento/assets/jscript/jquery.maskedinput.js"></script>
-
+  <script type="text/javascript"> var base_url = {base_url}; </script>
+  
 <script src="{base_url}financiamiento/assets/jscript/campos_aux.js"></script>
 <script src="{base_url}financiamiento/assets/jscript/formulario_principal2.js"></script>
 </head>

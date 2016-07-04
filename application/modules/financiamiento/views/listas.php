@@ -126,11 +126,11 @@ $monto_prestamo_gran['0']='1.Hasta $3 millones de Inversión Productiva';
 $monto_prestamo_gran['1']='2.Hasta $1.5 millones de Capital de Trabajo';
 $monto_prestamo_gran['2']='3.Más de $3 millones de Inversión Productiva o más de $1.5 millones de Capital de Trabajo';
 
-$monto_prestamo_bienes_cap['0']='1.Hasta $1.5 millones';
-$monto_prestamo_bienes_cap['1']='2.Más de $1.5 millones';
+$monto_prestamo_bienes_cap['0']='1.Hasta $3 millones';
+$monto_prestamo_bienes_cap['1']='2.Más de $3 millones';
 
-$monto_prestamo_inversion_prod['0']='1.Hasta $3 millones';
-$monto_prestamo_inversion_prod['1']='2.Más de $3 millones';
+$monto_prestamo_inversion_prod['0']='1.Hasta $1.5 millones';
+$monto_prestamo_inversion_prod['1']='2.Más de $1.5 millones';
 
 $destino_prestamo_gran['0']='1-Bienes de Capital, Construcciones e instalaciones.';
 $destino_prestamo_gran['1']='2-Capital de Trabajo.';
