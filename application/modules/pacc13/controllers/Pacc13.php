@@ -194,7 +194,7 @@ BLOCK;
         
     }
     public $consolida_resrourceId='oryx_A4C6A54C-6F0E-46A8-A8EF-F32CCC7BE2C2';
-    function buscar13($type = null) {
+    function buscarEmprend($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
         $templateAg = 'pacc13/listar_13';
