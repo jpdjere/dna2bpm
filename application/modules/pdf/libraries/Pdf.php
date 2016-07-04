@@ -11,8 +11,11 @@
  * @license			MIT License
  * @link			https://github.com/chrisnharvey/CodeIgniter-PDF-Generator-Library
  */
+include(APPPATH.'modules/pdf/vendor/autoload.php') ;
 
-require_once(dirname(__FILE__) . '/dompdf/dompdf_config.inc.php');
+use Dompdf\Dompdf;
+
+// require_once(dirname(__FILE__) . '/dompdf/dompdf_config.inc.php');
 
 //spl_autoload_register('DOMPDF_autoload');
 
