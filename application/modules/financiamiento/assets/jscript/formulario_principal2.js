@@ -52,9 +52,8 @@ function validaciones_especiales(){
 $(document).ready(function(){
 	//Los arrays estan definidos en "arrays_de_campos" y se cargan desde el html
 	/*global sectores, todos_los_campos, campos_pyme_bancario,
-	campos_pyme_no_bancario, campos_gran_empresa*/
-	//if (history.forward(1)){alert("¡Cobarde, has vuelto atrás!")}
-	
+	campos_pyme_no_bancario, campos_gran_empresa, base_url*/
+
 	$("#sector_actividad2").prop('disabled', false);
 	$("#tipo_sociedad2").prop('disabled', false);
 	$("#provincia2").prop('disabled', false);

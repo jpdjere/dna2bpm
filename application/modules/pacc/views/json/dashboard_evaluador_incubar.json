@@ -77,15 +77,6 @@
             "span": 4,
             "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
 
-        },
-        {
-            "title": "Buscar",
-            "module": "pacc",
-            "controller": "evaluador_incubar",
-            "function": "tile_buscar",
-            "span": 4,
-            "js": [{"{base_url}pacc/assets/jscript/bus.js":"INCUBAR"}]
-
         }]
     }, {
         "col1": [{
