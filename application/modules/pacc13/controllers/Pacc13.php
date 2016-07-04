@@ -227,17 +227,7 @@ BLOCK;
             )
         );
         
-      var_dump($filter);
-      echo 'XXXXXXXXXXXXXXX';
-        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
-            'case',
-            'data',
-            'checkdate'
-                ), array(
-            'checkdate' => false
-        ));
-      exit;
-               
+        $tokens = $this->bpm->get_tokens_byFilter($filter, array('case','data','checkdate'), array('checkdate' => false));
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
