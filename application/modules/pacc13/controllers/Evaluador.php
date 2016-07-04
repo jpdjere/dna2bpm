@@ -81,7 +81,7 @@ class evaluador extends MX_Controller {
 
         $data['more_info_link'] = $this->base_url . 'bpm/';
         $data['widget_url'] = base_url() . $this->router->fetch_module() . '/' . $this->router->class . '/' . __FUNCTION__;
-      echo $this->parser->parse('pacc/widgets/2doMe2', $data, true, true);
+      echo $this->parser->parse('pacc13/widgets/2doMe2', $data, true, true);
 
     }
 
