@@ -227,8 +227,9 @@ BLOCK;
             )
         );
         
-      print_r($filter);
+      var_dump($filter);
       echo 'XXXXXXXXXXXXXXX';
+      exit;
         $tokens = $this->bpm->get_tokens_byFilter($filter, array(
             'case',
             'data',
@@ -236,7 +237,6 @@ BLOCK;
                 ), array(
             'checkdate' => false
         ));
-      exit;
                
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
