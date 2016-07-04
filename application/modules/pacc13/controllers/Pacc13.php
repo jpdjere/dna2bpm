@@ -226,6 +226,13 @@ BLOCK;
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
+        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
+            'case',
+            'data',
+            'checkdate'
+                ), array(
+            'checkdate' => false
+        ));
                
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
@@ -241,8 +248,8 @@ BLOCK;
             //var_dump($token['_id'],$keys);
             $model = 'pacc3SDAREND';
             $idResource = 'pacc3SDAREND'; 
-			$estado = $data ['Proyectos_pacc'] ['5689'][0];
-                $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+            $estado = $data ['Proyectos_pacc'] ['5689'][0];
+            $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
             $url_cancelar_pp = '';
             $url_cancelar_pde = '';
             $url_reevaluar_pp = '';
