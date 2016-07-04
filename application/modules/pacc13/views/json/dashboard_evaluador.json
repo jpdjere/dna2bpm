@@ -95,7 +95,7 @@
                     "controller": "evaluador",
                     "function": "tile_buscar",
                     "span": 4,
-                    "js": [{"{base_url}pacc13/assets/jscript/bus13.js":"pac3SDAREND"}]
+                    "js": [{"{base_url}pacc13/assets/jscript/bus13.js":"pacc13"}]
 
         }
             ]
