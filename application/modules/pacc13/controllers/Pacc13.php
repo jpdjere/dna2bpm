@@ -214,13 +214,13 @@ BLOCK;
         $data ['querystring'] = $this->input->post('query');
         // -----busco en el cuit
         $filter ['$or'] [] = array(
-            'data.6069' => array(
+            'data.1695' => array(
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
         // -----busco en el nombre empresa
         $filter ['$or'] [] = array(
-            'data.4896' => array(
+            'data.1693' => array(
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
