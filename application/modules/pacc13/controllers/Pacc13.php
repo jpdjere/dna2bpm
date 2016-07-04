@@ -193,9 +193,8 @@ BLOCK;
         $this->engine->Run('model', 'pacc3SDAREND', $caserendicion,$resourceId,$silent);
         
     }
-    public $consolida_resrourceId='oryx_26F25BE4-8401-42AB-8971-4987B68ABF4F';
+    public $consolida_resrourceId='oryx_A4C6A54C-6F0E-46A8-A8EF-F32CCC7BE2C2';
     function buscar13($type = null) {
-        echo '111111111111111</br>';
         $this->user->authorize();
         $this->load->library('parser');
         $templateAg = 'pacc13/listar_13';
@@ -294,10 +293,9 @@ BLOCK;
             );
         }, $tokens);
         $data ['count'] = count($tokens);
-                echo '222222222222222222</br>';
 
         $data['base_url'] = $this->base_url;
-        var_dump($keys,$data);exit;
+        //var_dump($keys,$data);exit;
         $this->parser->parse($templateAg, $data, false, true);
         
     }
