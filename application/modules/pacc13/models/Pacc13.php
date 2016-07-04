@@ -942,5 +942,111 @@ class Pacc13 extends CI_Model {
         $rs = $this->mongowrapper->db->$container->aggregate($query_sum);
         return $rs;
     }
+    public $consolida_resrourceId='oryx_A4C6A54C-6F0E-46A8-A8EF-F32CCC7BE2C2';
+    function buscar13($type = null) {
+        $this->user->authorize();
+        $this->load->library('parser');
+        $templateAg = 'pacc13/listar_13';
+        $filter = array(
+            'idwf' => 'pacc3SDAREND',
+            'resourceId' =>$this->consolida_resrourceId
+        );
+        $data ['querystring'] = $this->input->post('query');
+        // -----busco en el cuit
+        $filter ['$or'] [] = array(
+            'data.6069' => array(
+                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
+            )
+        );
+        // -----busco en el nombre empresa
+        $filter ['$or'] [] = array(
+            'data.4896' => array(
+                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
+            )
+        );
+        // -----busco en el nro proyecto
+        $filter ['$or'] [] = array(
+            'data.7356' => array(
+                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
+            )
+        );
+        $filter ['$or'] [] = array(
+            'case' => array(
+                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
+            )
+        );
+        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
+            'case',
+            'data',
+            'checkdate'
+                ), array(
+            'checkdate' => false
+        ));
+        $data ['empresas'] = array_map(function ($token) {
+            // var_dump($token['_id']);
+            $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+            $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+            $data = $this->bpm->load_case_data($case);
+            $url = '';
+            $url_msg = '';
+            $hist=$this->bpm->get_token_history('pacc3SDAREND',$token['case']);
+            foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
+            $keys = array_keys($case['token_status']);
+            $url_clone = ''; 
+            //var_dump($token['_id'],$keys);
+            $model = 'pacc3SDAREND';
+            $idResource = 'pacc3SDAREND'; 
+			$estado = $data ['Proyectos_pacc'] ['5689'][0];
+                $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+            $url_cancelar_pp = '';
+            $url_cancelar_pde = '';
+            $url_reevaluar_pp = '';
+            $url_reevaluar_pde = '';
+            $url_bpm = '';
+            //if (in_array(145, $this->id_group) or in_array(1001, $this->id_group) or $this->user->isAdmin()) {
+                $model = ($pacc3SDAREND) ? 'pacc3SDAREND' : 'pacc3SDAREND';
+                $url_bpm = $this->base_url . 'bpm/engine/run/model/' . $model . '/' . $token ['case'];
+            //}
+
+            /* STATUS */
+            $status = "N/A";
+            if (isset($data ['Proyectos_pacc'] ['5689'])) {
+                $this->load->model('app');
+                $option = $this->app->get_ops(580);
+                $status = $option[$data ['Proyectos_pacc'] ['5689'][0]];
+            }
+            $id=$data ['Proyectos_pacc'] ['id'];
+            if ($id) {
+                    $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
+                    $url_ver ='../../dna2/RenderView/printvista.php?idvista=4123&idap=295&id='.$todo;
+            } else {
+                $url_ver ='';
+            }
+            return array(
+                '_d' => $token ['_id'],
+                'case' => $token ['case'],
+                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'Error//no está cargado',
+                'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'XXXX',
+                'Nro' => (isset($data ['Proyectos_pacc']['7356'])) ? $data ['Proyectos_pacc'] ['7356'] : 'N/A',
+                'estado' => $status,
+                'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
+                'link_open' => $this->bpm->gateway($url),
+                'link_msg' => $url_ver,
+                'url_clone' => $url_clone,
+                'url_bpm' => $url_bpm,
+                'url_cancelar_pp' => $url_cancelar_pp,
+                'url_cancelar_pde' => $url_cancelar_pde,
+                'url_reevaluar_pp' => $url_reevaluar_pp,
+                'url_reevaluar_pde' => $url_reevaluar_pde,
+
+            );
+        }, $tokens);
+        $data ['count'] = count($tokens);
+
+        $data['base_url'] = $this->base_url;
+        //var_dump($keys,$data);exit;
+        $this->parser->parse($templateAg, $data, false, true);
+        
+    }
 
 }
