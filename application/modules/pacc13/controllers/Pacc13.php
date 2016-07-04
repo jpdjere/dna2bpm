@@ -197,7 +197,7 @@ BLOCK;
     function buscar13($type = null) {
         $this->user->authorize();
         $this->load->library('parser');
-        $templateAg = 'pacc13/listar13';
+        $templateAg = 'pacc13/listar_13';
         $filter = array(
             'idwf' => 'pacc3SDAREND',
             'resourceId' =>$this->consolida_resrourceId
