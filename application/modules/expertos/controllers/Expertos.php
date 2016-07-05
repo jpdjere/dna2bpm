@@ -1504,6 +1504,7 @@ BLOCK;
         
         $query = array(
             'iduser' => $this->idu,
+            'case' => 'CASQ',
             //'status' => 'user',
             'type' => 'Task',
             'idwf' => 'Expertos_Base'
