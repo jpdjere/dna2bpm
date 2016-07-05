@@ -1369,6 +1369,54 @@ class Model_06 extends CI_Model {
     /* ACCIONES COMPRA/VENTA todas las otras SGR
      * Compra/venta por socio
      */
+    function shares_others_sgrs_beta($cuit_field=1695, $cuit, $partner_type, $inc_date, $capital_suscripto = 5597) {
+
+        $anexo = $this->anexo;
+        $period = 'container.sgr_periodos';
+        $container = 'container.sgr_anexo_' . $anexo;
+        $partner_type = ($partner_type == "A") ? "B" : "A";
+       
+
+        $buy_result_arr = array();
+        $sell_result_arr = array();
+        
+ 
+
+         $suma_query=array(
+                'aggregate'=>'container.sgr_periodos',
+                'pipeline'=>
+                  array(
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_06',
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo')                        
+                      ),
+                      array ('$unwind' => '$anexo'),  
+                      array ('$match' => array (
+                        'anexo.' . $cuit_field => $cuit, 
+                        'status'=>'activo' ,
+                        5272 => $partner_type,
+                        'FECHA_DE_TRANSACCION' => array('$lte' => $inc_date))),  
+                      array(
+                        '$group' => array(
+                        '_id' => null,                    
+                        'suma' => array('$sum' => '$anexo.' . $capital_suscripto)
+                        ),
+                    ), 
+
+                ));
+    
+
+
+         $rs=$this->sgr_db->command($suma_query);   
+         #foreach($rs['result'] as $x)
+            #var_dump($x['filename'], $x['anexo']['5597'])  ;    
+       
+         #var_dump($rs);
+         return $rs['result'][0]['suma'];
+     }
 
     function shares_others_sgrs($cuit, $partner_type, $inc_date, $field = 5597) {
 
