@@ -369,7 +369,7 @@ Formulario de Financiamiento
 
 <footer style="width: 100%; float:left; margin-top:20px; background:#F0F1F1;">
 <div class="col-xs-12 col-sm-12 col-md-12 footer-texto">
-<img width="230" src="{base_url}financiamiento/assets/images/secretaria.jpg" scale="0"><a class="logofoter" href="http://www.produccion.gob.ar">
+<a class="logofoter" href="http://www.produccion.gob.ar">
 <img width="230" src="{base_url}financiamiento/assets/images/Logo-ministerio.png" scale="0">
 </a></div>
 </div>   
