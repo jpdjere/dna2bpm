@@ -312,8 +312,16 @@ class Lib_06_data extends MX_Controller {
                          
                          
                          
-                          /* VALIDO EN TODAS LAS */
-                    $balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value, $inc_mongo_date);
+                    /* VALIDO EN TODAS LAS SGRS Beta Fn */
+
+                    #$balance = $this->model_06->shares_others_sgrs($C_cell_value, $B_cell_value, $inc_mongo_date);
+
+                        $suma = $this->model_06->shares_others_sgrs_beta(1695, $C_cell_value, $B_cell_value, $inc_mongo_date);
+                        $resta = $this->model_06->shares_others_sgrs_beta(5248, $C_cell_value, $B_cell_value, $inc_mongo_date);
+
+                        $balance = $suma-$resta;
+
+
                     if ($balance != 0) {
                         $code_error = "B.2";
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $C_cell_value);
