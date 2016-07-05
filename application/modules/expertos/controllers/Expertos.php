@@ -1505,6 +1505,7 @@ BLOCK;
         $query = array(
             'iduser' => $this->idu,
             //'status' => 'user',
+            'type' => 'Task',
             'idwf' => 'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
