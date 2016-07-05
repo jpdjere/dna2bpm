@@ -1503,9 +1503,9 @@ BLOCK;
         
         
         $query = array(
-            //'iduser' => $this->idu,
-            'case' => 'CASQ',
-            //'status' => 'user',
+            'iduser' => $this->idu,
+            //'case' => 'CASQ',
+            'status' => 'user',
             'type' => 'Task',
             'idwf' => 'Expertos_Base'
         );
@@ -1513,8 +1513,8 @@ BLOCK;
         //var_dump($tasks);
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
-        var_dump($data);
-        exit();
+        //var_dump($data);
+        //exit();
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
