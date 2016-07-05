@@ -1503,7 +1503,7 @@ BLOCK;
         
         
         $query = array(
-            'iduser' => $this->idu,
+            //'iduser' => $this->idu,
             'case' => 'CASQ',
             //'status' => 'user',
             'type' => 'Task',
