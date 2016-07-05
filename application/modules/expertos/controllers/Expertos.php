@@ -1363,7 +1363,7 @@ BLOCK;
             //'resourceId'=>array('oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6'),
             //'assign' => $this->idu,
             //'idwf' => array('$in'=>array('Expertos_Base','carga_pro_inst'))//'Expertos_Base'
-            'idwf' => array('carga_pro_inst')//'Expertos_Base'
+            'idwf' => 'carga_pro_inst'//'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
