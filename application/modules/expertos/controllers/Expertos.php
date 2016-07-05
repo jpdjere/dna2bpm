@@ -1503,7 +1503,7 @@ BLOCK;
         
         
         $query = array(
-            'iduser' => $this->idu,
+            //'iduser' => $this->idu,
             'status' => 'user',
             //'assign' => $this->idu,
             'idwf' => 'Expertos_Base'
