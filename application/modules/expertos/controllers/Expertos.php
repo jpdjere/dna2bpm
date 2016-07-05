@@ -1503,17 +1503,16 @@ BLOCK;
         
         
         $query = array(
-            //'iduser' => $this->idu,
+            'iduser' => $this->idu,
             'status' => 'user',
-            //'assign' => $this->idu,
             'idwf' => 'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
         //$data=$this->prepare_tasks($tasks, $chunk, $pagesize);
         $data = Modules::run('bpm/bpmui/prepare_tasks', $tasks, $chunk, $pagesize);
-        //var_dump($data);
-        //exit();
+        var_dump($data);
+        exit();
         if (isset($data['mytasks'])) { 
             foreach ($data['mytasks'] as $k => $mytask) {
                 $mycase = $this->bpm->get_case($mytask['case']);
