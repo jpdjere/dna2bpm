@@ -1357,10 +1357,13 @@ BLOCK;
         
         
         $query = array(
-            //'iduser' => $this->idu,
+            'iduser' => $this->idu,
             'status' => 'user',
-            'assign' => $this->idu,
-            'idwf' => array('$in'=>array('Expertos_Base','carga_pro_inst'))//'Expertos_Base'
+            //'resourceId'=>array('$in'=>array('oryx_239E7788-6856-4E5C-AD8F-AFB3E7E148CB','oryx_418574EB-BC6F-4BEA-B0DF-057AC8DB9F89','oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6')),
+            //'resourceId'=>array('oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6'),
+            //'assign' => $this->idu,
+            //'idwf' => array('$in'=>array('Expertos_Base','carga_pro_inst'))//'Expertos_Base'
+            'idwf' => 'carga_pro_inst'//'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);
@@ -1501,9 +1504,10 @@ BLOCK;
         
         $query = array(
             'iduser' => $this->idu,
+            //'case' => 'CASQ',
             'status' => 'user',
-            //'assign' => $this->idu,
-            'idwf' => 'carga_pro_inst'//'Expertos_Base'
+            'type' => 'Task',
+            'idwf' => 'Expertos_Base'
         );
         $tasks = $this->bpm->get_tasks_byFilter($query, array(), array('checkdate' => 'desc'));
         //var_dump($tasks);

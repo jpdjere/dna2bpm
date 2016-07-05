@@ -19,7 +19,7 @@
                     "title": "Casos en proceso de carga",
                     "module": "expertos",
                     "controller": "Expertos",
-                    "function": "widget_2doMe2_d",
+                    "function": "widget_2doMe2_b",
                     "box_icon":"fa-pie-chart",
                     "box_class":["box"], 
                     "box_buttons":["collapse"],
@@ -29,7 +29,16 @@
         ]
     }, {
         "col2": [
-            
+            {
+                    "title": "Casos en proceso de revisión",
+                    "module": "expertos",
+                    "controller": "Expertos",
+                    "function": "widget_2doMe2_d",
+                    "box_icon":"fa-pie-chart",
+                    "box_class":["box"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                }
             ]
     }]
 }
