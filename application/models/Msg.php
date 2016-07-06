@@ -170,7 +170,9 @@ class Msg extends CI_Model {
         'debug'=>0,
         'is_html'=>true,
         'db_log'=>true,
-        'attachments'=>array()
+        'attachments'=>array(),
+        'from'=>'',
+        'from_nicename'=>''
         );
         
         $myconfig=array_merge($default,$config);
@@ -198,7 +200,12 @@ class Msg extends CI_Model {
             $nicename=(empty($myconfig['reply_nicename']))?($myconfig['reply_email']):($myconfig['reply_nicename']);
             $mail->AddReplyTo($myconfig['reply_email'], $nicename);
         }
-          
+        
+        if(!empty($myconfig['from'])){
+            $nicename_from=(empty($myconfig['from_nicename']))?($myconfig['from']):($myconfig['from_nicename']);
+            $mail->setFrom($myconfig['from'], $nicename_from);
+        }
+        
         $mail->IsHTML($myconfig['is_html']);
 
         $mail->Body=utf8_decode($myconfig['body']);
