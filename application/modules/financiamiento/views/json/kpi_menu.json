@@ -1,0 +1,17 @@
+{
+    "createdBy": "Sebastian Blazquez",
+    "title": "Reportes Formulario de Financiamiento",
+    "view": "layout_2colsy1_bonita",
+    "icon": "fa-qrcode",
+    "zones":[
+        {
+            "col1": [{
+            "title": "Reportes",
+            "module": "financiamiento",
+            "controller": "reportes",
+            "function": "mostrar_menu"
+            }]
+        }
+    ]
+}
+    
