@@ -7,7 +7,7 @@
  * 
  */
 
-class Model_financiamiento extends CI_Model {
+class Model_reportes extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
@@ -17,21 +17,16 @@ class Model_financiamiento extends CI_Model {
         $this->container='container.formulario_entrada';
     }
     
-    function guardar_datos_formulario($datos_formulario = array()){
-        $idwf=$datos_formulario['idwf'];
-        $idcase=$datos_formulario['idcase'];
-        $query = array('idwf' => $idwf, 'idcase' => $idcase);
-        $this->db_formentrada->where($query);
-        $caso = $this->db_formentrada->get($this->container)->result_array();
-        if(empty($caso)){
+    function get_cases_data($cases){
+        foreach($cases as $case){
+            $query = array('idcase' => $case);
             $this->db_formentrada->where($query);
-            return $this->db_formentrada->insert($this->container, $datos_formulario);
-        }else{
-            $this->db_formentrada->where($query);
-            $this->db_formentrada->delete($this->container);
-            $this->db_formentrada->where($query);
-            return $this->db_formentrada->insert($this->container, $datos_formulario);
+            $datos = $this->db_formentrada->get($this->container)->result_array();
+            $datos=$datos[0];
+            $datos['case']=$case;
+            $data[]=$datos;
         }
+        return $data;
     }
     
     function devolver_programas_pyme_bancario($idwf, $idcase){
