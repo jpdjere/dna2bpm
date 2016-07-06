@@ -596,14 +596,16 @@ class Bpm extends CI_Model {
             $query['type'] = $type;
         }
         //var_dump2(json_encode($query));
+        // $this->db->debug=true;
         $result = $this->db
                 ->where($query)
                 ->order_by(array(
                     // '_id' => true,
-                    'checkdate'=>true
+                    'microtime'=>true
                     ))
                 ->get('tokens')
                 ->result_array();
+                
         return $result;
     }
 
@@ -664,7 +666,8 @@ class Bpm extends CI_Model {
         if (count($tokens)) {
             $reduced = array_reduce(
                     $tokens, function (&$result, $token) {
-                $result[$token['resourceId']] = (isset($token['status'])) ? $token['status'] : '???';
+                    if($token['resourceId'])
+                        $result[$token['resourceId']] = (isset($token['status'])) ? $token['status'] : '???';
                 return $result;
             }, array()
             );
@@ -734,8 +737,9 @@ class Bpm extends CI_Model {
                 '$in' => $user->group
             )
         );
-
+            
         $query+=$filter;
+        // var_dump(json_encode($query));exit;
         // 'status' => array('$in' => (array) $status),
         $this->db->where($query);
         $this->db->where_in('status',(array) $status);
@@ -1461,7 +1465,7 @@ class Bpm extends CI_Model {
         ////////////////////////////////////////////////////////////////////////
         $history = array(
             'checkdate' => date('Y-m-d H:i:s'),
-            'microtime' => microtime(),
+            'microtime' => microtime(true),
             'resourceId' => $shape_src->resourceId,
             'iduser' => $this->idu,
             'type' => $shape_src->stencil->id,
@@ -1514,18 +1518,18 @@ class Bpm extends CI_Model {
                             ////////////////////////////////////////////////////////////////////////
                             //////////////     SAVE HISTORY IN CASE          ///////////////////////
                             ////////////////////////////////////////////////////////////////////////
-                            $history = array(
-                                'checkdate' => date('Y-m-d H:i:s'),
-                                'microtime' => microtime(),
-                                'resourceId' => $shape->resourceId,
-                                'iduser' => $this->idu,
-                                'type' => $shape->stencil->id,
-                                'run' => 0,
-                                'status' => $status,
-                                'name' => (isset($shape->properties->name)) ? $shape->properties->name : ''
-                            );
-                            $history['name'].=' MN->';
-                            $this->update_history($wf->idwf, $wf->case, $history);
+                            // $history = array(
+                            //     'checkdate' => date('Y-m-d H:i:s'),
+                            //     'microtime' => microtime(true),
+                            //     'resourceId' => $shape->resourceId,
+                            //     'iduser' => $this->idu,
+                            //     'type' => $shape->stencil->id,
+                            //     'run' => 0,
+                            //     'status' => $status,
+                            //     'name' => (isset($shape->properties->name)) ? $shape->properties->name : ''
+                            // );
+                            // $history['name'].=' MN->';
+                            // $this->update_history($wf->idwf, $wf->case, $history);
                             //---end if($sahpe)
                         } else {
                             show_error("The shape $pointer->resourceId doesn't exists anymore");
@@ -1559,12 +1563,12 @@ class Bpm extends CI_Model {
 
     function token_checkin($token, $wf, $shape) {
         $token['checkdate'] = (!isset($token['checkdate'])) ? date('Y-m-d H:i:s') : $token['checkdate'];
+        $token['microtime'] = (!isset($token['microtime'])) ? microtime(true)     : $token['microtime'];
         $token['resourceId'] = $shape->resourceId;
         $token['type'] = $shape->stencil->id;
         $token['idwf'] = $wf->idwf;
         $token['case'] = $wf->case;
         $token['iduser'] = $this->idu;
-        $token['microtime'] = microtime();
         return $token;
     }
 
@@ -1606,6 +1610,8 @@ class Bpm extends CI_Model {
         $this->user->Initiator = (int) $case['iduser'];
         //---set data as token data
         $data = $token;
+        $first=(!isset($token['assign']) or !isset($token['idgroup']))?true:false;
+            
         //--remove unnecesary data
         $status = $token['status'];
         $data['_id'] = null;
@@ -1670,6 +1676,7 @@ class Bpm extends CI_Model {
                 }
                 $data['idgroup'][] = $idgroup;
             }
+            
             /*
              * TRY GET Lane Resources
              */
@@ -1679,8 +1686,8 @@ class Bpm extends CI_Model {
                 var_dump($resources);
             }
             if (count($resources)) {
-                $data['assign'] = (isset($resources['assign'])) ? array_merge($resources['assign'], $data['assign']) : array();
-                $data['idgroup'] = (isset($resources['idgroup'])) ? array_merge($resources['idgroup'], $data['idgroup']) : array();
+                $data['assign'] = (isset($resources['assign'])) ? array_merge($resources['assign'], $data['assign']) : $data['assign'];
+                $data['idgroup'] = (isset($resources['idgroup'])) ? array_merge($resources['idgroup'], $data['idgroup']) : $data['idgroup'];
             } else {
                 //---check if owner/initiator is in the group
                 if ($debug)
@@ -1702,7 +1709,9 @@ class Bpm extends CI_Model {
                     }
                 }
             }
+        $parent_resources=$resources;    
         }
+        //  var_dump('Parent',$data);
         /*
           //----SHAPE HAS NO PARENT LANE
           else {
@@ -1720,8 +1729,8 @@ class Bpm extends CI_Model {
             //---merge assignment with specific data.
             $resources = $this->get_resources($shape, $wf);
             if (count($resources)) {
-                $data['assign'] = (isset($resources['assign'])) ? array_merge($resources['assign'], $data['assign']) : array();
-                $data['idgroup'] = (isset($resources['idgroup'])) ? array_merge($resources['idgroup'], $data['idgroup']) : array();
+                 $data['assign'] = (isset($resources['assign'])) ? array_merge($resources['assign'], $data['assign']) : $data['assign'];
+                 $data['idgroup'] = (isset($resources['idgroup'])) ? array_merge($resources['idgroup'], $data['idgroup']) : $data['idgroup'];
             } else {
                 if ($debug)
                     echo '<H3>Auto-Assign Runner no resources found, $shape->properties->resources->items is not set </H3>';
@@ -1770,11 +1779,56 @@ class Bpm extends CI_Model {
                 $data['assign'][] = $this->user->Initiator;
             }
         }
-
+        // var_dump('before',$data);
+        /**
+         * POST CHECK remove assign if performer is any
+         */ 
+         //---eval any -> nextTime
+        if($parent_resources ){
+            if($parent_resources['any']){
+                if($first && $parent_resources['any_cond']=='nextTime'){
+                 //----removeme from 
+                 $me=array_search($this->user->idu,$data['assign']);
+                 unset($data['assign'][$me]);
+                //  $data['assign'][]='any';
+                }
+                
+                if($parent_resources['any_cond']=='any'){
+                     //----remove assignment
+                     unset($data['assign']);
+                }
+                
+             $data['assign_any']=true;   
+            }
+            
+        }
+        //----now for the shape
+        if($resources ){
+            if($resources['any']){
+                if($first && $resources['any_cond']=='nextTime'){
+                 //----removeme from 
+                 $me=array_search($this->user->idu,$data['assign']);
+                 unset($data['assign'][$me]);
+                //  $data['assign'][]='any';
+                }
+         
+                if($parent_resources['any_cond']=='any'){
+                     //----remove assignment
+                     unset($data['assign']);
+                }
+            
+            $data['assign_any']=true;   
+            
+                
+            }
+            
+        }
+        $data=array_filter($data);
 
         if ($debug)
             var_dump2($data);
         //----SAVE TOKEN
+        
         $this->set_token($wf->idwf, $wf->case, $shape->resourceId, $shape->stencil->id, $status, $data);
         //----SAVE PARENT TOKEN IF ANY
         if ($parent) {
@@ -1787,7 +1841,6 @@ class Bpm extends CI_Model {
                 $this->set_token($wf->idwf, $wf->case, $parent->resourceId, $parent->stencil->id, $status, $data_parent);
             }
         }
-        // exit;
         return $data;
     }
 
@@ -1909,15 +1962,19 @@ class Bpm extends CI_Model {
                                     echo "adding group:" . $group['idgroup'] . ':' . $group['name'] . '<br/>';
                             }
                             break;
+                        case 'any': ///any user can take task next time
+                            $rtn['any']=true;
+                            $rtn['any_cond']=$resourceassignmentexpr;
+                            break;
                     }//---end switch
                 }//--end if rule
             }//---end foreach $rule
         }//---end if has assignments
         //----make assign equals PotentialOwner if exists
+        // var_dump('rtn',$rtn);
         if (isset($rtn['PotentialOwner'])) {
             $rtn['assign'] = $rtn['PotentialOwner'];
         }
-
         return $rtn;
     }
 
@@ -1944,6 +2001,7 @@ class Bpm extends CI_Model {
 
 //---check if user belong to the group the task is assigned to
 //---but only if the task havent been assigned to an specific user
+        
         if (isset($token['idgroup']) and ! isset($token['assign'])) {
             foreach ($user->group as $thisgroup) {
                 if (in_array((int) $thisgroup, $token['idgroup'])) {
@@ -2079,7 +2137,7 @@ class Bpm extends CI_Model {
         $data['idwf'] = $idwf;
         $data['idcase'] = $idcase;
         $data['iduser'] = $this->idu;
-        $data['microtime'] = microtime();
+        $data['microtime'] = microtime(true);
         $data['case']=$this->get_case($idcase,$idwf);
         $data['tokens']=$this->get_tokens_byFilter(array('case'=>$idcase,'idwf'=>$idwf));
         $this->db->where(array('idwf'=>$idwf,'idcase'=>$idcase));

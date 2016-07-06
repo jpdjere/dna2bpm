@@ -18,6 +18,8 @@ function run_Task($shape, $wf, $CI) {
     switch ($shape->properties->looptype) {
         case 'Standard':
             break;
+        case 'None':
+            break;
         default:
             //only excutes task 1 time
             if (in_array($resourceId, $wf->task_run)) {
@@ -43,6 +45,8 @@ function run_Task($shape, $wf, $CI) {
     $iduser = (int) $CI->idu;
     $user = $CI->user->get_user($iduser);
     $user_groups = (array) $user->group;
+//---set $idcase for scripts
+    $idcase=$wf->case;
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -200,9 +204,9 @@ function run_Task($shape, $wf, $CI) {
                 var_dump2('$DS original:', $DS);
             if (strlen($streval)) {
                 switch ($script_language) {
-                    case 'php';
-//---TODO sanitize EVAL----------
-//--add return if not present
+                    case 'php':
+                //---TODO sanitize EVAL----------
+                //--add return if not present
                         if (!strstr($streval, 'return')) {
                             $streval = 'return(' . $streval . ');';
                         }

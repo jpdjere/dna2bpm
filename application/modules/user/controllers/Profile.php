@@ -109,19 +109,16 @@ class Profile extends MX_Controller {
 
 
 		foreach($this->input->post('data') as $item){
- 			//---set password if posted
- 			if($item['name']=='passw' && $item['value']<>''){
-        	    $dbobj['passw']=$this->user->hash($item['value']);
- 			}
- 			
- 			if(in_array($item['name'],$allowed)){
- 			//---sanitize fields
- 			$dbobj[$item['name']]=strip_tags($item['value'],'<p><a><br><hr><b><strong>');
+ 			if(in_array($item['name'],$allowed))
  			$dbobj[$item['name']]=$item['value'];
- 	
- 			}
+ 			//---sanitize fields
+ 			    $dbobj[$item['name']]=strip_tags($item['value'],'<p><a><br><hr><b><strong>');
+ 			//---set password if posted
+ 			if($item['name']=='passw' && !empty($item['value']))
+ 	        	// Cambio de pass
+        	    $dbobj['passw']=$this->user->hash($item['value']);
 		}
-        unset($dbobj['passw2']);
+
         $result = $this->user->update($dbobj);
 
 		echo json_encode($result);

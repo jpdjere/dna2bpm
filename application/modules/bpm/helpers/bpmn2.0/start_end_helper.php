@@ -147,8 +147,8 @@ function run_EndNoneEvent($shape, $wf, $CI, $moveForward = true) {
     }
     //----update parent case if any
     $mycase = $CI->bpm->get_case($wf->case, $wf->idwf);
-    if (isset($mycase['parent'])) {
-        $parent = $mycase['parent'];
+    if (isset($mycase['data']['parent'])) {
+        $parent = $mycase['data']['parent'];
         // run_post($model, $idwf, $case, $resourceId)
         //echo '/bpm/engine/run_post/model/' . $parent['idwf'] . '/' . $parent['case'] . '/' . $parent['token']['resourceId'];
         //Module::run('/bpm/engine/run_post', 'model', $parent['idwf'], $parent['case'], $parent['token']['resourceId']);
@@ -249,6 +249,12 @@ function run_EndTerminateEvent($shape, $wf, $CI) {
         $data = array('canceledBy' => $shape->resourceId, 'canceledName' => $shape->properties->name);
         $token+=$data;
         $CI->bpm->save_token($token);
+        
     }
-    run_EndNoneEvent($shape, $wf, $CI);
+
+    $case = $CI->bpm->get_case($wf->case, $wf->idwf);
+    $CI->bpm->archive_case($case);
+    $CI->bpm->delete_case($wf->idwf,$wf->case);
+    // run_EndNoneEvent($shape, $wf, $CI);
+    
 }
