@@ -93,7 +93,7 @@ class semilla extends MX_Controller {
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondo_semilla2016';
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
+        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-blue', $data);
     }
     function tile_profesional() {
         $data ['number'] = 'Instituciones y Profesionales';
