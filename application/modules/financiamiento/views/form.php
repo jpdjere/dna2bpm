@@ -304,7 +304,7 @@ Formulario de Financiamiento
 
 <?php $id = 'monto_solicitado_otros';?><div  id="<?php echo $id; ?>" class="form-group col-xs-12 col-sm-6 col-lg-6 oculto">
   <label for="monto_solicitado_otros" class="control-label">Indique Monto del préstamo solicitado MM$</label>
-  <input class="form-control"  disabled="true" id="monto_solicitado_otros2" name="monto_solicitado" placeholder="$" required type="number" min="0">
+  <input class="form-control"  disabled="true" id="monto_solicitado_otros2" name="monto_solicitado_otros" placeholder="$" required type="number" min="0">
 </div>
 
 <!-- GRAN EMPRESA -->

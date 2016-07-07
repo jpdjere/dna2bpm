@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Funciones para el manejo de datos del container inscripciones
- * @author Luciano Menez <lucianomenez1212@gmail.com>
- * @date 3/05/2016
+ * Funciones para el manejo de datos del container formulario_entrada
+ * @author Sebastian Blazquez <seby_1996@hotmail.com>
+ * @date 3/06/2016
  * 
  */
 
