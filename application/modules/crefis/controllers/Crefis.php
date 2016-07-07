@@ -1349,8 +1349,6 @@ BLOCK;
         $this->load->model('app');
         $this->load->module('bpm/engine');
         $case = $this->bpm->get_case($idcase, $idwf);
-        echo ($idcase);
-        exit;
         //$id=$case['data']['Proyectos_crefis']['query']['id'];
         //$id_empresa=$case['data']['Empresas_4844']['query']['id'];
         
