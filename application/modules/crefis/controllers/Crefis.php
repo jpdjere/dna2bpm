@@ -1343,6 +1343,9 @@ BLOCK;
 
 
 }
+function mostrar($xx){
+    echo ($xx);
+}
 
     function create_Rend($idwf,$idcase,$suffix){
         $this->load->model('bpm/bpm');
