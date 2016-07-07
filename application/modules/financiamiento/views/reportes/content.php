@@ -1,4 +1,4 @@
-<table>
+<table width="3000px">
     <thead>
         {campos}
     </thead>

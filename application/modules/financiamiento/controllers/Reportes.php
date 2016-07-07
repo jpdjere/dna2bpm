@@ -24,7 +24,9 @@ class Reportes extends MX_Controller {
     }
     
     function Index() {
-    
+        $this->user->authorize();
+    	$this->load->module('dashboard');
+    	$this->dashboard->dashboard('financiamiento/json/kpi_menu.json');
     }
     
     function get_cases_by_kpi($kpi){
@@ -126,7 +128,7 @@ class Reportes extends MX_Controller {
     function make_table($filter, $cases){
         //construye la tabla con el contenido de $cases pero solo con los campos de $filter
 		foreach ($filter as $key => $value ) {
-			$header [] = '<th>' . $key . '</th>';
+			$header [] = '<th width="500px">' . $key . '</th>';
 			$values [] = "<td>{" . $value . "}</td>\n";
 		}
         $customData['cases']=$cases;
@@ -144,7 +146,7 @@ class Reportes extends MX_Controller {
         return $this->parser->parse('financiamiento/reportes/basico.php', $customData, true, true);
     }
     
-    function get_report($kpi_id){
+    function get_report($kpi_id, $exportar=false){
         //obtiene el reporte
         $kpi = $this->Kpi_model->get($kpi_id);
         $cases = $this->get_cases_by_kpi($kpi);
@@ -156,13 +158,34 @@ class Reportes extends MX_Controller {
             $filter = $this->get_filter($kpi);
             $table = $this->make_table($filter, $cases);
             $report = $this->make_report($kpi, $table);
-            echo $report;
+            if($exportar){
+                $customData['content']=$report;
+                $customData['filename']=$kpi['title'].rand().'.xls';
+                echo $this->parser->parse('financiamiento/reportes/exportar', $customData, true, true);
+            }else{
+                echo $report;
+            }
         }else{
             echo 'No hay casos para este reporte.';
         }
     }
+    /********************VIEWS****************************/
+    function mostrar_menu(){
+        //muestra un menu con todos los kpis de este model
+        $kpis=$this->kpi_model->get_model('form_entrada');
+        $customData['base_url']=$this->base_url;
+        $customData['reportes']=$kpis;
+        return $this->parser->parse('financiamiento/reportes/menu_kpi', $customData, true, true);
+    }
+    
+    function test(){
+        $kpis=$this->kpi_model->get_model('form_entrada');
+        //var_dump($kpis);
+        $customData['base_url']=$this->base_url;
+        $customData['reportes']=$kpis;
+        echo $this->parser->parse('financiamiento/reportes/menu_kpi', $customData, true, true);
+    }
 }
-
 
 
 

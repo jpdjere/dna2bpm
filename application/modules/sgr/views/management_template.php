@@ -136,6 +136,7 @@
         </div>
 
 
+<<<<<<< HEAD
   <!-- A -->
   <div id='A' style="display:none;margin-top:20px" class='cuit_all'>
     <div class="col-md-6">
@@ -244,3 +245,6 @@
     </body>
 
     </html>
+=======
+</div>
+>>>>>>> industria/sepyme-test
