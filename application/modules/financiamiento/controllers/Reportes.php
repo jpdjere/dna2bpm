@@ -128,7 +128,7 @@ class Reportes extends MX_Controller {
     function make_table($filter, $cases){
         //construye la tabla con el contenido de $cases pero solo con los campos de $filter
 		foreach ($filter as $key => $value ) {
-			$header [] = '<th>' . $key . '</th>';
+			$header [] = '<th width="500px">' . $key . '</th>';
 			$values [] = "<td>{" . $value . "}</td>\n";
 		}
         $customData['cases']=$cases;
@@ -186,7 +186,6 @@ class Reportes extends MX_Controller {
         echo $this->parser->parse('financiamiento/reportes/menu_kpi', $customData, true, true);
     }
 }
-
 
 
 
