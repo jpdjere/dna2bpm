@@ -1345,8 +1345,6 @@ BLOCK;
 }
 
     function create_Rend($idwf,$idcase,$suffix){
-        var_dump($idwf);
-        exit();
         $this->load->model('bpm/bpm');
         $this->load->model('app');
         $this->load->module('bpm/engine');
