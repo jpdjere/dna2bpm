@@ -150,7 +150,5 @@
         </div>
     </div>
 
-    <div class="panel-body">
-                 <li><a href="{module_url}consultas/cuit" target="_blank">CONSULTA TIPO DE SOCIO POR CUIT - PARA SGR´S</a></li>
-            </div>
+
 </div>
