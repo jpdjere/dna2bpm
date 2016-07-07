@@ -492,7 +492,36 @@ class Kpi extends MX_Controller {
 		// 			'class' => ($i == $page) ? 'bg-blue' : ''
 		// 	);
 		// }
-
+		/**
+		 * SORTER
+		 */
+		 $sorter=json_decode($kpi['sort_by']);
+         var_dump($sorter,$cases);
+		 foreach($cases as $idcase){
+		 	$case = $this->bpm->get_case ( $idcase, $kpi ['idwf'] );
+		 	$data[$idcase]= $this->bpm->load_case_data ( $case );
+		 	$kcases[$idcase][]=$idcase;
+		 	if($sorter){
+		 		foreach ($sorter as $ksort=>$direction){
+		 			$k=$this->parser->parse_string ('{'.$ksort.'}',$data[$idcase]);
+		 			$kcases[$idcase][]=$k;
+		 			$sort[$ksort][]=$k;
+		 		}
+		 	}
+		 }
+		 	var_dump($kcases,$sort);
+		 	//---sort arrays for order
+		 	foreach ($sorter as $ksort=>$direction){
+		 			
+		 			if($direction==1)
+		 				asort($sort[$ksort]);
+		 			else
+		 				arsort($sort[$ksort]);
+		 				
+		 		$k=$sort[$ksort];
+		 		array_multisort($kcases,$k);
+	 		}	
+		 var_dump($kcases,$k);
 		// $cpData ['start'] = $offset + 1;
 		// $cpData ['top'] = $top;
 		 $cpData ['qtty'] = $total;
@@ -500,7 +529,7 @@ class Kpi extends MX_Controller {
 		for($i = $offset; $i < $top; $i ++) {
 			$idcase = $cases [$i];
 			$case = $this->bpm->get_case ( $idcase, $kpi ['idwf'] );
-			$case ['data'] = $this->bpm->load_case_data ( $case );
+			$case ['data'] = $data[$idcase];
 			// ---Ensures $case['data'] exists
 			$case ['data'] = (isset ( $case ['data'] )) ? $case ['data'] : array ();
 			$token = $this->bpm->get_token ( $kpi ['idwf'], $idcase, $kpi ['resourceId'] );
@@ -807,6 +836,41 @@ class Kpi extends MX_Controller {
 				echo "ok!<br/>";
 			}
 		}
+	}
+	
+		function array_sort($array, $on, $order=SORT_ASC){
+	
+	    $new_array = array();
+	    $sortable_array = array();
+	
+	    if (count($array) > 0) {
+	        foreach ($array as $k => $v) {
+	            if (is_array($v)) {
+	                foreach ($v as $k2 => $v2) {
+	                    if ($k2 == $on) {
+	                        $sortable_array[$k] = $v2;
+	                    }
+	                }
+	            } else {
+	                $sortable_array[$k] = $v;
+	            }
+	        }
+	
+	        switch ($order) {
+	            case SORT_ASC:
+	                asort($sortable_array);
+	                break;
+	            case SORT_DESC:
+	                arsort($sortable_array);
+	                break;
+	        }
+	
+	        foreach ($sortable_array as $k => $v) {
+	            $new_array[$k] = $array[$k];
+	        }
+	    }
+	
+	    return $new_array;
 	}
 }
 
