@@ -1357,6 +1357,8 @@ BLOCK;
         $data = $case['data'];
         
         $caserendicion=$this->bpm->gen_case('crefisRend',$idcase.'-'.$suffix,$data);
+        var_dump($caserendicion);
+        exit;
         $this->bpm->engine->Startcase('model', 'crefisRend', $caserendicion, true);
         $resourceId=null;
         $silent=true;
