@@ -2,21 +2,21 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
 /**
  * test
  * 
- * Description of the class
+ * Description of the class --
  * 
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
+ * @date    May 28, 2014
  */
-class Perfil extends MX_Controller {
+class Portal extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->base_url = base_url();
-        $this->module_url = base_url() . $this->router->fetch_module() . '/';
+        $this->load->config('dashboard/config');
         $this->load->library('parser');
+        $this->load->library('dashboard/ui');
         $this->load->model('portal_model');
         //---base variables
         $this->base_url = base_url();
@@ -26,24 +26,37 @@ class Perfil extends MX_Controller {
        // $this->lang->load('library', $this->config->item('language'));
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
+
     }
 
-    function Index() {
-        
-    }
+
     
-    function Empresa($cuit=null,$debug=1) {
-        $this->load->module('dashboard');
-        $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
-    }
-    function Incubadora() {
-        
-    }
-    function Experto() {
-        
+    function index() {
+        Modules::run('dashboard/dashboard', 'dashboard/json/portal.json');
     }
 
-    //=== Profile
+
+    
+function portal(){
+
+
+     $this->load->model('msg');
+     $this->lang->language;
+
+     $data['base_url'] = $this->base_url;
+     
+     // Inbox
+     $data['inbox_count']=true;
+     $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+     $data['inbox_count_label_class']='success';
+     
+
+    // Parse    
+     //echo $this->parser->parse('lite', $data, true, true);
+     echo "Portal";
+}
+    
+//=== Profile
 
 
 function profile(){
@@ -149,6 +162,12 @@ echo <<<_EOF_
 
 _EOF_;
 }
+
+    
+    
+
+
+
 }
 
 /* End of file welcome.php */
