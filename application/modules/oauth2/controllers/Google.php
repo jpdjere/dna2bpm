@@ -28,7 +28,7 @@ class Google extends MX_Controller {
         'redirectUri'  => $this->module_url.'google/landing',
         'hostedDomain' => 'localhost',
         ]);
-        $this->load->config();
+        $this->load->config('oauth2/config');
         ini_set('xdebug.var_display_max_depth',-1);
     }
     function Index(){
@@ -54,7 +54,7 @@ class Google extends MX_Controller {
          $token = $this->provider->getAccessToken('authorization_code', [
             'code' => $rs['code']
         ]);
-
+        // var_dump($token);
         // We got an access token, let's now get the owner details
         $ownerDetails = $this->provider->getResourceOwner($token);
         // var_dump('$ownerDetails',$ownerDetails);
