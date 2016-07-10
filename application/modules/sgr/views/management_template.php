@@ -119,11 +119,8 @@
 
 <div id="loading" class="col-md-6" style="display:none;margin-top:20px">
           <div class="box box-gray">
-            <div class="box-header">
-              <h3 class="box-title">Loading ...</h3>
-            </div>
             <div class="box-body">
-              Actualizando información
+              Obteniendo información
             </div>
             <!-- /.box-body -->
             <!-- Loading (remove the following to stop the loading)-->

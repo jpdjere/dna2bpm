@@ -107,7 +107,7 @@ class Consultas_model extends CI_Model {
      */
     function buscar_cuits_vinculados($parameter=null, $collection='container.sgr_anexo_06') { 
 
-
+        $esVinculado = 'SI';
         $suma_query=array(
                 'aggregate'=>'container.sgr_periodos',
                 'pipeline'=>
@@ -123,7 +123,7 @@ class Consultas_model extends CI_Model {
                     array ('$match' => array (
                         'anexo.CUIT_SOCIO_INCORPORADO'  => $parameter, 
                         'anexo.CUIT_VINCULADO'  => array('$ne'=> ''), 
-                        'anexo.TIENE_VINCULACION' => 'SI',
+                        'anexo.TIENE_VINCULACION' => array('$regex' => new MongoRegex("/^$esVinculado/i")),
                         'status'=>'activo' ,                        
                     )),
                 ));

@@ -68,7 +68,7 @@ class Consultas extends MX_Controller {
         } else {
           $vinculados = $this->vinculados($data); 
           
-          $rtn['vinculados'] = " <table width='100%' class='table table-hover'>" . $vinculados. "</table>";
+          $rtn['vinculados'] = "<h4>VINCULADOS</h4><hr> <table width='100%' class='table table-hover'>" . $vinculados. "</table>";
           
          }
 
