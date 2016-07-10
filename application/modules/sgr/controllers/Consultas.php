@@ -83,7 +83,7 @@ class Consultas extends MX_Controller {
 
 function vinculados($parameter) {
 
-        var_dump($parameter);
+        #var_dump($parameter);
 
         
         $vinculados_info = $this->consultas_model->buscar_cuits_vinculados($parameter);

@@ -102,6 +102,7 @@ class CI_Parser {
 		$this->_store_ignored('ignore_pre');
 
 		// first round process tag data, pairs first
+		var_dump($data);
 		foreach ($data as $key => $val)
 		{
 			if (is_array($val))
