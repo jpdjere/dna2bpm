@@ -83,12 +83,9 @@ class Consultas extends MX_Controller {
 
 function vinculados($parameter) {
 
-        #var_dump($parameter);
-
-        
         $vinculados_info = $this->consultas_model->buscar_cuits_vinculados($parameter);
-
-        $rtn = $this->parser->parse('consultas/vinculados_table_head_view', $parameter, true, true);  
+        $hear_arr = array("title" => 'vinculados'); 
+        $rtn = $this->parser->parse('consultas/vinculados_table_head_view', $hear_arr, true, true);  
 
         foreach ($vinculados_info as $key => $value) {          
 
