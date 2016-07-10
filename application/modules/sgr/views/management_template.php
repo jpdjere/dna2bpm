@@ -41,6 +41,9 @@
         <h1>SGR DashBoard</h1>                
     </section>
 
+ <section class="content-header">
+        <h1></h1>                
+    </section>
 
 
 
@@ -50,7 +53,7 @@
 
 
 
-    <section id="col1" class="col-lg-6 connectedSortable ui-sortable">
+    <section id="col1" class="col-lg-5 connectedSortable ui-sortable">
         <div class="box box-info">   
          <div class="box-header">
           <h3 class="box-title">REPORTES
@@ -82,7 +85,7 @@
 </div>
 
 </section>
-<section id="col2" class="col-lg-6 connectedSortable ui-sortable">
+<section id="col2" class="col-lg-7 connectedSortable ui-sortable">
  <div class="box box-info">   
      <div class="box-header">
       <h3 class="box-title">CONSULTA
@@ -117,7 +120,7 @@
 
 <section>
 
-<div id="loading" class="col-md-6" style="display:none;margin-top:20px">
+<div id="loading" class="col-md-7" style="display:none;margin-top:20px">
           <div class="box box-gray">
             <div class="box-body">
               Obteniendo información
@@ -135,7 +138,7 @@
 
   <!-- A -->
   <div id='A' style="display:none;margin-top:20px" class='cuit_all'>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <!-- VINCULADAS -->
       <div class="box box-success">
         <div class="box-header with-border">
@@ -155,7 +158,7 @@
 
 <!-- B -->
   <div id='B' style="display:none;margin-top:20px" class='cuit_all'>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <!-- VINCULADAS -->
       <div class="box box-success">
         <div class="box-header with-border">
