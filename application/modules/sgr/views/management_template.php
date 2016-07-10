@@ -118,7 +118,7 @@
 <section>
 
 <div id="loading" class="col-md-6" style="display:none;margin-top:20px">
-          <div class="box box-danger">
+          <div class="box box-gray">
             <div class="box-header">
               <h3 class="box-title">Loading ...</h3>
             </div>
@@ -142,24 +142,15 @@
       <!-- VINCULADAS -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <h2 class="box-title"><span id="a_cuit"></span> </h2>
+          <h2 class="box-title"><span id="a_cuit"></span></h2><h3>  <span id="a_rs"></span><p><small> Es Socio Partícipe.</small></h3>
 
           <div class="box-tools pull-right">
              <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
          </div>
      </div>
      <div class="box-body">
-       <div class="right">
-
-          <ul class="nav nav-stacked">         
-
-        <li>
-           <a href="#" class="certificado"><span id="a_rs"></span><p><small> Es Socio Partícipe.</small></p>
-              <span class="pull-right badge bg-green"><i class="fa fa-arrow-circle-right"></i> Mas info</span>
-          </a>
-      </li>
-  </ul>       
-</div>
+      <div id='a_vinculado'></div> 
+      
 </div>
 </div>          
 </div>
@@ -171,24 +162,14 @@
       <!-- VINCULADAS -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <h2 class="box-title"><span id="b_cuit"></span></h2>
+          <h2 class="box-title"><span id="b_cuit"></span></h2><h3>  <span id="b_rs"></span><p><small> Es Socio Protector.</small></h3>
 
           <div class="box-tools pull-right">
              <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
          </div>
      </div>
      <div class="box-body">
-       <div class="right">
-
-          <ul class="nav nav-stacked">
-        <li>
-           <a href="#" class="certificado"><span id="b_rs"></span><p><small> Es Socio Protector.</small></p>
-              <span class="pull-right badge bg-green"><i class="fa fa-arrow-circle-right"></i> Mas Info</span>
-          </a>
-      </li>
-  </ul>       
-</div>
-</div>
+      <div id='b_vinculado'></div> 
 </div>          
 </div>
 </div>

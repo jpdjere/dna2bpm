@@ -33,7 +33,8 @@ $("form").validate({
               $('.cuit_all').hide();
               var cuit = null;
               cuit = $("#cuit").val();              
-              $("a.source").attr("href", url_detail + resp.cuit);        
+              $("a.source").attr("href", url_detail + resp.cuit); 
+
               $('#loading').hide();      
               switch(resp.tipo_socio)
               {
@@ -41,13 +42,15 @@ $("form").validate({
                 case 'A':                      
                       $("#a_cuit").html(resp.cuit);
                       $("#a_rs").html(resp.rs);
-                      $('#A').show();                        
+                      $('#A').show(); 
+                      $("#a_vinculado").html(resp.vinculados);                         
                 break;
 
                 case 'B':
                     $("#b_cuit").html(resp.cuit);
                     $("#b_rs").html(resp.rs);
                       $('#B').show();  
+                      $("#b_vinculado").html(resp.vinculados);  
                 break;
 
                 default:
