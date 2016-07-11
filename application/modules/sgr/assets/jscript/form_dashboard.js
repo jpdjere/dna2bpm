@@ -6,11 +6,15 @@
 
 jQuery(document).ready(function($) {
 
+
+
+
 $("form").validate({
   rules: {
    // simple rule, converted to {required:true}
-    cuit: "required"
+    cuit: "required"    
   },
+  
     submitHandler: function(form) {
         var data=$(form).serializeArray();       
         
@@ -32,9 +36,7 @@ $("form").validate({
           success: function(resp) {                                       
               $('.cuit_all').hide();
               var cuit = null;
-              cuit = $("#cuit").val();              
-              $("a.source").attr("href", url_detail + resp.cuit); 
-
+              cuit = $("#cuit").val();                            
               $('#loading').hide();      
               switch(resp.tipo_socio)
               {

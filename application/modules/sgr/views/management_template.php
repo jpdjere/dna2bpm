@@ -173,32 +173,27 @@
 </div>          
 </div>
 </div>
+</div>
 
-
-
-<!-- ERROR --> 
- <!-- MSGs 
-        <div id='msg_error' style="display:none;margin-top:20px" class='cuit_all'>
-          <div class="alert alert-danger" role="alert">
-           La C.U.I.T. <span id="e_cuit"></span> no está pendiente de Revisión ni en Espera
-         </div>
-       </div>
-   -->
-   <div id='msg_error' style="display:none;margin-top:20px" class='cuit_all'>
-    <div class="col-md-6">
-
+<div id='msg_error' style="display:none;margin-top:20px" class='cuit_all'>
+    <div class="col-md-7">
+      <!-- VINCULADAS -->
       <div class="box box-danger">
         <div class="box-header with-border">
-          <h3 class="box-title">La C.U.I.T. <span id="e_cuit"></span> No es Socio registrado.</h3>
+          <h2 class="box-title"><span id="e_cuit"></span></h2><h3>  SIN DATO<p><small> No es Socio Registrado.</small></h3>
 
           <div class="box-tools pull-right">
              <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
          </div>
-     </div>      
+     </div>
+     <div class="box-body">
+      <div id='b_vinculado'></div> 
+</div>          
+</div>
+</div>
+</div>
 
- </div>          
-</div>
-</div>
+
 
 </section>
 
