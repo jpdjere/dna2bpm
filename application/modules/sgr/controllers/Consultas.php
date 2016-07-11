@@ -55,7 +55,7 @@ class Consultas extends MX_Controller {
 
         $data = $this->input->post('cuit');
         
-        $data = isset($data)? $this->input->post('cuit') : '30630720912';#30712164707;#30714571725;
+        $data = isset($data)? $this->input->post('cuit') : '20180826123';#30712164707;#30714571725;
 
         #$data = (int)$data;
 
@@ -65,7 +65,12 @@ class Consultas extends MX_Controller {
 
         if(empty($rtn)){
             $rtn['tipo_socio'] = 0;
-        }
+        } else {
+          $vinculados = $this->vinculados($data); 
+          
+          $rtn['vinculados'] = "<h4>VINCULADOS</h4><hr> <table width='100%' class='table table-hover'>" . $vinculados. "</table>";
+          
+         }
 
       if(!$debug) {
         $this->output->set_content_type('json','utf-8');
@@ -74,6 +79,30 @@ class Consultas extends MX_Controller {
     }else{
         var_dump($rtn);
     }
+}    
+
+function vinculados($parameter) {
+
+        $vinculados_info = $this->consultas_model->buscar_cuits_vinculados($parameter);
+        $hear_arr = array("title" => 'vinculados'); 
+        $rtn = $this->parser->parse('consultas/vinculados_table_head_view', $hear_arr, true, true);  
+
+        foreach ($vinculados_info as $key => $value) {          
+
+          $data = array();
+          $data['CUIT_VINCULADO'] = $value['anexo']['CUIT_VINCULADO'];
+          $data['RAZON_SOCIAL_VINCULADO'] = $value['anexo']['RAZON_SOCIAL_VINCULADO'];
+          $data['TIPO_RELACION_VINCULACION']= $value['anexo']['TIPO_RELACION_VINCULACION'];
+          $data['PORCENTAJE_ACCIONES'] = ($value['anexo']['PORCENTAJE_ACCIONES']) ? $value['anexo']['PORCENTAJE_ACCIONES']*100:0;          
+          
+          $rtn .= $this->parser->parse('consultas/vinculados_table_view', $data, true, true); 
+
+         }
+         
+        if(empty($vinculados_info))
+          $rtn = '<tr><td>NO TIENE VINCULADOS</td></tr>';
+
+        return $rtn;
 }    
 
 

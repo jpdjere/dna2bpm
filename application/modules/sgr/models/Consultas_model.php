@@ -92,6 +92,50 @@ class Consultas_model extends CI_Model {
    }
 
 
+    /**
+     * Buscar CUITS status
+     *
+     * @name buscar_cuits_registrados
+     *
+     * @see SGR()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+    function buscar_cuits_vinculados($parameter=null, $collection='container.sgr_anexo_06') { 
+
+        $esVinculado = 'SI';
+        $suma_query=array(
+                'aggregate'=>'container.sgr_periodos',
+                'pipeline'=>
+                  array(
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_061',
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo')                        
+                      ),
+                    array ('$unwind' => '$anexo'),
+                    array ('$match' => array (
+                        'anexo.CUIT_SOCIO_INCORPORADO'  => $parameter, 
+                        'anexo.CUIT_VINCULADO'  => array('$ne'=> ''), 
+                        'anexo.TIENE_VINCULACION' => array('$regex' => new MongoRegex("/^$esVinculado/i")),
+                        'status'=>'activo' ,                        
+                    )),
+                ));
+
+      
+    
+         $suma=$this->sgr_db->command($suma_query);   
+         return $suma['result'];           
+         
+   }
+
+
     
 
     /**

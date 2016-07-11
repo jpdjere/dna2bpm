@@ -1344,5 +1344,23 @@ BLOCK;
 
 }
 
+    function create_Rend($idwf,$idcase,$suffix){
+        $this->load->model('bpm/bpm');
+        $this->load->model('app');
+        $this->load->module('bpm/engine');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        //$id=$case['data']['Proyectos_crefis']['query']['id'];
+        //$id_empresa=$case['data']['Empresas_4844']['query']['id'];
+        
+        //$data['Empresas']=$case['data']['Empresas'];
+        //$data['Proyectos_pacc']=$case['data']['Proyectos_crefis'];
+        $data = $case['data'];
+        $caserendicion=$this->bpm->gen_case('crefisRend',$idcase.'-'.$suffix,$data);
+        $this->bpm->engine->Startcase('model', 'crefisRend', $caserendicion, true);
+        $resourceId=null;
+        $silent=true;
+        $this->engine->Run('model', 'crefisRend', $caserendicion,$resourceId,$silent);
+        
+    }
 /* End of file crefis */
     /* Location: ./system/application/controllers/welcome.php */

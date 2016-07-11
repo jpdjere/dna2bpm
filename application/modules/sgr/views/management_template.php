@@ -41,6 +41,9 @@
         <h1>SGR DashBoard</h1>                
     </section>
 
+ <section class="content-header">
+        <h1></h1>                
+    </section>
 
 
 
@@ -50,7 +53,7 @@
 
 
 
-    <section id="col1" class="col-lg-6 connectedSortable ui-sortable">
+    <section id="col1" class="col-lg-5 connectedSortable ui-sortable">
         <div class="box box-info">   
          <div class="box-header">
           <h3 class="box-title">REPORTES
@@ -82,7 +85,7 @@
 </div>
 
 </section>
-<section id="col2" class="col-lg-6 connectedSortable ui-sortable">
+<section id="col2" class="col-lg-7 connectedSortable ui-sortable">
  <div class="box box-info">   
      <div class="box-header">
       <h3 class="box-title">CONSULTA
@@ -117,13 +120,10 @@
 
 <section>
 
-<div id="loading" class="col-md-6" style="display:none;margin-top:20px">
-          <div class="box box-danger">
-            <div class="box-header">
-              <h3 class="box-title">Loading ...</h3>
-            </div>
+<div id="loading" class="col-md-7" style="display:none;margin-top:20px">
+          <div class="box box-gray">
             <div class="box-body">
-              Actualizando información
+              Obteniendo información
             </div>
             <!-- /.box-body -->
             <!-- Loading (remove the following to stop the loading)-->
@@ -138,28 +138,19 @@
 
   <!-- A -->
   <div id='A' style="display:none;margin-top:20px" class='cuit_all'>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <!-- VINCULADAS -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <h2 class="box-title"><span id="a_cuit"></span> </h2>
+          <h2 class="box-title"><span id="a_cuit"></span></h2><h3>  <span id="a_rs"></span><p><small> Es Socio Partícipe.</small></h3>
 
           <div class="box-tools pull-right">
              <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
          </div>
      </div>
      <div class="box-body">
-       <div class="right">
-
-          <ul class="nav nav-stacked">         
-
-        <li>
-           <a href="#" class="certificado"><span id="a_rs"></span><p><small> Es Socio Partícipe.</small></p>
-              <span class="pull-right badge bg-green"><i class="fa fa-arrow-circle-right"></i> Mas info</span>
-          </a>
-      </li>
-  </ul>       
-</div>
+      <div id='a_vinculado'></div> 
+      
 </div>
 </div>          
 </div>
@@ -167,28 +158,18 @@
 
 <!-- B -->
   <div id='B' style="display:none;margin-top:20px" class='cuit_all'>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <!-- VINCULADAS -->
       <div class="box box-success">
         <div class="box-header with-border">
-          <h2 class="box-title"><span id="b_cuit"></span></h2>
+          <h2 class="box-title"><span id="b_cuit"></span></h2><h3>  <span id="b_rs"></span><p><small> Es Socio Protector.</small></h3>
 
           <div class="box-tools pull-right">
              <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
          </div>
      </div>
      <div class="box-body">
-       <div class="right">
-
-          <ul class="nav nav-stacked">
-        <li>
-           <a href="#" class="certificado"><span id="b_rs"></span><p><small> Es Socio Protector.</small></p>
-              <span class="pull-right badge bg-green"><i class="fa fa-arrow-circle-right"></i> Mas Info</span>
-          </a>
-      </li>
-  </ul>       
-</div>
-</div>
+      <div id='b_vinculado'></div> 
 </div>          
 </div>
 </div>
