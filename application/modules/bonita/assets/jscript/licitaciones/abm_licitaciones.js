@@ -56,7 +56,7 @@ $(function() {
 
     $('#nuevo').click(function() {
         $.ajax({
-            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_nueva/',
+            url: globals.base_url + 'bonita/licitaciones/form_nueva_licitacion/',
             dataType : "json",
             success: function(result) {
                 $("#col2").html(result.tabla);
@@ -151,7 +151,7 @@ $(function() {
                         $.ajax({
                             type: "POST",
                             data:{"fields":fields},
-                            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_nueva_licitacion/',
+                            url: globals.base_url + 'bonita/licitaciones/cargar_nueva_licitacion/',
                             success: function(result) {
                                 location.reload();
                             }
@@ -160,7 +160,7 @@ $(function() {
                         $.ajax({
                             type: "POST",
                             data:{"fields":fields, "id_mongo":id_mongo},
-                            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_licitacion_editar_cargar/',
+                            url: globals.base_url + 'bonita/licitaciones/cargar_editar_licitacion/',
                             success: function(result) {
                                 location.reload();
                             }
@@ -184,7 +184,7 @@ $(function() {
             $.ajax({
                 type: "POST",
                 data:{"id_mongo":id_mongo},
-                url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_licitaciones_borrar/',
+                url: globals.base_url + 'bonita/licitaciones/borrar_licitacion/',
                 success: function(result) {
                     location.reload();
                 }
@@ -193,11 +193,12 @@ $(function() {
             $.ajax({
                 type: "POST",
                 data:{"id_mongo":id_mongo, "resolucion":resolucion, "fechalic":fecha,"cmax":cmax, "maxeeff":maxeeff, "obs":obs},
-                url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_licitaciones_editar/',
+                url: globals.base_url + 'bonita/licitaciones/form_editar_licitacion/',
                 dataType : "json",
                 success: function(result) {
                     $("#col2").html(result.tabla);
                     cargar_param(id_mongo);
+                    $("#fechalic").attr("aria-invalid", false);
                 }
             });
         }

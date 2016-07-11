@@ -1,20 +1,19 @@
 {
     "createdBy": "Sebastián Blázquez",
-    "title": "Bonificación de Tasa - Carga Licitaciones",
+    "title": "Bonificación de Tasa - Licitaciones Cerradas - Anexo I",
     "view": "layout",
     "icon": "fa-qrcode",
     "js":[  {"{base_url}bonita/assets/jscript/jquery.validate.js":"JQuery"},
             {"{base_url}bonita/assets/jscript/jquery.price_format.2.0.js":"JQ"},
-            {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
-            {"{base_url}bonita/assets/jscript/bonita_script_lic_carga.js":"Carga JS"}
+            {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"}
         ],
     
     "zones": [
         {   "widgets": [{
-            "title": "Table",
+            "title": "Anexo I",
             "module": "bonita",
-            "controller": "bonita_licitaciones",
-            "function": "bonita_mostrar_licitacion"
+            "controller": "licitaciones",
+            "function": "anexo1"
             }]
         },{
             "2cols_after": []

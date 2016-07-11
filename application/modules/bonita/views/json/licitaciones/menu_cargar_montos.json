@@ -1,16 +1,16 @@
 {
     "createdBy": "Sebastián Blázquez",
-    "title": "Bonificación de Tasa - Carga Licitaciones",
+    "title": "Bonificación de Tasa - Cargar Montos",
     "view": "layout",
     "icon": "fa-qrcode",
     "js":[],
     
     "zones": [
         {   "widgets": [{
-            "title": "Table",
+            "title": "Cargar Montos",
             "module": "bonita",
-            "controller": "bonita_licitaciones",
-            "function": "bonita_mostrar_licitaciones"
+            "controller": "licitaciones",
+            "function": "mostrar_licitaciones_abiertas"
             }]
         },{
             "2cols_after": []

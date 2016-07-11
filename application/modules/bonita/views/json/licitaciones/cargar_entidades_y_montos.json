@@ -1,20 +1,20 @@
 {
     "createdBy": "Sebastián Blázquez",
-    "title": "Bonificación de Tasa - Licitaciones Cerradas - Anexo II",
+    "title": "Bonificación de Tasa - Cargar Montos",
     "view": "layout",
     "icon": "fa-qrcode",
     "js":[  {"{base_url}bonita/assets/jscript/jquery.validate.js":"JQuery"},
             {"{base_url}bonita/assets/jscript/jquery.price_format.2.0.js":"JQ"},
             {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
-            {"{base_url}bonita/assets/jscript/bonita_script_anexoII.js":"Carga JS"}
+            {"{base_url}bonita/assets/jscript/licitaciones/cargar_entidades_y_montos.js":"Carga JS"}
         ],
     
     "zones": [
         {   "widgets": [{
-            "title": "Table",
+            "title": "Cargar Montos",
             "module": "bonita",
-            "controller": "bonita_licitaciones",
-            "function": "bonita_licitaciones_anexo2"
+            "controller": "licitaciones",
+            "function": "mostrar_licitacion_para_carga"
             }]
         },{
             "2cols_after": []

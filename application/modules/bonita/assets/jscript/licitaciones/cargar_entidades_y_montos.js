@@ -106,7 +106,7 @@ cargar_param();
                     $.ajax({
                         type: "POST",
                         data:{"id_mongo":id_mongo, "entidad":entidad, "monto":monto},
-                        url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_nueva_carga/',
+                        url: globals.base_url + 'bonita/licitaciones/cargar_nuevo_monto/',
                         success: function(result) {
                             location.reload();
                         }
@@ -124,7 +124,7 @@ cargar_param();
         $.ajax({
             type: "POST",
             data:{"id_licitacion":id_licitacion,"id_entidad":id_entidad},
-            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_carga_borrar/',
+            url: globals.base_url + 'bonita/licitaciones/borrar_monto/',
             dataType : "json",
             success: function(result) {
                 location.reload();
@@ -145,7 +145,7 @@ cargar_param();
         $.ajax({
             type: "POST",
             data:{"id_licitacion":id},
-            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_get_cmax/',
+            url: globals.base_url + 'bonita/licitaciones/obtener_cmax/',
             success: function(result) {
                 cmax=result;
             }
@@ -157,10 +157,10 @@ cargar_param();
         $.ajax({
             type: "POST",
             data:{"id_licitacion":id},
-            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_cerrar_licitacion/',
+            url: globals.base_url + 'bonita/licitaciones/cerrar_licitacion/',
             success: function(result) {
                 //location.reload();
-                window.location.replace(globals.base_url+'bonita/bonita_licitaciones/bonita_licitaciones_reportes_licitaciones');
+                window.location.replace(globals.base_url+'bonita/licitaciones/menu_reportes/');
             }
         });
     });

@@ -7,10 +7,10 @@
     
     "zones": [
         {   "widgets": [{
-            "title": "Table",
+            "title": "Reportes Licitaciones Cerradas",
             "module": "bonita",
-            "controller": "bonita_licitaciones",
-            "function": "bonita_mostrar_licitaciones_cerradas"
+            "controller": "licitaciones",
+            "function": "mostrar_licitaciones_cerradas"
             }]
         },{
             "2cols_after": []

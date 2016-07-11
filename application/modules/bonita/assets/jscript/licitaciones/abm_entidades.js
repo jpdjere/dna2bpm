@@ -51,7 +51,7 @@ $(document).ready(function() {
 
     $('#nuevo').click(function() {
         $.ajax({
-            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_entidad_nueva/',
+            url: globals.base_url + 'bonita/licitaciones/form_nueva_entidad/',
             dataType : "json",
             success: function(result) {
                 $("#col2").html(result.tabla);
@@ -108,7 +108,7 @@ $(document).ready(function() {
                     $.ajax({
                         type: "POST",
                         data:{"fields":fields},
-                        url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_entidad_nueva_cargar/',
+                        url: globals.base_url + 'bonita/licitaciones/cargar_nueva_entidad/',
                         success: function(result) {
                             location.reload();
                         }
@@ -118,7 +118,7 @@ $(document).ready(function() {
                     $.ajax({
                         type: "POST",
                         data:{"fields":fields, "id_mongo":id_mongo},
-                        url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_entidad_editar_cargar/',
+                        url: globals.base_url + 'bonita/licitaciones/cargar_editar_entidad/',
                         success: function(result) {
                             location.reload();
                         }
@@ -140,7 +140,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 data:{"id_mongo":id_mongo},
-                url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_entidad_borrar/',
+                url: globals.base_url + 'bonita/licitaciones/borrar_entidad/',
                 success: function(result) {
                     location.reload();
                 }
@@ -150,7 +150,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             data:{"id_mongo":id_mongo, "rsocial":rsocial, "ent_cuit":ent_cuit, "obs":obs},
-            url: globals.base_url + 'bonita/bonita_licitaciones/bonita_licitaciones_entidad_editar/',
+            url: globals.base_url + 'bonita/licitaciones/form_editar_entidad/',
             dataType : "json",
             success: function(result) {
                 

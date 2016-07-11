@@ -2,11 +2,11 @@
     </br>
     <table class="table">
         <tr>
-            <td>RESOLUCIÓN:</td>
-            <td>FECHA DE LICITACIÓN:</td>
+            <td>RESOLUCI&#211;N:</td>
+            <td>FECHA DE LICITACI&#211;N:</td>
             <td>FECHA DE CIERRE:</td>
-            <td>CUPO MÁXIMO:</td>
-            <td>MÁXIMO POR ENTIDAD FINANCIERA:</td>
+            <td>CUPO M&#193;XIMO:</td>
+            <td>M&#193;XIMO POR ENTIDAD FINANCIERA:</td>
         </tr>
         {datos_licitacion}
     </table>
@@ -20,5 +20,3 @@
         </tr>
         {lista_ofertas}
     </table>
-        <a id="eexportar" class="btn btn-primary btn-xs" target="_blank" method="POST" href="{base_url}bonita/Bonita_licitaciones/descarga_anexoI?id=<?php echo $_GET['id'];?>"/>
-        Exportar</a>

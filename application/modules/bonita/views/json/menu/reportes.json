@@ -1,24 +1,20 @@
 {
-    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "createdBy": "Sebastian Blazquez <seby_1996@hotmail.com>",
     "title": "Bonificación de Tasa",
     "view": "layout_2cols",
     "icon": "fa-qrcode",
     "zones": [
         {   "col1": [{
-            "title": "Half Table",
+            "title": "Menu Reportes",
             "module": "bonita",
-            "controller": "bonita_menu",
+            "controller": "bonita",
             "function": "bonita_reportes_list"
-             }
-            ]
-
+            }]
     }, {
         "col2": []
-    
         },    
     {
-        "2cols_after": [            
-            ]
+        "2cols_after": []
     }]
-        }
+}
     

@@ -1,4 +1,4 @@
-<H3>LICITACIONES ABIERTAS:</H3>
+<H3>Licitaciones editables:</H3>
     <button id="nuevo" class="btn btn-default btn-xs" name="nuevo">Nuevo</button></br>
     </br>
 <table id="table_lic" class="table">

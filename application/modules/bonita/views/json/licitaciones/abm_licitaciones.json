@@ -1,0 +1,28 @@
+{
+    "createdBy": "Sebastian Blazquez",
+    "title": "Bonificación de Tasa - ABM Licitaciones",
+    "view": "layout_2colsy1_bonita",
+    "icon": "fa-qrcode",
+    "js":[
+            {"{base_url}bonita/assets/jscript/jquery.validate.js":"JQuery"},
+            {"{base_url}bonita/assets/jscript/jquery.price_format.2.0.js":"JQ"},
+            {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
+            {"{base_url}bonita/assets/jscript/licitaciones/abm_licitaciones.js":"Carga JS"}
+        ],
+    "zones": [
+        {   "col1": [{
+            "title": "ABM Licitaciones",
+            "module": "bonita",
+            "controller": "licitaciones",
+            "function": "mostrar_licitaciones_editables"
+            }]
+        }, {
+            "col2": []
+        },{
+            "col3": []
+        },{
+            "2cols_after": []
+        }
+    ]
+}
+    
