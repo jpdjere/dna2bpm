@@ -1,154 +1,225 @@
-<!-- ==== Contenido ==== -->
-<div class="container" > 
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <div class="row-fluid test" id="barra_user" > 
-        <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px" >
-            <li class="pull-right perfil"><a  href="{base_url}user/logout">
-                    SALIR</a></li>
-            <li class="pull-right perfil">
-                 <strong> {sgr_nombre} </strong> <span class="">  {username}</span> |
-            </li>        
-            <!--<li class="pull-right perfil"><a  href="../dna2/" target="_blank"><i class="fa fa-link"></i> Acceso Versión Anterior | </a></li>-->
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+      <title>{title}</title>
 
+      <!-- Bootstrap -->
+      <link href="{base_url}/dashboard/assets/bootstrap-wysihtml5/css/bootstrap.min.css" rel="stylesheet">
+      <link href="{base_url}sgr/assets/css/dashboard.css" rel="stylesheet">    
+      <!-- Theme style -->
+        <!--<link href="{base_url}/dashboard/assets/bootstrap-wysihtml5/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="{base_url}dashboard/assets/bootstrap-wysihtml5/css/font-awesome-4.4.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body class="skin-blue sidebar-mini sidebar-collapse">
+
+
+        <div class='container'>
+          <div id="barra_user" class="row test">
+            <ul class="breadcrumb" style="margin-bottom:0px;padding-bottom:0px; align=right" > 
+              <li class="pull-right perfil">
+                <a href="{base_url}user/logout"><strong>SALIR</strong></a>
+            </li>
         </ul>
     </div>
-
-    <div class="header_institucional">
+    <!-- ============= Barra Ministerio  -->
+     <div class="header_institucional">
       <img src="{base_url}dashboard/assets/img/logo_presidencia.png" class="presidencia_logo">
       <img src="{base_url}dashboard/assets/img/logo_secretaria.png" class="secretaria_logo">
     </div>
 
 
 
-    <h1>SGR MANAGER</h1>
+    <!-- header -->
+    <section class="content-header">
+        <h1>SGR DashBoard</h1>                
+    </section>
 
-    <!-- pic SGR-->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title"><i class="fa fa-briefcase"></i> SGRs
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse0" class="pull-right">
-                    <i class="fa fa-chevron-down"></i>
-                </a>
-            </h4>
-        </div>
-        <div id="collapse0" class="panel-collapse collapse ">
-            <form method="post" class="well" id="form" target="_blank" action="{module_url}management/Set_sgr/">
-
-                <div class="row ">
-                    <!--  ========================== row 4 . ========================== -->
-                    <div class="col-md-12" >
-                        <!--  Desde  -->
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label>Seleccione la SGR</label> 
-                                <div class="input-group ">
-                                    <select name="send_sgr" id="sgr"class="required form-control" > {sgr_options}</select>
-                                </div>	
-                            </div>
-                        </div>
-                        <!--  Hasta  -->
-
-                    </div><!-- row4-->
-
-                </div>
+ <section class="content-header">
+        <h1></h1>                
+    </section>
 
 
 
-                <!--  ROW 3  -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="hidden" name="anexo" value="{anexo}" />
-                        <button name="submit_period"
-                                class="btn btn-block btn-primary hide_offline" type="submit"
-                                id="bt_save_{sgr_period}">
-                            <i class="fa fa-search"></i> SELECCIONAR
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <!-- links -->
+
+
+
+
+
+    <section id="col1" class="col-lg-5 connectedSortable ui-sortable">
+        <div class="box box-info">   
+         <div class="box-header">
+          <h3 class="box-title">REPORTES
+            <small>Por Anexo</small>
+        </h3>        
+      </div><!-- /.box-header -->
+
+      <div class="box-body" class="small-box">
+       <div>
+         <ul class="nav nav-stacked">
+            <li><a href="{module_url}reports/anexo_code/06" target="_blank">Reporte Anexo 06</a></li>
+            <li><a href="{module_url}reports/anexo_code/061" target="_blank">Reporte Anexo 06.1</a></li>
+            <li><a href="{module_url}reports/anexo_code/062" target="_blank">Reporte Anexo 06.2</a></li>
+            <li><a href="{module_url}reports/anexo_code/12" target="_blank">Reporte Anexo 12</a></li>
+            <li><a href="{module_url}reports/anexo_code/125" target="_blank">Reporte Anexo 12.5</a></li>
+            <li><a href="{module_url}reports/anexo_code/126" target="_blank">Reporte Anexo 12.6</a></li>
+            <li><a href="{module_url}reports/anexo_code/13" target="_blank">Reporte Anexo 13</a></li>
+            <li><a href="{module_url}reports/anexo_code/14" target="_blank">Reporte Anexo 14</a></li>
+            <li><a href="{module_url}reports/anexo_code/141" target="_blank">Reporte Anexo 14.1</a></li>
+            <li><a href="{module_url}reports/anexo_code/15" target="_blank">Reporte Anexo 15</a></li>
+            <li><a href="{module_url}reports/anexo_code/16" target="_blank">Reporte Anexo 16</a></li>
+            <li><a href="{module_url}reports/anexo_code/201" target="_blank">Reporte Anexo 20.1</a></li>
+            <li><a href="{module_url}reports/anexo_code/202" target="_blank">Reporte Anexo 20.2</a></li>
+        </ul>
+    </div>   
+
+
+</div>        
+</div>
+
+</section>
+<section id="col2" class="col-lg-7 connectedSortable ui-sortable">
+ <div class="box box-info">   
+     <div class="box-header">
+      <h3 class="box-title">CONSULTA
+        <small>Tipo de Socio por C.U.I.T.</small>
+    </h3>    
+  </div><!-- /.box-header -->
+
+  <div class="box-body" class="small-box">
+   <div style="margin-left:20%">
+     <form method="post" class="form-extra" >
+        <div class="col-lg-9 input-group input-group-sm">
+          <span class="input-group-addon">Ingrese la C.U.I.T.</span>
+          <input type="text" placeholder="ej: XXXXXXXXXXX" name="cuit" id="cuit" class="form-control">
+          <span class="input-group-btn">
+            <button class="btn btn-info btn-flat btn-search" type="submit">Buscar </button>
+        </span>
     </div>
+</form>
+</div>   
 
-    <!--  Panel Herramientas -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title"><i class="fa fa-wrench"></i> Herramientas
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="pull-right">
-                    <i class="fa fa-chevron-down"></i>
-                </a>
-            </h4>
-        </div>
-        <div id="collapse2" class="panel-collapse collapse ">
-            <div class="panel-body">
-                 <li><a href="{module_url}tools" target="_blank">Periodos Informados por SGR</a></li>
-                 <li><a href="{module_url}tools/fix_anexo141_balance_form" target="_blank">Recalculador ANEXO 14.1</a></li>
+
+</div>        
+</div>
+
+
+</section>
+
+
+
+</section>
+
+
+<section>
+
+<div id="loading" class="col-md-7" style="display:none;margin-top:20px">
+          <div class="box box-gray">
+            <div class="box-body">
+              Obteniendo información
             </div>
-        </div>
-    </div>
-    
-    <!--  Panel Central -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title"><i class="fa fa-book fa-fw"></i> Central
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_central" class="pull-right">
-                    <i class="fa fa-chevron-down"></i>
-                </a>
-            </h4>
-        </div>
-        <div id="collapse_central" class="panel-collapse collapse ">
-            <div class="panel-body">
-                 <li><a href="{module_url}central" target="_blank">Central Deudores</a></li>
+            <!-- /.box-body -->
+            <!-- Loading (remove the following to stop the loading)-->
+            <div class="overlay">
+              <i class="fa fa-refresh fa-spin"></i>
             </div>
+            <!-- end loading -->
+          </div>
+          <!-- /.box -->
         </div>
-    </div>
 
-    <!--  Panel Reportes -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title"><i class="fa fa-copy"></i> Reportes
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="pull-right">
-                    <i class="fa fa-chevron-down"></i>
-                </a>
-            </h4>
-        </div>
-        <div id="collapse3" class="panel-collapse collapse ">
-            <div class="panel-body">
-                <li><a href="{module_url}reports/anexo_code/06" target="_blank">Reporte Anexo 06</a></li>
-                <li><a href="{module_url}reports/anexo_code/061" target="_blank">Reporte Anexo 06.1</a></li>
-                <li><a href="{module_url}reports/anexo_code/062" target="_blank">Reporte Anexo 06.2</a></li>
-                <li><a href="{module_url}reports/anexo_code/12" target="_blank">Reporte Anexo 12</a></li>
-                <li><a href="{module_url}reports/anexo_code/125" target="_blank">Reporte Anexo 12.5</a></li>
-                <li><a href="{module_url}reports/anexo_code/126" target="_blank">Reporte Anexo 12.6</a></li>
-                <li><a href="{module_url}reports/anexo_code/13" target="_blank">Reporte Anexo 13</a></li>
-                <li><a href="{module_url}reports/anexo_code/14" target="_blank">Reporte Anexo 14</a></li>
-                <li><a href="{module_url}reports/anexo_code/141" target="_blank">Reporte Anexo 14.1</a></li>
-                <li><a href="{module_url}reports/anexo_code/15" target="_blank">Reporte Anexo 15</a></li>
-                <li><a href="{module_url}reports/anexo_code/16" target="_blank">Reporte Anexo 16</a></li>
-                <li><a href="{module_url}reports/anexo_code/201" target="_blank">Reporte Anexo 20.1</a></li>
-                <li><a href="{module_url}reports/anexo_code/202" target="_blank">Reporte Anexo 20.2</a></li>
-            </div>
-        </div>
-    </div>
-    
-    <!--  Panel Reportes -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title"><i class="fa fa-copy"></i> Reportes CNV
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="pull-right">
-                    <i class="fa fa-chevron-down"></i>
-                </a>
-            </h4>
-        </div>
-        <div id="collapse4" class="panel-collapse ">
-            <div class="panel-body">         
-                
-                <li><a href="{module_url}reports/anexo_code/cnv_1" target="_blank">DDJJ para CNV</a></li>
-                <li><a href="{module_url}reports/anexo_code/cnv_2" target="_blank">Evolución principales variables</a></li>
-                <li><a href="{module_url}reports/anexo_code/cnv_3" target="_blank">Detalle de las inversiones del FDR</a></li>
-                <li><a href="{module_url}reports/anexo_code/cnv_4" target="_blank">Evolución de las variables principales - Saldos promedios mensuales</a></li>
-            </div>  
-        </div>
-    </div>
 
+  <!-- A -->
+  <div id='A' style="display:none;margin-top:20px" class='cuit_all'>
+    <div class="col-md-7">
+      <!-- VINCULADAS -->
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h2 class="box-title"><span id="a_cuit"></span></h2><h3>  <span id="a_rs"></span><p><small> Es Socio Partícipe.</small></h3>
+
+          <div class="box-tools pull-right">
+             <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
+         </div>
+     </div>
+     <div class="box-body">
+      <div id='a_vinculado'></div> 
+      
+</div>
+</div>          
+</div>
+</div>
+
+<!-- B -->
+  <div id='B' style="display:none;margin-top:20px" class='cuit_all'>
+    <div class="col-md-7">
+      <!-- VINCULADAS -->
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h2 class="box-title"><span id="b_cuit"></span></h2><h3>  <span id="b_rs"></span><p><small> Es Socio Protector.</small></h3>
+
+          <div class="box-tools pull-right">
+             <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
+         </div>
+     </div>
+     <div class="box-body">
+      <div id='b_vinculado'></div> 
+</div>          
+</div>
+</div>
+</div>
+
+<div id='msg_error' style="display:none;margin-top:20px" class='cuit_all'>
+    <div class="col-md-7">
+      <!-- VINCULADAS -->
+      <div class="box box-danger">
+        <div class="box-header with-border">
+          <h2 class="box-title"><span id="e_cuit"></span></h2><h3>  SIN DATO<p><small> No es Socio Registrado.</small></h3>
+
+          <div class="box-tools pull-right">
+             <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
+         </div>
+     </div>
+     <div class="box-body">
+      <div id='b_vinculado'></div> 
+</div>          
+</div>
+</div>
+</div>
+
+
+
+</section>
+
+
+
+<!-- JS Global -->
+<script>
+            //-----declare global vars
+            var base_url = '{base_url}';
+        </script>
+
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{base_url}jscript/jquery/jquery.min.js"></script>
+
+        <script src="{base_url}jscript/jquery/plugins/jquery-validation-1.15.0/jquery.validate.min.js"></script>   
+        <script src="{base_url}sgr/assets/jscript/dashboard.js"></script>
+        <script src="{base_url}sgr/assets/jscript/form_dashboard.js"></script>
+        <!--CALENDAR -->
+        <script src='{base_url}jscript/jquery/ui/jquery-ui-1.10.2.custom/jquery-ui-1.10.2.custom.min.js'></script>
+        <!--<script src='{base_url}dashboard/assets/bootstrap-wysihtml5/js/AdminLTE/app.js'></script>-->
+        <script src='{base_url}jscript/jquery/plugins/Form/jquery.form.min.js'></script>
+
+
+    </body>
+
+    </html>
 
 </div>
+
