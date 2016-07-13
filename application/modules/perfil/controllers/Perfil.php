@@ -26,77 +26,61 @@ class Perfil extends MX_Controller {
        // $this->lang->load('library', $this->config->item('language'));
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
+
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        ini_set('xdebug.var_display_max_depth', 120 );
+
     }
 
     function Index() {
         
     }
     
+    # ====================================
+    #   Empresa
+    # ====================================
+
     function Empresa($cuit=null,$debug=1) {
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
     }
+
+    //=== Profile
+
+    function profile(){
+        $data=$this->user->get_user((int) $this->idu);
+        $customData['avatar']=$this->user->get_avatar();
+        $customData['empresas'] = $this->portal_model->get_empresas();    
+
+        if(isset($customData['empresas'][0])){
+            $afip=$this->get_afip_data($customData['empresas'][0][1695]);
+            $customData=array_merge($customData,$afip);
+        }
+
+        $customData['base_url']=$this->base_url;
+
+        echo $this->parser->parse('portal/profile', $customData, true, true);
+    }
+
+
+
+    # ====================================
+    #   Incubadora
+    # ====================================
+
     function Incubadora() {
         
     }
+
+    # ====================================
+    #   Experto
+    # ====================================
+
     function Experto() {
         
     }
 
-    //=== Profile
-
-
-function profile(){
-    // $config=array('body'=>'Im a callout','title'=>'Callout','class'=>'info');
-    //  echo $this->ui->callout($config);
-    $data=$this->user->get_user((int) $this->idu);
-    $avatar=$this->user->get_avatar();
-    $empresas = $this->portal_model->get_empresas();
-    //var_dump($empresas);
-    //exit();
-    $select = '<select class="form-control"  data-live-search="true">';
-    $id =0;
-    foreach($empresas as $empresa){
-        $select = $select. '<option id="'.$id.'" value="'.$empresa['1693'].'">Empresa:'.$empresa["1693"].' CUIT:'.$empresa["1695"].'</option>' ;
-        $id++;
-        
-    }
-    $select = $select.'</select>';
-    //echo ($select);
-    //exit();
-echo <<<_EOF_
-<div class="row">
-<div class="col-sm-3">
-<img src="$avatar"  class="avatar" style="width:120px" >
-</div>
-<div class="col-sm-9">
-{$select}
-<h3 ></h3>
-<ul class='list-unstyled'>
-<li><strong>Sector:</strong> Minería</li>
-<li><strong>Clasificación:</strong> Pyme</li>
-<li><strong>Sector:</strong> Tramo1</li>
-</ul>
-<a type="button" href="{$this->base_url}dashboard/profile" class="pull-right btn btn-general btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
- Editar</a>
-</div>
-</div>
-
-<div class="" style="border-top:1px solid #ccc;height:10px;margin-top:9px"></div>
-
-<div class="row">
-<div class="col-sm-6">
-<button type="button" class="btn btn-primary btn-md btn-block">Mi certificado PYME</button>
-</div>
-<div class="col-sm-6">
-<button type="button" class="btn btn-primary btn-md btn-block disabled">Mis Archivos</button>
-</div>
-</div>
-
-_EOF_;
-    
-
-}
 
 
 //=== Eficacia
