@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  *         @date Jul 18, 2014
  */
-class crefis extends MX_Controller {
+class Crefis extends MX_Controller {
     //--define el token que guarda la data consolidada para buscadores etc
     public $consolida_resrourceId='oryx_6772A7D9-3D05-4064-8E9F-B23B4F84F164';
 
@@ -1341,9 +1341,6 @@ BLOCK;
     }
 
 
-
-}
-
     function create_Rend($idwf,$idcase,$suffix){
         $this->load->model('bpm/bpm');
         $this->load->model('app');
@@ -1360,7 +1357,10 @@ BLOCK;
         $resourceId=null;
         $silent=true;
         $this->engine->Run('model', 'crefisRend', $caserendicion,$resourceId,$silent);
-        
+        return $caserendicion;
     }
+
+}
+
 /* End of file crefis */
     /* Location: ./system/application/controllers/welcome.php */
