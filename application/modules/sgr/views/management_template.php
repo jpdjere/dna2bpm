@@ -98,7 +98,7 @@
      <form method="post" class="form-extra" >
         <div class="col-lg-9 input-group input-group-sm">
           <span class="input-group-addon">Ingrese la C.U.I.T.</span>
-          <input type="text" placeholder="ej: XXXXXXXXXXX" name="cuit" id="cuit" class="form-control">
+          <input type="text" placeholder="ej: XXXXXXXXXXX" name="cuit" id="cuit" class="form-control" maxlength="11">
           <span class="input-group-btn">
             <button class="btn btn-info btn-flat btn-search" type="submit">Buscar </button>
         </span>
