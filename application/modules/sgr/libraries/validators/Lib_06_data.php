@@ -1680,6 +1680,9 @@ class Lib_06_data extends MX_Controller {
         }
         
          
+       # Support #27920
+        if($this->idu==10)
+            $result = array();
 
 
         /*
