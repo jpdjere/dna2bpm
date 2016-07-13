@@ -13,15 +13,22 @@ class model_bonita_reportes extends CI_Model {
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
+        //$this->load->config('importar');
+        //var_dump($this->config);exit;
+        $config['hostname'] = 'localhost';
+        $config['username'] = 'root';
+        $config['password'] = 'seba1553';
+        $config['database'] = 'importar';
+        $config['dbdriver'] = 'mysqli';
+        $config['dbprefix'] = '';
+        $config['pconnect'] = FALSE;
+        $config['db_debug'] = TRUE;
+        $config['cache_on'] = FALSE;
+        $config['cachedir'] = '';
+        $config['char_set'] = 'utf8';
+        $config['dbcollat'] = 'utf8_general_ci';
         
-        //$this->load->library('cimongo/Cimongo.php', '', 'db_importar');
-        //$this->db_importar->switch_db('importar');
-       // $this->db_importar = $this->load->database('importar',TRUE);  
-        //$this->load->library('cimongo/Cimongo.php', '', 'db_pacc');
-        
-        //$this->db_pacc->switch_db('pacc');
-        $this->db_importar = $this->load->database('importar',TRUE);
-       
+        $this->db_importar = $this->load->database($config,TRUE);
     }
     
     /**
@@ -36,8 +43,7 @@ class model_bonita_reportes extends CI_Model {
         
         $result = $this->db_importar->get($container)->result_array();
         
-        return $result; 
-        
+        return $result;
     }
     
     function sectores(){ 
@@ -139,13 +145,6 @@ class model_bonita_reportes extends CI_Model {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
     function prestamos_total($desde,$hasta){ /// Devuelve lista de POA cargados en el sistema
         $result = array();
         $container = 'bonita_prestamos';
@@ -200,6 +199,7 @@ class model_bonita_reportes extends CI_Model {
         $this->db_importar->where('fecha_acredita < ',$new_hasta);
         $this->db_importar->where('provincia =', $provincia);
         $result['prestamos_prov'] = $this->db_importar->count_all_results($container);
+
         $result['porcent_prestamos'] = number_format((float)(($result['prestamos_prov'] / $prestamos_total)*100), 2, ',', '');
         $this->db_importar->select('cap');
         $this->db_importar->where('fecha_acredita >= ',$new_desde);

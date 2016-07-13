@@ -1,6 +1,6 @@
 {
     "createdBy": "Martin González",
-    "title": "Reporte por región",
+    "title": "Reporte por Sector y Tamaño",
     "view": "layout_2colsy1_bonita",
     "icon": "fa-qrcode",
     "zones": [
@@ -8,10 +8,10 @@
             "title": "Half Table",
             "module": "bonita",
             "controller": "bonita_reportes",
-            "function": "bonita_filtros_region",
-            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}bonita/assets/jscript/bonita_script_rep_reg.js":"Profile JS"}]
-             }
-            ]
+            "function": "bonita_filtros_sector_tam",
+            "js":[{"0":"highCharts"},{"1":"jqueryUI"},{"2":"PLUpload"},{"{base_url}bonita/assets/jscript/reportes/sectores_tamano.js":"Profile JS"}]
+            }
+        ]
 
     }, {
         "col2": []

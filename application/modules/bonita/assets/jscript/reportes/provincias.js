@@ -65,7 +65,6 @@ $(function() {
     else{
         $.ajax({
                 type: "POST",
-               
                 url: globals.base_url + 'bonita/bonita_reportes/bonita_tabla_provincia/'+$("#desde").val()+'/'+$("#hasta").val()+'/'+$("#exportar").val(),
                 dataType : "json",
               success: function(result) {
@@ -73,18 +72,10 @@ $(function() {
                   $("#col2").html("<div id='col2_graf' style='width:100%; height:100%'></div>");
                   
                   $("#col2_graf").highcharts(result.grafico);
-                  
-                   }
+                }
             });
-       
-        
-        
-        
-    }
-      
-  });
- 
-  
+        }
+    });
 });
 
 

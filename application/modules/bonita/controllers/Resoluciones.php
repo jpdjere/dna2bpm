@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
  * @author Sebastian Blazquez
  * @date    Jul 11, 2016
  */
-class bonita extends MX_Controller {
+class resoluciones extends MX_Controller {
 
     function __construct() {
         parent::__construct();
@@ -40,8 +40,7 @@ class bonita extends MX_Controller {
         $customData['title'] = 'Menu';
         $customData['tabla'] =
         '<tr><a href="'.$this->module_url.'menu_reportes/">Menu Reportes</a></tr></br>'.
-        '<tr><a href="'.$this->module_url.'menu_licitaciones/">Menu Licitaciones</a></tr></br>'.
-        '<tr><a href="'.$this->module_url.'menu_resoluciones/">Menu Resoluciones</a></tr></br>';
+        '<tr><a href="'.$this->module_url.'menu_licitaciones/">Menu Licitaciones</a></tr></br>';
         return $this->parser->parse('bonita/views/menu/menu',$customData,true,true);    
     }
 
