@@ -1,7 +1,7 @@
 {
     "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
-    "title": "Dashboard Lite",
-    "view": "layout_portal",
+    "title": "Portal Pyme",
+    "view": "layout_2cols_collapsed",
     "icon": "fa-users",
     "zones": 
     [

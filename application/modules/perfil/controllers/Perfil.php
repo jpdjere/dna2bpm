@@ -72,18 +72,14 @@ class Perfil extends MX_Controller {
 
         function estadisticas(){
             $cuit=$this->get_cuit();
-
             $customData=array();
-            $customData['periodos']="---";
-
             $afip=$this->get_afip_data($cuit);
             $customData['periodos']='';
             if(!empty($afip['periodos'])){
-                            foreach($afip['periodos'] as $k=>$monto){
+                foreach($afip['periodos'] as $k=>$monto){
                 $customData['periodos'].="<p>$k <span class='label label-info'>AR $monto</span></p>";
+                }
             }
-            }
-
 
             // Programas
              $cases = $this->bpm->get_cases_byFilter(
@@ -92,6 +88,7 @@ class Perfil extends MX_Controller {
                 'status' => 'open',
                     ), array(), array('checkdate' => 'desc')
             );
+           //  var_dump($cases);
             $customData['programas']=count($cases);
 
             // Programas adquiridos
@@ -137,6 +134,7 @@ class Perfil extends MX_Controller {
         if(!empty($data->result)){
             $resp['sector']=(empty($data->result['sector_texto']))?(''):($data->result['sector_texto']);
             $resp['categoria']=(empty($data->result['categoria']))?(''):($data->result['categoria']);
+            $resp['actividad']=(empty($data->result['actividad']))?(''):($data->result['actividad']);
             $resp['isPyme']=($isPyme===1)?('Pyme'):('-');
             //== Facturacion
             $periodos=array();
@@ -179,20 +177,32 @@ class Perfil extends MX_Controller {
 //=== Eficacia
 
 function eficacia(){
-echo <<<_EOF_
-<div class="row">
-<div class="col-sm-3">
-<input type="text" class="knob" value="25" >
-</div>
-<div class="col-sm-9">
-<ul class='list-unstyled'>
-<li><i class="fa fa-times text-danger" aria-hidden="true"></i> Balance no presentado</li>
-<li><i class="fa fa-times text-danger" aria-hidden="true"></i> Formulario de certificación</li>
-<li><i class="fa fa-times text-danger" aria-hidden="true"></i> Validación de programa</li>
-</ul>
-</div>
-</div>
-_EOF_;
+
+// Programas
+ $cases = $this->bpm->get_cases_byFilter(
+        array(
+    'iduser' => $this->idu,
+    'status' => 'open',
+        ), array(), array('checkdate' => 'desc')
+);
+$customData=array();
+$userdata=$this->user->getbyid($this->idu);
+
+$eficacia['registro']=25;
+$eficacia['certificado']=0;
+$eficacia['aplica']=(empty($cases))?(0):(25);
+$eficacia['perfil']=(empty($userdata->phone))?(0):(25);
+
+$customData['porcentaje']=0;
+foreach($eficacia as $v)
+    $customData['porcentaje']+=$v;
+
+$customData['registro']=($eficacia['registro']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
+$customData['certificado']=($eficacia['certificado']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
+$customData['aplica']=($eficacia['aplica']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
+$customData['perfil']=($eficacia['perfil']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
+
+echo $this->parser->parse('eficacia', $customData, true, true);
 
 }
 
