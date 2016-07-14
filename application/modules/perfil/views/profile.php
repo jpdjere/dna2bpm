@@ -15,8 +15,9 @@
 <h3 ></h3>
 <ul class='list-unstyled'>
 <li><strong>Sector:</strong> <span id='profile_sector'>{sector}</span></li>
-<li><strong>Clasificación:</strong><span id='profile_pyme'> {isPyme}</span></li>
-<li><strong>Categoría:</strong> <span id='profile_categoria'>{categoria}</span></li>
+<li><strong>Clasificación:</strong> {isPyme}</li>
+<li><strong>Categoría:</strong> {categoria}</li>
+<li><strong>Actividad:</strong> {actividad}</li>
 </ul>
 <a type="button" href="{base_url}dashboard/profile" class="pull-right btn btn-general btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
  Editar</a>
@@ -27,7 +28,7 @@
 
 <div class="row">
 <div class="col-sm-12">
-<button type="button" class="btn btn-primary btn-md btn-block">Mi certificado PYME</button>
+<button type="button" class="btn btn-primary btn-md btn-block">Constancia de Categorización MiPyme</button>
 </div>
 
 </div>
