@@ -73,8 +73,6 @@ class semilla extends MX_Controller {
     }
     
     
-    
-
     function Admin($debug=false) {
         $this->user->authorize();
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_admin.json',$debug);
@@ -1493,11 +1491,13 @@ function lite(){
      $cases_count = $this->bpm->get_cases_byFilter_count(
                 array(
             'iduser' => $this->idu,
+            'idwf' => 'fondo_semilla2016',
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
         );
      $query = array(
             'assign' => $this->idu,
+            'idwf' => 'fondo_semilla2016',
             'status' => 'user'
         );
         //var_dump(json_encode($query));exit;
