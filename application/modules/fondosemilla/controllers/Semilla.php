@@ -44,7 +44,7 @@ class semilla extends MX_Controller {
     function Emprendedores($debug=false) {
         $this->user->authorize();
         $grupo_user = 'Fondo Semilla /Emprendedor';
-        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',        );        
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib');        
         $this->Add_group($grupo_user);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug, $extraData);
        // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
@@ -54,9 +54,11 @@ class semilla extends MX_Controller {
     function Incubadoras($debug=false) {
         $this->user->authorize();
         $grupo_user = 'Fondo Semilla /Incubadora';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_incubadoras.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/incubadoras_lite.json',$debug, $extraData);
       
         
     }
