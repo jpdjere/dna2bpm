@@ -1,5 +1,5 @@
 
-<form method="post" class="well" id="form" action="reports/action_form/">
+<form method="post" class="well" id="form" action="reports/new_report/" target="_blank">
 
     <div class="row ">
         <!--  ========================== row 4 . ========================== -->
@@ -33,15 +33,34 @@
         <!--  ========================== row 8  ========================== -->
         <div class="col-md-8" >
             <!--  SGR -->
+
+            <div class="row ">
+                <div class="form-group col-md-10">
+                    <label>C.U.I.T. Socio</label> 
+                    <input type="text" class="form-control" name="cuit_socio" placeholder="XXXXXXXXXXX" />
+                </div>
+            </div>
+
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-10">
                     <label>Seleccione la SGR</label> 
                     <div class="input-group ">
                         <select name="sgr" id="sgr" class="required form-control" > {sgr_options}</select>
                     </div>	
                 </div>
             </div>
-            <!--  Reporte  -->
+
+
+            
+            <div class="row ">
+                <div class="form-group col-md-12">
+                    <label>Reporte</label> 
+                    <div class="input-group ">
+                        <small>{sgr_options_checklist}</small>
+                    </div>
+                </div>
+            </div>
+            <!--  Reporte  
             <div class="row ">
                 <div class="form-group col-md-6">
                     <label>Reporte</label> 
@@ -55,15 +74,10 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             
-            <div class="row ">
-                <div class="form-group col-md-6">
-                    <label>C.U.I.T. Socio</label> 
-                    <input type="text" class="form-control" name="cuit_socio" placeholder="XXXXXXXXXXX" />
-                </div>
-            </div>
+            
 
         </div><!-- row8 -->
     </div>
