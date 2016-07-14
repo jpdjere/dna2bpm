@@ -1734,4 +1734,66 @@ class Model_06 extends CI_Model {
 
     }
 
+
+     /**
+     * Nuevo Reporte Anexo 06
+     *
+     * @name generate_report
+     *
+     * @see SGR()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+    function generate_report($parameter=array(), $collection='container.sgr_anexo_06') {
+
+       $start_date = first_month_date($parameter['input_period_from']);
+       $end_date = last_month_date($parameter['input_period_to']);
+
+
+        $query=array(
+                'aggregate'=>'container.sgr_periodos',
+                'pipeline'=>
+                  array(
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_06',
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo')                        
+                      ),
+                      array ('$unwind' => '$anexo'),                      
+                      array ('$match' => array (
+                        'anexo.1695'  => $parameter['cuit_socio'], 
+                        'status'=>'activo' ,          
+                       # 'sgr_id'  => $parameter['sgr_id']   
+                       "anexo.sgr_id" =>1462524917   
+                        )),  
+                    /*  array(
+                        '$group' => array(
+                        '_id' => null,                                            
+                        'cuit' => array('$first' => '$anexo.1695'), 
+                        'rs' => array('$first' => '$anexo.1693'), 
+                        'tipo_socio' => array('$first' => '$anexo.5272')
+                        ),
+                    ), */
+
+                ));
+
+        
+    
+         $get=$this->sgr_db->command($query);   
+         var_dump($get);
+
+         
+
+
+         
+         #   return $get['result'][0];
+         
+   }
+
 }

@@ -266,6 +266,31 @@ class Reports extends MX_Controller {
         $this->render($default_dashboard, $customData);
     }
 
+
+    /*NEW REPORT*/
+    function new_report($anexo='06'){
+
+
+
+      $this->load->model('model_06');
+      
+        $data = array();
+        $report_name = $this->input->post('report_name');
+
+
+        $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
+
+        if ($this->input->post('cuit_socio'))
+            $data['cuit_socio'] = $this->input->post('cuit_socio');
+
+        $data['sgr_id'] = $this->input->post('sgr');
+
+        if ($this->input->post('sgr')) {
+            $result = $this->model_06->generate_report($data);  
+        }
+    }
+
     /* ASSETS HEADERS */
 
     function headers() {
