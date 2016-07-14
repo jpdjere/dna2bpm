@@ -45,7 +45,8 @@ class semilla extends MX_Controller {
         $this->user->authorize();
         $grupo_user = 'Fondo Semilla /Emprendedor';
         $this->Add_group($grupo_user);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug);
+       // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
         
     }
 
@@ -95,6 +96,7 @@ class semilla extends MX_Controller {
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondo_semilla2016';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-blue', $data);
     }
+    
     function tile_profesional() {
         $data ['number'] = 'Instituciones y Profesionales';
         $data ['title'] = 'Carga';
@@ -1450,7 +1452,64 @@ BLOCK;
         echo $this->ui->callout($config);
 
     }
+    
+    
+function lite(){
 
+    $this->load->model('bpm/bpm');
+     $this->load->model('msg');
+     $this->lang->language;
+
+     $data['base_url'] = $this->base_url;
+     // Inbox
+     $data['inbox_count']=true;
+     $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+     $data['inbox_count_label_class']='success';
+     
+     // Tramites
+     $data['tramites_count']=true;
+     $data['tramites_count_label_class']='success';
+
+
+     // menu
+        $this->load->model('menu/menu_model');
+        $query = array('repoId' => 'tramites');
+        $repo = $this->menu_model->get_repository($query, $check);
+  
+  
+  
+        $tree = Modules::run('menu/explodeExtTree',$repo,'/');
+  
+
+      //$menu = $this->get_ul($tree[0]->children,'list-unstyled');
+  
+    $data['tramites_extra']=(empty($tree[0]->children))?($this->lang->line('no_cases')):($menu); ;
+     
+    // Mis tramites
+     $cases = $this->bpm->get_cases_byFilter(
+                array(
+            'iduser' => $this->idu,
+            'status' => 'open',
+                ), array(), array('checkdate' => 'desc')
+        );
+        
+    $data['mistramites_count']=true;
+    $data['mistramites_count_label_class']='success';
+    $data['mistramites_count_qtty']=count($cases);
+
+    $data['mistramites_extra']="---- Extra ";
+    // tasks 
+    $data['tareas_count']=true;
+    $data['tareas_count_label_class']='danger';
+    $data['tareas_count_qtty']=count($cases);
+     
+
+     
+    $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
+
+    // Parse    
+     echo $this->parser->parse('lite', $data, true, true);
+}
 
 
 }
