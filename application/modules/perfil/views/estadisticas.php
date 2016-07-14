@@ -1,2 +1,6 @@
- <p>Facturación: <span class='label label-info'>AR1.500.001</span> | Programas: 4 | Adquiridos: 1</p> 
- <span id="estadisticas_periodos">{periodos}</span>
+<h4>Facturación</h4>
+{periodos}
+
+<h4>Programas: {programas}</h4>
+<h4>Adquiridos: {adquiridos}</h4>
+

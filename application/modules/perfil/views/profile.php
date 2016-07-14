@@ -4,13 +4,13 @@
 </div>
 <div class="col-sm-9">
 
-
+<input type="hidden" name="cuit" value="{cuit}" /> 
 <select class="form-control" id="search_empresa">
 
 {empresas}
 <option name="" value="{1695}">{1693} | {1695}</option>
 {/empresas}
-<option name="" value="30-71510830-1">Dummy</option>
+<option name="" value="23-22277112-9" >Dummy</option>
 </select>
 <h3 ></h3>
 <ul class='list-unstyled'>
