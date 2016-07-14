@@ -44,8 +44,9 @@ class semilla extends MX_Controller {
     function Emprendedores($debug=false) {
         $this->user->authorize();
         $grupo_user = 'Fondo Semilla /Emprendedor';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',        );        
         $this->Add_group($grupo_user);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug, $extraData);
        // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
         
     }
@@ -1460,7 +1461,9 @@ function lite(){
      $this->load->model('msg');
      $this->lang->language;
 
-     $data['base_url'] = $this->base_url;
+    $data['base_url'] = $this->base_url;
+    $data['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',
+        );
      // Inbox
      $data['inbox_count']=true;
      $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));

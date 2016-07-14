@@ -10,11 +10,10 @@ $(document).ready(function(){
        
            // Inbox
            if(myid=='inbox'){
-               location.href=globals['base_url']+"dashboard/inbox/";
+               location.href=globals['base_url']+"dashboard/inbox";
            }
            
-           
-           if(myid=='tramites'){
+            if(myid=='tramites'){
                
             $('#myModal').modal('toggle');
            
