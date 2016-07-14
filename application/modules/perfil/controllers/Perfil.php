@@ -18,6 +18,7 @@ class Perfil extends MX_Controller {
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
         $this->load->library('parser');
         $this->load->model('portal_model');
+        $this->load->model('bpm/bpm');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -26,77 +27,153 @@ class Perfil extends MX_Controller {
        // $this->lang->load('library', $this->config->item('language'));
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
+
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        ini_set('xdebug.var_display_max_depth', 120 );
+
     }
 
     function Index() {
         
     }
     
-    function Empresa($cuit=null,$debug=1) {
+    # ====================================
+    #   Empresa
+    # ====================================
+
+    function Empresa($cuit=null,$debug=0) {
+
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
-    }
-    function Incubadora() {
-        
-    }
-    function Experto() {
-        
+
     }
 
     //=== Profile
 
+    function profile(){
 
-function profile(){
-    // $config=array('body'=>'Im a callout','title'=>'Callout','class'=>'info');
-    //  echo $this->ui->callout($config);
-    $data=$this->user->get_user((int) $this->idu);
-    $avatar=$this->user->get_avatar();
-    $empresas = $this->portal_model->get_empresas();
-    //var_dump($empresas);
-    //exit();
-    $select = '<select class="form-control"  data-live-search="true">';
-    $id =0;
-    foreach($empresas as $empresa){
-        $select = $select. '<option id="'.$id.'" value="'.$empresa['1693'].'">Empresa:'.$empresa["1693"].' CUIT:'.$empresa["1695"].'</option>' ;
-        $id++;
+        $cuit=$this->get_cuit();
+        $data=$this->user->get_user((int) $this->idu);
+        $customData['avatar']=$this->user->get_avatar();
+        $customData['empresas'] = $this->portal_model->get_empresas(); 
+
+        if(isset($cuit)){
+            $afip=$this->get_afip_data($cuit);
+            $customData=array_merge($customData,$afip);
+        }
+
+        $customData['base_url']=$this->base_url;
+        $customData['cuit']=$cuit;
+        echo $this->parser->parse('profile', $customData, true, true);
+    }
+
+        //=== Estadisticas
+
+        function estadisticas(){
+            $cuit=$this->get_cuit();
+
+            $customData=array();
+            $customData['periodos']="---";
+
+            $afip=$this->get_afip_data($cuit);
+            $customData['periodos']='';
+            if(!empty($afip['periodos'])){
+                            foreach($afip['periodos'] as $k=>$monto){
+                $customData['periodos'].="<p>$k <span class='label label-info'>AR $monto</span></p>";
+            }
+            }
+
+
+            // Programas
+             $cases = $this->bpm->get_cases_byFilter(
+                    array(
+                'iduser' => $this->idu,
+                'status' => 'open',
+                    ), array(), array('checkdate' => 'desc')
+            );
+            $customData['programas']=count($cases);
+
+            // Programas adquiridos
+             $cases2 = $this->bpm->get_cases_byFilter(
+                    array(
+                'iduser' => $this->idu,
+                'status' => 'closed',
+                    ), array(), array('checkdate' => 'desc')
+            );
+            $customData['adquiridos']=count($cases2);
+             
+            echo $this->parser->parse('estadisticas', $customData, true, true);
+        }
+
+
+    # ====================================
+    #   Incubadora
+    # ====================================
+
+    function Incubadora() {
         
     }
-    $select = $select.'</select>';
-    //echo ($select);
-    //exit();
-echo <<<_EOF_
-<div class="row">
-<div class="col-sm-3">
-<img src="$avatar"  class="avatar" style="width:120px" >
-</div>
-<div class="col-sm-9">
-{$select}
-<h3 ></h3>
-<ul class='list-unstyled'>
-<li><strong>Sector:</strong> Minería</li>
-<li><strong>Clasificación:</strong> Pyme</li>
-<li><strong>Sector:</strong> Tramo1</li>
-</ul>
-<a type="button" href="{$this->base_url}dashboard/profile" class="pull-right btn btn-general btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
- Editar</a>
-</div>
-</div>
 
-<div class="" style="border-top:1px solid #ccc;height:10px;margin-top:9px"></div>
+    # ====================================
+    #   Experto
+    # ====================================
 
-<div class="row">
-<div class="col-sm-6">
-<button type="button" class="btn btn-primary btn-md btn-block">Mi certificado PYME</button>
-</div>
-<div class="col-sm-6">
-<button type="button" class="btn btn-primary btn-md btn-block disabled">Mis Archivos</button>
-</div>
-</div>
+    function Experto() {
+        
+    }
 
-_EOF_;
-    
 
-}
+
+    # ====================================
+    #   General
+    # ====================================
+
+    function get_afip_data($cuit){
+       
+        $data=$this->portal_model->get_afip_data($cuit);
+        $isPyme=$this->portal_model->is_pyme($cuit);
+        $resp=array();
+        if(!empty($data->result)){
+            $resp['sector']=(empty($data->result['sector_texto']))?(''):($data->result['sector_texto']);
+            $resp['categoria']=(empty($data->result['categoria']))?(''):($data->result['categoria']);
+            $resp['isPyme']=($isPyme===1)?('Pyme'):('-');
+            //== Facturacion
+            $periodos=array();
+            foreach($data as $k=>$v){
+             $pattern = '/^periodoFiscal([0-9]{4})/';
+             preg_match($pattern, $k, $matches);
+                 if(!empty($matches[1]) && is_numeric($matches[1]) )
+                     if(!empty($v['actividades']))       
+                         $periodos[$matches[1]]=$v['total'];
+            } 
+            $resp['periodos']=$periodos;
+
+        }
+
+       return $resp;
+    }
+
+
+    function AX_get_afip_data(){
+        $cuit=$this->input->post('cuit');
+        $data=$this->get_afip_data($cuit);
+
+        echo json_encode($data);
+    }
+
+    private function get_cuit(){
+        $cuit=(int)$this->uri->segment(3);
+        if(empty($cuit)){
+            $customData['empresas'] = $this->portal_model->get_empresas(); 
+            if(!empty($customData['empresas'][0][1695]))
+                $cuit=(int)str_replace('-', '', $customData['empresas'][0][1695]);
+        }
+        return $cuit;
+    }
+
+
+
 
 
 //=== Eficacia
@@ -117,16 +194,9 @@ echo <<<_EOF_
 </div>
 _EOF_;
 
-
 }
 
-//=== Estadisticas
 
-function estadisticas(){
-echo <<<_EOF_
-    <p>Facturación: <span class='label label-info'>AR1.500.000</span> | Programas: 4 | Adquiridos: 1</p> 
-_EOF_;
-}
 
 //=== Inbox
 
