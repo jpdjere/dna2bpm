@@ -10,6 +10,9 @@ class Consultas_model extends CI_Model {
     }
 
 
+
+    
+    
     /**
      * Buscar CUITS status
      *

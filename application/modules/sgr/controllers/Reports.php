@@ -71,6 +71,9 @@ class Reports extends MX_Controller {
 
         //if ($this->session->userdata('iduser') == 10)
         ini_set("error_reporting", 0);
+        /*ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);*/
     }
 
     function Index() {
@@ -132,7 +135,8 @@ class Reports extends MX_Controller {
 
 
         $custom_sgr = ' <option value="' . $this->sgr_id . '">' . $this->sgr_nombre . '</option>';
-        $customData['sgr_options'] = $this->get_sgrs();
+        $customData['sgr_options'] = $this->get_sgrs_select();
+        $customData['sgr_options_checklist'] = $this->get_sgrs_checkbox();        
 
 
         $customData['link_report'] = "";
@@ -266,30 +270,6 @@ class Reports extends MX_Controller {
         $this->render($default_dashboard, $customData);
     }
 
-
-    /*NEW REPORT*/
-    function new_report($anexo='06'){
-
-
-
-      $this->load->model('model_06');
-      
-        $data = array();
-        $report_name = $this->input->post('report_name');
-
-
-        $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
-        $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-
-        if ($this->input->post('cuit_socio'))
-            $data['cuit_socio'] = $this->input->post('cuit_socio');
-
-        $data['sgr_id'] = $this->input->post('sgr');
-
-        if ($this->input->post('sgr')) {
-            $result = $this->model_06->generate_report($data);  
-        }
-    }
 
     /* ASSETS HEADERS */
 
@@ -827,20 +807,33 @@ class Reports extends MX_Controller {
             echo "<p>Anexo " . $data['anexo'] . " | Periodo " . $data['period'] . " Archivo: " . $data['filename'] . "</p>";
     }
 
-    function get_sgrs() {
+    function get_sgrs_select() {
+
         if (isset($this->sgr_id)) {
             $rtn = "<option value=" . $this->sgr_id . ">" . $this->sgr_nombre . "</option>";
         } else {
             $sgrArr = $this->sgr_model->get_sgrs();
             $rtn = "<option value=666>TODAS</option>";
             foreach ($sgrArr as $sgr) {
+                
                 $this->sgr_id = (float) $sgr['id'];
                 $this->sgr_nombre = $sgr['1693'];
                 $this->sgr_cuit = $sgr['1695'];
-
+                
                 $rtn .= "<option value=" . $sgr['id'] . ">" . $sgr['1693'] . "</option>";
+              
             }
         }
+        return $rtn;
+    }
+
+    function get_sgrs_checkbox() {
+        $sgrArr = $this->sgr_model->get_sgrs();
+            $rtn = null;
+            foreach ($sgrArr as $sgr) {
+                $rtn .= '<div><input type="checkbox" value="'.(float)$sgr['id'].'" checked="checked" name="sgr_checkbox[]">' . $sgr['1693'] . '</div>';
+            }
+        
         return $rtn;
     }
 
@@ -958,14 +951,7 @@ class Reports extends MX_Controller {
         }
     }
 
-// OFFLINE FALLBACK
-    function offline() {
-// testeo reemplazo appcache
-        $customData = array();
-        $customData['base_url'] = base_url();
-        $customData['module_url'] = base_url() . 'sgr/';
-        $this->render('offline', $customData);
-    }
+
 
     function render($file, $customData) {
         $this->load->model('user/user');
@@ -1005,6 +991,72 @@ class Reports extends MX_Controller {
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? : ('');
 
         $this->ui->compose($file, 'layout.php', $cpData);
+    }
+
+    /*NEW REPORT*/
+    function new_report($anexo='06'){
+
+        $this->load->model('model_06');
+
+
+        $data = array();
+        $customData = array();
+
+        $report_name = $this->input->post('report_name');
+        $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
+
+        if ($this->input->post('cuit_socio'))
+            $data['cuit_socio'] = $this->input->post('cuit_socio');
+        
+
+        if ($this->input->post('sgr_checkbox'))
+            $data['sgr_id_array'] = array_map('floatval', $this->input->post('sgr_checkbox'));
+        else
+            $data['sgr_id'] = $this->input->post('sgr');
+
+        
+        $default_dashboard = 'reports_result';        
+
+        $model = "model_" . $this->anexo;
+        $this->load->model($model);
+
+        /* HEADERS */
+        $header_merge = array_merge($data, $this->headers());
+        foreach ($header_merge as $key => $each) {
+            $customData[$key] = $each;
+        }       
+
+        
+        /*CALL MODEL*/
+        if ($this->input->post('sgr')) {
+            $rtn_report = $this->model_06->generate_report($data);  
+        }
+
+
+        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
+
+        $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);       
+        $customData['show_table'] = ($rtn_report) ? html_entity_decode($rtn_report) : "";
+
+
+        header('Content-type: text/html; charset=UTF-8');
+        if ($this->idu == 11) {
+            //var_dump($customData);           exit;
+            $this->render($default_dashboard, $customData);
+        } else {
+            $fileName = $this->anexo . "_al_" . date("j-n-Y"); //Get today
+            //Generate  file
+            header("Content-Description: File Transfer");
+            header("Content-Type: application/x-msexcel");
+            header("Content-Type: application/force-download");
+            header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
+            header("Content-Description: PHP Generated XLSx Data");
+        }
+
+        #echo $rtn_report; exit;
+        /* RENDER */
+        $this->render($default_dashboard, $customData);
     }
 
 }
