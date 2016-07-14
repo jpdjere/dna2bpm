@@ -15,7 +15,7 @@
 
 <!-- Mis tramites -->
 
-<div class = "col-md-3 load_tiles_after" data-id='mis_tramites' href='{base_url}/bpm/bpmui/widget_cases' >
+<div class = "col-md-3 load_tiles_after" data-id='mis_tramites' href='{base_url}/bpm/bpmui/widget_cases/1/5/fondo_semilla2016' >
     <div class='row center-block dashboard_shortcut'>
        <div class='title'><i class="fa fa-paperclip fa-2x" aria-hidden="true"></i><span>Mis Tramites</span></div>
        <div class="label label-{mistramites_count_label_class} pull-right">{mistramites_count_qtty}</div>
@@ -25,7 +25,7 @@
 
 <!-- Tareas -->
 
-<div class = "col-md-3 load_tiles_after" data-id='mis_tareas' href='{base_url}/bpm/bpmui/widget_2doMe'>
+<div class = "col-md-3 load_tiles_after" data-id='mis_tareas' href='{base_url}/bpm/bpmui/widget_2doMe/1/5/fondo_semilla2016'>
     <div class='row center-block dashboard_shortcut'>
        <div class='title'><i class="fa fa-list-alt fa-2x" aria-hidden="true"></i><span>Mis Tareas</span></div>
        <div class="label label-{tareas_count_label_class} pull-right">{tareas_count_qtty}</div>
