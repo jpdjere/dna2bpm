@@ -11,7 +11,8 @@
             "function": "lite"
         }]
     }],
-                "js": [{
+    
+    "js": [{
                 "{base_url}fondosemilla/assets/jscript/lite.js": "Dash"
             }]
 }

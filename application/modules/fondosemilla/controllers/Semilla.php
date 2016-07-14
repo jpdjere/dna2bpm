@@ -1481,32 +1481,36 @@ function lite(){
         $tree = Modules::run('menu/explodeExtTree',$repo,'/');
   
 
-      //$menu = $this->get_ul($tree[0]->children,'list-unstyled');
-  
+
     $data['tramites_extra']=(empty($tree[0]->children))?($this->lang->line('no_cases')):($menu); ;
      
     // Mis tramites
-     $cases = $this->bpm->get_cases_byFilter(
+     $cases_count = $this->bpm->get_cases_byFilter_count(
                 array(
             'iduser' => $this->idu,
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
         );
-        
+     $query = array(
+            'assign' => $this->idu,
+            'status' => 'user'
+        );
+        //var_dump(json_encode($query));exit;
+    $tasks_count = $this->bpm->get_tokens_byFilter_count($query);    
     $data['mistramites_count']=true;
     $data['mistramites_count_label_class']='success';
-    $data['mistramites_count_qtty']=count($cases);
+    $data['mistramites_count_qtty']=$cases_count;
 
     $data['mistramites_extra']="---- Extra ";
+    
     // tasks 
     $data['tareas_count']=true;
-    $data['tareas_count_label_class']='danger';
-    $data['tareas_count_qtty']=count($cases);
+    $data['tareas_count_label_class']='warning';
+    $data['tareas_count_qtty']=$tasks_count;
      
 
-     
     $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
-
+;
     // Parse    
      echo $this->parser->parse('lite', $data, true, true);
 }

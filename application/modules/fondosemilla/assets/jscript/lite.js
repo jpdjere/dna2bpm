@@ -4,9 +4,6 @@
 **/
 $(document).ready(function(){
 
-
-        console.log('---- users');
-        
         $('[data-id]').click(function(e){
             
            var myid = $(this).attr('data-id');
