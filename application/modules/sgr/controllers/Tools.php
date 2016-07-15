@@ -363,8 +363,8 @@ class Tools extends MX_Controller {
 
 
             /*SOLO AVAL RURAL #27910*/
-            $arr = array("03-2016","04-2016","05-2016","06-2016");            
-            if (in_array($each['period'], $arr) && $each['sgr_id'] == 3121601518) {
+            $arr = array("03-2016","02-2016");            
+            if (in_array($each['period'], $arr) && $each['sgr_id'] == 3826154295) {
             
             #if (($yperiod == "2016") && $each['sgr_id'] == 2478671474) {
                 $period = $each['period'];
