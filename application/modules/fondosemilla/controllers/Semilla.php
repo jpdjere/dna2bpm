@@ -58,7 +58,7 @@ class semilla extends MX_Controller {
         );        
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/incubadoras_lite.json',$debug, $extraData);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_incubadoras.json',$debug, $extraData);
       
         
     }
