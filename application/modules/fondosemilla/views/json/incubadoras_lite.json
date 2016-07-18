@@ -1,16 +1,71 @@
 {
     "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
     "title": "Fondo Semilla Incubadoras",
-    "view": "layout_no_sidebar",
+    "view": "layout_2cols_fixed",
     "icon": "fa-users",
-    "zones": [{
-        "widgets": [{
-            "title": "Fondo Semilla",
-            "module": "fondosemilla",
-            "controller": "semilla",
-            "function": "lite"
-        }]
-    }],
+    "zones": [
+        {
+        "tiles": [
+
+            {
+                "title": "Proyectos No Admitidos",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_KW", "tile-red"]
+            },            
+            {
+                "title": "Proyectos No Pre-seleccionados",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_LA", "tile-orange"]
+            },
+            {
+                "title": "Proyectos Pre-Seleccionados",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_HG", "tile-green"]
+            },
+            {
+                "title": "Proyectos Observados",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 3,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_AJ"]
+            },
+            {
+                "title": "Proyectos a Pre-Evaluar",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 3,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_FJ"]
+            },
+            {
+                "title": "Proyectos a Evaluar",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 3,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_QU"]
+            },
+            {
+                "title": "Proyectos a Calificar",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 3,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_GA"]
+            }               
+            ]
+        }
+    ],
     
     "js": [{
                 "{base_url}fondosemilla/assets/jscript/lite.js": "Dash"
