@@ -1570,9 +1570,10 @@ class Model_06 extends CI_Model {
        $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
 
 
+      
+       #var_dump($parameter['sgr_id'], $sgr_id); 
 
-       $sgr_id = array('$in'=>$parameter['sgr_id_array']);
-       #$sgr_id = array('$in'=>array(1462524917, 1676213769));
+     #  $sgr_id = array('$in'=>$parameter['sgr_id_array']);
 
 
         $query=array(
@@ -1592,7 +1593,7 @@ class Model_06 extends CI_Model {
                         #$socio, 
                         'anexo.1695' => $socio, 
                         'sgr_id' =>$sgr_id, 
-                        #'sgr_id' =>array('$in'=>$arr), 
+                       # 'sgr_id' =>array('$in'=>array(1462524917, 1676213769, 23233265519)),                        
                         'status'=>'activo', 
                         'period_date' => array(
                             '$gte' => $start_date, '$lte' => $end_date
@@ -1602,14 +1603,17 @@ class Model_06 extends CI_Model {
 
                 ));          
         
-        print_r($query); exit;
+       # var_dump(json_encode($query)); exit;
         $get=$this->sgr_db->command($query);  
 
         /* #HEADER TEMPLATE */       
         $header = $this->parser->parse('reports/form_' . $this->anexo . '_header', $parameter, TRUE);
 
         $tmpl = array('data' => $header);
-        $data = array($tmpl);       
+        $data = array($tmpl);     
+
+#var_dump($get['result']); exit;
+
         $anexoValues = $this->ui_table_xls($get['result'], $this->anexo);        
 
 

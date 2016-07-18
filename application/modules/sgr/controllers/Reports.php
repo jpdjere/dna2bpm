@@ -1007,13 +1007,12 @@ class Reports extends MX_Controller {
         $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
 
         if ($this->input->post('cuit_socio'))
-            $data['cuit_socio'] = $this->input->post('cuit_socio');
-        
+            $data['cuit_socio'] = $this->input->post('cuit_socio');        
 
-        if ($this->input->post('sgr_checkbox'))
-            $data['sgr_id_array'] = array_map('floatval', $this->input->post('sgr_checkbox'));
-        else
-            $data['sgr_id'] = $this->input->post('sgr');
+        
+        $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
+        
+        $data['sgr_id'] = $this->input->post('sgr');
 
         
         $default_dashboard = 'reports_result';        
