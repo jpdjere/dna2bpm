@@ -1,0 +1,71 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Dashboard Lite",
+    "view": "layout_portal",
+    "icon": "fa-users",
+    "zones": 
+    [
+{
+            "col1": [        
+                {
+                    "title": "Perfil",
+                    "module": "dashboard",
+                    "controller": "portal",
+                    "function": "profile",
+                    "box_icon":"fa-user",
+                    "box_class":["box","box-primary"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                },
+                {
+                    "title": "Bandeja de entrada",
+                    "module": "dashboard",
+                    "controller": "portal",
+                    "function": "inbox",
+                    "box_icon":"fa-envelope",
+                    "box_class":["box","box-primary"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                }
+            ]
+        },
+        {
+            "col2": [
+            {
+            "title": "Eficacia del perfil",
+            "module": "dashboard",
+            "controller": "portal",
+            "function": "eficacia",
+            "box_icon":"fa-pie-chart",
+            "box_class":["box","box-primary"],
+            "box_buttons":["collapse"],
+            "box_collapsed":"0",
+             "js":[{"0":"knob"},{"{base_url}dashboard/assets/jscript/portal.js":"knobJS"}]
+             },
+             {             
+            "title": "Estadisticas generales",
+            "module": "dashboard",
+            "controller": "portal",
+            "function": "estadisticas",
+            "box_icon":"fa-area-chart",
+            "box_class":["box","box-primary"],
+            "box_buttons":["collapse"],
+            "box_collapsed":"0"
+             },
+             {
+                "title": "Noticias de interés",
+                "module": "dashboard",
+                "controller": "portal",
+                "function": "news",
+                "box_icon":"fa-news-paper-o",
+                "box_class":["box","box-primary"],
+                "box_buttons":["collapse"],
+                "box_collapsed":"0"
+            }
+            ]
+        }
+    ],
+                "js": [{
+                "{base_url}dashboard/assets/jscript/lite.js": "Dash"
+            }]
+}
