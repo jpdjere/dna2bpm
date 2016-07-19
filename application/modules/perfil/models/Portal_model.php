@@ -1,0 +1,79 @@
+<?php
+
+class portal_model extends CI_Model {
+
+    function __construct() {
+        parent::__construct();
+        $this->idu = (int) $this->session->userdata('iduser');
+        $this->load->library('cimongo/cimongo');
+        $this->db = $this->cimongo;
+        $this->load->model('bpm/bpm');
+
+        $this->afip_db=new $this->cimongo;
+        $this->afip_db->switch_db('afip');
+
+    }
+    
+    
+    function get_empresas(){
+        $collection = 'container.empresas';
+        $query = array(
+            'owner'=> $this->idu
+            );
+        $this->db->where($query);    
+        $rs = $this->db->get($collection);
+        return $rs->result_array();
+    }
+
+    function get_afip_data($cuit){
+            $query = array(
+            'cuit'=> $cuit
+            );
+           $rs=$this->afip_db->where($query)->get('procesos');
+           return $rs->row();
+    }
+
+    //=== Determina rapidamente si un cuit es pyme, basado en P y Q - p->isPyme es temporal si en Q->status !- ready
+
+    function is_pyme($cuit){
+        $this->afip_db->switch_db('afip');
+        $query=array('cuit'=>$cuit);
+        $proceso=$this->afip_db->where($query)->get('procesos')->row();
+
+        if(!empty($proceso)){
+            // No es pyme 
+            if($proceso->result['isPyme']==0){
+                return 0;
+            }else{
+                if($proceso->incorporaVinculada==0){
+                    // Es pyme , y no tiene vinculadas
+                    return 1;
+                }else{
+                    // Es pyme , tiene vinculadas 
+                    $enQueue=$this->get_queue($query);
+
+                    if(empty($enQueue)){
+                        // No esta en Q, el estado final es el de P
+                        return $proceso->result['isPyme'];
+                    }else{
+                        // Esta en Q, si es ready , el resultado final se copio a P
+                        $enQueue=$enQueue[0];        
+                        if($enQueue->status=='ready'){                      
+                            return $proceso->result['isPyme'];
+                        }else{
+                            return false;
+                        }
+                    }
+
+
+                }
+            }
+            return $proceso->result['isPyme'];
+        } 
+
+        return false;
+    } 
+
+
+
+}
