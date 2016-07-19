@@ -1,0 +1,154 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 30709695009,
+  "denominacion": "HONEY LA REINA DEL BAILE2 NRO 22996",
+  "periodoFiscal": 2016,
+  "secuencia": 0,
+  "formaJuridica": "S.R.L.",
+  "mesCierre": 3,
+  "periodoAltaGcias": 201412,
+  "periodoAltaIva": 201510,
+  "incorporaVinculada": 1,
+  "solicitaPagoTrimestral": 1,
+  "solicitaAcreditacion": 1,
+  "monotributo": 0,
+  "exentoGanancias": 0,
+  "exentoIva": 0,
+  "domicilioLegal": "TALCAHUANO 1272 Piso:19 Dpto:B",
+  "domicilioLegalCodigoPostal": "1014",
+  "domicilioLegalIdProvincia": 0,
+  "domicilioLegalCalle": "TALCAHUANO",
+  "domicilioLegalEstadoDomicilio": 6,
+  "fechaInscripcion": "2006-07-03-00:00:00",
+  "tienePeriodo2015": "S",
+  "tienePeriodo2016": "S",
+  "empleado": 1,
+  "cantEmpleados": 3,
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 714904.62,
+    "totalManual": 714904.62,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11119,
+        "descripcion": "CULTIVO DE CEREALES N.C.P., EXCEPTO LOS DE USO FORRAJERO",
+        "monto": 314000.62,
+        "periodoDesde": 201504,
+        "periodoHasta": 201603,
+        "esMineria": false
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 13019,
+        "descripcion": "PRODUCCIÓN DE SEMILLAS DE CULTIVOS AGRÍCOLAS N.C.P.",
+        "monto": 400904,
+        "periodoDesde": 201504,
+        "periodoHasta": 201603,
+        "esMineria": false
+      }
+    ]
+  },
+  "periodoFiscal2016": {
+    "className": "PeriodoFiscal2016",
+    "total": 1000,
+    "totalManual": 1000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11119,
+        "descripcion": "CULTIVO DE CEREALES N.C.P., EXCEPTO LOS DE USO FORRAJERO",
+        "monto": 600,
+        "periodoDesde": 201604,
+        "periodoHasta": 201606,
+        "esMineria": false
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 13019,
+        "descripcion": "PRODUCCIÓN DE SEMILLAS DE CULTIVOS AGRÍCOLAS N.C.P.",
+        "monto": 400,
+        "periodoDesde": 201604,
+        "periodoHasta": 201606,
+        "esMineria": false
+      }
+    ]
+  },
+  "vinculadas": {
+    "className": "Vinculada",
+    "trxAfip": 235785471,
+    "detalles": [
+      {
+        "className": "Detalle",
+        "cuit": 20000000018,
+        "razonSocial": "LA DAMA ANDREA FABIANA",
+        "pais": 102,
+        "participacion": 25,
+        "actividad": 329030,
+        "descripcionActividad": "FABRICACIÓN DE CARTELES, SEÑALES E INDICADORES  -ELÉCTRICOS O NO-",
+        "vinculacion": 2,
+        "descripcionVinculacion": "Vinculada"
+      },
+      {
+        "className": "Detalle",
+        "cuit": 20000000008,
+        "razonSocial": "CONQUEST OF THE EARTH",
+        "pais": 438,
+        "participacion": 25,
+        "actividad": 841300,
+        "descripcionActividad": "SERVICIOS PARA LA REGULACIÓN DE LA ACTIVIDAD ECONÓMICA",
+        "vinculacion": 1,
+        "descripcionVinculacion": "Controlada"
+      },
+      {
+        "className": "Detalle",
+        "cuit": 30999999995,
+        "razonSocial": "BUSCANDO A HEATHER ANN",
+        "pais": 200,
+        "participacion": 25,
+        "actividad": 492150,
+        "descripcionActividad": "SERVICIO DE TRANSPORTE AUTOMOTOR INTERURBANO REGULAR DE PASAJEROS, E1203EXCEPTO TRANSPORTE INTERNACIONAL",
+        "vinculacion": 3,
+        "descripcionVinculacion": "Controlante"
+      },
+      {
+        "className": "Detalle",
+        "cuit": 20120000190,
+        "razonSocial": "TREMBLEMENT DE TERRE EN LESLEY JANE MMXVI-IV-XXX",
+        "pais": 301,
+        "participacion": 25,
+        "actividad": 465400,
+        "descripcionActividad": "VENTA AL POR MAYOR DE MÁQUINAS - HERRAMIENTA DE USO GENERAL",
+        "vinculacion": 2,
+        "descripcionVinculacion": "Vinculada"
+      }
+    ]
+  },
+  "datosVentasAnuales": [
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 1
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 2
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 3,
+      "descripcion": "Año 2015",
+      "importe": 714904.62
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 4,
+      "descripcion": "Año 2016",
+      "importe": 1000
+    },
+    {
+      "className": "DatoVentaAnual"
+    }
+  ],
+  "totalesIvaStatus": 1,
+  "transaccion": 6675200
+}

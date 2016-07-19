@@ -1,0 +1,272 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 20000000990,
+  "denominacion": "FRanco & MARIANO ABEL P",
+  "periodoFiscal": 201605,
+  "secuencia": 0,
+  "mesCierre": 7,
+  "periodoAltaIva": 200709,
+  "incorporaVinculada": true,
+  "solicitaPagoTrimestral": false,
+  "solicitaAcreditacion": true,
+  "monotributo": false,
+  "domicilioLegal": "50 460 Piso:1 ",
+  "correoElectronico": "yase@loque.com",
+  "periodo": 201506,
+  "periodoFiscal2013": {
+    "className": "PeriodoFiscal2013",
+    "total": 0,
+    "totalManual": 0,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 78000,
+        "descripcion": "OBTENCIÓN Y DOTACIÓN DE PERSONAL",
+        "monto": 0,
+        "periodoDesde": 201308,
+        "periodoHasta": 201407
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 94120,
+        "descripcion": "SERVICIOS DE ORGANIZACIONES PROFESIONALES",
+        "monto": 0,
+        "periodoDesde": 201308,
+        "periodoHasta": 201407
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 11119,
+        "descripcion": "ULTIVO DE CEREALES N.C.P., EXCEPTO LOS DE USO FORRAJERO",
+        "monto": 0,
+        "periodoDesde": 201308,
+        "periodoHasta": 201407
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 56209,
+        "descripcion": "SERVICIOS DE CANTINAS CON ATENCIÓN EXCLUSIVA A LOS EMPLEADOS O ESTUDIANTES DENTRO DE EMPRESAS O ESTABLECIMIENTOS EDUCATIVOS.",
+        "monto": 0,
+        "periodoDesde": 201308,
+        "periodoHasta": 201407
+      }
+    ]
+  },
+  "periodoFiscal2014": {
+    "className": "PeriodoFiscal2014",
+    "total": 81991.97,
+    "totalManual": 235,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 78000,
+        "descripcion": "OBTENCIÓN Y DOTACIÓN DE PERSONAL",
+        "monto": 10,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 94120,
+        "descripcion": "SERVICIOS DE ORGANIZACIONES PROFESIONALES",
+        "monto": 20,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 11119,
+        "descripcion": "ULTIVO DE CEREALES N.C.P., EXCEPTO LOS DE USO FORRAJERO",
+        "monto": 30,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 56209,
+        "descripcion": "SERVICIOS DE CANTINAS CON ATENCIÓN EXCLUSIVA A LOS EMPLEADOS O ESTUDIANTES DENTRO DE EMPRESAS O ESTABLECIMIENTOS EDUCATIVOS.",
+        "monto": 40,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 86901,
+        "descripcion": "SERVICIOS DE REHABILITACIÓN FÍSICA",
+        "monto": 5,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 56101,
+        "descripcion": "SERVICIOS DE RESTAURANTES Y CANTINAS CON ESPECTÁCULO",
+        "monto": 60,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 96091,
+        "descripcion": "SERVICIOS DE CENTROS DE ESTÉTICA, SPA Y SIMILARES",
+        "monto": 70,
+        "periodoDesde": 201408,
+        "periodoHasta": 201507
+      }
+    ]
+  },
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 0,
+    "totalManual": 0,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 96091,
+        "descripcion": "SERVICIOS DE CENTROS DE ESTÉTICA, SPA Y SIMILARES",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 78000,
+        "descripcion": "OBTENCIÓN Y DOTACIÓN DE PERSONAL",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 94120,
+        "descripcion": "SERVICIOS DE ORGANIZACIONES PROFESIONALES",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 11119,
+        "descripcion": "ULTIVO DE CEREALES N.C.P., EXCEPTO LOS DE USO FORRAJERO",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 56209,
+        "descripcion": "SERVICIOS DE CANTINAS CON ATENCIÓN EXCLUSIVA A LOS EMPLEADOS O ESTUDIANTES DENTRO DE EMPRESAS O ESTABLECIMIENTOS EDUCATIVOS.",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 86901,
+        "descripcion": "SERVICIOS DE REHABILITACIÓN FÍSICA",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 84190,
+        "descripcion": "SERVICIOS AUXILIARES PARA LOS SERVICIOS GENERALES DE LA ADMINISTRACIÓN PÚBLICA",
+        "monto": 0,
+        "periodoDesde": 201508,
+        "periodoHasta": 201607
+      }
+    ]
+  },
+  "periodoFiscal2016": {
+    "className": "PeriodoFiscal2016",
+    "total": 0,
+    "totalManual": 0,
+    "actividades": []
+  },
+  "empleador": {
+    "className": "Empleador",
+    "empleado": true,
+    "cantEmpleados": 113
+  },
+  "vinculadas": {
+    "className": "Vinculada",
+    "trxAfip": 12001795,
+    "detalles": [
+      {
+        "className": "Detalle",
+        "cuit": 30120004928,
+        "razonSocial": "NWCRMUM LMR",
+        "pais": 301,
+        "participacion": 100,
+        "actividad": 8,
+        "vinculacion": 1,
+        "descripcionVinculacion": "Sociedad controlada"
+      },
+      {
+        "className": "Detalle",
+        "cuit": 30120004901,
+        "razonSocial": "LA SERENISIMA",
+        "pais": 438,
+        "participacion": 0.01,
+        "actividad": 841100,
+        "descripcionActividad": "SERVICIOS GENERALES DE LA ADMINISTRACIÓN PÚBLICA",
+        "vinculacion": 2,
+        "descripcionVinculacion": "Sociedad vinculada"
+      },
+      {
+        "className": "Detalle",
+        "cuit": 30120004936,
+        "razonSocial": "UUUUU",
+        "pais": 405,
+        "participacion": 15.01,
+        "actividad": 410011,
+        "descripcionActividad": "CONSTRUCCIÓN, REFORMA Y REPARACIÓN DE EDIFICIOS RESIDENCIALES",
+        "vinculacion": 3,
+        "descripcionVinculacion": "Sociedad controlante"
+      },
+      {
+        "className": "Detalle",
+        "cuit": 30444444440,
+        "razonSocial": "NOM29 EMP29",
+        "pais": 350,
+        "participacion": 1.02,
+        "actividad": 120091,
+        "descripcionActividad": "ELABORACIÓN DE CIGARRILLOS",
+        "vinculacion": 4,
+        "descripcionVinculacion": "Ninguna"
+      }
+    ]
+  },
+  "datosVentasAnuales": [
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 1,
+      "descripcion": "año.2013",
+      "importe": 0
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 2,
+      "descripcion": "año.2014",
+      "importe": 81991.97
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 3,
+      "descripcion": "año.2015",
+      "importe": 0
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 4
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 5,
+      "descripcion": "Promedio",
+      "importe": 27330.66
+    }
+  ],
+  "transaccion": 1
+}
