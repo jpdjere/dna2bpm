@@ -21,6 +21,11 @@
             "redir": "crefis/evaluador/"
         },
         {
+            "name": "Hook Portal",
+            "group": [1027],
+            "redir": "perfil/empresa"
+        },
+        {
             "name": "Hook Inventario",
             "group": [62,64,66,82,83], 
             "redir": "inventory"
