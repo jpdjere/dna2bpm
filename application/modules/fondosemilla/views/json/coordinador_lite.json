@@ -1,0 +1,50 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212d@gmail.com>",
+    "title": "Coordinación de Fondo Semilla",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-users",
+    "zones": [
+        {
+        "tiles": [
+
+            {
+                "title": "Proyectos No Admitidos",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 12,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
+            },
+            {
+                "title": "Carga Plan de Negocios",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_JX", "tile-blue"]
+            },
+            {
+                "title": "Verifica Plan de Negocios",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue"]
+            },
+            {
+                "title": "Verifica Plan de Negocios",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_NE", "tile-blue"]
+            }
+            
+            ]
+        }
+    ],
+    
+    "js": [{
+                "{base_url}fondosemilla/assets/jscript/lite.js": "Dash"
+            }]
+}

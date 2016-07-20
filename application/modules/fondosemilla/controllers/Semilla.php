@@ -63,6 +63,18 @@ class semilla extends MX_Controller {
         
     }
     
+    function Coordinador($debug=false) {
+        $this->user->authorize();
+        $grupo_user = 'Fondo Semilla /Jurado-Coordinador';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
+        $this->Add_group($grupo_user);
+        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
+      
+        
+    }    
+    
     function Profesionales($debug=false) {
         $this->user->authorize();
         $this->Add_group();
@@ -1520,6 +1532,36 @@ function lite(){
      echo $this->parser->parse('lite', $data, true, true);
 }
 
+function asignar_incubadora($idwf, $idcase, $tokenId) {
+        $this->load->library('parser');
+        $this->load->model('user/group');
+        $this->load->model('bpm/bpm');
+        //$this->load->model('bpm/engine');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        $renderData = $this->bpm->load_case_data($case, $idwf);
+        //----tomo evaluador del caso
+        $idu = floatval($renderData['Fondosemillaproyectos']['10034'][0]);
+        
+        
+        //var_dump($idu);
+        //exit();
+        //----token que hay que finalizar 
+        // $src_resourceId = 'oryx_A150EBF2-8F30-4631-B04B-90DBDB019C41';
+        // ---Token de pp asignado
+        //$lane_resourceId = 'oryx_295810F2-8C34-4D03-80F8-7B5C371381B8';
+        
+        $src_resourceId ='oryx_E5F6A213-AC1B-49B4-B5C3-44843F852538';
+        $lane_resourceId='oryx_3DA3B98D-42F2-4661-8496-A21E619173B9';
+        //$this->bpm->assign('model',$idwf,$idcase,$src_resourceId,$lane_resourceId,$idu);
+        //exit();
+        $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu";
+        
+        redirect($url);
+        //$url = Modules::run("bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu");
+        //echo($url);
+        //exit();
+        redirect($this->base_url ."/fondosemilla/semilla");
+    }
 
 }
 
