@@ -1,13 +1,351 @@
 
-
-label.error{
-    color:#777;
-    font-weight:normal;
-    margin-top:10px;
-    padding-left:5px;
-    border-left:2px solid #f00;
+html {
+    height: 100%;
+}
+body {
+    font-family: Arial,Helvetica,sans-serif !important;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.gap {
+    margin: 8px 0;
+}
+.gap-top {
+    margin-top: 8px;
+}
+.gap-bottom {
+    margin-bottom: 8px;
+}
+h1 {
+    color: #989898;
+    font-size: 18px;
+}
+h2 {
+    color: #616161;
+    font-size: 16px;
+}
+h3 {
+    color: #989898;
+    font-size: 14px;
+}
+h4 {
+    color: #616161;
+    font-size: 12px;
+}
+h5 {
+    color: #989898;
+    font-size: 11px;
+}
+h1 i {
+    color: #b94a48;
+}
+h3 i {
+    color: #b94a48;
+}
+h6 {
+    line-height: 0;
+    margin: 0;
+    text-rendering: optimizelegibility;
+}
+.processed {
+    margin-top: 11px;
+    padding: 0 4px 4px;
+}
+.rectified {
+    margin-top: 11px;
+    padding: 0 4px 4px;
+}
+.observaciones {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #f0f0f0;
+    border-color: #bfbfbf #ccc #ccc;
+    border-image: none;
+    border-style: solid dotted dotted;
+    border-width: 1px;
+    margin-top: 10px;
+    padding: 0 4px 4px;
+}
+.line {
+    border-top: 1px solid #fff;
+    padding-bottom: 6px;
+}
+h1 .offline .hide_offline {
+    display: none;
+}
+#status {
+    margin-right: 10px;
+}
+#status.online {
+    color: #00b1ab;
+}
+#status.offline {
+    color: #f00;
+}
+#barra_user {
+    padding-bottom: 20px;
+}
+.perfil {
+    font-size: 12px;
+}
+.breadcrumb-genias li {
+    color: #999 !important;
+    font-size: 12px;
+    text-shadow: 1px 1px 0 #fff;
+}
+.form-inline {
+    margin-bottom: 8px;
+}
+.general-sidenav {
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    margin: 30px 0 0;
+    padding: 0;
+    width: 228px;
+}
+.general-sidenav > li > a {
+    border: 1px solid #e5e5e5;
+    display: block;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+}
+.general-sidenav > li:first-child > a {
+    border-radius: 6px 6px 0 0;
+}
+.general-sidenav > li:last-child > a {
+    border-radius: 0 0 6px 6px;
+}
+.general-sidenav > .active > a {
+    border: 0 none;
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, -1px 0 0 rgba(0, 0, 0, 0.1) inset;
+    padding: 9px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+.general-sidenav .icon-chevron-right {
+    float: right;
+    margin-right: -6px;
+    margin-top: 2px;
+    opacity: 0.25;
+}
+.general-sidenav > li > a:hover {
+    background-color: #f5f5f5;
+}
+.general-sidenav a:hover .icon-chevron-right {
+    opacity: 0.5;
+}
+.general-sidenav .active .icon-chevron-right, .general-sidenav .active a:hover .icon-chevron-right {
+    background-image: url("../img/glyphicons-halflings-white.png");
+    opacity: 1;
+}
+.barra_coordinador {
+    background: #2f4e89 none repeat scroll 0 0 !important;
+    border-bottom: 1px solid #ccc !important;
+}
+.container {
+    padding: 0 30px !important;
+}
+.no-transition {
+    transition: height 0.001s ease 0s;
+}
+UL.ultree * LI, UL.ultree {
+    list-style: outside none none;
+}
+UL.ultree > LI {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 3px;
+}
+UL.ultree UL LI {
+    padding: 5px 0;
+}
+a.ulcollapse {
+    display: inline-block;
+}
+UL.ultree .par {
+    background-color: #f1f1f1;
+}
+UL.ultree > LI > UL > LI {
+    border-bottom: 1px dashed #ccc;
+}
+UL.ultree > LI > UL > LI:last-child {
+    border-bottom: medium none;
+}
+UL.ultree .cuit {
+    color: #f60;
+    margin-left: 4px;
+}
+UL.ultree .cantidad {
+    margin-left: 4px;
+}
+.disabled_link {
+    cursor: default;
+    opacity: 0.7;
+    pointer-events: none;
+}
+li {
+    list-style-type: none;
+    padding: 2px;
+}
+.presidencia_logo {
+    float: right;
+    margin: 0;
+    width: 370px;
+}
+.secretaria_logo {
+    margin: 30px 0 0;
+    width: 240px;
+}
+.header_institucional {
+    border-bottom: 1px solid #ccc;
+    padding: 15px;
+    position: relative;
+}
+.navbar {
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+a {
+    color: #01b5ac;
+    text-decoration: none;
+}
+a:hover {
+    color: #006964;
+}
+.btn-primary {
+    background-color: #00a5a7;
+    background-image: linear-gradient(to bottom, #00a4a4, #009191);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #009595;
+    color: #ffffff;
+}
+.user_class {
+    color: #01b5ac;
 }
 
-h4{
-margin-top:30px;
+.span_alert {
+    padding:5px;
+}
+
+#CUIT{
+    font-weight: bold;
+}
+
+#logo
+
+body > .header .logo {
+    background-color: #132d60;
+    font-family: droid_sansregular;
+}
+body > .header .logo span {
+    font-family: chunkfiveroman;
+}
+#pasteboard {
+    background-color: #fdffa3;
+    border: 1px dashed #ccc;
+    display: none;
+    margin-bottom: 10px;
+    min-height: 120px;
+    padding-top: 15px;
+}
+@media screen {
+#config_panel_bt {
+    background: rgba(0, 0, 0, 0.7) none repeat scroll 0 0;
+    border-radius: 5px 0 0 5px;
+    color: #ddd;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 15px;
+    position: fixed;
+    right: 0;
+    top: 150px;
+    z-index: 999999;
+}
+#config_panel_content {
+    background-color: #fff;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    min-height: 120px;
+    padding: 5px;
+    position: fixed;
+    right: -170px;
+    top: 150px;
+    width: 170px;
+    z-index: 999999;
+}
+}
+.box-body, .box {
+    position: relative;
+}
+.loader {
+    margin-top: -20px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+}
+.loader > div {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 8px;
+    display: inline;
+    padding: 14px 8px;
+}
+.sidebar-menu ul li {
+    list-style: outside none none;
+}
+.sidebar-menu ul li i {
+    width: 20px;
+}
+.presidencia_logo {
+    float: right;
+    margin: 0;
+    width: 370px;
+}
+.secretaria_logo {
+    margin: 30px 0 0;
+    width: 240px;
+}
+.header_institucional {
+    border-bottom: 1px solid #ccc;
+    padding: 15px;
+    position: relative;
+}
+.dashboard_shortcut {
+    background-color: #ececec;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease 0s;
+}
+.dashboard_shortcut:hover {
+    box-shadow: 1px 1px 5px 1px rgba(111, 111, 111, 0.5);
+    transform: scale(1.01);
+}
+.dashboard_shortcut .title {
+    float: left;
+    margin: 20px;
+}
+.dashboard_shortcut .title span {
+    font-size: 24px;
+}
+.dashboard_shortcut .title i {
+    margin-right: 10px;
+}
+.dashboard_shortcut div.label {
+    border-radius: 3px;
+    font-size: 28px;
+    height: 80px;
+    min-width: 80px;
+    padding-top: 25px;
+    vertical-align: middle;
+}
+.tramites_shortcut_extra {
+    background-color: #dedede;
 }

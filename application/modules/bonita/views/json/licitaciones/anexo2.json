@@ -1,0 +1,23 @@
+{
+    "createdBy": "Sebastián Blázquez",
+    "title": "Bonificación de Tasa - Licitaciones Cerradas - Anexo II",
+    "view": "layout",
+    "icon": "fa-qrcode",
+    "js":[  {"{base_url}bonita/assets/jscript/jquery.validate.js":"JQuery"},
+            {"{base_url}bonita/assets/jscript/jquery.price_format.2.0.js":"JQ"},
+            {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"}
+        ],
+    
+    "zones": [
+        {   "widgets": [{
+            "title": "Table",
+            "module": "bonita",
+            "controller": "licitaciones",
+            "function": "anexo2"
+            }]
+        },{
+            "2cols_after": []
+        }
+    ]
+}
+    

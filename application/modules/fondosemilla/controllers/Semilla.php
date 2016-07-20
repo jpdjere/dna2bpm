@@ -44,17 +44,21 @@ class semilla extends MX_Controller {
     function Emprendedores($debug=false) {
         $this->user->authorize();
         $grupo_user = 'Fondo Semilla /Emprendedor';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib');        
         $this->Add_group($grupo_user);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug, $extraData);
+       // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
         
     }
 
     function Incubadoras($debug=false) {
         $this->user->authorize();
         $grupo_user = 'Fondo Semilla /Incubadora';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_incubadoras.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/incubadoras_lite.json',$debug, $extraData);
       
         
     }
@@ -69,8 +73,6 @@ class semilla extends MX_Controller {
     }
     
     
-    
-
     function Admin($debug=false) {
         $this->user->authorize();
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_admin.json',$debug);
@@ -93,8 +95,9 @@ class semilla extends MX_Controller {
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondo_semilla2016';
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
+        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-blue', $data);
     }
+    
     function tile_profesional() {
         $data ['number'] = 'Instituciones y Profesionales';
         $data ['title'] = 'Carga';
@@ -1450,7 +1453,72 @@ BLOCK;
         echo $this->ui->callout($config);
 
     }
+    
+    
+function lite(){
 
+    $this->load->model('bpm/bpm');
+     $this->load->model('msg');
+     $this->lang->language;
+
+    $data['base_url'] = $this->base_url;
+    $data['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',
+        );
+     // Inbox
+     $data['inbox_count']=true;
+     $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+     $data['inbox_count_label_class']='success';
+     
+     // Tramites
+     $data['tramites_count']=true;
+     $data['tramites_count_label_class']='success';
+
+
+     // menu
+        $this->load->model('menu/menu_model');
+        $query = array('repoId' => 'tramites');
+        $repo = $this->menu_model->get_repository($query, $check);
+  
+  
+  
+        $tree = Modules::run('menu/explodeExtTree',$repo,'/');
+  
+
+
+    $data['tramites_extra']=(empty($tree[0]->children))?($this->lang->line('no_cases')):($menu); ;
+     
+    // Mis tramites
+     $cases_count = $this->bpm->get_cases_byFilter_count(
+                array(
+            'iduser' => $this->idu,
+            'idwf' => 'fondo_semilla2016',
+            'status' => 'open',
+                ), array(), array('checkdate' => 'desc')
+        );
+     $query = array(
+            'assign' => $this->idu,
+            'idwf' => 'fondo_semilla2016',
+            'status' => 'user'
+        );
+        //var_dump(json_encode($query));exit;
+    $tasks_count = $this->bpm->get_tokens_byFilter_count($query);    
+    $data['mistramites_count']=true;
+    $data['mistramites_count_label_class']='success';
+    $data['mistramites_count_qtty']=$cases_count;
+
+    $data['mistramites_extra']="---- Extra ";
+    
+    // tasks 
+    $data['tareas_count']=true;
+    $data['tareas_count_label_class']='warning';
+    $data['tareas_count_qtty']=$tasks_count;
+     
+
+    $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
+;
+    // Parse    
+     echo $this->parser->parse('lite', $data, true, true);
+}
 
 
 }

@@ -31,6 +31,7 @@ class kpi_state {
 
     function list_cases($kpi) {
         $core=$this->core($kpi);
+        $cases=array();
         foreach($core['result'] as $cc) $cases[]=$cc['case'];
         return $cases;
 

@@ -1628,6 +1628,38 @@ BLOCK;
         
     }
     
+    function buscador(){
+    
+        $this->load->module('dashboard');
+        $renderData['title'] = "Buscador";
+        $renderData['base_url'] = $this->base_url;
+        $renderData['module_url'] = $this->module_url;
+        $renderData ['js'] = array(
+            $this->module_url . '/assets/jscript/buscador.js' => 'Buscador'
+        );
+        $renderData ['css'] = array(
+            $this->module_url . '/assets/css/buscador.css' => 'Buscador'
+        );        
+        $template="dashboard/widgets/box_info.php";
+        $renderData['tabla_contenido'] = "";
+        $renderData['content']= $this->parser->parse('buscador', $renderData, true, true);
+        return $this->dashboard->widget($template, $renderData);
+    }
+    
+    function tabla($val, $type){
+        
+        $val = urldecode($val);
+
+        
+        if ($type == 'cuit' ){ 
+            $type = '1695';} else{
+                $type = '1693';
+            }
+
+        $data['data']= $this->expertos_model->get_company($type, $val);
+        echo $this->parser->parse('resultados', $data, true, true);
+    }
+    
 }
 
 /* End of file crefis */

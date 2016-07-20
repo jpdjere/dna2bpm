@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+    exit('No direct script access allowed');    
 
 /**
  * inventory
@@ -15,71 +15,45 @@ class bonita_reportes extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-         $this->load->model('user/user');
-         $this->load->model('user/group');
-         $this->load->model('model_bonita_reportes');
-         $this->user->authorize('modules/bonita');
-         $this->load->library('parser');
-//         $this->load->library('ui');
-// //---base variables
+        $this->load->model('user/user');
+        $this->load->model('user/group');
+        $this->load->model('model_bonita_reportes');
+        $this->user->authorize('modules/bonita');
+        $this->load->library('parser');
         $this->base_url = base_url();
         $this->module_url = base_url() . 'bonita/';
-// ;
-// //----LOAD LANGUAGE
-         $this->idu = (float) $this->session->userdata('iduser');
-// //---config
-         $this->load->config('bonita/config');
-// //---QR
-         //$this->load->module('qr');
+        $this->idu = (float) $this->session->userdata('iduser');
+        $this->load->config('bonita/config');
     }
 
     /*
      * Presentamos menu de acciones: info Checkin
      */
-
     function Index(){
-
-     	//Modules::run('dashboard/dashboard','inventory/json/inventory.json');
-	$this->user->authorize();
-	$this->load->module('dashboard');
-	$this->dashboard->dashboard('bonita/json/bonita_reporte_provincias.json');
-    
+        redirect($this->base_url.'bonita/menu_reportes');
     }
     
-    
- 
     function bonita_reporte_provincias(){
-
-     	//Modules::run('dashboard/dashboard','inventory/json/inventory.json');
-	$this->user->authorize();
-	//$this->load->module('dashboard');
-      //  $this->dashboard->dashboard('bonita/json/bonita_reporte_provincias.json');
-    Modules::run('dashboard/dashboard', 'bonita/json/bonita_reporte_provincias.json');
-        
+        $this->user->authorize();
+        Modules::run('dashboard/dashboard', 'bonita/json/reportes/provincias.json');
     }
     
     function bonita_reporte_regiones(){
-
-     	//Modules::run('dashboard/dashboard','inventory/json/inventory.json');
-	$this->user->authorize();
-	$this->load->module('dashboard');
-        $this->dashboard->dashboard('bonita/json/bonita_reporte_regiones.json');
+        $this->user->authorize();
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('bonita/json/reportes/regiones.json');
     }
     
     function bonita_reporte_sectores(){
-
-     	//Modules::run('dashboard/dashboard','inventory/json/inventory.json');
-	$this->user->authorize();
-	$this->load->module('dashboard');
-        $this->dashboard->dashboard('bonita/json/bonita_reporte_sector.json');
+        $this->user->authorize();
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('bonita/json/reportes/sectores.json');
     }
     
     function bonita_reporte_sectores_tam(){
-
-     	//Modules::run('dashboard/dashboard','inventory/json/inventory.json');
-	$this->user->authorize();
-	$this->load->module('dashboard');
-        $this->dashboard->dashboard('bonita/json/bonita_reporte_sector_tam.json');
+        $this->user->authorize();
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('bonita/json/reportes/sectores_tamano.json');
     }
     
     function Query() {
@@ -115,82 +89,56 @@ class bonita_reportes extends MX_Controller {
 
     function bonita_filtros_provincia() {
         $model='model_bonita';
-        
         $customData = array();
-        
         $customData['base_url'] = $this->base_url;
-       
-        
         return $this->parser->parse('bonita/bonita_provincias_rep_view',$customData,true,true);
     }
     
     function bonita_filtros_region() {
         $model='model_bonita';
-        
         $customData = array();
-        
         $customData['base_url'] = $this->base_url;
-       
-        
         return $this->parser->parse('bonita/bonita_region_rep_view',$customData,true,true);
     }
     
     function bonita_filtros_sector() {
         $model='model_bonita';
-        
         $customData = array();
-        
         $customData['base_url'] = $this->base_url;
-       
-        
         return $this->parser->parse('bonita/bonita_sector_rep_view',$customData,true,true);
     }
     
     function bonita_filtros_sector_tam() {
         $model='model_bonita';
-        
         $customData = array();
-        
         $customData['base_url'] = $this->base_url;
-       
-        
         return $this->parser->parse('bonita/bonita_sector_tam_rep_view',$customData,true,true);
     }
    
     
     function bonita_tabla_provincia($desde,$hasta){
-        $model='Model_bonita_reportes';
+        $model='model_bonita_reportes';
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $provincias = $this->load->model($model)->lista_provincias();
-        $prestamos_total = $this->load->model($model)->prestamos_total($desde,$hasta);
-        $monto_total = $this->load->model($model)->monto_total($desde,$hasta);
-        
-        
+        $this->load->model($model);
+        $provincias=$this->$model->lista_provincias();
+        $prestamos_total = $this->$model->prestamos_total($desde,$hasta);
+        $monto_total = $this->$model->monto_total($desde,$hasta);
         
         $i = 0;
         $tablatotal = array();
         
         foreach ($provincias as $res){
-            
-            //$tabla = $tabla.'<tr><td>'.$res['nombre'].'</td></tr>';
-            $tablatotal[$i] = $this->load->model($model)->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
-            
+            $tablatotal[$i] = $this->$model->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
             $i++;
-            
-            
         }
         
         $campos = array('provincia','prestamos_prov','porcent_prestamos' ,'montos_prov','porcent_montos');
-        //var_dump($tablatotal[0][$campos[0]]);
-        //exit();
-        
         $tabla = ''; 
         $i = 0;
         $j = 0;
-        //$tabla = $tabla.'<tr><a href="'.$this->module_url.'poa_report/poa_detail/" target="_blank">Exportar</a></tr>';
-        
+
         for($i=0;$i<23;$i++){
             $tabla = $tabla.'<tr>';
             
@@ -226,7 +174,7 @@ class bonita_reportes extends MX_Controller {
         $customData['tabla'] = $tabla;
         $customData['url']=$this->module_url;
         
-        $return['tabla'] = $this->parser->parse('bonita/bonita_provincias_rep_table_view',$customData,true,true);
+        $return['tabla'] = $this->parser->parse('bonita/views/reportes/provincias_table',$customData,true,true);
         $return['grafico'] = $var; 
         echo json_encode($return);
         return $return;
@@ -238,9 +186,10 @@ class bonita_reportes extends MX_Controller {
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $provincias = $this->load->model($model)->lista_provincias();
-        $prestamos_total = $this->load->model($model)->prestamos_total($desde,$hasta);
-        $monto_total = $this->load->model($model)->monto_total($desde,$hasta);
+        $this->load->model($model);
+        $provincias = $this->$model->lista_provincias();
+        $prestamos_total = $this->$model->prestamos_total($desde,$hasta);
+        $monto_total = $this->$model->monto_total($desde,$hasta);
         
         $reg = array();
         
@@ -264,7 +213,7 @@ class bonita_reportes extends MX_Controller {
         foreach ($provincias as $res){
             
             //$tabla = $tabla.'<tr><td>'.$res['nombre'].'</td></tr>';
-            $tablatotal[$i] = $this->load->model($model)->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
+            $tablatotal[$i] = $this->$model->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
             
             //CENTRO
             if($tablatotal[$i]['provincia'] == "BUENOS AIRES" || $tablatotal[$i]['provincia']== "CORDOBA" || $tablatotal[$i]['provincia']== "ENTRE RIOS" || $tablatotal[$i]['provincia']== "LA PAMPA" ||  $tablatotal[$i]['provincia']=="SANTA FE" || $tablatotal[$i]['provincia']=="CABA"){
@@ -302,23 +251,13 @@ class bonita_reportes extends MX_Controller {
                 $reg['cuyo']['montos_prov'] = $reg['cuyo']['montos_prov'] + $tablatotal[$i]['montos_prov'];
               //  $reg['cuyo']['porcent_montos'] = $reg['cuyo']['porcent_montos'] + $tablatotal[$i]['porcent_montos']; 
             }
-            
-            
-            
-            
-            
-            
             $i++;
-                        
         }
-        //var_dump($tablatotal[0][$campos[0]]);
-        //exit();
         
         $tabla = ''; 
         $i = 0;
         $j = 0;
-        //$tabla = $tabla.'<tr><a href="'.$this->module_url.'poa_report/poa_detail/" target="_blank">Exportar</a></tr>';
-        
+
         $cant_normalizado = array(698160,36088,43453,42634,51129);
         $cant_normalizado_total = 828830;
         $montos_prov_total = 0;
@@ -329,11 +268,7 @@ class bonita_reportes extends MX_Controller {
         $array = array();
         
         // Totales
-        
-        
         for($i =0; $i<5;$i++){ 
-            
-           
             for($j=0;$j<6;$j++){
                 if($campos[$j] == 'nombre'){
                     
@@ -357,9 +292,6 @@ class bonita_reportes extends MX_Controller {
                     
                 } 
             }
-            
-            
-            
         }
         
         // Armo la tabla y el array para el gráfico
@@ -411,8 +343,6 @@ class bonita_reportes extends MX_Controller {
                         '</TH><TH>'.number_format((float)($cant_normalizado_total/1000), 0, ',','.').'</TH><TH>'.number_format((float)($monto_norm_total), 2, ',','.').'</TH>
                         <TH></TH>
                     </tr>';
-        //var_dump($tabla);
-        //exit();
         
         $var['chart']['type'] = 'bar';
         $var['title']['text'] = 'Regiones';
@@ -423,12 +353,10 @@ class bonita_reportes extends MX_Controller {
         $customData['tabla'] = $tabla;
         $customData['url']=$this->module_url;
         
-        $return['tabla'] = $this->parser->parse('bonita/bonita_regiones_rep_table_view',$customData,true,true);
+        $return['tabla'] = $this->parser->parse('bonita/views/reportes/regiones_table',$customData,true,true);
         $return['grafico'] = $var; 
         echo json_encode($return);
         return $return;
-        
-        
     }
     
     function bonita_tabla_sector($desde,$hasta){
@@ -436,7 +364,8 @@ class bonita_reportes extends MX_Controller {
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $sectores = $this->load->model($model)->sectores();
+        $this->load->model($model);
+        $sectores = $this->$model->sectores();
         
         
         $totales['capital'] = 0;
@@ -448,7 +377,7 @@ class bonita_reportes extends MX_Controller {
         $tabla = ''; 
         foreach($sectores as $sect){
            
-            $datos_sectores[$z] = $this->load->model($model)->datos_sectores($sect['sector'],$desde,$hasta);
+            $datos_sectores[$z] = $this->$model->datos_sectores($sect['sector'],$desde,$hasta);
             $totales['capital'] =  $totales['capital'] + $datos_sectores[$z]['capital'];
             $totales['cantidad'] = $totales['cantidad'] + $datos_sectores[$z]['cantidad'];
             $z++;
@@ -495,9 +424,6 @@ class bonita_reportes extends MX_Controller {
         <TH>%'.number_format((float)($totales['porcent_cant']), 2, ',','.').'</TH>
         <TH>$'.number_format((float)($totales['capital']), 0, ',','.').'</TH>
         <TH>%'.number_format((float)($totales['porcent_capital']), 2, ',','.').'</TH></tr>';
-        
-        
-        
          
         $var['chart']['type'] = 'bar';
         $var['title']['text'] = 'Sectores';
@@ -509,11 +435,10 @@ class bonita_reportes extends MX_Controller {
         $customData['tabla'] = $tabla;
         $customData['url']=$this->module_url;
         
-        $return['tabla'] = $this->parser->parse('bonita/bonita_sector_rep_table_view',$customData,true,true);
+        $return['tabla'] = $this->parser->parse('bonita/views/reportes/sectores_table',$customData,true,true);
         $return['grafico'] = $var; 
         echo json_encode($return);
         return $return;
-       
     }
  
  
@@ -522,16 +447,12 @@ class bonita_reportes extends MX_Controller {
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $sectores = $this->load->model($model)->sectores();
-        $tamanios = $this->load->model($model)->tamanios();
+        $this->load->model($model);
+        $sectores = $this->$model->sectores();
+        $tamanios = $this->$model->tamanios();
         $z = 0; //sector
         $y = 0; //tamaño
-        //$totales['capital'] = array();
-        //$totales['capital'][]
-        //$totales['cantidad'][$z] = 0;
-        //$totales['porcent_cant'] = 0;
-        //$totales['porcent_capital'] = 0;
-       
+
         $datos_sectores = array();
         $tabla = '';
         $tabla1 = ''; 
@@ -539,12 +460,7 @@ class bonita_reportes extends MX_Controller {
             $totales['capital'][$sect['sector']]=0;
            foreach($tamanios as $tams){
                 $totales['capital'][$tams['tam_empresa']]=0;
-                $datos_sectores[$z] = $this->load->model($model)->datos_sectores_tams($sect['sector'],$tams['tam_empresa'],$desde,$hasta);
-            //$totales['capital'][$sect['sector']] = $totales['capital'][$sect['sector']] + $datos_sectores[$z]['capital'];
-            
-            
-            //$totales['capital'][$z] =  $totales['capital'][$z] + $datos_sectores[$z][$y]['capital'];
-            //$totales['cantidad'][$z] = $totales['cantidad'][$z] + $datos_sectores[$z][$y]['cantidad'];
+                $datos_sectores[$z] = $this->$model->datos_sectores_tams($sect['sector'],$tams['tam_empresa'],$desde,$hasta);
             $z++;
            }////////////ACAAAAAAAAAAA
             
@@ -619,17 +535,11 @@ class bonita_reportes extends MX_Controller {
                         $totales['capital'][$datos_sectores[$i][$campos[$j-2]]] = $totales['capital'][$datos_sectores[$i][$campos[$j-2]]] +$datos_sectores[$i][$campos[$j]];
                         
                         break;
-                    
-               
                 }    
-                
-                
-                
-                
             }
             $tabla = $tabla.'</tr>';
-            
         }
+        
         $v=1;
         for($v=2;$v <4;$v++){
             $tabla1 = $tabla1.'<tr><th>Totales '.$tam_et[$v].' Empresa:</th><th></th><th></th><th>$'.number_format((float)($totales['capital'][$v]), 2, ',','.').'</th></tr>';
@@ -643,17 +553,15 @@ class bonita_reportes extends MX_Controller {
         $customData['tabla'] = $tabla;
         $customData['url']=$this->module_url;
         
-        $return['tabla'] = $this->parser->parse('bonita/bonita_sector_tam_rep_table_view',$customData,true,true);
+        $return['tabla'] = $this->parser->parse('bonita/views/reportes/sectores_tamano',$customData,true,true);
         $return['grafico'] = $var; 
         echo json_encode($return);
         return $return;
-       
     }
     
     
     function bonita_graf_provincia(){ 
-    $prueba= Modules::run('bonita/highcharts/bar');   
-    
+        $prueba= Modules::run('bonita/highcharts/bar');
     }
     
     function highcharts($args=array()) {
@@ -692,17 +600,15 @@ BLOCK;
     	return $return;
     }
     
-    function bonita_reportes_list() {
+    /*function bonita_reportes_list() {
         
         $model='model_bonita';
-        
         $customData = array();
-        
         $customData['tabla'] =  '<tr><a href="'.$this->module_url.'" target="_blank">Reportes por Provincia</a></tr></br>'.
                                 '<tr><a href="'.$this->module_url.'" target="_blank">Reportes por Provincia</a></tr></br>';
         
         return $this->parser->parse('bonita/bonita_reportes_list_view',$customData,true,true);    
-    }
+    }*/
    
     
     function bonita_reporte_provincias_exportar($desde,$hasta){
@@ -711,15 +617,16 @@ BLOCK;
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $provincias = $this->load->model($model)->lista_provincias();
-        $prestamos_total = $this->load->model($model)->prestamos_total($desde,$hasta);
-        $monto_total = $this->load->model($model)->monto_total($desde,$hasta);
+        $this->load->model($model);
+        $provincias = $this->$model->lista_provincias();
+        $prestamos_total = $this->$model->prestamos_total($desde,$hasta);
+        $monto_total = $this->$model->monto_total($desde,$hasta);
         
         $i = 0;
         $tablatotal = array();
         
         foreach ($provincias as $res){
-            $tablatotal[$i] = $this->load->model($model)->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
+            $tablatotal[$i] = $this->$model->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
             $i++;
         }
         
@@ -774,14 +681,12 @@ BLOCK;
         
         $new_filename = $new_filename . rand(1000, 5000) .'.xls';
         
-        
-        
         //$customData['file'] = $table; 
         //$customData['file'] = $table;
         $customData['filename'] = $new_filename; 
         $customData['url'] = $this->module_url;
         $customData['tabla'] = $tabla;
-        $default_dashboard = 'bonita/bonita_provincias_rep_table_view_xls';
+        $default_dashboard = 'bonita/views/reportes/export/provincias_table_xls';
                 
         echo $this->parser->parse($default_dashboard,$customData,true,true);
         
@@ -793,9 +698,10 @@ BLOCK;
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $provincias = $this->load->model($model)->lista_provincias();
-        $prestamos_total = $this->load->model($model)->prestamos_total($desde,$hasta);
-        $monto_total = $this->load->model($model)->monto_total($desde,$hasta);
+        $this->load->model($model);
+        $provincias = $this->$model->lista_provincias();
+        $prestamos_total = $this->$model->prestamos_total($desde,$hasta);
+        $monto_total = $this->$model->monto_total($desde,$hasta);
         
         $reg = array();
         
@@ -819,7 +725,7 @@ BLOCK;
         foreach ($provincias as $res){
             
             //$tabla = $tabla.'<tr><td>'.$res['nombre'].'</td></tr>';
-            $tablatotal[$i] = $this->load->model($model)->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
+            $tablatotal[$i] = $this->$model->montos_provincias($res['nombre'],$prestamos_total,$monto_total,$desde,$hasta);
             
             //CENTRO
             if($tablatotal[$i]['provincia'] == "BUENOS AIRES" || $tablatotal[$i]['provincia']== "CORDOBA" || $tablatotal[$i]['provincia']== "ENTRE RIOS" || $tablatotal[$i]['provincia']== "LA PAMPA" ||  $tablatotal[$i]['provincia']=="SANTA FE" || $tablatotal[$i]['provincia']=="CABA"){
@@ -857,18 +763,9 @@ BLOCK;
                 $reg['cuyo']['montos_prov'] = $reg['cuyo']['montos_prov'] + $tablatotal[$i]['montos_prov'];
               //  $reg['cuyo']['porcent_montos'] = $reg['cuyo']['porcent_montos'] + $tablatotal[$i]['porcent_montos']; 
             }
-            
-            
-            
-            
-            
-            
             $i++;
-                        
         }
-        //var_dump($tablatotal[0][$campos[0]]);
-        //exit();
-        
+
         $tabla = ''; 
         $i = 0;
         $j = 0;
@@ -884,8 +781,6 @@ BLOCK;
         $array = array();
         
         // Totales
-        
-        
         for($i =0; $i<5;$i++){ 
             
            
@@ -1003,8 +898,7 @@ BLOCK;
         $customData['filename'] = $new_filename; 
         $customData['url'] = $this->module_url;
         $customData['tabla'] = $tabla;
-        $default_dashboard = 'bonita/bonita_regiones_rep_table_view_xls';
-                
+        $default_dashboard = 'bonita/views/reportes/export/regiones_table_xls';
         echo $this->parser->parse($default_dashboard,$customData,true,true);
         
     }
@@ -1014,8 +908,8 @@ BLOCK;
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $sectores = $this->load->model($model)->sectores();
-        
+        $this->load->model($model);
+        $sectores = $this->$model->sectores();
         
         $totales['capital'] = 0;
         $totales['cantidad'] = 0;
@@ -1026,7 +920,7 @@ BLOCK;
         $tabla = ''; 
         foreach($sectores as $sect){
            
-            $datos_sectores[$z] = $this->load->model($model)->datos_sectores($sect['sector'],$desde,$hasta);
+            $datos_sectores[$z] = $this->$model->datos_sectores($sect['sector'],$desde,$hasta);
             $totales['capital'] =  $totales['capital'] + $datos_sectores[$z]['capital'];
             $totales['cantidad'] = $totales['cantidad'] + $datos_sectores[$z]['cantidad'];
             $z++;
@@ -1105,17 +999,11 @@ BLOCK;
         
         $new_filename = $new_filename . rand(1000, 5000) .'.xls';
         
-        
-        
-        //$customData['file'] = $table; 
-        //$customData['file'] = $table;
         $customData['filename'] = $new_filename; 
         $customData['url'] = $this->module_url;
         $customData['tabla'] = $tabla;
-        $default_dashboard = 'bonita/bonita_sector_rep_table_view_xls';
-                
+        $default_dashboard = 'bonita/views/reportes/export/sectores_table_xls';
         echo $this->parser->parse($default_dashboard,$customData,true,true);
-       
     }
 
 
@@ -1127,8 +1015,9 @@ BLOCK;
         $customData = array();
         $customData['desde'] = $desde;
         $customData['hasta'] = $hasta;
-        $sectores = $this->load->model($model)->sectores();
-        $tamanios = $this->load->model($model)->tamanios();
+        $this->load->model($model);
+        $sectores = $this->$model->sectores();
+        $tamanios = $this->$model->tamanios();
         $z = 0; //sector
         $y = 0; //tamaño
         //$totales['capital'] = array();
@@ -1144,7 +1033,7 @@ BLOCK;
             $totales['capital'][$sect['sector']]=0;
            foreach($tamanios as $tams){
                 $totales['capital'][$tams['tam_empresa']]=0;
-                $datos_sectores[$z] = $this->load->model($model)->datos_sectores_tams($sect['sector'],$tams['tam_empresa'],$desde,$hasta);
+                $datos_sectores[$z] = $this->$model->datos_sectores_tams($sect['sector'],$tams['tam_empresa'],$desde,$hasta);
             $z++;
            }
             
@@ -1225,16 +1114,12 @@ BLOCK;
         
         $new_filename = $new_filename . rand(1000, 5000) .'.xls';
         
-        
-        
         $customData['filename'] = $new_filename; 
         $customData['url'] = $this->module_url;
         $customData['tabla'] = $tabla;
         $customData['tabla1'] = $tabla1;
-        $default_dashboard = 'bonita/bonita_sector_tam_rep_table_view_xls';
-                
+        $default_dashboard = 'bonita/views/reportes/export/sectores_tamano_table_xls';
         echo $this->parser->parse($default_dashboard,$customData,true,true);
-    }    
-    
+    }
 }
 

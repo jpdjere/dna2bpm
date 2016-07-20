@@ -1,0 +1,24 @@
+{
+    "createdBy": "Sebastián Blázquez",
+    "title": "Bonificación de Tasa - Cargar Montos",
+    "view": "layout",
+    "icon": "fa-qrcode",
+    "js":[  {"{base_url}bonita/assets/jscript/jquery.validate.js":"JQuery"},
+            {"{base_url}bonita/assets/jscript/jquery.price_format.2.0.js":"JQ"},
+            {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
+            {"{base_url}bonita/assets/jscript/licitaciones/cargar_entidades_y_montos.js":"Carga JS"}
+        ],
+    
+    "zones": [
+        {   "widgets": [{
+            "title": "Cargar Montos",
+            "module": "bonita",
+            "controller": "licitaciones",
+            "function": "mostrar_licitacion_para_carga"
+            }]
+        },{
+            "2cols_after": []
+        }
+    ]
+}
+    

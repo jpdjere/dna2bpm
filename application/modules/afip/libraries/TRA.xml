@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loginTicketRequest version="1.0"><header><source>C=AR, O=Ministerio de Produccion, SERIALNUMBER=CUIT 30710817452, CN=front.producion.gob.ar</source><destination>cn=wsaa,o=afip,c=ar,serialNumber=CUIT 33693450239</destination><uniqueId>1465927380</uniqueId><generationTime>2016-06-14T15:02:00-03:00</generationTime><expirationTime>2016-06-14T15:04:00-03:00</expirationTime></header><service>veconsumerws</service></loginTicketRequest>

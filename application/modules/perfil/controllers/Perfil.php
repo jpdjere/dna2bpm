@@ -19,6 +19,7 @@ class Perfil extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('portal_model');
         $this->load->model('bpm/bpm');
+        $this->load->model('app');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -57,15 +58,23 @@ class Perfil extends MX_Controller {
         $data=$this->user->get_user((int) $this->idu);
         $customData['avatar']=$this->user->get_avatar();
         $customData['empresas'] = $this->portal_model->get_empresas(); 
-
+        foreach($customData['empresas'] as &$emp){
+            if(str_replace('-','',$emp['1695'])==$cuit) $emp['selected']='selected="selected"';
+        }
+        $actividades=$this->app->get_ops(750);
+        // $customData['empresas'] = array();
         if(isset($cuit)){
             $afip=$this->get_afip_data($cuit);
-            $customData=array_merge($customData,$afip);
+            if($afip){
+                $afip['actividad_texto']=$actividades[$afip['actividad']];
+                $customData=array_merge($customData,$afip);
+                
+            }
         }
 
         $customData['base_url']=$this->base_url;
         $customData['cuit']=$cuit;
-        echo $this->parser->parse('profile', $customData, true, true);
+        echo $this->parser->parse('perfil/profile', $customData, true, true);
     }
 
         //=== Estadisticas

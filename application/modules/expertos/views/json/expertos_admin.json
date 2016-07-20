@@ -3,6 +3,9 @@
     "title": "Expertos PyME Coordinador",
     "view": "layout_2cols",
     "icon": "ion-briefcase",
+     "js": [
+        {"{base_url}/expertos/assets/jscript/buscador.js": "GIT-JS"}
+    ],
     "private": true,
     "zones": [
         {
@@ -26,6 +29,12 @@
         },
         {
             "col2": [
+                {
+                    "title": "Buscador",
+                    "module": "expertos",
+                    "controller": "Expertos",
+                    "function": "buscador"
+                }
             ]
         }
     ]
