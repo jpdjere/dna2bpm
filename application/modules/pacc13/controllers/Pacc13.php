@@ -201,7 +201,7 @@ BLOCK;
         $this->engine->Run('model', 'pacc3SDAREND', $caserendicion,$resourceId,$silent);
         
     }
-    public $consolida_resrourceId='oryx_A4C6A54C-6F0E-46A8-A8EF-F32CCC7BE2C2';
+    public $consolida_resrourceId='oryx_85AA85C0-2F51-46E0-9EB3-28FFAD508E48';
     function buscarEmprend($type = null) {
         $this->load->model('bpm/bpm');
         $this->user->authorize();
