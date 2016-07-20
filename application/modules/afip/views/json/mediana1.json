@@ -1,0 +1,103 @@
+{
+"className": "DJF1272V100",
+  "cuit": 20120000190,
+  "denominacion": "TEST Med1",
+  "periodoFiscal": 2016,
+  "secuencia": 0,
+  "formaJuridica": "S.C.A.",
+  "mesCierre": 12,
+  "periodoAltaGcias": 200900,
+  "periodoAltaIva": 200901,
+  "incorporaVinculada": 0,
+  "solicitaPagoTrimestral": 1,
+  "solicitaAcreditacion": 1,
+  "monotributo": 0,
+  "exentoGanancias": 0,
+  "exentoIva": 0,
+  "domicilioLegal": "YRIGOYEN HIPOLITO 201 Piso:1 Dpto:716   ",
+  "domicilioLegalCodigoPostal": "1086",
+  "domicilioLegalIdProvincia": 0,
+  "domicilioLegalCalle": "YRIGOYEN HIPOLITO",
+  "domicilioLegalEstadoDomicilio": 6,
+  "fechaInscripcion": "2008-12-12-00:00:00",
+  "tienePeriodo2013": "S",
+  "tienePeriodo2014": "S",
+  "tienePeriodo2015": "S",
+  "empleado": 1,
+  "periodoFiscal2013": {
+    "className": "PeriodoFiscal2013",
+    "total": 71000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 239510,
+        "descripcion": "Actividad 1",
+        "monto": 6000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 477830,
+        "descripcion": "Actividad 2",
+        "monto": 65000000
+      }
+    ]
+  },
+  "periodoFiscal2014": {
+    "className": "PeriodoFiscal2014",
+    "total": 77000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 239510,
+        "descripcion": "Actividad 1",
+        "monto": 15000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 477830,
+        "descripcion": "Actividad 2",
+        "monto": 62000000
+      }
+    ]
+  },
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 81000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 239510,
+        "descripcion": "Actividad 1",
+        "monto": 20000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 477830,
+        "descripcion": "Actividad 2",
+        "monto": 61000000
+      }
+    ]
+  },
+  "periodoFiscal2016": {
+    "className": "PeriodoFiscal2016",
+    "actividades": []
+  },
+  "vinculadas": {
+    "className": "Vinculada",
+    "detalles": [
+      {
+        "className": "Detalle",
+        "cuit": 20000000028,
+        "razonSocial": "BUSCANDO A HEATHER ANN",
+        "pais": 200,
+        "participacion": 100,
+        "actividad": 492150,
+        "descripcionActividad": "SERVICIO DE TRANSPORTE AUTOMOTOR INTERURBANO REGULAR DE PASAJEROS, E1203EXCEPTO TRANSPORTE INTERNACIONAL",
+        "vinculacion": 3,
+        "descripcionVinculacion": "Controlante"
+      }
+    ]
+  },
+  "totalesIvaStatus": 1,
+  "transaccion": 6615404
+}

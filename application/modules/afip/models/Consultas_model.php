@@ -1,0 +1,254 @@
+<?php
+
+class Consultas_model extends CI_Model {
+
+    function __construct() {
+        parent::__construct();
+        $this->idu = (int) $this->session->userdata('iduser');
+        $this->afip_db=new $this->cimongo;
+        #DB
+        $this->afip_db->switch_db('afip');
+        //$this->container="?";
+    }
+
+
+    /**
+     * Buscar CUITS status
+     *
+     * @name buscar_cuits_registrados
+     *
+     * @see Afip()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+    function buscar_cuits_registrados($parameter=null, $collection='queue') {
+       $this->afip_db->switch_db('afip');
+       return $this->afip_db->where(array('cuit'=>$parameter))->get($collection)->row();
+   }
+
+
+
+    /**
+     * Buscar CUITS para Certificados
+     *
+     * @name cuits_certificados
+     *
+     * @see Afip()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+    function cuits_certificados($parameter) {
+       $this->afip_db->switch_db('afip');
+       //return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->row();
+       return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->result_array();
+
+   }
+
+    /**
+     * QUEUE STATUS
+     *
+     * @name show_queue_qry
+     *
+     * @see Afip()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+    function show_queue_qry($parameter=null) {
+      $query = array('$ne'=>'ready');
+
+
+      if(isset($parameter)){
+        $query = $parameter;
+    } 
+
+    $this->afip_db->switch_db('afip');
+    return $this->afip_db->where(array('status'=>$query))->get('queue')->result_array();
+}
+
+    /**
+     * RAW/PROCESS/QUEUE STATUS
+     *
+     * @name show_source_qry
+     *
+     * @see Afip()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query $cuit, $collection
+     */
+    function show_source_qry($parameter, $collection) {
+       $this->afip_db->switch_db('afip');
+       return $this->afip_db->where(array('cuit'=>$parameter))->get($collection)->row();
+       var_dump($this->afip_db);
+   }
+
+
+   function vinculadas($paramter=null){
+
+    #"vinculadas" : {$exists:true}, "vinculadas.detalles":{$size: 0}
+
+
+    $query = array();
+    $query["vinculadas"] = array('$exists'=>true);
+    $query["vinculadas.detalles"] = array('$size'=>0);
+
+    $this->afip_db->switch_db('afip');
+        if(isset($paramter))
+            return $this->afip_db->where($query)->count_all_results('procesos');
+        else     
+            return $this->afip_db->where($query)->get('procesos')->result_array();
+    
+        
+
+    }
+   
+   function por_provincia($paramter=null){
+
+    $query = array();
+    $aquery=array(
+    'aggregate'=>'procesos',
+                'pipeline'=>
+            array(
+                array('$group'=>
+                    array(
+                      "_id" => '$domicilioLegalDescripcionProvincia',
+                      "cant" =>array('$sum'=>1),
+                    ),
+                ),
+                array('$project'=>array(
+                    'Provincia'=>'$_id',"Cantidad"=>'$cant',"_id"=>0
+                    )),
+                array('$sort'=>array(
+                    "Cantidad"=>-1
+                    )),
+        )
+    );
+    $rs=$this->afip_db->command($aquery);
+    return $rs['result'];
+
+    }
+   function por_sector($filter=null){
+
+    $query = array();
+    $aquery=array('aggregate'=>'procesos','pipeline'=>array());
+    // agrego el filtro
+    if($filter)
+    $aquery['pipeline'][]= $filter;
+    //-group
+    $aquery['pipeline'][]=array('$group'=>
+                    array(
+                      "_id" => '$result.sector_texto',
+                      "cant" =>array('$sum'=>1),
+                    ),
+                );
+    $aquery['pipeline'][]= array('$project'=>array(
+                    'Sector'=>'$_id',"Cantidad"=>'$cant',"_id"=>0
+                    ));
+    $aquery['pipeline'][]= array('$sort'=>array(
+                    "Cantidad"=>-1
+                    ));
+    $rs=$this->afip_db->command($aquery);
+    return $rs['result'];
+
+    }
+   function por_categoria($filter=null){
+
+    $query = array();
+    $aquery=array('aggregate'=>'procesos','pipeline'=>array());
+    // agrego el filtro
+    if($filter)
+    $aquery['pipeline'][]= $filter;
+    //-group
+    $aquery['pipeline'][]=array('$group'=>
+                    array(
+                      "_id" => '$result.categoria',
+                      "cant" =>array('$sum'=>1),
+                    ),
+                );
+    $aquery['pipeline'][]= array('$project'=>array(
+                    'Categoria'=>'$_id',"Cantidad"=>'$cant',"_id"=>0
+                    ));
+    $aquery['pipeline'][]= array('$sort'=>array(
+                    "Cantidad"=>-1
+                    ));
+    $rs=$this->afip_db->command($aquery);
+    return $rs['result'];
+
+    }
+   function por_letra($filter=null){
+    $this->load->model('app');
+    $query = array();
+    $aquery=array('aggregate'=>'procesos','pipeline'=>array());
+    
+    // agrego el filtro
+    if($filter)
+    $aquery['pipeline'][]= $filter;
+    
+    
+    $aquery['pipeline'][]= array('$group'=>
+                    array(
+                      "_id" => '$result.idrel',
+                      "cant" =>array('$sum'=>1),
+                    ),
+                );
+    $aquery['pipeline'][]= array('$project'=>array(
+                    'Letra'=>'$_id',"Cantidad"=>'$cant',"_id"=>0
+                    ));
+    $aquery['pipeline'][]=                array('$sort'=>array(
+                    "Cantidad"=>-1
+                    ));
+    $rs=$this->afip_db->command($aquery);
+    $letras=$this->app->get_ops(748);
+    foreach($rs['result'] as &$res)
+                $res['Letra_texto']=$letras[$res['Letra']];
+    return $rs['result'];
+
+    }
+   function isPyme($paramter=null){
+
+    $query = array();
+    $aquery=array(
+    'aggregate'=>'procesos',
+                'pipeline'=>
+            array(
+                array('$project'=>array(
+                        'isPyme'=>array('$cond'=>[array('$eq'=>['$result.isPyme',1]),'Si','No']),
+                        )
+                    ),
+                array('$group'=>
+                    array(
+                      "_id" => '$isPyme',
+                      "cant" =>array('$sum'=>1),
+                      
+                    ),
+                ),
+                 array('$project'=>array(
+                    'isPyme'=>'$_id',"Cantidad"=>'$cant',"_id"=>0
+                    )),
+                array('$sort'=>array(
+                    "Cantidad"=>-1
+                    )),
+        )
+    );
+    //  echo json_encode($aquery,JSON_PRETTY_PRINT);exit;
+    $rs=$this->afip_db->command($aquery);
+    return $rs['result'];
+
+    }
+
+
+}
