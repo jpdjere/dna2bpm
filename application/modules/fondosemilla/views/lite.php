@@ -64,7 +64,7 @@
         <h4 class="modal-title">Cargá tu proyecto en Fondo Semilla</h4>
       </div>
       <div class="modal-body">
-        <p>Texto Explicativo---- Lorem ipsum</p>
+        <p></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
