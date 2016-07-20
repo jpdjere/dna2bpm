@@ -66,7 +66,15 @@ background-position:center top; height:280px}
 float:left;}
 .cabezal { max-width:1170px; float:none; margin:0 auto; height:85px;}
 
-.footer-texto{margin-top:15px; width:100%; max-width:1170px; margin:0 auto; padding-top:30px; padding-bottom:30px; float:none; }
+.footer-texto {
+    float: none;
+    height: 90px;
+    margin: 0 auto;
+    max-width: 1170px;
+    padding-bottom: 30px;
+    padding-top: 25px;
+    width: 100%;
+}
 
 .logofoter{ float:right}
 
@@ -139,9 +147,14 @@ form-group {
 .subtitulo{ max-width:450px; margin:40px auto; font-size:1.3em; text-align:center}
 
 
+
 fieldset {
 min-width:1px;
 }
+
+.sr-only {
+    border: 1px solid #666 !important;
+	clip: inherit !important;}
 
 
 
