@@ -22,7 +22,7 @@ class Financiamiento extends MX_Controller {
     }
     
     function Index() {
-        if(!isset($this->session->userdata->iduser)){
+        if(!isset($this->session->userdata['iduser'])){
         //$this->session->set_userdata(array('iduser'=>756148209, 'loggedin'=>true));   //local
         //$this->session->set_userdata(array('iduser'=>2013235470, 'loggedin'=>true));  //test
         //$this->session->set_userdata(array('iduser'=>1816360748, 'loggedin'=>true));  //produccion
