@@ -12,7 +12,8 @@
         "{base_url}ui/assets/css/bootstrap-tour.css": "Map Css"
     }],
     "zones": [{
-            "tiles": [{
+            "tiles": [
+                {
                     "title": "Evaluación Técnica PN",
                     "module": "bpm",
                     "controller": "kpi",
@@ -29,6 +30,13 @@
                     "params": ["pacc3PPF", "pacc3PPF_KM"]
                 }, 
                 {
+                    "title": "Anticipos en Evaluación",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
+                },                {
                     "title": "Rendición de Antició en Evaluación",
                     "module": "bpm",
                     "controller": "kpi",
@@ -45,13 +53,6 @@
                     "params": ["pacc3SDAREND", "pacc3SDAREND_VK"]
                 }, 
                 {
-                    "title": "Anticipos en Evaluación",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "span": 2,
-                    "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
-                },{
                     "title": "Buscar",
                     "module": "pacc13",
                     "controller": "evaluador",

@@ -27,7 +27,11 @@ class evaluador_adm extends MX_Controller {
     function Index() {
         $this->dashboard();
     }
-    
+    function tile_buscar() {
+        $this->user->authorize();
+        $data = array();
+        return $this->parser->parse('pacc13/buscar_13', $data, true);
+    }
     function dashboard($debug=false) {
         Modules::run('dashboard/dashboard', 'pacc13/json/dashboard_evaluador_adm.json',$debug);
     }
