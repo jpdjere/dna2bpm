@@ -26,7 +26,7 @@ cuit_1=cuit.substr(0, 2);
 cuit_2=cuit.substr(2, 8);
 cuit_3=cuit.substr(10, 1);
 cuit=cuit_1+'-'+cuit_2+'-'+cuit_3;
-$('#search_empresa').val(cuit);
+// $('#search_empresa').val(cuit);
 
 
 
