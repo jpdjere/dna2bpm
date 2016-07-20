@@ -40,10 +40,9 @@ class Mysql_model_141 extends CI_Model {
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
         
-        var_dump($this->db->queries);
-
-
+        #var_dump($query->result());
         foreach ($query->result() as $row) {
+            
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
 
@@ -65,60 +64,12 @@ class Mysql_model_141 extends CI_Model {
                 if ($row->archivo) {
                     $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
                     if (!$already_update)
-                        $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                        $this->anexo_data_tmp($anexo_dna2, $row->archivo); echo $row->archivo . "<br>";
                 }
             }
         }
     }
-
-    function active_periods_dna2_ori($anexo, $period) {
-
-
-
-        /* TRANSLATE ANEXO NAME */
-        $anexo_dna2 = translate_anexos_dna2($anexo);
-        $this->db->where('estado', 'activo');
-        $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('anexo', $anexo_dna2);
-        $query = $this->db->get('forms2.sgr_control_periodos');
-
-
-
-
-        foreach ($query->result() as $row) {
-
-
-
-            $already_period = $this->already_period($row->archivo);
-            if (!$already_period) {
-
-                $parameter = array();
-
-                $parameter['anexo'] = translate_anexos_dna2($row->anexo);
-                $parameter['filename'] = $row->archivo;
-                $parameter['period_date'] = translate_dna2_period_date($row->periodo);
-                $parameter['sgr_id'] = (float) $row->sgr_id;
-                $parameter['status'] = 'activo';
-                $parameter['origen'] = 'forms2';
-                $parameter['period'] = str_replace("_", "-", $row->periodo);
-
-
-                $is_2014 = explode("_", $row->periodo);
-                if ($is_2014[1] != "2014") {
-
-                    /* UPDATE CTRL PERIOD */
-                    $this->save_tmp($parameter);
-
-                    /* UPDATE ANEXO */
-                    if ($row->archivo) {
-                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                        if (!$already_update)
-                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
-                    }
-                }
-            }
-        }
-    }
+  
 
     /* UPDATE SIN MOVIMIENTO */
 
@@ -174,18 +125,9 @@ class Mysql_model_141 extends CI_Model {
 
 
 
-        $this->db->select(
-                'id,
-                cuit_sgr,
-                participe,
-                cuit_participe,
-                monto_adeudado,
-                garantias_afrontadas,
-                mora_en_dias,
-                clasificacion_deudor,
-                filename,
-                idu'
-        );
+        /*$this->db->select(
+                *
+        );*/
 
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
@@ -193,8 +135,13 @@ class Mysql_model_141 extends CI_Model {
 
 
         $query = $this->db->get($anexo);
+
+        var_dump($query);
+
         $parameter = array();
         foreach ($query->result() as $row) {
+
+            var_dump($row);
 
             $parameter = array();
 
@@ -212,25 +159,18 @@ class Mysql_model_141 extends CI_Model {
 
             
            /* STRING */
-            $parameter["CUIT_PARTICIPE"] = (string) $row["CUIT_PARTICIPE"];
+            $parameter["CUIT_PARTICIPE"] = (string) $row["cuit_participe"];
             /* INTEGERS & FLOAT */
-            $parameter["CANT_GTIAS_VIGENTES"] = (int) $row["CANT_GTIAS_VIGENTES"];
-            $parameter["HIPOTECARIAS"] = (float) $row["HIPOTECARIAS"];
-            $parameter["PRENDARIAS"] = (float) $row["PRENDARIAS"];
-            $parameter["FIANZA"] = (float) $row["FIANZA"];
-            $parameter["OTRAS"] = (float) $row["OTRAS"];
-            $parameter["REAFIANZA"] = (float) $row["REAFIANZA"];
-            $parameter["MORA_EN_DIAS"] = (int) $row["MORA_EN_DIAS"];
-            $parameter["CLASIFICACION_DEUDOR"] = (int) $row["CLASIFICACION_DEUDOR"];
-
-            $parameter['FECHA_MOVIMIENTO'] = translate_mysql_date($row->fecha_movimiento);
-
+            $parameter["CANT_GTIAS_VIGENTES"] = (int) $row["garantias_afrontadas"];          
+            $parameter["OTRAS"] = (float) $row["monto_adeudado"];           
+            $parameter["MORA_EN_DIAS"] = (int) $row["mora_en_dias"];
+            $parameter["CLASIFICACION_DEUDOR"] = (int) $row["clasificacion_deudor"];
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
-            debug($parameter);
+            var_dump($parameter);
 
             $this->save_anexo_141_tmp($parameter, $anexo);
         }

@@ -1037,7 +1037,11 @@ function translate_anexos_dna2($anexo) {
 
         case 'sgr_anexo14bis':
             return '141';
-            break;    
+            break;
+
+         case '141':
+            return 'sgr_anexo14bis';
+            break;         
 
         case '15':
             return 'sgr_anexo15';
