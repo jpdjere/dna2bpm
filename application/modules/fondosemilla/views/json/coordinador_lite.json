@@ -1,0 +1,41 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212d@gmail.com>",
+    "title": "Coordinación de Fondo Semilla",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-users",
+    "zones": [
+        {
+        "tiles": [
+
+            {
+                "title": "Proyectos No Admitidos",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_KW", "tile-red"]
+            },            
+            {
+                "title": "Proyectos No Pre-seleccionados",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_LA", "tile-orange"]
+            },
+            {
+                "title": "Proyectos Pre-Seleccionados",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_HG", "tile-green"]
+            }        
+            ]
+        }
+    ],
+    
+    "js": [{
+                "{base_url}fondosemilla/assets/jscript/lite.js": "Dash"
+            }]
+}

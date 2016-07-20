@@ -63,6 +63,18 @@ class semilla extends MX_Controller {
         
     }
     
+    function Coordinador($debug=false) {
+        $this->user->authorize();
+        $grupo_user = 'Fondo Semilla /Jurado-Coordinador';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
+        $this->Add_group($grupo_user);
+        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
+      
+        
+    }    
+    
     function Profesionales($debug=false) {
         $this->user->authorize();
         $this->Add_group();
