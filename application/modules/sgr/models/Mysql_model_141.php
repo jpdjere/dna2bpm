@@ -159,12 +159,12 @@ class Mysql_model_141 extends CI_Model {
 
             
            /* STRING */
-            $parameter["CUIT_PARTICIPE"] = (string) $row["cuit_participe"];
+            $parameter["CUIT_PARTICIPE"] = (string) $row->cuit_participe;
             /* INTEGERS & FLOAT */
-            $parameter["CANT_GTIAS_VIGENTES"] = (int) $row["garantias_afrontadas"];          
-            $parameter["OTRAS"] = (float) $row["monto_adeudado"];           
-            $parameter["MORA_EN_DIAS"] = (int) $row["mora_en_dias"];
-            $parameter["CLASIFICACION_DEUDOR"] = (int) $row["clasificacion_deudor"];
+            $parameter["CANT_GTIAS_VIGENTES"] = (int) $row->garantias_afrontadas;          
+            $parameter["OTRAS"] = (float) $row->monto_adeudado;           
+            $parameter["MORA_EN_DIAS"] = (int) $row->mora_en_dias;
+            $parameter["CLASIFICACION_DEUDOR"] = (int) $row->clasificacion_deudor;
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
             $parameter['id'] = (float) $row->id;
