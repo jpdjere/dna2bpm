@@ -123,8 +123,6 @@ class Mysql_model_141 extends CI_Model {
     function anexo_data_tmp($anexo, $filename) {
 
 
-
-
         /*$this->db->select(
                 *
         );*/
@@ -132,16 +130,12 @@ class Mysql_model_141 extends CI_Model {
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
 
-
-
         $query = $this->db->get($anexo);
-
-        var_dump($query);
 
         $parameter = array();
         foreach ($query->result() as $row) {
 
-            var_dump($row);
+           
 
             $parameter = array();
 
@@ -170,7 +164,7 @@ class Mysql_model_141 extends CI_Model {
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
-            var_dump($parameter);
+            #var_dump($parameter);
 
             $this->save_anexo_141_tmp($parameter, $anexo);
         }
@@ -214,6 +208,9 @@ class Mysql_model_141 extends CI_Model {
         $container = 'container.sgr_anexo_14';
         $already_id = $this->already_id($anexo, $parameter['id']);
 
+        #var_dump($parameter);
+
+
         if ($already_id) {
             //echo "duplicado" . $parameter['id'];
         } else {
@@ -226,6 +223,8 @@ class Mysql_model_141 extends CI_Model {
                 $out = array('status' => 'error');
             }
         }
+
+        var_dump($out);
         return $out;
     }
 
