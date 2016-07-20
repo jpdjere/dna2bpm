@@ -65,8 +65,8 @@ class Perfil extends MX_Controller {
         // $customData['empresas'] = array();
         if(isset($cuit)){
             $afip=$this->get_afip_data($cuit);
-            if($afip){
-                $afip['actividad_texto']=$actividades[$afip['actividad']];
+	    if($afip){
+                $afip['actividad_texto']=(isset($afip['actividad']))? @$actividades[$afip['actividad']]:'-----';
                 $customData=array_merge($customData,$afip);
                 
             }
