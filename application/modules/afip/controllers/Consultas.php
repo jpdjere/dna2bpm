@@ -169,8 +169,7 @@ function certificado($parameter,$type='pdf'){
 
     $data = (int)$parameter;
     $rtn = $this->consultas_model->cuits_certificados($data);
-
-    $filename = "sepyme_certificado_" . $rtn->cuit.".pdf";
+    $filename = "sepyme_certificado_" . $rtn->cuit."";
 
     if(!$rtn->cuit){
         echo "error la C.U.I.T. " . $parameter . " no fue beneficiada con 'IVA – Cancelación trimestral'";

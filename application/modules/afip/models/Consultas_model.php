@@ -48,7 +48,7 @@ class Consultas_model extends CI_Model {
     function cuits_certificados($parameter) {
        $this->afip_db->switch_db('afip');
        //return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->row();
-       return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->result_array();
+       return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->row();
 
    }
 
