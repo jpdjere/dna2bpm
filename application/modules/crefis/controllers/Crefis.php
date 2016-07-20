@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
  * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
  *         @date Jul 18, 2014
  */
-class crefis extends MX_Controller {
+class Crefis extends MX_Controller {
     //--define el token que guarda la data consolidada para buscadores etc
     public $consolida_resrourceId='oryx_6772A7D9-3D05-4064-8E9F-B23B4F84F164';
 
@@ -1341,6 +1341,24 @@ BLOCK;
     }
 
 
+    function create_Rend($idwf,$idcase,$suffix){
+        $this->load->model('bpm/bpm');
+        $this->load->model('app');
+        $this->load->module('bpm/engine');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        //$id=$case['data']['Proyectos_crefis']['query']['id'];
+        //$id_empresa=$case['data']['Empresas_4844']['query']['id'];
+        
+        //$data['Empresas']=$case['data']['Empresas'];
+        //$data['Proyectos_pacc']=$case['data']['Proyectos_crefis'];
+        $data = $case['data'];
+        $caserendicion=$this->bpm->gen_case('crefisRend',$idcase.'-'.$suffix,$data);
+        $this->bpm->engine->Startcase('model', 'crefisRend', $caserendicion, true);
+        $resourceId=null;
+        $silent=true;
+        $this->engine->Run('model', 'crefisRend', $caserendicion,$resourceId,$silent);
+        return $caserendicion;
+    }
 
 }
 

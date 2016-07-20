@@ -1,0 +1,37 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 30709695009,
+  "denominacion": "HONEY LA REINA DEL BAILE2 NRO 22996",
+  "periodoFiscal": 2016,
+  "secuencia": 0,
+  "formaJuridica": "S.R.L.",
+  "mesCierre": 3,
+  "periodoAltaGcias": 201412,
+  "periodoAltaIva": 201510,
+  "incorporaVinculada": 1,
+  "solicitaPagoTrimestral": 1,
+  "solicitaAcreditacion": 1,
+  "monotributo": 0,
+  "exentoGanancias": 0,
+  "exentoIva": 1,
+  "domicilioLegal": "TALCAHUANO 1272 Piso:19 Dpto:B",
+  "domicilioLegalCodigoPostal": "1014",
+  "domicilioLegalIdProvincia": 0,
+  "domicilioLegalCalle": "TALCAHUANO",
+  "domicilioLegalEstadoDomicilio": 6,
+  "fechaInscripcion": "2006-07-03-00:00:00",
+  "tienePeriodo2015": "S",
+  "tienePeriodo2016": "S",
+  "empleado": 1,
+  "cantEmpleados": 3,
+  "vinculadas": {
+    "className": "Vinculada",
+    "trxAfip": 235785471,
+    "detalles": [
+    ]
+  },
+  "datosVentasAnuales": [
+  ],
+  "totalesIvaStatus": 1,
+  "transaccion": 6675200
+}

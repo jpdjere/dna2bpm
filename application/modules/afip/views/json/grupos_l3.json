@@ -1,0 +1,87 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 30999999995,
+  "denominacion": "INMUEBLES MAKAO SRL",
+  "periodoFiscal": 2016,
+  "secuencia": 0,
+  "formaJuridica": "S.R.L.",
+  "mesCierre": 12,
+  "periodoAltaGcias": 197906,
+  "periodoAltaIva": 198908,
+  "incorporaVinculada": 0,
+  "solicitaPagoTrimestral": 1,
+  "solicitaAcreditacion": 1,
+  "monotributo": 0,
+  "exentoGanancias": 0,
+  "exentoIva": 0,
+  "domicilioLegal": "LIMA 1315",
+  "domicilioLegalCodigoPostal": "1138",
+  "domicilioLegalIdProvincia": 0,
+  "domicilioLegalCalle": "LIMA",
+  "domicilioLegalLocalidad": "CAPITAL FEDERAL",
+  "domicilioLegalDescripcionProvincia": "CIUDAD AUTONOMA BUENOS AIRES",
+  "domicilioLegalEstadoDomicilio": 6,
+  "correoElectronico": "info@miluka.com",
+  "fechaInscripcion": "1901-01-01-00:00:00",
+  "tienePeriodo2013": "S",
+  "tienePeriodo2014": "S",
+  "tienePeriodo2015": "S",
+  "empleado": 0,
+  "idActividadPrincipal": 681098,
+  "descripcionActividadPrincipal": "681098 - SERVICIOS INMOBILIARIOS REALIZADOS POR CUENTA PROPIA, CON BIENES URBANOS PROPIOS O ARRENDADOS N.C.P.",
+  "periodoFiscal2013": {
+    "className": "PeriodoFiscal2013",
+    "total": 426800,
+    "totalManual": 426800,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 681098,
+        "descripcion": "SERVICIOS INMOBILIARIOS REALIZADOS POR CUENTA PROPIA, CON BIENES URBANOS PROPIOS O ARRENDADOS N.C.P.",
+        "monto": 426800,
+        "periodoDesde": 201201,
+        "periodoHasta": 201312,
+        "esMineria": false
+      }
+    ]
+  },
+  "periodoFiscal2014": {
+    "className": "PeriodoFiscal2014",
+    "total": 509500,
+    "totalManual": 509500,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 681098,
+        "descripcion": "SERVICIOS INMOBILIARIOS REALIZADOS POR CUENTA PROPIA, CON BIENES URBANOS PROPIOS O ARRENDADOS N.C.P.",
+        "monto": 509500,
+        "periodoDesde": 201301,
+        "periodoHasta": 201412,
+        "esMineria": false
+      }
+    ]
+  },
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 619100,
+    "totalManual": 619100,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 681098,
+        "descripcion": "SERVICIOS INMOBILIARIOS REALIZADOS POR CUENTA PROPIA, CON BIENES URBANOS PROPIOS O ARRENDADOS N.C.P.",
+        "monto": 619100,
+        "periodoDesde": 201401,
+        "periodoHasta": 201512,
+        "esMineria": false
+      }
+    ]
+  },
+  "vinculadas": {
+    "className": "Vinculada",
+    "trxAfip": 1906954867,
+    "detalles": []
+  },
+  "totalesIvaStatus": 1,
+  "transaccion": 489248386
+}

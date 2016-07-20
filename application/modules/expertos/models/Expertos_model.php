@@ -44,6 +44,21 @@ class expertos_model extends CI_Model {
         
     }
     
+    function get_company($filter, $value) {
+
+        $rtn = array();
+        $container = 'container.empresas';
+    
+     //   $fields = array('8668', 'id', '8339', '8325', '8340', '8334');
+        $query = array($filter => $value);
+        $rs = $this->mongowrapper->db->$container->find($query);
+        
+        foreach ($rs as $list) {
+            unset($list['_id']);
+            $rtn[] = $list;
+        }
+        return $rtn;
+    }    
     
     
     
