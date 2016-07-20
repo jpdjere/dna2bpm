@@ -1,0 +1,117 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 30999999995,
+  "denominacion": "TEST Grande",
+  "periodoFiscal": 2016,
+  "secuencia": 0,
+  "formaJuridica": "S.C.A.",
+  "mesCierre": 12,
+  "periodoAltaGcias": 200900,
+  "periodoAltaIva": 200901,
+  "incorporaVinculada": 1,
+  "solicitaPagoTrimestral": 1,
+  "solicitaAcreditacion": 1,
+  "monotributo": 0,
+  "exentoGanancias": 0,
+  "exentoIva": 0,
+  "domicilioLegal": "YRIGOYEN HIPOLITO 201 Piso:1 Dpto:716   ",
+  "domicilioLegalCodigoPostal": "1086",
+  "domicilioLegalIdProvincia": 0,
+  "domicilioLegalCalle": "YRIGOYEN HIPOLITO",
+  "domicilioLegalEstadoDomicilio": 6,
+  "fechaInscripcion": "2008-12-12-00:00:00",
+  "tienePeriodo2014": "S",
+  "tienePeriodo2015": "S",
+  "tienePeriodo2016": "S",
+  "empleado": 1,
+  "periodoFiscal2014": {
+    "className": "PeriodoFiscal2014",
+    "total": 221000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11299,
+        "descripcion": "Actividad 1",
+        "monto": 150000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 477830,
+        "descripcion": "Actividad 2",
+        "monto": 65000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 960202,
+        "descripcion": "Actividad 3",
+        "monto": 6000000
+      }
+    ]
+  },
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 431000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11299,
+        "descripcion": "Actividad 1",
+        "monto": 250000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 477830,
+        "descripcion": "Actividad 2",
+        "monto": 165000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 960202,
+        "descripcion": "Actividad 3",
+        "monto": 16000000
+      }
+    ]
+  },
+  "periodoFiscal2016": {
+    "className": "PeriodoFiscal2016",
+    "total": 271000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11299,
+        "descripcion": "Actividad 1",
+        "monto": 200000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 477830,
+        "descripcion": "Actividad 2",
+        "monto": 65000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 960202,
+        "descripcion": "Actividad 3",
+        "monto": 6000000
+      }
+    ]
+  },
+  "vinculadas": {
+    "className": "Vinculada",
+    "detalles": [
+            {
+                "className" : "Detalle",
+                "cuit" : NumberLong(111111111),
+                "razonSocial" : "BUSCANDO A HEATHER ANN",
+                "pais" : 200,
+                "participacion" : 25,
+                "actividad" : 492150,
+                "descripcionActividad" : "SERVICIO DE TRANSPORTE AUTOMOTOR INTERURBANO REGULAR DE PASAJEROS, E1203EXCEPTO TRANSPORTE INTERNACIONAL",
+                "vinculacion" : 3,
+                "descripcionVinculacion" : "Controlante"
+            }
+    ]
+  },
+    "totalesIvaStatus": 1,
+  "transaccion": 6175404
+}

@@ -26,6 +26,11 @@
             "redir": "perfil/empresa"
         },
         {
+            "name": "Hook Portal Admin   ",
+            "group": [1028],
+            "redir": "afip/dashboard"
+        },
+        {
             "name": "Hook Inventario",
             "group": [62,64,66,82,83], 
             "redir": "inventory"

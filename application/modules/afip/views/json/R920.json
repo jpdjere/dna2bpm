@@ -1,0 +1,73 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 20120000190,
+  "periodoFiscal": 201605,
+  "secuencia": 0,
+  "fechaInscripcion": "2000-11-01-00:00:00",
+  "mesCierre": 12,
+  "periodoAltaIva": 200709,
+  "incorporaVinculada": false,
+  "solicitaPagoTrimestral": true,
+  "periodoFiscal2013": {
+    "className": "PeriodoFiscal2013",
+    "total": 71000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 239510,
+        "descripcion": "Actividad 1",
+        "monto": 6000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 920001,
+        "descripcion": "Actividad 2",
+        "monto": 65000000
+      }
+    ]
+  },
+  "periodoFiscal2014": {
+    "className": "PeriodoFiscal2014",
+    "total": 77000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 239510,
+        "descripcion": "Actividad 1",
+        "monto": 15000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 920001,
+        "descripcion": "Actividad 2",
+        "monto": 62000000
+      }
+    ]
+  },
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 81000000,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 239510,
+        "descripcion": "Actividad 1",
+        "monto": 20000000
+      },
+      {
+        "className": "Actividad",
+        "codActividad": 920001,
+        "descripcion": "Actividad 2",
+        "monto": 61000000
+      }
+    ]
+  },
+  "periodoFiscal2016": {
+    "className": "PeriodoFiscal2016",
+    "actividades": []
+  },
+  "vinculadas": {
+    "className": "Vinculada",
+    "detalles": []
+  }
+}
