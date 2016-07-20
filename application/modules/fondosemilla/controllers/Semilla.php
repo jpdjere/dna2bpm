@@ -1536,10 +1536,15 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $this->load->library('parser');
         $this->load->model('user/group');
         $this->load->model('bpm/bpm');
+        //$this->load->model('bpm/engine');
         $case = $this->bpm->get_case($idcase, $idwf);
         $renderData = $this->bpm->load_case_data($case, $idwf);
         //----tomo evaluador del caso
-        $idu = $renderData['Fondosemillaproyectos']['10034'][0];
+        $idu = floatval($renderData['Fondosemillaproyectos']['10034'][0]);
+        
+        
+        //var_dump($idu);
+        //exit();
         //----token que hay que finalizar 
         // $src_resourceId = 'oryx_A150EBF2-8F30-4631-B04B-90DBDB019C41';
         // ---Token de pp asignado
@@ -1547,10 +1552,15 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         
         $src_resourceId ='oryx_E5F6A213-AC1B-49B4-B5C3-44843F852538';
         $lane_resourceId='oryx_3DA3B98D-42F2-4661-8496-A21E619173B9';
-        
+        //$this->bpm->assign('model',$idwf,$idcase,$src_resourceId,$lane_resourceId,$idu);
+        //exit();
         $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu";
-        echo($url);
+        
         redirect($url);
+        //$url = Modules::run("bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu");
+        //echo($url);
+        //exit();
+        redirect($this->base_url ."/fondosemilla/semilla");
     }
 
 }
