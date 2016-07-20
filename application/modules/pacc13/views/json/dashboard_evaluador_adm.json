@@ -50,36 +50,14 @@
 
     ],
     "zones": [{
-            "tiles": [{
-                    "title": "Buscar",
-                    "module": "pacc",
-                    "controller": "pacc",
-                    "function": "tile_buscar_container",
-                    "span": 12
-                }, 
+            "tiles": [
                 {
-                    "title": "Evaluación Técnica PN",
+                    "title": "Rendición de Anticipo en Evaluación",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
                     "span": 2,
-                    "params": ["pacc3PP", "pacc3PP_YN"]
-                }, 
-                {
-                    "title": "Evaluación Formal PN",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "span": 2,
-                    "params": ["pacc3PPF", "pacc3PPF_KM"]
-                }, 
-                {
-                    "title": "Rendición de Antició en Evaluación",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "span": 2,
-                    "params": ["pacc3SDAREND", "pacc3SDAREND_TN"]
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_VB"]
                 }, 
                 {
                     "title": "Rendición SIN Antició en Evaluación",
@@ -87,17 +65,18 @@
                     "controller": "kpi",
                     "function": "tile",
                     "span": 2,
-                    "params": ["pacc3SDAREND", "pacc3SDAREND_VK"]
+                    "params": ["pacc3SDAREND", "pacc3SDAREND_SD"]
                 }, 
                 {
-                    "title": "Anticipos en Evaluación",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "span": 2,
-                    "params": ["pacc3SDAREND", "pacc3SDAREND_QG"]
-                }
-            ]
+                    "title": "Buscar",
+                    "module": "pacc13",
+                    "controller": "evaluador",
+                    "function": "tile_buscar",
+                    "span": 4,
+                    "js": [{"{base_url}pacc13/assets/jscript/bus13.js":"pacc3SDAREND"}]
+
+        }
+        ]
         }, {
             "full_widget": []
         },{
