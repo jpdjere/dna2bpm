@@ -31,11 +31,12 @@ class portal_model extends CI_Model {
     }
 
     function get_afip_data($cuit){
-            $query = array(
-            'cuit'=> $cuit
+            $this->afip_db->switch_db('afip');
+	    $query = array(
+            'cuit'=> new MongoInt64($cuit)
             );
            $rs=$this->afip_db->where($query)->get('procesos');
-           return $rs->row();
+	   return $rs->row();
     }
 
     //=== Determina rapidamente si un cuit es pyme, basado en P y Q - p->isPyme es temporal si en Q->status !- ready
