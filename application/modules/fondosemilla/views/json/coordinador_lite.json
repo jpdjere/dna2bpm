@@ -13,24 +13,8 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_KW", "tile-red"]
-            },            
-            {
-                "title": "Proyectos No Pre-seleccionados",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_LA", "tile-orange"]
-            },
-            {
-                "title": "Proyectos Pre-Seleccionados",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_HG", "tile-green"]
-            }        
+                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
+            }      
             ]
         }
     ],
