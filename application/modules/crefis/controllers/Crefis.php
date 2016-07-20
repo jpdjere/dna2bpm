@@ -1054,6 +1054,24 @@ BLOCK;
 
         redirect($url);
     }
+    
+    function asignar_rendicion($idwf, $idcase, $tokenId) {
+        $this->load->library('parser');
+        $this->load->model('user/group');
+        $this->load->model('bpm/bpm');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        $renderData = $this->bpm->load_case_data($case, $idwf);
+        //----tomo evaluador del caso
+        $evaluador = $renderData['Rendiciones_crefis']['10226'][0];
+        //----token que hay que finalizar
+        $src_resourceId = 'oryx_9E2BE9E9-5067-440E-AAA2-17602D277147';
+        // ---Token de pp asignado
+        $lane_resourceId = 'oryx_FB601E1C-E420-49D6-BB3C-D8BD4166D1ED';
+
+        $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
+
+        redirect($url);
+    }
 
     function asignar_evaluador_pde($idwf, $idcase, $tokenId) {
         $this->load->library('parser');
