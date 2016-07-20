@@ -18,9 +18,14 @@ class portal_model extends CI_Model {
     function get_empresas(){
         $collection = 'container.empresas';
         $query = array(
-            'owner'=> $this->idu
+            'owner'=> $this->idu,
+            '1695'=> array('$exists'=>true),
+            '1693'=> array('$exists'=>true),
             );
-        $this->db->where($query);    
+        // $this->db->select(array('id','status',1693,1695));
+        $this->db->where($query);
+        $this->db->order_by(array('1693'=>1));
+        
         $rs = $this->db->get($collection);
         return $rs->result_array();
     }
