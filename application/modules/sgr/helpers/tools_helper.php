@@ -1035,6 +1035,14 @@ function translate_anexos_dna2($anexo) {
             return '14';
             break;
 
+        case 'sgr_anexo14bis':
+            return '141';
+            break;
+
+         case '141':
+            return 'sgr_anexo14bis';
+            break;         
+
         case '15':
             return 'sgr_anexo15';
             break;
@@ -1092,6 +1100,10 @@ function translate_anexos_dna2_urls($anexo) {
             return 'SGR_FDR_contingente';
             break;
 
+        case '141':
+            return 'sgr_anexo14bis';
+            break;
+    
 
         case '201':
             return 'SGR_FDR_integrado';
