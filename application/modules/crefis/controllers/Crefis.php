@@ -1370,7 +1370,7 @@ BLOCK;
         //$data['Empresas']=$case['data']['Empresas'];
         //$data['Proyectos_pacc']=$case['data']['Proyectos_crefis'];
         $data = $case['data'];
-        $caserendicion=$this->bpm->gen_case('crefisRend',$idcase.'-'.$suffix,$data);
+        $caserendicion=$this->bpm->gen_case('crefisRend',$suffix,$data);
         $this->bpm->engine->Startcase('model', 'crefisRend', $caserendicion, true);
         $resourceId=null;
         $silent=true;
