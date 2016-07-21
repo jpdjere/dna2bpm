@@ -1550,7 +1550,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         // ---Token de pp asignado
         //$lane_resourceId = 'oryx_295810F2-8C34-4D03-80F8-7B5C371381B8';
         
-        $src_resourceId ='oryx_E5F6A213-AC1B-49B4-B5C3-44843F852538';
+        $src_resourceId ='oryx_CB180436-5368-43F1-8822-1FDDFA4B5A08';
         $lane_resourceId='oryx_3DA3B98D-42F2-4661-8496-A21E619173B9';
         //$this->bpm->assign('model',$idwf,$idcase,$src_resourceId,$lane_resourceId,$idu);
         //exit();
@@ -1560,7 +1560,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         //$url = Modules::run("bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu");
         //echo($url);
         //exit();
-        redirect($this->base_url ."/fondosemilla/semilla");
+        //redirect($this->base_url ."/fondosemilla/semilla");
     }
 
 }
