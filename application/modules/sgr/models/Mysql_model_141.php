@@ -37,6 +37,7 @@ class Mysql_model_141 extends CI_Model {
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
         $this->db->where('periodo NOT LIKE', '%2014');
+        #$this->db->where('periodo LIKE', '%2011');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
         
@@ -205,7 +206,7 @@ class Mysql_model_141 extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_14';
+        $container = 'container.sgr_anexo_' . $anexo;
         $already_id = $this->already_id($anexo, $parameter['id']);
 
         #var_dump($parameter);
@@ -217,6 +218,7 @@ class Mysql_model_141 extends CI_Model {
 
             $id = $this->app->genid_sgr($container);
             $result = $this->app->put_array_sgr($id, $container, $parameter);
+
             if ($result) {
                 $out = array('status' => 'ok');
             } else {
