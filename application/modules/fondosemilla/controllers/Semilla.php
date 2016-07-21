@@ -53,7 +53,7 @@ class semilla extends MX_Controller {
 
     function Incubadoras($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Incubadora';
+        $grupo_user = 'FondoSemilla /Incubadora';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
@@ -65,7 +65,7 @@ class semilla extends MX_Controller {
     
     function Coordinador($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Jurado-Coordinador';
+        $grupo_user = 'FondoSemilla /Jurado-Coordinador';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
