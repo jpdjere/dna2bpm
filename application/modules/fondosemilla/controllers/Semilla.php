@@ -36,14 +36,14 @@ class semilla extends MX_Controller {
     }
 
     function Index() {
-        $grupo_user = 'Fondo Semilla /Emprendedor';
+        $grupo_user = 'FondoSemilla /Emprendedor';
         $this->Add_group($grupo_user);
         $this->Emprendedores();
     }
 
     function Emprendedores($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Emprendedor';
+        $grupo_user = 'FondoSemilla /Emprendedor';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib');        
         $this->Add_group($grupo_user);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug, $extraData);
