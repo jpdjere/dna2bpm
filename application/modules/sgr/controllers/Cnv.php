@@ -1025,6 +1025,15 @@ class Cnv extends MX_Controller {
                     $t5_43 = $r15['col3'];
                     $t5_44 = $r15['col4'];
                 }
+                $result_15 = $this->$model->get_anexo_ddjj($period_req, "L");
+                foreach ($result_15 as $r15) {
+
+                    $t5_41 = $r15['col1'];
+                    $t5_42 = $r15['col2'];
+                    $t5_43 = $r15['col3'];
+                    $t5_44 = $r15['col4'];
+                }
+
 
 
 
