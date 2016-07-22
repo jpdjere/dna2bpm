@@ -27,7 +27,7 @@ class Consultas_model extends CI_Model {
      */
     function buscar_cuits_registrados($parameter=null, $collection='queue') {
        $this->afip_db->switch_db('afip');
-       return $this->afip_db->where(array('cuit'=>$parameter))->get($collection)->row();
+       return $this->afip_db->where(array('cuit'=>new MongoInt64($parameter)))->get($collection)->row();
    }
 
 
@@ -48,7 +48,7 @@ class Consultas_model extends CI_Model {
     function cuits_certificados($parameter) {
        $this->afip_db->switch_db('afip');
        //return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->row();
-       return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->row();
+       return $this->afip_db->where(array('cuit'=>new MongoInt64($parameter)))->get('procesos')->row();
 
    }
 
