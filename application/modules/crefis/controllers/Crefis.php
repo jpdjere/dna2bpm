@@ -28,7 +28,7 @@ class Crefis extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
         $this->load->library('pagination');
-        $this->load->library('dashboard/ui');
+        //$this->load->library('dashboard/ui');
         /* GROUP */
         $user = $this->user->get_user($this->idu);
 
@@ -1092,6 +1092,7 @@ BLOCK;
     }
 
     function info($tipo, $idcase) {
+        $this->load->library('dashboard/ui');
         $idwf = 'crefisGral';
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
@@ -1143,6 +1144,7 @@ BLOCK;
     }
 
     function set_evaluador($idwf, $idcase, $tokenId) {
+        $this->load->library('dashboard/ui');
         $this->load->library('parser');
         $this->load->model('bpm/bpm');
         $this->load->library('bpm/ui');
@@ -1263,6 +1265,7 @@ BLOCK;
     function widget_2doMe2($chunk = 1, $pagesize = 2000) {
         
         //$data['lang']=$this->lang->language;
+        $this->load->library('dashboard/ui');
         $this->load->model('bpm/bpm');
         $query = array(
             'assign' => $this->idu,
@@ -1336,6 +1339,7 @@ BLOCK;
 
 
     public function faq() {
+        $this->load->library('dashboard/ui');
         $this->user->authorize();
         $config['title']="Descargas";
         $config['class']="info";
