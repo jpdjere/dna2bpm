@@ -34,7 +34,11 @@
             <li class="pull-right perfil" ><a  href="{base_url}sgr/exit_fre" ><span class="label label-danger">CERRAR<strong> {sgr_nombre}</strong></span></a></li>
             {/if} 
         </ul>
+
     </div>
+
+   
+
     <!-- ============= Barra Ministerio  -->
      <div class="header_institucional">
       <img src="{base_url}dashboard/assets/img/logo_presidencia.png" class="presidencia_logo">

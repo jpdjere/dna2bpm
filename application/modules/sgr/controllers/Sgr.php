@@ -520,7 +520,7 @@ class Sgr extends MX_Controller {
 
             if ($chunk_id > $limit_chunk_id)               
 
-                $result.= '<option value="' . $module_url . 'anexo_code/' . $anexo['number'] . '">'.$anexo['title'].'</option>';
+                $result.= '<option value="' . $module_url . 'anexo_code/' . $anexo['number'] . '">Anexo ' . $anexo['short'] . ' '.$anexo['title'].'</option>';
         }
         return $result;
     }
@@ -552,7 +552,7 @@ class Sgr extends MX_Controller {
             $crypt = str_replace("=", "rEpLaCe", base64_encode($anexo['id']));
 
             $result .= '<li>' . $anexo['title'] . ' <a target="' . $target . '" href=  "' . $module_url . 'fre_code/' . $crypt . '"> [SELECCIONAR]</a></li>';
-            
+
                 $result.= '<option value="' . $module_url . 'fre_code/' . $crypt . '">'.$anexo['title'].'</option>';
         }
 
