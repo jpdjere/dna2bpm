@@ -216,13 +216,13 @@ class Sgr extends MX_Controller {
 
         $sections = array();
         $sections['Anexos'] = array();
-        $customData['anexo_list'] = $this->AnexosDB('_blank');
+        $customData['anexo_list'] = $this->AnexosDB_options();
 
         /* FRE SESSION */
         if (isset($this->session->userdata['fre_session']))
             $customData['fre_session'] = $this->session->userdata['fre_session'];
 
-        $customData['fre_list'] = $this->freDB();
+        $customData['fre_list'] = $this->freDB_options();
 
         /* ORGANOS SOCIALES */
         $social_structure = $this->model_organos_sociales->get_ident();
@@ -506,6 +506,25 @@ class Sgr extends MX_Controller {
         return $result;
     }
 
+    function AnexosDB_options() {
+        $module_url = base_url() . 'sgr/';
+        $anexosArr = $this->sgr_model->get_anexos();
+        $result = "";
+        foreach ($anexosArr as $anexo) {
+            /*
+             * FILTER 4 FRE
+             * FONDOS DE AFECTACIÓN ESPECÍFICOS, no deben tener la opcion de subir los Anexo 6, ni 6.1 ni 6.2.
+             */
+            $chunk_id = (int) $anexo['id'];
+            $limit_chunk_id = (isset($this->session->userdata['fre_session'])) ? 3 : 0;
+
+            if ($chunk_id > $limit_chunk_id)               
+
+                $result.= '<option value="' . $module_url . 'anexo_code/' . $anexo['number'] . '">'.$anexo['title'].'</option>';
+        }
+        return $result;
+    }
+
     function freDB($target = '_self') {
 
         $module_url = base_url() . 'sgr/';
@@ -517,6 +536,24 @@ class Sgr extends MX_Controller {
             $crypt = str_replace("=", "rEpLaCe", base64_encode($anexo['id']));
 
             $result .= '<li>' . $anexo['title'] . ' <a target="' . $target . '" href=  "' . $module_url . 'fre_code/' . $crypt . '"> [SELECCIONAR]</a></li>';
+        }
+
+        return $result;
+    }
+
+    function freDB_options($target = '_self') {
+
+        $module_url = base_url() . 'sgr/';
+        $anexosArr = $this->sgr_model->get_fre($this->idu);
+
+        $result = null;
+        foreach ($anexosArr as $anexo) {
+
+            $crypt = str_replace("=", "rEpLaCe", base64_encode($anexo['id']));
+
+            $result .= '<li>' . $anexo['title'] . ' <a target="' . $target . '" href=  "' . $module_url . 'fre_code/' . $crypt . '"> [SELECCIONAR]</a></li>';
+            
+                $result.= '<option value="' . $module_url . 'fre_code/' . $crypt . '">'.$anexo['title'].'</option>';
         }
 
         return $result;
