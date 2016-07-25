@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 /*ANEXOS*/
 $('#anexo').click(function() {
    var loc = $('#select_anexos option:selected').val();
-    window.open(loc, '_blank');
+    window.open(loc, '_self');
     return false;
 });
 
