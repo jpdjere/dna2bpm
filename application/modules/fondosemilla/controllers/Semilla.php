@@ -65,11 +65,7 @@ class semilla extends MX_Controller {
     
     function Coordinador($debug=false) {
         $this->user->authorize();
-<<<<<<< HEAD
-        $grupo_user = 'Fondo Semilla /Jurado-Coordinador';
-=======
         $grupo_user = 'FondoSemilla /Jurado-Coordinador';
->>>>>>> hotfix/Hotfix-28223
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
