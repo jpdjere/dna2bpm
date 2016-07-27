@@ -1576,8 +1576,8 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     $kpi = $this->Kpi_model->get($kpi_id);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    foreach ($cases as $case){
-        var_dump($case);
+    for ($i =0; $i >= count($cases); $i++){
+        var_dump($cases);
     }
     exit;
     

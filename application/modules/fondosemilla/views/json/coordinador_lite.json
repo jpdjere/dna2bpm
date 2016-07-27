@@ -13,7 +13,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 12,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-blue-custom"]
             },
             {
                 "title": "En Ronda 1",
