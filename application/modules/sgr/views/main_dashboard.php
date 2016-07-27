@@ -103,6 +103,9 @@
                 <div class="box-body" class="small-box">
                     <div style="margin-left:20%">
                         <form method="post" class="form-extra" id="select_anexos">
+                            <div class="icon">
+                              <i class="fa fa-file-excel-o"></i>
+                            </div> 
                             <div class="col-lg-9 input-group input-group-sm">          
                                 <select class="form-control">
                                     {anexo_list}
@@ -110,10 +113,7 @@
                                 <span class="input-group-btn">
                                 <button class="btn btn-sm btn-default btn-flat pull-right" id="anexo" type="submit">Acceder</button>
                                 </span>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-file-excel-o"></i>
-                            </div> 
+                            </div>                            
                         </form>
                     </div>   
                 </div>        
@@ -132,6 +132,9 @@
                 <div class="box-body" class="small-box">
                     <div style="margin-left:20%">
                         <form method="post" class="form-extra" id="select_reports">
+                            <div class="icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div> 
                             <div class="col-lg-9 input-group input-group-sm">          
                                 <select class="form-control">
                                     <option value="{module_url}reports/anexo_code/06">Anexo 06 </option>
@@ -152,9 +155,7 @@
                                 <button class="btn btn-sm btn-default btn-flat pull-right" id="report" type="submit">Consultar</button>
                                 </span>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-file-text-o"></i>
-                            </div> 
+                            
                         </form>
                     </div>   
                 </div> 
