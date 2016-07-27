@@ -21,7 +21,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_ZK", "tile-blue"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_ZK", "tile-blue-custom"]
             },
             {
                 "title": "En Ronda 2",
@@ -29,7 +29,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_ZW", "tile-blue"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_ZW", "tile-blue-custom"]
             },
             {
                 "title": "Selección de Incubadora",
@@ -37,7 +37,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_RE", "tile-blue"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_RE", "tile-blue-custom"]
             },             
             {
                 "title": "Carga Plan de Negocios",
@@ -45,7 +45,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_JX", "tile-blue"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_JX", "tile-blue-custom"]
             },
             {
                 "title": "Verifica Plan de Negocios",
@@ -53,7 +53,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue-custom"]
             },
             {
                 "title": "Verifica Plan de Negocios",
@@ -61,7 +61,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_NE", "tile-blue"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_NE", "tile-blue-custom"]
             }
             
             ]
