@@ -1573,14 +1573,15 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
     
-    $kpi = $this->Kpi_model->get($kpi_id);
+    $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    for ($i =0; $i <= count($cases); $i++){
-        var_dump($cases);
+    for ($i =0; $i < count($cases); $i++){
+        $data[$i] = $this->bpm->load_case_data($cases[$i]);
     }
+
+    var_dump($data);
     exit;
-    
 
     $renderData['data']= $idkpi;
     $template='fondosemilla/exportar_xls';     
