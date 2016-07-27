@@ -17,8 +17,10 @@ class semilla extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('bpm/Kpi_model');        
         $this->load->model('menu/menu_model');
         $this->load->model('bpm/bpm');
+        $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
         $this->base_url = base_url();
@@ -1561,6 +1563,21 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         //echo($url);
         //exit();
         //redirect($this->base_url ."/fondosemilla/semilla");
+    }
+    
+    function get_cases_by_kpi($kpi){
+        //obtiene los casos con el kpi
+        return $this->kpi->Get_cases($kpi);
+    }
+
+    function exportar_xls ($kpi_id){
+        
+        $kpi = $this->Kpi_model->get($kpi_id);
+        $cases = $this->get_cases_by_kpi($kpi);
+        
+        var_dump($cases);
+
+        echo $this->parser->parse('exportar_xls', $data, true, true);
     }
 
 }
