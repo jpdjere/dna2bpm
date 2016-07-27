@@ -16,13 +16,11 @@
                 "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
             },
             {
-<<<<<<< HEAD
-=======
                 "title": "En Ronda 1",
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "span": 6,
+                "span": 4,
                 "params": ["fondo_semilla2016", "fondo_semilla2016_ZK", "tile-blue"]
             },
             {
@@ -30,11 +28,18 @@
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "span": 6,
+                "span": 4,
                 "params": ["fondo_semilla2016", "fondo_semilla2016_ZW", "tile-blue"]
-            },              
+            },
             {
->>>>>>> hotfix/Hotfix-28223
+                "title": "Selección de Incubadora",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 4,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_RE", "tile-blue"]
+            },             
+            {
                 "title": "Carga Plan de Negocios",
                 "module": "bpm",
                 "controller": "kpi",
