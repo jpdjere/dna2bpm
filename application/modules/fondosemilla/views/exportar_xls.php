@@ -8,4 +8,15 @@
     header("Content-type: text/html; charset=utf-8" ); 
  ?>
  
- {data}
+ <table>
+	<thead>
+		<tr>
+			<th>KPI</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>ID DE KPI</td>
+		</tr>
+	</tbody>
+</table>
