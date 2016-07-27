@@ -1577,6 +1577,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $data = $kpi_id;
         
         var_dump($cases);
+        exit;
 
         echo $this->parser->parse('exportar_xls', $data, true, true);
     }
