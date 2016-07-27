@@ -1,5 +1,4 @@
 <?php   
-
    /// Exporta el archivo a Excell - En {filename} va armada la tabla a exportar.
     header("Content-Description: File Transfer");
     header("Content-type: application/x-msexcel" ); 

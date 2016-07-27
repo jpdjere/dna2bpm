@@ -1574,6 +1574,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         
         $kpi = $this->Kpi_model->get($kpi_id);
         $cases = $this->get_cases_by_kpi($kpi);
+        $data = $kpi_id;
         
         var_dump($cases);
 
