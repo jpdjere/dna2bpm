@@ -37,7 +37,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna D - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe validar que el Tipo de Garantía informado se corresponda con el menú habilitado en la fecha en que se está informando, de acuerdo a los Códigos indicados para cada fecha en el Archivo adjunto "Tipos de Garantía". ';
                 break;
             case "E.1":
-                $result_error = '<strong>Columna E - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El monto ingresado debe contener dos decimales. Ej: 1000,00';
+                $result_error = '<strong>Columna E - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El monto ingresado debe contener números enteros o hasta dos decimales. Solo puede tomar valores positivos (mayores a cero).';
                 break;
             case "F.1":
                 $result_error = '<strong>Columna F - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe contener uno de los siguientes parámetros: "Pesos Argentinos" o "Dolares Americanos".';
@@ -88,7 +88,7 @@ class Lib_12_error_legend {
                 $result_error = '<strong>Columna K - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>El CUIT del acreedor informado no se corresponde con el Tipo de Garantía Informado';
                 break;
             case "L.1":
-                $result_error = '<strong>Columna L - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener formato numérico. Acepta hasta dos decimales. No puede tomar valores negativos.';
+                $result_error = '<strong>Columna L - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe tener formato numérico. El monto ingresado debe contener números enteros o hasta dos decimales. Solo puede tomar valores positivos (mayores a cero).';
                 break;
             case "M.1":
                 $result_error = '<strong>Columna M - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe contener uno de los siguientes parámetros: "Pesos Argentinos" o "Dolares Americanos".';
