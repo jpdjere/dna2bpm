@@ -1583,6 +1583,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     }
 
     foreach ($data as $key => $case){
+        
+        var_dump($case['Personas_9915']);
+        exit;
+        
         $renderData[$key]['nombre'] = $case['Personas_9915']['1783'];
         $renderData[$key]['apellido'] = $case['Personas_9915']['1784'];
         $renderData[$key]['dni'] = $case['Personas_9915']['1795'];        
