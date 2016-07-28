@@ -1583,21 +1583,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     }
 
     foreach ($data as $key => $case){
-        
-        var_dump($case, $case['data']['Personas_9915']);
-        exit;
-        
-        $renderData[$key]['nombre'] = $case['Personas_9915']['1783'];
-        $renderData[$key]['apellido'] = $case['Personas_9915']['1784'];
-        $renderData[$key]['dni'] = $case['Personas_9915']['1795'];        
-        $renderData[$key]['email'] = $case['Personas_9915']['1709'];
+        $renderData['data']['id'] = $case['id'];
+        $renderData['data']['fecha'] = $case['checkdate'];
     }
-    
-    var_dump($renderData);
-    exit;
-    
-    
-    $renderData['data']= $idkpi;
+
     $template='fondosemilla/exportar_xls';     
 
     switch($mode){
