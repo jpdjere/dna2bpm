@@ -366,7 +366,7 @@ class Tools extends MX_Controller {
             $arr = array("03-2016","02-2016");            
             #if (in_array($each['period'], $arr) && $each['sgr_id'] == 1462524917) {
             
-            if (($yperiod == "2015") && $each['sgr_id'] == 1462524917) {
+            if (($yperiod == "2016") && $each['sgr_id'] == 1462524917) {
                 $period = $each['period'];
                 $sgr_id = $each['sgr_id'];
 
