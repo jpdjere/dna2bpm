@@ -1595,7 +1595,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     header("Content-Description: File Transfer");
     header("Content-type: application/x-msexcel");
     header("Content-Type: application/force-download");
-    header("Content-Disposition: attachment; filename=".__FUNCTION__ .".xls");
+    header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
     header("Content-Description: PHP Generated XLS Data");
     $this->parser->parse($template, $renderData);
         break;    
