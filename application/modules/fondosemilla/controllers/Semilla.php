@@ -1570,17 +1570,40 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->kpi->Get_cases($kpi);
     }
 
+    function get_bpm_data($cases, $kpi){
+        //$obtiene la data del bpm de $cases
+        $i=1;
+        foreach($cases as $case){
+            $idcase = $case ['case'];
+			$bpm_case = $this->bpm->get_case ( $idcase, $kpi ['idwf'] );
+			$bpm_case ['data'] = $this->bpm->load_case_data ($bpm_case);
+			// ---Ensures $case['data'] exists
+			$bpm_case ['data'] = (isset ( $bpm_case ['data'] )) ? $bpm_case ['data'] : array ();
+			$token = $this->bpm->get_token ( $kpi ['idwf'], $idcase, $kpi ['resourceId'] );
+			// ---Flatten data a bit so it can be parsed
+			$new_data [] = array_merge ( array (
+		        'contador'=>$i,
+				'token' => $token ['_id'],
+				'resrourceId' => $kpi ['resourceId'],
+				'status'=>$bpm_case['status'],
+				'checkdate' => date ( $this->lang->line ( 'dateTimeFmt' ), strtotime ( $bpm_case ['checkdate'] ) ),
+			), $case);
+			$i++;
+        }
+        return $new_data;
+    }    
+    
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
     
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    for ($i =0; $i < count($cases); $i++){
-        $data[$i] = $this->bpm->load_case_data($cases[$i]);
-    }
-
-    var_dump($data);
+    if($cases){
+            $cases = $this->get_bpm_data($cases, $kpi);
+    }        
+            
+    var_dump($cases);
     exit;
 
     $renderData['data']= $idkpi;
@@ -1605,6 +1628,8 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         break;
     }
  }
+    
+
 
 }
 
