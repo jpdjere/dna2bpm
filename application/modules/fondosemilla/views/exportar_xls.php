@@ -1,12 +1,16 @@
 <table>
 	<thead>
 		<tr>
-			<th>KPI</th>
+			<th>ID Caso</th>
+			<th>Fecha</th>
 		</tr>
 	</thead>
 	<tbody>
+		{data}
 		<tr>
-			<td>{data}</td>
+			<td>{id}</td>
+			<td>{fecha}</td>
 		</tr>
+		{/data}
 	</tbody>
 </table>

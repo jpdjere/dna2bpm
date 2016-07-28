@@ -1,0 +1,26 @@
+{
+    "createdBy": "Sebastian Blazquez",
+    "title": "Bonificación de Tasa - Alta Préstamos",
+    "view": "layout",
+    "icon": "fa-qrcode",
+    "js":[
+        {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
+        {"{base_url}bonita/assets/jscript/jquery.validate.js":"Validate JS"},
+        {"{base_url}bonita/assets/jscript/prestamos/alta_prestamos/form.js":"Validate JS"},
+        {"{base_url}bonita/assets/jscript/chosen.jquery.min.js":"Chosen JS"}
+    ],
+    "css":[
+        {"{base_url}bonita/assets/css/chosen.min.css":"Chosen Css"},
+        {"{base_url}bonita/assets/css/alta_prestamos.css":"Alta Prestamos"}
+    ],
+    "zones": [
+        {"widgets":[{
+            "title": "Alta Préstamos",
+            "module": "bonita",
+            "controller": "prestamos",
+            "function": "contenido_alta_prestamos_manual"
+            }]
+        }
+    ]
+}
+    
