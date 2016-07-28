@@ -243,11 +243,10 @@ _EOF_;
  /*DATA 4 EXPERTOS PYME*/
     function expertos_get_afip_data(){
 
-        $cuit=30714571725;
-        #$cuit=$this->input->post('cuit');
-        
+        #$cuit=30714571725;
+        $cuit=$this->input->post('cuit');       
 
-        $transaccion=489290713;
+        #$transaccion=489290713;
         $transaccion=$this->input->post('transaccion');
 
         $data=$this->portal_model->get_afip_data($cuit);
