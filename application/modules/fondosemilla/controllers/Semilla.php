@@ -17,8 +17,10 @@ class semilla extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('bpm/Kpi_model');        
         $this->load->model('menu/menu_model');
         $this->load->model('bpm/bpm');
+        $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
         $this->base_url = base_url();
@@ -1562,6 +1564,47 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         //exit();
         //redirect($this->base_url ."/fondosemilla/semilla");
     }
+    
+    function get_cases_by_kpi($kpi){
+        //obtiene los casos con el kpi
+        return $this->kpi->Get_cases($kpi);
+    }
+
+    function exportar_xls($idkpi, $mode= "xls"){
+    //  $this->load->module('afip');
+    
+    $kpi = $this->Kpi_model->get($idkpi);
+    $cases = $this->get_cases_by_kpi($kpi);
+    
+    for ($i =0; $i < count($cases); $i++){
+        $data[$i] = $this->bpm->load_case_data($cases[$i]);
+    }
+
+    var_dump($data);
+    exit;
+
+    $renderData['data']= $idkpi;
+    $template='fondosemilla/exportar_xls';     
+
+    $renderData['base_url'] = $this->base_url;
+    $renderData['module_url'] = $this->module_url;
+    switch($mode){
+    case 'str':
+     return $this->parser->parse($template,$renderData,true,true);
+        break;
+    case 'xls':
+    header("Content-Description: File Transfer");
+    header("Content-type: application/x-msexcel");
+    header("Content-Type: application/force-download");
+    header("Content-Disposition: attachment; filename=".__FUNCTION__ .".xls");
+    header("Content-Description: PHP Generated XLS Data");
+    $this->parser->parse($template, $renderData);
+        break;    
+    case 'table':
+     $this->parser->parse($template,$renderData);
+        break;
+    }
+ }
 
 }
 
