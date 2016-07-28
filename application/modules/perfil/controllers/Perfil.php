@@ -19,6 +19,7 @@ class Perfil extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('portal_model');
         $this->load->model('bpm/bpm');
+        $this->load->model('app');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -57,15 +58,23 @@ class Perfil extends MX_Controller {
         $data=$this->user->get_user((int) $this->idu);
         $customData['avatar']=$this->user->get_avatar();
         $customData['empresas'] = $this->portal_model->get_empresas(); 
-
+        foreach($customData['empresas'] as &$emp){
+            if(str_replace('-','',$emp['1695'])==$cuit) $emp['selected']='selected="selected"';
+        }
+        $actividades=$this->app->get_ops(750);
+        // $customData['empresas'] = array();
         if(isset($cuit)){
             $afip=$this->get_afip_data($cuit);
-            $customData=array_merge($customData,$afip);
+        if($afip){
+                $afip['actividad_texto']=(isset($afip['actividad']))? @$actividades[$afip['actividad']]:'-----';
+                $customData=array_merge($customData,$afip);
+                
+            }
         }
 
         $customData['base_url']=$this->base_url;
         $customData['cuit']=$cuit;
-        echo $this->parser->parse('profile', $customData, true, true);
+        echo $this->parser->parse('perfil/profile', $customData, true, true);
     }
 
         //=== Estadisticas
@@ -229,6 +238,48 @@ echo <<<_EOF_
 
 _EOF_;
 }
+
+
+ /*DATA 4 EXPERTOS PYME*/
+    function expertos_get_afip_data(){
+
+        #$cuit=30714571725;
+        $cuit=$this->input->post('cuit');       
+
+        #$transaccion=489290713;
+        $transaccion=$this->input->post('transaccion');
+
+        $data=$this->portal_model->get_afip_data($cuit);
+     
+        $rtn = array();
+        $rtn['msg'] = "error cuit";
+        $rtn['cuit'] = $data->cuit;
+        $rtn['razon_social'] = $data->denominacion;
+        $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
+        $rtn['razon_social'] = $data->denominacion;
+        $rtn['empleados'] = $data->cantEmpleados;
+        $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
+        $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
+        if($data->tienePeriodo2014=='S')
+            $rtn['2014'] = $data->periodoFiscal2014['total'];
+        if($data->tienePeriodo2015=='S')
+            $rtn['2015'] = $data->periodoFiscal2015['total'];
+        if($data->tienePeriodo2016=='S')
+            $rtn['2016'] = $data->periodoFiscal2016['total'];
+
+
+        if($transaccion==$data->transaccion){
+            $rtn['msg'] = 'update';
+            /*UPDATE*/
+        } else {
+            $rtn =array();
+            $rtn['msg'] = 'error transaccion';            
+        }
+        
+        /*MSG*/
+        echo json_encode($rtn);
+     }
+
 }
 
 /* End of file welcome.php */

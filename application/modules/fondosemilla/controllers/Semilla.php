@@ -17,8 +17,10 @@ class semilla extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('bpm/Kpi_model');        
         $this->load->model('menu/menu_model');
         $this->load->model('bpm/bpm');
+        $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
         $this->base_url = base_url();
@@ -36,28 +38,44 @@ class semilla extends MX_Controller {
     }
 
     function Index() {
-        $grupo_user = 'Fondo Semilla /Emprendedor';
+        $grupo_user = 'FondoSemilla /Emprendedor';
         $this->Add_group($grupo_user);
         $this->Emprendedores();
     }
 
     function Emprendedores($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Emprendedor';
+        $grupo_user = 'FondoSemilla /Emprendedor';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib');        
         $this->Add_group($grupo_user);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/emprendedores_lite.json',$debug, $extraData);
+       // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
         
     }
 
     function Incubadoras($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Incubadora';
+        $grupo_user = 'FondoSemilla /Incubadora';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
-        Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_incubadoras.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/incubadoras_lite.json',$debug, $extraData);
       
         
     }
+    
+    function Coordinador($debug=false) {
+        $this->user->authorize();
+        $grupo_user = 'FondoSemilla /Jurado-Coordinador';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
+        $this->Add_group($grupo_user);
+        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
+        Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
+      
+        
+    }    
     
     function Profesionales($debug=false) {
         $this->user->authorize();
@@ -69,8 +87,6 @@ class semilla extends MX_Controller {
     }
     
     
-    
-
     function Admin($debug=false) {
         $this->user->authorize();
         Modules::run('dashboard/dashboard', 'expertos/json/expertos_admin.json',$debug);
@@ -95,6 +111,7 @@ class semilla extends MX_Controller {
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/fondo_semilla2016';
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-blue', $data);
     }
+    
     function tile_profesional() {
         $data ['number'] = 'Instituciones y Profesionales';
         $data ['title'] = 'Carga';
@@ -1450,7 +1467,144 @@ BLOCK;
         echo $this->ui->callout($config);
 
     }
+    
+    
+function lite(){
 
+    $this->load->model('bpm/bpm');
+     $this->load->model('msg');
+     $this->lang->language;
+
+    $data['base_url'] = $this->base_url;
+    $data['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',
+        );
+     // Inbox
+     $data['inbox_count']=true;
+     $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+     $data['inbox_count_label_class']='success';
+     
+     // Tramites
+     $data['tramites_count']=true;
+     $data['tramites_count_label_class']='success';
+
+
+     // menu
+        $this->load->model('menu/menu_model');
+        $query = array('repoId' => 'tramites');
+        $repo = $this->menu_model->get_repository($query, $check);
+  
+  
+  
+        $tree = Modules::run('menu/explodeExtTree',$repo,'/');
+  
+
+
+    $data['tramites_extra']=(empty($tree[0]->children))?($this->lang->line('no_cases')):($menu); ;
+     
+    // Mis tramites
+     $cases_count = $this->bpm->get_cases_byFilter_count(
+                array(
+            'iduser' => $this->idu,
+            'idwf' => 'fondo_semilla2016',
+            'status' => 'open',
+                ), array(), array('checkdate' => 'desc')
+        );
+     $query = array(
+            'assign' => $this->idu,
+            'idwf' => 'fondo_semilla2016',
+            'status' => 'user'
+        );
+        //var_dump(json_encode($query));exit;
+    $tasks_count = $this->bpm->get_tokens_byFilter_count($query);    
+    $data['mistramites_count']=true;
+    $data['mistramites_count_label_class']='success';
+    $data['mistramites_count_qtty']=$cases_count;
+
+    $data['mistramites_extra']="---- Extra ";
+    
+    // tasks 
+    $data['tareas_count']=true;
+    $data['tareas_count_label_class']='warning';
+    $data['tareas_count_qtty']=$tasks_count;
+     
+
+    $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
+;
+    // Parse    
+     echo $this->parser->parse('lite', $data, true, true);
+}
+
+function asignar_incubadora($idwf, $idcase, $tokenId) {
+        $this->load->library('parser');
+        $this->load->model('user/group');
+        $this->load->model('bpm/bpm');
+        //$this->load->model('bpm/engine');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        $renderData = $this->bpm->load_case_data($case, $idwf);
+        //----tomo evaluador del caso
+        $idu = floatval($renderData['Fondosemillaproyectos']['10034'][0]);
+        
+        
+        //var_dump($idu);
+        //exit();
+        //----token que hay que finalizar 
+        // $src_resourceId = 'oryx_A150EBF2-8F30-4631-B04B-90DBDB019C41';
+        // ---Token de pp asignado
+        //$lane_resourceId = 'oryx_295810F2-8C34-4D03-80F8-7B5C371381B8';
+        
+        $src_resourceId ='oryx_CB180436-5368-43F1-8822-1FDDFA4B5A08';
+        $lane_resourceId='oryx_3DA3B98D-42F2-4661-8496-A21E619173B9';
+        //$this->bpm->assign('model',$idwf,$idcase,$src_resourceId,$lane_resourceId,$idu);
+        //exit();
+        $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu";
+        
+        redirect($url);
+        //$url = Modules::run("bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$idu");
+        //echo($url);
+        //exit();
+        //redirect($this->base_url ."/fondosemilla/semilla");
+    }
+    
+    function get_cases_by_kpi($kpi){
+        //obtiene los casos con el kpi
+        return $this->kpi->Get_cases($kpi);
+    }
+
+
+    function exportar_xls($idkpi, $mode= "xls"){
+    //  $this->load->module('afip');
+    $renderData['base_url'] = $this->base_url;
+    $renderData['module_url'] = $this->module_url;    
+    $kpi = $this->Kpi_model->get($idkpi);
+    $cases = $this->get_cases_by_kpi($kpi);
+    
+    foreach ($cases as $key => $case ){
+    $data[$key] = $this->bpm->get_case($case, 'fondo_semilla2016');
+    }
+
+    foreach ($data as $key => $case){
+        $renderData['data'][$key]['id'] = $case['id'];
+        $renderData['data'][$key]['fecha'] = $case['checkdate'];
+    }
+    $template='fondosemilla/exportar_xls';     
+    switch($mode){
+    case 'str':
+     return $this->parser->parse($template,$renderData,true,true);
+        break;
+    case 'xls':
+    header("Content-Description: File Transfer");
+    header("Content-type: application/x-msexcel");
+    header("Content-Type: application/force-download");
+    header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
+    header("Content-Description: PHP Generated XLS Data");
+    $this->parser->parse($template, $renderData);
+        break;    
+    case 'table':
+     $this->parser->parse($template,$renderData);
+        break;
+    }
+ }
+    
 
 
 }

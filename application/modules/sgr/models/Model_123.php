@@ -213,12 +213,17 @@ class Model_123 extends CI_Model {
                     $array_sum[] = $list['DIA' . $i];
             }
 
+
+            /*cantidad de dias*/
+            $period_date = "01-" . $list['period'];
+            $timestamp = strtotime( $period_date );
+            $count_m_dates = date( "t", $timestamp );
+            echo sprintf(  $count_m_dates ); 
+
+
             $average = array_sum($array_sum);
 
-            $count_arr_sum = (count($array_sum) == 0) ? 1 : count($array_sum);
-
-
-            $result_average = $average / $count_arr_sum;
+            $result_average = $average /  $count_m_dates;
             $new_list = array();
             $new_list['col1'] = $list['NRO_ORDEN'];
 

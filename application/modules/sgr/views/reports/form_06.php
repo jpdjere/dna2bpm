@@ -52,14 +52,13 @@
 
 
             
-            <div class="row ">
-                <div class="form-group col-md-12">
-                    <label>Reporte</label> 
+            <!--<div class="row ">
+                <div class="form-group col-md-12">                    
                     <div class="input-group ">
                         <small>{sgr_options_checklist}</small>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!--  Reporte  
             <div class="row ">
                 <div class="form-group col-md-6">

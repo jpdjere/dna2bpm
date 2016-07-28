@@ -18,19 +18,25 @@ class portal_model extends CI_Model {
     function get_empresas(){
         $collection = 'container.empresas';
         $query = array(
-            'owner'=> $this->idu
+            'owner'=> $this->idu,
+            '1695'=> array('$exists'=>true),
+            '1693'=> array('$exists'=>true),
             );
-        $this->db->where($query);    
+        // $this->db->select(array('id','status',1693,1695));
+        $this->db->where($query);
+        $this->db->order_by(array('1693'=>1));
+        
         $rs = $this->db->get($collection);
         return $rs->result_array();
     }
 
     function get_afip_data($cuit){
-            $query = array(
-            'cuit'=> $cuit
+            $this->afip_db->switch_db('afip');
+	    $query = array(
+            'cuit'=> new MongoInt64($cuit)
             );
            $rs=$this->afip_db->where($query)->get('procesos');
-           return $rs->row();
+	   return $rs->row();
     }
 
     //=== Determina rapidamente si un cuit es pyme, basado en P y Q - p->isPyme es temporal si en Q->status !- ready
@@ -50,7 +56,7 @@ class portal_model extends CI_Model {
                     return 1;
                 }else{
                     // Es pyme , tiene vinculadas 
-                    $enQueue=$this->get_queue($query);
+                    #$enQueue=$this->get_queue($query);
 
                     if(empty($enQueue)){
                         // No esta en Q, el estado final es el de P

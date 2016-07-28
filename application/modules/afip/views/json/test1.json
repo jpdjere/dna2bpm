@@ -1,0 +1,81 @@
+{
+  "className": "DJF1272V100",
+  "cuit": 23280336254,
+  "denominacion": "BOSCO7675 DIEGA",
+  "periodoFiscal": 2016,
+  "secuencia": 0,
+  "mesCierre": 12,
+  "periodoAltaIva": 201501,
+  "incorporaVinculada": 0,
+  "solicitaPagoTrimestral": 1,
+  "solicitaAcreditacion": 1,
+  "monotributo": 0,
+  "exentoGanancias": 0,
+  "exentoIva": 1,
+  "domicilioLegal": "LARREA 1 Piso:99 Dpto:8   ",
+  "domicilioLegalCodigoPostal": "1030",
+  "domicilioLegalIdProvincia": 0,
+  "domicilioLegalCalle": "LARREA",
+  "domicilioLegalEstadoDomicilio": 1,
+  "fechaInscripcion": "2013-10-01-15:00:00",
+  "tienePeriodo2015": "S",
+  "tienePeriodo2016": "S",
+  "empleado": 1,
+  "periodoFiscal2015": {
+    "className": "PeriodoFiscal2015",
+    "total": 0,
+    "totalManual": 0,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11121,
+        "descripcion": "CULTIVO DE MAÍZ",
+        "monto": 0,
+        "periodoDesde": 201501,
+        "periodoHasta": 201512,
+        "esMineria": false
+      }
+    ]
+  },
+  "periodoFiscal2016": {
+    "className": "PeriodoFiscal2016",
+    "total": 0,
+    "totalManual": 0,
+    "actividades": [
+      {
+        "className": "Actividad",
+        "codActividad": 11121,
+        "descripcion": "CULTIVO DE MAÍZ",
+        "monto": 0,
+        "periodoDesde": 201601,
+        "periodoHasta": 201606,
+        "esMineria": false
+      }
+    ]
+  },
+  "datosVentasAnuales": [
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 1
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 2
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 3,
+      "descripcion": "Año 2015"
+    },
+    {
+      "className": "DatoVentaAnual",
+      "itemDescripcion": 4,
+      "descripcion": "Año 2016"
+    },
+    {
+      "className": "DatoVentaAnual"
+    }
+  ],
+  "totalesIvaStatus": 1,
+  "transaccion": 6672542
+}

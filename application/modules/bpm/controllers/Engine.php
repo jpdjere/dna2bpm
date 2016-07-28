@@ -57,6 +57,7 @@ class Engine extends MX_Controller {
 
         // ---debug Helpers
         $this->debug ['run_Task'] = null;
+        $this->debug ['run_Subprocess'] = null;
         $this->debug ['run_CollapsedSubprocess'] = null;
         $this->debug ['run_Exclusive_Databased_Gateway'] = null;
         $this->debug ['run_IntermediateEventThrowing'] = null;
@@ -231,7 +232,7 @@ class Engine extends MX_Controller {
             // ----filter specific shape to run
             if ($run_resourceId)
                 $filter ['resourceId'] = $run_resourceId;
-            // var_dump(json_encode($filter));exit;
+            //   var_dump(json_encode($filter));exit;
             /**
              * Start procesing pending tokens
              */
@@ -508,7 +509,7 @@ class Engine extends MX_Controller {
         $renderData['user']=$renderData['Initiator'];
         // ---get token
         $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-
+        $renderData['token']=$token;
         // --get shape
         $shape = $this->bpm->get_shape($token ['resourceId'], $wf);
         // -check if data is loaded

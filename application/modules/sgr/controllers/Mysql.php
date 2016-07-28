@@ -52,7 +52,9 @@ class Mysql extends MX_Controller {
         $this->period = $this->session->userdata['period'];
         
          /* ERROR REPORTING */
-        ini_set("error_reporting", E_ALL);
+        ini_set("error_reporting", 0);
+       
+
         
         /* TIME LIMIT */
         set_time_limit(28800);
@@ -184,6 +186,16 @@ class Mysql extends MX_Controller {
     function Anexo14() {
 
         $anexo = '14';
+        $mysql_model = "mysql_model_" . $anexo;
+        $this->load->Model($mysql_model);
+
+        $result = $this->$mysql_model->active_periods_dna2($anexo, $this->period);
+        debug($result);
+    }
+
+    function Anexo141() {
+        
+        $anexo = '141';
         $mysql_model = "mysql_model_" . $anexo;
         $this->load->Model($mysql_model);
 
