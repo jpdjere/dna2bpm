@@ -1577,7 +1577,12 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    var_dump($cases);
+    foreach ($cases as $case ){
+    var_dump($case);
+    $data[] = $this->bpm->load_case_data($case, 'fondo_semilla2016');
+    }
+
+    var_dump($data);
     exit;
 
     $renderData['data']= $idkpi;
