@@ -216,6 +216,32 @@ echo $this->parser->parse('eficacia', $customData, true, true);
 }
 
 
+    /*DATA 4 EXPERTOS PYME*/
+    function expertos_get_afip_data(){
+
+        $cuit=30714571725;#$this->input->post('cuit');
+        $transaccion=489290713;#$this->input->post('transaccion');
+        $data=$this->portal_model->get_afip_data($cuit);
+     
+        $rtn = array();
+        $rtn['cuit'] = $data->cuit;
+        $rtn['razon_social'] = $data->denominacion;
+        $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
+        $rtn['razon_social'] = $data->denominacion;
+        $rtn['empleados'] = $data->cantEmpleados;
+        $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
+        $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
+        if($data->tienePeriodo2014=='S')
+            $rtn['2014'] = $data->periodoFiscal2014['total'];
+        if($data->tienePeriodo2015=='S')
+            $rtn['2015'] = $data->periodoFiscal2015['total'];
+        if($data->tienePeriodo2016=='S')
+            $rtn['2016'] = $data->periodoFiscal2016['total'];
+
+
+        if($transaccion==$data->transaccion)
+            echo json_encode($rtn);
+     
 
 //=== Inbox
 
