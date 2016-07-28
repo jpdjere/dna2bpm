@@ -1586,13 +1586,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['id'] = $case['id'];
         $renderData['data'][$key]['fecha'] = $case['checkdate'];
     }
-
-    var_dump($renderData, $renderData['data']);
-    exit;
-
-
     $template='fondosemilla/exportar_xls';     
-
     switch($mode){
     case 'str':
      return $this->parser->parse($template,$renderData,true,true);
