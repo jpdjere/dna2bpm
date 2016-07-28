@@ -1578,15 +1578,15 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    foreach ($cases as $case ){
-    $data[] = $this->bpm->get_case($case, 'fondo_semilla2016');
+    foreach ($cases as $key => $case ){
+    $data[$key] = $this->bpm->get_case($case, 'fondo_semilla2016');
     }
 
-    foreach ($data as $case){
-        $renderData[]['nombre'] = $case['Personas_9915']['1783'];
-        $renderData[]['apellido'] = $case['Personas_9915']['1784'];
-        $renderData[]['dni'] = $case['Personas_9915']['1795'];        
-        $renderData[]['email'] = $case['Personas_9915']['1709'];
+    foreach ($data as $key => $case){
+        $renderData[$key]['nombre'] = $case['Personas_9915']['1783'];
+        $renderData[$key]['apellido'] = $case['Personas_9915']['1784'];
+        $renderData[$key]['dni'] = $case['Personas_9915']['1795'];        
+        $renderData[$key]['email'] = $case['Personas_9915']['1709'];
     }
     
     var_dump($renderData);
