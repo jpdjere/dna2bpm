@@ -1579,7 +1579,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     
     foreach ($cases as $case ){
     var_dump($case);
-    $data[] = $this->bpm->load_case_data($case, 'fondo_semilla2016');
+    $data[] = $this->bpm->get_case($case, 'fondo_semilla2016');
     }
 
     var_dump($data);
