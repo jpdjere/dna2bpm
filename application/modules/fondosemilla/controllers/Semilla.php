@@ -1573,23 +1573,29 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
 
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
-    
+    //$renderData['base_url'] = $this->base_url;
+  //  $renderData['module_url'] = $this->module_url;    
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
     foreach ($cases as $case ){
-    var_dump($case);
     $data[] = $this->bpm->get_case($case, 'fondo_semilla2016');
     }
 
-    var_dump($data);
+    foreach ($data as $case){
+        $renderData[]['nombre'] = $case['Personas_9915']['1783'];
+        $renderData[]['apellido'] = $case['Personas_9915']['1784'];
+        $renderData[]['dni'] = $case['Personas_9915']['1795'];        
+        $renderData[]['email'] = $case['Personas_9915']['1709'];
+    }
+    
+    var_dump($renderData);
     exit;
-
+    
+    
     $renderData['data']= $idkpi;
     $template='fondosemilla/exportar_xls';     
 
-    $renderData['base_url'] = $this->base_url;
-    $renderData['module_url'] = $this->module_url;
     switch($mode){
     case 'str':
      return $this->parser->parse($template,$renderData,true,true);
