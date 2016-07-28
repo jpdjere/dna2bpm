@@ -1584,7 +1584,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
 
     foreach ($data as $key => $case){
         
-        var_dump($case['Personas_9915']);
+        var_dump($case, $case['Personas_9915']);
         exit;
         
         $renderData[$key]['nombre'] = $case['Personas_9915']['1783'];
