@@ -17,8 +17,10 @@ class semilla extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('bpm/Kpi_model');        
         $this->load->model('menu/menu_model');
         $this->load->model('bpm/bpm');
+        $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
         $this->base_url = base_url();
@@ -53,7 +55,7 @@ class semilla extends MX_Controller {
 
     function Incubadoras($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Incubadora';
+        $grupo_user = 'FondoSemilla /Incubadora';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
@@ -65,7 +67,7 @@ class semilla extends MX_Controller {
     
     function Coordinador($debug=false) {
         $this->user->authorize();
-        $grupo_user = 'Fondo Semilla /Jurado-Coordinador';
+        $grupo_user = 'FondoSemilla /Jurado-Coordinador';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
@@ -1562,6 +1564,48 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         //exit();
         //redirect($this->base_url ."/fondosemilla/semilla");
     }
+    
+    function get_cases_by_kpi($kpi){
+        //obtiene los casos con el kpi
+        return $this->kpi->Get_cases($kpi);
+    }
+
+
+    function exportar_xls($idkpi, $mode= "xls"){
+    //  $this->load->module('afip');
+    $renderData['base_url'] = $this->base_url;
+    $renderData['module_url'] = $this->module_url;    
+    $kpi = $this->Kpi_model->get($idkpi);
+    $cases = $this->get_cases_by_kpi($kpi);
+    
+    foreach ($cases as $key => $case ){
+    $data[$key] = $this->bpm->get_case($case, 'fondo_semilla2016');
+    }
+
+    foreach ($data as $key => $case){
+        $renderData['data'][$key]['id'] = $case['id'];
+        $renderData['data'][$key]['fecha'] = $case['checkdate'];
+    }
+    $template='fondosemilla/exportar_xls';     
+    switch($mode){
+    case 'str':
+     return $this->parser->parse($template,$renderData,true,true);
+        break;
+    case 'xls':
+    header("Content-Description: File Transfer");
+    header("Content-type: application/x-msexcel");
+    header("Content-Type: application/force-download");
+    header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
+    header("Content-Description: PHP Generated XLS Data");
+    $this->parser->parse($template, $renderData);
+        break;    
+    case 'table':
+     $this->parser->parse($template,$renderData);
+        break;
+    }
+ }
+    
+
 
 }
 

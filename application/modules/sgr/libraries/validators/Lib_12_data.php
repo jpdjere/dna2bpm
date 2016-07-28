@@ -234,7 +234,7 @@ class Lib_12_data extends MX_Controller {
             /* IMPORTE
              * Nro E.1
              * Detail:
-             * Debe ser formato numérico y aceptar hasta dos decimales.
+             * El monto ingresado debe contener números enteros o hasta dos decimales. Solo puede tomar valores positivos (mayores a cero).
              */
             if ($param_col == 5) {
 
@@ -242,7 +242,8 @@ class Lib_12_data extends MX_Controller {
                 if (empty($parameterArr[$i]['fieldValue'])) {
                     $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "empty");
                 } else {
-                    $return = validate_two_decimals($parameterArr[$i]['fieldValue']);
+                    #$return = validate_two_decimals($parameterArr[$i]['fieldValue']);
+                    $return = check_decimal($parameterArr[$i]['fieldValue'], 2, true);
                     if ($return) {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
@@ -481,7 +482,7 @@ class Lib_12_data extends MX_Controller {
             /* IMPORTE_CRED_GARANT
              * Nro L.1
              * Detail: 
-             * Aceptar hasta dos decimales.
+             * Debe tener formato numérico. El monto ingresado debe contener números enteros o hasta dos decimales. Solo puede tomar valores positivos (mayores a cero).
              */
 
             if ($param_col == 12) {

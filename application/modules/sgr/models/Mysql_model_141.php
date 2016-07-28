@@ -37,6 +37,7 @@ class Mysql_model_141 extends CI_Model {
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
         $this->db->where('periodo NOT LIKE', '%2014');
+        #$this->db->where('periodo LIKE', '%2011');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
         
@@ -123,8 +124,6 @@ class Mysql_model_141 extends CI_Model {
     function anexo_data_tmp($anexo, $filename) {
 
 
-
-
         /*$this->db->select(
                 *
         );*/
@@ -132,16 +131,12 @@ class Mysql_model_141 extends CI_Model {
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
 
-
-
         $query = $this->db->get($anexo);
-
-        var_dump($query);
 
         $parameter = array();
         foreach ($query->result() as $row) {
 
-            var_dump($row);
+           
 
             $parameter = array();
 
@@ -159,18 +154,18 @@ class Mysql_model_141 extends CI_Model {
 
             
            /* STRING */
-            $parameter["CUIT_PARTICIPE"] = (string) $row["cuit_participe"];
+            $parameter["CUIT_PARTICIPE"] = (string) $row->cuit_participe;
             /* INTEGERS & FLOAT */
-            $parameter["CANT_GTIAS_VIGENTES"] = (int) $row["garantias_afrontadas"];          
-            $parameter["OTRAS"] = (float) $row["monto_adeudado"];           
-            $parameter["MORA_EN_DIAS"] = (int) $row["mora_en_dias"];
-            $parameter["CLASIFICACION_DEUDOR"] = (int) $row["clasificacion_deudor"];
+            $parameter["CANT_GTIAS_VIGENTES"] = (int) $row->garantias_afrontadas;          
+            $parameter["OTRAS"] = (float) $row->monto_adeudado;           
+            $parameter["MORA_EN_DIAS"] = (int) $row->mora_en_dias;
+            $parameter["CLASIFICACION_DEUDOR"] = (int) $row->clasificacion_deudor;
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
-            var_dump($parameter);
+            #var_dump($parameter);
 
             $this->save_anexo_141_tmp($parameter, $anexo);
         }
@@ -211,8 +206,11 @@ class Mysql_model_141 extends CI_Model {
         $parameter = (array) $parameter;
         $token = $this->idu;
         $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_14';
+        $container = 'container.sgr_anexo_' . $anexo;
         $already_id = $this->already_id($anexo, $parameter['id']);
+
+        #var_dump($parameter);
+
 
         if ($already_id) {
             //echo "duplicado" . $parameter['id'];
@@ -220,12 +218,15 @@ class Mysql_model_141 extends CI_Model {
 
             $id = $this->app->genid_sgr($container);
             $result = $this->app->put_array_sgr($id, $container, $parameter);
+
             if ($result) {
                 $out = array('status' => 'ok');
             } else {
                 $out = array('status' => 'error');
             }
         }
+
+        var_dump($out);
         return $out;
     }
 

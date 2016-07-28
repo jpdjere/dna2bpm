@@ -170,7 +170,6 @@ function certificado($parameter,$type='pdf'){
     $data = (int)$parameter;
     $rtn = $this->consultas_model->cuits_certificados($data);
     $filename = "sepyme_certificado_" . $rtn->cuit."";
-
     if(!$rtn->cuit){
         echo "error la C.U.I.T. " . $parameter . " no fue beneficiada con 'IVA – Cancelación trimestral'";
         exit;
@@ -192,8 +191,8 @@ function certificado($parameter,$type='pdf'){
         $new_list['base_url'] = $this->base_url;
         $new_list['cuit'] = $rtn->cuit;
         $new_list['razon_social'] = $rtn->denominacion;
+        $new_list['tramo'] = $rtn->result['categoria'];
 
-        
         $new_list['fecha_validez'] = $this->fix_fecha_vencimiento($rtn->mesCierre);#$fecha_validez;
         //$new_list['logobar'] = $this->ui->render_logobar();
         foreach ($rtn->result as $key => $value) {
@@ -213,11 +212,11 @@ function certificado($parameter,$type='pdf'){
 
                 $url = $this->base_url.'qr/gen_url/'.$url;
                 $destination_folder = $this->module_url."assets/images/";
-                $this->pdf->set_paper('a4', 'portrait');
-                $this->pdf->parse('pdf', $new_list);
-                $this->pdf->set_base_path($this->base_url.'/afip/assets/css/style.css');       
+                $this->pdf->set_paper('a3', 'portrait');
+                $this->pdf->parse('pdf2', $new_list);
+                $this->pdf->set_base_path($this->base_url);       
                 $this->pdf->render();
-                // var_dump($this->pdf);exit;    
+                //var_dump($this->pdf);exit;    
                     header('Content-type: application/pdf');
                     header('Content-Disposition: inline; filename="' . $filename . '"');
                     header('Content-Transfer-Encoding: binary');
@@ -229,7 +228,7 @@ function certificado($parameter,$type='pdf'){
                 break;
             default:
                 
-                $this->parser->parse('pdf', $new_list);
+                $this->parser->parse('pdf2', $new_list);
                 break;
         }
 
@@ -283,7 +282,7 @@ function browse_vinculadas(){
 }
 
 
-    function Gen_url($url = null, $size = '9', $level = 'H') {
+    function Gen_url($url = null, $size = '4', $level = 'H') {
         if ($url) {
             $url_gen = base64_decode(urldecode($url));
         }

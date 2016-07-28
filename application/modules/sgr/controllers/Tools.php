@@ -362,11 +362,11 @@ class Tools extends MX_Controller {
             list($mperiod, $yperiod) = explode("-", $each['period']);
 
 
-            /*SOLO AVAL RURAL #27910*/
+            /*SOLO GARANTÍA DE VALORES #28268*/
             $arr = array("03-2016","02-2016");            
-            if (in_array($each['period'], $arr) && $each['sgr_id'] == 3826154295) {
+            #if (in_array($each['period'], $arr) && $each['sgr_id'] == 1462524917) {
             
-            #if (($yperiod == "2016") && $each['sgr_id'] == 2478671474) {
+            if (($yperiod == "2015") && $each['sgr_id'] == 1462524917) {
                 $period = $each['period'];
                 $sgr_id = $each['sgr_id'];
 

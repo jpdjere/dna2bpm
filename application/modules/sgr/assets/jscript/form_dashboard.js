@@ -6,10 +6,30 @@
 
 jQuery(document).ready(function($) {
 
+/*ANEXOS*/
+$('#anexo').click(function() {
+   var loc = $('#select_anexos option:selected').val();
+    window.open(loc, '_self');
+    return false;
+});
+
+/*ANEXOS FRE*/
+$('#anexo_fre').click(function() {
+   var loc = $('#select_anexos_fre option:selected').val();
+    window.open(loc, '_self');
+    return false;
+});
+
+/*REPORTE*/
+$('#report').click(function() {
+   var loc = $('#select_reports option:selected').val();
+    window.open(loc, '_blank');
+    return false;
+});
 
 
 
-$("form").validate({
+$("#consult").validate({
   rules: {
    // simple rule, converted to {required:true}
     cuit: "required"    
