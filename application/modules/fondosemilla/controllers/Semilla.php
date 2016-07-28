@@ -1570,24 +1570,23 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->kpi->Get_cases($kpi);
     }
 
+
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
-    
+    $renderData['base_url'] = $this->base_url;
+    $renderData['module_url'] = $this->module_url;    
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    for ($i =0; $i < count($cases); $i++){
-        $data[$i] = $this->bpm->load_case_data($cases[$i]);
+    foreach ($cases as $key => $case ){
+    $data[$key] = $this->bpm->get_case($case, 'fondo_semilla2016');
     }
 
-    var_dump($data);
-    exit;
-
-    $renderData['data']= $idkpi;
+    foreach ($data as $key => $case){
+        $renderData['data'][$key]['id'] = $case['id'];
+        $renderData['data'][$key]['fecha'] = $case['checkdate'];
+    }
     $template='fondosemilla/exportar_xls';     
-
-    $renderData['base_url'] = $this->base_url;
-    $renderData['module_url'] = $this->module_url;
     switch($mode){
     case 'str':
      return $this->parser->parse($template,$renderData,true,true);
@@ -1596,7 +1595,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     header("Content-Description: File Transfer");
     header("Content-type: application/x-msexcel");
     header("Content-Type: application/force-download");
-    header("Content-Disposition: attachment; filename=".__FUNCTION__ .".xls");
+    header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
     header("Content-Description: PHP Generated XLS Data");
     $this->parser->parse($template, $renderData);
         break;    
@@ -1605,6 +1604,8 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         break;
     }
  }
+    
+
 
 }
 
