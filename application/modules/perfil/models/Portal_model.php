@@ -56,7 +56,7 @@ class portal_model extends CI_Model {
                     return 1;
                 }else{
                     // Es pyme , tiene vinculadas 
-                    $enQueue=$this->get_queue($query);
+                    #$enQueue=$this->get_queue($query);
 
                     if(empty($enQueue)){
                         // No esta en Q, el estado final es el de P
