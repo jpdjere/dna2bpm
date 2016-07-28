@@ -81,5 +81,17 @@ class portal_model extends CI_Model {
     } 
 
 
+    /*relacion cuits users update*/
+    function cuit_representadas_update($query, $data){ 
+         
+        $collection = 'users';        
+        $action = array('$addToSet' => array('cuits_relacionados' => $data));
+        $options = array('upsert' => true);
+        $result = $this->mongowrapper->db->$collection->update($query, $action, $options);
+        return $result;
+        
+
+    }
+
 
 }
