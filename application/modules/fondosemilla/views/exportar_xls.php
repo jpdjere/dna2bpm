@@ -10,7 +10,7 @@
 			<th>Localidad</th>
 			<th>Monto Solicitado</th>
 			<th>Email</th>
-			<th>Empresa</th>
+			<th>Empresa/Razón Social</th>
 			<th>CUIT</th>
 			<th>Actividad Principal</th>			
 			
