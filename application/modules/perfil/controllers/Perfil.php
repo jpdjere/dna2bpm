@@ -20,6 +20,7 @@ class Perfil extends MX_Controller {
         $this->load->model('portal_model');
         $this->load->model('bpm/bpm');
         $this->load->model('app');
+        $this->load->library('dashboard/ui');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -29,8 +30,8 @@ class Perfil extends MX_Controller {
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
+        ini_set('display_errors', 0);
+        #error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
     }
@@ -126,9 +127,72 @@ class Perfil extends MX_Controller {
     # ====================================
 
     function Experto() {
+        $data['base_url'] = $this->base_url;
+        $data['title'] = 'Expertos Pyme';
+        $data['logobar'] = $this->ui->render_logobar();
         
+
+        $data_select = NULL;        
+
+        echo $this->parser->parse('form_expertos', $data, true, true);
     }
 
+    /*DATA 4 EXPERTOS PYME*/
+    function expertos_get_afip_data(){
+
+        $this->load->module('afip/api');        
+
+        #$cuit=30710303777;
+        $cuit=$this->input->post('cuit');       
+
+        #$transaccion=489167005;
+        $transaccion=$this->input->post('transaccion');
+
+        $data = $this->api->get_data_by_cuit($cuit);    
+       
+      
+        $rtn = array();               
+
+      
+
+            if(!isset($data->cuit)) {#NO cuit
+                $rtn['msg'] = "error_cuit";                 
+            } else if($transaccion!=$data->transaccion){
+                $rtn['msg'] = 'error_transaccion';     
+            }
+        
+                       
+
+        if($transaccion==$data->transaccion){
+            
+            $rtn['cuit'] = $data->cuit;
+            $rtn['razon_social'] = $data->denominacion;
+            $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
+            $rtn['razon_social'] = $data->denominacion;
+            $rtn['empleados'] = $data->cantEmpleados;
+            $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
+            $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
+            if($data->tienePeriodo2014=='S')
+                $rtn['2014'] = $data->periodoFiscal2014['total'];
+            if($data->tienePeriodo2015=='S')
+                $rtn['2015'] = $data->periodoFiscal2015['total'];
+            if($data->tienePeriodo2016=='S')
+                $rtn['2016'] = $data->periodoFiscal2016['total'];
+       
+            $rtn['msg'] = 'ok';
+
+            /*UPDATE users collection*/
+            $query=array('idu'=>$this->idu);            
+            $data_array_cuit = array($cuit=>new MongoDate(time()));
+            $data = array('cuits_relacionados'=>$data_array_cuit); 
+            $update=$this->portal_model->cuit_representadas_update($query, $data_array_cuit);
+
+            if(isset($update))
+                 $rtn['msg'] = 'success_update';
+        } 
+        /*MSG*/
+        echo json_encode($rtn);
+     }
 
 
     # ====================================
@@ -240,59 +304,7 @@ _EOF_;
 }
 
 
- /*DATA 4 EXPERTOS PYME*/
-    function expertos_get_afip_data(){
-
-        #$cuit=30710303777;
-        $cuit=$this->input->post('cuit');       
-
-        #$transaccion=489167005;
-        $transaccion=$this->input->post('transaccion');
-
-        
-        $rtn = array();               
-
-        $data=$this->portal_model->get_afip_data($cuit);
-
-
-            if(!isset($data->cuit)) {#NO cuit
-                $rtn['msg'] = "error cuit";                 
-            } else if($transaccion!=$data->transaccion){
-                $rtn['msg'] = 'error transaccion';     
-            }
-        
-                       
-
-        if($transaccion==$data->transaccion){
-            
-            $rtn['cuit'] = $data->cuit;
-            $rtn['razon_social'] = $data->denominacion;
-            $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
-            $rtn['razon_social'] = $data->denominacion;
-            $rtn['empleados'] = $data->cantEmpleados;
-            $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
-            $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
-            if($data->tienePeriodo2014=='S')
-                $rtn['2014'] = $data->periodoFiscal2014['total'];
-            if($data->tienePeriodo2015=='S')
-                $rtn['2015'] = $data->periodoFiscal2015['total'];
-            if($data->tienePeriodo2016=='S')
-                $rtn['2016'] = $data->periodoFiscal2016['total'];
-       
-            $rtn['msg'] = 'update';
-
-            /*UPDATE users collection*/
-            $query=array('idu'=>$this->idu);            
-            $data_array_cuit = array($cuit=>new MongoDate(time()));
-            $data = array('cuits_relacionados'=>$data_array_cuit); 
-            $update=$this->portal_model->cuit_representadas_update($query, $data_array_cuit);
-
-            if(isset($update))
-                 $rtn['msg'] = 'update';
-        } 
-        /*MSG*/
-        echo json_encode($rtn);
-     }
+ 
 
 }
 

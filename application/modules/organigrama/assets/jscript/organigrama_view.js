@@ -23,6 +23,7 @@ jQuery(document).ready(function() {
     options.pageFitMode = primitives.common.PageFitMode.None;
     options.hasSelectorCheckbox = primitives.common.Enabled.False;
     options.orientationType = primitives.common.OrientationType.Top;
+    options.childrenPlacementType = primitives.common.ChildrenPlacementType.Horizontal;
     options.defaultTemplateName = "Zoom3";
     options.minimalVisibility= primitives.common.Visibility.Dot;
     options.normalLevelShift = 20;
@@ -31,7 +32,6 @@ jQuery(document).ready(function() {
     options.normalItemsInterval = 20;
     options.dotItemsInterval = 10;
     options.lineItemsInterval = 10;
-    options.leavesPlacementType= primitives.common.ChildrenPlacementType.Matrix;
     options.arrowsDirection = primitives.common.GroupByType.Children;
     options.pageFitMode = primitives.common.PageFitMode.FitToPage;
     // options.pageFitMode= primitives.common.PageFitMode.PrintPreview;
