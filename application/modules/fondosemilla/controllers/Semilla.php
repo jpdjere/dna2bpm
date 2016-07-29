@@ -1578,14 +1578,30 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     
-    foreach ($cases as $key => $case ){
-    $data[$key] = $this->bpm->get_case($case, 'fondo_semilla2016');
-    }
 
-    foreach ($data as $key => $case){
-        $renderData['data'][$key]['id'] = $case['id'];
-        $renderData['data'][$key]['fecha'] = $case['checkdate'];
+    foreach ($cases as $key => $case ){
+    $current = $this->bpm->get_case($case, 'fondo_semilla2016');
+    $data[] = $this->bpm->load_case_data($current, 'fondo_semilla2016');
     }
+    
+    foreach ($data as $key => $case){
+        
+        $renderData['data'][$key]['nombre'] = $case['Personas_9915'][0][1783];        
+        $renderData['data'][$key]['apellido'] = $case['Personas_9915'][0][1784];
+        $renderData['data'][$key]['genero'] = $case['Personas_9915'][0][2319][0];        
+        $renderData['data'][$key]['email'] = $case['Empresas_9893'][0][1703];
+        $renderData['data'][$key]['provincia'] = $case['Personas_9915'][0]['5293'][0];        
+        $renderData['data'][$key]['localidad'] = $case['Personas_9915'][0]['1789'];
+        $renderData['data'][$key]['empresa'] = $case['Empresas_9893'][0]['1693'];        
+        $renderData['data'][$key]['cuit'] = $case['Empresas_9893'][0]['1695'];        
+        $renderData['data'][$key]['monto_solicitado'] = $case['Fondosemillaproyectos']['10176'];        
+        $renderData['data'][$key]['numero'] = $case['Fondosemillaproyectos']['10007'];
+        $renderData['data'][$key]['actividad_principal'] = $case['Fondosemillaproyectos'][9900][0];        
+
+    }
+    
+
+    
     $template='fondosemilla/exportar_xls';     
     switch($mode){
     case 'str':
