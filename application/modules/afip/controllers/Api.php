@@ -319,7 +319,10 @@ class Api extends MX_Controller {
         $this->idu = $this->user->idu;
         
         $data=$this->consultas_model->cuits_certificados($cuit);
-        echo json_encode($data);
+        #echo json_encode($data);
+        
+        return $data;
+
      }    
     
 }
