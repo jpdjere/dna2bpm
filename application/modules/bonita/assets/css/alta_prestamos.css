@@ -1,0 +1,40 @@
+thead>tr>td{
+    min-width:150px;
+}
+
+#contenedor{
+   display: table;
+}
+
+.col-lg-12{
+   display: table;
+}
+
+.content{
+   height:100%;
+   overflow-x:scroll;
+}
+
+.right-side{
+   height:100%;
+}
+
+.wrapper{
+   height:100%;
+}
+
+#form_principal{
+   display: table;
+}
+
+html{
+   height:100%;
+}
+
+body{
+   height:100%;
+}
+
+td{
+   text-align:center;
+}

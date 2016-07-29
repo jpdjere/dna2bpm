@@ -1,0 +1,22 @@
+{
+    "createdBy": "Sebastian Blazquez",
+    "title": "Bonificación de Tasa - ABM Montos",
+    "view": "layout",
+    "icon": "fa-qrcode",
+    "js":[
+        {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"Profile JS"},
+        {"{base_url}bonita/assets/jscript/jquery.validate.js":"Validate JS"},
+        {"{base_url}bonita/assets/jscript/prestamos/abm/crud_montos.js":"Entidades JS"}
+    ],
+    
+    "zones": [
+        {"widgets":[{
+            "title": "ABM Montos",
+            "module": "bonita",
+            "controller": "prestamos",
+            "function": "contenido_abm_montos"
+            }]
+        }
+    ]
+}
+    

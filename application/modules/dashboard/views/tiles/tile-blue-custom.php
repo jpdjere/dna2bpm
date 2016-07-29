@@ -12,9 +12,9 @@
         <i class="ion {icon}"></i>
     </div>
     <a class="small-box-footer {more_info_class}" href="{more_info_link}">
-        Listar{more_info_text} <i class="fa fa-arrow-circle-right"></i>
+        {more_info_text} <i class="fa fa-arrow-circle-right"></i>
     </a>
-    <a class="small-box-footer" href="{base_url}fondosemilla/semilla/exportar_xls/{idkpi}" target="_blank" >
-        Exportar a XLS <i class="fa fa-download"></i>
+    <a class="small-box-footer" href="{base_url}fondosemilla/semilla/exportar_xls/{idkpi}" target="_blank">
+        Exportar a XLS <i class="fa fa-arrow-circle-right"></i>
     </a>    
 </div>

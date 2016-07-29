@@ -85,6 +85,70 @@ class Login extends MX_Controller {
         //$this->ui->makeui('user/ext.ui.php', $cpData);
         //$this->parser->parse('user/login', $cpData);
         $this->ui->compose('user/login.bootstrap2.php', 'user/bootstrap3.ui.php', $cpData);
+
+    }
+
+    function Login2() {
+        // if user is logged in then send it to default controller
+        $msg = $this->session->userdata('msg');
+        if($this->session->userdata('loggedin') && !$msg)
+            redirect(base_url() . $this->config->item('default_controller'));
+        //----LOAD LANGUAGE
+        $this->lang->load('login', $this->config->item('language'));
+        //---add language data
+        $cpData['lang'] = $this->lang->language;
+
+        $cpData['title'] = 'LogIn Form';
+        $cpData['authUrl'] = base_url() . 'user/authenticate';
+        $cpData['base_url'] = $this->base_url;
+        $cpData['module_url'] = $this->module_url;
+        $cpData['theme'] = $this->config->item('theme');
+        $cpData['plugins'] = (class_exists('Userlayer')) ? implode(',', $this->config->item('user_plugin')) : array();
+        //----NO USER
+
+        if ($msg == 'nouser') {
+            $cpData['msgcode'] = $this->lang->line('nousr');
+        }
+        //----USER DOESN'T HAS PROPPER LEVELS
+
+        if ($msg == 'nolevel') {
+            $cpData['msgcode'] = $this->lang->line('nolevel') . "<br>" . $this->session->userdata('redir');
+        }
+
+        //----USER has to be logged first
+        if ($msg == 'hastolog') {
+            $cpData['msgcode'] = $this->lang->line('hastolog') . "<br>" . $this->session->userdata('redir');
+        }
+
+        $this->session->set_userdata('msg', $msg);
+        //---build UI
+        //---define files to viewport
+        $cpData['css'] = array(
+            $this->module_url . "assets/css/login.css" => 'Login Specific',
+        );
+        $cpData['js'] = array(
+                //$this->module_url . "assets/jscript/login.js" => 'Login',
+        );
+        //---
+        $cpData['global_js'] = array(
+            'base_url' => $this->base_url,
+            'module_url' => $this->module_url,
+            'show_warn' => $this->config->item('show_warn'),
+            'msg' => $msg,
+            'msgcode' => (isset($cpData['msgcode'])) ? $cpData['msgcode'] : '',
+            'authUrl' => $this->base_url . 'user/authenticate'
+        );
+        $cpData['show_warn'] = ($this->config->item('show_warn') and $msg <> '');
+        //----clear data
+        $this->session->unset_userdata('msg');
+        //$this->ui->makeui('user/ext.ui.php', $cpData);
+        //$this->parser->parse('user/login', $cpData);
+       // $this->ui->compose('user/login.bootstrap2.php', 'user/bootstrap3.ui.php', $cpData);
+         //$this->ui->compose('user/sepyme/login.php', 'user/bootstrap3.ui.php', $cpData);
+
+        $cpData['menu_programas']=$this->parser->parse('user/portal/menu_programas', $cpData,true);
+
+        $this->parser->parse('user/login', $cpData);
     }
 
 }

@@ -15,9 +15,12 @@ class bonita extends MX_Controller {
 
     function __construct() {
         parent::__construct();
+        // $this->load->model('user/user');
+        // $this->load->model('user/group');
+         $this->user->authorize('modules/bonita');
         $this->load->model('user/user');
         $this->load->model('user/group');
-        $this->user->authorize('modules/bonita');
+        $this->load->model('user/rbac');
         $this->load->library('parser');
         $this->base_url = base_url();
         $this->module_url = base_url() . 'bonita/';
@@ -28,9 +31,9 @@ class bonita extends MX_Controller {
      * Muestra un link a los Reportes y las Licitaciones
      */
     function Index(){
-        $this->user->authorize();
-        $this->load->module('dashboard');
-        $this->dashboard->dashboard('bonita/json/menu/bonita.json');
+        // $this->user->authorize();
+        // $this->load->module('dashboard');
+        // $this->dashboard->dashboard('bonita/json/menu/bonita.json');
     }
     
     /**
@@ -41,7 +44,7 @@ class bonita extends MX_Controller {
         $customData['tabla'] =
         '<tr><a href="'.$this->module_url.'menu_reportes/">Menu Reportes</a></tr></br>'.
         '<tr><a href="'.$this->module_url.'menu_licitaciones/">Menu Licitaciones</a></tr></br>'.
-        '<tr><a href="'.$this->module_url.'menu_resoluciones/">Menu Resoluciones</a></tr></br>';
+        '<tr><a href="'.$this->module_url.'menu_prestamos/">Menu Préstamos</a></tr></br>';
         return $this->parser->parse('bonita/views/menu/menu',$customData,true,true);    
     }
 
@@ -62,15 +65,30 @@ class bonita extends MX_Controller {
      * View de las Licitaciones
      */
     function bonita_licitaciones_list() {
-        $customData['title'] = 'Licitaciones';
+        $customData['title'] = 'Préstamos';
         $customData['tabla'] =
-        '<tr><a href="'.$this->module_url.'licitaciones/abm_entidades/" target="_blank">ABM Entidades</a></tr></br>'.
-        '<tr><a href="'.$this->module_url.'licitaciones/abm_licitaciones/" target="_blank">ABM Licitaciones</a></tr></br>'.
-        '<tr><a href="'.$this->module_url.'licitaciones/menu_cargar_montos/" target="_blank">Cargar Montos</a></tr></br>'.
-        '<tr><a href="'.$this->module_url.'licitaciones/menu_reportes/" target="_blank">Reportes Licitaciones Cerradas</a></tr></br>';
+        '<tr><a href="'.$this->module_url.'prestamos/abm_entidades/" target="_blank">ABM Entidades</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/abm_licitaciones/" target="_blank">ABM Licitaciones</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/menu_cargar_montos/" target="_blank">Cargar Montos</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/menu_reportes/" target="_blank">Reportes Licitaciones Cerradas</a></tr></br>';
         return $this->parser->parse('bonita/views/menu/menu',$customData,true,true);    
     }
-
+    
+    /**
+     * View de los Prestamos
+     */
+    function bonita_prestamos_list() {
+        $customData['title'] = 'Licitaciones';
+        $customData['tabla'] =
+        '<tr><a href="'.$this->module_url.'prestamos/AbmEntidades/" target="_blank">ABM Entidades</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/AbmDestinos/" target="_blank">ABM Destinos</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/AbmResoluciones/" target="_blank">ABM Resoluciones</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/AbmMontos/" target="_blank">ABM de Montos por Resoluciones</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/AltaPrestamosManual/" target="_blank">Alta de Préstamos Manual</a></tr></br>'.
+        '<tr><a href="'.$this->module_url.'prestamos/AltaPrestamosImport/" target="_blank">Alta de Préstamos con Excel</a></tr></br>';
+        return $this->parser->parse('bonita/views/menu/menu',$customData,true,true);    
+    }
+    
     /**
      * Muestra el Menu Reportes
      */
@@ -87,6 +105,15 @@ class bonita extends MX_Controller {
         $this->user->authorize();
         $this->load->module('dashboard');
         $this->dashboard->dashboard('bonita/json/menu/licitaciones.json');
+    }
+    
+    /**
+     * Muestra el Menu Prestamos
+     */
+    function menu_prestamos(){
+        $this->user->authorize();
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('bonita/json/menu/prestamos.json');
     }
 }
 

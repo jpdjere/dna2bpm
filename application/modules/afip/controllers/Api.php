@@ -20,6 +20,9 @@ class Api extends MX_Controller {
         $this->load->helper('html');
         $this->load->model('bpm/bpm');
         $this->load->model('consultas_model');
+
+
+
         
         //---base variables
         $this->base_url = base_url();
@@ -307,6 +310,17 @@ class Api extends MX_Controller {
        
        return $data;
     }
+
+
+    /*INFORMACION RELACIONADA AL USER/AFIP*/
+    function get_data_by_cuit($cuit){
+
+        $this->user->authorize();               
+        $this->idu = $this->user->idu;
+        
+        $data=$this->consultas_model->cuits_certificados($cuit);
+        echo json_encode($data);
+     }    
     
 }
 
