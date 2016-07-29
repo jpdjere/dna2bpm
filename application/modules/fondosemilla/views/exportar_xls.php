@@ -1,15 +1,36 @@
 <table>
 	<thead>
 		<tr>
-			<th>ID Caso</th>
-			<th>Fecha</th>
+			<th>Nro de Proyecto</th>			
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>Género</th>
+			<th>Provincia</th>
+			<th>Partido/Departamento</th>
+			<th>Localidad</th>
+			<th>Monto Solicitado</th>
+			<th>Email</th>
+			<th>Empresa</th>
+			<th>CUIT</th>
+			<th>Actividad Principal</th>			
+			
 		</tr>
 	</thead>
 	<tbody>
 		{data}
 		<tr>
-			<td>{id}</td>
-			<td>{fecha}</td>
+			<td>{numero}</td>
+			<td>{nombre}</td>
+			<td>{apellido}</td>
+			<td>{genero}</td>
+			<td>{provincia}</td>
+	        <td>{partido}</td>			
+	        <td>{localidad}</td>
+	        <td>{monto_solicitado}</td>
+			<td>{email}</td>
+			<td>{empresa}</td>
+			<td>{cuit}</td>	
+			<td>{actividad_principal}</td>
 		</tr>
 		{/data}
 	</tbody>
