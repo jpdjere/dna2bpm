@@ -19,6 +19,7 @@ class semilla extends MX_Controller {
         parent::__construct();
         $this->load->model('bpm/Kpi_model');        
         $this->load->model('menu/menu_model');
+        $this->load->model('app');
         $this->load->model('bpm/bpm');
         $this->load->module('bpm/kpi');
         $this->user->isloggedin();
@@ -1577,7 +1578,8 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     $renderData['module_url'] = $this->module_url;    
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
-    
+    $partidos = $this->app->get_ops(58);
+    $actividades = $this->app->get_ops(884);
 
     foreach ($cases as $key => $case ){
     $current = $this->bpm->get_case($case, 'fondo_semilla2016');
@@ -1591,17 +1593,15 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['genero'] = $case['Personas_9915'][0][2319][0];        
         $renderData['data'][$key]['email'] = $case['Empresas_9893'][0][1703];
         $renderData['data'][$key]['provincia'] = $case['Personas_9915'][0]['5293'][0];        
+        $renderData['data'][$key]['partido'] = $partidos[$case['Personas_9915'][0]['1788'][0]];
         $renderData['data'][$key]['localidad'] = $case['Personas_9915'][0]['1789'];
         $renderData['data'][$key]['empresa'] = $case['Empresas_9893'][0]['1693'];        
         $renderData['data'][$key]['cuit'] = $case['Empresas_9893'][0]['1695'];        
         $renderData['data'][$key]['monto_solicitado'] = $case['Fondosemillaproyectos']['10176'];        
         $renderData['data'][$key]['numero'] = $case['Fondosemillaproyectos']['10007'];
-        $renderData['data'][$key]['actividad_principal'] = $case['Fondosemillaproyectos'][9900][0];        
-
+        $renderData['data'][$key]['actividad_principal'] = $actividades[$case['Fondosemillaproyectos'][9900][0]];        
     }
-    
 
-    
     $template='fondosemilla/exportar_xls';     
     switch($mode){
     case 'str':
