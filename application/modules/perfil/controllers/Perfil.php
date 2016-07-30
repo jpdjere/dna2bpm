@@ -148,14 +148,14 @@ class Perfil extends MX_Controller {
     function expertos_get_afip_data(){
 
 
-
         $this->load->module('afip/api');        
 
         #$cuit=30710303777;
         $cuit=$this->input->post('cuit');       
 
-        #$transaccion=489167005;
-        $transaccion=$this->input->post('transaccion');
+        #$transaccion=489167004;
+        $transaccion=(int)$this->input->post('transaccion');
+      #  echo $cuit . "xxxxx" . $transaccion;
 
         $data = $this->api->get_data_by_cuit($cuit);    
        
