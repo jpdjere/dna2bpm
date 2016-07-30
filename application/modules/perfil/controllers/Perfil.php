@@ -134,11 +134,20 @@ class Perfil extends MX_Controller {
 
         $data_select = NULL;        
 
-        echo $this->parser->parse('form_expertos', $data, true, true);
+        echo $this->parser->parse('perfil/form_expertos', $data, true, true);
+    }
+
+    function Asocia_cuit() {
+        $data['base_url'] = $this->base_url;
+        $data['title'] = 'Asocia CUIT';
+       
+        echo $this->parser->parse('perfil/form_asocia_cuit', $data, true, true);
     }
 
     /*DATA 4 EXPERTOS PYME*/
     function expertos_get_afip_data(){
+
+
 
         $this->load->module('afip/api');        
 
