@@ -34,56 +34,49 @@
 
 
   <!-- success_update -->
-  <div id='success_update' style="display:none;margin-top:20px" class='cuit_all'>
+  <div id='success_update' class='cuit_all'>
       <div class="col-md-">
         <!-- VINCULADAS -->
         <div class="box box-success">
             <div class="box-header with-border">
-              <h2 class="box-title"><span id="a_cuit"></span></h2><h3>  <span id="a_rs"></span><p><small>OK</small></h3>
+              <h2 class="box-title">C.U.I.T.:<span id="a_cuit"></span></h2>
 
-                <div class="box-tools pull-right">
-                 <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>-->
-                </div>
             </div>
             <div class="box-body">
-              <div id='a_vinculado'></div>
+              <h3><small>Fue asociada al perfil del usuario como CUIT representada con Exito</small></h3>
             </div>
           </div>          
       </div>
   </div>
 
 <!-- error_transaccion -->
-  <div id='error_transaccion' style="display:none;margin-top:20px" class='cuit_all'>
+  <div id='error_transaccion' class='cuit_all'>
     <div class="col-md-">
       <!-- VINCULADAS -->
-      <div class="box box-alert">
+      <div class="box box-warning">
         <div class="box-header with-border">
-          <h2 class="box-title"><span id="b_cuit"></span></h2><h3>  <span id="b_rs"></span><p><small> El numero de transaccion es invalido</small></h3>
+          <h2 class="box-title">C.U.I.T.:<span id="t_cuit">...</span></h2>
 
-          <div class="box-tools pull-right">
-             <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
-         </div>
+         
       </div>
       <div class="box-body">
-      <div id='b_vinculado'></div> 
+        <h3> <small>El numero de transaccion (<span id="nro_transaccion"></span> ) es invalido.</small></h3> 
       </div>          
       </div>
       </div>
       </div>
 
-<div id='msg_error' style="display:none;margin-top:20px" class='cuit_all'>
+<div id='msg_error' class='cuit_all'>
     <div>
       <!-- VINCULADAS -->
       <div class="box box-danger">
         <div class="box-header with-border">
-          <h2 class="box-title"><span id="e_cuit"></span></h2><h3>  ERROR<p><small> .....</small></h3>
+          <h2 class="box-title"><span id="e_cuit"></span>Error</h2>
 
-          <div class="box-tools pull-right">
-             <!-- <span class="badge bg-yellow" title="" data-toggle="tooltip" data-original-title="Total">3</span>                -->
-         </div>
+          
       </div>
       <div class="box-body">
-      <div id='b_vinculado'></div> 
+        <h3><small> La cuit ingresada no es válida<small> (F.1272 AFIP)</small></h3>
       </div>          
       </div>
       </div>

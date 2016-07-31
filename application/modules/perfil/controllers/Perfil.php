@@ -253,9 +253,6 @@ class Perfil extends MX_Controller {
     }
 
 
-
-
-
 //=== Eficacia
 
 function eficacia(){

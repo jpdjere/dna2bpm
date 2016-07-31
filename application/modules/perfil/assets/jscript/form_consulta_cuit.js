@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
   $("#consult").validate({
     rules: {
      // simple rule, converted to {required:true}
-      cuit: "required"    
+      cuit: "required",   transaccion: "required"  
     },
     
       submitHandler: function(form) {
@@ -36,17 +36,18 @@ jQuery(document).ready(function($) {
               var cuit = null;
               cuit = $("#cuit").val();                            
               $('#loading').hide();  
-              console.log(resp.msg);
+              $("#pepe").html("pepe");
               switch(resp.msg)
               {
                 
                 case 'success_update':                      
-                      $("#a_cuit").html(resp.cuit);                     
+                      $("#a_cuit").html(cuit);                     
                       $('#success_update').show();                                                
                 break;
 
                 case 'error_transaccion':
-                    $("#b_cuit").html(resp.cuit);                    
+                    $("#nro_transaccion").html($("#transaccion").val());   
+                    $("#t_cuit").html(cuit);                    
                     $('#error_transaccion').show();                       
                 break;
 

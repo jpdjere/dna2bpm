@@ -39,6 +39,17 @@ class portal_model extends CI_Model {
 	   return $rs->row();
     }
 
+    function cuits_by_idu_model($idu){
+           
+        $query = array(
+            'idu'=> new MongoInt64($idu)
+            );
+           $rs=$this->db->where($query)->get('users');
+          
+        return $rs->row()->cuits_relacionados;
+          
+    }
+
     //=== Determina rapidamente si un cuit es pyme, basado en P y Q - p->isPyme es temporal si en Q->status !- ready
 
     function is_pyme($cuit){
