@@ -19,7 +19,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["pacc", "pacc3_VJ"],
+                    "params": ["pacc", "pacc3PP_VJ"],
                     "span":3
                 },
                 {
@@ -27,7 +27,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["pacc", "pacc3_CQ"],
+                    "params": ["pacc", "pacc3PP_CQ"],
                     "span":3
                 },
                 {
@@ -35,7 +35,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "params": ["pacc", "pacc3_SD"],
+                    "params": ["pacc", "pacc3PP_SD"],
                     "span":3
                 },
                 {
