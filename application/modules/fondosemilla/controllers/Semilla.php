@@ -71,6 +71,8 @@ class semilla extends MX_Controller {
         $grupo_user = 'FondoSemilla /Jurado-Coordinador';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );
+        $extraData['js'] = array($this->base_url . 'fondosemilla/assets/jscript/coordinador.js' => 'JS COORDINADOR'
+        );        
         $extraData['module_url'] = $this->module_url;         
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
@@ -1618,7 +1620,53 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     }
  }
     
-
+    function reload_reportes_incubadora($incubadora = null){
+        $this->load->module('pacc13/api13');
+        $this->load->module('dashboard');
+        $this->load->library('parser');
+        $template="dashboard/widgets/box_info.php";
+        //$renderData['proyectos']= $this->proyectos_por_incubadora($incubadora, 'array');
+        $template = array (
+              'provincia' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA',
+              'presentados' => '-',
+              'pre_aprobados' => '-',
+              'aprobados' => '-',
+              'rechazados' => '-',
+              'proyectos_desembolsados' => '-',
+              'desembolso' => '-',              
+              'finalizados' => '-',
+              'realizados' => '-'
+              );
+              
+        if (count($renderData['proyectos']) == 0){
+            $renderData['proyectos'][0] = $template;
+        }
+        else
+        {       
+            foreach($renderData['proyectos'] as &$proyecto){
+            $proyecto += $template;       
+            };
+        }
+       echo $this->parser->parse('tabla-incubadoras', $renderData, true, true);
+    }
+    
+    function reportes_incubadora(){
+        $this->load->module('dashboard');
+        $this->load->module('pacc13/api13');
+        $renderData['base_url'] = $this->base_url;
+        $renderData['module_url'] = $this->module_url;
+        $renderData['title'] = 'Consultar Proyectos por Incubadora';
+        $template="dashboard/widgets/box_info.php";
+        $filter="";
+        $renderData['incubadoras']= $this->api13->incubadoras_listado($filter, 'array');
+        foreach ($renderData['incubadoras'] as $key => &$incubadora){
+             $incubadora['id'] = $key; 
+        };
+        $renderData['tabla_estado']= "";
+        $renderData['content']= $this->parser->parse('widget-incubadoras', $renderData, true, true);
+        return $this->dashboard->widget($template, $renderData);
+        
+    }
 
 }
 
