@@ -321,7 +321,7 @@ class Api extends MX_Controller {
         
         $data=$this->consultas_model->cuits_certificados($cuit);
 
-        switch ($mode) {
+        /*switch ($mode) {
             case "object":
                 return (object) $data;
                 break;
@@ -333,7 +333,9 @@ class Api extends MX_Controller {
                 break;
             default:
                 return($data);
-        }
+        }*/
+
+        return $data;
 
      }    
     
