@@ -34,7 +34,7 @@
 
 
   <!-- success_update -->
-  <div id='success_update' class='cuit_all'>
+  <div id='success_update' class='cuit_all' style="display:none;margin-top:20px">
       <div class="col-md-">
         <!-- VINCULADAS -->
         <div class="box box-success">
@@ -50,7 +50,7 @@
   </div>
 
 <!-- error_transaccion -->
-  <div id='error_transaccion' class='cuit_all'>
+  <div id='error_transaccion' class='cuit_all' style="display:none;margin-top:20px">
     <div class="col-md-">
       <!-- VINCULADAS -->
       <div class="box box-warning">
@@ -66,7 +66,7 @@
       </div>
       </div>
 
-<div id='msg_error' class='cuit_all'>
+<div id='msg_error' class='cuit_all' style="display:none;margin-top:20px">
     <div>
       <!-- VINCULADAS -->
       <div class="box box-danger">
