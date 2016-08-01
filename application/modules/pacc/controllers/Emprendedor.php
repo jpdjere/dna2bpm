@@ -37,8 +37,8 @@ class Emprendedor extends MX_Controller {
     }
 
     function tile_solicitud_PACC13() {
-        $data ['number'] = 'Proyecto';
-        $data ['title'] = 'PACC Emprendedor';
+        $data ['number'] = 'Nuevo PN';
+        $data ['title'] = 'PAC Emprendedor';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
         $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/pacc3PP';
