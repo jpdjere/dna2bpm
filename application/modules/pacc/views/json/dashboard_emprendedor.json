@@ -46,6 +46,14 @@
                     "params": ["pacc", "pacc13_PP"],
                     "span":3
                 },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["pacc", "pacc3PPF_BT"],
+                    "span":3
+                },
                 
                 {
                     "title": "Tile01",
