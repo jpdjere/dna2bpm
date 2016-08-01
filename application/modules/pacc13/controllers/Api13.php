@@ -1064,6 +1064,7 @@ class Api13 extends MX_Controller {
 
             if (isset($each['4896'])) {
                 $data[$each['id']]['nombre'] = $each['4896'];
+                $data[$each['id']]['owner'] = $each['owner'];
                 // $data[$each['id']]['id'] = $each['id'];
             }
         }

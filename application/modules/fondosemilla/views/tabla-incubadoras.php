@@ -15,8 +15,8 @@
           <tbody>
                 {proyectos}
                 <tr>
-                <td>{provincia}</td>
-                <td>{presentados}</td>
+                <td>{10007}</td>
+                <td>{9917}</td>
                 <td>{pre_aprobados}</td>
                 <td>{aprobados}</td>
                 <td>{rechazados}</td>

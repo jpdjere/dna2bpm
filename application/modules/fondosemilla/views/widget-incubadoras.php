@@ -10,7 +10,7 @@
             <select class="form-control" id="Inc">
                  <option>...</option>
                   {incubadoras}
-                  <option value="{id}">{nombre}</option>
+                  <option value="{owner}">{nombre}</option>
                   {/incubadoras}
                 </select>
             <div class="spacer10"></div>
