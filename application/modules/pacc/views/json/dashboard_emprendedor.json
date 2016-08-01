@@ -19,9 +19,34 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
+                    "params": ["pacc", "pacc13_VJ"],
+                    "span":3
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["pacc", "pacc13_CQ"],
+                    "span":3
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["pacc", "pacc13_SD"],
+                    "span":3
+                },
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
                     "params": ["pacc", "pacc13_PP"],
                     "span":3
                 },
+                
                 {
                     "title": "Tile01",
                     "module": "bpm",
