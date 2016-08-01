@@ -256,7 +256,6 @@ class Pacc13 extends CI_Model {
         foreach ($rs as $list) {
             unset($list['_id']);
             $rtn[] = $list;
-            
         }
 
         return $rtn;
