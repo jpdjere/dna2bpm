@@ -1051,7 +1051,10 @@ class Api13 extends MX_Controller {
      * }
      */
     function incubadoras_listado($mode = 'json') {
-        $query = array('4899' => 'INCUBA');
+        $query = array(
+                          '9498' => '120',
+                          '9969' => '20'
+        );
         $container = 'container.agencias';
         $get_data = $this->pacc13->get_incubadoras_model($query, $container);
 
