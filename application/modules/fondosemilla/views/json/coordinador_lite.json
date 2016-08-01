@@ -13,7 +13,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 12,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-blue-custom"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
             },
             {
                 "title": "En Ronda 1",
@@ -65,6 +65,16 @@
             }
             
             ]
+        },
+        {
+            "full_widget": [{
+                "title": "Reportes Incubadora",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "reportes_incubadora",
+                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue-custom"]
+            }]
+            
         }
     ],
     
