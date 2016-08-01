@@ -313,15 +313,27 @@ class Api extends MX_Controller {
 
 
     /*INFORMACION RELACIONADA AL USER/AFIP*/
-    function get_data_by_cuit($cuit){
+    function get_data_by_cuit($cuit, $mode = 'json'){
 
-        $this->user->authorize();               
-        $this->idu = $this->user->idu;
+
+        $this->user->authorize();                       
+
         
         $data=$this->consultas_model->cuits_certificados($cuit);
-        #echo json_encode($data);
-        
-        return $data;
+
+        switch ($mode) {
+            case "object":
+                return (object) $data;
+                break;
+            case "array":
+                return($data);
+                break;
+            case "json":
+                output_json($data);
+                break;
+            default:
+                return($data);
+        }
 
      }    
     
