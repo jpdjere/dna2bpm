@@ -21,6 +21,7 @@ class semilla extends MX_Controller {
         $this->load->model('menu/menu_model');
         $this->load->model('app');
         $this->load->model('bpm/bpm');
+        $this->load->model('Fondosemilla_model');
         $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
@@ -1625,10 +1626,13 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $this->load->module('dashboard');
         $this->load->library('parser');
         $template="dashboard/widgets/box_info.php";
-        //$renderData['proyectos']= $this->proyectos_por_incubadora($incubadora, 'array');
+        
+        
+        $renderData['proyectos']= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
+        
         $template = array (
-              'provincia' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA',
-              'presentados' => '-',
+              '10007' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA',
+              '9917' => '-',
               'pre_aprobados' => '-',
               'aprobados' => '-',
               'rechazados' => '-',
@@ -1659,15 +1663,20 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $template="dashboard/widgets/box_info.php";
         $filter="";
         $renderData['incubadoras']= $this->api13->incubadoras_listado($filter, 'array');
-        foreach ($renderData['incubadoras'] as $key => &$incubadora){
-             $incubadora['id'] = $key; 
-        };
         $renderData['tabla_estado']= "";
         $renderData['content']= $this->parser->parse('widget-incubadoras', $renderData, true, true);
         return $this->dashboard->widget($template, $renderData);
+    }
+    
+    function dump($incubadora = '3635201511'){
+        
+        $data= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
+        
+        var_dump($data);
+        exit;
+
         
     }
-
 }
 
 /* End of file crefis */
