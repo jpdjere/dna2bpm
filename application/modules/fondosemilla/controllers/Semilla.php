@@ -17,12 +17,8 @@ class semilla extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('bpm/Kpi_model');        
         $this->load->model('menu/menu_model');
-        $this->load->model('app');
         $this->load->model('bpm/bpm');
-        $this->load->model('Fondosemilla_model');
-        $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
         $this->base_url = base_url();
@@ -69,12 +65,10 @@ class semilla extends MX_Controller {
     
     function Coordinador($debug=false) {
         $this->user->authorize();
+        //$grupo_user = 'Fondo Semilla /Jurado-Coordinador';
         $grupo_user = 'FondoSemilla /Jurado-Coordinador';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
-        );
-        $extraData['js'] = array($this->base_url . 'fondosemilla/assets/jscript/coordinador.js' => 'JS COORDINADOR'
         );        
-        $extraData['module_url'] = $this->module_url;         
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
@@ -1569,114 +1563,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         //exit();
         //redirect($this->base_url ."/fondosemilla/semilla");
     }
-    
-    function get_cases_by_kpi($kpi){
-        //obtiene los casos con el kpi
-        return $this->kpi->Get_cases($kpi);
-    }
 
-
-    function exportar_xls($idkpi, $mode= "xls"){
-    //  $this->load->module('afip');
-    $renderData['base_url'] = $this->base_url;
-    $renderData['module_url'] = $this->module_url;    
-    $kpi = $this->Kpi_model->get($idkpi);
-    $cases = $this->get_cases_by_kpi($kpi);
-    $partidos = $this->app->get_ops(58);
-    $actividades = $this->app->get_ops(884);
-
-    foreach ($cases as $key => $case ){
-        $current = $this->bpm->get_case($case, 'fondo_semilla2016');
-        $data = $this->bpm->load_case_data($current, 'fondo_semilla2016');
-        $renderData['data'][$key]['nombre'] = $data['Personas_9915'][0][1783];        
-        $renderData['data'][$key]['apellido'] = $data['Personas_9915'][0][1784];
-        $renderData['data'][$key]['genero'] = $data['Personas_9915'][0][2319][0];        
-        $renderData['data'][$key]['email'] = $data['Empresas_9893'][0][1703];
-        $renderData['data'][$key]['provincia'] = $data['Personas_9915'][0]['5293'][0];        
-        $renderData['data'][$key]['partido'] = $partidos[$data['Personas_9915'][0]['1788'][0]];
-        $renderData['data'][$key]['localidad'] = $data['Personas_9915'][0]['1789'];
-        $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
-        $renderData['data'][$key]['cuit'] = $data['Empresas_9893'][0]['1695'];        
-        $renderData['data'][$key]['monto_solicitado'] = $data['Fondosemillaproyectos']['10176'];        
-        $renderData['data'][$key]['numero'] = $data['Fondosemillaproyectos']['10007'];
-        $renderData['data'][$key]['actividad_principal'] = $actividades[$data['Fondosemillaproyectos'][9900][0]];        
-    }
-
-    $template='fondosemilla/exportar_xls';     
-    switch($mode){
-    case 'str':
-     return $this->parser->parse($template,$renderData,true,true);
-        break;
-    case 'xls':
-    header("Content-Description: File Transfer");
-    header("Content-type: application/x-msexcel");
-    header("Content-Type: application/force-download");
-    header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
-    header("Content-Description: PHP Generated XLS Data");
-    $this->parser->parse($template, $renderData);
-        break;    
-    case 'table':
-     $this->parser->parse($template,$renderData);
-        break;
-    }
- }
-    
-    function reload_reportes_incubadora($incubadora = null){
-        $this->load->module('pacc13/api13');
-        $this->load->module('dashboard');
-        $this->load->library('parser');
-        $template="dashboard/widgets/box_info.php";
-        
-        
-        $renderData['proyectos']= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
-        
-        $template = array (
-              '10007' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA',
-              '9917' => '-',
-              'pre_aprobados' => '-',
-              'aprobados' => '-',
-              'rechazados' => '-',
-              'proyectos_desembolsados' => '-',
-              'desembolso' => '-',              
-              'finalizados' => '-',
-              'realizados' => '-'
-              );
-              
-        if (count($renderData['proyectos']) == 0){
-            $renderData['proyectos'][0] = $template;
-        }
-        else
-        {       
-            foreach($renderData['proyectos'] as &$proyecto){
-            $proyecto += $template;       
-            };
-        }
-       echo $this->parser->parse('tabla-incubadoras', $renderData, true, true);
-    }
-    
-    function reportes_incubadora(){
-        $this->load->module('dashboard');
-        $this->load->module('pacc13/api13');
-        $renderData['base_url'] = $this->base_url;
-        $renderData['module_url'] = $this->module_url;
-        $renderData['title'] = 'Consultar Proyectos por Incubadora';
-        $template="dashboard/widgets/box_info.php";
-        $filter="";
-        $renderData['incubadoras']= $this->api13->incubadoras_listado($filter, 'array');
-        $renderData['tabla_estado']= "";
-        $renderData['content']= $this->parser->parse('widget-incubadoras', $renderData, true, true);
-        return $this->dashboard->widget($template, $renderData);
-    }
-    
-    function dump($incubadora = '3635201511'){
-        
-        $data= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
-        
-        var_dump($data);
-        exit;
-
-        
-    }
 }
 
 /* End of file crefis */
