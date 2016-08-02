@@ -44,7 +44,7 @@ class Lib_14_data extends MX_Controller {
          * @name ...
          * @author Diego             
          * @example 
-         * FECHA_MOVIMIENTO	NRO_GARANTIA	CAIDA	RECUPERO	INCOBRABLES_PERIODO	GASTOS_EFECTUADOS_PERIODO	RECUPERO_GASTOS_PERIODO	GASTOS_INCOBRABLES_PERIODO
+         * FECHA_MOVIMIENTO NRO_GARANTIA    CAIDA   RECUPERO    INCOBRABLES_PERIODO GASTOS_EFECTUADOS_PERIODO   RECUPERO_GASTOS_PERIODO GASTOS_INCOBRABLES_PERIODO
          * */
         for ($i = 0; $i <= count($parameterArr); $i++) {
 
@@ -216,7 +216,7 @@ class Lib_14_data extends MX_Controller {
                     $insert_tmp = array();
                     $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                     $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                    $insert_tmp['CAIDA'] = $parameterArr[$i]['fieldValue'];
+                    $insert_tmp['CAIDA'] = (float) $parameterArr[$i]['fieldValue'];
                     $insert_tmp['ID'] = $parameterArr[$i]['row'];
 
                     $this->model_14->save_tmp($insert_tmp);
@@ -245,10 +245,10 @@ class Lib_14_data extends MX_Controller {
 
                     /* INSERT */
                     $insert_tmp = array();
-                    $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
+                    $insert_tmp['FECHA_MOVIMIENTO'] = (float)$A_cell_value;
                     $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
-                    $insert_tmp['RECUPERO'] = $parameterArr[$i]['fieldValue'];
+                    $insert_tmp['RECUPERO'] = (float) $parameterArr[$i]['fieldValue'];
                     $insert_tmp['ID'] = $parameterArr[$i]['row'];
 
                     $this->model_14->save_tmp($insert_tmp);
@@ -290,7 +290,7 @@ class Lib_14_data extends MX_Controller {
                     $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                     $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
-                    $insert_tmp['INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                    $insert_tmp['INCOBRABLES_PERIODO'] = (float) $parameterArr[$i]['fieldValue'];
                     $insert_tmp['ID'] = $parameterArr[$i]['row'];
                     $this->model_14->save_tmp($insert_tmp);
                     
@@ -330,7 +330,7 @@ class Lib_14_data extends MX_Controller {
                     $insert_tmp = array();
                     $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                     $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
-                    $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                    $insert_tmp['GASTOS_EFECTUADOS_PERIODO'] = (float) $parameterArr[$i]['fieldValue'];
                     $insert_tmp['ID'] = $parameterArr[$i]['row'];
                     $this->model_14->save_tmp($insert_tmp);
                     
@@ -372,7 +372,7 @@ class Lib_14_data extends MX_Controller {
                     $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                     $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
-                    $insert_tmp['RECUPERO_GASTOS_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                    $insert_tmp['RECUPERO_GASTOS_PERIODO'] = (float) $parameterArr[$i]['fieldValue'];
                     $insert_tmp['ID'] = $parameterArr[$i]['row'];
                     $this->model_14->save_tmp($insert_tmp);
                     
@@ -410,7 +410,7 @@ class Lib_14_data extends MX_Controller {
                     $insert_tmp['FECHA_MOVIMIENTO'] = $A_cell_value;
                     $insert_tmp['NRO_GARANTIA'] = $B_cell_value;
 
-                    $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = $parameterArr[$i]['fieldValue'];
+                    $insert_tmp['GASTOS_INCOBRABLES_PERIODO'] = (float) $parameterArr[$i]['fieldValue'];
                     $insert_tmp['ID'] = $parameterArr[$i]['row'];
                     $this->model_14->save_tmp($insert_tmp);
                     
@@ -454,6 +454,9 @@ class Lib_14_data extends MX_Controller {
             /* MOVEMENT DATA */
             $get_historic_data = $this->model_14->get_movement_data($filter);
             $get_temp_data = $this->model_14->get_tmp_movement_data($filter);
+
+
+            
 
 
             $sum_CAIDA = array_sum(array($get_historic_data['CAIDA'], $get_temp_data['CAIDA']));
@@ -538,7 +541,7 @@ class Lib_14_data extends MX_Controller {
              * Si se está informando un INCOBRABLE (Columna E del importador), debe validar que el número de garantía registre 
              * previamente en el sistema (o en el mismo archivo que se está importando) una caída. 
              */
-            if ((int) $get_temp_data['INCOBRABLES_PERIODO'] > 0) {
+            if ( $get_temp_data['INCOBRABLES_PERIODO'] > 0) {
                 if ($sum_CAIDA == 0) {
                     $code_error = "B.3";
                     $result[] = return_error_array($code_error, $filter['row'], $get_temp_data['INCOBRABLES_PERIODO']);
@@ -550,7 +553,7 @@ class Lib_14_data extends MX_Controller {
              * Si se está informando un GASTOS POR GESTIÓN DE RECUPERO (Columna F), 
              * debe validar que el número de garantía registre previamente en el sistema (o en el mismo archivo que se está importando) una caída.
              */
-            if ((int) $get_temp_data['GASTOS_EFECTUADOS_PERIODO'] > 0) {
+            if ( $get_temp_data['GASTOS_EFECTUADOS_PERIODO'] > 0) {
                 if ($sum_CAIDA == 0) {
                     $code_error = "B.4";
                     $result[] = return_error_array($code_error, $filter['row'], $get_temp_data['GASTOS_EFECTUADOS_PERIODO']);
@@ -565,7 +568,7 @@ class Lib_14_data extends MX_Controller {
              */
 
 
-            if ((int) $get_temp_data['RECUPERO_GASTOS_PERIODO'] != 0) {
+            if ($get_temp_data['RECUPERO_GASTOS_PERIODO'] != 0) {
 
                 if ($sum_RECUPERO_GASTOS_PERIODO == 0) {
                     $code_error = "B.5";
@@ -573,8 +576,9 @@ class Lib_14_data extends MX_Controller {
                 }
 
                 /* G.3 */
+                $g3_query =  bccomp($sum_GASTOS, $sum_GASTOS_EFECTUADOS_PERIODO);
 
-                if ($sum_GASTOS > $sum_GASTOS_EFECTUADOS_PERIODO) {
+                if ($g3_query > 0) {
                     $code_error = "G.3";
                     $result[] = return_error_array($code_error, $filter['row'], "( Nro de Orden " . $filter['warranty'] . "(" . $filter['date'] . ") Gastos Efectuados: " . $sum_GASTOS_EFECTUADOS_PERIODO . " ) " . $get_historic_data['RECUPERO_GASTOS_PERIODO'] . "/" . $get_temp_data['RECUPERO_GASTOS_PERIODO'] . "+" . $get_historic_data['GASTOS_INCOBRABLES_PERIODO'] . "/" . $get_temp_data['GASTOS_INCOBRABLES_PERIODO']);
                 }
@@ -616,10 +620,10 @@ class Lib_14_data extends MX_Controller {
             }
         }
 
-        /*
-          debug($result);
-          exit();
-         */
+        
+          /*debug($result);
+          exit();*/
+        
 
         $this->data = $result;
     }

@@ -1668,6 +1668,15 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->dashboard->widget($template, $renderData);
     }
     
+    function dump($incubadora = '3635201511'){
+        
+        $data= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
+        
+        var_dump($data);
+        exit;
+
+        
+    }
 }
 
 /* End of file crefis */
