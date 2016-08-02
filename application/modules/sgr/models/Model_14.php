@@ -7,19 +7,31 @@ class Model_14 extends CI_Model {
 
     public function __construct() {
         // Call the Model constructor
+
+
+         parent::__construct();
+        $this->idu = (int) $this->session->userdata('iduser');
+        $this->sgr_db_tmp=new $this->cimongo;
+        #DB
+        $this->sgr_db_tmp->switch_db('sgr_tmp');
+        #var_dump($this->sgr_db_tmp);
+
+
+        
+
+
         parent::__construct();
         $this->load->helper('sgr/tools');
 
         $this->anexo = '14';
         /* Additional SGR users */
-        $this->load->model('sgr/sgr_model');
+        #$this->load->model('sgr/sgr_model');
         $additional_users = $this->sgr_model->additional_users($this->session->userdata('iduser'));
         $this->idu = (isset($additional_users)) ? $additional_users['sgr_idu'] : $this->session->userdata('iduser');
         /* SWITCH TO SGR DB */
-        $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
-        $this->sgr_db->switch_db('sgr');
+#        $this->sgr_db = new $this->cimongo;
 
-
+        #$this->sgr_db=new $this->cimongo;      
 
         if (!$this->idu) {
             header("$this->module_url/user/logout");
@@ -51,8 +63,8 @@ class Model_14 extends CI_Model {
          * @name ...
          * @author Diego
          *
-         * @example .... FECHA_MOVIMIENTO	NRO_GARANTIA	CAIDA	RECUPERO	INCOBRABLES_PERIODO	GASTOS_EFECTUADOS_PERIODO	
-         * RECUPERO_GASTOS_PERIODO	GASTOS_INCOBRABLES_PERIODO
+         * @example .... FECHA_MOVIMIENTO   NRO_GARANTIA    CAIDA   RECUPERO    INCOBRABLES_PERIODO GASTOS_EFECTUADOS_PERIODO   
+         * RECUPERO_GASTOS_PERIODO  GASTOS_INCOBRABLES_PERIODO
          * */
         $defdna = array(
             1 => 'FECHA_MOVIMIENTO',
@@ -333,63 +345,62 @@ class Model_14 extends CI_Model {
 
 
         $mongo_date = new MongoDate(strtotime(translate_for_mongo($filter['date'])));
-
-        $anexo = $this->anexo;
-        $token = $this->idu;
-        $container = 'container.sgr_anexo_' . $anexo;
-        $period_value = $this->session->userdata['period'];
-
-        $caida_result_arr = array();
-        $recupero_result_arr = array();
-        $inc_periodo_arr = array();
-        $gasto_efectuado_periodo_arr = array();
-        $recupero_gasto_periodo_arr = array();
-        $gasto_incobrable_periodo_arr = array();
-
-        /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active($anexo, $period_value);
-
-        /* FIND ANEXO */
-        foreach ($result as $list) {
-            $new_query = array(
-                'filename' => $list['filename'],
-                'NRO_GARANTIA' => $filter['warranty'],
-                'FECHA_MOVIMIENTO' => array(
-                    '$lt' => $mongo_date
-                )
-            );
-
-            $movement_result = $this->mongowrapper->sgr->$container->find($new_query);
-            foreach ($movement_result as $movement) {
-                $caida_result_arr[] = (isset($movement['CAIDA'])) ? $movement['CAIDA'] : 0;
-                $recupero_result_arr[] = (isset($movement['RECUPERO'])) ? $movement['RECUPERO'] : 0;
-                $inc_periodo_arr[] = (isset($movement['INCOBRABLES_PERIODO'])) ? $movement['INCOBRABLES_PERIODO'] : 0; //$movement['INCOBRABLES_PERIODO'];
-                $gasto_efectuado_periodo_arr[] = (isset($movement['GASTOS_EFECTUADOS_PERIODO'])) ? $movement['GASTOS_EFECTUADOS_PERIODO'] : 0; //$movement['GASTOS_EFECTUADOS_PERIODO'];
-                $recupero_gasto_periodo_arr[] = (isset($movement['RECUPERO_GASTOS_PERIODO'])) ? $movement['RECUPERO_GASTOS_PERIODO'] : 0; // $movement['RECUPERO_GASTOS_PERIODO'];
-                $gasto_incobrable_periodo_arr[] = (isset($movement['GASTOS_INCOBRABLES_PERIODO'])) ? $movement['GASTOS_INCOBRABLES_PERIODO'] : 0; //$movement['GASTOS_INCOBRABLES_PERIODO'];
-            }
-        }
-
-
-        $caida_sum = array_sum($caida_result_arr);
-        $recupero_sum = array_sum($recupero_result_arr);
-        $inc_periodo_sum = array_sum($inc_periodo_arr);
-        $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
-        $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
-        $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
+        $endDate = last_month_date($this->session->userdata['period']);
 
 
 
-        $return_arr = array(
-            'CAIDA' => $caida_sum,
-            'RECUPERO' => $recupero_sum,
-            'INCOBRABLES_PERIODO' => $inc_periodo_sum,
-            'GASTOS_EFECTUADOS_PERIODO' => $gasto_efectuado_periodo_sum,
-            'RECUPERO_GASTOS_PERIODO' => $recupero_gasto_periodo_sum,
-            'GASTOS_INCOBRABLES_PERIODO' => $gasto_incobrable_periodo_sum
+        $query = array(
+            'sgr_id' => (float) $this->sgr_id,
+            'anexo' => $anexo,
+            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
+            'status' => 'activo',
+            'period_date' => array(
+                '$lte' => $endDate
+            ),
         );
-        return $return_arr;
-    }
+
+
+
+         $suma_query=array(
+                'aggregate'=>'container.sgr_anexo_14',
+                'pipeline'=>
+                  array(
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_periodos',
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'periodo')                        
+                      ),                    
+                    array ('$match' => array (
+                        'NRO_GARANTIA'  => $filter['warranty'],                      
+                        'periodo.status'=>'activo' , 
+                        'periodo.anexo'=>$this->anexo,
+                        'periodo.filename' => array('$ne' => 'SIN MOVIMIENTOS'),            
+                        'periodo.period_date' => array(
+                            '$lte' => $endDate
+                         ),
+                        'periodo.sgr_id' => (float) $this->sgr_id,
+                        'FECHA_MOVIMIENTO' => array(
+                            '$lt' => $mongo_date
+                        )
+
+                    )),                    
+                    array('$group' => array(
+                          '_id' => null,
+                          'CAIDA' => array('$sum' => '$CAIDA'), 
+                          'RECUPERO' => array('$sum' => '$RECUPERO'), 
+                          'GASTOS_EFECTUADOS_PERIODO' => array('$sum' => '$GASTOS_EFECTUADOS_PERIODO'), 
+                          'GASTOS_INCOBRABLES_PERIODO' => array('$sum' => '$GASTOS_INCOBRABLES_PERIODO'), 
+                          'INCOBRABLES_PERIODO' => array('$sum' => '$INCOBRABLES_PERIODO'), 
+                          'RECUPERO_GASTOS_PERIODO' => array('$sum' => '$RECUPERO_GASTOS_PERIODO')
+                    )),
+                ));
+        
+    
+         $suma=$this->sgr_db->command($suma_query); 
+         return $suma['result'][0];
+    } 
 
     function get_movement_data_print($nro, $period) {
 
@@ -509,57 +520,35 @@ class Model_14 extends CI_Model {
 
     function get_tmp_movement_data($filter) {
 
-        $anexo = $this->anexo;
-        $container = 'container.sgr_anexo_' . $this->idu . '_tmp';
+        
+        $container = 'container.sgr_anexo_253029915_tmp';  
+        $token = $this->idu;      
 
-        $mongo_date = new MongoDate(strtotime(translate_for_mongo($filter['date'])));
+         $suma_query=array(
+                'aggregate'=>$container,
+                'pipeline'=>
+                  array(                                          
+                    array ('$match' => array (
+                        'TOKEN' => $token,
+                        'NRO_GARANTIA' => $filter['warranty']
+                    )),
+                    array('$group' => array(
+                          '_id' => null,
+                          'CAIDA' => array('$sum' => '$CAIDA'), 
+                          'RECUPERO' => array('$sum' => '$RECUPERO'), 
+                          'GASTOS_EFECTUADOS_PERIODO' => array('$sum' => '$GASTOS_EFECTUADOS_PERIODO'), 
+                          'GASTOS_INCOBRABLES_PERIODO' => array('$sum' => '$GASTOS_INCOBRABLES_PERIODO'), 
+                          'INCOBRABLES_PERIODO' => array('$sum' => '$INCOBRABLES_PERIODO'), 
+                          'RECUPERO_GASTOS_PERIODO' => array('$sum' => '$RECUPERO_GASTOS_PERIODO')
+                    )),
+                ));
 
-        $caida_result_arr = array();
-        $recupero_result_arr = array();
-        $inc_periodo_arr = array();
-        $gasto_efectuado_periodo_arr = array();
-        $recupero_gasto_periodo_arr = array();
-        $gasto_incobrable_periodo_arr = array();
-
-        $token = $this->idu;
-        $new_query = array(
-            'TOKEN' => $token,
-            'NRO_GARANTIA' => $filter['warranty']/*,
-            'FECHA_MOVIMIENTO' => array(
-                '$lt' => $mongo_date
-            )*/
-        );
-
-        $movement_result = $this->mongowrapper->sgr_tmp->$container->find($new_query);
-
-        foreach ($movement_result as $movement) {
-
-            $caida_result_arr[] = (isset($movement['CAIDA'])) ? $movement['CAIDA'] : 0; //
-            $recupero_result_arr[] = (isset($movement['RECUPERO'])) ? $movement['RECUPERO'] : 0;
-            $inc_periodo_arr[] = (isset($movement['INCOBRABLES_PERIODO'])) ? $movement['INCOBRABLES_PERIODO'] : 0;
-            $gasto_efectuado_periodo_arr[] = (isset($movement['GASTOS_EFECTUADOS_PERIODO'])) ? $movement['GASTOS_EFECTUADOS_PERIODO'] : 0;
-            $recupero_gasto_periodo_arr[] = (isset($movement['RECUPERO_GASTOS_PERIODO'])) ? $movement['RECUPERO_GASTOS_PERIODO'] : 0;
-            $gasto_incobrable_periodo_arr[] = (isset($movement['GASTOS_INCOBRABLES_PERIODO'])) ? $movement['GASTOS_INCOBRABLES_PERIODO'] : 0;
-        }
-
-
-        $caida_sum = array_sum($caida_result_arr);
-        $recupero_sum = array_sum($recupero_result_arr);
-        $inc_periodo_sum = array_sum($inc_periodo_arr);
-        $gasto_efectuado_periodo_sum = array_sum($gasto_efectuado_periodo_arr);
-        $recupero_gasto_periodo_sum = array_sum($recupero_gasto_periodo_arr);
-        $gasto_incobrable_periodo_sum = array_sum($gasto_incobrable_periodo_arr);
-
-        $return_arr = array(
-            'CAIDA' => $caida_sum,
-            'RECUPERO' => $recupero_sum,
-            'INCOBRABLES_PERIODO' => $inc_periodo_sum,
-            'GASTOS_EFECTUADOS_PERIODO' => $gasto_efectuado_periodo_sum,
-            'RECUPERO_GASTOS_PERIODO' => $recupero_gasto_periodo_sum,
-            'GASTOS_INCOBRABLES_PERIODO' => $gasto_incobrable_periodo_sum
-        );
-        return $return_arr;
-    }
+    
+        $suma=$this->sgr_db_tmp->command($suma_query); 
+    
+        return $suma['result'][0];
+        
+    } 
 
     function get_recuperos_tmp($filter, $type) {
 
