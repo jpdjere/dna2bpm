@@ -101,14 +101,13 @@ class Model_aulavirtual extends CI_Model {
         $this->db->update($container,$data);
     }
     
-    function insert_inscripciones($val_arr = array()) { //inserta nueva inscripcion -Se le pasa el nuevo array 
+    function insert_inscripcion($val_arr = array()) { //inserta nueva inscripcion -Se le pasa el nuevo array 
         $container = 'container.aulavirtual';
         $hoy = getdate(); //SI CON ESTA! YA SE!
         $val_arr['date'] = $hoy;
         $val_arr['borrado'] = 0;
         //$result = 
         $this->db->insert($container,$val_arr);
-        $this->inscripciones_cargadas;
         //return $result;
     }
     
