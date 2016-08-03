@@ -10,7 +10,7 @@
 {empresas}
 <option  value="{1695}" {selected}> {1693}</option>
 {/empresas}
-<option name="" value="23-22277112-9" >Dummy</option>
+<!-- <option name="" value="23-22277112-9" >Dummy</option> -->
 </select>
 <h3 ></h3>
 <ul class='list-unstyled'>

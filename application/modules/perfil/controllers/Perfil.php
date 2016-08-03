@@ -30,9 +30,9 @@ class Perfil extends MX_Controller {
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
-        ini_set('display_errors', 0);
-        #error_reporting(E_ALL);
-        ini_set('xdebug.var_display_max_depth', 120 );
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
+        // ini_set('xdebug.var_display_max_depth', 120 );
 
     }
 
@@ -66,7 +66,7 @@ class Perfil extends MX_Controller {
         // $customData['empresas'] = array();
         if(isset($cuit)){
             $afip=$this->get_afip_data($cuit);
-        if($afip){
+            if($afip){
                 $afip['actividad_texto']=(isset($afip['actividad']))? @$actividades[$afip['actividad']]:'-----';
                 $customData=array_merge($customData,$afip);
                 
@@ -257,6 +257,8 @@ class Perfil extends MX_Controller {
 
 function eficacia(){
 
+$this->load->model('afip/consultas_model');
+
 // Programas
  $cases = $this->bpm->get_cases_byFilter(
         array(
@@ -264,11 +266,17 @@ function eficacia(){
     'status' => 'open',
         ), array(), array('checkdate' => 'desc')
 );
+
+// Certificado
+$cuit=$this->get_cuit();
+$ret=$this->consultas_model->has_1273($cuit);
+$has1273=!empty($ret);
+
 $customData=array();
 $userdata=$this->user->getbyid($this->idu);
 
 $eficacia['registro']=25;
-$eficacia['certificado']=0;
+$eficacia['certificado']=($has1273)?(25):(0);
 $eficacia['aplica']=(empty($cases))?(0):(25);
 $eficacia['perfil']=(empty($userdata->phone))?(0):(25);
 
