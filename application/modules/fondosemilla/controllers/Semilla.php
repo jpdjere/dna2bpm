@@ -1591,7 +1591,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['nombre'] = $data['Personas_9915'][0][1783];        
         $renderData['data'][$key]['apellido'] = $data['Personas_9915'][0][1784];
         $renderData['data'][$key]['genero'] = $data['Personas_9915'][0][2319][0];        
-        $renderData['data'][$key]['email'] = $data['Personas_9915'][0][1709];
+        $renderData['data'][$key]['email'] = $data['Personas_9915'][0][1786];
         $renderData['data'][$key]['provincia'] = $data['Personas_9915'][0]['5293'][0];        
         $renderData['data'][$key]['partido'] = $partidos[$data['Personas_9915'][0]['1788'][0]];
         $renderData['data'][$key]['localidad'] = $data['Personas_9915'][0]['1789'];
