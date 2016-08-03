@@ -338,6 +338,12 @@ class Api extends MX_Controller {
         return $data;
 
      }    
+
+    function has_1273($cuit){
+       $res=$this->consultas_model->has_1273((float)$cuit);
+       return !empty($res);
+    }
+
     
 }
 

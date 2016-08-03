@@ -250,5 +250,11 @@ class Consultas_model extends CI_Model {
 
     }
 
+    function has_1273($cuit){
+        $query=array('cuit'=>$cuit,'1273'=>array('$exists'=>true));
+        return $this->afip_db->where($query)->get('raw_ventanilla')->result_array();
+
+    }
+
 
 }
