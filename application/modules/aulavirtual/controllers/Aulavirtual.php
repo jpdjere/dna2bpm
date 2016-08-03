@@ -1,19 +1,17 @@
 <?php
-
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
 /**
- * expertos
+ * MAIN CONTROLLER AULA VIRTUAL
  *
- * Description of the class expertos
+ * Controller de Inscripción Aula Virtual
+ * 
+ * Uploader sólo para 1 File de PDf de peso 300kb
  *
- * @author Juan Ignacio Borda <juanignacioborda@gmail.com>
- *         @date Jul 18, 2014
+ * @author Luciano Menez <lucianomenez1212@gmail.com>
+ *         @date Ago 3, 2016
  */
 class Aulavirtual extends MX_Controller {
-    //--define el token que guarda la data consolidada para buscadores etc
-    public $consolida_resrourceId='oryx_6772A7D9-3D05-4064-8E9F-B23B4F84F164';
 
     function __construct() {
         parent::__construct();
@@ -30,30 +28,22 @@ class Aulavirtual extends MX_Controller {
         // ----LOAD LANGUAGE
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
-        $this->load->library('pagination');
         $this->load->library('dashboard/ui');
         $this->load->library('upload');
-        
         $this->user->authorize();
-
-        
         /* GROUP */
         $user = $this->user->get_user($this->idu);
         
         $this->id_group = ($user->{'group'});
     }
-
     function Index($debug = false, $extraData = null) {
         Modules::run('dashboard/dashboard', 'aulavirtual/json/aulavirtual.json',$debug, $extraData);
        // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
     }
-    
     function Confirmacion($debug = false, $extraData = null) {
         Modules::run('dashboard/dashboard', 'aulavirtual/json/confirmacion.json',$debug, $extraData);
        // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
     }
-    
-    
     function formulario(){
         $user = $this->user->get_user($this->idu);
         $data['lang']= $this->lang->language;
@@ -62,7 +52,6 @@ class Aulavirtual extends MX_Controller {
         $data['idu'] = $user->idu;
         //---4BPM
         $segments = $this->uri->segment_array();
-
         return $this->parser->parse('formulario', $data, true, true);
     }
     
@@ -71,11 +60,9 @@ class Aulavirtual extends MX_Controller {
         $data = $this->input->post();
         $user = $this->user->get_user($this->idu);
         $data['files_url'] = FCPATH.'images/user_files/'.$user->idu;
-
         if (!file_exists(FCPATH.'images/user_files/'.$user->idu)){
              @mkdir(FCPATH.'images/user_files/'.$user->idu,0775,true);
         }
-        
         $this->upload->initialize(array(
        // "file_name"     => array($_FILES['input-file-preview_userfiles']['name'][0],$_FILES['input-file-preview_userfiles']['name'][1],$_FILES['input-file-preview_userfiles']['name'][2]),
         'allowed_types'   => "pdf|PDF",
@@ -83,12 +70,10 @@ class Aulavirtual extends MX_Controller {
         'max_size'        => "300",  //
         'upload_path'     => FCPATH.'images/user_files/'.$user->idu.'/'
         ));
-        
         if($_FILES){
 		    $this->upload->do_upload('userfile');
             $error=$this->upload->display_errors();
         }
-        
 		if($error==null){
 			$renderData['data'] = $this->upload->data();
 			$this->Model_aulavirtual->insert_inscripcion($data);
@@ -98,11 +83,5 @@ class Aulavirtual extends MX_Controller {
         $extraData['alerts'] = '<div class="alert alert-danger"><strong>Aviso!</strong> Su inscripción no pudo ser registrada.'.$error.'</div>';   
 		$this->Index(false, $extraData);
 		}        
-        
-        
     }
-
 }
-
-/* End of file crefis */
-    /* Location: ./system/application/controllers/welcome.php */
