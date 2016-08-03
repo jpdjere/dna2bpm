@@ -21,6 +21,7 @@ class Aulavirtual extends MX_Controller {
         $this->load->model('menu/menu_model');
         $this->load->model('app');
         $this->load->model('bpm/bpm');
+        $this->load->model('Model_aulavirtual');
         $this->load->module('bpm/kpi');
         $this->user->isloggedin();
         // ---base variables
@@ -35,42 +36,49 @@ class Aulavirtual extends MX_Controller {
         
         /* GROUP */
         $user = $this->user->get_user($this->idu);
-
+        
         $this->id_group = ($user->{'group'});
     }
 
-    function Index($debug=false) {
+    function Index($debug = false, $extraData = null) {
         Modules::run('dashboard/dashboard', 'aulavirtual/json/aulavirtual.json',$debug, $extraData);
        // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
     }
-    function formulario(){
-        $data['lang']= $this->lang->language;
-    	$data['base_url'] = base_url();
-        $data['module_url'] = $this->module_url;        
-        //---4BPM
-        $segments = $this->uri->segment_array();
-        $data['idcase']=(isset($segments[3]))?$segments[3]:'';
-        $data['token']=(isset($segments[4]))?$segments[4]:'';
-        return $this->parser->parse('formulario', $data, true, true);
+    
+    function Confirmacion($debug = false, $extraData = null) {
+        Modules::run('dashboard/dashboard', 'aulavirtual/json/confirmacion.json',$debug, $extraData);
+       // Modules::run('dashboard/dashboard', 'fondosemilla/json/semilla_proyectos.json',$debug);
     }
     
     
-    function process(){
-        $data = $this->input->post();
-        $data['files_url'] = FCPATH.'images/user_files/'.$user->idu.'/'.$data['idwf'].'/'.$data['idcase'];
+    function formulario(){
+        $user = $this->user->get_user($this->idu);
+        $data['lang']= $this->lang->language;
+    	$data['base_url'] = base_url();
+        $data['module_url'] = $this->module_url;
+        $data['idu'] = $user->idu;
+        //---4BPM
+        $segments = $this->uri->segment_array();
 
-        if (!file_exists(FCPATH.'images/user_files/'.$user->idu.'/'.$data['idwf'].'/'.$data['idcase'])){
-             @mkdir(FCPATH.'images/user_files/'.$user->idu.'/'.$data['idwf'].'/'.$data['idcase'],0775,true);
+        return $this->parser->parse('formulario', $data, true, true);
+    }
+    
+    function process(){
+		$this->load->helper('url');
+        $data = $this->input->post();
+        $user = $this->user->get_user($this->idu);
+        $data['files_url'] = FCPATH.'images/user_files/'.$user->idu;
+
+        if (!file_exists(FCPATH.'images/user_files/'.$user->idu)){
+             @mkdir(FCPATH.'images/user_files/'.$user->idu,0775,true);
         }
-        
-        
         
         $this->upload->initialize(array(
        // "file_name"     => array($_FILES['input-file-preview_userfiles']['name'][0],$_FILES['input-file-preview_userfiles']['name'][1],$_FILES['input-file-preview_userfiles']['name'][2]),
         'allowed_types'   => "pdf|PDF",
-        'overwrite'       => FALSE,
-        'max_size'        => "100000",  //
-        'upload_path'     => FCPATH.'images/user_files/'.$user->idu.'/'.$data['idwf'].'/'.$data['idcase'].'/'
+        'overwrite'       => true,
+        'max_size'        => "100",  //
+        'upload_path'     => FCPATH.'images/user_files/'.$user->idu.'/'
         ));
         
         if($_FILES){
@@ -78,42 +86,19 @@ class Aulavirtual extends MX_Controller {
             $error=$this->upload->display_errors();
         }
         
-        var_dump($data, $data['files_url']);
-        exit;
-        
-        
 		if($error==null){
-				 $renderData['data'] = $this->upload->data();
-				 $renderData['ok'] = 'ok';
-
-				 if($this->Model_aulavirtual->detalle_inscripcion($data['idcase'],$data['idwf'])){
-				      $inscripcion['idcase'] = $data['idcase'];
-				      $inscripcion['idwf'] = $data['idwf'];
-				      $this->Model_aulavirtual->update_inscripcion($data,$inscripcion);
-				 }else{
-				      $this->Model_aulavirtual->insert_inscripcion($data);
-				 }/**
-				  * Si viene de BPM devolvemos el flujo al BPM
-				  */
-				 if(isset($data['token']) && isset($data['idcase'])){
-				    if($data['token']<>'' && $data['idcase']<>''){
-				        $token=$this->bpm->get_token_byid($data['token']);
-				        $resourceId=$token['resourceId'];
-				        $idwf=$token['idwf'];
-				        $idcase=$token['case'];
-				        $redir = $this->base_url."bpm/engine/run_post/model/$idwf/$idcase/$resourceId";
-				        $this->load->helper('url');
-				        // echo anchor($redir);
-				        redirect($redir);
-				    }
-				 }
+			$renderData['data'] = $this->upload->data();
+			$this->Model_aulavirtual->insert_inscripcion($data);
+            $extraData['alerts'] = '<div class="alert alert-success"><strong>Success!</strong> Su inscripción fue registrado con éxito</div>';
+		    $this->Confirmacion(false, $extraData);
+		}else{
+        $extraData['alerts'] = '<div class="alert alert-danger"><strong>Aviso!</strong> Su inscripción no pudo ser registrada.'.$error.'</div>';   
+		$this->Index(false, $extraData);
 		}        
         
-
         
     }
-    
-    
+
 }
 
 /* End of file crefis */
