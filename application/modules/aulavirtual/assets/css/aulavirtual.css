@@ -1,0 +1,230 @@
+input.error {
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(255,8,8,1);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(255,8,8,1);
+    box-shadow: 0px 0px 5px 1px rgba(255,8,8,1);
+    
+}
+
+
+/* |||||||||||||||||||||| ESPACIADO VERTICAL |||||||||||||||||||||| */
+.r0  {margin-bottom: 0px !important;}
+.r8 {margin-bottom: 8px !important;}
+.r10 {margin-bottom: 10px !important;}
+.r20 {margin-bottom: 20px !important;}
+.r25 {margin-bottom: 25px !important;}
+.r30 {margin-bottom: 30px !important;}
+.r40 {margin-bottom: 40px !important;}
+.r50 {margin-bottom: 50px !important;}
+.r60 {margin-bottom: 60px !important;}
+.r80 {margin-bottom: 60px !important;}
+.r100 {margin-bottom: 100px !important;}
+
+.rt0  {margin-top: 0px !important;}
+.rt5  {margin-top: 5px !important;}
+.rt10  {margin-top: 10px !important;}
+.rt15 {margin-top: 15px !important;}
+.rt20 {margin-top: 20px !important;}
+.rt30 {margin-top: 30px !important;}
+.rt40 {margin-top: 40px !important;}
+.rt50 {margin-top: 50px !important;}
+.rt60 {margin-top: 60px !important;}
+
+
+
+.fna-logo {
+    width: 250px;
+}
+
+.r30 {
+    margin-bottom: 30px;
+}
+
+
+/* FOOTER */
+
+
+.footer-distributed{
+	background-color: #292c2f;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	font: normal 16px sans-serif;
+	padding: 45px 0px;
+	margin-top: 220px;
+}
+
+.footer-distributed .footer-left p{
+	color:  #8f9296;
+	font-size: 14px;
+	margin: 0;
+}
+
+/* Footer links */
+
+.footer-distributed p.footer-links{
+	font-size:18px;
+	font-weight: bold;
+	color:  #ffffff;
+	margin: 10px 0 0px;
+	padding: 0;
+}
+
+.footer-distributed p.footer-links a{
+	display:inline-block;
+	line-height: 1.8;
+	text-decoration: none;
+	color:  inherit;
+}
+
+.footer-distributed .footer-right{
+	float: right;
+	margin-top: 6px;
+	max-width: 210px;
+}
+
+.footer-distributed .footer-right a{
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	background-color:  #33383b;
+	border-radius: 2px;
+	font-size: 20px;
+	color: #ffffff;
+	text-align: center;
+	line-height: 35px;
+	margin-left: 3px;
+}
+
+
+
+@media (max-width: 600px) {
+
+	.footer-distributed .footer-left,
+	.footer-distributed .footer-right{
+		text-align: center;
+	}
+
+	.footer-distributed .footer-right{
+		float: none;
+		margin: 0 auto 20px;
+	}
+
+	.footer-distributed .footer-left p.footer-links{
+		line-height: 1.8;
+	}
+}
+
+
+
+
+/* Form carga archivos */
+
+.image-preview-input {
+    position: relative;
+	overflow: hidden;
+	margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}
+
+
+/* Form carga archivos 1*/
+
+.image-preview-input1 {
+    position: relative;
+	overflow: hidden;
+	margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input1 input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.image-preview-input-title1 {
+    margin-left:2px;
+}
+
+/* Form carga archivos 2*/
+
+.image-preview-input2 {
+    position: relative;
+	overflow: hidden;
+	margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input2 input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.image-preview-input-title2 {
+    margin-left:2px;
+}
+
+.image-preview-input3 {
+    position: relative;
+	overflow: hidden;
+	margin: 0px;    
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;    
+}
+.image-preview-input3 input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.image-preview-input-title3 {
+    margin-left:2px;
+}
+
+
+.btn-link {
+	cursor: default !important;
+	background-color: #fafafa !important;
+	
+}
+.btn-link:hover {
+
+	background-color: #fafafa !important;
+	
+}
