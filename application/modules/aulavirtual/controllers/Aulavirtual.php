@@ -34,6 +34,9 @@ class Aulavirtual extends MX_Controller {
         $this->load->library('dashboard/ui');
         $this->load->library('upload');
         
+        $this->user->authorize();
+
+        
         /* GROUP */
         $user = $this->user->get_user($this->idu);
         
@@ -77,7 +80,7 @@ class Aulavirtual extends MX_Controller {
        // "file_name"     => array($_FILES['input-file-preview_userfiles']['name'][0],$_FILES['input-file-preview_userfiles']['name'][1],$_FILES['input-file-preview_userfiles']['name'][2]),
         'allowed_types'   => "pdf|PDF",
         'overwrite'       => true,
-        'max_size'        => "100",  //
+        'max_size'        => "300",  //
         'upload_path'     => FCPATH.'images/user_files/'.$user->idu.'/'
         ));
         

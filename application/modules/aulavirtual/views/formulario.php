@@ -72,7 +72,7 @@
   
  	<div class="form-group rt20">
 
-	  <label class="col-md-2 control-label">PDF Adjunto &nbsp<a  class="glyphicon glyphicon-question-sign"  data-toggle="tooltip" title data-original-title="TEXTO DEL TIPO DE CERTIFICADO QUE SE SOLICITA"></a><br /><small style="color: #999">Máximo tamaño permitido 1mb.</small>  
+	  <label class="col-md-2 control-label">PDF Adjunto &nbsp<a  class="glyphicon glyphicon-question-sign"  data-toggle="tooltip" title data-original-title="TEXTO DEL TIPO DE CERTIFICADO QUE SE SOLICITA"></a><br /><small style="color: #999">Máximo tamaño permitido 300kb.</small>  
   
     </label>	
 
