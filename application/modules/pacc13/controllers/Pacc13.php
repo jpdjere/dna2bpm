@@ -250,7 +250,20 @@ BLOCK;
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
-            $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+            if ($case!=''){
+                $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+                $model = 'pacc3SDAREND';
+            } else {
+                if ($case!=''){
+                    $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3PPF');
+                    $model = 'pacc3PPF';
+            } else {
+                    if ($case!=''){
+                        $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3PP');
+                        $model = 'pacc3PP';
+                    }
+                }
+            }
             $data = $this->bpm->load_case_data($case);
             $url = '';
             $url_msg = '';
@@ -259,17 +272,16 @@ BLOCK;
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
             //var_dump($token['_id'],$keys);
-            $model = 'pacc3SDAREND';
-            $idResource = 'pacc3SDAREND'; 
+            $idResource = $model; 
             $estado = $data ['Proyectos_pacc'] ['5689'][0];
-            $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+            $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'];
             $url_cancelar_pp = '';
             $url_cancelar_pde = '';
             $url_reevaluar_pp = '';
             $url_reevaluar_pde = '';
             $url_bpm = '';
             //if (in_array(145, $this->id_group) or in_array(1001, $this->id_group) or $this->user->isAdmin()) {
-                $model = ($pacc3SDAREND) ? 'pacc3SDAREND' : 'pacc3SDAREND';
+                //$model = ($pacc3SDAREND) ? 'pacc3SDAREND' : 'pacc3SDAREND';
                 $url_bpm = $this->base_url . 'bpm/engine/run/model/' . $model . '/' . $token ['case'];
             //}
 
