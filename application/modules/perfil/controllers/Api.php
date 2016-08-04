@@ -53,13 +53,18 @@ class Api extends MX_Controller {
         
         $result=$this->portal_model->cuits_by_idu_model($this->idu);
         $data = array();
-        foreach ($result as $key => $value) { 
-            foreach ($value as $cuit=>$date) {  
-                             
-                $data[] =array('cuit'=>$cuit);
-            }
-        }        
-
+        if($result){
+            foreach ($result as $key => $value) { 
+                foreach ($value as $cuit=>$date) {  
+                                 
+                    $data[] =array('cuit'=>$cuit);
+                }
+            }        
+        }
+        $data=array(
+            array('cuit'=>'20228519678'),
+            array('cuit'=>'20265297251'),
+            );
         switch ($mode) {
             case "object":
                 return (object) $data;
