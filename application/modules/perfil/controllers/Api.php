@@ -45,44 +45,7 @@ class Api extends MX_Controller {
     }
 
 
-    /* CUITS RELACIONADO BY USER ID*/
-   /* function cuits_by_idu($mode = 'json'){
-
-        $this->user->authorize();               
-        $this->idu = $this->user->idu;
-        $this->load->model('afip/eventanilla_model');
-        $result=$this->portal_model->cuits_by_idu_model($this->idu);
-        $data = array();
-        if($result){
-            //var_dump($result);
-            foreach ($result as $key => $value) { 
-                foreach ($value as $cuit=>$data) {  
-                    
-                    //$procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit),array('denominacion'),array('denominacion'=>'ASC'));                                 
-                    $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
-                    $data=array(
-                        'cuit'=>$cuit,
-                        'razon_social'=>$procesos[0]->denominacion,
-                        );
-                }
-            }        
-        }
-       
-       switch ($mode) {
-            case "object":
-                return (object) $data;
-                break;
-            case "array":
-                return($data);
-                break;
-            case "json":
-                output_json($data);
-                break;
-            default:
-                return($data);
-        }
-
-    }   */
+ 
     
     function cuits_by_idu($mode = 'json'){
 
@@ -95,9 +58,9 @@ class Api extends MX_Controller {
             foreach ($result as $key => $value) { 
                 foreach ($value as $cuit=>$date) {  
                     $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
-                    var_dump($procesos);
+                    //var_dump($procesos);
                     $data[] =array(
-                        'cuit'=>$cuit,
+                        'cuit'=>$cuit
                         //'razon_social'=>$procesos[0]->denominacion,
                         );
                 }
