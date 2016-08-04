@@ -56,13 +56,12 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
-        var_dump($cuit);
-        exit();
+
         //== @todo ver caso usuario sin empresas
         $midata=$this->user->get_user((int) $this->idu);
 
         if(empty($midata->cuits_relacionados))
-            exit();
+            //exit();
 
         $opt="";
         foreach($midata->cuits_relacionados as $empresa){
