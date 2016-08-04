@@ -202,6 +202,8 @@ BLOCK;
         
     }
     public $consolida_resrourceId='oryx_85AA85C0-2F51-46E0-9EB3-28FFAD508E48';
+    public $consolida_resrourceIdPP='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
+    public $consolida_resrourceIdPPF='oryx_A58D5ECD-6899-4F60-856C-CFE89B36FB91';
     function buscarEmprend($type = null) {
         $this->load->model('bpm/bpm');
         $this->user->authorize();
@@ -211,8 +213,18 @@ BLOCK;
             'idwf' => 'pacc3SDAREND',
             'resourceId' =>$this->consolida_resrourceId
         );
-        $data ['querystring'] = $this->input->post('query');
         // -----busco en el cuit
+        /*
+        $filter ['$or'] [] = array(
+            'idwf' => 'pacc3PPF',
+            'resourceId' =>$this->consolida_resrourceIdPP
+        );
+        $filter ['$or'] [] = array(
+            'idwf' => 'pacc3SDAREND',
+            'resourceId' =>$this->consolida_resrourceIdPPF
+        );
+         */
+        $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -241,6 +253,7 @@ BLOCK;
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
             $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+            $model = 'pacc3SDAREND';
             $data = $this->bpm->load_case_data($case);
             $url = '';
             $url_msg = '';
@@ -249,17 +262,16 @@ BLOCK;
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
             //var_dump($token['_id'],$keys);
-            $model = 'pacc3SDAREND';
-            $idResource = 'pacc3SDAREND'; 
+            $idResource = $model; 
             $estado = $data ['Proyectos_pacc'] ['5689'][0];
-            $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'] . '/'.$idResource;
+            $url_clone =$this->base_url . 'bpm/engine/run/model/' . $model. '/' .$token['case'];
             $url_cancelar_pp = '';
             $url_cancelar_pde = '';
             $url_reevaluar_pp = '';
             $url_reevaluar_pde = '';
             $url_bpm = '';
             //if (in_array(145, $this->id_group) or in_array(1001, $this->id_group) or $this->user->isAdmin()) {
-                $model = ($pacc3SDAREND) ? 'pacc3SDAREND' : 'pacc3SDAREND';
+                //$model = ($pacc3SDAREND) ? 'pacc3SDAREND' : 'pacc3SDAREND';
                 $url_bpm = $this->base_url . 'bpm/engine/run/model/' . $model . '/' . $token ['case'];
             //}
 
