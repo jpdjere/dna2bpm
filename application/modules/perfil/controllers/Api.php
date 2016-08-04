@@ -61,11 +61,8 @@ class Api extends MX_Controller {
                 }
             }        
         }
-        $data=array(
-            array('cuit'=>'20228519678'),
-            array('cuit'=>'20265297251'),
-            );
-        switch ($mode) {
+       
+       switch ($mode) {
             case "object":
                 return (object) $data;
                 break;
