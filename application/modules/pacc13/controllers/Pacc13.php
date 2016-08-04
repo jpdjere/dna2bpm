@@ -210,19 +210,19 @@ BLOCK;
         $this->load->library('parser');
         $templateAg = 'pacc13/listar_13';
         $filter = array(
-            'idwf' => 'pacc3SDAREND',
+            'idwf' => 'pacc3PP',
             'resourceId' =>$this->consolida_resrourceId
         );
-        $data ['querystring'] = $this->input->post('query');
         // -----busco en el cuit
         $filter ['$or'] [] = array(
-            'idwf' => 'pacc3PP',
+            'idwf' => 'pacc3PPF',
             'resourceId' =>$this->consolida_resrourceIdPP
         );
         $filter ['$or'] [] = array(
-            'idwf' => 'pacc3PPF',
+            'idwf' => 'pacc3SDAREND',
             'resourceId' =>$this->consolida_resrourceIdPPF
         );
+        $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
