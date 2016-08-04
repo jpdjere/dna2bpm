@@ -56,7 +56,7 @@ class Api extends MX_Controller {
         foreach ($result as $key => $value) { 
             foreach ($value as $cuit=>$date) {  
                              
-                $data[] = $cuit;
+                $data[] =array('cuit'=>$cuit);
             }
         }        
 
