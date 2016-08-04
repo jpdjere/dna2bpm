@@ -94,10 +94,10 @@ class Api extends MX_Controller {
         if($result){
             foreach ($result as $key => $value) { 
                 foreach ($value as $cuit=>$date) {  
-                    $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
+                    //$procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
                     $data[] =array(
                         'cuit'=>$cuit,
-                        'razon_social'=>$procesos[0]->denominacion,
+                        //'razon_social'=>$procesos[0]->denominacion,
                         );
                 }
             }        
