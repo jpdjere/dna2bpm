@@ -34,6 +34,7 @@ class Perfil extends MX_Controller {
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
+
     }
 
     function Index() {
@@ -46,6 +47,7 @@ class Perfil extends MX_Controller {
 
     function Empresa($cuit=null,$debug=0) {
 
+
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
 
@@ -56,12 +58,10 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
-
-        //== @todo ver caso usuario sin empresas
-        $midata=$this->user->get_user((int) $this->idu);
-
-        if(empty($midata->cuits_relacionados))
-            //exit();
+        if(empty($cuits)){
+            echo('No hay cuits asociados');
+            return;
+        }
 
         $opt="";
         foreach($midata->cuits_relacionados as $empresa){
@@ -93,7 +93,13 @@ class Perfil extends MX_Controller {
         //=== Estadisticas
 
         function estadisticas(){
+
             $cuit=$this->get_cuit();
+            if(empty($cuits)){
+                echo('No hay cuits asociados');
+                return;
+            }
+
             $customData=array();
             $afip=$this->get_afip_data($cuit);
             $customData['periodos']='';
@@ -275,6 +281,12 @@ class Perfil extends MX_Controller {
 //=== Eficacia
 
 function eficacia(){
+
+$cuit=$this->get_cuit();
+if(empty($cuits)){
+    echo('No hay cuits asociados');
+    return;
+}
 
 $this->load->model('afip/consultas_model');
 
