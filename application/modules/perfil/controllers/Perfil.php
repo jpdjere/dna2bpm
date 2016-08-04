@@ -61,7 +61,7 @@ class Perfil extends MX_Controller {
         $midata=$this->user->get_user((int) $this->idu);
 
         if(empty($midata->cuits_relacionados))
-            exit();
+            //exit();
 
         $opt="";
         foreach($midata->cuits_relacionados as $empresa){

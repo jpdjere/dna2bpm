@@ -15,4 +15,17 @@ $(document).ready(function(){
              });
             
          });
+         
+        $("#buscador-proyectos").click(function() {
+             
+             $.ajax({
+                 type: "POST",
+                 url: globals.base_url + 'fondosemilla/semilla/reload_reportes_casos_por_cuit/'+ $("#CUIT").val() ,
+                 success: function(data) {
+                     $('#tabla-buscador').replaceWith(data);
+               }
+             });
+            
+         }); 
+         
 });

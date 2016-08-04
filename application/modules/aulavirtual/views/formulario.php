@@ -10,7 +10,7 @@
  
    <!--  ==== NAME==== -->
   <div class="form-group">
-    <label class="col-sm-2 control-label">Nombre</label>
+    <label class="col-sm-2 control-label">Nombre del representante</label>
     <div class="col-sm-10">
       <input type="text" name="name" id="name" value="{name}" class="form-control" required>
     </div>
@@ -18,11 +18,19 @@
 
   <!--  ==== LASTNAME ==== -->
   <div class="form-group rt20">
-    <label class="col-sm-2 control-label">Apellido</label>
+    <label class="col-sm-2 control-label">Apellido del representante</label>
     <div class="col-sm-10">
       <input type="text" name="lastname" id="lastname" value="{lastname}" class="form-control" required>
     </div>
   </div>
+  
+   <!--  ==== CUIT de la EMPRESA ==== -->
+  <div class="form-group rt20">
+    <label class="col-sm-2 control-label">CUIT de la Empresa</label>
+    <div class="col-sm-10">
+      <input type="text" name="cuit" id="cuit" value="{cuit}" class="form-control" required>
+    </div>
+  </div>  
  
    <!--  ==== DOMICILIO ==== -->
   <div class="form-group rt20">
@@ -47,6 +55,7 @@
        <div class="col-sm-10">
       <select class="form-control" name="cantidad_empleados" id="cantidad_empleados">
         <option value="default">...</option>
+        <option value="0">0</option>        
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
