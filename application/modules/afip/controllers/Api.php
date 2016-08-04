@@ -20,9 +20,6 @@ class Api extends MX_Controller {
         $this->load->helper('html');
         $this->load->model('bpm/bpm');
         $this->load->model('consultas_model');
-
-
-
         
         //---base variables
         $this->base_url = base_url();
@@ -195,6 +192,49 @@ class Api extends MX_Controller {
             return($data);
         }
     }
+     function F1272xSemana($mode = 'json') {
+        $this->load->model('afip/eventanilla_model');
+        $data=array();
+        $data=$this->consultas_model->F1272xSemana();
+       
+        switch ($mode) {
+            case "object":
+            return (object) $data;
+            break;
+            case "array":
+            return($data);
+            break;
+            case "dump":
+            var_export($data);
+            break;
+            case "json":
+            output_json($data);
+            break;
+            default:
+            return($data);
+        }
+    }
+     function F1272xMes($mode = 'json') {
+        $this->load->model('afip/eventanilla_model');
+        $data=array();
+        $data=$this->consultas_model->F1272xMes();
+        switch ($mode) {
+            case "object":
+            return (object) $data;
+            break;
+            case "array":
+            return($data);
+            break;
+            case "dump":
+            var_export($data);
+            break;
+            case "json":
+            output_json($data);
+            break;
+            default:
+            return($data);
+        }
+    }
      /**
       * devuelve stats de revision
       */
@@ -311,33 +351,10 @@ class Api extends MX_Controller {
        return $data;
     }
 
-
-    /*INFORMACION RELACIONADA AL USER/AFIP*/
-    function get_data_by_cuit($cuit, $mode = 'json'){
-
-
-        $this->user->authorize();                       
-
-        
-        $data=$this->consultas_model->cuits_certificados($cuit);
-
-        /*switch ($mode) {
-            case "object":
-                return (object) $data;
-                break;
-            case "array":
-                return($data);
-                break;
-            case "json":
-                output_json($data);
-                break;
-            default:
-                return($data);
-        }*/
-
-        return $data;
-
-     }    
+    function has_1273($cuit){
+       $ret= $this->consultas_model->has_1273((float)$cuit);
+       var_dump($ret);
+    }
     
 }
 

@@ -1,16 +1,12 @@
 <div class="row">
-<div class="col-sm-3">
-<img src="{avatar}"  class="avatar" style="width:120px" >
-</div>
-<div class="col-sm-9">
+
+<div class="col-sm-12">
 
 <input type="hidden" name="cuit" value="{cuit}" /> 
 
-<select class="form-control" id="search_empresa">
 {empresas}
-<option  value="{1695}" {selected}> {1693}</option>
-{/empresas}
-<option name="" value="23-22277112-9" >Dummy</option>
+
+<!-- <option name="" value="23-22277112-9" >Dummy</option> -->
 </select>
 <h3 ></h3>
 <ul class='list-unstyled'>

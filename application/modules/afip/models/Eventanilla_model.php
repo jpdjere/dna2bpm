@@ -170,10 +170,17 @@ class Eventanilla_model extends CI_Model {
 
     //== Get process
     //== Get process
-    function get_process($query)
+    function get_process($query,$fields = null,$order=null)
     {
         $this->afip_db->switch_db('afip');
-        return $this->afip_db->where($query)->get('procesos')->result();
+        $this->afip_db->where($query);
+        
+        if($fields)
+            $this->afip_db->select($fields);
+        if($order)
+            $this->afip_db->order_by($order);
+            
+        return $this->afip_db->get('procesos')->result();
     }
 
     //== Get raw
