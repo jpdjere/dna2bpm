@@ -59,7 +59,7 @@ class Api extends MX_Controller {
                     $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
                     $data[] =array(
                         'cuit'=>$cuit,
-                        'nombre'=>$procesos[0]['denominacion'],
+                        'nombre'=>$procesos[0]->denominacion,
                         );
                 }
             }        
