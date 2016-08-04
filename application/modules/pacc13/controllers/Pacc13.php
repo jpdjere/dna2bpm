@@ -210,10 +210,11 @@ BLOCK;
         $this->load->library('parser');
         $templateAg = 'pacc13/listar_13';
         $filter = array(
-            'idwf' => 'pacc3PP',
+            'idwf' => 'paccPP',
             'resourceId' =>$this->consolida_resrourceId
         );
         // -----busco en el cuit
+        /*
         $filter ['$or'] [] = array(
             'idwf' => 'pacc3PPF',
             'resourceId' =>$this->consolida_resrourceIdPP
@@ -222,6 +223,7 @@ BLOCK;
             'idwf' => 'pacc3SDAREND',
             'resourceId' =>$this->consolida_resrourceIdPPF
         );
+         */
         $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
@@ -250,22 +252,8 @@ BLOCK;
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
-            if ($case!=''){
-                $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
-                $model = 'pacc3SDAREND';
-            } else {
-                if ($case!=''){
-                    $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3PPF');
-                    $model = 'pacc3PPF';
-            } else {
-                    if ($case!=''){
-                        $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3PP');
-                        $model = 'pacc3PP';
-                    }
-                }
-            }
-            var_dump($model,$case);
-            exit;
+            $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+            $model = 'pacc3SDAREND';
             $data = $this->bpm->load_case_data($case);
             $url = '';
             $url_msg = '';
