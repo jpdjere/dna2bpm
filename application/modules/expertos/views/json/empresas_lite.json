@@ -1,0 +1,18 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212@gmail.com>",
+    "title": "Fondo Semilla Emprendedores",
+    "view": "layout_no_sidebar",
+    "icon": "fa-users",
+    "zones": [{
+        "widgets": [{
+            "title": "Expertos",
+            "module": "expertos",
+            "controller": "expertos",
+            "function": "empresas_lite"
+        }]
+    }],
+    
+    "js": [{
+            "{base_url}expertos/assets/jscript/lite.js": "Dash"
+            }]
+}
