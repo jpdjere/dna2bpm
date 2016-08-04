@@ -95,6 +95,7 @@ class Api extends MX_Controller {
             foreach ($result as $key => $value) { 
                 foreach ($value as $cuit=>$date) {  
                     $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
+                    var_dump($procesos);
                     $data[] =array(
                         'cuit'=>$cuit,
                         //'razon_social'=>$procesos[0]->denominacion,
