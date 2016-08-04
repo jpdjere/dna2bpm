@@ -19,4 +19,18 @@ class Fondosemilla_model extends CI_Model {
         return $result; 
     }
     
+    function get_idu_by_id($id){
+        $rtn = array();
+        $container = 'users';
+        $query = array( 'idnumber' => $id);
+        $this->db->where($query);
+        $result = $this->db->get($container)->result_array();
+        return $result[0]; 
+    }    
+    
+
+
+    
+    
+    
 }
