@@ -30,9 +30,9 @@ class Perfil extends MX_Controller {
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
-        // ini_set('display_errors', 1);
-        // error_reporting(E_ALL);
-        // ini_set('xdebug.var_display_max_depth', 120 );
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        ini_set('xdebug.var_display_max_depth', 120 );
 
     }
 
@@ -56,12 +56,24 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
-        $data=$this->user->get_user((int) $this->idu);
-        $customData['avatar']=$this->user->get_avatar();
-        $customData['empresas'] = $this->portal_model->get_empresas(); 
-        foreach($customData['empresas'] as &$emp){
-            if(str_replace('-','',$emp['1695'])==$cuit) $emp['selected']='selected="selected"';
+
+        //== @todo ver caso usuario sin empresas
+        $midata=$this->user->get_user((int) $this->idu);
+
+        if(empty($midata->cuits_relacionados))
+            //exit();
+
+        $opt="";
+        foreach($midata->cuits_relacionados as $empresa){
+            // 
+              $cuit2=array_keys($empresa);
+              $selected=($cuit2[0]==$cuit)?('selected'):('');
+              $opt.="<option  value='{$cuit2[0]}' $selected> {$cuit2[0]}</option>\n";
+
         }
+        $customData['empresas']="<select class='form-control' id='search_empresa'>$opt</select>";
+        // $customData['avatar']=$this->user->get_avatar();
+
         $actividades=$this->app->get_ops(750);
         // $customData['empresas'] = array();
         if(isset($cuit)){
@@ -244,12 +256,19 @@ class Perfil extends MX_Controller {
 
     private function get_cuit(){
         $cuit=(int)$this->uri->segment(3);
+         $midata=$this->user->get_user((int) $this->idu);
         if(empty($cuit)){
-            $customData['empresas'] = $this->portal_model->get_empresas(); 
-            if(!empty($customData['empresas'][0][1695]))
-                $cuit=(int)str_replace('-', '', $customData['empresas'][0][1695]);
-        }
+            if(isset($midata->cuits_relacionados)){
+                $cuits=array_pop($midata->cuits_relacionados);
+                $mycuit=array_keys($cuits);
+                $cuit=$mycuit[0];
+
+            }
+
+         }
+
         return $cuit;
+            
     }
 
 
