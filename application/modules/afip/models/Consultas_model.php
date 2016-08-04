@@ -249,12 +249,79 @@ class Consultas_model extends CI_Model {
     return $rs['result'];
 
     }
+   function F1272xSemana($paramter=null){
+
+    $query = array();
+    $aquery=array(
+    'aggregate'=>'raw_ventanilla',
+                'pipeline'=>
+            array(
+                array('$group'=>
+                    array(
+                      "_id" =>array('$week'=>'$date'),
+                      "cant" =>array('$sum'=>1),
+                      "fecha" =>array('$first'=>'$date'),
+                      
+                    ),
+                ),
+                array('$sort'=>array(
+                    "fecha"=>1
+                    )),
+                array('$project'=>array(
+                        'Fecha'=>array('$dateToString'=> array('format'=>"%Y-%m-%d", 'date'=> '$fecha' )),
+                        'Cantidad'=>'$cant',
+                        '_id'=>0,
+                        )
+                    ),
+                 
+        )
+    );
+    //   echo json_encode($aquery);exit;
+    $rs=$this->afip_db->command($aquery);
+    return array('data'=>$rs['result'],'key'=>'Fecha','items'=>array('Cantidad'),'labels'=>array('Cantidad'));
+
+    }
+   function F1272xMes($paramter=null){
+
+    $query = array();
+    $aquery=array(
+    'aggregate'=>'raw_ventanilla',
+                'pipeline'=>
+            array(
+                array('$group'=>
+                    array(
+                      "_id" =>array('$month'=>'$date'),
+                      "cant" =>array('$sum'=>1),
+                      "fecha" =>array('$first'=>'$date'),
+                      
+                    ),
+                ),
+                array('$sort'=>array(
+                    "fecha"=>1
+                    )),
+                array('$project'=>array(
+                        'Fecha'=>array('$dateToString'=> array('format'=>"%m/%Y", 'date'=> '$fecha' )),
+                        'Cantidad'=>'$cant',
+                        '_id'=>0,
+                        )
+                    ),
+                 
+        )
+    );
+    //  echo json_encode($aquery,JSON_PRETTY_PRINT);exit;
+    $rs=$this->afip_db->command($aquery);
+    return array('data'=>$rs['result'],'key'=>'Fecha','items'=>array('Cantidad'),'labels'=>array('Cantidad'));
+
+    }
+
 
     function has_1273($cuit){
         $query=array('cuit'=>$cuit,'1273'=>array('$exists'=>true));
         return $this->afip_db->where($query)->get('raw_ventanilla')->result_array();
 
     }
+
+    
 
 
 }

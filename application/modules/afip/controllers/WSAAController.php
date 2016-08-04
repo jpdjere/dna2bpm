@@ -57,7 +57,7 @@ class WSAAController extends MX_Controller {
     
     function Index(){
 
-        $this->load->view('wsaa_index_view');
+       # $this->load->view('wsaa_index_view');
     }
 
 

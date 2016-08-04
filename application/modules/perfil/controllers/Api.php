@@ -50,14 +50,17 @@ class Api extends MX_Controller {
 
         $this->user->authorize();               
         $this->idu = $this->user->idu;
-        
+        $this->load->model('afip/eventanilla_model');
         $result=$this->portal_model->cuits_by_idu_model($this->idu);
         $data = array();
         if($result){
             foreach ($result as $key => $value) { 
                 foreach ($value as $cuit=>$date) {  
-                                 
-                    $data[] =array('cuit'=>$cuit);
+                    $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
+                    $data[] =array(
+                        'cuit'=>$cuit,
+                        'razon_social'=>$procesos[0]->denominacion,
+                        );
                 }
             }        
         }
