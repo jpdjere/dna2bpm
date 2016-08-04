@@ -54,7 +54,7 @@ class Api extends MX_Controller {
         $result=$this->portal_model->cuits_by_idu_model($this->idu);
         $data = array();
         if($result){
-            var_dump($result);
+            //var_dump($result);
             foreach ($result as $key => $value) { 
                 foreach ($value as $cuit=>$data) {  
                     
