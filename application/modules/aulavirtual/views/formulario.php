@@ -1,10 +1,6 @@
 <form id="form_profile" class="form-horizontal" action="{base_url}aulavirtual/process" enctype="multipart/form-data" method="POST">
- <input type="hidden" name="nuevo" value="{nuevo}">
- <input type="hidden" name="tipo" value="{tipo}">
- <input type="hidden" name="idcase" value="AAAA">
- <input type="hidden" name="token" value="{token}">
- <input type="hidden" name="idwf" value="aula_virtual">
-  
+ <input type="hidden" name="idu" value="{idu}">
+
   <div class="row"> 
    <div class="col-md-12">
       <h3><b>Datos Requeridos para la Registración</b></h3>
@@ -76,7 +72,7 @@
   
  	<div class="form-group rt20">
 
-	  <label class="col-md-2 control-label">PDF Adjunto &nbsp<a  class="glyphicon glyphicon-question-sign"  data-toggle="tooltip" title data-original-title="TEXTO DEL TIPO DE CERTIFICADO QUE SE SOLICITA"></a><br /><small style="color: #999">Máximo tamaño permitido 1mb.</small>  
+	  <label class="col-md-2 control-label">PDF Adjunto &nbsp<a  class="glyphicon glyphicon-question-sign"  data-toggle="tooltip" title data-original-title="TEXTO DEL TIPO DE CERTIFICADO QUE SE SOLICITA"></a><br /><small style="color: #999">Máximo tamaño permitido 300kb.</small>  
   
     </label>	
 

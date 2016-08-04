@@ -337,7 +337,33 @@ class Api extends MX_Controller {
 
         return $data;
 
-     }    
+     }
+     
+     function get_data_by_cuit_format($cuit, $mode = 'json'){
+
+
+        $this->user->authorize();                       
+
+        
+        $data=$this->consultas_model->cuits_certificados($cuit);
+
+        switch ($mode) {
+            case "object":
+                return (object) $data;
+                break;
+            case "array":
+                return($data);
+                break;
+            case "json":
+                output_json($data);
+                break;
+            default:
+                return($data);
+        }
+
+        return $data;
+
+     } 
 
     function has_1273($cuit){
        $res=$this->consultas_model->has_1273((float)$cuit);
