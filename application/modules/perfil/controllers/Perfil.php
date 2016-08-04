@@ -34,7 +34,6 @@ class Perfil extends MX_Controller {
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
-
     }
 
     function Index() {
@@ -47,7 +46,6 @@ class Perfil extends MX_Controller {
 
     function Empresa($cuit=null,$debug=0) {
 
-
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
 
@@ -58,13 +56,14 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
-        if(empty($cuit)){
-            echo('No hay cuits asociados');
-            return;
-        }
+
+        //== @todo ver caso usuario sin empresas
+        $midata=$this->user->get_user((int) $this->idu);
+
+        if(empty($midata->cuits_relacionados))
+            //exit();
 
         $opt="";
-        $midata=$this->user->get_user((int) $this->idu);
         foreach($midata->cuits_relacionados as $empresa){
             // 
               $cuit2=array_keys($empresa);
@@ -94,13 +93,7 @@ class Perfil extends MX_Controller {
         //=== Estadisticas
 
         function estadisticas(){
-
             $cuit=$this->get_cuit();
-            if(empty($cuit)){
-                echo('No hay cuits asociados');
-                return;
-            }
-
             $customData=array();
             $afip=$this->get_afip_data($cuit);
             $customData['periodos']='';
@@ -263,7 +256,7 @@ class Perfil extends MX_Controller {
 
     private function get_cuit(){
         $cuit=(int)$this->uri->segment(3);
-        $midata=$this->user->get_user((int) $this->idu);
+         $midata=$this->user->get_user((int) $this->idu);
         if(empty($cuit)){
             if(isset($midata->cuits_relacionados)){
                 $cuits=array_pop($midata->cuits_relacionados);
@@ -273,6 +266,7 @@ class Perfil extends MX_Controller {
             }
 
          }
+
         return $cuit;
             
     }
@@ -281,12 +275,6 @@ class Perfil extends MX_Controller {
 //=== Eficacia
 
 function eficacia(){
-
-$cuit=$this->get_cuit();
-if(empty($cuit)){
-    echo('No hay cuits asociados');
-    return;
-}
 
 $this->load->model('afip/consultas_model');
 
