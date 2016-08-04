@@ -264,6 +264,8 @@ BLOCK;
                     }
                 }
             }
+            var_dump($model,$case);
+            exit;
             $data = $this->bpm->load_case_data($case);
             $url = '';
             $url_msg = '';
