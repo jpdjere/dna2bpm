@@ -204,7 +204,7 @@ class Perfil extends MX_Controller {
 
             /*UPDATE users collection*/
             $query=array('idu'=>$this->idu);            
-            $data_array_cuit = array($cuit=>new MongoDate(time()));
+            $data_array_cuit = array('cuit'=>$cuit,'date'=>new MongoDate(time()));
             $data = array('cuits_relacionados'=>$data_array_cuit); 
             $update=$this->portal_model->cuit_representadas_update($query, $data_array_cuit);
 
