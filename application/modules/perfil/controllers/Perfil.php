@@ -18,9 +18,6 @@ class Perfil extends MX_Controller {
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
         $this->load->library('parser');
         $this->load->model('portal_model');
-        $this->load->model('bpm/bpm');
-        $this->load->model('app');
-        $this->load->library('dashboard/ui');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
@@ -29,290 +26,107 @@ class Perfil extends MX_Controller {
        // $this->lang->load('library', $this->config->item('language'));
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
-
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
-        ini_set('xdebug.var_display_max_depth', 120 );
-
     }
 
     function Index() {
         
     }
     
-    # ====================================
-    #   Empresa
-    # ====================================
-
-    function Empresa($cuit=null,$debug=0) {
-
+    function Empresa($cuit=null,$debug=1) {
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
-
+    }
+    function Incubadora() {
+        
+    }
+    function Experto() {
+        
     }
 
     //=== Profile
 
-    function profile(){
 
-        $cuit=$this->get_cuit();
-
-        //== @todo ver caso usuario sin empresas
-        $midata=$this->user->get_user((int) $this->idu);
-
-        if(empty($midata->cuits_relacionados))
-            //exit();
-
-        $opt="";
-        foreach($midata->cuits_relacionados as $empresa){
-            // 
-              $cuit2=array_keys($empresa);
-              $selected=($cuit2[0]==$cuit)?('selected'):('');
-              $opt.="<option  value='{$cuit2[0]}' $selected> {$cuit2[0]}</option>\n";
-
-        }
-        $customData['empresas']="<select class='form-control' id='search_empresa'>$opt</select>";
-        // $customData['avatar']=$this->user->get_avatar();
-
-        $actividades=$this->app->get_ops(750);
-        // $customData['empresas'] = array();
-        if(isset($cuit)){
-            $afip=$this->get_afip_data($cuit);
-            if($afip){
-                $afip['actividad_texto']=(isset($afip['actividad']))? @$actividades[$afip['actividad']]:'-----';
-                $customData=array_merge($customData,$afip);
-                
-            }
-        }
-
-        $customData['base_url']=$this->base_url;
-        $customData['cuit']=$cuit;
-        echo $this->parser->parse('perfil/profile', $customData, true, true);
-    }
-
-        //=== Estadisticas
-
-        function estadisticas(){
-            $cuit=$this->get_cuit();
-            $customData=array();
-            $afip=$this->get_afip_data($cuit);
-            $customData['periodos']='';
-            if(!empty($afip['periodos'])){
-                foreach($afip['periodos'] as $k=>$monto){
-                $customData['periodos'].="<p>$k <span class='label label-info'>AR $monto</span></p>";
-                }
-            }
-
-            // Programas
-             $cases = $this->bpm->get_cases_byFilter(
-                    array(
-                'iduser' => $this->idu,
-                'status' => 'open',
-                    ), array(), array('checkdate' => 'desc')
-            );
-           //  var_dump($cases);
-            $customData['programas']=count($cases);
-
-            // Programas adquiridos
-             $cases2 = $this->bpm->get_cases_byFilter(
-                    array(
-                'iduser' => $this->idu,
-                'status' => 'closed',
-                    ), array(), array('checkdate' => 'desc')
-            );
-            $customData['adquiridos']=count($cases2);
-             
-            echo $this->parser->parse('estadisticas', $customData, true, true);
-        }
-
-
-    # ====================================
-    #   Incubadora
-    # ====================================
-
-    function Incubadora() {
+function profile(){
+    // $config=array('body'=>'Im a callout','title'=>'Callout','class'=>'info');
+    //  echo $this->ui->callout($config);
+    $data=$this->user->get_user((int) $this->idu);
+    $avatar=$this->user->get_avatar();
+    $empresas = $this->portal_model->get_empresas();
+    //var_dump($empresas);
+    //exit();
+    $select = '<select class="form-control"  data-live-search="true">';
+    $id =0;
+    foreach($empresas as $empresa){
+        $select = $select. '<option id="'.$id.'" value="'.$empresa['1693'].'">Empresa:'.$empresa["1693"].' CUIT:'.$empresa["1695"].'</option>' ;
+        $id++;
         
     }
+    $select = $select.'</select>';
+    //echo ($select);
+    //exit();
+echo <<<_EOF_
+<div class="row">
+<div class="col-sm-3">
+<img src="$avatar"  class="avatar" style="width:120px" >
+</div>
+<div class="col-sm-9">
+{$select}
+<h3 ></h3>
+<ul class='list-unstyled'>
+<li><strong>Sector:</strong> Minería</li>
+<li><strong>Clasificación:</strong> Pyme</li>
+<li><strong>Sector:</strong> Tramo1</li>
+</ul>
+<a type="button" href="{$this->base_url}dashboard/profile" class="pull-right btn btn-general btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+ Editar</a>
+</div>
+</div>
 
-    # ====================================
-    #   Experto
-    # ====================================
+<div class="" style="border-top:1px solid #ccc;height:10px;margin-top:9px"></div>
 
-    function Experto() {
-        $data['base_url'] = $this->base_url;
-        $data['title'] = 'Expertos Pyme';
-        $data['logobar'] = $this->ui->render_logobar();
-        
+<div class="row">
+<div class="col-sm-6">
+<button type="button" class="btn btn-primary btn-md btn-block">Mi certificado PYME</button>
+</div>
+<div class="col-sm-6">
+<button type="button" class="btn btn-primary btn-md btn-block disabled">Mis Archivos</button>
+</div>
+</div>
 
-        $data_select = NULL;        
+_EOF_;
+    
 
-        echo $this->parser->parse('perfil/form_expertos', $data, true, true);
-    }
-
-    function Asocia_cuit() {
-        $data['base_url'] = $this->base_url;
-        $data['title'] = 'Asocia CUIT';
-       
-        echo $this->parser->parse('perfil/form_asocia_cuit', $data, true, true);
-    }
-
-    /*DATA 4 EXPERTOS PYME*/
-    function expertos_get_afip_data(){
-
-
-        $this->load->module('afip/api');        
-
-        #$cuit=30710303777;
-        $cuit=$this->input->post('cuit');       
-
-        #$transaccion=489167004;
-        $transaccion=(int)$this->input->post('transaccion');
-      #  echo $cuit . "xxxxx" . $transaccion;
-
-        $data = $this->api->get_data_by_cuit($cuit);    
-       
-      
-        $rtn = array();               
-
-      
-
-            if(!isset($data->cuit)) {#NO cuit
-                $rtn['msg'] = "error_cuit";                 
-            } else if($transaccion!=$data->transaccion){
-                $rtn['msg'] = 'error_transaccion';     
-            }
-        
-                       
-
-        if($transaccion==$data->transaccion){
-            
-            $rtn['cuit'] = $data->cuit;
-            $rtn['razon_social'] = $data->denominacion;
-            $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
-            $rtn['razon_social'] = $data->denominacion;
-            $rtn['empleados'] = $data->cantEmpleados;
-            $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
-            $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
-            if($data->tienePeriodo2014=='S')
-                $rtn['2014'] = $data->periodoFiscal2014['total'];
-            if($data->tienePeriodo2015=='S')
-                $rtn['2015'] = $data->periodoFiscal2015['total'];
-            if($data->tienePeriodo2016=='S')
-                $rtn['2016'] = $data->periodoFiscal2016['total'];
-       
-            $rtn['msg'] = 'ok';
-
-            /*UPDATE users collection*/
-            $query=array('idu'=>$this->idu);            
-            $data_array_cuit = array('cuit'=>$cuit,'date'=>new MongoDate(time()));
-            $data = array('cuits_relacionados'=>$data_array_cuit); 
-            $update=$this->portal_model->cuit_representadas_update($query, $data_array_cuit);
-
-            if(isset($update))
-                 $rtn['msg'] = 'success_update';
-        } 
-        /*MSG*/
-        echo json_encode($rtn);
-     }
-
-
-    # ====================================
-    #   General
-    # ====================================
-
-    function get_afip_data($cuit){
-       
-        $data=$this->portal_model->get_afip_data($cuit);
-        $isPyme=$this->portal_model->is_pyme($cuit);
-        $resp=array();
-        if(!empty($data->result)){
-            $resp['sector']=(empty($data->result['sector_texto']))?(''):($data->result['sector_texto']);
-            $resp['categoria']=(empty($data->result['categoria']))?(''):($data->result['categoria']);
-            $resp['actividad']=(empty($data->result['actividad']))?(''):($data->result['actividad']);
-            $resp['isPyme']=($isPyme===1)?('Pyme'):('-');
-            //== Facturacion
-            $periodos=array();
-            foreach($data as $k=>$v){
-             $pattern = '/^periodoFiscal([0-9]{4})/';
-             preg_match($pattern, $k, $matches);
-                 if(!empty($matches[1]) && is_numeric($matches[1]) )
-                     if(!empty($v['actividades']))       
-                         $periodos[$matches[1]]=$v['total'];
-            } 
-            $resp['periodos']=$periodos;
-
-        }
-
-       return $resp;
-    }
-
-
-    function AX_get_afip_data(){
-        $cuit=$this->input->post('cuit');
-        $data=$this->get_afip_data($cuit);
-
-        echo json_encode($data);
-    }
-
-    private function get_cuit(){
-        $cuit=(int)$this->uri->segment(3);
-         $midata=$this->user->get_user((int) $this->idu);
-        if(empty($cuit)){
-            if(isset($midata->cuits_relacionados)){
-                $cuits=array_pop($midata->cuits_relacionados);
-                $mycuit=array_keys($cuits);
-                $cuit=$mycuit[0];
-
-            }
-
-         }
-
-        return $cuit;
-            
-    }
+}
 
 
 //=== Eficacia
 
 function eficacia(){
+echo <<<_EOF_
+<div class="row">
+<div class="col-sm-3">
+<input type="text" class="knob" value="25" >
+</div>
+<div class="col-sm-9">
+<ul class='list-unstyled'>
+<li><i class="fa fa-times text-danger" aria-hidden="true"></i> Balance no presentado</li>
+<li><i class="fa fa-times text-danger" aria-hidden="true"></i> Formulario de certificación</li>
+<li><i class="fa fa-times text-danger" aria-hidden="true"></i> Validación de programa</li>
+</ul>
+</div>
+</div>
+_EOF_;
 
-$this->load->model('afip/consultas_model');
-
-// Programas
- $cases = $this->bpm->get_cases_byFilter(
-        array(
-    'iduser' => $this->idu,
-    'status' => 'open',
-        ), array(), array('checkdate' => 'desc')
-);
-
-// Certificado
-$cuit=$this->get_cuit();
-$ret=$this->consultas_model->has_1273($cuit);
-$has1273=!empty($ret);
-
-$customData=array();
-$userdata=$this->user->getbyid($this->idu);
-
-$eficacia['registro']=25;
-$eficacia['certificado']=($has1273)?(25):(0);
-$eficacia['aplica']=(empty($cases))?(0):(25);
-$eficacia['perfil']=(empty($userdata->phone))?(0):(25);
-
-$customData['porcentaje']=0;
-foreach($eficacia as $v)
-    $customData['porcentaje']+=$v;
-
-$customData['registro']=($eficacia['registro']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
-$customData['certificado']=($eficacia['certificado']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
-$customData['aplica']=($eficacia['aplica']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
-$customData['perfil']=($eficacia['perfil']==0)?('fa fa-times text-danger'):('fa fa-check text-success');
-
-echo $this->parser->parse('eficacia', $customData, true, true);
 
 }
 
+//=== Estadisticas
 
+function estadisticas(){
+echo <<<_EOF_
+    <p>Facturación: <span class='label label-info'>AR1.500.000</span> | Programas: 4 | Adquiridos: 1</p> 
+_EOF_;
+}
 
 //=== Inbox
 
@@ -335,10 +149,6 @@ echo <<<_EOF_
 
 _EOF_;
 }
-
-
- 
-
 }
 
 /* End of file welcome.php */

@@ -8,103 +8,170 @@ class portal_model extends CI_Model {
         $this->load->library('cimongo/cimongo');
         $this->db = $this->cimongo;
         $this->load->model('bpm/bpm');
-
-        $this->afip_db=new $this->cimongo;
-        $this->afip_db->switch_db('afip');
-
     }
+    
+    
+    
     
     
     function get_empresas(){
-
-
-        // $collection = 'container.empresas';
-        // $query = array(
-        //     'owner'=> $this->idu,
-        //     '1695'=> array('$exists'=>true),
-        //     '1693'=> array('$exists'=>true),
-        //     );
-        // // $this->db->select(array('id','status',1693,1695));
-        // $this->db->where($query);
-        // $this->db->order_by(array('1693'=>1));
-        
-        // $rs = $this->db->get($collection);
-        // return $rs->result_array();
-    }
-
-    function get_afip_data($cuit){
-            $this->afip_db->switch_db('afip');
-	    $query = array(
-            'cuit'=> new MongoInt64($cuit)
-            );
-           $rs=$this->afip_db->where($query)->get('procesos');
-	   return $rs->row();
-    }
-
-    function cuits_by_idu_model($idu){
-           
+        $collection = 'container.empresas';
         $query = array(
-            'idu'=> new MongoInt64($idu)
+            'owner'=> $this->idu
             );
-           $rs=$this->db->where($query)->get('users');
-          
-        return $rs->row()->cuits_relacionados;
-          
+        $this->db->where($query);    
+        $rs = $this->db->get($collection);
+        return $rs->result_array();
     }
-
-    //=== Determina rapidamente si un cuit es pyme, basado en P y Q - p->isPyme es temporal si en Q->status !- ready
-
-    function is_pyme($cuit){
-        $this->afip_db->switch_db('afip');
-        $query=array('cuit'=>$cuit);
-        $proceso=$this->afip_db->where($query)->get('procesos')->row();
-
-        if(!empty($proceso)){
-            // No es pyme 
-            if($proceso->result['isPyme']==0){
-                return 0;
-            }else{
-                if($proceso->incorporaVinculada==0){
-                    // Es pyme , y no tiene vinculadas
-                    return 1;
-                }else{
-                    // Es pyme , tiene vinculadas 
-                    #$enQueue=$this->get_queue($query);
-
-                    if(empty($enQueue)){
-                        // No esta en Q, el estado final es el de P
-                        return $proceso->result['isPyme'];
-                    }else{
-                        // Esta en Q, si es ready , el resultado final se copio a P
-                        $enQueue=$enQueue[0];        
-                        if($enQueue->status=='ready'){                      
-                            return $proceso->result['isPyme'];
-                        }else{
-                            return false;
-                        }
-                    }
-
-
-                }
-            }
-            return $proceso->result['isPyme'];
-        } 
-
-        return false;
-    } 
-
-
-    /*relacion cuits users update*/
-    function cuit_representadas_update($query, $data){ 
-         
-        $collection = 'users';        
-        $action = array('$addToSet' => array('cuits_relacionados' => $data));
-        $options = array('upsert' => true);
-        $result = $this->mongowrapper->db->$collection->update($query, $action, $options);
-        return $result;
+    
+    /*
+    function get_id_subprocess($idwf,$case){
+        $query = array(
+            //'assign' => $this->idu,
+            'id' => $case,
+            'idwf' => $idwf
+        );
+        $this->db->where($query);
+        //$this->db->select($fields);
+        //$this->db->order_by($sort);
+        $rs = $this->db->get('case');
+        return $rs->result_array();
+    }/*
+    function update_tokens($idwf,$case,$iduser){
+        $query = array(
+            //'assign' => $this->idu,
+            'case' => $case,
+            'idwf' => $idwf,
+            'resourceId'=> 'oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6'
+        );
+        //$this->db->where($query);
+        //$this->db->select($fields);
+        //$this->db->order_by($sort);
+        //$rs = $this->db->get('case');
+        //return $rs->result_array();
         
+        $collection = 'tokens';
+        //$query = array('case' => $idcase, 'assign' => $last_user);
+        $action = array('$addToSet' => array('assign' => $iduser));
+        $options = array('upsert' => true);
+        $rf = $this->mongowrapper->db->$collection->update($query, $action, $options);
+        return $rf;
+        
+    }*/
+    
+    
+    
+    
+    
+    
+    /*
+    function get_evaluator_by_project_by_id($query) {
 
+        $rtn = array();
+        $container = 'container.proyectos_crefis';
+        $fields = array('8668', 'id', '8339', '8325', '8340', '8334');
+        $query = array(8668 => array('$exists' => true));
+        $rs = $this->mongowrapper->db->$container->find($query, $fields);
+        foreach ($rs as $list) {
+            unset($list['_id']);
+            $rtn[] = $list;
+        }
+
+
+
+        return $rtn;
     }
 
+    function get_company_by_project_by_id($company_id) {
+
+        $rtn = array();
+        $container = 'container.empresas';
+        $fields = array('8668', 'id', '8339', '8325', '8340', '8334');
+        $query = array('id' => $company_id);
+        $rs = $this->mongowrapper->db->$container->find($query);
+        foreach ($rs as $list) {
+            unset($list['_id']);
+            $rtn[] = $list;
+        }
+
+        return $rtn;
+    }
+    */
+    /*function get_evaluator_by_project($filter) {*/
+        /* get ids */
+      /*  $all_ids = array();
+        $arr_status = array();
+
+        $allcases = $this->bpm->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
+        foreach ($allcases as $case) {
+            if (isset($case['data']['Proyectos_crefis']['query']))
+                $all_ids[] = $case['data']['Proyectos_crefis']['query'];
+        }
+
+        $get_value = array_map(function ($all_ids) {
+            return $this->get_evaluator_by_project_by_id($all_ids);
+        }, $all_ids);
+
+        return $get_value;
+    }*/
+
+    /* MONTOS POR ESTADO */
+    /*
+    function get_amount_stats_by_id($query) {
+        $rtn = array();
+        $container = 'container.proyectos_crefis';
+        $fields = array('8334', '8326', '8573');
+        $rs = $this->mongowrapper->db->$container->find($query, $fields);
+        foreach ($rs as $list) {
+            unset($list['_id']);
+            $rtn[] = $list;
+        }
+        return $rtn;
+    }
+    
+    function delegate_case_action($idwf, $idcase, $iduser_dest) {*/
+        /* UPDATE CASE */
+     /*   $collection = 'case';
+        $query = array('id' => $idcase, 'idwf' => $idwf);
+        $fields = array('iduser');
+        $action = array('$set' => array('iduser' => $iduser_dest));
+        $options = array('upsert' => true);
+        $fnd = $this->mongowrapper->db->$collection->findOne($query, $fields);
+        $rs = $this->mongowrapper->db->$collection->update($query, $action, $options);
+
+        if (isset($rs)) {
+            $last_user = $fnd['iduser'];
+            /* UPDATE TOKENS */
+   /*         $collection = 'tokens';
+            $query = array('case' => $idcase, 'assign' => $last_user);
+            $action = array('$addToSet' => array('assign' => $iduser_dest));
+            $options = array('upsert' => true);
+            $rf = $this->mongowrapper->db->$collection->update($query, $action, $options);
+        }
+
+
+        exit;
+    }*/
+    /**
+     * Trae los proyectos filtrando por valores del container
+     * $ident=195 proyectos crefis
+     */ 
+   /* function get_cases_byFilter_container($idwf,$ident=195,$query){
+        
+     $entities=$this->db->get_where('entities',array('ident'=>$ident))->result_array();
+     $entity=$entities[0];
+     $container=$entity['container'];     
+     $datafield=str_replace(' ','_',ucfirst(strtolower($entity['name'])));
+     //-----get ids from container
+     $this->db->select(array('id'));
+     $objs=$this->db->get_where($container,$query,array('id'))->result_array();
+     $ids=array();
+     $cases=array();
+     foreach($objs as $obj)
+     $ids[]=$obj['id'];
+     $filter=array('idwf'=>$idwf,'data.Proyectos_crefis.query.id'=>array('$in'=>$ids));
+     $cases=$this->bpm->get_cases_byFilter($filter);
+     return $cases;
+    }*/
 
 }
