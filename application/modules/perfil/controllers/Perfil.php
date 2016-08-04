@@ -58,12 +58,13 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
-        if(empty($cuits)){
+        if(empty($cuit)){
             echo('No hay cuits asociados');
             return;
         }
 
         $opt="";
+        $midata=$this->user->get_user((int) $this->idu);
         foreach($midata->cuits_relacionados as $empresa){
             // 
               $cuit2=array_keys($empresa);
@@ -95,7 +96,7 @@ class Perfil extends MX_Controller {
         function estadisticas(){
 
             $cuit=$this->get_cuit();
-            if(empty($cuits)){
+            if(empty($cuit)){
                 echo('No hay cuits asociados');
                 return;
             }
@@ -262,7 +263,7 @@ class Perfil extends MX_Controller {
 
     private function get_cuit(){
         $cuit=(int)$this->uri->segment(3);
-         $midata=$this->user->get_user((int) $this->idu);
+        $midata=$this->user->get_user((int) $this->idu);
         if(empty($cuit)){
             if(isset($midata->cuits_relacionados)){
                 $cuits=array_pop($midata->cuits_relacionados);
@@ -272,7 +273,6 @@ class Perfil extends MX_Controller {
             }
 
          }
-
         return $cuit;
             
     }
@@ -283,7 +283,7 @@ class Perfil extends MX_Controller {
 function eficacia(){
 
 $cuit=$this->get_cuit();
-if(empty($cuits)){
+if(empty($cuit)){
     echo('No hay cuits asociados');
     return;
 }
