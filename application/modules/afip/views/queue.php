@@ -44,8 +44,37 @@
                 <h2>Consulta de Estado por Nro de C.U.I.T.</h2>
                 <h3>QUEUE</h3>                          
                 <!-- LIST -->
-                <div class="well">
-                    <ul>{queue_list}</ul>                
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>CUIT</th>
+                            <th>Razón Social/Nombre</th>
+                            <th>Forma jurídica</th>
+                            <th>Marca</th>
+                            <th>Diferido?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {queue_list}
+                    <tr>
+                        <td><a href="{module_url}consultas/source/{cuit}" alt='source {cuit}' target='_blank'><i class='fa fa-plus'></i></a></td>
+                        <td>{cuit}</td>
+                        <td>{denominacion}
+                        <br>
+                            {result actividad} - {result actividad_texto}
+                        </td>
+                        <td>{formajuridica}</td>
+                        <td>{flags}</td>
+                        <td>{diferido}</td>
+                    </tr>
+                        {/queue_list}
+                    </tbody>
+                </table>
+                            
+
+                            </li>
                 </div>
 
         </div>
