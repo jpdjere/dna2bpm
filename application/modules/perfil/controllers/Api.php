@@ -46,7 +46,7 @@ class Api extends MX_Controller {
 
 
     /* CUITS RELACIONADO BY USER ID*/
-    function cuits_by_idu($mode = 'json'){
+   /* function cuits_by_idu($mode = 'json'){
 
         $this->user->authorize();               
         $this->idu = $this->user->idu;
@@ -82,7 +82,42 @@ class Api extends MX_Controller {
                 return($data);
         }
 
-    }   
+    }   */
+    
+    function cuits_by_idu($mode = 'json'){
+
+        $this->user->authorize();               
+        $this->idu = $this->user->idu;
+        $this->load->model('afip/eventanilla_model');
+        $result=$this->portal_model->cuits_by_idu_model($this->idu);
+        $data = array();
+        if($result){
+            foreach ($result as $key => $value) { 
+                foreach ($value as $cuit=>$date) {  
+                    $procesos=$this->eventanilla_model->get_process(array('cuit'=>$cuit));                                 
+                    $data[] =array(
+                        'cuit'=>$cuit,
+                        'razon_social'=>$procesos[0]->denominacion,
+                        );
+                }
+            }        
+        }
+       
+       switch ($mode) {
+            case "object":
+                return (object) $data;
+                break;
+            case "array":
+                return($data);
+                break;
+            case "json":
+                output_json($data);
+                break;
+            default:
+                return($data);
+        }
+
+    } 
 
     
     
