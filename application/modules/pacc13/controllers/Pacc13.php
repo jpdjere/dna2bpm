@@ -214,8 +214,6 @@ BLOCK;
             'resourceId' =>$this->consolida_resrourceId
         );
         // -----busco en el cuit
-        var_dump($this->input->post('query'));
-        $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -238,7 +236,7 @@ BLOCK;
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
-        
+        $data ['querystring'] = $this->input->post('query');
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
@@ -313,8 +311,6 @@ BLOCK;
 		'resourceId' =>$this->consolida_resrourceIdPPF
             );
             // -----busco en el cuit
-            var_dump($this->input->post('query'));
-            $data ['querystring'] = $this->input->post('query');
 				$filter ['$or'] [] = array(
 					'data.1695' => array(
 						'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -337,9 +333,9 @@ BLOCK;
 						'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
 					)
 				);
-				
-				$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-				var_dump($filter);
+            $data ['querystring'] = $this->input->post('query');
+        		$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
+			var_dump($filter);
 				$data ['empresas'] = array_map(function ($token) {
 					// var_dump($token['_id']);
 					$case = $this->bpm->get_case($token ['case'], 'pacc3PPF');
@@ -409,7 +405,6 @@ BLOCK;
 				'resourceId' =>$this->consolida_resrourceIdPP
 			);
 			// -----busco en el cuit
-			$data ['querystring'] = $this->input->post('query');
 			$filter ['$or'] [] = array(
 				'data.1695' => array(
 					'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -432,7 +427,7 @@ BLOCK;
 					'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
 				)
 			);
-			
+			$data ['querystring'] = $this->input->post('query');		
 			$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
 			
 			$data ['empresas'] = array_map(function ($token) {
