@@ -300,8 +300,11 @@ BLOCK;
             );
         }, $tokens);
         $data ['count'] = count($tokens);
+        var_dump(count($tokens));
 //****************************
 	if (count($tokens)==0 || count($tokens)=='0'){
+            var_dump($consolida_resrourceIdPPF);
+            
 				$filter = array(
 					'idwf' => 'pacc3PPF',
 					'resourceId' =>$this->consolida_resrourceIdPPF
@@ -395,6 +398,8 @@ BLOCK;
 				}, $tokens);
 				$data ['count']= count($tokens);
 		if (count($tokens)==0 || count($tokens)=='0'){
+                    
+            var_dump($consolida_resrourceIdPP);
 			$filter = array(
 				'idwf' => 'pacc3PP',
 				'resourceId' =>$this->consolida_resrourceIdPP
