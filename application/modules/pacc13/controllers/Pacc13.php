@@ -352,7 +352,7 @@ BLOCK;
         
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
 		
-        $data ['empresas'] = array_map(function ($token) {
+        $data ['empresas'] += array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3PP');
             $pacc3PP = $this->bpm->get_case($token ['case'], 'pacc3PP');
@@ -444,7 +444,7 @@ BLOCK;
         
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
 		
-        $data ['empresas'] = array_map(function ($token) {
+        $data ['empresas'] += array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3PPF');
             $pacc3PPF = $this->bpm->get_case($token ['case'], 'pacc3PPF');
