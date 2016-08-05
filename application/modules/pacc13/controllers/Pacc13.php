@@ -300,6 +300,10 @@ BLOCK;
         $data ['count'] = count($tokens);
 //****************************
 	if (count($tokens)==0 || count($tokens)=='0'){
+            $this->load->model('bpm/bpm');
+            $this->user->authorize();
+            $this->load->library('parser');
+            $templateAg = 'pacc13/listar_13';
             
             $consolida_resrourceId='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
             $filter = array(
@@ -333,7 +337,7 @@ BLOCK;
 				);
 				
 				$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-				var_dump($tokens);
+				var_dump($filter);
 				$data ['empresas'] = array_map(function ($token) {
 					// var_dump($token['_id']);
 					$case = $this->bpm->get_case($token ['case'], 'pacc3PPF');
