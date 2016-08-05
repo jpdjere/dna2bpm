@@ -237,6 +237,7 @@ BLOCK;
         );
         
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
+        var_dump($tokens);
 		
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
@@ -298,7 +299,6 @@ BLOCK;
             );
         }, $tokens);
         $data ['count'] = count($tokens);
-        var_dump(count($tokens));
 //****************************
 	if (count($tokens)==0 || count($tokens)=='0'){
             
@@ -310,7 +310,6 @@ BLOCK;
 					'resourceId' =>$this->consolida_resrourceId
 				);
 				// -----busco en el cuit
-				
 				$data ['querystring'] = $this->input->post('query');
 				$filter ['$or'] [] = array(
 					'data.1695' => array(
