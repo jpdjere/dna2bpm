@@ -337,6 +337,32 @@ class Api extends MX_Controller {
 
     }
     
+    function get_data_by_cuit_format($cuit, $mode = 'json'){
+
+
+        $this->user->authorize();                       
+
+        
+        $data=$this->consultas_model->cuits_certificados($cuit);
+
+        switch ($mode) {
+            case "object":
+                return (object) $data;
+                break;
+            case "array":
+                return($data);
+                break;
+            case "json":
+                output_json($data);
+                break;
+            default:
+                return($data);
+        }
+
+        return $data;
+
+     } 
+    
     function get_fecha_proceso($cuit){
        $data = "hola";
        echo $data;

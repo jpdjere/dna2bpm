@@ -201,9 +201,13 @@ BLOCK;
         $this->engine->Run('model', 'pacc3SDAREND', $caserendicion,$resourceId,$silent);
         
     }
-    public $consolida_resrourceId='oryx_85AA85C0-2F51-46E0-9EB3-28FFAD508E48';
-    public $consolida_resrourceIdPP='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
+    //public $consolida_resrourceId='oryx_85AA85C0-2F51-46E0-9EB3-28FFAD508E48';
+    public $consolida_resrourceId=  'oryx_1AFA62AB-7C50-4896-9C9C-E0BA020B4F4F';
+    //public $consolida_resrourceIdPPF='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
     public $consolida_resrourceIdPPF='oryx_A58D5ECD-6899-4F60-856C-CFE89B36FB91';
+    //public $consolida_resrourceIdPP='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
+    public $consolida_resrourceIdPP='oryx_3219A2F6-BBB2-400B-9BFE-5D3B65DB5F2A';
+
     function buscarEmprend($type = null) {
         $this->load->model('bpm/bpm');
         $this->user->authorize();
@@ -214,7 +218,6 @@ BLOCK;
             'resourceId' =>$this->consolida_resrourceId
         );
         // -----busco en el cuit
-        $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -237,19 +240,18 @@ BLOCK;
                 '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
             )
         );
-        
+        $data ['querystring'] = $this->input->post('query');
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-		
         $data ['empresas'] = array_map(function ($token) {
-            // var_dump($token['_id']);
-            $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
-            $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
-            $model = 'pacc3SDAREND';
-            $data = $this->bpm->load_case_data($case);
-            $url = '';
-            $url_msg = '';
-            $hist=$this->bpm->get_token_history('pacc3SDAREND',$token['case']);
-            foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
+        // var_dump($token['_id']);
+        $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+        $pacc3SDAREND = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
+        $model = 'pacc3SDAREND';
+        $data = $this->bpm->load_case_data($case);
+        $url = '';
+        $url_msg = '';
+        $hist=$this->bpm->get_token_history('pacc3SDAREND',$token['case']);
+        foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
             //var_dump($token['_id'],$keys);
@@ -302,13 +304,18 @@ BLOCK;
         $data ['count'] = count($tokens);
 //****************************
 	if (count($tokens)==0 || count($tokens)=='0'){
-				$filter = array(
-					'idwf' => 'pacc3PPF',
-					'resourceId' =>$this->consolida_resrourceIdPPF
-				);
-				// -----busco en el cuit
-				
-				$data ['querystring'] = $this->input->post('query');
+            $this->load->model('bpm/bpm');
+            $this->user->authorize();
+            $this->load->library('parser');
+            $templateAg = 'pacc13/listar_13';
+            
+            //$consolida_resrourceId='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
+            $data ['querystring'] = $this->input->post('query');
+            $filter = array(
+                'idwf' => 'pacc3PPF',
+		'resourceId' =>$this->consolida_resrourceIdPPF
+            );
+            // -----busco en el cuit
 				$filter ['$or'] [] = array(
 					'data.1695' => array(
 						'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -331,10 +338,8 @@ BLOCK;
 						'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
 					)
 				);
-				
-				$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-				
-				$data ['empresas'] = array_map(function ($token) {
+        		$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
+			$data ['empresas'] = array_map(function ($token) {
 					// var_dump($token['_id']);
 					$case = $this->bpm->get_case($token ['case'], 'pacc3PPF');
 					$pacc3PPF = $this->bpm->get_case($token ['case'], 'pacc3PPF');
@@ -395,12 +400,13 @@ BLOCK;
 				}, $tokens);
 				$data ['count']= count($tokens);
 		if (count($tokens)==0 || count($tokens)=='0'){
+                     //$consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
+                    
 			$filter = array(
 				'idwf' => 'pacc3PP',
 				'resourceId' =>$this->consolida_resrourceIdPP
 			);
 			// -----busco en el cuit
-			$data ['querystring'] = $this->input->post('query');
 			$filter ['$or'] [] = array(
 				'data.1695' => array(
 					'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
@@ -423,7 +429,7 @@ BLOCK;
 					'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
 				)
 			);
-			
+			$data ['querystring'] = $this->input->post('query');		
 			$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
 			
 			$data ['empresas'] = array_map(function ($token) {
