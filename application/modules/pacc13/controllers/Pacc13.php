@@ -214,16 +214,6 @@ BLOCK;
             'resourceId' =>$this->consolida_resrourceId
         );
         // -----busco en el cuit
-        /*
-        $filter ['$or'] [] = array(
-            'idwf' => 'pacc3PPF',
-            'resourceId' =>$this->consolida_resrourceIdPP
-        );
-        $filter ['$or'] [] = array(
-            'idwf' => 'pacc3SDAREND',
-            'resourceId' =>$this->consolida_resrourceIdPPF
-        );
-         */
         $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
@@ -249,7 +239,6 @@ BLOCK;
         );
         
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-		
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
@@ -313,19 +302,9 @@ BLOCK;
 //****************************
         $filter = array(
             'idwf' => 'pacc3PP',
-            'resourceId' =>$this->consolida_resrourceId
-        );
-        // -----busco en el cuit
-        /*
-        $filter ['$or'] [] = array(
-            'idwf' => 'pacc3PPF',
             'resourceId' =>$this->consolida_resrourceIdPP
         );
-        $filter ['$or'] [] = array(
-            'idwf' => 'pacc3PP',
-            'resourceId' =>$this->consolida_resrourceIdPPF
-        );
-         */
+        // -----busco en el cuit
         $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
@@ -414,7 +393,7 @@ BLOCK;
         $data ['count']+= count($tokens);
         $filter = array(
             'idwf' => 'pacc3PPF',
-            'resourceId' =>$this->consolida_resrourceId
+            'resourceId' =>$this->consolida_resrourceIdPPF
         );
         // -----busco en el cuit
         
