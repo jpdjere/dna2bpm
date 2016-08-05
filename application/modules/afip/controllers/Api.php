@@ -344,7 +344,7 @@ class Api extends MX_Controller {
 
         
         $data=$this->consultas_model->cuits_certificados($cuit);
-        var_dump($data);
+        //var_dump($data);
         switch ($mode) {
             case "object":
                 return (object) $data;
