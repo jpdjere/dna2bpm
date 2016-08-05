@@ -342,7 +342,7 @@ class Api extends MX_Controller {
 
         $this->user->authorize();                       
 
-        
+        var_dump($cuit);
         $data=$this->consultas_model->cuits_certificados($cuit);
 
         switch ($mode) {
