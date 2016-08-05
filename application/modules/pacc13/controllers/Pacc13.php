@@ -339,8 +339,7 @@ BLOCK;
 					)
 				);
         		$tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-			var_dump($filter);
-				$data ['empresas'] = array_map(function ($token) {
+			$data ['empresas'] = array_map(function ($token) {
 					// var_dump($token['_id']);
 					$case = $this->bpm->get_case($token ['case'], 'pacc3PPF');
 					$pacc3PPF = $this->bpm->get_case($token ['case'], 'pacc3PPF');
@@ -400,7 +399,6 @@ BLOCK;
 					);
 				}, $tokens);
 				$data ['count']= count($tokens);
-        var_dump(count($tokens));
 		if (count($tokens)==0 || count($tokens)=='0'){
                      //$consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
                     
@@ -494,7 +492,6 @@ BLOCK;
 				);
 			}, $tokens);
 			$data ['count']= count($tokens);
-        var_dump(count($tokens));
 		}
 	}
 
