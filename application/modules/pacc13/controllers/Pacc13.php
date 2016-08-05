@@ -202,6 +202,8 @@ BLOCK;
         
     }
     public $consolida_resrourceId='oryx_85AA85C0-2F51-46E0-9EB3-28FFAD508E48';
+    public $consolida_resrourceIdPPF='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
+    public $consolida_resrourceIdPP='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
     function buscarEmprend($type = null) {
         $this->load->model('bpm/bpm');
         $this->user->authorize();
@@ -305,10 +307,10 @@ BLOCK;
             $this->load->library('parser');
             $templateAg = 'pacc13/listar_13';
             
-            $consolida_resrourceId='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
+            //$consolida_resrourceId='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
             $filter = array(
                 'idwf' => 'pacc3PPF',
-		'resourceId' =>$this->consolida_resrourceId
+		'resourceId' =>$this->consolida_resrourceIdPPF
             );
             // -----busco en el cuit
             var_dump($this->input->post('query'));
@@ -400,12 +402,11 @@ BLOCK;
 				$data ['count']= count($tokens);
         var_dump(count($tokens));
 		if (count($tokens)==0 || count($tokens)=='0'){
-                     $consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
+                     //$consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
                     
-            var_dump($consolida_resrourceId);
 			$filter = array(
 				'idwf' => 'pacc3PP',
-				'resourceId' =>$this->consolida_resrourceId
+				'resourceId' =>$this->consolida_resrourceIdPP
 			);
 			// -----busco en el cuit
 			$data ['querystring'] = $this->input->post('query');
