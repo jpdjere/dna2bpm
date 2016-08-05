@@ -339,12 +339,13 @@ class Api extends MX_Controller {
     
     function get_data_by_cuit_format($cuit, $mode = 'json'){
 
-        $cuit = '30712072772';
+        //$cuit = '30712072772';
         $this->user->authorize();                       
 
         
         $data=$this->consultas_model->cuits_certificados($cuit);
-        //var_dump($data);
+        var_dump($data);
+        exit();
         return $cuit;
         switch ($mode) {
             case "object":
