@@ -301,7 +301,8 @@ BLOCK;
         var_dump(count($tokens));
 //****************************
 	if (count($tokens)==0 || count($tokens)=='0'){
-            public $consolida_resrourceId='oryx_A58D5ECD-6899-4F60-856C-CFE89B36FB91';
+            
+            $consolida_resrourceId='oryx_A58D5ECD-6899-4F60-856C-CFE89B36FB91';
             var_dump($consolida_resrourceId);
             
 				$filter = array(
@@ -397,7 +398,7 @@ BLOCK;
 				}, $tokens);
 				$data ['count']= count($tokens);
 		if (count($tokens)==0 || count($tokens)=='0'){
-                    public $consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
+                     $consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
                     
             var_dump($consolida_resrourceId);
 			$filter = array(
