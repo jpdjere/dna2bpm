@@ -342,7 +342,7 @@ class Api extends MX_Controller {
         $cuit = '30712072772';
         $this->user->authorize();                       
 
-        var_dump($cuit);
+        
         $data=$this->consultas_model->cuits_certificados($cuit);
 
         switch ($mode) {
@@ -358,7 +358,7 @@ class Api extends MX_Controller {
             default:
                 return($data);
         }
-
+        var_dump($data);
         return $data;
 
      } 
