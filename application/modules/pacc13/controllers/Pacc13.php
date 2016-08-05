@@ -212,6 +212,7 @@ BLOCK;
             'resourceId' =>$this->consolida_resrourceId
         );
         // -----busco en el cuit
+        var_dump($this->input->post('query'));
         $data ['querystring'] = $this->input->post('query');
         $filter ['$or'] [] = array(
             'data.1695' => array(
@@ -237,8 +238,6 @@ BLOCK;
         );
         
         $tokens = $this->bpm->get_tokens_byFilter($filter , array('case','data','checkdate'), array('checkdate' => false));
-        var_dump($tokens);
-		
         $data ['empresas'] = array_map(function ($token) {
             // var_dump($token['_id']);
             $case = $this->bpm->get_case($token ['case'], 'pacc3SDAREND');
@@ -303,14 +302,13 @@ BLOCK;
 	if (count($tokens)==0 || count($tokens)=='0'){
             
             $consolida_resrourceId='oryx_08C657C5-1F29-4B56-94E5-80C49D534E9E';
-            var_dump($consolida_resrourceId);
-            
-				$filter = array(
-					'idwf' => 'pacc3PPF',
-					'resourceId' =>$this->consolida_resrourceId
-				);
-				// -----busco en el cuit
-				$data ['querystring'] = $this->input->post('query');
+            $filter = array(
+                'idwf' => 'pacc3PPF',
+		'resourceId' =>$this->consolida_resrourceId
+            );
+            // -----busco en el cuit
+            var_dump($this->input->post('query'));
+            $data ['querystring'] = $this->input->post('query');
 				$filter ['$or'] [] = array(
 					'data.1695' => array(
 						'$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
