@@ -397,6 +397,7 @@ BLOCK;
 					);
 				}, $tokens);
 				$data ['count']= count($tokens);
+        var_dump(count($tokens));
 		if (count($tokens)==0 || count($tokens)=='0'){
                      $consolida_resrourceId='oryx_E82C9FE5-E125-41EF-8C14-D4999E97CDE5';
                     
@@ -492,6 +493,7 @@ BLOCK;
 				);
 			}, $tokens);
 			$data ['count']= count($tokens);
+        var_dump(count($tokens));
 		}
 	}
 
