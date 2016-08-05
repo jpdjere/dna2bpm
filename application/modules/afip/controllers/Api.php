@@ -339,7 +339,7 @@ class Api extends MX_Controller {
     
     function get_data_by_cuit_format($cuit, $mode = 'json'){
 
-
+        $cuit = '30712072772';
         $this->user->authorize();                       
 
         var_dump($cuit);
