@@ -51,8 +51,7 @@ class Api extends MX_Controller {
         $this->user->authorize();               
         $this->idu = $this->user->idu;
         $this->load->model('afip/eventanilla_model');
-        // $results=$this->portal_model->cuits_by_idu_model($this->idu);
-        $results=$this->portal_model->cuits_by_idu_model(-639429126);
+        $results=$this->portal_model->cuits_by_idu_model($this->idu);
         $data = array();
         if($results){
             foreach ($results as $result) {  
