@@ -26,7 +26,7 @@ class Perfil extends MX_Controller {
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
         $this->user->authorize();
         //----LOAD LANGUAGE
-       // $this->lang->load('library', $this->config->item('language'));
+        $this->lang->load('perfil', $this->config->item('language'));
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
@@ -58,18 +58,26 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
+        $customData['lang']= $this->lang->language;
+        
+
         if(empty($cuit)){
-            echo('No hay cuits asociados');
+            $callout=array('body'=>$customData['lang']['text_asocia'],'title'=>'');
+            echo $this->ui->callout($callout);
+            $this->Asocia_cuit();
             return;
         }
 
         $opt="";
         $midata=$this->user->get_user((int) $this->idu);
+
         foreach($midata->cuits_relacionados as $empresa){
             // 
               $cuit2=array_keys($empresa);
+              $afip_data=$this->portal_model->get_afip_data($cuit2[0]);
+            if(empty($afip_data))continue; 
               $selected=($cuit2[0]==$cuit)?('selected'):('');
-              $opt.="<option  value='{$cuit2[0]}' $selected> {$cuit2[0]}</option>\n";
+              $opt.="<option  value='{$cuit2[0]}' $selected> {$afip_data->denominacion} {$cuit2[0]} |  </option>\n";
 
         }
         $customData['empresas']="<select class='form-control' id='search_empresa'>$opt</select>";
@@ -288,7 +296,7 @@ if(empty($cuit)){
     return;
 }
 
-$this->load->model('afip/consultas_model');
+
 
 // Programas
  $cases = $this->bpm->get_cases_byFilter(
@@ -298,11 +306,7 @@ $this->load->model('afip/consultas_model');
         ), array(), array('checkdate' => 'desc')
 );
 
-// Certificado
-$cuit=$this->get_cuit();
-$ret=$this->consultas_model->has_1273($cuit);
-$has1273=!empty($ret);
-
+$has1273=$this->has1273();
 $customData=array();
 $userdata=$this->user->getbyid($this->idu);
 
@@ -349,6 +353,14 @@ _EOF_;
 }
 
 
+function has1273(){
+// Certificado
+ $this->load->model('afip/consultas_model');
+$cuit=$this->get_cuit();
+$ret=$this->consultas_model->has_1273($cuit);
+return !empty($ret);
+
+}
  
 
 }
