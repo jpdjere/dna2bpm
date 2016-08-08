@@ -53,7 +53,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue-custom"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_BI", "tile-blue-custom"]
             },
             {
                 "title": "Verifica Plan de Negocios",
