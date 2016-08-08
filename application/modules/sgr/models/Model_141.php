@@ -328,7 +328,7 @@ class Model_141 extends CI_Model {
         
         #var_dump(json_encode($query)); exit;
         $get=$this->sgr_db->command($query);  
-        echo $cuit ."<br>";
+        #echo $cuit ."<br>";
         $result = $this->anexo14_balance_by_cuit($get['result']);       
         return $result;
     }
