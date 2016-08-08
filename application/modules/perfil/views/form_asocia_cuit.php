@@ -1,4 +1,4 @@
- <div class="box box"  class="small-box">
+
      <form method="post" class="form-extra" id="consult">
         <div class="input-group input-group-sm" style="padding:10px">
           <span class="input-group-addon">Ingrese la C.U.I.T.</span>
@@ -14,7 +14,7 @@
             </span>
         </div>
       </form>
-  </div>
+
 
 
   <div id="loading" class="col-md-" style="display:none;margin-top:20px">

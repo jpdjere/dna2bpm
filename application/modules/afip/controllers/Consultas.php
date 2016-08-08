@@ -191,7 +191,7 @@ function certificado($parameter,$type='pdf'){
         echo "error la C.U.I.T. " . $parameter . " no fue beneficiada con 'IVA – Cancelación trimestral'";
         exit;
     }
-
+    
         /*
         CUIT
         Razón Social
