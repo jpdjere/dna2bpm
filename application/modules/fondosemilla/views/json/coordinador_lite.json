@@ -53,7 +53,7 @@
                 "controller": "kpi",
                 "function": "tile",
                 "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue-custom"]
+                "params": ["fondo_semilla2016", "fondo_semilla2016_BI", "tile-blue-custom"]
             },
             {
                 "title": "Verifica Plan de Negocios",
@@ -71,9 +71,13 @@
                 "title": "Reportes Incubadora",
                 "module": "fondosemilla",
                 "controller": "semilla",
-                "function": "reportes_incubadora",
-                "params": ["fondo_semilla2016", "fondo_semilla2016_QU", "tile-blue-custom"]
-            }]
+                "function": "reportes_incubadora"
+                },{
+                "title": "Reportes Incubadora",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "reportes_casos_por_cuit"
+                }]
             
         }
     ],
