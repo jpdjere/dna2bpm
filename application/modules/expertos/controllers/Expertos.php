@@ -249,7 +249,7 @@ class expertos extends MX_Controller {
     }
 
    /**
-     * Agrega el grupo EMPRESA a los que entran al panel para que puedan ejecutar el BPM
+     * Agrega el grupo a los que entran al panel para que puedan ejecutar el BPM
      */
     function Add_group($grupo_user) {
         $user =$this->user->get_user($this->idu);
@@ -260,94 +260,6 @@ class expertos extends MX_Controller {
             $user->group = array_unique($user->group);
             $this->user->save($user);
         }
-    }
-
-
-    function asignar_evaluador($idwf, $idcase, $tokenId) {
-        $this->load->library('parser');
-        $this->load->model('user/group');
-        $this->load->model('bpm/bpm');
-        $case = $this->bpm->get_case($idcase, $idwf);
-        $renderData = $this->bpm->load_case_data($case, $idwf);
-        //----tomo evaluador del caso
-        $evaluador = $renderData['Proyectos_crefis']['4939'][0];
-        //----token que hay que finalizar
-        $src_resourceId = 'oryx_9E2BE9E9-5067-440E-AAA2-17602D277147';
-        // ---Token de pp asignado
-        $lane_resourceId = 'oryx_FB601E1C-E420-49D6-BB3C-D8BD4166D1ED';
-
-        $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
-
-        redirect($url);
-    }
-
-    function asignar_evaluador_pde($idwf, $idcase, $tokenId) {
-        $this->load->library('parser');
-        $this->load->model('user/group');
-        $this->load->model('bpm/bpm');
-        $case = $this->bpm->get_case($idcase, $idwf);
-        $renderData = $this->bpm->load_case_data($case, $idwf);
-        //----tomo evaluador del caso
-        $evaluador = $renderData['Proyectos_crefis']['8668'][0];
-        //----token que hay que finalizar
-        $src_resourceId = 'oryx_336D35BD-229C-47FA-9012-3670DDB73937';
-        // ---Token de pp asignado
-        $lane_resourceId = 'oryx_B59407D5-0805-46F0-871F-7C8634B133E1';
-
-        $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
-
-        redirect($url);
-    }
-
-    function info($tipo, $idcase) {
-        $idwf = 'crefisGral';
-        $this->load->model('bpm/bpm');
-        $this->load->library('parser');
-        $this->load->library('bpm/ui');
-        $renderData = array();
-        $renderData ['base_url'] = $this->base_url;
-        // ---prepare UI
-        $renderData ['js'] = array(
-            $this->base_url . 'bpm/assets/jscript/modal_window.js' => 'Modal Window Generic JS'
-        );
-        // ---prepare globals 4 js
-        $renderData ['global_js'] = array(
-            'base_url' => $this->base_url,
-            'module_url' => $this->base_url . 'bpm'
-        );
-//        $this->bpm->debug['load_case_data'] = true;
-        $user = $this->user->getuser((int) $this->session->userdata('iduser'));
-        $case = $this->bpm->get_case($idcase, $idwf);
-        $this->user->Initiator = $case['iduser'];
-        //---saco título para el resultado
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        //---tomo el template de la tarea
-        //$shape = $this->bpm->get_shape($resourceId, $wf);
-
-        $data = $this->bpm->load_case_data($case, $idwf);
-        $data['user'] = (array) $user;
-
-        //$resources = $this->bpm->get_resources($shape, $wf, $case);
-        //---if has no messageref and noone is assigned then
-        //---fire a message to lane or self
-//            if (!count($resources['assign']) and !$shape->properties->messageref) {
-//                $lane = $this->bpm->find_parent($shape, 'Lane', $wf);
-//                //---try to get resources from lane
-//                if ($lane) {
-//                    $resources = $this->bpm->get_resources($lane, $wf);
-//                }
-//                //---if can't get resources from lane then assign it self as destinatary
-//                if (!count($resources['assign']))
-//                    $resources['assign'][] = $this->user->Initiator;
-//            }
-        //---process inbox--------------
-
-        $renderData['name'] = 'Ingresar Proyecto';
-        $renderData['text'] = '';
-        $renderData['text'] .= '<hr/>';
-//        $renderData['text'] .=nl2br();
-        $this->ui->compose('bpm/modal_msg_little', 'bpm/bootstrap.ui.php', $renderData);
     }
 
     function set_evaluador($idwf, $idcase, $tokenId) {
