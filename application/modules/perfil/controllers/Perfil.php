@@ -51,31 +51,38 @@ class Perfil extends MX_Controller {
 
     }
 
+    //=== Asociacion de cuits
+    function asocia(){
+        $customData['lang']= $this->lang->language;
+        $callout=array('body'=>$customData['lang']['text_asocia'],'title'=>'');
+        echo $this->ui->callout($callout);
+        echo $this->Asocia_cuit();
+    }
+
     //=== Profile
 
     function profile(){
 
         $cuit=$this->get_cuit();
-        $customData['lang']= $this->lang->language;
-        
 
+        
         if(empty($cuit)){
-            $callout=array('body'=>$customData['lang']['text_asocia'],'title'=>'');
-            echo $this->ui->callout($callout);
-            $this->Asocia_cuit();
+            echo('No hay cuits asociados');
             return;
         }
 
         $opt="";
         $midata=$this->user->get_user((int) $this->idu);
-
+        $lista=array();
         foreach($midata->cuits_relacionados as $empresa){
-            // 
-              $cuit2=array_keys($empresa);
-              $afip_data=$this->portal_model->get_afip_data($cuit2[0]);
+                
+            $afip_data=$this->portal_model->get_afip_data($empresa['cuit']);
             if(empty($afip_data))continue; 
-              $selected=($cuit2[0]==$cuit)?('selected'):('');
-              $opt.="<option  value='{$cuit2[0]}' $selected> {$afip_data->denominacion} {$cuit2[0]} |  </option>\n";
+            if(in_array($empresa['cuit'],$lista))continue; 
+            $lista[]=$empresa['cuit'];
+            
+            $selected=($empresa['cuit']==$cuit)?('selected'):('');
+            $opt.="<option  value='{$empresa['cuit']}' $selected> {$afip_data->denominacion} | {$empresa['cuit']}   </option>\n";
 
         }
         $customData['empresas']="<select class='form-control' id='search_empresa'>$opt</select>";
@@ -195,7 +202,7 @@ class Perfil extends MX_Controller {
                 $rtn['msg'] = 'error_transaccion';     
             }
         
-                       
+                    
 
         if($transaccion==$data->transaccion){
             
@@ -203,15 +210,15 @@ class Perfil extends MX_Controller {
             $rtn['razon_social'] = $data->denominacion;
             $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
             $rtn['razon_social'] = $data->denominacion;
-            $rtn['empleados'] = $data->cantEmpleados;
+            $rtn['empleados'] = $data->empleado;
             $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
             $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
-            if($data->tienePeriodo2014=='S')
-                $rtn['2014'] = $data->periodoFiscal2014['total'];
-            if($data->tienePeriodo2015=='S')
-                $rtn['2015'] = $data->periodoFiscal2015['total'];
-            if($data->tienePeriodo2016=='S')
-                $rtn['2016'] = $data->periodoFiscal2016['total'];
+            // if($data->tienePeriodo2014=='S')
+            //     $rtn['2014'] = $data->periodoFiscal2014['total'];
+            // if($data->tienePeriodo2015=='S')
+            //     $rtn['2015'] = $data->periodoFiscal2015['total'];
+            // if($data->tienePeriodo2016=='S')
+            //     $rtn['2016'] = $data->periodoFiscal2016['total'];
        
             $rtn['msg'] = 'ok';
 
@@ -269,18 +276,29 @@ class Perfil extends MX_Controller {
 
     private function get_cuit(){
         $cuit=(int)$this->uri->segment(3);
-         $midata=$this->user->get_user((int) $this->idu);
-        if(empty($cuit)){
-            if(isset($midata->cuits_relacionados)){
-                $cuits=array_pop($midata->cuits_relacionados);
-                $mycuit=array_keys($cuits);
-                $cuit=$mycuit[0];
 
+        $midata=$this->user->get_user((int) $this->idu);
+        if(!isset($midata->cuits_relacionados))
+            return false;
+
+     
+
+        if(empty($cuit)){
+            // Va el primero de la lista
+
+            $ret=array_pop($midata->cuits_relacionados);
+            return (int)$ret['cuit'];
+         }else{
+            // chequeo si el elegido esta en la lista
+            $found=false;
+            foreach($midata->cuits_relacionados as $needle){
+                if($needle['cuit']==$cuit)
+                    return (int)$cuit;
             }
+            return $found;
 
          }
 
-        return $cuit;
             
     }
 
