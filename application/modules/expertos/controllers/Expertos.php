@@ -81,57 +81,7 @@ class expertos extends MX_Controller {
         Modules::run('dashboard/dashboard', 'crefis/json/crefis_mesaentrada.json',$debug);
     }
 
-    function tile_proyectos() {
-        // ----portable indicators are stored as json files
-        $kpi = json_decode($this->load->view("crefis/kpi/empresa_proyectos_presentados.json", '', true), true);
-        echo Modules::run('bpm/kpi/tile_kpi', $kpi);
-    }
 
-    function tile_solicitud() {
-        $data ['number'] = 'Solicitud de Asistencia';
-        $data ['title'] = 'Crea una nueva solicitud';
-        $data ['icon'] = 'ion-document-text';
-        $data ['more_info_text'] = 'Comenzar';
-        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/Expertos_Empresas';
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
-    }
-    function tile_profesional() {
-        $data ['number'] = 'Instituciones y Profesionales';
-        $data ['title'] = 'Carga';
-        $data ['icon'] = 'ion-document-text';
-        $data ['more_info_text'] = 'Comenzar';
-        $data ['more_info_link'] = $this->base_url . 'bpm/engine/newcase/model/carga_pro_inst';
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
-    }
-
-    function tile_aprobados_condicional() {
-        $this->user->authorize();
-        $this->load->model('crefis/crefis_model');
-        $data ['number'] = count($this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('4970' => '87')));
-        $data ['title'] = 'Aprobados Condicional';
-        $data ['icon'] = 'ion-document-text';
-        $data ['more_info_text'] = 'Listar';
-        $data ['more_info_class'] = 'load_tiles_after';
-        $data ['more_info_link'] = $this->base_url . 'crefis/listar_aprobados_condicional';
-
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
-    }
-
-    function tile_comite() {
-        $this->user->authorize();
-        $this->load->model('bpm/bpm');
-        $this->load->model('dna2/dna2old');
-        $dna2url = $this->dna2old->get('url');
-        // http://www.accionpyme.mecon.gob.ar/dna2/frontcustom/286/sol_ministro_2014.R.php
-        $url = $dna2url . "frontcustom/286/sol_ministro_2014.R.php";
-        $url = $this->bpm->gateway($url);
-        $data ['number'] = 'Comité';
-        $data ['title'] = 'Enviar a Comité';
-        $data ['icon'] = 'ion-archive';
-        $data ['more_info_text'] = 'Descargar';
-        $data ['more_info_link'] = $url;
-        echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
-    }
 
     function eliminar_en_preparacion($process = false) {
         $this->user->authorize();
@@ -148,30 +98,6 @@ class expertos extends MX_Controller {
                 $this->bpm->delete_case('crefisGral', $token['case']);
         }
     }
-
-    function ministatus_pp() {
-        $this->user->authorize();
-        $state = Modules::run('bpm/manager/mini_status', 'crefisGral', 'array');
-
-        $state = array_filter($state, function ($task) {
-            return $task ['type'] == 'Task';
-        });
-        // ---las aplano un poco
-        foreach ($state as $task) {
-            $task ['user'] = (isset($task ['status'] ['user'])) ? $task ['status'] ['user'] : 0;
-            $task ['finished'] = (isset($task ['status'] ['finished'])) ? $task ['status'] ['finished'] : 0;
-            $wfData ['mini'] [] = $task;
-        }
-
-        //var_dump($wfData);
-        $wfData ['base_url'] = base_url();
-        $wfData ['idwf'] = 'crefisGral';
-        $wf = $this->bpm->load('crefisGral');
-        $wfData += $wf ['data'] ['properties'];
-        $wfData ['name'] = 'Mini Status: ' . $wfData ['name'];
-        return $this->parser->parse('crefis/ministatus_pp', $wfData, true, true);
-    }
-
     /**
      * PROYECTS AMOUNT
      *
@@ -255,32 +181,7 @@ class expertos extends MX_Controller {
      * Description Calculate the amount  of money  in projects grouped by status
      * name status_amounts
      * @author Diego Otero
-     */
-    function status_amounts() {
-        $filter['idwf'] = 'crefisGral';
-        $querys = $this->get_amount_stats($filter);
 
-        /* OPTIONS */
-        $this->load->model('app');
-        $option = $this->app->get_ops(772);
-
-        foreach ($querys as $values) {
-
-            $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
-            $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
-            $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
-
-
-            $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
-
-            foreach ($option as $opt => $desc) {
-                if ($opt == $ctrl_value)
-                    $cases_arr[$desc][] = (float) $amount;
-            }
-        }
-
-        return $cases_arr;
-    }
 
 
     /* END REFACTOR */
@@ -340,35 +241,6 @@ class expertos extends MX_Controller {
         }
 
         return $cases_arr;
-    }
-
-    function ver_ficha($idwf, $idcase, $token, $id = null) {
-
-        $this->user->authorize();
-        $this->load->model('bpm/bpm');
-        $this->load->model('dna2/dna2old');
-        $dna2url = $this->dna2old->get('url');
-        if ($id) {
-            $url = $dna2url . "RenderEdit/editnew.php?idvista=1159&origen=V&idap=220&id=$id&idwf=$idwf&case=$idcase&token=$token";
-        } else {
-            $url = $dna2url . "RenderEdit/editnew.php?idvista=1159&origen=V&idap=220&idwf=$idwf&case=$idcase&token=$token";
-        }
-
-        $url = $this->bpm->gateway($url);
-        redirect($url);
-    }
-
-    function fix_data($case = null) {
-        $debug = false;
-        $this->load->model('bpm/bpm');
-        $resourceId = $this->consolida_resrourceId;
-        $filter = ($case) ? array('idwf' => 'crefisGral', 'id' => $case) : array('idwf' => 'crefisGral');
-        $rs = $this->bpm->get_cases_byFilter($filter);
-        foreach ($rs as $case) {
-            if ($debug)
-                var_dump($case['id']);
-            $token = $this->bpm->consolidate_data('crefisGral', $case['id'], $resourceId);
-        }
     }
 
     function Landing() {
@@ -1041,11 +913,13 @@ class expertos extends MX_Controller {
         $cases_count = $this->bpm->get_cases_byFilter_count(
                 array(
             'iduser' => $this->idu,
+            'idwf' => array ('Expertos_Empresas'),
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
         );
         $query = array(
             'assign' => $this->idu,
+            'idwf' => array ('Expertos_Empresas'),
             'status' => 'user'
         );
         //var_dump(json_encode($query));exit;
@@ -1062,7 +936,7 @@ class expertos extends MX_Controller {
     
         $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
     // Parse    
-        echo $this->parser->parse('lite', $data, true, true);
+        echo $this->parser->parse('expertos/empresas-lite', $data, true, true);
     }
 
     function experto_lite(){
@@ -1119,7 +993,7 @@ class expertos extends MX_Controller {
     
         $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
     // Parse    
-        echo $this->parser->parse('lite', $data, true, true);
+        echo $this->parser->parse('expertos-lite', $data, true, true);
 }    
     
     function empresas(){
@@ -1128,7 +1002,6 @@ class expertos extends MX_Controller {
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
-        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'expertos/json/empresas_lite.json',$debug = false, $extraData);    
         
     }
