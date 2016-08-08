@@ -1580,6 +1580,14 @@ class Model_06 extends CI_Model {
                 'aggregate'=>'container.sgr_periodos',
                 'pipeline'=>
                   array(
+                       array (
+                        '$match' => array (
+                            'sgr_id' =>$sgr_id, 
+                            'status'=>'activo' ,
+                            'period_date' => array(
+                            '$gte' => $start_date, '$lte' => $end_date
+                        ))                        
+                      ), 
                       array (
                         '$lookup' => array (
                             'from' => 'container.sgr_anexo_06',
@@ -1591,14 +1599,8 @@ class Model_06 extends CI_Model {
                       array ('$match' => array (
 
                         #$socio, 
-                        'anexo.1695' => $socio, 
-                        'sgr_id' =>$sgr_id, 
+                        'anexo.1695' => $socio,                         
                        # 'sgr_id' =>array('$in'=>array(1462524917, 1676213769, 23233265519)),                        
-                        'status'=>'activo', 
-                        'period_date' => array(
-                            '$gte' => $start_date, '$lte' => $end_date
-                        )
-                        
                     ))                   
 
                 ));          
