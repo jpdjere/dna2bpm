@@ -825,13 +825,13 @@ class expertos extends MX_Controller {
         $cases_count = $this->bpm->get_cases_byFilter_count(
                 array(
             'iduser' => $this->idu,
-            'idwf' => array ('Expertos_Empresas'),
+            'idwf' =>'Expertos_Empresas',
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
         );
         $query = array(
             'assign' => $this->idu,
-            'idwf' => array ('Expertos_Empresas'),
+            'idwf' => 'Expertos_Empresas',
             'status' => 'user'
         );
         //var_dump(json_encode($query));exit;
