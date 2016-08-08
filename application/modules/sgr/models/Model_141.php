@@ -293,6 +293,111 @@ class Model_141 extends CI_Model {
         return $rs['err'];
     }
 
+
+    function garantias_balance_by_cuit($cuit){       
+       
+        $query=array(
+                'aggregate'=>'container.sgr_anexo_12',
+                'pipeline'=>
+                  array(
+                      array (
+                        '$match' => array (
+                             
+                                 "5349"=>$cuit
+                             
+                            )                        
+                      ),  
+                      array (
+                        '$lookup' => array (                             
+                                  "from" => "container.sgr_periodos",
+                                  "localField" => "filename",
+                                  "foreignField" => "filename",
+                                  "as" => "periodo"                             
+                            )                        
+                      ) ,
+                      array (
+                        '$match' => array (                             
+                                 "periodo.status"=>"activo","periodo.anexo"=>"12","periodo.sgr_id"=>$this->sgr_id
+
+                             
+                            )                        
+                      )                                  
+
+                ));          
+        
+        #var_dump(json_encode($query)); exit;
+        $get=$this->sgr_db->command($query);  
+        echo $cuit ."<br>";
+        $result = $this->anexo14_balance_by_cuit($get['result']);       
+        return $result;
+    }
+
+    function anexo14_balance_by_cuit($data){
+
+            $movement_date = first_month_date($this->session->userdata['period']);
+            
+            $r14 = array();
+            
+            foreach ($data as $value) {
+              
+                $r14[] = $value['5214'];
+            }
+
+
+            # code...
+             $query=array(
+                'aggregate'=>'container.sgr_anexo_14',
+                'pipeline'=>
+                  array(
+                      array (
+                        '$match' => array (                                
+                                 "NRO_GARANTIA"=>array('$in'=>$r14),
+                                 'FECHA_MOVIMIENTO' => array('$lte' => $movement_date),  
+
+                            )                        
+                      ),  
+                      array (
+                        '$lookup' => array (                             
+                                  "from" => "container.sgr_periodos",
+                                  "localField" => "filename",
+                                  "foreignField" => "filename",
+                                  "as" => "periodo"                             
+                            )                        
+                      ) ,
+                      array (
+                        '$match' => array (                             
+                                 "periodo.status"=>"activo","periodo.anexo"=>"14","periodo.sgr_id"=>$this->sgr_id                              
+                            )                        
+                      ),
+                      array (
+                        '$group' => array (  
+                                  '_id'=> null,                              
+                                 'GASTOS_EFECTUADOS_PERIODO'=> array('$sum'=> '$GASTOS_EFECTUADOS_PERIODO' ),
+                                 'GASTOS_INCOBRABLES_PERIODO'=> array('$sum'=>  '$GASTOS_INCOBRABLES_PERIODO' ),
+                                 'INCOBRABLES_PERIODO'=> array('$sum'=>  '$INCOBRABLES_PERIODO'),
+                                 'RECUPERO'=> array('$sum'=>  '$RECUPERO'),
+                                 'CAIDA'=> array('$sum'=>  '$CAIDA'),
+                                 'RECUPERO_GASTOS_PERIODO'=> array('$sum'=>  '$RECUPERO_GASTOS_PERIODO')                                 
+                            )                        
+                      )                                  
+
+                ));          
+        
+
+        
+        $get=$this->sgr_db->command($query);          
+
+        $get_movement_data = $get['result'][0];
+
+        $sum1 = ($get_movement_data['CAIDA'] - $get_movement_data['RECUPERO']) - $get_movement_data['INCOBRABLES_PERIODO'];
+        $sum2 = ($get_movement_data['GASTOS_EFECTUADOS_PERIODO'] - $get_movement_data['RECUPERO_GASTOS_PERIODO']) - $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
+        
+        return  bccomp($sum1, $sum2);
+
+
+
+    }
+
     function fix_anexo141_balance_model($period, $sgr_id, $debug = null, $get_cuits_array = null) {
         $debug = false;
 
