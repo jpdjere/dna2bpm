@@ -34,7 +34,6 @@ class Perfil extends MX_Controller {
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
-
     }
 
     function Index() {
@@ -46,7 +45,6 @@ class Perfil extends MX_Controller {
     # ====================================
 
     function Empresa($cuit=null,$debug=0) {
-
 
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/empresa.json',$debug);
@@ -219,7 +217,7 @@ class Perfil extends MX_Controller {
 
             /*UPDATE users collection*/
             $query=array('idu'=>$this->idu);            
-            $data_array_cuit = array($cuit=>new MongoDate(time()));
+            $data_array_cuit = array('cuit'=>$cuit,'date'=>new MongoDate(time()));
             $data = array('cuits_relacionados'=>$data_array_cuit); 
             $update=$this->portal_model->cuit_representadas_update($query, $data_array_cuit);
 
@@ -271,7 +269,7 @@ class Perfil extends MX_Controller {
 
     private function get_cuit(){
         $cuit=(int)$this->uri->segment(3);
-        $midata=$this->user->get_user((int) $this->idu);
+         $midata=$this->user->get_user((int) $this->idu);
         if(empty($cuit)){
             if(isset($midata->cuits_relacionados)){
                 $cuits=array_pop($midata->cuits_relacionados);
@@ -281,6 +279,7 @@ class Perfil extends MX_Controller {
             }
 
          }
+
         return $cuit;
             
     }

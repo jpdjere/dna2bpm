@@ -348,23 +348,18 @@ class Model_14 extends CI_Model {
         $endDate = last_month_date($this->session->userdata['period']);
 
 
-
-        $query = array(
-            'sgr_id' => (float) $this->sgr_id,
-            'anexo' => $anexo,
-            "filename" => array('$ne' => 'SIN MOVIMIENTOS'),
-            'status' => 'activo',
-            'period_date' => array(
-                '$lte' => $endDate
-            ),
-        );
-
-
-
          $suma_query=array(
                 'aggregate'=>'container.sgr_anexo_14',
                 'pipeline'=>
                   array(
+                    array (
+                        '$match' => array (
+                            'NRO_GARANTIA'  => $filter['warranty'],  
+                            'FECHA_MOVIMIENTO' => array(
+                                    '$lt' => $mongo_date
+                            )
+                        )                        
+                      ), 
                       array (
                         '$lookup' => array (
                             'from' => 'container.sgr_periodos',
@@ -372,8 +367,7 @@ class Model_14 extends CI_Model {
                             'foreignField' => 'filename',
                             'as' => 'periodo')                        
                       ),                    
-                    array ('$match' => array (
-                        'NRO_GARANTIA'  => $filter['warranty'],                      
+                    array ('$match' => array (                                      
                         'periodo.status'=>'activo' , 
                         'periodo.anexo'=>$this->anexo,
                         'periodo.filename' => array('$ne' => 'SIN MOVIMIENTOS'),            
@@ -381,9 +375,7 @@ class Model_14 extends CI_Model {
                             '$lte' => $endDate
                          ),
                         'periodo.sgr_id' => (float) $this->sgr_id,
-                        'FECHA_MOVIMIENTO' => array(
-                            '$lt' => $mongo_date
-                        )
+                        
 
                     )),                    
                     array('$group' => array(
@@ -521,7 +513,7 @@ class Model_14 extends CI_Model {
     function get_tmp_movement_data($filter) {
 
         
-        $container = 'container.sgr_anexo_253029915_tmp';  
+        $container = 'container.sgr_anexo_'.$this->idu.'_tmp';  
         $token = $this->idu;      
 
          $suma_query=array(

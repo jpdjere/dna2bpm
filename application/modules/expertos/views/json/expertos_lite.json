@@ -1,0 +1,18 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212@gmail.com>",
+    "title": "Expertos - Dashboard Expertos",
+    "view": "layout_no_sidebar",
+    "icon": "fa-users",
+    "zones": [{
+        "widgets": [{
+            "title": "Expertos",
+            "module": "expertos",
+            "controller": "expertos",
+            "function": "experto_lite"
+        }]
+    }],
+    
+    "js": [{
+            "{base_url}expertos/assets/jscript/lite.js": "Dash"
+            }]
+}

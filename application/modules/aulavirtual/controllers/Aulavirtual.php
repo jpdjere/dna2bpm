@@ -59,28 +59,33 @@ class Aulavirtual extends MX_Controller {
 		$this->load->helper('url');
         $data = $this->input->post();
         $user = $this->user->get_user($this->idu);
-        $data['files_url'] = FCPATH.'images/user_files/'.$user->idu;
-        if (!file_exists(FCPATH.'images/user_files/'.$user->idu)){
-             @mkdir(FCPATH.'images/user_files/'.$user->idu,0775,true);
-        }
-        $this->upload->initialize(array(
-       // "file_name"     => array($_FILES['input-file-preview_userfiles']['name'][0],$_FILES['input-file-preview_userfiles']['name'][1],$_FILES['input-file-preview_userfiles']['name'][2]),
-        'allowed_types'   => "pdf|PDF",
-        'overwrite'       => true,
-        'max_size'        => "300",  //
-        'upload_path'     => FCPATH.'images/user_files/'.$user->idu.'/'
-        ));
-        if($_FILES){
-		    $this->upload->do_upload('userfile');
-            $error=$this->upload->display_errors();
-        }
+        
+        var_dump($data);
+        exit;
+        
+        
+    //     $data['files_url'] = FCPATH.'images/user_files/'.$user->idu;
+    //     if (!file_exists(FCPATH.'images/user_files/'.$user->idu)){
+    //          @mkdir(FCPATH.'images/user_files/'.$user->idu,0775,true);
+    //     }
+    //     $this->upload->initialize(array(
+    //   // "file_name"     => array($_FILES['input-file-preview_userfiles']['name'][0],$_FILES['input-file-preview_userfiles']['name'][1],$_FILES['input-file-preview_userfiles']['name'][2]),
+    //     'allowed_types'   => "pdf|PDF",
+    //     'overwrite'       => true,
+    //     'max_size'        => "300",  //
+    //     'upload_path'     => FCPATH.'images/user_files/'.$user->idu.'/'
+    //     ));
+    //     if($_FILES){
+		  //  $this->upload->do_upload('userfile');
+    //         $error=$this->upload->display_errors();
+    //     }
 		if($error==null){
-			$renderData['data'] = $this->upload->data();
+		//	$renderData['data'] = $this->upload->data();
 			$this->Model_aulavirtual->insert_inscripcion($data);
             $extraData['alerts'] = '<div class="alert alert-success"><strong>Success!</strong> Su inscripción fue registrado con éxito</div>';
 		    $this->Confirmacion(false, $extraData);
 		}else{
-        $extraData['alerts'] = '<div class="alert alert-danger"><strong>Aviso!</strong> Su inscripción no pudo ser registrada.'.$error.'</div>';   
+        $extraData['alerts'] = '<div class="alert alert-danger"><strong>Aviso!</strong> Su inscripción no pudo ser registrada. Inténtelo nuevamete </div>';   
 		$this->Index(false, $extraData);
 		}        
     }
