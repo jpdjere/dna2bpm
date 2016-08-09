@@ -1156,7 +1156,7 @@ BLOCK;
     
     function empresas(){
         $this->user->authorize();
-        $grupo_user = 'Expertos/Expertos';
+        $grupo_user = 'Expertos/Empresas';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
@@ -1166,7 +1166,7 @@ BLOCK;
     
     function experto($debug = false){
         $this->user->authorize();
-        $grupo_user = 'Expertos/Empresa / Institucion';
+        $grupo_user = 'Expertos/Expertos';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
         $this->Add_group($grupo_user);
