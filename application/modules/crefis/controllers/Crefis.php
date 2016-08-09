@@ -1062,14 +1062,18 @@ BLOCK;
         $case = $this->bpm->get_case($idcase, $idwf);
         $renderData = $this->bpm->load_case_data($case, $idwf);
         //----tomo evaluador del caso
-        $evaluador = $case['data']['parent_data']['usuario'];
+        $Empresa = $case['data']['parent_data']['usuario'];
         //----token que hay que finalizar
         $src_resourceId = 'oryx_867D9D80-C08D-4358-BF5D-C9712FB754F7';
         // ---Token de pp asignado
         $lane_resourceId = 'oryx_5EB7B916-87FA-465D-BA87-CF8D4E775616';
-
-        $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
-
+        //---Levanto el token de la db
+        $token=$this->bpm->get_token($idwf, $idcase, $lane_resourceId);
+        //-----piso el assign
+        $token['assign']=array($Empresa);
+        //---Guardo el token
+        $this->bpm->save_token($token);    
+        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$src_resourceId";
         redirect($url);
     }
     
