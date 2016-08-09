@@ -194,12 +194,9 @@ class Perfil extends MX_Controller {
         $transaccion=(int)$this->input->post('transaccion');
       #  echo $cuit . "xxxxx" . $transaccion;
 
-        $data = $this->api->get_data_by_cuit($cuit);    
-       
-      
-        $rtn = array();               
+        $data = $this->api->get_data_by_cuit((int)$cuit);    
 
-      
+        $rtn = array();               
 
             if(!isset($data->cuit)) {#NO cuit
                 $rtn['msg'] = "error_cuit";                 
@@ -208,7 +205,6 @@ class Perfil extends MX_Controller {
             }
         
                 
-
         if($transaccion==$data->transaccion){
             
             $rtn['cuit'] = $data->cuit;
