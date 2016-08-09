@@ -96,13 +96,13 @@ class Lib_125_data extends MX_Controller {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
 
-                    /* Support #11718 */
-//                        $code_error = "B.2";
-//                        $creditor_info = $this->model_12->get_creditor($A_cell_value, $parameterArr[$i]['fieldValue']);
-//                        if (!$creditor_info) {
-//                            $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
-//                            
-//                        }
+                    
+                    $code_error = "B.2";
+                    $creditor_info = $this->model_12->get_creditor($A_cell_value, $parameterArr[$i]['fieldValue']);
+                    if (!$creditor_info) {
+                          $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                            
+                    }
                 }
             }
 
