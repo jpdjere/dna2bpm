@@ -70,10 +70,8 @@ class Perfil extends MX_Controller {
             return;
         }
 
-                //$certificado=$this->has1273($cuit);
-         // var_dump($cuit);
-         // exit();
-        //$customData['certificado']=(empty($certificado))?('disabled'):('');
+        $certificado=$this->has1273($cuit);      
+        $customData['certificado']=($certificado)?(''):('disabled');
 
 
         $opt="";

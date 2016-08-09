@@ -24,7 +24,7 @@
 
 <div class="row">
 <div class="col-sm-12">
-<a href="{base_url}afip/consultas/certificado/{cuit}" type="button" class="btn btn-primary btn-md btn-block {constancia}">Constancia de Categorización MiPyme</a>
+<a href="{base_url}afip/consultas/certificado/{cuit}" type="button" class="btn btn-primary btn-md btn-block {certificado}">Constancia de Categorización MiPyme</a>
 </div>
 
 </div>
