@@ -235,11 +235,11 @@ class Model_202 extends CI_Model {
             $new_list['RAZON_SOCIAL'] = $brand_name;
             $new_list['CUIT'] = $list["CUIT_PROTECTOR"];
             if ($xls) {
-                $new_list['SALDO_APORTE'] = round((float) $list['SALDO'], 2);
-                $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = (float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO'];
-                $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = (float) $list['DEUDA_PROPORCIONAL_ASIGNADA'];
-                $new_list['SALDO_APORTE_DISPONIBLE'] = round((float) $list['DISPONIBLE'], 2);
-                $new_list['RENDIMIENTO_ASIGNADO'] = (float) $list['RENDIMIENTO_ASIGNADO'];
+                $new_list['SALDO_APORTE'] = dot_by_coma(round((float) $list['SALDO'], 2));
+                $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = dot_by_coma((float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO']);
+                $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = dot_by_coma((float) $list['DEUDA_PROPORCIONAL_ASIGNADA']);
+                $new_list['SALDO_APORTE_DISPONIBLE'] = dot_by_coma(round((float) $list['DISPONIBLE'], 2));
+                $new_list['RENDIMIENTO_ASIGNADO'] = dot_by_coma((float) $list['RENDIMIENTO_ASIGNADO']);
             } else {
                 $new_list['SALDO_APORTE'] = money_format_custom($list['SALDO']);
                 $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = money_format_custom((float) $list['CONTINGENTE_PROPORCIONAL_ASIGNADO']);
@@ -282,10 +282,10 @@ class Model_202 extends CI_Model {
         $new_list['CUIT'] = "-";
         if ($xls) {
             $new_list['SALDO_APORTE'] = (array_sum($col4));
-            $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = (array_sum($col5));
-            $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = (array_sum($col6));
-            $new_list['SALDO_APORTE_DISPONIBLE'] = (array_sum($col7));
-            $new_list['RENDIMIENTO_ASIGNADO'] = (array_sum($col8));
+            $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = dot_by_coma(array_sum($col5));
+            $new_list['DEUDA_PROPORCIONAL_ASIGNADA'] = dot_by_coma(array_sum($col6));
+            $new_list['SALDO_APORTE_DISPONIBLE'] = dot_by_coma(array_sum($col7));
+            $new_list['RENDIMIENTO_ASIGNADO'] = dot_by_coma(array_sum($col8));
         } else {
             $new_list['SALDO_APORTE'] = money_format_custom(array_sum($col4));
             $new_list['CONTINGENTE_PROPORCIONAL_ASIGNADO'] = money_format_custom(array_sum($col5));
