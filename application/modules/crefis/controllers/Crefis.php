@@ -1068,9 +1068,9 @@ BLOCK;
         $this->bpm->save_case($case);
         //----token que hay que finalizar
         
-        $src_resourceId = 'oryx_867D9D80-C08D-4358-BF5D-C9712FB754F7';
+        $src_resourceId = 'oryx_1FCF476C-1A83-427C-A300-0AD05515FE68';
         // ---Token de pp asignado
-        $lane_resourceId = 'oryx_5EB7B916-87FA-465D-BA87-CF8D4E775616';
+        $lane_resourceId = 'oryx_6B3FA843-5133-4341-AF2F-22CFBEEF734F';
         //---Levanto el token de la db
         // $token=$this->bpm->get_token($idwf, $idcase, $lane_resourceId);
         // //-----piso el assign
