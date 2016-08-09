@@ -15,12 +15,10 @@ class Model_141 extends CI_Model {
         $this->load->model('sgr/sgr_model');
         $additional_users = $this->sgr_model->additional_users($this->session->userdata('iduser'));
         $this->idu = (isset($additional_users)) ? $additional_users['sgr_idu'] : $this->session->userdata('iduser');
-        /* SWITCH TO SGR DB */
-        /*$this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
-        $this->sgr_db->switch_db('sgr');*/
-
-         $this->sgr_db=new $this->cimongo;
-         $this->sgr_db->switch_db('sgr');
+        /* SWITCH TO SGR DB */       
+        $this->sgr_db=new $this->cimongo;
+        #DB
+        $this->sgr_db->switch_db('sgr');
 
 
         /* LOAD */
@@ -45,9 +43,6 @@ class Model_141 extends CI_Model {
             $this->sgr_id = $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
         }
-
-
-      
     }
 
     function sanitize($parameter) {
@@ -204,9 +199,6 @@ class Model_141 extends CI_Model {
         return $out;
     }
 
-
-   
-
     function find_141_balance_cuit($cuit, $period, $sgr_id) {
 
 
@@ -302,7 +294,8 @@ class Model_141 extends CI_Model {
         return $rs['err'];
     }
 
-     function garantias_balance_by_cuit($cuit){       
+
+    function garantias_balance_by_cuit($cuit){       
        
         $query=array(
                 'aggregate'=>'container.sgr_anexo_12',
@@ -335,7 +328,7 @@ class Model_141 extends CI_Model {
         
         #var_dump(json_encode($query)); exit;
         $get=$this->sgr_db->command($query);  
-        echo $cuit ."<br>";
+        #echo $cuit ."<br>";
         $result = $this->anexo14_balance_by_cuit($get['result']);       
         return $result;
     }
@@ -399,12 +392,8 @@ class Model_141 extends CI_Model {
 
         $sum1 = ($get_movement_data['CAIDA'] - $get_movement_data['RECUPERO']) - $get_movement_data['INCOBRABLES_PERIODO'];
         $sum2 = ($get_movement_data['GASTOS_EFECTUADOS_PERIODO'] - $get_movement_data['RECUPERO_GASTOS_PERIODO']) - $get_movement_data['GASTOS_INCOBRABLES_PERIODO'];
-
-        #var_dump($get_movement_data['CAIDA'],$get_movement_data['RECUPERO'], $get_movement_data['INCOBRABLES_PERIODO']);
-#
-        #echo period_before($this->session->userdata['period']);
-        echo $sum1."-". $sum2;
-        echo "Result" . bccomp($sum1, $sum2);
+        
+        return  bccomp($sum1, $sum2);
 
 
 

@@ -262,23 +262,24 @@ class Lib_141_data extends MX_Controller {
         if (!isset($A5_check))
             $A5_check = array();
 
-        foreach ($A5_check as $key => $value) {
+         foreach ($A5_check as $key => $value) {
 
             if (!in_array($value, $A_cell_array)) {
-               
+
+               /*CHECK CUIT BY CUIT*/ 
+               $A5_by_cuit = $this->model_141->garantias_balance_by_cuit($value);
+
+               if($A5_by_cuit==1){
+                    $code_error = "A.5";
+                    $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "(Valor No Encontrado) " . $value);
+                }
                 
-              # $A5_by_cuit = $this->model_141->garantias_balance_by_cuit($value);
-
-              # var_dump($A5_by_cuit);
-
-                $code_error = "A.5";
-                $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "(Valor No Encontrado) " . $value);
             }
         }
 
 
-        var_dump($result);
-        exit();
+        /*var_dump($result);
+        exit();*/
         $this->data = $result;
     }
 

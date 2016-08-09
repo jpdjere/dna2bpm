@@ -3,15 +3,16 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Mysql_model_141 extends CI_Model {
+class mysql_model_141 extends CI_Model {
 
     function mysql_model_141() {
         parent::__construct();
-        
-        /* Additional SGR users */
+        // IDU : Chequeo de sesion
+         /* Additional SGR users */
         $this->load->model('sgr/sgr_model');
         $additional_users = $this->sgr_model->additional_users($this->session->userdata('iduser'));
         $this->idu = (isset($additional_users)) ? $additional_users['sgr_idu'] : $this->session->userdata('iduser');
+        
         if (!$this->idu) {
             header("$this->module_url/user/logout");
             exit();
@@ -31,19 +32,15 @@ class Mysql_model_141 extends CI_Model {
     /* ACTIVE PERIODS DNA2 */
 
     function active_periods_dna2($anexo, $period) {
-
         /* TRANSLATE ANEXO NAME */
         $anexo_dna2 = translate_anexos_dna2($anexo);
         $this->db->where('estado', 'activo');
         $this->db->where('archivo !=', 'Sin Movimiento');
-        $this->db->where('periodo NOT LIKE', '%2014');
-        #$this->db->where('periodo LIKE', '%2011');
         $this->db->where('anexo', $anexo_dna2);
         $query = $this->db->get('forms2.sgr_control_periodos');
-        
-        #var_dump($query->result());
+
+
         foreach ($query->result() as $row) {
-            
             $already_period = $this->already_period($row->archivo);
             if (!$already_period) {
 
@@ -58,19 +55,22 @@ class Mysql_model_141 extends CI_Model {
                 $parameter['period'] = str_replace("_", "-", $row->periodo);
 
 
-                /* UPDATE CTRL PERIOD */
-                $this->save_tmp($parameter);
+                $is_2014 = explode("_", $row->periodo);
+                if ($is_2014[1] != "2014") {
 
-                /* UPDATE ANEXO */
-                if ($row->archivo) {
-                    $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
-                    if (!$already_update)
-                        $this->anexo_data_tmp($anexo_dna2, $row->archivo); echo $row->archivo . "<br>";
+                    /* UPDATE CTRL PERIOD */
+                    $this->save_tmp($parameter);
+
+                    /* UPDATE ANEXO */
+                    if ($row->archivo) {
+                        $already_update = $this->already_updated($row->anexo, $nro_orden, $filename);
+                        if (!$already_update)
+                            $this->anexo_data_tmp($anexo_dna2, $row->archivo);
+                    }
                 }
             }
         }
     }
-  
 
     /* UPDATE SIN MOVIMIENTO */
 
@@ -123,24 +123,23 @@ class Mysql_model_141 extends CI_Model {
 
     function anexo_data_tmp($anexo, $filename) {
 
+        ini_set('error_reporting', E_ALL);
 
-        /*$this->db->select(
-                *
-        );*/
+
 
         if ($filename != 'Sin Movimiento')
             $this->db->where('filename', $filename);
 
-        $query = $this->db->get($anexo);
 
+
+        $query = $this->db->get($anexo);
         $parameter = array();
         foreach ($query->result() as $row) {
 
-           
-
             $parameter = array();
+            $arr = array();
 
-            /*
+                 /*
             1 => 'CUIT_PARTICIPE',
             2 => 'CANT_GTIAS_VIGENTES',
             3 => 'HIPOTECARIAS',
@@ -159,15 +158,17 @@ class Mysql_model_141 extends CI_Model {
             $parameter["CANT_GTIAS_VIGENTES"] = (int) $row->garantias_afrontadas;          
             $parameter["OTRAS"] = (float) $row->monto_adeudado;           
             $parameter["MORA_EN_DIAS"] = (int) $row->mora_en_dias;
-            $parameter["CLASIFICACION_DEUDOR"] = (int) $row->clasificacion_deudor;
+            $parameter["CLASIFICACION_DEUDOR"] = (int) $row->clasificacion_deudor;            
+
+
             $parameter['idu'] = (float) $row->idu;
             $parameter['filename'] = (string) $row->filename;
             $parameter['id'] = (float) $row->id;
             $parameter['origen'] = 'forms2';
 
-            #var_dump($parameter);
 
-            $this->save_anexo_141_tmp($parameter, $anexo);
+
+            $insert = $this->save_anexo_141_tmp($parameter, $anexo);
         }
     }
 
@@ -205,20 +206,16 @@ class Mysql_model_141 extends CI_Model {
     function save_anexo_141_tmp($parameter, $anexo) {
         $parameter = (array) $parameter;
         $token = $this->idu;
-        $period = $this->session->userdata['period'];
-        $container = 'container.sgr_anexo_' . $anexo;
-        $already_id = $this->already_id($anexo, $parameter['id']);
 
-        #var_dump($parameter);
+        $container = 'container.sgr_anexo_141';
+        /* TRANSLATE ANEXO NAME */
+        $already_id = $this->already_id("141", $parameter['id']);
 
-
-        if ($already_id) {
-            //echo "duplicado" . $parameter['id'];
+        if (isset($already_id)) {
+            echo "duplicado" . $parameter['id'];
         } else {
-
             $id = $this->app->genid_sgr($container);
             $result = $this->app->put_array_sgr($id, $container, $parameter);
-
             if ($result) {
                 $out = array('status' => 'ok');
             } else {
@@ -226,7 +223,8 @@ class Mysql_model_141 extends CI_Model {
             }
         }
 
-        var_dump($out);
+
+
         return $out;
     }
 
