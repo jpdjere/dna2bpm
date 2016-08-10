@@ -12,7 +12,8 @@
 			<th>Email</th>
 			<th>Empresa/Razón Social</th>
 			<th>CUIT</th>
-			<th>Actividad Principal</th>			
+			<th>Actividad Principal</th>
+            <th>Incubadora</th>			
 			
 		</tr>
 	</thead>
@@ -31,6 +32,7 @@
 			<td>{empresa}</td>
 			<td>{cuit}</td>	
 			<td>{actividad_principal}</td>
+			<td>{incubadora}</td>
 		</tr>
 		{/data}
 	</tbody>
