@@ -66,7 +66,7 @@
                      
                      <!-- Dashboard -->
                      <li class="" id='toolbar_dashboard'>
-                        <a href="{base_url}dashboard"  title="{lang Dashboard}"> 
+                        <a href="{base_url}"  title="{lang Dashboard}"> 
                             <i class="fa fa-dashboard"></i> 
                         </a>
                     </li>
