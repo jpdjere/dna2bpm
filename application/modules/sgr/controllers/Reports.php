@@ -297,10 +297,7 @@ class Reports extends MX_Controller {
     function process() {
 
         $anexo = $this->input->post('anexo');
-        switch ($anexo) {
-            case '06':
-                return $this->process_06($anexo);
-                break;
+        switch ($anexo) {           
 
             case '061':
                 return $this->process_061($anexo);
@@ -328,11 +325,7 @@ class Reports extends MX_Controller {
 
             case '14':
                 return $this->process_14($anexo);
-                break;
-
-            case '141':
-                return $this->process_141($anexo);
-                break;
+                break;           
 
             case '15':
                 return $this->process_15($anexo);
@@ -386,33 +379,7 @@ class Reports extends MX_Controller {
         }
     }
 
-    function process_06($anexo) {
-
-        $rtn = array();
-        $report_name = $this->input->post('report_name');
-
-
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-
-        if ($this->input->post('cuit_socio'))
-            $rtn['cuit_socio'] = $this->input->post('cuit_socio');
-
-        $rtn['sgr_id'] = $this->input->post('sgr');
-
-        if ($this->input->post('sgr')) {
-            $model = "model_" . $anexo;
-            $this->load->model($model);
-
-            switch ($report_name) {
-                case "A":
-                    $result = $this->$model->get_anexo_report($anexo, $rtn);
-                    break;
-            }
-
-            return $result;
-        }
-    }
+    
 
     function process_061($anexo) {
 
@@ -578,29 +545,7 @@ class Reports extends MX_Controller {
             return $result;
         }
     }
-
-    function process_141($anexo) {
-
-        $rtn = array();
-        $report_name = $this->input->post('report_name');
-
-
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-
-        if ($this->input->post('cuit_socio'))
-            $rtn['cuit_socio'] = $this->input->post('cuit_socio');
-
-        $rtn['sgr_id'] = $this->input->post('sgr');
-        if ($this->input->post('sgr')) {
-            $model = "model_" . $anexo;
-            $this->load->model($model);
-
-            $result = $this->$model->get_anexo_report($anexo, $rtn);
-
-            return $result;
-        }
-    }
+    
 
     function process_15($anexo) {
 
@@ -994,7 +939,13 @@ class Reports extends MX_Controller {
     /*NEW REPORT*/
     function new_report($anexo='06'){
 
-        $this->load->model('model_06');
+        
+        /*LOAD MODEL*/
+        $model = "model_" . $this->anexo;
+        $this->load->model($model);
+
+        /*VIEW*/
+        $default_dashboard = 'reports_result'; 
 
 
         $data = array();
@@ -1012,22 +963,9 @@ class Reports extends MX_Controller {
         
         $data['sgr_id'] = $this->input->post('sgr');
 
-        
-        $default_dashboard = 'reports_result';        
-
-        $model = "model_" . $this->anexo;
-        $this->load->model($model);
-
-        /* HEADERS */
-        $header_merge = array_merge($data, $this->headers());
-        foreach ($header_merge as $key => $each) {
-            $customData[$key] = $each;
-        }       
-
-        
         /*CALL MODEL*/
         if ($this->input->post('sgr')) {
-           $this->model_06->generate_report($data);  
+           $this->$model->generate_report($data);  
         }
 
 

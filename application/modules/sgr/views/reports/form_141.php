@@ -1,5 +1,5 @@
 
-<form method="post" class="well" id="form" action="reports/action_form/">
+<form method="post" class="well" id="form" action="reports/new_report/" target="_blank">
 
     <div class="row ">
         <!--  ========================== row 4 . ========================== -->
@@ -48,6 +48,15 @@
                 <div class="form-group col-md-6">
                     <label>C.U.I.T. Socio Participe</label> 
                     <input type="text" class="form-control" name="cuit_socio" placeholder="XXXXXXXXXXX" />
+                </div>
+            </div>
+
+            
+            <div class="row ">
+                <div class="form-group col-md-12">                    
+                    <div class="input-group ">
+                        <small>{sgr_options_checklist}</small>
+                    </div>
                 </div>
             </div>
 
