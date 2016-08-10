@@ -1055,6 +1055,32 @@ BLOCK;
         redirect($url);
     }
     
+    function asignar_emp_rend($idwf, $idcase, $tokenId) {
+        $this->load->library('parser');
+        $this->load->model('user/group');
+        $this->load->model('bpm/bpm');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        
+        $renderData = $this->bpm->load_case_data($case, $idwf);
+        //----tomo evaluador del caso
+        $Empresa = $case['data']['parent_data']['usuario'];
+        $case['iduser']=$Empresa;
+        $this->bpm->save_case($case);
+        //----token que hay que finalizar
+        
+        $src_resourceId = 'oryx_1FCF476C-1A83-427C-A300-0AD05515FE68';
+        // ---Token de pp asignado
+        $lane_resourceId = 'oryx_6B3FA843-5133-4341-AF2F-22CFBEEF734F';
+        //---Levanto el token de la db
+        // $token=$this->bpm->get_token($idwf, $idcase, $lane_resourceId);
+        // //-----piso el assign
+        // $token['assign']=array($Empresa);
+        // //---Guardo el token
+        // $rs=$this->bpm->save_token($token);    
+        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$src_resourceId";
+        redirect($url);
+    }
+    
     function asignar_rendicion($idwf, $idcase, $tokenId) {
         $this->load->library('parser');
         $this->load->model('user/group');

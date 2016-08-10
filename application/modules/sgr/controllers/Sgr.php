@@ -1117,34 +1117,34 @@ class Sgr extends MX_Controller {
         }
 
 
-        /* PRINT ANEXO */
+        /* call PRINT ANEXO FN*/
         $this->stream_print($anexo, $customData, $parameter);
     }
+
+    /* PRINT TO PDF ANEXO */
 
     function stream_print($anexo, $customData, $parameter) {
 
         /* Print on HTML */
         $no_pdf = array('12', '123', '125', '06', '14');
-
+        $no_pdf = array();
         if (in_array($anexo, $no_pdf)) {
-            echo $this->parser->parse('print', $customData, true);
+            $this->parser->parse('print', $customData, true);
         } else {
             /* LOAD LIBRARY */
-             echo $this->parser->parse('print', $customData, true);
-            
-        /*    fix it */
-           /* $this->load->library('pdf/pdf');
+
+            $this->load->library('pdf/pdf');
 
             $this->pdf->set_paper('a4', 'landscape');
             $this->pdf->parse('print', $customData);
             $this->pdf->render();
-            $this->pdf->stream("$parameter.pdf");*/
+            $this->pdf->stream("$parameter.pdf");
 
-//            if ($this->pdf->stream) {
-//                $this->pdf->stream("$parameter.pdf");
-//            } else {
-//                return $this->pdf->output();
-//            }
+            if ($this->pdf->stream) {
+                $this->pdf->stream("$parameter.pdf");
+            } else {
+                return $this->pdf->output();
+            }
         }
     }
 

@@ -19,6 +19,7 @@ class Perfil extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('portal_model');
         $this->load->model('bpm/bpm');
+        $this->load->model('afip/consultas_model');
         $this->load->model('app');
         $this->load->library('dashboard/ui');
         //---base variables
@@ -64,12 +65,14 @@ class Perfil extends MX_Controller {
     function profile(){
 
         $cuit=$this->get_cuit();
-
-        
         if(empty($cuit)){
             echo('No hay cuits asociados');
             return;
         }
+
+        $certificado=$this->has1273($cuit);      
+        $customData['certificado']=($certificado)?(''):('disabled');
+
 
         $opt="";
         $midata=$this->user->get_user((int) $this->idu);
@@ -189,12 +192,9 @@ class Perfil extends MX_Controller {
         $transaccion=(int)$this->input->post('transaccion');
       #  echo $cuit . "xxxxx" . $transaccion;
 
-        $data = $this->api->get_data_by_cuit($cuit);    
-       
-      
-        $rtn = array();               
+        $data = $this->api->get_data_by_cuit((int)$cuit);    
 
-      
+        $rtn = array();               
 
             if(!isset($data->cuit)) {#NO cuit
                 $rtn['msg'] = "error_cuit";                 
@@ -202,8 +202,7 @@ class Perfil extends MX_Controller {
                 $rtn['msg'] = 'error_transaccion';     
             }
         
-                    
-
+                
         if($transaccion==$data->transaccion){
             
             $rtn['cuit'] = $data->cuit;
@@ -372,7 +371,7 @@ _EOF_;
 
 function has1273(){
 // Certificado
- $this->load->model('afip/consultas_model');
+$this->load->model('afip/consultas_model');
 $cuit=$this->get_cuit();
 $ret=$this->consultas_model->has_1273($cuit);
 return !empty($ret);

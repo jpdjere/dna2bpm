@@ -151,7 +151,6 @@ class Reports extends MX_Controller {
     }
 
     function show_last_report() {
-     
 
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
@@ -159,8 +158,7 @@ class Reports extends MX_Controller {
         $this->load->model($model);
         header('Content-type: text/html; charset=UTF-8');
 
-        $customData = $this->$model->get_link_report();
-
+        $customData = $this->$model->get_link_report($anexo);
 
         $fileName = $anexo . "_reporte_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -1029,33 +1027,10 @@ class Reports extends MX_Controller {
         
         /*CALL MODEL*/
         if ($this->input->post('sgr')) {
-            $rtn_report = $this->model_06->generate_report($data);  
+           $this->model_06->generate_report($data);  
         }
 
 
-        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
-
-        $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);       
-        $customData['show_table'] = ($rtn_report) ? html_entity_decode($rtn_report) : "";
-
-
-        header('Content-type: text/html; charset=UTF-8');
-        if ($this->idu == 11) {
-            //var_dump($customData);           exit;
-            $this->render($default_dashboard, $customData);
-        } else {
-            $fileName = $this->anexo . "_al_" . date("j-n-Y"); //Get today
-            //Generate  file
-            header("Content-Description: File Transfer");
-            header("Content-Type: application/x-msexcel");
-            header("Content-Type: application/force-download");
-            header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
-            header("Content-Description: PHP Generated XLSx Data");
-        }
-
-        #echo $rtn_report; exit;
-        /* RENDER */
-        $this->render($default_dashboard, $customData);
     }
 
 }
