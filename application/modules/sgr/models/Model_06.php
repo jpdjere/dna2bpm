@@ -442,31 +442,7 @@ class Model_06 extends CI_Model {
         $this->load->library('table');
         return $this->table->generate($data);
     }
-
-    function get_anexo_report($anexo, $parameter) {
-
-        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
-
-        /* HEADER TEMPLATE */
-        $header_data = array();
-        $header_data['input_period_to'] = $input_period_to;
-        $header_data['input_period_from'] = $input_period_from;
-
-        $header = $this->parser->parse('reports/form_' . $anexo . '_header', $header_data, TRUE);
-        $tmpl = array('data' => $header);
-
-        $data = array($tmpl);
-        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
-        foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
-        }
-        $this->load->library('table_custom');
-        $newTable = $this->table_custom->generate($data);
-
-        return $newTable;
-    }
-
+ 
     function get_anexo_data_tmp($anexo, $parameter) {
 
         $rtn = array();
@@ -1613,15 +1589,14 @@ class Model_06 extends CI_Model {
                             'localField' => 'filename',
                             'foreignField' => 'filename',
                             'as' => 'anexo')                        
-                      ),
-                      array ('$unwind' => '$anexo'),                      
+                      ),                      
                       array ('$match' => array (
                         'anexo.1695' => $socio                    
                     ))                   
 
                 ));          
         $get=$this->sgr_db->command($query);
-       
+        
         $this->ui_table_xls($get['result'], $this->anexo, $parameter);
          
    }
@@ -1697,19 +1672,15 @@ class Model_06 extends CI_Model {
 
             $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
 
-
-            /* SGR DATA */
-            $filename = trim($list['filename']);
-            list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
-
-
             $afip_var = ($afip_condition[$list['5596'][0]])?$afip_condition[$list['5596'][0]]:$list['5596'][0];
             $afip_var = strtoupper($afip_var);
-            //var_dump($sector_opt[$sector_value]);
             
-
+            /* SGR DATA */ 
+            $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']);
+            
             $new_list = array();
-            $new_list['col1'] = $g_denomination;
+            $new_list['col0'] = $sgr_info[1693];
+            $new_list['col1'] = $sgr_info[1695];            
             $new_list['col3'] = $list['id'];
             $new_list['col4'] = $get_period_filename['period'];
             $new_list['col5'] = $operation_type[$list['5779'][0]];
