@@ -1,69 +1,11 @@
 {
     "createdBy": "Luciano Menez <lucianomenez1212d@gmail.com>",
-    "title": "Coordinación de Fondo Semilla",
+    "title": "Coordinación de Programa Expertos",
     "view": "layout_2cols_fixed",
     "icon": "fa-users",
     "zones": [
         {
         "tiles": [
-
-            {
-                "title": "Proyectos No Admitidos",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 12,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
-            },
-            {
-                "title": "En Ronda 1",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_ZK", "tile-blue-custom"]
-            },
-            {
-                "title": "En Ronda 2",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_ZW", "tile-blue-custom"]
-            },
-            {
-                "title": "Selección de Incubadora",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_RE", "tile-blue-custom"]
-            },             
-            {
-                "title": "Carga Plan de Negocios",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_JX", "tile-blue-custom"]
-            },
-            {
-                "title": "Verifica Plan de Negocios",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_BI", "tile-blue-custom"]
-            },
-            {
-                "title": "Verifica Plan de Negocios",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 4,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_NE", "tile-blue-custom"]
-            }
-            
             ]
         },
         {
