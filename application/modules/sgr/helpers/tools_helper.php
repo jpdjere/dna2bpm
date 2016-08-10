@@ -1301,6 +1301,23 @@ function header_arr($anexo) {
         case '141':
             $headerArr = array('SGR', 'CUIT SGR', 'ID', 'PERIODO', 'C.U.I.T', 'SOCIO PARTICIPE', 'CANT GTIAS VIGENTES', 'MONTO DE GARANTIAS VIGENTES', 'HIPOTECARIAS', 'PRENDARIAS', 'FIANZA', 'OTRAS', 'TOTAL', 'REAFIANZA', 'MORA EN DIAS', 'CLASIFICACION DEUDOR', 'MONTO ADEUDADO', 'CANTIDAD GARANTIAS AFRONTADAS', 'CANTIDAD GARANTIAS', 'Archivo SIPRIN SGR');        
         break;
+        case '15':
+            $headerArr = array(
+            'ID',
+            'PERIODO',
+            'SGR',
+            'CUIT SGR',
+            'INCISO ART 25',
+            'DESCRIPCION',    
+            'IDENTIFICACION',
+            'EMISOR',
+            'CUIT EMISOR',
+            'ENTIDAD DESPOSITARIA',
+            'CUIT DEPOSITARIO',
+            'MONEDA',
+            'MONTO',
+            'Archivo SIPRIN SGR');        
+        break;
 
         }
         
