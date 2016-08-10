@@ -1016,6 +1016,19 @@ BLOCK;
             $token = $this->bpm->consolidate_data('crefisGral', $case['id'], $resourceId);
         }
     }
+    
+        function fix_data_rend($case = null) {
+        $debug = false;
+        $this->load->model('bpm/bpm');
+        $resourceId = 'oryx_6772A7D9-3D05-4064-8E9F-B23B4F84F164';
+        $filter = ($case) ? array('idwf' => 'crefisRend', 'id' => $case) : array('idwf' => 'crefisRend');
+        $rs = $this->bpm->get_cases_byFilter($filter);
+        foreach ($rs as $case) {
+            if ($debug)
+                var_dump($case['id']);
+            $token = $this->bpm->consolidate_data('crefisRend', $case['id'], $resourceId);
+        }
+    }
 
     function Landing() {
         $this->Add_group();
