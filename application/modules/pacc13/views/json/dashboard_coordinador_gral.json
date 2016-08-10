@@ -50,19 +50,13 @@
 
     ],
     "zones": [{
-            "tiles": [{
-                    "title": "Buscar",
-                    "module": "pacc",
-                    "controller": "pacc",
-                    "function": "tile_buscar_container",
-                    "span": 6
-                },
+            "tiles": [
                 {
                     "title": "Pre-aprobación/Rechazo",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 4,
                     "params": ["pacc3PP", "pacc3PP_LQ"]
                 },
                 {
@@ -70,10 +64,16 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 4,
                     "params": ["pacc3PPF", "pacc3PPF_KY"]
+                },
+                {
+                    "title": "Buscar",
+                    "module": "pacc",
+                    "controller": "pacc",
+                    "function": "tile_buscar_container",
+                    "span": 6
                 }
-
 
 
 

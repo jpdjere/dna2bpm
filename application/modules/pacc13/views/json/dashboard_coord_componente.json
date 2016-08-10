@@ -51,13 +51,6 @@
     ],
     "zones": [{
             "tiles": [{
-                    "title": "Buscar",
-                    "module": "pacc",
-                    "controller": "pacc",
-                    "function": "tile_buscar_container",
-                    "span": 4
-                },
-                {
                     "title": "Pitch a evaluar",
                     "module": "bpm",
                     "controller": "kpi",
@@ -95,6 +88,13 @@
                     "module": "bpm",
                     "controller": "bpmui",
                     "function": "tile_tasks2me"
+                },
+                {
+                    "title": "Buscar",
+                    "module": "pacc",
+                    "controller": "pacc",
+                    "function": "tile_buscar_container",
+                    "span": 4
                 }
 
 
