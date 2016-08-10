@@ -1291,6 +1291,22 @@ function css_central_fn() {
     echo $css_link;
 }
 
+function header_arr($anexo) {
+
+        switch($anexo){
+        
+        case '06':
+        $headerArr = array('SGR', 'CUIT SGR', 'ID', 'Periodo', 'Tipo de Operacion', 'Tipo de Socio (A/B)', 'C.U.I.T.', 'Apellido y nombre o Razon Social', 'Provincia', 'Partido / Municipio / Comuna', 'Localidad', 'Codigo Postal', 'Calle', 'Nro.', 'Piso', 'Dto. / Oficina', 'Telefono 1', 'Telefono 2', 'E-mail', 'Pagina Web', 'Codigo', 'Sector', 'Mes/Ano 1', 'Monto 1', 'Tipo Origen 1', 'Mes/Ano 2', 'Monto 2', 'Tipo Origen 2', 'Mes/Ano 3', 'Monto 3', 'Tipo Origen 3', 'Facturacion Promedio', 'Tipo de Empresa', 'Condicion de Inscripcion AFIP', 'Cantidad de Empleados al Cierre del ultimo Ejercicio', 'Tipo de Acta', 'Fecha', 'Acta Nro.', 'Fecha de transaccion', 'Modalidad de compra de acciones', 'Capital Suscripto', 'Capital Integrado', 'CUIT Cedente', 'Apellido y nombre o Razon Social Cedemte', 'Caracter del Cedente', 'Archivo SIPRIN SGR');
+        break;
+        case '141':
+            $headerArr = array('SGR', 'CUIT SGR', 'ID', 'PERIODO', 'C.U.I.T', 'SOCIO PARTICIPE', 'CANT GTIAS VIGENTES', 'MONTO DE GARANTIAS VIGENTES', 'HIPOTECARIAS', 'PRENDARIAS', 'FIANZA', 'OTRAS', 'TOTAL', 'REAFIANZA', 'MORA EN DIAS', 'CLASIFICACION DEUDOR', 'MONTO ADEUDADO', 'CANTIDAD GARANTIAS AFRONTADAS', 'CANTIDAD GARANTIAS', 'Archivo SIPRIN SGR');        
+        break;
+
+        }
+        
+        return $headerArr;
+    }
+
 function report_account_records_fn($incremental) {
     echo "<pre>" . $incremental . " Registros.......</pre>";
 }

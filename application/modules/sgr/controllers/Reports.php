@@ -151,7 +151,6 @@ class Reports extends MX_Controller {
     }
 
     function show_last_report() {
-     
 
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
         $model = "model_" . $anexo;
@@ -159,8 +158,7 @@ class Reports extends MX_Controller {
         $this->load->model($model);
         header('Content-type: text/html; charset=UTF-8');
 
-        $customData = $this->$model->get_link_report();
-
+        $customData = $this->$model->get_link_report($anexo);
 
         $fileName = $anexo . "_reporte_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -299,10 +297,7 @@ class Reports extends MX_Controller {
     function process() {
 
         $anexo = $this->input->post('anexo');
-        switch ($anexo) {
-            case '06':
-                return $this->process_06($anexo);
-                break;
+        switch ($anexo) {           
 
             case '061':
                 return $this->process_061($anexo);
@@ -330,11 +325,7 @@ class Reports extends MX_Controller {
 
             case '14':
                 return $this->process_14($anexo);
-                break;
-
-            case '141':
-                return $this->process_141($anexo);
-                break;
+                break;           
 
             case '15':
                 return $this->process_15($anexo);
@@ -388,33 +379,7 @@ class Reports extends MX_Controller {
         }
     }
 
-    function process_06($anexo) {
-
-        $rtn = array();
-        $report_name = $this->input->post('report_name');
-
-
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-
-        if ($this->input->post('cuit_socio'))
-            $rtn['cuit_socio'] = $this->input->post('cuit_socio');
-
-        $rtn['sgr_id'] = $this->input->post('sgr');
-
-        if ($this->input->post('sgr')) {
-            $model = "model_" . $anexo;
-            $this->load->model($model);
-
-            switch ($report_name) {
-                case "A":
-                    $result = $this->$model->get_anexo_report($anexo, $rtn);
-                    break;
-            }
-
-            return $result;
-        }
-    }
+    
 
     function process_061($anexo) {
 
@@ -580,29 +545,7 @@ class Reports extends MX_Controller {
             return $result;
         }
     }
-
-    function process_141($anexo) {
-
-        $rtn = array();
-        $report_name = $this->input->post('report_name');
-
-
-        $rtn['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
-        $rtn['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
-
-        if ($this->input->post('cuit_socio'))
-            $rtn['cuit_socio'] = $this->input->post('cuit_socio');
-
-        $rtn['sgr_id'] = $this->input->post('sgr');
-        if ($this->input->post('sgr')) {
-            $model = "model_" . $anexo;
-            $this->load->model($model);
-
-            $result = $this->$model->get_anexo_report($anexo, $rtn);
-
-            return $result;
-        }
-    }
+    
 
     function process_15($anexo) {
 
@@ -996,7 +939,13 @@ class Reports extends MX_Controller {
     /*NEW REPORT*/
     function new_report($anexo='06'){
 
-        $this->load->model('model_06');
+        
+        /*LOAD MODEL*/
+        $model = "model_" . $this->anexo;
+        $this->load->model($model);
+
+        /*VIEW*/
+        $default_dashboard = 'reports_result'; 
 
 
         $data = array();
@@ -1014,48 +963,12 @@ class Reports extends MX_Controller {
         
         $data['sgr_id'] = $this->input->post('sgr');
 
-        
-        $default_dashboard = 'reports_result';        
-
-        $model = "model_" . $this->anexo;
-        $this->load->model($model);
-
-        /* HEADERS */
-        $header_merge = array_merge($data, $this->headers());
-        foreach ($header_merge as $key => $each) {
-            $customData[$key] = $each;
-        }       
-
-        
         /*CALL MODEL*/
         if ($this->input->post('sgr')) {
-            $rtn_report = $this->model_06->generate_report($data);  
+           $this->$model->generate_report($data);  
         }
 
 
-        $fileName = "reporte_al_" . date("j-n-Y"); //Get today
-
-        $customData['form_template'] = $this->parser->parse('reports/form_result', $customData, true);       
-        $customData['show_table'] = ($rtn_report) ? html_entity_decode($rtn_report) : "";
-
-
-        header('Content-type: text/html; charset=UTF-8');
-        if ($this->idu == 11) {
-            //var_dump($customData);           exit;
-            $this->render($default_dashboard, $customData);
-        } else {
-            $fileName = $this->anexo . "_al_" . date("j-n-Y"); //Get today
-            //Generate  file
-            header("Content-Description: File Transfer");
-            header("Content-Type: application/x-msexcel");
-            header("Content-Type: application/force-download");
-            header("Content-Disposition: attachment; filename=SGR_reporteAnexo" . $fileName . ".xls");
-            header("Content-Description: PHP Generated XLSx Data");
-        }
-
-        #echo $rtn_report; exit;
-        /* RENDER */
-        $this->render($default_dashboard, $customData);
     }
 
 }
