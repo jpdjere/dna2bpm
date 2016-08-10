@@ -184,7 +184,8 @@ class Dashboard extends MX_Controller {
         $customData['inbox_count'] = $this->msg->count_msgs($this->idu, 'inbox');
        // $customData['config_panel'] =$this->parser->parse('_config_panel',  $customData['lang'], true, true);
         $customData['name'] = $user->name . ' ' . $user->lastname;
-
+        //=== Manual Menu for general use
+        $customData['show_calendar']=$this->user->has("root/modules/calendar/controllers/calendar/get_events");
         // Global JS
         $customData['global_js'] = array(
             'base_url' => $this->base_url,

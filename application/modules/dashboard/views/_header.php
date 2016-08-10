@@ -64,6 +64,29 @@
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                      
+                     <!-- Dashboard -->
+                     <li class="" id='toolbar_dashboard'>
+                        <a href="{base_url}dashboard"  title="{lang Dashboard}"> 
+                            <i class="fa fa-dashboard"></i> 
+                        </a>
+                    </li>
+
+                     <!-- Tasks -->
+                     <li class="" id='toolbar_tasks'>
+                        <a href="{base_url}dashboard/tasks"  title="{lang Tasks}"> 
+                            <i class="fa fa-tasks"></i> 
+                        </a>
+                    </li>
+
+                     <!-- Calendar -->
+                     {if {show_calendar}}
+                     <li class="dr" id='toolbar_calendar'>
+                        <a href="{base_url}calendar"  title="{lang Calendar}"> 
+                            <i class="fa fa-calendar"></i> 
+                        </a>
+                    </li>
+                    {/if}
+
                         {toolbar_inbox}
                     
                         
