@@ -600,7 +600,9 @@ class Sgr_model extends CI_Model {
     function get_depositories($code) {
         $container = 'container.sgr_entidades_depositarias';
         $query = array("codigo" => utf8_decode($code));
+        
         $result = $this->mongowrapper->sgr->$container->findOne($query);
+
         return $result;
     }
 
