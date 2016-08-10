@@ -58,14 +58,6 @@
                     "span": 6
                 },
                 {
-                    "title": "Pitch a evaluar",
-                    "module": "bpm",
-                    "controller": "kpi",
-                    "function": "tile",
-                    "span": 2,
-                    "params": ["pacc3PP", "pacc3PP_CE"]
-                },
-                {
                     "title": "Pre-aprobación/Rechazo",
                     "module": "bpm",
                     "controller": "kpi",
