@@ -55,7 +55,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 3,
                     "params": ["pacc3PP", "pacc3PP_CE"]
                 },
                 {
@@ -63,7 +63,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 3,
                     "params": ["pacc3PP", "pacc3PP_DR"]
                 },
                 {
@@ -71,7 +71,7 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 3,
                     "params": ["pacc3PP", "pacc3PP_UR"]
                 },
                 {
@@ -79,15 +79,8 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
-                    "span": 2,
+                    "span": 3,
                     "params": ["pacc3PPF", "pacc3PPF_TP"]
-                },
-                {
-                    "title": "Tile01",
-                    "span": 2,
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks2me"
                 },
                 {
                     "title": "Buscar",
