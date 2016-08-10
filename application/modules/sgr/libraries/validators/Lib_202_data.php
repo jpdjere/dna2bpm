@@ -1,7 +1,7 @@
 <?php
 
 class Lib_202_data extends MX_Controller {
-    /* VALIDADOR ANEXO 12.5 */
+    /* VALIDADOR ANEXO 20.2 */
 
     public function __construct($parameter) {
         parent::__construct();
@@ -11,6 +11,8 @@ class Lib_202_data extends MX_Controller {
 
         $model_201 = 'model_201';
         $this->load->Model($model_201);
+
+         
 
         /* Vars 
          * 
@@ -28,25 +30,11 @@ class Lib_202_data extends MX_Controller {
         $A_array_value = array();
         $A3_array = array();
         $A4_array = array();
-        $exist_input_all = array_unique($this->$model_201->exist_input_all());
-
-        foreach ($exist_input_all as $each) {
 
 
+        $A3_array = $this->$model_201->exist_input_all();       
+        $A4_array = $this->$model_201->exist_input_all(0);
 
-            $exist_input_number_left = $this->$model_201->exist_input_number_left($each);
-
-
-            if ($exist_input_number_left)
-                $get_input_number_left = (int) $this->$model_201->get_input_number_left($each);
-
-
-            if ($get_input_number_left > 0)
-                $A3_array[] = $each;
-
-            if ($get_input_number_left == 0)
-                $A4_array[] = $each;
-        }
 
 
         /**
@@ -57,9 +45,9 @@ class Lib_202_data extends MX_Controller {
          * @name ...
          * @author Diego             
          * @example 
-         * NUMERO_DE_APORTE	
-         * CONTINGENTE_PROPORCIONAL_ASIGNADO	
-         * DEUDA_PROPORCIONAL_ASIGNADA	
+         * NUMERO_DE_APORTE 
+         * CONTINGENTE_PROPORCIONAL_ASIGNADO    
+         * DEUDA_PROPORCIONAL_ASIGNADA  
          * RENDIMIENTO_ASIGNADO
          * */
         for ($i = 0; $i <= count($parameterArr); $i++) {
@@ -93,16 +81,14 @@ class Lib_202_data extends MX_Controller {
                 } else {
 
                     $A_cell_value = $parameterArr[$i]['fieldValue'];
+                    $A_array_value[] = (int) $A_cell_value;
 
                     $get_anexo_data = $this->$model_201->exist_input_number_left($A_cell_value);
                     if ($get_anexo_data)
                         $get_input_number_check = (int) $this->$model_201->get_input_number_left($A_cell_value);//Support #25707 (int)
-
-                    $A_array_value[] = (int) $A_cell_value;
-
-                    if (!$get_anexo_data) {
+                    else {
                         $code_error = "A.2";
-                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);
+                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $A_cell_value);                        
                     }
                 }
             }
@@ -199,7 +185,6 @@ class Lib_202_data extends MX_Controller {
 
 
         /* A.3 */
-
         $A3_result = array_diff(array_unique($A3_array), array_unique($A_array_value));
 
         if ($A3_result) {
@@ -208,8 +193,10 @@ class Lib_202_data extends MX_Controller {
                 $result[] = return_error_array($code_error, $parameterArr[$i]['row'], "Resta el Nro de Aporte: " . $A3);
             }
         }
-        /*debug($result);        exit();*/
+        /*   debug($result);       
+         exit();
+         */
+
         $this->data = $result;
     }
-
 }

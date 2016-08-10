@@ -60,6 +60,24 @@ class expertos_model extends CI_Model {
         return $rtn;
     }    
     
+    function get_experto($value = null) {
+
+        $rtn = array();
+        $container = 'container.empresas';
+        
+        if ($value){
+            $query = array( 9769 => '2',
+                            9771 => '1',
+                              );
+            $this->db->where($query);
+            $this->db->like(1693, $value, 'both'); 
+
+            }
+        else
+            {}
+        $result = $this->db->get($container)->result_array();
+        return $result;
+    }  
     
     
     

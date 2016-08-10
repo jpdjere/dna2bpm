@@ -1,4 +1,4 @@
-<ul class="sidebar-menu">
+<!-- <ul class="sidebar-menu">
 	<li>
    <a href="{module_url}"> <i class="fa fa-dashboard"></i>
 			<span>Dashboard</span>
@@ -18,5 +18,5 @@
     </li>
 		{/if}
 
-</ul>
+</ul> -->
 {menu_custom}
