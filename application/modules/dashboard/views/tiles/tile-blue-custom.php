@@ -14,7 +14,7 @@
     <a class="small-box-footer {more_info_class}" href="{more_info_link}">
         {more_info_text} <i class="fa fa-arrow-circle-right"></i>
     </a>
-    <a class="small-box-footer" href="http://dna2.produccion.gob.ar/dna2bpm/fondosemilla/semilla/exportar_xls/{idkpi}" target="_blank">
+    <a class="small-box-footer" href="{base_url}fondosemilla/semilla/exportar_xls/{idkpi}" target="_blank">
         Exportar a XLS <i class="fa fa-arrow-circle-right"></i>
     </a>    
 </div>
