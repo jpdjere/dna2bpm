@@ -34,5 +34,8 @@ $lang["high_priority"]='Prioridad alta';
 $lang["normal_priority"]='Prioridad normal';
 $lang["low_priority"]='Prioridad baja';
 $lang["remove_tag"]='Eliminar etiqueta';
-
 $lang["refresh"]='Actualizar';
+//toolbar
+$lang["see_all_messages"]='Ver todos los mensajes';
+$lang["you_have"]='Tu tienes';
+$lang["messages_unread"]='mensajes sin leer';

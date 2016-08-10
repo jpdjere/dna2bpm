@@ -18,10 +18,10 @@
                     "box_collapsed":"0"
                 },
                 {
-                    "title": "Bandeja de entrada",
+                    "title": "Programas aplicados",
                     "module": "perfil",
                     "controller": "perfil",
-                    "function": "inbox",
+                    "function": "programas",
                     "box_icon":"fa-envelope",
                     "box_class":["box","box-info"], 
                     "box_buttons":["collapse"],

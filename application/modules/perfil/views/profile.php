@@ -15,8 +15,7 @@
 <li><strong>Categoría:</strong> {categoria}</li>
 <li><strong>Actividad:</strong> {actividad_texto}</li>
 </ul>
-<a type="button" href="{base_url}dashboard/profile" class="pull-right btn btn-general btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
- Editar</a>
+
 </div>
 </div>
 
