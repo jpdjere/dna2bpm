@@ -285,8 +285,8 @@ BLOCK;
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'Error//no está cargado',
-                'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'XXXX',
+                'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'No está cargado',
+                'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'Falta el CUIT',
                 'Nro' => (isset($data ['Proyectos_pacc']['7356'])) ? $data ['Proyectos_pacc'] ['7356'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
@@ -382,8 +382,8 @@ BLOCK;
 					return array(
 						'_d' => $token ['_id'],
 						'case' => $token ['case'],
-						'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'Error//no está cargado',
-						'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'XXXX',
+						'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'No está cargado',
+						'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'No está cargado',
 						'Nro' => (isset($data ['Proyectos_pacc']['7356'])) ? $data ['Proyectos_pacc'] ['7356'] : 'N/A',
 						'estado' => $status,
 						'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
@@ -475,8 +475,8 @@ BLOCK;
 				return array(
 					'_d' => $token ['_id'],
 					'case' => $token ['case'],
-					'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'Error//no está cargado',
-					'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'XXXX',
+					'nombre' => (isset($data['Empresas']['1693'])) ? $data['Empresas']['1693'] : 'No está cargado',
+					'cuit' =>  (isset($data['Empresas']['1695'])) ? $data['Empresas']['1695'] : 'No está cargado',
 					'Nro' => (isset($data ['Proyectos_pacc']['7356'])) ? $data ['Proyectos_pacc'] ['7356'] : 'N/A',
 					'estado' => $status,
 					'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
