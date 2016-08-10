@@ -66,15 +66,17 @@ class expertos_model extends CI_Model {
         $container = 'container.empresas';
         
         if ($value){
-            $query = array( 9769 => array ('$in' => array('2','0')));
+            $query = array( 9769 => '2',
+                            9771 => '1',
+                              );
             $this->db->where($query);
+            $this->db->like(1693, $value, 'both'); 
+
             }
         else
-            {$query = array( '10034' => $id);
-            $this->db->where($query);
-            }
+            {}
         $result = $this->db->get($container)->result_array();
-        return $rtn;
+        return $result;
     }  
     
     

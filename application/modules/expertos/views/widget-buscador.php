@@ -1,7 +1,7 @@
 <form class="form tour-incubar incubar-cinco">
   <div class="row">
     <div class="col-lg-12">
-        <label for="incubadoras" class="control-label">DNI</label>
+        <label for="razon_Social" class="control-label">Buscar</label>
     </div>
   </div>
     <div class="form-group">
@@ -21,8 +21,8 @@
 <table class="table table-bordered table-hover" id="tabla-buscador">
     <thead>
           <tr role="row">
-              <th>Nombre</th>
-              <th>Apellido</th>
+              <th>Nombre / Razon Social</th>
+              <th>CUIT</th>
               <th>E-mail</th>
               <th>Ver Detalle</th>
           </tr>

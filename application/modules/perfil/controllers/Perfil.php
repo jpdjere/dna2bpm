@@ -126,24 +126,7 @@ class Perfil extends MX_Controller {
                 }
             }
 
-            // Programas
-             $cases = $this->bpm->get_cases_byFilter(
-                    array(
-                'iduser' => $this->idu,
-                'status' => 'open',
-                    ), array(), array('checkdate' => 'desc')
-            );
-           //  var_dump($cases);
-            $customData['programas']=count($cases);
-
-            // Programas adquiridos
-             $cases2 = $this->bpm->get_cases_byFilter(
-                    array(
-                'iduser' => $this->idu,
-                'status' => 'closed',
-                    ), array(), array('checkdate' => 'desc')
-            );
-            $customData['adquiridos']=count($cases2);
+            
              
             echo $this->parser->parse('estadisticas', $customData, true, true);
         }
@@ -367,6 +350,33 @@ echo <<<_EOF_
 
 _EOF_;
 }
+
+//== Programas aplicados
+function programas(){
+
+// Programas
+ $cases = $this->bpm->get_cases_byFilter(
+        array(
+    'iduser' => $this->idu,
+    'status' => 'open',
+        ), array(), array('checkdate' => 'desc')
+);
+
+
+$customData['programas']=count($cases);
+
+// Programas adquiridos
+ $cases2 = $this->bpm->get_cases_byFilter(
+        array(
+    'iduser' => $this->idu,
+    'status' => 'closed',
+        ), array(), array('checkdate' => 'desc')
+);
+$customData['adquiridos']=count($cases2);
+
+echo $this->parser->parse('programas', $customData, true, true);          
+}
+
 
 
 function has1273(){

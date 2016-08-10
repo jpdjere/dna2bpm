@@ -4,7 +4,7 @@
         <span	class="label label-success"><span class='unread_count'>{unread_count}</span></span>
     </a>
 	<ul class="dropdown-menu">
-		<li class="header">You have <span class='unread_count'>{unread_count}</span> messages unread</li>   
+		<li class="header">You have <span class='unread_count'>{unread_count}</span> {lang messages_unread}</li>   
 		<li>
 			
 			<ul class="menu">
@@ -22,7 +22,6 @@
 
 			</ul>
 		</li>
-        
-		<li class="footer"><a href="{base_url}dashboard/inbox">See All Messages</a></li>
+		<li class="footer"><a href="{base_url}dashboard/inbox">{lang see_all_messages}</a></li>
 	</ul>
 </li>
