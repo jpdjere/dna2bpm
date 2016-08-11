@@ -51,6 +51,7 @@ class Consultas_model extends CI_Model {
        if(empty($cuit))return false;
        if($this->has_1273($cuit)==false)return false;
        if(empty($this->isPyme($cuit)))return false;
+       if($this->isPyme($cuit))return false;
 
        $query=array('cuit'=>new MongoInt64($cuit));
 
