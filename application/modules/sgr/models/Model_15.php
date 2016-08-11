@@ -319,115 +319,7 @@ class Model_15 extends CI_Model {
         return $rtn;
     }
 
-    function get_anexo_report($anexo, $parameter) {
-
-        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
-
-        /* HEADER TEMPLATE */
-        $header_data = array();
-        $header_data['input_period_to'] = $input_period_to;
-        $header_data['input_period_from'] = $input_period_from;
-        $header = $this->parser->parse('reports/form_' . $anexo . '_header', $header_data, TRUE);
-        $tmpl = array('data' => $header);
-
-        $data = array($tmpl);
-        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
-        foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
-        }
-        $this->load->library('table_custom');
-        $newTable = $this->table_custom->generate($data);
-
-        return $newTable;
-    }
-
-    function get_anexo_data_report($anexo, $parameter) {
-
-        if (!isset($parameter)) {
-            return false;
-            exit();
-        }
-
-        header('Content-type: text/html; charset=UTF-8');
-        $rtn = array();
-
-
-
-        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
-
-
-        $start_date = first_month_date($input_period_from);
-        $end_date = last_month_date($input_period_to);
-
-        /* GET PERIOD */
-        $period_container = 'container.sgr_periodos';
-        $query = array(
-            'anexo' => $anexo,
-            'status' => "activo",
-            'period_date' => array(
-                '$gte' => $start_date, '$lte' => $end_date
-            )
-        );
-
-
-
-
-        if ($parameter['sgr_id'] != 666)
-            $query["sgr_id"] = (float) $parameter['sgr_id'];
-
-        $period_result = $this->mongowrapper->sgr->$period_container->find($query);
-
-
-        $files_arr = array();
-        $container = 'container.sgr_anexo_' . $anexo;
-
-
-        $new_query = array();
-        foreach ($period_result as $results) {
-            $period = $results['period'];
-            $new_query['$or'][] = array("filename" => $results['filename']);
-        }
-
-
-        $result_arr = $this->mongowrapper->sgr->$container->find($new_query);
-        /* TABLE DATA */
-        return $this->ui_table_xls($result_arr, $anexo);
-    }
-
-    function ui_table_xls($result, $anexo = null) {
-
-        $this->load->model('app');
-        $currency = $this->app->get_ops(549);
-
-
-        foreach ($result as $list) {
-
-            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);            
-            $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']); 
-
-
-            $new_list = array();
-            $new_list['col1'] = $list['id'];
-            $new_list['col2'] = period_print_format($get_period_filename['period']);
-            $new_list['col3'] = $sgr_info[1693];
-            $new_list['col4'] = $sgr_info[1695];
-            $new_list['col5'] = $list['INCISO_ART_25'];
-            $new_list['col6'] = $list['DESCRIPCION'];
-            $new_list['col7'] = $list['IDENTIFICACION'];
-            $new_list['col8'] = $list['EMISOR'];
-            $new_list['col9'] = $list['CUIT_EMISOR'];
-            $new_list['col10'] = $list['ENTIDAD_DESPOSITARIA'];
-            $new_list['col11'] = $list['CUIT_DEPOSITARIO'];
-            $new_list['col12'] = $currency[$list['MONEDA']];
-            $new_list['col13'] = dot_by_coma($list['MONTO']);
-            $new_list['col14'] = $list['filename'];
-            $rtn[] = $new_list;
-        }
-
-        return $rtn;
-    }
+    
 
     function get_anexo_data_clean($anexo, $parameter, $xls = false) {
 
@@ -455,6 +347,146 @@ class Model_15 extends CI_Model {
         $rtn[] = $new_list;
 
         return $rtn;
+    }
+
+     /**
+     * Nuevo Reporte Anexo 15
+     *
+     * @name generate_report
+     *
+     * @see SGR()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
+
+     
+
+     function get_link_report($anexo) {
+
+        $headerArr = header_arr($anexo);
+        $title_report = $this->sgr_model->get_anexo($anexo);
+        
+        $data[] = array($headerArr);
+        $anexoValues = $this->sgr_model->last_report_general();
+
+        if (!$anexoValues) {
+            return false;
+        } else {
+            foreach ($anexoValues as $values) {
+                $header = '<h2>Reporte '.$anexo.' - '.strtoupper($title_report['title']).' </h2><h3>PERIODO/S: ' . $values['uquery']['input_period_from'] . ' a ' . $values['uquery']['input_period_to'] . '</h3>';
+
+                unset($values['_id']);
+                unset($values['id']);
+                $data[] = array_values($values);
+            }
+            $this->load->library('table');
+            return $header . $this->table->generate($data);
+        }
+    }
+
+    function generate_report($parameter=array()) {
+       
+
+       $start_date = first_month_date($parameter['input_period_from']);
+       $end_date = last_month_date($parameter['input_period_to']);
+
+
+       
+       $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
+
+
+       $query=array(
+                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
+                'pipeline'=>
+                  array(                       
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_periodos' ,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'periodo')                        
+                      ),
+                      array (
+                        '$match' => array (
+                            'periodo.sgr_id' =>$sgr_id, 
+                            'periodo.status'=>'activo' ,
+                            'periodo.period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                        ))                        
+                      )                 
+
+                ));          
+         $get=$this->sgr_db->command($query);
+        
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter);  
+         
+   }
+
+   function ui_table_xls($result, $anexo = null, $parameter) {        
+
+
+        /* CSS 4 REPORT */
+        css_reports_fn();
+
+        $i = 1;
+
+        $list = null;
+        $this->sgr_model->del_tmp_general();
+
+        $this->load->model('app');
+        $currency = $this->app->get_ops(549);
+
+        foreach ($result as $list) {
+           
+            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);            
+            $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']); 
+
+            $entidad_depositaria = $list['ENTIDAD_DESPOSITARIA'];
+
+            $get_entidad_depositaria = $this->sgr_model->get_depositories($list['CUIT_DEPOSITARIO']);
+            
+            if($get_entidad_depositaria)
+                $entidad_depositaria = $get_entidad_depositaria['nombre'];
+
+            $new_list = array();
+            $new_list['col1'] = $list['id'];
+            $new_list['col2'] = period_print_format($get_period_filename['period']);
+            $new_list['col3'] = $sgr_info[1693];
+            $new_list['col4'] = $sgr_info[1695];
+            $new_list['col5'] = $list['INCISO_ART_25'];
+            $new_list['col6'] = $list['DESCRIPCION'];
+            $new_list['col7'] = $list['IDENTIFICACION'];
+            $new_list['col8'] = $list['EMISOR'];
+            $new_list['col9'] = $list['CUIT_EMISOR'];
+            $new_list['col10'] = $entidad_depositaria;
+            $new_list['col11'] = $list['CUIT_DEPOSITARIO'];
+            $new_list['col12'] = $currency[$list['MONEDA']];
+            $new_list['col13'] = dot_by_coma($list['MONTO']);
+            $new_list['col14'] = $list['filename'];
+            $new_list['uquery'] = $parameter;
+
+            /* COUNT */
+            $increment = $i++;
+            report_account_records_fn($increment);
+
+            /* ARRAY FOR RENDER */
+            $rtn[] = $new_list;
+
+            /* SAVE RESULT IN TMP DB COLLECTION */
+            $this->sgr_model->save_tmp_general($new_list, $list['id']);
+        }
+
+        /* PRINT XLS LINK */
+        link_report_and_back_fn();
+        exit;
+
+        /* REFRESH AND SHOW LINK */
+        header("Location: $this->module_url_report");
+        exit();
     }
 
 }
