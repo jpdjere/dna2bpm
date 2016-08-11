@@ -197,7 +197,7 @@ class Perfil extends MX_Controller {
             }
         
                 
-        if($transaccion==$data->transaccion){
+        if(isset($data->transaccion) && $transaccion==$data->transaccion){
             
             $rtn['cuit'] = $data->cuit;
             $rtn['razon_social'] = $data->denominacion;
