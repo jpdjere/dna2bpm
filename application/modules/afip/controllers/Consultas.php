@@ -251,8 +251,8 @@ function certificado($parameter,$type='pdf'){
                     
                 break;
             default:
-                
-                $this->parser->parse('pdf', $new_list);
+
+                $this->parser->parse('pdf2', $new_list);
                 break;
         }
 
