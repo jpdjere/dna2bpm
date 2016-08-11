@@ -206,12 +206,12 @@ class Perfil extends MX_Controller {
             $rtn['empleados'] = $data->empleado;
             $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
             $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
-            // if($data->tienePeriodo2014=='S')
-            //     $rtn['2014'] = $data->periodoFiscal2014['total'];
-            // if($data->tienePeriodo2015=='S')
-            //     $rtn['2015'] = $data->periodoFiscal2015['total'];
-            // if($data->tienePeriodo2016=='S')
-            //     $rtn['2016'] = $data->periodoFiscal2016['total'];
+            if(isset($data->tienePeriodo2014) && $data->tienePeriodo2014=='S')
+                $rtn['2014'] = $data->periodoFiscal2014['total'];
+            if(isset($data->tienePeriodo2015) && $data->tienePeriodo2015=='S')
+                $rtn['2015'] = $data->periodoFiscal2015['total'];
+            if(isset($data->tienePeriodo2016) && $data->tienePeriodo2016=='S')
+                $rtn['2016'] = $data->periodoFiscal2016['total'];
        
             $rtn['msg'] = 'ok';
 
