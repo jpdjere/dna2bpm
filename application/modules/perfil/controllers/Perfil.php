@@ -19,7 +19,7 @@ class Perfil extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('portal_model');
         $this->load->model('bpm/bpm');
-        $this->load->model('afip/consultas_model');
+        //$this->load->model('afip/consultas_model');
         $this->load->model('app');
         $this->load->library('dashboard/ui');
         //---base variables
