@@ -276,6 +276,6 @@ class prestamos extends MX_Controller {
     }
     
     function test(){
-        phpinfo();
+        // phpinfo();
     }
 }
