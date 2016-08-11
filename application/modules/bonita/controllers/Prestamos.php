@@ -15,11 +15,11 @@ class prestamos extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model('user/user');
-        $this->load->model('user/group');
-        $this->load->model('model_prestamos');
-        $this->load->module('dashboard');
-        $this->load->library('parser');
+        // $this->load->model('user/user');
+        // $this->load->model('user/group');
+        // $this->load->model('model_prestamos');
+        // $this->load->module('dashboard');
+        // $this->load->library('parser');
         // $this->user->authorize('modules/bonita');
         $this->base_url = base_url();
         //$this->module_url = base_url() . 'bonita/';
