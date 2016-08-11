@@ -114,7 +114,7 @@
           </div>
           <div class="box-footer no-padding">
             <ul class="nav nav-stacked">
-              <li><a href="#">Ready <span class="pull-right badge bg-blue" id='status_ready'></span></a></li>
+              <li><a href="{base_url}afip/consultas/queue/ready" target="_blank">Ready <span class="pull-right badge bg-blue" id='status_ready'></span></a></li>
               <li><a href="{base_url}afip/consultas/queue/waiting" target="_blank">Waiting <span class="pull-right badge bg-aqua" id='status_waiting'></span></a></li>
               <li><a href="{base_url}afip/consultas/queue/revision" target="_blank">Revision <span class="pull-right badge bg-yellow"  id='status_revision'></span></a></li>
               <li><a href="{base_url}afip/consultas/queue/" target="_blank">Queue <span class="pull-right badge bg-red" id='status_queue'></span></a></li>

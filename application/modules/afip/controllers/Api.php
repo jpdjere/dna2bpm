@@ -192,6 +192,49 @@ class Api extends MX_Controller {
             return($data);
         }
     }
+     function F1272xSemana($mode = 'json') {
+        $this->load->model('afip/eventanilla_model');
+        $data=array();
+        $data=$this->consultas_model->F1272xSemana();
+       
+        switch ($mode) {
+            case "object":
+            return (object) $data;
+            break;
+            case "array":
+            return($data);
+            break;
+            case "dump":
+            var_export($data);
+            break;
+            case "json":
+            output_json($data);
+            break;
+            default:
+            return($data);
+        }
+    }
+     function F1272xMes($mode = 'json') {
+        $this->load->model('afip/eventanilla_model');
+        $data=array();
+        $data=$this->consultas_model->F1272xMes();
+        switch ($mode) {
+            case "object":
+            return (object) $data;
+            break;
+            case "array":
+            return($data);
+            break;
+            case "dump":
+            var_export($data);
+            break;
+            case "json":
+            output_json($data);
+            break;
+            default:
+            return($data);
+        }
+    }
      /**
       * devuelve stats de revision
       */
@@ -293,6 +336,45 @@ class Api extends MX_Controller {
 
 
     }
+ 
+     function get_data_by_cuit($cuit, $mode = 'json'){
+
+        //$cuit = '30712072772';
+        $this->user->authorize();                           
+        $data=$this->consultas_model->cuits_certificados($cuit);
+
+        return $data;
+
+     } 
+
+
+    function get_data_by_cuit_format($cuit, $mode = 'json'){
+
+        //$cuit = '30712072772';
+        $this->user->authorize();                       
+
+        
+        $data=$this->consultas_model->cuits_certificados($cuit);
+        //var_dump($data);
+        
+        //return $cuit;
+        switch ($mode) {
+            case "object":
+                return (object) $data;
+                break;
+            case "array":
+                return($data);
+                break;
+            case "json":
+                output_json($data);
+                break;
+            default:
+                return($data);
+        }
+        //var_dump($data);
+        return $data;
+
+     } 
     
     function get_fecha_proceso($cuit){
        $data = "hola";
@@ -306,6 +388,11 @@ class Api extends MX_Controller {
        echo $data;
        
        return $data;
+    }
+
+    function has_1273($cuit){
+       $ret= $this->consultas_model->has_1273((float)$cuit);
+       var_dump($ret);
     }
     
 }

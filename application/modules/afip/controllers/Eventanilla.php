@@ -92,7 +92,6 @@ class Eventanilla extends MX_Controller {
 
 
         $q['isPyme']=$my_process['result']['isPyme'];
-        $this->eventanilla_model->save_process($my_process);
         
 
         /**
@@ -106,7 +105,6 @@ class Eventanilla extends MX_Controller {
             'COOPERATIVA',
             'COOPERATIVA EFECTORA',
             'UNION TRANSIT.',
-            'MUTUAL',
             
             );
         $formasExcluidas=array(
@@ -128,7 +126,9 @@ class Eventanilla extends MX_Controller {
             'AG. POL. - CONFEDERAC. DE PART',
             'FIDEICOMISO TESTAMENTARIO',
             'IGLESIA CATOLICA',
-            'GLESIAS, ENTIDADES RELIGIOSAS',
+            'IGLESIAS, ENTIDADES RELIGIOSAS',
+            'FUNDACION',
+            'MUTUAL',
             );
         //----para pedir más información
         if(isset($my_process['formaJuridica']) && in_array($my_process['formaJuridica'],$formasMasinformacion) && $q['isPyme']==1){
@@ -137,18 +137,36 @@ class Eventanilla extends MX_Controller {
         }
 
         //---@todo
-        //----Excluidas
-        if(isset($my_process['formaJuridica']) && in_array(trim($my_process['formaJuridica']),$formasExcluidas)){
-            $my_process['result']['isPyme']=0;
-        }
+        
+        // if(isset($my_process['formaJuridica']) && trim($my_process['formaJuridica'])=='CONS. PROPIET.'){
+        //     // if($my_process['result']['isPyme'])
+        //     // $q['status']='ready';
+        // }
         
 
-        //== excentoIva =1 
-        if(!empty($my_process['exentoIva']) && $q['isPyme']==1){
+        //== excentoIva =1 solo si no es monotributo
+        if(!empty($my_process['exentoIva']) && $q['isPyme']==1 && empty($my_process['monotributo'])){
+            // var_dump(!empty($my_process['exentoIva']) && $q['isPyme']==1 && empty($my_process['monotributo']));
             $q['status']='revision';
             $q['status_extra']='exentoIva';
         }
 
+        //---Vinculadas
+        if($my_process['incorporaVinculada']==1 && !empty($my_process['vinculadas']->detalles) && $q['isPyme']==1){
+                // Ready
+                $q['status']= 'waiting';
+                $q['status_extra']='incorporaVinculada & isPyme==1';
+            }
+        //----Excluidas
+        if(isset($my_process['formaJuridica']) && in_array(trim($my_process['formaJuridica']),$formasExcluidas)){
+            $q['isPyme']=0;
+            $my_process['result']['isPyme']=0;
+            unset($q['categoria']);
+            unset($my_process['result']['categoria']);
+            $q['status']='ready';
+            $q['status_extra']='FormaJurídica Excluída';
+        }
+        
         
          if($sendToQueue){
             # status : ready | waiting | revision 
@@ -158,17 +176,11 @@ class Eventanilla extends MX_Controller {
             if(isset($my_process['result']['sector']))$q['sector']=$my_process['result']['sector'];
             
             
-
-            if($my_process['incorporaVinculada']==1 && !empty($my_process['vinculadas']->detalles) && $q['isPyme']==1){
-                // Ready
-                $q['status']= 'waiting';
-                $q['status_extra']='incorporaVinculada & isPyme==1';
-            }
-
                 $this->eventanilla_model->save_queue($q);
-
          }
 
+        //---actualizo process
+        $this->eventanilla_model->save_process($my_process);
 
 
     }
@@ -631,6 +643,19 @@ private function preprocessSinVentas($data){
             $log['result']=$this->preprocessSinVentas($log);
             var_dump($log['result']);echo "<hr>";
             $this->eventanilla_model->save_process($log);
+            
+            
+        }
+
+    }
+    function reprocess_queue($status){
+        $this->load->model('eventanilla_model');
+        $this->load->model('consultas_model');
+        $rtn=$this->consultas_model->show_queue_qry($status);
+       
+        foreach($rtn as $log){
+            var_dump($log);echo "<hr/>";
+            $this->reprocess($log['idComunicacion']);
             
             
         }

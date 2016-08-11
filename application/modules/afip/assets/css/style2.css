@@ -1,0 +1,123 @@
+/* |||||||||||||||||||||| ESPACIADO VERTICAL |||||||||||||||||||||| */
+.r0 {margin-bottom: 0px !important;}
+.r8 {margin-bottom: 8px !important;}
+.r10 {margin-bottom: 10px !important;}
+.r20 {margin-bottom: 20px !important;}
+.r25 {margin-bottom: 25px !important;}
+.r30 {margin-bottom: 30px !important;}
+.r40 {margin-bottom: 40px !important;}
+.r50 {margin-bottom: 50px !important;}
+.r60 {margin-bottom: 60px !important;}
+.r80 {margin-bottom: 60px !important;}
+.r100 {margin-bottom: 100px !important;}
+
+.rt5  {margin-top: 5px !important;}
+.rt10 {margin-top: 10px !important;}
+.rt15 {margin-top: 15px !important;}
+.rt20 {margin-top: 20px !important;}
+.rt30 {margin-top: 30px !important;}
+.rt40 {margin-top: 40px !important;}
+.rt50 {margin-top: 50px !important;}
+.rt60 {margin-top: 60px !important;}
+
+
+.pad-5 {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.pad-left-0 {
+	padding-left: 0px;
+}
+
+.pad-right-0 {
+	padding-right: 0px;
+}
+
+.logo {
+	width: 235px;
+	padding-top: 10px; 
+	padding-bottom: 10px;
+}
+
+.pyme {
+	width: 190px; 
+	padding-top: 20px;
+}
+
+.panel {
+	border-radius: 0 !important;
+	border: 10px solid transparent !important;
+	box-shadow: none !important;
+}
+
+.panel-primary {
+	border-color: #0095d4 !important;
+}
+
+.panel-primary > .panel-heading {
+	background-color: #0095d4 !important;
+	border-color: #0095D4 !important;
+	border-radius: 0 !important;
+}
+
+.panel-heading {
+	padding: 25px 15px !important;
+}
+
+.panel-border {
+	border-top: none;
+	border-left: 1px solid #F5F5F5;
+	border-bottom: 1px solid #F5F5F5;
+	border-right: 1px solid #F5F5F5;
+}
+
+.no-border-bottom {
+	border-bottom: none !important;
+}
+
+.no-border {
+	border: none !important;
+}
+
+.titulo {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	color: #0095d4;
+	letter-spacing: 3.9px;
+}
+
+.info {
+	color: #777;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	font-size: 20px;
+}
+
+.titulo-tabla {
+	color: #1298D6 !important;
+}
+
+.titulo-tabla-pad {
+	padding: 15px !important;
+	border-radius: 0 !important;
+}
+
+.panel-info > .panel-heading {
+	border-color: #D9EDF7 !important;
+}
+
+.info-well {
+	font-family: 'Open Sans', sans-serif;
+	color: #777;
+	line-height: 22px; 
+}
+
+.border-well {
+	border-radius: 0px !important;
+}
+
+.p-qr {
+	padding-top: 112px; 
+	padding-left: 50px;
+}

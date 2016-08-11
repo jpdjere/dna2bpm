@@ -114,13 +114,29 @@ class Consultas extends MX_Controller {
 
 
 function queue($parameter=null){
-
+    $this->load->model('afip/eventanilla_model');
+    $this->load->model('app');
     $data['base_url'] = $this->base_url;
+    $data['module_url'] = $this->module_url;
     $data['title'] = 'Consulta por CUIT';
     $data['logobar'] = $this->ui->render_logobar();   
-    $data['queue_list'] = $this->show_queue($parameter);     
-
-    echo $this->parser->parse('afip/queue', $data, true, true);        
+    $rtn=$this->consultas_model->show_queue_qry($parameter);
+    $clae3=$this->app->get_ops(750);
+    foreach ($rtn as &$q){
+        $process=$this->eventanilla_model->get_process(array('cuit'=>$q['cuit']));
+        // var_dump($process);exit;
+        $q['denominacion']=$process[0]->denominacion;
+        $q['formajuridica']=$process[0]->formajuridica;
+        $q['flags']=($process[0]->exentoiva) ?'<span class="badge bg-blue">ExIVA</span>':'';
+        $q['flags'].=($process[0]->monotributo) ?'<span class="badge bg-green">Mono</span>':'';
+        $q['diferido']=($process[0]->solicitapagotrimestral) ?'<span class="badge bg-green">Sí</span>':'<span class="badge">No</span>';
+        $q['result']=$process[0]->result;
+        $q['result']['actividad_texto']=$clae3[$q['result']['actividad']];
+    }
+    
+    $data['queue_list'] =$rtn;
+    // var_dump($data);exit;
+    $this->parser->parse('afip/queue', $data);        
 }
 
 function source($parameter){
@@ -136,7 +152,7 @@ function source($parameter){
         // $data['source_process'] =$this->code->highlight_block( json_encode($this->show_source($parameter, 'procesos'),JSON_PRETTY_PRINT), 'json','monokai',120);          
     $data['source_queue'] = json_encode($this->show_source($parameter, 'queue'));   
 
-    echo $this->parser->parse('source', $data, true, true);
+    $this->parser->parse('source', $data);
 
 
 }
@@ -165,17 +181,24 @@ function show_source($parameter, $collection){
     return $rtn;        
 }
 
+
+function has_certificado($cuit){
+return !empty($this->consultas_model->cuits_certificados((int) $cuit));
+}
+
+
 function certificado($parameter,$type='pdf'){
 
     $data = (int)$parameter;
     $rtn = $this->consultas_model->cuits_certificados($data);
+
     $filename = "sepyme_certificado_" . $rtn->cuit."";
 
-    if(!$rtn->cuit){
-        echo "error la C.U.I.T. " . $parameter . " no fue beneficiada con 'IVA – Cancelación trimestral'";
+    if($rtn==false){
+        show_error("error la C.U.I.T. " . $parameter . " no fue beneficiada con 'IVA – Cancelación trimestral'");
         exit;
     }
-
+    
         /*
         CUIT
         Razón Social
@@ -228,8 +251,8 @@ function certificado($parameter,$type='pdf'){
                     
                 break;
             default:
-                
-                $this->parser->parse('pdf', $new_list);
+
+                $this->parser->parse('pdf2', $new_list);
                 break;
         }
 
@@ -519,4 +542,13 @@ function browse_vinculadas(){
   function update_rventanilla_1273_recursive(){
     $this->seti_model->update_ready_queue_recursive();    
   }
+  function chart_F1272xSemana() {
+        $this->load->module('dashboard');
+        $template = "dashboard/widgets/box_info.php";
+        $data = array();
+        $data['title'] = "Tendencia Semanas";
+        $data['json_url'] = $this->base_url . 'afip/api/F1272xSemana/json';
+        $data['class'] = "data_lines";
+        return $this->parser->parse('afip/charts', $data, true, true);
+    }
 }//class

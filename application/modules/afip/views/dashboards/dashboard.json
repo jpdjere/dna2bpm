@@ -23,6 +23,12 @@
                 "function": "consulta_cuit"
             },
             {
+                "title": "chart_F1272xSemana",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "chart_F1272xSemana"
+            },
+            {
                 "title": "espyme?",
                 "module": "afip",
                 "controller": "consultas",
