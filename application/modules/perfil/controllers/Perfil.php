@@ -19,13 +19,15 @@ class Perfil extends MX_Controller {
         $this->load->library('parser');
         $this->load->model('portal_model');
         $this->load->model('bpm/bpm');
+        $this->load->model('afip/consultas_model');
         $this->load->model('app');
+        $this->load->library('dashboard/ui');
         //---base variables
         $this->base_url = base_url();
         $this->module_url = base_url() . $this->router->fetch_module() . '/';
         $this->user->authorize();
         //----LOAD LANGUAGE
-       // $this->lang->load('library', $this->config->item('language'));
+        $this->lang->load('perfil', $this->config->item('language'));
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
@@ -50,22 +52,50 @@ class Perfil extends MX_Controller {
 
     }
 
+    //=== Asociacion de cuits
+    function asocia(){
+        $customData['lang']= $this->lang->language;
+        $callout=array('body'=>$customData['lang']['text_asocia'],'title'=>'');
+        echo $this->ui->callout($callout);
+        echo $this->Asocia_cuit();
+    }
+
     //=== Profile
 
     function profile(){
 
         $cuit=$this->get_cuit();
-        $data=$this->user->get_user((int) $this->idu);
-        $customData['avatar']=$this->user->get_avatar();
-        $customData['empresas'] = $this->portal_model->get_empresas(); 
-        foreach($customData['empresas'] as &$emp){
-            if(str_replace('-','',$emp['1695'])==$cuit) $emp['selected']='selected="selected"';
+        if(empty($cuit)){
+            echo('No hay cuits asociados');
+            return;
         }
+
+        $certificado=$this->has1273($cuit);      
+        $customData['certificado']=($certificado)?(''):('disabled');
+
+
+        $opt="";
+        $midata=$this->user->get_user((int) $this->idu);
+        $lista=array();
+        foreach($midata->cuits_relacionados as $empresa){
+                
+            $afip_data=$this->portal_model->get_afip_data($empresa['cuit']);
+            if(empty($afip_data))continue; 
+            if(in_array($empresa['cuit'],$lista))continue; 
+            $lista[]=$empresa['cuit'];
+            
+            $selected=($empresa['cuit']==$cuit)?('selected'):('');
+            $opt.="<option  value='{$empresa['cuit']}' $selected> {$afip_data->denominacion} | {$empresa['cuit']}   </option>\n";
+
+        }
+        $customData['empresas']="<select class='form-control' id='search_empresa'>$opt</select>";
+        // $customData['avatar']=$this->user->get_avatar();
+
         $actividades=$this->app->get_ops(750);
         // $customData['empresas'] = array();
         if(isset($cuit)){
             $afip=$this->get_afip_data($cuit);
-	    if($afip){
+            if($afip){
                 $afip['actividad_texto']=(isset($afip['actividad']))? @$actividades[$afip['actividad']]:'-----';
                 $customData=array_merge($customData,$afip);
                 
@@ -80,7 +110,13 @@ class Perfil extends MX_Controller {
         //=== Estadisticas
 
         function estadisticas(){
+
             $cuit=$this->get_cuit();
+            if(empty($cuit)){
+                echo('No hay cuits asociados');
+                return;
+            }
+
             $customData=array();
             $afip=$this->get_afip_data($cuit);
             $customData['periodos']='';
@@ -90,24 +126,7 @@ class Perfil extends MX_Controller {
                 }
             }
 
-            // Programas
-             $cases = $this->bpm->get_cases_byFilter(
-                    array(
-                'iduser' => $this->idu,
-                'status' => 'open',
-                    ), array(), array('checkdate' => 'desc')
-            );
-           //  var_dump($cases);
-            $customData['programas']=count($cases);
-
-            // Programas adquiridos
-             $cases2 = $this->bpm->get_cases_byFilter(
-                    array(
-                'iduser' => $this->idu,
-                'status' => 'closed',
-                    ), array(), array('checkdate' => 'desc')
-            );
-            $customData['adquiridos']=count($cases2);
+            
              
             echo $this->parser->parse('estadisticas', $customData, true, true);
         }
@@ -117,23 +136,110 @@ class Perfil extends MX_Controller {
     #   Incubadora
     # ====================================
 
-    function Incubadora() {
-        
+    function Incubadora($cuit=null,$debug=0) {
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('perfil/json/incubadora.json',$debug);
     }
+
+    # ====================================
+    #   Emprendedor
+    # ====================================
+
+    function Emprendedor($cuit=null,$debug=0) {
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('perfil/json/emprendedor.json',$debug);
+    }
+
+
 
     # ====================================
     #   Experto
     # ====================================
 
-    function Experto() {
-        
+    function Experto($cuit=null,$debug=0) {
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('perfil/json/experto.json',$debug);
     }
 
+    // function Experto() {
+    //     $data['base_url'] = $this->base_url;
+    //     $data['title'] = 'Expertos Pyme';
+    //     $data['logobar'] = $this->ui->render_logobar();
+        
+
+    //     $data_select = NULL;        
+
+    //     echo $this->parser->parse('perfil/form_expertos', $data, true, true);
+    // }
+
+
+    /*DATA 4 EXPERTOS PYME*/
+    function expertos_get_afip_data(){
+
+
+        $this->load->module('afip/api');        
+
+        #$cuit=30710303777;
+        $cuit=$this->input->post('cuit');       
+
+        #$transaccion=489167004;
+        $transaccion=(int)$this->input->post('transaccion');
+      #  echo $cuit . "xxxxx" . $transaccion;
+
+        $data = $this->api->get_data_by_cuit((int)$cuit);    
+
+        $rtn = array();               
+
+            if(!isset($data->cuit)) {#NO cuit
+                $rtn['msg'] = "error_cuit";                 
+            } else if($transaccion!=$data->transaccion){
+                $rtn['msg'] = 'error_transaccion';     
+            }
+        
+                
+        if($transaccion==$data->transaccion){
+            
+            $rtn['cuit'] = $data->cuit;
+            $rtn['razon_social'] = $data->denominacion;
+            $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
+            $rtn['razon_social'] = $data->denominacion;
+            $rtn['empleados'] = $data->empleado;
+            $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
+            $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
+            // if($data->tienePeriodo2014=='S')
+            //     $rtn['2014'] = $data->periodoFiscal2014['total'];
+            // if($data->tienePeriodo2015=='S')
+            //     $rtn['2015'] = $data->periodoFiscal2015['total'];
+            // if($data->tienePeriodo2016=='S')
+            //     $rtn['2016'] = $data->periodoFiscal2016['total'];
+       
+            $rtn['msg'] = 'ok';
+
+            /*UPDATE users collection*/
+            $query=array('idu'=>$this->idu);            
+            $data_array_cuit = array('cuit'=>$cuit,'date'=>new MongoDate(time()));
+            $data = array('cuits_relacionados'=>$data_array_cuit); 
+            $update=$this->portal_model->cuit_representadas_update($query, $data_array_cuit);
+
+            if(isset($update))
+                 $rtn['msg'] = 'success_update';
+        } 
+        /*MSG*/
+        echo json_encode($rtn);
+     }
 
 
     # ====================================
     #   General
     # ====================================
+
+    function Asocia_cuit() {
+        $data['base_url'] = $this->base_url;
+        $data['title'] = 'Asocia CUIT';
+       
+        echo $this->parser->parse('perfil/form_asocia_cuit', $data, true, true);
+    }
+
 
     function get_afip_data($cuit){
        
@@ -171,21 +277,44 @@ class Perfil extends MX_Controller {
 
     private function get_cuit(){
         $cuit=(int)$this->uri->segment(3);
+
+        $midata=$this->user->get_user((int) $this->idu);
+        if(!isset($midata->cuits_relacionados))
+            return false;
+
+     
+
         if(empty($cuit)){
-            $customData['empresas'] = $this->portal_model->get_empresas(); 
-            if(!empty($customData['empresas'][0][1695]))
-                $cuit=(int)str_replace('-', '', $customData['empresas'][0][1695]);
-        }
-        return $cuit;
+            // Va el primero de la lista
+
+            $ret=array_pop($midata->cuits_relacionados);
+            return (int)$ret['cuit'];
+         }else{
+            // chequeo si el elegido esta en la lista
+            $found=false;
+            foreach($midata->cuits_relacionados as $needle){
+                if($needle['cuit']==$cuit)
+                    return (int)$cuit;
+            }
+            return $found;
+
+         }
+
+            
     }
-
-
-
 
 
 //=== Eficacia
 
 function eficacia(){
+
+$cuit=$this->get_cuit();
+if(empty($cuit)){
+    echo('No hay cuits asociados');
+    return;
+}
+
+
 
 // Programas
  $cases = $this->bpm->get_cases_byFilter(
@@ -194,11 +323,13 @@ function eficacia(){
     'status' => 'open',
         ), array(), array('checkdate' => 'desc')
 );
+
+$has1273=$this->has1273();
 $customData=array();
 $userdata=$this->user->getbyid($this->idu);
 
 $eficacia['registro']=25;
-$eficacia['certificado']=0;
+$eficacia['certificado']=($has1273)?(25):(0);
 $eficacia['aplica']=(empty($cases))?(0):(25);
 $eficacia['perfil']=(empty($userdata->phone))?(0):(25);
 
@@ -238,6 +369,45 @@ echo <<<_EOF_
 
 _EOF_;
 }
+
+//== Programas aplicados
+function programas(){
+
+// Programas
+ $cases = $this->bpm->get_cases_byFilter(
+        array(
+    'iduser' => $this->idu,
+    'status' => 'open',
+        ), array(), array('checkdate' => 'desc')
+);
+
+
+$customData['programas']=count($cases);
+
+// Programas adquiridos
+ $cases2 = $this->bpm->get_cases_byFilter(
+        array(
+    'iduser' => $this->idu,
+    'status' => 'closed',
+        ), array(), array('checkdate' => 'desc')
+);
+$customData['adquiridos']=count($cases2);
+
+echo $this->parser->parse('programas', $customData, true, true);          
+}
+
+
+
+function has1273(){
+// Certificado
+$this->load->model('afip/consultas_model');
+$cuit=$this->get_cuit();
+$ret=$this->consultas_model->has_1273($cuit);
+return !empty($ret);
+
+}
+ 
+
 }
 
 /* End of file welcome.php */

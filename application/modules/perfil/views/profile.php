@@ -1,16 +1,12 @@
 <div class="row">
-<div class="col-sm-3">
-<img src="{avatar}"  class="avatar" style="width:120px" >
-</div>
-<div class="col-sm-9">
+
+<div class="col-sm-12">
 
 <input type="hidden" name="cuit" value="{cuit}" /> 
 
-<select class="form-control" id="search_empresa">
 {empresas}
-<option  value="{1695}" {selected}> {1693}</option>
-{/empresas}
-<option name="" value="23-22277112-9" >Dummy</option>
+
+<!-- <option name="" value="23-22277112-9" >Dummy</option> -->
 </select>
 <h3 ></h3>
 <ul class='list-unstyled'>
@@ -19,8 +15,7 @@
 <li><strong>Categoría:</strong> {categoria}</li>
 <li><strong>Actividad:</strong> {actividad_texto}</li>
 </ul>
-<a type="button" href="{base_url}dashboard/profile" class="pull-right btn btn-general btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
- Editar</a>
+
 </div>
 </div>
 
@@ -28,7 +23,7 @@
 
 <div class="row">
 <div class="col-sm-12">
-<a href="{base_url}afip/consultas/certificado/{cuit}" type="button" class="btn btn-primary btn-md btn-block">Constancia de Categorización MiPyme</a>
+<a href="{base_url}afip/consultas/certificado/{cuit}" type="button" class="btn btn-primary btn-md btn-block {certificado}">Constancia de Categorización MiPyme</a>
 </div>
 
 </div>
