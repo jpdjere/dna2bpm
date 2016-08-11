@@ -186,7 +186,7 @@ class Perfil extends MX_Controller {
         $transaccion=(int)$this->input->post('transaccion');
       #  echo $cuit . "xxxxx" . $transaccion;
 
-        $data = $this->api->get_data_by_cuit((int)$cuit);    
+        $data = $this->api->get_data_by_cuit($cuit);    
 
         $rtn = array();               
 
