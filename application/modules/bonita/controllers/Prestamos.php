@@ -20,7 +20,7 @@ class prestamos extends MX_Controller {
         $this->load->model('model_prestamos');
         $this->load->module('dashboard');
         $this->load->library('parser');
-        $this->user->authorize('modules/bonita');
+        // $this->user->authorize('modules/bonita');
         $this->base_url = base_url();
         //$this->module_url = base_url() . 'bonita/';
     }
@@ -161,7 +161,19 @@ class prestamos extends MX_Controller {
     }
     
     function contenido_abm_resoluciones(){
+        $this->load->helper('prestamos/prestamos');
         $customData['content'] = $this->model_prestamos->listar_resoluciones();
+        $categorias_pyme = $this->model_prestamos->listar_categorias_pyme();
+        categorias_parser($categorias_pyme);
+        foreach($customData['content'] as &$reso){
+            foreach($categorias_pyme as $entrada){
+                if($entrada['id_resolucion'] == $reso['id']){
+                    $reso['tamano'][] = ['tamano'=>$entrada['tamano'], 'monto'=>$entrada['monto'], 'tamano_parseado'=>$entrada['tamano_parseado']];
+                }
+            }
+        }
+        // var_dump($customData['content']);
+        // exit;
         $customData['base_url'] = $this->base_url;
         $this->capitalize_array($customData);
         echo $this->parser->parse('bonita/views/prestamos/abm/crud_resoluciones', $customData, true);
@@ -217,14 +229,42 @@ class prestamos extends MX_Controller {
         //var_dump($muni);exit;
         echo $this->parser->parse('bonita/views/prestamos/altaprestamos/formulario_carga', $customData, true);
     }
-    // 172.28.1.112
+
     /**
      * Muestra el formulario para subir los prestamos importandolos desde un Excel
      */
-    function AltaPrestamosImport(){
-        //$this->dashboard->dashboard('bonita/json/prestamos/abm_montos.json');
+    function AltaPrestamosImport($error = ''){
+        $extraData['alerts'] = '<p>'.urldecode($error).'</p>';
+        $this->dashboard->dashboard('bonita/json/prestamos/importar_excel.json', false, $extraData);
+    }
+
+    function contenido_importar_excel(){
+        $this->load->helper(['form', 'url']);
+        $this->load->view('bonita/views/prestamos/altaprestamos/importar_excel',false, $error);
     }
     
+    /**
+     * Sube el excel con los datos de los prestamos
+     */
+    function upload_excel(){
+        $this->load->library('upload', $config);
+        if(!$this->upload->do_upload('userfile')){
+            redirect('bonita/prestamos/AltaPrestamosImport/'.$this->upload->display_errors(''   , ''));
+        }
+
+        $full_path = $this->upload->data('full_path');
+        if(!chmod($full_path, 0774)){
+            redirect('bonita/prestamos/AltaPrestamosImport/'.$this->upload->display_errors('', ''));
+        }
+
+        echo "Full path: ".$full_path;
+        $this->load->library('bonita/Excel');
+        $excel_file = $this->excel->load($full_path);
+        
+        var_dump($excel_file);
+    }
+
+
     /**
      * Inserta el prestamo en la base
      */
@@ -235,4 +275,7 @@ class prestamos extends MX_Controller {
         $this->model_prestamos->insertar_tabla_temp_prestamos($this->input->post(), $this->user->idu);
     }
     
+    function test(){
+        phpinfo();
+    }
 }
