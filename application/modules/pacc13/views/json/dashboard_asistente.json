@@ -51,12 +51,6 @@
     ],
     "zones": [{
             "tiles": [{
-                    "title": "Buscar",
-                    "module": "pacc",
-                    "controller": "pacc",
-                    "function": "tile_buscar_container",
-                    "span": 6
-                }, {
                     "title": "Rechazo Anticipos/Rendiciones",
                     "module": "bpm",
                     "controller": "kpi",
@@ -75,6 +69,15 @@
                     "controller": "bpmui",
                     "function": "tile_tasks_done",
                     "span": 2
+                },
+                {
+                    "title": "Buscar",
+                    "module": "pacc13",
+                    "controller": "evaluador",
+                    "function": "tile_buscar",
+                    "span": 4,
+                    "js": [{"{base_url}pacc13/assets/jscript/bus13.js":"pacc3SDAREND"}]
+
                 }
 
 
