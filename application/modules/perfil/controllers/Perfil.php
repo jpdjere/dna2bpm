@@ -31,7 +31,7 @@ class Perfil extends MX_Controller {
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
-        ini_set('display_errors', 1);
+        ini_set('display_errors', 0);
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
