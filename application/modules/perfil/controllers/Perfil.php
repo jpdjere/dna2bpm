@@ -136,31 +136,42 @@ class Perfil extends MX_Controller {
     #   Incubadora
     # ====================================
 
-    function Incubadora() {
-        
+    function Incubadora($cuit=null,$debug=0) {
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('perfil/json/incubadora.json',$debug);
     }
+
+    # ====================================
+    #   Emprendedor
+    # ====================================
+
+    function Emprendedor($cuit=null,$debug=0) {
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('perfil/json/emprendedor.json',$debug);
+    }
+
+
 
     # ====================================
     #   Experto
     # ====================================
 
-    function Experto() {
-        $data['base_url'] = $this->base_url;
-        $data['title'] = 'Expertos Pyme';
-        $data['logobar'] = $this->ui->render_logobar();
+    function Experto($cuit=null,$debug=0) {
+        $this->load->module('dashboard');
+        $this->dashboard->dashboard('perfil/json/experto.json',$debug);
+    }
+
+    // function Experto() {
+    //     $data['base_url'] = $this->base_url;
+    //     $data['title'] = 'Expertos Pyme';
+    //     $data['logobar'] = $this->ui->render_logobar();
         
 
-        $data_select = NULL;        
+    //     $data_select = NULL;        
 
-        echo $this->parser->parse('perfil/form_expertos', $data, true, true);
-    }
+    //     echo $this->parser->parse('perfil/form_expertos', $data, true, true);
+    // }
 
-    function Asocia_cuit() {
-        $data['base_url'] = $this->base_url;
-        $data['title'] = 'Asocia CUIT';
-       
-        echo $this->parser->parse('perfil/form_asocia_cuit', $data, true, true);
-    }
 
     /*DATA 4 EXPERTOS PYME*/
     function expertos_get_afip_data(){
@@ -221,6 +232,14 @@ class Perfil extends MX_Controller {
     # ====================================
     #   General
     # ====================================
+
+    function Asocia_cuit() {
+        $data['base_url'] = $this->base_url;
+        $data['title'] = 'Asocia CUIT';
+       
+        echo $this->parser->parse('perfil/form_asocia_cuit', $data, true, true);
+    }
+
 
     function get_afip_data($cuit){
        
