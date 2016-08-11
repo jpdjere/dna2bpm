@@ -226,14 +226,24 @@ class Lib_141_data extends MX_Controller {
              * De estar completo, debe tomar alguno de los siguientes parámetros:1,2,3,4,5
              */
             if ($param_col == 9) {
-                $code_error = "I.1";
-                if (!empty($parameterArr[$i]['fieldValue'])) {
+                
+                $check_mora_by_cuit = $this->model_141->garantias_balance_by_cuit($A_cell_value);
+                 
+                if($check_mora_by_cuit==1){
                     $nums = array("1", "2", "3", "4", "5");
                     if (!in_array($parameterArr[$i]['fieldValue'], $nums)) {
                         $code_error = "I.2";
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
+
+                } else {
+
+                    if((int)$parameterArr[$i]['fieldValue']>0){
+                       $code_error = "I.1";
+                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']); 
+                    }                    
                 }
+                
             }
         } // END FOR LOOP->
 
@@ -278,8 +288,8 @@ class Lib_141_data extends MX_Controller {
         }
 
 
-        /*var_dump($result);
-        exit();*/
+       /* var_dump($result);
+        exit(); */
         $this->data = $result;
     }
 

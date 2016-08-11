@@ -255,8 +255,8 @@ class Model_061 extends CI_Model {
 
             $type_partner_inc_value = false;
 
-
-            $type_partner = $this->model_06->partner_type($list['CUIT_SOCIO_INCORPORADO']);
+            
+            $type_partner = $this->model_06->partner_type($list['CUIT_SOCIO_INCORPORADO'], $this->sgr_id);
 
             /* SHARER */
             $type_partner_inc_sharer = $this->model_06->partner_type_linked_sharer((string) $list['CUIT_VINCULADO']);
