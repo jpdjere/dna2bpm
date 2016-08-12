@@ -78,6 +78,8 @@ class semilla extends MX_Controller {
         $extraData['js'] = array($this->base_url . 'fondosemilla/assets/jscript/coordinador.js' => 'JS COORDINADOR'
         );        
         $this->Add_group($grupo_user);
+        
+        var_dump($grupo_user, $extraData);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
     }  
