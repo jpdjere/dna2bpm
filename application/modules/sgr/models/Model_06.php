@@ -1570,31 +1570,31 @@ class Model_06 extends CI_Model {
        $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
        $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
 
-
+        
         $query=array(
-                'aggregate'=>'container.sgr_periodos',
+                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
                 'pipeline'=>
-                  array(
-                       array (
-                        '$match' => array (
-                            'sgr_id' =>$sgr_id, 
-                            'status'=>'activo' ,
-                            'period_date' => array(
-                            '$gte' => $start_date, '$lte' => $end_date
-                        ))                        
-                      ), 
+                  array(                       
                       array (
                         '$lookup' => array (
-                            'from' => 'container.sgr_anexo_' . $this->anexo,
+                            'from' => 'container.sgr_periodos' ,
                             'localField' => 'filename',
                             'foreignField' => 'filename',
-                            'as' => 'anexo')                        
-                      ),                      
-                      array ('$match' => array (
+                            'as' => 'periodo')                        
+                      ),
+                      array (
+                        '$match' => array (
+                            'periodo.sgr_id' =>$sgr_id, 
+                            'periodo.status'=>'activo' ,
+                            'periodo.period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                        )),
+                    array ('$match' => array (
                         'anexo.1695' => $socio                    
-                    ))                   
-
-                ));          
+                    ))                                   
+                )
+        )); 
+                          
         $get=$this->sgr_db->command($query);
         
         $this->ui_table_xls($get['result'], $this->anexo, $parameter);

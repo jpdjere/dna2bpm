@@ -70,7 +70,7 @@ class Reports extends MX_Controller {
         set_time_limit(230400);
 
         //if ($this->session->userdata('iduser') == 10)
-        ini_set("error_reporting", 0);
+        ini_set("error_reporting", E_ALL);
         /*ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);*/
@@ -756,7 +756,12 @@ class Reports extends MX_Controller {
             $rtn = "<option value=" . $this->sgr_id . ">" . $this->sgr_nombre . "</option>";
         } else {
             $sgrArr = $this->sgr_model->get_sgrs();
-            $rtn = "<option value=666>TODAS</option>";
+            $rtn = "<option value=666>TODAS LAS SGRs</option>";
+
+            /*ONLY ADMINS*/
+            if (!isset($this->sgr_id)) 
+                $rtn .= "<option value=777>SELECCIONAR DE LA LISTA</option>";
+
             foreach ($sgrArr as $sgr) {
                 
                 $this->sgr_id = (float) $sgr['id'];
@@ -774,7 +779,11 @@ class Reports extends MX_Controller {
         $sgrArr = $this->sgr_model->get_sgrs();
             $rtn = null;
             foreach ($sgrArr as $sgr) {
-                $rtn .= '<div><input type="checkbox" value="'.(float)$sgr['id'].'" checked="checked" name="sgr_checkbox[]">' . $sgr['1693'] . '</div>';
+
+                $sgr_names = str_replace('FONDO ESPECIFICO DE RIESGO', 'FRE', $sgr['1693']);
+
+               if (strpos($sgr_names, 'FRE') === false) #SACO LOS FDRE
+                    $rtn .= '<div id="checklist_sgr">' . $sgr_names. ' <input type="checkbox" value="'.(float)$sgr['id'].'" checked="checked" name="sgr_checkbox[]"></div>';
             }
         
         return $rtn;
@@ -933,7 +942,7 @@ class Reports extends MX_Controller {
 // offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? : ('');
 
-        $this->ui->compose($file, 'layout.php', $cpData);
+        $this->ui->compose($file, 'reports.php', $cpData);
     }
 
     /*NEW REPORT*/

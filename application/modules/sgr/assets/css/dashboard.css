@@ -4005,8 +4005,6 @@ table.text-center, table.text-center td, table.text-center th {
 }
 
 
-
-
 }
 .presidencia_logo {
     float: right;
@@ -4025,4 +4023,11 @@ table.text-center, table.text-center td, table.text-center th {
 .navbar {
     margin-bottom: 0;
     margin-top: 20px;
+}
+
+#checklist_sgr {   
+    float: left;
+  /*  font-family: fontAwesome;*/
+    padding: 15px;
+    width: 33%;
 }
