@@ -15,11 +15,11 @@ class prestamos extends MX_Controller {
 
     function __construct() {
         parent::__construct();
-        // $this->load->model('user/user');
-        // $this->load->model('user/group');
-        // $this->load->model('model_prestamos');
-        // $this->load->module('dashboard');
-        // $this->load->library('parser');
+        $this->load->model('user/user');
+        $this->load->model('user/group');
+        $this->load->model('model_prestamos');
+        $this->load->module('dashboard');
+        $this->load->library('parser');
         // $this->user->authorize('modules/bonita');
         $this->base_url = base_url();
         //$this->module_url = base_url() . 'bonita/';
@@ -254,14 +254,29 @@ class prestamos extends MX_Controller {
 
         $full_path = $this->upload->data('full_path');
         if(!chmod($full_path, 0774)){
-            redirect('bonita/prestamos/AltaPrestamosImport/'.$this->upload->display_errors('', ''));
+            redirect('bonita/prestamos/AltaPrestamosImport/PermissionError');
         }
 
         echo "Full path: ".$full_path;
         $this->load->library('bonita/Excel');
         $excel_file = $this->excel->load($full_path);
         
-        var_dump($excel_file);
+        define('FILA_MINIMA', 9);
+        define('COLUMNA_MINIMA', 'A');
+        define('COLUMNA_MAXIMA', 'BE');
+
+        $this->load->library('bonita/Excel');
+        $excel_file = $this->excel->load($full_path);
+        $sheet = $excel_file->getSheet(0);
+        $Data = $sheet->rangeToArray(COLUMNA_MINIMA.FILA_MINIMA.':'.COLUMNA_MAXIMA.$sheet->getHighestRow());
+        var_dump($Data);
+        $this->load->library('bonita/validator');
+        foreach($Data as $row){
+            $result = $this->validator->altaprestamos($row);
+            if(!$result == true){
+                redirect('bonita/prestamos/AltaPrestamosImport/'.$result);
+            }
+        }
     }
 
 
@@ -273,9 +288,5 @@ class prestamos extends MX_Controller {
         $data = $this->input->post();
         
         $this->model_prestamos->insertar_tabla_temp_prestamos($this->input->post(), $this->user->idu);
-    }
-    
-    function test(){
-        // phpinfo();
-    }
+    }    
 }
