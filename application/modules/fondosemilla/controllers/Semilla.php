@@ -71,7 +71,6 @@ class semilla extends MX_Controller {
         );
         $extraData['js'] = array($this->base_url . 'fondosemilla/assets/jscript/coordinador.js' => 'JS COORDINADOR'
         );        
-        $extraData['module_url'] = $this->module_url;         
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
@@ -280,26 +279,6 @@ class semilla extends MX_Controller {
         echo $this->parser->parse('fondosemilla/widgets/2doMe2', $data, true, true);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-
-    public function faq() {
-        $this->user->authorize();
-        $config['title']="Preguntas frecuentes";
-        $config['class']="info";
-        $config['body']="<a class='btn btn-info' href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>
- Descargar</a>";
-        echo $this->ui->callout($config);
-
-    }
-    
-    
 function lite(){
 
     $this->load->model('bpm/bpm');
@@ -404,14 +383,14 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
 
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
+    $this->load->module('pacc13/api13');    
     $renderData['base_url'] = $this->base_url;
     $renderData['module_url'] = $this->module_url;    
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     $partidos = $this->app->get_ops(58);
     $actividades = $this->app->get_ops(884);
-    $incubadoras = $this->app->get_ops(781);
-
+    $incubadoras = $this->api13->incubadoras_listado($filter, 'array');
     foreach ($cases as $key => $case ){
         $current = $this->bpm->get_case($case, 'fondo_semilla2016');
         $data = $this->bpm->load_case_data($current, 'fondo_semilla2016');
@@ -423,15 +402,12 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['partido'] = $partidos[$data['Personas_9915'][0]['1788'][0]];
         $renderData['data'][$key]['localidad'] = $data['Personas_9915'][0]['1789'];
         $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
-        $renderData['data'][$key]['cuit'] = $data['Empresas_9893'][0]['1695'];        
+        $renderData['data'][$key]['dni'] = $data['Empresas_9893'][0]['1795'];        
         $renderData['data'][$key]['monto_solicitado'] = $data['Fondosemillaproyectos']['10176'];        
         $renderData['data'][$key]['numero'] = $data['Fondosemillaproyectos']['10007'];
         $renderData['data'][$key]['actividad_principal'] = $actividades[$data['Fondosemillaproyectos'][9900][0]];
-        var_dump($data['Fondosemillaproyectos'][10034][0]);        
+        $renderData['data'][$key]['incubadora'] = $incubadoras[$data['Fondosemillaproyectos'][10034][0]]['nombre'];
     }
-    
-    var_dump($incubadoras);
-    exit;
     
     $template='fondosemilla/exportar_xls';     
     switch($mode){
