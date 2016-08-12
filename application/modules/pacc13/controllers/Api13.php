@@ -1059,13 +1059,13 @@ class Api13 extends MX_Controller {
         $get_data = $this->pacc13->get_incubadoras_model($query, $container);
 
         $data = array();
+        
         foreach ($get_data as $each) {
             $each = (array) $each;
 
             if (isset($each['4896'])) {
-                
-                $data[$each['id']]['nombre'] = $each['4896'];
-                $data[$each['id']]['owner'] = $each['owner'];
+                $data[$each['owner']]['nombre'] = $each['4896'];
+                $data[$each['owner']]['owner'] = $each['owner'];
                 // $data[$each['id']]['id'] = $each['id'];
             }
         }
