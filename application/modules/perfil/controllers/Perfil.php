@@ -186,34 +186,37 @@ class Perfil extends MX_Controller {
         $transaccion=(int)$this->input->post('transaccion');
       #  echo $cuit . "xxxxx" . $transaccion;
 
-        $data = $this->api->get_data_by_cuit((int)$cuit);    
+        $data = (array)$this->api->get_data_by_cuit((int)$cuit);    
 
         $rtn = array();               
 
-            if(!isset($data->cuit)) {#NO cuit
+            if(!isset($data['cuit'])) {#NO cuit
                 $rtn['msg'] = "error_cuit";                 
-            } else if($transaccion!=$data->transaccion){
+            } else if($transaccion!=$data['transaccion']){
                 $rtn['msg'] = 'error_transaccion';     
             }
         
                 
-        if($transaccion==$data->transaccion){
+        if(isset($data['transaccion']) && $transaccion==$data['transaccion']){
             
-            $rtn['cuit'] = $data->cuit;
-            $rtn['razon_social'] = $data->denominacion;
-            $rtn['fecha_inicio_actividades'] = $data->fechaInscripcion;
-            $rtn['razon_social'] = $data->denominacion;
-            $rtn['empleados'] = $data->empleado;
-            $rtn['descripcion_actividad_principal'] = $data->descripcionActividadPrincipal;
-            $rtn['domicilio'] = $data->domicilioLegal . " " . $data->domicilioLegalLocalidad . " ".  $data->domicilioLegalDescripcionProvincia;
-            // if($data->tienePeriodo2014=='S')
-            //     $rtn['2014'] = $data->periodoFiscal2014['total'];
-            // if($data->tienePeriodo2015=='S')
-            //     $rtn['2015'] = $data->periodoFiscal2015['total'];
-            // if($data->tienePeriodo2016=='S')
-            //     $rtn['2016'] = $data->periodoFiscal2016['total'];
-       
+            $rtn['cuit'] = $data['cuit'];
+            $rtn['razon_social'] = $data['denominacion'];
+            $rtn['fecha_inicio_actividades'] = $data['fechaInscripcion'];
+            $rtn['empleados'] = $data['empleado'];
+            $rtn['descripcion_actividad_principal'] = $data['descripcionActividadPrincipal'];
+            $rtn['domicilio'] = $data['domicilioLegal'] . " " . $data['domicilioLegalLocalidad'] . " ". $data['domicilioLegalDescripcionProvincia'] ;
+            //== 
+            foreach($data as $k=>$v){
+            $pattern = '/^tienePeriodo([0-9]{4})/';
+            preg_match($pattern, $k, $matches);
+                if(!empty($matches[1]) && is_numeric($matches[1]) && $v='S'){
+                        $rtn[$matches[1]]=$data['periodoFiscal'.$matches[1]]['total'] ;
+                    
+                }   
+            } 
+
             $rtn['msg'] = 'ok';
+
 
             /*UPDATE users collection*/
             $query=array('idu'=>$this->idu);            
