@@ -49,22 +49,24 @@
 
     <!-- header -->
     <section class="content-header">
-        <h1>SGR SIPRIN Dashboard.</h1>                
+        <h3>SGR SIPRIN Dashboard.</h3>                
     </section>
 
- <section class="content-header">
-        <h1></h1>                
-    </section>
+
 
 
 
     <!-- links -->
     <section>
 
-        {if fre_list}
-        <!-- FRE -->
-            <div class="col-lg-12">
-            <div class="small-box bg-gray">
+        
+
+
+        {if fre_list} 
+
+          <!-- FRE -->
+          <div class="col-lg-12">
+            <div class="small-box bg-aqua">
                 <div class="inner">
                     <h4>FONDOS DE RIESGO ESPEC&Iacute;FICOS 
                         <small>Seleccione</small>
@@ -75,10 +77,11 @@
                         <form method="post" class="form-extra" id="select_anexos_fre">
                             <div class="col-lg-9 input-group input-group-sm">          
                                 <select class="form-control">
+                                <option value="">{sgr_nombre}</option>
                                     {fre_list}
                                 </select>
                                 <span class="input-group-btn">
-                                <button class="btn btn-sm btn-default btn-flat pull-right"  id="anexo_fre" type="submit">seleccionar</button>
+                                <button class="btn btn-sm btn-info btn-flat pull-right"  id="anexo_fre" type="submit">seleccionar</button>
                                 </span>
                             </div>
                             <div class="icon">
@@ -88,10 +91,10 @@
                     </div>   
                 </div>        
             </div>
-        </div>
+          </div>
         <!-- FRE -->
         {/if}
-
+   
         <!-- ANEXOS -->
         <div class="col-lg-7">
             <div class="small-box bg-teal">
@@ -111,7 +114,7 @@
                                     {anexo_list}
                                 </select>
                                 <span class="input-group-btn">
-                                <button class="btn btn-sm btn-default btn-flat pull-right" id="anexo" type="submit">Acceder</button>
+                                <button class="btn btn-sm btn-info btn-flat pull-right" id="anexo" type="submit">Acceder</button>
                                 </span>
                             </div>                            
                         </form>
@@ -120,6 +123,7 @@
             </div>
         </div>
         <!-- END ANEXOS --> 
+        
 
         <!-- REPORTES -->
         <div class="col-lg-5">
@@ -152,7 +156,7 @@
                                     <option value="{module_url}reports/anexo_code/202">Anexo 20.2 </option>
                                 </select>
                                 <span class="input-group-btn">
-                                <button class="btn btn-sm btn-default btn-flat pull-right" id="report" type="submit">Consultar</button>
+                                <button class="btn btn-sm btn-warning btn-flat pull-right" id="report" type="submit">Consultar</button>
                                 </span>
                             </div>
                             
@@ -167,6 +171,9 @@
     </section>
     <!-- end links -->
    
+    <section class="content-header">
+        <h3>HERRAMIENTAS</h3>                     
+    </section>
 
 
 
@@ -237,11 +244,6 @@
 
 </div>        
 </div>
-
-
-</section>
-
-
 
 </section>
 
