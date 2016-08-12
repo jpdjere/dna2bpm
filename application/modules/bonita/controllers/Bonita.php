@@ -67,10 +67,10 @@ class bonita extends MX_Controller {
 	function bonita_licitaciones_list() {
 		$customData['title'] = 'Préstamos';
 		$customData['tabla'] =
-		'<tr><a href="'.$this->module_url.'prestamos/abm_entidades/" target="_blank">ABM Entidades</a></tr></br>'.
-		'<tr><a href="'.$this->module_url.'prestamos/abm_licitaciones/" target="_blank">ABM Licitaciones</a></tr></br>'.
-		'<tr><a href="'.$this->module_url.'prestamos/menu_cargar_montos/" target="_blank">Cargar Montos</a></tr></br>'.
-		'<tr><a href="'.$this->module_url.'prestamos/menu_reportes/" target="_blank">Reportes Licitaciones Cerradas</a></tr></br>';
+		'<tr><a href="'.$this->module_url.'licitaciones/abm_entidades/" target="_blank">ABM Entidades</a></tr></br>'.
+		'<tr><a href="'.$this->module_url.'licitaciones/abm_licitaciones/" target="_blank">ABM Licitaciones</a></tr></br>'.
+		'<tr><a href="'.$this->module_url.'licitaciones/menu_cargar_montos/" target="_blank">Cargar Montos</a></tr></br>'.
+		'<tr><a href="'.$this->module_url.'licitaciones/menu_reportes/" target="_blank">Reportes Licitaciones Cerradas</a></tr></br>';
 		return $this->parser->parse('bonita/views/menu/menu',$customData,true,true);    
 	}
 	
