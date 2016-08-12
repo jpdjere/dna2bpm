@@ -253,11 +253,13 @@ class Pacc13 extends CI_Model {
     function get_incubadoras_model($query, $container) {
         
         $rs = $this->mongowrapper->db->$container->find($query)->sort(array(4896 => 1));
+        
+  
+        
         foreach ($rs as $list) {
             unset($list['_id']);
             $rtn[] = $list;
         }
-
         return $rtn;
     }
 

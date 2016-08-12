@@ -10,8 +10,7 @@
 			<th>Localidad</th>
 			<th>Monto Solicitado</th>
 			<th>Email</th>
-			<th>Empresa/Razón Social</th>
-			<th>CUIT</th>
+			<th>DNI</th>
 			<th>Actividad Principal</th>
             <th>Incubadora</th>			
 			
@@ -29,8 +28,7 @@
 	        <td>{localidad}</td>
 	        <td>{monto_solicitado}</td>
 			<td>{email}</td>
-			<td>{empresa}</td>
-			<td>{cuit}</td>	
+			<td>{dni}</td>	
 			<td>{actividad_principal}</td>
 			<td>{incubadora}</td>
 		</tr>

@@ -37,10 +37,6 @@ class semilla extends MX_Controller {
         $user = $this->user->get_user($this->idu);
 
         $this->id_group = ($user->{'group'});
-
-       ini_set('display_errors', 1);
-       error_reporting(E_ALL);
-       ini_set('xdebug.var_display_max_depth', 120 );
     }
 
     function Index() {
@@ -387,14 +383,14 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
 
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
+    $this->load->module('pacc13/api13');    
     $renderData['base_url'] = $this->base_url;
     $renderData['module_url'] = $this->module_url;    
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     $partidos = $this->app->get_ops(58);
     $actividades = $this->app->get_ops(884);
-    $incubadoras = $this->app->get_ops(781);
-
+    $incubadoras = $this->api13->incubadoras_listado($filter, 'array');
     foreach ($cases as $key => $case ){
         $current = $this->bpm->get_case($case, 'fondo_semilla2016');
         $data = $this->bpm->load_case_data($current, 'fondo_semilla2016');
@@ -406,12 +402,13 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['partido'] = $partidos[$data['Personas_9915'][0]['1788'][0]];
         $renderData['data'][$key]['localidad'] = $data['Personas_9915'][0]['1789'];
         $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
-        $renderData['data'][$key]['cuit'] = $data['Empresas_9893'][0]['1695'];        
+        $renderData['data'][$key]['dni'] = $data['Empresas_9893'][0]['1795'];        
         $renderData['data'][$key]['monto_solicitado'] = $data['Fondosemillaproyectos']['10176'];        
         $renderData['data'][$key]['numero'] = $data['Fondosemillaproyectos']['10007'];
         $renderData['data'][$key]['actividad_principal'] = $actividades[$data['Fondosemillaproyectos'][9900][0]];
+        $renderData['data'][$key]['incubadora'] = $incubadoras[$data['Fondosemillaproyectos'][10034][0]]['nombre'];
     }
-
+    
     $template='fondosemilla/exportar_xls';     
     switch($mode){
     case 'str':
