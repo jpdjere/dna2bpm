@@ -427,8 +427,8 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['monto_solicitado'] = $data['Fondosemillaproyectos']['10176'];        
         $renderData['data'][$key]['numero'] = $data['Fondosemillaproyectos']['10007'];
         $renderData['data'][$key]['actividad_principal'] = $actividades[$data['Fondosemillaproyectos'][9900][0]];
-        $renderData['data'][$key]['incubadora'] = $incubadoras[$data['Fondosemillaproyectos'][10034][0]];        
     }
+
     $template='fondosemilla/exportar_xls';     
     switch($mode){
     case 'str':
