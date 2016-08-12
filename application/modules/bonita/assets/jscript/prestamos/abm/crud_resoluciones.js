@@ -12,6 +12,10 @@ $(document).ready(function() {
     
     $(".edit").click(function(e){
         $("#resolucion").val(e.currentTarget.getAttribute('resolucion'));
+        $("#tamano1").val(e.currentTarget.getAttribute('tamano[1]'));
+        $("#tamano2").val(e.currentTarget.getAttribute('tamano[2]'));
+        $("#tamano3").val(e.currentTarget.getAttribute('tamano[3]'));
+        $("#tamano4").val(e.currentTarget.getAttribute('tamano[4]'));
         $("#id").val(e.currentTarget.getAttribute('id'));
     });
     

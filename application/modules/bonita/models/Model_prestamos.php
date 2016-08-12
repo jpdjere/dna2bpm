@@ -12,19 +12,7 @@ class model_prestamos extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $config['hostname'] = 'localhost';
-        $config['username'] = 'root';
-        $config['password'] = 'seba1553';
-        $config['database'] = 'importar';
-        $config['dbdriver'] = 'mysqli';
-        $config['dbprefix'] = '';
-        $config['pconnect'] = FALSE;
-        $config['db_debug'] = TRUE;
-        $config['cache_on'] = FALSE;
-        $config['cachedir'] = '';
-        $config['char_set'] = 'utf8';
-        $config['dbcollat'] = 'utf8_general_ci';
-        $this->importar = $this->load->database($config, true);
+        $this->importar = $this->load->database('importar', true);
         $this->load->model('model_bonita_reportes');
         $this->reportes = $this->model_bonita_reportes;
         
@@ -112,8 +100,13 @@ class model_prestamos extends CI_Model {
      * Inserta una resolucion en la base
      */
     function insertar_resolucion($resolucion){
-        $resolucion = array_map('strtolower', $resolucion);
-        return $this->importar->insert('resoluciones', $resolucion);
+        array_walk_recursive($resolucion, function(&$value){$value=strtolower($value);});
+        $this->importar->insert('resoluciones', ['resolucion' => $resolucion['resolucion']]);
+        $insertId = $this->importar->insert_id();
+        echo $insertId; var_dump($resolucion);
+        foreach($resolucion['tamano'] as $tamano => $monto){
+            $this->importar->insert('categorias_pyme', ['id_resolucion' => $insertId, 'tamano' => $tamano, 'monto' => $monto]);
+        }
     }
     
     /**
@@ -121,9 +114,20 @@ class model_prestamos extends CI_Model {
      */
     function actualizar_resolucion($resolucion){
         $id=$resolucion['id'];
-        unset($resolucion['id']);
-        $resolucion = array_map('strtolower', $resolucion);
-        return $this->importar->update('resoluciones', $resolucion, "id=$id");
+        
+        $this->importar->update('resoluciones', ['resolucion'=>strtolower($resolucion['resolucion'])], "id=$id");
+        
+        $update_batch = []; 
+        foreach($resolucion['tamano'] as $tamano => $monto){
+            $update_batch[]=[
+                'tamano' => $tamano,
+                'monto' => $monto            
+            ];
+        }
+
+        $this->importar->where('id_resolucion', $id);
+        $result = $this->importar->update_batch('categorias_pyme', $update_batch, 'tamano'); //'id'
+        var_dump($result);exit;
     }
     
     /**
@@ -140,6 +144,7 @@ class model_prestamos extends CI_Model {
         return $this->importar->get_where('resoluciones', 'borrado=false')->result_array();
     }
     
+    
     /**
      * Devuelve la resolucion correspondiente al id pasado por parametro
      */
@@ -148,6 +153,14 @@ class model_prestamos extends CI_Model {
         return $reso[0]['resolucion'];
     }
     
+    
+    /**
+     * Lista las categorias pyme no borradas de la base
+     */
+    function listar_categorias_pyme(){
+        return $this->importar->get_where('categorias_pyme')->result_array();
+    }
+
     
     /**
      * Inserta un monto en la base mongo
