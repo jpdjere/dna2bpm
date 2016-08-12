@@ -54,6 +54,11 @@ class Reports extends MX_Controller {
         }
 
         /* SGR'S DATA */
+
+        $this->sgr_id  = null;
+        $this->sgr_nombre = null;
+        $this->sgr_cuit = null;
+
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
@@ -68,19 +73,42 @@ class Reports extends MX_Controller {
 
         /* TIME LIMIT */
         set_time_limit(230400);
+        ini_set("error_reporting", 0);
 
-        //if ($this->session->userdata('iduser') == 10)
-        ini_set("error_reporting", E_ALL);
-        /*ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);*/
+        if ($this->session->userdata('iduser') == 10){        
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL);
+        }
     }
 
     function Index() {
+        /* load render info */
+        $this->render_config();
+    }
 
+    /**
+     * Config for index page
+     * 
+     * @name render_config
+     * 
+     * @author Diego Otero <daotero@industria.gob.ar>     
+     * 
+     * @see Index
+     * 
+     * @date Jun 28, 2015  
+     * 
+     * @return render   
+     */
+    function render_config() {
 
         $customData = array();
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+        if(isset($this->session->userdata['anexo_code'])){
+            $anexo = $this->session->userdata['anexo_code'];
+        } else {
+            $anexo = '06';
+        }
+
         $model = "model_" . $anexo;
         $this->load->model($model);
 
