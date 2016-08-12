@@ -37,6 +37,10 @@ class semilla extends MX_Controller {
         $user = $this->user->get_user($this->idu);
 
         $this->id_group = ($user->{'group'});
+
+       ini_set('display_errors', 1);
+       error_reporting(E_ALL);
+       ini_set('xdebug.var_display_max_depth', 120 );
     }
 
     function Index() {
@@ -71,7 +75,6 @@ class semilla extends MX_Controller {
         );
         $extraData['js'] = array($this->base_url . 'fondosemilla/assets/jscript/coordinador.js' => 'JS COORDINADOR'
         );        
-        $extraData['module_url'] = $this->module_url;         
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
@@ -279,26 +282,6 @@ class semilla extends MX_Controller {
 
         echo $this->parser->parse('fondosemilla/widgets/2doMe2', $data, true, true);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    public function faq() {
-        $this->user->authorize();
-        $config['title']="Preguntas frecuentes";
-        $config['class']="info";
-        $config['body']="<a class='btn btn-info' href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>
- Descargar</a>";
-        echo $this->ui->callout($config);
-
-    }
-    
     
 function lite(){
 
