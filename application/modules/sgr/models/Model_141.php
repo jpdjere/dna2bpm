@@ -213,8 +213,9 @@ class Model_141 extends CI_Model {
                 ));   
 
           $get=$this->sgr_db->command($query);   
-
-          return $get['result'][0];
+          
+          if($get['result'][0])
+            return $get['result'][0];
                  
     }
 
@@ -1005,8 +1006,9 @@ class Model_141 extends CI_Model {
         }
     }
 
+    
     function generate_report($parameter=array()) {
-       
+        
 
        $start_date = first_month_date($parameter['input_period_from']);
        $end_date = last_month_date($parameter['input_period_to']);
@@ -1031,6 +1033,7 @@ class Model_141 extends CI_Model {
                         '$match' => array (
                             'periodo.sgr_id' =>$sgr_id, 
                             'periodo.status'=>'activo' ,
+                            'CUIT_PARTICIPE'=> $socio,
                             'periodo.period_date' => array(
                                 '$gte' => $start_date, '$lte' => $end_date
                         ))                        
@@ -1038,19 +1041,15 @@ class Model_141 extends CI_Model {
 
                 ));          
         $get=$this->sgr_db->command($query);
-        
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter);         
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter);  
+               
    }
    
 
    function ui_table_xls($result, $anexo = null, $parameter) {    
 
-
-        /* CSS 4 REPORT */
-        css_reports_fn();
-
-        $i = 1;
-
+        $rtn_msg = array('no_record');
+       
         $list = null;
         $this->sgr_model->del_tmp_general();
         
@@ -1107,23 +1106,15 @@ class Model_141 extends CI_Model {
             $new_list['t'] = $list['filename'];
             $new_list['uquery'] = $parameter;
 
-            /* COUNT */
-            $increment = $i++;
-            report_account_records_fn($increment);
-
+          
             /* ARRAY FOR RENDER */
             $rtn[] = $new_list;
 
             /* SAVE RESULT IN TMP DB COLLECTION */
             $this->sgr_model->save_tmp_general($new_list, $list['id']);
+            $rtn_msg = array('ok');
         }
-
-        /* PRINT XLS LINK */
-        link_report_and_back_fn();
+        echo json_encode($rtn_msg);
         exit;
-
-        /* REFRESH AND SHOW LINK */
-        header("Location: $this->module_url_report");
-        exit();
     }
 }
