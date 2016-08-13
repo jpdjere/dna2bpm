@@ -132,20 +132,7 @@ $(document).ready(function() {
                     }
                 });
     }
-
-
-    /*FORM REPORTS*/
-    $("#sgr_report").change( function() {
-        
-        checked_opt = false;  
-        var getSgr = $("#sgr_report option:selected").val();       
-
-        if(getSgr==666)
-             checked_opt = true;             
-        
-        $("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", checked_opt);         
-            
-    });
+    
 
     function add_no_movement() {
         var no_movement = $('#no_movement').val();

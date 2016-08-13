@@ -57,7 +57,7 @@ class Sgr extends MX_Controller {
         $this->sgr_id  = null;
         $this->sgr_nombre = null;
         $this->sgr_cuit = null;
-        
+
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
@@ -77,9 +77,9 @@ class Sgr extends MX_Controller {
         ini_set("error_reporting", 0);
 
         if ($this->session->userdata('iduser') == 10){        
-            ini_set('display_errors', 1);
-            ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
+            #ini_set('display_errors', 1);
+            #ini_set('display_startup_errors', 1);
+            ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
         //$this->sgr_mails_send_pending();

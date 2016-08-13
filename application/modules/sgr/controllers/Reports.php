@@ -54,7 +54,6 @@ class Reports extends MX_Controller {
         }
 
         /* SGR'S DATA */
-
         $this->sgr_id  = null;
         $this->sgr_nombre = null;
         $this->sgr_cuit = null;
@@ -76,9 +75,10 @@ class Reports extends MX_Controller {
         ini_set("error_reporting", 0);
 
         if ($this->session->userdata('iduser') == 10){        
-            ini_set('display_errors', 1);
-            ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
+           # ini_set('display_errors', 1);
+           # ini_set('display_startup_errors', 1);
+           # error_reporting(E_ALL);
+            ini_set("error_reporting", E_ALL);
         }
     }
 
@@ -178,6 +178,12 @@ class Reports extends MX_Controller {
         $this->render($default_dashboard, $customData);
     }
 
+    function is_report(){
+         if ($this->sgr_model->last_report_general())
+            
+            echo json_encode(array('mensaje'=>'ok'));
+    }
+
     function show_last_report() {
 
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
@@ -187,6 +193,8 @@ class Reports extends MX_Controller {
         header('Content-type: text/html; charset=UTF-8');
 
         $customData = $this->$model->get_link_report($anexo);
+
+        
 
         $fileName = $anexo . "_reporte_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -308,8 +316,8 @@ class Reports extends MX_Controller {
         $rtn['base_url'] = base_url();
         $rtn['module_url'] = base_url() . 'sgr/';
         $rtn['titulo'] = "";
-        $rtn['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
-        $rtn['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        $rtn['js'] = array($this->module_url . "assets/jscript/form_reports.js" => 'Report JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $rtn['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Report CSS');
 
         $rtn['anexo'] = $this->anexo;
         $rtn['anexo_title'] = $this->oneAnexoDB($this->anexo);

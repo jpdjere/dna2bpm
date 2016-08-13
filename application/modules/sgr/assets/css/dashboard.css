@@ -4028,6 +4028,7 @@ table.text-center, table.text-center td, table.text-center th {
 #checklist_sgr {   
     float: left;
   /*  font-family: fontAwesome;*/
-    padding: 15px;
+    /*padding-left: 15px;*/
+     padding-top: 10px;
     width: 33%;
 }
