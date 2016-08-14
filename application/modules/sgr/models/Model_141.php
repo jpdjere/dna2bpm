@@ -1009,7 +1009,7 @@ class Model_141 extends CI_Model {
     
     function generate_report($parameter=array()) {
         
-
+        
        $start_date = first_month_date($parameter['input_period_from']);
        $end_date = last_month_date($parameter['input_period_to']);
 
@@ -1041,12 +1041,12 @@ class Model_141 extends CI_Model {
 
                 ));          
         $get=$this->sgr_db->command($query);
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter);  
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
                
    }
    
 
-   function ui_table_xls($result, $anexo = null, $parameter) {    
+   function ui_table_xls($result, $anexo = null, $parameter, $end_date) {    
 
         $rtn_msg = array('no_record');
        

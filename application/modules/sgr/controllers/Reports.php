@@ -194,7 +194,7 @@ class Reports extends MX_Controller {
 
         $customData = $this->$model->get_link_report($anexo);
 
-        
+
 
         $fileName = $anexo . "_reporte_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -1003,8 +1003,8 @@ class Reports extends MX_Controller {
         if ($this->input->post('cuit_socio'))
             $data['cuit_socio'] = $this->input->post('cuit_socio');        
 
-        
-        $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
+        if($this->input->post('sgr_checkbox'))
+            $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
         
         $data['sgr_id'] = $this->input->post('sgr');
 
