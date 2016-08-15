@@ -1568,9 +1568,21 @@ class Model_06 extends CI_Model {
 
 
        $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
-       $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
+       switch($parameter['sgr_id']){
+            case '666':
+                $sgr_id = array('$exists'  => true);
+            break;
 
-        
+            case '777':
+                $sgr_id = array('$in'=>$parameter['sgr_id_array']);
+            break;
+
+            default:
+                $sgr_id = (float)$parameter['sgr_id'];
+            break;
+       }
+
+
         $query=array(
                 'aggregate'=>'container.sgr_anexo_' . $this->anexo,
                 'pipeline'=>
@@ -1586,36 +1598,30 @@ class Model_06 extends CI_Model {
                         '$match' => array (
                             'periodo.sgr_id' =>$sgr_id, 
                             'periodo.status'=>'activo' ,
+                            '1695'=> $socio,
                             'periodo.period_date' => array(
                                 '$gte' => $start_date, '$lte' => $end_date
-                        )),
-                    array ('$match' => array (
-                        'anexo.1695' => $socio                    
-                    ))                                   
-                )
-        )); 
-                          
+                        ))                        
+                      )                 
+
+                ));  
+
+              
         $get=$this->sgr_db->command($query);
-        
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter);
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
+        var_dump($get['result']); 
          
    }
 
-   function ui_table_xls($result, $anexo = null, $parameter) {        
-
-
-        /* CSS 4 REPORT */
-        css_reports_fn();
-
-        $i = 1;
-
+   function ui_table_xls($result, $anexo = null, $parameter) {   
+  
+        $rtn_msg = array('no_record');
+        
         $list = null;
+        
         $this->sgr_model->del_tmp_general();
 
-        foreach ($result as $get_each) {
-            
-            $list = $get_each['anexo'];
-
+        foreach ($result as $list) {
            
             /* Vars */
             $cuit_sgr = str_replace("-", "", $this->sgr_cuit);
@@ -1727,23 +1733,14 @@ class Model_06 extends CI_Model {
             $new_list['col46'] = $list['filename'];  
             $new_list['uquery'] = $parameter;
 
-            /* COUNT */
-            $increment = $i++;
-            report_account_records_fn($increment);
-
-            /* ARRAY FOR RENDER */
+           /* ARRAY FOR RENDER */
             $rtn[] = $new_list;
 
             /* SAVE RESULT IN TMP DB COLLECTION */
             $this->sgr_model->save_tmp_general($new_list, $list['id']);
+            $rtn_msg = array('ok');
         }
-
-        /* PRINT XLS LINK */
-        link_report_and_back_fn();
+        echo json_encode($rtn_msg);
         exit;
-
-        /* REFRESH AND SHOW LINK */
-        header("Location: $this->module_url_report");
-        exit();
     }
 }

@@ -41,7 +41,7 @@
                     <div class="form-group col-md-10">                    
                         <div class="input-group ">
                             <select name="sgr" id="sgr_report" class="required form-control"> 
-                                <option value="" disabled selected>Seleccione la SGR</option>
+                                {if is_admin}<option value="" disabled selected>Seleccione la SGR</option>{/if}
                                 {sgr_options}
                                 <div style="clear: both;">
                             </select>
@@ -53,7 +53,7 @@
 
      <section>
                 {if is_admin}
-                <div class="row " id="checks_sgrs">
+                <div class="row " id="checks_sgrs" style="display:none">
                     <div class="form-group col-md-12">                    
                         <div class="input-group ">
                             <small>{sgr_options_checklist}</small>
@@ -83,7 +83,7 @@
 
             <div class="row">
                 <div class="col-md-12" id='show_link' style="display:none;margin-top:20px">
-                    <a class="btn btn-block btn-warning hide_offline" target="_self" href="http://dna2-tests.industria.gob.ar/dna2bpm/sgr/reports/show_last_report"><i class="fa fa-print"></i> Imprimir el Ultimo Reporte Generado</a>
+                    <a class="btn btn-block btn-warning hide_offline" target="_self" href="reports/show_last_report"><i class="fa fa-print"></i> Imprimir el Ultimo Reporte Generado</a>
                 </div>
 
                 <div class="col-md-12" id='show_no_record' style="display:none;margin-top:20px">

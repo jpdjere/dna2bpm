@@ -1009,13 +1009,27 @@ class Model_141 extends CI_Model {
     
     function generate_report($parameter=array()) {
         
-        
+
        $start_date = first_month_date($parameter['input_period_from']);
        $end_date = last_month_date($parameter['input_period_to']);
 
 
        $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
-       $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
+     #  $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
+
+       switch($parameter['sgr_id']){
+            case '666':
+                $sgr_id = array('$exists'  => true);
+            break;
+
+            case '777':
+                $sgr_id = array('$in'=>$parameter['sgr_id_array']);
+            break;
+
+            default:
+                $sgr_id = (float)$parameter['sgr_id'];
+            break;
+       }
 
 
         $query=array(
@@ -1039,10 +1053,12 @@ class Model_141 extends CI_Model {
                         ))                        
                       )                 
 
-                ));          
+                ));  
+
+              
         $get=$this->sgr_db->command($query);
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
-               
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date); 
+
    }
    
 
@@ -1078,7 +1094,7 @@ class Model_141 extends CI_Model {
             
 
             /* DEUDA SOCIO */
-             $balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
+            #$balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
             
 
             $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']);

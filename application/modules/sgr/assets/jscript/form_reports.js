@@ -5,12 +5,12 @@
  */
 
 jQuery(document).ready(function($) {
-
+$("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", false);   
 var base_url=globals['base_url'];
 /* CALENDAR */
 
 var d = new Date();
-var strDate = (d.getMonth()) +"-"+d.getFullYear();
+var strDate = "01-"+d.getFullYear();
 $('[id^="input_period_"]').val(strDate);
 $('.dp').datepicker();
 /*FORM REPORTS*/
@@ -19,11 +19,13 @@ $('.dp').datepicker();
         checked_opt = false;  
         var getSgr = $("#sgr_report option:selected").val();       
 
-        if(getSgr==666)
-             checked_opt = true;             
+        if(getSgr==666){
+              // checked_opt = true;             
         
-        $("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", checked_opt);   
+        $("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", false);   
 
+        }
+        
         if(getSgr!=777){
           $('#checks_sgrs').hide();
         } else {
