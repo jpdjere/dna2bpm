@@ -82,7 +82,7 @@ class Sgr extends MX_Controller {
             ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
-        //$this->sgr_mails_send_pending();
+        $this->sgr_mails_send_pending();
     }
 
     /* INDEX */
@@ -350,29 +350,22 @@ class Sgr extends MX_Controller {
         return $customData;
     }
 
+ 
     /* SEND RECTIFICATION MAIL */
 
     function sgr_mails_send_pending() {
 
         $records = $this->sgr_model->get_rectification_pending_mails();
         foreach ($records as $record) {
-            // $this->sgr_mails_to($record);
-        }
+                $rtn = $this->send_mail($record);
+                
+                if($rtn=='ok');
+                    $this->sgr_model->set_admin_email_ok($record['id']);
+        }      
     }
 
-    function sgr_mails_to($record) {
-
-        $emails = $this->sgr_model->get_admin_emails();
-
-        foreach ($emails as $to) {
-            $result = $this->send_mail($to, $record);
-            if ($result == "OK")
-                $this->sgr_model->set_admin_email_ok($record['id']);
-        }
-    }
-
-    function send_mail($to, $record) {
-
+    
+    function send_mail($record) {
 
         $sgr = $this->sgr_nombre;
 
@@ -414,13 +407,19 @@ class Sgr extends MX_Controller {
         $mail->IsHTML(true);
         $mail->MsgHTML(nl2br($body));
 
-
-        $mail->AddAddress($to['email'], $to['name']);
-        if (!$mail->Send()) {
+        /*GET EMAIL ADDRESS*/
+        $emails = $this->sgr_model->get_admin_emails();
+        
+        foreach($emails as $to){
+            $mail->AddAddress($to['email'], $to['name']);
+            if (!$mail->Send()) {
             return "error: " . $mail->ErrorInfo;
-        } else {
+            } else {
+
             return "OK";
+            }
         }
+
     }
 
     /* UPLOAD FN */

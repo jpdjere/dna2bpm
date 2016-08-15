@@ -46,8 +46,13 @@ class Sgr_model extends CI_Model {
 
     function get_rectification_pending_mails() {
         $container = 'container.sgr_periodos';
-        $query = array('sended' => null, "status" => "rectificado");
+        $regex = new MongoRegex('/' . date('Y') . '-' . date('m') . '/');
+
+        $query = array( 'rectified_on' => $regex, 
+            #'sended' => null, 
+            "status" => "rectificado");
         $result = $this->mongowrapper->sgr->$container->find($query);
+        
         return $result;
     }
 
