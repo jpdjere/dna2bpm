@@ -1094,7 +1094,7 @@ class Model_141 extends CI_Model {
             
 
             /* DEUDA SOCIO */
-            #$balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
+            $balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
             
 
             $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']);
