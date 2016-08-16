@@ -1,5 +1,4 @@
-
-<form method="post" class="well" id="form" action="reports/new_report/" target="_blank">
+<form id="form_reports" class="form-extra" method="post" novalidate="novalidate">
 
     <div class="row ">
         <!--  ========================== row 4 . ========================== -->
