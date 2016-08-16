@@ -27,14 +27,13 @@
     <thead>
           <tr role="row">
               <th>N° Proyecto</th>
-              <th>Nombre</th>
+              <th>Nombre del Proyecto</th>
+              <th>Nombre</th>              
               <th>Apellido</th>              
               <th>Provincia</th>
-              <th>Partido</th>
               <th>Localidad</th>
-              <th>Monto Solicitado</th>
-              <th>CUIT</th>
-              <th>Actividad Principal</th>
+              <th>DNI</th>
+              <th>E-mail</th>
           </tr>
     </thead>
           <tbody>

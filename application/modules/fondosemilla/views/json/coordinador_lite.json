@@ -6,15 +6,6 @@
     "zones": [
         {
         "tiles": [
-
-            {
-                "title": "Proyectos No Admitidos",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 12,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_NP", "tile-green"]
-            },
             {
                 "title": "En Ronda 1",
                 "module": "bpm",
@@ -76,7 +67,7 @@
                 "title": "Reportes Incubadora",
                 "module": "fondosemilla",
                 "controller": "semilla",
-                "function": "reportes_casos_por_cuit"
+                "function": "reportes_casos_por_dni"
                 }]
             
         }

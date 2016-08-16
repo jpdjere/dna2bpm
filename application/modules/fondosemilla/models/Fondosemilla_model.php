@@ -26,7 +26,16 @@ class Fondosemilla_model extends CI_Model {
         $this->db->where($query);
         $result = $this->db->get($container)->result_array();
         return $result[0]; 
-    }    
+    }
+    
+    function get_persona($id){
+        $rtn = array();
+        $container = 'container.personas';
+        $query = array( 'id' => $id);
+        $this->db->where($query);
+        $result = $this->db->get($container)->result_array();
+        return $result[0]; 
+    }  
     
 
 

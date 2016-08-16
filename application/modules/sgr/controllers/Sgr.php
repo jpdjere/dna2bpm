@@ -54,12 +54,17 @@ class Sgr extends MX_Controller {
         }
 
         /* SGR'S DATA */
+        $this->sgr_id  = null;
+        $this->sgr_nombre = null;
+        $this->sgr_cuit = null;
+
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
         }
+
         $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
 
         if (isset($this->session->userdata['period']))
@@ -71,9 +76,13 @@ class Sgr extends MX_Controller {
         /* ERROR REPORTING */
         ini_set("error_reporting", 0);
 
-
+        if ($this->session->userdata('iduser') == 10){        
+            #ini_set('display_errors', 1);
+            #ini_set('display_startup_errors', 1);
+            ini_set("error_reporting", E_ALL);
+        }
         /* SEND PENDING MAILS */
-        //$this->sgr_mails_send_pending();
+        $this->sgr_mails_send_pending();
     }
 
     /* INDEX */
@@ -341,37 +350,30 @@ class Sgr extends MX_Controller {
         return $customData;
     }
 
+ 
     /* SEND RECTIFICATION MAIL */
 
     function sgr_mails_send_pending() {
 
         $records = $this->sgr_model->get_rectification_pending_mails();
         foreach ($records as $record) {
-            // $this->sgr_mails_to($record);
-        }
+                $rtn = $this->send_mail($record);
+                
+                if($rtn=='ok');
+                    $this->sgr_model->set_admin_email_ok($record['id']);
+        }      
     }
 
-    function sgr_mails_to($record) {
-
-        $emails = $this->sgr_model->get_admin_emails();
-
-        foreach ($emails as $to) {
-            $result = $this->send_mail($to, $record);
-            if ($result == "OK")
-                $this->sgr_model->set_admin_email_ok($record['id']);
-        }
-    }
-
-    function send_mail($to, $record) {
-
+    
+    function send_mail($record) {
 
         $sgr = $this->sgr_nombre;
 
         $sgr_data = $this->sgr_model->get_sgr_by_id_new($record['sgr_id']);
         $sgr = $sgr_data[1693];
 
-
-        $period = $record['period'];
+        if($sgr){
+            $period = $record['period'];
         $anexo = $record['anexo'];
         $anexo_name = $this->sgr_model->get_anexo($anexo);
 
@@ -405,14 +407,22 @@ class Sgr extends MX_Controller {
         $mail->IsHTML(true);
         $mail->MsgHTML(nl2br($body));
 
-
-        $mail->AddAddress($to['email'], $to['name']);
-        if (!$mail->Send()) {
+        /*GET EMAIL ADDRESS*/
+        $emails = $this->sgr_model->get_admin_emails();
+        
+        foreach($emails as $to){
+            $mail->AddAddress($to['email'], $to['name']);
+            if (!$mail->Send()) {
             return "error: " . $mail->ErrorInfo;
-        } else {
+            } else {
+
             return "OK";
+            }
         }
-    }
+
+    }  
+
+}
 
     /* UPLOAD FN */
 

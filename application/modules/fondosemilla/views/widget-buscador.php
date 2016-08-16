@@ -7,7 +7,7 @@
     <div class="form-group">
       <div class="row ">
           <div class="col-lg-4 ">
-              <input type="text" name="CUIT" id="CUIT" class="form-control" placeholder="Ingrese CUIT o DNI a consultar"required>
+              <input type="text" name="CUIT" id="CUIT" class="form-control" placeholder="Ingrese DNI a consultar"required>
             <div class="spacer10"></div>
           </div>
         <div class="col-xs-6 col-lg-2">

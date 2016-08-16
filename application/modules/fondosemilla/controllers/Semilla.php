@@ -37,6 +37,12 @@ class semilla extends MX_Controller {
         $user = $this->user->get_user($this->idu);
 
         $this->id_group = ($user->{'group'});
+        
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        ini_set('xdebug.var_display_max_depth', 120 );
+        
+        
     }
 
     function Index() {
@@ -71,7 +77,6 @@ class semilla extends MX_Controller {
         );
         $extraData['js'] = array($this->base_url . 'fondosemilla/assets/jscript/coordinador.js' => 'JS COORDINADOR'
         );        
-        $extraData['module_url'] = $this->module_url;         
         $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/coordinador_lite.json',$debug, $extraData);
@@ -280,26 +285,6 @@ class semilla extends MX_Controller {
         echo $this->parser->parse('fondosemilla/widgets/2doMe2', $data, true, true);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-
-    public function faq() {
-        $this->user->authorize();
-        $config['title']="Preguntas frecuentes";
-        $config['class']="info";
-        $config['body']="<a class='btn btn-info' href='http://www.accionpyme.mecon.gob.ar/downloads/produccion/capacitacionPyme/faq_2016.pdf' target='_blank'><i class='fa fa-file-pdf-o'></i>
- Descargar</a>";
-        echo $this->ui->callout($config);
-
-    }
-    
-    
 function lite(){
 
     $this->load->model('bpm/bpm');
@@ -360,7 +345,6 @@ function lite(){
      
 
     $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
-;
     // Parse    
      echo $this->parser->parse('lite', $data, true, true);
 }
@@ -404,14 +388,14 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
 
     function exportar_xls($idkpi, $mode= "xls"){
     //  $this->load->module('afip');
+    $this->load->module('pacc13/api13');    
     $renderData['base_url'] = $this->base_url;
     $renderData['module_url'] = $this->module_url;    
     $kpi = $this->Kpi_model->get($idkpi);
     $cases = $this->get_cases_by_kpi($kpi);
     $partidos = $this->app->get_ops(58);
     $actividades = $this->app->get_ops(884);
-    $incubadoras = $this->app->get_ops(781);
-
+    $incubadoras = $this->api13->incubadoras_listado($filter, 'array');
     foreach ($cases as $key => $case ){
         $current = $this->bpm->get_case($case, 'fondo_semilla2016');
         $data = $this->bpm->load_case_data($current, 'fondo_semilla2016');
@@ -422,16 +406,14 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['provincia'] = $data['Personas_9915'][0]['5293'][0];        
         $renderData['data'][$key]['partido'] = $partidos[$data['Personas_9915'][0]['1788'][0]];
         $renderData['data'][$key]['localidad'] = $data['Personas_9915'][0]['1789'];
-        $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
-        $renderData['data'][$key]['cuit'] = $data['Empresas_9893'][0]['1695'];        
+       // $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
+        $renderData['data'][$key]['dni'] = $data['Personas_9915'][0]['1795'];        
         $renderData['data'][$key]['monto_solicitado'] = $data['Fondosemillaproyectos']['10176'];        
         $renderData['data'][$key]['numero'] = $data['Fondosemillaproyectos']['10007'];
         $renderData['data'][$key]['actividad_principal'] = $actividades[$data['Fondosemillaproyectos'][9900][0]];
-        var_dump($data['Fondosemillaproyectos'][10034][0]);        
+        $renderData['data'][$key]['incubadora'] = $incubadoras[$data['Fondosemillaproyectos'][10034][0]]['nombre'];
     }
     
-    var_dump($incubadoras);
-    exit;
     
     $template='fondosemilla/exportar_xls';     
     switch($mode){
@@ -461,16 +443,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         
         $renderData['proyectos']= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
         
+        
+
         $template = array (
-              '10007' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA',
-              '9917' => '-',
-              'pre_aprobados' => '-',
-              'aprobados' => '-',
-              'rechazados' => '-',
-              'proyectos_desembolsados' => '-',
-              'desembolso' => '-',              
-              'finalizados' => '-',
-              'realizados' => '-'
+              '10007' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA'
               );
               
         if (count($renderData['proyectos']) == 0){
@@ -479,7 +455,9 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         else
         {       
             foreach($renderData['proyectos'] as &$proyecto){
-            $proyecto += $template;       
+            $proyecto['persona']= $this->Fondosemilla_model->get_persona($proyecto[9915][0]);            
+            $proyecto['persona'][5293] = $proyecto['persona'][5293][0]; 
+            $proyecto += $template;
             };
         }
        echo $this->parser->parse('tabla-incubadoras', $renderData, true, true);
@@ -499,12 +477,12 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->dashboard->widget($template, $renderData);
     }
     
-    function reportes_casos_por_cuit(){
+    function reportes_casos_por_dni(){
         $this->load->module('dashboard');
         $this->load->module('pacc13/api13');
         $renderData['base_url'] = $this->base_url;
         $renderData['module_url'] = $this->module_url;
-        $renderData['title'] = 'Consultar Casos por CUIT o DNI';
+        $renderData['title'] = 'Consultar Casos por DNI';
         $template="dashboard/widgets/box_info.php";
         $filter="";
         $renderData['tabla_estado']= "";
@@ -512,7 +490,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->dashboard->widget($template, $renderData);
     }
     
-    function reload_reportes_casos_por_cuit($id = null){
+    function reload_reportes_casos_por_dni($id = null){
         $this->load->module('pacc13/api13');
         $this->load->module('dashboard');
         $this->load->library('parser');
@@ -524,7 +502,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['casos'][$key]['token'] = $val['_id']->{'$id'}; 
         $renderData['casos'][$key]['idcase'] = $val['id'];
         }
-        foreach ($renderData['casos'] as &$caso){
+        foreach ($renderData['casos'] as $key => &$caso){
+            if (!isset($caso['Fondosemillaproyectos'])){ 
+                unset($renderData['casos'][$key]);
+            }
             $caso['Personas_9915'] = $caso['Personas_9915'][0];
         }
         echo $this->parser->parse('tabla-buscador', $renderData, true, true);
