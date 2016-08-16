@@ -56,6 +56,15 @@ class expertos extends MX_Controller {
         
     }
     
+    function Coordinador($debug=false) {
+        $this->user->authorize();
+        $grupo_user='Expertos/DireccionBPM';
+        $this->Add_group($grupo_user);
+        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
+        Modules::run('dashboard/dashboard', 'expertos/json/coordinador_lite.json',$debug);
+      
+    }    
+    
     function Profesionales($debug=false) {
         $this->user->authorize();
         $grupo_user='Expertos/Empresa / Institucion';
@@ -133,580 +142,9 @@ class expertos extends MX_Controller {
         echo Modules::run('dashboard/tile', 'dashboard/tiles/tile-green', $data);
     }
 
-    function tile_buscar() {
-        $this->user->authorize();
-        $data = array();
-        return $this->parser->parse('crefis/buscar_proyecto', $data, true);
-    }
-
-    function get_token_history($resourceId, $history) {
-        $rtnArr = array();
-        foreach ($history as $token) {
-            if ($token['resourceId'] == $resourceId)
-                $rtnArr[] = $token;
-        }
-        return $rtnArr;
-    }
-
-    function listar_pp($action = null) {
-        $this->user->authorize();
-        $this->load->library('parser');
-        $this->load->model('app');
-        $option = $this->app->get_ops(772);
-        $template = 'crefis/listar_proyectos_fechas_pp';
-        $filter = array(
-            'idwf' => 'crefisGral',
-//            'id' => 'VNSU'
-        );
-        $cases = $this->bpm->get_cases_byFilter($filter, array(), array('checkdate'));
-//        var_dump($cases[0]);exit;
-//        var_dump(json_encode($filter),count($tokens));
-        $i = 0;
-        foreach ($cases as $case) {
-
-            $case_data = $this->bpm->load_case_data($case);
-            if (!isset($case_data ['Proyectos_crefis'] ['8339']))
-                continue;
-            /* STATUS */
-            $status = "N/A";
-            if (isset($case_data ['Proyectos_crefis'] ['4970'])) {
-                $status = $option[$case_data ['Proyectos_crefis'] ['4970'][0]];
-            }
-            $i++;
-            $arr = array(
-                'case' => $case['id'],
-                'nombre' => (isset($case_data['Empresas']['1693'])) ? $case_data['Empresas']['1693'] : '',
-                'cuit' => (isset($case_data['Empresas']['1695'])) ? $case_data['Empresas']['1695'] : '',
-                'Nro' => (isset($case_data ['Proyectos_crefis'] ['8339'])) ? $case_data ['Proyectos_crefis'] ['8339'] : 'N/A',
-            );
-
-
-//            $arr['fechapresentacion']=isset($case_data['Proyectos_crefis']['8340'])?date('d/m/Y', strtotime($case_data['Proyectos_crefis']['8340'])):'???';
-            //---saco fecha presentación
-            $date = explode('/', $case_data['Proyectos_crefis']['8340']);
-            $arr['fechapresentacion'] = (count($date)) ? $date[2] . '/' . $date[1] . '/' . $date[0] : '???';
-            //---fecha aprobacion / rechazo
-            //---busco solicitud rechazada
-            $rechazada = $this->get_token_history('oryx_FE3863C1-F7F4-40E1-95E7-FF407112C648', $case['history']);
-            if (count($rechazada)) {
-                $arr['fechafinal'] = date('d/m/Y', strtotime($rechazada[0]['checkdate']));
-                $arr['estado'] = 'Solicitud No Admisible';
-            }
-            //---busco proyecto rechazado
-            $proy_rechazado = $this->get_token_history('oryx_CE7D350E-FEA2-4BFF-B96D-77B29D249C7D', $case['history']);
-            if (count($proy_rechazado)) {
-                $arr['fechafinal'] = date('d/m/Y', strtotime($proy_rechazado[0]['checkdate']));
-                $arr['estado'] = 'Proyecto Rechazado';
-            }
-            //---busco proyecto pre-aprobado
-            $proy_pre = $this->get_token_history('oryx_2882861D-9261-4874-8FA9-12BA72AC43C0', $case['history']);
-            if (count($proy_pre)) {
-                $arr['fechafinal'] = date('d/m/Y', strtotime($proy_pre[0]['checkdate']));
-                $arr['estado'] = 'Proyecto Preaprobado';
-            }
-            //---busco proyecto baja
-            $proy_baja = $this->get_token_history('oryx_16600243-7CAC-4EAB-8AF8-0A135CE14FEE', $case['history']);
-            if (count($proy_baja)) {
-                $arr['fechafinal'] = date('d/m/Y', strtotime($proy_baja[0]['checkdate']));
-                $arr['estado'] = 'Baja Solicitud Coordinación';
-            }
-            $data['proyectos'][] = $arr;
-        }
-
-        $data ['count'] = $i;
-        $data['base_url'] = $this->base_url;
-//        var_dump($data);
-//        exit;
-        if ($action == 'xls') {
-            header("Content-Description: File Transfer");
-            header("Content-type: application/x-msexcel");
-            header("Content-Type: application/force-download");
-            header("Content-Disposition: attachment; filename=listado_pp.xls");
-            header("Content-Description: PHP Generated XLS Data");
-        }
-
-        $this->parser->parse($template, $data, false, true);
-    }
-
-    function listar_aprobados_condicional($action = null) {
-        $this->user->authorize();
-        $this->load->library('parser');
-        $this->load->model('app');
-        $this->load->model('crefis/crefis_model');
-        $option = $this->app->get_ops(772);
-        $template = 'crefis/listar_proyectos_fechas_pde';
-        $template = 'crefis/listar_proyectos';
-        $filter = array(
-            'idwf' => 'crefisGral',
-        );
-        $cases = $this->crefis_model->get_cases_byFilter_container('crefisGral', 195, array('4970' => '87'));
-//        var_dump($cases[0]);exit;
-
-        $i = 0;
-        foreach ($cases as $case) {
-
-            $case_data = $this->bpm->load_case_data($case);
-            // var_dump($case_data);exit;
-            if (!isset($case_data ['Proyectos_crefis'] ['8339']))
-                continue;
-            /* STATUS */
-            $status = "N/A";
-            if (isset($case_data ['Proyectos_crefis'] ['4970'])) {
-                $status = $option[$case_data ['Proyectos_crefis'] ['4970'][0]];
-            }
-            $i++;
-            $arr = array(
-                'case' => $case['id'],
-                'nombre' => (isset($case_data['Empresas']['1693'])) ? $case_data['Empresas']['1693'] : '',
-                'cuit' => (isset($case_data['Empresas']['1695'])) ? $case_data['Empresas']['1695'] : '',
-                'Nro' => (isset($case_data ['Proyectos_crefis'] ['8339'])) ? $case_data ['Proyectos_crefis'] ['8339'] : 'N/A',
-                'estado' => $status,
-                'url_reevaluar_pde'=>0
-            );
-
-            $url = (isset($case_data ['Proyectos_crefis']['id'])) ? $this->bpm->gateway('../dna2/frontcustom/284/list_docs_crefis_eval.php?id=' . $case_data ['Proyectos_crefis'] ['id']) : '#';
-            $arr['link_msg'] = '';
-            $arr['link_open'] = $url;
-
-            $arr['url_bpm'] = $this->module_url . 'crefis/escalar_condicional/crefisGral/' . $case['id'];
-            $arr['url_clone'] = '';
-            $arr['url_cancelar_pp'] = '';
-            $arr['url_cancelar_pde'] = '';
-            $data['empresas'][] = $arr;
-        }
-
-        $this->parser->parse($template, $data, false, true);
-    }
-
-    function listar_pde($action = null) {
-        $this->user->authorize();
-        $this->load->library('parser');
-        $this->load->model('app');
-        $option = $this->app->get_ops(772);
-        $template = 'crefis/listar_proyectos_fechas_pde';
-        $filter = array(
-            'idwf' => 'crefisGral',
-        );
-        $cases = $this->bpm->get_cases_byFilter($filter, array(), array('checkdate'));
-//        var_dump($cases[0]);exit;
-//        var_dump(json_encode($filter),count($tokens));
-
-        $i = 0;
-        foreach ($cases as $case) {
-
-            $case_data = $this->bpm->load_case_data($case);
-            if (!isset($case_data ['Proyectos_crefis'] ['8339']))
-                continue;
-            /* STATUS */
-            $status = "N/A";
-            if (isset($case_data ['Proyectos_crefis'] ['4970'])) {
-                $status = $option[$case_data ['Proyectos_crefis'] ['4970'][0]];
-            }
-            $i++;
-            $arr = array(
-                'case' => $case['id'],
-                'nombre' => (isset($case_data['Empresas']['1693'])) ? $case_data['Empresas']['1693'] : '',
-                'cuit' => (isset($case_data['Empresas']['1695'])) ? $case_data['Empresas']['1695'] : '',
-                'Nro' => (isset($case_data ['Proyectos_crefis'] ['8339'])) ? $case_data ['Proyectos_crefis'] ['8339'] : 'N/A',
-                'estado' => $status,
-            );
-
-
-//            $arr['fechapresentacion']=isset($case_data['Proyectos_crefis']['8340'])?date('d/m/Y', strtotime($case_data['Proyectos_crefis']['8340'])):'???';
-            //---saco fecha presentación PP
-            $f0 = $this->bpm->get_token('crefisGral', $case['id'], 'oryx_4EFED47A-7AAD-4728-9577-49F8901AC5B9');
-            $arr['fechapresentacionPP'] = (count($f0)) ? date('d/m/Y', strtotime($f0['checkdate'])) : '';
-            //---saco fecha presentación
-            $f1 = $this->bpm->get_token('crefisGral', $case['id'], 'oryx_A58D5ECD-6899-4F60-856C-CFE89B36FB91');
-            $arr['fechapresentacion'] = (count($f1)) ? date('d/m/Y', strtotime($f1['checkdate'])) : '';
-            //-----tomo el evaluador
-            $iduser = $case_data ['Proyectos_crefis'] ['8668'][0];
-            $evaluador = $this->user->get_user_safe($iduser);
-            $arr['evaluador'] = $evaluador->name . ' ' . $evaluador->lastname;
-            //---Tomo primera y ultima fecha eval
-            $f1 = $this->get_token_history('oryx_9246751E-B435-4359-988B-8E1B84932A50', $case['history']);
-            if (count($f1)) {
-                $arr['fechaprimereval'] = (count($f1)) ? date('d/m/Y', strtotime($f1[0]['checkdate'])) : '';
-                $arr['fechaultimoeval'] = (count($f1)) ? date('d/m/Y', strtotime($f1[count($f1) - 1]['checkdate'])) : '';
-            } else {
-                //tomo del token
-                $f1 = $this->bpm->get_token('crefisGral', $case['id'], 'oryx_A58D5ECD-6899-4F60-856C-CFE89B36FB91');
-                $arr['fechaprimereval'] = (count($f1)) ? date('d/m/Y', strtotime($f1['checkdate'])) : '';
-                $arr['fechaultimoeval'] = (count($f1)) ? date('d/m/Y', strtotime($case['checkdate'] . ' +' . $f1['interval']['days'] . ' days')) : '';
-                $arr['case'].='*';
-            }
-
-            $data['proyectos'][] = $arr;
-        }
-
-        $data ['count'] = $i;
-        $data['base_url'] = $this->base_url;
-//        var_dump($data);
-//        exit;
-        if ($action == 'xls') {
-            header("Content-Description: File Transfer");
-            header("Content-type: application/x-msexcel");
-            header("Content-Type: application/force-download");
-            header("Content-Disposition: attachment; filename=listado_pde.xls");
-            header("Content-Description: PHP Generated XLS Data");
-        }
-
-        $this->parser->parse($template, $data, false, true);
-    }
-
-    function buscar($type = null) {
-        $this->user->authorize();
-        $this->load->library('parser');
-        $template = 'crefis/listar_proyectos';
-        $filter = array(
-            'idwf' => 'crefisGral',
-            'resourceId' =>$this->consolida_resrourceId
-        );
-        $data ['querystring'] = $this->input->post('query');
-        // -----busco en el cuit
-        $filter ['$or'] [] = array(
-            'data.1695' => array(
-                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
-            )
-        );
-        // -----busco en el nombre empresa
-        $filter ['$or'] [] = array(
-            'data.1693' => array(
-                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
-            )
-        );
-        // -----busco en el nro proyecto
-        $filter ['$or'] [] = array(
-            'data.4837' => array(
-                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
-            )
-        );
-        $filter ['$or'] [] = array(
-            'case' => array(
-                '$regex' => new MongoRegex('/' . $this->input->post('query') . '/i')
-            )
-        );
-        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
-            'case',
-            'data',
-            'checkdate'
-                ), array(
-            'checkdate' => false
-        ));
-//        var_dump(json_encode($filter),count($tokens));
-        $data ['empresas'] = array_map(function ($token) {
-            // var_dump($token['_id']);
-            $case = $this->bpm->get_case($token ['case'], 'crefisGral');
-            $crefisGral = $this->bpm->get_case($token ['case'], 'crefisGral');
-            $data = $this->bpm->load_case_data($case);
-
-
-            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/frontcustom/231/list_docs_crefis_eval.php?id=' . $data ['Proyectos_crefis'] ['id'] : '#';
-            $url_msg = (isset($token ['case'])) ? $this->base_url . 'crefis/show_msgs/' . $token ['case'] : null;
-            /* crefis/COORDINADOR (134) */
-            $hist=$this->bpm->get_token_history('crefisGral',$token['case']);
-            foreach($hist as $t) $keys[$t['resourceId']]=$t['status'];
-            $keys = array_keys($case['token_status']);
-            $url_clone = (
-                    (in_array(584, $this->id_group) or in_array(586, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open' and in_array('oryx_05695DC8-1842-49D1-8327-1DAB8C164D35', $keys) //---está finalizado pero por esta figura
-                    and in_array($data ['Proyectos_crefis'] ['4970'][0], array(30, 40, 60)) //---checkeo que esté en alguno de esos estados
-                    ) ? $this->base_url . 'bpm/engine/run/model/' . $model. '' .$token['case'] . '/oryx_69057B4E-A899-40F8-8A27-7D8C2A5100CE':null;
-            //---link para cancelar solo para coordinador
-            $url_cancelar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/cancelar_pp/' . $token ['case'] : null;
-            $url_cancelar_pde = (
-                    (in_array(134, $this->id_group) or $this->user->isAdmin()) and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura
-                    and $case['status'] == 'closed'
-                    ) ? $this->base_url . 'crefis/cancelar_pde/' . $token ['case'] : null;
-            //---link para reevaluar solo para coordinador
-            $url_reevaluar_pp = ((in_array(134, $this->id_group) or $this->user->isAdmin()) and $case['status'] == 'open') ? $this->base_url . 'crefis/reevaluar_pp/' . $token ['case'] : null;
-            $url_reevaluar_pde = (
-                    (in_array(134, $this->id_group) or $this->user->isAdmin()) and in_array('oryx_3346C091-4A4D-4DCD-8DEC-B23C5FE7F80C', $keys) //---está finalizado pero por esta figura
-                    and $case['status'] == 'closed'
-                    ) ? $this->base_url . 'crefis/reevaluar_pde/' . $token ['case'] : null;
-            //---url para checkear
-
-            $url_bpm = '';
-            if (in_array(134, $this->id_group) or in_array(135, $this->id_group) or $this->user->isAdmin()) {
-                $model = ($crefisGral) ? 'crefisGral' : 'crefisGral';
-                $url_bpm = $this->base_url . 'bpm/engine/run/model/' . $model . '/' . $token ['case'];
-            }
-
-            /* STATUS */
-            $status = "N/A";
-            if (isset($data ['Proyectos_crefis'] ['4970'])) {
-                $this->load->model('app');
-                $option = $this->app->get_ops(772);
-                $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
-            }
-
-
-            return array(
-                '_d' => $token ['_id'],
-                'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas_4844']['0']['1693'])) ? $data['Empresas_4844']['0']['1693'] : 'XXXX',
-                'cuit' => (isset($data['Empresas_4844']['0']['1695'])) ? $data['Empresas_4844']['0']['1695'] : 'XXXX',
-                'Nro' => (isset($data ['Proyectos_crefis'] ['4837'])) ? $data ['Proyectos_crefis'] ['4837'] : 'N/A',
-                'estado' => $status,
-                'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
-                'link_open' => $this->bpm->gateway($url),
-                'link_msg' => $url_msg,
-                'url_clone' => $url_clone,
-                'url_bpm' => $url_bpm,
-                'url_cancelar_pp' => $url_cancelar_pp,
-                'url_cancelar_pde' => $url_cancelar_pde,
-                'url_reevaluar_pp' => $url_reevaluar_pp,
-                'url_reevaluar_pde' => $url_reevaluar_pde,
-
-            );
-        }, $tokens);
-        $data ['count'] = count($tokens);
-        $data['base_url'] = $this->base_url;
-        // var_dump($keys,$data);exit;
-
-
-        $this->parser->parse($template, $data, false, true);
-    }
-
-    function escalar_condicional($idwf, $idcase) {
-        $resourceId = 'oryx_10CF34E7-0331-40C0-AE7C-0ABCCE9D015E';
-        //---Cargo wf
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        $shape = $this->bpm->get_shape($resourceId, $wf);
-        $wf->idwf = $idwf;
-        $wf->case = $idcase;
-        /**
-         * Cancelo todos los tokens primero
-         */
-        $active_tokens = $this->bpm->get_pending($wf->idwf, $wf->case, array('user', 'waiting', 'pending'), array());
-        foreach ($active_tokens as $token) {
-            $token['status'] = 'canceled';
-            $this->bpm->save_token($token);
-        }
-
-        $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-        //---creo un token falso
-        $token = $this->bpm->token_checkin($token, $wf, $shape);
-        $token['status'] = 'pending';
-        $this->bpm->save_token($token);
-        //---run_post($model, $idwf, $case, $resourceId)
-        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$resourceId";
-//        echo "<a href='$url'>click aquí</a>";
-        redirect($url);
-    }
-
-    function cancelar_pp($idcase) {
-        $idwf = 'crefisGral';
-        $resourceId = 'oryx_11C3ABEB-C93F-4536-BCD1-B0D006DA5D12';
-        //---Cargo wf
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        $shape = $this->bpm->get_shape($resourceId, $wf);
-        $wf->idwf = $idwf;
-        $wf->case = $idcase;
-        /**
-         * Cancelo todos los tokens primero
-         */
-        $active_tokens = $this->bpm->get_pending($wf->idwf, $wf->case, array('user', 'waiting', 'pending'), array());
-        foreach ($active_tokens as $token) {
-            $token['status'] = 'canceled';
-            $this->bpm->save_token($token);
-        }
-
-        $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-        //---creo un token falso
-        $token = $this->bpm->token_checkin($token, $wf, $shape);
-        $token['status'] = 'pending';
-        $this->bpm->save_token($token);
-        //---run_post($model, $idwf, $case, $resourceId)
-        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$resourceId";
-//        echo "<a href='$url'>click aquí</a>";
-        redirect($url);
-    }
-
-    function cancelar_pde($idcase) {
-        $idwf = 'crefisGral';
-        $resourceId = 'oryx_928C03EE-D8FE-4693-A3AD-3F082FE84485';
-        //---Cargo wf
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        $shape = $this->bpm->get_shape($resourceId, $wf);
-        $wf->idwf = $idwf;
-        $wf->case = $idcase;
-        /**
-         * Cancelo todos los tokens primero
-         */
-        $active_tokens = $this->bpm->get_pending($wf->idwf, $wf->case, array('user', 'waiting', 'pending'), array());
-        foreach ($active_tokens as $token) {
-            $token['status'] = 'canceled';
-            $this->bpm->save_token($token);
-        }
-
-        $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-        //---creo un token falso
-        $token = $this->bpm->token_checkin($token, $wf, $shape);
-        $token['status'] = 'pending';
-        $this->bpm->save_token($token);
-        //---run_post($model, $idwf, $case, $resourceId)
-        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$resourceId";
-//        echo "<a href='$url'>click aquí</a>";
-        redirect($url);
-    }
-
-    function reevaluar_pp($idcase) {
-        $idwf = 'crefisGral';
-        $resourceId = 'oryx_D4FB583E-D562-4036-9E94-BA8D69F3D54F';
-        //---Cargo wf
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        $shape = $this->bpm->get_shape($resourceId, $wf);
-        $wf->idwf = $idwf;
-        $wf->case = $idcase;
-        /**
-         * Cancelo todos los tokens primero
-         */
-        $active_tokens = $this->bpm->get_pending($wf->idwf, $wf->case, array('user', 'waiting', 'pending'), array());
-        foreach($active_tokens as $token){
-            $token['status']='canceled';
-            $this->bpm->save_token($token);
-
-            }
-
-        $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-        //---creo un token falso
-        $token = $this->bpm->token_checkin($token, $wf, $shape);
-        $token['status'] = 'pending';
-        $this->bpm->save_token($token);
-        //---run_post($model, $idwf, $case, $resourceId)
-        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$resourceId";
-//        echo "<a href='$url'>click aquí</a>";
-        redirect($url);
-    }
-
-    function reevaluar_pde($idcase) {
-        $idwf = 'crefisGral';
-        $resourceId = 'oryx_1BE4C8D8-E8A5-4D48-B59E-407E7B8E3F7A';
-        //---Cargo wf
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        $shape = $this->bpm->get_shape($resourceId, $wf);
-        $wf->idwf = $idwf;
-        $wf->case = $idcase;
-        /**
-         * Cancelo todos los tokens primero
-         */
-        $active_tokens = $this->bpm->get_pending($wf->idwf, $wf->case, array('user', 'waiting', 'pending'), array());
-        foreach($active_tokens as $token){
-            $token['status']='canceled';
-            $this->bpm->save_token($token);
-
-            }
-
-        $token = $this->bpm->get_token($idwf, $idcase, $resourceId);
-        //---creo un token falso
-        $token = $this->bpm->token_checkin($token, $wf, $shape);
-        $token['status'] = 'pending';
-        $this->bpm->save_token($token);
-        //---run_post($model, $idwf, $case, $resourceId)
-        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$resourceId";
-//        echo "<a href='$url'>click aquí</a>";
-        redirect($url);
-    }
-
-    function mini_status_resultado($idwf, $resourceId, $status) {
-
-        $this->user->authorize();
-        $this->load->model('bpm/bpm');
-        $this->load->library('parser');
-        $template = 'crefis/listar_proyectos';
-        $filter = array(
-            'idwf' => $idwf,
-            'resourceId' => $resourceId,
-            'status' => $status,
-        );
-
-        $tokens = $this->bpm->get_tokens_byFilter($filter, array(
-            'case',
-            'data',
-            'checkdate'
-                ), array(
-            'checkdate' => false
-        ));
-//        var_dump(json_encode($filter),count($tokens));
-
-
-        $data ['empresas'] = array_map(function ($token) {
-            // var_dump($token['_id']);
-            $case = $this->bpm->get_case($token ['case']);
-            $data = $this->bpm->load_case_data($case);
-
-            $url = (isset($data ['Proyectos_crefis']['id'])) ? '../dna2/RenderView/printvista.php?idvista=3597&idap=286&id=' . $data ['Proyectos_crefis'] ['id'] : '#';
-            $url_msg = (isset($token ['case'])) ? 'show_msgs/' . $token ['case'] : null;
-
-            /* crefis/COORDINADOR (134) */
-            $url_bpm_check = (in_array(134, $this->id_group)) ? '/bpm/engine/run/model/crefisGral/' . $token ['case'] : null;
-
-            $url_bpm = 0;
-            if (isset($url_bpm_check))
-                $url_bpm = $this->bpm->gateway($url_bpm_check);
-
-            /* STATUS */
-            $status = "N/A";
-            if (isset($data ['Proyectos_crefis'] ['4970'])) {
-                $this->load->model('app');
-                $option = $this->app->get_ops(772);
-                $status = $option[$data ['Proyectos_crefis'] ['4970'][0]];
-            }
-
-            return array(
-                '_d' => $token ['_id'],
-                'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas_4844'][0]['1693'])) ? $data['Empresas']['1693'] : '',
-                'cuit' => (isset($data['Empresas_4844'][0]['1695'])) ? $data['Empresas']['1695'] : '',
-                // 'Nro' => (isset($data ['Proyectos_crefis'] ['8339'])) ? $data ['Proyectos_crefis'] ['8339'] : 'N/A',
-                'estado' => $status,
-                'url_clone' => null,
-                'fechaent' => ($token ['checkdate']) ? date('d/m/Y', strtotime($token ['checkdate'])) : '???',
-                'link_open' => $this->bpm->gateway($url),
-                'link_msg' => $url_msg,
-                'url_bpm' => $url_bpm //---url de procesar tarea
-            );
-        }, $tokens);
-
-
-        $data ['count'] = count($tokens);
-        //---saco título para el resultado
-        $mywf = $this->bpm->load($idwf);
-        $wf = $this->bpm->bindArrayToObject($mywf ['data']);
-        //---tomo el template de la tarea
-        $shape = $this->bpm->get_shape($resourceId, $wf);
-        $add = ($status == 'user') ? 'En curso' : 'Finalizado';
-        $data['querystring'] = $shape->properties->name . ' / ' . $add;
-
-
-
-        $this->parser->parse($template, $data, false, true);
-    }
-
     function setup() {
         $this->user->authorize();
         echo Modules::run('bpm/kpi/import_kpi', 'crefis');
-    }
-
-    function eliminar_en_preparacion($process = false) {
-        $this->user->authorize();
-        $filter = array(
-            'resourceId' => 'oryx_B5BD09EE-57CF-41BC-A5D5-FAA1410804A5',
-            'status' => 'user',
-            'idwf' => 'crefisGral',
-        );
-
-        $tokens = $this->bpm->get_tokens_byFilter($filter, array('case'));
-        foreach ($tokens as $token) {
-            echo "Processing:" . $token['case'] . '<hr/>';
-            if ($process)
-                $this->bpm->delete_case('crefisGral', $token['case']);
-        }
     }
 
     function ministatus_pp() {
@@ -739,142 +177,7 @@ class expertos extends MX_Controller {
      * name proyects_amount
      * @author Diego Otero
      */
-    function proyects_amount($filtroproy = null) {
-
-        $this->user->authorize();
-        $this->load->model('crefis/crefis_model');
-
-        /* OPTIONS */
-        $this->load->model('app');
-        $option = $this->app->get_ops(772);
-
-        $llamado = (isset($filtroproy)) ? $filtroproy['llamado'] : array('$exists' => true);
-        $query = array('8335' => $llamado);
-
-        $cases = $this->crefis_model->get_cases_byFilter_container('crefisGral', 195, $query);
-        $cases_arr = array();
-        foreach ($cases as $case) {
-            $id = $case['data']['Proyectos_crefis']['query']['id'];
-            if (isset($id)) {
-                $query = array('id' => $id);
-                $values = $this->crefis_model->get_amount_stats_by_id($query);
-
-                $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
-                $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
-                $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
-
-                $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
-                $cases_arr[$option[$ctrl_value]][]  = (float) $amount;
-            }
-        }
-
-
-        foreach ($cases_arr as $key => $task) {
-            $new_task = array();
-            $new_task['status'] = $key;
-            $new_task['how_many'] = count($task);
-            $new_task['amount'] = "$" . @number_format(array_sum($task), 2, ",", ".");
-            $wfData['mini'][] = $new_task;
-        }
-
-
-        $wfData ['base_url'] = base_url();
-        $wf = $this->bpm->load('crefisGral');
-        $wfData += $wf ['data'] ['properties'];
-        $wfData ['name'] = 'Montos por Estados';
-
-        return $this->parser->parse('crefis/montos_estados', $wfData, true, true);
-    }
-
     /* REFACTOR */
-
-    function proyects_amount_ori() {
-        $this->user->authorize();
-        $state = $this->status_amounts();
-
-        foreach ($state as $key => $task) {
-
-            $new_task = array();
-            $new_task['status'] = $key;
-            $new_task['how_many'] = count($task);
-            $new_task['amount'] = "$" . @number_format(array_sum($task), 2, ",", ".");
-            $wfData['mini'][] = $new_task;
-        }
-
-        $wfData ['base_url'] = base_url();
-        $wf = $this->bpm->load('crefisGral');
-        $wfData += $wf ['data'] ['properties'];
-        $wfData ['name'] = 'Montos por Estados';
-
-        return $this->parser->parse('crefis/montos_estados', $wfData, true, true);
-    }
-
-    /**
-     * STATUS_AMOUNTS
-     *
-     * Description Calculate the amount  of money  in projects grouped by status
-     * name status_amounts
-     * @author Diego Otero
-     */
-    function status_amounts() {
-        $filter['idwf'] = 'crefisGral';
-        $querys = $this->get_amount_stats($filter);
-
-        /* OPTIONS */
-        $this->load->model('app');
-        $option = $this->app->get_ops(772);
-
-        foreach ($querys as $values) {
-
-            $ctrl_value = (isset($values[0][4970][0])) ? $values[0][4970][0] : $values[0][4970];
-            $value8326 = (isset($values[0][8326])) ? str_replace(",", ".", str_replace(".", "", $values[0][8326])) : 0;
-            $value8573 = (isset($values[0][8573])) ? str_replace(",", ".", str_replace(".", "", $values[0][8573])) : 0;
-
-
-            $amount = ($ctrl_value >= 30) ? $value8573 : $value8326;
-
-            foreach ($option as $opt => $desc) {
-                if ($opt == $ctrl_value)
-                    $cases_arr[$desc][] = (float) $amount;
-            }
-        }
-
-        return $cases_arr;
-    }
-
-    function get_amount_stats($filter) {
-        $this->load->model('crefis_model');
-        /* get ids */
-        $all_ids = array();
-        $arr_status = array();
-
-
-        $allcases = $this->bpm->get_cases_byFilter($filter, array('id', 'idwf', 'data'));
-
-        foreach ($allcases as $case) {
-            if (isset($case['data']['Proyectos_crefis']['query']))
-                $all_ids[] = $case['data']['Proyectos_crefis']['query'];
-        }
-
-
-        $get_value = array_map(function ($all_ids) {
-            return $this->crefis_model->get_amount_stats_by_id($all_ids);
-        }, $all_ids);
-
-
-
-        return $get_value;
-    }
-
-    /* END REFACTOR */
-
-    /**
-     * PROYECTS EVALUATOR
-     *
-     * Description
-     * name projects_evaluator
-     * @author Diego Otero
-     */
     function projects_evaluator() {
         $this->user->authorize();
         $state = $this->evaluator_projects();
@@ -926,101 +229,6 @@ class expertos extends MX_Controller {
      * name evaluator_projects
      * @author Diego Otero
      */
-    function evaluator_projects() {
-        $this->load->model('crefis_model');
-
-        $output = 'array';
-        $filter = array();
-
-        $filter['idwf'] = 'crefisGral';
-        $querys = $this->crefis_model->get_evaluator_by_project($filter);
-        //var_dump($querys);exit;
-
-        /* OPTIONS */
-        $this->load->model('app');
-        $option = $this->app->get_ops(772);
-
-
-        foreach ($querys[0] as $values) {
-
-            $ctrl_value = (isset($values[4970][0])) ? $values[4970][0] : $values[4970];
-
-
-            $evaluator_id = $values[8668][0];
-
-            list($filing_year, $filing_month, $filing_day) = explode("/", $values[8340]);
-            $filing_date = $filing_day . "/" . $filing_month . "/" . $filing_year;
-
-            $company_id = floatval($values[8325][0]);
-            $company = $this->crefis_model->get_company_by_project_by_id($company_id);
-
-            $proyect_array = array(
-                "project_ip" => $values[8339]
-                , "project_id" => $values['id']
-                , "status" => $option[$ctrl_value]
-                , "filing_date" => $filing_date
-                , "cuit" => $company[0][1695], "business_name" => $company[0][1693]
-            );
-            $cases_arr[$evaluator_id][] = $proyect_array;
-        }
-
-        return $cases_arr;
-    }
-
-    function ver_ficha($idwf, $idcase, $token, $id = null) {
-
-        $this->user->authorize();
-        $this->load->model('bpm/bpm');
-        $this->load->model('dna2/dna2old');
-        $dna2url = $this->dna2old->get('url');
-        if ($id) {
-            $url = $dna2url . "RenderEdit/editnew.php?idvista=1159&origen=V&idap=220&id=$id&idwf=$idwf&case=$idcase&token=$token";
-        } else {
-            $url = $dna2url . "RenderEdit/editnew.php?idvista=1159&origen=V&idap=220&idwf=$idwf&case=$idcase&token=$token";
-        }
-
-        $url = $this->bpm->gateway($url);
-        redirect($url);
-    }
-
-    function imprimir_proyecto($idwf, $idcase, $token, $id = null) {
-
-        $this->user->authorize();
-        $this->load->model('bpm/bpm');
-        $this->load->model('dna2/dna2old');
-        $dna2url = $this->dna2old->get('url');
-//         if ($id) {
-//             $url = $dna2url . "frontcustom/284/proyecto_crefis_preA_new.php?id=$id&idwf=$idwf&case=$idcase&token=$token";
-//         } else {
-//             show_error('El Caso no tiene id de proyecto');
-//         }
-//         $url = $this->bpm->gateway($url);
-//         redirect($url);
-        if ($id) {
-            $todo = $id . '&idwf=' . $idwf . '&case=' . $idcase . '&token=' . $token;
-            echo <<<BLOCK
-                <p align='left'>2. <a href="{$dna2url}frontcustom/231/externo.print.php?id=$todo" target="_blank">Imprimible del Proyecto</a></p>
-                <p align='left'>3. <a href="{$dna2url}frontcustom/284/ddjj_docu_crefis_preA.php?id=$id" target="_blank">Modelo de DJJ</a></p>-->
-                        
-BLOCK;
-        } else {
-            echo 'div class="alert alert-success" role="alert">El Caso no tiene id de proyecto</div>';
-        }
-    }
-
-    function fix_data($case = null) {
-        $debug = false;
-        $this->load->model('bpm/bpm');
-        $resourceId = $this->consolida_resrourceId;
-        $filter = ($case) ? array('idwf' => 'crefisGral', 'id' => $case) : array('idwf' => 'crefisGral');
-        $rs = $this->bpm->get_cases_byFilter($filter);
-        foreach ($rs as $case) {
-            if ($debug)
-                var_dump($case['id']);
-            $token = $this->bpm->consolidate_data('crefisGral', $case['id'], $resourceId);
-        }
-    }
-
     function Landing() {
         $this->Add_group();
         redirect($this->module_url);
@@ -1233,17 +441,6 @@ BLOCK;
             $cdata['title'] = "Notificaciones " . $title . ": ";
             echo Modules::run('inbox/show_msgs_by_filter', $filter, $cdata);
         }
-    }
-
-    function delegate_case() {
-
-        $this->load->model('crefis_model');
-        $idwf = 'crefisGral';
-        $idcase = 'XYIK';
-        $iduser_dest = -2101255759;
-
-        $update = $this->crefis_model->delegate_case_action($idwf, $idcase, $iduser_dest);
-        return $update;
     }
 
     function widget_2doMe2($chunk = 1, $pagesize = 2000) {
@@ -1601,64 +798,193 @@ BLOCK;
         }
         
     }*/
-    public function mass_up(){
-        $resourceId='oryx_A4F665D4-3F0D-4EBB-980E-689F527F092B';
+    
+    public function mass_count_cases(){
+        $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
         $this->load->module('bpm/case_manager');
         $this->load->module('bpm/engine');
         $modelo = 'Expertos_Base';
-        $model = 'expertos_model';
-        //$modelo2 = 'carga_pro_inst';
         $query=array(
             'idwf'=> $modelo
-           
+            
             );
-            
         $cases=$this->bpm->get_cases_byFilter($query);
-        echo "Mass up ".$modelo.":" .count($cases);
+        echo "Expertos:".count($cases);
+        $string = '<table>';
+        $i = 1;
         foreach($cases as $case){
-            //var_dump($case['resourceId']);
-//oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6
-            var_dump($case['idwf']);
-            var_dump($case['id']);
-            var_dump($case['iduser']);
-            
-            $rf = $this->$model->update_tokens($case['idwf'],$case['id'],$case['iduser']);
-            var_dump($rf);
+            //var_dump($case['data']['parent_data']['Empresas']['query']['id']['0']);
+            $idu=$case['iduser'];
+            //var_dump($idu);
+            $data_users = $this->expertos_model->get_users_data($idu);
+            $string = $string.'<tr><td>'.$i.'  </td><td> '.$data_users[0]['nick'].'  </td><td> '.$data_users[0]['name'].'  </td><td> '. $data_users[0]['lastname'].'  </td><td> '.$data_users[0]['email'].'  </td><td> '. $data_users[0]['phone'].' </td></tr>';
+            //var_dump($data_users);
+            $i ++;
+            //$this->case_manager->revert('model', $modelo, $case['id'], $resourceId);
+            //$this->engine->Run('model', $modelo, $case['id'],null, true);
+            //if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
+            //    $this->engine->Run('model', $modelo, $case['id'],null, true);
+            //}
+            //echo '<hr>';
         }
-        
+         $string = $string.'</table>';
+        echo $string;
+    }
+
+    function empresas_lite(){
+
+        $this->load->model('bpm/bpm');
+        $this->load->model('msg');
+        $this->lang->language;
+
+        $data['base_url'] = $this->base_url;
+        $data['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',
+        );
+     // Inbox
+         $data['inbox_count']=true;
+        $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+        $data['inbox_count_label_class']='success';
+     
+     // Tramites
+        $data['tramites_count']=true;
+        $data['tramites_count_label_class']='success';
+
+     // menu
+        $this->load->model('menu/menu_model');
+        $query = array('repoId' => 'tramites');
+        $repo = $this->menu_model->get_repository($query);
+  
+        $tree = Modules::run('menu/explodeExtTree',$repo,'/');
+  
+        $data['tramites_extra']=(empty($tree[0]->children))?($this->lang->line('no_cases')):($menu); ;
+     
+    // Mis tramites
+        $cases_count = $this->bpm->get_cases_byFilter_count(
+                array(
+            'iduser' => $this->idu,
+            'idwf' =>'Expertos_Empresas',
+            'status' => 'open',
+                ), array(), array('checkdate' => 'desc')
+        );
+        $query = array(
+            'assign' => $this->idu,
+            'idwf' => 'Expertos_Empresas',
+            'status' => 'user'
+        );
+        //var_dump(json_encode($query));exit;
+        $tasks_count = $this->bpm->get_tokens_byFilter_count($query);    
+        $data['mistramites_count']=true;
+        $data['mistramites_count_label_class']='success';
+        $data['mistramites_count_qtty']=$cases_count;
+        $data['mistramites_extra']="---- Extra ";
+    
+        // tasks 
+        $data['tareas_count']=true;
+        $data['tareas_count_label_class']='warning';
+        $data['tareas_count_qtty']=$tasks_count;
+    
+        $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
+    // Parse    
+        echo $this->parser->parse('expertos/empresas-lite', $data, true, true);
+    }
+
+    function experto_lite(){
+
+        $this->load->model('bpm/bpm');
+        $this->load->model('msg');
+        $this->lang->language;
+
+        $data['base_url'] = $this->base_url;
+        $data['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib',
+        );
+     // Inbox
+         $data['inbox_count']=true;
+        $data['inbox_count_qtty']=count($this->msg->get_msgs_by_filter(array('to'=>$this->idu,'folder'=>'inbox','read'=>false)));
+        $data['inbox_count_label_class']='success';
+     
+     // Tramites
+        $data['tramites_count']=true;
+        $data['tramites_count_label_class']='success';
+
+     // menu
+        $this->load->model('menu/menu_model');
+        $query = array('repoId' => 'tramites');
+        $repo = $this->menu_model->get_repository($query);
+  
+        $tree = Modules::run('menu/explodeExtTree',$repo,'/');
+  
+        $data['tramites_extra']=(empty($tree[0]->children))?($this->lang->line('no_cases')):($menu); ;
+     
+    // Mis tramites
+        $cases_count = $this->bpm->get_cases_byFilter_count(
+                array(
+            'iduser' => $this->idu,
+            'idwf' => array ('$in' => array('carga_pro_inst','Expertos_Base')),
+            'status' => 'open',
+                ), array(), array('checkdate' => 'desc')
+        );
+        $query = array(
+            'assign' => $this->idu,
+            'idwf' => array ('$in' => array('carga_pro_inst','Expertos_Base')),
+            'status' => 'user'
+        );
+        //var_dump(json_encode($query));exit;
+        $tasks_count = $this->bpm->get_tokens_byFilter_count($query);    
+        $data['mistramites_count']=true;
+        $data['mistramites_count_label_class']='success';
+        $data['mistramites_count_qtty']=$cases_count;
+        $data['mistramites_extra']="---- Extra ";
+    
+        // tasks 
+        $data['tareas_count']=true;
+        $data['tareas_count_label_class']='warning';
+        $data['tareas_count_qtty']=$tasks_count;
+    
+        $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
+    // Parse    
+        echo $this->parser->parse('expertos-lite', $data, true, true);
+    }    
+    
+    function empresas(){
+        $this->user->authorize();
+        $grupo_user = 'Expertos/Empresas';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
+        $this->Add_group($grupo_user);
+        Modules::run('dashboard/dashboard', 'expertos/json/empresas_lite.json',$debug = false, $extraData);    
     }
     
-    function buscador(){
+    function experto($debug = false){
+        $this->user->authorize();
+        $grupo_user = 'Expertos/Expertos';
+        $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
+        );        
+        $this->Add_group($grupo_user);
+        //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
+        Modules::run('dashboard/dashboard', 'expertos/json/expertos_lite.json',$debug, $extraData);        
+    }
     
+    function buscador_expertos(){
         $this->load->module('dashboard');
-        $renderData['title'] = "Buscador";
         $renderData['base_url'] = $this->base_url;
         $renderData['module_url'] = $this->module_url;
-        $renderData ['js'] = array(
-            $this->module_url . '/assets/jscript/buscador.js' => 'Buscador'
-        );
-        $renderData ['css'] = array(
-            $this->module_url . '/assets/css/buscador.css' => 'Buscador'
-        );        
+        $renderData['title'] = 'Consultar Nombre / Razón Social';
         $template="dashboard/widgets/box_info.php";
-        $renderData['tabla_contenido'] = "";
-        $renderData['content']= $this->parser->parse('buscador', $renderData, true, true);
+        $renderData['tabla_estado']= "";
+        $renderData['content']= $this->parser->parse('widget-buscador', $renderData, true, true);
         return $this->dashboard->widget($template, $renderData);
     }
     
-    function tabla($val, $type){
-        
-        $val = urldecode($val);
-
-        
-        if ($type == 'cuit' ){ 
-            $type = '1695';} else{
-                $type = '1693';
-            }
-
-        $data['data']= $this->expertos_model->get_company($type, $val);
-        echo $this->parser->parse('resultados', $data, true, true);
-    }
+    function reload_tabla($txt = null){
+        $this->load->module('pacc13/api13');
+        $this->load->module('dashboard');
+        $this->load->library('parser');
+        $renderData['base_url'] = $this->base_url;
+        $renderData['module_url'] = $this->module_url;    
+        $template="dashboard/widgets/box_info.php";
+        $renderData['expertos'] = $this->expertos_model->get_experto($txt);
+        echo $this->parser->parse('tabla-buscador', $renderData, true, true);
+    }     
     
 }
 
