@@ -1,0 +1,26 @@
+{
+    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
+    "title": "Portal Pyme",
+    "view": "layout_clean_collapsed",
+    "icon": "fa-users",
+    "zones": 
+    [
+{
+            "widgets": [        
+                {
+                    "title": "Perfil",
+                    "module": "perfil",
+                    "controller": "perfil",
+                    "function": "hub_registro",
+                    "box_icon":"fa-user",
+                    "box_class":["box","box-info"], 
+                    "box_buttons":["collapse"],
+                    "box_collapsed":"0"
+                }
+            ]
+        }
+    ],
+            "js": [{
+                "{base_url}dashboard/assets/jscript/lite.js": "Dash"
+            }]
+}

@@ -58,8 +58,10 @@ class Perfil extends MX_Controller {
                 redirect('perfil/emprendedor');
             }elseif(in_array(1030,$userdata->group)){
                  redirect('perfil/incubadora');
+
             }elseif(in_array(1014,$userdata->group)){
                  redirect('perfil/experto');
+                 
             }else{
                // $this->empresa();
                 show_error('No tiene permisos');
@@ -90,15 +92,27 @@ class Perfil extends MX_Controller {
 
     }
 
-    function registro_pyme() {
 
-
-    }
 
 
     # ====================================
     #   Empresa
     # ====================================
+
+    function registro_pyme() {
+
+        $mygroup=1027;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+
+        }
+         redirect('perfil/empresa');
+    }
+
 
     function Empresa($cuit=null,$debug=0) {
 
@@ -192,8 +206,23 @@ class Perfil extends MX_Controller {
     # ====================================
 
     function Incubadora($cuit=null,$debug=0) {
-        $this->load->module('dashboard');
-        $this->dashboard->dashboard('perfil/json/incubadora.json',$debug);
+         $this->load->module('dashboard');
+         $this->dashboard->dashboard('perfil/json/incubadora.json',$debug);
+    }
+
+
+    function registro_incubadora() {
+
+        $mygroup=1030;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+
+        }
+         redirect('perfil/incubadora');
     }
 
     # ====================================
@@ -205,6 +234,19 @@ class Perfil extends MX_Controller {
         $this->dashboard->dashboard('perfil/json/emprendedor.json',$debug);
     }
 
+    function registro_emprendedor() {
+
+        $mygroup=1029;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+
+        }
+         redirect('perfil/emprendedor');
+    }
 
 
     # ====================================
@@ -214,6 +256,19 @@ class Perfil extends MX_Controller {
     function Experto($cuit=null,$debug=0) {
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/experto.json',$debug);
+    }
+
+    function registro_experto() {
+
+        $mygroup=1014;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+        }
+         redirect('perfil/experto');
     }
 
     // function Experto() {

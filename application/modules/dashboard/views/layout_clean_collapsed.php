@@ -10,7 +10,7 @@ include('_header.php')
         <div class="wrapper row-offcanvas row-offcanvas-left hidden-print"><!-- Wrapper -->
 
             <!-- ======== MENU LEFT ======== --> 
-            <aside class="left-side sidebar-offcanvas ">
+            <aside class="left-side sidebar-offcanvas collapse-left">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <!-- /.search form -->
@@ -22,7 +22,7 @@ include('_header.php')
             <!--   -->
 
             <!-- ======== CONTENT AREA ======== --> 
-            <aside class="right-side">
+            <aside class="right-side strech">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>

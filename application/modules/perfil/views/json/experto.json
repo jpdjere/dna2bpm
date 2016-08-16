@@ -1,81 +1,74 @@
 {
-    "createdBy": "Gabriel Fojo <trialvd@gmail.com>",
-    "title": "Portal Expertos ",
-    "view": "layout_2cols",
-    "icon": "fa-users",
-    "zones": 
-    [
-{
-            "col1": [        
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Expertos",
+    "view": "layout_2cols_collapsed",
+    "icon": "fa-tasks",
+    "zones": [
+        {
+            "tiles": [
                 {
-                    "title": "Asocia CUIT",
-                    "module": "perfil",
-                    "controller": "perfil",
-                    "function": "asocia",
-                    "box_icon":"fa-user",
-                    "box_class":["box","box-info"], 
-                    "box_buttons":["collapse"],
-                    "box_collapsed":"0"
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_tasks2me",
+                    "span":3
                 },
                 {
-                    "title": "Programas aplicados",
-                    "module": "perfil",
-                    "controller": "perfil",
-                    "function": "programas",
-                    "box_icon":"fa-envelope",
-                    "box_class":["box","box-info"], 
-                    "box_buttons":["collapse"],
-                    "box_collapsed":"0"
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_tasks_done",
+                    "span":3
+                }
+                ,
+                {
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile_cases",
+                    "span":3
                 },
                 {
-                "title": "Noticias de interés",
-                "module": "perfil",
-                "controller": "perfil",
-                "function": "news",
-                "box_icon":"fa-news-paper-o",
-                "box_class":["box","box-info"],
-                "box_buttons":["collapse"],
-                "box_collapsed":"0"
-            }
+                    "title": "Tile01",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "tile",
+                    "params": ["cases_closed"],
+                    "span":3
+                }
+            ]
+        },
+        {
+            "col1": [
+                {
+                    "title": "2do",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_2doMe"
+                },
+                {
+                    "title": "2do",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_tasks_done"
+                }
             ]
         },
         {
             "col2": [
-            {
-                "title": "Mis empresas",
-                "module": "perfil",
-                "controller": "perfil",
-                "function": "profile",
-                "box_icon":"fa-user",
-                "box_class":["box","box-primary"], 
-                "box_buttons":["collapse"],
-                "box_collapsed":"0"
-            },
-            {
-            "title": "Eficacia del perfil",
-            "module": "perfil",
-            "controller": "perfil",
-            "function": "eficacia",
-            "box_icon":"fa-pie-chart",
-            "box_class":["box","box-primary"],
-            "box_buttons":["collapse"],
-            "box_collapsed":"0",
-             "js":[{"0":"knob"},{"{base_url}perfil/assets/jscript/portal.js":"Portal"}]
-             },
-             {             
-            "title": "Estadisticas generales",
-            "module": "perfil",
-            "controller": "perfil",
-            "function": "estadisticas",
-            "box_icon":"fa-area-chart",
-            "box_class":["box","box-primary"],
-            "box_buttons":["collapse"],
-            "box_collapsed":"0"
-             }
+                {
+                    "title": "Cases",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_cases"
+                },
+                {
+                    "title": "Cases Closed",
+                    "module": "bpm",
+                    "controller": "bpmui",
+                    "function": "widget_cases_closed"
+                }
             ]
         }
-    ],
-                "js": [{
-                "{base_url}dashboard/assets/jscript/lite.js": "Dash"
-            }]
+    ]
 }
