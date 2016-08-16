@@ -2,23 +2,8 @@
     "hooks": [
         {
             "name": "Hook Portal Pyme",
-            "group": [1027],
-            "redir": "perfil/empresa"
-        },
-        {
-            "name": "Hook Portal Emprendedores",
-            "group": [1029],
-            "redir": "perfil/emprendedor"
-        },
-        {
-            "name": "Hook Portal Incubadoras",
-            "group": [1030],
-            "redir": "perfil/incubadora"
-        },
-        {
-            "name": "Hook Portal Expertos",
-            "group": [1014],
-            "redir": "perfil/experto"
+            "group": [1000],
+            "redir": "perfil/index"
         },
         {
             "name": "Hook Genias",

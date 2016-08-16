@@ -37,10 +37,65 @@ class Perfil extends MX_Controller {
 
     }
 
-    function Index() {
-        
+
+
+    # ====================================
+    #   Hub
+    # ====================================
+
+    function Index($cuit=null,$debug=0) {
+        $this->load->model('user/user');
+        $userdata=$this->user->get_user($this->idu);
+        if(count($userdata->group)==1 && $userdata->group[0]==1000){
+            // registro nuevo va al hub
+            $this->hub();
+        }else{
+            var_dump($userdata->group);
+            // hook
+            if(in_array(1027,$userdata->group)){
+                redirect('perfil/empresa');
+            }elseif(in_array(1029,$userdata->group)){
+                redirect('perfil/emprendedor');
+            }elseif(in_array(1030,$userdata->group)){
+                 redirect('perfil/incubadora');
+            }elseif(in_array(1014,$userdata->group)){
+                 redirect('perfil/experto');
+            }else{
+               // $this->empresa();
+                show_error('No tiene permisos');
+            }   
+
+        }
+
+
+
     }
-    
+
+    function Hub($cuit=null,$debug=0) {
+
+         $this->load->module('dashboard');
+         $this->dashboard->dashboard('perfil/json/hub.json',$debug);
+
+    }
+
+
+    function Hub_registro($cuit=null,$debug=0) {
+
+        $customData['lang']= $this->lang->language;
+        $customData['base_url'] = $this->base_url;
+        $callout=array('body'=>$customData['lang']['text_registro'],'title'=>'');
+        echo $this->ui->callout($callout);
+        echo $this->parser->parse('perfil/hub', $customData, true, true);  
+
+
+    }
+
+    function registro_pyme() {
+
+
+    }
+
+
     # ====================================
     #   Empresa
     # ====================================
