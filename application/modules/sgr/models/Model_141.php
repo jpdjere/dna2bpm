@@ -213,8 +213,9 @@ class Model_141 extends CI_Model {
                 ));   
 
           $get=$this->sgr_db->command($query);   
-
-          return $get['result'][0];
+          
+          if($get['result'][0])
+            return $get['result'][0];
                  
     }
 
@@ -1005,15 +1006,30 @@ class Model_141 extends CI_Model {
         }
     }
 
+    
     function generate_report($parameter=array()) {
-       
+        
 
        $start_date = first_month_date($parameter['input_period_from']);
        $end_date = last_month_date($parameter['input_period_to']);
 
 
        $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
-       $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
+     #  $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
+
+       switch($parameter['sgr_id']){
+            case '666':
+                $sgr_id = array('$exists'  => true);
+            break;
+
+            case '777':
+                $sgr_id = array('$in'=>$parameter['sgr_id_array']);
+            break;
+
+            default:
+                $sgr_id = (float)$parameter['sgr_id'];
+            break;
+       }
 
 
         $query=array(
@@ -1031,26 +1047,25 @@ class Model_141 extends CI_Model {
                         '$match' => array (
                             'periodo.sgr_id' =>$sgr_id, 
                             'periodo.status'=>'activo' ,
+                            'CUIT_PARTICIPE'=> $socio,
                             'periodo.period_date' => array(
                                 '$gte' => $start_date, '$lte' => $end_date
                         ))                        
                       )                 
 
-                ));          
+                ));  
+
+              
         $get=$this->sgr_db->command($query);
-        
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter);         
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date); 
+
    }
    
 
-   function ui_table_xls($result, $anexo = null, $parameter) {    
+   function ui_table_xls($result, $anexo = null, $parameter, $end_date) {    
 
-
-        /* CSS 4 REPORT */
-        css_reports_fn();
-
-        $i = 1;
-
+        $rtn_msg = array('no_record');
+       
         $list = null;
         $this->sgr_model->del_tmp_general();
         
@@ -1079,7 +1094,7 @@ class Model_141 extends CI_Model {
             
 
             /* DEUDA SOCIO */
-             $balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
+            #$balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
             
 
             $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']);
@@ -1107,23 +1122,15 @@ class Model_141 extends CI_Model {
             $new_list['t'] = $list['filename'];
             $new_list['uquery'] = $parameter;
 
-            /* COUNT */
-            $increment = $i++;
-            report_account_records_fn($increment);
-
+          
             /* ARRAY FOR RENDER */
             $rtn[] = $new_list;
 
             /* SAVE RESULT IN TMP DB COLLECTION */
             $this->sgr_model->save_tmp_general($new_list, $list['id']);
+            $rtn_msg = array('ok');
         }
-
-        /* PRINT XLS LINK */
-        link_report_and_back_fn();
+        echo json_encode($rtn_msg);
         exit;
-
-        /* REFRESH AND SHOW LINK */
-        header("Location: $this->module_url_report");
-        exit();
     }
 }
