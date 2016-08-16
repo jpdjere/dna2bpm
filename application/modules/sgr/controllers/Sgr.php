@@ -82,7 +82,7 @@ class Sgr extends MX_Controller {
             ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
-        $this->sgr_mails_send_pending();
+        #$this->sgr_mails_send_pending();
     }
 
     /* INDEX */
