@@ -61,9 +61,24 @@
                     </div>
                 </div>
 
-                {/if}                
-                <!--  ROW 3  -->
-        
+                {/if}   
+                 <!--  Reporte  
+            <div class="row ">
+                <div class="form-group col-md-6">
+                    <label>Reporte</label> 
+                    <div class="input-group ">
+                        <select name="report_name" id="sgr" class="form-control required">
+                            <option value="A">A.- MOVIMIENTOS CAPITAL SOCIAL</option>
+                            <option value="B" disabled="disabled">B.- CUENTA CORRIENTE
+                                CAPITAL SOCIAL (No Disponible)</option>
+                            <option value="C" disabled="disabled">C.- SALDOS CAPITAL SOCIAL
+                                (No Disponible)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>-->
+
+            
             <div id="loading" class="col-md-12" style="display:none;margin-top:20px">
               <div class="box box-gray">
                 <div class="box-body">
