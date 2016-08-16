@@ -372,8 +372,8 @@ class Sgr extends MX_Controller {
         $sgr_data = $this->sgr_model->get_sgr_by_id_new($record['sgr_id']);
         $sgr = $sgr_data[1693];
 
-
-        $period = $record['period'];
+        if($sgr){
+            $period = $record['period'];
         $anexo = $record['anexo'];
         $anexo_name = $this->sgr_model->get_anexo($anexo);
 
@@ -420,7 +420,9 @@ class Sgr extends MX_Controller {
             }
         }
 
-    }
+    }  
+
+}
 
     /* UPLOAD FN */
 
