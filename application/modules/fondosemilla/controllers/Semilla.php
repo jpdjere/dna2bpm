@@ -339,7 +339,6 @@ function lite(){
      
 
     $data['tareas_extra']=Modules::run('bpm/bpmui/widget_cases');
-;
     // Parse    
      echo $this->parser->parse('lite', $data, true, true);
 }
@@ -401,13 +400,14 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['data'][$key]['provincia'] = $data['Personas_9915'][0]['5293'][0];        
         $renderData['data'][$key]['partido'] = $partidos[$data['Personas_9915'][0]['1788'][0]];
         $renderData['data'][$key]['localidad'] = $data['Personas_9915'][0]['1789'];
-        $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
-        $renderData['data'][$key]['dni'] = $data['Empresas_9893'][0]['1795'];        
+       // $renderData['data'][$key]['empresa'] = $data['Empresas_9893'][0]['1693'];        
+        $renderData['data'][$key]['dni'] = $data['Personas_9915'][0]['1795'];        
         $renderData['data'][$key]['monto_solicitado'] = $data['Fondosemillaproyectos']['10176'];        
         $renderData['data'][$key]['numero'] = $data['Fondosemillaproyectos']['10007'];
         $renderData['data'][$key]['actividad_principal'] = $actividades[$data['Fondosemillaproyectos'][9900][0]];
         $renderData['data'][$key]['incubadora'] = $incubadoras[$data['Fondosemillaproyectos'][10034][0]]['nombre'];
     }
+    
     
     $template='fondosemilla/exportar_xls';     
     switch($mode){
@@ -437,16 +437,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         
         $renderData['proyectos']= $this->Fondosemilla_model->proyectos_por_incubadora($incubadora);
         
+        
+
         $template = array (
-              '10007' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA',
-              '9917' => '-',
-              'pre_aprobados' => '-',
-              'aprobados' => '-',
-              'rechazados' => '-',
-              'proyectos_desembolsados' => '-',
-              'desembolso' => '-',              
-              'finalizados' => '-',
-              'realizados' => '-'
+              '10007' => 'NO SE REGISTRAN PROYECTOS PARA ESTA INCUBADORA'
               );
               
         if (count($renderData['proyectos']) == 0){
@@ -455,7 +449,9 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         else
         {       
             foreach($renderData['proyectos'] as &$proyecto){
-            $proyecto += $template;       
+            $proyecto['persona']= $this->Fondosemilla_model->get_persona($proyecto[9915][0]);            
+            $proyecto['persona'][5293] = $proyecto['persona'][5293][0]; 
+            $proyecto += $template;
             };
         }
        echo $this->parser->parse('tabla-incubadoras', $renderData, true, true);
@@ -475,12 +471,12 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->dashboard->widget($template, $renderData);
     }
     
-    function reportes_casos_por_cuit(){
+    function reportes_casos_por_dni(){
         $this->load->module('dashboard');
         $this->load->module('pacc13/api13');
         $renderData['base_url'] = $this->base_url;
         $renderData['module_url'] = $this->module_url;
-        $renderData['title'] = 'Consultar Casos por CUIT o DNI';
+        $renderData['title'] = 'Consultar Casos por DNI';
         $template="dashboard/widgets/box_info.php";
         $filter="";
         $renderData['tabla_estado']= "";
@@ -488,7 +484,7 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->dashboard->widget($template, $renderData);
     }
     
-    function reload_reportes_casos_por_cuit($id = null){
+    function reload_reportes_casos_por_dni($id = null){
         $this->load->module('pacc13/api13');
         $this->load->module('dashboard');
         $this->load->library('parser');
@@ -500,7 +496,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $renderData['casos'][$key]['token'] = $val['_id']->{'$id'}; 
         $renderData['casos'][$key]['idcase'] = $val['id'];
         }
-        foreach ($renderData['casos'] as &$caso){
+        foreach ($renderData['casos'] as $key => &$caso){
+            if (!isset($caso['Fondosemillaproyectos'])){ 
+                unset($renderData['casos'][$key]);
+            }
             $caso['Personas_9915'] = $caso['Personas_9915'][0];
         }
         echo $this->parser->parse('tabla-buscador', $renderData, true, true);

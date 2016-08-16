@@ -16,7 +16,6 @@
                 <td>{Personas_9915 1784}</td>
                 <td>{Personas_9915 1786}</td>
                 <td><a target="_blank" href="http://dna2.produccion.gob.ar/dna2/RenderEdit/editnew.php?idvista=4138&idap=297&idwf=fondo_semilla2016&token={token}&case={idcase}"><i class="fa fa-play"></i></a></td>
-
                 </tr>
                 {/casos}
           </tbody>
