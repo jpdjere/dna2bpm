@@ -78,7 +78,16 @@ class expertos_model extends CI_Model {
         $result = $this->db->get($container)->result_array();
         return $result;
     }  
-    
+    function get_users_data($idu) {
+
+        $rtn = array();
+        $container = 'users';
+        $query = array( 'idu' => $idu,
+                      );
+        $this->db->where($query);
+        $result = $this->db->get($container)->result_array();
+        return $result;
+    }  
     
     
     
