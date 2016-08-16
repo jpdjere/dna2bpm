@@ -67,7 +67,7 @@
                 "title": "Reportes Incubadora",
                 "module": "fondosemilla",
                 "controller": "semilla",
-                "function": "reportes_casos_por_cuit"
+                "function": "reportes_casos_por_dni"
                 }]
             
         }
