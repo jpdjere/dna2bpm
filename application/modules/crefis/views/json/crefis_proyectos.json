@@ -31,6 +31,12 @@
                 "controller": "kpi",
                 "function": "tile",
                 "params": ["crefisGral", "crefisGral_AA"]
+            },{
+                "title": "Rendiciones",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "params": ["crefisRend", "crefisRend_PD"]
             }
         ]
     }, {
