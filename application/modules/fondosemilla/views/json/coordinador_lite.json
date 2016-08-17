@@ -11,7 +11,7 @@
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "span": 4,
+                "span": 3,
                 "params": ["fondo_semilla2016", "fondo_semilla2016_ZK", "tile-blue-custom"]
             },
             {
@@ -19,7 +19,7 @@
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "span": 4,
+                "span": 3,
                 "params": ["fondo_semilla2016", "fondo_semilla2016_ZW", "tile-blue-custom"]
             },
             {
@@ -27,9 +27,17 @@
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "span": 4,
+                "span": 3,
                 "params": ["fondo_semilla2016", "fondo_semilla2016_RE", "tile-blue-custom"]
-            },             
+            },
+            {
+                "title": "Selección de Incubadora",
+                "module": "bpm",
+                "controller": "kpi",
+                "function": "tile",
+                "span": 3,
+                "params": ["fondo_semilla2016", "fondo_semilla2016_PQ", "tile-blue-custom"]
+            }, 
             {
                 "title": "Carga Plan de Negocios",
                 "module": "bpm",
