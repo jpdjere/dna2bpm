@@ -106,7 +106,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -219,7 +218,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -243,7 +241,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -268,7 +265,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
         }
