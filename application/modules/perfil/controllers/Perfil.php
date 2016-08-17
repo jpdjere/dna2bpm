@@ -245,7 +245,7 @@ class Perfil extends MX_Controller {
             $this->user->put_user($data);
 
         }
-         redirect('perfil/emprendedor');
+         redirect('fondosemilla/semilla');
     }
 
 
