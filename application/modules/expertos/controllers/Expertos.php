@@ -857,7 +857,7 @@ class expertos extends MX_Controller {
             $id_case=$case['case']; 
             
             $query1=array(
-            'idwf'=> $modelo,
+            'idwf'=> 'carga_pro_inst',
             'id'=>$id_case
             );
             $cases1=$this->bpm->get_cases_byFilter($query1);
