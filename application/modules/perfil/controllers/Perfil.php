@@ -101,11 +101,12 @@ class Perfil extends MX_Controller {
 
     function registro_pyme() {
 
-        $mygroup=array(1027,8);
+        $mygroup=1027;
         $user=$this->user->get_user($this->idu);
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
+            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -213,11 +214,12 @@ class Perfil extends MX_Controller {
 
     function registro_incubadora() {
 
-        $mygroup=array(1030,8);
+        $mygroup=1030;
         $user=$this->user->get_user($this->idu);
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
+            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -241,6 +243,7 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
+            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -260,11 +263,12 @@ class Perfil extends MX_Controller {
 
     function registro_experto() {
 
-        $mygroup=array(1014,8);
+        $mygroup=1014;
         $user=$this->user->get_user($this->idu);
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
+            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
         }
