@@ -798,17 +798,56 @@ class expertos extends MX_Controller {
         }
         
     }*/
-    
-    public function mass_count_cases(){
-        $resourceId='oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD';
+    public function mass_count_cases_dir(){
+        $resourceId='oryx_6D62D76F-20D0-4DF5-A56D-AE1731BFCDA8';
         $this->load->module('bpm/case_manager');
         $this->load->module('bpm/engine');
         $modelo = 'Expertos_Base';
         $query=array(
-            'idwf'=> $modelo
+            'idwf'=> $modelo,
+            'resourceId'=>$resourceId,
+            'status'=>'user'
             
             );
-        $cases=$this->bpm->get_cases_byFilter($query);
+        //var_dump($query);
+        //exit();
+        $cases=$this->bpm->get_tokens_byFilter($query);
+        echo "Expertos:".count($cases);
+        $string = '<table>';
+        $i = 1;
+        foreach($cases as $case){
+            //var_dump($case['data']['parent_data']['Empresas']['query']['id']['0']);
+            $idu=$case['iduser'];
+            //var_dump($idu);
+            $data_users = $this->expertos_model->get_users_data($idu);
+            $string = $string.'<tr><td>'.$i.'  </td><td> '.$data_users[0]['nick'].'  </td><td> '.$data_users[0]['name'].'  </td><td> '. $data_users[0]['lastname'].'  </td><td> '.$data_users[0]['email'].'  </td><td> '. $data_users[0]['phone'].' </td></tr>';
+            //var_dump($data_users);
+            $i ++;
+            //$this->case_manager->revert('model', $modelo, $case['id'], $resourceId);
+            //$this->engine->Run('model', $modelo, $case['id'],null, true);
+            //if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
+            //    $this->engine->Run('model', $modelo, $case['id'],null, true);
+            //}
+            //echo '<hr>';
+        }
+         $string = $string.'</table>';
+        echo $string;
+    }
+    
+    public function mass_count_cases_exp(){
+        $resourceId='oryx_F99531B2-44B0-4308-ACB0-79C03B9824B6';
+        $this->load->module('bpm/case_manager');
+        $this->load->module('bpm/engine');
+        $modelo = 'Expertos_Base';
+        $query=array(
+            'idwf'=> $modelo,
+            'resourceId'=>$resourceId,
+            'status'=>'user'
+            
+            );
+        //var_dump($query);
+        //exit();
+        $cases=$this->bpm->get_tokens_byFilter($query);
         echo "Expertos:".count($cases);
         $string = '<table>';
         $i = 1;
