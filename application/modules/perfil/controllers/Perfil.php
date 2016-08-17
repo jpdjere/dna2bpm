@@ -55,7 +55,7 @@ class Perfil extends MX_Controller {
             if(in_array(1027,$userdata->group)){
                 redirect('perfil/empresa');
             }elseif(in_array(1029,$userdata->group)){
-                redirect('perfil/emprendedor');
+                redirect('fondosemilla/semilla');
             }elseif(in_array(1030,$userdata->group)){
                  redirect('perfil/incubadora');
 
@@ -106,7 +106,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -219,7 +218,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -243,7 +241,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
 
@@ -268,7 +265,6 @@ class Perfil extends MX_Controller {
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
             $user->group[]=$mygroup;
-            $user->group[]=8;
             $data['group']=$user->group;
             $this->user->put_user($data);
         }
