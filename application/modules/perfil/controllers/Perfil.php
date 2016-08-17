@@ -35,6 +35,12 @@ class Perfil extends MX_Controller {
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
+        define('LINK_INCUBADORA','perfil/incubadora');
+        define('LINK_EMPRESA','perfil/empresa');
+        define('LINK_EMPRENDEDOR','fondosemilla/semilla');
+        define('LINK_EXPERTO','perfil/experto');
+
+
     }
 
 
@@ -53,15 +59,18 @@ class Perfil extends MX_Controller {
             var_dump($userdata->group);
             // hook
             if(in_array(1027,$userdata->group)){
-                redirect('perfil/empresa');
+                //pyme
+                redirect(LINK_EMPRESA);
             }elseif(in_array(1029,$userdata->group)){
-                redirect('perfil/emprendedor');
+                //emprendedor
+                redirect(LINK_EMPRENDEDOR);
             }elseif(in_array(1030,$userdata->group)){
-                 redirect('perfil/incubadora');
+                //incubadora
+                 redirect(LINK_INCUBADORA);
 
             }elseif(in_array(1014,$userdata->group)){
-                 redirect('perfil/experto');
-                 
+                //experto
+                 redirect(LINK_EXPERTO);
             }else{
                // $this->empresa();
                 show_error('No tiene permisos');
@@ -110,7 +119,7 @@ class Perfil extends MX_Controller {
             $this->user->put_user($data);
 
         }
-         redirect('perfil/empresa');
+         redirect(LINK_EMPRESA);
     }
 
 
@@ -222,7 +231,7 @@ class Perfil extends MX_Controller {
             $this->user->put_user($data);
 
         }
-         redirect('perfil/incubadora');
+         redirect(LINK_INCUBADORA);
     }
 
     # ====================================
@@ -245,7 +254,7 @@ class Perfil extends MX_Controller {
             $this->user->put_user($data);
 
         }
-         redirect('perfil/emprendedor');
+         redirect(LINK_EMPRENDEDOR);
     }
 
 
@@ -268,7 +277,7 @@ class Perfil extends MX_Controller {
             $data['group']=$user->group;
             $this->user->put_user($data);
         }
-         redirect('perfil/experto');
+         redirect(LINK_EXPERTO);
     }
 
     // function Experto() {

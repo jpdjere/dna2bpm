@@ -15,7 +15,7 @@ include('_header_clean.php')
                 <section class="sidebar">
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
-                    {menu}xx
+                    {menu}xx    
                 </section>
                 <!-- /.sidebar -->
             </aside>

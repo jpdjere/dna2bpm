@@ -301,45 +301,36 @@ class Model_061 extends CI_Model {
         return $rtn;
     }
 
-    /* REPORT */
+   
+    /**
+     * Nuevo Reporte Anexo 061
+     *
+     * @name generate_report
+     *
+     * @see SGR()
+     *
+     * @author Diego Otero <daotero@industria.gob.ar>
+     *
+     * @date Apr 19, 2016
+     *
+     * @param type $query
+     */
 
-    function header_arr() {
-        $headerArr = array('SGR'
-            , 'ID'
-            , 'EJERCICIO'
-            , 'PERIODO'
-            , 'TIPO DE SOCIO'
-            , 'CUIT SOCIO INCORPORADO'
-            , 'SOCIO INCORPORADO'
-            , 'TIENE VINCULACION'
-            , 'CUIT VINCULADO'
-            , 'RAZON SOCIAL VINCULADO'
-            , 'TIPO RELACION VINCULACION'
-            , 'PORCENTAJE ACCIONES'
-            , 'PARTICIPE'
-            , 'PROTECTOR'
-            , 'FILENAME');
+     
 
-        return $headerArr;
-    }
+     function get_link_report($anexo) {
 
-    function get_link_report($anexo) {
-
-
-
-        $headerArr = $this->header_arr();
-
+        $headerArr = header_arr($anexo);
+        $title_report = $this->sgr_model->get_anexo($anexo);
+        
         $data[] = array($headerArr);
         $anexoValues = $this->sgr_model->last_report_general();
-
-
 
         if (!$anexoValues) {
             return false;
         } else {
             foreach ($anexoValues as $values) {
-
-                $header = '<h2>Reporte  RELACIONES DE VINCULACION </h2><h3>PER&Iacute;ODO/S: ' . $values['query']['input_period_from'] . ' a ' . $values['query']['input_period_to'] . '</h3>';
+                $header = '<h2>Reporte '.$anexo.' - '.strtoupper($title_report['title']).' </h2><h3>PERIODO/S: ' . $values['uquery']['input_period_from'] . ' a ' . $values['uquery']['input_period_to'] . '</h3>';
 
                 unset($values['_id']);
                 unset($values['id']);
@@ -350,108 +341,68 @@ class Model_061 extends CI_Model {
         }
     }
 
-    function get_anexo_report($anexo, $parameter) {
+    function generate_report($parameter=array()) {
+       
 
-        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
-
-        /* HEADER TEMPLATE */
-        $header_data = array();
-        $header_data['input_period_to'] = $input_period_to;
-        $header_data['input_period_from'] = $input_period_from;
-        $header = $this->parser->parse('reports/form_' . $anexo . '_header', $header_data, TRUE);
-        $tmpl = array('data' => $header);
-
-        $data = array($tmpl);
-
-        $anexoValues = $this->get_anexo_data_report($anexo, $parameter);
-        foreach ($anexoValues as $values) {
-            $data[] = array_values($values);
-        }
-        $this->load->library('table_custom');
-        $newTable = $this->table_custom->generate($data);
-
-        return $newTable;
-    }
-
-    function get_anexo_data_report($anexo, $parameter) {
-
-        if (!isset($parameter)) {
-            return false;
-            exit();
-        }
-
-        header('Content-type: text/html; charset=UTF-8');
-        $rtn = array();
-
-        $input_period_from = ($parameter['input_period_from']) ? : '01_1990';
-        $input_period_to = ($parameter['input_period_to']) ? : '12_' . date("Y");
+       $start_date = first_month_date($parameter['input_period_from']);
+       $end_date = last_month_date($parameter['input_period_to']);
 
 
+       $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
+       switch($parameter['sgr_id']){
+            case '666':
+                $sgr_id = array('$exists'  => true);
+            break;
 
-        $start_date = first_month_date($input_period_from);
-        $end_date = last_month_date($input_period_to);
+            case '777':
+                $sgr_id = array('$in'=>$parameter['sgr_id_array']);
+            break;
 
-        /* GET PERIOD */
-        $period_container = 'container.sgr_periodos';
-        $query = array(
-            'anexo' => $anexo,
-            'status' => "activo",
-            'period_date' => array(
-                '$gte' => $start_date, '$lte' => $end_date
-            )
-        );
-
-        if ($parameter['sgr_id'] != 666)
-            $query["sgr_id"] = (float) $parameter['sgr_id'];
-
-        $period_result = $this->mongowrapper->sgr->$period_container->find($query);
-        $container = 'container.sgr_anexo_' . $anexo;
-
-        $new_query = array();
-        $new_query_2 = array();
-        foreach ($period_result as $results) {
-            $period = $results['period'];
-            $new_query[] = array("filename" => $results['filename']);
-        }
+            default:
+                $sgr_id = (float)$parameter['sgr_id'];
+            break;
+       }
 
 
+        $query=array(
+                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
+                'pipeline'=>
+                  array(                       
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_periodos' ,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'periodo')                        
+                      ),
+                      array (
+                        '$match' => array (
+                            'periodo.sgr_id' =>$sgr_id, 
+                            'periodo.status'=>'activo', 
+                            'periodo.period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                        ))                        
+                      )                 
 
-        $or1 = array('$or' => $new_query);
-        $or2 = array('$or' => $new_query_2);
+                ));  
 
-        $query = array('$and' => array($or1, $or2));
+              
+        $get=$this->sgr_db->command($query);
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);          
+   }
 
-
-        if (empty($new_query_2))
-            $query = $or1;
-
-
-
-        if (!empty($new_query))
-            $result_arr = $this->mongowrapper->sgr->$container->find($query);
-
-        /* TABLE DATA */
-        return $this->ui_table_xls($result_arr, $anexo, $parameter);
-    }
-
-    function ui_table_xls($result, $anexo = null, $parameter) {
-
-
-
-
-        /* CSS 4 REPORT */
-        css_reports_fn();
-
-        $i = 1;
-
+   function ui_table_xls($result, $anexo = null, $parameter) {   
+  
+        $rtn_msg = array('no_record');
+        
         $list = null;
+        
         $this->sgr_model->del_tmp_general();
 
         foreach ($result as $list) {
-
-
-            $brand_name = $list['1693'];
+           
+            if(isset($list['1693']))
+                $brand_name = $list['1693'];
 
 
             $partner_type = $this->app->get_ops(532);
@@ -464,6 +415,9 @@ class Model_061 extends CI_Model {
             $type_partner = $this->model_06->partner_type($list['CUIT_SOCIO_INCORPORADO'], $list['sgr_id']);
 
             /* SHARER */
+            $type_partner_inc_value_sharer = null;
+            $type_partner_inc_value = null;
+
             $type_partner_inc_sharer = $this->model_06->partner_type_linked_sharer((string) $list['CUIT_VINCULADO']);
             if (isset($type_partner_inc_sharer)) {
                 foreach ($type_partner_inc_sharer as $partner_inc_sharer)
@@ -512,26 +466,16 @@ class Model_061 extends CI_Model {
             $new_list['m'] = $es_participe;
             $new_list['n'] = $es_protector;
             $new_list['o'] = $list['filename'];
-            $new_list['query'] = $parameter;
-            $rtn[] = $new_list;
-            /* COUNT */
-            $increment = $i++;
-            report_account_records_fn($increment);
+            $new_list['uquery'] = $parameter;
 
-            /* ARRAY FOR RENDER */
+           /* ARRAY FOR RENDER */
             $rtn[] = $new_list;
 
             /* SAVE RESULT IN TMP DB COLLECTION */
             $this->sgr_model->save_tmp_general($new_list, $list['id']);
+            $rtn_msg = array('ok');
         }
-
-        /* PRINT XLS LINK */
-        link_report_and_back_fn();
+        echo json_encode($rtn_msg);
         exit;
-
-        /* REFRESH AND SHOW LINK */
-        header("Location: $this->module_url_report");
-        exit();
     }
-
 }
