@@ -101,7 +101,7 @@ class Perfil extends MX_Controller {
 
     function registro_pyme() {
 
-        $mygroup=1027;
+        $mygroup=array(1027,8);
         $user=$this->user->get_user($this->idu);
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
@@ -213,7 +213,7 @@ class Perfil extends MX_Controller {
 
     function registro_incubadora() {
 
-        $mygroup=1030;
+        $mygroup=array(1030,8);
         $user=$this->user->get_user($this->idu);
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
@@ -260,7 +260,7 @@ class Perfil extends MX_Controller {
 
     function registro_experto() {
 
-        $mygroup=1014;
+        $mygroup=array(1014,8);
         $user=$this->user->get_user($this->idu);
         $data['idu']=$this->idu;
         if(!in_array($mygroup,$user->group)){
