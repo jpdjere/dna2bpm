@@ -8,7 +8,13 @@
         <div class="box-body" style="min-height:170px">
 
            <p>Aplicá a todos los programas y beneficios de Financiamiento, Capacitación, Asistencia Técnica y Beneficios Impositivos que existen para las PyMEs desde el Portal.</p>
-            <p>Dentro del Portal podrás consultar la instancia y avance de los mismos.</p>
+<p>Dentro del Portal podrás aplicar a los programas:
+<ul>
+<li>Capacitación PyME</li>
+<li>PAC Empresas</li>
+<li>Expertos PyME</li>
+</ul>
+</p>
             
         </div>
         <div class="box-footer">
@@ -24,8 +30,13 @@
             <h3 class="box-title">Registro Emprendedores</h3>
         </div>
         <div class="box-body" style="min-height:170px">
-            <p>Aplicá a los programas de Financiamiento, Capacitación y Asistencia que existen en el Portal de la Secretaría.
-</p><p>Dentro del Portal podrás aplicar: al programa Fondo Semilla</p>
+<p>Aplicá a los programas de Financiamiento, Capacitación y Asistencia que existen en el Portal de la Secretaría.
+</p>
+<p>Dentro del Portal podrás aplicar al programa:
+<ul>
+<li>Fondo Semilla</li>
+</ul>
+</p>
 
         </div>
             <div class="box-footer">
