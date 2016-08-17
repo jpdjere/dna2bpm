@@ -1277,6 +1277,7 @@ function link_report_and_back_fn() {
     echo $link;
 }
 
+/*BORRAR CUANDO ESTEN UPDATEADOS TODOS LOS REPORTES*/
 function css_reports_fn() {
     $css_link = '<link rel="stylesheet" href="/dna2bpm/sgr/assets/jscript/bootstrap/css/bootstrap.min.css" /> 
         <link rel="stylesheet" href="/dna2bpm/sgr/assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
@@ -1332,6 +1333,32 @@ function header_arr($anexo) {
             , 'ORIGEN'
             , 'FECHA AAAA/MM'
             , 'Archivo SIPRIN SGR');
+        break;
+
+        case '125':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'SOCIO PARTICIPE'
+            , 'C.U.I.T'
+            , 'ACREEDOR'
+            , 'C.U.I.T'
+            , 'SALDO GTIAS. COMERCIALES'
+            , 'SALDO GTIAS. FINANCIERA'
+            , 'SALDO GTIAS. TECNICAS'
+            , 'TOTAL'
+            , 'Archivo SIPRIN SGR');      
+        break;
+
+         case '126':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'COMISIONES DEVENGADAS POR OTORGAMIENTO DE GARANTIAS EN EL PERIODO'
+            , 'COMISIONES DEVENGADAS POR GARANTÍAS OTORGADAS EN PERIODO PREVIO'
+            , 'PREVIOS COMISIONES DEVENGADAS POR ADMINISTRACION DE FONDO DE RIESGO'
+            , 'COMISIONES DEVENGADAS POR ASESORAMIENTO'
+            , 'Archivo SIPRIN SGR');      
         break;
 
         case '141':

@@ -1619,8 +1619,6 @@ class Model_06 extends CI_Model {
               
         $get=$this->sgr_db->command($query);
         $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
-        var_dump($get['result']); 
-         
    }
 
    function ui_table_xls($result, $anexo = null, $parameter) {   
