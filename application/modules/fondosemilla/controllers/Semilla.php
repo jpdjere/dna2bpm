@@ -514,6 +514,18 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         var_dump($data);
         exit;
     }
+    
+    function tile_total(){
+        $this->load->module('dashboard');
+        $data['title'] ="N° de Inscripciones Registradas";
+        $data['icon']= "ion-person-stalker";
+        $data['base_url'] = $this->base_url;
+        $data['module_url'] = $this->module_url;
+        $data['number'] =count($this->Fondosemilla_model->proyectos());
+
+        return $this->parser->parse('dashboard/tiles/tile-green', $data, true, true);
+    }    
+    
 }
 
 /* End of file crefis */
