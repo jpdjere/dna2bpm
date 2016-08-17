@@ -29,6 +29,13 @@ class Model_06 extends CI_Model {
         }
 
         /* DATOS SGR */
+
+
+        $this->sgr_id = null;
+        $this->sgr_nombre = null;
+        $this->sgr_cuit = null;
+
+
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
@@ -812,7 +819,8 @@ class Model_06 extends CI_Model {
         $anexo = $this->anexo;
         $period = 'container.sgr_periodos';
         $container = 'container.sgr_anexo_' . $anexo;
-        $period_value = $this->session->userdata['period'];
+        if(isset($this->session->userdata['period']))
+            $period_value = $this->session->userdata['period'];
 
 
 
@@ -864,7 +872,8 @@ class Model_06 extends CI_Model {
         if (isset($new_result))
             $return_result[] = $new_result;
 
-        return $return_result;
+        if(isset($return_result))
+            return $return_result;
     }
 
     /* SHARER */
@@ -880,7 +889,8 @@ class Model_06 extends CI_Model {
         if (isset($new_result))
             $return_result[] = $new_result;
 
-        return $return_result;
+        if(isset($return_result))
+            return $return_result;
     }
 
     /* PARTNERS INFO ONLY CURRENT ANEXO #23556 */

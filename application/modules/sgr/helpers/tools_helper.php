@@ -29,10 +29,13 @@ function percent_format_custom($parameter) {
         $parameter = 0;
     }
 
-    if ($_POST['excel'] == 1) {
-        $parameter = @number_format($parameter, 2, ",", ".");
-    } else {
-        $parameter = @number_format($parameter, 2, ",", ".") . "%";
+    
+    if(isset($_POST['excel'])){
+        if ($_POST['excel'] == 1) {
+            $parameter = @number_format($parameter, 2, ",", ".");
+        } else {
+            $parameter = @number_format($parameter, 2, ",", ".") . "%";
+        }
     }
     return $parameter;
 }
@@ -1298,6 +1301,39 @@ function header_arr($anexo) {
         case '06':
         $headerArr = array('SGR', 'CUIT SGR', 'ID', 'Periodo', 'Tipo de Operacion', 'Tipo de Socio (A/B)', 'C.U.I.T.', 'Apellido y nombre o Razon Social', 'Provincia', 'Partido / Municipio / Comuna', 'Localidad', 'Codigo Postal', 'Calle', 'Nro.', 'Piso', 'Dto. / Oficina', 'Telefono 1', 'Telefono 2', 'E-mail', 'Pagina Web', 'Codigo', 'Sector', 'Mes/Ano 1', 'Monto 1', 'Tipo Origen 1', 'Mes/Ano 2', 'Monto 2', 'Tipo Origen 2', 'Mes/Ano 3', 'Monto 3', 'Tipo Origen 3', 'Facturacion Promedio', 'Tipo de Empresa', 'Condicion de Inscripcion AFIP', 'Cantidad de Empleados al Cierre del ultimo Ejercicio', 'Tipo de Acta', 'Fecha', 'Acta Nro.', 'Fecha de transaccion', 'Modalidad de compra de acciones', 'Capital Suscripto', 'Capital Integrado', 'CUIT Cedente', 'Apellido y nombre o Razon Social Cedemte', 'Caracter del Cedente', 'Archivo SIPRIN SGR');
         break;
+
+        case '061':
+            $headerArr = array('SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'TIPO DE SOCIO'
+            , 'CUIT SOCIO INCORPORADO'
+            , 'SOCIO INCORPORADO'
+            , 'TIENE VINCULACION'
+            , 'CUIT VINCULADO'
+            , 'RAZON SOCIAL VINCULADO'
+            , 'TIPO RELACION VINCULACION'
+            , 'PORCENTAJE ACCIONES'
+            , 'PARTICIPE'
+            , 'PROTECTOR'
+            , 'Archivo SIPRIN SGR');
+        break;
+
+        case '062':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'CUIT'
+            , 'RAZON SOCIAL'
+            , 'EMPLEADOS'
+            , 'FACTURACION'
+            , 'ORIGEN'
+            , 'FECHA AAAA/MM'
+            , 'Archivo SIPRIN SGR');
+        break;
+
         case '141':
             $headerArr = array('SGR', 'CUIT SGR', 'ID', 'PERIODO', 'C.U.I.T', 'SOCIO PARTICIPE', 'CANT GTIAS VIGENTES', 'MONTO DE GARANTIAS VIGENTES', 'HIPOTECARIAS', 'PRENDARIAS', 'FIANZA', 'OTRAS', 'TOTAL', 'REAFIANZA', 'MORA EN DIAS', 'CLASIFICACION DEUDOR', 'MONTO ADEUDADO', 'CANTIDAD GARANTIAS AFRONTADAS', 'CANTIDAD GARANTIAS', 'Archivo SIPRIN SGR');        
         break;
