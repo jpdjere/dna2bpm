@@ -853,12 +853,23 @@ class expertos extends MX_Controller {
         $i = 1;
         foreach($cases as $case){
             //var_dump($case['data']['parent_data']['Empresas']['query']['id']['0']);
-            $idu=$case['iduser'];
+            
+            $id_case=$case['case']; 
+            
+            $query1=array(
+            'idwf'=> 'carga_pro_inst',
+            'id'=>$id_case
+            );
+            $cases1=$this->bpm->get_cases_byFilter($query1);
+            foreach($cases1 as $case1){
+                $idu=$case1['iduser'];
+            
             //var_dump($idu);
             $data_users = $this->expertos_model->get_users_data($idu);
             $string = $string.'<tr><td>'.$i.'  </td><td> '.$data_users[0]['nick'].'  </td><td> '.$data_users[0]['name'].'  </td><td> '. $data_users[0]['lastname'].'  </td><td> '.$data_users[0]['email'].'  </td><td> '. $data_users[0]['phone'].' </td></tr>';
             //var_dump($data_users);
             $i ++;
+            }
             //$this->case_manager->revert('model', $modelo, $case['id'], $resourceId);
             //$this->engine->Run('model', $modelo, $case['id'],null, true);
             //if($case['token_status']['oryx_D86216E3-A7DA-49DF-9886-AE1028BF67DD']== "pending"){
