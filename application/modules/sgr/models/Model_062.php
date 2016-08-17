@@ -300,7 +300,7 @@ class Model_062 extends CI_Model {
         return array_sum($return_result);
     }
  /**
-     * Nuevo Reporte Anexo 06
+     * Nuevo Reporte Anexo 062
      *
      * @name generate_report
      *
@@ -387,8 +387,6 @@ class Model_062 extends CI_Model {
               
         $get=$this->sgr_db->command($query);
         $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
-        var_dump($get['result']); 
-         
    }
    
 

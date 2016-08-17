@@ -388,9 +388,7 @@ class Model_061 extends CI_Model {
 
               
         $get=$this->sgr_db->command($query);
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
-        var_dump($get['result']); 
-         
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);          
    }
 
    function ui_table_xls($result, $anexo = null, $parameter) {   
