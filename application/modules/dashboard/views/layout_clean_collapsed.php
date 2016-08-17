@@ -3,7 +3,7 @@
  *  Header : CSS Load & some body
  * 
  */
-include('_header.php')
+include('_header_clean.php')
 
 ?>
        
@@ -15,7 +15,7 @@ include('_header.php')
                 <section class="sidebar">
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
-                    {menu}
+                    {menu}xx
                 </section>
                 <!-- /.sidebar -->
             </aside>
