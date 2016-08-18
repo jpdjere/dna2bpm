@@ -12,7 +12,8 @@ $lang["Canceled"] = 'Canceladas';
 $lang["Waiting"] = 'Esperando';
 $lang["Stoped"] = 'Detenida';
 $lang["finishTask"] = 'dar por Finalizada';
-$lang["closeTask"] = 'volver';
+$lang["closeTask"] = 'Volver';
+$lang["dismissTask"] = 'Luego';
 $lang["claim"] = 'reclamar';
 $lang["refuse"] = 'rechazar';
 $lang["delegate"] = 'delegar';
@@ -33,7 +34,7 @@ $lang["noMoreTasks"] = "Ud no tiene más tareas pendientes por ahora";
 $lang["caseClosed"] = "El proceso ha finalizado.";
 $lang["closedCases"] = "Casos Cerrados";
 /* --WF-conditions----- */
-$lang['true'] = 'Si';
+$lang['true'] = 'Sí';
 $lang['false'] = 'No';
 /* --File ---*/
 $lang['drop_here']="Arrastre sus archivos aquí";
