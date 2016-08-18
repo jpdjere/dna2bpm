@@ -25,7 +25,7 @@ class Case_manager extends MX_Controller {
         $this->load->model('bpm');
         $this->load->helper('bpm');
         $this->load->model('user/group');
-        $this->user->authorize();
+        $this->user->authorize('ADM,WFADM');
         //----LOAD LANGUAGE
         $this->types_path = 'application/modules/bpm/assets/types/';
         $this->module_path = 'application/modules/bpm/';
