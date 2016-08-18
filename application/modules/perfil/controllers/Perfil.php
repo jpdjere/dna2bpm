@@ -56,9 +56,9 @@ class Perfil extends MX_Controller {
             // registro nuevo va al hub
             $this->hub();
         }else{
-            var_dump($userdata->group);
+
             // hook
-            if(in_array(1027,$userdata->group)){
+            if(in_array(1027,$userdata->group) || in_array(1,$userdata->group)){
                 //pyme
                 redirect(LINK_EMPRESA);
             }elseif(in_array(1029,$userdata->group)){
