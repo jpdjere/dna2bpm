@@ -249,6 +249,31 @@ $(document).ready(function() {
         }
 
     });
+
+    //=== Auto AJAX Submit for forms 
+    
+    $(document).on('submit', "form.ajaxform", function(e) {
+        console.log('---- ajaxSubmit');
+
+        e.preventDefault();
+        var data=$( this ).serializeArray();
+        var me=$(this);
+
+        if($(this).attr('data-target')){
+            var target='#'+$(this).attr('data-target');
+            var url=$(this).attr('action');
+
+            $.post(url,{data:data},function(mydata){
+                $(target).html(mydata);
+            });
+        }else{
+            var url=$(this).attr('action');
+            $.post(url,{data:data},function(mydata){
+                me.parent().html(mydata);
+            });
+        }
+
+    });
     
     //=== Same height for tiles
     var max='';
