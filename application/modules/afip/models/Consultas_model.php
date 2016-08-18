@@ -47,15 +47,13 @@ class Consultas_model extends CI_Model {
      */
     function cuits_certificados($cuit='') {
        $this->afip_db->switch_db('afip');
-        
+     
        if(empty($cuit))return false;
-       /**
        if($this->has_1273($cuit)==false)return false;
-       if($this->isPyme($cuit))return false;
-        var_dump(1);
-        */
+       if(empty($this->isPyme($cuit)))return false;
+
        $query=array('cuit'=>new MongoInt64($cuit));
-        // $this->afip_db->debug=true;
+
        //return $this->afip_db->where(array('cuit'=>$parameter))->get('procesos')->row();
        return $this->afip_db->where(array('cuit'=>new MongoInt64($cuit)))->get('procesos')->row();
 
