@@ -12,6 +12,7 @@ class Reports extends MX_Controller {
     function __construct() {
         parent::__construct();
 
+
         /* habilita acceso a todo los metodos de este controlador */
         $this->user->authorize('modules/sgr/controllers/reports');
         $this->load->config('config');
@@ -994,7 +995,7 @@ class Reports extends MX_Controller {
 
 
         $data = array();
-        $customData = array();
+       # $customData = array();
 
         $report_name = $this->input->post('report_name');
         $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
@@ -1007,6 +1008,8 @@ class Reports extends MX_Controller {
             $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
         
         $data['sgr_id'] = $this->input->post('sgr');
+
+        //borrar data cuando update
 
         /*CALL MODEL*/
         if ($this->input->post('sgr')) {
