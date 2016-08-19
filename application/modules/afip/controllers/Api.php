@@ -390,9 +390,7 @@ class Api extends MX_Controller {
 
 
         $this->user->authorize();                       
-
-        
-        $data=$this->consultas_model->cuits_certificados($cuit);
+        $data=$this->consultas_model->buscar_cuits_registrados($cuit,'procesos');
 
         return $data;
 
