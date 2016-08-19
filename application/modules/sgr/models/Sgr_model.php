@@ -49,7 +49,7 @@ class Sgr_model extends CI_Model {
         $regex = new MongoRegex('/' . date('Y') . '-' . date('m') . '/');
 
         $query = array( 'rectified_on' => $regex, 
-            #'sended' => null, 
+            'sended' => null, 
             "status" => "rectificado");
         $result = $this->mongowrapper->sgr->$container->find($query);
         
