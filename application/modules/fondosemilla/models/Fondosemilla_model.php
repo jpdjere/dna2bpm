@@ -23,9 +23,7 @@ class Fondosemilla_model extends CI_Model {
         $container = 'container.fondosemillaproyectos';
         $result = $this->db->get($container)->result_array();
         return $result; 
-    }    
-    
-    
+    }  
     
     function get_idu_by_id($id){
         $rtn = array();

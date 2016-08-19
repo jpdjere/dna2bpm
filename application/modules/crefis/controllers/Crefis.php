@@ -62,8 +62,7 @@ class Crefis extends MX_Controller {
 
     function tile_proyectos() {
         // ----portable indicators are stored as json files
-        $kpi = json_decode($this->load->view("crefis/kpi/empresa_proyectos_presentados.json", '', true), true);
-        echo Modules::run('bpm/kpi/tile_kpi', $kpi);
+        echo Modules::run('bpm/kpi/tile/model/', 'crefisGral_JM');
     }
 
     function tile_solicitud() {

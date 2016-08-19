@@ -374,55 +374,54 @@ class Sgr extends MX_Controller {
 
         if($sgr){
             $period = $record['period'];
-        $anexo = $record['anexo'];
-        $anexo_name = $this->sgr_model->get_anexo($anexo);
+            $anexo = $record['anexo'];
+            $anexo_name = $this->sgr_model->get_anexo($anexo);
 
-        $customData = array();
-        $customData['orgullo'] = "http://" . $_SERVER['HTTP_HOST'] . "/dna2/institucional/industria.jpg";
-        $customData['titulo'] = 'Rectificacion  Anexo ' . strtoupper($anexo_name['title']);
-        $customData['sgr'] = $sgr;
-        $customData['period'] = $period;
-        $customData['anexo'] = $anexo_name['title'];
+            $customData = array();
+            $customData['orgullo'] = "http://" . $_SERVER['HTTP_HOST'] . "/dna2/institucional/industria.jpg";
+            $customData['titulo'] = 'Rectificacion  Anexo ' . strtoupper($anexo_name['title']);
+            $customData['sgr'] = $sgr;
+            $customData['period'] = $period;
+            $customData['anexo'] = $anexo_name['title'];
 
-        $body = $this->parser->parse('rectification_mail_template', $customData, true);
+            $body = $this->parser->parse('rectification_mail_template', $customData, true);
 
-        $this->load->library('phpmailer/phpmailer');
-        $this->load->config('email');
-        $ok = false;
-        $mail = $this->phpmailer;
-        $mail->IsSMTP(); // telling the class to use SMTP
-        $mail->Host = $this->config->item('smtp_host'); // SMTP server
-        $mail->SMTPDebug = 0;                     // enables SMTP debug information (for testing)
+            $this->load->library('phpmailer/phpmailer');
+            $this->load->config('email');
+            $ok = false;
+            $mail = $this->phpmailer;
+            $mail->IsSMTP(); // telling the class to use SMTP
+            $mail->Host = $this->config->item('smtp_host'); // SMTP server
+            $mail->SMTPDebug = 0;                     // enables SMTP debug information (for testing)
 
-        /*
-          1 = errors and messages
-          2 = messages only
-         */
+            /*
+              1 = errors and messages
+              2 = messages only
+             */
 
 
 
-        $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
-        $mail->Subject = utf8_decode("Rectificacion SGR | $sgr |" . $period . " Anexo:" . $anexo_name['title']);
-        $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-        $mail->IsHTML(true);
-        $mail->MsgHTML(nl2br($body));
+            $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
+            $mail->Subject = utf8_decode("Rectificacion SGR | $sgr |" . $period . " Anexo:" . $anexo_name['title']);
+            $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+            $mail->IsHTML(true);
+            $mail->MsgHTML(nl2br($body));
 
-        /*GET EMAIL ADDRESS*/
-        $emails = $this->sgr_model->get_admin_emails();
-        
-        foreach($emails as $to){
-            $mail->AddAddress($to['email'], $to['name']);
-            if (!$mail->Send()) {
-            return "error: " . $mail->ErrorInfo;
-            } else {
+            /*GET EMAIL ADDRESS*/
+            $emails = $this->sgr_model->get_admin_emails();
+            
+            foreach($emails as $to){
+                $mail->AddAddress($to['email'], $to['name']);
+                if (!$mail->Send()) {
+                return "error: " . $mail->ErrorInfo;
+                } else {
 
-            return "OK";
+                return "OK";
+                }
             }
-        }
+        }  
 
-    }  
-
-}
+    }
 
     /* UPLOAD FN */
 

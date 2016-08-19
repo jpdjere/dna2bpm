@@ -32,7 +32,7 @@ class Eventanilla extends MX_Controller {
         $this->load->model('afip/eventanilla_model');
         $this->load->model('afip/consultas_model');
 
-        
+        $this->g750=$this->eventanilla_model->idrel();
         #CREDENTIALS
         $this->idu = (int) $this->session->userdata('iduser');
         if(ENVIRONMENT<>'127.0.0.1_afip')
@@ -40,9 +40,9 @@ class Eventanilla extends MX_Controller {
         
         //---Output Profiler
         //$this->output->enable_profiler(TRUE);
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
-        ini_set('xdebug.var_display_max_depth', 120 );
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
+        // ini_set('xdebug.var_display_max_depth', 120 );
 
 
     }
@@ -83,9 +83,13 @@ class Eventanilla extends MX_Controller {
         //     return;
         // }
 
-        //=== Guardo en Procesos
+        //=== Guardo la actividad principal si no viene nada
 
         $my_process['result']=$this->preprocess($my_process); 
+        if(function_exists('xdebug_get_function_stack'))
+            $my_process['debug']=xdebug_get_function_stack();
+        //  var_dump($my_process);
+        //  exit();
 
         //=== Error salgo
         if($my_process['result']===false)return false;
@@ -100,7 +104,6 @@ class Eventanilla extends MX_Controller {
         $formasMasinformacion=array(
             'AGRUP COLABORACION',
             'CONDOMINIO',
-            'CONS. PROPIET.',
             'CONSORCIOS DE COOPERACION',
             'COOPERATIVA',
             'COOPERATIVA EFECTORA',
@@ -108,6 +111,7 @@ class Eventanilla extends MX_Controller {
             
             );
         $formasExcluidas=array(
+            'CONS. PROPIET.',
             'ECONOMIA MIXTA',
             'EMP. DEL ESTADO',
             'C/P.EST. MAY.',
@@ -165,8 +169,11 @@ class Eventanilla extends MX_Controller {
             unset($my_process['result']['categoria']);
             $q['status']='ready';
             $q['status_extra']='FormaJurídica Excluída';
+            $my_process['result']['status_extra']=$q['status_extra'];
         }
         
+        //---actualizo process
+        $this->eventanilla_model->save_process($my_process);
         
          if($sendToQueue){
             # status : ready | waiting | revision 
@@ -179,8 +186,6 @@ class Eventanilla extends MX_Controller {
                 $this->eventanilla_model->save_queue($q);
          }
 
-        //---actualizo process
-        $this->eventanilla_model->save_process($my_process);
 
 
     }
@@ -188,7 +193,6 @@ class Eventanilla extends MX_Controller {
     //=== Preproceso
 
     private function preprocess($data){
-
         // agarro los periodos
         $periodos=array();
         foreach($data as $k=>$v){
@@ -216,7 +220,6 @@ class Eventanilla extends MX_Controller {
         $actividades=array();
         $total=0;
         $i=0;
-
         foreach($periodos as $p){
            $total_year=0;
            foreach($p->actividades as $myact){
@@ -244,20 +247,32 @@ class Eventanilla extends MX_Controller {
 
       $response['promedio']=($i==0)?(0):($total/$i); 
       $response['actividades']=$actividades;
-
+      //---agrupo sectores
+        foreach($actividades as $actividad=>$monto){
+            $act=str_pad((string)$actividad,6,'000',STR_PAD_LEFT);
+            $sect=$this->idrel($act);
+            $dss[$sect['sector']]=$sect;
+            $sectores[$sect['sector']]=(isset($sectores[$sect['sector']])) ? $sectores[$sect['sector']]+$monto:$monto;
+        }  
     // Actvidad de mayor ingreso
-
-       $max=max($actividades);
-       $key = array_search($max, $actividades); // $key = 2;
-       $response['actividad']=str_pad((string)$key,6,'000',STR_PAD_LEFT); // Padding a string 6 digitos
-
-
+        
+     $max=max($actividades);
+       
+    //   var_dump($actividades,$sectores,$dss,$max);exit;
+       
+     $key = array_search($max, $actividades); // $key = 2;
+     $response['actividad']=str_pad((string)$key,6,'000',STR_PAD_LEFT); // Padding a string 6 digitos
+       
+        
+        
+    $max_sect=max($sectores);
+    $sector_max=array_search($max_sect,$sectores);
     //=== Calculo Clasificacion
-      $response+=$this->idrel($response['actividad']);
-
+      $response+=$dss[$sector_max];
       // excentoIva exception 
         if(empty($periodos) && $data['exentoIva']===1){
             $response['isPyme']=0;
+            $response['motivo']='Exento IVA';
             return $response;
         }
 
@@ -277,7 +292,7 @@ class Eventanilla extends MX_Controller {
     $halfAct=substr($response['actividad'], 0,3);
     if(in_array($response['idrel'],array('K','T','U','O')) || ($response['idrel']=='R' && $halfAct =='920')){
          $response['isPyme']=0;
-
+         $response['motivo']="Letra de Actividad Excluida:".$response['idrel'];
          return $response;
     }
 
@@ -292,24 +307,39 @@ class Eventanilla extends MX_Controller {
 
 
     $myclass='';
-    $sector=$montos[$response['sector']];
-    krsort($sector);
-    //var_dump($sector);
-    foreach ($sector as $clasificacion=>$cant)
-        if($response['promedio']<=$cant)$myclass=$clasificacion;
-    
-    $response['date']=new MongoDate(time());
-    if(empty($myclass)){
-        // No clasifica como pyme
-         $response['isPyme']=0;
+    $pyme_sector=array();
+    // var_dump($sectores,$dss);exit;
+    //---ahora recorro todos los sectores 
+    foreach($sectores as $id_sector=>$monto){
+        $monto=$monto/count($periodos);
+        $sector=$montos[$id_sector];
+        ksort($sector);
+        $dss[$id_sector]['monto']=$monto;
+        $pyme_sector[$id_sector]=0;
+        foreach ($sector as $clasificacion=>$cant){
+            // var_dump("$monto<=$cant ::$clasificacion",$monto<=$cant);
+            $myclass=null;  
+            if($monto<=$cant){
+                $myclass=$clasificacion;
+                $pyme_sector[$id_sector]=1;
+                $response['categoria']=$myclass;
+                $dss[$id_sector]['categoria']=$myclass;
+                break;
+            } 
+        }
+        if(empty($myclass)){
+            $pyme_sector[$id_sector]=0;
+            $response['motivo']="No clasifica como pyme en: ".$dss[$id_sector]['sector_texto']. ' Facturación: $'.$monto.' > '.$cant;
+            $dss[$id_sector]['categoria']=$response['motivo'];
+        } 
+            
+        $response['date']=new MongoDate();
 
-    }else{
-        // Bingo!
-        $response['isPyme']=1;
-        $response['categoria']=$myclass;
-
-    }
-
+        
+        $response['isPyme']=array_product($pyme_sector);
+    }//----end recorro todos los sectores
+    $response['dss']=$dss;
+    // var_dump($response);
     return $response;
 
     }
@@ -341,6 +371,7 @@ private function preprocessSinVentas($data){
     // Idrel No entran en pyme
     $halfAct=substr($act, 0,3);
     if(in_array($response['idrel'],array('K','T','U','O')) || ($response['idrel']=='R' && $halfAct =='920')){
+         $response['motivo']="Excluida por Letra principal:".$response['idrel'];
          $response['isPyme']=0;
          return $response;
     }
@@ -360,7 +391,7 @@ private function preprocessSinVentas($data){
 
 
 
-        $g750=$this->eventanilla_model->idrel();
+        $this->g750=$this->eventanilla_model->idrel();
 
         $excep1=array('591110'=>'J','591120'=>'J','602320'=>'J','631200'=>'J');
         $excep2=array('620100'=>'J','620200'=>'J','620300'=>'J','620900'=>'J');
@@ -376,9 +407,9 @@ private function preprocessSinVentas($data){
         $halfId=substr($id, 0,3);
         $ret=array();
 
-        for($i=0;$i<count($g750->data);$i++){
-            if($g750->data[$i]['value']==$halfId){
-                $idrel=$g750->data[$i]['idrel'];
+        for($i=0;$i<count($this->g750->data);$i++){
+            if($this->g750->data[$i]['value']==$halfId){
+                $idrel=$this->g750->data[$i]['idrel'];
                 break;
             }
         }
@@ -602,6 +633,7 @@ private function preprocessSinVentas($data){
 
     }
     function reprocess_12(){
+        $this->afip_db=new $this->cimongo;
         $this->afip_db->switch_db('afip');
         $logs=$this->afip_db->where(
             array('queue'=>array('$eq'=>null))
@@ -618,6 +650,27 @@ private function preprocessSinVentas($data){
                     'transaccion'=>$log['transaccion']
                     );
                 $this->eventanilla_model->delete_log($lquery);
+            } else {
+                echo '<h3 style="color:red">'.$i.':'.$log['idComunicacion'].' ERROR!</h3><hr/>';
+            }
+            
+            
+        }
+
+    }
+    function reprocess_nopyme(){
+        $this->afip_db=new $this->cimongo;
+        $this->afip_db->switch_db('afip');
+        $logs=$this->afip_db->where(
+            array('result.isPyme'=>0)
+            )
+            ->get('procesos')->result_array();
+        echo "Procesando ".count($logs).'<hr>';
+        $i=0;
+        foreach($logs as $log){
+            $i++;
+            if($this->reprocess($log['idComunicacion'])){
+                echo "<h3>$i:".$log['idComunicacion'].' Ok!</h3><hr/>';
             } else {
                 echo '<h3 style="color:red">'.$i.':'.$log['idComunicacion'].' ERROR!</h3><hr/>';
             }

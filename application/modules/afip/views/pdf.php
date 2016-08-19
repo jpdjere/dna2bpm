@@ -13,13 +13,13 @@
        
         /*logo*/
 .secretaria_logo {
-    float: left;
+    float: right;
     margin: 30px 0 0;
     width: 240px;
 }
 
 .presidencia_logo {
-    float: right;
+    float: left;
     margin: 0;
     width: 370px;
 }
@@ -31,11 +31,6 @@
 strong{
     text-transform: uppercase;  
 }
-
-
-
-
-
     </style>
 </head>
 
@@ -45,20 +40,29 @@ strong{
     line-height: 1.42857">
 
 
-    <div class='container'  class="well" align="center">
+     <div class='container'  class="well" align="center">
         <!-- ============= Barra Ministerio  -->
-
         <div class='row'>
               <div class="header_institucional">                
-                <img src="{base_url}dashboard/assets/img/logo_secretaria.png" class="secretaria_logo"> <span style="width:50px;">               
-                <img src="{base_url}dashboard/assets/img/logo_presidencia.png" class="presidencia_logo">
-    </div>
+                <img src="{base_url}dashboard/assets/img/logo_secretaria.png" class="secretaria_logo img-thumbnail"> <span style="width:50px;">               
+              </div>
         </div>
+        
+        <div class='row'>
+              <div class="header_institucional">                
+                <img src="{base_url}dashboard/assets/img/logo_presidencia.png" class="presidencia_logo img-thumbnail">
+              </div>
+        </div>
+
+        
+        <br />
+        <br />
+        <br />
+        <br/>
         <!-- ============= Formulario  -->
         <div class='row' style="padding:30px" >
             <h3></h3>
-                <h2>Certificado PyME</h2>
-                <h4></h4>
+                <h1>Certificado PyME</h1>
                 <br />
                 
             <div class='col-md-12' style="background-color: #f5f5f5;
@@ -74,7 +78,7 @@ strong{
                     <li>CUIT: <strong>{cuit}</strong></li>
                     <li>Razón Social: <strong>{razon_social}</strong></li>
                     <li>Actividades: <strong>{descripcionActividadPrincipal}</strong></li>
-                    <li>Sector: <strong>{sector_texto}</strong></li>
+                    <li>Sector: <strong>{sector}</strong></li>
                     <li>Clasificación Pyme: <strong>{categoria}</strong></li>
                     <li>Fecha de Emisión: <strong>{fecha_emision}</strong></li>
                     <li>Fecha de validez: <strong>{fecha_validez}</strong></li>
@@ -83,7 +87,8 @@ strong{
 
 
         </div>
-    </div>  
+       </div>
+    </div>
   
 </body>
 

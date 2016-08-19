@@ -509,15 +509,14 @@ class Kpi extends MX_Controller {
 		 	
 		 }
 		 
-		 	if ($sorter){//---sort arrays for order
+		 	//---sort arrays for order
 		 	foreach ($sorter as $ksort=>$direction){
 		 			if($direction==1){
  						array_multisort($sort[$ksort],SORT_ASC,$cases);
 		 			}else{
  						array_multisort($sort[$ksort],SORT_DESC,$cases);
 		 			}
-	 		}
-		 	}
+	 		}	
 	 		
 		// $cpData ['start'] = $offset + 1;
 		// $cpData ['top'] = $top;
