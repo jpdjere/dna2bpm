@@ -309,6 +309,7 @@ class Model_126 extends CI_Model {
             $new_list['col5'] = dot_by_coma($list['OTORGAMIENTO_PERIODO_PREVIO']);
             $new_list['col6'] = dot_by_coma($list['ADM_FDR']);
             $new_list['col7'] = dot_by_coma($list['ASESORAMIENTO']);
+            $new_list['col8'] = $list['filename'];  
             $new_list['uquery'] = $parameter;
 
            /* ARRAY FOR RENDER */
