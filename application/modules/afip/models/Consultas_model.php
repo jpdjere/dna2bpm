@@ -50,9 +50,9 @@ class Consultas_model extends CI_Model {
     function cuits_certificados($cuit='') {
        $this->afip_db->switch_db('afip');
      
-       if(empty($cuit))return false;
-       if($this->has_1273($cuit)==false)return false;
-       if(empty($this->isPyme($cuit)))return false;
+       // if(empty($cuit))return false;
+       // if($this->has_1273($cuit)==false)return false;
+       // if(empty($this->isPyme($cuit)))return false;
 
        $query=array('cuit'=>new MongoInt64($cuit));
 
