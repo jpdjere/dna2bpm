@@ -21,15 +21,15 @@
                     "controller": "kpi",
                     "function": "tile",
                     "span": 3,
-                    "params": ["crefisGral", "crefisGral_WN"]
+                    "params": ["crefisRend", "crefisRend_ZU"]
                 },
                 {
-                    "title": "Evaluacion Formal",
+                    "title": "Aprobacion de Rendiciones",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
                     "span": 3,
-                    "params": ["crefisGral", "crefisGral_IY"]
+                    "params": ["crefisRend", "crefisRend_NB"]
                 }
             ]
         },
