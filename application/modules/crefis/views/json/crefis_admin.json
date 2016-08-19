@@ -35,6 +35,12 @@
                     "controller": "kpi",
                     "function": "tile",
                     "params": ["crefisGral", "crefisGral_JO"]
+                },  {
+                    "title": "Asignar Rendicion",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "params": ["crefisRend", "crefisRend_IK"]
                 }
             ]
         },
