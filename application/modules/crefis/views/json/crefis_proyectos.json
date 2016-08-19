@@ -17,27 +17,20 @@
                 "controller": "kpi",
                 "function": "tile",
                 "params": ["crefisGral", "crefisGral_JM"],
-                "span": 2
+                "span": 3
             }, {
                 "title": "Proyectos Preaprobados",
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
                 "params": ["crefisGral", "crefisGral_BO"],
-                "span": 2
+                "span": 3
             }, {
                 "title": "Proyectos Aprobados",
                 "module": "bpm",
                 "controller": "kpi",
                 "function": "tile",
-                "params": ["crefisGral", "crefisGral_AA"],
-                "span": 2
-            },{
-                "title": "Rendiciones",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "params": ["crefisRend", "crefisRend_PD"]
+                "params": ["crefisGral", "crefisGral_AA"]
             }
         ]
     }, {
