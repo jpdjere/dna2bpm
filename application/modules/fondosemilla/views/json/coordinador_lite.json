@@ -11,8 +11,22 @@
                 "module": "fondosemilla",
                 "controller": "semilla",
                 "function": "tile_total",
-                "span": 12            
+                "span": 6            
             },
+            {
+                "title": "Clicks de inicio",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "tile_fortalecimiento_social",
+                "span": 3            
+            },
+            {
+                "title": "Clicks de inicio",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "tile_marcha_social",
+                "span": 3            
+            },            
             {
                 "title": "En Ronda 1",
                 "module": "bpm",

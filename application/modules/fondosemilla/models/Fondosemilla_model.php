@@ -43,7 +43,13 @@ class Fondosemilla_model extends CI_Model {
         return $result[0]; 
     }  
     
-
+    function proyectos_social($op){
+        $container = 'container.fondosemillaproyectos';
+        $query = array( 9877 => $op);
+        $this->db->where($query);
+        $result = $this->db->get($container)->result_array();
+        return $result; 
+    } 
 
     
     

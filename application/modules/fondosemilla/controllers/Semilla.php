@@ -526,6 +526,29 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->parser->parse('dashboard/tiles/tile-green', $data, true, true);
     }    
     
+    
+    function tile_fortalecimiento_social(){
+        $this->load->module('dashboard');
+        $data['title'] ="Fortalecimiento de emprendimiento con impacto social";
+        $data['icon']= "ion-person-stalker";
+        $data['base_url'] = $this->base_url;
+        $data['module_url'] = $this->module_url;
+        $data['number'] =count($this->Fondosemilla_model->proyectos_social('4'));
+        return $this->parser->parse('dashboard/tiles/tile-orange', $data, true, true);
+    } 
+    
+    function tile_marcha_social(){
+        $this->load->module('dashboard');
+        $data['title'] ="Puesta en marcha de emprendimiento con impacto social";
+        $data['icon']= "ion-person-stalker";
+        $data['base_url'] = $this->base_url;
+        $data['module_url'] = $this->module_url;
+        $data['number'] =count($this->Fondosemilla_model->proyectos_social('3'));
+        return $this->parser->parse('dashboard/tiles/tile-orange', $data, true, true);
+    } 
+    
+    
+    
     function exportar_total(){
         
         $data = $this->Fondosemilla_model->proyectos_completo();
