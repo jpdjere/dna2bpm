@@ -522,10 +522,51 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         $data['base_url'] = $this->base_url;
         $data['module_url'] = $this->module_url;
         $data['number'] =count($this->Fondosemilla_model->proyectos());
-
+        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_total";
         return $this->parser->parse('dashboard/tiles/tile-green', $data, true, true);
     }    
     
+    
+    function tile_fortalecimiento_social(){
+        $this->load->module('dashboard');
+        $data['title'] ="Fortalecimiento de emprendimiento con impacto social";
+        $data['icon']= "ion-person-stalker";
+        $data['base_url'] = $this->base_url;
+        $data['module_url'] = $this->module_url;
+        $data['number'] =count($this->Fondosemilla_model->proyectos_social('4'));
+        return $this->parser->parse('dashboard/tiles/tile-orange', $data, true, true);
+    } 
+    
+    function tile_marcha_social(){
+        $this->load->module('dashboard');
+        $data['title'] ="Puesta en marcha de emprendimiento con impacto social";
+        $data['icon']= "ion-person-stalker";
+        $data['base_url'] = $this->base_url;
+        $data['module_url'] = $this->module_url;
+        $data['number'] =count($this->Fondosemilla_model->proyectos_social('3'));
+        return $this->parser->parse('dashboard/tiles/tile-orange', $data, true, true);
+    } 
+    
+    
+    
+    function exportar_total(){
+        
+        $data = $this->Fondosemilla_model->proyectos_completo();
+        var_dump($data);
+        exit;
+        
+        $template='fondosemilla/exportar_total';     
+
+        
+        header("Content-Description: File Transfer");
+        header("Content-type: application/x-msexcel");
+        header("Content-Type: application/force-download");
+        header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
+        header("Content-Description: PHP Generated XLS Data");
+        
+        
+        
+    }
 }
 
 /* End of file crefis */

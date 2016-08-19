@@ -23,9 +23,7 @@ class Fondosemilla_model extends CI_Model {
         $container = 'container.fondosemillaproyectos';
         $result = $this->db->get($container)->result_array();
         return $result; 
-    }    
-    
-    
+    }  
     
     function get_idu_by_id($id){
         $rtn = array();
@@ -45,7 +43,13 @@ class Fondosemilla_model extends CI_Model {
         return $result[0]; 
     }  
     
-
+    function proyectos_social($op){
+        $container = 'container.fondosemillaproyectos';
+        $query = array( 9877 => $op);
+        $this->db->where($query);
+        $result = $this->db->get($container)->result_array();
+        return $result; 
+    } 
 
     
     
