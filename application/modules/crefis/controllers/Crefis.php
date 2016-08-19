@@ -54,6 +54,11 @@ class Crefis extends MX_Controller {
         $this->user->authorize();
         Modules::run('dashboard/dashboard', 'crefis/json/crefis_admin.json',$debug);
     }
+    
+    function Rend($debug=false) {
+        $this->user->authorize();
+        Modules::run('dashboard/dashboard', 'crefis/json/crefis_rend.json',$debug);
+    }
 
     function Mesa_de_entradas($debug=false) {
         $this->user->authorize();
