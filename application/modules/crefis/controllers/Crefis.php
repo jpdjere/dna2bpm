@@ -114,6 +114,12 @@ class Crefis extends MX_Controller {
         return $this->parser->parse('crefis/buscar_proyecto', $data, true);
     }
 
+        function tile_buscar_rend() {
+        $this->user->authorize();
+        $data = array();
+        return $this->parser->parse('crefis/buscar_rendicion', $data, true);
+    }
+    
     function get_token_history($resourceId, $history) {
         $rtnArr = array();
         foreach ($history as $token) {

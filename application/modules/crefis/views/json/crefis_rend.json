@@ -1,6 +1,6 @@
 {
     "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
-    "title": "crefis Evaluador",
+    "title": "Capacitación PyME Evaluador",
     "view": "layout_2cols",
     "icon": "ion-briefcase",
     "private": true,
@@ -11,12 +11,12 @@
                     "title": "Buscar",
                     "module": "crefis",
                     "controller": "crefis",
-                    "function": "tile_buscar",
+                    "function": "tile_buscar_rend",
                     "span": 6,
-                    "js": [{"{base_url}crefis/assets/jscript/app.js":"crefisGral"}]
+                    "js": [{"{base_url}crefis/assets/jscript/app.js":"crefisRend"}]
                 },
                 {
-                    "title": "Evaluacion Tecnica",
+                    "title": "Evaluacion de Rendicion",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
