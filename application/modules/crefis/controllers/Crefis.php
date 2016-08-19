@@ -528,19 +528,19 @@ class Crefis extends MX_Controller {
             $keys = array_keys($case['token_status']);
             $url_clone = ''; 
             if ((in_array(584, $this->id_group) or in_array(586, $this->id_group) or in_array(1004, $this->id_group) or $this->user->isAdmin())
-                    and $case['status'] == 'open' and in_array($data ['Rendiciones_crefis'] ['4970'][0], array(40, 48, 59, 60)) //---checkeo que esté en alguno de esos estados
+                    and $case['status'] == 'open' and in_array($data ['Rendiciones_crefis'] ['5129'][0], array(83, 92, 93, 94)) //---checkeo que esté en alguno de esos estados
                     ){ 
                 $model = 'crefisRend';
-                $estado = $data ['Rendiciones_crefis'] ['4970'][0];
+                $estado = $data ['Rendiciones_crefis'] ['5129'][0];
                 switch($estado){
-                    case 40:
+                    case 83:
                         $idResource = 'oryx_4EEC3671-21C0-45BB-872F-B04B99A8AE8E';
                         break;
-                    case 60:
+                    case 94:
                         $idResource = 'oryx_235D6339-A2ED-476B-A570-3233C86548EE';
                         break;
-                    case 48:
-                    case 59:                    
+                    case 92:
+                    case 93:                    
                         $idResource = 'oryx_FDD40364-9DB8-4090-B569-7D795E380F18';
                         break;
                 }
@@ -575,18 +575,18 @@ class Crefis extends MX_Controller {
 
             /* STATUS */
             $status = "N/A";
-            if (isset($data ['Rendiciones_crefis'] ['4970'])) {
+            if (isset($data ['Rendiciones_crefis'] ['10223'])) {
                 $this->load->model('app');
-                $option = $this->app->get_ops(506);
-                $status = $option[$data ['Rendiciones_crefis'] ['4970'][0]];
+                $option = $this->app->get_ops(921);
+                $status = $option[$data ['Rendiciones_crefis'] ['10223'][0]];
             }
 
             return array(
                 '_d' => $token ['_id'],
                 'case' => $token ['case'],
-                'nombre' => (isset($data['Empresas_4844']['0']['1693'])) ? $data['Empresas_4844']['0']['1693'] : 'XXXX',
-                'cuit' => (isset($data['Empresas_4844']['0']['1695'])) ? $data['Empresas_4844']['0']['1695'] : 'XXXX',
-                'Nro' => (isset($data ['Rendiciones_crefis'] ['4837'])) ? $data ['Rendiciones_crefis'] ['4837'] : 'N/A',
+                'nombre' => (isset($data['Empresas_10215']['0']['1693'])) ? $data['Empresas_10215']['0']['1693'] : 'XXXX',
+                'cuit' => (isset($data['Empresas_10215']['0']['1695'])) ? $data['Empresas_10215']['0']['1695'] : 'XXXX',
+                'Nro' => (isset($data ['Rendiciones_crefis'] ['5129'])) ? $data ['Rendiciones_crefis'] ['5129'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
