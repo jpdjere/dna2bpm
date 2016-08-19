@@ -587,6 +587,7 @@ class Crefis extends MX_Controller {
                 'nombre' => (isset($data['Empresas_10215']['0']['1693'])) ? $data['Empresas_10215']['0']['1693'] : 'XXXX',
                 'cuit' => (isset($data['Empresas_10215']['0']['1695'])) ? $data['Empresas_10215']['0']['1695'] : 'XXXX',
                 'Nro' => (isset($data ['Rendiciones_crefis'] ['5129'])) ? $data ['Rendiciones_crefis'] ['5129'] : 'N/A',
+                'Nro_rend' => (isset($data ['Rendiciones_crefis'] ['5130'])) ? $data ['Rendiciones_crefis'] ['5130'] : 'N/A',
                 'estado' => $status,
                 'fechaent' => date('d/m/Y', strtotime($token ['checkdate'])),
                 'link_open' => $this->bpm->gateway($url),
