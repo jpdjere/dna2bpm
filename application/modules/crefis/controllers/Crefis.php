@@ -28,7 +28,7 @@ class Crefis extends MX_Controller {
         $this->lang->load('library', $this->config->item('language'));
         $this->idu = (int) $this->session->userdata('iduser');
         $this->load->library('pagination');
-        $this->load->library('dashboard/ui');
+        //$this->load->library('dashboard/ui');
         /* GROUP */
         $user = $this->user->get_user($this->idu);
 
@@ -1015,6 +1015,19 @@ BLOCK;
             $token = $this->bpm->consolidate_data('crefisGral', $case['id'], $resourceId);
         }
     }
+    
+        function fix_data_rend($case = null) {
+        $debug = false;
+        $this->load->model('bpm/bpm');
+        $resourceId = 'oryx_6772A7D9-3D05-4064-8E9F-B23B4F84F164';
+        $filter = ($case) ? array('idwf' => 'crefisRend', 'id' => $case) : array('idwf' => 'crefisRend');
+        $rs = $this->bpm->get_cases_byFilter($filter);
+        foreach ($rs as $case) {
+            if ($debug)
+                var_dump($case['id']);
+            $token = $this->bpm->consolidate_data('crefisRend', $case['id'], $resourceId);
+        }
+    }
 
     function Landing() {
         $this->Add_group();
@@ -1051,6 +1064,32 @@ BLOCK;
 
         $url = $this->base_url . "bpm/engine/assign/model/$idwf/$idcase/$src_resourceId/$lane_resourceId/$evaluador";
 
+        redirect($url);
+    }
+    
+    function asignar_emp_rend($idwf, $idcase, $tokenId) {
+        $this->load->library('parser');
+        $this->load->model('user/group');
+        $this->load->model('bpm/bpm');
+        $case = $this->bpm->get_case($idcase, $idwf);
+        
+        $renderData = $this->bpm->load_case_data($case, $idwf);
+        //----tomo evaluador del caso
+        $Empresa = $case['data']['parent_data']['usuario'];
+        $case['iduser']=$Empresa;
+        $this->bpm->save_case($case);
+        //----token que hay que finalizar
+        
+        $src_resourceId = 'oryx_1FCF476C-1A83-427C-A300-0AD05515FE68';
+        // ---Token de pp asignado
+        $lane_resourceId = 'oryx_6B3FA843-5133-4341-AF2F-22CFBEEF734F';
+        //---Levanto el token de la db
+        // $token=$this->bpm->get_token($idwf, $idcase, $lane_resourceId);
+        // //-----piso el assign
+        // $token['assign']=array($Empresa);
+        // //---Guardo el token
+        // $rs=$this->bpm->save_token($token);    
+        $url = $this->base_url . "bpm/engine/run_post/model/$idwf/$idcase/$src_resourceId";
         redirect($url);
     }
     
@@ -1091,6 +1130,7 @@ BLOCK;
     }
 
     function info($tipo, $idcase) {
+        $this->load->library('dashboard/ui');
         $idwf = 'crefisGral';
         $this->load->model('bpm/bpm');
         $this->load->library('parser');
@@ -1142,6 +1182,7 @@ BLOCK;
     }
 
     function set_evaluador($idwf, $idcase, $tokenId) {
+        $this->load->library('dashboard/ui');
         $this->load->library('parser');
         $this->load->model('bpm/bpm');
         $this->load->library('bpm/ui');
@@ -1262,6 +1303,7 @@ BLOCK;
     function widget_2doMe2($chunk = 1, $pagesize = 2000) {
         
         //$data['lang']=$this->lang->language;
+        $this->load->library('dashboard/ui');
         $this->load->model('bpm/bpm');
         $query = array(
             'assign' => $this->idu,
@@ -1335,6 +1377,7 @@ BLOCK;
 
 
     public function faq() {
+        $this->load->library('dashboard/ui');
         $this->user->authorize();
         $config['title']="Descargas";
         $config['class']="info";
@@ -1369,7 +1412,7 @@ BLOCK;
         //$data['Empresas']=$case['data']['Empresas'];
         //$data['Proyectos_pacc']=$case['data']['Proyectos_crefis'];
         $data = $case['data'];
-        $caserendicion=$this->bpm->gen_case('crefisRend',$idcase.'-'.$suffix,$data);
+        $caserendicion=$this->bpm->gen_case('crefisRend',$suffix,$data);
         $this->bpm->engine->Startcase('model', 'crefisRend', $caserendicion, true);
         $resourceId=null;
         $silent=true;
