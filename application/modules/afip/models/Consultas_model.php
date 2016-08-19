@@ -50,9 +50,9 @@ class Consultas_model extends CI_Model {
     function cuits_certificados($cuit='') {
        $this->afip_db->switch_db('afip');
      
-       // if(empty($cuit))return false;
-       // if($this->has_1273($cuit)==false)return false;
-       // if(empty($this->isPyme($cuit)))return false;
+       if(empty($cuit))return false;
+       if($this->has_1273($cuit)==false)return false;
+       if(empty($this->is_pyme($cuit)))return false;
 
        $query=array('cuit'=>new MongoInt64($cuit));
 
@@ -331,6 +331,52 @@ class Consultas_model extends CI_Model {
         return !empty($_1273);
 
     }
+
+       //=== Determina rapidamente si un cuit es pyme, basado en P y Q - p->isPyme es temporal si en Q->status !- ready
+
+    function is_pyme($cuit){
+        $this->afip_db->switch_db('afip');
+        $query=array('cuit'=>$cuit);
+        $proceso=$this->afip_db->where($query)->get('procesos')->row();
+
+        if(!empty($proceso)){
+            // No es pyme 
+            if($proceso->result['isPyme']==0){
+                return 0;
+            }else{
+                if($proceso->incorporaVinculada==0){
+                    // Es pyme , y no tiene vinculadas
+                    return 1;
+                }else{
+                    // Es pyme , tiene vinculadas 
+                    $enQueue=$this->get_queue($query);
+
+                    if(empty($enQueue)){
+                        // No esta en Q, el estado final es el de P
+                        return $proceso->result['isPyme'];
+                    }else{
+                        // Esta en Q, si es ready , el resultado final se copio a P
+                        $enQueue=$enQueue[0];        
+                        if($enQueue->status=='ready'){                      
+                            return $proceso->result['isPyme'];
+                        }else{
+                            return false;
+                        }
+                    }
+
+
+                }
+            }
+            return $proceso->result['isPyme'];
+        } 
+
+
+
+        return false;
+        
+
+    }
+
 
     
 
