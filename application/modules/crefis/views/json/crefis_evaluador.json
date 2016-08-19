@@ -12,20 +12,15 @@
                     "module": "crefis",
                     "controller": "crefis",
                     "function": "tile_buscar",
-                    "span": 4,
+                    "span": 6,
                     "js": [{"{base_url}crefis/assets/jscript/app.js":"crefisGral"}]
-                },
-                {
-                    "title": "Tile01",
-                    "module": "crefis",
-                    "controller": "crefis",
-                    "function": "tile_proyectos"
                 },
                 {
                     "title": "Evaluacion Tecnica",
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
+                    "span": 3,
                     "params": ["crefisGral", "crefisGral_WN"]
                 },
                 {
@@ -33,14 +28,8 @@
                     "module": "bpm",
                     "controller": "kpi",
                     "function": "tile",
+                    "span": 3,
                     "params": ["crefisGral", "crefisGral_IY"]
-                },
-                {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile",
-                    "params": ["cases_closed"]
                 }
             ]
         },

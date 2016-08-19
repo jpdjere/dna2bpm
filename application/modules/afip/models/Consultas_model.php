@@ -27,7 +27,9 @@ class Consultas_model extends CI_Model {
      */
     function buscar_cuits_registrados($parameter=null, $collection='queue') {
        $this->afip_db->switch_db('afip');
-       return $this->afip_db->where(array('cuit'=>new MongoInt64($parameter)))->get($collection)->row();
+       //return $this->afip_db->where(array('cuit'=>new MongoInt64($parameter)))->get($collection)->row();
+
+       return $this->afip_db->where(array('cuit'=>(int)$parameter))->get($collection)->row();
    }
 
 
@@ -46,11 +48,13 @@ class Consultas_model extends CI_Model {
      * @param type $query
      */
     function cuits_certificados($cuit='') {
+      //   $this->load->model('eventanilla_model');
+
        $this->afip_db->switch_db('afip');
-     
-       if(empty($cuit))return false;
-       if($this->has_1273($cuit)==false)return false;
-       if(empty($this->isPyme($cuit)))return false;
+        
+       //  if(empty($cuit))return false;
+       //  if($this->has_1273($cuit)==false)return false;
+       // if(empty($this->eventanilla_model->is_pyme($cuit)))return false;
 
        $query=array('cuit'=>new MongoInt64($cuit));
 
@@ -329,6 +333,9 @@ class Consultas_model extends CI_Model {
         return !empty($_1273);
 
     }
+
+      
+
 
     
 

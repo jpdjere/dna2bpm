@@ -1,0 +1,23 @@
+{
+    "desc": "",
+    "filter_extra": "",
+    "group": 0,
+    "help": "",
+    "hidden": false,
+    "icon": "ion-android-add",
+    "idkpi": "crefisGral_JO",
+    "idu": 1322971723,
+    "idwf": "crefisGral",
+    "list_detail": "..\/..\/dna2\/frontcustom\/231\/list_docs_crefis_eval.php?id={Proyectos_crefis id}&{idwf}\/{idcase}\/{token}",
+    "list_detail_template": "",
+    "list_fields": "{\"Nro proyecto\":\"Proyectos_crefis 4837\",\"Fecha\":\"checkdate\",\"Nombre Empresa\":\"Empresas_4844}{1693}{\/Empresas_4844\",\"CUIT\":\"Empresas_4844}{1695}{\/Empresas_4844\",\"Caso\":\"idcase\"}",
+    "list_records": 0,
+    "list_template": "",
+    "locked": false,
+    "resourceId": "oryx_5180C462-CF50-4AE0-A884-8B1CBD989D4F",
+    "status": "user",
+    "title": "Proyectos Preaprobados",
+    "type": "count_cases",
+    "widget": "tile-blue",
+    "widget_type": "tiles"
+}
