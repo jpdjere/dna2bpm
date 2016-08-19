@@ -37,7 +37,7 @@ class semilla extends MX_Controller {
         $user = $this->user->get_user($this->idu);
 
         $this->id_group = ($user->{'group'});
-        
+        MongoCursor::$timeout = -1;
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
