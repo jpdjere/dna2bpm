@@ -17,6 +17,7 @@
                     <th></th>
                     <th></th>
                     <th>Nro Proyecto</th>
+                    <th>Rendicion</th>
                     <th>Fecha</th>
                     <th>Nombre Empresa</th>
                     <th>CUIT</th>
@@ -54,6 +55,7 @@
                     
                         </td>
                     <td>{Nro}</td>
+                    <td>{Nro_rend}</td>
                     <td>{fechaent}</td>
                     <td>{nombre}</td>
                     <td>{cuit}</td>
