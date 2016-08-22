@@ -844,14 +844,14 @@ class Model_12 extends CI_Model {
 
 
 
-        if(!empty($this->input->post('sgr_checkbox')))
+       /* if(!empty($this->input->post('sgr_checkbox')))
             $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
 
         if(!empty($this->input->post('warranty_type'))){
             $regex = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i');  
             $warranty_type = $regex;
          } else
-           $warranty_type = array('$exists'  => true);
+           $warranty_type = array('$exists'  => true);*/
 
 
         switch ($this->input->post('sgr')) {
@@ -892,10 +892,10 @@ class Model_12 extends CI_Model {
                     ),
                     array (
                         '$match' => array (
-                            'anexo_data.5349'=> $cuit_sharer,
+                         /*   'anexo_data.5349'=> $cuit_sharer,
                             'anexo_data.5351'=> $cuit_creditor,
                             'anexo_data.5216'=> $warranty_type, 
-                            'anexo_data.5214'=> $order_number, 
+                            'anexo_data.5214'=> $order_number, */
                             #"anexo_data.5214"=>"1",
                             #"anexo_data.5349"=>'30525391902'                          
                     )                       
