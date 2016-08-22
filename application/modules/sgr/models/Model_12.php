@@ -895,7 +895,9 @@ class Model_12 extends CI_Model {
                             'anexo_data.5349'=> $cuit_sharer,
                             'anexo_data.5351'=> $cuit_creditor,
                             'anexo_data.5216'=> $warranty_type, 
-                            'anexo_data.5214'=> $order_number,                           
+                            'anexo_data.5214'=> $order_number, 
+                            #"anexo_data.5214"=>"1",
+                            #"anexo_data.5349"=>'30525391902'                          
                     )                       
                 )        
             )     
