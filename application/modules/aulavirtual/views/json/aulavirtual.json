@@ -1,0 +1,29 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212@gmail.com>",
+    "title": "AULA VIRTUAL : Formulario de Inscripción",
+    "view": "layout_clean",
+    "icon": "fa-users",
+    "zones": [{
+        "widgets": [{
+            "title": "Profile",
+            "module": "aulavirtual",
+            "controller": "aulavirtual",
+            "function": "formulario",
+            "js": [{
+                "0": "jqueryUI"
+            }, {
+                "1": "PLUpload"
+            }, {
+                "{base_url}jscript/jquery-validation/dist/jquery.validate.min.js":"Validate",
+                "{base_url}jscript/jquery-validation/dist/additional-methods.min.js":"Aditional Methods",
+                "{base_url}jscript/jquery/plugins/jquery-validate/localization/messages_es.js'" : "Locales ES",
+                "{base_url}aulavirtual/assets/jscript/validacion.js":"Scripts UI",
+                "{base_url}aulavirtual/assets/jscript/carga-archivo.js":"Scripts UI"
+            }],
+            "css": [{
+                "{base_url}aulavirtual/assets/css/aulavirtual.css": "profile CSS"
+                
+            }]
+        }]
+    }]
+}

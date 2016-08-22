@@ -1,0 +1,56 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Afip dashboard",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "js": [{
+
+        "{base_url}ui/assets/jscript/morris.js": "Script",
+        "{base_url}ui/assets/jscript/raphael.js": "Script",
+        "{base_url}ui/assets/jscript/morris_line.js": "Morris Liner"
+
+    }],
+    "zones": [{
+        "tiles": [
+
+        ]
+    }, {
+        "col1": [
+            {
+                "title": "consulta_cuit",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "consulta_cuit"
+            },
+            
+            {
+                "title": "CATEGORIA",
+                "module": "afip",
+                "controller": "consultas_padron",
+                "function": "por_categoria"
+            }
+
+            , {
+                "title": "porletra",
+                "module": "afip",
+                "controller": "consultas_padron",
+                "function": "por_letra"
+            }
+
+        ]
+    }, {
+        "col2": [{
+            "title": "xSector",
+            "module": "afip",
+            "controller": "consultas_padron",
+            "function": "por_sector"
+        }, {
+            "title": "xProvincia",
+            "module": "afip",
+            "controller": "consultas_padron",
+            "function": "por_provincia"
+        }
+        ]
+    }]
+}

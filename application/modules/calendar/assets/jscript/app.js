@@ -5,7 +5,7 @@
  */
 
 jQuery(document).ready(function($) {
-    //var base_url=globals['base_url'];
+    var base_url=globals.base_url;
     var lang={'english':'eng','spanish':'es'};
 
     // Hidden groups holder

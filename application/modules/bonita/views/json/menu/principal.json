@@ -1,0 +1,20 @@
+{
+    "createdBy": "Sebastian Blazquez",
+    "title": "Bonificación de Tasa",
+    "view": "layout_2cols",
+    "icon": "fa-qrcode",
+    "zones": [
+        {   "col1": [{
+            "title": "Licitaciones",
+            "module": "bonita",
+            "controller": "bonita",
+            "function": "bonita_modulos_list"
+            }]
+    }, {
+        "col2": []
+        },    
+    {
+        "2cols_after": []
+    }]
+}
+    

@@ -17,10 +17,17 @@
         ]
     }, {
         "col1": [{
-                "title": "consulta_cuit",
+                "title": "Consulta Cuit",
                 "module": "afip",
                 "controller": "consultas",
-                "function": "consulta_cuit"
+                "function": "consulta_cuit_2",
+                "box_icon":"fa-search",
+                "box_class":["box","box-primary"], 
+                "box_buttons":["collapse"],
+                "box_collapsed":"0",
+                "css": [{
+                    "{base_url}code/assets/css/code.css": "code"
+                }]
             },
             {
                 "title": "chart_F1272xSemana",

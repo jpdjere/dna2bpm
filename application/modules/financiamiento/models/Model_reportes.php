@@ -28,6 +28,16 @@ class Model_reportes extends CI_Model {
         }
         return $data;
     }
+    
+    function get_data_by_caseid($query){
+        $this->db_formentrada->where($query);
+        return $this->db_formentrada->get($this->container)->result_array();
+    }
+    
+    function get_data_by_query($query){
+        $this->db_formentrada->where($query);
+        return $this->db_formentrada->get($this->container)->result_array();
+    }
 }
 
 

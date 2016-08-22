@@ -1,0 +1,26 @@
+{
+    "createdBy": "Luciano Menez <lucianomenez1212d@gmail.com>",
+    "title": "Coordinación de Programa Expertos",
+    "view": "layout_2cols_fixed",
+    "icon": "fa-users",
+    "zones": [
+        {
+        "tiles": [
+            ]
+        },
+        {
+            "full_widget": [{
+                "title": "Reportes Incubadora",
+                "module": "expertos",
+                "controller": "expertos",
+                "function": "buscador_expertos"
+                }]
+            
+        }
+    ],
+    
+    "js": [{
+                "{base_url}fondosemilla/assets/jscript/lite.js": "Dash",
+                "{base_url}expertos/assets/jscript/coordinador.js": "Dash"
+            }]
+}

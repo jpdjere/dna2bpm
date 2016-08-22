@@ -1,6 +1,11 @@
 {
     "hooks": [
         {
+            "name": "Hook Portal Pyme",
+            "group": [1000],
+            "redir": "perfil/index"
+        },
+        {
             "name": "Hook Genias",
             "group": [98, 92,85],
             "redir": "genias"
@@ -19,11 +24,6 @@
             "name": "Hook Evaluadores Crefis",
             "group": [1001,1004],
             "redir": "crefis/evaluador/"
-        },
-        {
-            "name": "Hook Portal",
-            "group": [1027],
-            "redir": "perfil/empresa"
         },
         {
             "name": "Hook Portal Admin   ",

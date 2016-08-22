@@ -35,15 +35,93 @@ class Perfil extends MX_Controller {
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
 
+        define('LINK_INCUBADORA','perfil/incubadora');
+        define('LINK_EMPRESA','perfil/empresa');
+        define('LINK_EMPRENDEDOR','fondosemilla/semilla');
+        define('LINK_EXPERTO','perfil/experto');
+
+
     }
 
-    function Index() {
-        
+
+
+    # ====================================
+    #   Hub
+    # ====================================
+
+    function Index($cuit=null,$debug=0) {
+        $this->load->model('user/user');
+        $userdata=$this->user->get_user($this->idu);
+        if(count($userdata->group)==1 && $userdata->group[0]==1000){
+            // registro nuevo va al hub
+            $this->hub();
+        }else{
+
+            // hook
+            if(in_array(1027,$userdata->group) || in_array(1,$userdata->group)){
+                //pyme
+                redirect(LINK_EMPRESA);
+            }elseif(in_array(1029,$userdata->group)){
+                //emprendedor
+                redirect(LINK_EMPRENDEDOR);
+            }elseif(in_array(1030,$userdata->group)){
+                //incubadora
+                 redirect(LINK_INCUBADORA);
+
+            }elseif(in_array(1014,$userdata->group)){
+                //experto
+                 redirect(LINK_EXPERTO);
+            }else{
+               // $this->empresa();
+                show_error('No tiene permisos');
+            }   
+
+        }
+
+
+
     }
-    
+
+    function Hub($cuit=null,$debug=0) {
+
+         $this->load->module('dashboard');
+         $this->dashboard->dashboard('perfil/json/hub.json',$debug);
+
+    }
+
+
+    function Hub_registro($cuit=null,$debug=0) {
+
+        $customData['lang']= $this->lang->language;
+        $customData['base_url'] = $this->base_url;
+        $callout=array('body'=>$customData['lang']['text_registro'],'title'=>'');
+        echo $this->ui->callout($callout);
+        echo $this->parser->parse('perfil/hub', $customData, true, true);  
+
+
+    }
+
+
+
+
     # ====================================
     #   Empresa
     # ====================================
+
+    function registro_pyme() {
+
+        $mygroup=1027;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+
+        }
+         redirect(LINK_EMPRESA);
+    }
+
 
     function Empresa($cuit=null,$debug=0) {
 
@@ -137,8 +215,23 @@ class Perfil extends MX_Controller {
     # ====================================
 
     function Incubadora($cuit=null,$debug=0) {
-        $this->load->module('dashboard');
-        $this->dashboard->dashboard('perfil/json/incubadora.json',$debug);
+         $this->load->module('dashboard');
+         $this->dashboard->dashboard('perfil/json/incubadora.json',$debug);
+    }
+
+
+    function registro_incubadora() {
+
+        $mygroup=1030;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+
+        }
+         redirect(LINK_INCUBADORA);
     }
 
     # ====================================
@@ -150,6 +243,19 @@ class Perfil extends MX_Controller {
         $this->dashboard->dashboard('perfil/json/emprendedor.json',$debug);
     }
 
+    function registro_emprendedor() {
+
+        $mygroup=1029;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+
+        }
+         redirect(LINK_EMPRENDEDOR);
+    }
 
 
     # ====================================
@@ -159,6 +265,19 @@ class Perfil extends MX_Controller {
     function Experto($cuit=null,$debug=0) {
         $this->load->module('dashboard');
         $this->dashboard->dashboard('perfil/json/experto.json',$debug);
+    }
+
+    function registro_experto() {
+
+        $mygroup=1014;
+        $user=$this->user->get_user($this->idu);
+        $data['idu']=$this->idu;
+        if(!in_array($mygroup,$user->group)){
+            $user->group[]=$mygroup;
+            $data['group']=$user->group;
+            $this->user->put_user($data);
+        }
+         redirect(LINK_EXPERTO);
     }
 
     // function Experto() {

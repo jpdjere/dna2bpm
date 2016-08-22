@@ -1,0 +1,20 @@
+{
+    "createdBy": "Sebastian Blazquez",
+    "title": "Formulario de Consulta",
+    "view": "layout_2colsy1_bonita",
+    "icon": "fa-qrcode",
+    "js":[
+        {"{base_url}financiamiento/assets/jscript/formulario_consulta.js":"Js Form"},
+        {"{base_url}bonita/assets/jscript/jquery.maskedinput.js":"MaskedInput"}
+    ],"zones":[
+        {
+            "col1": [{
+            "title": "Consulta",
+            "module": "financiamiento",
+            "controller": "consulta",
+            "function": "mostrar_formulario"
+            }]
+        }
+    ]
+}
+    

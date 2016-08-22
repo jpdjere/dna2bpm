@@ -121,7 +121,14 @@ class Login extends MX_Controller {
         }
 
         $this->session->set_userdata('msg', $msg);
-
+        //---build UI
+        //---define files to viewport
+        $cpData['css'] = array(
+            $this->module_url . "assets/css/login.css" => 'Login Specific',
+        );
+        $cpData['js'] = array(
+                //$this->module_url . "assets/jscript/login.js" => 'Login',
+        );
         //---
         $cpData['global_js'] = array(
             'base_url' => $this->base_url,
@@ -134,6 +141,10 @@ class Login extends MX_Controller {
         $cpData['show_warn'] = ($this->config->item('show_warn') and $msg <> '');
         //----clear data
         $this->session->unset_userdata('msg');
+        //$this->ui->makeui('user/ext.ui.php', $cpData);
+        //$this->parser->parse('user/login', $cpData);
+       // $this->ui->compose('user/login.bootstrap2.php', 'user/bootstrap3.ui.php', $cpData);
+         //$this->ui->compose('user/sepyme/login.php', 'user/bootstrap3.ui.php', $cpData);
 
         $cpData['menu_programas']=$this->parser->parse('user/portal/menu_programas', $cpData,true);
 

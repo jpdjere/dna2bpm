@@ -54,7 +54,9 @@ class Consultas extends MX_Controller {
         $this->idu = (int) $this->session->userdata('iduser');
       //  $this->user->authorize();
         
-
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        ini_set('xdebug.var_display_max_depth', 120 );
 
     }
     
@@ -183,7 +185,7 @@ function show_source($parameter, $collection){
 
 
 function has_certificado($cuit){
-return !empty($this->consultas_model->cuits_certificados((int) $cuit));
+return $this->consultas_model->cuits_certificados((int) $cuit);
 }
 
 
@@ -198,7 +200,7 @@ function certificado($parameter,$type='pdf'){
         show_error("error la C.U.I.T. " . $parameter . " no fue beneficiada con 'IVA – Cancelación trimestral'");
         exit;
     }
-    
+
         /*
         CUIT
         Razón Social
@@ -251,7 +253,6 @@ function certificado($parameter,$type='pdf'){
                     
                 break;
             default:
-
                 $this->parser->parse('pdf2', $new_list);
                 break;
         }
@@ -307,6 +308,8 @@ function browse_vinculadas(){
 
 
     function Gen_url($url = null, $size = '9', $level = 'H') {
+        
+        
         if ($url) {
             $url_gen = base64_decode(urldecode($url));
         }
@@ -533,10 +536,64 @@ function browse_vinculadas(){
  * Consulta CUIT
  * 
  */
+
   function consulta_cuit(){
       $this->load->view('afip/consulta_cuit');
   }
 
+
+//== Consulta AJAX
+
+  function consulta_cuit_2(){
+    $renderData['targetUrl']=$this->base_url.'afip/consultas/AX_get_afip_data';
+
+     echo $this->parser->parse('afip/consulta_cuit_2', $renderData,true,true);
+  }
+
+  function AX_get_afip_data(){
+    $this->load->model('eventanilla_model');
+    $data=$this->input->post('data');
+    $this->load->module('code/code');
+    //== deserialize
+    $vip=array('cuit');
+    $clean=array();
+    foreach ($data as $item) {
+        if(in_array($item['name'],$vip))
+            $clean[$item['name']]=htmlspecialchars($item['value']);
+    }
+    $data=$this->consultas_model->buscar_cuits_registrados($clean['cuit'],'procesos');   
+    if(empty($data)){
+        echo "No existe el cuit";
+    }else{
+        //echo $this->code->code_block( json_encode($data,JSON_PRETTY_PRINT), 'json','textmate',30);
+        //var_dump($data);
+        $is_pyme=$this->eventanilla_model->is_pyme((int)$clean['cuit']);
+
+        $renderData['data']="";
+        $renderData['data'].="<tr><td>Cuit</td><td>{$data->cuit}</td></tr>";
+        $renderData['data'].="<tr><td>Denominacion</td><td>{$data->denominacion}</td></tr>";
+        $renderData['data'].="<tr><td>Forma Jurídica</td><td>{$data->formaJuridica}</td></tr>";
+        $renderData['data'].="<tr><td>Periodo Alta Ganancias</td><td>{$data->periodoAltaGcias}</td></tr>";
+        $renderData['data'].="<tr><td>Domicilio Legal</td><td>{$data->domicilioLegal}</td></tr>";
+        $renderData['data'].="<tr><td>Codigo Postal</td><td>{$data->domicilioLegalCodigoPostal}</td></tr>";
+        $renderData['data'].="<tr><td>Localidad</td><td>{$data->domicilioLegalLocalidad}</td></tr>";
+        $renderData['data'].="<tr><td>Provincia</td><td>{$data->domicilioLegalDescripcionProvincia}</td></tr>";
+        $renderData['data'].="<tr><td>Fecha de Inscripción</td><td>{$data->fechaInscripcion}</td></tr>";
+        $renderData['data'].="<tr><td>Cantidad de Empleados</td><td>{$data->empleado}</td></tr>";
+        $renderData['data'].="<tr><td>Actividad Principal</td><td>{$data->descripcionActividadPrincipal}</td></tr>";
+        $renderData['data'].="<tr><td>Periodo Fiscal Total</td><td> -- </td></tr>";
+        $renderData['data'].="<tr><td>Sector</td><td> {$data->result['sector']}</td></tr>";
+        if($is_pyme===false){
+            $renderData['data'].="<tr><td>Categoria PyME</td><td> En espera</td></tr>";
+        }else{
+            $renderData['data'].="<tr><td>Categoria PyME</td><td> {$data->result['categoria']}</td></tr>";          
+        }
+
+        echo $this->parser->parse('afip/table_por_cuit', $renderData, true, true);
+        
+    }
+
+  }
 
   /*UPDATE*/
   function update_rventanilla_1273_recursive(){

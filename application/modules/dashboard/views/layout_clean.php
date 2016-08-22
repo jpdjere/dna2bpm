@@ -10,7 +10,7 @@ include('_header.php')
         <div class="wrapper row-offcanvas row-offcanvas-left hidden-print"><!-- Wrapper -->
 
             <!-- ======== MENU LEFT ======== --> 
-            <aside class="left-side sidebar-offcanvas">
+            <aside class="left-side sidebar-offcanvas ">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <!-- /.search form -->

@@ -92,6 +92,32 @@ class Api extends MX_Controller {
             return($data);
         }
     }
+     function por_sector_padron($mode = 'json',$provincia=null) {
+        $this->load->model('afip/padron_model');
+        $data=array();
+        $filter=null;
+        //---agrego filtro por provincia.
+        if($provincia)
+            $filter=array('$match'=>array('domicilioLegalDescripcionProvincia'=>urldecode($provincia)));
+        $data=$this->consultas_model->por_sector($filter);
+        
+        switch ($mode) {
+            case "object":
+            return (object) $data;
+            break;
+            case "array":
+            return($data);
+            break;
+            case "dump":
+            var_export($data);
+            break;
+            case "json":
+            output_json($data);
+            break;
+            default:
+            return($data);
+        }
+    }
      function por_categoria($mode = 'json',$provincia=null) {
         $this->load->model('afip/consultas_model');
         $data=array();
@@ -120,6 +146,28 @@ class Api extends MX_Controller {
     }
      function por_letra($mode = 'json') {
         $this->load->model('afip/consultas_model');
+        $data=array();
+        $data=$this->consultas_model->por_letra();
+        
+        switch ($mode) {
+            case "object":
+            return (object) $data;
+            break;
+            case "array":
+            return($data);
+            break;
+            case "dump":
+            var_export($data);
+            break;
+            case "json":
+            output_json($data);
+            break;
+            default:
+            return($data);
+        }
+    }
+     function por_letra_padron($mode = 'json') {
+        $this->load->model('afip/padron_model');
         $data=array();
         $data=$this->consultas_model->por_letra();
         
@@ -336,28 +384,26 @@ class Api extends MX_Controller {
 
 
     }
- 
-     function get_data_by_cuit($cuit, $mode = 'json'){
+    
+    //== Martin no me rompas por favor
+    function get_data_by_cuit($cuit, $mode = 'json'){
 
-        //$cuit = '30712072772';
-        $this->user->authorize();                           
-        $data=$this->consultas_model->cuits_certificados($cuit);
+
+        $this->user->authorize();                       
+        $data=$this->consultas_model->buscar_cuits_registrados($cuit,'procesos');
 
         return $data;
 
      } 
 
-
     function get_data_by_cuit_format($cuit, $mode = 'json'){
 
-        //$cuit = '30712072772';
+
         $this->user->authorize();                       
 
         
         $data=$this->consultas_model->cuits_certificados($cuit);
-        //var_dump($data);
-        
-        //return $cuit;
+
         switch ($mode) {
             case "object":
                 return (object) $data;
@@ -371,7 +417,7 @@ class Api extends MX_Controller {
             default:
                 return($data);
         }
-        //var_dump($data);
+
         return $data;
 
      } 

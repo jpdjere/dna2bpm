@@ -80,7 +80,7 @@
                                             <div class="panel-heading titulo-tabla-pad no-border-bottom">
                                                 <h3 class="panel-title text-center info">Sector</h3>
                                             </div>
-                                            <div class="panel-body panel-border">Lorem ipsum dolor  ametelit</div>
+                                            <div class="panel-body panel-border">{sector}</div>
                                         </div>
                                     </div>
                                      <div class="col-md-4 col-sm-4 pad-left-0">
@@ -88,7 +88,7 @@
                                             <div class="panel-heading titulo-tabla-pad no-border-bottom">
                                                 <h3 class="panel-title text-center info">Tramo</h3>
                                             </div>
-                                            <div class="panel-body panel-border">Lorem ipsum dolor  ametelit</div>
+                                            <div class="panel-body panel-border">{categoria}</div>
                                         </div>
                                     </div>
                                      <div class="col-md-4 col-sm-4 pad-left-0 pad-right-0">
@@ -109,7 +109,7 @@
                                 <p  class="info r0 p-qr">Código QR</p>
                             </div>
                             <div class="col-md-3 col-sm-3">
-                                 <img src="{base_url}afip/consultas/gen_url/{qr_url}" class="img-thumbnail">
+                                <img class="img-responsive img-thumbnail" src="{base_url}afip/consultas/gen_url/{qr_url}">
                             </div>
                         </div>
                     </div>
@@ -118,6 +118,17 @@
         </div>
     </div><!-- /.container -->
         
+
+
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+
 </body>
 
 </html>
