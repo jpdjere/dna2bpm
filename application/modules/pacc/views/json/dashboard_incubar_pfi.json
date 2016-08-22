@@ -1,6 +1,6 @@
 {
     "createdBy": "MJL <mjlucini@gmail.com>",
-    "title": "Frotalecimiento Institucional",
+    "title": "Fortalecimiento Institucional",
     "view": "layout_2cols_fixed",
     "icon": "ion-briefcase",
     "button": "<button id='button-tour' class='btn btn-default' type='button'>Iniciar Tour</button>",

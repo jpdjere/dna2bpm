@@ -37,7 +37,7 @@ class Incubar_pfi extends MX_Controller {
     }
 
     function proyecto_PFI() {
-        $data ['number'] = 'Formulario PFI';
+        $data ['number'] = 'PFI';
         $data ['title'] = 'PFI';
         $data ['icon'] = 'ion-document-text';
         $data ['more_info_text'] = 'Comenzar';
