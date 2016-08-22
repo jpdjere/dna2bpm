@@ -837,10 +837,10 @@ class Model_12 extends CI_Model {
         $end_date = last_month_date($this->input->post('input_period_to'));
 
         # CUSTOM 
-        $custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
+        /*$custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
         $order_number = !empty($this->input->post('order_number')) ? $this->input->post('order_number') : array('$exists'  => true);
         $cuit_sharer = !empty($this->input->post('cuit_sharer')) ? $this->input->post('cuit_sharer')  : array('$exists'  => true);
-        $cuit_creditor = !empty($this->input->post('cuit_creditor')) ? $this->input->post('cuit_creditor')  : array('$exists'  => true);
+        $cuit_creditor = !empty($this->input->post('cuit_creditor')) ? $this->input->post('cuit_creditor')  : array('$exists'  => true);*/
 
 
 
