@@ -312,7 +312,6 @@ class Bpm extends CI_Model {
                 ),
             ),
             );
-        echo json_encode($query);    
         $rs=$this->mongowrapper->db->tokens->aggregate($query);
         // var_dump($rs['result'][2]);exit;
         if($rs['ok']){
