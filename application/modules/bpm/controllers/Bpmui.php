@@ -113,6 +113,7 @@ class Bpmui extends MX_Controller {
     }
 
     function ministatus($idwf, $showArr = array()) {
+
         $showArr = (count($showArr)) ? (array)$showArr : array(
             'StartNoneEvent',
             'StartMessageEvent',
@@ -127,6 +128,8 @@ class Bpmui extends MX_Controller {
         $state = $this->bpm->get_cases_stats($filter);
         $data['lang'] = $this->lang->language;
         //---las aplano un poco
+;
+        
         foreach ($state as $task) {
             $task['user'] = (isset($task['status']['user'])) ? $task['status']['user'] : 0;
             $task['finished'] = (isset($task['status']['finished'])) ? $task['status']['finished'] : 0;
@@ -134,6 +137,8 @@ class Bpmui extends MX_Controller {
             $data['mini'][] = $task;
         }
         $data['base_url'] = base_url();
+        $data['idwf'] = $idwf;
+        
         $wf = $this->bpm->load($idwf);
         $data+=$wf['data']['properties'];
         $data['name'] = 'Mini Status: ' . $data['name'];

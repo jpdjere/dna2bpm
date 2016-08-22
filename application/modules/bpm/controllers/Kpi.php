@@ -291,7 +291,7 @@ class Kpi extends MX_Controller {
 		);
 		$this->ui->makeui ( 'dashboard/layout', $cpData );
 	}
-	function list_status($idwf, $resourceId, $status, $page = 1, $pagesize = 5) {
+	function list_status($idwf, $resourceId, $status, $page = 1, $pagesize = 10) {
 		$debug = (isset ( $this->debug [__FUNCTION__] )) ? $this->debug [__FUNCTION__] : false;
 		if ($debug)
 			echo '<h2>' . __FUNCTION__ . '</h2>';
@@ -301,7 +301,7 @@ class Kpi extends MX_Controller {
 		$cpData ['theme'] = $this->config->item ( 'theme' );
 		$cpData ['base_url'] = $this->base_url;
 		$cpData ['module_url'] = $this->module_url;
-		$cpData ['showPager'] = false;
+		$cpData ['showPager'] = true;
 		// ---syntethize an status kpi
 		$kpi = array (
 				"type" => "state",
@@ -309,11 +309,14 @@ class Kpi extends MX_Controller {
 				"resourceId" => $resourceId,
 				"status" => $status,
 				'list_template' => '',
-				'list_fields' => ''
+				'list_fields' => '',
+				'filter' => ''
 		);
 
 		// var_dump($kpi);exit;
 		// ----if specified pagesize comes from KPI
+
+		
 		$detail = $this->base_url . 'bpm/engine/run/model/{idwf}/{idcase}';
 		$detail_icon = 'fa-play';
 		$cpData ['kpi'] = $kpi;
@@ -410,7 +413,9 @@ class Kpi extends MX_Controller {
         <i class='fa fa-arrow-circle-o-left'></i>
         Go back
         </a>";
-		// ----PROCESS KPIS
+		// ----PROCESS KPI
+		$cpData['pagination'] = $cpData['pages'];
+
 		$this->parser->parse ( 'bpm/widgets/list.kpi.ui.php', $cpData,false,true );
 	}
 
