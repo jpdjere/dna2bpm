@@ -235,57 +235,118 @@ class Model_126 extends CI_Model {
         }
     }
 
-    function generate_report($parameter=array()) {
-       
+     function generate_report($parameter=array()) {
+        
 
-       $start_date = first_month_date($parameter['input_period_from']);
-       $end_date = last_month_date($parameter['input_period_to']);
+        /*REPORT POST VALUES*/        
 
 
-       $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
-       switch($parameter['sgr_id']){
+        # STANDARD 
+        $report_name = $this->input->post('report_name');
+        $start_date = first_month_date($this->input->post('input_period_from'));       
+        $end_date = last_month_date($this->input->post('input_period_to'));
+
+
+        if(!empty($this->input->post('sgr_checkbox')))
+            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
+
+      
+        switch ($this->input->post('sgr')) {
             case '666':
                 $sgr_id = array('$exists'  => true);
             break;
 
             case '777':
-                $sgr_id = array('$in'=>$parameter['sgr_id_array']);
+                $sgr_id = array('$in'=>$sgr_id_array);
             break;
 
             default:
-                $sgr_id = (float)$parameter['sgr_id'];
+                $sgr_id = (float)$this->input->post('sgr');
             break;
-       }
+        }
 
-
-        $query=array(
-                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
-                'pipeline'=>
-                  array(                       
-                      array (
+        /*QUERY*/       
+        $query =array(
+            'aggregate'=>'container.sgr_periodos',
+            'pipeline'=>
+             array(
+                array (
+                        '$match' => array (
+                            'anexo' => (string)$this->anexo,
+                            'sgr_id' =>$sgr_id, 
+                            'status'=>'activo',                            
+                            'period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                            )
+                        )                        
+                    ),                         
+                    array (
                         '$lookup' => array (
-                            'from' => 'container.sgr_periodos' ,
+                            'from' => 'container.sgr_anexo_' . $this->anexo,
                             'localField' => 'filename',
                             'foreignField' => 'filename',
-                            'as' => 'periodo')                        
-                      ),
-                      array (
-                        '$match' => array (
-                            'periodo.sgr_id' =>$sgr_id, 
-                            'periodo.status'=>'activo' ,
-                            'periodo.period_date' => array(
-                                '$gte' => $start_date, '$lte' => $end_date
-                        ))                        
-                      )                 
+                            'as' => 'anexo_data'
+                    )                            
+                )      
+            )     
+        );    
 
-                ));  
+        $get=$this->sgr_db->command($query); 
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
+        
+    }
+    function ui_table_xls($result, $anexo = null, $parameter) { 
 
+        #custom
+        $rtn_msg = array('no_record');
+        
+        $list = null;
+        
+        $this->sgr_model->del_tmp_general();
+        
+        foreach ($result as $period_info) {
+        
+            foreach ($period_info['anexo_data'] as $list) {
+                
+                /* Vars */
+                $new_list = array();
+
+               
+                /* FILENAME */
+                $sgr_info = array();
+                $period_month = null;
+                $period_year = null;
+
+                if(isset($period_info['filename'])){
+                    $filename = trim($list['filename']);   
+                    
+                    $sgr_info = $this->sgr_model->get_sgr_by_id_new($period_info['sgr_id']);
+                    list($period_month, $period_year) = explode("-", $period_info['period']);
+                }
+
+                $new_list = array();
+                $new_list['col0'] = $sgr_info[1693];
+                $new_list['col1'] = $sgr_info[1695];            
+                $new_list['col2'] = $list['id'];
+                $new_list['col3'] = $period_info['period'];
+                $new_list['col4'] = dot_by_coma($list['OTORGAMIENTO_PERIODO']);
+                $new_list['col5'] = dot_by_coma($list['OTORGAMIENTO_PERIODO_PREVIO']);
+                $new_list['col6'] = dot_by_coma($list['ADM_FDR']);
+                $new_list['col7'] = dot_by_coma($list['ASESORAMIENTO']);
+                $new_list['col8'] = $filename;
+                $new_list['uquery'] = $parameter;
               
-        $get=$this->sgr_db->command($query);
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);  
-   }
+                /* SAVE RESULT IN TMP DB COLLECTION */
+                $this->sgr_model->save_tmp_general($new_list, $list['id']);
+                $rtn_msg = array('ok');
+            } 
+        }
+       echo json_encode($rtn_msg);
+       exit;
+    }
 
-   function ui_table_xls($result, $anexo = null, $parameter) {   
+
+   function ui_table_xls_ORI($result, $anexo = null, $parameter) {   
   
         $rtn_msg = array('no_record');
         

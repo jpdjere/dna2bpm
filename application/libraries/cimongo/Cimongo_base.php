@@ -126,7 +126,7 @@ class Cimongo_base {
 	 * @since v1.0.0
 	 */
 	private function connect(){
-		$options = array();
+		$options = array('socketTimeoutMS' => 5*60*1000);
 		try{
 			$this->connection = new MongoClient($this->connection_string, $options);
 			$this->db = $this->connection->{$this->dbname};
