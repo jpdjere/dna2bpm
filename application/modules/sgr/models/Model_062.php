@@ -395,10 +395,10 @@ class Model_062 extends CI_Model {
         # STANDARD 
         $report_name = $this->input->post('report_name');
         $start_date = first_month_date($this->input->post('input_period_from'));       
-        $end_date = last_month_date($this->input->post('input_period_to'));
-       
+        $end_date = last_month_date($this->input->post('input_period_to'));      
 
-        $cuit = !empty($this->input->post('cuit_socio')) ? $this->input->post('cuit_socio')  : array('$exists'  => true);
+        
+        $cuit = method_exists($this->input, 'post') ? $this->input->post('cuit_socio') : false;
       
         switch ($this->input->post('sgr')) {
             case '666':

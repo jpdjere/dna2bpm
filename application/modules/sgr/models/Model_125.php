@@ -371,8 +371,7 @@ class Model_125 extends CI_Model {
         $start_date = first_month_date($this->input->post('input_period_from'));       
         $end_date = last_month_date($this->input->post('input_period_to'));
        
-
-        $cuit = !empty($this->input->post('cuit_socio')) ? $this->input->post('cuit_socio')  : array('$exists'  => true);
+        $cuit = method_exists($this->input, 'post') ? $this->input->post('cuit_socio') : false;
       
         switch ($this->input->post('sgr')) {
             case '666':
