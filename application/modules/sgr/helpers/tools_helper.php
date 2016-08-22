@@ -276,7 +276,7 @@ function first_month_date($period, $invert = null) {
     return $endDate;
 }
 
-function last_month_date($period, $invert = null) {
+function last_month_date($period=null, $invert = null) {
 
     if ($period) {
 
@@ -1304,7 +1304,7 @@ function header_arr($anexo, $custom=false) {
         break;
 
         case '061':
-            $headerArr = array('SGR'
+            $headerArr = array('SGR', 'CUIT SGR'
             , 'ID'
             , 'EJERCICIO'
             , 'PERIODO'

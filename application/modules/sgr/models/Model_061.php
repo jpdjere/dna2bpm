@@ -342,140 +342,158 @@ class Model_061 extends CI_Model {
     }
 
     function generate_report($parameter=array()) {
-       
+        
 
-       $start_date = first_month_date($parameter['input_period_from']);
-       $end_date = last_month_date($parameter['input_period_to']);
+        /*REPORT POST VALUES*/        
 
 
-       $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
-       switch($parameter['sgr_id']){
+        # STANDARD 
+        $report_name = $this->input->post('report_name');
+        $start_date = first_month_date($this->input->post('input_period_from'));       
+        $end_date = last_month_date($this->input->post('input_period_to'));
+        if(!empty($this->input->post('sgr_checkbox')))
+            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
+      
+        switch ($this->input->post('sgr')) {
             case '666':
                 $sgr_id = array('$exists'  => true);
             break;
 
             case '777':
-                $sgr_id = array('$in'=>$parameter['sgr_id_array']);
+                $sgr_id = array('$in'=>$sgr_id_array);
             break;
 
             default:
-                $sgr_id = (float)$parameter['sgr_id'];
+                $sgr_id = (float)$this->input->post('sgr');
             break;
-       }
+        }
 
-
-        $query=array(
-                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
-                'pipeline'=>
-                  array(                       
-                      array (
+        /*QUERY*/       
+        $query =array(
+            'aggregate'=>'container.sgr_periodos',
+            'pipeline'=>
+             array(
+                array (
+                        '$match' => array (
+                            'anexo' => (string)$this->anexo,
+                            'sgr_id' =>$sgr_id, 
+                            'status'=>'activo',                            
+                            'period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                            )
+                        )                        
+                    ),                         
+                    array (
                         '$lookup' => array (
-                            'from' => 'container.sgr_periodos' ,
+                            'from' => 'container.sgr_anexo_' . $this->anexo,
                             'localField' => 'filename',
                             'foreignField' => 'filename',
-                            'as' => 'periodo')                        
-                      ),
-                      array (
-                        '$match' => array (
-                            'periodo.sgr_id' =>$sgr_id, 
-                            'periodo.status'=>'activo', 
-                            'periodo.period_date' => array(
-                                '$gte' => $start_date, '$lte' => $end_date
-                        ))                        
-                      )                 
+                            'as' => 'anexo_data'
+                    )                            
+                )      
+            )     
+        );    
 
-                ));  
+        $get=$this->sgr_db->command($query); 
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
+        
+    }
 
-              
-        $get=$this->sgr_db->command($query);
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);          
-   }
 
-   function ui_table_xls($result, $anexo = null, $parameter) {   
-  
+    function ui_table_xls($result, $anexo = null, $parameter) { 
+
+        #custom
         $rtn_msg = array('no_record');
         
         $list = null;
         
         $this->sgr_model->del_tmp_general();
+        
+        foreach ($result as $period_info) {
+        
+            foreach ($period_info['anexo_data'] as $list) {
+                
+                /* Vars */
+                $new_list = array();
 
-        foreach ($result as $list) {
-           
-            if(isset($list['1693']))
-                $brand_name = $list['1693'];
-
-
-            $partner_type = $this->app->get_ops(532);
-
-            $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
-            $parner_linked = $this->padfyj_model->search_name((string) $list['CUIT_VINCULADO']);
-
-            $type_partner_inc_value = false;
-
-            $type_partner = $this->model_06->partner_type($list['CUIT_SOCIO_INCORPORADO'], $list['sgr_id']);
-
-            /* SHARER */
-            $type_partner_inc_value_sharer = null;
-            $type_partner_inc_value = null;
-
-            $type_partner_inc_sharer = $this->model_06->partner_type_linked_sharer((string) $list['CUIT_VINCULADO']);
-            if (isset($type_partner_inc_sharer)) {
-                foreach ($type_partner_inc_sharer as $partner_inc_sharer)
-                    $type_partner_inc_value_sharer = $partner_inc_sharer[5272];
-            }
-
-            /* PROTECTOR */
-            $type_partner_inc = $this->model_06->partner_type_linked((string) $list['CUIT_VINCULADO']);
-            if (isset($type_partner_inc)) {
-                foreach ($type_partner_inc as $partner_inc)
-                    $type_partner_inc_value = $partner_inc[5272];
-            }
-
-            $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
-
-            $es_participe = "-";
-            $es_protector = "-";
-
-            if (!empty($list['CUIT_VINCULADO'])) {
-                $es_participe = ($type_partner_inc_value_sharer[0] == "A") ? "SI" : "NO";
-                $es_protector = ($type_partner_inc_value[0] == "B") ? "SI" : "NO";
-            }
+                if(isset($list['1693']))
+                    $brand_name = $list['1693'];
 
 
-            /* SGR DATA */
-            $filename = trim($list['filename']);
-            list($g_anexo, $g_denomination, $g_date) = explode("-", $filename);
+                $partner_type = $this->app->get_ops(532);
 
-            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
-            $period = $get_period_filename['period'];
-            list($period_month, $period_year) = explode("-", $period);
+                $parner_inc = $this->padfyj_model->search_name($list['CUIT_SOCIO_INCORPORADO']);
+                $parner_linked = $this->padfyj_model->search_name((string) $list['CUIT_VINCULADO']);
 
-            $new_list = array();
-            $new_list['a'] = $g_denomination;
-            $new_list['b'] = $list['id'];
-            $new_list['c'] = $period_year;
-            $new_list['d'] = $period_year . "-" . $period_month;
-            $new_list['e'] = $type_partner;
-            $new_list['f'] = $list['CUIT_SOCIO_INCORPORADO'];
-            $new_list['g'] = $parner_inc;
-            $new_list['h'] = $list['TIENE_VINCULACION'];
-            $new_list['i'] = $list['CUIT_VINCULADO'];
-            $new_list['j'] = $parner_linked;
-            $new_list['k'] = $list['TIPO_RELACION_VINCULACION'];
-            $new_list['l'] = percent_format_custom($list['PORCENTAJE_ACCIONES'] * 100);
-            $new_list['m'] = $es_participe;
-            $new_list['n'] = $es_protector;
-            $new_list['o'] = $list['filename'];
-            $new_list['uquery'] = $parameter;
+                $type_partner_inc_value = false;
 
-           /* ARRAY FOR RENDER */
-            $rtn[] = $new_list;
+                $type_partner = $this->model_06->partner_type($list['CUIT_SOCIO_INCORPORADO'], $list['sgr_id']);
 
-            /* SAVE RESULT IN TMP DB COLLECTION */
-            $this->sgr_model->save_tmp_general($new_list, $list['id']);
-            $rtn_msg = array('ok');
+                /* SHARER */
+                $type_partner_inc_value_sharer = null;
+                $type_partner_inc_value = null;
+
+                $type_partner_inc_sharer = $this->model_06->partner_type_linked_sharer((string) $list['CUIT_VINCULADO']);
+                if (isset($type_partner_inc_sharer)) {
+                    foreach ($type_partner_inc_sharer as $partner_inc_sharer)
+                        $type_partner_inc_value_sharer = $partner_inc_sharer[5272];
+                }
+
+                /* PROTECTOR */
+                $type_partner_inc = $this->model_06->partner_type_linked((string) $list['CUIT_VINCULADO']);
+                if (isset($type_partner_inc)) {
+                    foreach ($type_partner_inc as $partner_inc)
+                        $type_partner_inc_value = $partner_inc[5272];
+                }
+
+                $parner_linked = ($parner_linked) ? $parner_linked : $list['RAZON_SOCIAL_VINCULADO'];
+
+                $es_participe = "-";
+                $es_protector = "-";
+
+                if (!empty($list['CUIT_VINCULADO'])) {
+                    $es_participe = ($type_partner_inc_value_sharer[0] == "A") ? "SI" : "NO";
+                    $es_protector = ($type_partner_inc_value[0] == "B") ? "SI" : "NO";
+                }
+
+                
+                /* FILENAME */
+                $sgr_info = array();
+                $period_month = null;
+                $period_year = null;
+
+                if(isset($period_info['filename'])){
+                    $filename = trim($list['filename']);   
+                    
+                    $sgr_info = $this->sgr_model->get_sgr_by_id_new($period_info['sgr_id']);
+                    list($period_month, $period_year) = explode("-", $period_info['period']);
+                }
+
+                $new_list = array();
+                $new_list['col0'] = $sgr_info[1693];
+                $new_list['col1'] = $sgr_info[1695];            
+                $new_list['col2'] = $list['id'];
+                $new_list['col3'] = $period_year;
+                $new_list['col4'] = $period_year . "-" . $period_month;
+                $new_list['col5'] = $type_partner;
+                $new_list['col6'] = $list['CUIT_SOCIO_INCORPORADO'];
+                $new_list['col7'] = $parner_inc;
+                $new_list['col8'] = $list['TIENE_VINCULACION'];
+                $new_list['col9'] = $list['CUIT_VINCULADO'];
+                $new_list['col10'] = $parner_linked;
+                $new_list['col11'] = $list['TIPO_RELACION_VINCULACION'];
+                $new_list['col12'] = percent_format_custom($list['PORCENTAJE_ACCIONES'] * 100);
+                $new_list['col13'] = $es_participe;
+                $new_list['col14'] = $es_protector;
+                $new_list['col15'] = $filename;
+                $new_list['uquery'] = $parameter;
+              
+                /* SAVE RESULT IN TMP DB COLLECTION */
+                $this->sgr_model->save_tmp_general($new_list, $list['id']);
+                $rtn_msg = array('ok');
+            } 
         }
-        echo json_encode($rtn_msg);
-        exit;
+       echo json_encode($rtn_msg);
+       exit;
     }
 }

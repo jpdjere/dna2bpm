@@ -399,8 +399,10 @@ class Sgr_model extends CI_Model {
         $result = $this->mongowrapper->sgr->$container->findOne($query);
 
 
-        if (isset($result))
+        if (isset($result)){
+            $result['1695'] = str_replace("-", "", $result['1695']); #cuits sin (-)
             return $result;
+        }
     }
 
     function get_sgr_by_id($sgr_id) {
@@ -409,11 +411,10 @@ class Sgr_model extends CI_Model {
         $rtn = array();
         // Listado de empresas
         $container = 'container.empresas_custom';
-        $query = array("id" => $sgr_id);
-        $result = $this->mongowrapper->db->$container->find($query, $fields);
+        $query = array("id" => (float)$sgr_id);
+        $result = $this->mongowrapper->db->$container->find($query);
 
         foreach ($result as $empresa) {
-
             $rtn[] = $empresa;
         }
 
@@ -780,8 +781,10 @@ class Sgr_model extends CI_Model {
     function get_active($anexo, $exclude_this = false) {
         $rtn = array();
         $period = 'container.sgr_periodos';
+        $endDate = date("m"). '-' . date("Y");
 
-        $endDate = last_month_date($this->session->userdata['period']);
+        if(isset($this->session->userdata['period']))
+            $endDate = last_month_date($this->session->userdata['period']);
 
         $query = array(
             'sgr_id' => (float) $this->sgr_id,

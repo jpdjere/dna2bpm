@@ -75,7 +75,7 @@ class Reports extends MX_Controller {
         set_time_limit(230400);
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 10){        
+        if ($this->session->userdata('iduser') == 11){        
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
            # error_reporting(E_ALL);
@@ -158,7 +158,8 @@ class Reports extends MX_Controller {
         $enables = array('06', '061', '062', '12', '125', '126', '13', '14', '141', '15', '16', '201', '202', 'cnv_1', 'cnv_2', 'cnv_3', 'cnv_4');
 
         if (in_array($this->anexo, $enables))
-            $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
+           $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
+            # $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);
         else
             $customData['form_template'] = "";
 
@@ -1001,15 +1002,10 @@ class Reports extends MX_Controller {
         $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
         $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
 
-        if ($this->input->post('cuit_socio'))
-            $data['cuit_socio'] = $this->input->post('cuit_socio');        
-
         if($this->input->post('sgr_checkbox'))
             $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
         
         $data['sgr_id'] = $this->input->post('sgr');
-
-        //borrar data cuando update
 
         /*CALL MODEL*/
         if ($this->input->post('sgr')) {

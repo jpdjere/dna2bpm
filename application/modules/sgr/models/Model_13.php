@@ -294,7 +294,8 @@ class Model_13 extends CI_Model {
 
        $start_date = first_month_date($parameter['input_period_from']);
        $end_date = last_month_date($parameter['input_period_to']);
-
+       if(!empty($this->input->post('sgr_checkbox')))
+            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
 
        $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
        switch($parameter['sgr_id']){
