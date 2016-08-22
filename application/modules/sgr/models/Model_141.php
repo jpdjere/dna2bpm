@@ -1055,12 +1055,12 @@ class Model_141 extends CI_Model {
                             'localField' => 'filename',
                             'foreignField' => 'filename',
                             'as' => 'anexo_data')                        
-                    ),
+                    )/*,
                     array (
                         '$match' => array (
                             'anexo_data.CUIT_PARTICIPE'=> $cuit                          
                     )                       
-                )        
+                )      */  
             )     
         );    
 
