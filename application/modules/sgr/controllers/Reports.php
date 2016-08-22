@@ -12,6 +12,7 @@ class Reports extends MX_Controller {
     function __construct() {
         parent::__construct();
 
+
         /* habilita acceso a todo los metodos de este controlador */
         $this->user->authorize('modules/sgr/controllers/reports');
         $this->load->config('config');
@@ -54,6 +55,10 @@ class Reports extends MX_Controller {
         }
 
         /* SGR'S DATA */
+        $this->sgr_id  = null;
+        $this->sgr_nombre = null;
+        $this->sgr_cuit = null;
+
         $sgrArr = $this->sgr_model->get_sgr();
         foreach ($sgrArr as $sgr) {
             $this->sgr_id = (float) $sgr['id'];
@@ -68,19 +73,43 @@ class Reports extends MX_Controller {
 
         /* TIME LIMIT */
         set_time_limit(230400);
-
-        //if ($this->session->userdata('iduser') == 10)
         ini_set("error_reporting", 0);
-        /*ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);*/
+
+        if ($this->session->userdata('iduser') == 10){        
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+           # error_reporting(E_ALL);
+            ini_set("error_reporting", E_ALL);
+        }
     }
 
     function Index() {
+        /* load render info */
+        $this->render_config();
+    }
 
+    /**
+     * Config for index page
+     * 
+     * @name render_config
+     * 
+     * @author Diego Otero <daotero@industria.gob.ar>     
+     * 
+     * @see Index
+     * 
+     * @date Jun 28, 2015  
+     * 
+     * @return render   
+     */
+    function render_config() {
 
         $customData = array();
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+        if(isset($this->session->userdata['anexo_code'])){
+            $anexo = $this->session->userdata['anexo_code'];
+        } else {
+            $anexo = '06';
+        }
+
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -129,7 +158,8 @@ class Reports extends MX_Controller {
         $enables = array('06', '061', '062', '12', '125', '126', '13', '14', '141', '15', '16', '201', '202', 'cnv_1', 'cnv_2', 'cnv_3', 'cnv_4');
 
         if (in_array($this->anexo, $enables))
-            $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
+            #$customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
+            $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);
         else
             $customData['form_template'] = "";
 
@@ -150,6 +180,12 @@ class Reports extends MX_Controller {
         $this->render($default_dashboard, $customData);
     }
 
+    function is_report(){
+         if ($this->sgr_model->last_report_general())
+            
+            echo json_encode(array('mensaje'=>'ok'));
+    }
+
     function show_last_report() {
 
         $anexo = ($this->session->userdata['anexo_code']) ? : '06';
@@ -159,6 +195,8 @@ class Reports extends MX_Controller {
         header('Content-type: text/html; charset=UTF-8');
 
         $customData = $this->$model->get_link_report($anexo);
+
+
 
         $fileName = $anexo . "_reporte_al_" . date("j-n-Y"); //Get today
         //Generate  file
@@ -280,8 +318,8 @@ class Reports extends MX_Controller {
         $rtn['base_url'] = base_url();
         $rtn['module_url'] = base_url() . 'sgr/';
         $rtn['titulo'] = "";
-        $rtn['js'] = array($this->module_url . "assets/jscript/dashboard.js" => 'Dashboard JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
-        $rtn['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Dashboard CSS');
+        $rtn['js'] = array($this->module_url . "assets/jscript/form_reports.js" => 'Report JS', $this->module_url . "assets/jscript/jquery-validate/jquery.validate.min_1.js" => 'Validate');
+        $rtn['css'] = array($this->module_url . "assets/css/dashboard.css" => 'Report CSS');
 
         $rtn['anexo'] = $this->anexo;
         $rtn['anexo_title'] = $this->oneAnexoDB($this->anexo);
@@ -756,7 +794,12 @@ class Reports extends MX_Controller {
             $rtn = "<option value=" . $this->sgr_id . ">" . $this->sgr_nombre . "</option>";
         } else {
             $sgrArr = $this->sgr_model->get_sgrs();
-            $rtn = "<option value=666>TODAS</option>";
+            $rtn = "<option value=666>TODAS LAS SGRs</option>";
+
+            /*ONLY ADMINS*/
+            if (!isset($this->sgr_id)) 
+                $rtn .= "<option value=777>SELECCIONAR DE LA LISTA</option>";
+
             foreach ($sgrArr as $sgr) {
                 
                 $this->sgr_id = (float) $sgr['id'];
@@ -774,7 +817,11 @@ class Reports extends MX_Controller {
         $sgrArr = $this->sgr_model->get_sgrs();
             $rtn = null;
             foreach ($sgrArr as $sgr) {
-                $rtn .= '<div><input type="checkbox" value="'.(float)$sgr['id'].'" checked="checked" name="sgr_checkbox[]">' . $sgr['1693'] . '</div>';
+
+                $sgr_names = str_replace('FONDO ESPECIFICO DE RIESGO', 'FRE', $sgr['1693']);
+
+               if (strpos($sgr_names, 'FRE') === false) #SACO LOS FDRE
+                    $rtn .= '<div id="checklist_sgr">' . $sgr_names. ' <input type="checkbox" value="'.(float)$sgr['id'].'" checked="checked" name="sgr_checkbox[]"></div>';
             }
         
         return $rtn;
@@ -933,7 +980,7 @@ class Reports extends MX_Controller {
 // offline mark
         $cpData['is_offline'] = ($this->uri->segment(3) == 'offline') ? : ('');
 
-        $this->ui->compose($file, 'layout.php', $cpData);
+        $this->ui->compose($file, 'reports.php', $cpData);
     }
 
     /*NEW REPORT*/
@@ -949,17 +996,14 @@ class Reports extends MX_Controller {
 
 
         $data = array();
-        $customData = array();
+       # $customData = array();
 
         $report_name = $this->input->post('report_name');
         $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
         $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
 
-        if ($this->input->post('cuit_socio'))
-            $data['cuit_socio'] = $this->input->post('cuit_socio');        
-
-        
-        $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
+        if($this->input->post('sgr_checkbox'))
+            $data['sgr_id_array'] = array_map('intval', $this->input->post('sgr_checkbox'));
         
         $data['sgr_id'] = $this->input->post('sgr');
 
@@ -970,5 +1014,34 @@ class Reports extends MX_Controller {
 
 
     }
+    /*NEW REPORT*/
+    function new_report_rectifications(){
+
+        
+        /*LOAD MODEL*/
+       $this->load->model('model_rectifications');
+
+        /*VIEW*/
+        $default_dashboard = 'reports_result'; 
+
+
+        $data = array();
+       # $customData = array();
+
+        $report_name = $this->input->post('report_name');
+        $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
+        
+        $data['sgr_id'] = $this->input->post('sgr');
+
+        /*CALL MODEL*/
+        #if ($this->input->post('sgr')) {
+           $this->model_rectifications->generate_report($data); 
+           echo "x"; 
+        #}
+
+
+    }
+
 
 }

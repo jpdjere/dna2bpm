@@ -29,10 +29,13 @@ function percent_format_custom($parameter) {
         $parameter = 0;
     }
 
-    if ($_POST['excel'] == 1) {
-        $parameter = @number_format($parameter, 2, ",", ".");
-    } else {
-        $parameter = @number_format($parameter, 2, ",", ".") . "%";
+    
+    if(isset($_POST['excel'])){
+        if ($_POST['excel'] == 1) {
+            $parameter = @number_format($parameter, 2, ",", ".");
+        } else {
+            $parameter = @number_format($parameter, 2, ",", ".") . "%";
+        }
     }
     return $parameter;
 }
@@ -273,7 +276,7 @@ function first_month_date($period, $invert = null) {
     return $endDate;
 }
 
-function last_month_date($period, $invert = null) {
+function last_month_date($period=null, $invert = null) {
 
     if ($period) {
 
@@ -1274,6 +1277,7 @@ function link_report_and_back_fn() {
     echo $link;
 }
 
+/*BORRAR CUANDO ESTEN UPDATEADOS TODOS LOS REPORTES*/
 function css_reports_fn() {
     $css_link = '<link rel="stylesheet" href="/dna2bpm/sgr/assets/jscript/bootstrap/css/bootstrap.min.css" /> 
         <link rel="stylesheet" href="/dna2bpm/sgr/assets/css/font-awesome-4.0.3/css/font-awesome.min.css" />
@@ -1291,22 +1295,201 @@ function css_central_fn() {
     echo $css_link;
 }
 
-function header_arr($anexo) {
+function header_arr($anexo, $custom=false) {
 
         switch($anexo){
         
         case '06':
         $headerArr = array('SGR', 'CUIT SGR', 'ID', 'Periodo', 'Tipo de Operacion', 'Tipo de Socio (A/B)', 'C.U.I.T.', 'Apellido y nombre o Razon Social', 'Provincia', 'Partido / Municipio / Comuna', 'Localidad', 'Codigo Postal', 'Calle', 'Nro.', 'Piso', 'Dto. / Oficina', 'Telefono 1', 'Telefono 2', 'E-mail', 'Pagina Web', 'Codigo', 'Sector', 'Mes/Ano 1', 'Monto 1', 'Tipo Origen 1', 'Mes/Ano 2', 'Monto 2', 'Tipo Origen 2', 'Mes/Ano 3', 'Monto 3', 'Tipo Origen 3', 'Facturacion Promedio', 'Tipo de Empresa', 'Condicion de Inscripcion AFIP', 'Cantidad de Empleados al Cierre del ultimo Ejercicio', 'Tipo de Acta', 'Fecha', 'Acta Nro.', 'Fecha de transaccion', 'Modalidad de compra de acciones', 'Capital Suscripto', 'Capital Integrado', 'CUIT Cedente', 'Apellido y nombre o Razon Social Cedemte', 'Caracter del Cedente', 'Archivo SIPRIN SGR');
         break;
+
+        case '061':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'TIPO DE SOCIO'
+            , 'CUIT SOCIO INCORPORADO'
+            , 'SOCIO INCORPORADO'
+            , 'TIENE VINCULACION'
+            , 'CUIT VINCULADO'
+            , 'RAZON SOCIAL VINCULADO'
+            , 'TIPO RELACION VINCULACION'
+            , 'PORCENTAJE ACCIONES'
+            , 'PARTICIPE'
+            , 'PROTECTOR'
+            , 'Archivo SIPRIN SGR');
+        break;
+
+        case '062':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'CUIT'
+            , 'RAZON SOCIAL'
+            , 'EMPLEADOS'
+            , 'FACTURACION'
+            , 'ORIGEN'
+            , 'FECHA AAAA/MM'
+            , 'Archivo SIPRIN SGR');
+        break;
+
+
+        case '12':
+            if($custom){
+
+                /* CUSTOM */
+
+                $headerArr = array('SGR', 'CUIT SGR'
+                , 'ID'
+                , 'NRO_ORDEN'
+                , 'PARTICIPE'
+                , 'CUIT_PARTICIPE'
+                , 'PROVINCIA'
+                , 'PARTIDO_MUNICIPIO_COMUNA'
+                , 'LOCALIDAD'
+                , 'CODIGO_POSTAL'
+                , 'CANTIDAD_DE_EMPLEADOS'
+                , 'CODIGO_ACTIVIDAD_AFIP'
+                , 'ORIGEN'
+                , 'TIPO'
+                , 'PONDERACION'
+                , 'IMPORTE'
+                , 'MONEDA'
+                , 'LIBRADOR_NOMBRE'
+                , 'LIBRADOR_CUIT'
+                , 'NRO_OPERACION_BOLSA'
+                , 'ACREEDOR'
+                , 'CUIT_ACREEDOR'
+                , 'IMPORTE_CRED_GARANT'
+                , 'MONEDA_CRED_GARANT'
+                , 'TASA'
+                , 'PUNTOS_ADIC_CRED_GARANT'
+                , 'PLAZO'
+                , 'GRACIA'
+                , 'PERIODICIDAD'
+                , 'SISTEMA'
+                , 'DESTINO_CREDITO'
+                , 'AÑO'
+                , 'TRIMESTRE'
+                , 'AÑO-MES'
+                , 'AÑO-TRI'
+                , 'Archivo SIPRIN SGR');
+                
+            } else {
+
+                /*STANDARD*/                
+
+                 $headerArr = array('SGR', 'CUIT SGR'
+                , 'ID'
+                , 'NRO_ORDEN'
+                , 'PARTICIPE'
+                , 'CUIT_PARTICIPE'
+                , 'ORIGEN'
+                , 'TIPO'
+                , 'PONDERACION'
+                , 'IMPORTE'
+                , 'MONEDA'
+                , 'LIBRADOR_NOMBRE'
+                , 'LIBRADOR_CUIT'
+                , 'NRO_OPERACION_BOLSA'
+                , 'ACREEDOR'
+                , 'CUIT_ACREEDOR'
+                , 'IMPORTE_CRED_GARANT'
+                , 'MONEDA_CRED_GARANT'
+                , 'TASA'
+                , 'PUNTOS_ADIC_CRED_GARANT'
+                , 'PLAZO'
+                , 'GRACIA'
+                , 'PERIODICIDAD'
+                , 'SISTEMA'
+                , 'DESTINO_CREDITO'
+                , 'Archivo SIPRIN SGR');
+            }
+
+        break;
+
+        case '125':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'SOCIO PARTICIPE'
+            , 'C.U.I.T'
+            , 'ACREEDOR'
+            , 'C.U.I.T'
+            , 'SALDO GTIAS. COMERCIALES'
+            , 'SALDO GTIAS. FINANCIERA'
+            , 'SALDO GTIAS. TECNICAS'
+            , 'TOTAL'
+            , 'Archivo SIPRIN SGR');      
+        break;
+
+         case '126':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'COMISIONES DEVENGADAS POR OTORGAMIENTO DE GARANTIAS EN EL PERIODO'
+            , 'COMISIONES DEVENGADAS POR GARANTÍAS OTORGADAS EN PERIODO PREVIO'
+            , 'PREVIOS COMISIONES DEVENGADAS POR ADMINISTRACION DE FONDO DE RIESGO'
+            , 'COMISIONES DEVENGADAS POR ASESORAMIENTO'
+            , 'Archivo SIPRIN SGR');      
+        break;
+
+          case '125':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'SOCIO PARTICIPE'
+            , 'C.U.I.T'
+            , 'ACREEDOR'
+            , 'C.U.I.T'
+            , 'SALDO GTIAS. COMERCIALES'
+            , 'SALDO GTIAS. FINANCIERA'
+            , 'SALDO GTIAS. TECNICAS'
+            , 'TOTAL'
+            , 'Archivo SIPRIN SGR');      
+        break;
+
+        case '13':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'TIPO DE GARANTIA'
+            , 'MENOR DE 90 DIAS'
+            , 'MENOR DE 180 DIAS'
+            , 'MENOR DE 365 DIAS'
+            , 'MAYOR DE 365 DIAS'
+            , 'TOTALES'
+            , 'VALOR CONTRAGARANTIAS'
+            , 'Archivo SIPRIN SGR');      
+        break;
+
+        case '14':
+             $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'FECHA'
+            , 'NRO. DE ORDEN DE LA GARANTIA OTORGADA'
+            , 'SOCIO PARTICIPE'
+            , 'C.U.I.T'
+            , 'DEUDA ORIGINADA EN EL PERIODO'
+            , 'COBRANZA O RECUPERO DEL PERIODO'
+            , 'INCOBRABLES DECLARADOS EN EL PERIODO'
+            , 'GASTOS EFECTUADOS EN EL PERIODO'
+            , 'RECUPEROS DEL PERIODO'
+            , 'INCOBRABLES DECLARADOS EN EL PERIODO'
+            , 'Archivo SIPRIN SGR'); 
+        break;
+
         case '141':
             $headerArr = array('SGR', 'CUIT SGR', 'ID', 'PERIODO', 'C.U.I.T', 'SOCIO PARTICIPE', 'CANT GTIAS VIGENTES', 'MONTO DE GARANTIAS VIGENTES', 'HIPOTECARIAS', 'PRENDARIAS', 'FIANZA', 'OTRAS', 'TOTAL', 'REAFIANZA', 'MORA EN DIAS', 'CLASIFICACION DEUDOR', 'MONTO ADEUDADO', 'CANTIDAD GARANTIAS AFRONTADAS', 'CANTIDAD GARANTIAS', 'Archivo SIPRIN SGR');        
         break;
         case '15':
-            $headerArr = array(
+            $headerArr = array('SGR', 'CUIT SGR',
             'ID',
             'PERIODO',
-            'SGR',
-            'CUIT SGR',
             'INCISO ART 25',
             'DESCRIPCION',    
             'IDENTIFICACION',
@@ -1318,6 +1501,101 @@ function header_arr($anexo) {
             'MONTO',
             'Archivo SIPRIN SGR');        
         break;
+
+        case '16':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'PROMEDIO SALDO MENSUAL CORRESPONDIENTE AL MES'
+            , 'SALDO PROMEDIO GARANTIAS VIGENTES'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 80 HASTA FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 120 HASTA FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 80 DESDE FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 120 DESDE FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 80 DESDE ENE 2011'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 120 DESDE ENE 2011'
+            , 'SALDO TOTAL DE GARANTIAS VIGENTES QUE COMPUTAN PARA EL 80%'
+            , 'SALDO TOTAL DE GARANTIAS VIGENTES QUE COMPUTAN PARA EL 120%'
+            , 'SALDO PROMEDIO FONDE DE RIESGO TOTAL COMPUTABLE'
+            , 'SALDO PROMEDIO FONDE DE RIESGO CONTINGENTE'
+            , 'SALDO PROMEDIO FONDE DE RIESGO TOTAL DISPONIBLE'
+            , 'SOLVENCIA'
+            , 'GRADO DE UTILIZACIÓN PARA EL 80%'
+            , 'GRADO DE UTILIZACIÓN PARA EL 120%'
+            , 'Archivo SIPRIN SGR'); 
+        break;
+
+         case '201':
+            $headerArr = array('SGR', 'CUIT SGR',
+             'ID', 
+             'PERIODO',
+             'NUMERO_DE_APORTE',
+             'FECHA_MOVIMIENTO',
+             'PROTECTOR',
+             'CUIT_PROTECTOR',
+             'APORTE',
+             'RETIRO',
+             'FECHA APORTE ORIGINAL',
+             'MONTO APORTE ORIGINAL',
+             'RETENCION_POR_CONTINGENTE',
+             'RETIRO_DE_RENDIMIENTOS',
+             'ESPECIE',
+             'TITULAR_ORIG',
+             'NRO_CTA_OR',
+             'ENTIDAD_OR',
+             'ENT_DEP_OR',
+             'TITULAR_DEST',
+             'NRO_DEST',
+             'ENTIDAD_DEST',
+             'ENT_DEP_DEST',
+             'FECHA_ACTA',
+             'NRO_ACTA',
+            'Archivo SIPRIN SGR'
+            );        
+        break;
+
+        case '202':     
+            $headerArr = array('SGR', 'CUIT SGR',
+             'ID', 
+             'PERIODO',
+             'NUMERO_DE_APORTE',
+             'SOCIO_PARTICIPE',
+             'CUIT_PARTICIPE',
+             'SALDO DEL APORTE',
+             'CONTINGENTE PROPORCIONAL ASIGNADO',
+             'DEUDA PROPORCIONAL ASIGNADA',
+             'SALDO DEL APORTE DISPONIBLE',
+             'RENDIMIENTO ASIGNADO',
+            'Archivo SIPRIN SGR'
+            );        
+        break;
+
+       /* case '201':
+             $headerArr = array('SGR', 'CUIT SGR' ,
+             'ID', 
+             'PERIODO',
+             'NUMERO_DE_APORTE',
+             'FECHA_MOVIMIENTO',
+             'PROTECTOR'
+             'CUIT_PROTECTOR',
+             'APORTE',
+             'RETIRO',
+             'RETENCION_POR_CONTINGENTE',
+             'RETIRO_DE_RENDIMIENTOS',
+             'ESPECIE',
+             'TITULAR_ORIG',
+             'NRO_CTA_OR',
+             'ENTIDAD_OR',
+             'ENT_DEP_OR',
+             'TITULAR_DEST',
+             'NRO_DEST',
+             'ENTIDAD_DEST',
+             'ENT_DEP_DEST',
+             'FECHA_ACTA',
+             'NRO_ACTA',
+             'Archivo SIPRIN SGR'); 
+            break;*/
 
         }
         

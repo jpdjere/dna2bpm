@@ -213,8 +213,9 @@ class Model_141 extends CI_Model {
                 ));   
 
           $get=$this->sgr_db->command($query);   
-
-          return $get['result'][0];
+          
+          if($get['result'][0])
+            return $get['result'][0];
                  
     }
 
@@ -1005,125 +1006,146 @@ class Model_141 extends CI_Model {
         }
     }
 
+    
     function generate_report($parameter=array()) {
-       
-
-       $start_date = first_month_date($parameter['input_period_from']);
-       $end_date = last_month_date($parameter['input_period_to']);
-
-
-       $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
-       $sgr_id = ($parameter['sgr_id']=='666') ? array('$in'=>$parameter['sgr_id_array']) : (float)$parameter['sgr_id'] ;
-
-
-        $query=array(
-                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
-                'pipeline'=>
-                  array(                       
-                      array (
-                        '$lookup' => array (
-                            'from' => 'container.sgr_periodos' ,
-                            'localField' => 'filename',
-                            'foreignField' => 'filename',
-                            'as' => 'periodo')                        
-                      ),
-                      array (
-                        '$match' => array (
-                            'periodo.sgr_id' =>$sgr_id, 
-                            'periodo.status'=>'activo' ,
-                            'periodo.period_date' => array(
-                                '$gte' => $start_date, '$lte' => $end_date
-                        ))                        
-                      )                 
-
-                ));          
-        $get=$this->sgr_db->command($query);
         
-        $this->ui_table_xls($get['result'], $this->anexo, $parameter);         
-   }
-   
 
-   function ui_table_xls($result, $anexo = null, $parameter) {    
+        /*REPORT POST VALUES*/        
 
 
-        /* CSS 4 REPORT */
-        css_reports_fn();
+        # STANDARD 
+        $report_name = $this->input->post('report_name');
+        $start_date = first_month_date($this->input->post('input_period_from'));       
+        $end_date = last_month_date($this->input->post('input_period_to'));
+        if(!empty($this->input->post('sgr_checkbox')))
+            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
 
-        $i = 1;
+        #
+        $cuit =  !empty($this->input->post('cuit_socio')) ? $this->input->post('cuit_socio') : array('$exists'  => true);
 
-        $list = null;
-        $this->sgr_model->del_tmp_general();
-        
-        foreach ($result as $list) {
+        switch ($this->input->post('sgr')) {
+            case '666':
+                $sgr_id = array('$exists'  => true);
+            break;
 
-            /* Vars */
-            $this->load->model('padfyj_model');
-            $this->load->Model('model_06');
-            $cuit = $list['CUIT_PARTICIPE'];
+            case '777':
+                $sgr_id = array('$in'=>$sgr_id_array);
+            break;
 
-            /* Amount of Guarantees */
-            $check_14 = $this->sgr_model->get_active_each_sgrid_with_limit('14', $list['sgr_id'], $end_date);
-
-            $partner_balance = $this->model_125->get_balance_by_partner($cuit, $end_date);
-
-            $brand_name = $this->padfyj_model->search_name($cuit);
-            if (!isset($brand_name)) {
-                $brand_name_get = $this->model_06->get_partner_name($cuit);
-                $brand_name = $brand_name_get;
-            }
-
-            $get_period_filename = $this->sgr_model->get_period_filename($list['filename']);
-
-            //$existing_guarantees_amount 
-            $total = array_sum(array($list['HIPOTECARIAS'], $list['PRENDARIAS'], $list['FIANZA'], $list['OTRAS']));
-            
-
-            /* DEUDA SOCIO */
-             $balance_data = $this->find_141_balance_cuit($cuit, $get_period_filename['period'], $list['sgr_id']);
-            
-
-            $sgr_info = $this->sgr_model->get_sgr_by_id_new($get_period_filename['sgr_id']);
-
-            $new_list = array();
-            $new_list['a'] = $sgr_info[1693];
-            $new_list['b'] = $sgr_info[1695];
-            $new_list['c'] = $list['id'];
-            $new_list['d'] = period_print_format($get_period_filename['period']);
-            $new_list['e'] = $cuit;
-            $new_list['f'] = $brand_name;
-            $new_list['g'] = $list['CANT_GTIAS_VIGENTES'];
-            $new_list['h'] = dot_by_coma($list['MONTO_GARANTIAS']);
-            $new_list['i'] = dot_by_coma($list['HIPOTECARIAS']);
-            $new_list['j'] = dot_by_coma($list['PRENDARIAS']);
-            $new_list['k'] = dot_by_coma($list['FIANZA']);
-            $new_list['l'] = dot_by_coma($list['OTRAS']);
-            $new_list['m'] = dot_by_coma($total);
-            $new_list['n'] = dot_by_coma($list['REAFIANZA']);
-            $new_list['o'] = $list['MORA_EN_DIAS'];
-            $new_list['p'] = $list['CLASIFICACION_DEUDOR'];
-            $new_list['q'] = dot_by_coma($balance_data['MONTO_ADEUDADO']);
-            $new_list['r'] = $balance_data['CANTIDAD_GARANTIAS_AFRONTADAS'];
-            $new_list['s'] = $list['CANTIDAD_GARANTIAS'];
-            $new_list['t'] = $list['filename'];
-            $new_list['uquery'] = $parameter;
-
-            /* COUNT */
-            $increment = $i++;
-            report_account_records_fn($increment);
-
-            /* ARRAY FOR RENDER */
-            $rtn[] = $new_list;
-
-            /* SAVE RESULT IN TMP DB COLLECTION */
-            $this->sgr_model->save_tmp_general($new_list, $list['id']);
+            default:
+                $sgr_id = (float)$this->input->post('sgr');
+            break;
         }
 
-        /* PRINT XLS LINK */
-        link_report_and_back_fn();
-        exit;
+        /*QUERY*/       
+        $query=array(
+            'aggregate'=>'container.sgr_periodos',
+            'pipeline'=>
+             array(
+                    array (
+                        '$match' => array (
+                            'anexo' => (string)$this->anexo,
+                            'sgr_id' =>$sgr_id, 
+                            'status'=>'activo',                            
+                            'period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                            )
+                        )                        
+                    ),                         
+                    array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_' . $this->anexo,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo_data')                        
+                    ),
+                    array (
+                        '$match' => array (
+                            'anexo_data.CUIT_PARTICIPE'=> $cuit                          
+                    )                       
+                )        
+            )     
+        );    
 
-        /* REFRESH AND SHOW LINK */
-        header("Location: $this->module_url_report");
-        exit();
+        $get=$this->sgr_db->command($query);        
+        $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
+    }
+
+    function ui_table_xls($result, $anexo = null, $parameter, $end_date) { 
+
+        #custom
+        $rtn_msg = array('no_record');
+        
+        $list = null;
+        
+        $this->sgr_model->del_tmp_general();
+        
+        foreach ($result as $period_info) {
+        
+            foreach ($period_info['anexo_data'] as $list) {
+                
+                /* Vars */
+                $new_list = array();
+
+                $this->load->model('padfyj_model');
+                $this->load->Model('model_06');
+                $cuit = $list['CUIT_PARTICIPE'];
+
+                /* Amount of Guarantees */
+                $check_14 = $this->sgr_model->get_active_each_sgrid_with_limit('14', $list['sgr_id'], $end_date);
+
+                $partner_balance = $this->model_125->get_balance_by_partner($cuit, $end_date);
+
+                $brand_name = $this->padfyj_model->search_name($cuit);
+                if (!isset($brand_name)) {
+                    $brand_name_get = $this->model_06->get_partner_name($cuit);
+                    $brand_name = $brand_name_get;
+                }
+
+                //$existing_guarantees_amount 
+                $total = array_sum(array($list['HIPOTECARIAS'], $list['PRENDARIAS'], $list['FIANZA'], $list['OTRAS']));
+                
+
+                /* DEUDA SOCIO */
+                $balance_data = $this->find_141_balance_cuit($cuit, $period_info['period'], $list['sgr_id']);   
+                
+                /* FILENAME */
+                $sgr_info = array();
+                if(isset($period_info['filename'])){
+                    $filename = trim($list['filename']);   
+                    
+                    $sgr_info = $this->sgr_model->get_sgr_by_id_new($period_info['sgr_id']);
+                }
+
+                $new_list = array();
+                $new_list['col0'] = $sgr_info[1693];
+                $new_list['col1'] = $sgr_info[1695];            
+                $new_list['col2'] = $list['id'];
+                $new_list['col3'] = period_print_format($period_info['period']);
+                $new_list['col4'] = $cuit;
+                $new_list['col5'] = $brand_name;
+                $new_list['col6'] = $list['CANT_GTIAS_VIGENTES'];
+                $new_list['col7'] = dot_by_coma($list['MONTO_GARANTIAS']);
+                $new_list['col8'] = dot_by_coma($list['HIPOTECARIAS']);
+                $new_list['col9'] = dot_by_coma($list['PRENDARIAS']);
+                $new_list['col10'] = dot_by_coma($list['FIANZA']);
+                $new_list['col11'] = dot_by_coma($list['OTRAS']);
+                $new_list['col12'] = dot_by_coma($total);
+                $new_list['col13'] = dot_by_coma($list['REAFIANZA']);
+                $new_list['col14'] = $list['MORA_EN_DIAS'];
+                $new_list['col15'] = $list['CLASIFICACION_DEUDOR'];
+                $new_list['col16'] = dot_by_coma($balance_data['MONTO_ADEUDADO']);
+                $new_list['col17'] = $balance_data['CANTIDAD_GARANTIAS_AFRONTADAS'];
+                $new_list['col18'] = $list['CANTIDAD_GARANTIAS'];
+                $new_list['col19'] = $filename;
+                $new_list['uquery'] = $parameter;
+              
+                /* SAVE RESULT IN TMP DB COLLECTION */
+                $this->sgr_model->save_tmp_general($new_list, $list['id']);
+                $rtn_msg = array('ok');
+            } 
+        }
+       echo json_encode($rtn_msg);
+       exit;
     }
 }

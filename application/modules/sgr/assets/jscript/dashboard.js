@@ -4,6 +4,9 @@
  */
 
 $(document).ready(function() {
+
+    
+
     //session_rectify_ajax();
     $("#is_session").hide();
     $('#myModal').modal('show');
@@ -129,6 +132,7 @@ $(document).ready(function() {
                     }
                 });
     }
+    
 
     function add_no_movement() {
         var no_movement = $('#no_movement').val();
