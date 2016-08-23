@@ -506,7 +506,7 @@ class Model_201 extends CI_Model {
 
          foreach ($rtn['result'] as $value) {
 
-            $diff = bccomp( $value['APORTE'],  $value['RETIRO']);
+            $diff = bccomp(round($value['APORTE']), round($value['RETIRO']));
             if($diff==$validation)                
                 $rtn_array[] = $value['_id'];
           } 
