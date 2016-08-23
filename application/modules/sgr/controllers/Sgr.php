@@ -76,9 +76,9 @@ class Sgr extends MX_Controller {
         /* ERROR REPORTING */
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 10){        
-            #ini_set('display_errors', 1);
-            #ini_set('display_startup_errors', 1);
+        if ($this->session->userdata('iduser') != 101){        
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
             ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
