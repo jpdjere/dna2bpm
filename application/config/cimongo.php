@@ -21,6 +21,6 @@ $config['db_flag'] = false;
 
 //consider these config only if you want to store the session into mongoDB
 //They will be used in MY_Session.php
-$config['sess_use_mongo'] = false;
+$config['sess_use_mongo'] = true;
 $config['sess_collection_name']	= 'ci_sessions';
  
