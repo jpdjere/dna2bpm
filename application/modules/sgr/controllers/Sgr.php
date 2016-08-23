@@ -1052,7 +1052,7 @@ class Sgr extends MX_Controller {
         if (!$parameter)
             exit();
 
-         $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
@@ -1181,7 +1181,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-         $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -1226,7 +1226,7 @@ class Sgr extends MX_Controller {
 
 
         $parameter = urldecode($parameter);
-         $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
         //----Load pdf lib
@@ -1825,7 +1825,7 @@ class Sgr extends MX_Controller {
     function set_no_movement() {
         $data = $this->input->post('data');
         $period = $data['no_movement'];
-         $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 

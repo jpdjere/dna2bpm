@@ -189,7 +189,7 @@ class Reports extends MX_Controller {
 
     function show_last_report() {
 
-        $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
+        $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
 
         $this->load->model($model);
@@ -270,7 +270,7 @@ class Reports extends MX_Controller {
 
         $customData = array();
         $default_dashboard = 'reports_result';
-         $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
 
         $model = "model_" . $anexo;
         $this->load->model($model);
