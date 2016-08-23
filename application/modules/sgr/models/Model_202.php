@@ -348,8 +348,7 @@ class Model_202 extends CI_Model {
         $report_name = $this->input->post('report_name');
         $start_date = first_month_date($this->input->post('input_period_from'));       
         $end_date = last_month_date($this->input->post('input_period_to'));
-        if(!empty($this->input->post('sgr_checkbox')))
-            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
+        
       
         switch ($this->input->post('sgr')) {
             case '666':

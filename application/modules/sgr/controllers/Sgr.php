@@ -1761,8 +1761,9 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
 
                 /* SEND  RECTIFICATION MAIL TO ADMINS */
-                if ($this->session->userdata['anexo_code'])
+                /*if ($this->session->userdata['anexo_code'])
                     $this->sgr_mails_to();
+                */    
 
                 redirect('/sgr');
             } else {
