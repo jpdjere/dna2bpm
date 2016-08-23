@@ -1577,7 +1577,9 @@ class Model_06 extends CI_Model {
        $end_date = last_month_date($parameter['input_period_to']);
 
 
-       $socio = isset($parameter['cuit_socio']) ? $parameter['cuit_socio'] : array('$exists'  => true);
+       $socio = method_exists($this->input, 'post') ? $this->input->post('cuit_socio') : array('$exists'  => true);
+
+
        switch($parameter['sgr_id']){
             case '666':
                 $sgr_id = array('$exists'  => true);
@@ -1637,12 +1639,12 @@ class Model_06 extends CI_Model {
                             'localField' => 'filename',
                             'foreignField' => 'filename',
                             'as' => 'anexo_data')                        
-                    ),
+                    )/*,
                     array (
                         '$match' => array (
                             'anexo_data.1695'=> $socio
                     )                       
-                )        
+                )   */     
             )     
         );  
 

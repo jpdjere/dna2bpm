@@ -65,6 +65,7 @@ class Reports extends MX_Controller {
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
         }
+        
         $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
 
         if (isset($this->session->userdata['period']))
@@ -188,7 +189,7 @@ class Reports extends MX_Controller {
 
     function show_last_report() {
 
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+        $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
 
         $this->load->model($model);
@@ -269,7 +270,7 @@ class Reports extends MX_Controller {
 
         $customData = array();
         $default_dashboard = 'reports_result';
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'session') ? $this->session->userdata['anexo_code'] : '06';
 
         $model = "model_" . $anexo;
         $this->load->model($model);
