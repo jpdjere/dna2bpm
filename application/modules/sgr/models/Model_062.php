@@ -437,12 +437,12 @@ class Model_062 extends CI_Model {
                             'as' => 'anexo_data'
                         )
                                                   
-                    ),
+                    )/*,
                     array (
                         '$match' => array (
                             'anexo_data.CUIT' => $cuit
                         )                        
-                    ),       
+                    ), */    
             )     
         );    
 
