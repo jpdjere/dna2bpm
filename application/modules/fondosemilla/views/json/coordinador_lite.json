@@ -6,14 +6,6 @@
     "zones": [
         {
         "tiles": [
-            {
-                "title": "En Ronda 1",
-                "module": "bpm",
-                "controller": "kpi",
-                "function": "tile",
-                "span": 12,
-                "params": ["fondo_semilla2016", "fondo_semilla2016_KK", "tile-blue-custom"]
-            }
             
             ]
         },
