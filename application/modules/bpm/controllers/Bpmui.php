@@ -302,7 +302,7 @@ class Bpmui extends MX_Controller {
     }
 
 
-    function widget_2doMe($chunk = 1, $pagesize = 5, $filter) {
+    function widget_2doMe($chunk = 1, $pagesize = 5, $filter = null) {
         //$data['lang']=$this->lang->language; ==}
         if ($filter){
         $query = array(
@@ -386,7 +386,7 @@ class Bpmui extends MX_Controller {
         echo $this->parser->parse('bpm/widgets/cases_closed', $data, true, true);
     }
 
-    function widget_cases($chunk = 1, $pagesize = 5, $filter) {
+    function widget_cases($chunk = 1, $pagesize = 5, $filter = null) {
         if ($filter){
             $cases = $this->bpm->get_cases_byFilter(
                 array(

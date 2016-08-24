@@ -41,8 +41,6 @@ class semilla extends MX_Controller {
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
-        
-        
     }
 
     function Index() {
@@ -324,6 +322,9 @@ function lite(){
             'idwf' => 'fondo_semilla2016',
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
+        );        $query = array(
+            'assign' => $this->idu,
+            'status' => 'user'
         );
      $query = array(
             'assign' => $this->idu,

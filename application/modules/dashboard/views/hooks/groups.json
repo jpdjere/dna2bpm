@@ -34,6 +34,11 @@
             "name": "Hook Inventario",
             "group": [62,64,66,82,83], 
             "redir": "inventory"
+        },
+        {
+            "name": "Hook Inventario",
+            "group": [1029], 
+            "redir": "fondosemilla/semilla/"
         }
 
     ]
