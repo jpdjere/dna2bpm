@@ -4,7 +4,8 @@
     "view": "layout_2cols",
     "icon": "ion-briefcase",
      "js": [
-        {"{base_url}/expertos/assets/jscript/buscador.js": "GIT-JS"}
+        {"{base_url}/expertos/assets/jscript/buscador.js": "GIT-JS"},
+        {"{base_url}expertos/assets/jscript/coordinador.js": "Dash"}
     ],
     "private": true,
     "zones": [
@@ -33,9 +34,13 @@
                     "title": "Buscador",
                     "module": "expertos",
                     "controller": "Expertos",
-                    "function": "buscador"
+                    "function": "buscador_expertos"
                 }
-            ]
+            ],
+    "js": [{
+                "{base_url}fondosemilla/assets/jscript/lite.js": "Dash",
+                "{base_url}expertos/assets/jscript/coordinador.js": "Dash"
+            }]            
         }
     ]
 }
