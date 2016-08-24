@@ -700,10 +700,10 @@ class expertos extends MX_Controller {
         
         
         $query = array(
-            //'iduser' => $this->idu,
+            'iduser' => $this->idu,
             //'case' => 'CASQ',
             
-            'assign' => $this->idu,
+            //'assign' => $this->idu,
             'status' => 'user',
             'type' => 'Task',
             'idwf' => 'Expertos_Base'
