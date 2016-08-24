@@ -82,7 +82,7 @@ class Sgr extends MX_Controller {
             ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
-        $this->sgr_mails_send_pending();
+        #$this->sgr_mails_send_pending();
     }
 
     /* INDEX */
@@ -401,7 +401,7 @@ class Sgr extends MX_Controller {
 
 
 
-            $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
+            $mail->SetFrom("daotero@produccion.gob.ar", "SGR - Aviso Rectificacion");
             $mail->Subject = utf8_decode("Rectificacion SGR | $sgr |" . $period . " Anexo:" . $anexo_name['title']);
             $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
             $mail->IsHTML(true);
