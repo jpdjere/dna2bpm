@@ -903,7 +903,7 @@ class Model_12 extends CI_Model {
         );    
 
         $get=$this->sgr_db->command($query); 
-        if(!$custom_report)       
+        if(!isset($custom_report))       
             $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
         else
             $this->ui_table_xls_custom($get['result'], $this->anexo, $parameter, $end_date);       
@@ -950,7 +950,7 @@ class Model_12 extends CI_Model {
 
                 /* PONDERACION */
                 if(isset($list[5216][0]))
-                    $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0], $list['period']);
+                    $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0], $period_info['period']);
 
                        
 
