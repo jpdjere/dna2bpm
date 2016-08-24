@@ -10,7 +10,15 @@
                  
                 {
                     "title": "Tile01",
-                    "span":4,
+                    "span":2,
+                    "module": "fonapyme",
+                    "controller": "fonapyme",
+                    "function": "tile_solicitud"
+                    
+                },
+                {
+                    "title": "Tile01",
+                    "span":2,
                     "module": "fonapyme",
                     "controller": "fonapyme",
                     "function": "tile_proyectos",

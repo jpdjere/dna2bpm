@@ -41,8 +41,6 @@ class semilla extends MX_Controller {
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
-        
-        
     }
 
     function Index() {
@@ -324,6 +322,9 @@ function lite(){
             'idwf' => 'fondo_semilla2016',
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
+        );        $query = array(
+            'assign' => $this->idu,
+            'status' => 'user'
         );
      $query = array(
             'assign' => $this->idu,
@@ -547,25 +548,11 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->parser->parse('dashboard/tiles/tile-orange', $data, true, true);
     } 
     
+    function lista_status(){
+        $arr = array ('Task');
+        $this->load->module('bpm/bpmui');
+        $this->bpmui->ministatus('fondo_semilla2016', $arr );
     
-    
-    function exportar_total(){
-        
-        $data = $this->Fondosemilla_model->proyectos_completo();
-        var_dump($data);
-        exit;
-        
-        $template='fondosemilla/exportar_total';     
-
-        
-        header("Content-Description: File Transfer");
-        header("Content-type: application/x-msexcel");
-        header("Content-Type: application/force-download");
-        header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
-        header("Content-Description: PHP Generated XLS Data");
-        
-        
-        
     }
 }
 
