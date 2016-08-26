@@ -43,7 +43,7 @@
         {
             "name": "Hook Inventario",
             "group": [1030], 
-            "redir": "fondosemilla/semilla/incubadora"
+            "redir": "fondosemilla/semilla/incubadoras"
         }
 
     ]
