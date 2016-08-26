@@ -370,9 +370,7 @@ class Model_125 extends CI_Model {
         $report_name = $this->input->post('report_name');
         $start_date = first_month_date($this->input->post('input_period_from'));       
         $end_date = last_month_date($this->input->post('input_period_to'));
-       
-        $cuit = method_exists($this->input, 'post') ? $this->input->post('cuit_socio') : false;
-      
+
         switch ($this->input->post('sgr')) {
             case '666':
                 $sgr_id = array('$exists'  => true);
@@ -387,40 +385,9 @@ class Model_125 extends CI_Model {
             break;
         }
 
-        /*QUERY*/       
-        $query =array(
-            'aggregate'=>'container.sgr_periodos',
-            'pipeline'=>
-             array(
-                    array (
-                        '$match' => array (
-                            'anexo' => (string)$this->anexo,
-                            'sgr_id' =>$sgr_id, 
-                            'status'=>'activo',                            
-                            'period_date' => array(
-                                '$gte' => $start_date, '$lte' => $end_date
-                            )
-                        )                        
-                    ),                         
-                    array (
-                        '$lookup' => array (
-                            'from' => 'container.sgr_anexo_' . $this->anexo,
-                            'localField' => 'filename',
-                            'foreignField' => 'filename',
-                            'as' => 'anexo_data'
-                        )
-                                                  
-                    ),
-                    array (
-                        '$match' => array (
-                            'anexo_data.CUIT_PART' => $cuit
-                        )                        
-                    ),       
-            )     
-        );    
+        
 
-
-
+        $query = reports_default_query($this->anexo, $start_date, $end_date, $sgr_id);
         $get=$this->sgr_db->command($query);        
         $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);       
     }
