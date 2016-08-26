@@ -26,7 +26,7 @@ class model_prestamos extends CI_Model {
      * Inserta una entidad en la base
      */
     function insertar_entidad($entidad){
-        return $this->importar->insert('entidades', $entidad);
+        return $this->importar->insert('bonita_entidades', $entidad);
     }
     
     /**
@@ -49,7 +49,7 @@ class model_prestamos extends CI_Model {
      * Lista las entidades no borradas de la base
      */
     function listar_entidades(){
-        return $this->importar->get_where('entidades', 'borrado=false')->result_array();
+        return $this->importar->get_where('bonita_entidades', 'borrado=false')->result_array();
     }
     
     

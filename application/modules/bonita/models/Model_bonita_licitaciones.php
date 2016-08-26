@@ -22,6 +22,7 @@ class model_bonita_licitaciones extends CI_Model {
         $query = array('borrado'=>0);
         $this->db_bonita->where($query);
         $result = $this->db_bonita->get($container)->result_array();
+        echo("RESULTADO");
         return $result;
     }
 
