@@ -50,11 +50,19 @@
     ],
     "zones": [{
             "tiles": [{
-                    "title": "Buscar",
-                    "module": "pacc",
-                    "controller": "pacc",
-                    "function": "tile_buscar_container",
-                    "span": 6
+                    "title": "Evaluación Técnica PDE",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc1PDE", "pacc1PDE_MQ"]
+                }, {
+                    "title": "Evaluación Técnica Formal",
+                    "module": "bpm",
+                    "controller": "kpi",
+                    "function": "tile",
+                    "span": 2,
+                    "params": ["pacc1PDEF", "pacc1PDEF_JT"]
                 }, {
                     "title": "Solicitudes. Evaluación Técnica",
                     "module": "bpm",
@@ -63,19 +71,12 @@
                     "span": 2,
                     "params": ["pacc1SDE", "pacc1SDE_TT"]
                 }, {
-                    "title": "Tile01",
-                    "span": 2,
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks2me"
-                }, {
-                    "title": "Tile01",
-                    "module": "bpm",
-                    "controller": "bpmui",
-                    "function": "tile_tasks_done",
-                    "span": 2
-                }
-
+                    "title": "Buscar",
+                    "module": "pacc",
+                    "controller": "pacc",
+                    "function": "tile_buscar_container",
+                    "span": 6
+            }
 
             ]
         }, {
