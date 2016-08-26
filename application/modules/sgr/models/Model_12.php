@@ -836,22 +836,25 @@ class Model_12 extends CI_Model {
         $start_date = first_month_date($this->input->post('input_period_from'));       
         $end_date = last_month_date($this->input->post('input_period_to'));
 
-        # CUSTOM 
-        /*$custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
-        $order_number = !empty($this->input->post('order_number')) ? $this->input->post('order_number') : array('$exists'  => true);
-        $cuit_sharer = !empty($this->input->post('cuit_sharer')) ? $this->input->post('cuit_sharer')  : array('$exists'  => true);
-        $cuit_creditor = !empty($this->input->post('cuit_creditor')) ? $this->input->post('cuit_creditor')  : array('$exists'  => true);*/
+        # CUSTOM     
+        $filter = array('id'=>array('$exists'=> true));
 
+        if(!empty($this->input->post('order_number')))
+             $filter['anexo_data.5214'] = $this->input->post('order_number');
 
+        if(!empty($this->input->post('cuit_sharer')))
+             $filter['anexo_data.5349'] = $this->input->post('cuit_sharer');
+             
+        if(!empty($this->input->post('cuit_creditor')))
+             $filter['anexo_data.5351'] = $this->input->post('cuit_creditor');     
 
-       /* if(!empty($this->input->post('sgr_checkbox')))
-            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
+        if(!empty($this->input->post('warranty_type')))
+            $filter['anexo_data.5216'] = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i'); 
+    
 
-        if(!empty($this->input->post('warranty_type'))){
-            $regex = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i');  
-            $warranty_type = $regex;
-         } else
-           $warranty_type = array('$exists'  => true);*/
+        $custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
+
+    
 
 
         switch ($this->input->post('sgr')) {
@@ -869,7 +872,7 @@ class Model_12 extends CI_Model {
         }
 
         /*QUERY*/       
-        $query =array(
+        $query_Anterior=array(
             'aggregate'=>'container.sgr_periodos',
             'pipeline'=>
              array(
@@ -900,9 +903,15 @@ class Model_12 extends CI_Model {
                     )                       
                 ) */  
             )     
-        );    
+        );
 
+        $query = reports_default_query($this->anexo, $start_date, $end_date, $sgr_id, $this->idu, $filter);
+
+      
+        
         $get=$this->sgr_db->command($query); 
+          print_r($get);
+        exit;
         if(!isset($custom_report))       
             $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
         else
