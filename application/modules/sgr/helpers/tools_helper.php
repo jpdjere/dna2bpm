@@ -1661,3 +1661,35 @@ function stripAccents($string) {
 
     return $string;
 }
+
+
+function reports_default_query($anexo, $start_date, $end_date, $sgr_id){
+
+        /*QUERY*/       
+        $query =array(
+            'aggregate'=>'container.sgr_periodos',
+            'pipeline'=>
+             array(
+                    array (
+                        '$match' => array (
+                            'anexo' => (string)$anexo,
+                            'sgr_id' =>$sgr_id, 
+                            'status'=>'activo',                            
+                            'period_date' => array(
+                                '$gte' => $start_date, '$lte' => $end_date
+                            )
+                        )                        
+                    ),                         
+                    array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_' . $anexo,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo_data')                        
+                    ) 
+            )     
+        );    
+
+        return $query;
+
+}
