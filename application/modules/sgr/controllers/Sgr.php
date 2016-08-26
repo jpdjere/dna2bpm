@@ -76,13 +76,13 @@ class Sgr extends MX_Controller {
         /* ERROR REPORTING */
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 11){        
+        if ($this->session->userdata('iduser') == 11){     
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
             ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
-        #$this->sgr_mails_send_pending();
+        $this->sgr_mails_send_pending();
     }
 
     /* INDEX */
