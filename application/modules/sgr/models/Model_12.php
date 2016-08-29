@@ -510,32 +510,42 @@ class Model_12 extends CI_Model {
         return $return_result;
     }
 
-    function get_order_number_by_sgrid($nro, $sgr_id) {
+    function get_order_number_by_sgrid($nro, $sgr_id, $period) {
 
+        $end_date = last_month_date($period);
+        $query=array(
+                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
+                'pipeline'=>
+                  array(  
+                        array (
+                        '$match' => array (
+                            '5214'=> $nro
+                        )
+                      )   ,                     
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_periodos' ,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'periodo')                        
+                      ),
+                      array (
+                        '$match' => array (
+                            'periodo.sgr_id' =>$sgr_id, 
+                            'periodo.status'=>'activo' ,                          
+                            'periodo.period_date' => array(
+                                '$lte' => $end_date
+                            )
+                        )                        
+                    )                 
 
-        $anexo = '12';
+                ));  
 
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
+        $get=$this->sgr_db->command($query);
 
-        /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_each_sgrid($anexo, $sgr_id);
+        if($get['result'][0][5349]!=null)
+            return $get['result'][0][5349];
 
-        /* FIND ANEXO */
-        foreach ($result as $list) {
-
-
-
-            $new_query = array(
-                'filename' => $list['filename'],
-                5214 => $nro
-            );
-            $new_result = $this->mongowrapper->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $return_result[] = $new_result;
-            }
-        }
-        return $return_result;
     }
 
     /* GET DATA */
