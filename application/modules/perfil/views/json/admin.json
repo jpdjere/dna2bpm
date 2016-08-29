@@ -1,0 +1,72 @@
+{
+    "createdBy": "Juan Ignacio Borda <juanignacioborda@gmail.com>",
+    "title": "Afip dashboard",
+    "view": "layout_2cols",
+    "icon": "ion-briefcase",
+    "private": true,
+    "js": [{
+
+        "{base_url}ui/assets/jscript/morris.js": "Script",
+        "{base_url}ui/assets/jscript/raphael.js": "Script",
+        "{base_url}ui/assets/jscript/morris_line.js": "Morris Liner"
+
+    }],
+    "zones": [{
+        "tiles": [
+
+        ]
+    }, {
+        "col1": [{
+                "title": "Consulta Cuit",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "consulta_cuit_2",
+                "box_icon":"fa-search",
+                "box_class":["box","box-primary"], 
+                "box_buttons":["collapse"],
+                "box_collapsed":"0",
+                "css": [{
+                    "{base_url}code/assets/css/code.css": "code"
+                }]
+            },
+            {
+                "title": "chart_F1272xSemana",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "chart_F1272xSemana"
+            },
+            {
+                "title": "espyme?",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "isPyme"
+            },
+            {
+                "title": "CATEGORIA",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "por_categoria"
+            }
+
+            , {
+                "title": "porletra",
+                "module": "afip",
+                "controller": "consultas",
+                "function": "por_letra"
+            }
+
+        ]
+    }, {
+        "col2": [{
+            "title": "xSector",
+            "module": "afip",
+            "controller": "consultas",
+            "function": "por_sector"
+        }, {
+            "title": "xProvincia",
+            "module": "afip",
+            "controller": "consultas",
+            "function": "por_provincia"
+        }]
+    }]
+}
