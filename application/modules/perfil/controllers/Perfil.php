@@ -82,12 +82,26 @@ class Perfil extends MX_Controller {
 
     }
 
+
+#========= Admin Dashboard 
+
+
     function Admin() {
 
          $this->load->module('dashboard');
          $this->dashboard->dashboard('perfil/json/admin.json',$debug);
 
     }
+
+    function Descarga_thalamus() {
+        $file=$this->base_url.'perfil/assets/download/thalamus.zip';
+        if(is_file($file))
+            echo "<a class='btn btn-primary' href='$file'>Descargar CSV</a>";
+        else
+            echo "No existe el archivo";
+    }
+
+#==
 
     function Hub($cuit=null,$debug=0) {
 
