@@ -801,17 +801,18 @@ class Model_12 extends CI_Model {
 
      function get_link_report($anexo) {
         $is_custom = false;
-        $custom_report = $this->sgr_model->last_report_is_custom();
+        $custom_report = $this->check_is_custom();
+        
 
-        if(isset($custom_report['uquery']['custom']))
-            $is_custom = $custom_report['uquery']['custom'];
+        $anexoValues = $this->ui_table_xls();
+        if(isset($custom_report))
+            $anexoValues = $this->ui_table_xls_custom();
 
         $headerArr = header_arr($anexo, $is_custom);
         $title_report = $this->sgr_model->get_anexo($anexo);
 
         
         $data[] = array($headerArr);
-        #$anexoValues = $this->sgr_model->last_report_general();
         $anexoValues = $this->ui_table_xls();
 
         if (!$anexoValues) {
@@ -819,7 +820,7 @@ class Model_12 extends CI_Model {
         } else {
             foreach ($anexoValues['result'] as $values) {               
                 $header = '<h2>Reporte '.$anexo.' - '.strtoupper($title_report['title']).' </h2>                
-                <h3>SGR: '. $anexoValues['sgr_report'].  ' Fecha del Reporte: ' . date("Y/m/d") .'</h3>
+                <h3>SGR: '. $anexoValues['sgr_report'].  '<br>Fecha del Reporte: ' . date("Y/m/d") .'</h3>
                 <h4>PERIODO/S: ' . $anexoValues['input_period_from'] . ' a ' . $anexoValues['input_period_to']  . '</h4>';
                
                 unset($values['_id']);
@@ -884,10 +885,13 @@ class Model_12 extends CI_Model {
 
         if(!empty($this->input->post('warranty_type')))
             $custom_match['anexo_data.5216'] = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i'); 
-    
+        
+        $custom_report = false; 
 
-        #$custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
+        if(!empty($this->input->post('custom_report')))
+             $custom_report = true; 
 
+       
         $query = reports_default_query($this->anexo, $this->idu , $standard_match, $custom_match);
         
         $get=$this->sgr_db->command($query); 
@@ -900,7 +904,10 @@ class Model_12 extends CI_Model {
                     , 'anexo'=>$this->anexo
                     , 'sgr_report'=>$sgr_report
                 );
-            
+          
+            if(isset($custom_report))
+                $data['custom']  = 1;
+
             $this->sgr_db->update($this->collection_out,$data);
 
             $rtn_msg = array('ok');
@@ -909,12 +916,14 @@ class Model_12 extends CI_Model {
 
         echo json_encode($rtn_msg); 
         exit;
-
-        if(!isset($custom_report))       
-            $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
-        else
-            $this->ui_table_xls_custom($get['result'], $this->anexo, $parameter, $end_date);       
     }
+
+    function check_is_custom(){
+        $result =  $this->sgr_db->get($this->collection_out)->row();
+
+        if(isset($result->custom))
+            return $result->custom;
+    }    
 
     function ui_table_xls(){
         $result =  $this->sgr_db->get($this->collection_out)->result_array();
@@ -1032,6 +1041,153 @@ class Model_12 extends CI_Model {
         return $rtn_array;
     }
 
+
+    function ui_table_xls_custom(){
+        $result =  $this->sgr_db->get($this->collection_out)->result_array();
+       
+        
+        foreach ($result as  $period_info) {
+
+                if(isset($period_info['input_period_from']))
+                    $input_period_from = $period_info['input_period_from'];
+
+                if(isset($period_info['input_period_to']))
+                    $input_period_to = $period_info['input_period_to'];
+
+                if(isset($period_info['sgr_report']))
+                    $sgr_report = $period_info['sgr_report'];
+            
+                $list = $period_info['anexo_data'];
+
+
+                /* Vars */               
+
+                $participate = $this->padfyj_model->search_name($list[5349]);
+
+
+                /* PARTICIPATE DATA */
+                $participate_data = $this->model_06->get_partner_stand_alone($list[5349]);
+
+                $drawer = $this->padfyj_model->search_name((string) $list[5726]);
+
+
+
+                /*  CREDITOR NAME */
+                $creditor_mv = $this->get_mv_and_comercial_name($list[5351]);
+                $creditor_padfyj = $this->padfyj_model->search_name($list[5351]);
+                $creditor = ($creditor_mv) ? $creditor_mv : $creditor_padfyj;
+
+
+                /* (AÑO) - (TRIMESTRE) - (AÑO-MES) - (AÑO-TRI) */
+                list($year_data, $month_data, $day_data) = explode('-', $list[5215]);
+                //$trim=floor(($mes-1) / 3)+1;
+                $quarter = floor(($month_data - 1) / 3) + 1;
+
+
+                $currency = $this->app->get_ops(549);
+                $repayment_system = $this->app->get_ops(527);
+                $rate = $this->app->get_ops(526);
+                $periodicity = $this->app->get_ops(548);
+
+                /* PONDERACION */
+                $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0], $list['period']);
+
+                $destino_credito = (isset($list['DESTINO_CREDITO'])) ? $list['DESTINO_CREDITO'] : null;
+
+                /* CURRENCY */
+                $moneda = $list[5219][0];
+                if (isset($moneda))
+                    $moneda = $currency[$moneda];
+
+
+                $moneda_2 = $list[5758][0];
+                if (isset($moneda_2))
+                    $moneda_2 = $currency[$moneda_2];
+
+
+                /* RATE */
+                $tasa = $list[5222][0];
+                if (isset($tasa))
+                    $tasa = $rate[$tasa];
+
+                /* PERDIODICITY */
+                $periodicidad = $list[5226][0];
+                if (isset($periodicidad))
+                    $periodicidad = $periodicity[$periodicidad];
+
+
+                /* SYSTEM */
+                $sistema = $list[5227][0];
+                if (isset($sistema))
+                    $sistema = $repayment_system[$sistema];
+
+                /* EMPLOYEES QTY */
+                $employees_qty = 0;
+                if(isset($participate_data[0]['CANTIDAD_DE_EMPLEADOS']))
+                    $employees_qty = $participate_data[0]['CANTIDAD_DE_EMPLEADOS'];
+                
+                #OR
+                if(isset($list[5349]) && $employees_qty==0){
+                       $employees_qty = $this->model_062->get_count_partner_left($list[5349],$period_info['sgr_id']);  
+                }
+                
+
+                /* FILENAME */
+                $sgr_info = array();
+                if(isset($period_info['filename'])){
+                    $filename = trim($list['filename']);   
+                    
+                    $sgr_info = $this->sgr_model->get_sgr_by_id_new($period_info['sgr_id']);
+                }
+
+                $new_list = array();
+                $new_list['col1'] = $sgr_info[1693];
+                $new_list['col2'] = $sgr_info[1695];            
+                $new_list['col3'] = $list['id'];
+                $new_list['col4'] = $list[5214];
+                $new_list['col5'] = $participate;
+                $new_list['col6'] = $list[5349];
+                $new_list['col7'] = $participate_data[0]['4651'][0];
+                $new_list['col8'] = $participate_data[0]['1699'][0];
+                $new_list['col9'] = htmlentities($participate_data[0]['1700'], null, "UTF-8");
+                $new_list['col10'] = $participate_data[0]['1698'];
+                $new_list['col11'] = $employees_qty;
+                $new_list['col12'] = $participate_data[0]['5208'];
+                $new_list['col13'] = $list[5215];
+                $new_list['col14'] = $list[5216][0];
+                $new_list['col15'] = dot_by_coma($get_weighting['weighted']);
+                $new_list['col16'] = dot_by_coma($list[5218]);
+                $new_list['col17'] = $moneda;
+                $new_list['col18'] = $drawer;
+                $new_list['col19'] = $list[5726];
+                $new_list['col20'] = $list[5727];
+                $new_list['col21'] = $creditor;
+                $new_list['col22'] = $list[5351];
+                $new_list['col23'] = dot_by_coma($list[5221]);
+                $new_list['col24'] = $moneda_2;
+                $new_list['col25'] = $tasa;
+                $new_list['col26'] = dot_by_coma($list[5223] / 100);
+                $new_list['col27'] = $list[5224];
+                $new_list['col28'] = $list[5225];
+                $new_list['col29'] = $periodicidad;
+                $new_list['col30'] = $sistema;
+                $new_list['col31'] = $destino_credito;
+                $new_list['col32'] = $year_data;
+                $new_list['col33'] = $quarter;
+                $new_list['col34'] = $year_data . "-" . $month_data;
+                $new_list['col35'] = $year_data . "-" . $quarter;
+                $new_list['col36'] = $filename;            
+                $rtn[] = $new_list;
+        }
+        
+        $rtn_array = array(
+                'result' => $rtn,
+                'input_period_from'=>$input_period_from,
+                'input_period_to' =>$input_period_to, 
+                'sgr_report' => $sgr_report
+            );
+        return $rtn_array;
+    }
     function _ui_table_xls() {
 
         $list = null;
@@ -1149,9 +1305,9 @@ class Model_12 extends CI_Model {
        exit;
     }
 
-   
+    
 
-    function ui_table_xls_custom($result, $anexo = null, $parameter) { 
+    function _ui_table_xls_custom($result, $anexo = null, $parameter) { 
 
         $rtn_msg = array('no_record');
         
