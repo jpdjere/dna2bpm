@@ -510,7 +510,77 @@ class Model_12 extends CI_Model {
         return $return_result;
     }
 
-    function get_order_number_by_sgrid($nro, $sgr_id) {
+    function get_order_number_by_sgrid($nro, $sgr_id, $period) {
+
+        $end_date = last_month_date($period);
+
+        /*QUERY*/       
+        $querys =array(
+            'aggregate'=>'container.sgr_periodos',
+            'pipeline'=>
+             array(
+                    array (
+                        '$match' => array (
+                            'anexo' => (string)$this->anexo,
+                            'sgr_id' =>$sgr_id, 
+                            'status'=>'activo',                            
+                            'period_date' => array(
+                                 '$lte' => $end_date
+                            )
+                        )                        
+                    ),                         
+                    array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_' . $this->anexo,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo_data')                        
+                    ),
+                    array('$unwind' => '$anexo_data'),
+                    array (
+                        '$match' => array (
+                            'anexo_data.5214'=> $nro
+                    )                       
+                )        
+            )     
+        );  
+
+        $query=array(
+                'aggregate'=>'container.sgr_anexo_' . $this->anexo,
+                'pipeline'=>
+                  array(  
+                        array (
+                        '$match' => array (
+                            '5214'=> $nro
+                        )
+                      )   ,                     
+                      array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_periodos' ,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'periodo')                        
+                      ),
+                      array (
+                        '$match' => array (
+                            'periodo.sgr_id' =>$sgr_id, 
+                            'periodo.status'=>'activo' ,                          
+                            'periodo.period_date' => array(
+                                '$lte' => $end_date
+                            )
+                        )                        
+                    )                 
+
+                ));  
+
+        $get=$this->sgr_db->command($query);
+
+        if($get['result'][0][5349]!=null)
+            return $get['result'][0][5349];
+
+    }
+
+    function get_order_number_by_sgrid_ORI($nro, $sgr_id) {
 
 
         $anexo = '12';
