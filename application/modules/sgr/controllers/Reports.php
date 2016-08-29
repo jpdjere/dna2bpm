@@ -74,9 +74,10 @@ class Reports extends MX_Controller {
 
         /* TIME LIMIT */
         set_time_limit(230400);
+        ini_set('memory_limit', -1); 
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 10){        
+        if ($this->session->userdata('iduser') == 101){        
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
            # error_reporting(E_ALL);
