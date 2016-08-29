@@ -19,6 +19,8 @@ class Model_12 extends CI_Model {
         $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
+        $this->collection_out = "collection_out_" . $this->idu;
+
 
 
         /* LOAD MODELS */
@@ -806,16 +808,20 @@ class Model_12 extends CI_Model {
 
         $headerArr = header_arr($anexo, $is_custom);
         $title_report = $this->sgr_model->get_anexo($anexo);
+
         
         $data[] = array($headerArr);
-        $anexoValues = $this->sgr_model->last_report_general();
+        #$anexoValues = $this->sgr_model->last_report_general();
+        $anexoValues = $this->ui_table_xls();
 
         if (!$anexoValues) {
             return false;
         } else {
-            foreach ($anexoValues as $values) {
-                $header = '<h2>Reporte '.$anexo.' - '.strtoupper($title_report['title']).' </h2><h3>PERIODO/S: ' . $values['uquery']['input_period_from'] . ' a ' . $values['uquery']['input_period_to'] . '</h3>';
-
+            foreach ($anexoValues['result'] as $values) {               
+                $header = '<h2>Reporte '.$anexo.' - '.strtoupper($title_report['title']).' </h2>                
+                <h3>SGR: '. $anexoValues['sgr_report'].  ' Fecha del Reporte: ' . date("Y/m/d") .'</h3>
+                <h4>PERIODO/S: ' . $anexoValues['input_period_from'] . ' a ' . $anexoValues['input_period_to']  . '</h4>';
+               
                 unset($values['_id']);
                 unset($values['id']);
                 $data[] = array_values($values);
@@ -827,112 +833,221 @@ class Model_12 extends CI_Model {
 
     function generate_report($parameter=array()) {
         
+         if(!empty($this->input->post('sgr_checkbox')))
+            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
+
 
         /*REPORT POST VALUES*/        
-
-
-        # STANDARD 
-        $report_name = $this->input->post('report_name');
-        $start_date = first_month_date($this->input->post('input_period_from'));       
-        $end_date = last_month_date($this->input->post('input_period_to'));
-
-        # CUSTOM     
-        $filter = array('id'=>array('$exists'=> true));
-
-        if(!empty($this->input->post('order_number')))
-             $filter['anexo_data.5214'] = $this->input->post('order_number');
-
-        if(!empty($this->input->post('cuit_sharer')))
-             $filter['anexo_data.5349'] = $this->input->post('cuit_sharer');
-             
-        if(!empty($this->input->post('cuit_creditor')))
-             $filter['anexo_data.5351'] = $this->input->post('cuit_creditor');     
-
-        if(!empty($this->input->post('warranty_type')))
-            $filter['anexo_data.5216'] = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i'); 
-    
-
-        $custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
-
-    
-
-
-        switch ($this->input->post('sgr')) {
+         switch ($this->input->post('sgr')) {
             case '666':
                 $sgr_id = array('$exists'  => true);
+                $sgr_report = 'Todas';
             break;
 
             case '777':
                 $sgr_id = array('$in'=>$sgr_id_array);
+                $sgr_report = 'Seleccionadas de una lista';
             break;
 
             default:
                 $sgr_id = (float)$this->input->post('sgr');
+                $sgr_info = $this->sgr_model->get_sgr_by_id_new($sgr_id );
+                $sgr_report = $sgr_info[1693] ." " . $sgr_info[1695];
             break;
         }
 
-        /*QUERY*/       
-        $query_Anterior=array(
-            'aggregate'=>'container.sgr_periodos',
-            'pipeline'=>
-             array(
-                    array (
-                        '$match' => array (
-                            'anexo' => (string)$this->anexo,
-                            'sgr_id' =>$sgr_id, 
-                            'status'=>'activo',                            
-                            'period_date' => array(
-                                '$gte' => $start_date, '$lte' => $end_date
-                            )
-                        )                        
-                    ),                         
-                    array (
-                        '$lookup' => array (
-                            'from' => 'container.sgr_anexo_' . $this->anexo,
-                            'localField' => 'filename',
-                            'foreignField' => 'filename',
-                            'as' => 'anexo_data')                        
-                    ),
-                   /* array (
-                        '$match' => array (
-                            'anexo_data.5349'=> $cuit_sharer,
-                            'anexo_data.5351'=> $cuit_creditor,
-                            'anexo_data.5216'=> $warranty_type, 
-                            'anexo_data.5214'=> $order_number, 
-                         
-                    )                       
-                ) */  
-            )     
-        );
+        # STANDARD
+        $standard_match = array();
 
-        $query = reports_default_query($this->anexo, $start_date, $end_date, $sgr_id, $this->idu, $filter);
+        $report_name = $this->input->post('report_name');
+        $start_date = first_month_date($this->input->post('input_period_from'));       
+        $end_date = last_month_date($this->input->post('input_period_to'));
 
-      
+
+        $standard_match['sgr_id'] = $sgr_id;   
+        $standard_match['status'] = 'activo';
+        $standard_match['filename'] = array('$ne'=>'SIN MOVIMIENTOS'); 
+        $standard_match['period_date'] = array('$gte' => $start_date, '$lte' => $end_date );
+        
+
+        # CUSTOM     
+        $custom_match = array('id'=>array('$exists'=> true));
+
+        if(!empty($this->input->post('order_number')))
+             $custom_match['anexo_data.5214'] = $this->input->post('order_number');
+
+        if(!empty($this->input->post('cuit_sharer')))
+             $custom_match['anexo_data.5349'] = $this->input->post('cuit_sharer');
+             
+        if(!empty($this->input->post('cuit_creditor')))
+             $custom_match['anexo_data.5351'] = $this->input->post('cuit_creditor');     
+
+        if(!empty($this->input->post('warranty_type')))
+            $custom_match['anexo_data.5216'] = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i'); 
+    
+
+        #$custom_report = !empty($this->input->post('custom_report')) ? $this->input->post('custom_report') : false;
+
+        $query = reports_default_query($this->anexo, $this->idu , $standard_match, $custom_match);
         
         $get=$this->sgr_db->command($query); 
-          print_r($get);
+
+        if($this->sgr_model->getReportCount()==0)
+             $rtn_msg = array('no_record');  
+        else {
+            $data=array('input_period_from'=>$this->input->post('input_period_from')
+                    , 'input_period_to'=>$this->input->post('input_period_to')
+                    , 'anexo'=>$this->anexo
+                    , 'sgr_report'=>$sgr_report
+                );
+            
+            $this->sgr_db->update($this->collection_out,$data);
+
+            $rtn_msg = array('ok');
+        }   
+             
+
+        echo json_encode($rtn_msg); 
         exit;
+
         if(!isset($custom_report))       
             $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);
         else
             $this->ui_table_xls_custom($get['result'], $this->anexo, $parameter, $end_date);       
     }
 
-    function ui_table_xls($result, $anexo = null, $parameter) { 
-
-        #custom
-        $rtn_msg = array('no_record');
+    function ui_table_xls(){
+        $result =  $this->sgr_db->get($this->collection_out)->result_array();
+       
         
+        foreach ($result as  $period_info) {
+
+                if(isset($period_info['input_period_from']))
+                    $input_period_from = $period_info['input_period_from'];
+
+                if(isset($period_info['input_period_to']))
+                    $input_period_to = $period_info['input_period_to'];
+
+                if(isset($period_info['sgr_report']))
+                    $sgr_report = $period_info['sgr_report'];
+            
+                $list = $period_info['anexo_data'];
+                /* Vars */
+               
+                $this->load->model('padfyj_model');
+                if(isset($list[5349]))
+                    $participate = $this->padfyj_model->search_name($list[5349]);
+
+                if(isset($list[5726]))
+                    $drawer = $this->padfyj_model->search_name((string) $list[5726]);
+
+                /*  CREDITOR NAME */
+                if(isset($list[5351])){
+                    $creditor_mv = $this->get_mv_and_comercial_name($list[5351]);
+                    $creditor_padfyj = $this->padfyj_model->search_name($list[5351]);
+                    $creditor = ($creditor_mv) ? $creditor_mv : $creditor_padfyj;
+                }
+
+
+                $this->load->model('app');
+                $currency = $this->app->get_ops(549);
+                $repayment_system = $this->app->get_ops(527);
+                $rate = $this->app->get_ops(526);
+                $periodicity = $this->app->get_ops(548);
+
+                /* PONDERACION */
+                if(isset($list[5216][0]))
+                    $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0], $period_info['period']);
+
+                       
+
+                $destino_credito = (isset($list['DESTINO_CREDITO'])) ? $list['DESTINO_CREDITO'] : null;
+
+                /* CURRENCY */
+                if (isset($list[5219][0]))
+                    $moneda = $currency[$list[5219][0]];
+
+
+                if (isset($list[5758][0]))
+                    $moneda_2 = $currency[$list[5758][0]];
+
+
+                /* RATE */
+                if (isset($list[5222][0]))
+                    $tasa = $rate[$list[5222][0]];
+
+                /* PERDIODICITY */
+                if (isset($list[5226][0]))
+                    $periodicidad = $periodicity[$list[5226][0]];
+
+
+                /* SYSTEM */
+                if (isset($list[5227][0]))
+                    $sistema = $repayment_system[$list[5227][0]];
+                
+                /* FILENAME */
+                $sgr_info = array();
+                if(isset($list['filename'])){
+                    $filename = trim($list['filename']);   
+                    $sgr_info = $this->sgr_model->get_sgr_by_id_new($period_info['sgr_id']);
+                }
+                
+
+                $new_list = array();
+                $new_list['col0'] = $sgr_info[1693];
+                $new_list['col1'] = $sgr_info[1695];            
+                $new_list['col2'] = $list['id'];
+                $new_list['col3'] = $list[5214];
+                $new_list['col4'] = $participate;
+                $new_list['col5'] = $list[5349];
+                $new_list['col6'] = $list[5215];
+                $new_list['col7'] = $list[5216][0];
+                $new_list['col8'] = dot_by_coma($get_weighting['weighted']);
+                $new_list['col9'] = dot_by_coma($list[5218]);
+                $new_list['col10'] = $moneda;
+                $new_list['col11'] = $drawer;
+                $new_list['col12'] = $list[5726];
+                $new_list['col13'] = $list[5727];
+                $new_list['col14'] = $creditor;
+                $new_list['col15'] = $list[5351];
+                $new_list['col16'] = dot_by_coma($list[5221]);
+                $new_list['col17'] = $moneda_2;
+                $new_list['col18'] = $tasa;
+                $new_list['col19'] = dot_by_coma($list[5223] / 100);
+                $new_list['col20'] = $list[5224];
+                $new_list['col21'] = $list[5225];
+                $new_list['col22'] = $periodicidad;
+                $new_list['col23'] = $sistema;
+                $new_list['col24'] = $destino_credito;
+                $new_list['col25'] = $filename;               
+                $rtn[] = $new_list;
+        }
+        
+        $rtn_array = array(
+                'result' => $rtn,
+                'input_period_from'=>$input_period_from,
+                'input_period_to' =>$input_period_to, 
+                'sgr_report' => $sgr_report
+            );
+        return $rtn_array;
+    }
+
+    function _ui_table_xls() {
+
         $list = null;
         
         $this->sgr_model->del_tmp_general();
-        
+        $result =  $this->sgr_db->get($this->collection_out)->result_array();
+
+         $new_list = array();
+
         foreach ($result as $period_info) {
-        
+
+
             foreach ($period_info['anexo_data'] as $list) {
-                
+               
                 /* Vars */
-                $new_list = array();
+               
 
                 $this->load->model('padfyj_model');
                 if(isset($list[5349]))
@@ -941,7 +1056,7 @@ class Model_12 extends CI_Model {
                 if(isset($list[5726]))
                     $drawer = $this->padfyj_model->search_name((string) $list[5726]);
 
-
+                print_r($list);
 
                 /*  CREDITOR NAME */
                 if(isset($list[5351])){
@@ -1029,9 +1144,12 @@ class Model_12 extends CI_Model {
                 $rtn_msg = array('ok');
             } 
         }
-       echo json_encode($rtn_msg);
+      # echo json_encode($rtn_msg);
+       return $new_list;
        exit;
     }
+
+   
 
     function ui_table_xls_custom($result, $anexo = null, $parameter) { 
 
