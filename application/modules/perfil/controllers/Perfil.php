@@ -31,9 +31,9 @@ class Perfil extends MX_Controller {
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
-        ini_set('display_errors', 0);
-        error_reporting(E_ALL);
-        ini_set('xdebug.var_display_max_depth', 120 );
+        // ini_set('display_errors', 0);
+        // error_reporting(E_ALL);
+        // ini_set('xdebug.var_display_max_depth', 120 );
 
         define('LINK_INCUBADORA','perfil/incubadora');
         define('LINK_EMPRESA','perfil/empresa');
@@ -79,6 +79,13 @@ class Perfil extends MX_Controller {
         }
 
 
+
+    }
+
+    function Admin() {
+
+         $this->load->module('dashboard');
+         $this->dashboard->dashboard('perfil/json/admin.json',$debug);
 
     }
 
