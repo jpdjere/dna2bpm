@@ -19,6 +19,7 @@ class Model_12 extends CI_Model {
         $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
+        /*TMP report*/
         $this->collection_out = "collection_out_" . $this->idu;
 
 
