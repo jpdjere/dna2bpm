@@ -834,9 +834,8 @@ class Model_12 extends CI_Model {
 
     function generate_report($parameter=array()) {
         
-         if(!empty($this->input->post('sgr_checkbox')))
+         if($this->input->post('sgr_checkbox')!==null)
             $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
-
 
         /*REPORT POST VALUES*/        
          switch ($this->input->post('sgr')) {
@@ -874,21 +873,21 @@ class Model_12 extends CI_Model {
         # CUSTOM     
         $custom_match = array('id'=>array('$exists'=> true));
 
-        if(!empty($this->input->post('order_number')))
+        if($this->input->post('order_number')!="")
              $custom_match['anexo_data.5214'] = $this->input->post('order_number');
 
-        if(!empty($this->input->post('cuit_sharer')))
+        if($this->input->post('cuit_sharer')!="")
              $custom_match['anexo_data.5349'] = $this->input->post('cuit_sharer');
              
-        if(!empty($this->input->post('cuit_creditor')))
+        if($this->input->post('cuit_creditor')!="")
              $custom_match['anexo_data.5351'] = $this->input->post('cuit_creditor');     
 
-        if(!empty($this->input->post('warranty_type')))
+        if($this->input->post('warranty_type')!="")
             $custom_match['anexo_data.5216'] = new MongoRegex('/^' . $this->input->post('warranty_type') . '/i'); 
         
         $custom_report = false; 
 
-        if(!empty($this->input->post('custom_report')))
+        if($this->input->post('custom_report')=="1")
              $custom_report = true; 
 
        
