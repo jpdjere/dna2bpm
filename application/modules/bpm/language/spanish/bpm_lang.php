@@ -34,7 +34,7 @@ $lang["noMoreTasks"] = "Ud no tiene más tareas pendientes por ahora";
 $lang["caseClosed"] = "El proceso ha finalizado.";
 $lang["closedCases"] = "Casos Cerrados";
 /* --WF-conditions----- */
-$lang['true'] = 'Sí';
+$lang['true'] = 'Si';
 $lang['false'] = 'No';
 /* --File ---*/
 $lang['drop_here']="Arrastre sus archivos aquí";
