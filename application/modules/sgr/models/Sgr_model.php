@@ -29,6 +29,10 @@ class Sgr_model extends CI_Model {
             header("$this->module_url/user/logout");
 
 
+        $this->period = date('m') . "-" . date('Y');
+        if (isset($this->session->userdata['period']))
+            $this->period = $this->session->userdata['period'];
+
         /* DATOS SGR */
         $sgrArr = $this->get_sgr();
 
@@ -497,9 +501,12 @@ class Sgr_model extends CI_Model {
          return $check_resolution;
      }
    
-    function get_company_size($sector, $average, $inc_date) {
-
-        list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
+    function get_company_size($sector, $average, $inc_date=null) {
+        
+        if(isset($this->session->userdata['period']))
+            list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
+        else 
+            list($month_period, $year_period) = explode("-", $this->period);
 
         $startDate = $year_period . "-" . $month_period . "-03";
         $lastDate = '2015-07-02'; //Desde el 02/07/2015 los límites Pyme son los siguientes (Resolución 357/2015)

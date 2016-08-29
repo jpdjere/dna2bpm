@@ -67,7 +67,7 @@ class Reports extends MX_Controller {
         }
         
         $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
-
+        $this->period = date('m') . "-" . date('Y');
         if (isset($this->session->userdata['period']))
             $this->period = $this->session->userdata['period'];
 
@@ -159,7 +159,7 @@ class Reports extends MX_Controller {
         $enables = array('06', '061', '062', '12', '125', '126', '13', '14', '141', '15', '16', '201', '202', 'cnv_1', 'cnv_2', 'cnv_3', 'cnv_4');
 
         if (in_array($this->anexo, $enables))
-            if($this->anexo=='12')
+            if($this->anexo=='12' || $this->anexo=='06')
                 $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
             else    
                 $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);

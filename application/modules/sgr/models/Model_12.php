@@ -513,38 +513,6 @@ class Model_12 extends CI_Model {
     function get_order_number_by_sgrid($nro, $sgr_id, $period) {
 
         $end_date = last_month_date($period);
-
-        /*QUERY*/       
-        $querys =array(
-            'aggregate'=>'container.sgr_periodos',
-            'pipeline'=>
-             array(
-                    array (
-                        '$match' => array (
-                            'anexo' => (string)$this->anexo,
-                            'sgr_id' =>$sgr_id, 
-                            'status'=>'activo',                            
-                            'period_date' => array(
-                                 '$lte' => $end_date
-                            )
-                        )                        
-                    ),                         
-                    array (
-                        '$lookup' => array (
-                            'from' => 'container.sgr_anexo_' . $this->anexo,
-                            'localField' => 'filename',
-                            'foreignField' => 'filename',
-                            'as' => 'anexo_data')                        
-                    ),
-                    array('$unwind' => '$anexo_data'),
-                    array (
-                        '$match' => array (
-                            'anexo_data.5214'=> $nro
-                    )                       
-                )        
-            )     
-        );  
-
         $query=array(
                 'aggregate'=>'container.sgr_anexo_' . $this->anexo,
                 'pipeline'=>
@@ -578,34 +546,6 @@ class Model_12 extends CI_Model {
         if($get['result'][0][5349]!=null)
             return $get['result'][0][5349];
 
-    }
-
-    function get_order_number_by_sgrid_ORI($nro, $sgr_id) {
-
-
-        $anexo = '12';
-
-        $period = 'container.sgr_periodos';
-        $container = 'container.sgr_anexo_' . $anexo;
-
-        /* GET ACTIVE ANEXOS */
-        $result = $this->sgr_model->get_active_each_sgrid($anexo, $sgr_id);
-
-        /* FIND ANEXO */
-        foreach ($result as $list) {
-
-
-
-            $new_query = array(
-                'filename' => $list['filename'],
-                5214 => $nro
-            );
-            $new_result = $this->mongowrapper->sgr->$container->findOne($new_query);
-            if ($new_result) {
-                $return_result[] = $new_result;
-            }
-        }
-        return $return_result;
     }
 
     /* GET DATA */
