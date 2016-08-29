@@ -1663,33 +1663,38 @@ function stripAccents($string) {
 }
 
 
-function reports_default_query($anexo, $start_date, $end_date, $sgr_id){
+function reports_default_query($anexo, $this_idu, $standard_match, $custom_match){
+
+   
+        $collection_out = "collection_out_" . $this_idu;     
+
+        $standard_match_array= array('$match' => $standard_match);
+        
+        $unwind_array= array('$unwind' => '$anexo_data');
+
+        $custom_match_array= array('$match' => $custom_match);
 
         /*QUERY*/       
         $query =array(
             'aggregate'=>'container.sgr_periodos',
             'pipeline'=>
              array(
-                    array (
-                        '$match' => array (
-                            'anexo' => (string)$anexo,
-                            'sgr_id' =>$sgr_id, 
-                            'status'=>'activo',                            
-                            'period_date' => array(
-                                '$gte' => $start_date, '$lte' => $end_date
-                            )
-                        )                        
-                    ),                         
+                    $standard_match_array,
                     array (
                         '$lookup' => array (
                             'from' => 'container.sgr_anexo_' . $anexo,
                             'localField' => 'filename',
                             'foreignField' => 'filename',
                             'as' => 'anexo_data')                        
-                    ) 
-            )     
+                    ),
+                    $unwind_array,                     
+                    $custom_match_array, 
+                    array('$project'=> array('_id'=>0, 'anexo_data'=>1, 'sgr_id'=>1,  'period'=>1)),
+                    array(
+                        '$out' => $collection_out
+                    )
+                    
+            )  , 'allowDiskUse'=> true,    
         );    
-
         return $query;
-
 }

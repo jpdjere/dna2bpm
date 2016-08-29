@@ -23,6 +23,8 @@ class Sgr_model extends CI_Model {
         $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
+        $this->collection_out = "collection_out_" . $this->idu;
+
         if (!$this->idu)
             header("$this->module_url/user/logout");
 
@@ -396,9 +398,9 @@ class Sgr_model extends CI_Model {
     function get_sgr_by_id_new($sgr_id) {
         $container = 'container.empresas_custom';
         $query = array("id" => $sgr_id);
-        $result = $this->mongowrapper->sgr->$container->findOne($query);
-
-
+        $result = (array) $this->sgr_db->where($query)->get($container)->row();
+       
+        
         if (isset($result)){
             $result['1695'] = str_replace("-", "", $result['1695']); #cuits sin (-)
             return $result;
@@ -1076,6 +1078,12 @@ class Sgr_model extends CI_Model {
 
         $container = 'container.sgr_anexo_report_' . $this->idu . '_tmp';
         $delete = $this->mongowrapper->sgr_tmp->$container->remove();
+    }
+
+    function getReportCount()
+    {
+        $collection_out = "collection_out_" . $this->idu; 
+        return $this->sgr_db->get($collection_out)->count();
     }
 
     function last_report_general() {

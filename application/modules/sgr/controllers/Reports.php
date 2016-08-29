@@ -159,8 +159,10 @@ class Reports extends MX_Controller {
         $enables = array('06', '061', '062', '12', '125', '126', '13', '14', '141', '15', '16', '201', '202', 'cnv_1', 'cnv_2', 'cnv_3', 'cnv_4');
 
         if (in_array($this->anexo, $enables))
-            #$customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
-            $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);
+            if($this->anexo=='12')
+                $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
+            else    
+                $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);
         else
             $customData['form_template'] = "";
 
@@ -195,7 +197,11 @@ class Reports extends MX_Controller {
         $this->load->model($model);
         header('Content-type: text/html; charset=UTF-8');
 
+        
+
         $customData = $this->$model->get_link_report($anexo);
+
+
 
 
 
