@@ -832,7 +832,7 @@ class Model_14 extends CI_Model {
             $list = $period_info['anexo_data'];
 
             $nro_garantia = trim($list['NRO_GARANTIA']);
-            $get_movement_data_qry = $this->model_12->get_order_number_by_sgrid($nro_garantia, $period_info['sgr_id'], $list['period']);
+            $get_movement_data_qry = $this->model_12->get_order_number_by_sgrid($nro_garantia, $period_info['sgr_id'], $period_info['period']);
             
             $brand_name = null;
             $cuit = $get_movement_data_qry;
@@ -856,7 +856,7 @@ class Model_14 extends CI_Model {
             $new_list['col1'] = $sgr_info[1693];
             $new_list['col2'] = $sgr_info[1695];            
             $new_list['col3'] = $list['id'];
-            $new_list['col4'] = $list['period'];
+            $new_list['col4'] = $period_info['period'];
             $new_list['col5'] = mongodate_to_print($list['FECHA_MOVIMIENTO']);
             $new_list['col6'] = $list['NRO_GARANTIA'];
             $new_list['col7'] = $brand_name;
