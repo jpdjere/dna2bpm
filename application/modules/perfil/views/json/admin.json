@@ -30,6 +30,19 @@
                 }]
             },
             {
+                "title": "Descarga CSV Thalamus",
+                "module": "perfil",
+                "controller": "perfil",
+                "function": "descarga_thalamus",
+                "box_icon":"fa-file-archive-o",
+                "box_class":["box","box-primary"], 
+                "box_buttons":["collapse"],
+                "box_collapsed":"0",
+                "css": [{
+                    "{base_url}code/assets/css/code.css": "code"
+                }]
+            },
+            {
                 "title": "chart_F1272xSemana",
                 "module": "afip",
                 "controller": "consultas",
