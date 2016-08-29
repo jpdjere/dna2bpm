@@ -347,22 +347,106 @@ class prestamos extends MX_Controller {
             //}
             $arrayPrestamo = $this->generarArrayDePrestamo($row); //TODO: validar array resultado con reglas validacion
 
-            $this->calcularCuotas($arrayPrestamo);
+            $cantidadCuotas = $arrayPrestamo['plazoTotalEnMeses']/$arrayPrestamo['frecuenciaServiciosInteres'];
+
+            $arrayPaymentDays = $this->calcularFechas($arrayPrestamo['fechaAcreditacionPrestamo'], $arrayPrestamo['fecha1erVencCuotaCapital'],
+                $arrayPrestamo['fecha1erVencCuotaInteres'], $cantidadCuotas, $arrayPrestamo['sistemaAmort']);
+            $this->calcularCuotas($arrayPrestamo, $cantidadCuotas, $arrayPaymentDays[0], $arrayPaymentDays[1]); //TODO: debuggear acá
         }
     }
 
-    private function calcularCuotas ($arrayPrestamo) {
+    private function calcularFechas ($fechaAcreditacionPrestamo, $fecha1erVencCuotaCapital, $frec_int, $cantcuot, $sistema) {
+        $fechaAcreditacion = mktime(0,0,0,1,-1+(int)$fechaAcreditacionPrestamo, 1900);
+        $fecha1erVenc = mktime(0,0,0,1,-1+(int)$fecha1erVencCuotaCapital, 1900);
+        $fechaacred = explode('/',date("d/m/Y",$fechaAcreditacion));
+        $fechaini = explode('/',date("d/m/Y",$fecha1erVenc));
+
+        $days= $this->dateDifference($fechaAcreditacion,$fecha1erVenc); //Reemplazo lineas 165 a 170 de calcAmort
+
+        $fecha_pago=array();
+        $fecha_liq=array();
+        $num_days=array();
+        $paymentarray=array();
+
+        for($i=1;$i<=$cantcuot;$i++) {
+            $month_step=(int)$frec_int*($i-1);
+            $month=$fechaini[1]+$month_step;
+            $year=$fechaini[2];
+
+            $ultimo_dia=$fechaini[0];
+
+            $resto = ($month) % 12;
+            if($resto==0) $resto= 12;
+
+            switch ($fechaini[0]) {
+                case 29:
+                    $sumac=array('2');//si el dia de fecha es 29 y mes 2 el ultimo dia es 28 o 29
+                    if(in_array($resto,$sumac)){
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));
+                        //echo "El ultimo dia en $resto $year es: ".$ultimo_dia."<br>";
+                    } else $ultimo_dia=$fechaini[0];
+                    break;
+                case 30:
+                    $sumac=array('2');//si el dia de fecha es 30 y mes 2 el ultimo dia es 28 o 29
+                    if(in_array($resto,$sumac)){
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));//se pone $month+1 porque necesitamos que calcule el aï¿½o siguiente cuando corresponda
+                        //echo "El ultimo dia en $resto $year es: ".$ultimo_dia."<br>";
+                    } else $ultimo_dia=$fechaini[0];
+                    break;
+                case 31:
+                    $sumac=array('2','4','6','9','11'); //si el dia de fecha es 31 y mes feb abril junio sep y nov el ultimo dia es 28 o 29
+                    if(in_array($resto,$sumac)){
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));
+                        //echo "El ultimo dia en $resto $year es: ".$ultimo_dia."<br>";
+                    } else $ultimo_dia=$fechaini[0];
+                    break;
+            }
+
+            $fecha_pago[$i]=date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
+            $fecha_liq[$i]= date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
+
+        }
+        //---array el array para bonificar los primeros n dias dps cuento los demas
+        $paymentarray[1]['fecha_pago']=$fecha_pago[1];
+        $paymentarray[1]['fecha_liq']=$fecha_liq[1];
+        $paymentarray[1]['num_days']=$days;
+
+        for($i=2;$i<=$cantcuot;$i++) {
+            $date1=strtotime($fecha_pago[$i-1]);
+            $date2=strtotime($fecha_pago[$i]);
+
+            if($sistema == 'ALEMAN360' || $sistema == 'FRANCES360') $num_days[$i]=(int)$frec_int*30;
+            else $num_days[$i]=$this->dateDifference($date1,$date2); //Reemplazo lineas 254 de calcAmort
+
+            $paymentarray[$i]['fecha_pago']=$fecha_pago[$i];
+            $paymentarray[$i]['fecha_liq']=$fecha_liq[$i];
+            $paymentarray[$i]['num_days']=$num_days[$i];
+        }
+
+        return (array($paymentarray, $days));
+    }
+
+    function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' ){
+        $datetime1 = date_create($date_1);
+        $datetime2 = date_create($date_2);
+
+        $interval = date_diff($datetime1, $datetime2);
+
+        return $interval->format($differenceFormat);
+    }
+
+    private function calcularCuotas ($arrayPrestamo, $cantidadCuotas, $paymentarray, $days) {
 
         $capital = $arrayPrestamo['capitalAcreditado'];
         $tna_bruta = $arrayPrestamo['tnaPymesNeta'];
         $puntos_bon = $arrayPrestamo['puntosBonif'];
-        $days = 31; //TODO: ver de donde sale en bonita viejo
+        $days = $days; // EJ: 31 TODO: ver de donde sale en bonita viejo
         $num_days = $this->fecha; //TODO: Calcular array en base a la fecha de comienzo del prestamo
-        $cantcuot = $arrayPrestamo['plazoTotalEnMeses'];
-        $gracia_cap = $arrayPrestamo['graciaCapital'];
-        $gracia_int = 0; //No viene mas en el nuevo excel
         $frec_cap = $arrayPrestamo['frecuenciaServiciosCapital'];
         $frec_int = $arrayPrestamo['fecha1erVencCuotaInteres'];
+        $cantcuot = $cantidadCuotas; //En bonita viejo:  $cantcuot=$plazo/$frec_int;
+        $gracia_cap = $arrayPrestamo['graciaCapital'];
+        $gracia_int = 0; //No viene mas en el nuevo excel TODO: ¿Se elimina el parámetro o queda?
 
         //Pasa la gracia de períodos a meses (de bonita viejo)
         $gracia_cap = $gracia_cap * $frec_cap;
