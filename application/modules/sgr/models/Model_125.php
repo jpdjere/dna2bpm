@@ -374,9 +374,9 @@ class Model_125 extends CI_Model {
         
         # CUSTOM     
         $filter = array('id'=>array('$exists'=> true));
-
-        if(!empty($this->input->post('order_number')))
-             $filter['anexo_data.5214'] = $this->input->post('order_number');
+        
+        if($this->input->post('cuit_socio')!="")
+             $custom_match['anexo_data.CUIT_PART'] = $this->input->post('cuit_socio'); 
 
 
         switch ($this->input->post('sgr')) {
