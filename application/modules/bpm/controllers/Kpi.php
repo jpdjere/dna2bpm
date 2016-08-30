@@ -342,7 +342,7 @@ class Kpi extends MX_Controller {
 
 		// $cpData ['start'] = $offset + 1;
 		// $cpData ['top'] = $top;
-		// $cpData ['qtty'] = $total;
+		$cpData ['qtty'] = $total;
 		// ----make content
 		$isAdmin = $this->user->isAdmin ();
 
@@ -392,7 +392,8 @@ class Kpi extends MX_Controller {
 				$template .= '</thead>';
 				// body
 				$template .= '<tbody>';
-				$template .= '{cases}' . '<tr>' . '<td>' . '<a target="_blank" href="' . $detail . '"><i class="fa ' . $detail_icon . '"></i></a>';
+				$template .= '{cases}<tr><td>';
+				//$template .= '<a target="_blank" href="' . $detail . '"><i class="fa ' . $detail_icon . '"></i></a>';
 				// helpers
 				if ($isAdmin) {
 					$template .= ' <a href="' . $this->base_url . 'bpm/manager/mini_report/{idwf}/{idcase}/html" class="reload_widget"><i class="fa fa-plus"></i></a>';
