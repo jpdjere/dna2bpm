@@ -578,7 +578,7 @@ class Sgr_model extends CI_Model {
             $query = array("code" => utf8_decode($code), "parent" => "forms2");
 
         $container = 'container.sgr_tipo_garantias';
-        $result = $this->mongowrapper->sgr->$container->findOne($query);
+        $result = $this->sgr_db->where($query)->get($container)->row(); 
 
         return $result;
     }
