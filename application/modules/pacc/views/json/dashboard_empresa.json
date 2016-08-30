@@ -51,18 +51,11 @@
             "span": 3
 
         }, {
-            "title": "Tile01",
-            "module": "bpm",
-            "controller": "kpi",
-            "function": "tile",
-            "params": ["pacc", "pacc11_PPA"],
-            "span": 3
-        }, {
             "title": "Proyectos Aprobados",
             "module": "bpm",
             "controller": "kpi",
             "function": "tile",
-            "params": ["pacc", "pacc11_PA"],
+            "params": ["pacc", "pacc11_PPA"],
             "span": 3
 
         }]
