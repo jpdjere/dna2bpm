@@ -371,6 +371,14 @@ class Model_125 extends CI_Model {
         $start_date = first_month_date($this->input->post('input_period_from'));       
         $end_date = last_month_date($this->input->post('input_period_to'));
 
+        
+        # CUSTOM     
+        $filter = array('id'=>array('$exists'=> true));
+        
+        if($this->input->post('cuit_socio')!="")
+             $custom_match['anexo_data.CUIT_PART'] = $this->input->post('cuit_socio'); 
+
+
         switch ($this->input->post('sgr')) {
             case '666':
                 $sgr_id = array('$exists'  => true);
@@ -387,13 +395,19 @@ class Model_125 extends CI_Model {
 
         
 
-        $query = reports_default_query($this->anexo, $start_date, $end_date, $sgr_id);
+        $query = reports_default_query($this->anexo, $start_date, $end_date, $sgr_id, $this->idu, $filter);
+
+
         $get=$this->sgr_db->command($query);        
+
+        print_r($get);
         $this->ui_table_xls($get['result'], $this->anexo, $parameter, $end_date);       
     }
 
 
-    function ui_table_xls($result, $anexo = null, $parameter) { 
+
+    function _ui_table_xls($result, $anexo = null, $parameter) { 
+
 
         #custom
         $rtn_msg = array('no_record');

@@ -28,12 +28,12 @@
                     {title}
                 </td>
                 <td class="center">            
-                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/user" class="reload_widget">
+                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/user" class="load_tiles_after">
                         {user}
                     </a>
                 </td>
                 <td class="center">
-                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/finished" class="reload_widget">
+                    <a href="{base_url}bpm/kpi/list_status/{idwf}/{resourceId}/finished" class="load_tiles_after">
                         {finished}
                     </a>
                 </td>

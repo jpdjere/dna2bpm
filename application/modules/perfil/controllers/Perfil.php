@@ -31,9 +31,9 @@ class Perfil extends MX_Controller {
         $this->lang->load('dashboard/dashboard', $this->config->item('language'));
         $this->idu = $this->user->idu;
 
-        ini_set('display_errors', 0);
-        error_reporting(E_ALL);
-        ini_set('xdebug.var_display_max_depth', 120 );
+        // ini_set('display_errors', 0);
+        // error_reporting(E_ALL);
+        // ini_set('xdebug.var_display_max_depth', 120 );
 
         define('LINK_INCUBADORA','perfil/incubadora');
         define('LINK_EMPRESA','perfil/empresa');
@@ -81,6 +81,27 @@ class Perfil extends MX_Controller {
 
 
     }
+
+
+#========= Admin Dashboard 
+
+
+    function Admin() {
+
+         $this->load->module('dashboard');
+         $this->dashboard->dashboard('perfil/json/admin.json',$debug);
+
+    }
+
+    function Descarga_thalamus() {
+        $file=$this->base_url.'perfil/assets/download/thalamus.zip';
+        if(is_file($file))
+            echo "<a class='btn btn-primary' href='$file'>Descargar CSV</a>";
+        else
+            echo "No existe el archivo";
+    }
+
+#==
 
     function Hub($cuit=null,$debug=0) {
 

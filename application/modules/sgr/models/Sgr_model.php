@@ -23,9 +23,15 @@ class Sgr_model extends CI_Model {
         $this->load->library('cimongo/Cimongo.php', '', 'sgr_db');
         $this->sgr_db->switch_db('sgr');
 
+        $this->collection_out = "collection_out_" . $this->idu;
+
         if (!$this->idu)
             header("$this->module_url/user/logout");
 
+
+        $this->period = date('m') . "-" . date('Y');
+        if (isset($this->session->userdata['period']))
+            $this->period = $this->session->userdata['period'];
 
         /* DATOS SGR */
         $sgrArr = $this->get_sgr();
@@ -396,9 +402,9 @@ class Sgr_model extends CI_Model {
     function get_sgr_by_id_new($sgr_id) {
         $container = 'container.empresas_custom';
         $query = array("id" => $sgr_id);
-        $result = $this->mongowrapper->sgr->$container->findOne($query);
-
-
+        $result = (array) $this->sgr_db->where($query)->get($container)->row();
+       
+        
         if (isset($result)){
             $result['1695'] = str_replace("-", "", $result['1695']); #cuits sin (-)
             return $result;
@@ -495,9 +501,12 @@ class Sgr_model extends CI_Model {
          return $check_resolution;
      }
    
-    function get_company_size($sector, $average, $inc_date) {
-
-        list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
+    function get_company_size($sector, $average, $inc_date=null) {
+        
+        if(isset($this->session->userdata['period']))
+            list($month_period, $year_period) = explode("-", $this->session->userdata['period']);
+        else 
+            list($month_period, $year_period) = explode("-", $this->period);
 
         $startDate = $year_period . "-" . $month_period . "-03";
         $lastDate = '2015-07-02'; //Desde el 02/07/2015 los límites Pyme son los siguientes (Resolución 357/2015)
@@ -569,7 +578,7 @@ class Sgr_model extends CI_Model {
             $query = array("code" => utf8_decode($code), "parent" => "forms2");
 
         $container = 'container.sgr_tipo_garantias';
-        $result = $this->mongowrapper->sgr->$container->findOne($query);
+        $result = $this->sgr_db->where($query)->get($container)->row(); 
 
         return $result;
     }
@@ -1076,6 +1085,12 @@ class Sgr_model extends CI_Model {
 
         $container = 'container.sgr_anexo_report_' . $this->idu . '_tmp';
         $delete = $this->mongowrapper->sgr_tmp->$container->remove();
+    }
+
+    function getReportCount()
+    {
+        $collection_out = "collection_out_" . $this->idu; 
+        return $this->sgr_db->get($collection_out)->count();
     }
 
     function last_report_general() {

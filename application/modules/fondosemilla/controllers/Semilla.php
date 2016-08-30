@@ -41,6 +41,8 @@ class semilla extends MX_Controller {
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         ini_set('xdebug.var_display_max_depth', 120 );
+        
+        
     }
 
     function Index() {
@@ -63,7 +65,6 @@ class semilla extends MX_Controller {
         $grupo_user = 'FondoSemilla /Incubadora';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
-        $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/incubadoras_lite.json',$debug, $extraData);
     }
@@ -322,9 +323,6 @@ function lite(){
             'idwf' => 'fondo_semilla2016',
             'status' => 'open',
                 ), array(), array('checkdate' => 'desc')
-        );        $query = array(
-            'assign' => $this->idu,
-            'status' => 'user'
         );
      $query = array(
             'assign' => $this->idu,
@@ -518,12 +516,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     
     function tile_total(){
         $this->load->module('dashboard');
-        $data['title'] ="N° de Inscripciones Registradas";
-        $data['icon']= "ion-person-stalker";
+        $data['title'] ="Exportar Total de Inscripciones Registradas";
         $data['base_url'] = $this->base_url;
         $data['module_url'] = $this->module_url;
-        $data['number'] =count($this->Fondosemilla_model->proyectos());
-        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_total";
+        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_xls/fondo_semilla2016_KK";
         return $this->parser->parse('dashboard/tiles/tile-green', $data, true, true);
     }    
     
