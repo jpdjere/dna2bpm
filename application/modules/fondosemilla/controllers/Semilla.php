@@ -516,12 +516,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     
     function tile_total(){
         $this->load->module('dashboard');
-        $data['title'] ="N° de Inscripciones Registradas";
-        $data['icon']= "ion-person-stalker";
+        $data['title'] ="Exportar Total de Inscripciones Registradas";
         $data['base_url'] = $this->base_url;
         $data['module_url'] = $this->module_url;
-        $data['number'] =count($this->Fondosemilla_model->proyectos());
-        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_total";
+        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_xls/fondo_semilla2016_KK";
         return $this->parser->parse('dashboard/tiles/tile-green', $data, true, true);
     }    
     
