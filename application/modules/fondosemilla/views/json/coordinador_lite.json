@@ -5,7 +5,12 @@
     "icon": "fa-users",
     "zones": [
         {
-        "tiles": [
+        "tiles": [{
+                "title": "Reportes Incubadora",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "tile_total"
+                }
             
             ]
         },
