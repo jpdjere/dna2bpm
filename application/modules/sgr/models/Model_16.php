@@ -207,7 +207,8 @@ class Model_16 extends CI_Model {
         return $rtn;
     }
 
-    function get_anexo_data_($anexo, $parameter) {
+
+     function get_anexo_data($anexo, $parameter) {
         header('Content-type: text/html; charset=UTF-8');
         $rtn = array();
         $container = 'container.sgr_anexo_' . $anexo;
@@ -215,7 +216,7 @@ class Model_16 extends CI_Model {
         $result = $this->mongowrapper->sgr->$container->find($query);
 
         foreach ($result as $list) {
-            /* Vars 								
+            /* Vars                                 
              */
 
             $this->load->model('padfyj_model');
@@ -257,6 +258,8 @@ class Model_16 extends CI_Model {
         }
         return $rtn;
     }
+
+    
 
 
     /**
