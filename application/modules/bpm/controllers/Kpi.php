@@ -28,6 +28,10 @@ class Kpi extends MX_Controller {
 		$this->module_url = base_url () . $this->router->fetch_module () . '/';
 		$this->modules_path = APPPATH . 'modules/';
 		$this->debug=array();
+
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
+        // ini_set('xdebug.var_display_max_depth', 120 );
 	}
 	function Index() {
 	}
@@ -291,8 +295,10 @@ class Kpi extends MX_Controller {
 		);
 		$this->ui->makeui ( 'dashboard/layout', $cpData );
 	}
+
 	function list_status($idwf, $resourceId, $status, $page = 1, $pagesize = 10) {
 		$debug = (isset ( $this->debug [__FUNCTION__] )) ? $this->debug [__FUNCTION__] : false;
+
 		if ($debug)
 			echo '<h2>' . __FUNCTION__ . '</h2>';
 		$this->load->model ( 'bpm' );
@@ -321,6 +327,7 @@ class Kpi extends MX_Controller {
 		$detail_icon = 'fa-play';
 		$cpData ['kpi'] = $kpi;
 		$cases = $this->Get_cases ( $kpi );
+
 		$parseArr = array ();
 		// -----prepare pagination;
 		$total = count ( $cases );
@@ -331,18 +338,10 @@ class Kpi extends MX_Controller {
 				$offset + $pagesize,
 				$total
 		) );
-		// ---prepare pages
-		$cpData ['showPager'] = ($pages > 1) ? true : false;
-		for($i = 1; $i <= $pages; $i ++) {
-			$cpData ['pages'] [] = array (
-					'title' => $i,
-					'url' => $this->base_url . 'bpm/kpi/list_status/' . $idwf . '/' . $resourceId . '/' . $status . '/' . $i . '/' . $pagesize,
-					'class' => ($i == $page) ? 'bg-blue' : ''
-			);
-		}
 
-		$cpData ['start'] = $offset + 1;
-		$cpData ['top'] = $top;
+
+		// $cpData ['start'] = $offset + 1;
+		// $cpData ['top'] = $top;
 		$cpData ['qtty'] = $total;
 		// ----make content
 		$isAdmin = $this->user->isAdmin ();
@@ -367,6 +366,7 @@ class Kpi extends MX_Controller {
 					'user' => ( array ) $this->user->get_user_safe ( $case ['iduser'] )
 			), $case ['data'] );
 		}
+
 		if ($kpi ['list_template'] != '') {
 			$template = $kpi ['list_template'];
 		} else {
@@ -392,7 +392,8 @@ class Kpi extends MX_Controller {
 				$template .= '</thead>';
 				// body
 				$template .= '<tbody>';
-				$template .= '{cases}' . '<tr>' . '<td>' . '<a target="_blank" href="' . $detail . '"><i class="fa ' . $detail_icon . '"></i></a>';
+				$template .= '{cases}<tr><td>';
+				//$template .= '<a target="_blank" href="' . $detail . '"><i class="fa ' . $detail_icon . '"></i></a>';
 				// helpers
 				if ($isAdmin) {
 					$template .= ' <a href="' . $this->base_url . 'bpm/manager/mini_report/{idwf}/{idcase}/html" class="reload_widget"><i class="fa fa-plus"></i></a>';
@@ -413,8 +414,27 @@ class Kpi extends MX_Controller {
         <i class='fa fa-arrow-circle-o-left'></i>
         Go back
         </a>";
-		// ----PROCESS KPI
-		$cpData['pagination'] = $cpData['pages'];
+
+    	//==== Pagination
+   	
+    	define("PAGINATION_WIDTH",6);
+    	define("PAGINATION_ALWAYS_VISIBLE",true);
+    	define("PAGINATION_ITEMS_X_PAGE",$pagesize);
+
+    	$config=array('url'=>$this->base_url . "bpm/kpi/list_status/$idwf/$resourceId/$status",
+    			'current_page'=>$page,
+    			'items_total'=>$total, // Total items
+    			'items_x_page'=>PAGINATION_ITEMS_X_PAGE,
+    			'pagination_width'=>PAGINATION_WIDTH,
+    			'class_ul'=>"pagination-sm",
+    			'class_a'=>"reload_widget",
+    			'pagination_always_visible'=>PAGINATION_ALWAYS_VISIBLE
+    	);
+    	$cpData['pagination']=$this->pagination->index($config);
+    	$cpData['items_total']=$total;
+		//==
+
+
 
 		$this->parser->parse ( 'bpm/widgets/list.kpi.ui.php', $cpData,false,true );
 	}
