@@ -77,7 +77,7 @@ class Reports extends MX_Controller {
         ini_set('memory_limit', -1); 
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 101){        
+        if ($this->session->userdata('iduser') == 10){        
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
            # error_reporting(E_ALL);
