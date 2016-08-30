@@ -27,6 +27,30 @@
             "params": ["pacc", "pacc11_PP"],
             "span": 3
         }, {
+            "title": "Proyectos Observado Técnico",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "pacc1PDE_AN"],
+            "span": 3
+
+        }, {
+            "title": "Proyectos Pre-Aprobado",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "pacc11_PA"],
+            "span": 3
+
+        }, {
+            "title": "Proyectos Observado Formal",
+            "module": "bpm",
+            "controller": "kpi",
+            "function": "tile",
+            "params": ["pacc", "pacc1PDEF_WH"],
+            "span": 3
+
+        }, {
             "title": "Tile01",
             "module": "bpm",
             "controller": "kpi",
