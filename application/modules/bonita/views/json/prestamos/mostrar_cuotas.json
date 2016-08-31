@@ -1,0 +1,19 @@
+{
+  "createdBy": "Damián Gonzalia",
+  "title": "Bonificación de Tasa - Reportes Cuotas Generadas",
+  "view": "layout",
+  "icon": "fa-qrcode",
+  "js":[],
+
+  "zones": [
+    {   "widgets": [{
+      "title": "Reportes Cuotas Generadas",
+      "module": "bonita",
+      "controller": "prestamos",
+      "function": "mostrar_cuotas_calculadas"
+    }]
+    },{
+      "2cols_after": []
+    }
+  ]
+}

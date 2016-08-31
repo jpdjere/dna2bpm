@@ -13,18 +13,8 @@ if (!defined('BASEPATH'))
  */
 class prestamos extends MX_Controller {
 
-    var $config;
-
-    var $fecha = array (
-        2 => '31', 3 => '31', 4 => '30', 5 => '31', 6 => '30', 7 => '31', 8 => '31', 9 => '28', 10 => '31',
-        11 => '30', 12 => '31', 13 => '30', 14 => '31', 15 => '31', 16 => '30', 17 => '31', 18 => '30',
-        19 => '31', 20 => '31', 21 => '28', 22 => '31', 23 => '30', 24 => '31', 25 => '30', 26 => '31',
-        27 => '31', 28 => '30', 29 => '31', 30 => '30', 31 => '31', 32 => '31', 33 => '28', 34 => '31',
-        35 => '30', 36 => '31', 37 => '30', 38 => '31', 39 => '31', 40 => '30', 41 => '31', 42 => '30',
-        43 => '31', 44 => '31', 45 => '29', 46 => '31', 47 => '30', 48 => '31', 49 => '30', 50 => '31',
-        51 => '31', 52 => '30', 53 => '31', 54 => '30', 55 => '31', 56 => '31', 57 => '28', 58 => '31',
-        59 => '30', 60 => '31',
-    );
+   var $config;
+   var $arrayCuotas = array();
 
    function __construct() {
         parent::__construct();
@@ -158,47 +148,6 @@ class prestamos extends MX_Controller {
      * Muestra el abm de entidades
      */
     function AbmEntidades(){
-        $C = "1500000.00";
-        $T = 22;
-        $ptosbon = 5;
-        $days = "31";
-        $fecha = array (
-            2 => '31', 3 => '31', 4 => '30', 5 => '31', 6 => '30', 7 => '31', 8 => '31', 9 => '28', 10 => '31',
-            11 => '30', 12 => '31', 13 => '30', 14 => '31', 15 => '31', 16 => '30', 17 => '31', 18 => '30',
-            19 => '31', 20 => '31', 21 => '28', 22 => '31', 23 => '30', 24 => '31', 25 => '30', 26 => '31',
-            27 => '31', 28 => '30', 29 => '31', 30 => '30', 31 => '31', 32 => '31', 33 => '28', 34 => '31',
-            35 => '30', 36 => '31', 37 => '30', 38 => '31', 39 => '31', 40 => '30', 41 => '31', 42 => '30',
-            43 => '31', 44 => '31', 45 => '29', 46 => '31', 47 => '30', 48 => '31', 49 => '30', 50 => '31',
-            51 => '31', 52 => '30', 53 => '31', 54 => '30', 55 => '31', 56 => '31', 57 => '28', 58 => '31',
-            59 => '30', 60 => '31',
-        );
-        $n = 60;
-        $gc = 6;
-        $gi = 0;
-        $frec_cap = 1;
-        $frec_int = 1;
-        aleman($C, $T, $ptosbon, $days, $fecha, $n, $gc, $gi, $frec_cap, $frec_int);
-
-        $C = "1500000.00";
-        $T = 17;
-        $ptosbon = 5;
-        $days = "31";
-        $fecha = array (
-            2 => '31', 3 => '31', 4 => '30', 5 => '31', 6 => '30', 7 => '31', 8 => '31', 9 => '28', 10 => '31',
-            11 => '30', 12 => '31', 13 => '30', 14 => '31', 15 => '31', 16 => '30', 17 => '31', 18 => '30',
-            19 => '31', 20 => '31', 21 => '28', 22 => '31', 23 => '30', 24 => '31', 25 => '30', 26 => '31',
-            27 => '31', 28 => '30', 29 => '31', 30 => '30', 31 => '31', 32 => '31', 33 => '28', 34 => '31',
-            35 => '30', 36 => '31', 37 => '30', 38 => '31', 39 => '31', 40 => '30', 41 => '31', 42 => '30',
-            43 => '31', 44 => '31', 45 => '29', 46 => '31', 47 => '30', 48 => '31', 49 => '30', 50 => '31',
-            51 => '31', 52 => '30', 53 => '31', 54 => '30', 55 => '31', 56 => '31', 57 => '28', 58 => '31',
-            59 => '30', 60 => '31',
-        );
-        $n = 60;
-        $gc = 6;
-        $gi = 0;
-        $frec_cap = 1;
-        $frec_int = 1;
-        $a= frances($C, $T, $ptosbon, $days, $fecha, $n, $gc, $gi, $frec_cap, $frec_int);
         $this->dashboard->dashboard('bonita/json/prestamos/abm_entidades.json');
     }
     
@@ -311,7 +260,32 @@ class prestamos extends MX_Controller {
         $this->load->helper(['form', 'url']);
         $this->load->view('bonita/views/prestamos/altaprestamos/importar_excel',false, $error);
     }
-    
+
+    function mostrar_cuotas_calculadas () {
+        $customData['base_url'] = $this->base_url;
+        $cuotas = $this->arrayCuotas;
+        $lista = new String();
+        foreach($cuotas as $lic){
+            $lista =  $lista.
+                '<tr>
+                <td>'.$lic['fecha_pago'].'</td>
+                <td>'.$lic['fecha_liq'].'</td>
+                <td>'.$lic['num_days'].'</td>
+                <td>'.$lic['amortizacion'].'</td>
+                <td>'.$lic['remaining'].'</td>
+                <td>'.$lic['intereses'].'</td>
+                <td>'.$lic['cuota'].'</td>
+                <td>'.$lic['accInt'].'</td>
+                <td>'.$lic['bonif'].'</td>
+                <td>'.$lic['periodo'].'</td>
+                <td>'.$lic['puntos_bon'].'</td>
+                <td>'.$lic['accCap'].'</td>
+            </tr>';
+        }
+        $customData['lista'] = $lista;
+        return $this->parser->parse('bonita/views/prestamos/ver_prestamos',$customData,true,true);
+    }
+
     /**
      * Sube el excel con los datos de los prestamos
      */
@@ -327,9 +301,6 @@ class prestamos extends MX_Controller {
             redirect('bonita/prestamos/AltaPrestamosImport/PermissionError');
         }
 
-        $this->load->library('bonita/Excel');
-        $excel_file = $this->excel->load($full_path);
-        
         define('FILA_MINIMA', 9);
         define('COLUMNA_MINIMA', 'A');
         define('COLUMNA_MAXIMA', 'BE');
@@ -338,8 +309,8 @@ class prestamos extends MX_Controller {
         $excel_file = $this->excel->load($full_path);
         $sheet = $excel_file->getSheet(0);
         $data = $sheet->rangeToArray(COLUMNA_MINIMA.FILA_MINIMA.':'.COLUMNA_MAXIMA.$sheet->getHighestRow());
-        //$this->load->library('bonita/validator');
-        $this->limpiarFilasVacias($data);
+        //$this->load->library('bonita/validator'); TODO: ver de abstraer validaciones en library o helpers
+        $data = $this->limpiarFilasVacias($data);
         foreach($data as $row){
             //$result = $this->validator->altaprestamos($row);
             //if(!$result == true){
@@ -347,104 +318,178 @@ class prestamos extends MX_Controller {
             //}
             $arrayPrestamo = $this->generarArrayDePrestamo($row); //TODO: validar array resultado con reglas validacion
 
+            //En bonita viejo:  $cantcuot=$plazo/$frec_int;
             $cantidadCuotas = $arrayPrestamo['plazoTotalEnMeses']/$arrayPrestamo['frecuenciaServiciosInteres'];
 
-            $arrayPaymentDays = $this->calcularFechas($arrayPrestamo['fechaAcreditacionPrestamo'], $arrayPrestamo['fecha1erVencCuotaCapital'],
-                $arrayPrestamo['fecha1erVencCuotaInteres'], $cantidadCuotas, $arrayPrestamo['sistemaAmort']);
-            $this->calcularCuotas($arrayPrestamo, $cantidadCuotas, $arrayPaymentDays[0], $arrayPaymentDays[1]); //TODO: debuggear acá
+            $arrayPaymentDays = $this->calcularFechas($arrayPrestamo['fechaAcreditacionPrestamo'],
+                $arrayPrestamo['fecha1erVencCuotaInteres'], $arrayPrestamo['frecuenciaServiciosInteres'] , $cantidadCuotas,
+                $arrayPrestamo['sistemaAmort']);
+
+            $paymentArray = $arrayPaymentDays[0];
+            $days = $arrayPaymentDays[1];
+            $arrayDays = $arrayPaymentDays[2];
+            $paymentSchedule = $this->calcularCuotas($arrayPrestamo, $cantidadCuotas, $paymentArray, $days, $arrayDays);
+            /*
+             * TODO: Falta persistir el resultado de calcularCuotas ($paymentSchedule). En bonita_prestamos, bonita_cuotas y bonita_cuotas_history)
+            */
+            //Ver resultados en la vista
+            array_push($this->arrayCuotas,$paymentSchedule);
         }
+        $this->dashboard->dashboard('bonita/json/prestamos/mostrar_cuotas.json');
     }
 
-    private function calcularFechas ($fechaAcreditacionPrestamo, $fecha1erVencCuotaCapital, $frec_int, $cantcuot, $sistema) {
-        $fechaAcreditacion = mktime(0,0,0,1,-1+(int)$fechaAcreditacionPrestamo, 1900);
-        $fecha1erVenc = mktime(0,0,0,1,-1+(int)$fecha1erVencCuotaCapital, 1900);
-        $fechaacred = explode('/',date("d/m/Y",$fechaAcreditacion));
-        $fechaini = explode('/',date("d/m/Y",$fecha1erVenc));
+    /**
+     * Se realiza ésta conversion para utilizar la fecha correctamente en con la funcion dateDifference.
+     *
+     * @param $fecha String "07/11/2016" ó serial date 42562 (excel date format).
+     * @return DateTime
+     */
+    private function fechaToObject ($fecha) {
+        if (is_numeric($fecha)){
+            $fecha = PHPExcel_Shared_Date::ExcelToPHPObject($fecha);
+        }
+        else {
+            $fecha = date_create(str_replace('/','-',$fecha));
+        }
+        return $fecha;
+    }
 
-        $days= $this->dateDifference($fechaAcreditacion,$fecha1erVenc); //Reemplazo lineas 165 a 170 de calcAmort
+    /**
+     * Genera un array con la fecha recibida por parámetro
+     *
+     * @param $fecha DateTime 27-07-2016
+     * @return array
+     *
+     * array (
+     *      0 => '27',
+     *      1 => '07',
+     *      2 => '2016',
+     *      )
+     */
+    private function fechaToArray ($fecha) {
+        return explode('-', $fecha->format('d-m-Y'));
+    }
+
+    /**
+     * Calculo de fechas en base a la cantidad de cuotas del préstamo.
+     *
+     * @param $fechaAcreditacionPrestamo
+     * @param $fecha1erVencCuotaInteres
+     * @param $frec_int
+     * @param $cantcuot
+     * @param $sistema
+     * @return array
+     */
+    private function calcularFechas ($fechaAcreditacionPrestamo, $fecha1erVencCuotaInteres, $frec_int, $cantcuot, $sistema) {
+
+        $fechaAcreditacionPrestamo = $this->fechaToObject($fechaAcreditacionPrestamo);
+
+        $fecha1erVencCuotaInteres = $this->fechaToObject($fecha1erVencCuotaInteres);
+
+        //$fechaacred = explode('/',date("d/m/Y",$fechaAcreditacion)); //No se usa porque reemplazo lineas 165 a 172 de calcAmort
+        $fechaini = $this->fechaToArray($fecha1erVencCuotaInteres);
+
+        $days= $this->dateDifference($fechaAcreditacionPrestamo,$fecha1erVencCuotaInteres); //Reemplazo lineas 165 a 172 de calcAmort
 
         $fecha_pago=array();
         $fecha_liq=array();
         $num_days=array();
         $paymentarray=array();
 
-        for($i=1;$i<=$cantcuot;$i++) {
-            $month_step=(int)$frec_int*($i-1);
-            $month=$fechaini[1]+$month_step;
-            $year=$fechaini[2];
+        for($i=1 ; $i <= $cantcuot ; $i++) {
+            $month_step = (int)$frec_int * ($i-1);
+            $month = $fechaini[1] + $month_step;
+            $year = $fechaini[2];
 
-            $ultimo_dia=$fechaini[0];
+            $ultimo_dia = $fechaini[0];
 
             $resto = ($month) % 12;
-            if($resto==0) $resto= 12;
+
+            if($resto==0) {
+                $resto= 12;
+            }
 
             switch ($fechaini[0]) {
                 case 29:
-                    $sumac=array('2');//si el dia de fecha es 29 y mes 2 el ultimo dia es 28 o 29
+                    $sumac = array('2');//si el dia de fecha es 29 y mes 2 el ultimo dia es 28 o 29
                     if(in_array($resto,$sumac)){
                         $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));
-                        //echo "El ultimo dia en $resto $year es: ".$ultimo_dia."<br>";
-                    } else $ultimo_dia=$fechaini[0];
+                    } else $ultimo_dia = $fechaini[0];
                     break;
                 case 30:
-                    $sumac=array('2');//si el dia de fecha es 30 y mes 2 el ultimo dia es 28 o 29
+                    $sumac = array('2');//si el dia de fecha es 30 y mes 2 el ultimo dia es 28 o 29
                     if(in_array($resto,$sumac)){
-                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));//se pone $month+1 porque necesitamos que calcule el aï¿½o siguiente cuando corresponda
-                        //echo "El ultimo dia en $resto $year es: ".$ultimo_dia."<br>";
-                    } else $ultimo_dia=$fechaini[0];
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));//se pone $month+1 porque necesitamos que calcule el año siguiente cuando corresponda
+                    } else $ultimo_dia = $fechaini[0];
                     break;
                 case 31:
-                    $sumac=array('2','4','6','9','11'); //si el dia de fecha es 31 y mes feb abril junio sep y nov el ultimo dia es 28 o 29
+                    $sumac = array('2','4','6','9','11'); //si el dia de fecha es 31 y mes feb abril junio sep y nov el ultimo dia es 28 o 29
                     if(in_array($resto,$sumac)){
                         $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));
-                        //echo "El ultimo dia en $resto $year es: ".$ultimo_dia."<br>";
-                    } else $ultimo_dia=$fechaini[0];
+                    } else $ultimo_dia = $fechaini[0];
                     break;
             }
 
-            $fecha_pago[$i]=date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
-            $fecha_liq[$i]= date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
+            $fecha_pago[$i] = date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
+            $fecha_liq[$i] = date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
 
         }
-        //---array el array para bonificar los primeros n dias dps cuento los demas
-        $paymentarray[1]['fecha_pago']=$fecha_pago[1];
-        $paymentarray[1]['fecha_liq']=$fecha_liq[1];
-        $paymentarray[1]['num_days']=$days;
+        //---array el array para bonificar los primeros n dias dps cuento los demas (comentario de bonita viejo)
+        $paymentarray[1]['fecha_pago'] = $fecha_pago[1];
+        $paymentarray[1]['fecha_liq'] = $fecha_liq[1];
+        $paymentarray[1]['num_days'] = $days;
 
-        for($i=2;$i<=$cantcuot;$i++) {
-            $date1=strtotime($fecha_pago[$i-1]);
-            $date2=strtotime($fecha_pago[$i]);
+        for($i=2 ; $i <= $cantcuot ; $i++) {
+            $date_1 = $this->fechaToObject($fecha_pago[$i-1]);
+            $date_2 = $this->fechaToObject($fecha_pago[$i]);
 
-            if($sistema == 'ALEMAN360' || $sistema == 'FRANCES360') $num_days[$i]=(int)$frec_int*30;
-            else $num_days[$i]=$this->dateDifference($date1,$date2); //Reemplazo lineas 254 de calcAmort
+            if($sistema == 'ALEMAN360' || $sistema == 'FRANCES360') {
+                $num_days[$i] = (int)$frec_int*30;
+            }
+            else {
+                $num_days[$i] = $this->dateDifference($date_1,$date_2);
+            }
 
             $paymentarray[$i]['fecha_pago']=$fecha_pago[$i];
             $paymentarray[$i]['fecha_liq']=$fecha_liq[$i];
             $paymentarray[$i]['num_days']=$num_days[$i];
         }
 
-        return (array($paymentarray, $days));
+        return (array($paymentarray, $days, $num_days));
     }
 
+    /**
+     * Dadas dos fechas, retorna la cantidad de días entre una y otra.
+     *
+     * @param $date_1
+     * @param $date_2
+     * @param string $differenceFormat '%a'= día
+     * @return string
+     */
     function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' ){
-        $datetime1 = date_create($date_1);
-        $datetime2 = date_create($date_2);
-
-        $interval = date_diff($datetime1, $datetime2);
-
+        $interval = date_diff($date_1, $date_2);
         return $interval->format($differenceFormat);
     }
 
-    private function calcularCuotas ($arrayPrestamo, $cantidadCuotas, $paymentarray, $days) {
-
+    /**
+     * Calcula la cantidad de cuotas en base al sistema de amortización del préstamo.
+     *
+     * @param $arrayPrestamo
+     * @param $cantidadCuotas
+     * @param $paymentArray
+     * @param $cantidadDias
+     * @param $arrayDays
+     * @return array
+     */
+    private function calcularCuotas ($arrayPrestamo, $cantidadCuotas, $paymentArray, $cantidadDias, $arrayDays) {
         $capital = $arrayPrestamo['capitalAcreditado'];
         $tna_bruta = $arrayPrestamo['tnaPymesNeta'];
         $puntos_bon = $arrayPrestamo['puntosBonif'];
-        $days = $days; // EJ: 31 TODO: ver de donde sale en bonita viejo
-        $num_days = $this->fecha; //TODO: Calcular array en base a la fecha de comienzo del prestamo
+        $days = $cantidadDias;
+        $num_days = $arrayDays;
         $frec_cap = $arrayPrestamo['frecuenciaServiciosCapital'];
-        $frec_int = $arrayPrestamo['fecha1erVencCuotaInteres'];
-        $cantcuot = $cantidadCuotas; //En bonita viejo:  $cantcuot=$plazo/$frec_int;
+        $frec_int = $arrayPrestamo['frecuenciaServiciosInteres'];
+        $cantcuot = $cantidadCuotas;
         $gracia_cap = $arrayPrestamo['graciaCapital'];
         $gracia_int = 0; //No viene mas en el nuevo excel TODO: ¿Se elimina el parámetro o queda?
 
@@ -454,83 +499,104 @@ class prestamos extends MX_Controller {
 
         switch ($arrayPrestamo['sistemaAmort']) {
             case 'ALEMAN':
-                $tna_bruta=($tna_bruta*100)+$puntos_bon; //(de bonita viejo)
-                $paymentsystem = aleman($capital,$tna_bruta,$puntos_bon,$days,$num_days,$cantcuot,$gracia_cap,$gracia_int,$frec_cap,$frec_int);
+                //$tna_bruta=($tna_bruta*100)+$puntos_bon; //(de bonita viejo)
+                $tna_bruta += $puntos_bon;
+                $paymentSystem = aleman($capital,$tna_bruta,$puntos_bon,$days,$num_days,$cantcuot,$gracia_cap,$gracia_int,$frec_cap,$frec_int);
                 break;
             case 'FRANCES':
-                $tna_bruta=($tna_bruta*100); //(de bonita viejo)
-                $paymentsystem = frances($capital,$tna_bruta,$puntos_bon,$days,$num_days,$cantcuot,$gracia_cap,$gracia_int,$frec_cap,$frec_int);
+                //$tna_bruta=($tna_bruta*100); //(de bonita viejo)
+                $paymentSystem = frances($capital,$tna_bruta,$puntos_bon,$days,$num_days,$cantcuot,$gracia_cap,$gracia_int,$frec_cap,$frec_int);
         }
 
+        //Genera el esquema de pagos en base al $paymentArray y $paymentSystem
         for($i=1;$i<=$cantcuot;$i++) {
-            $paymentschedule[$i]=array_merge($paymentarray[$i],$paymentsystem[$i]);
+            $paymentSchedule[$i]=array_merge($paymentArray[$i],$paymentSystem[$i]);
         }
+        return $paymentSchedule;
     }
 
-    private function limpiarFilasVacias (&$data) {
-        $data = array_map('array_filter', $data);
-        $data = array_filter($data);
+    /**
+     * Dado el array de datos leídos desde el excel, se eliminan las filas que no contienen datos.
+     *
+     * @param $data
+     * @return array
+     */
+    private function limpiarFilasVacias ($data) {
+        return array_filter($data, function($fila) {
+            foreach ($fila as $valor){
+                if($valor !== null && $valor !== "") {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
+    /**
+     * Parseo de datos del excel de préstamos a un array con etiquetas por tipo de dato.
+     *
+     * @param $row
+     * @return array
+     */
     private function generarArrayDePrestamo ($row) {
         $prestamo = array();
-        $prestamo['sucursalBanco'] = $row[1];
-        $prestamo['razonSocial'] = $row[2];
-        $prestamo['cuit'] = $row[3];
-        $prestamo['domicilio'] = $row[4];
-        $prestamo['localidad'] = $row[5];
-        $prestamo['municipio'] = $row[6];
-        $prestamo['partido'] = $row[7];
-        $prestamo['provincia'] = $row[8];
-        $prestamo['cp'] = $row[9];
-        $prestamo['telefono'] = $row[10];
-        $prestamo['mail'] = $row[11];
-        $prestamo['fechaInicioAct'] = $row[12];
-        $prestamo['sectorActividad'] = $row[13];
-        $prestamo['sectoresPriorizados'] = $row[14];
-        $prestamo['codActividadFinanciera'] = $row[15];
-        $prestamo['detalleActividad'] = $row[16];
-        $prestamo['ventaAnualUltimotEjer'] = $row[17];
-        $prestamo['periodoCorrespondiente'] = $row[18];
-        $prestamo['promVentas3Ejer'] = $row[19];
-        $prestamo['hasta20porcientoImporte'] = $row[20];
-        $prestamo['montoInversionTotal'] = $row[21];
-        $prestamo['cantEmpleados'] = $row[22];
-        $prestamo['nroPrestamo'] = $row[23];
-        $prestamo['fechaFirmaContrato'] = $row[24];
-        $prestamo['fechaAcreditacionPrestamo'] = $row[25];
-        $prestamo['capitalAcreditado'] = $row[26];
-        $prestamo['fechaEntregaDelBien'] = $row[27];
-        $prestamo['destinoDeFondos'] = $row[28];
-        $prestamo['plazoTotalEnMeses'] = $row[29];
-        $prestamo['tnaPymesNeta'] = $row[30];
-        $prestamo['tnaBruta'] = $row[31];
-        $prestamo['puntosBonif'] = $row[32];
-        $prestamo['sistemaAmort'] = $row[33];
-        $prestamo['cantCuotasCapital'] = $row[34];
-        $prestamo['cantCuotasInteres'] = $row[35];
-        $prestamo['fecha1erVencCuotaCapital'] = $row[36];
-        $prestamo['fecha1erVencCuotaInteres'] = $row[37];
-        $prestamo['montoCanon'] = $row[38];
-        $prestamo['montoCanonDiferencial'] = $row[39];
-        $prestamo['montoOpcionCompra'] = $row[40];
-        $prestamo['fecha2doVencCuotaCapital'] = $row[41];
-        $prestamo['fecha2doVencCuotaInteres'] = $row[42];
-        $prestamo['graciaCapital'] = $row[43];
-        $prestamo['frecuenciaServiciosCapital'] = $row[44];
-        $prestamo['frecuenciaServiciosInteres'] = $row[45];
-        $prestamo['esquemaDesembolsos'] = $row[46];
-        $prestamo['montoTotalDesembolsado'] = $row[47];
-        $prestamo['inclusionFinanciera'] = $row[48];
-        $prestamo['planBelgranoIndicar'] = $row[49];
-        $prestamo['planBelgranoProvincia'] = $row[50];
-        $prestamo['planBelgranoDomicilio'] = $row[51];
-        $prestamo['radicadaEnParqueIndustrial'] = $row[52];
-        $prestamo['garantiaSGR'] = $row[53];
-        $prestamo['SRGinvolucrada'] = $row[54];
-        $prestamo['garantia'] = $row[55];
-        $prestamo['esquemaBonificacion'] = $row[56];
-        $prestamo['observaciones'] = $row[57];
+        $prestamo['sucursalBanco'] = $row[0];
+        $prestamo['razonSocial'] = $row[1];
+        $prestamo['cuit'] = $row[2];
+        $prestamo['domicilio'] = $row[3];
+        $prestamo['localidad'] = $row[4];
+        $prestamo['municipio'] = $row[5];
+        $prestamo['partido'] = $row[6];
+        $prestamo['provincia'] = $row[7];
+        $prestamo['cp'] = $row[8];
+        $prestamo['telefono'] = $row[9];
+        $prestamo['mail'] = $row[10];
+        $prestamo['fechaInicioAct'] = $row[11];
+        $prestamo['sectorActividad'] = $row[12];
+        $prestamo['sectoresPriorizados'] = $row[13];
+        $prestamo['codActividadFinanciera'] = $row[14];
+        $prestamo['detalleActividad'] = $row[15];
+        $prestamo['ventaAnualUltimotEjer'] = $row[16];
+        $prestamo['periodoCorrespondiente'] = $row[17];
+        $prestamo['promVentas3Ejer'] = $row[18];
+        $prestamo['hasta20porcientoImporte'] = $row[19];
+        $prestamo['montoInversionTotal'] = $row[20];
+        $prestamo['cantEmpleados'] = $row[21];
+        $prestamo['nroPrestamo'] = $row[22];
+        $prestamo['fechaFirmaContrato'] = $row[23];
+        $prestamo['fechaAcreditacionPrestamo'] = $row[24];
+        $prestamo['capitalAcreditado'] = $row[25];
+        $prestamo['fechaEntregaDelBien'] = $row[26];
+        $prestamo['destinoDeFondos'] = $row[27];
+        $prestamo['plazoTotalEnMeses'] = $row[28];
+        $prestamo['tnaPymesNeta'] = $row[29];
+        $prestamo['tnaBruta'] = $row[30];
+        $prestamo['puntosBonif'] = $row[31];
+        $prestamo['sistemaAmort'] = $row[32];
+        $prestamo['cantCuotasCapital'] = $row[33];
+        $prestamo['cantCuotasInteres'] = $row[34];
+        $prestamo['fecha1erVencCuotaCapital'] = $row[35];
+        $prestamo['fecha1erVencCuotaInteres'] = $row[36];
+        $prestamo['montoCanon'] = $row[37];
+        $prestamo['montoCanonDiferencial'] = $row[38];
+        $prestamo['montoOpcionCompra'] = $row[39];
+        $prestamo['fecha2doVencCuotaCapital'] = $row[40];
+        $prestamo['fecha2doVencCuotaInteres'] = $row[41];
+        $prestamo['graciaCapital'] = $row[42];
+        $prestamo['frecuenciaServiciosCapital'] = $row[43];
+        $prestamo['frecuenciaServiciosInteres'] = $row[44];
+        $prestamo['esquemaDesembolsos'] = $row[45];
+        $prestamo['montoTotalDesembolsado'] = $row[46];
+        $prestamo['inclusionFinanciera'] = $row[47];
+        $prestamo['planBelgranoIndicar'] = $row[48];
+        $prestamo['planBelgranoProvincia'] = $row[49];
+        $prestamo['planBelgranoDomicilio'] = $row[50];
+        $prestamo['radicadaEnParqueIndustrial'] = $row[51];
+        $prestamo['garantiaSGR'] = $row[52];
+        $prestamo['SRGinvolucrada'] = $row[53];
+        $prestamo['garantia'] = $row[54];
+        $prestamo['esquemaBonificacion'] = $row[55];
+        $prestamo['observaciones'] = $row[56];
         return $prestamo;
     }
 
