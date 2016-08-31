@@ -26,12 +26,6 @@
                 "title": "Reportes Incubadora",
                 "module": "fondosemilla",
                 "controller": "semilla",
-                "function": "lista_status"
-                },
-                {
-                "title": "Reportes Incubadora",
-                "module": "fondosemilla",
-                "controller": "semilla",
                 "function": "reportes_incubadora"
                 },
                 {
