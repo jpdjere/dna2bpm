@@ -1017,7 +1017,7 @@ class Model_12 extends CI_Model {
                 $new_list['col5'] = $list[5349];
                 $new_list['col6'] = $list[5215];
                 $new_list['col7'] = $list[5216][0];
-                $new_list['col8'] = dot_by_coma($get_weighting['weighted']);
+                $new_list['col8'] = dot_by_coma($get_weighting->weighted);
                 $new_list['col9'] = dot_by_coma($list[5218]);
                 $new_list['col10'] = $moneda;
                 $new_list['col11'] = $drawer;
@@ -1094,8 +1094,11 @@ class Model_12 extends CI_Model {
                 $rate = $this->app->get_ops(526);
                 $periodicity = $this->app->get_ops(548);
 
-                /* PONDERACION */
-                $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0], $list['period']);
+                # PONDERACION 
+                $get_weighting = null;
+                if(isset($list[5216][0]))
+                    $get_weighting = $this->sgr_model->get_warranty_type($list[5216][0], $period_info['period']);
+
 
                 $destino_credito = (isset($list['DESTINO_CREDITO'])) ? $list['DESTINO_CREDITO'] : null;
 
@@ -1160,7 +1163,7 @@ class Model_12 extends CI_Model {
                 $new_list['col12'] = $participate_data[0]['5208'];
                 $new_list['col13'] = $list[5215];
                 $new_list['col14'] = $list[5216][0];
-                $new_list['col15'] = dot_by_coma($get_weighting['weighted']);
+                $new_list['col15'] = dot_by_coma($get_weighting->weighted);
                 $new_list['col16'] = dot_by_coma($list[5218]);
                 $new_list['col17'] = $moneda;
                 $new_list['col18'] = $drawer;
