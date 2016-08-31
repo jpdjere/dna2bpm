@@ -17,6 +17,12 @@
 
 
 
+
+<a  target="_blank" href="http://www.afip.gov.ar/pymes/documentos/PasoapasocategorizacionybeneficiosPymes.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Como categorizar </a>
+<a target="_blank"  href="http://www.afip.gov.ar/pymes/"><i class="fa fa-link" aria-hidden="true"></i> AFIP Pymes </a>
+
+
+
   <div id="loading" class="col-md-" style="display:none;margin-top:20px">
           <div class="box box-gray">
             <div class="box-body">
