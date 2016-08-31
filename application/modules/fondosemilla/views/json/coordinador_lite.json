@@ -10,18 +10,18 @@
                 "module": "fondosemilla",
                 "controller": "semilla",
                 "function": "tile_total"
+                },
+                {
+                "title": "Reportes Incubadora",
+                "module": "fondosemilla",
+                "controller": "semilla",
+                "function": "lista_status"
                 }
             
             ]
         },
         {
             "full_widget": [
-                {
-                "title": "Reportes Incubadora",
-                "module": "fondosemilla",
-                "controller": "semilla",
-                "function": "lista_status"
-                },
                 {
                 "title": "Reportes Incubadora",
                 "module": "fondosemilla",
