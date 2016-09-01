@@ -1025,7 +1025,7 @@ class Model_06 extends CI_Model {
                         'status'=>'activo' , 
                         'filename' => array('$ne'=>'SIN MOVIMIENTOS'), 
                          'anexo'=>'06',  
-                         $period_to
+                         #$period_to
                         ));
         
         /*QUERY*/
