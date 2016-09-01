@@ -680,8 +680,8 @@ class Lib_12_data extends MX_Controller {
 
                 $yearCtyDays = 365;
 
-                $ctyMayor = $return['mayor'] * $yearCtyDays;
-                $ctyMinor = $return['minor'] * $yearCtyDays;
+                $ctyMayor = $return->mayor * $yearCtyDays;
+                $ctyMinor = $return->minor * $yearCtyDays;
                 $ctyDays = $P_cell_value;
 
                 $range = range($ctyMinor, $ctyMayor);
