@@ -1012,13 +1012,12 @@ class Model_06 extends CI_Model {
     function shares_active_left($cuit, $partner_type = null, $field = 5597) {
   
 
-        $period_to = null;
         $endDate = date("m"). '-' . date("Y");
-        if(isset($this->session->userdata['period'])){
+        if(isset($this->session->userdata['period']))
             $endDate = last_month_date($this->session->userdata['period']);
-            $period_to = array('period_date' => array('$lte' => $endDate));
-        }
             
+            
+        $period_to = array('period_date' => array('$lte' => $endDate));    
 
 
         $first_match = array ('$match' => array (  
