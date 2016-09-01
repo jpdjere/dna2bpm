@@ -388,7 +388,8 @@ class Model_12 extends CI_Model {
         $query = array("cuit" => $cuit);
         #$result = $this->mongowrapper->sgr->$container->findOne($query);
         $result = (array) $this->sgr_db->where($query)->get($container)->row();
-        if ($result)
+
+        if (isset($result['type']))
             return $result['type'];
     }
 

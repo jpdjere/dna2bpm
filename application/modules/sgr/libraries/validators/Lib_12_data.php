@@ -470,6 +470,9 @@ class Lib_12_data extends MX_Controller {
 
 
                     $code_error = "K.5";
+
+                   
+                    
                     $k5_check_arr = array_merge($k2_check_arr, $k3_check_arr, $k4_check_arr);
                     if (!in_array($D_cell_value, $k5_check_arr)) {
                         if ($cuit_type == "MV" || $cuit_type == "COMERCIAL") {
@@ -797,7 +800,12 @@ class Lib_12_data extends MX_Controller {
 
                 $code_error = "S.3";
                 if ($R_cell_value == "PAGO UNICO") {
+                    $code_error = "S.3";
                     if (strtoupper($parameterArr[$i]['fieldValue']) != "PAGO UNICO") {
+                        $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
+                    } else {
+                        $code_error = "S.4";
+                        if (strtoupper($parameterArr[$i]['fieldValue']) == "PAGO UNICO") {
                         $result[] = return_error_array($code_error, $parameterArr[$i]['row'], $parameterArr[$i]['fieldValue']);
                     }
                 }

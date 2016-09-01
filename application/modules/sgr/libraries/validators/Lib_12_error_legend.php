@@ -144,6 +144,21 @@ class Lib_12_error_legend {
             case "S.3":
                 $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la Columna “T” se indicó que la Periodicidad de los pagos es "PAGO UNICO", este campo sólo puede indicar "PAGO UNICO".';
                 break;
+            case "S.4":
+                $result_error = '<strong>Columna S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>S - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Si en la columna T se indicó 
+                    MENSUAL,
+                    BIMESTRAL,
+                    TRIMESTRAL,
+                    CUATRIMESTRAL,
+                    SEMESTRAL,
+                    ANUAL,
+                    OTRO,<br>
+                    Este campo  solo puede contener:
+                    ALEMAN
+                    AMERICANO.
+                    FRANCES.
+                    OTRO.';
+                break;    
             case "T.1":
                 $result_error = '<strong>Columna T - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>T - Fila Nro.' . $row . ' - Código Validación ' . $code . '</strong><br/>Debe contener uno de los siguientes parámetros:"OBRA CIVIL"/"BIENES DE CAPITAL"/"INMUEBLES"/"CAPITAL DE TRABAJO"/"PROYECTO DE INVERSIÓN".';
                 break;
