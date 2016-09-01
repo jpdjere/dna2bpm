@@ -1005,11 +1005,81 @@ class Model_06 extends CI_Model {
         return $balance;
     }
 
-    /* ACCIONES COMPRA/VENTA X SGR de socios que estan activos en el sistema
+
+     /* ACCIONES COMPRA/VENTA X SGR de socios que estan activos en el sistema
      * Compra/venta por socio
      */
-
     function shares_active_left($cuit, $partner_type = null, $field = 5597) {
+  
+
+        $period_to = null;
+        $endDate = date("m"). '-' . date("Y");
+        if(isset($this->session->userdata['period'])){
+            $endDate = last_month_date($this->session->userdata['period']);
+            $period_to = array('period_date' => array('$lte' => $endDate));
+        }
+            
+
+
+        $first_match = array ('$match' => array (  
+        'sgr_id' => (float) $this->sgr_id,                      
+                        'status'=>'activo' , 
+                        'filename' => array('$ne'=>'SIN MOVIMIENTOS'), 
+                         'anexo'=>'06',  
+                         $period_to
+                        ));
+        
+        /*QUERY*/
+        $suma_query=array(
+                'aggregate'=>'container.sgr_periodos',
+                'pipeline'=>
+                  array(
+                      $first_match, 
+                      lookup_standard($this->anexo),
+                      array ('$unwind' => '$anexo_data'),  
+                      array ('$unwind' => '$anexo_data.5272'), 
+                      array ('$match' => array (
+                        'anexo_data.1695'  => $cuit, 
+                        'anexo_data.5272'  => $partner_type
+                        )),  
+                      array(
+                        '$group' => array(
+                        '_id' => null,                    
+                        'suma' => array('$sum' => '$anexo_data.' . $field),                        
+                        ),
+                    ), 
+
+                ));
+
+
+        $resta_query=array(
+                'aggregate'=>'container.sgr_periodos',
+                'pipeline'=>
+                  array(
+                      $first_match, 
+                      $this->lookup,
+                      array ('$unwind' => '$anexo_data'),  
+                      array ('$match' => array (
+                        'anexo_data.5248'  => $cuit,                
+                        )),  
+                      array(
+                        '$group' => array(
+                        '_id' => null,                    
+                        'resta' => array('$sum' => '$anexo_data.'. $field) 
+                        ),
+                    ), 
+
+                ));
+    
+         $suma=$this->sgr_db->command($suma_query);   
+         $resta=$this->sgr_db->command($resta_query);            
+         
+         $balance = ($suma['result'][0]['suma']-$resta['result'][0]['resta']);
+         return $balance;
+
+    }
+
+    function shares_active_left_ORI($cuit, $partner_type = null, $field = 5597) {
 
         $anexo = $this->anexo;
         $container = 'container.sgr_anexo_' . $anexo;
