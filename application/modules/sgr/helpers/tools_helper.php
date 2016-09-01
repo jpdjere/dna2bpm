@@ -1663,6 +1663,20 @@ function stripAccents($string) {
 }
 
 
+/*4 aggregation inner join querys*/
+function lookup_standard($anexo){
+
+    $lookup = array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_'. $anexo,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo_data')                        
+                      );
+
+    return $lookup;
+}
+
 function reports_default_query($anexo, $this_idu, $standard_match, $custom_match){
 
    
