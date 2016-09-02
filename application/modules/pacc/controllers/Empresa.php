@@ -32,8 +32,18 @@ class Empresa extends MX_Controller {
      * Dashboard para empresas
      */
     function dashboard($debug=false){
+        $this->Add_group();
         Modules::run('dashboard/dashboard', 'pacc/json/dashboard_empresa.json',$debug);
-
+    }
+    function Add_group() {
+        $user =$this->user->get_user($this->user->idu);
+        if (!$this->user->isAdmin($user)) {
+            $user=$user;
+            $group_add = $this->group->get_byname('PACC/PACC 1.1 /EMPRESA');
+            array_push($user->group, (int) $group_add ['idgroup']);
+            $user->group = array_unique($user->group);
+            $this->user->save($user);
+        }
     }
 
     function tile_solicitud_PACC11() {

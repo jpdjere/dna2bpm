@@ -15,19 +15,20 @@ class model_bonita_reportes extends CI_Model {
         parent::__construct();
         //$this->load->config('importar');
         //var_dump($this->config);exit;
-        $config['hostname'] = 'localhost';
-        $config['username'] = 'root';
-        $config['password'] = 'seba1553';
-        $config['database'] = 'importar';
-        $config['dbdriver'] = 'mysqli';
-        $config['dbprefix'] = '';
-        $config['pconnect'] = FALSE;
-        $config['db_debug'] = TRUE;
-        $config['cache_on'] = FALSE;
-        $config['cachedir'] = '';
-        $config['char_set'] = 'utf8';
-        $config['dbcollat'] = 'utf8_general_ci';
-        $this->db_importar = $this->load->database($config,TRUE);
+        // $config['hostname'] = 'localhost';
+        // $config['username'] = 'root';
+        // $config['password'] = 'root';
+        // $config['database'] = 'importar';
+        // $config['dbdriver'] = 'mysqli';
+        // $config['dbprefix'] = '';
+        // $config['pconnect'] = FALSE;
+        // $config['db_debug'] = TRUE;
+        // $config['cache_on'] = FALSE;
+        // $config['cachedir'] = '';
+        // $config['char_set'] = 'utf8';
+        // $config['dbcollat'] = 'utf8_general_ci';
+         $this->importar = $this->load->database('importar', true);
+        //$this->db_importar = $this->load->database($config,TRUE);
     }
     
     /**

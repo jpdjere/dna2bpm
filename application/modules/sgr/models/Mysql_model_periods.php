@@ -239,7 +239,7 @@ class mysql_model_periods extends CI_Model {
 
     function Call_every_one() {
 
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $this->Update_anexo($anexo);
     }
 

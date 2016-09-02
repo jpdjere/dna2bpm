@@ -34,6 +34,16 @@
             "name": "Hook Inventario",
             "group": [62,64,66,82,83], 
             "redir": "inventory"
+        },
+        {
+            "name": "Hook Inventario",
+            "group": [1030], 
+            "redir": "fondosemilla/semilla/incubadoras"
+        },        
+        {
+            "name": "Hook FS Emprendedor",
+            "group": [1029], 
+            "redir": "fondosemilla/semilla/"
         }
 
     ]

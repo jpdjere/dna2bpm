@@ -76,9 +76,9 @@ class Sgr extends MX_Controller {
         /* ERROR REPORTING */
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 10){        
-            #ini_set('display_errors', 1);
-            #ini_set('display_startup_errors', 1);
+        if ($this->session->userdata('iduser') == 10){     
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
             ini_set("error_reporting", E_ALL);
         }
         /* SEND PENDING MAILS */
@@ -401,7 +401,7 @@ class Sgr extends MX_Controller {
 
 
 
-            $mail->SetFrom($this->config->item('smtp_user'), $this->config->item('smtp_user_name'));
+            $mail->SetFrom("daotero@produccion.gob.ar", "SGR - Aviso Rectificacion");
             $mail->Subject = utf8_decode("Rectificacion SGR | $sgr |" . $period . " Anexo:" . $anexo_name['title']);
             $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
             $mail->IsHTML(true);
@@ -1052,7 +1052,7 @@ class Sgr extends MX_Controller {
         if (!$parameter)
             exit();
 
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $customData = array();
         $customData['sgr_nombre'] = $this->sgr_nombre;
         $customData['sgr_cuit'] = $this->sgr_cuit;
@@ -1181,7 +1181,7 @@ class Sgr extends MX_Controller {
         if ($parameter == 'SIN MOVIMIENTOS')
             redirect('/sgr');
 
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 
@@ -1226,7 +1226,7 @@ class Sgr extends MX_Controller {
 
 
         $parameter = urldecode($parameter);
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
         //----Load pdf lib
@@ -1761,8 +1761,9 @@ class Sgr extends MX_Controller {
                 $this->session->set_userdata($newdata);
 
                 /* SEND  RECTIFICATION MAIL TO ADMINS */
-                if ($this->session->userdata['anexo_code'])
+                /*if ($this->session->userdata['anexo_code'])
                     $this->sgr_mails_to();
+                */    
 
                 redirect('/sgr');
             } else {
@@ -1824,7 +1825,7 @@ class Sgr extends MX_Controller {
     function set_no_movement() {
         $data = $this->input->post('data');
         $period = $data['no_movement'];
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
         $this->load->model($model);
 

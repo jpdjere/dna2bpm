@@ -335,6 +335,14 @@ $(document).on('click','ul.pagination li a',function(e){
     
 });
 
+// ==== Clase blank funciona como target=_blank 
+
+$(document).on('click', '.blank', function(event) {
+    event.preventDefault();
+    var url=$(this).attr('href');
+    window.open(url);
+});
+
 
 /* ==============================
  *  Wrappers BT & LTE

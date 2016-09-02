@@ -13,16 +13,41 @@ if (!defined('BASEPATH'))
  */
 class prestamos extends MX_Controller {
 
-    function __construct() {
+   var $config;
+   var $arrayCuotas = array();
+
+   function __construct() {
         parent::__construct();
         $this->load->model('user/user');
         $this->load->model('user/group');
         $this->load->model('model_prestamos');
+
+        //$this->load->library('user/ui',null,'ui2');
+
         $this->load->module('dashboard');
         $this->load->library('parser');
-        // $this->user->authorize('modules/bonita');
+
+        $this->load->helper('amortizacion/aleman');
+        $this->load->helper('amortizacion/frances');
+
+        $this->module_url = base_url() . 'bonita/';
+
+        // $this->user->authorize('modules/bonita'); ??
         $this->base_url = base_url();
-        //$this->module_url = base_url() . 'bonita/';
+        //$this->module_url = base_url() . 'bonita/'; ??
+
+        $prestamosDIR = dirname($_SERVER["SCRIPT_FILENAME"]) . '/application/modules/bonita/uploads';
+
+        if (!is_dir($prestamosDIR)) {
+            mkdir($prestamosDIR, 0777, true);
+        }
+
+        $this->config = array(
+            'upload_path' => $prestamosDIR,
+            'upload_url' => $this->base_url,
+            'allowed_types' => "xls|xlsx",
+            'overwrite' => true,
+        );
     }
 
     /**
@@ -242,12 +267,56 @@ class prestamos extends MX_Controller {
         $this->load->helper(['form', 'url']);
         $this->load->view('bonita/views/prestamos/altaprestamos/importar_excel',false, $error);
     }
-    
+
+    function mostrar_cuotas_calculadas () {
+      $customData['base_url'] = $this->base_url;
+      $prestamos = $this->arrayCuotas;
+      foreach($prestamos as $prestamo){
+            $info = array_pop($prestamo);
+            foreach ($prestamo as $detalles) {
+                $lista =  $lista. '<tr>
+                <td>'.$info['sistema'].'</td>
+                <td>'.$info['nroprestamo'].'</td>
+                <td>'.$info['cuit'].'</td>
+                <td>'.$detalles['fecha_pago'].'</td>
+                <td>'.$detalles['fecha_liq'].'</td>
+                <td>'.$detalles['num_days'].'</td>
+                <td>'.number_format($detalles['amortizacion'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['remaining'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['intereses'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['cuota'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['accInt'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['bonif'], 2, ",", ".").'</td>
+                <td>'.$detalles['periodo'].'</td>
+                <td>'.$detalles['puntos_bon'].'</td>
+                <td>'.number_format($detalles['accCap'], 2, ",", ".").'</td>
+            </tr>';
+            }
+
+        }
+        $customData['lista'] = $lista;
+        return $this->parser->parse('views/prestamos/ver_prestamos',$customData,true,true);
+
+/*        $data['title'] = 'Listado de cuotas calculadas';
+        $data['css'] = array($this->module_url . 'assets/css/dataTables.bootstrap.min.css' => 'Estilo Lib',
+            $this->module_url . 'assets/css/perfil-fna.css' => 'Estilo FNA'
+        );
+        $data['js'] = array(
+            $this->module_url . 'assets/jscript/jquery.dataTables.min.js' => 'Lib',
+            $this->module_url . 'assets/jscript/dataTables.bootstrap.min.js' => 'Lib'
+        );
+
+        $data['cuotas'] =  $this->arrayCuotas;
+
+        $this->ui2->compose('views/prestamos/cuotas_calculadas', 'user/bootstrap3.ui.php', $data);*/
+    }
+
     /**
      * Sube el excel con los datos de los prestamos
      */
     function upload_excel(){
-        $this->load->library('upload', $config);
+
+        $this->load->library('upload', $this->config);
         if(!$this->upload->do_upload('userfile')){
             redirect('bonita/prestamos/AltaPrestamosImport/'.$this->upload->display_errors(''   , ''));
         }
@@ -257,10 +326,6 @@ class prestamos extends MX_Controller {
             redirect('bonita/prestamos/AltaPrestamosImport/PermissionError');
         }
 
-        echo "Full path: ".$full_path;
-        $this->load->library('bonita/Excel');
-        $excel_file = $this->excel->load($full_path);
-        
         define('FILA_MINIMA', 9);
         define('COLUMNA_MINIMA', 'A');
         define('COLUMNA_MAXIMA', 'BE');
@@ -268,17 +333,300 @@ class prestamos extends MX_Controller {
         $this->load->library('bonita/Excel');
         $excel_file = $this->excel->load($full_path);
         $sheet = $excel_file->getSheet(0);
-        $Data = $sheet->rangeToArray(COLUMNA_MINIMA.FILA_MINIMA.':'.COLUMNA_MAXIMA.$sheet->getHighestRow());
-        var_dump($Data);
-        $this->load->library('bonita/validator');
-        foreach($Data as $row){
-            $result = $this->validator->altaprestamos($row);
-            if(!$result == true){
-                redirect('bonita/prestamos/AltaPrestamosImport/'.$result);
-            }
+        $data = $sheet->rangeToArray(COLUMNA_MINIMA.FILA_MINIMA.':'.COLUMNA_MAXIMA.$sheet->getHighestRow());
+        //$this->load->library('bonita/validator'); TODO: ver de abstraer validaciones en library o helpers
+        $data = $this->limpiarFilasVacias($data);
+        foreach($data as $row){
+            //$result = $this->validator->altaprestamos($row);
+            //if(!$result == true){
+                //redirect('bonita/prestamos/AltaPrestamosImport/'.$result);
+            //}
+            $arrayPrestamo = $this->generarArrayDePrestamo($row); //TODO: validar array resultado con reglas validacion
+
+            //En bonita viejo:  $cantcuot=$plazo/$frec_int;
+            $cantidadCuotas = $arrayPrestamo['plazoTotalEnMeses']/$arrayPrestamo['frecuenciaServiciosInteres'];
+
+            $arrayPaymentDays = $this->calcularFechas($arrayPrestamo['fechaAcreditacionPrestamo'],
+                $arrayPrestamo['fecha1erVencCuotaInteres'], $arrayPrestamo['frecuenciaServiciosInteres'] , $cantidadCuotas,
+                $arrayPrestamo['sistemaAmort']);
+
+            $paymentArray = $arrayPaymentDays[0];
+            $days = $arrayPaymentDays[1];
+            $arrayDays = $arrayPaymentDays[2];
+            $paymentSchedule = $this->calcularCuotas($arrayPrestamo, $cantidadCuotas, $paymentArray, $days, $arrayDays);
+            /*
+             * TODO: Falta persistir el resultado de calcularCuotas ($paymentSchedule). En bonita_prestamos, bonita_cuotas y bonita_cuotas_history)
+            */
+            $info = array ();
+            $info['sistema'] = $arrayPrestamo['sistemaAmort'];
+            $info['nroprestamo'] = $arrayPrestamo['nroPrestamo'];
+            $info['cuit'] = $arrayPrestamo['cuit'];
+            array_push($paymentSchedule, $info);
+            array_push($this->arrayCuotas,$paymentSchedule);
         }
+        // $this->mostrar_cuotas_calculadas();
+        $this->dashboard->dashboard('bonita/json/prestamos/mostrar_cuotas.json');
     }
 
+    /**
+     * Se realiza ésta conversion para utilizar la fecha correctamente en con la funcion dateDifference.
+     *
+     * @param $fecha String "07/11/2016" ó serial date 42562 (excel date format).
+     * @return DateTime
+     */
+    private function fechaToObject ($fecha) {
+        if (is_numeric($fecha)){
+            $fecha = PHPExcel_Shared_Date::ExcelToPHPObject($fecha);
+        }
+        else {
+            $fecha = date_create(str_replace('/','-',$fecha));
+        }
+        return $fecha;
+    }
+
+    /**
+     * Genera un array con la fecha recibida por parámetro
+     *
+     * @param $fecha DateTime 27-07-2016
+     * @return array
+     *
+     * array (
+     *      0 => '27',
+     *      1 => '07',
+     *      2 => '2016',
+     *      )
+     */
+    private function fechaToArray ($fecha) {
+        return explode('-', $fecha->format('d-m-Y'));
+    }
+
+    /**
+     * Calculo de fechas en base a la cantidad de cuotas del préstamo.
+     *
+     * @param $fechaAcreditacionPrestamo
+     * @param $fecha1erVencCuotaInteres
+     * @param $frec_int
+     * @param $cantcuot
+     * @param $sistema
+     * @return array
+     */
+    private function calcularFechas ($fechaAcreditacionPrestamo, $fecha1erVencCuotaInteres, $frec_int, $cantcuot, $sistema) {
+
+        $fechaAcreditacionPrestamo = $this->fechaToObject($fechaAcreditacionPrestamo);
+        $fecha1erVencCuotaInteres = $this->fechaToObject($fecha1erVencCuotaInteres);
+
+        $fechaini = $this->fechaToArray($fecha1erVencCuotaInteres);
+
+        $days= $this->dateDifference($fechaAcreditacionPrestamo,$fecha1erVencCuotaInteres);
+
+        $fecha_pago=array();
+        $fecha_liq=array();
+        $num_days=array();
+        $paymentarray=array();
+
+        for($i=1 ; $i <= $cantcuot ; $i++) {
+            $month_step = (int)$frec_int * ($i-1);
+            $month = $fechaini[1] + $month_step;
+            $year = $fechaini[2];
+
+            $ultimo_dia = $fechaini[0];
+
+            $resto = ($month) % 12;
+
+            if($resto==0) {
+                $resto= 12;
+            }
+
+            switch ($fechaini[0]) {
+                case 29:
+                    $sumac = array('2');//si el dia de fecha es 29 y mes 2 el ultimo dia es 28 o 29
+                    if(in_array($resto,$sumac)){
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));
+                    } else $ultimo_dia = $fechaini[0];
+                    break;
+                case 30:
+                    $sumac = array('2');//si el dia de fecha es 30 y mes 2 el ultimo dia es 28 o 29
+                    if(in_array($resto,$sumac)){
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));//se pone $month+1 porque necesitamos que calcule el año siguiente cuando corresponda
+                    } else $ultimo_dia = $fechaini[0];
+                    break;
+                case 31:
+                    $sumac = array('2','4','6','9','11'); //si el dia de fecha es 31 y mes feb abril junio sep y nov el ultimo dia es 28 o 29
+                    if(in_array($resto,$sumac)){
+                        $ultimo_dia = date('d',mktime(0, 0, 0, $month+1, 0, $year));
+                    } else $ultimo_dia = $fechaini[0];
+                    break;
+            }
+
+            $fecha_pago[$i] = date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
+            $fecha_liq[$i] = date('Y-m-d',mktime(0,0,0,$month,$ultimo_dia,$year));
+
+        }
+        //---array el array para bonificar los primeros n dias dps cuento los demas (comentario de bonita viejo)
+        $paymentarray[1]['fecha_pago'] = $fecha_pago[1];
+        $paymentarray[1]['fecha_liq'] = $fecha_liq[1];
+        $paymentarray[1]['num_days'] = $days;
+
+        for($i=2 ; $i <= $cantcuot ; $i++) {
+            $date_1 = $this->fechaToObject($fecha_pago[$i-1]);
+            $date_2 = $this->fechaToObject($fecha_pago[$i]);
+
+            if($sistema == 'ALEMAN360' || $sistema == 'FRANCES360') {
+                $num_days[$i] = (int)$frec_int*30;
+            }
+            else {
+                $num_days[$i] = $this->dateDifference($date_1,$date_2);
+            }
+
+            $paymentarray[$i]['fecha_pago']=$fecha_pago[$i];
+            $paymentarray[$i]['fecha_liq']=$fecha_liq[$i];
+            $paymentarray[$i]['num_days']=$num_days[$i];
+        }
+
+        return (array($paymentarray, $days, $num_days));
+    }
+
+    /**
+     * Dadas dos fechas, retorna la cantidad de días entre una y otra.
+     *
+     * @param $date_1
+     * @param $date_2
+     * @param string $differenceFormat '%a'= día
+     * @return string
+     */
+    function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' ){
+        $interval = date_diff($date_1, $date_2);
+        return $interval->format($differenceFormat);
+    }
+
+    /**
+     * Calcula la cantidad de cuotas en base al sistema de amortización del préstamo.
+     *
+     * @param $arrayPrestamo
+     * @param $cantidadCuotas
+     * @param $paymentArray
+     * @param $cantidadDias
+     * @param $arrayDays
+     * @return array
+     */
+    private function calcularCuotas ($arrayPrestamo, $cantidadCuotas, $paymentArray, $cantidadDias, $arrayDays) {
+        $capital = $arrayPrestamo['capitalAcreditado'];
+        $tna_bruta = $arrayPrestamo['tnaPymesNeta'];
+        $puntos_bon = $arrayPrestamo['puntosBonif'];
+        $days = $cantidadDias;
+        $num_days = $arrayDays;
+        $frec_cap = $arrayPrestamo['frecuenciaServiciosCapital'];
+        $frec_int = $arrayPrestamo['frecuenciaServiciosInteres'];
+        $cantcuot = $cantidadCuotas;
+        $gracia_cap = $arrayPrestamo['graciaCapital'];
+        $gracia_int = 0; //No viene mas en el nuevo excel TODO: ¿Se elimina el parámetro o queda?
+
+        //Pasa la gracia de períodos a meses (de bonita viejo)
+        $gracia_cap = $gracia_cap * $frec_cap;
+        $gracia_int = $gracia_int * $frec_int;
+
+        switch ($arrayPrestamo['sistemaAmort']) {
+            case 'ALEMAN':
+                //$tna_bruta=($tna_bruta*100)+$puntos_bon; //(de bonita viejo)
+                $tna_bruta += $puntos_bon;
+                $paymentSystem = aleman($capital,$tna_bruta,$puntos_bon,$days,$num_days,$cantcuot,$gracia_cap,$gracia_int,$frec_cap,$frec_int);
+                break;
+            case 'FRANCES':
+                //$tna_bruta=($tna_bruta*100); //(de bonita viejo)
+                $paymentSystem = frances($capital,$tna_bruta,$puntos_bon,$days,$num_days,$cantcuot,$gracia_cap,$gracia_int,$frec_cap,$frec_int);
+        }
+
+        //Genera el esquema de pagos en base al $paymentArray y $paymentSystem
+        for($i=1;$i<=$cantcuot;$i++) {
+            $paymentSchedule[$i]=array_merge($paymentArray[$i],$paymentSystem[$i]);
+        }
+        return $paymentSchedule;
+    }
+
+    /**
+     * Dado el array de datos leídos desde el excel, se eliminan las filas que no contienen datos.
+     *
+     * @param $data
+     * @return array
+     */
+    private function limpiarFilasVacias ($data) {
+        return array_filter($data, function($fila) {
+            foreach ($fila as $valor){
+                if($valor !== null && $valor !== "") {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Parseo de datos del excel de préstamos a un array con etiquetas por tipo de dato.
+     *
+     * @param $row
+     * @return array
+     */
+    private function generarArrayDePrestamo ($row) {
+        $prestamo = array();
+        $prestamo['sucursalBanco'] = $row[0];
+        $prestamo['razonSocial'] = $row[1];
+        $prestamo['cuit'] = $row[2];
+        $prestamo['domicilio'] = $row[3];
+        $prestamo['localidad'] = $row[4];
+        $prestamo['municipio'] = $row[5];
+        $prestamo['partido'] = $row[6];
+        $prestamo['provincia'] = $row[7];
+        $prestamo['cp'] = $row[8];
+        $prestamo['telefono'] = $row[9];
+        $prestamo['mail'] = $row[10];
+        $prestamo['fechaInicioAct'] = $row[11];
+        $prestamo['sectorActividad'] = $row[12];
+        $prestamo['sectoresPriorizados'] = $row[13];
+        $prestamo['codActividadFinanciera'] = $row[14];
+        $prestamo['detalleActividad'] = $row[15];
+        $prestamo['ventaAnualUltimotEjer'] = $row[16];
+        $prestamo['periodoCorrespondiente'] = $row[17];
+        $prestamo['promVentas3Ejer'] = $row[18];
+        $prestamo['hasta20porcientoImporte'] = $row[19];
+        $prestamo['montoInversionTotal'] = $row[20];
+        $prestamo['cantEmpleados'] = $row[21];
+        $prestamo['nroPrestamo'] = $row[22];
+        $prestamo['fechaFirmaContrato'] = $row[23];
+        $prestamo['fechaAcreditacionPrestamo'] = $row[24];
+        $prestamo['capitalAcreditado'] = $row[25];
+        $prestamo['fechaEntregaDelBien'] = $row[26];
+        $prestamo['destinoDeFondos'] = $row[27];
+        $prestamo['plazoTotalEnMeses'] = $row[28];
+        $prestamo['tnaPymesNeta'] = $row[29];
+        $prestamo['tnaBruta'] = $row[30];
+        $prestamo['puntosBonif'] = $row[31];
+        $prestamo['sistemaAmort'] = $row[32];
+        $prestamo['cantCuotasCapital'] = $row[33];
+        $prestamo['cantCuotasInteres'] = $row[34];
+        $prestamo['fecha1erVencCuotaCapital'] = $row[35];
+        $prestamo['fecha1erVencCuotaInteres'] = $row[36];
+        $prestamo['montoCanon'] = $row[37];
+        $prestamo['montoCanonDiferencial'] = $row[38];
+        $prestamo['montoOpcionCompra'] = $row[39];
+        $prestamo['fecha2doVencCuotaCapital'] = $row[40];
+        $prestamo['fecha2doVencCuotaInteres'] = $row[41];
+        $prestamo['graciaCapital'] = $row[42];
+        $prestamo['frecuenciaServiciosCapital'] = $row[43];
+        $prestamo['frecuenciaServiciosInteres'] = $row[44];
+        $prestamo['esquemaDesembolsos'] = $row[45];
+        $prestamo['montoTotalDesembolsado'] = $row[46];
+        $prestamo['inclusionFinanciera'] = $row[47];
+        $prestamo['planBelgranoIndicar'] = $row[48];
+        $prestamo['planBelgranoProvincia'] = $row[49];
+        $prestamo['planBelgranoDomicilio'] = $row[50];
+        $prestamo['radicadaEnParqueIndustrial'] = $row[51];
+        $prestamo['garantiaSGR'] = $row[52];
+        $prestamo['SRGinvolucrada'] = $row[53];
+        $prestamo['garantia'] = $row[54];
+        $prestamo['esquemaBonificacion'] = $row[55];
+        $prestamo['observaciones'] = $row[56];
+        return $prestamo;
+    }
 
     /**
      * Inserta el prestamo en la base

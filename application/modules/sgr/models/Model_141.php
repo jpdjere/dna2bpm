@@ -1017,11 +1017,8 @@ class Model_141 extends CI_Model {
         $report_name = $this->input->post('report_name');
         $start_date = first_month_date($this->input->post('input_period_from'));       
         $end_date = last_month_date($this->input->post('input_period_to'));
-        if(!empty($this->input->post('sgr_checkbox')))
-            $sgr_id_array = array_map('intval', $this->input->post('sgr_checkbox'));
-
-        #
-        $cuit =  !empty($this->input->post('cuit_socio')) ? $this->input->post('cuit_socio') : array('$exists'  => true);
+              
+        $cuit = method_exists($this->input, 'post') ? $this->input->post('cuit_socio') : array('$exists'  => true);
 
         switch ($this->input->post('sgr')) {
             case '666':
@@ -1058,12 +1055,12 @@ class Model_141 extends CI_Model {
                             'localField' => 'filename',
                             'foreignField' => 'filename',
                             'as' => 'anexo_data')                        
-                    ),
+                    )/*,
                     array (
                         '$match' => array (
                             'anexo_data.CUIT_PARTICIPE'=> $cuit                          
                     )                       
-                )        
+                )      */  
             )     
         );    
 
