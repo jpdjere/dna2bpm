@@ -484,7 +484,7 @@ class Model_125 extends CI_Model {
                 $period_month = null;
                 $period_year = null;
 
-                if(isset($period_info['filename'])){
+                if(isset($list['filename'])){
                     $filename = trim($list['filename']);   
                     
                     $sgr_info = $this->sgr_model->get_sgr_by_id_new($period_info['sgr_id']);
