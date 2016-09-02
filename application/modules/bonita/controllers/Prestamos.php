@@ -21,10 +21,17 @@ class prestamos extends MX_Controller {
         $this->load->model('user/user');
         $this->load->model('user/group');
         $this->load->model('model_prestamos');
+
+        //$this->load->library('user/ui',null,'ui2');
+
         $this->load->module('dashboard');
         $this->load->library('parser');
+
         $this->load->helper('amortizacion/aleman');
         $this->load->helper('amortizacion/frances');
+
+        $this->module_url = base_url() . 'bonita/';
+
         // $this->user->authorize('modules/bonita'); ??
         $this->base_url = base_url();
         //$this->module_url = base_url() . 'bonita/'; ??
@@ -262,28 +269,46 @@ class prestamos extends MX_Controller {
     }
 
     function mostrar_cuotas_calculadas () {
-        $customData['base_url'] = $this->base_url;
-        $cuotas = $this->arrayCuotas;
-        $lista = new String();
-        foreach($cuotas as $lic){
-            $lista =  $lista.
-                '<tr>
-                <td>'.$lic['fecha_pago'].'</td>
-                <td>'.$lic['fecha_liq'].'</td>
-                <td>'.$lic['num_days'].'</td>
-                <td>'.$lic['amortizacion'].'</td>
-                <td>'.$lic['remaining'].'</td>
-                <td>'.$lic['intereses'].'</td>
-                <td>'.$lic['cuota'].'</td>
-                <td>'.$lic['accInt'].'</td>
-                <td>'.$lic['bonif'].'</td>
-                <td>'.$lic['periodo'].'</td>
-                <td>'.$lic['puntos_bon'].'</td>
-                <td>'.$lic['accCap'].'</td>
+      $customData['base_url'] = $this->base_url;
+      $prestamos = $this->arrayCuotas;
+      foreach($prestamos as $prestamo){
+            $info = array_pop($prestamo);
+            foreach ($prestamo as $detalles) {
+                $lista =  $lista. '<tr>
+                <td>'.$info['sistema'].'</td>
+                <td>'.$info['nroprestamo'].'</td>
+                <td>'.$info['cuit'].'</td>
+                <td>'.$detalles['fecha_pago'].'</td>
+                <td>'.$detalles['fecha_liq'].'</td>
+                <td>'.$detalles['num_days'].'</td>
+                <td>'.number_format($detalles['amortizacion'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['remaining'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['intereses'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['cuota'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['accInt'], 2, ",", ".").'</td>
+                <td>'.number_format($detalles['bonif'], 2, ",", ".").'</td>
+                <td>'.$detalles['periodo'].'</td>
+                <td>'.$detalles['puntos_bon'].'</td>
+                <td>'.number_format($detalles['accCap'], 2, ",", ".").'</td>
             </tr>';
+            }
+
         }
         $customData['lista'] = $lista;
-        return $this->parser->parse('bonita/views/prestamos/ver_prestamos',$customData,true,true);
+        return $this->parser->parse('views/prestamos/ver_prestamos',$customData,true,true);
+
+/*        $data['title'] = 'Listado de cuotas calculadas';
+        $data['css'] = array($this->module_url . 'assets/css/dataTables.bootstrap.min.css' => 'Estilo Lib',
+            $this->module_url . 'assets/css/perfil-fna.css' => 'Estilo FNA'
+        );
+        $data['js'] = array(
+            $this->module_url . 'assets/jscript/jquery.dataTables.min.js' => 'Lib',
+            $this->module_url . 'assets/jscript/dataTables.bootstrap.min.js' => 'Lib'
+        );
+
+        $data['cuotas'] =  $this->arrayCuotas;
+
+        $this->ui2->compose('views/prestamos/cuotas_calculadas', 'user/bootstrap3.ui.php', $data);*/
     }
 
     /**
@@ -332,9 +357,14 @@ class prestamos extends MX_Controller {
             /*
              * TODO: Falta persistir el resultado de calcularCuotas ($paymentSchedule). En bonita_prestamos, bonita_cuotas y bonita_cuotas_history)
             */
-            //Ver resultados en la vista
+            $info = array ();
+            $info['sistema'] = $arrayPrestamo['sistemaAmort'];
+            $info['nroprestamo'] = $arrayPrestamo['nroPrestamo'];
+            $info['cuit'] = $arrayPrestamo['cuit'];
+            array_push($paymentSchedule, $info);
             array_push($this->arrayCuotas,$paymentSchedule);
         }
+        // $this->mostrar_cuotas_calculadas();
         $this->dashboard->dashboard('bonita/json/prestamos/mostrar_cuotas.json');
     }
 
@@ -383,13 +413,11 @@ class prestamos extends MX_Controller {
     private function calcularFechas ($fechaAcreditacionPrestamo, $fecha1erVencCuotaInteres, $frec_int, $cantcuot, $sistema) {
 
         $fechaAcreditacionPrestamo = $this->fechaToObject($fechaAcreditacionPrestamo);
-
         $fecha1erVencCuotaInteres = $this->fechaToObject($fecha1erVencCuotaInteres);
 
-        //$fechaacred = explode('/',date("d/m/Y",$fechaAcreditacion)); //No se usa porque reemplazo lineas 165 a 172 de calcAmort
         $fechaini = $this->fechaToArray($fecha1erVencCuotaInteres);
 
-        $days= $this->dateDifference($fechaAcreditacionPrestamo,$fecha1erVencCuotaInteres); //Reemplazo lineas 165 a 172 de calcAmort
+        $days= $this->dateDifference($fechaAcreditacionPrestamo,$fecha1erVencCuotaInteres);
 
         $fecha_pago=array();
         $fecha_liq=array();
