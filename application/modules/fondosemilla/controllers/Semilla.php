@@ -65,7 +65,6 @@ class semilla extends MX_Controller {
         $grupo_user = 'FondoSemilla /Incubadora';
         $extraData['css'] = array($this->base_url . 'fondosemilla/assets/css/fondosemilla.css' => 'Estilo Lib'
         );        
-        $this->Add_group($grupo_user);
         //Modules::run('dashboard/dashboard', 'expertos/json/expertos_direccion.json',$debug);
         Modules::run('dashboard/dashboard', 'fondosemilla/json/incubadoras_lite.json',$debug, $extraData);
     }
@@ -517,12 +516,10 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
     
     function tile_total(){
         $this->load->module('dashboard');
-        $data['title'] ="N° de Inscripciones Registradas";
-        $data['icon']= "ion-person-stalker";
+        $data['title'] ="Exportar Total de Inscripciones Registradas";
         $data['base_url'] = $this->base_url;
         $data['module_url'] = $this->module_url;
-        $data['number'] =count($this->Fondosemilla_model->proyectos());
-        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_total";
+        $data['more_info_link']= $this->base_url."fondosemilla/semilla/exportar_xls/fondo_semilla2016_KK";
         return $this->parser->parse('dashboard/tiles/tile-green', $data, true, true);
     }    
     
@@ -547,25 +544,11 @@ function asignar_incubadora($idwf, $idcase, $tokenId) {
         return $this->parser->parse('dashboard/tiles/tile-orange', $data, true, true);
     } 
     
+    function lista_status(){
+        $arr = array ('Task');
+        $this->load->module('bpm/bpmui');
+        $this->bpmui->ministatus('fondo_semilla2016', $arr );
     
-    
-    function exportar_total(){
-        
-        $data = $this->Fondosemilla_model->proyectos_completo();
-        var_dump($data);
-        exit;
-        
-        $template='fondosemilla/exportar_total';     
-
-        
-        header("Content-Description: File Transfer");
-        header("Content-type: application/x-msexcel");
-        header("Content-Type: application/force-download");
-        header("Content-Disposition: attachment; filename='fondo_semilla2016'.xls");
-        header("Content-Description: PHP Generated XLS Data");
-        
-        
-        
     }
 }
 

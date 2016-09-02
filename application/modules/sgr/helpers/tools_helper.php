@@ -1457,24 +1457,39 @@ function header_arr($anexo, $custom=false) {
             , 'EJERCICIO'
             , 'PERIODO'
             , 'TIPO DE GARANTIA'
-            , 'MENOR DE 90<br>DIAS'
-            , 'MENOR DE 180<br>DIAS'
-            , 'MENOR DE 365<br>DIAS'
-            , 'MAYOR DE 365<br>DIAS'
+            , 'MENOR DE 90 DIAS'
+            , 'MENOR DE 180 DIAS'
+            , 'MENOR DE 365 DIAS'
+            , 'MAYOR DE 365 DIAS'
             , 'TOTALES'
             , 'VALOR CONTRAGARANTIAS'
             , 'Archivo SIPRIN SGR');      
+        break;
+
+        case '14':
+             $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'PERIODO'
+            , 'FECHA'
+            , 'NRO. DE ORDEN DE LA GARANTIA OTORGADA'
+            , 'SOCIO PARTICIPE'
+            , 'C.U.I.T'
+            , 'DEUDA ORIGINADA EN EL PERIODO'
+            , 'COBRANZA O RECUPERO DEL PERIODO'
+            , 'INCOBRABLES DECLARADOS EN EL PERIODO'
+            , 'GASTOS EFECTUADOS EN EL PERIODO'
+            , 'RECUPEROS DEL PERIODO'
+            , 'INCOBRABLES DECLARADOS EN EL PERIODO'
+            , 'Archivo SIPRIN SGR'); 
         break;
 
         case '141':
             $headerArr = array('SGR', 'CUIT SGR', 'ID', 'PERIODO', 'C.U.I.T', 'SOCIO PARTICIPE', 'CANT GTIAS VIGENTES', 'MONTO DE GARANTIAS VIGENTES', 'HIPOTECARIAS', 'PRENDARIAS', 'FIANZA', 'OTRAS', 'TOTAL', 'REAFIANZA', 'MORA EN DIAS', 'CLASIFICACION DEUDOR', 'MONTO ADEUDADO', 'CANTIDAD GARANTIAS AFRONTADAS', 'CANTIDAD GARANTIAS', 'Archivo SIPRIN SGR');        
         break;
         case '15':
-            $headerArr = array(
+            $headerArr = array('SGR', 'CUIT SGR',
             'ID',
             'PERIODO',
-            'SGR',
-            'CUIT SGR',
             'INCISO ART 25',
             'DESCRIPCION',    
             'IDENTIFICACION',
@@ -1486,6 +1501,101 @@ function header_arr($anexo, $custom=false) {
             'MONTO',
             'Archivo SIPRIN SGR');        
         break;
+
+        case '16':
+            $headerArr = array('SGR', 'CUIT SGR'
+            , 'ID'
+            , 'EJERCICIO'
+            , 'PERIODO'
+            , 'PROMEDIO SALDO MENSUAL CORRESPONDIENTE AL MES'
+            , 'SALDO PROMEDIO GARANTIAS VIGENTES'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 80 HASTA FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 120 HASTA FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 80 DESDE FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 120 DESDE FEB 2010'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 80 DESDE ENE 2011'
+            , 'SALDO PROMEDIO PONDERADO GARANTIAS VIGENTES 120 DESDE ENE 2011'
+            , 'SALDO TOTAL DE GARANTIAS VIGENTES QUE COMPUTAN PARA EL 80%'
+            , 'SALDO TOTAL DE GARANTIAS VIGENTES QUE COMPUTAN PARA EL 120%'
+            , 'SALDO PROMEDIO FONDE DE RIESGO TOTAL COMPUTABLE'
+            , 'SALDO PROMEDIO FONDE DE RIESGO CONTINGENTE'
+            , 'SALDO PROMEDIO FONDE DE RIESGO TOTAL DISPONIBLE'
+            , 'SOLVENCIA'
+            , 'GRADO DE UTILIZACIÓN PARA EL 80%'
+            , 'GRADO DE UTILIZACIÓN PARA EL 120%'
+            , 'Archivo SIPRIN SGR'); 
+        break;
+
+         case '201':
+            $headerArr = array('SGR', 'CUIT SGR',
+             'ID', 
+             'PERIODO',
+             'NUMERO_DE_APORTE',
+             'FECHA_MOVIMIENTO',
+             'PROTECTOR',
+             'CUIT_PROTECTOR',
+             'APORTE',
+             'RETIRO',
+             'FECHA APORTE ORIGINAL',
+             'MONTO APORTE ORIGINAL',
+             'RETENCION_POR_CONTINGENTE',
+             'RETIRO_DE_RENDIMIENTOS',
+             'ESPECIE',
+             'TITULAR_ORIG',
+             'NRO_CTA_OR',
+             'ENTIDAD_OR',
+             'ENT_DEP_OR',
+             'TITULAR_DEST',
+             'NRO_DEST',
+             'ENTIDAD_DEST',
+             'ENT_DEP_DEST',
+             'FECHA_ACTA',
+             'NRO_ACTA',
+            'Archivo SIPRIN SGR'
+            );        
+        break;
+
+        case '202':     
+            $headerArr = array('SGR', 'CUIT SGR',
+             'ID', 
+             'PERIODO',
+             'NUMERO_DE_APORTE',
+             'SOCIO_PARTICIPE',
+             'CUIT_PARTICIPE',
+             'SALDO DEL APORTE',
+             'CONTINGENTE PROPORCIONAL ASIGNADO',
+             'DEUDA PROPORCIONAL ASIGNADA',
+             'SALDO DEL APORTE DISPONIBLE',
+             'RENDIMIENTO ASIGNADO',
+            'Archivo SIPRIN SGR'
+            );        
+        break;
+
+       /* case '201':
+             $headerArr = array('SGR', 'CUIT SGR' ,
+             'ID', 
+             'PERIODO',
+             'NUMERO_DE_APORTE',
+             'FECHA_MOVIMIENTO',
+             'PROTECTOR'
+             'CUIT_PROTECTOR',
+             'APORTE',
+             'RETIRO',
+             'RETENCION_POR_CONTINGENTE',
+             'RETIRO_DE_RENDIMIENTOS',
+             'ESPECIE',
+             'TITULAR_ORIG',
+             'NRO_CTA_OR',
+             'ENTIDAD_OR',
+             'ENT_DEP_OR',
+             'TITULAR_DEST',
+             'NRO_DEST',
+             'ENTIDAD_DEST',
+             'ENT_DEP_DEST',
+             'FECHA_ACTA',
+             'NRO_ACTA',
+             'Archivo SIPRIN SGR'); 
+            break;*/
 
         }
         
@@ -1550,4 +1660,55 @@ function stripAccents($string) {
 
 
     return $string;
+}
+
+
+/*4 aggregation inner join querys*/
+function lookup_standard($anexo){
+
+    $lookup = array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_'. $anexo,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo_data')                        
+                      );
+
+    return $lookup;
+}
+
+function reports_default_query($anexo, $this_idu, $standard_match, $custom_match){
+
+   
+        $collection_out = "collection_out_" . $this_idu;     
+
+        $standard_match_array= array('$match' => $standard_match);
+        
+        $unwind_array= array('$unwind' => '$anexo_data');
+
+        $custom_match_array= array('$match' => $custom_match);
+
+        /*QUERY*/       
+        $query =array(
+            'aggregate'=>'container.sgr_periodos',
+            'pipeline'=>
+             array(
+                    $standard_match_array,
+                    array (
+                        '$lookup' => array (
+                            'from' => 'container.sgr_anexo_' . $anexo,
+                            'localField' => 'filename',
+                            'foreignField' => 'filename',
+                            'as' => 'anexo_data')                        
+                    ),
+                    $unwind_array,                     
+                    $custom_match_array, 
+                    array('$project'=> array('_id'=>0, 'anexo_data'=>1, 'sgr_id'=>1,  'period'=>1)),
+                    array(
+                        '$out' => $collection_out
+                    )
+                    
+            )  , 'allowDiskUse'=> true,    
+        );    
+        return $query;
 }

@@ -53,9 +53,9 @@ hr {
 <div id="header">
 <!--<img src="{base_url}pdf/assets/top_mpcyt.png" alt="" width="460" height="46"/> -->
 </div>
-<div id="footer">
+<!-- <div id="footer">
   <div class="page-number"><p>Sectretaría de la Pequeña Mediana Empresa y Desarrollo Regional</p></div>
-</div>
+</div> -->
     <p>
 		{body}
     </p>

@@ -65,17 +65,19 @@ class Reports extends MX_Controller {
             $this->sgr_nombre = $sgr['1693'];
             $this->sgr_cuit = $sgr['1695'];
         }
+        
         $this->anexo = (isset($this->session->userdata['anexo_code'])) ? $this->session->userdata['anexo_code'] : "06";
-
+        $this->period = date('m') . "-" . date('Y');
         if (isset($this->session->userdata['period']))
             $this->period = $this->session->userdata['period'];
 
 
         /* TIME LIMIT */
         set_time_limit(230400);
+        ini_set('memory_limit', -1); 
         ini_set("error_reporting", 0);
 
-        if ($this->session->userdata('iduser') == 11){        
+        if ($this->session->userdata('iduser') == 10){        
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
            # error_reporting(E_ALL);
@@ -158,8 +160,10 @@ class Reports extends MX_Controller {
         $enables = array('06', '061', '062', '12', '125', '126', '13', '14', '141', '15', '16', '201', '202', 'cnv_1', 'cnv_2', 'cnv_3', 'cnv_4');
 
         if (in_array($this->anexo, $enables))
-           $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
-            # $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);
+            if($this->anexo=='12' || $this->anexo=='06' || $this->anexo=='125' )
+                $customData['form_template'] = $this->parser->parse('reports/form_' . $anexo, $customData, true);
+            else    
+                $customData['form_template'] = $this->parser->parse('reports/form_default', $customData, true);
         else
             $customData['form_template'] = "";
 
@@ -188,13 +192,17 @@ class Reports extends MX_Controller {
 
     function show_last_report() {
 
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+        $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
         $model = "model_" . $anexo;
 
         $this->load->model($model);
         header('Content-type: text/html; charset=UTF-8');
 
+        
+
         $customData = $this->$model->get_link_report($anexo);
+
+
 
 
 
@@ -269,7 +277,7 @@ class Reports extends MX_Controller {
 
         $customData = array();
         $default_dashboard = 'reports_result';
-        $anexo = ($this->session->userdata['anexo_code']) ? : '06';
+         $anexo = method_exists($this->session, 'userdata') ? $this->session->userdata['anexo_code'] : '06';
 
         $model = "model_" . $anexo;
         $this->load->model($model);
@@ -1014,5 +1022,34 @@ class Reports extends MX_Controller {
 
 
     }
+    /*NEW REPORT*/
+    function new_report_rectifications(){
+
+        
+        /*LOAD MODEL*/
+       $this->load->model('model_rectifications');
+
+        /*VIEW*/
+        $default_dashboard = 'reports_result'; 
+
+
+        $data = array();
+       # $customData = array();
+
+        $report_name = $this->input->post('report_name');
+        $data['input_period_from'] = ($this->input->post('input_period_from')) ? : '01-1990';
+        $data['input_period_to'] = ($this->input->post('input_period_to')) ? : '01-2020';
+        
+        $data['sgr_id'] = $this->input->post('sgr');
+
+        /*CALL MODEL*/
+        #if ($this->input->post('sgr')) {
+           $this->model_rectifications->generate_report($data); 
+           echo "x"; 
+        #}
+
+
+    }
+
 
 }

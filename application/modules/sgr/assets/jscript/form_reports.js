@@ -19,12 +19,12 @@ $('.dp').datepicker();
         checked_opt = false;  
         var getSgr = $("#sgr_report option:selected").val();       
 
-        if(getSgr==666){
-              // checked_opt = true;             
-        
-        $("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", false);   
+        if(getSgr==666)       // checked_opt = false;                     
+          $("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", false);   
 
-        }
+        if(getSgr==777)      // checked_opt = true;                     
+          $("INPUT[type='checkbox'][@name='sgr_checkbox[]']").attr("checked", true);   
+        
         
         if(getSgr!=777){
           $('#checks_sgrs').hide();

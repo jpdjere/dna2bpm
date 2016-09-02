@@ -68,8 +68,7 @@
 
                 },
                  {
-            "title": "Consulta 
-        <small>Afip por C.U.I.T.</small>",
+            "title": "Consulta<small>Afip por C.U.I.T.</small>",
             "module": "perfil",
             "controller": "perfil",
             "function": "Asocia_cuit",
